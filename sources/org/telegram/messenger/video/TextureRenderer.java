@@ -318,16 +318,21 @@ public class TextureRenderer {
                         mediaEntity.animatedFileDrawable.getNextFrame();
                     }
                     Bitmap backgroundBitmap = mediaEntity.animatedFileDrawable.getBackgroundBitmap();
-                    if (this.stickerCanvas == null && this.stickerBitmap != null) {
-                        this.stickerCanvas = new Canvas(this.stickerBitmap);
-                    }
-                    Bitmap bitmap3 = this.stickerBitmap;
-                    if (bitmap3 != null && backgroundBitmap != null) {
-                        bitmap3.eraseColor(0);
-                        this.stickerCanvas.drawBitmap(backgroundBitmap, 0.0f, 0.0f, (Paint) null);
-                        GLES20.glBindTexture(3553, this.stickerTexture[0]);
-                        GLUtils.texImage2D(3553, 0, this.stickerBitmap, 0);
-                        drawTexture(false, this.stickerTexture[0], mediaEntity.x, mediaEntity.y, mediaEntity.width, mediaEntity.height, mediaEntity.rotation, (mediaEntity.subType & 2) != 0);
+                    if (backgroundBitmap != null) {
+                        if (this.stickerCanvas == null && this.stickerBitmap != null) {
+                            this.stickerCanvas = new Canvas(this.stickerBitmap);
+                            if (this.stickerBitmap.getHeight() != backgroundBitmap.getHeight() || this.stickerBitmap.getWidth() != backgroundBitmap.getWidth()) {
+                                this.stickerCanvas.scale(this.stickerBitmap.getWidth() / backgroundBitmap.getWidth(), this.stickerBitmap.getHeight() / backgroundBitmap.getHeight());
+                            }
+                        }
+                        Bitmap bitmap3 = this.stickerBitmap;
+                        if (bitmap3 != null) {
+                            bitmap3.eraseColor(0);
+                            this.stickerCanvas.drawBitmap(backgroundBitmap, 0.0f, 0.0f, (Paint) null);
+                            GLES20.glBindTexture(3553, this.stickerTexture[0]);
+                            GLUtils.texImage2D(3553, 0, this.stickerBitmap, 0);
+                            drawTexture(false, this.stickerTexture[0], mediaEntity.x, mediaEntity.y, mediaEntity.width, mediaEntity.height, mediaEntity.rotation, (mediaEntity.subType & 2) != 0);
+                        }
                     }
                 } else if (mediaEntity.view != null && mediaEntity.canvas != null && (bitmap = mediaEntity.bitmap) != null) {
                     bitmap.eraseColor(0);
@@ -432,11 +437,11 @@ public class TextureRenderer {
         editTextOutline.setBreakStrategy(0);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:124:0x0426, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:124:0x0427, code lost:
         if (org.telegram.messenger.LocaleController.isRTL != false) goto L83;
      */
-    /* JADX WARN: Removed duplicated region for block: B:170:0x0208 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0169  */
+    /* JADX WARN: Removed duplicated region for block: B:170:0x0209 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x016a  */
     @SuppressLint({"WrongConstant"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.

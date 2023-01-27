@@ -207,7 +207,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
             this.subtextView.setSingleLine(true);
             this.subtextView.setGravity(3);
             this.subtextView.setEllipsize(TextUtils.TruncateAt.END);
-            this.subtextView.setTextColor(-8617338);
+            this.subtextView.setTextColor(getThemedColor("groupcreate_sectionText"));
             this.subtextView.setVisibility(8);
             this.subtextView.setTextSize(1, 13.0f);
             this.subtextView.setPadding(LocaleController.isRTL ? 0 : AndroidUtilities.dp(43.0f), 0, LocaleController.isRTL ? AndroidUtilities.dp(43.0f) : 0, 0);

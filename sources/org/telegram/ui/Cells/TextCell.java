@@ -44,6 +44,7 @@ public class TextCell extends FrameLayout {
     private final SimpleTextView subtitleView;
     public final SimpleTextView textView;
     private ImageView valueImageView;
+    public final SimpleTextView valueSpoilersTextView;
     public final AnimatedTextView valueTextView;
 
     public TextCell(Context context) {
@@ -79,14 +80,24 @@ public class TextCell extends FrameLayout {
         simpleTextView2.setGravity(LocaleController.isRTL ? 5 : 3);
         simpleTextView2.setImportantForAccessibility(2);
         addView(simpleTextView2, LayoutHelper.createFrame(-2, -1.0f));
-        AnimatedTextView animatedTextView = new AnimatedTextView(context);
+        AnimatedTextView animatedTextView = new AnimatedTextView(context, false, false, true);
         this.valueTextView = animatedTextView;
         animatedTextView.setTextColor(Theme.getColor(z ? "dialogTextBlue2" : "windowBackgroundWhiteValueText", resourcesProvider));
         animatedTextView.setPadding(0, AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f));
         animatedTextView.setTextSize(AndroidUtilities.dp(16.0f));
         animatedTextView.setGravity(LocaleController.isRTL ? 3 : 5);
         animatedTextView.setImportantForAccessibility(2);
+        animatedTextView.setTranslationY(AndroidUtilities.dp(-2.0f));
         addView(animatedTextView);
+        SimpleTextView simpleTextView3 = new SimpleTextView(context);
+        this.valueSpoilersTextView = simpleTextView3;
+        simpleTextView3.setEllipsizeByGradient(18, Boolean.FALSE);
+        simpleTextView3.setTextColor(Theme.getColor(z ? "dialogTextBlue2" : "windowBackgroundWhiteValueText", resourcesProvider));
+        simpleTextView3.setGravity(LocaleController.isRTL ? 3 : 5);
+        simpleTextView3.setTextSize(16);
+        simpleTextView3.setImportantForAccessibility(2);
+        simpleTextView3.setVisibility(8);
+        addView(simpleTextView3);
         RLottieImageView rLottieImageView = new RLottieImageView(context);
         this.imageView = rLottieImageView;
         rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
@@ -135,8 +146,10 @@ public class TextCell extends FrameLayout {
     }
 
     public void setPrioritizeTitleOverValue(boolean z) {
-        this.prioritizeTitleOverValue = z;
-        requestLayout();
+        if (this.prioritizeTitleOverValue != z) {
+            this.prioritizeTitleOverValue = z;
+            requestLayout();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -148,10 +161,13 @@ public class TextCell extends FrameLayout {
             this.textView.measure(View.MeasureSpec.makeMeasureSpec(size - AndroidUtilities.dp(this.leftPadding + 71), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(20.0f), 1073741824));
             this.subtitleView.measure(View.MeasureSpec.makeMeasureSpec(size - AndroidUtilities.dp(this.leftPadding + 71), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(20.0f), 1073741824));
             this.valueTextView.measure(View.MeasureSpec.makeMeasureSpec((size - AndroidUtilities.dp(this.leftPadding + 103)) - this.textView.getTextWidth(), LocaleController.isRTL ? Integer.MIN_VALUE : 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(20.0f), 1073741824));
+            this.valueSpoilersTextView.measure(View.MeasureSpec.makeMeasureSpec((size - AndroidUtilities.dp(this.leftPadding + 103)) - this.textView.getTextWidth(), LocaleController.isRTL ? Integer.MIN_VALUE : 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(20.0f), 1073741824));
         } else {
             this.valueTextView.measure(View.MeasureSpec.makeMeasureSpec(size - AndroidUtilities.dp(this.leftPadding), LocaleController.isRTL ? Integer.MIN_VALUE : 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(20.0f), 1073741824));
-            this.textView.measure(View.MeasureSpec.makeMeasureSpec((size - AndroidUtilities.dp(this.leftPadding + 71)) - this.valueTextView.width(), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(20.0f), 1073741824));
-            this.subtitleView.measure(View.MeasureSpec.makeMeasureSpec((size - AndroidUtilities.dp(this.leftPadding + 71)) - this.valueTextView.width(), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(20.0f), 1073741824));
+            this.valueSpoilersTextView.measure(View.MeasureSpec.makeMeasureSpec(size - AndroidUtilities.dp(this.leftPadding), LocaleController.isRTL ? Integer.MIN_VALUE : 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(20.0f), 1073741824));
+            int max = Math.max(this.valueTextView.width(), this.valueSpoilersTextView.getTextWidth());
+            this.textView.measure(View.MeasureSpec.makeMeasureSpec((size - AndroidUtilities.dp(this.leftPadding + 71)) - max, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(20.0f), 1073741824));
+            this.subtitleView.measure(View.MeasureSpec.makeMeasureSpec((size - AndroidUtilities.dp(this.leftPadding + 71)) - max, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(20.0f), 1073741824));
         }
         if (this.imageView.getVisibility() == 0) {
             this.imageView.measure(View.MeasureSpec.makeMeasureSpec(size, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(dp, Integer.MIN_VALUE));
@@ -159,9 +175,9 @@ public class TextCell extends FrameLayout {
         if (this.valueImageView.getVisibility() == 0) {
             this.valueImageView.measure(View.MeasureSpec.makeMeasureSpec(size, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(dp, Integer.MIN_VALUE));
         }
-        Switch r8 = this.checkBox;
-        if (r8 != null) {
-            r8.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(37.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(20.0f), 1073741824));
+        Switch r9 = this.checkBox;
+        if (r9 != null) {
+            r9.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(37.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(20.0f), 1073741824));
         }
         setMeasuredDimension(size, AndroidUtilities.dp(50.0f) + (this.needDivider ? 1 : 0));
     }
@@ -181,50 +197,53 @@ public class TextCell extends FrameLayout {
         int dp;
         int i5 = i4 - i2;
         int i6 = i3 - i;
-        int textHeight = (i5 - this.valueTextView.getTextHeight()) / 2;
+        int max = (i5 - Math.max(this.valueSpoilersTextView.getTextHeight(), this.valueTextView.getTextHeight())) / 2;
         int dp2 = LocaleController.isRTL ? AndroidUtilities.dp(this.leftPadding) : 0;
         if (this.prioritizeTitleOverValue && !LocaleController.isRTL) {
             dp2 = (i6 - this.valueTextView.getMeasuredWidth()) - AndroidUtilities.dp(this.leftPadding);
         }
         AnimatedTextView animatedTextView = this.valueTextView;
-        animatedTextView.layout(dp2, textHeight, animatedTextView.getMeasuredWidth() + dp2, this.valueTextView.getMeasuredHeight() + textHeight);
+        animatedTextView.layout(dp2, max, animatedTextView.getMeasuredWidth() + dp2, this.valueTextView.getMeasuredHeight() + max);
+        int dp3 = LocaleController.isRTL ? AndroidUtilities.dp(this.leftPadding) : (i6 - this.valueSpoilersTextView.getMeasuredWidth()) - AndroidUtilities.dp(this.leftPadding);
+        SimpleTextView simpleTextView = this.valueSpoilersTextView;
+        simpleTextView.layout(dp3, max, simpleTextView.getMeasuredWidth() + dp3, this.valueSpoilersTextView.getMeasuredHeight() + max);
         if (LocaleController.isRTL) {
             dp = (getMeasuredWidth() - this.textView.getMeasuredWidth()) - AndroidUtilities.dp(this.imageView.getVisibility() == 0 ? this.offsetFromImage : this.leftPadding);
         } else {
             dp = AndroidUtilities.dp(this.imageView.getVisibility() == 0 ? this.offsetFromImage : this.leftPadding);
         }
         if (this.subtitleView.getVisibility() == 0) {
-            int textHeight2 = (((i5 - this.textView.getTextHeight()) - this.subtitleView.getTextHeight()) - AndroidUtilities.dp(2.0f)) / 2;
-            SimpleTextView simpleTextView = this.textView;
-            simpleTextView.layout(dp, textHeight2, simpleTextView.getMeasuredWidth() + dp, this.textView.getMeasuredHeight() + textHeight2);
-            int textHeight3 = textHeight2 + this.textView.getTextHeight() + AndroidUtilities.dp(2.0f);
-            SimpleTextView simpleTextView2 = this.subtitleView;
-            simpleTextView2.layout(dp, textHeight3, simpleTextView2.getMeasuredWidth() + dp, this.subtitleView.getMeasuredHeight() + textHeight3);
+            int textHeight = (((i5 - this.textView.getTextHeight()) - this.subtitleView.getTextHeight()) - AndroidUtilities.dp(2.0f)) / 2;
+            SimpleTextView simpleTextView2 = this.textView;
+            simpleTextView2.layout(dp, textHeight, simpleTextView2.getMeasuredWidth() + dp, this.textView.getMeasuredHeight() + textHeight);
+            int textHeight2 = textHeight + this.textView.getTextHeight() + AndroidUtilities.dp(2.0f);
+            SimpleTextView simpleTextView3 = this.subtitleView;
+            simpleTextView3.layout(dp, textHeight2, simpleTextView3.getMeasuredWidth() + dp, this.subtitleView.getMeasuredHeight() + textHeight2);
         } else {
-            int textHeight4 = (i5 - this.textView.getTextHeight()) / 2;
-            SimpleTextView simpleTextView3 = this.textView;
-            simpleTextView3.layout(dp, textHeight4, simpleTextView3.getMeasuredWidth() + dp, this.textView.getMeasuredHeight() + textHeight4);
+            int textHeight3 = (i5 - this.textView.getTextHeight()) / 2;
+            SimpleTextView simpleTextView4 = this.textView;
+            simpleTextView4.layout(dp, textHeight3, simpleTextView4.getMeasuredWidth() + dp, this.textView.getMeasuredHeight() + textHeight3);
         }
         if (this.imageView.getVisibility() == 0) {
-            int dp3 = AndroidUtilities.dp(5.0f);
-            int dp4 = !LocaleController.isRTL ? AndroidUtilities.dp(this.imageLeft) : (i6 - this.imageView.getMeasuredWidth()) - AndroidUtilities.dp(this.imageLeft);
+            int dp4 = AndroidUtilities.dp(5.0f);
+            int dp5 = !LocaleController.isRTL ? AndroidUtilities.dp(this.imageLeft) : (i6 - this.imageView.getMeasuredWidth()) - AndroidUtilities.dp(this.imageLeft);
             RLottieImageView rLottieImageView = this.imageView;
-            rLottieImageView.layout(dp4, dp3, rLottieImageView.getMeasuredWidth() + dp4, this.imageView.getMeasuredHeight() + dp3);
+            rLottieImageView.layout(dp5, dp4, rLottieImageView.getMeasuredWidth() + dp5, this.imageView.getMeasuredHeight() + dp4);
         }
         if (this.valueImageView.getVisibility() == 0) {
             int measuredHeight = (i5 - this.valueImageView.getMeasuredHeight()) / 2;
-            int dp5 = LocaleController.isRTL ? AndroidUtilities.dp(23.0f) : (i6 - this.valueImageView.getMeasuredWidth()) - AndroidUtilities.dp(23.0f);
+            int dp6 = LocaleController.isRTL ? AndroidUtilities.dp(23.0f) : (i6 - this.valueImageView.getMeasuredWidth()) - AndroidUtilities.dp(23.0f);
             ImageView imageView = this.valueImageView;
-            imageView.layout(dp5, measuredHeight, imageView.getMeasuredWidth() + dp5, this.valueImageView.getMeasuredHeight() + measuredHeight);
+            imageView.layout(dp6, measuredHeight, imageView.getMeasuredWidth() + dp6, this.valueImageView.getMeasuredHeight() + measuredHeight);
         }
         Switch r4 = this.checkBox;
         if (r4 == null || r4.getVisibility() != 0) {
             return;
         }
         int measuredHeight2 = (i5 - this.checkBox.getMeasuredHeight()) / 2;
-        int dp6 = LocaleController.isRTL ? AndroidUtilities.dp(22.0f) : (i6 - this.checkBox.getMeasuredWidth()) - AndroidUtilities.dp(22.0f);
+        int dp7 = LocaleController.isRTL ? AndroidUtilities.dp(22.0f) : (i6 - this.checkBox.getMeasuredWidth()) - AndroidUtilities.dp(22.0f);
         Switch r5 = this.checkBox;
-        r5.layout(dp6, measuredHeight2, r5.getMeasuredWidth() + dp6, this.checkBox.getMeasuredHeight() + measuredHeight2);
+        r5.layout(dp7, measuredHeight2, r5.getMeasuredWidth() + dp7, this.checkBox.getMeasuredHeight() + measuredHeight2);
     }
 
     public void setTextColor(int i) {
@@ -246,6 +265,7 @@ public class TextCell extends FrameLayout {
         this.valueTextView.setText(null, false);
         this.imageView.setVisibility(8);
         this.valueTextView.setVisibility(8);
+        this.valueSpoilersTextView.setVisibility(8);
         this.valueImageView.setVisibility(8);
         this.needDivider = z;
         setWillNotDraw(!z);
@@ -259,8 +279,21 @@ public class TextCell extends FrameLayout {
         this.imageView.setImageResource(i);
         this.imageView.setVisibility(0);
         this.valueTextView.setVisibility(8);
+        this.valueSpoilersTextView.setVisibility(8);
         this.valueImageView.setVisibility(8);
         this.imageView.setPadding(0, AndroidUtilities.dp(7.0f), 0, 0);
+        this.needDivider = z;
+        setWillNotDraw(!z);
+    }
+
+    public void setTextAndColorfulIcon(String str, int i, int i2, boolean z) {
+        this.imageLeft = 21;
+        this.offsetFromImage = 71;
+        this.textView.setText(str);
+        this.valueTextView.setText(null, false);
+        setColorfulIcon(i2, i);
+        this.valueTextView.setVisibility(8);
+        this.valueImageView.setVisibility(8);
         this.needDivider = z;
         setWillNotDraw(!z);
     }
@@ -298,10 +331,45 @@ public class TextCell extends FrameLayout {
         this.textView.setText(str);
         this.valueTextView.setText(str2, z);
         this.valueTextView.setVisibility(0);
+        this.valueSpoilersTextView.setVisibility(8);
         this.imageView.setVisibility(8);
         this.valueImageView.setVisibility(8);
         this.needDivider = z2;
         setWillNotDraw(!z2);
+        Switch r2 = this.checkBox;
+        if (r2 != null) {
+            r2.setVisibility(8);
+        }
+    }
+
+    public void setTextAndValueAndColorfulIcon(String str, CharSequence charSequence, boolean z, int i, int i2, boolean z2) {
+        this.imageLeft = 21;
+        this.offsetFromImage = 71;
+        this.textView.setText(str);
+        this.valueTextView.setText(charSequence, z);
+        this.valueTextView.setVisibility(0);
+        this.valueSpoilersTextView.setVisibility(8);
+        setColorfulIcon(i2, i);
+        this.valueImageView.setVisibility(8);
+        this.needDivider = z2;
+        setWillNotDraw(!z2);
+        Switch r2 = this.checkBox;
+        if (r2 != null) {
+            r2.setVisibility(8);
+        }
+    }
+
+    public void setTextAndSpoilersValueAndColorfulIcon(String str, CharSequence charSequence, int i, int i2, boolean z) {
+        this.imageLeft = 21;
+        this.offsetFromImage = 71;
+        this.textView.setText(str);
+        this.valueSpoilersTextView.setVisibility(0);
+        this.valueSpoilersTextView.setText(charSequence);
+        this.valueTextView.setVisibility(8);
+        setColorfulIcon(i2, i);
+        this.valueImageView.setVisibility(8);
+        this.needDivider = z;
+        setWillNotDraw(!z);
         Switch r2 = this.checkBox;
         if (r2 != null) {
             r2.setVisibility(8);
@@ -318,6 +386,7 @@ public class TextCell extends FrameLayout {
         this.textView.setText(str);
         this.valueTextView.setText(str2, z);
         this.valueTextView.setVisibility(0);
+        this.valueSpoilersTextView.setVisibility(8);
         this.valueImageView.setVisibility(8);
         this.imageView.setVisibility(0);
         this.imageView.setTranslationX(0.0f);
@@ -336,11 +405,11 @@ public class TextCell extends FrameLayout {
         this.offsetFromImage = 65;
         this.imageView.setVisibility(0);
         this.imageView.setPadding(AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f));
-        this.imageView.setTranslationX(AndroidUtilities.dp(-3.0f));
+        this.imageView.setTranslationX(AndroidUtilities.dp(LocaleController.isRTL ? 0.0f : -3.0f));
         this.imageView.setTranslationY(AndroidUtilities.dp(6.0f));
         this.imageView.setImageResource(i2);
         this.imageView.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
-        this.imageView.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(8.0f), i));
+        this.imageView.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(9.0f), i));
     }
 
     public void setTextAndCheck(String str, boolean z, boolean z2) {
@@ -364,6 +433,7 @@ public class TextCell extends FrameLayout {
         this.offsetFromImage = 71;
         this.textView.setText(str);
         this.valueTextView.setVisibility(8);
+        this.valueSpoilersTextView.setVisibility(8);
         this.valueImageView.setVisibility(8);
         Switch r2 = this.checkBox;
         if (r2 != null) {
@@ -385,6 +455,7 @@ public class TextCell extends FrameLayout {
         this.valueImageView.setVisibility(0);
         this.valueImageView.setImageDrawable(drawable);
         this.valueTextView.setVisibility(8);
+        this.valueSpoilersTextView.setVisibility(8);
         this.imageView.setVisibility(8);
         this.imageView.setPadding(0, AndroidUtilities.dp(7.0f), 0, 0);
         this.needDivider = z;
@@ -525,7 +596,7 @@ public class TextCell extends FrameLayout {
             this.paint.setAlpha((int) (((this.loadingProgress * 0.4f) + 0.6f) * this.drawLoadingProgress * 255.0f));
             int measuredHeight = getMeasuredHeight() >> 1;
             RectF rectF = AndroidUtilities.rectTmp;
-            rectF.set((getMeasuredWidth() - AndroidUtilities.dp(11.0f)) - AndroidUtilities.dp(this.loadingSize), measuredHeight - AndroidUtilities.dp(3.0f), getMeasuredWidth() - AndroidUtilities.dp(11.0f), measuredHeight + AndroidUtilities.dp(3.0f));
+            rectF.set((getMeasuredWidth() - AndroidUtilities.dp(21.0f)) - AndroidUtilities.dp(this.loadingSize), measuredHeight - AndroidUtilities.dp(3.0f), getMeasuredWidth() - AndroidUtilities.dp(21.0f), measuredHeight + AndroidUtilities.dp(3.0f));
             if (LocaleController.isRTL) {
                 rectF.left = getMeasuredWidth() - rectF.left;
                 rectF.right = getMeasuredWidth() - rectF.right;
@@ -534,6 +605,7 @@ public class TextCell extends FrameLayout {
             invalidate();
         }
         this.valueTextView.setAlpha(1.0f - this.drawLoadingProgress);
+        this.valueSpoilersTextView.setAlpha(1.0f - this.drawLoadingProgress);
         super.dispatchDraw(canvas);
     }
 

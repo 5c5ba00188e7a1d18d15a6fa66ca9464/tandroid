@@ -60,15 +60,15 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
 import org.telegram.ui.ProfileActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
     private int buttonRow;
     private PremiumGiftTierCell dummyCell;
     private int footerRow;
     private List<GiftTier> giftTiers;
-    private PremiumGradient.GradientTools gradientTools;
+    private PremiumGradient.PremiumGradientTools gradientTools;
     private int headerRow;
-    private PremiumGradient.GradientTools outlineGradient;
+    private PremiumGradient.PremiumGradientTools outlineGradient;
     private PremiumButtonView premiumButtonView;
     private int rowsCount;
     private int selectedTierIndex;
@@ -87,18 +87,18 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         this.giftTiers = new ArrayList();
         this.selectedTierIndex = 0;
         this.user = tLRPC$User;
-        PremiumGradient.GradientTools gradientTools = new PremiumGradient.GradientTools("premiumGradient1", "premiumGradient2", null, null);
-        this.gradientTools = gradientTools;
-        gradientTools.exactly = true;
-        gradientTools.x1 = 0.0f;
-        gradientTools.y1 = 0.0f;
-        gradientTools.x2 = 0.0f;
-        gradientTools.y2 = 1.0f;
-        gradientTools.cx = 0.0f;
-        gradientTools.cy = 0.0f;
-        PremiumGradient.GradientTools gradientTools2 = new PremiumGradient.GradientTools("premiumGradient1", "premiumGradient2", "premiumGradient3", "premiumGradient4");
-        this.outlineGradient = gradientTools2;
-        gradientTools2.paint.setStyle(Paint.Style.STROKE);
+        PremiumGradient.PremiumGradientTools premiumGradientTools = new PremiumGradient.PremiumGradientTools("premiumGradient1", "premiumGradient2", null, null);
+        this.gradientTools = premiumGradientTools;
+        premiumGradientTools.exactly = true;
+        premiumGradientTools.x1 = 0.0f;
+        premiumGradientTools.y1 = 0.0f;
+        premiumGradientTools.x2 = 0.0f;
+        premiumGradientTools.y2 = 1.0f;
+        premiumGradientTools.cx = 0.0f;
+        premiumGradientTools.cy = 0.0f;
+        PremiumGradient.PremiumGradientTools premiumGradientTools2 = new PremiumGradient.PremiumGradientTools("premiumGradient1", "premiumGradient2", "premiumGradient3", "premiumGradient4");
+        this.outlineGradient = premiumGradientTools2;
+        premiumGradientTools2.paint.setStyle(Paint.Style.STROKE);
         this.outlineGradient.paint.setStrokeWidth(AndroidUtilities.dp(1.5f));
         this.dummyCell = new PremiumGiftTierCell(getContext());
         TLRPC$UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(tLRPC$User.id);
@@ -258,8 +258,11 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     private void updateButtonText(boolean z) {
+        if (LocaleController.isRTL) {
+            z = false;
+        }
         if (!BuildVars.useInvoiceBilling() && (!BillingController.getInstance().isReady() || this.giftTiers.get(this.selectedTierIndex).googlePlayProductDetails == null)) {
-            this.premiumButtonView.setButton(LocaleController.getString(R.string.Loading), GiftPremiumBottomSheet$$ExternalSyntheticLambda1.INSTANCE, true);
+            this.premiumButtonView.setButton(LocaleController.getString(R.string.Loading), GiftPremiumBottomSheet$$ExternalSyntheticLambda1.INSTANCE, !LocaleController.isRTL);
             this.premiumButtonView.setFlickerDisabled(true);
             return;
         }
@@ -431,7 +434,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public class 1 extends RecyclerListView.SelectionAdapter {
         1() {
         }
@@ -566,7 +569,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         return new 1();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     private final class LinkSpan extends ClickableSpan {
         private LinkSpan() {
         }
@@ -588,7 +591,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static final class GiftTier {
         private int discount;
         public final TLRPC$TL_premiumGiftOption giftOption;

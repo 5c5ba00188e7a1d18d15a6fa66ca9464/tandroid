@@ -277,8 +277,9 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
-    protected void onAttachedToWindow() {
+    public void onAttachedToWindow() {
         super.onAttachedToWindow();
         this.measurementsCount = 0;
     }

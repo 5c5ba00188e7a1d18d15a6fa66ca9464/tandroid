@@ -18,6 +18,12 @@ public final class zaaj implements zabf {
     }
 
     @Override // com.google.android.gms.common.api.internal.zabf
+    public final BaseImplementation$ApiMethodImpl zaa(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl) {
+        zab(baseImplementation$ApiMethodImpl);
+        return baseImplementation$ApiMethodImpl;
+    }
+
+    @Override // com.google.android.gms.common.api.internal.zabf
     public final BaseImplementation$ApiMethodImpl zab(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl) {
         try {
             this.zaa.zag.zai.zaa(baseImplementation$ApiMethodImpl);

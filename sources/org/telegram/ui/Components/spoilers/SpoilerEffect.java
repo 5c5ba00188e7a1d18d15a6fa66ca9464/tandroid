@@ -5,9 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -35,7 +33,6 @@ import androidx.core.math.MathUtils;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
@@ -49,14 +46,12 @@ import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.Easings;
 import org.telegram.ui.Components.TextStyleSpan;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class SpoilerEffect extends Drawable {
     private static Paint xRefPaint;
     public boolean drawPoints;
     private boolean enableAlpha;
     private boolean invalidateParent;
-    private boolean isLowDevice;
-    private List<Long> keyPoints;
     private int lastColor;
     private long lastDrawTime;
     private int mAlpha;
@@ -129,7 +124,7 @@ public class SpoilerEffect extends Drawable {
                 this.particlePaints[i].setStrokeCap(Paint.Cap.ROUND);
             }
         }
-        this.isLowDevice = SharedConfig.getDevicePerformanceClass() == 0;
+        SharedConfig.getDevicePerformanceClass();
         this.enableAlpha = true;
         setColor(0);
     }
@@ -213,11 +208,6 @@ public class SpoilerEffect extends Drawable {
 
     public void setRippleInterpolator(TimeInterpolator timeInterpolator) {
         this.rippleInterpolator = timeInterpolator;
-    }
-
-    public void setKeyPoints(List<Long> list) {
-        this.keyPoints = list;
-        invalidateSelf();
     }
 
     public void getRipplePath(Path path) {
@@ -404,15 +394,6 @@ public class SpoilerEffect extends Drawable {
     }
 
     private void generateRandomLocation(Particle particle, int i) {
-        List<Long> list = this.keyPoints;
-        if (list != null && !list.isEmpty()) {
-            float f = this.particleRands[i % 14];
-            List<Long> list2 = this.keyPoints;
-            long longValue = list2.get(Utilities.fastRandom.nextInt(list2.size())).longValue();
-            particle.x = (((float) (getBounds().left + (longValue >> 16))) + (AndroidUtilities.dp(5.0f) * f)) - AndroidUtilities.dp(2.5f);
-            particle.y = (((float) (getBounds().top + (longValue & 65535))) + (f * AndroidUtilities.dp(5.0f))) - AndroidUtilities.dp(2.5f);
-            return;
-        }
         particle.x = getBounds().left + (Utilities.fastRandom.nextFloat() * getBounds().width());
         particle.y = getBounds().top + (Utilities.fastRandom.nextFloat() * getBounds().height());
     }
@@ -473,36 +454,6 @@ public class SpoilerEffect extends Drawable {
                 this.lastColor = i;
                 return;
             }
-        }
-    }
-
-    public static synchronized List<Long> measureKeyPoints(Layout layout) {
-        synchronized (SpoilerEffect.class) {
-            int width = layout.getWidth();
-            int height = layout.getHeight();
-            if (width > 0 && height > 0) {
-                Bitmap createBitmap = Bitmap.createBitmap(Math.round(width), Math.round(height), Bitmap.Config.ARGB_4444);
-                layout.draw(new Canvas(createBitmap));
-                int width2 = createBitmap.getWidth() * createBitmap.getHeight();
-                int[] iArr = new int[width2];
-                createBitmap.getPixels(iArr, 0, createBitmap.getWidth(), 0, 0, width, height);
-                ArrayList arrayList = new ArrayList(width2);
-                int i = -1;
-                for (int i2 = 0; i2 < width; i2++) {
-                    for (int i3 = 0; i3 < height; i3++) {
-                        if (Color.alpha(iArr[(createBitmap.getWidth() * i3) + i2]) >= 128) {
-                            if (i == -1) {
-                                i = i2;
-                            }
-                            arrayList.add(Long.valueOf(((i2 - i) << 16) + i3));
-                        }
-                    }
-                }
-                arrayList.trimToSize();
-                createBitmap.recycle();
-                return arrayList;
-            }
-            return Collections.emptyList();
         }
     }
 
@@ -597,7 +548,6 @@ public class SpoilerEffect extends Drawable {
 
     @SuppressLint({"WrongConstant"})
     private static void addSpoilersInternal(View view, Spanned spanned, Layout layout, int i, int i2, float f, float f2, float f3, float f4, int i3, int i4, Stack<SpoilerEffect> stack, List<SpoilerEffect> list) {
-        StaticLayout staticLayout;
         int i5;
         int i6;
         SpannableStringBuilder valueOf = SpannableStringBuilder.valueOf(AndroidUtilities.replaceNewLines(new SpannableStringBuilder(spanned, i3, i4)));
@@ -614,11 +564,11 @@ public class SpoilerEffect extends Drawable {
         TextPaint textPaint = new TextPaint(layout.getPaint());
         textPaint.setColor(-16777216);
         if (Build.VERSION.SDK_INT >= 24) {
-            staticLayout = StaticLayout.Builder.obtain(valueOf, 0, valueOf.length(), textPaint, ellipsizedWidth).setBreakStrategy(1).setHyphenationFrequency(0).setAlignment(Layout.Alignment.ALIGN_NORMAL).setLineSpacing(layout.getSpacingAdd(), layout.getSpacingMultiplier()).build();
+            StaticLayout.Builder.obtain(valueOf, 0, valueOf.length(), textPaint, ellipsizedWidth).setBreakStrategy(1).setHyphenationFrequency(0).setAlignment(Layout.Alignment.ALIGN_NORMAL).setLineSpacing(layout.getSpacingAdd(), layout.getSpacingMultiplier()).build();
             i5 = 0;
         } else {
             i5 = 0;
-            staticLayout = new StaticLayout(valueOf, textPaint, ellipsizedWidth, Layout.Alignment.ALIGN_NORMAL, layout.getSpacingMultiplier(), layout.getSpacingAdd(), false);
+            new StaticLayout(valueOf, textPaint, ellipsizedWidth, Layout.Alignment.ALIGN_NORMAL, layout.getSpacingMultiplier(), layout.getSpacingAdd(), false);
         }
         boolean z = (LocaleController.isRTLCharacter(valueOf.charAt(i5)) || LocaleController.isRTLCharacter(valueOf.charAt(valueOf.length() + (-1)))) && !LocaleController.isRTL;
         SpoilerEffect spoilerEffect = (stack == null || stack.isEmpty()) ? new SpoilerEffect() : stack.remove(i5);
@@ -628,9 +578,6 @@ public class SpoilerEffect extends Drawable {
         spoilerEffect.setBounds((int) Math.min(primaryHorizontal, primaryHorizontal2), (int) f2, (int) Math.max(primaryHorizontal, primaryHorizontal2), (int) f4);
         spoilerEffect.setColor(layout.getPaint().getColor());
         spoilerEffect.setRippleInterpolator(Easings.easeInQuad);
-        if (!spoilerEffect.isLowDevice) {
-            spoilerEffect.setKeyPoints(measureKeyPoints(staticLayout));
-        }
         spoilerEffect.updateMaxParticles();
         if (view != null) {
             spoilerEffect.setParentView(view);
@@ -790,7 +737,7 @@ public class SpoilerEffect extends Drawable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class Particle {
         private int alpha;
         private float currentTime;

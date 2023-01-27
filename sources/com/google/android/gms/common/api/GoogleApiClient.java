@@ -172,6 +172,10 @@ public abstract class GoogleApiClient {
 
     public abstract void dump(String str, FileDescriptor fileDescriptor, PrintWriter printWriter, String[] strArr);
 
+    public <A extends Api.AnyClient, R extends Result, T extends BaseImplementation$ApiMethodImpl<R, A>> T enqueue(T t) {
+        throw new UnsupportedOperationException();
+    }
+
     public <A extends Api.AnyClient, T extends BaseImplementation$ApiMethodImpl<? extends Result, A>> T execute(T t) {
         throw new UnsupportedOperationException();
     }

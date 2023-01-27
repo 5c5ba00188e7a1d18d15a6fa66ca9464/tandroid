@@ -7,7 +7,7 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.TextCell;
 import org.telegram.ui.Components.Premium.StarParticlesView;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class ProfilePremiumCell extends TextCell {
     StarParticlesView.Drawable drawable;
 

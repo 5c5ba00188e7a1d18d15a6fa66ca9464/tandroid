@@ -3731,8 +3731,10 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             DialogsActivity dialogsActivity = new DialogsActivity(bundle);
             dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.Components.SharedMediaLayout$$ExternalSyntheticLambda17
                 @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                public final void didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z) {
-                    SharedMediaLayout.this.lambda$onActionBarItemClick$16(dialogsActivity2, arrayList, charSequence, z);
+                public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z) {
+                    boolean lambda$onActionBarItemClick$16;
+                    lambda$onActionBarItemClick$16 = SharedMediaLayout.this.lambda$onActionBarItemClick$16(dialogsActivity2, arrayList, charSequence, z);
+                    return lambda$onActionBarItemClick$16;
                 }
             });
             this.profileActivity.presentFragment(dialogsActivity);
@@ -3774,7 +3776,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onActionBarItemClick$16(DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z) {
+    public /* synthetic */ boolean lambda$onActionBarItemClick$16(DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z) {
         ArrayList<MessageObject> arrayList2 = new ArrayList<>();
         int i = 1;
         while (true) {
@@ -3813,34 +3815,33 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             if (undoView != null) {
                 if (arrayList.size() == 1) {
                     undoView.showWithAction(((MessagesStorage.TopicKey) arrayList.get(0)).dialogId, 53, Integer.valueOf(arrayList2.size()));
-                    return;
                 } else {
                     undoView.showWithAction(0L, 53, Integer.valueOf(arrayList2.size()), Integer.valueOf(arrayList.size()), (Runnable) null, (Runnable) null);
-                    return;
                 }
             }
-            return;
-        }
-        long j2 = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
-        Bundle bundle = new Bundle();
-        bundle.putBoolean("scrollToTopOnResume", true);
-        if (DialogObject.isEncryptedDialog(j2)) {
-            bundle.putInt("enc_id", DialogObject.getEncryptedChatId(j2));
         } else {
-            if (DialogObject.isUserDialog(j2)) {
-                bundle.putLong("user_id", j2);
+            long j2 = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("scrollToTopOnResume", true);
+            if (DialogObject.isEncryptedDialog(j2)) {
+                bundle.putInt("enc_id", DialogObject.getEncryptedChatId(j2));
             } else {
-                bundle.putLong("chat_id", -j2);
+                if (DialogObject.isUserDialog(j2)) {
+                    bundle.putLong("user_id", j2);
+                } else {
+                    bundle.putLong("chat_id", -j2);
+                }
+                if (!this.profileActivity.getMessagesController().checkCanOpenChat(bundle, dialogsActivity)) {
+                    return true;
+                }
             }
-            if (!this.profileActivity.getMessagesController().checkCanOpenChat(bundle, dialogsActivity)) {
-                return;
-            }
+            this.profileActivity.getNotificationCenter().postNotificationName(NotificationCenter.closeChats, new Object[0]);
+            ChatActivity chatActivity = new ChatActivity(bundle);
+            ForumUtilities.applyTopic(chatActivity, (MessagesStorage.TopicKey) arrayList.get(0));
+            dialogsActivity.presentFragment(chatActivity, true);
+            chatActivity.showFieldPanelForForward(true, arrayList2);
         }
-        this.profileActivity.getNotificationCenter().postNotificationName(NotificationCenter.closeChats, new Object[0]);
-        ChatActivity chatActivity = new ChatActivity(bundle);
-        ForumUtilities.applyTopic(chatActivity, (MessagesStorage.TopicKey) arrayList.get(0));
-        dialogsActivity.presentFragment(chatActivity, true);
-        chatActivity.showFieldPanelForForward(true, arrayList2);
+        return true;
     }
 
     private boolean prepareForMoving(MotionEvent motionEvent, boolean z) {

@@ -17,6 +17,11 @@ public final class zabv extends zaag {
     }
 
     @Override // com.google.android.gms.common.api.GoogleApiClient
+    public final <A extends Api.AnyClient, R extends Result, T extends BaseImplementation$ApiMethodImpl<R, A>> T enqueue(T t) {
+        return (T) this.zaa.doRead((GoogleApi) t);
+    }
+
+    @Override // com.google.android.gms.common.api.GoogleApiClient
     public final <A extends Api.AnyClient, T extends BaseImplementation$ApiMethodImpl<? extends Result, A>> T execute(T t) {
         return (T) this.zaa.doWrite((GoogleApi) t);
     }

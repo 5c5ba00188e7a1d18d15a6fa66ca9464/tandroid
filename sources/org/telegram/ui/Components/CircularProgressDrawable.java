@@ -60,7 +60,7 @@ public class CircularProgressDrawable extends Drawable {
 
     public static void getSegments(float f, float[] fArr) {
         float f2 = (1520.0f * f) / 5400.0f;
-        fArr[0] = f2 - 20.0f;
+        fArr[0] = Math.max(0.0f, f2 - 20.0f);
         fArr[1] = f2;
         for (int i = 0; i < 4; i++) {
             float f3 = fArr[1];

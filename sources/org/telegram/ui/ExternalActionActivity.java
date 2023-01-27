@@ -234,14 +234,14 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
         this.drawerLayoutContainer.setAllowOpenDrawer(false, false);
         this.passcodeView.setDelegate(new PasscodeView.PasscodeViewDelegate() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda10
             @Override // org.telegram.ui.Components.PasscodeView.PasscodeViewDelegate
-            public final void didAcceptedPassword() {
-                ExternalActionActivity.this.lambda$showPasscodeActivity$2();
+            public final void didAcceptedPassword(PasscodeView passcodeView) {
+                ExternalActionActivity.this.lambda$showPasscodeActivity$2(passcodeView);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showPasscodeActivity$2() {
+    public /* synthetic */ void lambda$showPasscodeActivity$2(PasscodeView passcodeView) {
         SharedConfig.isWaitingForPasscodeEnter = false;
         Intent intent = this.passcodeSaveIntent;
         if (intent != null) {
@@ -253,6 +253,7 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
         if (AndroidUtilities.isTablet()) {
             this.layersActionBarLayout.showLastFragment();
         }
+        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.passcodeDismissed, passcodeView);
     }
 
     public void onFinishLogin() {

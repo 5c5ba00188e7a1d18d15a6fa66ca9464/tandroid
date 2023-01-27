@@ -14,7 +14,7 @@ import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.StarParticlesView;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class PremiumGiftHeaderCell extends LinearLayout {
     private AvatarDrawable avatarDrawable;
     private BackupImageView avatarImageView;

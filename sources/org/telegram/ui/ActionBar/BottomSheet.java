@@ -111,12 +111,13 @@ public class BottomSheet extends Dialog {
     protected Interpolator openInterpolator;
     private boolean openNoDelay;
     private int overlayDrawNavBarColor;
+    public boolean pauseAllHeavyOperations;
     protected Theme.ResourcesProvider resourcesProvider;
     private int rightInset;
     public boolean scrollNavBar;
     protected Drawable shadowDrawable;
     private boolean showWithoutAnimation;
-    protected boolean smoothKeyboardAnimationEnabled;
+    public boolean smoothKeyboardAnimationEnabled;
     protected Runnable startAnimationRunnable;
     private int statusBarHeight;
     private int tag;
@@ -129,6 +130,7 @@ public class BottomSheet extends Dialog {
     protected boolean useLightNavBar;
     protected boolean useLightStatusBar;
     protected boolean useSmoothKeyboard;
+    protected boolean waitingKeyboard;
 
     /* loaded from: classes3.dex */
     public static class BottomSheetDelegate implements BottomSheetDelegateInterface {
@@ -615,6 +617,7 @@ public class BottomSheet extends Dialog {
         protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
             int i5;
             int i6;
+            BottomSheet bottomSheet;
             Runnable runnable;
             int i7;
             int i8;
@@ -626,8 +629,8 @@ public class BottomSheet extends Dialog {
             int i14;
             ViewGroup viewGroup;
             int i15;
-            BottomSheet bottomSheet;
             BottomSheet bottomSheet2;
+            BottomSheet bottomSheet3;
             BottomSheet.access$1210(BottomSheet.this);
             ViewGroup viewGroup2 = BottomSheet.this.containerView;
             if (viewGroup2 != null) {
@@ -641,7 +644,7 @@ public class BottomSheet extends Dialog {
                     if (BottomSheet.this.useSmoothKeyboard) {
                         measuredHeight = 0;
                     } else {
-                        measuredHeight = (int) (measuredHeight - ((bottomSheet.lastInsets.getSystemWindowInsetBottom() * (1.0f - BottomSheet.this.hideSystemVerticalInsetsProgress)) - (BottomSheet.this.drawNavigationBar ? 0 : bottomSheet2.getBottomInset())));
+                        measuredHeight = (int) (measuredHeight - ((bottomSheet2.lastInsets.getSystemWindowInsetBottom() * (1.0f - BottomSheet.this.hideSystemVerticalInsetsProgress)) - (BottomSheet.this.drawNavigationBar ? 0 : bottomSheet3.getBottomInset())));
                         if (i15 >= 29) {
                             measuredHeight -= BottomSheet.this.getAdditionalMandatoryOffsets();
                         }
@@ -651,14 +654,14 @@ public class BottomSheet extends Dialog {
                 if (BottomSheet.this.lastInsets != null && Build.VERSION.SDK_INT >= 21) {
                     measuredWidth += BottomSheet.this.getLeftInset();
                 }
-                BottomSheet bottomSheet3 = BottomSheet.this;
-                if (bottomSheet3.smoothKeyboardAnimationEnabled && bottomSheet3.startAnimationRunnable == null && this.keyboardChanged && !bottomSheet3.dismissed && BottomSheet.this.containerView.getTop() != measuredHeight) {
+                BottomSheet bottomSheet4 = BottomSheet.this;
+                if (bottomSheet4.smoothKeyboardAnimationEnabled && bottomSheet4.startAnimationRunnable == null && this.keyboardChanged && !bottomSheet4.dismissed && BottomSheet.this.containerView.getTop() != measuredHeight) {
                     BottomSheet.this.containerView.setTranslationY(viewGroup.getTop() - measuredHeight);
                     if (BottomSheet.this.keyboardContentAnimator != null) {
                         BottomSheet.this.keyboardContentAnimator.cancel();
                     }
-                    BottomSheet bottomSheet4 = BottomSheet.this;
-                    bottomSheet4.keyboardContentAnimator = ValueAnimator.ofFloat(bottomSheet4.containerView.getTranslationY(), 0.0f);
+                    BottomSheet bottomSheet5 = BottomSheet.this;
+                    bottomSheet5.keyboardContentAnimator = ValueAnimator.ofFloat(bottomSheet5.containerView.getTranslationY(), 0.0f);
                     BottomSheet.this.keyboardContentAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$ContainerView$$ExternalSyntheticLambda0
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                         public final void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -687,9 +690,9 @@ public class BottomSheet extends Dialog {
             for (int i16 = 0; i16 < childCount; i16++) {
                 View childAt = getChildAt(i16);
                 if (childAt.getVisibility() != 8) {
-                    BottomSheet bottomSheet5 = BottomSheet.this;
-                    if (childAt != bottomSheet5.containerView) {
-                        if (!bottomSheet5.onCustomLayout(childAt, i5, i2, i6, i4 - (bottomSheet5.drawNavigationBar ? bottomSheet5.getBottomInset() : 0))) {
+                    BottomSheet bottomSheet6 = BottomSheet.this;
+                    if (childAt != bottomSheet6.containerView) {
+                        if (!bottomSheet6.onCustomLayout(childAt, i5, i2, i6, i4 - (bottomSheet6.drawNavigationBar ? bottomSheet6.getBottomInset() : 0))) {
                             FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) childAt.getLayoutParams();
                             int measuredWidth2 = childAt.getMeasuredWidth();
                             int measuredHeight2 = childAt.getMeasuredHeight();
@@ -738,10 +741,19 @@ public class BottomSheet extends Dialog {
                     }
                 }
             }
-            if (BottomSheet.this.layoutCount == 0 && (runnable = BottomSheet.this.startAnimationRunnable) != null) {
+            if (BottomSheet.this.layoutCount == 0 && (runnable = (bottomSheet = BottomSheet.this).startAnimationRunnable) != null && !bottomSheet.waitingKeyboard) {
                 AndroidUtilities.cancelRunOnUIThread(runnable);
                 BottomSheet.this.startAnimationRunnable.run();
                 BottomSheet.this.startAnimationRunnable = null;
+            }
+            BottomSheet bottomSheet7 = BottomSheet.this;
+            if (bottomSheet7.waitingKeyboard && bottomSheet7.keyboardVisible) {
+                Runnable runnable2 = bottomSheet7.startAnimationRunnable;
+                if (runnable2 != null) {
+                    AndroidUtilities.cancelRunOnUIThread(runnable2);
+                    BottomSheet.this.startAnimationRunnable.run();
+                }
+                BottomSheet.this.waitingKeyboard = false;
             }
             this.keyboardChanged = false;
         }
@@ -1211,6 +1223,7 @@ public class BottomSheet extends Dialog {
         };
         this.navigationBarAlpha = 0.0f;
         this.navBarColorKey = "windowBackgroundGray";
+        this.pauseAllHeavyOperations = true;
         this.useBackgroundTopPadding = true;
         this.customViewGravity = 51;
         this.resourcesProvider = resourcesProvider;
@@ -1524,6 +1537,10 @@ public class BottomSheet extends Dialog {
             this.layoutCount = 2;
             ViewGroup viewGroup = this.containerView;
             viewGroup.setTranslationY((i >= 21 ? (1.0f - this.hideSystemVerticalInsetsProgress) * AndroidUtilities.statusBarHeight : 0.0f) + viewGroup.getMeasuredHeight() + (this.scrollNavBar ? getBottomInset() : 0));
+            long j = this.openNoDelay ? 0L : 150L;
+            if (this.waitingKeyboard) {
+                j = 500;
+            }
             Runnable runnable = new Runnable() { // from class: org.telegram.ui.ActionBar.BottomSheet.5
                 @Override // java.lang.Runnable
                 public void run() {
@@ -1537,7 +1554,7 @@ public class BottomSheet extends Dialog {
                 }
             };
             this.startAnimationRunnable = runnable;
-            AndroidUtilities.runOnUIThread(runnable, this.openNoDelay ? 0L : 150L);
+            AndroidUtilities.runOnUIThread(runnable, j);
             return;
         }
         startOpenAnimation();
@@ -1648,7 +1665,7 @@ public class BottomSheet extends Dialog {
         animatorArr[2] = this.navigationBarAnimation;
         animatorSet.playTogether(animatorArr);
         this.currentSheetAnimation.setDuration(400L);
-        this.currentSheetAnimation.setStartDelay(20L);
+        this.currentSheetAnimation.setStartDelay(this.waitingKeyboard ? 0L : 20L);
         this.currentSheetAnimation.setInterpolator(this.openInterpolator);
         this.currentSheetAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.BottomSheet.6
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -1673,7 +1690,9 @@ public class BottomSheet extends Dialog {
                         BottomSheet.this.getWindow().setAttributes(attributes);
                     }
                 }
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, 512);
+                if (BottomSheet.this.pauseAllHeavyOperations) {
+                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, 512);
+                }
             }
 
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -1687,7 +1706,9 @@ public class BottomSheet extends Dialog {
                 bottomSheet.currentSheetAnimationType = 0;
             }
         });
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 512);
+        if (this.pauseAllHeavyOperations) {
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 512);
+        }
         this.currentSheetAnimation.start();
     }
 

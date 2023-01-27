@@ -238,9 +238,8 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
                         this.nameLeft = AndroidUtilities.dp(11.0f);
                     }
                     this.nameLockTop = AndroidUtilities.dp(21.0f);
-                    TLRPC$User tLRPC$User2 = this.user;
-                    this.drawCheck = tLRPC$User2.verified;
-                    if (!tLRPC$User2.self) {
+                    this.drawCheck = this.user.verified;
+                    if (!this.savedMessages) {
                         MessagesController.getInstance(this.currentAccount).isPremiumUser(this.user);
                     }
                     updateStatus(this.drawCheck, this.user, false);
@@ -269,14 +268,14 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
             if (tLRPC$Chat2 != null) {
                 userName = tLRPC$Chat2.title;
             } else {
-                TLRPC$User tLRPC$User3 = this.user;
-                userName = tLRPC$User3 != null ? UserObject.getUserName(tLRPC$User3) : "";
+                TLRPC$User tLRPC$User2 = this.user;
+                userName = tLRPC$User2 != null ? UserObject.getUserName(tLRPC$User2) : "";
             }
             str3 = userName.replace('\n', ' ');
         }
         if (str3.length() == 0) {
-            TLRPC$User tLRPC$User4 = this.user;
-            if (tLRPC$User4 != null && (str2 = tLRPC$User4.phone) != null && str2.length() != 0) {
+            TLRPC$User tLRPC$User3 = this.user;
+            if (tLRPC$User3 != null && (str2 = tLRPC$User3.phone) != null && str2.length() != 0) {
                 str3 = PhoneFormat.getInstance().format("+" + this.user.phone);
             } else {
                 str3 = LocaleController.getString("HiddenName", R.string.HiddenName);
@@ -357,17 +356,17 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
             if (charSequence != null) {
                 str = charSequence;
             } else {
-                TLRPC$User tLRPC$User5 = this.user;
-                if (tLRPC$User5 == null) {
+                TLRPC$User tLRPC$User4 = this.user;
+                if (tLRPC$User4 == null) {
                     str = null;
-                } else if (MessagesController.isSupportUser(tLRPC$User5)) {
+                } else if (MessagesController.isSupportUser(tLRPC$User4)) {
                     str = LocaleController.getString("SupportStatus", R.string.SupportStatus);
                 } else {
-                    TLRPC$User tLRPC$User6 = this.user;
-                    if (tLRPC$User6.bot) {
+                    TLRPC$User tLRPC$User5 = this.user;
+                    if (tLRPC$User5.bot) {
                         str = LocaleController.getString("Bot", R.string.Bot);
                     } else {
-                        long j = tLRPC$User6.id;
+                        long j = tLRPC$User5.id;
                         if (j == 333000 || j == 777000) {
                             str = LocaleController.getString("ServiceNotifications", R.string.ServiceNotifications);
                         } else {
@@ -376,12 +375,12 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
                             }
                             boolean[] zArr = this.isOnline;
                             zArr[0] = false;
-                            str = LocaleController.formatUserStatus(this.currentAccount, tLRPC$User6, zArr);
+                            str = LocaleController.formatUserStatus(this.currentAccount, tLRPC$User5, zArr);
                             if (this.isOnline[0]) {
                                 textPaint4 = Theme.dialogs_onlinePaint;
                             }
-                            TLRPC$User tLRPC$User7 = this.user;
-                            if (tLRPC$User7 != null && (tLRPC$User7.id == UserConfig.getInstance(this.currentAccount).getClientUserId() || ((tLRPC$UserStatus = this.user.status) != null && tLRPC$UserStatus.expires > ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()))) {
+                            TLRPC$User tLRPC$User6 = this.user;
+                            if (tLRPC$User6 != null && (tLRPC$User6.id == UserConfig.getInstance(this.currentAccount).getClientUserId() || ((tLRPC$UserStatus = this.user.status) != null && tLRPC$UserStatus.expires > ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()))) {
                                 textPaint4 = Theme.dialogs_onlinePaint;
                                 str = LocaleController.getString("Online", R.string.Online);
                             }
@@ -503,7 +502,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
             this.statusDrawable.setColor(null);
             return;
         }
-        if (tLRPC$User != null && !tLRPC$User.self) {
+        if (tLRPC$User != null && !this.savedMessages) {
             TLRPC$EmojiStatus tLRPC$EmojiStatus = tLRPC$User.emoji_status;
             if ((tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil) && ((TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus).until > ((int) (System.currentTimeMillis() / 1000))) {
                 this.statusDrawable.set(((TLRPC$TL_emojiStatusUntil) tLRPC$User.emoji_status).document_id, z2);
@@ -511,7 +510,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
                 return;
             }
         }
-        if (tLRPC$User != null && !tLRPC$User.self) {
+        if (tLRPC$User != null && !this.savedMessages) {
             TLRPC$EmojiStatus tLRPC$EmojiStatus2 = tLRPC$User.emoji_status;
             if (tLRPC$EmojiStatus2 instanceof TLRPC$TL_emojiStatus) {
                 this.statusDrawable.set(((TLRPC$TL_emojiStatus) tLRPC$EmojiStatus2).document_id, z2);
@@ -519,7 +518,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
                 return;
             }
         }
-        if (tLRPC$User != null && !tLRPC$User.self && MessagesController.getInstance(this.currentAccount).isPremiumUser(tLRPC$User)) {
+        if (tLRPC$User != null && !this.savedMessages && MessagesController.getInstance(this.currentAccount).isPremiumUser(tLRPC$User)) {
             this.statusDrawable.set(PremiumGradient.getInstance().premiumStarDrawableMini, z2);
             this.statusDrawable.setColor(Integer.valueOf(Theme.getColor("chats_verifiedBackground", this.resourcesProvider)));
             return;

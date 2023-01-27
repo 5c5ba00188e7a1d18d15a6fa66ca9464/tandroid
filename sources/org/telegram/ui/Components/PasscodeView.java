@@ -59,6 +59,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.PasscodeView;
+import org.telegram.ui.LaunchActivity;
 /* loaded from: classes3.dex */
 public class PasscodeView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private static final int[] ids = {R.id.passcode_btn_0, R.id.passcode_btn_1, R.id.passcode_btn_2, R.id.passcode_btn_3, R.id.passcode_btn_4, R.id.passcode_btn_5, R.id.passcode_btn_6, R.id.passcode_btn_7, R.id.passcode_btn_8, R.id.passcode_btn_9, R.id.passcode_btn_backspace, R.id.passcode_btn_fingerprint};
@@ -97,7 +98,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
 
     /* loaded from: classes3.dex */
     public interface PasscodeViewDelegate {
-        void didAcceptedPassword();
+        void didAcceptedPassword(PasscodeView passcodeView);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -111,6 +112,13 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
             checkFingerprintButton();
             if (((Boolean) objArr[0]).booleanValue() && SharedConfig.appLocked) {
                 checkFingerprint();
+            }
+        } else if (i != NotificationCenter.passcodeDismissed || objArr[0] == this) {
+        } else {
+            setVisibility(8);
+            AlertDialog alertDialog = this.fingerprintDialog;
+            if (alertDialog != null) {
+                alertDialog.dismiss();
             }
         }
     }
@@ -1068,7 +1076,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         setOnTouchListener(null);
         PasscodeViewDelegate passcodeViewDelegate = this.delegate;
         if (passcodeViewDelegate != null) {
-            passcodeViewDelegate.didAcceptedPassword();
+            passcodeViewDelegate.didAcceptedPassword(this);
         }
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PasscodeView$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
@@ -1224,87 +1232,117 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didGenerateFingerprintKeyPair);
+        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.passcodeDismissed);
     }
 
     @Override // android.view.ViewGroup, android.view.View
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.didGenerateFingerprintKeyPair);
+        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.passcodeDismissed);
     }
 
     private void checkFingerprint() {
-        if (Build.VERSION.SDK_INT >= 23 && ((Activity) getContext()) != null && this.fingerprintView.getVisibility() == 0 && !ApplicationLoader.mainInterfacePaused) {
-            try {
-                AlertDialog alertDialog = this.fingerprintDialog;
-                if (alertDialog != null) {
-                    if (alertDialog.isShowing()) {
-                        return;
+        Activity activity;
+        if (Build.VERSION.SDK_INT >= 23 && (activity = (Activity) getContext()) != null && this.fingerprintView.getVisibility() == 0 && !ApplicationLoader.mainInterfacePaused) {
+            if (!(activity instanceof LaunchActivity) || ((LaunchActivity) activity).allowShowFingerprintDialog(this)) {
+                try {
+                    AlertDialog alertDialog = this.fingerprintDialog;
+                    if (alertDialog != null) {
+                        if (alertDialog.isShowing()) {
+                            return;
+                        }
                     }
+                } catch (Exception e) {
+                    FileLog.e(e);
                 }
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-            try {
-                FingerprintManagerCompat from = FingerprintManagerCompat.from(ApplicationLoader.applicationContext);
-                if (from.isHardwareDetected() && from.hasEnrolledFingerprints() && FingerprintController.isKeyReady() && !FingerprintController.checkDeviceFingerprintsChanged()) {
-                    RelativeLayout relativeLayout = new RelativeLayout(getContext());
-                    relativeLayout.setPadding(AndroidUtilities.dp(24.0f), 0, AndroidUtilities.dp(24.0f), 0);
-                    TextView textView = new TextView(getContext());
-                    textView.setId(1000);
-                    textView.setTextAppearance(16974344);
-                    textView.setTextColor(Theme.getColor("dialogTextBlack"));
-                    textView.setText(LocaleController.getString("FingerprintInfo", R.string.FingerprintInfo));
-                    relativeLayout.addView(textView);
-                    RelativeLayout.LayoutParams createRelative = LayoutHelper.createRelative(-2, -2);
-                    createRelative.addRule(10);
-                    createRelative.addRule(20);
-                    textView.setLayoutParams(createRelative);
-                    ImageView imageView = new ImageView(getContext());
-                    this.fingerprintImageView = imageView;
-                    imageView.setImageResource(R.drawable.ic_fp_40px);
-                    this.fingerprintImageView.setId(1001);
-                    relativeLayout.addView(this.fingerprintImageView, LayoutHelper.createRelative(-2.0f, -2.0f, 0, 20, 0, 0, 20, 3, 1000));
-                    TextView textView2 = new TextView(getContext());
-                    this.fingerprintStatusTextView = textView2;
-                    textView2.setGravity(16);
-                    this.fingerprintStatusTextView.setText(LocaleController.getString("FingerprintHelp", R.string.FingerprintHelp));
-                    this.fingerprintStatusTextView.setTextAppearance(16974320);
-                    this.fingerprintStatusTextView.setTextColor(Theme.getColor("dialogTextBlack") & 1124073471);
-                    relativeLayout.addView(this.fingerprintStatusTextView);
-                    RelativeLayout.LayoutParams createRelative2 = LayoutHelper.createRelative(-2, -2);
-                    createRelative2.setMarginStart(AndroidUtilities.dp(16.0f));
-                    createRelative2.addRule(8, 1001);
-                    createRelative2.addRule(6, 1001);
-                    createRelative2.addRule(17, 1001);
-                    this.fingerprintStatusTextView.setLayoutParams(createRelative2);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
-                    builder.setView(relativeLayout);
-                    builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.PasscodeView$$ExternalSyntheticLambda0
-                        @Override // android.content.DialogInterface.OnDismissListener
-                        public final void onDismiss(DialogInterface dialogInterface) {
-                            PasscodeView.this.lambda$checkFingerprint$12(dialogInterface);
-                        }
-                    });
-                    AlertDialog alertDialog2 = this.fingerprintDialog;
-                    if (alertDialog2 != null) {
-                        try {
-                            if (alertDialog2.isShowing()) {
-                                this.fingerprintDialog.dismiss();
+                try {
+                    FingerprintManagerCompat from = FingerprintManagerCompat.from(ApplicationLoader.applicationContext);
+                    if (from.isHardwareDetected() && from.hasEnrolledFingerprints() && FingerprintController.isKeyReady() && !FingerprintController.checkDeviceFingerprintsChanged()) {
+                        RelativeLayout relativeLayout = new RelativeLayout(getContext());
+                        relativeLayout.setPadding(AndroidUtilities.dp(24.0f), 0, AndroidUtilities.dp(24.0f), 0);
+                        TextView textView = new TextView(getContext());
+                        textView.setId(1000);
+                        textView.setTextAppearance(16974344);
+                        textView.setTextColor(Theme.getColor("dialogTextBlack"));
+                        textView.setText(LocaleController.getString("FingerprintInfo", R.string.FingerprintInfo));
+                        relativeLayout.addView(textView);
+                        RelativeLayout.LayoutParams createRelative = LayoutHelper.createRelative(-2, -2);
+                        createRelative.addRule(10);
+                        createRelative.addRule(20);
+                        textView.setLayoutParams(createRelative);
+                        ImageView imageView = new ImageView(getContext());
+                        this.fingerprintImageView = imageView;
+                        imageView.setImageResource(R.drawable.ic_fp_40px);
+                        this.fingerprintImageView.setId(1001);
+                        relativeLayout.addView(this.fingerprintImageView, LayoutHelper.createRelative(-2.0f, -2.0f, 0, 20, 0, 0, 20, 3, 1000));
+                        TextView textView2 = new TextView(getContext());
+                        this.fingerprintStatusTextView = textView2;
+                        textView2.setGravity(16);
+                        this.fingerprintStatusTextView.setText(LocaleController.getString("FingerprintHelp", R.string.FingerprintHelp));
+                        this.fingerprintStatusTextView.setTextAppearance(16974320);
+                        this.fingerprintStatusTextView.setTextColor(Theme.getColor("dialogTextBlack") & 1124073471);
+                        relativeLayout.addView(this.fingerprintStatusTextView);
+                        RelativeLayout.LayoutParams createRelative2 = LayoutHelper.createRelative(-2, -2);
+                        createRelative2.setMarginStart(AndroidUtilities.dp(16.0f));
+                        createRelative2.addRule(8, 1001);
+                        createRelative2.addRule(6, 1001);
+                        createRelative2.addRule(17, 1001);
+                        this.fingerprintStatusTextView.setLayoutParams(createRelative2);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                        builder.setView(relativeLayout);
+                        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                        builder.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.PasscodeView$$ExternalSyntheticLambda0
+                            @Override // android.content.DialogInterface.OnDismissListener
+                            public final void onDismiss(DialogInterface dialogInterface) {
+                                PasscodeView.this.lambda$checkFingerprint$12(dialogInterface);
                             }
-                        } catch (Exception e2) {
-                            FileLog.e(e2);
+                        });
+                        AlertDialog alertDialog2 = this.fingerprintDialog;
+                        if (alertDialog2 != null) {
+                            try {
+                                if (alertDialog2.isShowing()) {
+                                    this.fingerprintDialog.dismiss();
+                                }
+                            } catch (Exception e2) {
+                                FileLog.e(e2);
+                            }
                         }
-                    }
-                    this.fingerprintDialog = builder.show();
-                    CancellationSignal cancellationSignal = new CancellationSignal();
-                    this.cancellationSignal = cancellationSignal;
-                    this.selfCancelled = false;
-                    from.authenticate(null, 0, cancellationSignal, new FingerprintManagerCompat.AuthenticationCallback() { // from class: org.telegram.ui.Components.PasscodeView.8
-                        @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompat.AuthenticationCallback
-                        public void onAuthenticationError(int i, CharSequence charSequence) {
-                            if (i == 10) {
+                        this.fingerprintDialog = builder.show();
+                        CancellationSignal cancellationSignal = new CancellationSignal();
+                        this.cancellationSignal = cancellationSignal;
+                        this.selfCancelled = false;
+                        from.authenticate(null, 0, cancellationSignal, new FingerprintManagerCompat.AuthenticationCallback() { // from class: org.telegram.ui.Components.PasscodeView.8
+                            @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompat.AuthenticationCallback
+                            public void onAuthenticationError(int i, CharSequence charSequence) {
+                                if (i == 10) {
+                                    try {
+                                        if (PasscodeView.this.fingerprintDialog.isShowing()) {
+                                            PasscodeView.this.fingerprintDialog.dismiss();
+                                        }
+                                    } catch (Exception e3) {
+                                        FileLog.e(e3);
+                                    }
+                                    PasscodeView.this.fingerprintDialog = null;
+                                } else if (PasscodeView.this.selfCancelled || i == 5) {
+                                } else {
+                                    PasscodeView.this.showFingerprintError(charSequence);
+                                }
+                            }
+
+                            @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompat.AuthenticationCallback
+                            public void onAuthenticationHelp(int i, CharSequence charSequence) {
+                                PasscodeView.this.showFingerprintError(charSequence);
+                            }
+
+                            @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompat.AuthenticationCallback
+                            public void onAuthenticationFailed() {
+                                PasscodeView.this.showFingerprintError(LocaleController.getString("FingerprintNotRecognized", R.string.FingerprintNotRecognized));
+                            }
+
+                            @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompat.AuthenticationCallback
+                            public void onAuthenticationSucceeded(FingerprintManagerCompat.AuthenticationResult authenticationResult) {
                                 try {
                                     if (PasscodeView.this.fingerprintDialog.isShowing()) {
                                         PasscodeView.this.fingerprintDialog.dismiss();
@@ -1313,37 +1351,12 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                                     FileLog.e(e3);
                                 }
                                 PasscodeView.this.fingerprintDialog = null;
-                            } else if (PasscodeView.this.selfCancelled || i == 5) {
-                            } else {
-                                PasscodeView.this.showFingerprintError(charSequence);
+                                PasscodeView.this.processDone(true);
                             }
-                        }
-
-                        @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompat.AuthenticationCallback
-                        public void onAuthenticationHelp(int i, CharSequence charSequence) {
-                            PasscodeView.this.showFingerprintError(charSequence);
-                        }
-
-                        @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompat.AuthenticationCallback
-                        public void onAuthenticationFailed() {
-                            PasscodeView.this.showFingerprintError(LocaleController.getString("FingerprintNotRecognized", R.string.FingerprintNotRecognized));
-                        }
-
-                        @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompat.AuthenticationCallback
-                        public void onAuthenticationSucceeded(FingerprintManagerCompat.AuthenticationResult authenticationResult) {
-                            try {
-                                if (PasscodeView.this.fingerprintDialog.isShowing()) {
-                                    PasscodeView.this.fingerprintDialog.dismiss();
-                                }
-                            } catch (Exception e3) {
-                                FileLog.e(e3);
-                            }
-                            PasscodeView.this.fingerprintDialog = null;
-                            PasscodeView.this.processDone(true);
-                        }
-                    }, null);
+                        }, null);
+                    }
+                } catch (Throwable unused) {
                 }
-            } catch (Throwable unused) {
             }
         }
     }

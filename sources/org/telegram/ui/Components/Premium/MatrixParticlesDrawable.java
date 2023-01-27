@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class MatrixParticlesDrawable {
     MatrixTextParticle[][] matrixTextParticles;
     ArrayList<Particle>[] particles;
@@ -134,7 +134,7 @@ public class MatrixParticlesDrawable {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     private class Particle {
         int len;
         long time;
@@ -157,7 +157,7 @@ public class MatrixParticlesDrawable {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     private class MatrixTextParticle {
         int index;
         int nextIndex;

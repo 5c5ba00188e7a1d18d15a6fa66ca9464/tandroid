@@ -184,6 +184,8 @@ public class LoadingDrawable extends Drawable {
     /* JADX WARN: Removed duplicated region for block: B:73:0x02fc  */
     /* JADX WARN: Removed duplicated region for block: B:81:0x0323  */
     /* JADX WARN: Removed duplicated region for block: B:84:0x032f  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x03d8  */
+    /* JADX WARN: Removed duplicated region for block: B:99:? A[RETURN, SYNTHETIC] */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -337,7 +339,11 @@ public class LoadingDrawable extends Drawable {
                     canvas.restore();
                     canvas.restore();
                 }
-                invalidateSelf();
+                if (isDisappeared()) {
+                    invalidateSelf();
+                    return;
+                }
+                return;
             }
         }
         canvas2 = canvas;
@@ -379,7 +385,8 @@ public class LoadingDrawable extends Drawable {
             canvas.restore();
             canvas.restore();
         }
-        invalidateSelf();
+        if (isDisappeared()) {
+        }
     }
 
     public void updateBounds() {

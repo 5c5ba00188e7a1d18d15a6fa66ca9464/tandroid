@@ -81,6 +81,7 @@ public class ReactedHeaderView extends FrameLayout {
         AvatarsImageView avatarsImageView = new AvatarsImageView(context, false);
         this.avatarsImageView = avatarsImageView;
         avatarsImageView.setStyle(11);
+        this.avatarsImageView.setAvatarsTextSize(AndroidUtilities.dp(22.0f));
         addView(this.avatarsImageView, LayoutHelper.createFrameRelatively(56.0f, -1.0f, 8388629, 0.0f, 0.0f, 0.0f, 0.0f));
         ImageView imageView = new ImageView(context);
         this.iconView = imageView;
@@ -301,7 +302,7 @@ public class ReactedHeaderView extends FrameLayout {
         if (tLRPC$TL_messageReactions != null && tLRPC$TL_messageReactions.results.size() == 1 && !tLRPC$TL_messages_messageReactionsList.reactions.isEmpty()) {
             for (TLRPC$TL_availableReaction tLRPC$TL_availableReaction : MediaDataController.getInstance(this.currentAccount).getReactionsList()) {
                 if (tLRPC$TL_availableReaction.reaction.equals(tLRPC$TL_messages_messageReactionsList.reactions.get(0).reaction)) {
-                    this.reactView.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.center_icon), "40_40_lastframe", "webp", (Drawable) null, tLRPC$TL_availableReaction);
+                    this.reactView.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.center_icon), "40_40_lastreactframe", "webp", (Drawable) null, tLRPC$TL_availableReaction);
                     this.reactView.setVisibility(0);
                     this.reactView.setAlpha(0.0f);
                     this.reactView.animate().alpha(1.0f).start();

@@ -11,8 +11,8 @@ public final /* synthetic */ class SharedConfig$$ExternalSyntheticLambda5 implem
 
     @Override // java.util.Comparator
     public final int compare(Object obj, Object obj2) {
-        int lambda$checkKeepMedia$1;
-        lambda$checkKeepMedia$1 = SharedConfig.lambda$checkKeepMedia$1((SharedConfig.FileInfoInternal) obj, (SharedConfig.FileInfoInternal) obj2);
-        return lambda$checkKeepMedia$1;
+        int lambda$saveProxyList$3;
+        lambda$saveProxyList$3 = SharedConfig.lambda$saveProxyList$3((SharedConfig.ProxyInfo) obj, (SharedConfig.ProxyInfo) obj2);
+        return lambda$saveProxyList$3;
     }
 }

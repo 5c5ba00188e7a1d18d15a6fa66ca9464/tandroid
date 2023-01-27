@@ -41,7 +41,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.PremiumGradient;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.PremiumPreviewFragment;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class PremiumFeatureBottomSheet extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     ActionBar actionBar;
     private final BaseFragment baseFragment;
@@ -121,12 +121,12 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         final PremiumPreviewFragment.PremiumFeatureData premiumFeatureData = this.premiumFeatures.get(i3);
         setApplyBottomPadding(false);
         this.useBackgroundTopPadding = false;
-        final PremiumGradient.GradientTools gradientTools = new PremiumGradient.GradientTools("premiumGradientBottomSheet1", "premiumGradientBottomSheet2", "premiumGradientBottomSheet3", null);
-        gradientTools.x1 = 0.0f;
-        gradientTools.y1 = 1.1f;
-        gradientTools.x2 = 1.5f;
-        gradientTools.y2 = -0.2f;
-        gradientTools.exactly = true;
+        final PremiumGradient.PremiumGradientTools premiumGradientTools = new PremiumGradient.PremiumGradientTools("premiumGradientBottomSheet1", "premiumGradientBottomSheet2", "premiumGradientBottomSheet3", null);
+        premiumGradientTools.x1 = 0.0f;
+        premiumGradientTools.y1 = 1.1f;
+        premiumGradientTools.x2 = 1.5f;
+        premiumGradientTools.y2 = -0.2f;
+        premiumGradientTools.exactly = true;
         this.content = new FrameLayout(getContext()) { // from class: org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet.2
             @Override // android.widget.FrameLayout, android.view.View
             protected void onMeasure(int i4, int i5) {
@@ -135,13 +135,13 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
 
             @Override // android.view.ViewGroup, android.view.View
             protected void dispatchDraw(Canvas canvas) {
-                gradientTools.gradientMatrix(0, 0, getMeasuredWidth(), getMeasuredHeight(), 0.0f, 0.0f);
+                premiumGradientTools.gradientMatrix(0, 0, getMeasuredWidth(), getMeasuredHeight(), 0.0f, 0.0f);
                 RectF rectF = AndroidUtilities.rectTmp;
                 rectF.set(0.0f, AndroidUtilities.dp(2.0f), getMeasuredWidth(), getMeasuredHeight() + AndroidUtilities.dp(18.0f));
                 canvas.save();
                 canvas.clipRect(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                gradientTools.paint.setAlpha(PremiumFeatureBottomSheet.this.gradientAlpha);
-                canvas.drawRoundRect(rectF, AndroidUtilities.dp(12.0f) - 1, AndroidUtilities.dp(12.0f) - 1, gradientTools.paint);
+                premiumGradientTools.paint.setAlpha(PremiumFeatureBottomSheet.this.gradientAlpha);
+                canvas.drawRoundRect(rectF, AndroidUtilities.dp(12.0f) - 1, AndroidUtilities.dp(12.0f) - 1, premiumGradientTools.paint);
                 canvas.restore();
                 super.dispatchDraw(canvas);
             }
@@ -218,7 +218,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         });
         this.viewPager.setCurrentItem(i3);
         frameLayout.addView(this.viewPager, LayoutHelper.createFrame(-1, 100.0f, 0, 0.0f, 18.0f, 0.0f, 0.0f));
-        frameLayout.addView(this.closeLayout, LayoutHelper.createFrame(52, 52.0f, 53, 0.0f, 16.0f, 0.0f, 0.0f));
+        frameLayout.addView(this.closeLayout, LayoutHelper.createFrame(52, 52.0f, 53, 0.0f, 24.0f, 0.0f, 0.0f));
         final BottomPagesView bottomPagesView = new BottomPagesView(getContext(), this.viewPager, this.premiumFeatures.size());
         this.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() { // from class: org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet.5
             float progress;
@@ -528,7 +528,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public class ViewPage extends LinearLayout {
         TextView description;
         public int position;
@@ -622,7 +622,12 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
                             if (PremiumFeatureBottomSheet.this.startType != 10) {
                                 if (PremiumFeatureBottomSheet.this.startType != 2) {
                                     if (PremiumFeatureBottomSheet.this.startType != 9) {
-                                        if (PremiumFeatureBottomSheet.this.startType == 8) {
+                                        if (PremiumFeatureBottomSheet.this.startType != 8) {
+                                            if (PremiumFeatureBottomSheet.this.startType == 13) {
+                                                this.title.setText(LocaleController.getString(R.string.PremiumPreviewTranslations));
+                                                this.description.setText(LocaleController.getString(R.string.PremiumPreviewTranslationsDescription));
+                                            }
+                                        } else {
                                             this.title.setText(LocaleController.getString(R.string.PremiumPreviewVoiceToText));
                                             this.description.setText(LocaleController.getString(R.string.PremiumPreviewVoiceToTextDescription2));
                                         }

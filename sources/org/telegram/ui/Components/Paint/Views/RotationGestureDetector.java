@@ -1,7 +1,7 @@
 package org.telegram.ui.Components.Paint.Views;
 
 import android.view.MotionEvent;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class RotationGestureDetector {
     private float angle;
     private float fX;
@@ -11,7 +11,7 @@ public class RotationGestureDetector {
     private float sY;
     private float startAngle;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface OnRotationGestureListener {
         void onRotation(RotationGestureDetector rotationGestureDetector);
 

@@ -45,7 +45,10 @@ import org.telegram.tgnet.TLRPC$TL_photoSizeEmpty;
 import org.telegram.tgnet.TLRPC$TL_photoStrippedSize;
 import org.telegram.tgnet.TLRPC$TL_secureFile;
 import org.telegram.tgnet.TLRPC$TL_videoSize;
+import org.telegram.tgnet.TLRPC$TL_videoSizeEmojiMarkup;
+import org.telegram.tgnet.TLRPC$TL_videoSizeStickerMarkup;
 import org.telegram.tgnet.TLRPC$UserProfilePhoto;
+import org.telegram.tgnet.TLRPC$VideoSize;
 import org.telegram.tgnet.TLRPC$WebDocument;
 import org.telegram.ui.LaunchActivity;
 /* loaded from: classes.dex */
@@ -173,6 +176,18 @@ public class FileLoader extends BaseController {
         } else {
             return null;
         }
+    }
+
+    public static TLRPC$VideoSize getVectorMarkupVideoSize(TLRPC$Photo tLRPC$Photo) {
+        if (tLRPC$Photo != null && tLRPC$Photo.video_sizes != null) {
+            for (int i = 0; i < tLRPC$Photo.video_sizes.size(); i++) {
+                TLRPC$VideoSize tLRPC$VideoSize = tLRPC$Photo.video_sizes.get(i);
+                if ((tLRPC$VideoSize instanceof TLRPC$TL_videoSizeEmojiMarkup) || (tLRPC$VideoSize instanceof TLRPC$TL_videoSizeStickerMarkup)) {
+                    return tLRPC$VideoSize;
+                }
+            }
+        }
+        return null;
     }
 
     private int getPriorityValue(int i) {
@@ -1231,7 +1246,7 @@ public class FileLoader extends BaseController {
 
     private boolean canSaveToPublicStorage(Object obj) {
         int i;
-        if (SharedConfig.saveToGalleryFlags != 0 && !BuildVars.NO_SCOPED_STORAGE && (obj instanceof MessageObject)) {
+        if (!BuildVars.NO_SCOPED_STORAGE && (obj instanceof MessageObject)) {
             MessageObject messageObject = (MessageObject) obj;
             long dialogId = messageObject.getDialogId();
             if (!messageObject.isRoundVideo() && !messageObject.isVoice() && !messageObject.isAnyKindOfSticker()) {
@@ -1242,7 +1257,7 @@ public class FileLoader extends BaseController {
                     } else {
                         i = ChatObject.isChannelAndNotMegaGroup(getMessagesController().getChat(Long.valueOf(j))) ? 4 : 2;
                     }
-                    if ((i & SharedConfig.saveToGalleryFlags) != 0) {
+                    if (SaveToGallerySettingsHelper.needSave(i, messageObject, this.currentAccount)) {
                         return true;
                     }
                 }
@@ -1662,6 +1677,68 @@ public class FileLoader extends BaseController {
         return tLRPC$PhotoSize2;
     }
 
+    public static TLRPC$VideoSize getClosestVideoSizeWithSize(ArrayList<TLRPC$VideoSize> arrayList, int i) {
+        return getClosestVideoSizeWithSize(arrayList, i, false);
+    }
+
+    public static TLRPC$VideoSize getClosestVideoSizeWithSize(ArrayList<TLRPC$VideoSize> arrayList, int i, boolean z) {
+        return getClosestVideoSizeWithSize(arrayList, i, z, false);
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x003b, code lost:
+        if (r4.dc_id != Integer.MIN_VALUE) goto L23;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x0054, code lost:
+        if (r4.dc_id != Integer.MIN_VALUE) goto L37;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public static TLRPC$VideoSize getClosestVideoSizeWithSize(ArrayList<TLRPC$VideoSize> arrayList, int i, boolean z, boolean z2) {
+        int max;
+        TLRPC$VideoSize tLRPC$VideoSize = null;
+        if (arrayList != null && !arrayList.isEmpty()) {
+            int i2 = 0;
+            for (int i3 = 0; i3 < arrayList.size(); i3++) {
+                TLRPC$VideoSize tLRPC$VideoSize2 = arrayList.get(i3);
+                if (tLRPC$VideoSize2 != null && !(tLRPC$VideoSize2 instanceof TLRPC$TL_videoSizeEmojiMarkup) && !(tLRPC$VideoSize2 instanceof TLRPC$TL_videoSizeStickerMarkup)) {
+                    if (z) {
+                        max = Math.min(tLRPC$VideoSize2.h, tLRPC$VideoSize2.w);
+                        if (tLRPC$VideoSize != null) {
+                            if (i > 100) {
+                                TLRPC$FileLocation tLRPC$FileLocation = tLRPC$VideoSize.location;
+                                if (tLRPC$FileLocation != null) {
+                                }
+                            }
+                            if (i > i2) {
+                                if (i2 >= max) {
+                                }
+                            }
+                        }
+                        tLRPC$VideoSize = tLRPC$VideoSize2;
+                        i2 = max;
+                    } else {
+                        max = Math.max(tLRPC$VideoSize2.w, tLRPC$VideoSize2.h);
+                        if (tLRPC$VideoSize != null) {
+                            if (i > 100) {
+                                TLRPC$FileLocation tLRPC$FileLocation2 = tLRPC$VideoSize.location;
+                                if (tLRPC$FileLocation2 != null) {
+                                }
+                            }
+                            if (max <= i) {
+                                if (i2 >= max) {
+                                }
+                            }
+                        }
+                        tLRPC$VideoSize = tLRPC$VideoSize2;
+                        i2 = max;
+                    }
+                }
+            }
+        }
+        return tLRPC$VideoSize;
+    }
+
     public static TLRPC$TL_photoPathSize getPathPhotoSize(ArrayList<TLRPC$PhotoSize> arrayList) {
         if (arrayList != null && !arrayList.isEmpty()) {
             for (int i = 0; i < arrayList.size(); i++) {
@@ -2076,7 +2153,7 @@ public class FileLoader extends BaseController {
     public static boolean checkUploadFileSize(int i, long j) {
         boolean isPremium = AccountInstance.getInstance(i).getUserConfig().isPremium();
         if (j >= DEFAULT_MAX_FILE_SIZE) {
-            return j < DEFAULT_MAX_FILE_SIZE_PREMIUM && isPremium;
+            return j < 4194304000L && isPremium;
         }
         return true;
     }

@@ -156,7 +156,7 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
             }
             this.bitmapCanvas.save();
             this.bitmapCanvas.translate(0.0f, this.padding);
-            drawInUiThread(this.bitmapCanvas, 1.0f);
+            drawInUiThread(this.bitmapCanvas, f);
             this.bitmapCanvas.restore();
         }
         if (!this.bitmapUpdating && !this.paused) {

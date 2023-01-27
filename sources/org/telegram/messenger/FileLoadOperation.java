@@ -922,12 +922,12 @@ public class FileLoadOperation {
     /* JADX WARN: Removed duplicated region for block: B:265:0x0730  */
     /* JADX WARN: Removed duplicated region for block: B:272:0x075b  */
     /* JADX WARN: Removed duplicated region for block: B:278:0x0787  */
-    /* JADX WARN: Removed duplicated region for block: B:283:0x07c4  */
-    /* JADX WARN: Removed duplicated region for block: B:312:0x0828  */
-    /* JADX WARN: Removed duplicated region for block: B:320:0x084b A[Catch: Exception -> 0x0851, TRY_LEAVE, TryCatch #4 {Exception -> 0x0851, blocks: (B:318:0x083a, B:320:0x084b), top: B:354:0x083a }] */
-    /* JADX WARN: Removed duplicated region for block: B:330:0x086b  */
-    /* JADX WARN: Removed duplicated region for block: B:332:0x086f  */
-    /* JADX WARN: Removed duplicated region for block: B:333:0x087c  */
+    /* JADX WARN: Removed duplicated region for block: B:283:0x07c6  */
+    /* JADX WARN: Removed duplicated region for block: B:312:0x082a  */
+    /* JADX WARN: Removed duplicated region for block: B:320:0x084d A[Catch: Exception -> 0x0853, TRY_LEAVE, TryCatch #4 {Exception -> 0x0853, blocks: (B:318:0x083c, B:320:0x084d), top: B:354:0x083c }] */
+    /* JADX WARN: Removed duplicated region for block: B:330:0x086d  */
+    /* JADX WARN: Removed duplicated region for block: B:332:0x0871  */
+    /* JADX WARN: Removed duplicated region for block: B:333:0x087e  */
     /* JADX WARN: Removed duplicated region for block: B:370:0x061c A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r2v64 */
     /* JADX WARN: Type inference failed for: r2v67, types: [int, boolean] */
@@ -2089,7 +2089,12 @@ public class FileLoadOperation {
             } else if (i == 16777216) {
                 StatsController.getInstance(this.currentAccount).incrementReceivedItemsCount(ApplicationLoader.getCurrentNetworkType(), 4, 1);
             } else if (i == 67108864) {
-                StatsController.getInstance(this.currentAccount).incrementReceivedItemsCount(ApplicationLoader.getCurrentNetworkType(), 5, 1);
+                String str = this.ext;
+                if (str != null && (str.toLowerCase().endsWith("mp3") || this.ext.toLowerCase().endsWith("m4a"))) {
+                    StatsController.getInstance(this.currentAccount).incrementReceivedItemsCount(ApplicationLoader.getCurrentNetworkType(), 7, 1);
+                } else {
+                    StatsController.getInstance(this.currentAccount).incrementReceivedItemsCount(ApplicationLoader.getCurrentNetworkType(), 5, 1);
+                }
             }
         }
         this.delegate.didFinishLoadingFile(this, this.cacheFileFinal);
@@ -2962,7 +2967,12 @@ public class FileLoadOperation {
                     } else if (i2 == 16777216) {
                         StatsController.getInstance(this.currentAccount).incrementReceivedBytesCount(tLObject2.networkType, 4, tLObject2.getObjectSize() + 4);
                     } else if (i2 == 67108864) {
-                        StatsController.getInstance(this.currentAccount).incrementReceivedBytesCount(tLObject2.networkType, 5, tLObject2.getObjectSize() + 4);
+                        String str = this.ext;
+                        if (str != null && (str.toLowerCase().endsWith("mp3") || this.ext.toLowerCase().endsWith("m4a"))) {
+                            StatsController.getInstance(this.currentAccount).incrementReceivedBytesCount(tLObject2.networkType, 7, tLObject2.getObjectSize() + 4);
+                        } else {
+                            StatsController.getInstance(this.currentAccount).incrementReceivedBytesCount(tLObject2.networkType, 5, tLObject2.getObjectSize() + 4);
+                        }
                     }
                 }
                 processRequestResult(requestInfo, tLRPC$TL_error);

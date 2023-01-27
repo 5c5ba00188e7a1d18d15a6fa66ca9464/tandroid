@@ -19,7 +19,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Point;
 import org.telegram.ui.Components.Rect;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class EntityView extends FrameLayout {
     private static final List<Integer> STICKY_ANGLES = Arrays.asList(-90, 0, 90, 180);
     private ValueAnimator angleAnimator;
@@ -50,7 +50,7 @@ public class EntityView extends FrameLayout {
     private ValueAnimator stickyYAnimator;
     private UUID uuid;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface EntityViewDelegate {
         boolean allowInteraction(EntityView entityView);
 
@@ -555,7 +555,7 @@ public class EntityView extends FrameLayout {
         selectionView.setVisibility(z ? 0 : 8);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public class SelectionView extends FrameLayout {
         private int currentHandle;
         protected Paint dotPaint;

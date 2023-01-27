@@ -63,10 +63,6 @@ public class CloseProgressDrawable2 extends Drawable {
         this.animating = false;
     }
 
-    public boolean isAnimating() {
-        return this.animating;
-    }
-
     private void setColor(int i) {
         if (this.currentColor != i) {
             this.globalColorAlpha = Color.alpha(i);

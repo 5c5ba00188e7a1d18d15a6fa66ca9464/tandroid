@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class Shader {
     private int vertexShader;
     protected Map<String, Integer> uniformsMap = new HashMap();
@@ -59,7 +59,7 @@ public class Shader {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class CompilationResult {
         int shader;
         int status;

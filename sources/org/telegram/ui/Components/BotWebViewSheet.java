@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -92,6 +93,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
     private boolean needCloseConfirmation;
     private boolean overrideBackgroundColor;
     private Activity parentActivity;
+    private PasscodeView passcodeView;
     private long peerId;
     private Runnable pollRunnable;
     private ChatAttachAlertBotWebViewLayout.WebProgressView progressView;
@@ -245,18 +247,20 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             @Override // android.view.View
             protected void onDraw(Canvas canvas) {
                 super.onDraw(canvas);
-                if (!BotWebViewSheet.this.overrideBackgroundColor) {
-                    BotWebViewSheet.this.backgroundPaint.setColor(BotWebViewSheet.this.getColor("windowBackgroundWhite"));
+                if (BotWebViewSheet.this.passcodeView.getVisibility() != 0) {
+                    if (!BotWebViewSheet.this.overrideBackgroundColor) {
+                        BotWebViewSheet.this.backgroundPaint.setColor(BotWebViewSheet.this.getColor("windowBackgroundWhite"));
+                    }
+                    RectF rectF = AndroidUtilities.rectTmp;
+                    rectF.set(0.0f, 0.0f, getWidth(), getHeight());
+                    canvas.drawRect(rectF, BotWebViewSheet.this.dimPaint);
+                    BotWebViewSheet.this.actionBarPaint.setColor(ColorUtils.blendARGB(BotWebViewSheet.this.actionBarColor, BotWebViewSheet.this.getColor("windowBackgroundWhite"), BotWebViewSheet.this.actionBarTransitionProgress));
+                    float dp = AndroidUtilities.dp(16.0f) * (AndroidUtilities.isTablet() ? 1.0f : 1.0f - BotWebViewSheet.this.actionBarTransitionProgress);
+                    rectF.set(BotWebViewSheet.this.swipeContainer.getLeft(), AndroidUtilities.lerp(BotWebViewSheet.this.swipeContainer.getTranslationY(), 0.0f, BotWebViewSheet.this.actionBarTransitionProgress), BotWebViewSheet.this.swipeContainer.getRight(), BotWebViewSheet.this.swipeContainer.getTranslationY() + AndroidUtilities.dp(24.0f) + dp);
+                    canvas.drawRoundRect(rectF, dp, dp, BotWebViewSheet.this.actionBarPaint);
+                    rectF.set(BotWebViewSheet.this.swipeContainer.getLeft(), BotWebViewSheet.this.swipeContainer.getTranslationY() + AndroidUtilities.dp(24.0f), BotWebViewSheet.this.swipeContainer.getRight(), getHeight());
+                    canvas.drawRect(rectF, BotWebViewSheet.this.backgroundPaint);
                 }
-                RectF rectF = AndroidUtilities.rectTmp;
-                rectF.set(0.0f, 0.0f, getWidth(), getHeight());
-                canvas.drawRect(rectF, BotWebViewSheet.this.dimPaint);
-                BotWebViewSheet.this.actionBarPaint.setColor(ColorUtils.blendARGB(BotWebViewSheet.this.actionBarColor, BotWebViewSheet.this.getColor("windowBackgroundWhite"), BotWebViewSheet.this.actionBarTransitionProgress));
-                float dp = AndroidUtilities.dp(16.0f) * (AndroidUtilities.isTablet() ? 1.0f : 1.0f - BotWebViewSheet.this.actionBarTransitionProgress);
-                rectF.set(BotWebViewSheet.this.swipeContainer.getLeft(), AndroidUtilities.lerp(BotWebViewSheet.this.swipeContainer.getTranslationY(), 0.0f, BotWebViewSheet.this.actionBarTransitionProgress), BotWebViewSheet.this.swipeContainer.getRight(), BotWebViewSheet.this.swipeContainer.getTranslationY() + AndroidUtilities.dp(24.0f) + dp);
-                canvas.drawRoundRect(rectF, dp, dp, BotWebViewSheet.this.actionBarPaint);
-                rectF.set(BotWebViewSheet.this.swipeContainer.getLeft(), BotWebViewSheet.this.swipeContainer.getTranslationY() + AndroidUtilities.dp(24.0f), BotWebViewSheet.this.swipeContainer.getRight(), getHeight());
-                canvas.drawRect(rectF, BotWebViewSheet.this.backgroundPaint);
             }
 
             @Override // android.view.View
@@ -416,6 +420,9 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                 return lambda$new$12;
             }
         });
+        PasscodeView passcodeView = new PasscodeView(context);
+        this.passcodeView = passcodeView;
+        this.frameLayout.addView(passcodeView, LayoutHelper.createFrame(-1, -1.0f));
         setContentView(this.frameLayout, new ViewGroup.LayoutParams(-1, -1));
     }
 
@@ -696,6 +703,30 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Boolean lambda$new$12(Void r2) {
         return Boolean.valueOf(this.frameLayout.getKeyboardHeight() >= AndroidUtilities.dp(20.0f));
+    }
+
+    @Override // android.app.Dialog
+    protected void onStart() {
+        super.onStart();
+        Context context = getContext();
+        if ((context instanceof ContextWrapper) && !(context instanceof LaunchActivity)) {
+            context = ((ContextWrapper) context).getBaseContext();
+        }
+        if (context instanceof LaunchActivity) {
+            ((LaunchActivity) context).addOverlayPasscodeView(this.passcodeView);
+        }
+    }
+
+    @Override // android.app.Dialog
+    protected void onStop() {
+        super.onStop();
+        Context context = getContext();
+        if ((context instanceof ContextWrapper) && !(context instanceof LaunchActivity)) {
+            context = ((ContextWrapper) context).getBaseContext();
+        }
+        if (context instanceof LaunchActivity) {
+            ((LaunchActivity) context).removeOverlayPasscodeView(this.passcodeView);
+        }
     }
 
     public void setParentActivity(Activity activity) {
@@ -1004,10 +1035,14 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
 
     @Override // android.app.Dialog
     public void onBackPressed() {
-        if (this.webViewContainer.onBackPressed()) {
-            return;
+        if (this.passcodeView.getVisibility() == 0) {
+            if (getOwnerActivity() != null) {
+                getOwnerActivity().finish();
+            }
+        } else if (this.webViewContainer.onBackPressed()) {
+        } else {
+            onCheckDismissByUser();
         }
-        onCheckDismissByUser();
     }
 
     @Override // android.app.Dialog, android.content.DialogInterface

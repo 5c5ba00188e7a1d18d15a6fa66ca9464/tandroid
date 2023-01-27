@@ -87,6 +87,14 @@ public final class zabi implements zaca, zau {
 
     @Override // com.google.android.gms.common.api.internal.zaca
     @GuardedBy("mLock")
+    public final BaseImplementation$ApiMethodImpl zae(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl) {
+        baseImplementation$ApiMethodImpl.zak();
+        this.zan.zaa(baseImplementation$ApiMethodImpl);
+        return baseImplementation$ApiMethodImpl;
+    }
+
+    @Override // com.google.android.gms.common.api.internal.zaca
+    @GuardedBy("mLock")
     public final BaseImplementation$ApiMethodImpl zaf(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl) {
         baseImplementation$ApiMethodImpl.zak();
         return this.zan.zab(baseImplementation$ApiMethodImpl);

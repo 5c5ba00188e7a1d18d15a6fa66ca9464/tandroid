@@ -8,6 +8,6 @@ public final /* synthetic */ class SharedConfig$$ExternalSyntheticLambda3 implem
 
     @Override // java.lang.Runnable
     public final void run() {
-        SharedConfig.checkSaveToGalleryFiles();
+        SharedConfig.saveConfig();
     }
 }

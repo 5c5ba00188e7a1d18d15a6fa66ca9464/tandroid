@@ -45,6 +45,10 @@ public class Purchase {
         return false;
     }
 
+    public String getOrderId() {
+        return this.zzc.optString("orderId");
+    }
+
     public String getOriginalJson() {
         return this.zza;
     }

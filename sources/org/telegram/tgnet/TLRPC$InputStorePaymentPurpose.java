@@ -6,7 +6,7 @@ public abstract class TLRPC$InputStorePaymentPurpose extends TLObject {
         if (i == -1502273946) {
             tLRPC$TL_inputStorePaymentPremiumSubscription = new TLRPC$TL_inputStorePaymentPremiumSubscription();
         } else {
-            tLRPC$TL_inputStorePaymentPremiumSubscription = i != 1147243133 ? null : new TLRPC$TL_inputStorePaymentGiftPremium();
+            tLRPC$TL_inputStorePaymentPremiumSubscription = i != 1634697192 ? null : new TLRPC$TL_inputStorePaymentGiftPremium();
         }
         if (tLRPC$TL_inputStorePaymentPremiumSubscription == null && z) {
             throw new RuntimeException(String.format("can't parse magic %x in InputStorePaymentPurpose", Integer.valueOf(i)));

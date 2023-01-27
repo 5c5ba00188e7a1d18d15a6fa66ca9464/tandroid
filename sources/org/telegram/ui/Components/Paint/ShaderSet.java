@@ -3,7 +3,7 @@ package org.telegram.ui.Components.Paint;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class ShaderSet {
     private static final Map<String, Map<String, Object>> AVAILABLE_SHADERS = createMap();
 

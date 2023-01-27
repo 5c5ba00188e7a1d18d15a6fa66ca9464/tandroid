@@ -315,6 +315,11 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         loadAdmins();
         Bulletin.addDelegate(this, new Bulletin.Delegate(this) { // from class: org.telegram.ui.ChannelAdminLogActivity.2
             @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ boolean allowLayoutChanges() {
+                return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ int getTopOffset(int i) {
                 return Bulletin.Delegate.-CC.$default$getTopOffset(this, i);
             }

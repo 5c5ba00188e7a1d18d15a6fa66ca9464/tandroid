@@ -25,7 +25,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Paint.Brush;
 import org.telegram.ui.Components.Paint.Painting;
 import org.telegram.ui.Components.Size;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class Painting {
     private Path activePath;
     private Shape activeShape;
@@ -62,7 +62,7 @@ public class Painting {
     private int[] buffers = new int[1];
     private RenderState renderState = new RenderState();
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface PaintingDelegate {
         void contentChanged();
 
@@ -71,7 +71,7 @@ public class Painting {
         UndoStore requestUndoStore();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class PaintingData {
         public Bitmap bitmap;
         public ByteBuffer data;
@@ -230,7 +230,7 @@ public class Painting {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public class 1 extends AnimatorListenerAdapter {
         1() {
         }
@@ -298,7 +298,7 @@ public class Painting {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public class 2 extends AnimatorListenerAdapter {
         2() {
         }

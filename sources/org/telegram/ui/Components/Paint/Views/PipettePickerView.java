@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import androidx.core.util.Consumer;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.CubicBezierInterpolator;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class PipettePickerView extends View {
     private float appearProgress;
     private Bitmap bitmap;

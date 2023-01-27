@@ -22,6 +22,7 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.CustomTabsCopyReceiver;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.ShareBroadcastReceiver;
@@ -249,21 +250,20 @@ public class Browser {
         openUrl(context, uri, z, z2, null);
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(15:43|44|45|(11:49|50|(5:54|(2:56|57)(1:59)|58|51|52)|60|61|(3:63|(4:66|(2:67|(1:1)(2:69|(3:72|73|74)(1:71)))|75|64)|77)(3:97|(4:100|(2:106|107)(1:104)|105|98)|108)|78|(3:80|(3:83|84|81)|85)|87|88|(2:93|94))|113|60|61|(0)(0)|78|(0)|87|88|(0)|93|94) */
-    /* JADX WARN: Can't wrap try/catch for region: R(23:4|(3:143|144|(5:150|151|152|153|(2:155|156)(2:157|158)))|6|7|8|9|(1:11)(1:140)|12|(14:132|133|134|17|18|(1:20)|21|(9:23|(1:25)|26|27|(1:29)|30|(1:32)(1:36)|(1:34)|35)|(15:43|44|45|(11:49|50|(5:54|(2:56|57)(1:59)|58|51|52)|60|61|(3:63|(4:66|(2:67|(1:1)(2:69|(3:72|73|74)(1:71)))|75|64)|77)(3:97|(4:100|(2:106|107)(1:104)|105|98)|108)|78|(3:80|(3:83|84|81)|85)|87|88|(2:93|94))|113|60|61|(0)(0)|78|(0)|87|88|(0)|93|94)|115|116|(1:118)|119|(2:125|126)(2:123|124))|16|17|18|(0)|21|(0)|(17:38|41|43|44|45|(14:47|49|50|(2:51|52)|60|61|(0)(0)|78|(0)|87|88|(0)|93|94)|113|60|61|(0)(0)|78|(0)|87|88|(0)|93|94)|115|116|(0)|119|(1:121)|125|126) */
-    /* JADX WARN: Code restructure failed: missing block: B:114:0x031b, code lost:
+    /* JADX WARN: Can't wrap try/catch for region: R(15:43|44|45|(11:49|50|(5:54|(2:56|57)(1:59)|58|51|52)|60|61|(3:63|(4:66|(2:67|(1:1)(2:69|(3:72|73|74)(1:71)))|75|64)|77)(3:100|(4:103|(2:109|110)(1:107)|108|101)|111)|78|(3:80|(3:83|84|81)|85)|87|88|(2:93|(2:95|96)(2:98|99)))|116|60|61|(0)(0)|78|(0)|87|88|(0)|93|(0)(0)) */
+    /* JADX WARN: Can't wrap try/catch for region: R(23:4|(3:146|147|(5:153|154|155|156|(2:158|159)(2:160|161)))|6|7|8|9|(1:11)(1:143)|12|(14:135|136|137|17|18|(1:20)|21|(9:23|(1:25)|26|27|(1:29)|30|(1:32)(1:36)|(1:34)|35)|(15:43|44|45|(11:49|50|(5:54|(2:56|57)(1:59)|58|51|52)|60|61|(3:63|(4:66|(2:67|(1:1)(2:69|(3:72|73|74)(1:71)))|75|64)|77)(3:100|(4:103|(2:109|110)(1:107)|108|101)|111)|78|(3:80|(3:83|84|81)|85)|87|88|(2:93|(2:95|96)(2:98|99)))|116|60|61|(0)(0)|78|(0)|87|88|(0)|93|(0)(0))|118|119|(1:121)|122|(2:128|129)(2:126|127))|16|17|18|(0)|21|(0)|(17:38|41|43|44|45|(14:47|49|50|(2:51|52)|60|61|(0)(0)|78|(0)|87|88|(0)|93|(0)(0))|116|60|61|(0)(0)|78|(0)|87|88|(0)|93|(0)(0))|118|119|(0)|122|(1:124)|128|129) */
+    /* JADX WARN: Code restructure failed: missing block: B:118:0x0337, code lost:
         r0 = e;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:118:0x0320, code lost:
-        org.telegram.messenger.FileLog.e(r0);
      */
     /* JADX WARN: Removed duplicated region for block: B:101:0x026f  */
     /* JADX WARN: Removed duplicated region for block: B:109:0x02a8 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x032a A[Catch: Exception -> 0x035c, TryCatch #2 {Exception -> 0x035c, blocks: (B:119:0x0323, B:121:0x032a, B:122:0x033c, B:124:0x034d, B:126:0x0351, B:127:0x0358), top: B:141:0x0323 }] */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x034d A[Catch: Exception -> 0x035c, TryCatch #2 {Exception -> 0x035c, blocks: (B:119:0x0323, B:121:0x032a, B:122:0x033c, B:124:0x034d, B:126:0x0351, B:127:0x0358), top: B:141:0x0323 }] */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x00c9 A[Catch: Exception -> 0x031b, TryCatch #3 {Exception -> 0x031b, blocks: (B:37:0x00c3, B:39:0x00c9, B:40:0x00d1, B:42:0x00e1, B:44:0x0110, B:45:0x0116, B:49:0x011f, B:50:0x0137, B:52:0x013f, B:55:0x016a, B:56:0x017c, B:53:0x0154, B:58:0x0194, B:61:0x019a, B:107:0x02a4, B:110:0x02aa, B:112:0x02b0), top: B:142:0x00c3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x00e1 A[Catch: Exception -> 0x031b, TryCatch #3 {Exception -> 0x031b, blocks: (B:37:0x00c3, B:39:0x00c9, B:40:0x00d1, B:42:0x00e1, B:44:0x0110, B:45:0x0116, B:49:0x011f, B:50:0x0137, B:52:0x013f, B:55:0x016a, B:56:0x017c, B:53:0x0154, B:58:0x0194, B:61:0x019a, B:107:0x02a4, B:110:0x02aa, B:112:0x02b0), top: B:142:0x00c3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x01cd A[Catch: Exception -> 0x01f7, TryCatch #4 {Exception -> 0x01f7, blocks: (B:70:0x01c7, B:72:0x01cd, B:74:0x01dd), top: B:144:0x01c7 }] */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x02bc A[Catch: Exception -> 0x0337, TryCatch #4 {Exception -> 0x0337, blocks: (B:37:0x00c3, B:39:0x00c9, B:40:0x00d1, B:42:0x00e1, B:44:0x0110, B:45:0x0116, B:49:0x011f, B:50:0x0137, B:52:0x013f, B:55:0x016a, B:56:0x017c, B:53:0x0154, B:58:0x0194, B:61:0x019a, B:107:0x02a4, B:110:0x02aa, B:112:0x02b0, B:114:0x02bc, B:116:0x02cc), top: B:148:0x00c3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x02cc A[Catch: Exception -> 0x0337, TRY_LEAVE, TryCatch #4 {Exception -> 0x0337, blocks: (B:37:0x00c3, B:39:0x00c9, B:40:0x00d1, B:42:0x00e1, B:44:0x0110, B:45:0x0116, B:49:0x011f, B:50:0x0137, B:52:0x013f, B:55:0x016a, B:56:0x017c, B:53:0x0154, B:58:0x0194, B:61:0x019a, B:107:0x02a4, B:110:0x02aa, B:112:0x02b0, B:114:0x02bc, B:116:0x02cc), top: B:148:0x00c3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:125:0x0346 A[Catch: Exception -> 0x0378, TryCatch #2 {Exception -> 0x0378, blocks: (B:123:0x033f, B:125:0x0346, B:126:0x0358, B:128:0x0369, B:130:0x036d, B:131:0x0374), top: B:145:0x033f }] */
+    /* JADX WARN: Removed duplicated region for block: B:128:0x0369 A[Catch: Exception -> 0x0378, TryCatch #2 {Exception -> 0x0378, blocks: (B:123:0x033f, B:125:0x0346, B:126:0x0358, B:128:0x0369, B:130:0x036d, B:131:0x0374), top: B:145:0x033f }] */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x00c9 A[Catch: Exception -> 0x0337, TryCatch #4 {Exception -> 0x0337, blocks: (B:37:0x00c3, B:39:0x00c9, B:40:0x00d1, B:42:0x00e1, B:44:0x0110, B:45:0x0116, B:49:0x011f, B:50:0x0137, B:52:0x013f, B:55:0x016a, B:56:0x017c, B:53:0x0154, B:58:0x0194, B:61:0x019a, B:107:0x02a4, B:110:0x02aa, B:112:0x02b0, B:114:0x02bc, B:116:0x02cc), top: B:148:0x00c3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00e1 A[Catch: Exception -> 0x0337, TryCatch #4 {Exception -> 0x0337, blocks: (B:37:0x00c3, B:39:0x00c9, B:40:0x00d1, B:42:0x00e1, B:44:0x0110, B:45:0x0116, B:49:0x011f, B:50:0x0137, B:52:0x013f, B:55:0x016a, B:56:0x017c, B:53:0x0154, B:58:0x0194, B:61:0x019a, B:107:0x02a4, B:110:0x02aa, B:112:0x02b0, B:114:0x02bc, B:116:0x02cc), top: B:148:0x00c3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x01cd A[Catch: Exception -> 0x01f7, TryCatch #3 {Exception -> 0x01f7, blocks: (B:70:0x01c7, B:72:0x01cd, B:74:0x01dd), top: B:146:0x01c7 }] */
     /* JADX WARN: Removed duplicated region for block: B:79:0x0207  */
     /* JADX WARN: Removed duplicated region for block: B:90:0x0230  */
     /*
@@ -273,6 +273,7 @@ public class Browser {
         Uri uri2;
         Intent intent;
         String lowerCase;
+        String lowerCase2;
         String[] strArr;
         List<ResolveInfo> queryIntentActivities;
         int i;
@@ -318,6 +319,16 @@ public class Browser {
         } catch (Exception e) {
             e = e;
             uri2 = uri;
+            FileLog.e(e);
+            intent = new Intent("android.intent.action.VIEW", uri2);
+            if (isInternalUri) {
+            }
+            intent.putExtra("create_new_tab", true);
+            intent.putExtra("com.android.browser.application_id", context.getPackageName());
+            if (!isInternalUri) {
+            }
+            context.startActivity(intent);
+            return;
         }
         try {
             if ("http".equals(lowerCase) || "https".equals(lowerCase)) {
@@ -326,7 +337,8 @@ public class Browser {
                 } catch (Exception e2) {
                     FileLog.e(e2);
                 }
-                if (AccountInstance.getInstance(i2).getMessagesController().autologinDomains.contains(uri2.getHost() != null ? uri2.getHost().toLowerCase() : "")) {
+                lowerCase2 = uri2.getHost() != null ? uri2.getHost().toLowerCase() : "";
+                if (AccountInstance.getInstance(i2).getMessagesController().autologinDomains.contains(lowerCase2)) {
                     String str = "autologin_token=" + URLEncoder.encode(AccountInstance.getInstance(UserConfig.selectedAccount).getMessagesController().autologinToken, "UTF-8");
                     String uri3 = uri2.toString();
                     int indexOf = uri3.indexOf("://");
@@ -394,17 +406,24 @@ public class Browser {
                             }
                         }
                         if (!zArr[0] || list == null || list.isEmpty()) {
-                            Intent intent2 = new Intent(ApplicationLoader.applicationContext, ShareBroadcastReceiver.class);
-                            intent2.setAction("android.intent.action.SEND");
+                            if (!MessagesController.getInstance(i2).authDomains.contains(lowerCase2)) {
+                                Intent intent2 = new Intent("android.intent.action.VIEW", uri2);
+                                intent2.addFlags(268435456);
+                                ApplicationLoader.applicationContext.startActivity(intent2);
+                                return;
+                            }
+                            Intent intent3 = new Intent(ApplicationLoader.applicationContext, ShareBroadcastReceiver.class);
+                            intent3.setAction("android.intent.action.SEND");
                             PendingIntent broadcast = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, new Intent(ApplicationLoader.applicationContext, CustomTabsCopyReceiver.class), 167772160);
                             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(getSession());
                             builder.addMenuItem(LocaleController.getString("CopyLink", R.string.CopyLink), broadcast);
                             builder.setToolbarColor(Theme.getColor("actionBarBrowser"));
                             builder.setShowTitle(true);
-                            builder.setActionButton(BitmapFactory.decodeResource(context.getResources(), R.drawable.msg_filled_shareout), LocaleController.getString("ShareFile", R.string.ShareFile), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent2, ConnectionsManager.FileTypeVideo), true);
+                            builder.setActionButton(BitmapFactory.decodeResource(context.getResources(), R.drawable.msg_filled_shareout), LocaleController.getString("ShareFile", R.string.ShareFile), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent3, ConnectionsManager.FileTypeVideo), true);
                             CustomTabsIntent build = builder.build();
                             build.setUseNewTask();
                             build.launchUrl(context, uri2);
+                            return;
                         }
                     }
                     strArr = null;
@@ -415,17 +434,8 @@ public class Browser {
                     }
                     if (!zArr[0]) {
                     }
-                    Intent intent22 = new Intent(ApplicationLoader.applicationContext, ShareBroadcastReceiver.class);
-                    intent22.setAction("android.intent.action.SEND");
-                    PendingIntent broadcast2 = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, new Intent(ApplicationLoader.applicationContext, CustomTabsCopyReceiver.class), 167772160);
-                    CustomTabsIntent.Builder builder2 = new CustomTabsIntent.Builder(getSession());
-                    builder2.addMenuItem(LocaleController.getString("CopyLink", R.string.CopyLink), broadcast2);
-                    builder2.setToolbarColor(Theme.getColor("actionBarBrowser"));
-                    builder2.setShowTitle(true);
-                    builder2.setActionButton(BitmapFactory.decodeResource(context.getResources(), R.drawable.msg_filled_shareout), LocaleController.getString("ShareFile", R.string.ShareFile), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent22, ConnectionsManager.FileTypeVideo), true);
-                    CustomTabsIntent build2 = builder2.build();
-                    build2.setUseNewTask();
-                    build2.launchUrl(context, uri2);
+                    if (!MessagesController.getInstance(i2).authDomains.contains(lowerCase2)) {
+                    }
                 }
                 intent = new Intent("android.intent.action.VIEW", uri2);
                 if (isInternalUri) {
@@ -455,7 +465,9 @@ public class Browser {
             return;
         }
         uri2 = uri;
-        if (AccountInstance.getInstance(i2).getMessagesController().autologinDomains.contains(uri2.getHost() != null ? uri2.getHost().toLowerCase() : "")) {
+        if (uri2.getHost() != null) {
+        }
+        if (AccountInstance.getInstance(i2).getMessagesController().autologinDomains.contains(lowerCase2)) {
         }
         if (z) {
             List<ResolveInfo> list2 = null;
@@ -471,17 +483,8 @@ public class Browser {
                 }
                 if (!zArr[0]) {
                 }
-                Intent intent222 = new Intent(ApplicationLoader.applicationContext, ShareBroadcastReceiver.class);
-                intent222.setAction("android.intent.action.SEND");
-                PendingIntent broadcast22 = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, new Intent(ApplicationLoader.applicationContext, CustomTabsCopyReceiver.class), 167772160);
-                CustomTabsIntent.Builder builder22 = new CustomTabsIntent.Builder(getSession());
-                builder22.addMenuItem(LocaleController.getString("CopyLink", R.string.CopyLink), broadcast22);
-                builder22.setToolbarColor(Theme.getColor("actionBarBrowser"));
-                builder22.setShowTitle(true);
-                builder22.setActionButton(BitmapFactory.decodeResource(context.getResources(), R.drawable.msg_filled_shareout), LocaleController.getString("ShareFile", R.string.ShareFile), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent222, ConnectionsManager.FileTypeVideo), true);
-                CustomTabsIntent build22 = builder22.build();
-                build22.setUseNewTask();
-                build22.launchUrl(context, uri2);
+                if (!MessagesController.getInstance(i2).authDomains.contains(lowerCase2)) {
+                }
             }
             strArr = null;
             list2 = context.getPackageManager().queryIntentActivities(new Intent("android.intent.action.VIEW", uri2), 0);
@@ -491,17 +494,8 @@ public class Browser {
             }
             if (!zArr[0]) {
             }
-            Intent intent2222 = new Intent(ApplicationLoader.applicationContext, ShareBroadcastReceiver.class);
-            intent2222.setAction("android.intent.action.SEND");
-            PendingIntent broadcast222 = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, new Intent(ApplicationLoader.applicationContext, CustomTabsCopyReceiver.class), 167772160);
-            CustomTabsIntent.Builder builder222 = new CustomTabsIntent.Builder(getSession());
-            builder222.addMenuItem(LocaleController.getString("CopyLink", R.string.CopyLink), broadcast222);
-            builder222.setToolbarColor(Theme.getColor("actionBarBrowser"));
-            builder222.setShowTitle(true);
-            builder222.setActionButton(BitmapFactory.decodeResource(context.getResources(), R.drawable.msg_filled_shareout), LocaleController.getString("ShareFile", R.string.ShareFile), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent2222, ConnectionsManager.FileTypeVideo), true);
-            CustomTabsIntent build222 = builder222.build();
-            build222.setUseNewTask();
-            build222.launchUrl(context, uri2);
+            if (!MessagesController.getInstance(i2).authDomains.contains(lowerCase2)) {
+            }
         }
     }
 
@@ -608,6 +602,12 @@ public class Browser {
         String str2;
         String host = uri.getHost();
         String lowerCase = host != null ? host.toLowerCase() : "";
+        if (MessagesController.getInstance(UserConfig.selectedAccount).authDomains.contains(lowerCase)) {
+            if (zArr != null) {
+                zArr[0] = true;
+            }
+            return false;
+        }
         Matcher matcher = LaunchActivity.PREFIX_T_ME_PATTERN.matcher(lowerCase);
         if (matcher.find()) {
             StringBuilder sb = new StringBuilder();

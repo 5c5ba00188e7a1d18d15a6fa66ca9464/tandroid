@@ -47,7 +47,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerItemsEnterAnimator;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.PremiumPreviewFragment;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
     int chatStartRow;
     ArrayList<TLRPC$Chat> chats;
@@ -73,7 +73,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
     HashSet<TLRPC$Chat> selectedChats;
     final int type;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class LimitParams {
         int icon = 0;
         String descriptionStr = null;
@@ -421,7 +421,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public class HeaderView extends LinearLayout {
         @SuppressLint({"SetTextI18n"})
         public HeaderView(LimitReachedBottomSheet limitReachedBottomSheet, Context context) {

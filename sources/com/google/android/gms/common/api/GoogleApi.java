@@ -136,6 +136,11 @@ public abstract class GoogleApi<O extends Api.ApiOptions> {
         return t;
     }
 
+    public <A extends Api.AnyClient, T extends BaseImplementation$ApiMethodImpl<? extends Result, A>> T doRead(T t) {
+        zad(0, t);
+        return t;
+    }
+
     public <A extends Api.AnyClient, T extends BaseImplementation$ApiMethodImpl<? extends Result, A>> T doWrite(T t) {
         zad(1, t);
         return t;

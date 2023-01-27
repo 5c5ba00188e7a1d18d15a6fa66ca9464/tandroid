@@ -51,6 +51,7 @@ public class SimpleTextView extends View {
     private Paint fadePaint;
     private Paint fadePaintBack;
     private Layout firstLineLayout;
+    private Boolean forceEllipsizeByGradientLeft;
     private float fullAlpha;
     private Layout fullLayout;
     private int fullLayoutAdditionalWidth;
@@ -183,15 +184,24 @@ public class SimpleTextView extends View {
     }
 
     public void setEllipsizeByGradient(boolean z) {
+        setEllipsizeByGradient(z, (Boolean) null);
+    }
+
+    public void setEllipsizeByGradient(int i) {
+        setEllipsizeByGradient(i, (Boolean) null);
+    }
+
+    public void setEllipsizeByGradient(boolean z, Boolean bool) {
         if (this.scrollNonFitText == z) {
             return;
         }
         this.ellipsizeByGradient = z;
+        this.forceEllipsizeByGradientLeft = bool;
         updateFadePaints();
     }
 
-    public void setEllipsizeByGradient(int i) {
-        setEllipsizeByGradient(true);
+    public void setEllipsizeByGradient(int i, Boolean bool) {
+        setEllipsizeByGradient(true, bool);
         this.ellipsizeByGradientWidthDp = i;
         updateFadePaints();
     }
@@ -201,6 +211,7 @@ public class SimpleTextView extends View {
     }
 
     private void updateFadePaints() {
+        boolean z;
         if ((this.fadePaint == null || this.fadePaintBack == null) && this.scrollNonFitText) {
             Paint paint = new Paint();
             this.fadePaint = paint;
@@ -211,7 +222,12 @@ public class SimpleTextView extends View {
             paint2.setShader(new LinearGradient(0.0f, 0.0f, AndroidUtilities.dp(6.0f), 0.0f, new int[]{0, -1}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
             this.fadePaintBack.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
         }
-        boolean z = (getAlignment() == Layout.Alignment.ALIGN_NORMAL && LocaleController.isRTL) || (getAlignment() == Layout.Alignment.ALIGN_OPPOSITE && !LocaleController.isRTL);
+        Boolean bool = this.forceEllipsizeByGradientLeft;
+        if (bool != null) {
+            z = bool.booleanValue();
+        } else {
+            z = (getAlignment() == Layout.Alignment.ALIGN_NORMAL && LocaleController.isRTL) || (getAlignment() == Layout.Alignment.ALIGN_OPPOSITE && !LocaleController.isRTL);
+        }
         if (!(this.fadeEllpsizePaint != null && this.fadeEllpsizePaintWidth == AndroidUtilities.dp(this.ellipsizeByGradientWidthDp) && this.ellipsizeByGradientLeft == z) && this.ellipsizeByGradient) {
             if (this.fadeEllpsizePaint == null) {
                 this.fadeEllpsizePaint = new Paint();

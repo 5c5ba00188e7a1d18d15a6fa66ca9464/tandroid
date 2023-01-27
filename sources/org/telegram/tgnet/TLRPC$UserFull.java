@@ -27,6 +27,7 @@ public abstract class TLRPC$UserFull extends TLObject {
     public TLRPC$Photo profile_photo;
     public TLRPC$TL_peerSettings settings;
     public String theme_emoticon;
+    public boolean translations_disabled;
     public int ttl_period;
     public TLRPC$User user;
     public boolean video_calls_available;

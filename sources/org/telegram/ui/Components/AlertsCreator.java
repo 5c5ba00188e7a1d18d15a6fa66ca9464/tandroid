@@ -429,6 +429,8 @@ public class AlertsCreator {
     public static Dialog processError(int i, TLRPC$TL_error tLRPC$TL_error, BaseFragment baseFragment, TLObject tLObject, Object... objArr) {
         String str;
         TLRPC$InputPeer tLRPC$InputPeer;
+        long peerDialogId;
+        String str2;
         int i2 = tLRPC$TL_error.code;
         if (i2 == 406 || (str = tLRPC$TL_error.text) == null) {
             return null;
@@ -530,162 +532,281 @@ public class AlertsCreator {
                         return null;
                     }
                 }
-            } else if ((tLObject instanceof TLRPC$TL_messages_sendMessage) || (tLObject instanceof TLRPC$TL_messages_sendMedia) || (tLObject instanceof TLRPC$TL_messages_sendInlineBotResult) || (tLObject instanceof TLRPC$TL_messages_forwardMessages) || (tLObject instanceof TLRPC$TL_messages_sendMultiMedia) || (tLObject instanceof TLRPC$TL_messages_sendScheduledMessages)) {
-                str.hashCode();
-                char c = 65535;
-                switch (str.hashCode()) {
-                    case -1809401834:
-                        if (str.equals("USER_BANNED_IN_CHANNEL")) {
-                            c = 0;
-                            break;
-                        }
-                        break;
-                    case -454039871:
-                        if (str.equals("PEER_FLOOD")) {
-                            c = 1;
-                            break;
-                        }
-                        break;
-                    case 1169786080:
-                        if (str.equals("SCHEDULE_TOO_MUCH")) {
-                            c = 2;
-                            break;
-                        }
-                        break;
-                }
-                switch (c) {
-                    case 0:
-                        NotificationCenter.getInstance(i).postNotificationName(NotificationCenter.needShowAlert, 5);
-                        break;
-                    case 1:
-                        NotificationCenter.getInstance(i).postNotificationName(NotificationCenter.needShowAlert, 0);
-                        break;
-                    case 2:
-                        showSimpleToast(baseFragment, LocaleController.getString("MessageScheduledLimitReached", R.string.MessageScheduledLimitReached));
-                        break;
-                }
-            } else if (tLObject instanceof TLRPC$TL_messages_importChatInvite) {
-                if (str.startsWith("FLOOD_WAIT")) {
-                    showSimpleAlert(baseFragment, LocaleController.getString("FloodWait", R.string.FloodWait));
-                } else if (tLRPC$TL_error.text.equals("USERS_TOO_MUCH")) {
-                    showSimpleAlert(baseFragment, LocaleController.getString("JoinToGroupErrorFull", R.string.JoinToGroupErrorFull));
-                } else if (tLRPC$TL_error.text.equals("CHANNELS_TOO_MUCH")) {
-                    if (baseFragment.getParentActivity() != null) {
-                        baseFragment.showDialog(new LimitReachedBottomSheet(baseFragment, baseFragment.getParentActivity(), 5, i));
+            } else {
+                boolean z3 = tLObject instanceof TLRPC$TL_messages_sendMessage;
+                if (z3 || (tLObject instanceof TLRPC$TL_messages_sendMedia) || (tLObject instanceof TLRPC$TL_messages_sendInlineBotResult) || (tLObject instanceof TLRPC$TL_messages_forwardMessages) || (tLObject instanceof TLRPC$TL_messages_sendMultiMedia) || (tLObject instanceof TLRPC$TL_messages_sendScheduledMessages)) {
+                    if (z3) {
+                        peerDialogId = DialogObject.getPeerDialogId(((TLRPC$TL_messages_sendMessage) tLObject).peer);
+                    } else if (tLObject instanceof TLRPC$TL_messages_sendMedia) {
+                        peerDialogId = DialogObject.getPeerDialogId(((TLRPC$TL_messages_sendMedia) tLObject).peer);
+                    } else if (tLObject instanceof TLRPC$TL_messages_sendInlineBotResult) {
+                        peerDialogId = DialogObject.getPeerDialogId(((TLRPC$TL_messages_sendInlineBotResult) tLObject).peer);
+                    } else if (tLObject instanceof TLRPC$TL_messages_forwardMessages) {
+                        peerDialogId = DialogObject.getPeerDialogId(((TLRPC$TL_messages_forwardMessages) tLObject).to_peer);
+                    } else if (tLObject instanceof TLRPC$TL_messages_sendMultiMedia) {
+                        peerDialogId = DialogObject.getPeerDialogId(((TLRPC$TL_messages_sendMultiMedia) tLObject).peer);
                     } else {
-                        baseFragment.presentFragment(new TooManyCommunitiesActivity(0));
+                        peerDialogId = tLObject instanceof TLRPC$TL_messages_sendScheduledMessages ? DialogObject.getPeerDialogId(((TLRPC$TL_messages_sendScheduledMessages) tLObject).peer) : 0L;
                     }
-                } else if (tLRPC$TL_error.text.equals("INVITE_HASH_EXPIRED")) {
-                    showSimpleAlert(baseFragment, LocaleController.getString("ExpiredLink", R.string.ExpiredLink), LocaleController.getString("InviteExpired", R.string.InviteExpired));
-                } else {
-                    showSimpleAlert(baseFragment, LocaleController.getString("JoinToGroupErrorNotExist", R.string.JoinToGroupErrorNotExist));
-                }
-            } else if (tLObject instanceof TLRPC$TL_messages_getAttachedStickers) {
-                if (baseFragment != null && baseFragment.getParentActivity() != null) {
-                    Activity parentActivity = baseFragment.getParentActivity();
-                    Toast.makeText(parentActivity, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + tLRPC$TL_error.text, 0).show();
-                }
-            } else if ((tLObject instanceof TLRPC$TL_account_confirmPhone) || (tLObject instanceof TLRPC$TL_account_verifyPhone) || (tLObject instanceof TLRPC$TL_account_verifyEmail)) {
-                if (str.contains("PHONE_CODE_EMPTY") || tLRPC$TL_error.text.contains("PHONE_CODE_INVALID") || tLRPC$TL_error.text.contains("CODE_INVALID") || tLRPC$TL_error.text.contains("CODE_EMPTY")) {
-                    return showSimpleAlert(baseFragment, LocaleController.getString("InvalidCode", R.string.InvalidCode));
-                }
-                if (tLRPC$TL_error.text.contains("PHONE_CODE_EXPIRED") || tLRPC$TL_error.text.contains("EMAIL_VERIFY_EXPIRED")) {
-                    return showSimpleAlert(baseFragment, LocaleController.getString("CodeExpired", R.string.CodeExpired));
-                }
-                if (tLRPC$TL_error.text.startsWith("FLOOD_WAIT")) {
-                    return showSimpleAlert(baseFragment, LocaleController.getString("FloodWait", R.string.FloodWait));
-                }
-                return showSimpleAlert(baseFragment, tLRPC$TL_error.text);
-            } else if (tLObject instanceof TLRPC$TL_auth_resendCode) {
-                if (str.contains("PHONE_NUMBER_INVALID")) {
-                    return showSimpleAlert(baseFragment, LocaleController.getString("InvalidPhoneNumber", R.string.InvalidPhoneNumber));
-                }
-                if (tLRPC$TL_error.text.contains("PHONE_CODE_EMPTY") || tLRPC$TL_error.text.contains("PHONE_CODE_INVALID")) {
-                    return showSimpleAlert(baseFragment, LocaleController.getString("InvalidCode", R.string.InvalidCode));
-                }
-                if (tLRPC$TL_error.text.contains("PHONE_CODE_EXPIRED")) {
-                    return showSimpleAlert(baseFragment, LocaleController.getString("CodeExpired", R.string.CodeExpired));
-                }
-                if (tLRPC$TL_error.text.startsWith("FLOOD_WAIT")) {
-                    return showSimpleAlert(baseFragment, LocaleController.getString("FloodWait", R.string.FloodWait));
-                }
-                if (tLRPC$TL_error.code != -1000) {
-                    return showSimpleAlert(baseFragment, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + tLRPC$TL_error.text);
-                }
-            } else if (tLObject instanceof TLRPC$TL_account_sendConfirmPhoneCode) {
-                if (i2 == 400) {
-                    return showSimpleAlert(baseFragment, LocaleController.getString("CancelLinkExpired", R.string.CancelLinkExpired));
-                }
-                if (str.startsWith("FLOOD_WAIT")) {
-                    return showSimpleAlert(baseFragment, LocaleController.getString("FloodWait", R.string.FloodWait));
-                }
-                return showSimpleAlert(baseFragment, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred));
-            } else if (tLObject instanceof TLRPC$TL_account_changePhone) {
-                if (str.contains("PHONE_NUMBER_INVALID")) {
-                    showSimpleAlert(baseFragment, LocaleController.getString("InvalidPhoneNumber", R.string.InvalidPhoneNumber));
-                } else if (tLRPC$TL_error.text.contains("PHONE_CODE_EMPTY") || tLRPC$TL_error.text.contains("PHONE_CODE_INVALID")) {
-                    showSimpleAlert(baseFragment, LocaleController.getString("InvalidCode", R.string.InvalidCode));
-                } else if (tLRPC$TL_error.text.contains("PHONE_CODE_EXPIRED")) {
-                    showSimpleAlert(baseFragment, LocaleController.getString("CodeExpired", R.string.CodeExpired));
-                } else if (tLRPC$TL_error.text.startsWith("FLOOD_WAIT")) {
-                    showSimpleAlert(baseFragment, LocaleController.getString("FloodWait", R.string.FloodWait));
-                } else if (tLRPC$TL_error.text.contains("FRESH_CHANGE_PHONE_FORBIDDEN")) {
-                    showSimpleAlert(baseFragment, LocaleController.getString("FreshChangePhoneForbidden", R.string.FreshChangePhoneForbidden));
-                } else {
-                    showSimpleAlert(baseFragment, tLRPC$TL_error.text);
-                }
-            } else if (tLObject instanceof TLRPC$TL_account_sendChangePhoneCode) {
-                if (str.contains("PHONE_NUMBER_INVALID")) {
-                    LoginActivity.needShowInvalidAlert(baseFragment, (String) objArr[0], false);
-                } else if (tLRPC$TL_error.text.contains("PHONE_CODE_EMPTY") || tLRPC$TL_error.text.contains("PHONE_CODE_INVALID")) {
-                    showSimpleAlert(baseFragment, LocaleController.getString("InvalidCode", R.string.InvalidCode));
-                } else if (tLRPC$TL_error.text.contains("PHONE_CODE_EXPIRED")) {
-                    showSimpleAlert(baseFragment, LocaleController.getString("CodeExpired", R.string.CodeExpired));
-                } else if (tLRPC$TL_error.text.startsWith("FLOOD_WAIT")) {
-                    showSimpleAlert(baseFragment, LocaleController.getString("FloodWait", R.string.FloodWait));
-                } else if (tLRPC$TL_error.text.startsWith("PHONE_NUMBER_OCCUPIED")) {
-                    showSimpleAlert(baseFragment, LocaleController.formatString("ChangePhoneNumberOccupied", R.string.ChangePhoneNumberOccupied, objArr[0]));
-                } else if (tLRPC$TL_error.text.startsWith("PHONE_NUMBER_BANNED")) {
-                    LoginActivity.needShowInvalidAlert(baseFragment, (String) objArr[0], true);
-                } else {
-                    showSimpleAlert(baseFragment, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred));
-                }
-            } else if (tLObject instanceof TLRPC$TL_account_updateUsername) {
-                str.hashCode();
-                if (str.equals("USERNAME_INVALID")) {
-                    showSimpleAlert(baseFragment, LocaleController.getString("UsernameInvalid", R.string.UsernameInvalid));
-                } else if (str.equals("USERNAME_OCCUPIED")) {
-                    showSimpleAlert(baseFragment, LocaleController.getString("UsernameInUse", R.string.UsernameInUse));
-                } else {
-                    showSimpleAlert(baseFragment, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred));
-                }
-            } else if (tLObject instanceof TLRPC$TL_contacts_importContacts) {
-                if (str.startsWith("FLOOD_WAIT")) {
-                    showSimpleAlert(baseFragment, LocaleController.getString("FloodWait", R.string.FloodWait));
-                } else {
-                    showSimpleAlert(baseFragment, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + tLRPC$TL_error.text);
-                }
-            } else if ((tLObject instanceof TLRPC$TL_account_getPassword) || (tLObject instanceof TLRPC$TL_account_getTmpPassword)) {
-                if (str.startsWith("FLOOD_WAIT")) {
-                    showSimpleToast(baseFragment, getFloodWaitString(tLRPC$TL_error.text));
-                } else {
-                    showSimpleToast(baseFragment, tLRPC$TL_error.text);
-                }
-            } else if (tLObject instanceof TLRPC$TL_payments_sendPaymentForm) {
-                str.hashCode();
-                if (str.equals("BOT_PRECHECKOUT_FAILED")) {
-                    showSimpleToast(baseFragment, LocaleController.getString("PaymentPrecheckoutFailed", R.string.PaymentPrecheckoutFailed));
-                } else if (str.equals("PAYMENT_FAILED")) {
-                    showSimpleToast(baseFragment, LocaleController.getString("PaymentFailed", R.string.PaymentFailed));
-                } else {
-                    showSimpleToast(baseFragment, tLRPC$TL_error.text);
-                }
-            } else if (tLObject instanceof TLRPC$TL_payments_validateRequestedInfo) {
-                str.hashCode();
-                if (str.equals("SHIPPING_NOT_AVAILABLE")) {
-                    showSimpleToast(baseFragment, LocaleController.getString("PaymentNoShippingMethod", R.string.PaymentNoShippingMethod));
-                } else {
-                    showSimpleToast(baseFragment, tLRPC$TL_error.text);
+                    char c = 65535;
+                    if (BuildVars.DEBUG_VERSION && (str2 = tLRPC$TL_error.text) != null && str2.startsWith("CHAT_SEND_") && tLRPC$TL_error.text.endsWith("FORBIDDEN")) {
+                        String str3 = tLRPC$TL_error.text;
+                        TLRPC$Chat chat = peerDialogId < 0 ? MessagesController.getInstance(i).getChat(Long.valueOf(-peerDialogId)) : null;
+                        String str4 = tLRPC$TL_error.text;
+                        str4.hashCode();
+                        switch (str4.hashCode()) {
+                            case -1813346101:
+                                if (str4.equals("CHAT_SEND_VOICES_FORBIDDEN")) {
+                                    c = 0;
+                                    break;
+                                }
+                                break;
+                            case -1755013292:
+                                if (str4.equals("CHAT_SEND_PLAIN_FORBIDDEN")) {
+                                    c = 1;
+                                    break;
+                                }
+                                break;
+                            case -1463451737:
+                                if (str4.equals("CHAT_SEND_AUDIOS_FORBIDDEN")) {
+                                    c = 2;
+                                    break;
+                                }
+                                break;
+                            case -446466679:
+                                if (str4.equals("CHAT_SEND_POLL_FORBIDDEN")) {
+                                    c = 3;
+                                    break;
+                                }
+                                break;
+                            case 469767429:
+                                if (str4.equals("CHAT_SEND_DOCS_FORBIDDEN")) {
+                                    c = 4;
+                                    break;
+                                }
+                                break;
+                            case 788688112:
+                                if (str4.equals("CHAT_SEND_ROUNDVIDEOS_FORBIDDEN")) {
+                                    c = 5;
+                                    break;
+                                }
+                                break;
+                            case 963091938:
+                                if (str4.equals("CHAT_SEND_VIDEOS_FORBIDDEN")) {
+                                    c = 6;
+                                    break;
+                                }
+                                break;
+                            case 1100757753:
+                                if (str4.equals("CHAT_SEND_GIFS_FORBIDDEN")) {
+                                    c = 7;
+                                    break;
+                                }
+                                break;
+                            case 1146489803:
+                                if (str4.equals("CHAT_SEND_PHOTOS_FORBIDDEN")) {
+                                    c = '\b';
+                                    break;
+                                }
+                                break;
+                            case 1701620704:
+                                if (str4.equals("CHAT_SEND_STICKERS_FORBIDDEN")) {
+                                    c = '\t';
+                                    break;
+                                }
+                                break;
+                        }
+                        switch (c) {
+                            case 0:
+                                str3 = ChatObject.getRestrictedErrorText(chat, 20);
+                                break;
+                            case 1:
+                                str3 = ChatObject.getRestrictedErrorText(chat, 22);
+                                break;
+                            case 2:
+                                str3 = ChatObject.getRestrictedErrorText(chat, 18);
+                                break;
+                            case 3:
+                                str3 = ChatObject.getRestrictedErrorText(chat, 10);
+                                break;
+                            case 4:
+                                str3 = ChatObject.getRestrictedErrorText(chat, 19);
+                                break;
+                            case 5:
+                                str3 = ChatObject.getRestrictedErrorText(chat, 21);
+                                break;
+                            case 6:
+                                str3 = ChatObject.getRestrictedErrorText(chat, 17);
+                                break;
+                            case 7:
+                                str3 = ChatObject.getRestrictedErrorText(chat, 23);
+                                break;
+                            case '\b':
+                                str3 = ChatObject.getRestrictedErrorText(chat, 16);
+                                break;
+                            case '\t':
+                                str3 = ChatObject.getRestrictedErrorText(chat, 8);
+                                break;
+                        }
+                        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 1, str3);
+                    } else {
+                        String str5 = tLRPC$TL_error.text;
+                        str5.hashCode();
+                        switch (str5.hashCode()) {
+                            case -1809401834:
+                                if (str5.equals("USER_BANNED_IN_CHANNEL")) {
+                                    c = 0;
+                                    break;
+                                }
+                                break;
+                            case -454039871:
+                                if (str5.equals("PEER_FLOOD")) {
+                                    c = 1;
+                                    break;
+                                }
+                                break;
+                            case 1169786080:
+                                if (str5.equals("SCHEDULE_TOO_MUCH")) {
+                                    c = 2;
+                                    break;
+                                }
+                                break;
+                        }
+                        switch (c) {
+                            case 0:
+                                NotificationCenter.getInstance(i).postNotificationName(NotificationCenter.needShowAlert, 5);
+                                break;
+                            case 1:
+                                NotificationCenter.getInstance(i).postNotificationName(NotificationCenter.needShowAlert, 0);
+                                break;
+                            case 2:
+                                showSimpleToast(baseFragment, LocaleController.getString("MessageScheduledLimitReached", R.string.MessageScheduledLimitReached));
+                                break;
+                        }
+                    }
+                } else if (tLObject instanceof TLRPC$TL_messages_importChatInvite) {
+                    if (str.startsWith("FLOOD_WAIT")) {
+                        showSimpleAlert(baseFragment, LocaleController.getString("FloodWait", R.string.FloodWait));
+                    } else if (tLRPC$TL_error.text.equals("USERS_TOO_MUCH")) {
+                        showSimpleAlert(baseFragment, LocaleController.getString("JoinToGroupErrorFull", R.string.JoinToGroupErrorFull));
+                    } else if (tLRPC$TL_error.text.equals("CHANNELS_TOO_MUCH")) {
+                        if (baseFragment.getParentActivity() != null) {
+                            baseFragment.showDialog(new LimitReachedBottomSheet(baseFragment, baseFragment.getParentActivity(), 5, i));
+                        } else {
+                            baseFragment.presentFragment(new TooManyCommunitiesActivity(0));
+                        }
+                    } else if (tLRPC$TL_error.text.equals("INVITE_HASH_EXPIRED")) {
+                        showSimpleAlert(baseFragment, LocaleController.getString("ExpiredLink", R.string.ExpiredLink), LocaleController.getString("InviteExpired", R.string.InviteExpired));
+                    } else {
+                        showSimpleAlert(baseFragment, LocaleController.getString("JoinToGroupErrorNotExist", R.string.JoinToGroupErrorNotExist));
+                    }
+                } else if (tLObject instanceof TLRPC$TL_messages_getAttachedStickers) {
+                    if (baseFragment != null && baseFragment.getParentActivity() != null) {
+                        Activity parentActivity = baseFragment.getParentActivity();
+                        Toast.makeText(parentActivity, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + tLRPC$TL_error.text, 0).show();
+                    }
+                } else if ((tLObject instanceof TLRPC$TL_account_confirmPhone) || (tLObject instanceof TLRPC$TL_account_verifyPhone) || (tLObject instanceof TLRPC$TL_account_verifyEmail)) {
+                    if (str.contains("PHONE_CODE_EMPTY") || tLRPC$TL_error.text.contains("PHONE_CODE_INVALID") || tLRPC$TL_error.text.contains("CODE_INVALID") || tLRPC$TL_error.text.contains("CODE_EMPTY")) {
+                        return showSimpleAlert(baseFragment, LocaleController.getString("InvalidCode", R.string.InvalidCode));
+                    }
+                    if (tLRPC$TL_error.text.contains("PHONE_CODE_EXPIRED") || tLRPC$TL_error.text.contains("EMAIL_VERIFY_EXPIRED")) {
+                        return showSimpleAlert(baseFragment, LocaleController.getString("CodeExpired", R.string.CodeExpired));
+                    }
+                    if (tLRPC$TL_error.text.startsWith("FLOOD_WAIT")) {
+                        return showSimpleAlert(baseFragment, LocaleController.getString("FloodWait", R.string.FloodWait));
+                    }
+                    return showSimpleAlert(baseFragment, tLRPC$TL_error.text);
+                } else if (tLObject instanceof TLRPC$TL_auth_resendCode) {
+                    if (str.contains("PHONE_NUMBER_INVALID")) {
+                        return showSimpleAlert(baseFragment, LocaleController.getString("InvalidPhoneNumber", R.string.InvalidPhoneNumber));
+                    }
+                    if (tLRPC$TL_error.text.contains("PHONE_CODE_EMPTY") || tLRPC$TL_error.text.contains("PHONE_CODE_INVALID")) {
+                        return showSimpleAlert(baseFragment, LocaleController.getString("InvalidCode", R.string.InvalidCode));
+                    }
+                    if (tLRPC$TL_error.text.contains("PHONE_CODE_EXPIRED")) {
+                        return showSimpleAlert(baseFragment, LocaleController.getString("CodeExpired", R.string.CodeExpired));
+                    }
+                    if (tLRPC$TL_error.text.startsWith("FLOOD_WAIT")) {
+                        return showSimpleAlert(baseFragment, LocaleController.getString("FloodWait", R.string.FloodWait));
+                    }
+                    if (tLRPC$TL_error.code != -1000) {
+                        return showSimpleAlert(baseFragment, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + tLRPC$TL_error.text);
+                    }
+                } else if (tLObject instanceof TLRPC$TL_account_sendConfirmPhoneCode) {
+                    if (i2 == 400) {
+                        return showSimpleAlert(baseFragment, LocaleController.getString("CancelLinkExpired", R.string.CancelLinkExpired));
+                    }
+                    if (str.startsWith("FLOOD_WAIT")) {
+                        return showSimpleAlert(baseFragment, LocaleController.getString("FloodWait", R.string.FloodWait));
+                    }
+                    return showSimpleAlert(baseFragment, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred));
+                } else if (tLObject instanceof TLRPC$TL_account_changePhone) {
+                    if (str.contains("PHONE_NUMBER_INVALID")) {
+                        showSimpleAlert(baseFragment, LocaleController.getString("InvalidPhoneNumber", R.string.InvalidPhoneNumber));
+                    } else if (tLRPC$TL_error.text.contains("PHONE_CODE_EMPTY") || tLRPC$TL_error.text.contains("PHONE_CODE_INVALID")) {
+                        showSimpleAlert(baseFragment, LocaleController.getString("InvalidCode", R.string.InvalidCode));
+                    } else if (tLRPC$TL_error.text.contains("PHONE_CODE_EXPIRED")) {
+                        showSimpleAlert(baseFragment, LocaleController.getString("CodeExpired", R.string.CodeExpired));
+                    } else if (tLRPC$TL_error.text.startsWith("FLOOD_WAIT")) {
+                        showSimpleAlert(baseFragment, LocaleController.getString("FloodWait", R.string.FloodWait));
+                    } else if (tLRPC$TL_error.text.contains("FRESH_CHANGE_PHONE_FORBIDDEN")) {
+                        showSimpleAlert(baseFragment, LocaleController.getString("FreshChangePhoneForbidden", R.string.FreshChangePhoneForbidden));
+                    } else {
+                        showSimpleAlert(baseFragment, tLRPC$TL_error.text);
+                    }
+                } else if (tLObject instanceof TLRPC$TL_account_sendChangePhoneCode) {
+                    if (str.contains("PHONE_NUMBER_INVALID")) {
+                        LoginActivity.needShowInvalidAlert(baseFragment, (String) objArr[0], false);
+                    } else if (tLRPC$TL_error.text.contains("PHONE_CODE_EMPTY") || tLRPC$TL_error.text.contains("PHONE_CODE_INVALID")) {
+                        showSimpleAlert(baseFragment, LocaleController.getString("InvalidCode", R.string.InvalidCode));
+                    } else if (tLRPC$TL_error.text.contains("PHONE_CODE_EXPIRED")) {
+                        showSimpleAlert(baseFragment, LocaleController.getString("CodeExpired", R.string.CodeExpired));
+                    } else if (tLRPC$TL_error.text.startsWith("FLOOD_WAIT")) {
+                        showSimpleAlert(baseFragment, LocaleController.getString("FloodWait", R.string.FloodWait));
+                    } else if (tLRPC$TL_error.text.startsWith("PHONE_NUMBER_OCCUPIED")) {
+                        showSimpleAlert(baseFragment, LocaleController.formatString("ChangePhoneNumberOccupied", R.string.ChangePhoneNumberOccupied, objArr[0]));
+                    } else if (tLRPC$TL_error.text.startsWith("PHONE_NUMBER_BANNED")) {
+                        LoginActivity.needShowInvalidAlert(baseFragment, (String) objArr[0], true);
+                    } else {
+                        showSimpleAlert(baseFragment, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred));
+                    }
+                } else if (tLObject instanceof TLRPC$TL_account_updateUsername) {
+                    str.hashCode();
+                    if (str.equals("USERNAME_INVALID")) {
+                        showSimpleAlert(baseFragment, LocaleController.getString("UsernameInvalid", R.string.UsernameInvalid));
+                    } else if (str.equals("USERNAME_OCCUPIED")) {
+                        showSimpleAlert(baseFragment, LocaleController.getString("UsernameInUse", R.string.UsernameInUse));
+                    } else {
+                        showSimpleAlert(baseFragment, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred));
+                    }
+                } else if (tLObject instanceof TLRPC$TL_contacts_importContacts) {
+                    if (str.startsWith("FLOOD_WAIT")) {
+                        showSimpleAlert(baseFragment, LocaleController.getString("FloodWait", R.string.FloodWait));
+                    } else {
+                        showSimpleAlert(baseFragment, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + tLRPC$TL_error.text);
+                    }
+                } else if ((tLObject instanceof TLRPC$TL_account_getPassword) || (tLObject instanceof TLRPC$TL_account_getTmpPassword)) {
+                    if (str.startsWith("FLOOD_WAIT")) {
+                        showSimpleToast(baseFragment, getFloodWaitString(tLRPC$TL_error.text));
+                    } else {
+                        showSimpleToast(baseFragment, tLRPC$TL_error.text);
+                    }
+                } else if (tLObject instanceof TLRPC$TL_payments_sendPaymentForm) {
+                    str.hashCode();
+                    if (str.equals("BOT_PRECHECKOUT_FAILED")) {
+                        showSimpleToast(baseFragment, LocaleController.getString("PaymentPrecheckoutFailed", R.string.PaymentPrecheckoutFailed));
+                    } else if (str.equals("PAYMENT_FAILED")) {
+                        showSimpleToast(baseFragment, LocaleController.getString("PaymentFailed", R.string.PaymentFailed));
+                    } else {
+                        showSimpleToast(baseFragment, tLRPC$TL_error.text);
+                    }
+                } else if (tLObject instanceof TLRPC$TL_payments_validateRequestedInfo) {
+                    str.hashCode();
+                    if (str.equals("SHIPPING_NOT_AVAILABLE")) {
+                        showSimpleToast(baseFragment, LocaleController.getString("PaymentNoShippingMethod", R.string.PaymentNoShippingMethod));
+                    } else {
+                        showSimpleToast(baseFragment, tLRPC$TL_error.text);
+                    }
                 }
             }
         }
@@ -971,7 +1092,6 @@ public class AlertsCreator {
                 AlertsCreator.lambda$showBlockReportSpamReplyAlert$11(checkBoxCellArr, view);
             }
         });
-        builder.setCustomViewOffset(12);
         builder.setView(linearLayout);
         final TLRPC$User tLRPC$User = user;
         builder.setPositiveButton(LocaleController.getString("BlockAndDeleteReplies", R.string.BlockAndDeleteReplies), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda26
@@ -1035,8 +1155,8 @@ public class AlertsCreator {
     }
 
     /* JADX WARN: Removed duplicated region for block: B:16:0x004c  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x012d  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x01d0  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0128  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x01cb  */
     /* JADX WARN: Removed duplicated region for block: B:59:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1094,7 +1214,6 @@ public class AlertsCreator {
                         string2 = str;
                         i = 1;
                     }
-                    builder.setCustomViewOffset(12);
                     builder.setView(linearLayout);
                     checkBoxCellArr = checkBoxCellArr2;
                     string = string2;
@@ -1748,25 +1867,25 @@ public class AlertsCreator {
         createClearOrDeleteDialogAlert(baseFragment, z, tLRPC$Chat != null && tLRPC$Chat.creator, false, tLRPC$Chat, tLRPC$User, z2, z3, z4, booleanCallback, resourcesProvider);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:125:0x027a  */
-    /* JADX WARN: Removed duplicated region for block: B:132:0x02a2  */
-    /* JADX WARN: Removed duplicated region for block: B:137:0x02dd  */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x02e4  */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x02ee  */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x02f3  */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x0320  */
-    /* JADX WARN: Removed duplicated region for block: B:146:0x0326  */
-    /* JADX WARN: Removed duplicated region for block: B:153:0x0362  */
-    /* JADX WARN: Removed duplicated region for block: B:155:0x036e  */
-    /* JADX WARN: Removed duplicated region for block: B:163:0x03af  */
-    /* JADX WARN: Removed duplicated region for block: B:211:0x0540  */
-    /* JADX WARN: Removed duplicated region for block: B:213:0x054a  */
-    /* JADX WARN: Removed duplicated region for block: B:234:0x05e7  */
+    /* JADX WARN: Removed duplicated region for block: B:125:0x027e  */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x02a6  */
+    /* JADX WARN: Removed duplicated region for block: B:137:0x02e1  */
+    /* JADX WARN: Removed duplicated region for block: B:138:0x02e8  */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x02f2  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x02f7  */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x0324  */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x032a  */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x0366  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x0372  */
+    /* JADX WARN: Removed duplicated region for block: B:163:0x03b3  */
+    /* JADX WARN: Removed duplicated region for block: B:211:0x0544  */
+    /* JADX WARN: Removed duplicated region for block: B:213:0x054e  */
+    /* JADX WARN: Removed duplicated region for block: B:234:0x05eb  */
     /* JADX WARN: Removed duplicated region for block: B:238:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x01d5  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x01dc  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x01f5  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x0206  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x01d9  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x01e0  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x01f9  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x020a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1816,6 +1935,7 @@ public class AlertsCreator {
                 }
             }
         };
+        builder.setCustomViewOffset(6);
         builder.setView(frameLayout);
         AvatarDrawable avatarDrawable2 = new AvatarDrawable();
         avatarDrawable2.setTextSize(AndroidUtilities.dp(18.0f));
@@ -4767,6 +4887,30 @@ public class AlertsCreator {
             builder.setMessage(LocaleController.getString("ErrorSendRestrictedPrivacyVoiceMessages", R.string.ErrorSendRestrictedPrivacyVoiceMessages));
         } else if (i == 8) {
             builder.setMessage(LocaleController.getString("ErrorSendRestrictedPrivacyVideoMessages", R.string.ErrorSendRestrictedPrivacyVideoMessages));
+        } else if (i == 9) {
+            builder.setMessage(LocaleController.getString("ErrorSendRestrictedPrivacyVideo", R.string.ErrorSendRestrictedVideoAll));
+        } else if (i == 10) {
+            builder.setMessage(LocaleController.getString("ErrorSendRestrictedPrivacyPhoto", R.string.ErrorSendRestrictedPhotoAll));
+        } else if (i == 11) {
+            builder.setMessage(LocaleController.getString("ErrorSendRestrictedVideo", R.string.ErrorSendRestrictedVideo));
+        } else if (i == 12) {
+            builder.setMessage(LocaleController.getString("ErrorSendRestrictedPhoto", R.string.ErrorSendRestrictedPhoto));
+        } else if (i == 13) {
+            builder.setMessage(LocaleController.getString("ErrorSendRestrictedVoiceAll", R.string.ErrorSendRestrictedVoiceAll));
+        } else if (i == 14) {
+            builder.setMessage(LocaleController.getString("ErrorSendRestrictedVoice", R.string.ErrorSendRestrictedVoice));
+        } else if (i == 15) {
+            builder.setMessage(LocaleController.getString("ErrorSendRestrictedRoundAll", R.string.ErrorSendRestrictedRoundAll));
+        } else if (i == 16) {
+            builder.setMessage(LocaleController.getString("ErrorSendRestrictedRound", R.string.ErrorSendRestrictedRound));
+        } else if (i == 17) {
+            builder.setMessage(LocaleController.getString("ErrorSendRestrictedDocumentsAll", R.string.ErrorSendRestrictedDocumentsAll));
+        } else if (i == 18) {
+            builder.setMessage(LocaleController.getString("ErrorSendRestrictedDocuments", R.string.ErrorSendRestrictedDocuments));
+        } else if (i == 19) {
+            builder.setMessage(LocaleController.getString("ErrorSendRestrictedMusicAll", R.string.ErrorSendRestrictedMusicAll));
+        } else if (i == 20) {
+            builder.setMessage(LocaleController.getString("ErrorSendRestrictedMusic", R.string.ErrorSendRestrictedMusic));
         }
         builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
         baseFragment.showDialog(builder.create(), true, null);

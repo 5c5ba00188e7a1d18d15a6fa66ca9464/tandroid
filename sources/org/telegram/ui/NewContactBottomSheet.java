@@ -35,6 +35,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
+import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
@@ -104,6 +105,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         this.countriesArray = new ArrayList<>();
         this.codesMap = new HashMap<>();
         this.phoneFormatMap = new HashMap<>();
+        this.waitingKeyboard = true;
         this.smoothKeyboardAnimationEnabled = true;
         this.classGuid = ConnectionsManager.generateClassGuid();
         this.parentFragment = baseFragment;
@@ -820,7 +822,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
             public final void run() {
                 NewContactBottomSheet.this.lambda$show$10();
             }
-        }, 200L);
+        }, 50L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -868,6 +870,31 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
     public void setInitialPhoneNumber(String str, boolean z) {
         this.initialPhoneNumber = str;
         this.initialPhoneNumberWithCountryCode = z;
+        if (TextUtils.isEmpty(str)) {
+            return;
+        }
+        TLRPC$User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
+        if (this.initialPhoneNumber.startsWith("+")) {
+            this.codeField.setText(this.initialPhoneNumber.substring(1));
+        } else if (this.initialPhoneNumberWithCountryCode || currentUser == null || TextUtils.isEmpty(currentUser.phone)) {
+            this.codeField.setText(this.initialPhoneNumber);
+        } else {
+            String str2 = currentUser.phone;
+            int i = 4;
+            while (true) {
+                if (i < 1) {
+                    break;
+                }
+                List<CountrySelectActivity.Country> list = this.codesMap.get(str2.substring(0, i));
+                if (list != null && list.size() > 0) {
+                    this.codeField.setText(list.get(0).code);
+                    break;
+                }
+                i--;
+            }
+            this.phoneField.setText(this.initialPhoneNumber);
+        }
+        this.initialPhoneNumber = null;
     }
 
     public void setInitialName(String str, String str2) {

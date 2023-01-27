@@ -561,7 +561,8 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
                         }
                     }, ViewConfiguration.getLongPressTimeout());
                     return true;
-                } else if (motionEvent.getAction() == 1) {
+                }
+                if (motionEvent.getAction() == 1) {
                     this.links.clear();
                     LinkSpanDrawable<ClickableSpan> linkSpanDrawable2 = this.pressedLink;
                     if (linkSpanDrawable2 != null && linkSpanDrawable2.getSpan() == hit) {
@@ -571,13 +572,14 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
                         } else if (this.pressedLink.getSpan() != null) {
                             this.pressedLink.getSpan().onClick(this);
                         }
+                        this.pressedLink = null;
+                        return true;
                     }
                     this.pressedLink = null;
-                    return true;
-                } else if (motionEvent.getAction() == 3) {
+                }
+                if (motionEvent.getAction() == 3) {
                     this.links.clear();
                     this.pressedLink = null;
-                    return true;
                 }
             }
             return this.pressedLink != null || super.onTouchEvent(motionEvent);

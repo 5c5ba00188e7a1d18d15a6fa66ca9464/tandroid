@@ -4,20 +4,19 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.util.Base64;
+import android.util.LongSparseArray;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import org.telegram.messenger.SaveToGallerySettingsHelper;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$EmojiStatus;
 import org.telegram.tgnet.TLRPC$InputStorePaymentPurpose;
 import org.telegram.tgnet.TLRPC$TL_account_tmpPassword;
 import org.telegram.tgnet.TLRPC$TL_defaultHistoryTTL;
-import org.telegram.tgnet.TLRPC$TL_emojiStatus;
-import org.telegram.tgnet.TLRPC$TL_emojiStatusUntil;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_help_termsOfService;
 import org.telegram.tgnet.TLRPC$User;
@@ -37,6 +36,7 @@ public class UserConfig extends BaseController {
     public List<String> awaitBillingProductIds;
     public TLRPC$InputStorePaymentPurpose billingPaymentPurpose;
     public int botRatingLoadTime;
+    LongSparseArray<SaveToGallerySettingsHelper.DialogException> chanelSaveGalleryExceptions;
     public long clientUserId;
     private boolean configLoaded;
     public boolean contactsReimported;
@@ -47,6 +47,7 @@ public class UserConfig extends BaseController {
     public boolean filtersLoaded;
     public String genericAnimationsStickerPack;
     int globalTtl;
+    LongSparseArray<SaveToGallerySettingsHelper.DialogException> groupsSaveGalleryExceptions;
     public boolean hasSecureData;
     public boolean hasValidDialogLoadIds;
     public int lastBroadcastId;
@@ -81,6 +82,7 @@ public class UserConfig extends BaseController {
     boolean ttlIsLoading;
     public TLRPC$TL_help_termsOfService unacceptedTermsOfService;
     public boolean unreadDialogsLoaded;
+    LongSparseArray<SaveToGallerySettingsHelper.DialogException> userSaveGalleryExceptions;
 
     public static UserConfig getInstance(int i) {
         UserConfig userConfig = Instance[i];
@@ -316,14 +318,14 @@ public class UserConfig extends BaseController {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(22:9|(1:11)|12|(18:17|18|(1:24)|25|26|27|(1:31)|33|(1:35)|36|(1:40)|41|(1:45)|46|(1:48)|49|50|51)|54|18|(3:20|22|24)|25|26|27|(2:29|31)|33|(0)|36|(2:38|40)|41|(2:43|45)|46|(0)|49|50|51) */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0176, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0178, code lost:
         r2 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x0177, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x0179, code lost:
         org.telegram.messenger.FileLog.e(r2);
      */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0184 A[Catch: all -> 0x01ff, TryCatch #1 {, blocks: (B:4:0x0003, B:6:0x0007, B:8:0x0009, B:10:0x0012, B:11:0x001a, B:13:0x00d4, B:18:0x00e0, B:20:0x0114, B:22:0x011c, B:24:0x0122, B:25:0x0134, B:26:0x0154, B:28:0x015d, B:30:0x0163, B:34:0x017a, B:36:0x0184, B:37:0x01ac, B:39:0x01b5, B:41:0x01bb, B:42:0x01cd, B:44:0x01d6, B:46:0x01dc, B:47:0x01ee, B:49:0x01f2, B:50:0x01fb, B:51:0x01fd, B:33:0x0177), top: B:58:0x0003, inners: #0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x01f2 A[Catch: all -> 0x01ff, TryCatch #1 {, blocks: (B:4:0x0003, B:6:0x0007, B:8:0x0009, B:10:0x0012, B:11:0x001a, B:13:0x00d4, B:18:0x00e0, B:20:0x0114, B:22:0x011c, B:24:0x0122, B:25:0x0134, B:26:0x0154, B:28:0x015d, B:30:0x0163, B:34:0x017a, B:36:0x0184, B:37:0x01ac, B:39:0x01b5, B:41:0x01bb, B:42:0x01cd, B:44:0x01d6, B:46:0x01dc, B:47:0x01ee, B:49:0x01f2, B:50:0x01fb, B:51:0x01fd, B:33:0x0177), top: B:58:0x0003, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0186 A[Catch: all -> 0x0201, TryCatch #0 {, blocks: (B:4:0x0003, B:6:0x0007, B:8:0x0009, B:10:0x0012, B:11:0x001b, B:13:0x00d5, B:18:0x00e1, B:20:0x0116, B:22:0x011e, B:24:0x0124, B:25:0x0136, B:26:0x0156, B:28:0x015f, B:30:0x0165, B:34:0x017c, B:36:0x0186, B:37:0x01ae, B:39:0x01b7, B:41:0x01bd, B:42:0x01cf, B:44:0x01d8, B:46:0x01de, B:47:0x01f0, B:49:0x01f4, B:50:0x01fd, B:51:0x01ff, B:33:0x0179), top: B:56:0x0003, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x01f4 A[Catch: all -> 0x0201, TryCatch #0 {, blocks: (B:4:0x0003, B:6:0x0007, B:8:0x0009, B:10:0x0012, B:11:0x001b, B:13:0x00d5, B:18:0x00e1, B:20:0x0116, B:22:0x011e, B:24:0x0124, B:25:0x0136, B:26:0x0156, B:28:0x015f, B:30:0x0165, B:34:0x017c, B:36:0x0186, B:37:0x01ae, B:39:0x01b7, B:41:0x01bd, B:42:0x01cf, B:44:0x01d8, B:46:0x01de, B:47:0x01f0, B:49:0x01f4, B:50:0x01fd, B:51:0x01ff, B:33:0x0179), top: B:56:0x0003, inners: #1 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -494,6 +496,46 @@ public class UserConfig extends BaseController {
         return context.getSharedPreferences("userconfig" + this.currentAccount, 0);
     }
 
+    public LongSparseArray<SaveToGallerySettingsHelper.DialogException> getSaveGalleryExceptions(int i) {
+        if (i == 1) {
+            if (this.userSaveGalleryExceptions == null) {
+                Context context = ApplicationLoader.applicationContext;
+                this.userSaveGalleryExceptions = SaveToGallerySettingsHelper.loadExceptions(context.getSharedPreferences(SaveToGallerySettingsHelper.USERS_PREF_NAME + "_" + this.currentAccount, 0));
+            }
+            return this.userSaveGalleryExceptions;
+        } else if (i == 2) {
+            if (this.groupsSaveGalleryExceptions == null) {
+                Context context2 = ApplicationLoader.applicationContext;
+                this.groupsSaveGalleryExceptions = SaveToGallerySettingsHelper.loadExceptions(context2.getSharedPreferences(SaveToGallerySettingsHelper.GROUPS_PREF_NAME + "_" + this.currentAccount, 0));
+            }
+            return this.groupsSaveGalleryExceptions;
+        } else if (i == 4) {
+            if (this.chanelSaveGalleryExceptions == null) {
+                Context context3 = ApplicationLoader.applicationContext;
+                this.chanelSaveGalleryExceptions = SaveToGallerySettingsHelper.loadExceptions(context3.getSharedPreferences(SaveToGallerySettingsHelper.CHANNELS_PREF_NAME + "_" + this.currentAccount, 0));
+            }
+            return this.chanelSaveGalleryExceptions;
+        } else {
+            return null;
+        }
+    }
+
+    public void updateSaveGalleryExceptions(int i, LongSparseArray<SaveToGallerySettingsHelper.DialogException> longSparseArray) {
+        if (i == 1) {
+            this.userSaveGalleryExceptions = longSparseArray;
+            Context context = ApplicationLoader.applicationContext;
+            SaveToGallerySettingsHelper.saveExceptions(context.getSharedPreferences(SaveToGallerySettingsHelper.USERS_PREF_NAME + "_" + this.currentAccount, 0), this.userSaveGalleryExceptions);
+        } else if (i == 2) {
+            this.groupsSaveGalleryExceptions = longSparseArray;
+            Context context2 = ApplicationLoader.applicationContext;
+            SaveToGallerySettingsHelper.saveExceptions(context2.getSharedPreferences(SaveToGallerySettingsHelper.GROUPS_PREF_NAME + "_" + this.currentAccount, 0), this.groupsSaveGalleryExceptions);
+        } else if (i == 4) {
+            this.chanelSaveGalleryExceptions = longSparseArray;
+            Context context3 = ApplicationLoader.applicationContext;
+            SaveToGallerySettingsHelper.saveExceptions(context3.getSharedPreferences(SaveToGallerySettingsHelper.CHANNELS_PREF_NAME + "_" + this.currentAccount, 0), this.chanelSaveGalleryExceptions);
+        }
+    }
+
     public void clearConfig() {
         getPreferences().edit().clear().apply();
         boolean z = false;
@@ -638,19 +680,7 @@ public class UserConfig extends BaseController {
     }
 
     public Long getEmojiStatus() {
-        TLRPC$User tLRPC$User = this.currentUser;
-        if (tLRPC$User == null) {
-            return null;
-        }
-        TLRPC$EmojiStatus tLRPC$EmojiStatus = tLRPC$User.emoji_status;
-        if ((tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil) && ((TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus).until > ((int) (System.currentTimeMillis() / 1000))) {
-            return Long.valueOf(((TLRPC$TL_emojiStatusUntil) this.currentUser.emoji_status).document_id);
-        }
-        TLRPC$EmojiStatus tLRPC$EmojiStatus2 = this.currentUser.emoji_status;
-        if (tLRPC$EmojiStatus2 instanceof TLRPC$TL_emojiStatus) {
-            return Long.valueOf(((TLRPC$TL_emojiStatus) tLRPC$EmojiStatus2).document_id);
-        }
-        return null;
+        return UserObject.getEmojiStatusDocumentId(this.currentUser);
     }
 
     public int getGlobalTTl() {

@@ -246,6 +246,12 @@ public final class zaaw implements zabf {
     }
 
     @Override // com.google.android.gms.common.api.internal.zabf
+    public final BaseImplementation$ApiMethodImpl zaa(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl) {
+        this.zaa.zag.zaa.add(baseImplementation$ApiMethodImpl);
+        return baseImplementation$ApiMethodImpl;
+    }
+
+    @Override // com.google.android.gms.common.api.internal.zabf
     public final BaseImplementation$ApiMethodImpl zab(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl) {
         throw new IllegalStateException("GoogleApiClient is not connected yet.");
     }

@@ -408,6 +408,9 @@ public abstract class TLRPC$MessageAction extends TLObject {
                     }
                 };
                 break;
+            case -25742243:
+                tLRPC$MessageAction = new TLRPC$TL_messageActionRequestedPeer();
+                break;
             case 29007925:
                 tLRPC$MessageAction = new TLRPC$MessageAction() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionPhoneNumberRequest
                     public static int constructor = 29007925;

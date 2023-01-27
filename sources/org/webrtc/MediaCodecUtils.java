@@ -12,6 +12,7 @@ import org.telegram.messenger.FileLog;
 /* loaded from: classes.dex */
 class MediaCodecUtils {
     static final String EXYNOS_PREFIX = "OMX.Exynos.";
+    static final String EXYNOS_PREFIX_C2 = "c2.exynos.";
     static final String HISI_PREFIX = "OMX.hisi.";
     static final String INTEL_PREFIX = "OMX.Intel.";
     static final String NVIDIA_PREFIX = "OMX.Nvidia.";

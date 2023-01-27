@@ -1724,12 +1724,12 @@ public class RecyclerListView extends RecyclerView {
                 this.selectorDrawable = Theme.createRadSelectorDrawable(i, i3, i3);
             } else {
                 int i4 = this.selectorRadius;
-                if (i4 > 0) {
+                if (i4 > 0 && i2 != 1) {
                     this.selectorDrawable = Theme.createSimpleSelectorRoundRectDrawable(i4, 0, i, -16777216);
                 } else if (i2 == 2) {
                     this.selectorDrawable = Theme.getSelectorDrawable(i, false);
                 } else {
-                    this.selectorDrawable = Theme.createSelectorDrawable(i, i2);
+                    this.selectorDrawable = Theme.createSelectorDrawable(i, i2, i4);
                 }
             }
         }

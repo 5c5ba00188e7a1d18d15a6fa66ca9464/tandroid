@@ -417,17 +417,17 @@ public final class MediaCodecUtil {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(7:28|(4:(2:72|73)|53|(9:56|57|58|59|60|61|62|64|65)|9)|32|33|34|36|9) */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0084, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0085, code lost:
         if (r1.secure == false) goto L32;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x00a7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x00a8, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x00a8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x00a9, code lost:
         r1 = r11;
      */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0105 A[Catch: Exception -> 0x0153, TRY_ENTER, TryCatch #5 {Exception -> 0x0153, blocks: (B:3:0x0009, B:5:0x001c, B:60:0x0124, B:8:0x002e, B:11:0x0039, B:54:0x00fd, B:57:0x0105, B:59:0x010b, B:61:0x012e, B:62:0x0151), top: B:78:0x0009 }] */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x012e A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0106 A[Catch: Exception -> 0x0154, TRY_ENTER, TryCatch #4 {Exception -> 0x0154, blocks: (B:3:0x000a, B:5:0x001d, B:60:0x0125, B:8:0x002f, B:11:0x003a, B:54:0x00fe, B:57:0x0106, B:59:0x010c, B:61:0x012f, B:62:0x0152), top: B:76:0x000a }] */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x012f A[ADDED_TO_REGION, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -501,23 +501,23 @@ public final class MediaCodecUtil {
                                             sb.append(name);
                                             sb.append(".secure");
                                             str2 = name;
-                                        } catch (Exception e3) {
-                                            e = e3;
-                                            str2 = name;
-                                        }
-                                        try {
-                                            arrayList.add(MediaCodecInfo.newInstance(sb.toString(), str3, str, capabilitiesForType, isHardwareAccelerated, isSoftwareOnly, isVendor, codecNeedsDisableAdaptationWorkaround, true));
-                                            return arrayList;
+                                            try {
+                                                arrayList.add(MediaCodecInfo.newInstance(sb.toString(), str3, str, capabilitiesForType, isHardwareAccelerated, isSoftwareOnly, isVendor, codecNeedsDisableAdaptationWorkaround, true));
+                                                return arrayList;
+                                            } catch (Exception e3) {
+                                                e = e3;
+                                                if (Util.SDK_INT > 23 || arrayList.isEmpty()) {
+                                                    Log.e("MediaCodecUtil", "Failed to query codec " + str2 + " (" + str + ")");
+                                                    throw e;
+                                                }
+                                                Log.e("MediaCodecUtil", "Skipping codec " + str2 + " (failed to query capabilities)");
+                                                i3 = i + 1;
+                                                codecKey2 = codecKey;
+                                                secureDecodersExplicit = z;
+                                            }
                                         } catch (Exception e4) {
                                             e = e4;
-                                            if (Util.SDK_INT > 23 || arrayList.isEmpty()) {
-                                                Log.e("MediaCodecUtil", "Failed to query codec " + str2 + " (" + str + ")");
-                                                throw e;
-                                            }
-                                            Log.e("MediaCodecUtil", "Skipping codec " + str2 + " (failed to query capabilities)");
-                                            i3 = i + 1;
-                                            codecKey2 = codecKey;
-                                            secureDecodersExplicit = z;
+                                            str2 = name;
                                         }
                                     }
                                     i3 = i + 1;

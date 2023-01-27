@@ -283,8 +283,13 @@ public class SharedPhotoVideoCell2 extends View {
     }
 
     public void setVideoText(String str, boolean z) {
+        StaticLayout staticLayout;
         this.videoText = str;
-        this.showVideoLayout = str != null;
+        boolean z2 = str != null;
+        this.showVideoLayout = z2;
+        if (z2 && (staticLayout = this.videoInfoLayot) != null && !staticLayout.getText().toString().equals(str)) {
+            this.videoInfoLayot = null;
+        }
         this.drawVideoIcon = z;
     }
 

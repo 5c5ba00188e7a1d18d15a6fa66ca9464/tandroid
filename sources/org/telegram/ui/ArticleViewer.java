@@ -244,7 +244,7 @@ import org.telegram.ui.Components.TextPaintMarkSpan;
 import org.telegram.ui.Components.TextPaintSpan;
 import org.telegram.ui.Components.TextPaintUrlSpan;
 import org.telegram.ui.Components.TextPaintWebpageUrlSpan;
-import org.telegram.ui.Components.TranslateAlert;
+import org.telegram.ui.Components.TranslateAlert2;
 import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.Components.WebPlayerView;
 import org.telegram.ui.PhotoViewer;
@@ -1361,6 +1361,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
     /* JADX INFO: Access modifiers changed from: private */
     public void showCopyPopup(final String str) {
+        String str2;
         if (this.parentActivity == null) {
             return;
         }
@@ -1370,7 +1371,14 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             this.linkSheet = null;
         }
         BottomSheet.Builder builder = new BottomSheet.Builder(this.parentActivity);
-        builder.setTitle(str);
+        try {
+            str2 = URLDecoder.decode(str.replaceAll("\\+", "%2b"), "UTF-8");
+        } catch (Exception e) {
+            FileLog.e(e);
+            str2 = str;
+        }
+        builder.setTitle(str2);
+        builder.setTitleMultipleLines(true);
         builder.setItems(new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("Copy", R.string.Copy)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda1
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
@@ -2914,11 +2922,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:99:0x01cd, code lost:
-        if (r0.isShowing() == false) goto L113;
+    /* JADX WARN: Code restructure failed: missing block: B:103:0x01d7, code lost:
+        if (r0.isShowing() == false) goto L117;
      */
-    /* JADX WARN: Removed duplicated region for block: B:103:0x01d4  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x01a9  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x01de  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x01b3  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2972,28 +2980,31 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                                             }
                                         }
                                         LinkSpanDrawable<TextPaintUrlSpan> linkSpanDrawable = this.pressedLink;
-                                        if (linkSpanDrawable != null) {
-                                            this.links.removeLink(linkSpanDrawable);
-                                        }
-                                        LinkSpanDrawable<TextPaintUrlSpan> linkSpanDrawable2 = new LinkSpanDrawable<>(textPaintUrlSpan, null, f3, y);
-                                        this.pressedLink = linkSpanDrawable2;
-                                        linkSpanDrawable2.setColor(Theme.getColor("windowBackgroundWhiteLinkSelection") & 872415231);
-                                        this.links.addLink(this.pressedLink, this.pressedLinkOwnerLayout);
-                                        try {
-                                            LinkPath obtainNewPath = this.pressedLink.obtainNewPath();
-                                            obtainNewPath.setCurrentLayout(staticLayout, spanStart, 0.0f);
-                                            TextPaint textPaint = textPaintUrlSpan.getTextPaint();
-                                            int i7 = textPaint != null ? textPaint.baselineShift : 0;
-                                            if (i7 != 0) {
-                                                i3 = i7 + AndroidUtilities.dp(i7 > 0 ? 5.0f : -2.0f);
-                                            } else {
-                                                i3 = 0;
+                                        if (linkSpanDrawable == null || linkSpanDrawable.getSpan() != textPaintUrlSpan) {
+                                            LinkSpanDrawable<TextPaintUrlSpan> linkSpanDrawable2 = this.pressedLink;
+                                            if (linkSpanDrawable2 != null) {
+                                                this.links.removeLink(linkSpanDrawable2);
                                             }
-                                            obtainNewPath.setBaselineShift(i3);
-                                            staticLayout.getSelectionPath(spanStart, spanEnd, obtainNewPath);
-                                            view.invalidate();
-                                        } catch (Exception e) {
-                                            FileLog.e(e);
+                                            LinkSpanDrawable<TextPaintUrlSpan> linkSpanDrawable3 = new LinkSpanDrawable<>(textPaintUrlSpan, null, f3, y);
+                                            this.pressedLink = linkSpanDrawable3;
+                                            linkSpanDrawable3.setColor(Theme.getColor("windowBackgroundWhiteLinkSelection") & 872415231);
+                                            this.links.addLink(this.pressedLink, this.pressedLinkOwnerLayout);
+                                            try {
+                                                LinkPath obtainNewPath = this.pressedLink.obtainNewPath();
+                                                obtainNewPath.setCurrentLayout(staticLayout, spanStart, 0.0f);
+                                                TextPaint textPaint = textPaintUrlSpan.getTextPaint();
+                                                int i7 = textPaint != null ? textPaint.baselineShift : 0;
+                                                if (i7 != 0) {
+                                                    i3 = i7 + AndroidUtilities.dp(i7 > 0 ? 5.0f : -2.0f);
+                                                } else {
+                                                    i3 = 0;
+                                                }
+                                                obtainNewPath.setBaselineShift(i3);
+                                                staticLayout.getSelectionPath(spanStart, spanEnd, obtainNewPath);
+                                                view.invalidate();
+                                            } catch (Exception e) {
+                                                FileLog.e(e);
+                                            }
                                         }
                                     }
                                 }
@@ -3004,9 +3015,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     }
                 } else {
                     if (motionEvent.getAction() == 1) {
-                        LinkSpanDrawable<TextPaintUrlSpan> linkSpanDrawable3 = this.pressedLink;
-                        if (linkSpanDrawable3 != null) {
-                            String url = linkSpanDrawable3.getSpan().getUrl();
+                        LinkSpanDrawable<TextPaintUrlSpan> linkSpanDrawable4 = this.pressedLink;
+                        if (linkSpanDrawable4 != null) {
+                            String url = linkSpanDrawable4.getSpan().getUrl();
                             if (url != null) {
                                 BottomSheet bottomSheet = this.linkSheet;
                                 if (bottomSheet != null) {
@@ -3880,13 +3891,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         layoutParams.flags = 131072;
         int i5 = 1792;
         int color = Theme.getColor("windowBackgroundGray", null, true);
-        boolean z = AndroidUtilities.computePerceivedBrightness(color) >= 0.721f;
-        if (z && i3 >= 26) {
+        if ((AndroidUtilities.computePerceivedBrightness(color) >= 0.721f) && i3 >= 26) {
             i5 = 1808;
-            this.navigationBarPaint.setColor(color);
-        } else if (!z) {
-            this.navigationBarPaint.setColor(color);
         }
+        this.navigationBarPaint.setColor(color);
         WindowManager.LayoutParams layoutParams2 = this.windowLayoutParams;
         layoutParams2.systemUiVisibility = i5;
         if (i3 >= 21) {
@@ -3898,7 +3906,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         TextSelectionHelper.ArticleTextSelectionHelper articleTextSelectionHelper = new TextSelectionHelper.ArticleTextSelectionHelper();
         this.textSelectionHelper = articleTextSelectionHelper;
         articleTextSelectionHelper.setParentView(this.listView[0]);
-        if (MessagesController.getGlobalMainSettings().getBoolean("translate_button", false)) {
+        if (MessagesController.getInstance(this.currentAccount).getTranslateController().isContextTranslateEnabled()) {
             this.textSelectionHelper.setOnTranslate(new TextSelectionHelper.OnTranslateListener() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda40
                 @Override // org.telegram.ui.Cells.TextSelectionHelper.OnTranslateListener
                 public final void run(CharSequence charSequence, String str, String str2, Runnable runnable) {
@@ -3910,8 +3918,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         articleTextSelectionHelper2.layoutManager = this.layoutManager[0];
         articleTextSelectionHelper2.setCallback(new TextSelectionHelper.Callback() { // from class: org.telegram.ui.ArticleViewer.18
             @Override // org.telegram.ui.Cells.TextSelectionHelper.Callback
-            public void onStateChanged(boolean z2) {
-                if (z2) {
+            public void onStateChanged(boolean z) {
+                if (z) {
                     ArticleViewer.this.showSearch(false);
                 }
             }
@@ -4267,7 +4275,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setParentActivity$24(CharSequence charSequence, String str, String str2, Runnable runnable) {
-        TranslateAlert.showAlert(this.parentActivity, this.parentFragment, this.currentAccount, str, str2, charSequence, false, null, runnable);
+        TranslateAlert2.showAlert(this.parentActivity, this.parentFragment, this.currentAccount, str, str2, charSequence, false, null, runnable);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

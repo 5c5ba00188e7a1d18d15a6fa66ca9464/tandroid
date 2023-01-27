@@ -253,6 +253,31 @@ public final class zabe extends GoogleApiClient implements zabz {
     }
 
     @Override // com.google.android.gms.common.api.GoogleApiClient
+    public final <A extends Api.AnyClient, R extends Result, T extends BaseImplementation$ApiMethodImpl<R, A>> T enqueue(T t) {
+        Lock lock;
+        Api<?> api = t.getApi();
+        boolean containsKey = this.zac.containsKey(t.getClientKey());
+        String zad = api != null ? api.zad() : "the API";
+        Preconditions.checkArgument(containsKey, "GoogleApiClient is not configured to use " + zad + " required for this call.");
+        this.zaj.lock();
+        try {
+            zaca zacaVar = this.zal;
+            if (zacaVar != null) {
+                t = (T) zacaVar.zae(t);
+                lock = this.zaj;
+            } else {
+                this.zaa.add(t);
+                lock = this.zaj;
+            }
+            lock.unlock();
+            return t;
+        } catch (Throwable th) {
+            this.zaj.unlock();
+            throw th;
+        }
+    }
+
+    @Override // com.google.android.gms.common.api.GoogleApiClient
     public final <A extends Api.AnyClient, T extends BaseImplementation$ApiMethodImpl<? extends Result, A>> T execute(T t) {
         Lock lock;
         Api<?> api = t.getApi();

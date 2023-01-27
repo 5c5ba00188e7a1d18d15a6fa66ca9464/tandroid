@@ -21,7 +21,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class PremiumButtonView extends FrameLayout {
     public FrameLayout buttonLayout;
     public AnimatedTextView buttonTextView;

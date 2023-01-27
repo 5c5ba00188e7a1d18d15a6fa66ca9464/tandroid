@@ -466,9 +466,9 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         return mimeTypeIsRawText(str) ? 3 : -1;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0095  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x009c  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x00fb  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0096  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x009d  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x00fc  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

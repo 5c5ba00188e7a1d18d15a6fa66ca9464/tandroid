@@ -60,7 +60,7 @@ import org.telegram.ui.Components.Premium.StarParticlesView;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.PremiumFeatureCell;
 import org.telegram.ui.PremiumPreviewFragment;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView implements NotificationCenter.NotificationCenterDelegate {
     boolean animateConfetti;
     FrameLayout bulletinContainer;
@@ -77,7 +77,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
     FireworksOverlay fireworksOverlay;
     BaseFragment fragment;
     GiftPremiumBottomSheet.GiftTier giftTier;
-    PremiumGradient.GradientTools gradientTools;
+    PremiumGradient.PremiumGradientTools gradientTools;
     int helpUsRow;
     ViewGroup iconContainer;
     GLIconTextureView iconTextureView;
@@ -122,15 +122,15 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
         if (this.giftTier != null || UserConfig.getInstance(i).isPremium()) {
             this.buttonContainer.setVisibility(8);
         }
-        PremiumGradient.GradientTools gradientTools = new PremiumGradient.GradientTools("premiumGradient1", "premiumGradient2", "premiumGradient3", "premiumGradient4");
-        this.gradientTools = gradientTools;
-        gradientTools.exactly = true;
-        gradientTools.x1 = 0.0f;
-        gradientTools.y1 = 1.0f;
-        gradientTools.x2 = 0.0f;
-        gradientTools.y2 = 0.0f;
-        gradientTools.cx = 0.0f;
-        gradientTools.cy = 0.0f;
+        PremiumGradient.PremiumGradientTools premiumGradientTools = new PremiumGradient.PremiumGradientTools("premiumGradient1", "premiumGradient2", "premiumGradient3", "premiumGradient4");
+        this.gradientTools = premiumGradientTools;
+        premiumGradientTools.exactly = true;
+        premiumGradientTools.x1 = 0.0f;
+        premiumGradientTools.y1 = 1.0f;
+        premiumGradientTools.x2 = 0.0f;
+        premiumGradientTools.y2 = 0.0f;
+        premiumGradientTools.cx = 0.0f;
+        premiumGradientTools.cy = 0.0f;
         int i2 = this.rowCount;
         int i3 = i2 + 1;
         this.rowCount = i3;
@@ -466,7 +466,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
         return new Adapter();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     private class Adapter extends RecyclerListView.SelectionAdapter {
         private Adapter() {
         }
@@ -842,7 +842,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public class 4 extends AnimatorListenerAdapter {
         4() {
         }

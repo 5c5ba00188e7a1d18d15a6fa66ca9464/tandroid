@@ -200,6 +200,9 @@ public abstract class TLRPC$KeyboardButton extends TLObject {
                     }
                 };
                 break;
+            case 218842764:
+                tLRPC$KeyboardButton = new TLRPC$TL_keyboardButtonRequestPeer();
+                break;
             case 280464681:
                 tLRPC$KeyboardButton = new TLRPC$TL_keyboardButtonUrlAuth();
                 break;

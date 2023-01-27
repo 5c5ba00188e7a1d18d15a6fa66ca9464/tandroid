@@ -1214,19 +1214,19 @@ public class ContactsController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:129:0x0308, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:129:0x0309, code lost:
         if (r0 != false) goto L137;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:131:0x0310, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:131:0x0311, code lost:
         if (r13.contactsByPhone.containsKey(r8) == false) goto L136;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:132:0x0312, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:132:0x0313, code lost:
         r16 = r16 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:133:0x0315, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:133:0x0316, code lost:
         r7 = r7 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:134:0x0317, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:134:0x0318, code lost:
         r8 = new org.telegram.tgnet.TLRPC$TL_inputPhoneContact();
         r14 = r4.contact_id;
         r8.client_id = r14;
@@ -1236,23 +1236,23 @@ public class ContactsController extends BaseController {
         r8.phone = r4.phones.get(r5);
         r9.add(r8);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:219:0x04c3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:219:0x04c5, code lost:
         if ((r14.contactsByPhone.size() - r0) > ((r14.contactsByPhone.size() / 3) * 2)) goto L194;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x0134, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:44:0x0135, code lost:
         if (r2.first_name.equals(r4.first_name) != false) goto L146;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:50:0x0149, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x014a, code lost:
         if (r2.last_name.equals(r4.last_name) == false) goto L50;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:51:0x014b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x014c, code lost:
         r0 = true;
      */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x0273  */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x04cb  */
-    /* JADX WARN: Removed duplicated region for block: B:226:0x04f7  */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x0509  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x01f0  */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x0274  */
+    /* JADX WARN: Removed duplicated region for block: B:224:0x04cd  */
+    /* JADX WARN: Removed duplicated region for block: B:226:0x04f9  */
+    /* JADX WARN: Removed duplicated region for block: B:228:0x050b  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x01f1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

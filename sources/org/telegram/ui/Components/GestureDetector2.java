@@ -159,8 +159,8 @@ public class GestureDetector2 {
         this.mIsLongpressEnabled = z;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:159:0x02ca  */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x02e0  */
+    /* JADX WARN: Removed duplicated region for block: B:159:0x02c4  */
+    /* JADX WARN: Removed duplicated region for block: B:162:0x02da  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -226,7 +226,7 @@ public class GestureDetector2 {
                         if (this.mIsLongpressEnabled) {
                             this.mHandler.removeMessages(2);
                             Handler handler = this.mHandler;
-                            handler.sendMessageAtTime(handler.obtainMessage(2, 0, 0), this.mCurrentDownEvent.getDownTime() + ViewConfiguration.getLongPressTimeout());
+                            handler.sendMessageDelayed(handler.obtainMessage(2, 0, 0), ViewConfiguration.getLongPressTimeout());
                         }
                         this.mHandler.sendEmptyMessageAtTime(1, this.mCurrentDownEvent.getDownTime() + TAP_TIMEOUT);
                         return z | this.mListener.onDown(motionEvent);
@@ -359,7 +359,7 @@ public class GestureDetector2 {
                             z2 = hasMessages2;
                             long longPressTimeout = ViewConfiguration.getLongPressTimeout();
                             Handler handler2 = this.mHandler;
-                            handler2.sendMessageAtTime(handler2.obtainMessage(2, 0, 0), motionEvent.getDownTime() + (((float) longPressTimeout) * 2.0f));
+                            handler2.sendMessageDelayed(handler2.obtainMessage(2, 0, 0), ((float) longPressTimeout) * 2.0f);
                         } else {
                             i = classification;
                             z2 = hasMessages2;

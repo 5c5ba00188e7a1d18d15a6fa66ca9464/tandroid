@@ -1,7 +1,7 @@
 package org.telegram.ui.Components.Paint;
 
 import android.graphics.Matrix;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class GLMatrix {
     public static float[] LoadOrtho(float f, float f2, float f3, float f4, float f5, float f6) {
         float f7 = f2 - f;

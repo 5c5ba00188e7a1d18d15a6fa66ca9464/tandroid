@@ -15,9 +15,7 @@ import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.NotificationsController;
 import org.telegram.messenger.UserConfig;
-import org.telegram.tgnet.TLRPC$EmojiStatus;
-import org.telegram.tgnet.TLRPC$TL_emojiStatus;
-import org.telegram.tgnet.TLRPC$TL_emojiStatusUntil;
+import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
@@ -130,14 +128,10 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
         } catch (Exception unused) {
         }
         this.textView.setText(formatName);
-        TLRPC$EmojiStatus tLRPC$EmojiStatus = currentUser.emoji_status;
-        if ((tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil) && ((TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus).until > ((int) (System.currentTimeMillis() / 1000))) {
+        Long emojiStatusDocumentId = UserObject.getEmojiStatusDocumentId(currentUser);
+        if (emojiStatusDocumentId != null) {
             this.textView.setDrawablePadding(AndroidUtilities.dp(4.0f));
-            this.status.set(((TLRPC$TL_emojiStatusUntil) currentUser.emoji_status).document_id, true);
-            this.textView.setRightDrawableOutside(true);
-        } else if (currentUser.emoji_status instanceof TLRPC$TL_emojiStatus) {
-            this.textView.setDrawablePadding(AndroidUtilities.dp(4.0f));
-            this.status.set(((TLRPC$TL_emojiStatus) currentUser.emoji_status).document_id, true);
+            this.status.set(emojiStatusDocumentId.longValue(), true);
             this.textView.setRightDrawableOutside(true);
         } else if (MessagesController.getInstance(i).isPremiumUser(currentUser)) {
             this.textView.setDrawablePadding(AndroidUtilities.dp(6.0f));

@@ -2,7 +2,7 @@ package org.telegram.ui.Components.Paint;
 
 import java.util.Arrays;
 import java.util.Vector;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class Path {
     private float baseWeight;
     private Brush brush;

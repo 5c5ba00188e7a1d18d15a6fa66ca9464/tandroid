@@ -245,7 +245,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         this.shadow = new BitmapDrawable[2];
         this.shadowVisibility = new boolean[2];
         this.shadowAnimation = new AnimatorSet[2];
-        this.customViewOffset = 20;
+        this.customViewOffset = 12;
         this.dialogButtonColorKey = "dialogButton";
         this.topHeight = 132;
         boolean z = true;
@@ -288,7 +288,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             if (i == 3) {
                 f = 0.55f;
             } else if (AndroidUtilities.computePerceivedBrightness(themedColor) >= 0.721f) {
-                f = 0.92f;
+                f = 0.97f;
             }
             this.blurOpacity = f;
             this.shadowDrawable.setColorFilter(new PorterDuffColorFilter(this.backgroundColor, PorterDuff.Mode.MULTIPLY));
@@ -542,9 +542,6 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         }
         if (!TextUtils.isEmpty(this.message)) {
             this.messageTextView.setText(this.message);
-            if (this.customView != null) {
-                ((ViewGroup.MarginLayoutParams) this.messageTextView.getLayoutParams()).topMargin = AndroidUtilities.dp(16.0f);
-            }
             this.messageTextView.setVisibility(0);
         } else {
             this.messageTextView.setVisibility(8);

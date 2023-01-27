@@ -81,7 +81,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         } catch (NoSuchFieldException unused) {
         }
         superListenerField = field;
-        NOP = ActionBarPopupWindow$$ExternalSyntheticLambda1.INSTANCE;
+        NOP = ActionBarPopupWindow$$ExternalSyntheticLambda2.INSTANCE;
     }
 
     public void setScaleOut(boolean z) {
@@ -717,6 +717,18 @@ public class ActionBarPopupWindow extends PopupWindow {
     }
 
     private void init() {
+        View contentView = getContentView();
+        if (contentView instanceof ActionBarPopupWindowLayout) {
+            ActionBarPopupWindowLayout actionBarPopupWindowLayout = (ActionBarPopupWindowLayout) contentView;
+            if (actionBarPopupWindowLayout.getSwipeBack() != null) {
+                actionBarPopupWindowLayout.getSwipeBack().setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow$$ExternalSyntheticLambda1
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view) {
+                        ActionBarPopupWindow.this.lambda$init$1(view);
+                    }
+                });
+            }
+        }
         Field field = superListenerField;
         if (field != null) {
             try {
@@ -726,6 +738,11 @@ public class ActionBarPopupWindow extends PopupWindow {
                 this.mSuperScrollListener = null;
             }
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$init$1(View view) {
+        dismiss();
     }
 
     public void setDismissAnimationDuration(int i) {
@@ -830,7 +847,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                ActionBarPopupWindow.lambda$startAnimation$1(ActionBarPopupWindow.ActionBarPopupWindowLayout.this, valueAnimator);
+                ActionBarPopupWindow.lambda$startAnimation$2(ActionBarPopupWindow.ActionBarPopupWindowLayout.this, valueAnimator);
             }
         });
         actionBarPopupWindowLayout.updateAnimation = true;
@@ -854,7 +871,7 @@ public class ActionBarPopupWindow extends PopupWindow {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$startAnimation$1(ActionBarPopupWindowLayout actionBarPopupWindowLayout, ValueAnimator valueAnimator) {
+    public static /* synthetic */ void lambda$startAnimation$2(ActionBarPopupWindowLayout actionBarPopupWindowLayout, ValueAnimator valueAnimator) {
         int itemsCount = actionBarPopupWindowLayout.getItemsCount();
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         for (int i = 0; i < itemsCount; i++) {

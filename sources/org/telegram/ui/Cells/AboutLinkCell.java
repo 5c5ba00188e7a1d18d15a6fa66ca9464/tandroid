@@ -533,40 +533,17 @@ public class AboutLinkCell extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public void onLinkClick(final ClickableSpan clickableSpan, final Layout layout, final float f) {
+    public void onLinkClick(ClickableSpan clickableSpan, Layout layout, float f) {
         Browser.Progress progress = this.currentProgress;
-        Browser.Progress progress2 = null;
+        3 r1 = null;
         if (progress != null) {
             progress.cancel();
             this.currentProgress = null;
         }
         if (layout != null && clickableSpan != null) {
-            progress2 = new Browser.Progress() { // from class: org.telegram.ui.Cells.AboutLinkCell.3
-                LoadingDrawable thisLoading;
-
-                @Override // org.telegram.messenger.browser.Browser.Progress
-                public void init() {
-                    if (AboutLinkCell.this.currentLoading != null) {
-                        AboutLinkCell.this.links.removeLoading(AboutLinkCell.this.currentLoading, true);
-                    }
-                    AboutLinkCell aboutLinkCell = AboutLinkCell.this;
-                    LoadingDrawable makeLoading = LinkSpanDrawable.LinkCollector.makeLoading(layout, clickableSpan, f);
-                    this.thisLoading = makeLoading;
-                    aboutLinkCell.currentLoading = makeLoading;
-                    this.thisLoading.setColors(Theme.multAlpha(Theme.getColor("chat_linkSelectBackground", AboutLinkCell.this.resourcesProvider), 0.8f), Theme.multAlpha(Theme.getColor("chat_linkSelectBackground", AboutLinkCell.this.resourcesProvider), 1.3f), Theme.multAlpha(Theme.getColor("chat_linkSelectBackground", AboutLinkCell.this.resourcesProvider), 1.0f), Theme.multAlpha(Theme.getColor("chat_linkSelectBackground", AboutLinkCell.this.resourcesProvider), 4.0f));
-                    this.thisLoading.strokePaint.setStrokeWidth(AndroidUtilities.dpf2(1.25f));
-                    AboutLinkCell.this.links.addLoading(this.thisLoading);
-                }
-
-                @Override // org.telegram.messenger.browser.Browser.Progress
-                public void end(boolean z) {
-                    if (this.thisLoading != null) {
-                        AboutLinkCell.this.links.removeLoading(this.thisLoading, true);
-                    }
-                }
-            };
+            r1 = new 3(layout, clickableSpan, f);
         }
-        this.currentProgress = progress2;
+        this.currentProgress = r1;
         if (clickableSpan instanceof URLSpanNoUnderline) {
             String url = ((URLSpanNoUnderline) clickableSpan).getURL();
             if (url.startsWith("@") || url.startsWith("#") || url.startsWith("/")) {
@@ -581,6 +558,52 @@ public class AboutLinkCell extends FrameLayout {
             }
         } else {
             clickableSpan.onClick(this);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes3.dex */
+    public class 3 extends Browser.Progress {
+        LoadingDrawable thisLoading;
+        final /* synthetic */ Layout val$layout;
+        final /* synthetic */ ClickableSpan val$pressedLink;
+        final /* synthetic */ float val$yOffset;
+
+        3(Layout layout, ClickableSpan clickableSpan, float f) {
+            this.val$layout = layout;
+            this.val$pressedLink = clickableSpan;
+            this.val$yOffset = f;
+        }
+
+        @Override // org.telegram.messenger.browser.Browser.Progress
+        public void init() {
+            if (AboutLinkCell.this.currentLoading != null) {
+                AboutLinkCell.this.links.removeLoading(AboutLinkCell.this.currentLoading, true);
+            }
+            AboutLinkCell aboutLinkCell = AboutLinkCell.this;
+            LoadingDrawable makeLoading = LinkSpanDrawable.LinkCollector.makeLoading(this.val$layout, this.val$pressedLink, this.val$yOffset);
+            this.thisLoading = makeLoading;
+            aboutLinkCell.currentLoading = makeLoading;
+            this.thisLoading.setColors(Theme.multAlpha(Theme.getColor("chat_linkSelectBackground", AboutLinkCell.this.resourcesProvider), 0.8f), Theme.multAlpha(Theme.getColor("chat_linkSelectBackground", AboutLinkCell.this.resourcesProvider), 1.3f), Theme.multAlpha(Theme.getColor("chat_linkSelectBackground", AboutLinkCell.this.resourcesProvider), 1.0f), Theme.multAlpha(Theme.getColor("chat_linkSelectBackground", AboutLinkCell.this.resourcesProvider), 4.0f));
+            this.thisLoading.strokePaint.setStrokeWidth(AndroidUtilities.dpf2(1.25f));
+            AboutLinkCell.this.links.addLoading(this.thisLoading);
+        }
+
+        @Override // org.telegram.messenger.browser.Browser.Progress
+        public void end(boolean z) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.AboutLinkCell$3$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    AboutLinkCell.3.this.lambda$end$0();
+                }
+            }, z ? 0L : 350L);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$end$0() {
+            if (this.thisLoading != null) {
+                AboutLinkCell.this.links.removeLoading(this.thisLoading, true);
+            }
         }
     }
 

@@ -190,6 +190,15 @@ public final class BulletinFactory {
         return create(lottieLayout, charSequence.length() < 20 ? 1500 : 2750);
     }
 
+    public Bulletin createSimpleBulletin(int i, CharSequence charSequence, int i2) {
+        Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getContext(), this.resourcesProvider);
+        lottieLayout.setAnimation(i, 36, 36, new String[0]);
+        lottieLayout.textView.setText(charSequence);
+        lottieLayout.textView.setSingleLine(false);
+        lottieLayout.textView.setMaxLines(i2);
+        return create(lottieLayout, charSequence.length() < 20 ? 1500 : 2750);
+    }
+
     public Bulletin createSimpleBulletin(int i, CharSequence charSequence, CharSequence charSequence2) {
         Bulletin.TwoLineLottieLayout twoLineLottieLayout = new Bulletin.TwoLineLottieLayout(getContext(), this.resourcesProvider);
         twoLineLottieLayout.setAnimation(i, 36, 36, new String[0]);
@@ -309,6 +318,9 @@ public final class BulletinFactory {
             lottieLayout.imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("undo_infoColor"), PorterDuff.Mode.SRC_IN));
         }
         lottieLayout.setAnimation(tLRPC$Document, 36, 36, new String[0]);
+        if (lottieLayout.imageView.getImageReceiver() != null) {
+            lottieLayout.imageView.getImageReceiver().setRoundRadius(AndroidUtilities.dp(4.0f));
+        }
         lottieLayout.textView.setText(charSequence);
         lottieLayout.textView.setTextSize(1, 14.0f);
         lottieLayout.textView.setSingleLine(false);

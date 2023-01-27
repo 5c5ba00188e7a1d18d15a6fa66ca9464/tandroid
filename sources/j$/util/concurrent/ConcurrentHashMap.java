@@ -3440,7 +3440,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     }
 
     @Override // java.util.AbstractMap, java.util.Map, j$.util.Map
-    public Collection values() {
+    public Collection<V> values() {
         u uVar = this.e;
         if (uVar != null) {
             return uVar;

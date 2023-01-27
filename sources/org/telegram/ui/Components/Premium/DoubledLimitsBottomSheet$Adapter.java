@@ -19,11 +19,11 @@ import org.telegram.ui.Cells.FixedHeightEmptyCell;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.PremiumGradient;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class DoubledLimitsBottomSheet$Adapter extends RecyclerListView.SelectionAdapter {
     ViewGroup containerView;
     boolean drawHeader;
-    PremiumGradient.GradientTools gradientTools;
+    PremiumGradient.PremiumGradientTools gradientTools;
     int headerRow;
     int lastViewRow;
     final ArrayList<DoubledLimitsBottomSheet$Limit> limits;
@@ -40,12 +40,12 @@ public class DoubledLimitsBottomSheet$Adapter extends RecyclerListView.Selection
         ArrayList<DoubledLimitsBottomSheet$Limit> arrayList = new ArrayList<>();
         this.limits = arrayList;
         this.drawHeader = z;
-        PremiumGradient.GradientTools gradientTools = new PremiumGradient.GradientTools("premiumGradient1", "premiumGradient2", "premiumGradient3", "premiumGradient4");
-        this.gradientTools = gradientTools;
-        gradientTools.x1 = 0.0f;
-        gradientTools.y1 = 0.0f;
-        gradientTools.x2 = 0.0f;
-        gradientTools.y2 = 1.0f;
+        PremiumGradient.PremiumGradientTools premiumGradientTools = new PremiumGradient.PremiumGradientTools("premiumGradient1", "premiumGradient2", "premiumGradient3", "premiumGradient4");
+        this.gradientTools = premiumGradientTools;
+        premiumGradientTools.x1 = 0.0f;
+        premiumGradientTools.y1 = 0.0f;
+        premiumGradientTools.x2 = 0.0f;
+        premiumGradientTools.y2 = 1.0f;
         MessagesController messagesController = MessagesController.getInstance(i);
         arrayList.add(new DoubledLimitsBottomSheet$Limit(LocaleController.getString("GroupsAndChannelsLimitTitle", R.string.GroupsAndChannelsLimitTitle), LocaleController.formatString("GroupsAndChannelsLimitSubtitle", R.string.GroupsAndChannelsLimitSubtitle, Integer.valueOf(messagesController.channelsLimitPremium)), messagesController.channelsLimitDefault, messagesController.channelsLimitPremium, null));
         arrayList.add(new DoubledLimitsBottomSheet$Limit(LocaleController.getString("PinChatsLimitTitle", R.string.PinChatsLimitTitle), LocaleController.formatString("PinChatsLimitSubtitle", R.string.PinChatsLimitSubtitle, Integer.valueOf(messagesController.dialogFiltersPinnedLimitPremium)), messagesController.dialogFiltersPinnedLimitDefault, messagesController.dialogFiltersPinnedLimitPremium, null));

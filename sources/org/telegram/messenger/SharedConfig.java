@@ -36,6 +36,8 @@ public class SharedConfig {
     public static final int PERFORMANCE_CLASS_AVERAGE = 1;
     public static final int PERFORMANCE_CLASS_HIGH = 2;
     public static final int PERFORMANCE_CLASS_LOW = 0;
+    private static final int PROXY_CURRENT_SCHEMA_VERSION = 2;
+    private static final int PROXY_SCHEMA_V2 = 2;
     public static final int SAVE_TO_GALLERY_FLAG_CHANNELS = 4;
     public static final int SAVE_TO_GALLERY_FLAG_GROUP = 2;
     public static final int SAVE_TO_GALLERY_FLAG_PEER = 1;
@@ -102,6 +104,8 @@ public class SharedConfig {
     public static boolean playOrderReversed = false;
     public static ArrayList<ProxyInfo> proxyList = null;
     private static boolean proxyListLoaded = false;
+    public static boolean proxyRotationEnabled = false;
+    public static int proxyRotationTimeout = 0;
     public static byte[] pushAuthKey = null;
     public static byte[] pushAuthKeyId = null;
     public static boolean pushStatSent = false;
@@ -116,7 +120,6 @@ public class SharedConfig {
     public static boolean roundCamera16to9 = false;
     public static boolean saveIncomingPhotos = false;
     public static boolean saveStreamMedia = false;
-    public static int saveToGalleryFlags = 0;
     public static int scheduledOrNoSoundHintShows = 0;
     public static int searchMessagesAsListHintShows = 0;
     public static boolean searchMessagesAsListUsed = false;
@@ -133,6 +136,7 @@ public class SharedConfig {
     public static boolean suggestAnimatedEmoji = false;
     public static int suggestStickers = 0;
     public static int textSelectionHintShows = 0;
+    public static boolean translateChats = false;
     public static boolean useFingerprint = true;
     public static boolean useLNavigation;
     public static boolean useSystemEmoji;
@@ -153,6 +157,9 @@ public class SharedConfig {
     @Retention(RetentionPolicy.SOURCE)
     /* loaded from: classes.dex */
     public @interface PerformanceClass {
+    }
+
+    public static void toggleSaveToGalleryFlag(int i) {
     }
 
     public static LiteMode getLiteMode() {
@@ -182,7 +189,7 @@ public class SharedConfig {
         streamMkv = false;
         saveStreamMedia = true;
         smoothKeyboard = true;
-        pauseMusicOnRecord = true;
+        pauseMusicOnRecord = false;
         chatBlur = true;
         noStatusBar = true;
         showNotificationsForAllAccounts = true;
@@ -191,6 +198,7 @@ public class SharedConfig {
         ivFontSize = 16;
         mediaColumnsCount = 3;
         fastScrollHintCount = 3;
+        translateChats = true;
         loadConfig();
         proxyList = new ArrayList<>();
     }
@@ -287,6 +295,8 @@ public class SharedConfig {
                 edit.putBoolean("forwardingOptionsHintShown", forwardingOptionsHintShown);
                 edit.putInt("lockRecordAudioVideoHint", lockRecordAudioVideoHint);
                 edit.putString("storageCacheDir", !TextUtils.isEmpty(storageCacheDir) ? storageCacheDir : "");
+                edit.putBoolean("proxyRotationEnabled", proxyRotationEnabled);
+                edit.putInt("proxyRotationTimeout", proxyRotationTimeout);
                 TLRPC$TL_help_appUpdate tLRPC$TL_help_appUpdate = pendingAppUpdate;
                 if (tLRPC$TL_help_appUpdate != null) {
                     try {
@@ -322,17 +332,16 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x016d A[Catch: Exception -> 0x018f, all -> 0x040c, TryCatch #0 {Exception -> 0x018f, blocks: (B:22:0x011e, B:24:0x0126, B:26:0x0136, B:27:0x014a, B:38:0x016d, B:40:0x0171, B:41:0x0173, B:43:0x0177, B:45:0x017d, B:47:0x0183, B:49:0x0187, B:36:0x0167), top: B:89:0x011e, outer: #3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0171 A[Catch: Exception -> 0x018f, all -> 0x040c, TryCatch #0 {Exception -> 0x018f, blocks: (B:22:0x011e, B:24:0x0126, B:26:0x0136, B:27:0x014a, B:38:0x016d, B:40:0x0171, B:41:0x0173, B:43:0x0177, B:45:0x017d, B:47:0x0183, B:49:0x0187, B:36:0x0167), top: B:89:0x011e, outer: #3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x0239  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x023c  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x024c  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x024e  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x017d A[Catch: Exception -> 0x019f, all -> 0x03fb, TryCatch #0 {Exception -> 0x019f, blocks: (B:22:0x012e, B:24:0x0136, B:26:0x0146, B:27:0x015a, B:38:0x017d, B:40:0x0181, B:41:0x0183, B:43:0x0187, B:45:0x018d, B:47:0x0193, B:49:0x0197, B:36:0x0177), top: B:83:0x012e, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0181 A[Catch: Exception -> 0x019f, all -> 0x03fb, TryCatch #0 {Exception -> 0x019f, blocks: (B:22:0x012e, B:24:0x0136, B:26:0x0146, B:27:0x015a, B:38:0x017d, B:40:0x0181, B:41:0x0183, B:43:0x0187, B:45:0x018d, B:47:0x0193, B:49:0x0197, B:36:0x0177), top: B:83:0x012e, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0220  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0223  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0233  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0235  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static void loadConfig() {
-        SharedPreferences sharedPreferences;
         int i;
         String str;
         String str2;
@@ -340,44 +349,46 @@ public class SharedConfig {
         synchronized (sync) {
             if (!configLoaded && ApplicationLoader.applicationContext != null) {
                 SharedPreferences unused = BackgroundActivityPrefs.prefs = ApplicationLoader.applicationContext.getSharedPreferences("background_activity", 0);
-                SharedPreferences sharedPreferences2 = ApplicationLoader.applicationContext.getSharedPreferences("userconfing", 0);
-                saveIncomingPhotos = sharedPreferences2.getBoolean("saveIncomingPhotos", false);
-                passcodeHash = sharedPreferences2.getString("passcodeHash1", "");
-                appLocked = sharedPreferences2.getBoolean("appLocked", false);
-                passcodeType = sharedPreferences2.getInt("passcodeType", 0);
-                passcodeRetryInMs = sharedPreferences2.getLong("passcodeRetryInMs", 0L);
-                lastUptimeMillis = sharedPreferences2.getLong("lastUptimeMillis", 0L);
-                badPasscodeTries = sharedPreferences2.getInt("badPasscodeTries", 0);
-                autoLockIn = sharedPreferences2.getInt("autoLockIn", 3600);
-                lastPauseTime = sharedPreferences2.getInt("lastPauseTime", 0);
-                useFingerprint = sharedPreferences2.getBoolean("useFingerprint", true);
-                lastUpdateVersion = sharedPreferences2.getString("lastUpdateVersion2", "3.5");
-                allowScreenCapture = sharedPreferences2.getBoolean("allowScreenCapture", false);
-                lastLocalId = sharedPreferences2.getInt("lastLocalId", -210000);
-                pushString = sharedPreferences2.getString("pushString2", "");
-                pushType = sharedPreferences2.getInt("pushType", 2);
-                pushStatSent = sharedPreferences2.getBoolean("pushStatSent", false);
-                passportConfigJson = sharedPreferences2.getString("passportConfigJson", "");
-                passportConfigHash = sharedPreferences2.getInt("passportConfigHash", 0);
-                storageCacheDir = sharedPreferences2.getString("storageCacheDir", null);
-                String string = sharedPreferences2.getString("pushAuthKey", null);
+                SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("userconfing", 0);
+                saveIncomingPhotos = sharedPreferences.getBoolean("saveIncomingPhotos", false);
+                passcodeHash = sharedPreferences.getString("passcodeHash1", "");
+                appLocked = sharedPreferences.getBoolean("appLocked", false);
+                passcodeType = sharedPreferences.getInt("passcodeType", 0);
+                passcodeRetryInMs = sharedPreferences.getLong("passcodeRetryInMs", 0L);
+                lastUptimeMillis = sharedPreferences.getLong("lastUptimeMillis", 0L);
+                badPasscodeTries = sharedPreferences.getInt("badPasscodeTries", 0);
+                autoLockIn = sharedPreferences.getInt("autoLockIn", 3600);
+                lastPauseTime = sharedPreferences.getInt("lastPauseTime", 0);
+                useFingerprint = sharedPreferences.getBoolean("useFingerprint", true);
+                lastUpdateVersion = sharedPreferences.getString("lastUpdateVersion2", "3.5");
+                allowScreenCapture = sharedPreferences.getBoolean("allowScreenCapture", false);
+                lastLocalId = sharedPreferences.getInt("lastLocalId", -210000);
+                pushString = sharedPreferences.getString("pushString2", "");
+                pushType = sharedPreferences.getInt("pushType", 2);
+                pushStatSent = sharedPreferences.getBoolean("pushStatSent", false);
+                passportConfigJson = sharedPreferences.getString("passportConfigJson", "");
+                passportConfigHash = sharedPreferences.getInt("passportConfigHash", 0);
+                storageCacheDir = sharedPreferences.getString("storageCacheDir", null);
+                proxyRotationEnabled = sharedPreferences.getBoolean("proxyRotationEnabled", false);
+                proxyRotationTimeout = sharedPreferences.getInt("proxyRotationTimeout", 1);
+                String string = sharedPreferences.getString("pushAuthKey", null);
                 if (!TextUtils.isEmpty(string)) {
                     pushAuthKey = Base64.decode(string, 0);
                 }
                 if (passcodeHash.length() > 0 && lastPauseTime == 0) {
                     lastPauseTime = (int) ((SystemClock.elapsedRealtime() / 1000) - 600);
                 }
-                String string2 = sharedPreferences2.getString("passcodeSalt", "");
+                String string2 = sharedPreferences.getString("passcodeSalt", "");
                 if (string2.length() > 0) {
                     passcodeSalt = Base64.decode(string2, 0);
                 } else {
                     passcodeSalt = new byte[0];
                 }
-                lastUpdateCheckTime = sharedPreferences2.getLong("appUpdateCheckTime", System.currentTimeMillis());
+                lastUpdateCheckTime = sharedPreferences.getLong("appUpdateCheckTime", System.currentTimeMillis());
                 try {
-                    String string3 = sharedPreferences2.getString("appUpdate", null);
+                    String string3 = sharedPreferences.getString("appUpdate", null);
                     if (string3 != null) {
-                        pendingAppUpdateBuildVersion = sharedPreferences2.getInt("appUpdateBuild", BuildVars.BUILD_VERSION);
+                        pendingAppUpdateBuildVersion = sharedPreferences.getInt("appUpdateBuild", BuildVars.BUILD_VERSION);
                         byte[] decode = Base64.decode(string3, 0);
                         if (decode != null) {
                             SerializedData serializedData = new SerializedData(decode);
@@ -406,75 +417,73 @@ public class SharedConfig {
                             if (pendingAppUpdateBuildVersion == i) {
                             }
                             pendingAppUpdate = null;
-                            AndroidUtilities.runOnUIThread(SharedConfig$$ExternalSyntheticLambda4.INSTANCE);
-                            sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
-                            if (!sharedPreferences.getBoolean("save_gallery", false)) {
-                            }
-                            saveToGalleryFlags = sharedPreferences.getInt("save_gallery_flags", 0);
-                            autoplayGifs = sharedPreferences.getBoolean("autoplay_gif", true);
-                            autoplayVideo = sharedPreferences.getBoolean("autoplay_video", true);
-                            mapPreviewType = sharedPreferences.getInt("mapPreviewType", 2);
-                            raiseToSpeak = sharedPreferences.getBoolean("raise_to_speak", false);
-                            recordViaSco = sharedPreferences.getBoolean("record_via_sco", false);
-                            customTabs = sharedPreferences.getBoolean("custom_tabs", true);
-                            directShare = sharedPreferences.getBoolean("direct_share", true);
-                            boolean z = sharedPreferences.getBoolean("shuffleMusic", false);
+                            AndroidUtilities.runOnUIThread(SharedConfig$$ExternalSyntheticLambda3.INSTANCE);
+                            SharedPreferences sharedPreferences2 = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
+                            SaveToGallerySettingsHelper.load(sharedPreferences2);
+                            autoplayGifs = sharedPreferences2.getBoolean("autoplay_gif", true);
+                            autoplayVideo = sharedPreferences2.getBoolean("autoplay_video", true);
+                            mapPreviewType = sharedPreferences2.getInt("mapPreviewType", 2);
+                            raiseToSpeak = sharedPreferences2.getBoolean("raise_to_speak", false);
+                            recordViaSco = sharedPreferences2.getBoolean("record_via_sco", false);
+                            customTabs = sharedPreferences2.getBoolean("custom_tabs", true);
+                            directShare = sharedPreferences2.getBoolean("direct_share", true);
+                            boolean z = sharedPreferences2.getBoolean("shuffleMusic", false);
                             shuffleMusic = z;
-                            playOrderReversed = z && sharedPreferences.getBoolean("playOrderReversed", false);
-                            inappCamera = sharedPreferences.getBoolean("inappCamera", true);
-                            hasCameraCache = sharedPreferences.contains("cameraCache");
+                            playOrderReversed = z && sharedPreferences2.getBoolean("playOrderReversed", false);
+                            inappCamera = sharedPreferences2.getBoolean("inappCamera", true);
+                            hasCameraCache = sharedPreferences2.contains("cameraCache");
                             roundCamera16to9 = true;
-                            repeatMode = sharedPreferences.getInt("repeatMode", 0);
-                            fontSize = sharedPreferences.getInt("fons_size", !AndroidUtilities.isTablet() ? 18 : 16);
-                            fontSizeIsDefault = sharedPreferences.contains("fons_size");
-                            bubbleRadius = sharedPreferences.getInt("bubbleRadius", 17);
-                            ivFontSize = sharedPreferences.getInt("iv_font_size", fontSize);
-                            allowBigEmoji = sharedPreferences.getBoolean("allowBigEmoji", true);
-                            useSystemEmoji = sharedPreferences.getBoolean("useSystemEmoji", false);
-                            streamMedia = sharedPreferences.getBoolean("streamMedia", true);
-                            saveStreamMedia = sharedPreferences.getBoolean("saveStreamMedia", true);
-                            smoothKeyboard = sharedPreferences.getBoolean("smoothKeyboard2", true);
-                            pauseMusicOnRecord = sharedPreferences.getBoolean("pauseMusicOnRecord", false);
-                            chatBlur = sharedPreferences.getBoolean("chatBlur", true);
-                            forceDisableTabletMode = sharedPreferences.getBoolean("forceDisableTabletMode", false);
-                            streamAllVideo = sharedPreferences.getBoolean("streamAllVideo", BuildVars.DEBUG_VERSION);
-                            streamMkv = sharedPreferences.getBoolean("streamMkv", false);
-                            suggestStickers = sharedPreferences.getInt("suggestStickers", 0);
-                            suggestAnimatedEmoji = sharedPreferences.getBoolean("suggestAnimatedEmoji", true);
-                            sortContactsByName = sharedPreferences.getBoolean("sortContactsByName", false);
-                            sortFilesByName = sharedPreferences.getBoolean("sortFilesByName", false);
-                            noSoundHintShowed = sharedPreferences.getBoolean("noSoundHintShowed", false);
-                            directShareHash = sharedPreferences.getString("directShareHash2", null);
-                            useThreeLinesLayout = sharedPreferences.getBoolean("useThreeLinesLayout", false);
-                            archiveHidden = sharedPreferences.getBoolean("archiveHidden", false);
-                            distanceSystemType = sharedPreferences.getInt("distanceSystemType", 0);
-                            devicePerformanceClass = sharedPreferences.getInt("devicePerformanceClass", -1);
-                            loopStickers = sharedPreferences.getBoolean("loopStickers", true);
-                            keepMedia = sharedPreferences.getInt("keep_media", CacheByChatsController.KEEP_MEDIA_ONE_MONTH);
-                            noStatusBar = sharedPreferences.getBoolean("noStatusBar", true);
-                            forceRtmpStream = sharedPreferences.getBoolean("forceRtmpStream", false);
-                            debugWebView = sharedPreferences.getBoolean("debugWebView", false);
-                            lastKeepMediaCheckTime = sharedPreferences.getInt("lastKeepMediaCheckTime", 0);
-                            lastLogsCheckTime = sharedPreferences.getInt("lastLogsCheckTime", 0);
-                            searchMessagesAsListHintShows = sharedPreferences.getInt("searchMessagesAsListHintShows", 0);
-                            searchMessagesAsListUsed = sharedPreferences.getBoolean("searchMessagesAsListUsed", false);
-                            stickersReorderingHintUsed = sharedPreferences.getBoolean("stickersReorderingHintUsed", false);
-                            textSelectionHintShows = sharedPreferences.getInt("textSelectionHintShows", 0);
-                            scheduledOrNoSoundHintShows = sharedPreferences.getInt("scheduledOrNoSoundHintShows", 0);
-                            forwardingOptionsHintShown = sharedPreferences.getBoolean("forwardingOptionsHintShown", false);
-                            lockRecordAudioVideoHint = sharedPreferences.getInt("lockRecordAudioVideoHint", 0);
-                            disableVoiceAudioEffects = sharedPreferences.getBoolean("disableVoiceAudioEffects", false);
-                            noiseSupression = sharedPreferences.getBoolean("noiseSupression", false);
-                            chatSwipeAction = sharedPreferences.getInt("ChatSwipeAction", -1);
-                            messageSeenHintCount = sharedPreferences.getInt("messageSeenCount", 3);
-                            emojiInteractionsHintCount = sharedPreferences.getInt("emojiInteractionsHintCount", 3);
-                            dayNightThemeSwitchHintCount = sharedPreferences.getInt("dayNightThemeSwitchHintCount", 3);
-                            mediaColumnsCount = sharedPreferences.getInt("mediaColumnsCount", 3);
-                            fastScrollHintCount = sharedPreferences.getInt("fastScrollHintCount", 3);
-                            dontAskManageStorage = sharedPreferences.getBoolean("dontAskManageStorage", false);
-                            hasEmailLogin = sharedPreferences.getBoolean("hasEmailLogin", false);
-                            useLNavigation = sharedPreferences.getBoolean("useLNavigation", false);
-                            isFloatingDebugActive = sharedPreferences.getBoolean("floatingDebugActive", false);
+                            repeatMode = sharedPreferences2.getInt("repeatMode", 0);
+                            fontSize = sharedPreferences2.getInt("fons_size", !AndroidUtilities.isTablet() ? 18 : 16);
+                            fontSizeIsDefault = sharedPreferences2.contains("fons_size");
+                            bubbleRadius = sharedPreferences2.getInt("bubbleRadius", 17);
+                            ivFontSize = sharedPreferences2.getInt("iv_font_size", fontSize);
+                            allowBigEmoji = sharedPreferences2.getBoolean("allowBigEmoji", true);
+                            useSystemEmoji = sharedPreferences2.getBoolean("useSystemEmoji", false);
+                            streamMedia = sharedPreferences2.getBoolean("streamMedia", true);
+                            saveStreamMedia = sharedPreferences2.getBoolean("saveStreamMedia", true);
+                            smoothKeyboard = sharedPreferences2.getBoolean("smoothKeyboard2", true);
+                            pauseMusicOnRecord = sharedPreferences2.getBoolean("pauseMusicOnRecord", false);
+                            chatBlur = sharedPreferences2.getBoolean("chatBlur", true);
+                            forceDisableTabletMode = sharedPreferences2.getBoolean("forceDisableTabletMode", false);
+                            streamAllVideo = sharedPreferences2.getBoolean("streamAllVideo", BuildVars.DEBUG_VERSION);
+                            streamMkv = sharedPreferences2.getBoolean("streamMkv", false);
+                            suggestStickers = sharedPreferences2.getInt("suggestStickers", 0);
+                            suggestAnimatedEmoji = sharedPreferences2.getBoolean("suggestAnimatedEmoji", true);
+                            sortContactsByName = sharedPreferences2.getBoolean("sortContactsByName", false);
+                            sortFilesByName = sharedPreferences2.getBoolean("sortFilesByName", false);
+                            noSoundHintShowed = sharedPreferences2.getBoolean("noSoundHintShowed", false);
+                            directShareHash = sharedPreferences2.getString("directShareHash2", null);
+                            useThreeLinesLayout = sharedPreferences2.getBoolean("useThreeLinesLayout", false);
+                            archiveHidden = sharedPreferences2.getBoolean("archiveHidden", false);
+                            distanceSystemType = sharedPreferences2.getInt("distanceSystemType", 0);
+                            devicePerformanceClass = sharedPreferences2.getInt("devicePerformanceClass", -1);
+                            loopStickers = sharedPreferences2.getBoolean("loopStickers", true);
+                            keepMedia = sharedPreferences2.getInt("keep_media", CacheByChatsController.KEEP_MEDIA_ONE_MONTH);
+                            noStatusBar = sharedPreferences2.getBoolean("noStatusBar", true);
+                            forceRtmpStream = sharedPreferences2.getBoolean("forceRtmpStream", false);
+                            debugWebView = sharedPreferences2.getBoolean("debugWebView", false);
+                            lastKeepMediaCheckTime = sharedPreferences2.getInt("lastKeepMediaCheckTime", 0);
+                            lastLogsCheckTime = sharedPreferences2.getInt("lastLogsCheckTime", 0);
+                            searchMessagesAsListHintShows = sharedPreferences2.getInt("searchMessagesAsListHintShows", 0);
+                            searchMessagesAsListUsed = sharedPreferences2.getBoolean("searchMessagesAsListUsed", false);
+                            stickersReorderingHintUsed = sharedPreferences2.getBoolean("stickersReorderingHintUsed", false);
+                            textSelectionHintShows = sharedPreferences2.getInt("textSelectionHintShows", 0);
+                            scheduledOrNoSoundHintShows = sharedPreferences2.getInt("scheduledOrNoSoundHintShows", 0);
+                            forwardingOptionsHintShown = sharedPreferences2.getBoolean("forwardingOptionsHintShown", false);
+                            lockRecordAudioVideoHint = sharedPreferences2.getInt("lockRecordAudioVideoHint", 0);
+                            disableVoiceAudioEffects = sharedPreferences2.getBoolean("disableVoiceAudioEffects", false);
+                            noiseSupression = sharedPreferences2.getBoolean("noiseSupression", false);
+                            chatSwipeAction = sharedPreferences2.getInt("ChatSwipeAction", -1);
+                            messageSeenHintCount = sharedPreferences2.getInt("messageSeenCount", 3);
+                            emojiInteractionsHintCount = sharedPreferences2.getInt("emojiInteractionsHintCount", 3);
+                            dayNightThemeSwitchHintCount = sharedPreferences2.getInt("dayNightThemeSwitchHintCount", 3);
+                            mediaColumnsCount = sharedPreferences2.getInt("mediaColumnsCount", 3);
+                            fastScrollHintCount = sharedPreferences2.getInt("fastScrollHintCount", 3);
+                            dontAskManageStorage = sharedPreferences2.getBoolean("dontAskManageStorage", false);
+                            hasEmailLogin = sharedPreferences2.getBoolean("hasEmailLogin", false);
+                            useLNavigation = sharedPreferences2.getBoolean("useLNavigation", false);
+                            isFloatingDebugActive = sharedPreferences2.getBoolean("floatingDebugActive", false);
                             showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
                             configLoaded = true;
                             if (Build.VERSION.SDK_INT >= 19) {
@@ -489,83 +498,78 @@ public class SharedConfig {
                         }
                         if (pendingAppUpdateBuildVersion == i || (str2 = pendingAppUpdate.version) == null || str.compareTo(str2) >= 0 || BuildVars.DEBUG_PRIVATE_VERSION) {
                             pendingAppUpdate = null;
-                            AndroidUtilities.runOnUIThread(SharedConfig$$ExternalSyntheticLambda4.INSTANCE);
+                            AndroidUtilities.runOnUIThread(SharedConfig$$ExternalSyntheticLambda3.INSTANCE);
                         }
                     }
                 } catch (Exception e3) {
                     FileLog.e(e3);
                 }
-                sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
-                if (!sharedPreferences.getBoolean("save_gallery", false) && BuildVars.NO_SCOPED_STORAGE) {
-                    saveToGalleryFlags = 7;
-                    sharedPreferences.edit().remove("save_gallery").putInt("save_gallery_flags", saveToGalleryFlags).apply();
-                } else {
-                    saveToGalleryFlags = sharedPreferences.getInt("save_gallery_flags", 0);
-                }
-                autoplayGifs = sharedPreferences.getBoolean("autoplay_gif", true);
-                autoplayVideo = sharedPreferences.getBoolean("autoplay_video", true);
-                mapPreviewType = sharedPreferences.getInt("mapPreviewType", 2);
-                raiseToSpeak = sharedPreferences.getBoolean("raise_to_speak", false);
-                recordViaSco = sharedPreferences.getBoolean("record_via_sco", false);
-                customTabs = sharedPreferences.getBoolean("custom_tabs", true);
-                directShare = sharedPreferences.getBoolean("direct_share", true);
-                boolean z2 = sharedPreferences.getBoolean("shuffleMusic", false);
+                SharedPreferences sharedPreferences22 = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
+                SaveToGallerySettingsHelper.load(sharedPreferences22);
+                autoplayGifs = sharedPreferences22.getBoolean("autoplay_gif", true);
+                autoplayVideo = sharedPreferences22.getBoolean("autoplay_video", true);
+                mapPreviewType = sharedPreferences22.getInt("mapPreviewType", 2);
+                raiseToSpeak = sharedPreferences22.getBoolean("raise_to_speak", false);
+                recordViaSco = sharedPreferences22.getBoolean("record_via_sco", false);
+                customTabs = sharedPreferences22.getBoolean("custom_tabs", true);
+                directShare = sharedPreferences22.getBoolean("direct_share", true);
+                boolean z2 = sharedPreferences22.getBoolean("shuffleMusic", false);
                 shuffleMusic = z2;
-                playOrderReversed = z2 && sharedPreferences.getBoolean("playOrderReversed", false);
-                inappCamera = sharedPreferences.getBoolean("inappCamera", true);
-                hasCameraCache = sharedPreferences.contains("cameraCache");
+                playOrderReversed = z2 && sharedPreferences22.getBoolean("playOrderReversed", false);
+                inappCamera = sharedPreferences22.getBoolean("inappCamera", true);
+                hasCameraCache = sharedPreferences22.contains("cameraCache");
                 roundCamera16to9 = true;
-                repeatMode = sharedPreferences.getInt("repeatMode", 0);
-                fontSize = sharedPreferences.getInt("fons_size", !AndroidUtilities.isTablet() ? 18 : 16);
-                fontSizeIsDefault = sharedPreferences.contains("fons_size");
-                bubbleRadius = sharedPreferences.getInt("bubbleRadius", 17);
-                ivFontSize = sharedPreferences.getInt("iv_font_size", fontSize);
-                allowBigEmoji = sharedPreferences.getBoolean("allowBigEmoji", true);
-                useSystemEmoji = sharedPreferences.getBoolean("useSystemEmoji", false);
-                streamMedia = sharedPreferences.getBoolean("streamMedia", true);
-                saveStreamMedia = sharedPreferences.getBoolean("saveStreamMedia", true);
-                smoothKeyboard = sharedPreferences.getBoolean("smoothKeyboard2", true);
-                pauseMusicOnRecord = sharedPreferences.getBoolean("pauseMusicOnRecord", false);
-                chatBlur = sharedPreferences.getBoolean("chatBlur", true);
-                forceDisableTabletMode = sharedPreferences.getBoolean("forceDisableTabletMode", false);
-                streamAllVideo = sharedPreferences.getBoolean("streamAllVideo", BuildVars.DEBUG_VERSION);
-                streamMkv = sharedPreferences.getBoolean("streamMkv", false);
-                suggestStickers = sharedPreferences.getInt("suggestStickers", 0);
-                suggestAnimatedEmoji = sharedPreferences.getBoolean("suggestAnimatedEmoji", true);
-                sortContactsByName = sharedPreferences.getBoolean("sortContactsByName", false);
-                sortFilesByName = sharedPreferences.getBoolean("sortFilesByName", false);
-                noSoundHintShowed = sharedPreferences.getBoolean("noSoundHintShowed", false);
-                directShareHash = sharedPreferences.getString("directShareHash2", null);
-                useThreeLinesLayout = sharedPreferences.getBoolean("useThreeLinesLayout", false);
-                archiveHidden = sharedPreferences.getBoolean("archiveHidden", false);
-                distanceSystemType = sharedPreferences.getInt("distanceSystemType", 0);
-                devicePerformanceClass = sharedPreferences.getInt("devicePerformanceClass", -1);
-                loopStickers = sharedPreferences.getBoolean("loopStickers", true);
-                keepMedia = sharedPreferences.getInt("keep_media", CacheByChatsController.KEEP_MEDIA_ONE_MONTH);
-                noStatusBar = sharedPreferences.getBoolean("noStatusBar", true);
-                forceRtmpStream = sharedPreferences.getBoolean("forceRtmpStream", false);
-                debugWebView = sharedPreferences.getBoolean("debugWebView", false);
-                lastKeepMediaCheckTime = sharedPreferences.getInt("lastKeepMediaCheckTime", 0);
-                lastLogsCheckTime = sharedPreferences.getInt("lastLogsCheckTime", 0);
-                searchMessagesAsListHintShows = sharedPreferences.getInt("searchMessagesAsListHintShows", 0);
-                searchMessagesAsListUsed = sharedPreferences.getBoolean("searchMessagesAsListUsed", false);
-                stickersReorderingHintUsed = sharedPreferences.getBoolean("stickersReorderingHintUsed", false);
-                textSelectionHintShows = sharedPreferences.getInt("textSelectionHintShows", 0);
-                scheduledOrNoSoundHintShows = sharedPreferences.getInt("scheduledOrNoSoundHintShows", 0);
-                forwardingOptionsHintShown = sharedPreferences.getBoolean("forwardingOptionsHintShown", false);
-                lockRecordAudioVideoHint = sharedPreferences.getInt("lockRecordAudioVideoHint", 0);
-                disableVoiceAudioEffects = sharedPreferences.getBoolean("disableVoiceAudioEffects", false);
-                noiseSupression = sharedPreferences.getBoolean("noiseSupression", false);
-                chatSwipeAction = sharedPreferences.getInt("ChatSwipeAction", -1);
-                messageSeenHintCount = sharedPreferences.getInt("messageSeenCount", 3);
-                emojiInteractionsHintCount = sharedPreferences.getInt("emojiInteractionsHintCount", 3);
-                dayNightThemeSwitchHintCount = sharedPreferences.getInt("dayNightThemeSwitchHintCount", 3);
-                mediaColumnsCount = sharedPreferences.getInt("mediaColumnsCount", 3);
-                fastScrollHintCount = sharedPreferences.getInt("fastScrollHintCount", 3);
-                dontAskManageStorage = sharedPreferences.getBoolean("dontAskManageStorage", false);
-                hasEmailLogin = sharedPreferences.getBoolean("hasEmailLogin", false);
-                useLNavigation = sharedPreferences.getBoolean("useLNavigation", false);
-                isFloatingDebugActive = sharedPreferences.getBoolean("floatingDebugActive", false);
+                repeatMode = sharedPreferences22.getInt("repeatMode", 0);
+                fontSize = sharedPreferences22.getInt("fons_size", !AndroidUtilities.isTablet() ? 18 : 16);
+                fontSizeIsDefault = sharedPreferences22.contains("fons_size");
+                bubbleRadius = sharedPreferences22.getInt("bubbleRadius", 17);
+                ivFontSize = sharedPreferences22.getInt("iv_font_size", fontSize);
+                allowBigEmoji = sharedPreferences22.getBoolean("allowBigEmoji", true);
+                useSystemEmoji = sharedPreferences22.getBoolean("useSystemEmoji", false);
+                streamMedia = sharedPreferences22.getBoolean("streamMedia", true);
+                saveStreamMedia = sharedPreferences22.getBoolean("saveStreamMedia", true);
+                smoothKeyboard = sharedPreferences22.getBoolean("smoothKeyboard2", true);
+                pauseMusicOnRecord = sharedPreferences22.getBoolean("pauseMusicOnRecord", false);
+                chatBlur = sharedPreferences22.getBoolean("chatBlur", true);
+                forceDisableTabletMode = sharedPreferences22.getBoolean("forceDisableTabletMode", false);
+                streamAllVideo = sharedPreferences22.getBoolean("streamAllVideo", BuildVars.DEBUG_VERSION);
+                streamMkv = sharedPreferences22.getBoolean("streamMkv", false);
+                suggestStickers = sharedPreferences22.getInt("suggestStickers", 0);
+                suggestAnimatedEmoji = sharedPreferences22.getBoolean("suggestAnimatedEmoji", true);
+                sortContactsByName = sharedPreferences22.getBoolean("sortContactsByName", false);
+                sortFilesByName = sharedPreferences22.getBoolean("sortFilesByName", false);
+                noSoundHintShowed = sharedPreferences22.getBoolean("noSoundHintShowed", false);
+                directShareHash = sharedPreferences22.getString("directShareHash2", null);
+                useThreeLinesLayout = sharedPreferences22.getBoolean("useThreeLinesLayout", false);
+                archiveHidden = sharedPreferences22.getBoolean("archiveHidden", false);
+                distanceSystemType = sharedPreferences22.getInt("distanceSystemType", 0);
+                devicePerformanceClass = sharedPreferences22.getInt("devicePerformanceClass", -1);
+                loopStickers = sharedPreferences22.getBoolean("loopStickers", true);
+                keepMedia = sharedPreferences22.getInt("keep_media", CacheByChatsController.KEEP_MEDIA_ONE_MONTH);
+                noStatusBar = sharedPreferences22.getBoolean("noStatusBar", true);
+                forceRtmpStream = sharedPreferences22.getBoolean("forceRtmpStream", false);
+                debugWebView = sharedPreferences22.getBoolean("debugWebView", false);
+                lastKeepMediaCheckTime = sharedPreferences22.getInt("lastKeepMediaCheckTime", 0);
+                lastLogsCheckTime = sharedPreferences22.getInt("lastLogsCheckTime", 0);
+                searchMessagesAsListHintShows = sharedPreferences22.getInt("searchMessagesAsListHintShows", 0);
+                searchMessagesAsListUsed = sharedPreferences22.getBoolean("searchMessagesAsListUsed", false);
+                stickersReorderingHintUsed = sharedPreferences22.getBoolean("stickersReorderingHintUsed", false);
+                textSelectionHintShows = sharedPreferences22.getInt("textSelectionHintShows", 0);
+                scheduledOrNoSoundHintShows = sharedPreferences22.getInt("scheduledOrNoSoundHintShows", 0);
+                forwardingOptionsHintShown = sharedPreferences22.getBoolean("forwardingOptionsHintShown", false);
+                lockRecordAudioVideoHint = sharedPreferences22.getInt("lockRecordAudioVideoHint", 0);
+                disableVoiceAudioEffects = sharedPreferences22.getBoolean("disableVoiceAudioEffects", false);
+                noiseSupression = sharedPreferences22.getBoolean("noiseSupression", false);
+                chatSwipeAction = sharedPreferences22.getInt("ChatSwipeAction", -1);
+                messageSeenHintCount = sharedPreferences22.getInt("messageSeenCount", 3);
+                emojiInteractionsHintCount = sharedPreferences22.getInt("emojiInteractionsHintCount", 3);
+                dayNightThemeSwitchHintCount = sharedPreferences22.getInt("dayNightThemeSwitchHintCount", 3);
+                mediaColumnsCount = sharedPreferences22.getInt("mediaColumnsCount", 3);
+                fastScrollHintCount = sharedPreferences22.getInt("fastScrollHintCount", 3);
+                dontAskManageStorage = sharedPreferences22.getBoolean("dontAskManageStorage", false);
+                hasEmailLogin = sharedPreferences22.getBoolean("hasEmailLogin", false);
+                useLNavigation = sharedPreferences22.getBoolean("useLNavigation", false);
+                isFloatingDebugActive = sharedPreferences22.getBoolean("floatingDebugActive", false);
                 showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
                 configLoaded = true;
                 try {
@@ -994,7 +998,7 @@ public class SharedConfig {
                 for (int i13 = 0; i13 < createMediaPaths2.size(); i13++) {
                     fillFilesRecursive(createMediaPaths2.valueAt(i13), arrayList3);
                 }
-                Collections.sort(arrayList3, SharedConfig$$ExternalSyntheticLambda5.INSTANCE);
+                Collections.sort(arrayList3, SharedConfig$$ExternalSyntheticLambda4.INSTANCE);
                 for (int i14 = 0; i14 < arrayList3.size(); i14++) {
                     j5 -= ((FileInfoInternal) arrayList3.get(i14)).file.length();
                     try {
@@ -1128,18 +1132,6 @@ public class SharedConfig {
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putInt("repeatMode", repeatMode);
         edit.commit();
-    }
-
-    public static void toggleSaveToGalleryFlag(int i) {
-        int i2 = saveToGalleryFlags;
-        if ((i2 & i) != 0) {
-            saveToGalleryFlags = (i ^ (-1)) & i2;
-        } else {
-            saveToGalleryFlags = i | i2;
-        }
-        MessagesController.getGlobalMainSettings().edit().putInt("save_gallery_flags", saveToGalleryFlags).apply();
-        ImageLoader.getInstance().checkMediaPaths();
-        ImageLoader.getInstance().getCacheOutQueue().postRunnable(SharedConfig$$ExternalSyntheticLambda3.INSTANCE);
     }
 
     public static void toggleAutoplayGifs() {
@@ -1324,11 +1316,29 @@ public class SharedConfig {
         if (!TextUtils.isEmpty(string5)) {
             SerializedData serializedData = new SerializedData(Base64.decode(string5, 0));
             int readInt32 = serializedData.readInt32(false);
-            for (int i2 = 0; i2 < readInt32; i2++) {
-                ProxyInfo proxyInfo = new ProxyInfo(serializedData.readString(false), serializedData.readInt32(false), serializedData.readString(false), serializedData.readString(false), serializedData.readString(false));
-                proxyList.add(proxyInfo);
-                if (currentProxy == null && !TextUtils.isEmpty(string) && string.equals(proxyInfo.address) && i == proxyInfo.port && string2.equals(proxyInfo.username) && string3.equals(proxyInfo.password)) {
-                    currentProxy = proxyInfo;
+            if (readInt32 == -1) {
+                byte readByte = serializedData.readByte(false);
+                if (readByte == 2) {
+                    int readInt322 = serializedData.readInt32(false);
+                    for (int i2 = 0; i2 < readInt322; i2++) {
+                        ProxyInfo proxyInfo = new ProxyInfo(serializedData.readString(false), serializedData.readInt32(false), serializedData.readString(false), serializedData.readString(false), serializedData.readString(false));
+                        proxyInfo.ping = serializedData.readInt64(false);
+                        proxyInfo.availableCheckTime = serializedData.readInt64(false);
+                        proxyList.add(proxyInfo);
+                        if (currentProxy == null && !TextUtils.isEmpty(string) && string.equals(proxyInfo.address) && i == proxyInfo.port && string2.equals(proxyInfo.username) && string3.equals(proxyInfo.password)) {
+                            currentProxy = proxyInfo;
+                        }
+                    }
+                } else {
+                    FileLog.e("Unknown proxy schema version: " + ((int) readByte));
+                }
+            } else {
+                for (int i3 = 0; i3 < readInt32; i3++) {
+                    ProxyInfo proxyInfo2 = new ProxyInfo(serializedData.readString(false), serializedData.readInt32(false), serializedData.readString(false), serializedData.readString(false), serializedData.readString(false));
+                    proxyList.add(proxyInfo2);
+                    if (currentProxy == null && !TextUtils.isEmpty(string) && string.equals(proxyInfo2.address) && i == proxyInfo2.port && string2.equals(proxyInfo2.username) && string3.equals(proxyInfo2.password)) {
+                        currentProxy = proxyInfo2;
+                    }
                 }
             }
             serializedData.cleanup();
@@ -1336,17 +1346,21 @@ public class SharedConfig {
         if (currentProxy != null || TextUtils.isEmpty(string)) {
             return;
         }
-        ProxyInfo proxyInfo2 = new ProxyInfo(string, i, string2, string3, string4);
-        currentProxy = proxyInfo2;
-        proxyList.add(0, proxyInfo2);
+        ProxyInfo proxyInfo3 = new ProxyInfo(string, i, string2, string3, string4);
+        currentProxy = proxyInfo3;
+        proxyList.add(0, proxyInfo3);
     }
 
     public static void saveProxyList() {
+        ArrayList arrayList = new ArrayList(proxyList);
+        Collections.sort(arrayList, SharedConfig$$ExternalSyntheticLambda5.INSTANCE);
         SerializedData serializedData = new SerializedData();
-        int size = proxyList.size();
+        serializedData.writeInt32(-1);
+        serializedData.writeByte(2);
+        int size = arrayList.size();
         serializedData.writeInt32(size);
         for (int i = 0; i < size; i++) {
-            ProxyInfo proxyInfo = proxyList.get(i);
+            ProxyInfo proxyInfo = (ProxyInfo) arrayList.get(i);
             String str = proxyInfo.address;
             String str2 = "";
             if (str == null) {
@@ -1369,9 +1383,25 @@ public class SharedConfig {
                 str2 = str5;
             }
             serializedData.writeString(str2);
+            serializedData.writeInt64(proxyInfo.ping);
+            serializedData.writeInt64(proxyInfo.availableCheckTime);
         }
         ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0).edit().putString("proxy_list", Base64.encodeToString(serializedData.toByteArray(), 2)).commit();
         serializedData.cleanup();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ int lambda$saveProxyList$3(ProxyInfo proxyInfo, ProxyInfo proxyInfo2) {
+        ProxyInfo proxyInfo3 = currentProxy;
+        long j = proxyInfo3 == proxyInfo ? -200000L : 0L;
+        if (!proxyInfo.available) {
+            j += 100000;
+        }
+        long j2 = proxyInfo3 != proxyInfo2 ? 0L : -200000L;
+        if (!proxyInfo2.available) {
+            j2 += 100000;
+        }
+        return Long.compare(proxyInfo.ping + j, proxyInfo2.ping + j2);
     }
 
     public static ProxyInfo addProxy(ProxyInfo proxyInfo) {
@@ -1386,6 +1416,10 @@ public class SharedConfig {
         proxyList.add(proxyInfo);
         saveProxyList();
         return proxyInfo;
+    }
+
+    public static boolean isProxyEnabled() {
+        return MessagesController.getGlobalMainSettings().getBoolean("proxy_enabled", false) && currentProxy != null;
     }
 
     public static void deleteProxy(ProxyInfo proxyInfo) {
@@ -1422,21 +1456,21 @@ public class SharedConfig {
             file2.mkdir();
             File file3 = new File(file, "Telegram Video");
             file3.mkdir();
-            if (saveToGalleryFlags == 0 && BuildVars.NO_SCOPED_STORAGE) {
+            if (!BuildVars.NO_SCOPED_STORAGE) {
                 if (file2.isDirectory()) {
-                    AndroidUtilities.createEmptyFile(new File(file2, ".nomedia"));
+                    new File(file2, ".nomedia").delete();
                 }
                 if (file3.isDirectory()) {
-                    AndroidUtilities.createEmptyFile(new File(file3, ".nomedia"));
+                    new File(file3, ".nomedia").delete();
                     return;
                 }
                 return;
             }
             if (file2.isDirectory()) {
-                new File(file2, ".nomedia").delete();
+                AndroidUtilities.createEmptyFile(new File(file2, ".nomedia"));
             }
             if (file3.isDirectory()) {
-                new File(file3, ".nomedia").delete();
+                AndroidUtilities.createEmptyFile(new File(file3, ".nomedia"));
             }
         } catch (Throwable th) {
             FileLog.e(th);

@@ -266,12 +266,16 @@ public class CheckBoxCell extends FrameLayout {
     }
 
     public void setText(CharSequence charSequence, String str, boolean z, boolean z2) {
+        setText(charSequence, str, z, z2, false);
+    }
+
+    public void setText(CharSequence charSequence, String str, boolean z, boolean z2, boolean z3) {
         this.textView.setText(charSequence);
         CheckBox2 checkBox2 = this.checkBoxRound;
         if (checkBox2 != null) {
-            checkBox2.setChecked(z, false);
+            checkBox2.setChecked(z, z3);
         } else {
-            this.checkBoxSquare.setChecked(z, false);
+            this.checkBoxSquare.setChecked(z, z3);
         }
         this.valueTextView.setText(str);
         this.needDivider = z2;
@@ -373,6 +377,10 @@ public class CheckBoxCell extends FrameLayout {
         }
     }
 
+    public CheckBox2 getCheckBoxRound() {
+        return this.checkBoxRound;
+    }
+
     public void setSquareCheckBoxColor(String str, String str2, String str3) {
         CheckBoxSquare checkBoxSquare = this.checkBoxSquare;
         if (checkBoxSquare != null) {
@@ -406,5 +414,13 @@ public class CheckBoxCell extends FrameLayout {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
         Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
         return color != null ? color.intValue() : Theme.getColor(str);
+    }
+
+    public void setIcon(int i) {
+        this.checkBoxRound.setIcon(i);
+    }
+
+    public boolean hasIcon() {
+        return this.checkBoxRound.hasIcon();
     }
 }

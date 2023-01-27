@@ -1164,7 +1164,12 @@ public class DatabaseMigrationHelper {
         if (i7 == 110) {
             sQLiteDatabase.executeFast("CREATE TABLE stickersets(id INTEGER PRIMATE KEY, data BLOB, hash INTEGER);").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 111").stepThis().dispose();
-            return 111;
+            i7 = 111;
+        }
+        if (i7 == 111) {
+            sQLiteDatabase.executeFast("CREATE TABLE emoji_groups(type INTEGER PRIMARY KEY, data BLOB)").stepThis().dispose();
+            sQLiteDatabase.executeFast("PRAGMA user_version = 112").stepThis().dispose();
+            return 112;
         }
         return i7;
     }

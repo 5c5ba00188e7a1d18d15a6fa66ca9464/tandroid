@@ -144,7 +144,6 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(int i, View view, int i2) {
-        TLRPC$Chat chat;
         MessageObject message = this.adapter.getMessage(i2);
         if (message == null) {
             return;
@@ -174,7 +173,11 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
                 if (!canPreviewDocument) {
                     TLRPC$Message tLRPC$Message = message2.messageOwner;
                     boolean z2 = tLRPC$Message != null && tLRPC$Message.noforwards;
-                    if (message2.isFromChat() && (chat = MessagesController.getInstance(i).getChat(Long.valueOf(-message2.getFromChatId()))) != null) {
+                    TLRPC$Chat chat = message.messageOwner.peer_id.channel_id != 0 ? MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(message.messageOwner.peer_id.channel_id)) : null;
+                    if (chat == null) {
+                        chat = message.messageOwner.peer_id.chat_id != 0 ? MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(message.messageOwner.peer_id.chat_id)) : null;
+                    }
+                    if (chat != null) {
                         z2 = chat.noforwards;
                     }
                     canPreviewDocument = (canPreviewDocument || z2) ? true : true;

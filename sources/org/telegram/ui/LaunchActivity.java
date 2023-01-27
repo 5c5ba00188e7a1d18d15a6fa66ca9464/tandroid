@@ -33,7 +33,10 @@ import android.os.StatFs;
 import android.os.StrictMode;
 import android.os.SystemClock;
 import android.provider.Settings;
+import android.text.SpannableStringBuilder;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.style.ClickableSpan;
 import android.util.Base64;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
@@ -85,6 +88,7 @@ import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.BackupAgent;
 import org.telegram.messenger.BotWebViewVibrationEffect;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatObject;
@@ -134,7 +138,6 @@ import org.telegram.tgnet.TLRPC$TL_account_getPassword;
 import org.telegram.tgnet.TLRPC$TL_account_getTheme;
 import org.telegram.tgnet.TLRPC$TL_account_getWallPaper;
 import org.telegram.tgnet.TLRPC$TL_account_sendConfirmPhoneCode;
-import org.telegram.tgnet.TLRPC$TL_account_updateEmojiStatus;
 import org.telegram.tgnet.TLRPC$TL_attachMenuBot;
 import org.telegram.tgnet.TLRPC$TL_attachMenuBotsBot;
 import org.telegram.tgnet.TLRPC$TL_auth_acceptLoginToken;
@@ -344,6 +347,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     private static ArrayList<BaseFragment> mainFragmentsStack = new ArrayList<>();
     private static ArrayList<BaseFragment> layerFragmentsStack = new ArrayList<>();
     private static ArrayList<BaseFragment> rightFragmentsStack = new ArrayList<>();
+    private List<PasscodeView> overlayPasscodeViews = new ArrayList();
     private boolean isNavigationBarColorFrozen = false;
     private List<Runnable> onUserLeaveHintListeners = new ArrayList();
     private SparseIntArray requestedPermissions = new SparseIntArray();
@@ -826,6 +830,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 }
             });
         }
+        BackupAgent.requestBackup(this);
+        RestrictedLanguagesSelectActivity.checkRestrictedLanguages(false);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -1283,7 +1289,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             return;
         }
         View childAt = this.sideMenu.getChildAt(0);
-        SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow[] selectAnimatedEmojiDialogWindowArr = new SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow[1];
+        final SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow[] selectAnimatedEmojiDialogWindowArr = new SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow[1];
         TLRPC$User user = MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId()));
         if (childAt instanceof DrawerProfileCell) {
             DrawerProfileCell drawerProfileCell = (DrawerProfileCell) childAt;
@@ -1312,17 +1318,80 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             swapAnimatedEmojiDrawable = null;
         }
         View view2 = view;
-        12 r7 = new 12(lastFragment, this, true, Integer.valueOf(i), 0, null, selectAnimatedEmojiDialogWindowArr);
+        SelectAnimatedEmojiDialog selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(lastFragment, this, true, Integer.valueOf(i), 0, null) { // from class: org.telegram.ui.LaunchActivity.12
+            @Override // org.telegram.ui.SelectAnimatedEmojiDialog
+            public void onSettings() {
+                DrawerLayoutContainer drawerLayoutContainer = LaunchActivity.this.drawerLayoutContainer;
+                if (drawerLayoutContainer != null) {
+                    drawerLayoutContainer.closeDrawer();
+                }
+            }
+
+            @Override // org.telegram.ui.SelectAnimatedEmojiDialog
+            protected void onEmojiSelected(View view3, Long l, TLRPC$Document tLRPC$Document, Integer num) {
+                TLRPC$TL_emojiStatusUntil tLRPC$TL_emojiStatusUntil;
+                String string;
+                int i3;
+                if (l == null) {
+                    tLRPC$TL_emojiStatusUntil = new TLRPC$TL_emojiStatusEmpty();
+                } else if (num != null) {
+                    TLRPC$TL_emojiStatusUntil tLRPC$TL_emojiStatusUntil2 = new TLRPC$TL_emojiStatusUntil();
+                    tLRPC$TL_emojiStatusUntil2.document_id = l.longValue();
+                    tLRPC$TL_emojiStatusUntil2.until = num.intValue();
+                    tLRPC$TL_emojiStatusUntil = tLRPC$TL_emojiStatusUntil2;
+                } else {
+                    TLRPC$TL_emojiStatus tLRPC$TL_emojiStatus = new TLRPC$TL_emojiStatus();
+                    tLRPC$TL_emojiStatus.document_id = l.longValue();
+                    tLRPC$TL_emojiStatusUntil = tLRPC$TL_emojiStatus;
+                }
+                MessagesController.getInstance(LaunchActivity.this.currentAccount).updateEmojiStatus(tLRPC$TL_emojiStatusUntil);
+                TLRPC$User currentUser = UserConfig.getInstance(LaunchActivity.this.currentAccount).getCurrentUser();
+                if (currentUser != null) {
+                    for (int i4 = 0; i4 < LaunchActivity.this.sideMenu.getChildCount(); i4++) {
+                        View childAt2 = LaunchActivity.this.sideMenu.getChildAt(i4);
+                        if (childAt2 instanceof DrawerUserCell) {
+                            DrawerUserCell drawerUserCell = (DrawerUserCell) childAt2;
+                            drawerUserCell.setAccount(drawerUserCell.getAccountNumber());
+                        } else if (childAt2 instanceof DrawerProfileCell) {
+                            if (l != null) {
+                                ((DrawerProfileCell) childAt2).animateStateChange(l.longValue());
+                            }
+                            ((DrawerProfileCell) childAt2).setUser(currentUser, LaunchActivity.this.drawerLayoutAdapter.isAccountsShown());
+                        } else if ((childAt2 instanceof DrawerActionCell) && LaunchActivity.this.drawerLayoutAdapter.getId(LaunchActivity.this.sideMenu.getChildAdapterPosition(childAt2)) == 15) {
+                            TLRPC$EmojiStatus tLRPC$EmojiStatus = currentUser.emoji_status;
+                            boolean z2 = (tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatus) || ((tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil) && ((TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus).until > ((int) (System.currentTimeMillis() / 1000)));
+                            DrawerActionCell drawerActionCell = (DrawerActionCell) childAt2;
+                            if (z2) {
+                                string = LocaleController.getString("ChangeEmojiStatus", R.string.ChangeEmojiStatus);
+                            } else {
+                                string = LocaleController.getString("SetEmojiStatus", R.string.SetEmojiStatus);
+                            }
+                            drawerActionCell.updateText(string);
+                            if (z2) {
+                                i3 = R.raw.emoji_status_change_to_set;
+                            } else {
+                                i3 = R.raw.emoji_status_set_to_change;
+                            }
+                            drawerActionCell.updateIcon(i3);
+                        }
+                    }
+                }
+                if (selectAnimatedEmojiDialogWindowArr[0] != null) {
+                    LaunchActivity.this.selectAnimatedEmojiDialog = null;
+                    selectAnimatedEmojiDialogWindowArr[0].dismiss();
+                }
+            }
+        };
         if (user != null) {
             TLRPC$EmojiStatus tLRPC$EmojiStatus = user.emoji_status;
             if ((tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil) && ((TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus).until > ((int) (System.currentTimeMillis() / 1000))) {
-                r7.setExpireDateHint(((TLRPC$TL_emojiStatusUntil) user.emoji_status).until);
+                selectAnimatedEmojiDialog.setExpireDateHint(((TLRPC$TL_emojiStatusUntil) user.emoji_status).until);
             }
         }
-        r7.setSelected((swapAnimatedEmojiDrawable == null || !(swapAnimatedEmojiDrawable.getDrawable() instanceof AnimatedEmojiDrawable)) ? null : Long.valueOf(((AnimatedEmojiDrawable) swapAnimatedEmojiDrawable.getDrawable()).getDocumentId()));
-        r7.setSaveState(2);
-        r7.setScrimDrawable(swapAnimatedEmojiDrawable, view2);
-        SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow selectAnimatedEmojiDialogWindow = new SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow(r7, -2, -2) { // from class: org.telegram.ui.LaunchActivity.13
+        selectAnimatedEmojiDialog.setSelected((swapAnimatedEmojiDrawable == null || !(swapAnimatedEmojiDrawable.getDrawable() instanceof AnimatedEmojiDrawable)) ? null : Long.valueOf(((AnimatedEmojiDrawable) swapAnimatedEmojiDrawable.getDrawable()).getDocumentId()));
+        selectAnimatedEmojiDialog.setSaveState(2);
+        selectAnimatedEmojiDialog.setScrimDrawable(swapAnimatedEmojiDrawable, view2);
+        SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow selectAnimatedEmojiDialogWindow = new SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow(selectAnimatedEmojiDialog, -2, -2) { // from class: org.telegram.ui.LaunchActivity.13
             @Override // org.telegram.ui.SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow, android.widget.PopupWindow
             public void dismiss() {
                 super.dismiss();
@@ -1333,89 +1402,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         selectAnimatedEmojiDialogWindowArr[0] = selectAnimatedEmojiDialogWindow;
         selectAnimatedEmojiDialogWindowArr[0].showAsDropDown(this.sideMenu.getChildAt(0), 0, i2, 48);
         selectAnimatedEmojiDialogWindowArr[0].dimBehind();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 12 extends SelectAnimatedEmojiDialog {
-        final /* synthetic */ SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow[] val$popup;
-
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        12(BaseFragment baseFragment, Context context, boolean z, Integer num, int i, Theme.ResourcesProvider resourcesProvider, SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow[] selectAnimatedEmojiDialogWindowArr) {
-            super(baseFragment, context, z, num, i, resourcesProvider);
-            this.val$popup = selectAnimatedEmojiDialogWindowArr;
-        }
-
-        @Override // org.telegram.ui.SelectAnimatedEmojiDialog
-        public void onSettings() {
-            DrawerLayoutContainer drawerLayoutContainer = LaunchActivity.this.drawerLayoutContainer;
-            if (drawerLayoutContainer != null) {
-                drawerLayoutContainer.closeDrawer();
-            }
-        }
-
-        @Override // org.telegram.ui.SelectAnimatedEmojiDialog
-        protected void onEmojiSelected(View view, Long l, TLRPC$Document tLRPC$Document, Integer num) {
-            String string;
-            int i;
-            TLRPC$TL_account_updateEmojiStatus tLRPC$TL_account_updateEmojiStatus = new TLRPC$TL_account_updateEmojiStatus();
-            if (l == null) {
-                tLRPC$TL_account_updateEmojiStatus.emoji_status = new TLRPC$TL_emojiStatusEmpty();
-            } else if (num != null) {
-                TLRPC$TL_emojiStatusUntil tLRPC$TL_emojiStatusUntil = new TLRPC$TL_emojiStatusUntil();
-                tLRPC$TL_account_updateEmojiStatus.emoji_status = tLRPC$TL_emojiStatusUntil;
-                tLRPC$TL_emojiStatusUntil.document_id = l.longValue();
-                ((TLRPC$TL_emojiStatusUntil) tLRPC$TL_account_updateEmojiStatus.emoji_status).until = num.intValue();
-            } else {
-                TLRPC$TL_emojiStatus tLRPC$TL_emojiStatus = new TLRPC$TL_emojiStatus();
-                tLRPC$TL_account_updateEmojiStatus.emoji_status = tLRPC$TL_emojiStatus;
-                tLRPC$TL_emojiStatus.document_id = l.longValue();
-            }
-            TLRPC$User user = MessagesController.getInstance(LaunchActivity.this.currentAccount).getUser(Long.valueOf(UserConfig.getInstance(LaunchActivity.this.currentAccount).getClientUserId()));
-            if (user != null) {
-                user.emoji_status = tLRPC$TL_account_updateEmojiStatus.emoji_status;
-                NotificationCenter.getInstance(LaunchActivity.this.currentAccount).postNotificationName(NotificationCenter.userEmojiStatusUpdated, user);
-                MessagesController.getInstance(LaunchActivity.this.currentAccount).updateEmojiStatusUntilUpdate(user.id, user.emoji_status);
-                for (int i2 = 0; i2 < LaunchActivity.this.sideMenu.getChildCount(); i2++) {
-                    View childAt = LaunchActivity.this.sideMenu.getChildAt(i2);
-                    if (childAt instanceof DrawerUserCell) {
-                        DrawerUserCell drawerUserCell = (DrawerUserCell) childAt;
-                        drawerUserCell.setAccount(drawerUserCell.getAccountNumber());
-                    } else if (childAt instanceof DrawerProfileCell) {
-                        if (l != null) {
-                            ((DrawerProfileCell) childAt).animateStateChange(l.longValue());
-                        }
-                        ((DrawerProfileCell) childAt).setUser(user, LaunchActivity.this.drawerLayoutAdapter.isAccountsShown());
-                    } else if ((childAt instanceof DrawerActionCell) && LaunchActivity.this.drawerLayoutAdapter.getId(LaunchActivity.this.sideMenu.getChildAdapterPosition(childAt)) == 15) {
-                        TLRPC$EmojiStatus tLRPC$EmojiStatus = user.emoji_status;
-                        boolean z = (tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatus) || ((tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil) && ((TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus).until > ((int) (System.currentTimeMillis() / 1000)));
-                        DrawerActionCell drawerActionCell = (DrawerActionCell) childAt;
-                        if (z) {
-                            string = LocaleController.getString("ChangeEmojiStatus", R.string.ChangeEmojiStatus);
-                        } else {
-                            string = LocaleController.getString("SetEmojiStatus", R.string.SetEmojiStatus);
-                        }
-                        drawerActionCell.updateText(string);
-                        if (z) {
-                            i = R.raw.emoji_status_change_to_set;
-                        } else {
-                            i = R.raw.emoji_status_set_to_change;
-                        }
-                        drawerActionCell.updateIcon(i);
-                    }
-                }
-            }
-            ConnectionsManager.getInstance(LaunchActivity.this.currentAccount).sendRequest(tLRPC$TL_account_updateEmojiStatus, LaunchActivity$12$$ExternalSyntheticLambda0.INSTANCE);
-            if (this.val$popup[0] != null) {
-                LaunchActivity.this.selectAnimatedEmojiDialog = null;
-                this.val$popup[0].dismiss();
-            }
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public static /* synthetic */ void lambda$onEmojiSelected$0(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-            boolean z = tLObject instanceof TLRPC$TL_boolTrue;
-        }
     }
 
     public FireworksOverlay getFireworksOverlay() {
@@ -1566,6 +1552,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (drawerLayoutAdapter != null) {
             drawerLayoutAdapter.notifyDataSetChanged();
         }
+        RestrictedLanguagesSelectActivity.checkRestrictedLanguages(true);
         clearFragments();
         this.actionBarLayout.rebuildLogout();
         if (AndroidUtilities.isTablet()) {
@@ -1782,20 +1769,29 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (playingMessageObject != null && playingMessageObject.isRoundVideo()) {
             MediaController.getInstance().cleanupPlayer(true, true);
         }
-        this.passcodeView.onShow(z, z2, i, i2, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda43
+        this.passcodeView.onShow(this.overlayPasscodeViews.isEmpty() && z, z2, i, i2, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda43
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$showPasscodeActivity$9(runnable);
             }
         }, runnable2);
+        int i3 = 0;
+        while (i3 < this.overlayPasscodeViews.size()) {
+            this.overlayPasscodeViews.get(i3).onShow(z && i3 == this.overlayPasscodeViews.size() - 1, z2, i, i2, null, null);
+            i3++;
+        }
         SharedConfig.isWaitingForPasscodeEnter = true;
         this.drawerLayoutContainer.setAllowOpenDrawer(false, false);
-        this.passcodeView.setDelegate(new PasscodeView.PasscodeViewDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda107
+        PasscodeView.PasscodeViewDelegate passcodeViewDelegate = new PasscodeView.PasscodeViewDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda107
             @Override // org.telegram.ui.Components.PasscodeView.PasscodeViewDelegate
-            public final void didAcceptedPassword() {
-                LaunchActivity.this.lambda$showPasscodeActivity$10();
+            public final void didAcceptedPassword(PasscodeView passcodeView2) {
+                LaunchActivity.this.lambda$showPasscodeActivity$10(passcodeView2);
             }
-        });
+        };
+        this.passcodeView.setDelegate(passcodeViewDelegate);
+        for (PasscodeView passcodeView2 : this.overlayPasscodeViews) {
+            passcodeView2.setDelegate(passcodeViewDelegate);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1817,7 +1813,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showPasscodeActivity$10() {
+    public /* synthetic */ void lambda$showPasscodeActivity$10(PasscodeView passcodeView) {
         SharedConfig.isWaitingForPasscodeEnter = false;
         Intent intent = this.passcodeSaveIntent;
         if (intent != null) {
@@ -1835,6 +1831,19 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             }
             this.rightActionBarLayout.getView().setVisibility(0);
         }
+        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.passcodeDismissed, passcodeView);
+    }
+
+    public boolean allowShowFingerprintDialog(PasscodeView passcodeView) {
+        if (!this.overlayPasscodeViews.isEmpty()) {
+            List<PasscodeView> list = this.overlayPasscodeViews;
+            if (list.get(list.size() - 1) != passcodeView) {
+                return false;
+            }
+        } else if (passcodeView != this.passcodeView) {
+            return false;
+        }
+        return true;
     }
 
     private boolean handleIntent(Intent intent, boolean z, boolean z2, boolean z3) {
@@ -1842,10 +1851,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:1074:0x2028, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1074:0x202a, code lost:
         if (r1.checkCanOpenChat(r0, r2.get(r2.size() - r3)) != false) goto L120;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1091:0x20a3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1091:0x20a5, code lost:
         if (r1.checkCanOpenChat(r0, r2.get(r2.size() - r3)) != false) goto L138;
      */
     /* JADX WARN: Code restructure failed: missing block: B:165:0x031b, code lost:
@@ -1864,21 +1873,21 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (r12 == 0) goto L1124;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1005:0x1d43  */
-    /* JADX WARN: Removed duplicated region for block: B:1006:0x1d53  */
-    /* JADX WARN: Removed duplicated region for block: B:1052:0x1fc5  */
-    /* JADX WARN: Removed duplicated region for block: B:1065:0x1ff4  */
-    /* JADX WARN: Removed duplicated region for block: B:1083:0x206e  */
-    /* JADX WARN: Removed duplicated region for block: B:1174:0x225b  */
-    /* JADX WARN: Removed duplicated region for block: B:1175:0x226a  */
-    /* JADX WARN: Removed duplicated region for block: B:1178:0x2278  */
-    /* JADX WARN: Removed duplicated region for block: B:1179:0x2289  */
-    /* JADX WARN: Removed duplicated region for block: B:1246:0x24cb A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:1249:0x24d3  */
-    /* JADX WARN: Removed duplicated region for block: B:1260:0x2522  */
-    /* JADX WARN: Removed duplicated region for block: B:1271:0x256f  */
-    /* JADX WARN: Removed duplicated region for block: B:1273:0x257b  */
-    /* JADX WARN: Removed duplicated region for block: B:1275:0x2583  */
+    /* JADX WARN: Removed duplicated region for block: B:1005:0x1d45  */
+    /* JADX WARN: Removed duplicated region for block: B:1006:0x1d55  */
+    /* JADX WARN: Removed duplicated region for block: B:1052:0x1fc7  */
+    /* JADX WARN: Removed duplicated region for block: B:1065:0x1ff6  */
+    /* JADX WARN: Removed duplicated region for block: B:1083:0x2070  */
+    /* JADX WARN: Removed duplicated region for block: B:1174:0x225d  */
+    /* JADX WARN: Removed duplicated region for block: B:1175:0x226c  */
+    /* JADX WARN: Removed duplicated region for block: B:1178:0x227a  */
+    /* JADX WARN: Removed duplicated region for block: B:1179:0x228b  */
+    /* JADX WARN: Removed duplicated region for block: B:1246:0x24cd A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:1249:0x24d5  */
+    /* JADX WARN: Removed duplicated region for block: B:1260:0x2524  */
+    /* JADX WARN: Removed duplicated region for block: B:1271:0x2571  */
+    /* JADX WARN: Removed duplicated region for block: B:1273:0x257d  */
+    /* JADX WARN: Removed duplicated region for block: B:1275:0x2585  */
     /* JADX WARN: Removed duplicated region for block: B:1328:0x1331 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:1341:0x1c6a A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:164:0x0319  */
@@ -1941,13 +1950,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r3v11 */
     /* JADX WARN: Type inference failed for: r3v14 */
     /* JADX WARN: Type inference failed for: r3v15 */
-    /* JADX WARN: Type inference failed for: r3v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r8v13, types: [android.os.Bundle, java.lang.String] */
     /* JADX WARN: Type inference failed for: r8v23 */
     /* JADX WARN: Type inference failed for: r8v39 */
     /* JADX WARN: Type inference failed for: r8v41 */
     /* JADX WARN: Type inference failed for: r8v48 */
-    /* JADX WARN: Type inference failed for: r9v10, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r9v10, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r9v18 */
     /* JADX WARN: Type inference failed for: r9v223 */
     /* JADX WARN: Type inference failed for: r9v225 */
@@ -5889,7 +5898,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 TLRPC$TL_codeSettings tLRPC$TL_codeSettings = new TLRPC$TL_codeSettings();
                                 tLRPC$TL_account_sendConfirmPhoneCode.settings = tLRPC$TL_codeSettings;
                                 tLRPC$TL_codeSettings.allow_flashcall = false;
-                                tLRPC$TL_codeSettings.allow_app_hash = PushListenerController.GooglePushListenerServiceProvider.INSTANCE.hasServices();
+                                boolean hasServices = PushListenerController.GooglePushListenerServiceProvider.INSTANCE.hasServices();
+                                tLRPC$TL_codeSettings.allow_firebase = hasServices;
+                                tLRPC$TL_codeSettings.allow_app_hash = hasServices;
                                 SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
                                 if (!tLRPC$TL_account_sendConfirmPhoneCode.settings.allow_app_hash) {
                                     sharedPreferences.edit().putString("sms_hash", BuildVars.SMS_HASH).apply();
@@ -6114,7 +6125,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         TLRPC$TL_codeSettings tLRPC$TL_codeSettings2 = new TLRPC$TL_codeSettings();
                         tLRPC$TL_account_sendConfirmPhoneCode.settings = tLRPC$TL_codeSettings2;
                         tLRPC$TL_codeSettings2.allow_flashcall = false;
-                        tLRPC$TL_codeSettings2.allow_app_hash = PushListenerController.GooglePushListenerServiceProvider.INSTANCE.hasServices();
+                        boolean hasServices2 = PushListenerController.GooglePushListenerServiceProvider.INSTANCE.hasServices();
+                        tLRPC$TL_codeSettings2.allow_firebase = hasServices2;
+                        tLRPC$TL_codeSettings2.allow_app_hash = hasServices2;
                         SharedPreferences sharedPreferences2 = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
                         if (!tLRPC$TL_account_sendConfirmPhoneCode.settings.allow_app_hash) {
                         }
@@ -7661,8 +7674,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 DialogsActivity dialogsActivity = new DialogsActivity(bundle);
                                 dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda115
                                     @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                                    public final void didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList4, CharSequence charSequence, boolean z2) {
-                                        LaunchActivity.this.lambda$runLinkRequest$62(z, i4, str9, dialogsActivity2, arrayList4, charSequence, z2);
+                                    public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList4, CharSequence charSequence, boolean z2) {
+                                        boolean lambda$runLinkRequest$62;
+                                        lambda$runLinkRequest$62 = LaunchActivity.this.lambda$runLinkRequest$62(z, i4, str9, dialogsActivity2, arrayList4, charSequence, z2);
+                                        return lambda$runLinkRequest$62;
                                     }
                                 });
                                 presentFragment(dialogsActivity, false, true);
@@ -8058,8 +8073,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 DialogsActivity dialogsActivity = new DialogsActivity(bundle);
                 dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda113
                     @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                    public final void didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList3, CharSequence charSequence, boolean z3) {
-                        LaunchActivity.this.lambda$runLinkRequest$48(str, i, tLRPC$TL_contacts_resolvedPeer, dialogsActivity2, arrayList3, charSequence, z3);
+                    public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList3, CharSequence charSequence, boolean z3) {
+                        boolean lambda$runLinkRequest$48;
+                        lambda$runLinkRequest$48 = LaunchActivity.this.lambda$runLinkRequest$48(str, i, tLRPC$TL_contacts_resolvedPeer, dialogsActivity2, arrayList3, charSequence, z3);
+                        return lambda$runLinkRequest$48;
                     }
                 });
                 this.actionBarLayout.presentFragment(dialogsActivity, !AndroidUtilities.isTablet() ? this.actionBarLayout.getFragmentStack().size() <= 1 || !(this.actionBarLayout.getFragmentStack().get(this.actionBarLayout.getFragmentStack().size() - 1) instanceof DialogsActivity) : this.layersActionBarLayout.getFragmentStack().size() <= 0 || !(this.layersActionBarLayout.getFragmentStack().get(this.layersActionBarLayout.getFragmentStack().size() - 1) instanceof DialogsActivity), true, true, false);
@@ -8109,8 +8126,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 final String str14 = str13;
                 dialogsActivity2.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda112
                     @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                    public final void didSelectDialogs(DialogsActivity dialogsActivity3, ArrayList arrayList4, CharSequence charSequence, boolean z3) {
-                        LaunchActivity.this.lambda$runLinkRequest$53(i, tLRPC$User2, str9, str14, dialogsActivity2, dialogsActivity3, arrayList4, charSequence, z3);
+                    public final boolean didSelectDialogs(DialogsActivity dialogsActivity3, ArrayList arrayList4, CharSequence charSequence, boolean z3) {
+                        boolean lambda$runLinkRequest$53;
+                        lambda$runLinkRequest$53 = LaunchActivity.this.lambda$runLinkRequest$53(i, tLRPC$User2, str9, str14, dialogsActivity2, dialogsActivity3, arrayList4, charSequence, z3);
+                        return lambda$runLinkRequest$53;
                     }
                 });
                 lambda$runLinkRequest$71(dialogsActivity2);
@@ -8262,8 +8281,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 DialogsActivity dialogsActivity2 = new DialogsActivity(bundle);
                 dialogsActivity2.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda114
                     @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                    public final void didSelectDialogs(DialogsActivity dialogsActivity3, ArrayList arrayList3, CharSequence charSequence, boolean z) {
-                        LaunchActivity.this.lambda$runLinkRequest$41(tLRPC$User, str2, i, dialogsActivity3, arrayList3, charSequence, z);
+                    public final boolean didSelectDialogs(DialogsActivity dialogsActivity3, ArrayList arrayList3, CharSequence charSequence, boolean z) {
+                        boolean lambda$runLinkRequest$41;
+                        lambda$runLinkRequest$41 = LaunchActivity.this.lambda$runLinkRequest$41(tLRPC$User, str2, i, dialogsActivity3, arrayList3, charSequence, z);
+                        return lambda$runLinkRequest$41;
                     }
                 });
                 dialogsActivity = dialogsActivity2;
@@ -8310,7 +8331,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         LaunchActivity.lambda$runLinkRequest$45(CheckBoxCell.this, atomicBoolean, view);
                     }
                 });
-                negativeButton.setCustomViewOffset(12);
                 negativeButton.setView(checkBoxCell);
             }
             negativeButton.show();
@@ -8321,7 +8341,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$runLinkRequest$41(TLRPC$User tLRPC$User, String str, int i, DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z) {
+    public /* synthetic */ boolean lambda$runLinkRequest$41(TLRPC$User tLRPC$User, String str, int i, DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z) {
         long j = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
         Bundle bundle = new Bundle();
         bundle.putBoolean("scrollToTopOnResume", true);
@@ -8340,6 +8360,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             NotificationCenter.getInstance(i).postNotificationName(NotificationCenter.closeChats, new Object[0]);
             this.actionBarLayout.presentFragment(new ChatActivity(bundle), true, false, true, false);
         }
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -8386,7 +8407,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$runLinkRequest$48(String str, int i, TLRPC$TL_contacts_resolvedPeer tLRPC$TL_contacts_resolvedPeer, DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z) {
+    public /* synthetic */ boolean lambda$runLinkRequest$48(String str, int i, TLRPC$TL_contacts_resolvedPeer tLRPC$TL_contacts_resolvedPeer, DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z) {
         long j = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
         TLRPC$TL_inputMediaGame tLRPC$TL_inputMediaGame = new TLRPC$TL_inputMediaGame();
         TLRPC$TL_inputGameShortName tLRPC$TL_inputGameShortName = new TLRPC$TL_inputGameShortName();
@@ -8407,10 +8428,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             NotificationCenter.getInstance(i).postNotificationName(NotificationCenter.closeChats, new Object[0]);
             this.actionBarLayout.presentFragment(new ChatActivity(bundle), true, false, true, false);
         }
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$runLinkRequest$53(final int i, final TLRPC$User tLRPC$User, final String str, final String str2, final DialogsActivity dialogsActivity, DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z) {
+    public /* synthetic */ boolean lambda$runLinkRequest$53(final int i, final TLRPC$User tLRPC$User, final String str, final String str2, final DialogsActivity dialogsActivity, DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z) {
         TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights;
         final long j = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
         final TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j));
@@ -8421,20 +8443,21 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     LaunchActivity.this.lambda$runLinkRequest$51(str, str2, i, chat, dialogsActivity, tLRPC$User, j, z2, tLRPC$TL_chatAdminRights2, str3);
                 }
             });
-            return;
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            int i2 = R.string.AddBot;
+            builder.setTitle(LocaleController.getString("AddBot", i2));
+            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("AddMembersAlertNamesText", R.string.AddMembersAlertNamesText, UserObject.getUserName(tLRPC$User), chat == null ? "" : chat.title)));
+            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            builder.setPositiveButton(LocaleController.getString("AddBot", i2), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda10
+                @Override // android.content.DialogInterface.OnClickListener
+                public final void onClick(DialogInterface dialogInterface, int i3) {
+                    LaunchActivity.this.lambda$runLinkRequest$52(j, i, tLRPC$User, str2, dialogInterface, i3);
+                }
+            });
+            builder.show();
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        int i2 = R.string.AddBot;
-        builder.setTitle(LocaleController.getString("AddBot", i2));
-        builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("AddMembersAlertNamesText", R.string.AddMembersAlertNamesText, UserObject.getUserName(tLRPC$User), chat == null ? "" : chat.title)));
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        builder.setPositiveButton(LocaleController.getString("AddBot", i2), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda10
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i3) {
-                LaunchActivity.this.lambda$runLinkRequest$52(j, i, tLRPC$User, str2, dialogInterface, i3);
-            }
-        });
-        builder.show();
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -8993,7 +9016,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$runLinkRequest$62(boolean z, int i, String str, DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z2) {
+    public /* synthetic */ boolean lambda$runLinkRequest$62(boolean z, int i, String str, DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z2) {
         long j = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
         Bundle bundle = new Bundle();
         bundle.putBoolean("scrollToTopOnResume", true);
@@ -9010,6 +9033,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             MediaDataController.getInstance(i).saveDraft(j, 0, str, null, null, false);
             this.actionBarLayout.presentFragment(new ChatActivity(bundle), true, false, true, false);
         }
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -9877,7 +9901,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-    public void didSelectDialogs(final DialogsActivity dialogsActivity, final ArrayList<MessagesStorage.TopicKey> arrayList, final CharSequence charSequence, final boolean z) {
+    public boolean didSelectDialogs(final DialogsActivity dialogsActivity, final ArrayList<MessagesStorage.TopicKey> arrayList, final CharSequence charSequence, final boolean z) {
         ChatActivity chatActivity;
         long j;
         ChatActivity chatActivity2;
@@ -9920,7 +9944,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     bundle.putLong("chat_id", -j2);
                 }
                 if (!MessagesController.getInstance(currentAccount).checkCanOpenChat(bundle, dialogsActivity)) {
-                    return;
+                    return false;
                 }
                 ChatActivity chatActivity3 = new ChatActivity(bundle);
                 ForumUtilities.applyTopic(chatActivity3, arrayList.get(0));
@@ -9950,7 +9974,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             }
             for (int i = 0; i < arrayList.size(); i++) {
                 if (AlertsCreator.checkSlowMode(this, this.currentAccount, arrayList.get(i).dialogId, size > 1)) {
-                    return;
+                    return false;
                 }
             }
             ArrayList<TLRPC$User> arrayList8 = this.contactsToSend;
@@ -9982,23 +10006,20 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         if (str2 != null) {
                             chatActivity2.openVideoEditor(str2, this.sendingText);
                             this.sendingText = null;
-                            z4 = true;
+                            z4 = false;
+                            z5 = true;
                         } else {
                             ArrayList<SendMessagesHelper.SendingMediaInfo> arrayList11 = this.photoPathsArray;
                             if (arrayList11 == null || arrayList11.size() <= 0) {
                                 z4 = false;
                             } else {
-                                boolean openPhotosEditor = chatActivity2.openPhotosEditor(this.photoPathsArray, (charSequence == null || charSequence.length() == 0) ? this.sendingText : charSequence);
-                                if (openPhotosEditor) {
+                                z4 = chatActivity2.openPhotosEditor(this.photoPathsArray, (charSequence == null || charSequence.length() == 0) ? this.sendingText : charSequence);
+                                if (z4) {
                                     this.sendingText = null;
                                 }
-                                z5 = openPhotosEditor;
-                                z4 = false;
-                                z2 = z4;
-                                z3 = z5;
                             }
+                            z5 = false;
                         }
-                        z5 = false;
                         z2 = z4;
                         z3 = z5;
                     } else {
@@ -10017,7 +10038,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         z2 = false;
                         z3 = false;
                     }
-                    if (this.photoPathsArray != null && !z3) {
+                    if (this.photoPathsArray != null && !z2) {
                         String str4 = this.sendingText;
                         if (str4 != null && str4.length() <= 1024 && this.photoPathsArray.size() == 1) {
                             this.photoPathsArray.get(0).caption = this.sendingText;
@@ -10048,7 +10069,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             SendMessagesHelper.getInstance(currentAccount).sendMessage(this.contactsToSend.get(i4), j, messageObject, messageObject, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, z7, 0);
                         }
                     }
-                    if (!TextUtils.isEmpty(charSequence) && !z2 && !z3) {
+                    if (!TextUtils.isEmpty(charSequence) && !z3 && !z2) {
                         SendMessagesHelper.prepareSendingText(accountInstance, charSequence.toString(), j, i3, z7, 0);
                     }
                     i2++;
@@ -10069,6 +10090,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         this.contactsToSend = null;
         this.contactsToSendUri = null;
         this.exportingChatUri = null;
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -10321,6 +10343,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (passcodeView != null) {
             passcodeView.onPause();
         }
+        for (PasscodeView passcodeView2 : this.overlayPasscodeViews) {
+            passcodeView2.onPause();
+        }
         ConnectionsManager.getInstance(this.currentAccount).setAppPaused(true, false);
         if (PhotoViewer.hasInstance() && PhotoViewer.getInstance().isVisible()) {
             PhotoViewer.getInstance().onPause();
@@ -10479,6 +10504,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 }
             }
             this.passcodeView.onResume();
+            for (PasscodeView passcodeView2 : this.overlayPasscodeViews) {
+                passcodeView2.onResume();
+            }
         }
         ConnectionsManager.getInstance(this.currentAccount).setAppPaused(false, false);
         updateCurrentConnectionState(this.currentAccount);
@@ -10605,14 +10633,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         checkLayout();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:113:0x02e7, code lost:
-        if (((org.telegram.ui.ProfileActivity) r1.get(r1.size() - 1)).isSettings() == false) goto L132;
+    /* JADX WARN: Code restructure failed: missing block: B:120:0x031e, code lost:
+        if (((org.telegram.ui.ProfileActivity) r1.get(r1.size() - 1)).isSettings() == false) goto L139;
      */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x02d6  */
-    /* JADX WARN: Removed duplicated region for block: B:223:0x0631  */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x0638  */
-    /* JADX WARN: Removed duplicated region for block: B:227:0x0648  */
-    /* JADX WARN: Removed duplicated region for block: B:461:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x030d  */
+    /* JADX WARN: Removed duplicated region for block: B:230:0x066b  */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x0673  */
+    /* JADX WARN: Removed duplicated region for block: B:234:0x0684  */
+    /* JADX WARN: Removed duplicated region for block: B:468:? A[RETURN, SYNTHETIC] */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -10672,7 +10700,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
                     if (baseFragment3 != null) {
-                        HashMap hashMap = new HashMap();
+                        Map<String, Integer> hashMap = new HashMap<>();
                         hashMap.put("info1.**", Integer.valueOf(baseFragment3.getThemedColor("dialogTopBackground")));
                         hashMap.put("info2.**", Integer.valueOf(baseFragment3.getThemedColor("dialogTopBackground")));
                         builder.setTopAnimation(R.raw.not_available, 52, false, baseFragment3.getThemedColor("dialogTopBackground"), hashMap);
@@ -10696,14 +10724,36 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         builder.setMessage(LocaleController.getString("NobodyLikesSpam2", R.string.NobodyLikesSpam2));
                         builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
                     } else if (num.intValue() == 2) {
-                        builder.setMessage((String) objArr[1]);
+                        SpannableStringBuilder valueOf = SpannableStringBuilder.valueOf((String) objArr[1]);
                         String str3 = (String) objArr[2];
+                        if (str3.startsWith("PREMIUM_GIFT_SELF_REQUIRED_")) {
+                            String str4 = (String) objArr[1];
+                            int indexOf = str4.indexOf(42);
+                            int i5 = indexOf + 1;
+                            int indexOf2 = str4.indexOf(42, i5);
+                            if (indexOf != -1 && indexOf2 != -1 && indexOf != indexOf2) {
+                                valueOf.replace(indexOf, indexOf2 + 1, (CharSequence) str4.substring(i5, indexOf2));
+                                valueOf.setSpan(new ClickableSpan() { // from class: org.telegram.ui.LaunchActivity.22
+                                    @Override // android.text.style.ClickableSpan
+                                    public void onClick(View view) {
+                                        LaunchActivity.this.getActionBarLayout().presentFragment(new PremiumPreviewFragment("gift"));
+                                    }
+
+                                    @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
+                                    public void updateDrawState(TextPaint textPaint) {
+                                        super.updateDrawState(textPaint);
+                                        textPaint.setUnderlineText(false);
+                                    }
+                                }, indexOf, indexOf2 - 1, 33);
+                            }
+                        }
+                        builder.setMessage(valueOf);
                         if (str3.startsWith("AUTH_KEY_DROP_")) {
                             builder.setPositiveButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                             builder.setNegativeButton(LocaleController.getString("LogOut", R.string.LogOut), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda8
                                 @Override // android.content.DialogInterface.OnClickListener
-                                public final void onClick(DialogInterface dialogInterface, int i5) {
-                                    LaunchActivity.this.lambda$didReceivedNotification$98(dialogInterface, i5);
+                                public final void onClick(DialogInterface dialogInterface, int i6) {
+                                    LaunchActivity.this.lambda$didReceivedNotification$98(dialogInterface, i6);
                                 }
                             });
                         } else if (str3.startsWith("PREMIUM_")) {
@@ -10733,8 +10783,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             builder2.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
             builder2.setNegativeButton(LocaleController.getString("ShareYouLocationUnableManually", R.string.ShareYouLocationUnableManually), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda11
                 @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i5) {
-                    LaunchActivity.this.lambda$didReceivedNotification$100(hashMap2, i2, dialogInterface, i5);
+                public final void onClick(DialogInterface dialogInterface, int i6) {
+                    LaunchActivity.this.lambda$didReceivedNotification$100(hashMap2, i2, dialogInterface, i6);
                 }
             });
             builder2.setMessage(LocaleController.getString("ShareYouLocationUnable", R.string.ShareYouLocationUnable));
@@ -10808,20 +10858,20 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             builder3.setMessage(LocaleController.getString("UpdateContactsMessage", R.string.UpdateContactsMessage));
             builder3.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda7
                 @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i5) {
-                    LaunchActivity.lambda$didReceivedNotification$101(i2, hashMap3, booleanValue, booleanValue2, dialogInterface, i5);
+                public final void onClick(DialogInterface dialogInterface, int i6) {
+                    LaunchActivity.lambda$didReceivedNotification$101(i2, hashMap3, booleanValue, booleanValue2, dialogInterface, i6);
                 }
             });
             builder3.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda6
                 @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i5) {
-                    LaunchActivity.lambda$didReceivedNotification$102(i2, hashMap3, booleanValue, booleanValue2, dialogInterface, i5);
+                public final void onClick(DialogInterface dialogInterface, int i6) {
+                    LaunchActivity.lambda$didReceivedNotification$102(i2, hashMap3, booleanValue, booleanValue2, dialogInterface, i6);
                 }
             });
             builder3.setOnBackButtonListener(new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda5
                 @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i5) {
-                    LaunchActivity.lambda$didReceivedNotification$103(i2, hashMap3, booleanValue, booleanValue2, dialogInterface, i5);
+                public final void onClick(DialogInterface dialogInterface, int i6) {
+                    LaunchActivity.lambda$didReceivedNotification$103(i2, hashMap3, booleanValue, booleanValue2, dialogInterface, i6);
                 }
             });
             AlertDialog create = builder3.create();
@@ -10895,16 +10945,16 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     this.themeSwitchSunDrawable = rLottieImageView.getAnimatedDrawable();
                     float max = Math.max((float) Math.max(Math.sqrt(((measuredWidth - iArr[0]) * (measuredWidth - iArr[0])) + ((measuredHeight - iArr[1]) * (measuredHeight - iArr[1]))), Math.sqrt((iArr[0] * iArr[0]) + ((measuredHeight - iArr[1]) * (measuredHeight - iArr[1])))), (float) Math.max(Math.sqrt(((measuredWidth - iArr[0]) * (measuredWidth - iArr[0])) + (iArr[1] * iArr[1])), Math.sqrt((iArr[0] * iArr[0]) + (iArr[1] * iArr[1]))));
                     View view3 = booleanValue4 ? this.drawerLayoutContainer : this.themeSwitchImageView;
-                    int i5 = iArr[0];
-                    int i6 = iArr[1];
+                    int i6 = iArr[0];
+                    int i7 = iArr[1];
                     float f = booleanValue4 ? 0.0f : max;
                     if (!booleanValue4) {
                         max = 0.0f;
                     }
-                    Animator createCircularReveal = ViewAnimationUtils.createCircularReveal(view3, i5, i6, f, max);
+                    Animator createCircularReveal = ViewAnimationUtils.createCircularReveal(view3, i6, i7, f, max);
                     createCircularReveal.setDuration(400L);
                     createCircularReveal.setInterpolator(Easings.easeInOutQuad);
-                    createCircularReveal.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.LaunchActivity.22
+                    createCircularReveal.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.LaunchActivity.23
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
                             LaunchActivity.this.rippleAbove = null;
@@ -10973,8 +11023,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             if (recyclerListView3 != null) {
                 Integer num2 = (Integer) objArr[0];
                 int childCount = recyclerListView3.getChildCount();
-                for (int i7 = 0; i7 < childCount; i7++) {
-                    View childAt2 = this.sideMenu.getChildAt(i7);
+                for (int i8 = 0; i8 < childCount; i8++) {
+                    View childAt2 = this.sideMenu.getChildAt(i8);
                     if ((childAt2 instanceof DrawerUserCell) && ((DrawerUserCell) childAt2).getAccountNumber() == num2.intValue()) {
                         childAt2.invalidate();
                         return;
@@ -10987,13 +11037,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             } catch (Throwable unused2) {
             }
         } else if (i == NotificationCenter.fileLoaded) {
-            String str4 = (String) objArr[0];
-            if (SharedConfig.isAppUpdateAvailable() && FileLoader.getAttachFileName(SharedConfig.pendingAppUpdate.document).equals(str4)) {
+            String str5 = (String) objArr[0];
+            if (SharedConfig.isAppUpdateAvailable() && FileLoader.getAttachFileName(SharedConfig.pendingAppUpdate.document).equals(str5)) {
                 updateAppUpdateViews(true);
             }
-            String str5 = this.loadingThemeFileName;
-            if (str5 != null) {
-                if (str5.equals(str4)) {
+            String str6 = this.loadingThemeFileName;
+            if (str6 != null) {
+                if (str6.equals(str5)) {
                     this.loadingThemeFileName = null;
                     File filesDirFixed = ApplicationLoader.getFilesDirFixed();
                     File file = new File(filesDirFixed, "remote" + this.loadingTheme.id + ".attheme");
@@ -11024,8 +11074,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 }
                 return;
             }
-            String str6 = this.loadingThemeWallpaperName;
-            if (str6 == null || !str6.equals(str4)) {
+            String str7 = this.loadingThemeWallpaperName;
+            if (str7 == null || !str7.equals(str5)) {
                 return;
             }
             this.loadingThemeWallpaperName = null;
@@ -11043,11 +11093,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 }
             });
         } else if (i == NotificationCenter.fileLoadFailed) {
-            String str7 = (String) objArr[0];
-            if (str7.equals(this.loadingThemeFileName) || str7.equals(this.loadingThemeWallpaperName)) {
+            String str8 = (String) objArr[0];
+            if (str8.equals(this.loadingThemeFileName) || str8.equals(this.loadingThemeWallpaperName)) {
                 onThemeLoadFinish();
             }
-            if (SharedConfig.isAppUpdateAvailable() && FileLoader.getAttachFileName(SharedConfig.pendingAppUpdate.document).equals(str7)) {
+            if (SharedConfig.isAppUpdateAvailable() && FileLoader.getAttachFileName(SharedConfig.pendingAppUpdate.document).equals(str8)) {
                 updateAppUpdateViews(true);
             }
         } else if (i == NotificationCenter.screenStateChanged) {
@@ -11094,18 +11144,18 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             } else {
                 baseFragment = null;
             }
-            int i8 = 1500;
+            int i9 = 1500;
             switch (intValue3) {
                 case 0:
                     TLRPC$Document tLRPC$Document = (TLRPC$Document) objArr[1];
                     int intValue4 = ((Integer) objArr[2]).intValue();
                     StickerSetBulletinLayout stickerSetBulletinLayout = new StickerSetBulletinLayout(this, null, intValue4, tLRPC$Document, null);
-                    i8 = (intValue4 == 6 || intValue4 == 7) ? 3500 : 3500;
+                    i9 = (intValue4 == 6 || intValue4 == 7) ? 3500 : 3500;
                     if (baseFragment != null) {
-                        Bulletin.make(baseFragment, stickerSetBulletinLayout, i8).show();
+                        Bulletin.make(baseFragment, stickerSetBulletinLayout, i9).show();
                         return;
                     } else {
-                        Bulletin.make(container, stickerSetBulletinLayout, i8).show();
+                        Bulletin.make(container, stickerSetBulletinLayout, i9).show();
                         return;
                     }
                 case 1:
@@ -11172,9 +11222,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 if (this.updateTextView == null || !SharedConfig.isAppUpdateAvailable()) {
                     return;
                 }
-                String str8 = (String) objArr[0];
+                String str9 = (String) objArr[0];
                 String attachFileName = FileLoader.getAttachFileName(SharedConfig.pendingAppUpdate.document);
-                if (attachFileName == null || !attachFileName.equals(str8)) {
+                if (attachFileName == null || !attachFileName.equals(str9)) {
                     return;
                 }
                 float longValue = ((float) ((Long) objArr[1]).longValue()) / ((float) ((Long) objArr[2]).longValue());
@@ -11203,9 +11253,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     strArr = new String[]{"android.permission.BLUETOOTH_CONNECT"};
                 }
                 if (strArr != null) {
-                    int i9 = this.requsetPermissionsPointer + 1;
-                    this.requsetPermissionsPointer = i9;
-                    this.requestedPermissions.put(i9, intValue5);
+                    int i10 = this.requsetPermissionsPointer + 1;
+                    this.requsetPermissionsPointer = i10;
+                    this.requestedPermissions.put(i10, intValue5);
                     ActivityCompat.requestPermissions(this, strArr, this.requsetPermissionsPointer);
                 }
             } else if (i == NotificationCenter.chatSwithcedToForum) {
@@ -11818,7 +11868,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
         if (SharedConfig.passcodeHash.length() != 0) {
             SharedConfig.lastPauseTime = (int) (SystemClock.elapsedRealtime() / 1000);
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.LaunchActivity.23
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.LaunchActivity.24
                 @Override // java.lang.Runnable
                 public void run() {
                     if (LaunchActivity.this.lockRunnable == this) {
@@ -11850,6 +11900,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             SharedConfig.lastPauseTime = 0;
         }
         SharedConfig.saveConfig();
+    }
+
+    public void addOverlayPasscodeView(PasscodeView passcodeView) {
+        this.overlayPasscodeViews.add(passcodeView);
+    }
+
+    public void removeOverlayPasscodeView(PasscodeView passcodeView) {
+        this.overlayPasscodeViews.remove(passcodeView);
     }
 
     private void onPasscodeResume() {

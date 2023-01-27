@@ -38,11 +38,12 @@ import org.telegram.tgnet.TLRPC$TL_help_premiumPromo;
 import org.telegram.tgnet.TLRPC$TL_photoStrippedSize;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CombinedDrawable;
+import org.telegram.ui.Components.Premium.HelloParticles;
 import org.telegram.ui.Components.Premium.StarParticlesView;
 import org.telegram.ui.Components.VideoPlayer;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
 import org.telegram.ui.PremiumPreviewFragment;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, NotificationCenter.NotificationCenterDelegate {
     private static final float[] speedScaleVideoTimestamps = {0.02f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.02f};
     boolean allowPlay;
@@ -56,6 +57,7 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
     File file;
     boolean firstFrameRendered;
     boolean fromTop;
+    HelloParticles.Drawable helloParticlesDrawable;
     ImageReceiver imageReceiver;
     long lastFrameTime;
     private MatrixParticlesDrawable matrixParticlesDrawable;
@@ -153,6 +155,10 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
             SpeedLineParticles$Drawable speedLineParticles$Drawable = new SpeedLineParticles$Drawable(200);
             this.speedLinesDrawable = speedLineParticles$Drawable;
             speedLineParticles$Drawable.init();
+        } else if (i2 == 13) {
+            HelloParticles.Drawable drawable2 = new HelloParticles.Drawable(25);
+            this.helloParticlesDrawable = drawable2;
+            drawable2.init();
         } else {
             int i3 = 100;
             if (SharedConfig.getDevicePerformanceClass() == 2) {
@@ -160,22 +166,22 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
             } else if (SharedConfig.getDevicePerformanceClass() == 1) {
                 i3 = 400;
             }
-            StarParticlesView.Drawable drawable2 = new StarParticlesView.Drawable(i3);
-            this.starDrawable = drawable2;
-            drawable2.colorKey = "premiumStartSmallStarsColor2";
-            drawable2.size1 = 8;
-            drawable2.size1 = 6;
-            drawable2.size1 = 4;
-            drawable2.k3 = 0.98f;
-            drawable2.k2 = 0.98f;
-            drawable2.k1 = 0.98f;
-            drawable2.useRotate = true;
-            drawable2.speedScale = 4.0f;
-            drawable2.checkBounds = true;
-            drawable2.checkTime = true;
-            drawable2.useBlur = true;
-            drawable2.roundEffect = false;
-            drawable2.init();
+            StarParticlesView.Drawable drawable3 = new StarParticlesView.Drawable(i3);
+            this.starDrawable = drawable3;
+            drawable3.colorKey = "premiumStartSmallStarsColor2";
+            drawable3.size1 = 8;
+            drawable3.size1 = 6;
+            drawable3.size1 = 4;
+            drawable3.k3 = 0.98f;
+            drawable3.k2 = 0.98f;
+            drawable3.k1 = 0.98f;
+            drawable3.useRotate = true;
+            drawable3.speedScale = 4.0f;
+            drawable3.checkBounds = true;
+            drawable3.checkTime = true;
+            drawable3.useBlur = true;
+            drawable3.roundEffect = false;
+            drawable3.init();
         }
         if (i2 == 1 || i2 == 3 || i2 == 11) {
             this.fromTop = true;
@@ -195,7 +201,7 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
                     AndroidUtilities.rectTmp.set(0.0f, 0.0f, getMeasuredWidth(), (int) (getMeasuredHeight() + VideoScreenPreview.this.roundRadius));
                 }
                 float dp = VideoScreenPreview.this.roundRadius - AndroidUtilities.dp(3.0f);
-                this.clipPath.addRoundRect(AndroidUtilities.rectTmp, new float[]{dp, dp, dp, dp, dp, dp, dp, dp}, Path.Direction.CW);
+                this.clipPath.addRoundRect(AndroidUtilities.rectTmp, dp, dp, Path.Direction.CW);
             }
 
             @Override // android.view.ViewGroup, android.view.View
@@ -356,13 +362,20 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
                 this.speedLinesDrawable.rect.offset(0.0f, getMeasuredHeight() * 0.1f);
                 this.speedLinesDrawable.resetPositions();
             }
+            HelloParticles.Drawable drawable2 = this.helloParticlesDrawable;
+            if (drawable2 != null) {
+                drawable2.rect.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
+                this.helloParticlesDrawable.screenRect.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
+                this.helloParticlesDrawable.rect.inset(AndroidUtilities.dp(0.0f), getMeasuredHeight() * 0.1f);
+                this.helloParticlesDrawable.resetPositions();
+            }
         }
     }
 
     @Override // android.view.ViewGroup, android.view.View
     protected void dispatchDraw(Canvas canvas) {
         float f;
-        if (this.starDrawable != null || this.speedLinesDrawable != null || this.matrixParticlesDrawable != null) {
+        if (this.starDrawable != null || this.speedLinesDrawable != null || this.helloParticlesDrawable != null || this.matrixParticlesDrawable != null) {
             if (this.progress < 0.5f) {
                 float pow = (float) Math.pow(1.0f - f, 2.0d);
                 canvas.save();
@@ -393,6 +406,11 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
                         SpeedLineParticles$Drawable speedLineParticles$Drawable = this.speedLinesDrawable;
                         speedLineParticles$Drawable.speedScale = (((1.0f - Utilities.clamp(this.progress / 0.1f, 1.0f, 0.0f)) * 0.9f) + 0.1f) * 150.0f * f2;
                         speedLineParticles$Drawable.onDraw(canvas);
+                    } else {
+                        HelloParticles.Drawable drawable2 = this.helloParticlesDrawable;
+                        if (drawable2 != null) {
+                            drawable2.onDraw(canvas);
+                        }
                     }
                 }
                 canvas.restore();
@@ -515,6 +533,11 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
         this.attached = false;
         updateAttachState();
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.fileLoaded);
+        HelloParticles.Drawable drawable = this.helloParticlesDrawable;
+        if (drawable != null) {
+            drawable.recycle();
+            this.helloParticlesDrawable = null;
+        }
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate

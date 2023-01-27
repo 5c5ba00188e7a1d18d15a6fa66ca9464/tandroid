@@ -70,6 +70,7 @@ import org.telegram.tgnet.TLRPC$TL_messages_exportedChatInvites;
 import org.telegram.tgnet.TLRPC$TL_messages_getExportedChatInvites;
 import org.telegram.tgnet.TLRPC$TL_photo;
 import org.telegram.tgnet.TLRPC$TL_reactionEmoji;
+import org.telegram.tgnet.TLRPC$VideoSize;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -218,8 +219,8 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             }
         };
         this.avatarDrawable = new AvatarDrawable();
-        this.imageUpdater = new ImageUpdater(true);
         this.chatId = bundle.getLong("chat_id", 0L);
+        this.imageUpdater = new ImageUpdater(true, 2);
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:24:0x0095, code lost:
@@ -1554,7 +1555,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     }
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
-    public void didUploadPhoto(final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, final String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, boolean z) {
+    public void didUploadPhoto(final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, final String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, boolean z, TLRPC$VideoSize tLRPC$VideoSize) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda27
             @Override // java.lang.Runnable
             public final void run() {
@@ -2046,39 +2047,28 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                     } else {
                         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights = tLRPC$Chat2.default_banned_rights;
                         if (tLRPC$TL_chatBannedRights != null) {
-                            i = !tLRPC$TL_chatBannedRights.send_stickers ? 1 : 0;
-                            if (!tLRPC$TL_chatBannedRights.send_media) {
+                            i = (!tLRPC$TL_chatBannedRights.send_plain ? 1 : 0) + ChatUsersActivity.getSendMediaSelectedCount(tLRPC$TL_chatBannedRights);
+                            TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights2 = this.currentChat.default_banned_rights;
+                            if (!tLRPC$TL_chatBannedRights2.pin_messages) {
                                 i++;
                             }
-                            if (!tLRPC$TL_chatBannedRights.embed_links) {
+                            if (!tLRPC$TL_chatBannedRights2.invite_users) {
                                 i++;
                             }
-                            if (!tLRPC$TL_chatBannedRights.send_messages) {
+                            if (this.forum && !tLRPC$TL_chatBannedRights2.manage_topics) {
                                 i++;
                             }
-                            if (!tLRPC$TL_chatBannedRights.pin_messages) {
-                                i++;
-                            }
-                            if (!tLRPC$TL_chatBannedRights.send_polls) {
-                                i++;
-                            }
-                            if (!tLRPC$TL_chatBannedRights.invite_users) {
-                                i++;
-                            }
-                            if (this.forum && !tLRPC$TL_chatBannedRights.manage_topics) {
-                                i++;
-                            }
-                            if (!tLRPC$TL_chatBannedRights.change_info) {
+                            if (!tLRPC$TL_chatBannedRights2.change_info) {
                                 i++;
                             }
                         } else {
-                            i = this.forum ? 9 : 8;
+                            i = this.forum ? 14 : 13;
                         }
                         TextCell textCell29 = this.blockCell;
                         String string9 = LocaleController.getString("ChannelPermissions", R.string.ChannelPermissions);
                         Object[] objArr = new Object[2];
                         objArr[0] = Integer.valueOf(i);
-                        objArr[1] = Integer.valueOf(this.forum ? 9 : 8);
+                        objArr[1] = Integer.valueOf(this.forum ? 14 : 13);
                         textCell29.setTextAndValueAndIcon(string9, String.format("%d/%d", objArr), z2, R.drawable.msg_permissions, true);
                     }
                     TextCell textCell30 = this.memberRequestsCell;

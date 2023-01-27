@@ -26,6 +26,7 @@ import java.util.Map;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 /* loaded from: classes.dex */
 public class Emoji {
+    private static String[] DEFAULT_RECENT = null;
     private static final int MAX_RECENT_EMOJI_COUNT = 48;
     private static int bigImgSize;
     private static int drawImgSize;
@@ -53,6 +54,7 @@ public class Emoji {
         emojiColor = new HashMap<>();
         invalidateUiRunnable = Emoji$$ExternalSyntheticLambda1.INSTANCE;
         emojiDrawingUseAlpha = true;
+        DEFAULT_RECENT = new String[]{"😂", "😘", "❤", "😍", "😊", "😁", "👍", "☺", "😔", "😄", "😭", "💋", "😒", "😳", "😜", "🙈", "😉", "😃", "😢", "😝", "😱", "😡", "😏", "😞", "😅", "😚", "🙊", "😌", "😀", "😋", "😆", "👌", "😐", "😕"};
         drawImgSize = AndroidUtilities.dp(20.0f);
         bigImgSize = AndroidUtilities.dp(AndroidUtilities.isTablet() ? 40.0f : 34.0f);
         int i = 0;
@@ -892,6 +894,14 @@ public class Emoji {
         emojiUseHistory.put(str, Integer.valueOf(num.intValue() + 1));
     }
 
+    public static void removeRecentEmoji(String str) {
+        emojiUseHistory.remove(str);
+        recentEmoji.remove(str);
+        if (emojiUseHistory.isEmpty() || recentEmoji.isEmpty()) {
+            addRecentEmoji(DEFAULT_RECENT[0]);
+        }
+    }
+
     public static void sortEmoji() {
         recentEmoji.clear();
         for (Map.Entry<String, Integer> entry : emojiUseHistory.entrySet()) {
@@ -980,9 +990,14 @@ public class Emoji {
                 }
             }
             if (emojiUseHistory.isEmpty() && !globalEmojiSettings.getBoolean("filled_default", false)) {
-                String[] strArr = {"😂", "😘", "❤", "😍", "😊", "😁", "👍", "☺", "😔", "😄", "😭", "💋", "😒", "😳", "😜", "🙈", "😉", "😃", "😢", "😝", "😱", "😡", "😏", "😞", "😅", "😚", "🙊", "😌", "😀", "😋", "😆", "👌", "😐", "😕"};
-                for (int i2 = 0; i2 < 34; i2++) {
-                    emojiUseHistory.put(strArr[i2], Integer.valueOf(34 - i2));
+                int i2 = 0;
+                while (true) {
+                    String[] strArr = DEFAULT_RECENT;
+                    if (i2 >= strArr.length) {
+                        break;
+                    }
+                    emojiUseHistory.put(strArr[i2], Integer.valueOf(strArr.length - i2));
+                    i2++;
                 }
                 globalEmojiSettings.edit().putBoolean("filled_default", true).commit();
                 saveRecentEmoji();

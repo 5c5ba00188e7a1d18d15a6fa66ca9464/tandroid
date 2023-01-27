@@ -583,8 +583,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
             seekToMs(this.nativePtr, j, z);
         }
         int[] iArr = this.metaData;
-        float f = this.scaleFactor;
-        Bitmap createBitmap = Bitmap.createBitmap((int) (iArr[0] * f), (int) (iArr[1] * f), Bitmap.Config.ARGB_8888);
+        Bitmap createBitmap = Bitmap.createBitmap(iArr[0], iArr[1], Bitmap.Config.ARGB_8888);
         if (z) {
             videoFrame = getFrameAtTime(this.nativePtr, j, createBitmap, this.metaData, createBitmap.getRowBytes());
         } else {
@@ -1269,6 +1268,29 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         canvas.restore();
         this.cacheGenerateTimestamp = this.metaData[3];
         return 1;
+    }
+
+    public Bitmap getFirstFrame(Bitmap bitmap) {
+        Bitmap createBitmap = bitmap == null ? Bitmap.createBitmap(this.renderingWidth, this.renderingHeight, Bitmap.Config.ARGB_8888) : bitmap;
+        Canvas canvas = new Canvas(createBitmap);
+        if (this.generatingCacheBitmap == null) {
+            int[] iArr = this.metaData;
+            this.generatingCacheBitmap = Bitmap.createBitmap(iArr[0], iArr[1], Bitmap.Config.ARGB_8888);
+        }
+        long createDecoder = createDecoder(this.path.getAbsolutePath(), this.metaData, this.currentAccount, this.streamFileSize, this.stream, false);
+        if (createDecoder == 0) {
+            return createBitmap;
+        }
+        Bitmap bitmap2 = this.generatingCacheBitmap;
+        getVideoFrame(createDecoder, bitmap2, this.metaData, bitmap2.getRowBytes(), false, this.startTime, this.endTime);
+        destroyDecoder(createDecoder);
+        createBitmap.eraseColor(0);
+        canvas.save();
+        float width = this.renderingWidth / this.generatingCacheBitmap.getWidth();
+        canvas.scale(width, width);
+        canvas.drawBitmap(this.generatingCacheBitmap, 0.0f, 0.0f, (Paint) null);
+        canvas.restore();
+        return createBitmap;
     }
 
     public void drawFrame(Canvas canvas, int i) {

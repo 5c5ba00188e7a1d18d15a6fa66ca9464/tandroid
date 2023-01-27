@@ -1,6 +1,7 @@
 package com.google.android.gms.common.internal;
 
 import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.Response;
 import com.google.android.gms.common.api.Result;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
@@ -13,6 +14,10 @@ public class PendingResultUtil {
     /* loaded from: classes.dex */
     public interface ResultConverter<R extends Result, T> {
         T convert(R r);
+    }
+
+    public static <R extends Result, T extends Response<R>> Task<T> toResponseTask(PendingResult<R> pendingResult, T t) {
+        return toTask(pendingResult, new zaq(t));
     }
 
     public static <R extends Result, T> Task<T> toTask(PendingResult<R> pendingResult, ResultConverter<R, T> resultConverter) {

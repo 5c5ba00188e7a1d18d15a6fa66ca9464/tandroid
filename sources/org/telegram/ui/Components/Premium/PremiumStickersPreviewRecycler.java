@@ -24,7 +24,7 @@ import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class PremiumStickersPreviewRecycler extends RecyclerListView implements NotificationCenter.NotificationCenterDelegate, PagerHeaderView {
     boolean autoPlayEnabled;
     Runnable autoScrollRunnable;
@@ -262,7 +262,7 @@ public class PremiumStickersPreviewRecycler extends RecyclerListView implements 
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     private class Adapter extends RecyclerListView.SelectionAdapter {
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemCount() {
@@ -325,7 +325,7 @@ public class PremiumStickersPreviewRecycler extends RecyclerListView implements 
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public class StickerView extends FrameLayout {
         boolean animateImage;
         private float animateImageProgress;

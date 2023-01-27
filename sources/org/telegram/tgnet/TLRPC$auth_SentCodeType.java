@@ -7,9 +7,13 @@ public abstract class TLRPC$auth_SentCodeType extends TLObject {
     public boolean google_signin_allowed;
     public int length;
     public int next_phone_login_date;
+    public byte[] nonce;
     public String pattern;
     public String prefix;
+    public int push_timeout;
+    public String receipt;
     public String url;
+    public boolean verifiedFirebase;
 
     public static TLRPC$auth_SentCodeType TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$auth_SentCodeType tLRPC$auth_SentCodeType;
@@ -101,6 +105,43 @@ public abstract class TLRPC$auth_SentCodeType extends TLObject {
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
                         abstractSerializedData2.writeInt32(constructor);
                         abstractSerializedData2.writeString(this.url);
+                        abstractSerializedData2.writeInt32(this.length);
+                    }
+                };
+                break;
+            case -444918734:
+                tLRPC$auth_SentCodeType = new TLRPC$auth_SentCodeType() { // from class: org.telegram.tgnet.TLRPC$TL_auth_sentCodeTypeFirebaseSms
+                    public static int constructor = -444918734;
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                        int readInt32 = abstractSerializedData2.readInt32(z2);
+                        this.flags = readInt32;
+                        if ((readInt32 & 1) != 0) {
+                            this.nonce = abstractSerializedData2.readByteArray(z2);
+                        }
+                        if ((this.flags & 2) != 0) {
+                            this.receipt = abstractSerializedData2.readString(z2);
+                        }
+                        if ((this.flags & 2) != 0) {
+                            this.push_timeout = abstractSerializedData2.readInt32(z2);
+                        }
+                        this.length = abstractSerializedData2.readInt32(z2);
+                    }
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(this.flags);
+                        if ((this.flags & 1) != 0) {
+                            abstractSerializedData2.writeByteArray(this.nonce);
+                        }
+                        if ((this.flags & 2) != 0) {
+                            abstractSerializedData2.writeString(this.receipt);
+                        }
+                        if ((this.flags & 2) != 0) {
+                            abstractSerializedData2.writeInt32(this.push_timeout);
+                        }
                         abstractSerializedData2.writeInt32(this.length);
                     }
                 };

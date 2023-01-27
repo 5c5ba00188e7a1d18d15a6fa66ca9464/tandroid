@@ -7,7 +7,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -69,6 +71,7 @@ import org.telegram.ui.Components.HideViewAfterAnimation;
 import org.telegram.ui.Components.HintView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.Components.spoilers.SpoilerEffect;
 /* loaded from: classes3.dex */
 public class CalendarActivity extends BaseFragment {
     TextPaint activeTextPaint;
@@ -94,10 +97,12 @@ public class CalendarActivity extends BaseFragment {
     LinearLayoutManager layoutManager;
     RecyclerListView listView;
     private boolean loading;
+    private SpoilerEffect mediaSpoilerEffect;
     SparseArray<SparseArray<PeriodDay>> messagesByYearMounth;
     private int minDate;
     int minMontYear;
     int monthCount;
+    private Path path;
     private int photosVideosTypeFilter;
     TextView removeDaysButton;
     TextView selectDaysButton;
@@ -133,6 +138,8 @@ public class CalendarActivity extends BaseFragment {
         this.blackoutPaint = new Paint(1);
         this.messagesByYearMounth = new SparseArray<>();
         this.startOffset = 0;
+        this.path = new Path();
+        this.mediaSpoilerEffect = new SpoilerEffect();
         this.photosVideosTypeFilter = i;
         if (i2 != 0) {
             Calendar calendar = Calendar.getInstance();
@@ -1012,15 +1019,18 @@ public class CalendarActivity extends BaseFragment {
         }
 
         public void setDate(int i, int i2, SparseArray<PeriodDay> sparseArray, boolean z) {
+            BitmapDrawable bitmapDrawable;
+            int i3;
             boolean z2 = false;
             boolean z3 = (i == this.currentYear && i2 == this.currentMonthInYear) ? false : true;
             this.currentYear = i;
             this.currentMonthInYear = i2;
             this.messagesByDays = sparseArray;
+            ImageReceiver imageReceiver = null;
             if (z3 && this.imagesByDays != null) {
-                for (int i3 = 0; i3 < this.imagesByDays.size(); i3++) {
-                    this.imagesByDays.valueAt(i3).onDetachedFromWindow();
-                    this.imagesByDays.valueAt(i3).setParentView(null);
+                for (int i4 = 0; i4 < this.imagesByDays.size(); i4++) {
+                    this.imagesByDays.valueAt(i4).onDetachedFromWindow();
+                    this.imagesByDays.valueAt(i4).setParentView(null);
                 }
                 this.imagesByDays = null;
             }
@@ -1028,14 +1038,15 @@ public class CalendarActivity extends BaseFragment {
                 if (this.imagesByDays == null) {
                     this.imagesByDays = new SparseArray<>();
                 }
-                int i4 = 0;
-                while (i4 < sparseArray.size()) {
-                    int keyAt = sparseArray.keyAt(i4);
-                    if (this.imagesByDays.get(keyAt, null) == null && sparseArray.get(keyAt).hasImage) {
-                        ImageReceiver imageReceiver = new ImageReceiver();
-                        imageReceiver.setParentView(this);
+                int i5 = 0;
+                while (i5 < sparseArray.size()) {
+                    int keyAt = sparseArray.keyAt(i5);
+                    if (this.imagesByDays.get(keyAt, imageReceiver) == null && sparseArray.get(keyAt).hasImage) {
+                        ImageReceiver imageReceiver2 = new ImageReceiver();
+                        imageReceiver2.setParentView(this);
                         MessageObject messageObject = sparseArray.get(keyAt).messageObject;
                         if (messageObject != null) {
+                            boolean hasMediaSpoilers = messageObject.hasMediaSpoilers();
                             if (messageObject.isVideo()) {
                                 TLRPC$Document document = messageObject.getDocument();
                                 TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 50);
@@ -1045,9 +1056,9 @@ public class CalendarActivity extends BaseFragment {
                                 }
                                 if (closestPhotoSizeWithSize != null) {
                                     if (messageObject.strippedThumb != null) {
-                                        imageReceiver.setImage(ImageLocation.getForDocument(closestPhotoSizeWithSize2, document), "44_44", messageObject.strippedThumb, null, messageObject, 0);
+                                        imageReceiver2.setImage(ImageLocation.getForDocument(closestPhotoSizeWithSize2, document), hasMediaSpoilers ? "5_5_b" : "44_44", messageObject.strippedThumb, null, messageObject, 0);
                                     } else {
-                                        imageReceiver.setImage(ImageLocation.getForDocument(closestPhotoSizeWithSize2, document), "44_44", ImageLocation.getForDocument(closestPhotoSizeWithSize, document), "b", (String) null, messageObject, 0);
+                                        imageReceiver2.setImage(ImageLocation.getForDocument(closestPhotoSizeWithSize2, document), hasMediaSpoilers ? "5_5_b" : "44_44", ImageLocation.getForDocument(closestPhotoSizeWithSize, document), "b", (String) null, messageObject, 0);
                                     }
                                 }
                             } else {
@@ -1060,37 +1071,49 @@ public class CalendarActivity extends BaseFragment {
                                             closestPhotoSizeWithSize3 = null;
                                         }
                                         if (messageObject.strippedThumb != null) {
-                                            imageReceiver.setImage(ImageLocation.getForObject(closestPhotoSizeWithSize4, messageObject.photoThumbsObject), "44_44", null, null, messageObject.strippedThumb, closestPhotoSizeWithSize4 != null ? closestPhotoSizeWithSize4.size : 0L, null, messageObject, messageObject.shouldEncryptPhotoOrVideo() ? 2 : 1);
+                                            ImageLocation forObject = ImageLocation.getForObject(closestPhotoSizeWithSize4, messageObject.photoThumbsObject);
+                                            String str = hasMediaSpoilers ? "5_5_b" : "44_44";
+                                            BitmapDrawable bitmapDrawable2 = messageObject.strippedThumb;
+                                            long j = closestPhotoSizeWithSize4 != null ? closestPhotoSizeWithSize4.size : 0L;
+                                            if (messageObject.shouldEncryptPhotoOrVideo()) {
+                                                bitmapDrawable = bitmapDrawable2;
+                                                i3 = 2;
+                                            } else {
+                                                bitmapDrawable = bitmapDrawable2;
+                                                i3 = 1;
+                                            }
+                                            imageReceiver2.setImage(forObject, str, null, null, bitmapDrawable, j, null, messageObject, i3);
                                         } else {
-                                            imageReceiver.setImage(ImageLocation.getForObject(closestPhotoSizeWithSize4, messageObject.photoThumbsObject), "44_44", ImageLocation.getForObject(closestPhotoSizeWithSize3, messageObject.photoThumbsObject), "b", closestPhotoSizeWithSize4 != null ? closestPhotoSizeWithSize4.size : 0L, null, messageObject, messageObject.shouldEncryptPhotoOrVideo() ? 2 : 1);
+                                            imageReceiver2.setImage(ImageLocation.getForObject(closestPhotoSizeWithSize4, messageObject.photoThumbsObject), hasMediaSpoilers ? "5_5_b" : "44_44", ImageLocation.getForObject(closestPhotoSizeWithSize3, messageObject.photoThumbsObject), "b", closestPhotoSizeWithSize4 != null ? closestPhotoSizeWithSize4.size : 0L, null, messageObject, messageObject.shouldEncryptPhotoOrVideo() ? 2 : 1);
                                         }
                                     } else {
-                                        BitmapDrawable bitmapDrawable = messageObject.strippedThumb;
-                                        if (bitmapDrawable != null) {
-                                            imageReceiver.setImage(null, null, bitmapDrawable, null, messageObject, 0);
+                                        BitmapDrawable bitmapDrawable3 = messageObject.strippedThumb;
+                                        if (bitmapDrawable3 != null) {
+                                            imageReceiver2.setImage(null, null, bitmapDrawable3, null, messageObject, 0);
                                         } else {
-                                            imageReceiver.setImage((ImageLocation) null, (String) null, ImageLocation.getForObject(closestPhotoSizeWithSize3, messageObject.photoThumbsObject), "b", (String) null, messageObject, 0);
+                                            imageReceiver2.setImage((ImageLocation) null, (String) null, ImageLocation.getForObject(closestPhotoSizeWithSize3, messageObject.photoThumbsObject), "b", (String) null, messageObject, 0);
                                         }
                                     }
                                 }
                             }
-                            imageReceiver.setRoundRadius(AndroidUtilities.dp(22.0f));
-                            this.imagesByDays.put(keyAt, imageReceiver);
+                            imageReceiver2.setRoundRadius(AndroidUtilities.dp(22.0f));
+                            this.imagesByDays.put(keyAt, imageReceiver2);
                         }
                     }
-                    i4++;
+                    i5++;
                     z2 = false;
+                    imageReceiver = null;
                 }
             }
-            int i5 = i2 + 1;
-            this.daysInMonth = YearMonth.of(i, i5).lengthOfMonth();
+            int i6 = i2 + 1;
+            this.daysInMonth = YearMonth.of(i, i6).lengthOfMonth();
             Calendar calendar = Calendar.getInstance();
             calendar.set(i, i2, 0);
             this.startDayOfWeek = (calendar.get(7) + 6) % 7;
             this.startMonthTime = (int) (calendar.getTimeInMillis() / 1000);
-            int i6 = this.daysInMonth + this.startDayOfWeek;
-            this.cellCount = ((int) (i6 / 7.0f)) + (i6 % 7 == 0 ? 0 : 1);
-            calendar.set(i, i5, 0);
+            int i7 = this.daysInMonth + this.startDayOfWeek;
+            this.cellCount = ((int) (i7 / 7.0f)) + (i7 % 7 == 0 ? 0 : 1);
+            calendar.set(i, i6, 0);
             this.titleView.setText(LocaleController.formatYearMont(calendar.getTimeInMillis() / 1000, true));
             CalendarActivity.this.updateRowSelections(this, false);
         }
@@ -1210,6 +1233,18 @@ public class CalendarActivity extends BaseFragment {
                         f5 = f7;
                         this.imagesByDays.get(i6).setImageCoords(f4 - ((AndroidUtilities.dp(44.0f) - dp6) / 2.0f), f5 - ((AndroidUtilities.dp(44.0f) - dp6) / 2.0f), AndroidUtilities.dp(44.0f) - dp6, AndroidUtilities.dp(44.0f) - dp6);
                         this.imagesByDays.get(i6).draw(canvas);
+                        if (this.messagesByDays.get(i6) != null && this.messagesByDays.get(i6).messageObject != null && this.messagesByDays.get(i6).messageObject.hasMediaSpoilers()) {
+                            float dp7 = (AndroidUtilities.dp(44.0f) - dp6) / 2.0f;
+                            CalendarActivity.this.path.rewind();
+                            CalendarActivity.this.path.addCircle(f4, f5, dp7, Path.Direction.CW);
+                            canvas.save();
+                            canvas.clipPath(CalendarActivity.this.path);
+                            CalendarActivity.this.mediaSpoilerEffect.setColor(ColorUtils.setAlphaComponent(-1, (int) (Color.alpha(-1) * 0.325f * periodDay3.enterAlpha)));
+                            CalendarActivity.this.mediaSpoilerEffect.setBounds((int) (f4 - dp7), (int) (f5 - dp7), (int) (f4 + dp7), (int) (dp7 + f5));
+                            CalendarActivity.this.mediaSpoilerEffect.draw(canvas);
+                            invalidate();
+                            canvas.restore();
+                        }
                         CalendarActivity.this.blackoutPaint.setColor(ColorUtils.setAlphaComponent(-16777216, (int) (periodDay3.enterAlpha * 80.0f)));
                         canvas.drawCircle(f4, f5, (AndroidUtilities.dp(44.0f) - dp6) / 2.0f, CalendarActivity.this.blackoutPaint);
                         periodDay3.wasDrawn = true;

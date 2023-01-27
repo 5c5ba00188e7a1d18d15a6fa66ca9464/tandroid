@@ -1720,13 +1720,17 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     }
 
     public boolean restart() {
-        if ((this.autoRepeat < 2 || this.autoRepeatPlayCount == 0) && this.autoRepeatCount < 0) {
-            return false;
+        return restart(false);
+    }
+
+    public boolean restart(boolean z) {
+        if (z || ((this.autoRepeat >= 2 && this.autoRepeatPlayCount != 0) || this.autoRepeatCount >= 0)) {
+            this.autoRepeatPlayCount = 0;
+            this.autoRepeat = 2;
+            start();
+            return true;
         }
-        this.autoRepeatPlayCount = 0;
-        this.autoRepeat = 2;
-        start();
-        return true;
+        return false;
     }
 
     public void setVibrationPattern(HashMap<Integer, Integer> hashMap) {

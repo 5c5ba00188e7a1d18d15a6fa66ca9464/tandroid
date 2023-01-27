@@ -338,7 +338,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     /* JADX WARN: Code restructure failed: missing block: B:65:0x0131, code lost:
         if (r3.equals("linethrough") == false) goto L32;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:89:0x0198, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:89:0x0199, code lost:
         if (r3.equals("start") == false) goto L56;
      */
     /*

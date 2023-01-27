@@ -267,4 +267,10 @@ public class CanvasButton {
         rippleDrawable.setState(StateSet.NOTHING);
         this.selectorDrawable.jumpToCurrentState();
     }
+
+    public void setRect(int i, int i2, int i3, int i4) {
+        RectF rectF = AndroidUtilities.rectTmp;
+        rectF.set(i, i2, i3, i4);
+        setRect(rectF);
+    }
 }

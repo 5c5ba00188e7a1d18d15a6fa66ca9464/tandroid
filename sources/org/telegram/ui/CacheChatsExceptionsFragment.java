@@ -110,8 +110,10 @@ public class CacheChatsExceptionsFragment extends BaseFragment {
             final DialogsActivity dialogsActivity = new DialogsActivity(bundle);
             dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.CacheChatsExceptionsFragment$$ExternalSyntheticLambda3
                 @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                public final void didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z) {
-                    CacheChatsExceptionsFragment.this.lambda$createView$0(dialogsActivity, dialogsActivity2, arrayList, charSequence, z);
+                public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z) {
+                    boolean lambda$createView$0;
+                    lambda$createView$0 = CacheChatsExceptionsFragment.this.lambda$createView$0(dialogsActivity, dialogsActivity2, arrayList, charSequence, z);
+                    return lambda$createView$0;
                 }
             });
             presentFragment(dialogsActivity);
@@ -139,12 +141,16 @@ public class CacheChatsExceptionsFragment extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$0(DialogsActivity dialogsActivity, DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z) {
-        boolean z2;
+    public /* synthetic */ boolean lambda$createView$0(DialogsActivity dialogsActivity, DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z) {
         dialogsActivity.finishFragment();
         int i = 0;
         CacheByChatsController.KeepMediaException keepMediaException = null;
-        for (int i2 = 0; i2 < arrayList.size(); i2++) {
+        int i2 = 0;
+        while (true) {
+            boolean z2 = true;
+            if (i2 >= arrayList.size()) {
+                break;
+            }
             int i3 = 0;
             while (true) {
                 if (i3 >= this.exceptionsDialogs.size()) {
@@ -152,7 +158,6 @@ public class CacheChatsExceptionsFragment extends BaseFragment {
                     break;
                 } else if (this.exceptionsDialogs.get(i3).dialogId == ((MessagesStorage.TopicKey) arrayList.get(i2)).dialogId) {
                     keepMediaException = this.exceptionsDialogs.get(i3);
-                    z2 = true;
                     break;
                 } else {
                     i3++;
@@ -168,24 +173,27 @@ public class CacheChatsExceptionsFragment extends BaseFragment {
                 arrayList2.add(keepMediaException2);
                 keepMediaException = keepMediaException2;
             }
+            i2++;
         }
         getMessagesController().getCacheByChatsController().saveKeepMediaExceptions(this.currentType, this.exceptionsDialogs);
         updateRows();
         if (keepMediaException != null) {
             int i5 = 0;
             while (true) {
-                if (i5 >= this.items.size()) {
+                if (i5 < this.items.size()) {
+                    if (this.items.get(i5).exception != null && this.items.get(i5).exception.dialogId == keepMediaException.dialogId) {
+                        i = i5;
+                        break;
+                    }
+                    i5++;
+                } else {
                     break;
                 }
-                if (this.items.get(i5).exception != null && this.items.get(i5).exception.dialogId == keepMediaException.dialogId) {
-                    i = i5;
-                    break;
-                }
-                i5++;
             }
             this.recyclerListView.scrollToPosition(i);
             showPopupFor(keepMediaException);
         }
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

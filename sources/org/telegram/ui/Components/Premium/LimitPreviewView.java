@@ -34,7 +34,7 @@ import org.telegram.ui.Components.EmptyStubSpan;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.LimitPreviewView;
 import org.telegram.ui.Components.Premium.PremiumGradient;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class LimitPreviewView extends LinearLayout {
     boolean animationCanPlay;
     TextView defaultCount;
@@ -49,7 +49,7 @@ public class LimitPreviewView extends LinearLayout {
     TextView premiumCount;
     private boolean premiumLocked;
     float progress;
-    PremiumGradient.GradientTools staticGradient;
+    PremiumGradient.PremiumGradientTools staticGradient;
     boolean wasAnimation;
     boolean wasHaptic;
 
@@ -84,15 +84,15 @@ public class LimitPreviewView extends LinearLayout {
                 if (LimitPreviewView.this.parentVideForGradient != null) {
                     View view = LimitPreviewView.this.parentVideForGradient;
                     LimitPreviewView limitPreviewView = LimitPreviewView.this;
-                    PremiumGradient.GradientTools gradientTools = limitPreviewView.staticGradient;
-                    if (gradientTools == null) {
+                    PremiumGradient.PremiumGradientTools premiumGradientTools = limitPreviewView.staticGradient;
+                    if (premiumGradientTools == null) {
                         for (View view2 = this; view2 != view; view2 = (View) view2.getParent()) {
                             f += view2.getY();
                         }
                         PremiumGradient.getInstance().updateMainGradientMatrix(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight(), LimitPreviewView.this.getGlobalXOffset() - getLeft(), -f);
                     } else {
-                        mainGradientPaint = gradientTools.paint;
-                        gradientTools.gradientMatrixLinear(limitPreviewView.gradientTotalHeight, -limitPreviewView.gradientYOffset);
+                        mainGradientPaint = premiumGradientTools.paint;
+                        premiumGradientTools.gradientMatrixLinear(limitPreviewView.gradientTotalHeight, -limitPreviewView.gradientYOffset);
                     }
                 } else {
                     PremiumGradient.getInstance().updateMainGradientMatrix(0, 0, LimitPreviewView.this.getMeasuredWidth(), LimitPreviewView.this.getMeasuredHeight(), LimitPreviewView.this.getGlobalXOffset() - getLeft(), -getTop());
@@ -282,8 +282,8 @@ public class LimitPreviewView extends LinearLayout {
         this.parentVideForGradient = viewGroup;
     }
 
-    public void setStaticGradinet(PremiumGradient.GradientTools gradientTools) {
-        this.staticGradient = gradientTools;
+    public void setStaticGradinet(PremiumGradient.PremiumGradientTools premiumGradientTools) {
+        this.staticGradient = premiumGradientTools;
     }
 
     public void setDelayedAnimation() {
@@ -302,7 +302,7 @@ public class LimitPreviewView extends LinearLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public class CounterView extends View {
         ArrayList<AnimatedLayout> animatedLayouts;
         StaticLayout animatedStableLayout;
@@ -517,7 +517,7 @@ public class LimitPreviewView extends LinearLayout {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes.dex */
         public class AnimatedLayout {
             public boolean direction;
             float progress;

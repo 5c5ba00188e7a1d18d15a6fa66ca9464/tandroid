@@ -49,6 +49,7 @@ public class MotionBackgroundDrawable extends Drawable {
     private Canvas gradientFromCanvas;
     private BitmapShader gradientShader;
     private Bitmap[] gradientToBitmap;
+    private boolean ignoreInterpolator;
     private float indeterminateSpeedScale;
     private int intensity;
     private final CubicBezierInterpolator interpolator;
@@ -296,8 +297,7 @@ public class MotionBackgroundDrawable extends Drawable {
         generateNextGradient();
     }
 
-    private void generateNextGradient() {
-        int i = 0;
+    public void generateNextGradient() {
         if (useLegacyBitmap && this.intensity < 0) {
             try {
                 if (this.legacyBitmap != null) {
@@ -326,9 +326,10 @@ public class MotionBackgroundDrawable extends Drawable {
             Utilities.generateGradient(bitmap4, true, this.phase, 1.0f, bitmap4.getWidth(), this.currentBitmap.getHeight(), this.currentBitmap.getRowBytes(), this.colors);
             this.invalidateLegacy = true;
         }
+        int i = -1;
         while (i < 3) {
             int i2 = i + 1;
-            Utilities.generateGradient(this.gradientToBitmap[i], true, this.phase, i2 / 3.0f, this.currentBitmap.getWidth(), this.currentBitmap.getHeight(), this.currentBitmap.getRowBytes(), this.colors);
+            Utilities.generateGradient(i < 0 ? this.gradientFromBitmap : this.gradientToBitmap[i], true, this.phase, i2 / 3.0f, this.currentBitmap.getWidth(), this.currentBitmap.getHeight(), this.currentBitmap.getRowBytes(), this.colors);
             i = i2;
         }
     }
@@ -948,10 +949,13 @@ public class MotionBackgroundDrawable extends Drawable {
                     if (this.posAnimationProgress > 1.0f) {
                         this.posAnimationProgress = 1.0f;
                     }
-                    if (this.animationProgressProvider == null) {
+                    if (this.animationProgressProvider == null && !this.ignoreInterpolator) {
                         f3 = this.interpolator.getInterpolation(this.posAnimationProgress);
                     } else {
                         f3 = this.posAnimationProgress;
+                    }
+                    if (this.ignoreInterpolator && (f3 == 0.0f || f3 == 1.0f)) {
+                        this.ignoreInterpolator = false;
                     }
                     if ((c == 0 && f3 > 0.25f) || ((c == 1 && f3 > 0.5f) || (c == 2 && f3 > 0.75f))) {
                         if (this.rotationBack) {
@@ -995,10 +999,13 @@ public class MotionBackgroundDrawable extends Drawable {
                     if (this.posAnimationProgress > 1.0f) {
                         this.posAnimationProgress = 1.0f;
                     }
-                    if (this.animationProgressProvider == null) {
+                    if (this.animationProgressProvider == null && !this.ignoreInterpolator) {
                         f = this.interpolator.getInterpolation(this.posAnimationProgress);
                     } else {
                         f = this.posAnimationProgress;
+                    }
+                    if (this.ignoreInterpolator && (f == 0.0f || f == 1.0f)) {
+                        this.ignoreInterpolator = false;
                     }
                     if (this.rotationBack) {
                         f = 1.0f - f;
@@ -1059,6 +1066,11 @@ public class MotionBackgroundDrawable extends Drawable {
     }
 
     public void setIndeterminateAnimation(boolean z) {
+        if (!z && this.isIndeterminateAnimation) {
+            float f = this.posAnimationProgress;
+            this.posAnimationProgress = 1.0f - ((f - (((int) (f / 0.125f)) * 0.125f)) / 0.125f);
+            this.ignoreInterpolator = true;
+        }
         this.isIndeterminateAnimation = z;
     }
 }

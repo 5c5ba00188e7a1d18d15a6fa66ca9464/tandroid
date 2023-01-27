@@ -114,7 +114,7 @@ public class SeekBarView extends FrameLayout {
         this.progressToSet = -100.0f;
         this.pressedState = new int[]{16842910, 16842919};
         this.transitionProgress = 1.0f;
-        this.lineWidthDp = 2;
+        this.lineWidthDp = 3;
         this.timestampsAppearing = 0.0f;
         this.currentTimestamp = -1;
         this.timestampChangeT = 1.0f;

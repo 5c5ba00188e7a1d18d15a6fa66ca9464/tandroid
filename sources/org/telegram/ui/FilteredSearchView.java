@@ -650,9 +650,8 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
             }
         } else {
             if (!TextUtils.isEmpty(str)) {
-                ArrayList<Object> arrayList4 = new ArrayList<>();
-                MessagesStorage.getInstance(i).localSearch(0, str, arrayList4, new ArrayList<>(), new ArrayList<>(), z2 ? 1 : 0);
-                arrayList3 = arrayList4;
+                arrayList3 = new ArrayList<>();
+                MessagesStorage.getInstance(i).localSearch(0, str, arrayList3, new ArrayList<>(), new ArrayList<>(), null, z2 ? 1 : 0);
             }
             TLRPC$TL_messages_searchGlobal tLRPC$TL_messages_searchGlobal2 = new TLRPC$TL_messages_searchGlobal();
             tLRPC$TL_messages_searchGlobal2.limit = 20;
@@ -678,16 +677,16 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
             tLRPC$TL_messages_searchGlobal2.folder_id = z2 ? 1 : 0;
             tLRPC$TL_messages_searchGlobal = tLRPC$TL_messages_searchGlobal2;
         }
-        final ArrayList<Object> arrayList5 = arrayList3;
         TLRPC$TL_messages_searchGlobal tLRPC$TL_messages_searchGlobal3 = tLRPC$TL_messages_searchGlobal;
+        final ArrayList<Object> arrayList4 = arrayList3;
         this.lastMessagesSearchString = str;
         this.lastSearchFilterQueryString = str2;
-        final ArrayList arrayList6 = new ArrayList();
-        FiltersView.fillTipDates(this.lastMessagesSearchString, arrayList6);
+        final ArrayList arrayList5 = new ArrayList();
+        FiltersView.fillTipDates(this.lastMessagesSearchString, arrayList5);
         ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_searchGlobal3, new RequestDelegate() { // from class: org.telegram.ui.FilteredSearchView$$ExternalSyntheticLambda3
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                FilteredSearchView.this.lambda$search$3(i, str, i2, z, mediaFilterData, j, j2, arrayList5, arrayList6, tLObject, tLRPC$TL_error);
+                FilteredSearchView.this.lambda$search$3(i, str, i2, z, mediaFilterData, j, j2, arrayList4, arrayList5, tLObject, tLRPC$TL_error);
             }
         });
     }

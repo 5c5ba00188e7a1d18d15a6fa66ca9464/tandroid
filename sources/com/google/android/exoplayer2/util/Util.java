@@ -41,6 +41,7 @@ import java.util.zip.Inflater;
 import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.TranslateController;
 import org.telegram.tgnet.ConnectionsManager;
 import org.webrtc.MediaStreamTrack;
 /* loaded from: classes.dex */
@@ -316,7 +317,7 @@ public final class Util {
             return null;
         }
         String replace = str.replace('_', '-');
-        if (!replace.isEmpty() && !"und".equals(replace)) {
+        if (!replace.isEmpty() && !TranslateController.UNKNOWN_LANGUAGE.equals(replace)) {
             str = replace;
         }
         String lowerInvariant = toLowerInvariant(str);

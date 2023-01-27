@@ -57,9 +57,14 @@ import org.telegram.ui.Cells.ContextLinkCell;
 import org.telegram.ui.Cells.StickerCell;
 import org.telegram.ui.Cells.StickerEmojiCell;
 import org.telegram.ui.Components.AlertsCreator;
+import org.telegram.ui.Components.AnimatedEmojiDrawable;
+import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.CubicBezierInterpolator;
+import org.telegram.ui.Components.EmojiPacksAlert;
+import org.telegram.ui.Components.EmojiView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.Components.SuggestEmojiView;
 import org.telegram.ui.ContentPreviewViewer;
 /* loaded from: classes3.dex */
 public class ContentPreviewViewer {
@@ -122,11 +127,22 @@ public class ContentPreviewViewer {
                 return true;
             }
 
+            public static Boolean $default$canSetAsStatus(ContentPreviewViewerDelegate contentPreviewViewerDelegate, TLRPC$Document tLRPC$Document) {
+                return null;
+            }
+
+            public static void $default$copyEmoji(ContentPreviewViewerDelegate contentPreviewViewerDelegate, TLRPC$Document tLRPC$Document) {
+            }
+
             public static String $default$getQuery(ContentPreviewViewerDelegate contentPreviewViewerDelegate, boolean z) {
                 return null;
             }
 
             public static void $default$gifAddedOrDeleted(ContentPreviewViewerDelegate contentPreviewViewerDelegate) {
+            }
+
+            public static boolean $default$needCopy(ContentPreviewViewerDelegate contentPreviewViewerDelegate) {
+                return false;
             }
 
             public static boolean $default$needMenu(ContentPreviewViewerDelegate contentPreviewViewerDelegate) {
@@ -141,16 +157,39 @@ public class ContentPreviewViewer {
                 return false;
             }
 
+            public static boolean $default$needRemoveFromRecent(ContentPreviewViewerDelegate contentPreviewViewerDelegate, TLRPC$Document tLRPC$Document) {
+                return false;
+            }
+
             public static void $default$remove(ContentPreviewViewerDelegate contentPreviewViewerDelegate, SendMessagesHelper.ImportingSticker importingSticker) {
             }
 
+            public static void $default$removeFromRecent(ContentPreviewViewerDelegate contentPreviewViewerDelegate, TLRPC$Document tLRPC$Document) {
+            }
+
+            public static void $default$resetTouch(ContentPreviewViewerDelegate contentPreviewViewerDelegate) {
+            }
+
+            public static void $default$sendEmoji(ContentPreviewViewerDelegate contentPreviewViewerDelegate, TLRPC$Document tLRPC$Document) {
+            }
+
             public static void $default$sendGif(ContentPreviewViewerDelegate contentPreviewViewerDelegate, Object obj, Object obj2, boolean z, int i) {
+            }
+
+            public static void $default$sendSticker(ContentPreviewViewerDelegate contentPreviewViewerDelegate, TLRPC$Document tLRPC$Document, String str, Object obj, boolean z, int i) {
+            }
+
+            public static void $default$setAsEmojiStatus(ContentPreviewViewerDelegate contentPreviewViewerDelegate, TLRPC$Document tLRPC$Document, Integer num) {
             }
         }
 
         boolean can();
 
         boolean canSchedule();
+
+        Boolean canSetAsStatus(TLRPC$Document tLRPC$Document);
+
+        void copyEmoji(TLRPC$Document tLRPC$Document);
 
         long getDialogId();
 
@@ -160,21 +199,33 @@ public class ContentPreviewViewer {
 
         boolean isInScheduleMode();
 
+        boolean needCopy();
+
         boolean needMenu();
 
         boolean needOpen();
 
         boolean needRemove();
 
-        boolean needSend();
+        boolean needRemoveFromRecent(TLRPC$Document tLRPC$Document);
+
+        boolean needSend(int i);
 
         void openSet(TLRPC$InputStickerSet tLRPC$InputStickerSet, boolean z);
 
         void remove(SendMessagesHelper.ImportingSticker importingSticker);
 
+        void removeFromRecent(TLRPC$Document tLRPC$Document);
+
+        void resetTouch();
+
+        void sendEmoji(TLRPC$Document tLRPC$Document);
+
         void sendGif(Object obj, Object obj2, boolean z, int i);
 
         void sendSticker(TLRPC$Document tLRPC$Document, String str, Object obj, boolean z, int i);
+
+        void setAsEmojiStatus(TLRPC$Document tLRPC$Document, Integer num);
     }
 
     /* loaded from: classes3.dex */
@@ -206,14 +257,16 @@ public class ContentPreviewViewer {
             int i3;
             int i4;
             int i5;
-            int min;
             int i6;
+            int i7;
+            int i8;
+            int min;
+            int i9;
             String str;
             if (ContentPreviewViewer.this.parentActivity == null) {
                 return;
             }
             ContentPreviewViewer.this.closeOnDismiss = true;
-            boolean z2 = false;
             if (ContentPreviewViewer.this.currentContentType == 0) {
                 if (!MessageObject.isPremiumSticker(ContentPreviewViewer.this.currentDocument) || AccountInstance.getInstance(ContentPreviewViewer.this.currentAccount).getUserConfig().isPremium()) {
                     boolean isStickerInFavorites = MediaDataController.getInstance(ContentPreviewViewer.this.currentAccount).isStickerInFavorites(ContentPreviewViewer.this.currentDocument);
@@ -223,12 +276,12 @@ public class ContentPreviewViewer {
                     ContentPreviewViewer.this.menuVisible = true;
                     ContentPreviewViewer.this.containerView.invalidate();
                     if (ContentPreviewViewer.this.delegate != null) {
-                        if (ContentPreviewViewer.this.delegate.needSend() && !ContentPreviewViewer.this.delegate.isInScheduleMode()) {
+                        if (ContentPreviewViewer.this.delegate.needSend(ContentPreviewViewer.this.currentContentType) && !ContentPreviewViewer.this.delegate.isInScheduleMode()) {
                             arrayList.add(LocaleController.getString("SendStickerPreview", R.string.SendStickerPreview));
                             arrayList3.add(Integer.valueOf(R.drawable.msg_send));
                             arrayList2.add(0);
                         }
-                        if (ContentPreviewViewer.this.delegate.needSend() && !ContentPreviewViewer.this.delegate.isInScheduleMode()) {
+                        if (ContentPreviewViewer.this.delegate.needSend(ContentPreviewViewer.this.currentContentType) && !ContentPreviewViewer.this.delegate.isInScheduleMode()) {
                             arrayList.add(LocaleController.getString("SendWithoutSound", R.string.SendWithoutSound));
                             arrayList3.add(Integer.valueOf(R.drawable.input_notify_off));
                             arrayList2.add(6);
@@ -251,13 +304,13 @@ public class ContentPreviewViewer {
                     }
                     if (!MessageObject.isMaskDocument(ContentPreviewViewer.this.currentDocument) && (isStickerInFavorites || (MediaDataController.getInstance(ContentPreviewViewer.this.currentAccount).canAddStickerToFavorites() && MessageObject.isStickerHasSet(ContentPreviewViewer.this.currentDocument)))) {
                         if (isStickerInFavorites) {
-                            i6 = R.string.DeleteFromFavorites;
+                            i9 = R.string.DeleteFromFavorites;
                             str = "DeleteFromFavorites";
                         } else {
-                            i6 = R.string.AddToFavorites;
+                            i9 = R.string.AddToFavorites;
                             str = "AddToFavorites";
                         }
-                        arrayList.add(LocaleController.getString(str, i6));
+                        arrayList.add(LocaleController.getString(str, i9));
                         arrayList3.add(Integer.valueOf(isStickerInFavorites ? R.drawable.msg_unfave : R.drawable.msg_fave));
                         arrayList2.add(2);
                     }
@@ -270,15 +323,15 @@ public class ContentPreviewViewer {
                         return;
                     }
                     int[] iArr = new int[arrayList3.size()];
-                    for (int i7 = 0; i7 < arrayList3.size(); i7++) {
-                        iArr[i7] = ((Integer) arrayList3.get(i7)).intValue();
+                    for (int i10 = 0; i10 < arrayList3.size(); i10++) {
+                        iArr[i10] = ((Integer) arrayList3.get(i10)).intValue();
                     }
-                    1 r5 = new 1(arrayList2, isStickerInFavorites);
-                    ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(ContentPreviewViewer.this.containerView.getContext(), R.drawable.popup_fixed_alert2, ContentPreviewViewer.this.resourcesProvider);
-                    for (int i8 = 0; i8 < arrayList.size(); i8++) {
-                        ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(actionBarPopupWindowLayout, ((Integer) arrayList3.get(i8)).intValue(), (CharSequence) arrayList.get(i8), false, ContentPreviewViewer.this.resourcesProvider);
-                        addItem.setTag(Integer.valueOf(i8));
-                        addItem.setOnClickListener(r5);
+                    1 r3 = new 1(arrayList2, isStickerInFavorites);
+                    ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(ContentPreviewViewer.this.containerView.getContext(), R.drawable.popup_fixed_alert3, ContentPreviewViewer.this.resourcesProvider);
+                    for (int i11 = 0; i11 < arrayList.size(); i11++) {
+                        ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(actionBarPopupWindowLayout, ((Integer) arrayList3.get(i11)).intValue(), (CharSequence) arrayList.get(i11), false, ContentPreviewViewer.this.resourcesProvider);
+                        addItem.setTag(Integer.valueOf(i11));
+                        addItem.setOnClickListener(r3);
                     }
                     ContentPreviewViewer.this.popupWindow = new ActionBarPopupWindow(actionBarPopupWindowLayout, -2, -2) { // from class: org.telegram.ui.ContentPreviewViewer.1.2
                         {
@@ -307,13 +360,13 @@ public class ContentPreviewViewer {
                     ContentPreviewViewer.this.popupWindow.setInputMethodMode(2);
                     ContentPreviewViewer.this.popupWindow.getContentView().setFocusableInTouchMode(true);
                     if (Build.VERSION.SDK_INT >= 21 && ContentPreviewViewer.this.lastInsets != null) {
-                        i5 = ContentPreviewViewer.this.lastInsets.getStableInsetBottom() + ContentPreviewViewer.this.lastInsets.getStableInsetTop();
-                        i4 = ContentPreviewViewer.this.lastInsets.getStableInsetTop();
+                        i8 = ContentPreviewViewer.this.lastInsets.getStableInsetBottom() + ContentPreviewViewer.this.lastInsets.getStableInsetTop();
+                        i7 = ContentPreviewViewer.this.lastInsets.getStableInsetTop();
                     } else {
-                        i4 = AndroidUtilities.statusBarHeight;
-                        i5 = 0;
+                        i7 = AndroidUtilities.statusBarHeight;
+                        i8 = 0;
                     }
-                    int max = ((int) (ContentPreviewViewer.this.moveY + Math.max(i4 + min + (ContentPreviewViewer.this.stickerEmojiLayout != null ? AndroidUtilities.dp(40.0f) : 0), ((ContentPreviewViewer.this.containerView.getHeight() - i5) - ContentPreviewViewer.this.keyboardHeight) / 2) + ((ContentPreviewViewer.this.currentContentType == 1 ? Math.min(ContentPreviewViewer.this.containerView.getWidth(), ContentPreviewViewer.this.containerView.getHeight() - i5) - AndroidUtilities.dp(40.0f) : (int) (ContentPreviewViewer.this.drawEffect ? Math.min(ContentPreviewViewer.this.containerView.getWidth(), ContentPreviewViewer.this.containerView.getHeight() - i5) - AndroidUtilities.dpf2(40.0f) : Math.min(ContentPreviewViewer.this.containerView.getWidth(), ContentPreviewViewer.this.containerView.getHeight() - i5) / 1.8f)) / 2))) + AndroidUtilities.dp(24.0f);
+                    int max = ((int) (ContentPreviewViewer.this.moveY + Math.max(i7 + min + (ContentPreviewViewer.this.stickerEmojiLayout != null ? AndroidUtilities.dp(40.0f) : 0), ((ContentPreviewViewer.this.containerView.getHeight() - i8) - ContentPreviewViewer.this.keyboardHeight) / 2) + ((ContentPreviewViewer.this.currentContentType == 1 ? Math.min(ContentPreviewViewer.this.containerView.getWidth(), ContentPreviewViewer.this.containerView.getHeight() - i8) - AndroidUtilities.dp(40.0f) : (int) (ContentPreviewViewer.this.drawEffect ? Math.min(ContentPreviewViewer.this.containerView.getWidth(), ContentPreviewViewer.this.containerView.getHeight() - i8) - AndroidUtilities.dpf2(40.0f) : Math.min(ContentPreviewViewer.this.containerView.getWidth(), ContentPreviewViewer.this.containerView.getHeight() - i8) / 1.8f)) / 2))) + AndroidUtilities.dp(24.0f);
                     if (ContentPreviewViewer.this.drawEffect) {
                         max += AndroidUtilities.dp(24.0f);
                     }
@@ -326,58 +379,177 @@ public class ContentPreviewViewer {
                 ContentPreviewViewer.this.menuVisible = true;
                 ContentPreviewViewer.this.containerView.invalidate();
                 ContentPreviewViewer.this.containerView.performHapticFeedback(0);
-            } else if (ContentPreviewViewer.this.delegate != null) {
-                ContentPreviewViewer.this.menuVisible = true;
-                ArrayList arrayList4 = new ArrayList();
-                final ArrayList arrayList5 = new ArrayList();
-                ArrayList arrayList6 = new ArrayList();
-                if (ContentPreviewViewer.this.delegate.needSend() && !ContentPreviewViewer.this.delegate.isInScheduleMode()) {
-                    arrayList4.add(LocaleController.getString("SendGifPreview", R.string.SendGifPreview));
-                    arrayList6.add(Integer.valueOf(R.drawable.msg_send));
-                    arrayList5.add(0);
-                }
-                if (ContentPreviewViewer.this.delegate.canSchedule()) {
-                    arrayList4.add(LocaleController.getString("Schedule", R.string.Schedule));
-                    arrayList6.add(Integer.valueOf(R.drawable.msg_autodelete));
-                    arrayList5.add(3);
-                }
-                if (ContentPreviewViewer.this.currentDocument != null) {
-                    z = MediaDataController.getInstance(ContentPreviewViewer.this.currentAccount).hasRecentGif(ContentPreviewViewer.this.currentDocument);
-                    if (z) {
-                        arrayList4.add(LocaleController.formatString("Delete", R.string.Delete, new Object[0]));
-                        arrayList6.add(Integer.valueOf(R.drawable.msg_delete));
-                        arrayList5.add(1);
-                    } else {
-                        arrayList4.add(LocaleController.formatString("SaveToGIFs", R.string.SaveToGIFs, new Object[0]));
-                        arrayList6.add(Integer.valueOf(R.drawable.msg_gif_add));
-                        arrayList5.add(2);
+            } else if (ContentPreviewViewer.this.currentContentType != 2 || ContentPreviewViewer.this.delegate == null) {
+                if (ContentPreviewViewer.this.delegate != null) {
+                    ContentPreviewViewer.this.menuVisible = true;
+                    ContentPreviewViewer.this.containerView.invalidate();
+                    ArrayList arrayList4 = new ArrayList();
+                    final ArrayList arrayList5 = new ArrayList();
+                    ArrayList arrayList6 = new ArrayList();
+                    if (ContentPreviewViewer.this.delegate.needSend(ContentPreviewViewer.this.currentContentType) && !ContentPreviewViewer.this.delegate.isInScheduleMode()) {
+                        arrayList4.add(LocaleController.getString("SendGifPreview", R.string.SendGifPreview));
+                        arrayList6.add(Integer.valueOf(R.drawable.msg_send));
+                        arrayList5.add(0);
                     }
-                } else {
-                    z = false;
+                    if (ContentPreviewViewer.this.delegate.canSchedule()) {
+                        arrayList4.add(LocaleController.getString("Schedule", R.string.Schedule));
+                        arrayList6.add(Integer.valueOf(R.drawable.msg_autodelete));
+                        arrayList5.add(3);
+                    }
+                    if (ContentPreviewViewer.this.currentDocument != null) {
+                        boolean hasRecentGif = MediaDataController.getInstance(ContentPreviewViewer.this.currentAccount).hasRecentGif(ContentPreviewViewer.this.currentDocument);
+                        if (hasRecentGif) {
+                            arrayList4.add(LocaleController.formatString("Delete", R.string.Delete, new Object[0]));
+                            arrayList6.add(Integer.valueOf(R.drawable.msg_delete));
+                            arrayList5.add(1);
+                        } else {
+                            arrayList4.add(LocaleController.formatString("SaveToGIFs", R.string.SaveToGIFs, new Object[0]));
+                            arrayList6.add(Integer.valueOf(R.drawable.msg_gif_add));
+                            arrayList5.add(2);
+                        }
+                        z = hasRecentGif;
+                    } else {
+                        z = false;
+                    }
+                    if (arrayList4.isEmpty()) {
+                        return;
+                    }
+                    int[] iArr2 = new int[arrayList6.size()];
+                    for (int i12 = 0; i12 < arrayList6.size(); i12++) {
+                        iArr2[i12] = ((Integer) arrayList6.get(i12)).intValue();
+                    }
+                    ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout2 = new ActionBarPopupWindow.ActionBarPopupWindowLayout(ContentPreviewViewer.this.containerView.getContext(), R.drawable.popup_fixed_alert2, ContentPreviewViewer.this.resourcesProvider);
+                    View.OnClickListener onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda3
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view) {
+                            ContentPreviewViewer.1.this.lambda$run$3(arrayList5, view);
+                        }
+                    };
+                    for (int i13 = 0; i13 < arrayList4.size(); i13++) {
+                        ActionBarMenuSubItem addItem2 = ActionBarMenuItem.addItem(actionBarPopupWindowLayout2, ((Integer) arrayList6.get(i13)).intValue(), (CharSequence) arrayList4.get(i13), false, ContentPreviewViewer.this.resourcesProvider);
+                        addItem2.setTag(Integer.valueOf(i13));
+                        addItem2.setOnClickListener(onClickListener);
+                        if (z && i13 == arrayList4.size() - 1) {
+                            addItem2.setColors(ContentPreviewViewer.this.getThemedColor("dialogTextRed2"), ContentPreviewViewer.this.getThemedColor("dialogRedIcon"));
+                        }
+                    }
+                    ContentPreviewViewer.this.popupWindow = new ActionBarPopupWindow(actionBarPopupWindowLayout2, -2, -2) { // from class: org.telegram.ui.ContentPreviewViewer.1.4
+                        {
+                            1.this = this;
+                        }
+
+                        @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow, android.widget.PopupWindow
+                        public void dismiss() {
+                            super.dismiss();
+                            ContentPreviewViewer contentPreviewViewer2 = ContentPreviewViewer.this;
+                            contentPreviewViewer2.popupWindow = null;
+                            contentPreviewViewer2.menuVisible = false;
+                            if (ContentPreviewViewer.this.closeOnDismiss) {
+                                ContentPreviewViewer.this.close();
+                            }
+                        }
+                    };
+                    ContentPreviewViewer.this.popupWindow.setPauseNotifications(true);
+                    ContentPreviewViewer.this.popupWindow.setDismissAnimationDuration(ImageReceiver.DEFAULT_CROSSFADE_DURATION);
+                    ContentPreviewViewer.this.popupWindow.setScaleOut(true);
+                    ContentPreviewViewer.this.popupWindow.setOutsideTouchable(true);
+                    ContentPreviewViewer.this.popupWindow.setClippingEnabled(true);
+                    ContentPreviewViewer.this.popupWindow.setAnimationStyle(R.style.PopupContextAnimation);
+                    ContentPreviewViewer.this.popupWindow.setFocusable(true);
+                    actionBarPopupWindowLayout2.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE));
+                    ContentPreviewViewer.this.popupWindow.setInputMethodMode(2);
+                    ContentPreviewViewer.this.popupWindow.getContentView().setFocusableInTouchMode(true);
+                    if (Build.VERSION.SDK_INT >= 21 && ContentPreviewViewer.this.lastInsets != null) {
+                        i2 = ContentPreviewViewer.this.lastInsets.getStableInsetBottom() + ContentPreviewViewer.this.lastInsets.getStableInsetTop();
+                        i = ContentPreviewViewer.this.lastInsets.getStableInsetTop();
+                    } else {
+                        i = AndroidUtilities.statusBarHeight;
+                        i2 = 0;
+                    }
+                    int min2 = Math.min(ContentPreviewViewer.this.containerView.getWidth(), ContentPreviewViewer.this.containerView.getHeight() - i2) - AndroidUtilities.dp(40.0f);
+                    float f = ContentPreviewViewer.this.moveY;
+                    int i14 = i + (min2 / 2);
+                    int dp = ContentPreviewViewer.this.stickerEmojiLayout != null ? AndroidUtilities.dp(40.0f) : 0;
+                    ContentPreviewViewer contentPreviewViewer2 = ContentPreviewViewer.this;
+                    contentPreviewViewer2.popupWindow.showAtLocation(contentPreviewViewer2.containerView, 0, (int) ((ContentPreviewViewer.this.containerView.getMeasuredWidth() - actionBarPopupWindowLayout2.getMeasuredWidth()) / 2.0f), (int) (((int) (f + Math.max(i14 + dp, ((ContentPreviewViewer.this.containerView.getHeight() - i2) - ContentPreviewViewer.this.keyboardHeight) / 2) + i3)) + (AndroidUtilities.dp(24.0f) - ContentPreviewViewer.this.moveY)));
+                    ContentPreviewViewer.this.containerView.performHapticFeedback(0);
+                    if (ContentPreviewViewer.this.moveY != 0.0f) {
+                        if (ContentPreviewViewer.this.finalMoveY == 0.0f) {
+                            ContentPreviewViewer.this.finalMoveY = 0.0f;
+                            ContentPreviewViewer contentPreviewViewer3 = ContentPreviewViewer.this;
+                            contentPreviewViewer3.startMoveY = contentPreviewViewer3.moveY;
+                        }
+                        ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
+                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda1
+                            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                                ContentPreviewViewer.1.this.lambda$run$4(valueAnimator);
+                            }
+                        });
+                        ofFloat.setDuration(350L);
+                        ofFloat.setInterpolator(CubicBezierInterpolator.DEFAULT);
+                        ofFloat.start();
+                    }
                 }
-                int[] iArr2 = new int[arrayList6.size()];
-                for (int i9 = 0; i9 < arrayList6.size(); i9++) {
-                    iArr2[i9] = ((Integer) arrayList6.get(i9)).intValue();
+            } else {
+                ContentPreviewViewer.this.menuVisible = true;
+                ContentPreviewViewer.this.containerView.invalidate();
+                ArrayList arrayList7 = new ArrayList();
+                final ArrayList arrayList8 = new ArrayList();
+                ArrayList arrayList9 = new ArrayList();
+                if (ContentPreviewViewer.this.delegate.needSend(ContentPreviewViewer.this.currentContentType)) {
+                    arrayList7.add(LocaleController.getString("SendEmojiPreview", R.string.SendEmojiPreview));
+                    arrayList9.add(Integer.valueOf(R.drawable.msg_send));
+                    arrayList8.add(0);
                 }
-                ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout2 = new ActionBarPopupWindow.ActionBarPopupWindowLayout(ContentPreviewViewer.this.containerView.getContext(), R.drawable.popup_fixed_alert2, ContentPreviewViewer.this.resourcesProvider);
-                View.OnClickListener onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda1
+                Boolean canSetAsStatus = ContentPreviewViewer.this.delegate.canSetAsStatus(ContentPreviewViewer.this.currentDocument);
+                if (canSetAsStatus != null) {
+                    if (canSetAsStatus.booleanValue()) {
+                        arrayList7.add(LocaleController.getString("SetAsEmojiStatus", R.string.SetAsEmojiStatus));
+                        arrayList9.add(Integer.valueOf(R.drawable.msg_smile_status));
+                        arrayList8.add(1);
+                    } else {
+                        arrayList7.add(LocaleController.getString("RemoveStatus", R.string.RemoveStatus));
+                        arrayList9.add(Integer.valueOf(R.drawable.msg_smile_status));
+                        arrayList8.add(2);
+                    }
+                }
+                if (ContentPreviewViewer.this.delegate.needCopy()) {
+                    arrayList7.add(LocaleController.getString("CopyEmojiPreview", R.string.CopyEmojiPreview));
+                    arrayList9.add(Integer.valueOf(R.drawable.msg_copy));
+                    arrayList8.add(3);
+                }
+                if (ContentPreviewViewer.this.delegate.needRemoveFromRecent(ContentPreviewViewer.this.currentDocument)) {
+                    arrayList7.add(LocaleController.getString("RemoveFromRecent", R.string.RemoveFromRecent));
+                    arrayList9.add(Integer.valueOf(R.drawable.msg_delete));
+                    arrayList8.add(4);
+                }
+                if (arrayList7.isEmpty()) {
+                    return;
+                }
+                int[] iArr3 = new int[arrayList9.size()];
+                for (int i15 = 0; i15 < arrayList9.size(); i15++) {
+                    iArr3[i15] = ((Integer) arrayList9.get(i15)).intValue();
+                }
+                ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout3 = new ActionBarPopupWindow.ActionBarPopupWindowLayout(ContentPreviewViewer.this.containerView.getContext(), R.drawable.popup_fixed_alert2, ContentPreviewViewer.this.resourcesProvider);
+                View.OnClickListener onClickListener2 = new View.OnClickListener() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda2
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
-                        ContentPreviewViewer.1.this.lambda$run$1(arrayList5, view);
+                        ContentPreviewViewer.1.this.lambda$run$0(arrayList8, view);
                     }
                 };
-                int i10 = 0;
-                while (i10 < arrayList4.size()) {
-                    ActionBarMenuSubItem addItem2 = ActionBarMenuItem.addItem(actionBarPopupWindowLayout2, ((Integer) arrayList6.get(i10)).intValue(), (CharSequence) arrayList4.get(i10), z2, ContentPreviewViewer.this.resourcesProvider);
-                    addItem2.setTag(Integer.valueOf(i10));
-                    addItem2.setOnClickListener(onClickListener);
-                    if (z && i10 == arrayList4.size() - 1) {
-                        addItem2.setColors(ContentPreviewViewer.this.getThemedColor("dialogTextRed2"), ContentPreviewViewer.this.getThemedColor("dialogRedIcon"));
+                int i16 = 0;
+                while (i16 < arrayList7.size()) {
+                    ActionBarMenuSubItem addItem3 = ActionBarMenuItem.addItem(i16 == 0, i16 == arrayList7.size() - 1, actionBarPopupWindowLayout3, ((Integer) arrayList9.get(i16)).intValue(), (CharSequence) arrayList7.get(i16), false, ContentPreviewViewer.this.resourcesProvider);
+                    if (((Integer) arrayList8.get(i16)).intValue() == 4) {
+                        addItem3.setIconColor(ContentPreviewViewer.this.getThemedColor("dialogRedIcon"));
+                        addItem3.setTextColor(ContentPreviewViewer.this.getThemedColor("dialogTextRed2"));
                     }
-                    i10++;
-                    z2 = false;
+                    addItem3.setTag(Integer.valueOf(i16));
+                    addItem3.setOnClickListener(onClickListener2);
+                    i16++;
                 }
-                ContentPreviewViewer.this.popupWindow = new ActionBarPopupWindow(actionBarPopupWindowLayout2, -2, -2) { // from class: org.telegram.ui.ContentPreviewViewer.1.3
+                ContentPreviewViewer.this.popupWindow = new ActionBarPopupWindow(actionBarPopupWindowLayout3, -2, -2) { // from class: org.telegram.ui.ContentPreviewViewer.1.3
                     {
                         1.this = this;
                     }
@@ -385,9 +557,9 @@ public class ContentPreviewViewer {
                     @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow, android.widget.PopupWindow
                     public void dismiss() {
                         super.dismiss();
-                        ContentPreviewViewer contentPreviewViewer2 = ContentPreviewViewer.this;
-                        contentPreviewViewer2.popupWindow = null;
-                        contentPreviewViewer2.menuVisible = false;
+                        ContentPreviewViewer contentPreviewViewer4 = ContentPreviewViewer.this;
+                        contentPreviewViewer4.popupWindow = null;
+                        contentPreviewViewer4.menuVisible = false;
                         if (ContentPreviewViewer.this.closeOnDismiss) {
                             ContentPreviewViewer.this.close();
                         }
@@ -400,39 +572,40 @@ public class ContentPreviewViewer {
                 ContentPreviewViewer.this.popupWindow.setClippingEnabled(true);
                 ContentPreviewViewer.this.popupWindow.setAnimationStyle(R.style.PopupContextAnimation);
                 ContentPreviewViewer.this.popupWindow.setFocusable(true);
-                actionBarPopupWindowLayout2.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE));
+                actionBarPopupWindowLayout3.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE));
                 ContentPreviewViewer.this.popupWindow.setInputMethodMode(2);
                 ContentPreviewViewer.this.popupWindow.getContentView().setFocusableInTouchMode(true);
                 if (Build.VERSION.SDK_INT >= 21 && ContentPreviewViewer.this.lastInsets != null) {
-                    i2 = ContentPreviewViewer.this.lastInsets.getStableInsetBottom() + ContentPreviewViewer.this.lastInsets.getStableInsetTop();
-                    i = ContentPreviewViewer.this.lastInsets.getStableInsetTop();
+                    i5 = ContentPreviewViewer.this.lastInsets.getStableInsetBottom() + ContentPreviewViewer.this.lastInsets.getStableInsetTop();
+                    i4 = ContentPreviewViewer.this.lastInsets.getStableInsetTop();
                 } else {
-                    i = AndroidUtilities.statusBarHeight;
-                    i2 = 0;
+                    i4 = AndroidUtilities.statusBarHeight;
+                    i5 = 0;
                 }
-                int min2 = Math.min(ContentPreviewViewer.this.containerView.getWidth(), ContentPreviewViewer.this.containerView.getHeight() - i2) - AndroidUtilities.dp(40.0f);
-                float f = ContentPreviewViewer.this.moveY;
-                int i11 = i + (min2 / 2);
-                int dp = ContentPreviewViewer.this.stickerEmojiLayout != null ? AndroidUtilities.dp(40.0f) : 0;
-                ContentPreviewViewer contentPreviewViewer2 = ContentPreviewViewer.this;
-                contentPreviewViewer2.popupWindow.showAtLocation(contentPreviewViewer2.containerView, 0, (int) ((ContentPreviewViewer.this.containerView.getMeasuredWidth() - actionBarPopupWindowLayout2.getMeasuredWidth()) / 2.0f), (int) (((int) (f + Math.max(i11 + dp, ((ContentPreviewViewer.this.containerView.getHeight() - i2) - ContentPreviewViewer.this.keyboardHeight) / 2) + i3)) + (AndroidUtilities.dp(24.0f) - ContentPreviewViewer.this.moveY)));
+                int min3 = Math.min(ContentPreviewViewer.this.containerView.getWidth(), ContentPreviewViewer.this.containerView.getHeight() - i5) - AndroidUtilities.dp(40.0f);
+                float f2 = ContentPreviewViewer.this.moveY;
+                int i17 = i4 + (min3 / 2);
+                int dp2 = ContentPreviewViewer.this.stickerEmojiLayout != null ? AndroidUtilities.dp(40.0f) : 0;
+                ContentPreviewViewer contentPreviewViewer4 = ContentPreviewViewer.this;
+                contentPreviewViewer4.popupWindow.showAtLocation(contentPreviewViewer4.containerView, 0, (int) ((ContentPreviewViewer.this.containerView.getMeasuredWidth() - actionBarPopupWindowLayout3.getMeasuredWidth()) / 2.0f), (int) (((int) (f2 + Math.max(i17 + dp2, ((ContentPreviewViewer.this.containerView.getHeight() - i5) - ContentPreviewViewer.this.keyboardHeight) / 2) + i6)) + (AndroidUtilities.dp(24.0f) - ContentPreviewViewer.this.moveY)));
+                ActionBarPopupWindow.startAnimation(actionBarPopupWindowLayout3);
                 ContentPreviewViewer.this.containerView.performHapticFeedback(0);
                 if (ContentPreviewViewer.this.moveY != 0.0f) {
                     if (ContentPreviewViewer.this.finalMoveY == 0.0f) {
                         ContentPreviewViewer.this.finalMoveY = 0.0f;
-                        ContentPreviewViewer contentPreviewViewer3 = ContentPreviewViewer.this;
-                        contentPreviewViewer3.startMoveY = contentPreviewViewer3.moveY;
+                        ContentPreviewViewer contentPreviewViewer5 = ContentPreviewViewer.this;
+                        contentPreviewViewer5.startMoveY = contentPreviewViewer5.moveY;
                     }
-                    ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda0
+                    ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
+                    ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda0
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                         public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            ContentPreviewViewer.1.this.lambda$run$2(valueAnimator);
+                            ContentPreviewViewer.1.this.lambda$run$1(valueAnimator);
                         }
                     });
-                    ofFloat.setDuration(350L);
-                    ofFloat.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                    ofFloat.start();
+                    ofFloat2.setDuration(350L);
+                    ofFloat2.setInterpolator(CubicBezierInterpolator.DEFAULT);
+                    ofFloat2.start();
                 }
             }
         }
@@ -487,7 +660,36 @@ public class ContentPreviewViewer {
             }
         }
 
-        public /* synthetic */ void lambda$run$1(ArrayList arrayList, View view) {
+        public /* synthetic */ void lambda$run$0(ArrayList arrayList, View view) {
+            if (ContentPreviewViewer.this.parentActivity == null) {
+                return;
+            }
+            int intValue = ((Integer) arrayList.get(((Integer) view.getTag()).intValue())).intValue();
+            if (intValue == 0) {
+                ContentPreviewViewer.this.delegate.sendEmoji(ContentPreviewViewer.this.currentDocument);
+            } else if (intValue == 1) {
+                ContentPreviewViewer.this.delegate.setAsEmojiStatus(ContentPreviewViewer.this.currentDocument, null);
+            } else if (intValue == 2) {
+                ContentPreviewViewer.this.delegate.setAsEmojiStatus(null, null);
+            } else if (intValue == 3) {
+                ContentPreviewViewer.this.delegate.copyEmoji(ContentPreviewViewer.this.currentDocument);
+            } else if (intValue == 4) {
+                ContentPreviewViewer.this.delegate.removeFromRecent(ContentPreviewViewer.this.currentDocument);
+            }
+            ActionBarPopupWindow actionBarPopupWindow = ContentPreviewViewer.this.popupWindow;
+            if (actionBarPopupWindow != null) {
+                actionBarPopupWindow.dismiss();
+            }
+        }
+
+        public /* synthetic */ void lambda$run$1(ValueAnimator valueAnimator) {
+            ContentPreviewViewer.this.currentMoveYProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+            ContentPreviewViewer contentPreviewViewer = ContentPreviewViewer.this;
+            contentPreviewViewer.moveY = contentPreviewViewer.startMoveY + ((ContentPreviewViewer.this.finalMoveY - ContentPreviewViewer.this.startMoveY) * ContentPreviewViewer.this.currentMoveYProgress);
+            ContentPreviewViewer.this.containerView.invalidate();
+        }
+
+        public /* synthetic */ void lambda$run$3(ArrayList arrayList, View view) {
             if (ContentPreviewViewer.this.parentActivity == null) {
                 return;
             }
@@ -506,10 +708,10 @@ public class ContentPreviewViewer {
                 final TLRPC$BotInlineResult tLRPC$BotInlineResult = ContentPreviewViewer.this.inlineResult;
                 final Object obj = ContentPreviewViewer.this.parentObject;
                 final ContentPreviewViewerDelegate contentPreviewViewerDelegate = ContentPreviewViewer.this.delegate;
-                AlertsCreator.createScheduleDatePickerDialog(ContentPreviewViewer.this.parentActivity, contentPreviewViewerDelegate.getDialogId(), new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda2
+                AlertsCreator.createScheduleDatePickerDialog(ContentPreviewViewer.this.parentActivity, contentPreviewViewerDelegate.getDialogId(), new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda4
                     @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
                     public final void didSelectDate(boolean z, int i) {
-                        ContentPreviewViewer.1.lambda$run$0(ContentPreviewViewer.ContentPreviewViewerDelegate.this, tLRPC$Document, tLRPC$BotInlineResult, obj, z, i);
+                        ContentPreviewViewer.1.lambda$run$2(ContentPreviewViewer.ContentPreviewViewerDelegate.this, tLRPC$Document, tLRPC$BotInlineResult, obj, z, i);
                     }
                 }, ContentPreviewViewer.this.resourcesProvider);
             }
@@ -520,14 +722,14 @@ public class ContentPreviewViewer {
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        public static /* synthetic */ void lambda$run$0(ContentPreviewViewerDelegate contentPreviewViewerDelegate, TLRPC$Document tLRPC$Document, TLRPC$BotInlineResult tLRPC$BotInlineResult, Object obj, boolean z, int i) {
+        public static /* synthetic */ void lambda$run$2(ContentPreviewViewerDelegate contentPreviewViewerDelegate, TLRPC$Document tLRPC$Document, TLRPC$BotInlineResult tLRPC$BotInlineResult, Object obj, boolean z, int i) {
             if (tLRPC$Document == null) {
                 tLRPC$Document = tLRPC$BotInlineResult;
             }
             contentPreviewViewerDelegate.sendGif(tLRPC$Document, obj, z, i);
         }
 
-        public /* synthetic */ void lambda$run$2(ValueAnimator valueAnimator) {
+        public /* synthetic */ void lambda$run$4(ValueAnimator valueAnimator) {
             ContentPreviewViewer.this.currentMoveYProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             ContentPreviewViewer contentPreviewViewer = ContentPreviewViewer.this;
             contentPreviewViewer.moveY = contentPreviewViewer.startMoveY + ((ContentPreviewViewer.this.finalMoveY - ContentPreviewViewer.this.startMoveY) * ContentPreviewViewer.this.currentMoveYProgress);
@@ -615,20 +817,23 @@ public class ContentPreviewViewer {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:221:0x0135  */
-    /* JADX WARN: Removed duplicated region for block: B:226:0x013f  */
-    /* JADX WARN: Removed duplicated region for block: B:227:0x0145  */
-    /* JADX WARN: Removed duplicated region for block: B:235:0x0164  */
-    /* JADX WARN: Removed duplicated region for block: B:238:0x0172  */
-    /* JADX WARN: Removed duplicated region for block: B:243:0x01a7  */
+    /* JADX WARN: Removed duplicated region for block: B:276:0x0162  */
+    /* JADX WARN: Removed duplicated region for block: B:279:0x016b  */
+    /* JADX WARN: Removed duplicated region for block: B:280:0x0171  */
+    /* JADX WARN: Removed duplicated region for block: B:288:0x0190  */
+    /* JADX WARN: Removed duplicated region for block: B:291:0x019e  */
+    /* JADX WARN: Removed duplicated region for block: B:296:0x01d4  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public boolean onTouch(MotionEvent motionEvent, final RecyclerListView recyclerListView, int i, final Object obj, ContentPreviewViewerDelegate contentPreviewViewerDelegate, Theme.ResourcesProvider resourcesProvider) {
         int i2;
+        int i3;
+        ContentPreviewViewerDelegate contentPreviewViewerDelegate2;
         View view;
         ActionBarPopupWindow actionBarPopupWindow;
         View view2;
+        TLRPC$Document tLRPC$Document;
         this.delegate = contentPreviewViewerDelegate;
         this.resourcesProvider = resourcesProvider;
         if (contentPreviewViewerDelegate == null || contentPreviewViewerDelegate.can()) {
@@ -690,12 +895,12 @@ public class ContentPreviewViewer {
                             int x = (int) motionEvent.getX();
                             int y2 = (int) motionEvent.getY();
                             int childCount = recyclerListView.getChildCount();
-                            int i3 = 0;
+                            int i4 = 0;
                             while (true) {
-                                if (i3 >= childCount) {
+                                if (i4 >= childCount) {
                                     break;
                                 }
-                                View childAt = recyclerListView.getChildAt(i3);
+                                View childAt = recyclerListView.getChildAt(i4);
                                 if (childAt == null) {
                                     return false;
                                 }
@@ -704,7 +909,7 @@ public class ContentPreviewViewer {
                                 int left = childAt.getLeft();
                                 int right = childAt.getRight();
                                 if (top > y2 || bottom < y2 || left > x || right < x) {
-                                    i3++;
+                                    i4++;
                                 } else {
                                     if (childAt instanceof StickerEmojiCell) {
                                         this.centerImage.setRoundRadius(0);
@@ -715,59 +920,36 @@ public class ContentPreviewViewer {
                                             ContextLinkCell contextLinkCell = (ContextLinkCell) childAt;
                                             if (contextLinkCell.isSticker()) {
                                                 this.centerImage.setRoundRadius(0);
+                                                i3 = 0;
                                             } else if (contextLinkCell.isGif()) {
                                                 this.centerImage.setRoundRadius(AndroidUtilities.dp(6.0f));
-                                                i2 = 1;
-                                                if (i2 != -1 && childAt != (view = this.currentPreviewCell)) {
-                                                    if (!(view instanceof StickerEmojiCell)) {
-                                                        ((StickerEmojiCell) view).setScaled(false);
-                                                    } else if (view instanceof StickerCell) {
-                                                        ((StickerCell) view).setScaled(false);
-                                                    } else if (view instanceof ContextLinkCell) {
-                                                        ((ContextLinkCell) view).setScaled(false);
-                                                    }
-                                                    this.currentPreviewCell = childAt;
-                                                    this.clearsInputField = false;
-                                                    this.menuVisible = false;
-                                                    this.closeOnDismiss = false;
-                                                    actionBarPopupWindow = this.popupWindow;
-                                                    if (actionBarPopupWindow != null) {
-                                                        actionBarPopupWindow.dismiss();
-                                                    }
-                                                    AndroidUtilities.updateViewVisibilityAnimated(this.unlockPremiumView, false);
-                                                    view2 = this.currentPreviewCell;
-                                                    if (!(view2 instanceof StickerEmojiCell)) {
-                                                        StickerEmojiCell stickerEmojiCell = (StickerEmojiCell) view2;
-                                                        TLRPC$Document sticker = stickerEmojiCell.getSticker();
-                                                        SendMessagesHelper.ImportingSticker stickerPath = stickerEmojiCell.getStickerPath();
-                                                        String emoji = stickerEmojiCell.getEmoji();
-                                                        ContentPreviewViewerDelegate contentPreviewViewerDelegate2 = this.delegate;
-                                                        open(sticker, stickerPath, emoji, contentPreviewViewerDelegate2 != null ? contentPreviewViewerDelegate2.getQuery(false) : null, null, i2, stickerEmojiCell.isRecent(), stickerEmojiCell.getParentObject(), resourcesProvider);
-                                                        stickerEmojiCell.setScaled(true);
-                                                    } else if (view2 instanceof StickerCell) {
-                                                        StickerCell stickerCell = (StickerCell) view2;
-                                                        TLRPC$Document sticker2 = stickerCell.getSticker();
-                                                        ContentPreviewViewerDelegate contentPreviewViewerDelegate3 = this.delegate;
-                                                        open(sticker2, null, null, contentPreviewViewerDelegate3 != null ? contentPreviewViewerDelegate3.getQuery(false) : null, null, i2, false, stickerCell.getParentObject(), resourcesProvider);
-                                                        stickerCell.setScaled(true);
-                                                        this.clearsInputField = stickerCell.isClearsInputField();
-                                                    } else if (view2 instanceof ContextLinkCell) {
-                                                        ContextLinkCell contextLinkCell2 = (ContextLinkCell) view2;
-                                                        TLRPC$Document document = contextLinkCell2.getDocument();
-                                                        ContentPreviewViewerDelegate contentPreviewViewerDelegate4 = this.delegate;
-                                                        open(document, null, null, contentPreviewViewerDelegate4 != null ? contentPreviewViewerDelegate4.getQuery(true) : null, contextLinkCell2.getBotInlineResult(), i2, false, contextLinkCell2.getBotInlineResult() != null ? contextLinkCell2.getInlineBot() : contextLinkCell2.getParentObject(), resourcesProvider);
-                                                        if (i2 != 1) {
-                                                            contextLinkCell2.setScaled(true);
-                                                        }
-                                                    }
-                                                    runSmoothHaptic();
-                                                    return true;
-                                                }
+                                                i3 = 1;
+                                            } else {
+                                                i3 = -1;
                                             }
+                                            i2 = i3;
+                                        } else {
+                                            if (childAt instanceof EmojiPacksAlert.EmojiImageView) {
+                                                this.centerImage.setRoundRadius(0);
+                                            } else if (!(childAt instanceof EmojiView.ImageViewEmoji) || ((EmojiView.ImageViewEmoji) childAt).getSpan() == null) {
+                                                i2 = -1;
+                                            } else {
+                                                this.centerImage.setRoundRadius(0);
+                                            }
+                                            i2 = 2;
                                         }
-                                        i2 = -1;
-                                        if (i2 != -1) {
+                                        if (i2 != -1 && childAt != this.currentPreviewCell) {
+                                            contentPreviewViewerDelegate2 = this.delegate;
+                                            if (contentPreviewViewerDelegate2 != null) {
+                                                contentPreviewViewerDelegate2.resetTouch();
+                                            }
+                                            view = this.currentPreviewCell;
                                             if (!(view instanceof StickerEmojiCell)) {
+                                                ((StickerEmojiCell) view).setScaled(false);
+                                            } else if (view instanceof StickerCell) {
+                                                ((StickerCell) view).setScaled(false);
+                                            } else if (view instanceof ContextLinkCell) {
+                                                ((ContextLinkCell) view).setScaled(false);
                                             }
                                             this.currentPreviewCell = childAt;
                                             this.clearsInputField = false;
@@ -775,10 +957,59 @@ public class ContentPreviewViewer {
                                             this.closeOnDismiss = false;
                                             actionBarPopupWindow = this.popupWindow;
                                             if (actionBarPopupWindow != null) {
+                                                actionBarPopupWindow.dismiss();
                                             }
                                             AndroidUtilities.updateViewVisibilityAnimated(this.unlockPremiumView, false);
                                             view2 = this.currentPreviewCell;
                                             if (!(view2 instanceof StickerEmojiCell)) {
+                                                StickerEmojiCell stickerEmojiCell = (StickerEmojiCell) view2;
+                                                TLRPC$Document sticker = stickerEmojiCell.getSticker();
+                                                SendMessagesHelper.ImportingSticker stickerPath = stickerEmojiCell.getStickerPath();
+                                                String emoji = stickerEmojiCell.getEmoji();
+                                                ContentPreviewViewerDelegate contentPreviewViewerDelegate3 = this.delegate;
+                                                open(sticker, stickerPath, emoji, contentPreviewViewerDelegate3 != null ? contentPreviewViewerDelegate3.getQuery(false) : null, null, i2, stickerEmojiCell.isRecent(), stickerEmojiCell.getParentObject(), resourcesProvider);
+                                                stickerEmojiCell.setScaled(true);
+                                            } else if (view2 instanceof StickerCell) {
+                                                StickerCell stickerCell = (StickerCell) view2;
+                                                TLRPC$Document sticker2 = stickerCell.getSticker();
+                                                ContentPreviewViewerDelegate contentPreviewViewerDelegate4 = this.delegate;
+                                                open(sticker2, null, null, contentPreviewViewerDelegate4 != null ? contentPreviewViewerDelegate4.getQuery(false) : null, null, i2, false, stickerCell.getParentObject(), resourcesProvider);
+                                                stickerCell.setScaled(true);
+                                                this.clearsInputField = stickerCell.isClearsInputField();
+                                            } else if (view2 instanceof ContextLinkCell) {
+                                                ContextLinkCell contextLinkCell2 = (ContextLinkCell) view2;
+                                                TLRPC$Document document = contextLinkCell2.getDocument();
+                                                ContentPreviewViewerDelegate contentPreviewViewerDelegate5 = this.delegate;
+                                                open(document, null, null, contentPreviewViewerDelegate5 != null ? contentPreviewViewerDelegate5.getQuery(true) : null, contextLinkCell2.getBotInlineResult(), i2, false, contextLinkCell2.getBotInlineResult() != null ? contextLinkCell2.getInlineBot() : contextLinkCell2.getParentObject(), resourcesProvider);
+                                                if (i2 != 1) {
+                                                    contextLinkCell2.setScaled(true);
+                                                }
+                                            } else if (view2 instanceof EmojiPacksAlert.EmojiImageView) {
+                                                TLRPC$Document document2 = ((EmojiPacksAlert.EmojiImageView) view2).getDocument();
+                                                if (document2 != null) {
+                                                    open(document2, null, MessageObject.findAnimatedEmojiEmoticon(document2, null), null, null, i2, false, null, resourcesProvider);
+                                                }
+                                            } else if (view2 instanceof EmojiView.ImageViewEmoji) {
+                                                AnimatedEmojiSpan span = ((EmojiView.ImageViewEmoji) view2).getSpan();
+                                                if (span != null) {
+                                                    tLRPC$Document = span.document;
+                                                    if (tLRPC$Document == null) {
+                                                        tLRPC$Document = AnimatedEmojiDrawable.findDocument(this.currentAccount, span.getDocumentId());
+                                                    }
+                                                } else {
+                                                    tLRPC$Document = null;
+                                                }
+                                                if (tLRPC$Document == null) {
+                                                    return false;
+                                                }
+                                                open(tLRPC$Document, null, MessageObject.findAnimatedEmojiEmoticon(tLRPC$Document, null), null, null, i2, false, null, resourcesProvider);
+                                            } else if (view2 instanceof SuggestEmojiView.EmojiImageView) {
+                                                Drawable drawable = ((SuggestEmojiView.EmojiImageView) view2).drawable;
+                                                TLRPC$Document document3 = drawable instanceof AnimatedEmojiDrawable ? ((AnimatedEmojiDrawable) drawable).getDocument() : null;
+                                                if (document3 == null) {
+                                                    return false;
+                                                }
+                                                open(document3, null, MessageObject.findAnimatedEmojiEmoticon(document3, null), null, null, i2, false, null, resourcesProvider);
                                             }
                                             runSmoothHaptic();
                                             return true;
@@ -786,6 +1017,25 @@ public class ContentPreviewViewer {
                                     }
                                     i2 = 0;
                                     if (i2 != -1) {
+                                        contentPreviewViewerDelegate2 = this.delegate;
+                                        if (contentPreviewViewerDelegate2 != null) {
+                                        }
+                                        view = this.currentPreviewCell;
+                                        if (!(view instanceof StickerEmojiCell)) {
+                                        }
+                                        this.currentPreviewCell = childAt;
+                                        this.clearsInputField = false;
+                                        this.menuVisible = false;
+                                        this.closeOnDismiss = false;
+                                        actionBarPopupWindow = this.popupWindow;
+                                        if (actionBarPopupWindow != null) {
+                                        }
+                                        AndroidUtilities.updateViewVisibilityAnimated(this.unlockPremiumView, false);
+                                        view2 = this.currentPreviewCell;
+                                        if (!(view2 instanceof StickerEmojiCell)) {
+                                        }
+                                        runSmoothHaptic();
+                                        return true;
                                     }
                                 }
                             }
@@ -827,15 +1077,14 @@ public class ContentPreviewViewer {
     }
 
     public boolean onInterceptTouchEvent(MotionEvent motionEvent, final RecyclerListView recyclerListView, int i, ContentPreviewViewerDelegate contentPreviewViewerDelegate, final Theme.ResourcesProvider resourcesProvider) {
-        final int i2;
         this.delegate = contentPreviewViewerDelegate;
         this.resourcesProvider = resourcesProvider;
         if ((contentPreviewViewerDelegate == null || contentPreviewViewerDelegate.can()) && motionEvent.getAction() == 0) {
             int x = (int) motionEvent.getX();
             int y = (int) motionEvent.getY();
             int childCount = recyclerListView.getChildCount();
-            for (int i3 = 0; i3 < childCount; i3++) {
-                View childAt = recyclerListView.getChildAt(i3);
+            for (int i2 = 0; i2 < childCount; i2++) {
+                View childAt = recyclerListView.getChildAt(i2);
                 if (childAt == null) {
                     return false;
                 }
@@ -844,34 +1093,42 @@ public class ContentPreviewViewer {
                 int left = childAt.getLeft();
                 int right = childAt.getRight();
                 if (top <= y && bottom >= y && left <= x && right >= x) {
+                    final int i3 = 2;
                     if (childAt instanceof StickerEmojiCell) {
                         if (((StickerEmojiCell) childAt).showingBitmap()) {
                             this.centerImage.setRoundRadius(0);
-                            i2 = 0;
+                            i3 = 0;
                         }
-                        i2 = -1;
+                        i3 = -1;
                     } else if (childAt instanceof StickerCell) {
                         if (((StickerCell) childAt).showingBitmap()) {
                             this.centerImage.setRoundRadius(0);
-                            i2 = 0;
+                            i3 = 0;
                         }
-                        i2 = -1;
-                    } else {
-                        if (childAt instanceof ContextLinkCell) {
-                            ContextLinkCell contextLinkCell = (ContextLinkCell) childAt;
-                            if (contextLinkCell.showingBitmap()) {
-                                if (contextLinkCell.isSticker()) {
-                                    this.centerImage.setRoundRadius(0);
-                                    i2 = 0;
-                                } else if (contextLinkCell.isGif()) {
-                                    this.centerImage.setRoundRadius(AndroidUtilities.dp(6.0f));
-                                    i2 = 1;
-                                }
+                        i3 = -1;
+                    } else if (childAt instanceof ContextLinkCell) {
+                        ContextLinkCell contextLinkCell = (ContextLinkCell) childAt;
+                        if (contextLinkCell.showingBitmap()) {
+                            if (contextLinkCell.isSticker()) {
+                                this.centerImage.setRoundRadius(0);
+                                i3 = 0;
+                            } else if (contextLinkCell.isGif()) {
+                                this.centerImage.setRoundRadius(AndroidUtilities.dp(6.0f));
+                                i3 = 1;
                             }
                         }
-                        i2 = -1;
+                        i3 = -1;
+                    } else if (childAt instanceof EmojiPacksAlert.EmojiImageView) {
+                        this.centerImage.setRoundRadius(0);
+                    } else if ((childAt instanceof EmojiView.ImageViewEmoji) && ((EmojiView.ImageViewEmoji) childAt).getSpan() != null) {
+                        this.centerImage.setRoundRadius(0);
+                    } else {
+                        if ((childAt instanceof SuggestEmojiView.EmojiImageView) && (((SuggestEmojiView.EmojiImageView) childAt).drawable instanceof AnimatedEmojiDrawable)) {
+                            this.centerImage.setRoundRadius(0);
+                        }
+                        i3 = -1;
                     }
-                    if (i2 == -1) {
+                    if (i3 == -1) {
                         return false;
                     }
                     this.startX = x;
@@ -880,7 +1137,7 @@ public class ContentPreviewViewer {
                     Runnable runnable = new Runnable() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda6
                         @Override // java.lang.Runnable
                         public final void run() {
-                            ContentPreviewViewer.this.lambda$onInterceptTouchEvent$3(recyclerListView, i2, resourcesProvider);
+                            ContentPreviewViewer.this.lambda$onInterceptTouchEvent$3(recyclerListView, i3, resourcesProvider);
                         }
                     };
                     this.openPreviewRunnable = runnable;
@@ -893,10 +1150,12 @@ public class ContentPreviewViewer {
     }
 
     public /* synthetic */ void lambda$onInterceptTouchEvent$3(RecyclerListView recyclerListView, int i, Theme.ResourcesProvider resourcesProvider) {
+        TLRPC$Document tLRPC$Document;
         if (this.openPreviewRunnable == null) {
             return;
         }
         recyclerListView.setOnItemClickListener((RecyclerListView.OnItemClickListener) null);
+        boolean z = true;
         recyclerListView.requestDisallowInterceptTouchEvent(true);
         this.openPreviewRunnable = null;
         setParentActivity(AndroidUtilities.findActivity(recyclerListView.getContext()));
@@ -925,8 +1184,43 @@ public class ContentPreviewViewer {
             if (i != 1) {
                 contextLinkCell.setScaled(true);
             }
+        } else if (view instanceof EmojiPacksAlert.EmojiImageView) {
+            TLRPC$Document document2 = ((EmojiPacksAlert.EmojiImageView) view).getDocument();
+            if (document2 != null) {
+                open(document2, null, MessageObject.findAnimatedEmojiEmoticon(document2, null), null, null, i, false, null, resourcesProvider);
+            }
+            z = false;
+        } else if (view instanceof EmojiView.ImageViewEmoji) {
+            AnimatedEmojiSpan span = ((EmojiView.ImageViewEmoji) view).getSpan();
+            if (span != null) {
+                tLRPC$Document = span.document;
+                if (tLRPC$Document == null) {
+                    tLRPC$Document = AnimatedEmojiDrawable.findDocument(this.currentAccount, span.getDocumentId());
+                }
+            } else {
+                tLRPC$Document = null;
+            }
+            if (tLRPC$Document != null) {
+                open(tLRPC$Document, null, MessageObject.findAnimatedEmojiEmoticon(tLRPC$Document, null), null, null, i, false, null, resourcesProvider);
+            }
+            z = false;
+        } else {
+            if (view instanceof SuggestEmojiView.EmojiImageView) {
+                Drawable drawable = ((SuggestEmojiView.EmojiImageView) view).drawable;
+                TLRPC$Document document3 = drawable instanceof AnimatedEmojiDrawable ? ((AnimatedEmojiDrawable) drawable).getDocument() : null;
+                if (document3 != null) {
+                    open(document3, null, MessageObject.findAnimatedEmojiEmoticon(document3, null), null, null, i, false, null, resourcesProvider);
+                }
+            }
+            z = false;
         }
-        this.currentPreviewCell.performHapticFeedback(0, 2);
+        if (z) {
+            this.currentPreviewCell.performHapticFeedback(0, 2);
+            ContentPreviewViewerDelegate contentPreviewViewerDelegate4 = this.delegate;
+            if (contentPreviewViewerDelegate4 != null) {
+                contentPreviewViewerDelegate4.resetTouch();
+            }
+        }
     }
 
     public void setParentActivity(Activity activity) {
@@ -1022,9 +1316,9 @@ public class ContentPreviewViewer {
     }
 
     public void open(TLRPC$Document tLRPC$Document, SendMessagesHelper.ImportingSticker importingSticker, String str, String str2, TLRPC$BotInlineResult tLRPC$BotInlineResult, int i, boolean z, Object obj, Theme.ResourcesProvider resourcesProvider) {
-        int i2;
         TLRPC$InputStickerSet tLRPC$InputStickerSet;
         ContentPreviewViewerDelegate contentPreviewViewerDelegate;
+        TLRPC$InputStickerSet tLRPC$InputStickerSet2;
         if (this.parentActivity == null || this.windowView == null) {
             return;
         }
@@ -1033,23 +1327,17 @@ public class ContentPreviewViewer {
         this.stickerEmojiLayout = null;
         this.backgroundDrawable.setColor(Theme.getActiveTheme().isDark() ? 1895825408 : 1692853990);
         this.drawEffect = false;
-        if (i != 0) {
+        this.centerImage.setColorFilter(null);
+        if (i != 0 && i != 2) {
             if (tLRPC$Document != null) {
                 TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
                 TLRPC$VideoSize documentVideoThumb = MessageObject.getDocumentVideoThumb(tLRPC$Document);
                 ImageLocation forDocument = ImageLocation.getForDocument(tLRPC$Document);
                 forDocument.imageType = 2;
                 if (documentVideoThumb != null) {
-                    ImageReceiver imageReceiver = this.centerImage;
-                    ImageLocation forDocument2 = ImageLocation.getForDocument(documentVideoThumb, tLRPC$Document);
-                    ImageLocation forDocument3 = ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document);
-                    long j = tLRPC$Document.size;
-                    imageReceiver.setImage(forDocument, null, forDocument2, null, forDocument3, "90_90_b", null, j, null, "gif" + tLRPC$Document, 0);
+                    this.centerImage.setImage(forDocument, null, ImageLocation.getForDocument(documentVideoThumb, tLRPC$Document), null, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), "90_90_b", null, tLRPC$Document.size, null, "gif" + tLRPC$Document, 0);
                 } else {
-                    ImageReceiver imageReceiver2 = this.centerImage;
-                    ImageLocation forDocument4 = ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document);
-                    long j2 = tLRPC$Document.size;
-                    imageReceiver2.setImage(forDocument, null, forDocument4, "90_90_b", j2, null, "gif" + tLRPC$Document, 0);
+                    this.centerImage.setImage(forDocument, null, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), "90_90_b", tLRPC$Document.size, null, "gif" + tLRPC$Document, 0);
                 }
             } else if (tLRPC$BotInlineResult == null || tLRPC$BotInlineResult.content == null) {
                 return;
@@ -1074,19 +1362,23 @@ public class ContentPreviewViewer {
             this.effectImage.clearImage();
             this.drawEffect = false;
             if (tLRPC$Document != null) {
-                int i3 = 0;
+                int i2 = 0;
                 while (true) {
-                    if (i3 >= tLRPC$Document.attributes.size()) {
+                    if (i2 >= tLRPC$Document.attributes.size()) {
                         tLRPC$InputStickerSet = null;
                         break;
                     }
-                    TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$Document.attributes.get(i3);
-                    if ((tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeSticker) && (tLRPC$InputStickerSet = tLRPC$DocumentAttribute.stickerset) != null) {
+                    TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$Document.attributes.get(i2);
+                    if ((tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeSticker) && (tLRPC$InputStickerSet2 = tLRPC$DocumentAttribute.stickerset) != null) {
+                        tLRPC$InputStickerSet = tLRPC$InputStickerSet2;
                         break;
                     }
-                    i3++;
+                    i2++;
                 }
-                if (tLRPC$InputStickerSet != null && ((contentPreviewViewerDelegate = this.delegate) == null || contentPreviewViewerDelegate.needMenu())) {
+                if (i == 2 && str != null) {
+                    this.stickerEmojiLayout = new StaticLayout(Emoji.replaceEmoji(str, textPaint.getFontMetricsInt(), AndroidUtilities.dp(24.0f), false), textPaint, AndroidUtilities.dp(100.0f), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+                }
+                if ((tLRPC$InputStickerSet != null || i == 2) && ((contentPreviewViewerDelegate = this.delegate) == null || contentPreviewViewerDelegate.needMenu())) {
                     AndroidUtilities.cancelRunOnUIThread(this.showSheetRunnable);
                     AndroidUtilities.runOnUIThread(this.showSheetRunnable, 1300L);
                 }
@@ -1101,17 +1393,20 @@ public class ContentPreviewViewer {
                         this.effectImage.setImage(ImageLocation.getForDocument(MessageObject.getPremiumStickerAnimation(tLRPC$Document), tLRPC$Document), (String) null, (ImageLocation) null, (String) null, "tgs", this.currentStickerSet, 1);
                     }
                 }
-                int i4 = 0;
+                if (MessageObject.isTextColorEmoji(tLRPC$Document)) {
+                    this.centerImage.setColorFilter(Theme.chat_animatedEmojiTextColorFilter);
+                }
+                int i3 = 0;
                 while (true) {
-                    if (i4 >= tLRPC$Document.attributes.size()) {
+                    if (i3 >= tLRPC$Document.attributes.size()) {
                         break;
                     }
-                    TLRPC$DocumentAttribute tLRPC$DocumentAttribute2 = tLRPC$Document.attributes.get(i4);
+                    TLRPC$DocumentAttribute tLRPC$DocumentAttribute2 = tLRPC$Document.attributes.get(i3);
                     if ((tLRPC$DocumentAttribute2 instanceof TLRPC$TL_documentAttributeSticker) && !TextUtils.isEmpty(tLRPC$DocumentAttribute2.alt)) {
                         this.stickerEmojiLayout = new StaticLayout(Emoji.replaceEmoji(tLRPC$DocumentAttribute2.alt, textPaint.getFontMetricsInt(), AndroidUtilities.dp(24.0f), false), textPaint, AndroidUtilities.dp(100.0f), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
                         break;
                     }
-                    i4++;
+                    i3++;
                 }
             } else if (importingSticker != null) {
                 this.centerImage.setImage(importingSticker.path, null, null, importingSticker.animated ? "tgs" : null, 0L);
@@ -1125,13 +1420,10 @@ public class ContentPreviewViewer {
             }
         }
         if (this.centerImage.getLottieAnimation() != null) {
-            i2 = 0;
             this.centerImage.getLottieAnimation().setCurrentFrame(0);
-        } else {
-            i2 = 0;
         }
         if (this.drawEffect && this.effectImage.getLottieAnimation() != null) {
-            this.effectImage.getLottieAnimation().setCurrentFrame(i2);
+            this.effectImage.getLottieAnimation().setCurrentFrame(0);
         }
         this.currentContentType = i;
         this.currentDocument = tLRPC$Document;

@@ -29,6 +29,7 @@ public class TLRPC$Message extends TLObject {
     public boolean mentioned;
     public String message;
     public boolean noforwards;
+    public String originalLanguage;
     public boolean out;
     public HashMap<String, String> params;
     public TLRPC$Peer peer_id;
@@ -48,6 +49,8 @@ public class TLRPC$Message extends TLObject {
     public int seq_out;
     public boolean silent;
     public boolean topic_start;
+    public TLRPC$TL_textWithEntities translatedText;
+    public String translatedToLanguage;
     public int ttl;
     public int ttl_period;
     public boolean unread;
@@ -2760,7 +2763,11 @@ public class TLRPC$Message extends TLObject {
         if (tLRPC$Message != null) {
             tLRPC$Message.readParams(abstractSerializedData, z);
             if (tLRPC$Message.from_id == null) {
-                tLRPC$Message.from_id = tLRPC$Message.peer_id;
+                if (tLRPC$Message.id < 0 && tLRPC$Message.random_id == 0) {
+                    tLRPC$Message.from_id = new TLRPC$TL_peerUser();
+                } else {
+                    tLRPC$Message.from_id = tLRPC$Message.peer_id;
+                }
             }
         }
         return tLRPC$Message;
@@ -2891,8 +2898,8 @@ public class TLRPC$Message extends TLObject {
             if (this.params == null) {
                 this.params = new HashMap<>();
             }
-            this.layer = 151;
-            this.params.put("legacy_layer", "151");
+            this.layer = 152;
+            this.params.put("legacy_layer", "152");
         }
         if ((this.id < 0 || this.send_state == 3 || this.legacy) && (hashMap2 = this.params) != null && hashMap2.size() > 0) {
             for (Map.Entry<String, String> entry2 : this.params.entrySet()) {

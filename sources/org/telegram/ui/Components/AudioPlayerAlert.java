@@ -392,6 +392,11 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                 super.onAttachedToWindow();
                 Bulletin.addDelegate(this, new Bulletin.Delegate() { // from class: org.telegram.ui.Components.AudioPlayerAlert.2.1
                     @Override // org.telegram.ui.Components.Bulletin.Delegate
+                    public /* synthetic */ boolean allowLayoutChanges() {
+                        return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
+                    }
+
+                    @Override // org.telegram.ui.Components.Bulletin.Delegate
                     public /* synthetic */ int getTopOffset(int i) {
                         return Bulletin.Delegate.-CC.$default$getTopOffset(this, i);
                     }
@@ -1540,8 +1545,10 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             arrayList.add(playingMessageObject);
             dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.Components.AudioPlayerAlert$$ExternalSyntheticLambda13
                 @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                public final void didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList2, CharSequence charSequence, boolean z) {
-                    AudioPlayerAlert.this.lambda$onSubItemClick$10(arrayList, dialogsActivity2, arrayList2, charSequence, z);
+                public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList2, CharSequence charSequence, boolean z) {
+                    boolean lambda$onSubItemClick$10;
+                    lambda$onSubItemClick$10 = AudioPlayerAlert.this.lambda$onSubItemClick$10(arrayList, dialogsActivity2, arrayList2, charSequence, z);
+                    return lambda$onSubItemClick$10;
                 }
             });
             this.parentActivity.lambda$runLinkRequest$71(dialogsActivity);
@@ -1633,7 +1640,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onSubItemClick$10(ArrayList arrayList, DialogsActivity dialogsActivity, ArrayList arrayList2, CharSequence charSequence, boolean z) {
+    public /* synthetic */ boolean lambda$onSubItemClick$10(ArrayList arrayList, DialogsActivity dialogsActivity, ArrayList arrayList2, CharSequence charSequence, boolean z) {
         long j;
         if (arrayList2.size() > 1 || ((MessagesStorage.TopicKey) arrayList2.get(0)).dialogId == UserConfig.getInstance(this.currentAccount).getClientUserId() || charSequence != null) {
             for (int i = 0; i < arrayList2.size(); i++) {
@@ -1647,25 +1654,26 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                 SendMessagesHelper.getInstance(this.currentAccount).sendMessage(arrayList, j, false, false, true, 0);
             }
             dialogsActivity.finishFragment();
-            return;
-        }
-        long j3 = ((MessagesStorage.TopicKey) arrayList2.get(0)).dialogId;
-        Bundle bundle = new Bundle();
-        bundle.putBoolean("scrollToTopOnResume", true);
-        if (DialogObject.isEncryptedDialog(j3)) {
-            bundle.putInt("enc_id", DialogObject.getEncryptedChatId(j3));
-        } else if (DialogObject.isUserDialog(j3)) {
-            bundle.putLong("user_id", j3);
         } else {
-            bundle.putLong("chat_id", -j3);
+            long j3 = ((MessagesStorage.TopicKey) arrayList2.get(0)).dialogId;
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("scrollToTopOnResume", true);
+            if (DialogObject.isEncryptedDialog(j3)) {
+                bundle.putInt("enc_id", DialogObject.getEncryptedChatId(j3));
+            } else if (DialogObject.isUserDialog(j3)) {
+                bundle.putLong("user_id", j3);
+            } else {
+                bundle.putLong("chat_id", -j3);
+            }
+            NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.closeChats, new Object[0]);
+            ChatActivity chatActivity = new ChatActivity(bundle);
+            if (this.parentActivity.presentFragment(chatActivity, true, false)) {
+                chatActivity.showFieldPanelForForward(true, arrayList);
+            } else {
+                dialogsActivity.finishFragment();
+            }
         }
-        NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.closeChats, new Object[0]);
-        ChatActivity chatActivity = new ChatActivity(bundle);
-        if (this.parentActivity.presentFragment(chatActivity, true, false)) {
-            chatActivity.showFieldPanelForForward(true, arrayList);
-        } else {
-            dialogsActivity.finishFragment();
-        }
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

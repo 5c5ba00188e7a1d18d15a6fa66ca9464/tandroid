@@ -2,7 +2,10 @@ package org.telegram.messenger;
 
 import android.text.TextUtils;
 import org.telegram.PhoneFormat.PhoneFormat;
+import org.telegram.tgnet.TLRPC$EmojiStatus;
 import org.telegram.tgnet.TLRPC$Photo;
+import org.telegram.tgnet.TLRPC$TL_emojiStatus;
+import org.telegram.tgnet.TLRPC$TL_emojiStatusUntil;
 import org.telegram.tgnet.TLRPC$TL_photoEmpty;
 import org.telegram.tgnet.TLRPC$TL_userContact_old2;
 import org.telegram.tgnet.TLRPC$TL_userDeleted_old2;
@@ -124,5 +127,28 @@ public class UserObject {
     public static boolean hasFallbackPhoto(TLRPC$UserFull tLRPC$UserFull) {
         TLRPC$Photo tLRPC$Photo;
         return (tLRPC$UserFull == null || (tLRPC$Photo = tLRPC$UserFull.fallback_photo) == null || (tLRPC$Photo instanceof TLRPC$TL_photoEmpty)) ? false : true;
+    }
+
+    public static Long getEmojiStatusDocumentId(TLRPC$User tLRPC$User) {
+        if (tLRPC$User == null) {
+            return null;
+        }
+        return getEmojiStatusDocumentId(tLRPC$User.emoji_status);
+    }
+
+    public static Long getEmojiStatusDocumentId(TLRPC$EmojiStatus tLRPC$EmojiStatus) {
+        if (tLRPC$EmojiStatus == null) {
+            return null;
+        }
+        if (tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatus) {
+            return Long.valueOf(((TLRPC$TL_emojiStatus) tLRPC$EmojiStatus).document_id);
+        }
+        if (tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil) {
+            TLRPC$TL_emojiStatusUntil tLRPC$TL_emojiStatusUntil = (TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus;
+            if (tLRPC$TL_emojiStatusUntil.until > ((int) (System.currentTimeMillis() / 1000))) {
+                return Long.valueOf(tLRPC$TL_emojiStatusUntil.document_id);
+            }
+        }
+        return null;
     }
 }

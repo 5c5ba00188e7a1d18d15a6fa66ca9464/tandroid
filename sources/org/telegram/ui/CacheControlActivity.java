@@ -100,6 +100,9 @@ import org.telegram.ui.KeepMediaPopupView;
 import org.telegram.ui.Storage.CacheModel;
 /* loaded from: classes3.dex */
 public class CacheControlActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
+    public static volatile boolean canceled = false;
+    private static Long lastTotalSizeCalculated;
+    private static long lastTotalSizeCalculatedTime;
     private ValueAnimator actionBarAnimator;
     private boolean actionBarShown;
     private float actionBarShownT;
@@ -145,7 +148,6 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     private boolean collapsed = true;
     private int sectionsStartRow = -1;
     private int sectionsEndRow = -1;
-    private volatile boolean canceled = false;
     private ArrayList<ItemInner> oldItems = new ArrayList<>();
     private ArrayList<ItemInner> itemInners = new ArrayList<>();
     private float actionBarShadowAlpha = 1.0f;
@@ -182,15 +184,63 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public boolean onFragmentCreate() {
-        super.onFragmentCreate();
-        getNotificationCenter().addObserver(this, NotificationCenter.didClearDatabase);
-        this.databaseSize = MessagesStorage.getInstance(this.currentAccount).getDatabaseSize();
+    public static void calculateTotalSize(final Utilities.Callback<Long> callback) {
+        if (callback == null) {
+            return;
+        }
+        Long l = lastTotalSizeCalculated;
+        if (l != null) {
+            callback.run(l);
+            if (System.currentTimeMillis() - lastTotalSizeCalculatedTime < 5000) {
+                return;
+            }
+        }
         Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
-                CacheControlActivity.this.lambda$onFragmentCreate$1();
+                CacheControlActivity.lambda$calculateTotalSize$1(Utilities.Callback.this);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$calculateTotalSize$1(final Utilities.Callback callback) {
+        canceled = false;
+        long directorySize = getDirectorySize(FileLoader.checkDirectory(4), 5);
+        long directorySize2 = getDirectorySize(FileLoader.checkDirectory(4), 4);
+        long directorySize3 = getDirectorySize(FileLoader.checkDirectory(0), 0) + getDirectorySize(FileLoader.checkDirectory(100), 0);
+        long directorySize4 = getDirectorySize(FileLoader.checkDirectory(2), 0) + getDirectorySize(FileLoader.checkDirectory(FileLoader.MEDIA_DIR_VIDEO_PUBLIC), 0);
+        long directorySize5 = getDirectorySize(FileLoader.checkDirectory(3), 1) + getDirectorySize(FileLoader.checkDirectory(5), 1);
+        Long valueOf = Long.valueOf(directorySize + directorySize2 + directorySize4 + getDirectorySize(FileLoader.checkDirectory(1), 0) + directorySize3 + directorySize5 + getDirectorySize(FileLoader.checkDirectory(3), 2) + getDirectorySize(FileLoader.checkDirectory(5), 2) + getDirectorySize(new File(FileLoader.checkDirectory(4), "acache"), 0) + getDirectorySize(FileLoader.checkDirectory(4), 3));
+        lastTotalSizeCalculated = valueOf;
+        final long longValue = valueOf.longValue();
+        lastTotalSizeCalculatedTime = System.currentTimeMillis();
+        if (canceled) {
+            return;
+        }
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda5
+            @Override // java.lang.Runnable
+            public final void run() {
+                CacheControlActivity.lambda$calculateTotalSize$0(Utilities.Callback.this, longValue);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$calculateTotalSize$0(Utilities.Callback callback, long j) {
+        callback.run(Long.valueOf(j));
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public boolean onFragmentCreate() {
+        super.onFragmentCreate();
+        canceled = false;
+        getNotificationCenter().addObserver(this, NotificationCenter.didClearDatabase);
+        this.databaseSize = MessagesStorage.getInstance(this.currentAccount).getDatabaseSize();
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda8
+            @Override // java.lang.Runnable
+            public final void run() {
+                CacheControlActivity.this.lambda$onFragmentCreate$3();
             }
         });
         this.fragmentCreateTime = System.currentTimeMillis();
@@ -200,55 +250,60 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onFragmentCreate$1() {
+    public /* synthetic */ void lambda$onFragmentCreate$3() {
         File file;
         long blockSize;
         long availableBlocks;
         long blockCount;
         this.cacheSize = getDirectorySize(FileLoader.checkDirectory(4), 5);
-        if (this.canceled) {
+        if (canceled) {
             return;
         }
         this.cacheTempSize = getDirectorySize(FileLoader.checkDirectory(4), 4);
-        if (this.canceled) {
+        if (canceled) {
             return;
         }
         long directorySize = getDirectorySize(FileLoader.checkDirectory(0), 0);
         this.photoSize = directorySize;
         this.photoSize = directorySize + getDirectorySize(FileLoader.checkDirectory(100), 0);
-        if (this.canceled) {
+        if (canceled) {
             return;
         }
         long directorySize2 = getDirectorySize(FileLoader.checkDirectory(2), 0);
         this.videoSize = directorySize2;
         this.videoSize = directorySize2 + getDirectorySize(FileLoader.checkDirectory(FileLoader.MEDIA_DIR_VIDEO_PUBLIC), 0);
-        if (this.canceled) {
+        if (canceled) {
             return;
         }
         long directorySize3 = getDirectorySize(FileLoader.checkDirectory(3), 1);
         this.documentsSize = directorySize3;
         this.documentsSize = directorySize3 + getDirectorySize(FileLoader.checkDirectory(5), 1);
-        if (this.canceled) {
+        if (canceled) {
             return;
         }
         long directorySize4 = getDirectorySize(FileLoader.checkDirectory(3), 2);
         this.musicSize = directorySize4;
         this.musicSize = directorySize4 + getDirectorySize(FileLoader.checkDirectory(5), 2);
-        if (this.canceled) {
+        if (canceled) {
             return;
         }
         this.stickersCacheSize = getDirectorySize(new File(FileLoader.checkDirectory(4), "acache"), 0);
-        if (this.canceled) {
+        if (canceled) {
             return;
         }
         this.cacheEmojiSize = getDirectorySize(FileLoader.checkDirectory(4), 3);
-        if (this.canceled) {
+        if (canceled) {
             return;
         }
         this.stickersCacheSize += this.cacheEmojiSize;
-        long directorySize5 = getDirectorySize(FileLoader.checkDirectory(1), 0);
-        this.audioSize = directorySize5;
-        this.totalSize = this.cacheSize + this.cacheTempSize + this.videoSize + directorySize5 + this.photoSize + this.documentsSize + this.musicSize + this.stickersCacheSize;
+        this.audioSize = getDirectorySize(FileLoader.checkDirectory(1), 0);
+        if (canceled) {
+            return;
+        }
+        Long valueOf = Long.valueOf(this.cacheSize + this.cacheTempSize + this.videoSize + this.audioSize + this.photoSize + this.documentsSize + this.musicSize + this.stickersCacheSize);
+        lastTotalSizeCalculated = valueOf;
+        this.totalSize = valueOf.longValue();
+        lastTotalSizeCalculatedTime = System.currentTimeMillis();
         if (Build.VERSION.SDK_INT >= 19) {
             ArrayList<File> rootDirs = AndroidUtilities.getRootDirs();
             file = rootDirs.get(0);
@@ -289,17 +344,17 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         } catch (Exception e) {
             FileLog.e(e);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
-                CacheControlActivity.this.lambda$onFragmentCreate$0();
+                CacheControlActivity.this.lambda$onFragmentCreate$2();
             }
-        }, Math.max(1L, (System.currentTimeMillis() - this.fragmentCreateTime > 45 ? 600L : 0L) - (System.currentTimeMillis() - this.fragmentCreateTime)));
+        });
         loadDialogEntities();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onFragmentCreate$0() {
+    public /* synthetic */ void lambda$onFragmentCreate$2() {
         resumeDelayedFragmentAnimation();
         this.calculating = false;
         updateRows(true);
@@ -329,11 +384,11 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 if (System.currentTimeMillis() - this.fragmentCreateTime < 80) {
                     this.cacheChart.loadingFloat.set(0.0f, true);
                 }
-                this.cacheChart.setSegments(this.totalSize, segmentSizeArr);
+                this.cacheChart.setSegments(this.totalSize, true, segmentSizeArr);
             } else if (z) {
-                cacheChart.setSegments(-1L, new CacheChart.SegmentSize[0]);
+                cacheChart.setSegments(-1L, true, new CacheChart.SegmentSize[0]);
             } else {
-                cacheChart.setSegments(0L, new CacheChart.SegmentSize[0]);
+                cacheChart.setSegments(0L, true, new CacheChart.SegmentSize[0]);
             }
         }
         ClearCacheButtonInternal clearCacheButtonInternal = this.clearCacheButton;
@@ -344,16 +399,16 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     }
 
     private void loadDialogEntities() {
-        getFileLoader().getFileDatabase().getQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda8
+        getFileLoader().getFileDatabase().getQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
-                CacheControlActivity.this.lambda$loadDialogEntities$4();
+                CacheControlActivity.this.lambda$loadDialogEntities$6();
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadDialogEntities$4() {
+    public /* synthetic */ void lambda$loadDialogEntities$6() {
         final CacheModel cacheModel = new CacheModel(false);
         LongSparseArray<DialogFileEntities> longSparseArray = new LongSparseArray<>();
         fillDialogsEntitiesRecursive(FileLoader.checkDirectory(4), 6, longSparseArray, null);
@@ -380,16 +435,16 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             }
         }
         cacheModel.sortBySize();
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda9
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
-                CacheControlActivity.this.lambda$loadDialogEntities$3(arrayList2, arrayList3, arrayList, cacheModel);
+                CacheControlActivity.this.lambda$loadDialogEntities$5(arrayList2, arrayList3, arrayList, cacheModel);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadDialogEntities$3(ArrayList arrayList, ArrayList arrayList2, final ArrayList arrayList3, final CacheModel cacheModel) {
+    public /* synthetic */ void lambda$loadDialogEntities$5(ArrayList arrayList, ArrayList arrayList2, final ArrayList arrayList3, final CacheModel cacheModel) {
         final ArrayList<TLRPC$User> arrayList4 = new ArrayList<>();
         final ArrayList<TLRPC$Chat> arrayList5 = new ArrayList<>();
         if (!arrayList.isEmpty()) {
@@ -415,16 +470,16 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             i++;
         }
         sort(arrayList3);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda10
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda13
             @Override // java.lang.Runnable
             public final void run() {
-                CacheControlActivity.this.lambda$loadDialogEntities$2(arrayList4, arrayList5, arrayList3, cacheModel);
+                CacheControlActivity.this.lambda$loadDialogEntities$4(arrayList4, arrayList5, arrayList3, cacheModel);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadDialogEntities$2(ArrayList arrayList, ArrayList arrayList2, ArrayList arrayList3, CacheModel cacheModel) {
+    public /* synthetic */ void lambda$loadDialogEntities$4(ArrayList arrayList, ArrayList arrayList2, ArrayList arrayList3, CacheModel cacheModel) {
         boolean z;
         getMessagesController().putUsers(arrayList, true);
         getMessagesController().putChats(arrayList2, true);
@@ -450,7 +505,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             i++;
         }
         cacheModel.setEntities(arrayList3);
-        if (this.canceled) {
+        if (canceled) {
             return;
         }
         setCacheModel(cacheModel);
@@ -473,11 +528,11 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     }
 
     private void sort(ArrayList<DialogFileEntities> arrayList) {
-        Collections.sort(arrayList, CacheControlActivity$$ExternalSyntheticLambda14.INSTANCE);
+        Collections.sort(arrayList, CacheControlActivity$$ExternalSyntheticLambda17.INSTANCE);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ int lambda$sort$5(DialogFileEntities dialogFileEntities, DialogFileEntities dialogFileEntities2) {
+    public static /* synthetic */ int lambda$sort$7(DialogFileEntities dialogFileEntities, DialogFileEntities dialogFileEntities2) {
         long j = dialogFileEntities2.totalSize;
         long j2 = dialogFileEntities.totalSize;
         if (j > j2) {
@@ -500,7 +555,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             return;
         }
         for (File file2 : listFiles) {
-            if (this.canceled) {
+            if (canceled) {
                 return;
             }
             if (file2.isDirectory()) {
@@ -539,19 +594,16 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     }
 
     private String formatPercent(float f, boolean z) {
-        float round = Math.round(f * 100.0f);
-        if (!z || round >= 0.1f) {
-            if (round % 1.0f == 0.0f) {
-                return ((int) round) + "%";
-            }
-            return String.format("%.1f%%", Float.valueOf(round));
+        if (!z || f >= 0.001f) {
+            float round = Math.round(f * 100.0f);
+            return (!z || round > 0.0f) ? String.format("%d%%", Integer.valueOf((int) round)) : String.format("<%d%%", 1);
         }
         return String.format("<%.1f%%", Float.valueOf(0.1f));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public CharSequence getCheckBoxTitle(CharSequence charSequence, int i, boolean z) {
-        SpannableString spannableString = new SpannableString(i <= 0 ? String.format("<%.1f%%", Float.valueOf(0.1f)) : String.format("%d%%", Integer.valueOf(i)));
+        SpannableString spannableString = new SpannableString(i <= 0 ? String.format("<%.1f%%", Float.valueOf(1.0f)) : String.format("%d%%", Integer.valueOf(i)));
         spannableString.setSpan(new RelativeSizeSpan(0.834f), 0, spannableString.length(), 33);
         spannableString.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), 0, spannableString.length(), 33);
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(charSequence);
@@ -625,7 +677,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 arrayList.add(ItemInner.asCheckBox(LocaleController.getString(R.string.LocalMiscellaneousCache), 7, this.cacheTempSize, "statisticChartLine_purple"));
             }
             if (!arrayList.isEmpty()) {
-                Collections.sort(arrayList, CacheControlActivity$$ExternalSyntheticLambda15.INSTANCE);
+                Collections.sort(arrayList, CacheControlActivity$$ExternalSyntheticLambda18.INSTANCE);
                 ((ItemInner) arrayList.get(arrayList.size() - 1)).last = true;
                 if (this.tempSizes == null) {
                     this.tempSizes = new float[9];
@@ -720,7 +772,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ int lambda$updateRows$6(ItemInner itemInner, ItemInner itemInner2) {
+    public static /* synthetic */ int lambda$updateRows$8(ItemInner itemInner, ItemInner itemInner2) {
         return Long.compare(itemInner2.size, itemInner.size);
     }
 
@@ -736,11 +788,11 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         } catch (Exception unused) {
         }
         this.progressDialog = null;
-        this.canceled = true;
+        canceled = true;
     }
 
-    private long getDirectorySize(File file, int i) {
-        if (file == null || this.canceled) {
+    private static long getDirectorySize(File file, int i) {
+        if (file == null || canceled) {
             return 0L;
         }
         if (file.isDirectory()) {
@@ -771,25 +823,25 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         getFileLoader().getFileLoaderQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
-                CacheControlActivity.this.lambda$cleanupFolders$8();
+                CacheControlActivity.this.lambda$cleanupFolders$10();
             }
         });
         setCacheModel(null);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$cleanupFolders$8() {
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda6
+    public /* synthetic */ void lambda$cleanupFolders$10() {
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
-                CacheControlActivity.this.lambda$cleanupFolders$7();
+                CacheControlActivity.this.lambda$cleanupFolders$9();
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: cleanupFoldersInternal */
-    public void lambda$cleanupFolders$7() {
+    public void lambda$cleanupFolders$9() {
         long blockSize;
         long availableBlocks;
         long blockCount;
@@ -903,7 +955,10 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             i2++;
             i = 1;
         }
-        this.totalSize = this.cacheSize + this.cacheTempSize + this.videoSize + this.audioSize + this.photoSize + this.documentsSize + this.musicSize + this.stickersCacheSize;
+        Long valueOf = Long.valueOf(this.cacheSize + this.cacheTempSize + this.videoSize + this.audioSize + this.photoSize + this.documentsSize + this.musicSize + this.stickersCacheSize);
+        lastTotalSizeCalculated = valueOf;
+        this.totalSize = valueOf.longValue();
+        lastTotalSizeCalculatedTime = System.currentTimeMillis();
         Arrays.fill(this.selected, true);
         StatFs statFs = new StatFs(Environment.getDataDirectory().getPath());
         int i5 = Build.VERSION.SDK_INT;
@@ -928,16 +983,16 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             FileLoader.getInstance(this.currentAccount).clearFilePaths();
         }
         FileLoader.getInstance(this.currentAccount).checkCurrentDownloadsFiles();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda13
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda16
             @Override // java.lang.Runnable
             public final void run() {
-                CacheControlActivity.this.lambda$cleanupFoldersInternal$9(z, j2);
+                CacheControlActivity.this.lambda$cleanupFoldersInternal$12(z, j2);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$cleanupFoldersInternal$9(boolean z, long j) {
+    public /* synthetic */ void lambda$cleanupFoldersInternal$12(boolean z, final long j) {
         if (z) {
             ImageLoader.getInstance().clearMemory();
         }
@@ -951,10 +1006,20 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             FileLog.e(e);
         }
         getMediaDataController().ringtoneDataStore.checkRingtoneSoundsLoaded();
-        this.cacheRemovedTooltip.setInfoText(LocaleController.formatString("CacheWasCleared", R.string.CacheWasCleared, AndroidUtilities.formatFileSize(j)));
-        this.cacheRemovedTooltip.showWithAction(0L, 19, null, null);
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda11
+            @Override // java.lang.Runnable
+            public final void run() {
+                CacheControlActivity.this.lambda$cleanupFoldersInternal$11(j);
+            }
+        }, 150L);
         MediaDataController.getInstance(this.currentAccount).chekAllMedia(true);
         loadDialogEntities();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$cleanupFoldersInternal$11(long j) {
+        this.cacheRemovedTooltip.setInfoText(LocaleController.formatString("CacheWasCleared", R.string.CacheWasCleared, AndroidUtilities.formatFileSize(j)));
+        this.cacheRemovedTooltip.showWithAction(0L, 19, null, null);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -1071,7 +1136,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         this.actionModeClearButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                CacheControlActivity.this.lambda$createView$10(view);
+                CacheControlActivity.this.lambda$createView$13(view);
             }
         });
         frameLayout.addView(this.actionModeClearButton, LayoutHelper.createFrame(-2, 28.0f, 21, 0.0f, 0.0f, 14.0f, 0.0f));
@@ -1140,7 +1205,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         defaultItemAnimator.setDelayAnimations(false);
         defaultItemAnimator.setSupportsChangeAnimations(false);
         this.listView.setItemAnimator(defaultItemAnimator);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda17
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda20
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ boolean hasDoubleTap(View view, int i) {
                 return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i);
@@ -1153,7 +1218,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public final void onItemClick(View view, int i, float f, float f2) {
-                CacheControlActivity.this.lambda$createView$12(view, i, f, f2);
+                CacheControlActivity.this.lambda$createView$15(view, i, f, f2);
             }
         });
         this.listView.addOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.CacheControlActivity.5
@@ -1179,12 +1244,12 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$10(View view) {
+    public /* synthetic */ void lambda$createView$13(View view) {
         clearSelectedFiles();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$12(View view, int i, float f, float f2) {
+    public /* synthetic */ void lambda$createView$15(View view, int i, float f, float f2) {
         if (getParentActivity() != null && i >= 0 && i < this.itemInners.size()) {
             ItemInner itemInner = this.itemInners.get(i);
             if (itemInner.viewType == 11 && (view instanceof CheckBoxCell)) {
@@ -1205,10 +1270,10 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 ActionBarPopupWindow createSimplePopup = AlertsCreator.createSimplePopup(this, keepMediaPopupView, view, f, f2);
                 keepMediaPopupView.update(this.itemInners.get(i).keepMediaType);
                 keepMediaPopupView.setParentWindow(createSimplePopup);
-                keepMediaPopupView.setCallback(new KeepMediaPopupView.Callback() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda18
+                keepMediaPopupView.setCallback(new KeepMediaPopupView.Callback() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda21
                     @Override // org.telegram.ui.KeepMediaPopupView.Callback
                     public final void onKeepMediaChange(int i2, int i3) {
-                        CacheControlActivity.this.lambda$createView$11(i2, i3);
+                        CacheControlActivity.this.lambda$createView$14(i2, i3);
                     }
                 });
             }
@@ -1216,7 +1281,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$11(int i, int i2) {
+    public /* synthetic */ void lambda$createView$14(int i, int i2) {
         AndroidUtilities.updateVisibleRows(this.listView);
     }
 
@@ -1228,10 +1293,10 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(LocaleController.getString("ClearCache", R.string.ClearCache));
         builder.setMessage(LocaleController.getString("ClearCacheForChats", R.string.ClearCacheForChats));
-        builder.setPositiveButton(LocaleController.getString("Clear", R.string.Clear), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda2
+        builder.setPositiveButton(LocaleController.getString("Clear", R.string.Clear), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda1
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
-                CacheControlActivity.this.lambda$clearSelectedFiles$13(dialogInterface, i);
+                CacheControlActivity.this.lambda$clearSelectedFiles$16(dialogInterface, i);
             }
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -1244,7 +1309,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$clearSelectedFiles$13(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$clearSelectedFiles$16(DialogInterface dialogInterface, int i) {
         DialogFileEntities removeSelectedFiles = this.cacheModel.removeSelectedFiles();
         if (removeSelectedFiles.totalSize > 0) {
             cleanupDialogFiles(removeSelectedFiles, null, null);
@@ -1275,7 +1340,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    CacheControlActivity.this.lambda$updateActionBar$14(valueAnimator2);
+                    CacheControlActivity.this.lambda$updateActionBar$17(valueAnimator2);
                 }
             });
             this.actionBarAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
@@ -1285,7 +1350,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateActionBar$14(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$updateActionBar$17(ValueAnimator valueAnimator) {
         this.actionBarShownT = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.actionBar.setTitleColor(ColorUtils.setAlphaComponent(Theme.getColor("windowBackgroundWhiteBlackText"), (int) (this.actionBarShownT * 255.0f)));
         this.actionBar.setBackgroundColor(ColorUtils.setAlphaComponent(Theme.getColor("windowBackgroundWhite"), (int) (this.actionBarShownT * 255.0f)));
@@ -1396,29 +1461,29 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         final ArrayList arrayList = new ArrayList(hashSet);
         getFileLoader().getFileDatabase().removeFiles(arrayList);
         getFileLoader().cancelLoadAllFiles();
-        getFileLoader().getFileLoaderQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda11
+        getFileLoader().getFileLoaderQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
-                CacheControlActivity.this.lambda$cleanupDialogFiles$16(arrayList, alertDialog);
+                CacheControlActivity.this.lambda$cleanupDialogFiles$19(arrayList, alertDialog);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$cleanupDialogFiles$16(ArrayList arrayList, final AlertDialog alertDialog) {
+    public /* synthetic */ void lambda$cleanupDialogFiles$19(ArrayList arrayList, final AlertDialog alertDialog) {
         for (int i = 0; i < arrayList.size(); i++) {
             ((CacheModel.FileInfo) arrayList.get(i)).file.delete();
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda12
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda15
             @Override // java.lang.Runnable
             public final void run() {
-                CacheControlActivity.this.lambda$cleanupDialogFiles$15(alertDialog);
+                CacheControlActivity.this.lambda$cleanupDialogFiles$18(alertDialog);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$cleanupDialogFiles$15(AlertDialog alertDialog) {
+    public /* synthetic */ void lambda$cleanupDialogFiles$18(AlertDialog alertDialog) {
         FileLoader.getInstance(this.currentAccount).checkCurrentDownloadsFiles();
         try {
             alertDialog.dismiss();
@@ -1437,10 +1502,10 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         spannableStringBuilder.append((CharSequence) AndroidUtilities.replaceTags(LocaleController.formatString("LocalDatabaseClearText2", R.string.LocalDatabaseClearText2, AndroidUtilities.formatFileSize(this.databaseSize))));
         builder.setMessage(spannableStringBuilder);
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        builder.setPositiveButton(LocaleController.getString("CacheClear", R.string.CacheClear), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda1
+        builder.setPositiveButton(LocaleController.getString("CacheClear", R.string.CacheClear), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda2
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
-                CacheControlActivity.this.lambda$clearDatabase$17(dialogInterface, i);
+                CacheControlActivity.this.lambda$clearDatabase$20(dialogInterface, i);
             }
         });
         AlertDialog create = builder.create();
@@ -1452,7 +1517,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$clearDatabase$17(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$clearDatabase$20(DialogInterface dialogInterface, int i) {
         if (getParentActivity() == null) {
             return;
         }
@@ -1582,7 +1647,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             }
             animatedTextView.setText(string);
             if (z) {
-                if (f < 0.1f) {
+                if (f < 0.01f) {
                     this.subtitle[1].setText(LocaleController.formatString("StorageUsageTelegramLess", R.string.StorageUsageTelegramLess, CacheControlActivity.this.formatPercent(f)));
                 } else {
                     this.subtitle[1].setText(LocaleController.formatString("StorageUsageTelegram", R.string.StorageUsageTelegram, CacheControlActivity.this.formatPercent(f)));
@@ -2328,16 +2393,13 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 if (((ItemInner) CacheControlActivity.this.itemInners.get(i)).keepMediaType != 0) {
                     if (((ItemInner) CacheControlActivity.this.itemInners.get(i)).keepMediaType != 1) {
                         if (((ItemInner) CacheControlActivity.this.itemInners.get(i)).keepMediaType == 2) {
-                            textCell.setTextAndValue(LocaleController.getString("CacheChannels", R.string.CacheChannels), keepMediaString, true, false);
-                            textCell.setColorfulIcon(CacheControlActivity.this.getThemedColor("statisticChartLine_golden"), R.drawable.msg_filled_menu_channels);
+                            textCell.setTextAndValueAndColorfulIcon(LocaleController.getString("CacheChannels", R.string.CacheChannels), keepMediaString, true, R.drawable.msg_filled_menu_channels, CacheControlActivity.this.getThemedColor("statisticChartLine_golden"), true);
                         }
                     } else {
-                        textCell.setTextAndValue(LocaleController.getString("GroupChats", R.string.GroupChats), keepMediaString, true, true);
-                        textCell.setColorfulIcon(CacheControlActivity.this.getThemedColor("statisticChartLine_green"), R.drawable.msg_filled_menu_groups);
+                        textCell.setTextAndValueAndColorfulIcon(LocaleController.getString("GroupChats", R.string.GroupChats), keepMediaString, true, R.drawable.msg_filled_menu_groups, CacheControlActivity.this.getThemedColor("statisticChartLine_green"), true);
                     }
                 } else {
-                    textCell.setTextAndValue(LocaleController.getString("PrivateChats", R.string.PrivateChats), keepMediaString, true, true);
-                    textCell.setColorfulIcon(CacheControlActivity.this.getThemedColor("statisticChartLine_lightblue"), R.drawable.msg_filled_menu_users);
+                    textCell.setTextAndValueAndColorfulIcon(LocaleController.getString("PrivateChats", R.string.PrivateChats), keepMediaString, true, R.drawable.msg_filled_menu_users, CacheControlActivity.this.getThemedColor("statisticChartLine_lightblue"), true);
                 }
                 textCell.setSubtitle(formatPluralString);
             } else if (itemViewType == 10) {
@@ -2441,10 +2503,10 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda16
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda19
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
-                CacheControlActivity.this.lambda$getThemeDescriptions$18();
+                CacheControlActivity.this.lambda$getThemeDescriptions$21();
             }
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
@@ -2494,7 +2556,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getThemeDescriptions$18() {
+    public /* synthetic */ void lambda$getThemeDescriptions$21() {
         BottomSheet bottomSheet = this.bottomSheet;
         if (bottomSheet != null) {
             bottomSheet.setBackgroundColor(Theme.getColor("dialogBackground"));

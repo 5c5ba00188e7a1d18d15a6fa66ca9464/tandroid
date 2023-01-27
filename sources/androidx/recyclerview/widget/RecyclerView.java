@@ -6652,6 +6652,10 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
             this.mRemoveDelay = j;
         }
 
+        public void setMoveDelay(long j) {
+            this.mMoveDelay = j;
+        }
+
         public long getAddDelay() {
             return this.mAddDelay;
         }

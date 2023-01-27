@@ -89,8 +89,10 @@ public class DialogOrContactPickerActivity extends BaseFragment {
         this.dialogsActivity = dialogsActivity;
         dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.DialogOrContactPickerActivity$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-            public final void didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z) {
-                DialogOrContactPickerActivity.this.lambda$new$1(dialogsActivity2, arrayList, charSequence, z);
+            public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z) {
+                boolean lambda$new$1;
+                lambda$new$1 = DialogOrContactPickerActivity.this.lambda$new$1(dialogsActivity2, arrayList, charSequence, z);
+                return lambda$new$1;
             }
         });
         this.dialogsActivity.onFragmentCreate();
@@ -114,14 +116,16 @@ public class DialogOrContactPickerActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$1(DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z) {
+    public /* synthetic */ boolean lambda$new$1(DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z) {
         if (arrayList.isEmpty()) {
-            return;
+            return true;
         }
         long j = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
         if (DialogObject.isUserDialog(j)) {
             showBlockAlert(getMessagesController().getUser(Long.valueOf(j)));
+            return true;
         }
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

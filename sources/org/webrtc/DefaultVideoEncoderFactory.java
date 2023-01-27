@@ -1,5 +1,6 @@
 package org.webrtc;
 
+import com.google.android.exoplayer2.util.Log;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import org.webrtc.EglBase;
@@ -33,6 +34,7 @@ public class DefaultVideoEncoderFactory implements VideoEncoderFactory {
     public VideoEncoder createEncoder(VideoCodecInfo videoCodecInfo) {
         VideoEncoder createEncoder = this.softwareVideoEncoderFactory.createEncoder(videoCodecInfo);
         VideoEncoder createEncoder2 = this.hardwareVideoEncoderFactory.createEncoder(videoCodecInfo);
+        Log.d("kek", "createEncoder" + createEncoder + "    " + createEncoder2);
         if (createEncoder2 == null || createEncoder == null) {
             return createEncoder2 != null ? createEncoder2 : createEncoder;
         }

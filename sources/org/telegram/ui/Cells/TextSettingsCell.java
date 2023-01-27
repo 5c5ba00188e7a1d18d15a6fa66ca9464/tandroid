@@ -32,6 +32,7 @@ public class TextSettingsCell extends FrameLayout {
     private boolean drawLoading;
     private float drawLoadingProgress;
     private ImageView imageView;
+    private boolean imageViewIsColorful;
     private boolean incrementLoadingProgress;
     private float loadingProgress;
     private int loadingSize;
@@ -82,14 +83,14 @@ public class TextSettingsCell extends FrameLayout {
         RLottieImageView rLottieImageView = new RLottieImageView(context);
         this.imageView = rLottieImageView;
         rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
-        this.imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon"), PorterDuff.Mode.MULTIPLY));
+        this.imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon", resourcesProvider), PorterDuff.Mode.MULTIPLY));
         this.imageView.setVisibility(8);
         addView(this.imageView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 5 : 3) | 16, 21.0f, 0.0f, 21.0f, 0.0f));
         ImageView imageView = new ImageView(context);
         this.valueImageView = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         this.valueImageView.setVisibility(4);
-        this.valueImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon"), PorterDuff.Mode.MULTIPLY));
+        this.valueImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon", resourcesProvider), PorterDuff.Mode.MULTIPLY));
         addView(this.valueImageView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 3 : 5) | 16, f, 0.0f, f, 0.0f));
     }
 
@@ -106,7 +107,11 @@ public class TextSettingsCell extends FrameLayout {
             this.valueImageView.measure(View.MeasureSpec.makeMeasureSpec(i3, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(getMeasuredHeight(), 1073741824));
         }
         if (this.imageView.getVisibility() == 0) {
-            this.imageView.measure(View.MeasureSpec.makeMeasureSpec(i3, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(getMeasuredHeight(), Integer.MIN_VALUE));
+            if (this.imageViewIsColorful) {
+                this.imageView.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(28.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(28.0f), 1073741824));
+            } else {
+                this.imageView.measure(View.MeasureSpec.makeMeasureSpec(i3, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(getMeasuredHeight(), Integer.MIN_VALUE));
+            }
         }
         BackupImageView backupImageView = this.valueBackupImageView;
         if (backupImageView != null) {
@@ -184,6 +189,7 @@ public class TextSettingsCell extends FrameLayout {
 
     public void setIcon(int i) {
         ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) this.textView.getLayoutParams();
+        this.imageViewIsColorful = false;
         if (i == 0) {
             this.imageView.setVisibility(8);
             if (LocaleController.isRTL) {
@@ -195,6 +201,8 @@ public class TextSettingsCell extends FrameLayout {
             }
         }
         this.imageView.setImageResource(i);
+        this.imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon", this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
+        this.imageView.setBackground(null);
         this.imageView.setVisibility(0);
         if (LocaleController.isRTL) {
             marginLayoutParams.rightMargin = AndroidUtilities.dp(71.0f);

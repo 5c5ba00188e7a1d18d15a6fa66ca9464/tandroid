@@ -19,12 +19,12 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class PremiumGradient {
     private static PremiumGradient instance;
     private int lastStarColor;
     Paint lockedPremiumPaint;
-    private final GradientTools mainGradient;
+    private final PremiumGradientTools mainGradient;
     private final Paint mainGradientPaint;
     public Drawable premiumStarColoredDrawable;
     public Drawable premiumStarDrawableMini;
@@ -39,16 +39,16 @@ public class PremiumGradient {
     }
 
     private PremiumGradient() {
-        GradientTools gradientTools = new GradientTools("premiumGradient1", "premiumGradient2", "premiumGradient3", "premiumGradient4");
-        this.mainGradient = gradientTools;
-        this.mainGradientPaint = gradientTools.paint;
+        PremiumGradientTools premiumGradientTools = new PremiumGradientTools("premiumGradient1", "premiumGradient2", "premiumGradient3", "premiumGradient4");
+        this.mainGradient = premiumGradientTools;
+        this.mainGradientPaint = premiumGradientTools.paint;
         Context context = ApplicationLoader.applicationContext;
         int i = R.drawable.msg_premium_liststar;
         this.premiumStarDrawableMini = ContextCompat.getDrawable(context, i).mutate();
         this.premiumStarMenuDrawable = createGradientDrawable(ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_settings_premium));
         this.premiumStarMenuDrawable2 = createGradientDrawable(ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_premium_normal));
         this.premiumStarColoredDrawable = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i).mutate();
-        gradientTools.chekColors();
+        premiumGradientTools.chekColors();
         checkIconColors();
     }
 
@@ -56,7 +56,7 @@ public class PremiumGradient {
         return createGradientDrawable(drawable, this.mainGradient);
     }
 
-    public InternalDrawable createGradientDrawable(Drawable drawable, GradientTools gradientTools) {
+    public InternalDrawable createGradientDrawable(Drawable drawable, PremiumGradientTools premiumGradientTools) {
         if (drawable == null) {
             return null;
         }
@@ -66,11 +66,11 @@ public class PremiumGradient {
         Canvas canvas = new Canvas(createBitmap);
         drawable.setBounds(0, 0, intrinsicWidth, minimumHeight);
         drawable.draw(canvas);
-        gradientTools.paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        gradientTools.gradientMatrix(0, 0, intrinsicWidth, minimumHeight, -intrinsicWidth, 0.0f);
-        canvas.drawRect(0.0f, 0.0f, intrinsicWidth, minimumHeight, gradientTools.paint);
-        gradientTools.paint.setXfermode(null);
-        return new InternalDrawable(drawable, createBitmap, gradientTools.colors);
+        premiumGradientTools.paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        premiumGradientTools.gradientMatrix(0, 0, intrinsicWidth, minimumHeight, -intrinsicWidth, 0.0f);
+        canvas.drawRect(0.0f, 0.0f, intrinsicWidth, minimumHeight, premiumGradientTools.paint);
+        premiumGradientTools.paint.setXfermode(null);
+        return new InternalDrawable(drawable, createBitmap, premiumGradientTools.colors);
     }
 
     public void checkIconColors() {
@@ -93,7 +93,7 @@ public class PremiumGradient {
         this.mainGradient.gradientMatrix(i, i2, i3, i4, f, f2);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class InternalDrawable extends BitmapDrawable {
         public int[] colors;
         Drawable originDrawable;
@@ -126,8 +126,8 @@ public class PremiumGradient {
         return this.mainGradientPaint;
     }
 
-    /* loaded from: classes3.dex */
-    public static class GradientTools {
+    /* loaded from: classes.dex */
+    public static class PremiumGradientTools {
         final String colorKey1;
         final String colorKey2;
         final String colorKey3;
@@ -145,11 +145,11 @@ public class PremiumGradient {
         public float y1;
         public float y2;
 
-        public GradientTools(String str, String str2, String str3, String str4) {
+        public PremiumGradientTools(String str, String str2, String str3, String str4) {
             this(str, str2, str3, str4, null);
         }
 
-        public GradientTools(String str, String str2, String str3, String str4, String str5) {
+        public PremiumGradientTools(String str, String str2, String str3, String str4, String str5) {
             this.cx = 0.5f;
             this.cy = 0.5f;
             this.matrix = new Matrix();

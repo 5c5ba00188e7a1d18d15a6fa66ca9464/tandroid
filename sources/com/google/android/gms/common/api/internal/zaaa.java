@@ -196,6 +196,21 @@ public final class zaaa implements zaca {
 
     @Override // com.google.android.gms.common.api.internal.zaca
     @GuardedBy("mLock")
+    public final BaseImplementation$ApiMethodImpl zae(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl) {
+        if (zaD(baseImplementation$ApiMethodImpl)) {
+            if (zaC()) {
+                baseImplementation$ApiMethodImpl.setFailedResult(new Status(4, (String) null, zaz()));
+                return baseImplementation$ApiMethodImpl;
+            }
+            this.zae.zae(baseImplementation$ApiMethodImpl);
+            return baseImplementation$ApiMethodImpl;
+        }
+        this.zad.zae(baseImplementation$ApiMethodImpl);
+        return baseImplementation$ApiMethodImpl;
+    }
+
+    @Override // com.google.android.gms.common.api.internal.zaca
+    @GuardedBy("mLock")
     public final BaseImplementation$ApiMethodImpl zaf(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl) {
         if (zaD(baseImplementation$ApiMethodImpl)) {
             if (zaC()) {

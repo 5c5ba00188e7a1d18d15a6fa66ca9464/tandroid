@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.telegram.messenger.AndroidUtilities;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class UndoStore {
     private UndoStoreDelegate delegate;
     private Map<UUID, Runnable> uuidToOperationMap = new HashMap();
     private List<UUID> operations = new ArrayList();
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface UndoStoreDelegate {
         void historyChanged();
     }

@@ -2,7 +2,7 @@ package org.telegram.ui.Components.Premium;
 
 import java.util.Comparator;
 import org.telegram.ui.Components.Premium.PremiumStickersPreviewRecycler;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public final /* synthetic */ class PremiumStickersPreviewRecycler$$ExternalSyntheticLambda1 implements Comparator {
     public static final /* synthetic */ PremiumStickersPreviewRecycler$$ExternalSyntheticLambda1 INSTANCE = new PremiumStickersPreviewRecycler$$ExternalSyntheticLambda1();
 

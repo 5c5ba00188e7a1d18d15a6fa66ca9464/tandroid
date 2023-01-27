@@ -43,6 +43,16 @@ public class Utilities {
         void run(T t, T2 t2);
     }
 
+    /* loaded from: classes.dex */
+    public interface Callback3<T, T2, T3> {
+        void run(T t, T2 t2, T3 t3);
+    }
+
+    /* loaded from: classes.dex */
+    public interface CallbackReturn<Arg, ReturnType> {
+        ReturnType run(Arg arg);
+    }
+
     public static native void aesCbcEncryption(ByteBuffer byteBuffer, byte[] bArr, byte[] bArr2, int i, int i2, int i3);
 
     private static native void aesCbcEncryptionByteArray(byte[] bArr, byte[] bArr2, byte[] bArr3, int i, int i2, int i3, int i4);
@@ -515,5 +525,55 @@ public class Utilities {
     public static <Key, Value> Value getOrDefault(HashMap<Key, Value> hashMap, Key key, Value value) {
         Value value2 = hashMap.get(key);
         return value2 == null ? value : value2;
+    }
+
+    public static void doCallbacks(Callback<Runnable>... callbackArr) {
+        doCallbacks(0, callbackArr);
+    }
+
+    private static void doCallbacks(final int i, final Callback<Runnable>... callbackArr) {
+        if (callbackArr == null || callbackArr.length <= i) {
+            return;
+        }
+        callbackArr[i].run(new Runnable() { // from class: org.telegram.messenger.Utilities$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                Utilities.lambda$doCallbacks$0(i, callbackArr);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$doCallbacks$0(int i, Callback[] callbackArr) {
+        doCallbacks(i + 1, callbackArr);
+    }
+
+    public static void raceCallbacks(final Runnable runnable, final Callback<Runnable>... callbackArr) {
+        if (callbackArr == null || callbackArr.length == 0) {
+            if (runnable != null) {
+                runnable.run();
+                return;
+            }
+            return;
+        }
+        final int[] iArr = {0};
+        Runnable runnable2 = new Runnable() { // from class: org.telegram.messenger.Utilities$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                Utilities.lambda$raceCallbacks$1(iArr, callbackArr, runnable);
+            }
+        };
+        for (Callback<Runnable> callback : callbackArr) {
+            callback.run(runnable2);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$raceCallbacks$1(int[] iArr, Callback[] callbackArr, Runnable runnable) {
+        iArr[0] = iArr[0] + 1;
+        if (iArr[0] != callbackArr.length || runnable == null) {
+            return;
+        }
+        runnable.run();
     }
 }

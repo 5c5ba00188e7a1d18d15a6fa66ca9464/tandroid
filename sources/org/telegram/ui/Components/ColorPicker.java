@@ -70,6 +70,7 @@ public class ColorPicker extends FrameLayout {
     private float minHsvBrightness;
     private boolean myMessagesColor;
     private float pressedMoveProgress;
+    private int prevSelectedColor;
     private RadioButton[] radioButton;
     private FrameLayout radioContainer;
     private TextView resetButton;
@@ -470,6 +471,7 @@ public class ColorPicker extends FrameLayout {
                 boolean z = radioButtonArr[i] == radioButton;
                 radioButtonArr[i].setChecked(z, true);
                 if (z) {
+                    this.prevSelectedColor = this.selectedColor;
                     this.selectedColor = i;
                 }
                 i++;
@@ -617,17 +619,22 @@ public class ColorPicker extends FrameLayout {
             }
             radioButtonArr[3] = radioButton;
         }
-        this.radioButton[0].callOnClick();
-        int i4 = 0;
+        int i4 = this.prevSelectedColor;
+        if (i4 >= 0 && i4 < this.selectedColor) {
+            this.radioButton[i4].callOnClick();
+        } else {
+            this.radioButton[this.colorsCount - 1].callOnClick();
+        }
+        int i5 = 0;
         while (true) {
             RadioButton[] radioButtonArr2 = this.radioButton;
-            if (i4 < radioButtonArr2.length) {
-                if (i4 < this.colorsCount) {
-                    this.delegate.setColor(radioButtonArr2[i4].getColor(), i4, i4 == this.radioButton.length - 1);
+            if (i5 < radioButtonArr2.length) {
+                if (i5 < this.colorsCount) {
+                    this.delegate.setColor(radioButtonArr2[i5].getColor(), i5, i5 == this.radioButton.length - 1);
                 } else {
-                    this.delegate.setColor(0, i4, i4 == radioButtonArr2.length - 1);
+                    this.delegate.setColor(0, i5, i5 == radioButtonArr2.length - 1);
                 }
-                i4++;
+                i5++;
             } else {
                 this.colorsAnimator = new AnimatorSet();
                 updateColorsPosition(arrayList, this.selectedColor, true, getMeasuredWidth());
@@ -640,9 +647,9 @@ public class ColorPicker extends FrameLayout {
                         if (ColorPicker.this.colorsCount == 1) {
                             ColorPicker.this.clearButton.setVisibility(4);
                         }
-                        for (int i5 = 0; i5 < ColorPicker.this.radioButton.length; i5++) {
-                            if (ColorPicker.this.radioButton[i5].getTag(R.id.index_tag) == null) {
-                                ColorPicker.this.radioButton[i5].setVisibility(4);
+                        for (int i6 = 0; i6 < ColorPicker.this.radioButton.length; i6++) {
+                            if (ColorPicker.this.radioButton[i6].getTag(R.id.index_tag) == null) {
+                                ColorPicker.this.radioButton[i6].setVisibility(4);
                             }
                         }
                         ColorPicker.this.colorsAnimator = null;
@@ -1017,6 +1024,7 @@ public class ColorPicker extends FrameLayout {
 
     public void setType(int i, boolean z, final int i2, int i3, boolean z2, int i4, boolean z3) {
         if (i != this.currentResetType) {
+            this.prevSelectedColor = 0;
             this.selectedColor = 0;
             int i5 = 0;
             while (i5 < 4) {

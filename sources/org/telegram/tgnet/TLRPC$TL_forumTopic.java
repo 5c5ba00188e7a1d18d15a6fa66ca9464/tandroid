@@ -33,21 +33,14 @@ public class TLRPC$TL_forumTopic extends TLRPC$ForumTopic {
     public int unread_reactions_count;
 
     public static TLRPC$TL_forumTopic TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        TLRPC$TL_forumTopic tLRPC$TL_forumTopicDeleted;
-        if (i == 37687451) {
-            tLRPC$TL_forumTopicDeleted = new TLRPC$TL_forumTopicDeleted();
-        } else if (i == 1495324380) {
-            tLRPC$TL_forumTopicDeleted = new TLRPC$TL_forumTopic_layer147();
-        } else {
-            tLRPC$TL_forumTopicDeleted = i != 1903173033 ? null : new TLRPC$TL_forumTopic();
-        }
-        if (tLRPC$TL_forumTopicDeleted == null && z) {
+        TLRPC$TL_forumTopic tLRPC$TL_forumTopic = i != 37687451 ? i != 1495324380 ? i != 1903173033 ? null : new TLRPC$TL_forumTopic() : new TLRPC$TL_forumTopic_layer147() : new TLRPC$TL_forumTopicDeleted();
+        if (tLRPC$TL_forumTopic == null && z) {
             throw new RuntimeException(String.format("can't parse magic %x in TL_forumTopic", Integer.valueOf(i)));
         }
-        if (tLRPC$TL_forumTopicDeleted != null) {
-            tLRPC$TL_forumTopicDeleted.readParams(abstractSerializedData, z);
+        if (tLRPC$TL_forumTopic != null) {
+            tLRPC$TL_forumTopic.readParams(abstractSerializedData, z);
         }
-        return tLRPC$TL_forumTopicDeleted;
+        return tLRPC$TL_forumTopic;
     }
 
     @Override // org.telegram.tgnet.TLObject

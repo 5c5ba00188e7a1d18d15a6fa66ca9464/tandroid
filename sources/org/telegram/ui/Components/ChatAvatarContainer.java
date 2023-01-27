@@ -1028,7 +1028,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             this.avatarDrawable.setScaleSize(1.0f);
             BackupImageView backupImageView4 = this.avatarImageView;
             if (backupImageView4 != null) {
-                backupImageView4.imageReceiver.setForUserOrChat(currentUser, this.avatarDrawable, null, true);
+                backupImageView4.imageReceiver.setForUserOrChat(currentUser, this.avatarDrawable, null, true, 1);
             }
         }
     }

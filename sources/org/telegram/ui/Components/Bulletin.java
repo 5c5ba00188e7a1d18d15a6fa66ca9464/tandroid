@@ -88,6 +88,10 @@ public class Bulletin {
 
         /* loaded from: classes3.dex */
         public final /* synthetic */ class -CC {
+            public static boolean $default$allowLayoutChanges(Delegate delegate) {
+                return true;
+            }
+
             public static int $default$getBottomOffset(Delegate delegate, int i) {
                 return 0;
             }
@@ -105,6 +109,8 @@ public class Bulletin {
             public static void $default$onShow(Delegate delegate, Bulletin bulletin) {
             }
         }
+
+        boolean allowLayoutChanges();
 
         int getBottomOffset(int i);
 
@@ -274,32 +280,32 @@ public class Bulletin {
     }
 
     public /* synthetic */ void lambda$show$2(boolean z, View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
-        if (z) {
-            return;
-        }
         Delegate delegate = this.currentDelegate;
-        int bottomOffset = delegate != null ? delegate.getBottomOffset(this.tag) : 0;
-        if (this.lastBottomOffset != bottomOffset) {
-            SpringAnimation springAnimation = this.bottomOffsetSpring;
-            if (springAnimation == null || !springAnimation.isRunning()) {
-                SpringAnimation spring = new SpringAnimation(new FloatValueHolder(this.lastBottomOffset)).setSpring(new SpringForce().setFinalPosition(bottomOffset).setStiffness(900.0f).setDampingRatio(1.0f));
-                this.bottomOffsetSpring = spring;
-                spring.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda3
-                    @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
-                    public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
-                        Bulletin.this.lambda$show$0(dynamicAnimation, f, f2);
-                    }
-                });
-                this.bottomOffsetSpring.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda2
-                    @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
-                    public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
-                        Bulletin.this.lambda$show$1(dynamicAnimation, z2, f, f2);
-                    }
-                });
-            } else {
-                this.bottomOffsetSpring.getSpring().setFinalPosition(bottomOffset);
+        if ((delegate == null || delegate.allowLayoutChanges()) && !z) {
+            Delegate delegate2 = this.currentDelegate;
+            int bottomOffset = delegate2 != null ? delegate2.getBottomOffset(this.tag) : 0;
+            if (this.lastBottomOffset != bottomOffset) {
+                SpringAnimation springAnimation = this.bottomOffsetSpring;
+                if (springAnimation == null || !springAnimation.isRunning()) {
+                    SpringAnimation spring = new SpringAnimation(new FloatValueHolder(this.lastBottomOffset)).setSpring(new SpringForce().setFinalPosition(bottomOffset).setStiffness(900.0f).setDampingRatio(1.0f));
+                    this.bottomOffsetSpring = spring;
+                    spring.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda3
+                        @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
+                        public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
+                            Bulletin.this.lambda$show$0(dynamicAnimation, f, f2);
+                        }
+                    });
+                    this.bottomOffsetSpring.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda2
+                        @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
+                        public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
+                            Bulletin.this.lambda$show$1(dynamicAnimation, z2, f, f2);
+                        }
+                    });
+                } else {
+                    this.bottomOffsetSpring.getSpring().setFinalPosition(bottomOffset);
+                }
+                this.bottomOffsetSpring.start();
             }
-            this.bottomOffsetSpring.start();
         }
     }
 
@@ -1485,6 +1491,7 @@ public class Bulletin {
         }
 
         public void setAnimation(TLRPC$Document tLRPC$Document, int i, int i2, String... strArr) {
+            this.imageView.setAutoRepeat(true);
             this.imageView.setAnimation(tLRPC$Document, i, i2);
             for (String str : strArr) {
                 this.imageView.setLayerColor(str + ".**", this.textColor);
@@ -1927,6 +1934,11 @@ public class Bulletin {
                 }
             }
             Bulletin.addDelegate(frameLayout, new Delegate(this) { // from class: org.telegram.ui.Components.Bulletin.BulletinWindow.2
+                @Override // org.telegram.ui.Components.Bulletin.Delegate
+                public /* synthetic */ boolean allowLayoutChanges() {
+                    return Delegate.-CC.$default$allowLayoutChanges(this);
+                }
+
                 @Override // org.telegram.ui.Components.Bulletin.Delegate
                 public int getBottomOffset(int i2) {
                     return 0;

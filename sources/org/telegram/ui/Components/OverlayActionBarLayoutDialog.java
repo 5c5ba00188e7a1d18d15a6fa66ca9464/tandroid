@@ -2,6 +2,7 @@ package org.telegram.ui.Components;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -17,10 +18,12 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.LaunchActivity;
 /* loaded from: classes3.dex */
 public class OverlayActionBarLayoutDialog extends Dialog implements INavigationLayout.INavigationLayoutDelegate {
     private INavigationLayout actionBarLayout;
     private FrameLayout frameLayout;
+    private PasscodeView passcodeView;
     private Theme.ResourcesProvider resourcesProvider;
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout.INavigationLayoutDelegate
@@ -77,12 +80,39 @@ public class OverlayActionBarLayoutDialog extends Dialog implements INavigationL
             this.actionBarLayout.setRemoveActionBarExtraHeight(true);
             VerticalPositionAutoAnimator.attach(this.actionBarLayout.getView());
         }
+        PasscodeView passcodeView = new PasscodeView(context);
+        this.passcodeView = passcodeView;
+        this.frameLayout.addView(passcodeView, LayoutHelper.createFrame(-1, -1.0f));
         setContentView(this.frameLayout);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         onBackPressed();
+    }
+
+    @Override // android.app.Dialog
+    protected void onStart() {
+        super.onStart();
+        Context context = getContext();
+        if ((context instanceof ContextWrapper) && !(context instanceof LaunchActivity)) {
+            context = ((ContextWrapper) context).getBaseContext();
+        }
+        if (context instanceof LaunchActivity) {
+            ((LaunchActivity) context).addOverlayPasscodeView(this.passcodeView);
+        }
+    }
+
+    @Override // android.app.Dialog
+    protected void onStop() {
+        super.onStop();
+        Context context = getContext();
+        if ((context instanceof ContextWrapper) && !(context instanceof LaunchActivity)) {
+            context = ((ContextWrapper) context).getBaseContext();
+        }
+        if (context instanceof LaunchActivity) {
+            ((LaunchActivity) context).removeOverlayPasscodeView(this.passcodeView);
+        }
     }
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout.INavigationLayoutDelegate
@@ -140,6 +170,13 @@ public class OverlayActionBarLayoutDialog extends Dialog implements INavigationL
 
     @Override // android.app.Dialog
     public void onBackPressed() {
+        if (this.passcodeView.getVisibility() == 0) {
+            if (getOwnerActivity() != null) {
+                getOwnerActivity().finish();
+                return;
+            }
+            return;
+        }
         this.actionBarLayout.onBackPressed();
         if (this.actionBarLayout.getFragmentStack().size() <= 1) {
             dismiss();

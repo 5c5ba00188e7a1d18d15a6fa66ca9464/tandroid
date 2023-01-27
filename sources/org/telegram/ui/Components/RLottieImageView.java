@@ -23,6 +23,8 @@ public class RLottieImageView extends ImageView {
     private RLottieDrawable drawable;
     private ImageReceiver imageReceiver;
     private HashMap<String, Integer> layerColors;
+    private Integer layerNum;
+    private boolean onlyLastFrame;
     private boolean playing;
 
     public RLottieImageView(Context context) {
@@ -31,6 +33,14 @@ public class RLottieImageView extends ImageView {
 
     public void clearLayerColors() {
         this.layerColors.clear();
+    }
+
+    public void setLayerNum(Integer num) {
+        this.layerNum = num;
+        ImageReceiver imageReceiver = this.imageReceiver;
+        if (imageReceiver != null) {
+            imageReceiver.setLayerNum(num.intValue());
+        }
     }
 
     public void setLayerColor(String str, int i) {
@@ -91,8 +101,11 @@ public class RLottieImageView extends ImageView {
         setImageDrawable(this.drawable);
     }
 
-    public void setAnimation(TLRPC$Document tLRPC$Document, int i, int i2) {
-        SvgHelper.SvgDrawable svgDrawable;
+    public void setOnlyLastFrame(boolean z) {
+        this.onlyLastFrame = z;
+    }
+
+    public void setAnimation(TLRPC$Document tLRPC$Document, final int i, final int i2) {
         ImageReceiver imageReceiver = this.imageReceiver;
         if (imageReceiver != null) {
             imageReceiver.onDetachedFromWindow();
@@ -101,28 +114,38 @@ public class RLottieImageView extends ImageView {
         if (tLRPC$Document == null) {
             return;
         }
-        this.imageReceiver = new ImageReceiver();
-        if ("video/webm".equals(tLRPC$Document.mime_type)) {
+        ImageReceiver imageReceiver2 = new ImageReceiver();
+        this.imageReceiver = imageReceiver2;
+        if (this.onlyLastFrame) {
+            ImageLocation forDocument = ImageLocation.getForDocument(tLRPC$Document);
+            imageReceiver2.setImage(null, null, forDocument, i + "_" + i2 + "_lastframe", null, null, null, 0L, null, tLRPC$Document, 1);
+        } else if ("video/webm".equals(tLRPC$Document.mime_type)) {
             TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
-            this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), i + "_" + i2 + "_pcache_" + ImageLoader.AUTOPLAY_FILTER, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), null, null, tLRPC$Document.size, null, tLRPC$Document, 1);
+            ImageReceiver imageReceiver3 = this.imageReceiver;
+            ImageLocation forDocument2 = ImageLocation.getForDocument(tLRPC$Document);
+            imageReceiver3.setImage(forDocument2, i + "_" + i2 + "_pcache_" + ImageLoader.AUTOPLAY_FILTER, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), null, null, tLRPC$Document.size, null, tLRPC$Document, 1);
         } else {
-            if (ImageLoader.getInstance().hasLottieMemCache(tLRPC$Document.id + "@" + i + "_" + i2)) {
-                svgDrawable = null;
-            } else {
-                SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
-                if (svgThumb != null) {
-                    svgThumb.overrideWidthAndHeight(512, 512);
-                }
-                svgDrawable = svgThumb;
+            SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
+            if (svgThumb != null) {
+                svgThumb.overrideWidthAndHeight(512, 512);
             }
             TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
-            this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), i + "_" + i2, ImageLocation.getForDocument(closestPhotoSizeWithSize2, tLRPC$Document), null, null, null, svgDrawable, 0L, null, tLRPC$Document, 1);
+            ImageReceiver imageReceiver4 = this.imageReceiver;
+            ImageLocation forDocument3 = ImageLocation.getForDocument(tLRPC$Document);
+            imageReceiver4.setImage(forDocument3, i + "_" + i2, ImageLocation.getForDocument(closestPhotoSizeWithSize2, tLRPC$Document), null, null, null, svgThumb, 0L, null, tLRPC$Document, 1);
         }
         this.imageReceiver.setAspectFit(true);
         this.imageReceiver.setParentView(this);
-        this.imageReceiver.setAutoRepeat(1);
-        this.imageReceiver.setAllowStartLottieAnimation(true);
-        this.imageReceiver.setAllowStartAnimation(true);
+        if (this.autoRepeat) {
+            this.imageReceiver.setAutoRepeat(1);
+            this.imageReceiver.setAllowStartLottieAnimation(true);
+            this.imageReceiver.setAllowStartAnimation(true);
+        } else {
+            this.imageReceiver.setAutoRepeat(0);
+        }
+        ImageReceiver imageReceiver5 = this.imageReceiver;
+        Integer num = this.layerNum;
+        imageReceiver5.setLayerNum(num != null ? num.intValue() : 7);
         this.imageReceiver.clip = false;
         setImageDrawable(new Drawable() { // from class: org.telegram.ui.Components.RLottieImageView.1
             @Override // android.graphics.drawable.Drawable
@@ -133,8 +156,7 @@ public class RLottieImageView extends ImageView {
             @Override // android.graphics.drawable.Drawable
             public void draw(Canvas canvas) {
                 android.graphics.Rect rect = AndroidUtilities.rectTmp2;
-                rect.set(getBounds());
-                rect.inset(AndroidUtilities.dp(11.0f), AndroidUtilities.dp(11.0f));
+                rect.set(getBounds().centerX() - (AndroidUtilities.dp(i) / 2), getBounds().centerY() - (AndroidUtilities.dp(i2) / 2), getBounds().centerX() + (AndroidUtilities.dp(i) / 2), getBounds().centerY() + (AndroidUtilities.dp(i2) / 2));
                 RLottieImageView.this.imageReceiver.setImageCoords(rect);
                 RLottieImageView.this.imageReceiver.draw(canvas);
             }
@@ -175,6 +197,9 @@ public class RLottieImageView extends ImageView {
         ImageReceiver imageReceiver = this.imageReceiver;
         if (imageReceiver != null) {
             imageReceiver.onAttachedToWindow();
+            if (this.playing) {
+                this.imageReceiver.startAnimation();
+            }
         }
         RLottieDrawable rLottieDrawable = this.drawable;
         if (rLottieDrawable != null) {
@@ -196,7 +221,6 @@ public class RLottieImageView extends ImageView {
         ImageReceiver imageReceiver = this.imageReceiver;
         if (imageReceiver != null) {
             imageReceiver.onDetachedFromWindow();
-            this.imageReceiver = null;
         }
     }
 
@@ -211,10 +235,13 @@ public class RLottieImageView extends ImageView {
 
     public void setProgress(float f) {
         RLottieDrawable rLottieDrawable = this.drawable;
-        if (rLottieDrawable == null) {
-            return;
+        if (rLottieDrawable != null) {
+            rLottieDrawable.setProgress(f);
         }
-        rLottieDrawable.setProgress(f);
+    }
+
+    public ImageReceiver getImageReceiver() {
+        return this.imageReceiver;
     }
 
     @Override // android.widget.ImageView
@@ -225,12 +252,14 @@ public class RLottieImageView extends ImageView {
 
     public void playAnimation() {
         RLottieDrawable rLottieDrawable = this.drawable;
-        if (rLottieDrawable == null) {
+        if (rLottieDrawable == null && this.imageReceiver == null) {
             return;
         }
         this.playing = true;
         if (this.attachedToWindow) {
-            rLottieDrawable.start();
+            if (rLottieDrawable != null) {
+                rLottieDrawable.start();
+            }
             ImageReceiver imageReceiver = this.imageReceiver;
             if (imageReceiver != null) {
                 imageReceiver.startAnimation();
@@ -240,12 +269,14 @@ public class RLottieImageView extends ImageView {
 
     public void stopAnimation() {
         RLottieDrawable rLottieDrawable = this.drawable;
-        if (rLottieDrawable == null) {
+        if (rLottieDrawable == null && this.imageReceiver == null) {
             return;
         }
         this.playing = false;
         if (this.attachedToWindow) {
-            rLottieDrawable.stop();
+            if (rLottieDrawable != null) {
+                rLottieDrawable.stop();
+            }
             ImageReceiver imageReceiver = this.imageReceiver;
             if (imageReceiver != null) {
                 imageReceiver.stopAnimation();

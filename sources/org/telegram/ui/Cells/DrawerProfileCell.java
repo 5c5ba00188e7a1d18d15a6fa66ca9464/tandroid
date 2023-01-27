@@ -39,10 +39,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$EmojiStatus;
 import org.telegram.tgnet.TLRPC$TL_availableReaction;
-import org.telegram.tgnet.TLRPC$TL_emojiStatus;
-import org.telegram.tgnet.TLRPC$TL_emojiStatusUntil;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.DrawerLayoutContainer;
 import org.telegram.ui.ActionBar.SimpleTextView;
@@ -74,7 +71,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     private Rect destRect;
     public boolean drawPremium;
     public float drawPremiumProgress;
-    PremiumGradient.GradientTools gradientTools;
+    PremiumGradient.PremiumGradientTools gradientTools;
     private int lastAccount;
     private TLRPC$User lastUser;
     private SimpleTextView nameTextView;
@@ -608,13 +605,13 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
                 this.drawPremiumProgress = clamp;
                 if (clamp != 0.0f) {
                     if (this.gradientTools == null) {
-                        PremiumGradient.GradientTools gradientTools = new PremiumGradient.GradientTools("premiumGradientBottomSheet1", "premiumGradientBottomSheet2", "premiumGradientBottomSheet3", null);
-                        this.gradientTools = gradientTools;
-                        gradientTools.x1 = 0.0f;
-                        gradientTools.y1 = 1.1f;
-                        gradientTools.x2 = 1.5f;
-                        gradientTools.y2 = -0.2f;
-                        gradientTools.exactly = true;
+                        PremiumGradient.PremiumGradientTools premiumGradientTools = new PremiumGradient.PremiumGradientTools("premiumGradientBottomSheet1", "premiumGradientBottomSheet2", "premiumGradientBottomSheet3", null);
+                        this.gradientTools = premiumGradientTools;
+                        premiumGradientTools.x1 = 0.0f;
+                        premiumGradientTools.y1 = 1.1f;
+                        premiumGradientTools.x2 = 1.5f;
+                        premiumGradientTools.y2 = -0.2f;
+                        premiumGradientTools.exactly = true;
                     }
                     this.gradientTools.gradientMatrix(0, 0, getMeasuredWidth(), getMeasuredHeight(), 0.0f, 0.0f);
                     this.gradientTools.paint.setAlpha((int) (this.drawPremiumProgress * 255.0f));
@@ -690,15 +687,11 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         }
         this.drawPremium = false;
         this.nameTextView.setText(userName);
-        TLRPC$EmojiStatus tLRPC$EmojiStatus = tLRPC$User.emoji_status;
-        if ((tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil) && ((TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus).until > ((int) (System.currentTimeMillis() / 1000))) {
+        Long emojiStatusDocumentId = UserObject.getEmojiStatusDocumentId(tLRPC$User);
+        if (emojiStatusDocumentId != null) {
             this.animatedStatus.animate().alpha(1.0f).setDuration(200L).start();
             this.nameTextView.setDrawablePadding(AndroidUtilities.dp(4.0f));
-            this.status.set(((TLRPC$TL_emojiStatusUntil) tLRPC$User.emoji_status).document_id, true);
-        } else if (tLRPC$User.emoji_status instanceof TLRPC$TL_emojiStatus) {
-            this.animatedStatus.animate().alpha(1.0f).setDuration(200L).start();
-            this.nameTextView.setDrawablePadding(AndroidUtilities.dp(4.0f));
-            this.status.set(((TLRPC$TL_emojiStatus) tLRPC$User.emoji_status).document_id, true);
+            this.status.set(emojiStatusDocumentId.longValue(), true);
         } else if (tLRPC$User.premium) {
             this.animatedStatus.animate().alpha(1.0f).setDuration(200L).start();
             this.nameTextView.setDrawablePadding(AndroidUtilities.dp(4.0f));

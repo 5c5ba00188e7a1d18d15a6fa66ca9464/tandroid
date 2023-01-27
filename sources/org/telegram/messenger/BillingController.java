@@ -45,6 +45,8 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
     public static ProductDetails PREMIUM_PRODUCT_DETAILS = null;
     private static BillingController instance;
     private BillingClient billingClient;
+    private String lastPremiumToken;
+    private String lastPremiumTransaction;
     public static final String PREMIUM_PRODUCT_ID = "telegram_premium";
     public static final QueryProductDetailsParams.Product PREMIUM_PRODUCT = QueryProductDetailsParams.Product.newBuilder().setProductType("subs").setProductId(PREMIUM_PRODUCT_ID).build();
     private Map<String, Consumer<BillingResult>> resultListeners = new HashMap();
@@ -64,6 +66,14 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
 
     private BillingController(Context context) {
         this.billingClient = BillingClient.newBuilder(context).enablePendingPurchases().setListener(this).build();
+    }
+
+    public String getLastPremiumTransaction() {
+        return this.lastPremiumTransaction;
+    }
+
+    public String getLastPremiumToken() {
+        return this.lastPremiumToken;
     }
 
     public String formatCurrency(long j, String str) {
@@ -148,10 +158,10 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
     }
 
     public void launchBillingFlow(Activity activity, AccountInstance accountInstance, TLRPC$InputStorePaymentPurpose tLRPC$InputStorePaymentPurpose, List<BillingFlowParams.ProductDetailsParams> list) {
-        launchBillingFlow(activity, accountInstance, tLRPC$InputStorePaymentPurpose, list, false);
+        launchBillingFlow(activity, accountInstance, tLRPC$InputStorePaymentPurpose, list, null, false);
     }
 
-    public void launchBillingFlow(final Activity activity, final AccountInstance accountInstance, final TLRPC$InputStorePaymentPurpose tLRPC$InputStorePaymentPurpose, final List<BillingFlowParams.ProductDetailsParams> list, boolean z) {
+    public void launchBillingFlow(final Activity activity, final AccountInstance accountInstance, final TLRPC$InputStorePaymentPurpose tLRPC$InputStorePaymentPurpose, final List<BillingFlowParams.ProductDetailsParams> list, final BillingFlowParams.SubscriptionUpdateParams subscriptionUpdateParams, boolean z) {
         if (!isReady() || activity == null) {
             return;
         }
@@ -159,12 +169,16 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
             queryPurchases("inapp", new PurchasesResponseListener() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda4
                 @Override // com.android.billingclient.api.PurchasesResponseListener
                 public final void onQueryPurchasesResponse(BillingResult billingResult, List list2) {
-                    BillingController.this.lambda$launchBillingFlow$2(activity, accountInstance, tLRPC$InputStorePaymentPurpose, list, billingResult, list2);
+                    BillingController.this.lambda$launchBillingFlow$2(activity, accountInstance, tLRPC$InputStorePaymentPurpose, list, subscriptionUpdateParams, billingResult, list2);
                 }
             });
             return;
         }
-        if (this.billingClient.launchBillingFlow(activity, BillingFlowParams.newBuilder().setProductDetailsParamsList(list).build()).getResponseCode() == 0) {
+        BillingFlowParams.Builder productDetailsParamsList = BillingFlowParams.newBuilder().setProductDetailsParamsList(list);
+        if (subscriptionUpdateParams != null) {
+            productDetailsParamsList.setSubscriptionUpdateParams(subscriptionUpdateParams);
+        }
+        if (this.billingClient.launchBillingFlow(activity, productDetailsParamsList.build()).getResponseCode() == 0) {
             for (BillingFlowParams.ProductDetailsParams productDetailsParams : list) {
                 accountInstance.getUserConfig().billingPaymentPurpose = tLRPC$InputStorePaymentPurpose;
                 accountInstance.getUserConfig().awaitBillingProductIds.add(productDetailsParams.zza().getProductId());
@@ -174,12 +188,12 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$launchBillingFlow$2(final Activity activity, final AccountInstance accountInstance, final TLRPC$InputStorePaymentPurpose tLRPC$InputStorePaymentPurpose, final List list, BillingResult billingResult, List list2) {
+    public /* synthetic */ void lambda$launchBillingFlow$2(final Activity activity, final AccountInstance accountInstance, final TLRPC$InputStorePaymentPurpose tLRPC$InputStorePaymentPurpose, final List list, final BillingFlowParams.SubscriptionUpdateParams subscriptionUpdateParams, BillingResult billingResult, List list2) {
         if (billingResult.getResponseCode() == 0) {
             final Runnable runnable = new Runnable() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
-                    BillingController.this.lambda$launchBillingFlow$0(activity, accountInstance, tLRPC$InputStorePaymentPurpose, list);
+                    BillingController.this.lambda$launchBillingFlow$0(activity, accountInstance, tLRPC$InputStorePaymentPurpose, list, subscriptionUpdateParams);
                 }
             };
             final AtomicInteger atomicInteger = new AtomicInteger(0);
@@ -216,8 +230,8 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$launchBillingFlow$0(Activity activity, AccountInstance accountInstance, TLRPC$InputStorePaymentPurpose tLRPC$InputStorePaymentPurpose, List list) {
-        launchBillingFlow(activity, accountInstance, tLRPC$InputStorePaymentPurpose, list, true);
+    public /* synthetic */ void lambda$launchBillingFlow$0(Activity activity, AccountInstance accountInstance, TLRPC$InputStorePaymentPurpose tLRPC$InputStorePaymentPurpose, List list, BillingFlowParams.SubscriptionUpdateParams subscriptionUpdateParams) {
+        launchBillingFlow(activity, accountInstance, tLRPC$InputStorePaymentPurpose, list, subscriptionUpdateParams, true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -247,7 +261,12 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
                 }
             }
         } else if (list != null) {
+            this.lastPremiumTransaction = null;
             for (final Purchase purchase : list) {
+                if (purchase.getProducts().contains(PREMIUM_PRODUCT_ID)) {
+                    this.lastPremiumTransaction = purchase.getOrderId();
+                    this.lastPremiumToken = purchase.getPurchaseToken();
+                }
                 if (!this.requestingTokens.contains(purchase.getPurchaseToken())) {
                     int i3 = 0;
                     while (i3 < i) {

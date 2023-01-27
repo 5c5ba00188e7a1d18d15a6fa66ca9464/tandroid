@@ -942,6 +942,7 @@ public class ViewPagerFixed extends FrameLayout {
         /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes3.dex */
         public static class Tab {
+            public float alpha = 1.0f;
             public int counter;
             public int id;
             public String title;
@@ -979,6 +980,7 @@ public class ViewPagerFixed extends FrameLayout {
                 this.currentTab = tab;
                 this.currentPosition = i;
                 setContentDescription(tab.title);
+                setAlpha(tab.alpha);
                 requestLayout();
             }
 

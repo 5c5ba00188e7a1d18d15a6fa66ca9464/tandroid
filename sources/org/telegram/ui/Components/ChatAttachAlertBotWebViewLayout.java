@@ -646,6 +646,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         return getListTopPadding() + AndroidUtilities.dp(56.0f);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Removed duplicated region for block: B:10:0x0021  */
     /* JADX WARN: Removed duplicated region for block: B:13:0x002d  */
     /* JADX WARN: Removed duplicated region for block: B:15:? A[RETURN, SYNTHETIC] */
@@ -653,7 +654,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    void onPreMeasure(int i, int i2) {
+    public void onPreMeasure(int i, int i2) {
         int i3;
         float f;
         if (!AndroidUtilities.isTablet()) {

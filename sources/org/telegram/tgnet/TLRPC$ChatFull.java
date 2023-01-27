@@ -51,6 +51,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
     public int stats_dc;
     public TLRPC$StickerSet stickerset;
     public String theme_emoticon;
+    public boolean translations_disabled;
     public int ttl_period;
     public int unread_count;
     public int unread_important_count;

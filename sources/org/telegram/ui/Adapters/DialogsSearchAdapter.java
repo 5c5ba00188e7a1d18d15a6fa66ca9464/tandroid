@@ -74,6 +74,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     private int currentItemCount;
     public DialogsSearchAdapterDelegate delegate;
     private int dialogsType;
+    private ArrayList<Long> filterDialogIds;
     private FilteredSearchView.Delegate filtersDelegate;
     private int folderId;
     private RecyclerListView innerListView;
@@ -160,6 +161,10 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public long getItemId(int i) {
         return i;
+    }
+
+    public void setFilterDialogIds(ArrayList<Long> arrayList) {
+        this.filterDialogIds = arrayList;
     }
 
     public boolean isSearching() {
@@ -351,26 +356,27 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             this.lastMessagesSearchString = null;
             this.searchWas = false;
             notifyDataSetChanged();
-            return;
-        }
-        long searchForumDialogId = this.delegate.getSearchForumDialogId();
-        final TLRPC$TL_messages_search tLRPC$TL_messages_search = new TLRPC$TL_messages_search();
-        tLRPC$TL_messages_search.limit = 20;
-        tLRPC$TL_messages_search.q = str;
-        tLRPC$TL_messages_search.filter = new TLRPC$TL_inputMessagesFilterEmpty();
-        tLRPC$TL_messages_search.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(searchForumDialogId);
-        if (str.equals(this.lastMessagesSearchString) && !this.searchForumResultMessages.isEmpty()) {
-            tLRPC$TL_messages_search.add_offset = this.searchForumResultMessages.size();
-        }
-        this.lastMessagesSearchString = str;
-        final int i2 = this.lastForumReqId + 1;
-        this.lastForumReqId = i2;
-        this.reqForumId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_search, new RequestDelegate() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda22
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                DialogsSearchAdapter.this.lambda$searchForumMessagesInternal$1(str, i2, i, tLRPC$TL_messages_search, tLObject, tLRPC$TL_error);
+        } else if (this.dialogsType == 15) {
+        } else {
+            long searchForumDialogId = this.delegate.getSearchForumDialogId();
+            final TLRPC$TL_messages_search tLRPC$TL_messages_search = new TLRPC$TL_messages_search();
+            tLRPC$TL_messages_search.limit = 20;
+            tLRPC$TL_messages_search.q = str;
+            tLRPC$TL_messages_search.filter = new TLRPC$TL_inputMessagesFilterEmpty();
+            tLRPC$TL_messages_search.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(searchForumDialogId);
+            if (str.equals(this.lastMessagesSearchString) && !this.searchForumResultMessages.isEmpty()) {
+                tLRPC$TL_messages_search.add_offset = this.searchForumResultMessages.size();
             }
-        }, 2);
+            this.lastMessagesSearchString = str;
+            final int i2 = this.lastForumReqId + 1;
+            this.lastForumReqId = i2;
+            this.reqForumId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_search, new RequestDelegate() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda22
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    DialogsSearchAdapter.this.lambda$searchForumMessagesInternal$1(str, i2, i, tLRPC$TL_messages_search, tLObject, tLRPC$TL_error);
+                }
+            }, 2);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -485,6 +491,17 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             }
             filterRecent(str);
             this.searchAdapterHelper.mergeResults(this.searchResult, this.filtered2RecentSearchObjects);
+            if (this.dialogsType == 15) {
+                int i2 = this.waitingResponseCount - 1;
+                this.waitingResponseCount = i2;
+                DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate = this.delegate;
+                if (dialogsSearchAdapterDelegate != null) {
+                    dialogsSearchAdapterDelegate.searchStateChanged(i2 > 0, true);
+                    this.delegate.runResultsEnterAnimation();
+                    return;
+                }
+                return;
+            }
             final TLRPC$TL_messages_searchGlobal tLRPC$TL_messages_searchGlobal = new TLRPC$TL_messages_searchGlobal();
             tLRPC$TL_messages_searchGlobal.limit = 20;
             tLRPC$TL_messages_searchGlobal.q = str;
@@ -503,12 +520,12 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 tLRPC$TL_messages_searchGlobal.offset_peer = new TLRPC$TL_inputPeerEmpty();
             }
             this.lastMessagesSearchString = str;
-            final int i2 = this.lastReqId + 1;
-            this.lastReqId = i2;
+            final int i3 = this.lastReqId + 1;
+            this.lastReqId = i3;
             this.reqId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_searchGlobal, new RequestDelegate() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda23
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    DialogsSearchAdapter.this.lambda$searchMessagesInternal$3(str, i2, i, tLRPC$TL_messages_searchGlobal, tLObject, tLRPC$TL_error);
+                    DialogsSearchAdapter.this.lambda$searchMessagesInternal$3(str, i3, i, tLRPC$TL_messages_searchGlobal, tLObject, tLRPC$TL_error);
                 }
             }, 2);
         }
@@ -621,7 +638,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
 
     private boolean resentSearchAvailable() {
         int i = this.dialogsType;
-        return (i == 2 || i == 4 || i == 5 || i == 6 || i == 11) ? false : true;
+        return (i == 2 || i == 4 || i == 5 || i == 6 || i == 11 || i == 15) ? false : true;
     }
 
     public boolean isSearchWas() {
@@ -633,7 +650,11 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     public void loadRecentSearch() {
-        loadRecentSearch(this.currentAccount, this.dialogsType, new OnRecentSearchLoaded() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda24
+        int i = this.dialogsType;
+        if (i == 15) {
+            return;
+        }
+        loadRecentSearch(this.currentAccount, i, new OnRecentSearchLoaded() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda24
             @Override // org.telegram.ui.Adapters.DialogsSearchAdapter.OnRecentSearchLoaded
             public final void setRecentSearch(ArrayList arrayList, LongSparseArray longSparseArray) {
                 DialogsSearchAdapter.this.lambda$loadRecentSearch$4(arrayList, longSparseArray);
@@ -917,7 +938,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         ArrayList<CharSequence> arrayList2 = new ArrayList<>();
         ArrayList<TLRPC$User> arrayList3 = new ArrayList<>();
         ArrayList<ContactsController.Contact> arrayList4 = new ArrayList<>();
-        MessagesStorage.getInstance(this.currentAccount).localSearch(this.dialogsType, str, arrayList, arrayList2, arrayList3, -1);
+        MessagesStorage.getInstance(this.currentAccount).localSearch(this.dialogsType, str, arrayList, arrayList2, arrayList3, this.filterDialogIds, -1);
         updateSearchResults(arrayList, arrayList2, arrayList3, arrayList4, i);
         FiltersView.fillTipDates(str, this.localTipDates);
         this.localTipArchive = false;
@@ -1070,14 +1091,16 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             this.searchResultNames.clear();
             this.searchResultHashtags.clear();
             this.searchAdapterHelper.mergeResults(null, null);
-            SearchAdapterHelper searchAdapterHelper = this.searchAdapterHelper;
             int i2 = this.dialogsType;
-            boolean z = i2 != 11;
-            boolean z2 = i2 != 11;
-            boolean z3 = i2 == 2 || i2 == 11;
-            boolean z4 = i2 == 0;
-            DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate = this.delegate;
-            searchAdapterHelper.queryServerSearch(null, true, true, z, z2, z3, 0L, z4, 0, 0, dialogsSearchAdapterDelegate != null ? dialogsSearchAdapterDelegate.getSearchForumDialogId() : 0L);
+            if (i2 != 15) {
+                SearchAdapterHelper searchAdapterHelper = this.searchAdapterHelper;
+                boolean z = i2 != 11;
+                boolean z2 = i2 != 11;
+                boolean z3 = i2 == 2 || i2 == 11;
+                boolean z4 = i2 == 0;
+                DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate = this.delegate;
+                searchAdapterHelper.queryServerSearch(null, true, true, z, z2, z3, 0L, z4, 0, 0, dialogsSearchAdapterDelegate != null ? dialogsSearchAdapterDelegate.getSearchForumDialogId() : 0L);
+            }
             this.searchWas = false;
             this.lastSearchId = 0;
             this.waitingResponseCount = 0;
@@ -1087,9 +1110,11 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             if (dialogsSearchAdapterDelegate2 != null) {
                 dialogsSearchAdapterDelegate2.searchStateChanged(false, true);
             }
-            searchTopics(null);
-            searchMessagesInternal(null, 0);
-            searchForumMessagesInternal(null, 0);
+            if (this.dialogsType != 15) {
+                searchTopics(null);
+                searchMessagesInternal(null, 0);
+                searchForumMessagesInternal(null, 0);
+            }
             notifyDataSetChanged();
             this.localTipDates.clear();
             this.localTipArchive = false;
@@ -1147,6 +1172,10 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     public /* synthetic */ void lambda$searchDialogs$16(final String str, final int i, final String str2) {
         this.searchRunnable = null;
         searchDialogsInternal(str, i);
+        if (this.dialogsType == 15) {
+            this.waitingResponseCount -= 2;
+            return;
+        }
         Runnable runnable = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
@@ -1160,13 +1189,13 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchDialogs$15(int i, String str, String str2) {
         String str3;
+        int i2;
         this.searchRunnable2 = null;
         if (i != this.lastSearchId) {
             return;
         }
-        if (this.needMessagesSearch != 2) {
+        if (this.needMessagesSearch != 2 && (i2 = this.dialogsType) != 6 && i2 != 5) {
             SearchAdapterHelper searchAdapterHelper = this.searchAdapterHelper;
-            int i2 = this.dialogsType;
             boolean z = i2 != 4;
             boolean z2 = (i2 == 4 || i2 == 11) ? false : true;
             boolean z3 = i2 == 2 || i2 == 1;
@@ -1178,7 +1207,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             str3 = str2;
             this.waitingResponseCount -= 2;
         }
-        if (this.needMessagesSearch == 0) {
+        if (this.needMessagesSearch == 0 || this.dialogsType == 15) {
             this.waitingResponseCount--;
             return;
         }

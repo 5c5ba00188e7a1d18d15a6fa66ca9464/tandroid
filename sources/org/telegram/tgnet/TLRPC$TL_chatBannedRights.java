@@ -8,13 +8,20 @@ public class TLRPC$TL_chatBannedRights extends TLObject {
     public boolean invite_users;
     public boolean manage_topics;
     public boolean pin_messages;
+    public boolean send_audios;
+    public boolean send_docs;
     public boolean send_games;
     public boolean send_gifs;
     public boolean send_inline;
     public boolean send_media;
     public boolean send_messages;
+    public boolean send_photos;
+    public boolean send_plain;
     public boolean send_polls;
+    public boolean send_roundvideos;
     public boolean send_stickers;
+    public boolean send_videos;
+    public boolean send_voices;
     public int until_date;
     public boolean view_messages;
 
@@ -36,7 +43,8 @@ public class TLRPC$TL_chatBannedRights extends TLObject {
         this.flags = readInt32;
         this.view_messages = (readInt32 & 1) != 0;
         this.send_messages = (readInt32 & 2) != 0;
-        this.send_media = (readInt32 & 4) != 0;
+        boolean z2 = (readInt32 & 4) != 0;
+        this.send_media = z2;
         this.send_stickers = (readInt32 & 8) != 0;
         this.send_gifs = (readInt32 & 16) != 0;
         this.send_games = (readInt32 & 32) != 0;
@@ -46,13 +54,40 @@ public class TLRPC$TL_chatBannedRights extends TLObject {
         this.change_info = (readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0;
         this.invite_users = (32768 & readInt32) != 0;
         this.pin_messages = (131072 & readInt32) != 0;
-        this.manage_topics = (readInt32 & 262144) != 0;
+        this.manage_topics = (262144 & readInt32) != 0;
+        this.send_photos = (524288 & readInt32) != 0;
+        this.send_videos = (1048576 & readInt32) != 0;
+        this.send_roundvideos = (2097152 & readInt32) != 0;
+        this.send_audios = (4194304 & readInt32) != 0;
+        this.send_voices = (8388608 & readInt32) != 0;
+        this.send_docs = (16777216 & readInt32) != 0;
+        this.send_plain = (readInt32 & ConnectionsManager.FileTypeVideo) != 0;
+        if (z2) {
+            this.send_photos = true;
+            this.send_videos = true;
+            this.send_roundvideos = true;
+            this.send_audios = true;
+            this.send_voices = true;
+            this.send_docs = true;
+        }
         this.until_date = abstractSerializedData.readInt32(z);
     }
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
         abstractSerializedData.writeInt32(constructor);
+        boolean z = this.send_photos;
+        if (z && this.send_videos && this.send_roundvideos && this.send_audios && this.send_voices && this.send_docs) {
+            this.send_media = true;
+        } else {
+            this.send_media = false;
+        }
+        boolean z2 = this.send_plain;
+        if (z2 && this.send_media) {
+            this.send_messages = true;
+        } else {
+            this.send_messages = false;
+        }
         int i = this.view_messages ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         int i2 = this.send_messages ? i | 2 : i & (-3);
@@ -79,7 +114,21 @@ public class TLRPC$TL_chatBannedRights extends TLObject {
         this.flags = i12;
         int i13 = this.manage_topics ? i12 | 262144 : i12 & (-262145);
         this.flags = i13;
-        abstractSerializedData.writeInt32(i13);
+        int i14 = z ? 524288 | i13 : (-524289) & i13;
+        this.flags = i14;
+        int i15 = this.send_videos ? i14 | 1048576 : i14 & (-1048577);
+        this.flags = i15;
+        int i16 = this.send_roundvideos ? i15 | 2097152 : i15 & (-2097153);
+        this.flags = i16;
+        int i17 = this.send_audios ? i16 | 4194304 : i16 & (-4194305);
+        this.flags = i17;
+        int i18 = this.send_voices ? i17 | 8388608 : i17 & (-8388609);
+        this.flags = i18;
+        int i19 = this.send_docs ? i18 | ConnectionsManager.FileTypePhoto : i18 & (-16777217);
+        this.flags = i19;
+        int i20 = z2 ? i19 | ConnectionsManager.FileTypeVideo : i19 & (-33554433);
+        this.flags = i20;
+        abstractSerializedData.writeInt32(i20);
         abstractSerializedData.writeInt32(this.until_date);
     }
 }

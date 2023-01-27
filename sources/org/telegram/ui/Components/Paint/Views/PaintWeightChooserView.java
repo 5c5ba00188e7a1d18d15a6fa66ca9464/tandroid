@@ -16,7 +16,7 @@ import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Paint.RenderView;
 import org.telegram.ui.Components.Paint.Swatch;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class PaintWeightChooserView extends View {
     private AnimatedFloat animatedMax;
     private AnimatedFloat animatedMin;
@@ -44,7 +44,7 @@ public class PaintWeightChooserView extends View {
     private RectF touchRect;
     private ValueOverride valueOverride;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface ValueOverride {
         float get();
 

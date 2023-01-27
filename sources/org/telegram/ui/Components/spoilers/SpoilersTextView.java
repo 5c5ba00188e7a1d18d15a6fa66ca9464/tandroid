@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Stack;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.spoilers.SpoilersClickDetector;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class SpoilersTextView extends TextView {
     private SpoilersClickDetector clickDetector;
     private boolean isSpoilersRevealed;

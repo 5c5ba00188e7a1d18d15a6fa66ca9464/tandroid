@@ -147,252 +147,252 @@ import org.telegram.ui.Components.TypingDotsDrawable;
 import org.telegram.ui.RoundVideoProgressShadow;
 /* loaded from: classes3.dex */
 public class Theme {
-    public static Paint DEBUG_BLUE = null;
-    public static Paint DEBUG_RED = null;
-    private static Method StateListDrawable_getStateDrawableMethod = null;
-    private static SensorEventListener ambientSensorListener = null;
-    private static HashMap<MessageObject, AudioVisualizerDrawable> animatedOutVisualizerDrawables = null;
-    private static HashMap<String, Integer> animatingColors = null;
-    public static float autoNightBrighnessThreshold = 0.0f;
-    public static String autoNightCityName = null;
-    public static int autoNightDayEndTime = 0;
-    public static int autoNightDayStartTime = 0;
-    public static int autoNightLastSunCheckDay = 0;
-    public static double autoNightLocationLatitude = 0.0d;
-    public static double autoNightLocationLongitude = 0.0d;
-    public static boolean autoNightScheduleByLocation = false;
-    public static int autoNightSunriseTime = 0;
-    public static int autoNightSunsetTime = 0;
-    public static Paint avatar_backgroundPaint = null;
-    private static BackgroundGradientDrawable.Disposable backgroundGradientDisposable = null;
-    public static Drawable calllog_msgCallDownGreenDrawable = null;
-    public static Drawable calllog_msgCallDownRedDrawable = null;
-    public static Drawable calllog_msgCallUpGreenDrawable = null;
-    public static Drawable calllog_msgCallUpRedDrawable = null;
-    private static boolean canStartHolidayAnimation = false;
-    private static boolean changingWallpaper = false;
-    public static Paint chat_actionBackgroundGradientDarkenPaint = null;
-    public static Paint chat_actionBackgroundPaint = null;
-    public static Paint chat_actionBackgroundPaint2 = null;
-    public static Paint chat_actionBackgroundSelectedPaint = null;
-    public static TextPaint chat_actionTextPaint = null;
-    public static TextPaint chat_actionTextPaint2 = null;
-    public static TextPaint chat_adminPaint = null;
-    public static PorterDuffColorFilter chat_animatedEmojiTextColorFilter = null;
-    public static Drawable chat_attachEmptyDrawable = null;
-    public static TextPaint chat_audioPerformerPaint = null;
-    public static TextPaint chat_audioTimePaint = null;
-    public static TextPaint chat_audioTitlePaint = null;
-    public static TextPaint chat_botButtonPaint = null;
-    public static Drawable chat_botCardDrawable = null;
-    public static Drawable chat_botInlineDrawable = null;
-    public static Drawable chat_botInviteDrawable = null;
-    public static Drawable chat_botLinkDrawable = null;
-    public static Paint chat_botProgressPaint = null;
-    public static Drawable chat_botWebViewDrawable = null;
-    public static Drawable chat_commentArrowDrawable = null;
-    public static Drawable chat_commentDrawable = null;
-    public static Drawable chat_commentStickerDrawable = null;
-    public static TextPaint chat_commentTextPaint = null;
-    public static Paint chat_composeBackgroundPaint = null;
-    public static Drawable chat_composeShadowDrawable = null;
-    public static Drawable chat_composeShadowRoundDrawable = null;
-    public static TextPaint chat_contactNamePaint = null;
-    public static TextPaint chat_contactPhonePaint = null;
-    public static TextPaint chat_contextResult_descriptionTextPaint = null;
-    public static Drawable chat_contextResult_shadowUnderSwitchDrawable = null;
-    public static TextPaint chat_contextResult_titleTextPaint = null;
-    public static Paint chat_deleteProgressPaint = null;
-    public static Paint chat_docBackPaint = null;
-    public static TextPaint chat_docNamePaint = null;
-    public static TextPaint chat_durationPaint = null;
-    public static Drawable chat_flameIcon = null;
-    public static TextPaint chat_forwardNamePaint = null;
-    public static TextPaint chat_gamePaint = null;
-    public static Drawable chat_gifIcon = null;
-    public static Drawable chat_goIconDrawable = null;
-    public static Drawable chat_gradientLeftDrawable = null;
-    public static Drawable chat_gradientRightDrawable = null;
-    public static TextPaint chat_infoPaint = null;
-    public static Drawable chat_inlineResultAudio = null;
-    public static Drawable chat_inlineResultFile = null;
-    public static Drawable chat_inlineResultLocation = null;
-    public static TextPaint chat_instantViewPaint = null;
-    public static Paint chat_instantViewRectPaint = null;
-    public static TextPaint chat_livePaint = null;
-    public static TextPaint chat_locationAddressPaint = null;
-    public static TextPaint chat_locationTitlePaint = null;
-    public static Drawable chat_lockIconDrawable = null;
-    public static Paint chat_messageBackgroundSelectedPaint = null;
-    private static AudioVisualizerDrawable chat_msgAudioVisualizeDrawable = null;
-    public static Drawable chat_msgAvatarLiveLocationDrawable = null;
-    public static TextPaint chat_msgBotButtonPaint = null;
-    public static Drawable chat_msgCallDownGreenDrawable = null;
-    public static Drawable chat_msgCallDownRedDrawable = null;
-    public static Drawable chat_msgCallUpGreenDrawable = null;
-    public static MsgClockDrawable chat_msgClockDrawable = null;
-    public static Drawable chat_msgErrorDrawable = null;
-    public static Paint chat_msgErrorPaint = null;
-    public static TextPaint chat_msgGameTextPaint = null;
-    public static MessageDrawable chat_msgInDrawable = null;
-    public static Drawable chat_msgInInstantDrawable = null;
-    public static MessageDrawable chat_msgInMediaDrawable = null;
-    public static MessageDrawable chat_msgInMediaSelectedDrawable = null;
-    public static Drawable chat_msgInMenuDrawable = null;
-    public static Drawable chat_msgInMenuSelectedDrawable = null;
-    public static Drawable chat_msgInPinnedDrawable = null;
-    public static Drawable chat_msgInPinnedSelectedDrawable = null;
-    public static Drawable chat_msgInRepliesDrawable = null;
-    public static Drawable chat_msgInRepliesSelectedDrawable = null;
-    public static MessageDrawable chat_msgInSelectedDrawable = null;
-    public static Drawable chat_msgInViewsDrawable = null;
-    public static Drawable chat_msgInViewsSelectedDrawable = null;
-    public static Drawable chat_msgMediaCheckDrawable = null;
-    public static Drawable chat_msgMediaHalfCheckDrawable = null;
-    public static Drawable chat_msgMediaMenuDrawable = null;
-    public static Drawable chat_msgMediaPinnedDrawable = null;
-    public static Drawable chat_msgMediaRepliesDrawable = null;
-    public static Drawable chat_msgMediaViewsDrawable = null;
-    public static Drawable chat_msgNoSoundDrawable = null;
-    public static Drawable chat_msgOutCheckDrawable = null;
-    public static Drawable chat_msgOutCheckReadDrawable = null;
-    public static Drawable chat_msgOutCheckReadSelectedDrawable = null;
-    public static Drawable chat_msgOutCheckSelectedDrawable = null;
-    public static MessageDrawable chat_msgOutDrawable = null;
-    public static Drawable chat_msgOutHalfCheckDrawable = null;
-    public static Drawable chat_msgOutHalfCheckSelectedDrawable = null;
-    public static Drawable chat_msgOutInstantDrawable = null;
-    public static MessageDrawable chat_msgOutMediaDrawable = null;
-    public static MessageDrawable chat_msgOutMediaSelectedDrawable = null;
-    public static Drawable chat_msgOutMenuDrawable = null;
-    public static Drawable chat_msgOutMenuSelectedDrawable = null;
-    public static Drawable chat_msgOutPinnedDrawable = null;
-    public static Drawable chat_msgOutPinnedSelectedDrawable = null;
-    public static Drawable chat_msgOutRepliesDrawable = null;
-    public static Drawable chat_msgOutRepliesSelectedDrawable = null;
-    public static MessageDrawable chat_msgOutSelectedDrawable = null;
-    public static Drawable chat_msgOutViewsDrawable = null;
-    public static Drawable chat_msgOutViewsSelectedDrawable = null;
-    public static Drawable chat_msgStickerCheckDrawable = null;
-    public static Drawable chat_msgStickerHalfCheckDrawable = null;
-    public static Drawable chat_msgStickerPinnedDrawable = null;
-    public static Drawable chat_msgStickerRepliesDrawable = null;
-    public static Drawable chat_msgStickerViewsDrawable = null;
-    public static TextPaint chat_msgTextPaint = null;
-    public static TextPaint[] chat_msgTextPaintEmoji = null;
-    public static TextPaint chat_msgTextPaintOneEmoji = null;
-    public static TextPaint chat_msgTextPaintThreeEmoji = null;
-    public static TextPaint chat_msgTextPaintTwoEmoji = null;
-    public static Drawable chat_msgUnlockDrawable = null;
-    public static Drawable chat_muteIconDrawable = null;
-    public static TextPaint chat_namePaint = null;
-    public static Paint chat_outUrlPaint = null;
-    public static Paint chat_pollTimerPaint = null;
-    public static Paint chat_radialProgress2Paint = null;
-    public static Paint chat_radialProgressPaint = null;
-    public static Paint chat_radialProgressPausedSeekbarPaint = null;
-    public static Drawable chat_redLocationIcon = null;
-    public static Drawable chat_replyIconDrawable = null;
-    public static Paint chat_replyLinePaint = null;
-    public static TextPaint chat_replyNamePaint = null;
-    public static TextPaint chat_replyTextPaint = null;
-    public static Drawable chat_roundVideoShadow = null;
-    public static Drawable chat_shareIconDrawable = null;
-    public static TextPaint chat_shipmentPaint = null;
-    public static Paint chat_statusPaint = null;
-    public static Paint chat_statusRecordPaint = null;
-    public static TextPaint chat_stickerCommentCountPaint = null;
-    public static Paint chat_textSearchSelectionPaint = null;
-    public static Paint chat_timeBackgroundPaint = null;
-    public static TextPaint chat_timePaint = null;
-    public static TextPaint chat_topicTextPaint = null;
-    public static TextPaint chat_unlockExtendedMediaTextPaint = null;
-    public static Paint chat_urlPaint = null;
-    public static Paint checkboxSquare_backgroundPaint = null;
-    public static Paint checkboxSquare_checkPaint = null;
-    public static Paint checkboxSquare_eraserPaint = null;
-    private static HashMap<String, Integer> currentColors = null;
-    private static HashMap<String, Integer> currentColorsNoAccent = null;
-    private static ThemeInfo currentDayTheme = null;
-    private static ThemeInfo currentNightTheme = null;
-    private static ThemeInfo currentTheme = null;
-    private static HashMap<String, Integer> defaultColors = null;
-    private static ThemeInfo defaultTheme = null;
-    public static Paint dialogs_actionMessagePaint = null;
-    public static RLottieDrawable dialogs_archiveAvatarDrawable = null;
-    public static boolean dialogs_archiveAvatarDrawableRecolored = false;
-    public static RLottieDrawable dialogs_archiveDrawable = null;
-    public static boolean dialogs_archiveDrawableRecolored = false;
-    public static TextPaint dialogs_archiveTextPaint = null;
-    public static TextPaint dialogs_archiveTextPaintSmall = null;
-    public static Drawable dialogs_checkDrawable = null;
-    public static Drawable dialogs_checkReadDrawable = null;
-    public static Drawable dialogs_clockDrawable = null;
-    public static Paint dialogs_countGrayPaint = null;
-    public static Paint dialogs_countPaint = null;
-    public static TextPaint dialogs_countTextPaint = null;
-    public static Drawable dialogs_errorDrawable = null;
-    public static Paint dialogs_errorPaint = null;
-    public static ScamDrawable dialogs_fakeDrawable = null;
-    public static Drawable dialogs_forum_arrowDrawable = null;
-    public static Drawable dialogs_halfCheckDrawable = null;
-    public static RLottieDrawable dialogs_hidePsaDrawable = null;
-    public static boolean dialogs_hidePsaDrawableRecolored = false;
-    public static Drawable dialogs_holidayDrawable = null;
-    private static int dialogs_holidayDrawableOffsetX = 0;
-    private static int dialogs_holidayDrawableOffsetY = 0;
-    public static Drawable dialogs_lock2Drawable = null;
-    public static Drawable dialogs_lockDrawable = null;
-    public static Drawable dialogs_mentionDrawable = null;
-    public static TextPaint dialogs_messageNamePaint = null;
-    public static TextPaint[] dialogs_messagePaint = null;
-    public static TextPaint[] dialogs_messagePrintingPaint = null;
-    public static Drawable dialogs_muteDrawable = null;
-    public static TextPaint[] dialogs_nameEncryptedPaint = null;
-    public static TextPaint[] dialogs_namePaint = null;
-    public static TextPaint dialogs_offlinePaint = null;
-    public static Paint dialogs_onlineCirclePaint = null;
-    public static TextPaint dialogs_onlinePaint = null;
-    public static RLottieDrawable dialogs_pinArchiveDrawable = null;
-    public static Drawable dialogs_pinnedDrawable = null;
-    public static Paint dialogs_pinnedPaint = null;
-    public static Drawable dialogs_playDrawable = null;
-    public static Paint dialogs_reactionsCountPaint = null;
-    public static Drawable dialogs_reactionsMentionDrawable = null;
-    public static Drawable dialogs_reorderDrawable = null;
-    public static ScamDrawable dialogs_scamDrawable = null;
-    public static TextPaint dialogs_searchNameEncryptedPaint = null;
-    public static TextPaint dialogs_searchNamePaint = null;
-    public static RLottieDrawable dialogs_swipeDeleteDrawable = null;
-    public static RLottieDrawable dialogs_swipeMuteDrawable = null;
-    public static RLottieDrawable dialogs_swipePinDrawable = null;
-    public static RLottieDrawable dialogs_swipeReadDrawable = null;
-    public static RLottieDrawable dialogs_swipeUnmuteDrawable = null;
-    public static RLottieDrawable dialogs_swipeUnpinDrawable = null;
-    public static RLottieDrawable dialogs_swipeUnreadDrawable = null;
-    public static Paint dialogs_tabletSeletedPaint = null;
-    public static TextPaint dialogs_timePaint = null;
-    public static RLottieDrawable dialogs_unarchiveDrawable = null;
-    public static Drawable dialogs_unmuteDrawable = null;
-    public static RLottieDrawable dialogs_unpinArchiveDrawable = null;
-    public static Drawable dialogs_verifiedCheckDrawable = null;
-    public static Drawable dialogs_verifiedDrawable = null;
-    public static Paint dividerExtraPaint = null;
-    public static Paint dividerPaint = null;
-    private static HashMap<String, String> fallbackKeys = null;
-    private static FragmentContextViewWavesDrawable fragmentContextViewWavesDrawable = null;
-    private static boolean hasPreviousTheme = false;
-    private static ThreadLocal<float[]> hsvTemp1Local = null;
-    private static ThreadLocal<float[]> hsvTemp2Local = null;
-    private static ThreadLocal<float[]> hsvTemp3Local = null;
-    private static ThreadLocal<float[]> hsvTemp4Local = null;
-    private static ThreadLocal<float[]> hsvTemp5Local = null;
-    private static boolean isApplyingAccent = false;
-    private static boolean isCustomTheme = false;
-    private static boolean isInNigthMode = false;
-    private static boolean isPatternWallpaper = false;
-    private static boolean isWallpaperMotion = false;
-    private static float lastBrightnessValue = 1.0f;
+    public static Paint DEBUG_BLUE;
+    public static Paint DEBUG_RED;
+    private static Method StateListDrawable_getStateDrawableMethod;
+    private static SensorEventListener ambientSensorListener;
+    private static HashMap<MessageObject, AudioVisualizerDrawable> animatedOutVisualizerDrawables;
+    private static HashMap<String, Integer> animatingColors;
+    public static float autoNightBrighnessThreshold;
+    public static String autoNightCityName;
+    public static int autoNightDayEndTime;
+    public static int autoNightDayStartTime;
+    public static int autoNightLastSunCheckDay;
+    public static double autoNightLocationLatitude;
+    public static double autoNightLocationLongitude;
+    public static boolean autoNightScheduleByLocation;
+    public static int autoNightSunriseTime;
+    public static int autoNightSunsetTime;
+    public static Paint avatar_backgroundPaint;
+    private static BackgroundGradientDrawable.Disposable backgroundGradientDisposable;
+    public static Drawable calllog_msgCallDownGreenDrawable;
+    public static Drawable calllog_msgCallDownRedDrawable;
+    public static Drawable calllog_msgCallUpGreenDrawable;
+    public static Drawable calllog_msgCallUpRedDrawable;
+    private static boolean canStartHolidayAnimation;
+    private static boolean changingWallpaper;
+    public static Paint chat_actionBackgroundGradientDarkenPaint;
+    public static Paint chat_actionBackgroundPaint;
+    public static Paint chat_actionBackgroundPaint2;
+    public static Paint chat_actionBackgroundSelectedPaint;
+    public static TextPaint chat_actionTextPaint;
+    public static TextPaint chat_actionTextPaint2;
+    public static TextPaint chat_adminPaint;
+    public static PorterDuffColorFilter chat_animatedEmojiTextColorFilter;
+    public static Drawable chat_attachEmptyDrawable;
+    public static TextPaint chat_audioPerformerPaint;
+    public static TextPaint chat_audioTimePaint;
+    public static TextPaint chat_audioTitlePaint;
+    public static TextPaint chat_botButtonPaint;
+    public static Drawable chat_botCardDrawable;
+    public static Drawable chat_botInlineDrawable;
+    public static Drawable chat_botInviteDrawable;
+    public static Drawable chat_botLinkDrawable;
+    public static Paint chat_botProgressPaint;
+    public static Drawable chat_botWebViewDrawable;
+    public static Drawable chat_commentArrowDrawable;
+    public static Drawable chat_commentDrawable;
+    public static Drawable chat_commentStickerDrawable;
+    public static TextPaint chat_commentTextPaint;
+    public static Paint chat_composeBackgroundPaint;
+    public static Drawable chat_composeShadowDrawable;
+    public static Drawable chat_composeShadowRoundDrawable;
+    public static TextPaint chat_contactNamePaint;
+    public static TextPaint chat_contactPhonePaint;
+    public static TextPaint chat_contextResult_descriptionTextPaint;
+    public static Drawable chat_contextResult_shadowUnderSwitchDrawable;
+    public static TextPaint chat_contextResult_titleTextPaint;
+    public static Paint chat_deleteProgressPaint;
+    public static Paint chat_docBackPaint;
+    public static TextPaint chat_docNamePaint;
+    public static TextPaint chat_durationPaint;
+    public static Drawable chat_flameIcon;
+    public static TextPaint chat_forwardNamePaint;
+    public static TextPaint chat_gamePaint;
+    public static Drawable chat_gifIcon;
+    public static Drawable chat_goIconDrawable;
+    public static Drawable chat_gradientLeftDrawable;
+    public static Drawable chat_gradientRightDrawable;
+    public static TextPaint chat_infoPaint;
+    public static Drawable chat_inlineResultAudio;
+    public static Drawable chat_inlineResultFile;
+    public static Drawable chat_inlineResultLocation;
+    public static TextPaint chat_instantViewPaint;
+    public static Paint chat_instantViewRectPaint;
+    public static TextPaint chat_livePaint;
+    public static TextPaint chat_locationAddressPaint;
+    public static TextPaint chat_locationTitlePaint;
+    public static Drawable chat_lockIconDrawable;
+    public static Paint chat_messageBackgroundSelectedPaint;
+    private static AudioVisualizerDrawable chat_msgAudioVisualizeDrawable;
+    public static Drawable chat_msgAvatarLiveLocationDrawable;
+    public static TextPaint chat_msgBotButtonPaint;
+    public static Drawable chat_msgCallDownGreenDrawable;
+    public static Drawable chat_msgCallDownRedDrawable;
+    public static Drawable chat_msgCallUpGreenDrawable;
+    public static MsgClockDrawable chat_msgClockDrawable;
+    public static Drawable chat_msgErrorDrawable;
+    public static Paint chat_msgErrorPaint;
+    public static TextPaint chat_msgGameTextPaint;
+    public static MessageDrawable chat_msgInDrawable;
+    public static Drawable chat_msgInInstantDrawable;
+    public static MessageDrawable chat_msgInMediaDrawable;
+    public static MessageDrawable chat_msgInMediaSelectedDrawable;
+    public static Drawable chat_msgInMenuDrawable;
+    public static Drawable chat_msgInMenuSelectedDrawable;
+    public static Drawable chat_msgInPinnedDrawable;
+    public static Drawable chat_msgInPinnedSelectedDrawable;
+    public static Drawable chat_msgInRepliesDrawable;
+    public static Drawable chat_msgInRepliesSelectedDrawable;
+    public static MessageDrawable chat_msgInSelectedDrawable;
+    public static Drawable chat_msgInViewsDrawable;
+    public static Drawable chat_msgInViewsSelectedDrawable;
+    public static Drawable chat_msgMediaCheckDrawable;
+    public static Drawable chat_msgMediaHalfCheckDrawable;
+    public static Drawable chat_msgMediaMenuDrawable;
+    public static Drawable chat_msgMediaPinnedDrawable;
+    public static Drawable chat_msgMediaRepliesDrawable;
+    public static Drawable chat_msgMediaViewsDrawable;
+    public static Drawable chat_msgNoSoundDrawable;
+    public static Drawable chat_msgOutCheckDrawable;
+    public static Drawable chat_msgOutCheckReadDrawable;
+    public static Drawable chat_msgOutCheckReadSelectedDrawable;
+    public static Drawable chat_msgOutCheckSelectedDrawable;
+    public static MessageDrawable chat_msgOutDrawable;
+    public static Drawable chat_msgOutHalfCheckDrawable;
+    public static Drawable chat_msgOutHalfCheckSelectedDrawable;
+    public static Drawable chat_msgOutInstantDrawable;
+    public static MessageDrawable chat_msgOutMediaDrawable;
+    public static MessageDrawable chat_msgOutMediaSelectedDrawable;
+    public static Drawable chat_msgOutMenuDrawable;
+    public static Drawable chat_msgOutMenuSelectedDrawable;
+    public static Drawable chat_msgOutPinnedDrawable;
+    public static Drawable chat_msgOutPinnedSelectedDrawable;
+    public static Drawable chat_msgOutRepliesDrawable;
+    public static Drawable chat_msgOutRepliesSelectedDrawable;
+    public static MessageDrawable chat_msgOutSelectedDrawable;
+    public static Drawable chat_msgOutViewsDrawable;
+    public static Drawable chat_msgOutViewsSelectedDrawable;
+    public static Drawable chat_msgStickerCheckDrawable;
+    public static Drawable chat_msgStickerHalfCheckDrawable;
+    public static Drawable chat_msgStickerPinnedDrawable;
+    public static Drawable chat_msgStickerRepliesDrawable;
+    public static Drawable chat_msgStickerViewsDrawable;
+    public static TextPaint chat_msgTextPaint;
+    public static TextPaint[] chat_msgTextPaintEmoji;
+    public static TextPaint chat_msgTextPaintOneEmoji;
+    public static TextPaint chat_msgTextPaintThreeEmoji;
+    public static TextPaint chat_msgTextPaintTwoEmoji;
+    public static Drawable chat_msgUnlockDrawable;
+    public static Drawable chat_muteIconDrawable;
+    public static TextPaint chat_namePaint;
+    public static Paint chat_outUrlPaint;
+    public static Paint chat_pollTimerPaint;
+    public static Paint chat_radialProgress2Paint;
+    public static Paint chat_radialProgressPaint;
+    public static Paint chat_radialProgressPausedSeekbarPaint;
+    public static Drawable chat_redLocationIcon;
+    public static Drawable chat_replyIconDrawable;
+    public static Paint chat_replyLinePaint;
+    public static TextPaint chat_replyNamePaint;
+    public static TextPaint chat_replyTextPaint;
+    public static Drawable chat_roundVideoShadow;
+    public static Drawable chat_shareIconDrawable;
+    public static TextPaint chat_shipmentPaint;
+    public static Paint chat_statusPaint;
+    public static Paint chat_statusRecordPaint;
+    public static TextPaint chat_stickerCommentCountPaint;
+    public static Paint chat_textSearchSelectionPaint;
+    public static Paint chat_timeBackgroundPaint;
+    public static TextPaint chat_timePaint;
+    public static TextPaint chat_topicTextPaint;
+    public static TextPaint chat_unlockExtendedMediaTextPaint;
+    public static Paint chat_urlPaint;
+    public static Paint checkboxSquare_backgroundPaint;
+    public static Paint checkboxSquare_checkPaint;
+    public static Paint checkboxSquare_eraserPaint;
+    private static HashMap<String, Integer> currentColors;
+    private static HashMap<String, Integer> currentColorsNoAccent;
+    private static ThemeInfo currentDayTheme;
+    private static ThemeInfo currentNightTheme;
+    private static ThemeInfo currentTheme;
+    private static HashMap<String, Integer> defaultColors;
+    private static ThemeInfo defaultTheme;
+    public static Paint dialogs_actionMessagePaint;
+    public static RLottieDrawable dialogs_archiveAvatarDrawable;
+    public static boolean dialogs_archiveAvatarDrawableRecolored;
+    public static RLottieDrawable dialogs_archiveDrawable;
+    public static boolean dialogs_archiveDrawableRecolored;
+    public static TextPaint dialogs_archiveTextPaint;
+    public static TextPaint dialogs_archiveTextPaintSmall;
+    public static Drawable dialogs_checkDrawable;
+    public static Drawable dialogs_checkReadDrawable;
+    public static Drawable dialogs_clockDrawable;
+    public static Paint dialogs_countGrayPaint;
+    public static Paint dialogs_countPaint;
+    public static TextPaint dialogs_countTextPaint;
+    public static Drawable dialogs_errorDrawable;
+    public static Paint dialogs_errorPaint;
+    public static ScamDrawable dialogs_fakeDrawable;
+    public static Drawable dialogs_forum_arrowDrawable;
+    public static Drawable dialogs_halfCheckDrawable;
+    public static RLottieDrawable dialogs_hidePsaDrawable;
+    public static boolean dialogs_hidePsaDrawableRecolored;
+    public static Drawable dialogs_holidayDrawable;
+    private static int dialogs_holidayDrawableOffsetX;
+    private static int dialogs_holidayDrawableOffsetY;
+    public static Drawable dialogs_lock2Drawable;
+    public static Drawable dialogs_lockDrawable;
+    public static Drawable dialogs_mentionDrawable;
+    public static TextPaint dialogs_messageNamePaint;
+    public static TextPaint[] dialogs_messagePaint;
+    public static TextPaint[] dialogs_messagePrintingPaint;
+    public static Drawable dialogs_muteDrawable;
+    public static TextPaint[] dialogs_nameEncryptedPaint;
+    public static TextPaint[] dialogs_namePaint;
+    public static TextPaint dialogs_offlinePaint;
+    public static Paint dialogs_onlineCirclePaint;
+    public static TextPaint dialogs_onlinePaint;
+    public static RLottieDrawable dialogs_pinArchiveDrawable;
+    public static Drawable dialogs_pinnedDrawable;
+    public static Paint dialogs_pinnedPaint;
+    public static Drawable dialogs_playDrawable;
+    public static Paint dialogs_reactionsCountPaint;
+    public static Drawable dialogs_reactionsMentionDrawable;
+    public static Drawable dialogs_reorderDrawable;
+    public static ScamDrawable dialogs_scamDrawable;
+    public static TextPaint dialogs_searchNameEncryptedPaint;
+    public static TextPaint dialogs_searchNamePaint;
+    public static RLottieDrawable dialogs_swipeDeleteDrawable;
+    public static RLottieDrawable dialogs_swipeMuteDrawable;
+    public static RLottieDrawable dialogs_swipePinDrawable;
+    public static RLottieDrawable dialogs_swipeReadDrawable;
+    public static RLottieDrawable dialogs_swipeUnmuteDrawable;
+    public static RLottieDrawable dialogs_swipeUnpinDrawable;
+    public static RLottieDrawable dialogs_swipeUnreadDrawable;
+    public static Paint dialogs_tabletSeletedPaint;
+    public static TextPaint dialogs_timePaint;
+    public static RLottieDrawable dialogs_unarchiveDrawable;
+    public static Drawable dialogs_unmuteDrawable;
+    public static RLottieDrawable dialogs_unpinArchiveDrawable;
+    public static Drawable dialogs_verifiedCheckDrawable;
+    public static Drawable dialogs_verifiedDrawable;
+    public static Paint dividerExtraPaint;
+    public static Paint dividerPaint;
+    private static HashMap<String, String> fallbackKeys;
+    private static FragmentContextViewWavesDrawable fragmentContextViewWavesDrawable;
+    private static boolean hasPreviousTheme;
+    private static ThreadLocal<float[]> hsvTemp1Local;
+    private static ThreadLocal<float[]> hsvTemp2Local;
+    private static ThreadLocal<float[]> hsvTemp3Local;
+    private static ThreadLocal<float[]> hsvTemp4Local;
+    private static ThreadLocal<float[]> hsvTemp5Local;
+    private static boolean isApplyingAccent;
+    private static boolean isCustomTheme;
+    private static boolean isInNigthMode;
+    private static boolean isPatternWallpaper;
+    private static boolean isWallpaperMotion;
+    public static final String[] keys_colors;
     private static long lastDelayUpdateTime;
     private static long lastHolidayCheckTime;
     private static int lastLoadingCurrentThemeTime;
@@ -436,7 +436,9 @@ public class Theme {
     private static int[] viewPos;
     private static Drawable wallpaper;
     public static Runnable wallpaperLoadTask;
+    public static final int default_shadow_color = ColorUtils.setAlphaComponent(-16777216, 27);
     private static final Object sync = new Object();
+    private static float lastBrightnessValue = 1.0f;
     private static Runnable switchDayBrightnessRunnable = new Runnable() { // from class: org.telegram.ui.ActionBar.Theme.1
         @Override // java.lang.Runnable
         public void run() {
@@ -503,6 +505,10 @@ public class Theme {
             return 0;
         }
         return i | (-16777216);
+    }
+
+    public static void applyDefaultShadow(Paint paint) {
+        paint.setShadowLayer(AndroidUtilities.dpf2(1.0f), 0.0f, AndroidUtilities.dpf2(0.33f), default_shadow_color);
     }
 
     /* loaded from: classes3.dex */
@@ -3356,26 +3362,25 @@ public class Theme {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:149:0x3796 A[Catch: Exception -> 0x397d, TryCatch #2 {Exception -> 0x397d, blocks: (B:38:0x344c, B:40:0x3464, B:51:0x34a7, B:53:0x34b5, B:61:0x34e2, B:63:0x34e6, B:65:0x34ee, B:66:0x3500, B:67:0x350c, B:69:0x3512, B:71:0x351c, B:73:0x3520, B:75:0x354e, B:77:0x3552, B:147:0x3790, B:149:0x3796, B:150:0x379f, B:152:0x37a3, B:154:0x37ab, B:156:0x37af, B:158:0x37b3, B:159:0x37b5, B:161:0x37bf, B:132:0x3688, B:135:0x36a7, B:136:0x36af, B:138:0x36bb, B:140:0x36c7, B:144:0x36d3, B:146:0x3778, B:141:0x36cd, B:166:0x37d5, B:167:0x37db, B:171:0x37e6, B:173:0x383d, B:175:0x384b, B:177:0x3859, B:179:0x3867, B:178:0x3860, B:174:0x3844, B:54:0x34c5, B:56:0x34cd, B:58:0x34d6, B:60:0x34e0, B:41:0x3473, B:43:0x347b, B:45:0x3483, B:47:0x348d, B:49:0x3495, B:79:0x3563, B:125:0x3671, B:126:0x3676), top: B:221:0x344c }] */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x37af A[Catch: Exception -> 0x397d, TryCatch #2 {Exception -> 0x397d, blocks: (B:38:0x344c, B:40:0x3464, B:51:0x34a7, B:53:0x34b5, B:61:0x34e2, B:63:0x34e6, B:65:0x34ee, B:66:0x3500, B:67:0x350c, B:69:0x3512, B:71:0x351c, B:73:0x3520, B:75:0x354e, B:77:0x3552, B:147:0x3790, B:149:0x3796, B:150:0x379f, B:152:0x37a3, B:154:0x37ab, B:156:0x37af, B:158:0x37b3, B:159:0x37b5, B:161:0x37bf, B:132:0x3688, B:135:0x36a7, B:136:0x36af, B:138:0x36bb, B:140:0x36c7, B:144:0x36d3, B:146:0x3778, B:141:0x36cd, B:166:0x37d5, B:167:0x37db, B:171:0x37e6, B:173:0x383d, B:175:0x384b, B:177:0x3859, B:179:0x3867, B:178:0x3860, B:174:0x3844, B:54:0x34c5, B:56:0x34cd, B:58:0x34d6, B:60:0x34e0, B:41:0x3473, B:43:0x347b, B:45:0x3483, B:47:0x348d, B:49:0x3495, B:79:0x3563, B:125:0x3671, B:126:0x3676), top: B:221:0x344c }] */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x37b2  */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x37bf A[Catch: Exception -> 0x397d, TryCatch #2 {Exception -> 0x397d, blocks: (B:38:0x344c, B:40:0x3464, B:51:0x34a7, B:53:0x34b5, B:61:0x34e2, B:63:0x34e6, B:65:0x34ee, B:66:0x3500, B:67:0x350c, B:69:0x3512, B:71:0x351c, B:73:0x3520, B:75:0x354e, B:77:0x3552, B:147:0x3790, B:149:0x3796, B:150:0x379f, B:152:0x37a3, B:154:0x37ab, B:156:0x37af, B:158:0x37b3, B:159:0x37b5, B:161:0x37bf, B:132:0x3688, B:135:0x36a7, B:136:0x36af, B:138:0x36bb, B:140:0x36c7, B:144:0x36d3, B:146:0x3778, B:141:0x36cd, B:166:0x37d5, B:167:0x37db, B:171:0x37e6, B:173:0x383d, B:175:0x384b, B:177:0x3859, B:179:0x3867, B:178:0x3860, B:174:0x3844, B:54:0x34c5, B:56:0x34cd, B:58:0x34d6, B:60:0x34e0, B:41:0x3473, B:43:0x347b, B:45:0x3483, B:47:0x348d, B:49:0x3495, B:79:0x3563, B:125:0x3671, B:126:0x3676), top: B:221:0x344c }] */
-    /* JADX WARN: Removed duplicated region for block: B:232:0x37c9 A[SYNTHETIC] */
-    /* JADX WARN: Type inference failed for: r2v73, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r2v83 */
-    /* JADX WARN: Type inference failed for: r2v86 */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x388c A[Catch: Exception -> 0x3a72, TryCatch #4 {Exception -> 0x3a72, blocks: (B:38:0x3543, B:40:0x355b, B:51:0x359e, B:53:0x35ac, B:61:0x35d9, B:63:0x35dd, B:65:0x35e5, B:66:0x35f7, B:67:0x3603, B:69:0x3609, B:71:0x3613, B:73:0x3617, B:75:0x3645, B:77:0x3649, B:147:0x3886, B:149:0x388c, B:150:0x3895, B:152:0x3899, B:154:0x38a1, B:156:0x38a5, B:158:0x38a9, B:159:0x38ab, B:161:0x38b5, B:132:0x377e, B:135:0x379d, B:136:0x37a5, B:138:0x37b1, B:140:0x37bd, B:144:0x37c9, B:146:0x386e, B:141:0x37c3, B:166:0x38ca, B:167:0x38d0, B:171:0x38db, B:173:0x3932, B:175:0x3940, B:177:0x394e, B:179:0x395c, B:178:0x3955, B:174:0x3939, B:54:0x35bc, B:56:0x35c4, B:58:0x35cd, B:60:0x35d7, B:41:0x356a, B:43:0x3572, B:45:0x357a, B:47:0x3584, B:49:0x358c, B:79:0x365a, B:125:0x3767, B:126:0x376c), top: B:223:0x3543 }] */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x38a5 A[Catch: Exception -> 0x3a72, TryCatch #4 {Exception -> 0x3a72, blocks: (B:38:0x3543, B:40:0x355b, B:51:0x359e, B:53:0x35ac, B:61:0x35d9, B:63:0x35dd, B:65:0x35e5, B:66:0x35f7, B:67:0x3603, B:69:0x3609, B:71:0x3613, B:73:0x3617, B:75:0x3645, B:77:0x3649, B:147:0x3886, B:149:0x388c, B:150:0x3895, B:152:0x3899, B:154:0x38a1, B:156:0x38a5, B:158:0x38a9, B:159:0x38ab, B:161:0x38b5, B:132:0x377e, B:135:0x379d, B:136:0x37a5, B:138:0x37b1, B:140:0x37bd, B:144:0x37c9, B:146:0x386e, B:141:0x37c3, B:166:0x38ca, B:167:0x38d0, B:171:0x38db, B:173:0x3932, B:175:0x3940, B:177:0x394e, B:179:0x395c, B:178:0x3955, B:174:0x3939, B:54:0x35bc, B:56:0x35c4, B:58:0x35cd, B:60:0x35d7, B:41:0x356a, B:43:0x3572, B:45:0x357a, B:47:0x3584, B:49:0x358c, B:79:0x365a, B:125:0x3767, B:126:0x376c), top: B:223:0x3543 }] */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x38a8  */
+    /* JADX WARN: Removed duplicated region for block: B:161:0x38b5 A[Catch: Exception -> 0x3a72, TryCatch #4 {Exception -> 0x3a72, blocks: (B:38:0x3543, B:40:0x355b, B:51:0x359e, B:53:0x35ac, B:61:0x35d9, B:63:0x35dd, B:65:0x35e5, B:66:0x35f7, B:67:0x3603, B:69:0x3609, B:71:0x3613, B:73:0x3617, B:75:0x3645, B:77:0x3649, B:147:0x3886, B:149:0x388c, B:150:0x3895, B:152:0x3899, B:154:0x38a1, B:156:0x38a5, B:158:0x38a9, B:159:0x38ab, B:161:0x38b5, B:132:0x377e, B:135:0x379d, B:136:0x37a5, B:138:0x37b1, B:140:0x37bd, B:144:0x37c9, B:146:0x386e, B:141:0x37c3, B:166:0x38ca, B:167:0x38d0, B:171:0x38db, B:173:0x3932, B:175:0x3940, B:177:0x394e, B:179:0x395c, B:178:0x3955, B:174:0x3939, B:54:0x35bc, B:56:0x35c4, B:58:0x35cd, B:60:0x35d7, B:41:0x356a, B:43:0x3572, B:45:0x357a, B:47:0x3584, B:49:0x358c, B:79:0x365a, B:125:0x3767, B:126:0x376c), top: B:223:0x3543 }] */
+    /* JADX WARN: Removed duplicated region for block: B:232:0x38bf A[SYNTHETIC] */
+    /* JADX WARN: Type inference failed for: r2v832, types: [boolean] */
+    /* JADX WARN: Type inference failed for: r2v842 */
+    /* JADX WARN: Type inference failed for: r2v845 */
     static {
         ThemeInfo themeInfo;
         ThemeInfo themeInfo2;
-        ThemeInfo themeInfo3;
         Iterator<ThemeInfo> it;
-        ThemeInfo themeInfo4;
+        String str;
         boolean z;
         SparseArray<ThemeAccent> sparseArray;
         ThemeAccent accent;
         boolean z2;
         Iterator<ThemeInfo> it2;
-        ThemeInfo themeInfo5;
+        String str2;
         SerializedData serializedData;
         int i;
         selectedAutoNightType = 0;
@@ -3385,9 +3390,12 @@ public class Theme {
         autoNightSunsetTime = 1320;
         autoNightLastSunCheckDay = -1;
         autoNightSunriseTime = 480;
+        String str3 = "";
         autoNightCityName = "";
         autoNightLocationLatitude = 10000.0d;
         autoNightLocationLongitude = 10000.0d;
+        String[] strArr = {"color_lightblue", "color_blue", "color_green", "color_lightgreen", "color_red", "color_orange", "color_yellow", "color_purple", "color_cyan"};
+        keys_colors = strArr;
         new HashSet();
         defaultColors = new HashMap<>();
         fallbackKeys = new HashMap<>();
@@ -4086,6 +4094,15 @@ public class Theme {
         defaultColors.put("statisticChartLine_cyan", -12529462);
         defaultColors.put("statisticChartLineEmpty", -1118482);
         defaultColors.put("actionBarTipBackground", -12292204);
+        defaultColors.put("color_blue", -13467675);
+        defaultColors.put("color_green", -10369198);
+        defaultColors.put("color_red", -2075818);
+        defaultColors.put("color_yellow", -1333971);
+        defaultColors.put("color_lightblue", -10966803);
+        defaultColors.put("color_lightgreen", -7352519);
+        defaultColors.put("color_orange", -881607);
+        defaultColors.put("color_purple", -6325784);
+        defaultColors.put("color_cyan", -12529462);
         defaultColors.put("voipgroup_checkMenu", -9718023);
         defaultColors.put("voipgroup_muteButton", -8919716);
         defaultColors.put("voipgroup_muteButton2", -8528726);
@@ -4324,9 +4341,18 @@ public class Theme {
         fallbackKeys.put("avatar_background2Cyan", "avatar_backgroundCyan");
         fallbackKeys.put("avatar_background2Blue", "avatar_backgroundBlue");
         fallbackKeys.put("avatar_background2Pink", "avatar_backgroundPink");
+        fallbackKeys.put("statisticChartLine_orange", "color_orange");
+        fallbackKeys.put("statisticChartLine_blue", "color_blue");
+        fallbackKeys.put("statisticChartLine_red", "color_red");
+        fallbackKeys.put("statisticChartLine_lightblue", "color_lightblue");
+        fallbackKeys.put("statisticChartLine_golden", "color_yellow");
+        fallbackKeys.put("statisticChartLine_purple", "color_purple");
+        fallbackKeys.put("statisticChartLine_indigo", "color_purple");
+        fallbackKeys.put("statisticChartLine_cyan", "color_cyan");
         themeAccentExclusionKeys.addAll(Arrays.asList(keys_avatar_background));
         themeAccentExclusionKeys.addAll(Arrays.asList(keys_avatar_background2));
         themeAccentExclusionKeys.addAll(Arrays.asList(keys_avatar_nameInMessage));
+        themeAccentExclusionKeys.addAll(Arrays.asList(strArr));
         themeAccentExclusionKeys.add("chat_attachFileBackground");
         themeAccentExclusionKeys.add("chat_attachGalleryBackground");
         themeAccentExclusionKeys.add("chat_attachFileText");
@@ -4487,70 +4513,70 @@ public class Theme {
         currentColorsNoAccent = new HashMap<>();
         currentColors = new HashMap<>();
         SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0);
-        ThemeInfo themeInfo6 = new ThemeInfo();
-        themeInfo6.name = "Blue";
-        themeInfo6.assetName = "bluebubbles.attheme";
-        themeInfo6.previewBackgroundColor = -6963476;
-        themeInfo6.previewInColor = -1;
-        themeInfo6.previewOutColor = -3086593;
-        themeInfo6.firstAccentIsDefault = true;
-        themeInfo6.currentAccentId = DEFALT_THEME_ACCENT_ID;
-        themeInfo6.sortIndex = 1;
-        themeInfo6.setAccentColorOptions(new int[]{-10972987, -14444461, -3252606, -8428605, -14380627, -14050257, -7842636, -13464881, -12342073, -11359164, -3317869, -2981834, -8165684, -3256745, -2904512, -8681301}, new int[]{-4660851, -328756, -1572, -4108434, -3031781, -1335, -198952, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, -853047, -264993, 0, 0, -135756, -198730, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, -2104672, -937328, -2637335, -2639714, -1270157, -3428124, -6570777, -7223828, -6567550, -1793599, -1855875, -4674838, -1336199, -2900876, -6247730}, new int[]{0, -4532067, -1257580, -1524266, -1646910, -1519483, -1324823, -4138509, -4202516, -2040429, -1458474, -1256030, -3814930, -1000039, -1450082, -3485987}, new int[]{0, -1909081, -1592444, -2969879, -2439762, -1137033, -2119471, -6962197, -4857383, -4270699, -3364639, -2117514, -5000734, -1598028, -2045813, -5853742}, new int[]{0, -6371440, -1319256, -1258616, -1712961, -1186647, -1193816, -4467224, -4203544, -3023977, -1061929, -1255788, -2113811, -806526, -1715305, -3485976}, new int[]{99, 9, 10, 11, 12, 13, 14, 0, 1, 2, 3, 4, 5, 6, 7, 8}, new String[]{"", "p-pXcflrmFIBAAAAvXYQk-mCwZU", "JqSUrO0-mFIBAAAAWwTvLzoWGQI", "O-wmAfBPSFADAAAA4zINVfD_bro", "RepJ5uE_SVABAAAAr4d0YhgB850", "-Xc-np9y2VMCAAAARKr0yNNPYW0", "fqv01SQemVIBAAAApND8LDRUhRU", "fqv01SQemVIBAAAApND8LDRUhRU", "RepJ5uE_SVABAAAAr4d0YhgB850", "lp0prF8ISFAEAAAA_p385_CvG0w", "heptcj-hSVACAAAAC9RrMzOa-cs", "PllZ-bf_SFAEAAAA8crRfwZiDNg", "dhf9pceaQVACAAAAbzdVo4SCiZA", "Ujx2TFcJSVACAAAARJ4vLa50MkM", "p-pXcflrmFIBAAAAvXYQk-mCwZU", "dk_wwlghOFACAAAAfz9xrxi6euw"}, new int[]{0, 180, 45, 0, 45, 180, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 52, 46, 57, 45, 64, 52, 35, 36, 41, 50, 50, 35, 38, 37, 30});
-        sortAccents(themeInfo6);
+        ThemeInfo themeInfo3 = new ThemeInfo();
+        themeInfo3.name = "Blue";
+        themeInfo3.assetName = "bluebubbles.attheme";
+        themeInfo3.previewBackgroundColor = -6963476;
+        themeInfo3.previewInColor = -1;
+        themeInfo3.previewOutColor = -3086593;
+        themeInfo3.firstAccentIsDefault = true;
+        themeInfo3.currentAccentId = DEFALT_THEME_ACCENT_ID;
+        themeInfo3.sortIndex = 1;
+        themeInfo3.setAccentColorOptions(new int[]{-10972987, -14444461, -3252606, -8428605, -14380627, -14050257, -7842636, -13464881, -12342073, -11359164, -3317869, -2981834, -8165684, -3256745, -2904512, -8681301}, new int[]{-4660851, -328756, -1572, -4108434, -3031781, -1335, -198952, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, -853047, -264993, 0, 0, -135756, -198730, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, -2104672, -937328, -2637335, -2639714, -1270157, -3428124, -6570777, -7223828, -6567550, -1793599, -1855875, -4674838, -1336199, -2900876, -6247730}, new int[]{0, -4532067, -1257580, -1524266, -1646910, -1519483, -1324823, -4138509, -4202516, -2040429, -1458474, -1256030, -3814930, -1000039, -1450082, -3485987}, new int[]{0, -1909081, -1592444, -2969879, -2439762, -1137033, -2119471, -6962197, -4857383, -4270699, -3364639, -2117514, -5000734, -1598028, -2045813, -5853742}, new int[]{0, -6371440, -1319256, -1258616, -1712961, -1186647, -1193816, -4467224, -4203544, -3023977, -1061929, -1255788, -2113811, -806526, -1715305, -3485976}, new int[]{99, 9, 10, 11, 12, 13, 14, 0, 1, 2, 3, 4, 5, 6, 7, 8}, new String[]{"", "p-pXcflrmFIBAAAAvXYQk-mCwZU", "JqSUrO0-mFIBAAAAWwTvLzoWGQI", "O-wmAfBPSFADAAAA4zINVfD_bro", "RepJ5uE_SVABAAAAr4d0YhgB850", "-Xc-np9y2VMCAAAARKr0yNNPYW0", "fqv01SQemVIBAAAApND8LDRUhRU", "fqv01SQemVIBAAAApND8LDRUhRU", "RepJ5uE_SVABAAAAr4d0YhgB850", "lp0prF8ISFAEAAAA_p385_CvG0w", "heptcj-hSVACAAAAC9RrMzOa-cs", "PllZ-bf_SFAEAAAA8crRfwZiDNg", "dhf9pceaQVACAAAAbzdVo4SCiZA", "Ujx2TFcJSVACAAAARJ4vLa50MkM", "p-pXcflrmFIBAAAAvXYQk-mCwZU", "dk_wwlghOFACAAAAfz9xrxi6euw"}, new int[]{0, 180, 45, 0, 45, 180, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 52, 46, 57, 45, 64, 52, 35, 36, 41, 50, 50, 35, 38, 37, 30});
+        sortAccents(themeInfo3);
         ArrayList<ThemeInfo> arrayList = themes;
-        defaultTheme = themeInfo6;
-        currentTheme = themeInfo6;
-        currentDayTheme = themeInfo6;
-        arrayList.add(themeInfo6);
-        themesDict.put("Blue", themeInfo6);
+        defaultTheme = themeInfo3;
+        currentTheme = themeInfo3;
+        currentDayTheme = themeInfo3;
+        arrayList.add(themeInfo3);
+        themesDict.put("Blue", themeInfo3);
+        ThemeInfo themeInfo4 = new ThemeInfo();
+        themeInfo4.name = "Dark Blue";
+        themeInfo4.assetName = "darkblue.attheme";
+        themeInfo4.previewBackgroundColor = -10523006;
+        themeInfo4.previewInColor = -9009508;
+        themeInfo4.previewOutColor = -8214301;
+        themeInfo4.sortIndex = 3;
+        themeInfo4.setAccentColorOptions(new int[]{-7177260, -9860357, -14440464, -8687151, -9848491, -14053142, -9403671, -10044691, -13203974, -12138259, -10179489, -1344335, -1142742, -6127120, -2931932, -1131212, -8417365, -13270557}, new int[]{-6464359, -10267323, -13532789, -5413850, -11898828, -13410942, -13215889, -10914461, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-10465880, -9937588, -14983040, -6736562, -14197445, -13534568, -13144441, -10587280, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-14213586, -15263198, -16310753, -15724781, -15853551, -16051428, -14868183, -14668758, -15854566, -15326427, -15327979, -14411490, -14345453, -14738135, -14543346, -14212843, -15263205, -15854566}, new int[]{-15659501, -14277074, -15459034, -14542297, -14735336, -15129808, -15591910, -15459810, -15260623, -15853800, -15259879, -14477540, -14674936, -15461604, -13820650, -15067635, -14605528, -15260623}, new int[]{-13951445, -15395557, -15985382, -15855853, -16050417, -15525854, -15260627, -15327189, -15788258, -14799314, -15458796, -13952727, -13754603, -14081231, -14478324, -14081004, -15197667, -15788258}, new int[]{-15330777, -15066858, -15915220, -14213847, -15262439, -15260879, -15657695, -16443625, -15459285, -15589601, -14932454, -14740451, -15002870, -15264997, -13821660, -14805234, -14605784, -15459285}, new int[]{11, 12, 13, 14, 15, 16, 17, 18, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, new String[]{"O-wmAfBPSFADAAAA4zINVfD_bro", "RepJ5uE_SVABAAAAr4d0YhgB850", "dk_wwlghOFACAAAAfz9xrxi6euw", "9LW_RcoOSVACAAAAFTk3DTyXN-M", "PllZ-bf_SFAEAAAA8crRfwZiDNg", "-Xc-np9y2VMCAAAARKr0yNNPYW0", "kO4jyq55SFABAAAA0WEpcLfahXk", "CJNyxPMgSVAEAAAAvW9sMwc51cw", "fqv01SQemVIBAAAApND8LDRUhRU", "RepJ5uE_SVABAAAAr4d0YhgB850", "CJNyxPMgSVAEAAAAvW9sMwc51cw", "9LW_RcoOSVACAAAAFTk3DTyXN-M", "9GcNVISdSVADAAAAUcw5BYjELW4", "F5oWoCs7QFACAAAAgf2bD_mg8Bw", "9ShF73d1MFIIAAAAjWnm8_ZMe8Q", "3rX-PaKbSFACAAAAEiHNvcEm6X4", "dk_wwlghOFACAAAAfz9xrxi6euw", "fqv01SQemVIBAAAApND8LDRUhRU"}, new int[]{225, 45, 225, 135, 45, 225, 45, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{40, 40, 31, 50, 25, 34, 35, 35, 38, 29, 24, 34, 34, 31, 29, 37, 21, 38});
+        sortAccents(themeInfo4);
+        themes.add(themeInfo4);
+        HashMap<String, ThemeInfo> hashMap2 = themesDict;
+        currentNightTheme = themeInfo4;
+        hashMap2.put("Dark Blue", themeInfo4);
+        ThemeInfo themeInfo5 = new ThemeInfo();
+        themeInfo5.name = "Arctic Blue";
+        themeInfo5.assetName = "arctic.attheme";
+        themeInfo5.previewBackgroundColor = -1971728;
+        themeInfo5.previewInColor = -1;
+        themeInfo5.previewOutColor = -9657877;
+        themeInfo5.sortIndex = 5;
+        themeInfo5.setAccentColorOptions(new int[]{-12537374, -12472227, -3240928, -11033621, -2194124, -3382903, -13332245, -12342073, -11359164, -3317869, -2981834, -8165684, -3256745, -2904512, -8681301}, new int[]{-13525046, -14113959, -7579073, -13597229, -3581840, -8883763, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-11616542, -9716647, -6400452, -12008744, -2592697, -4297041, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-3808528, -2433367, -2700891, -1838093, -1120848, -1712148, -2037779, -4202261, -4005713, -1058332, -925763, -1975316, -1189672, -1318451, -2302235}, new int[]{-1510157, -4398164, -1647697, -3610898, -1130838, -1980692, -4270093, -4202261, -3415654, -1259815, -1521765, -4341268, -1127744, -1318219, -3945761}, new int[]{-4924688, -3283031, -1523567, -2494477, -1126510, -595210, -2037517, -3478548, -4661623, -927514, -796762, -2696971, -1188403, -1319735, -1577487}, new int[]{-3149585, -5714021, -1978209, -4925720, -1134713, -1718833, -3613709, -5317397, -3218014, -999207, -2116466, -4343054, -931397, -1583186, -3815718}, new int[]{9, 10, 11, 12, 13, 14, 0, 1, 2, 3, 4, 5, 6, 7, 8}, new String[]{"MIo6r0qGSFAFAAAAtL8TsDzNX60", "dhf9pceaQVACAAAAbzdVo4SCiZA", "fqv01SQemVIBAAAApND8LDRUhRU", "p-pXcflrmFIBAAAAvXYQk-mCwZU", "JqSUrO0-mFIBAAAAWwTvLzoWGQI", "F5oWoCs7QFACAAAAgf2bD_mg8Bw", "fqv01SQemVIBAAAApND8LDRUhRU", "RepJ5uE_SVABAAAAr4d0YhgB850", "PllZ-bf_SFAEAAAA8crRfwZiDNg", "pgJfpFNRSFABAAAACDT8s5sEjfc", "ptuUd96JSFACAAAATobI23sPpz0", "dhf9pceaQVACAAAAbzdVo4SCiZA", "JqSUrO0-mFIBAAAAWwTvLzoWGQI", "9iklpvIPQVABAAAAORQXKur_Eyc", "F5oWoCs7QFACAAAAgf2bD_mg8Bw"}, new int[]{315, 315, 225, 315, 0, 180, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{50, 50, 58, 47, 46, 50, 49, 46, 51, 50, 49, 34, 54, 50, 40});
+        sortAccents(themeInfo5);
+        themes.add(themeInfo5);
+        themesDict.put("Arctic Blue", themeInfo5);
+        ThemeInfo themeInfo6 = new ThemeInfo();
+        themeInfo6.name = "Day";
+        themeInfo6.assetName = "day.attheme";
+        themeInfo6.previewBackgroundColor = -1;
+        themeInfo6.previewInColor = -1315084;
+        themeInfo6.previewOutColor = -8604930;
+        themeInfo6.sortIndex = 2;
+        themeInfo6.setAccentColorOptions(new int[]{-11099447, -3379581, -3109305, -3382174, -7963438, -11759137, -11029287, -11226775, -2506945, -3382174, -3379581, -6587438, -2649788, -8681301}, new int[]{-10125092, -9671214, -3451775, -3978678, -10711329, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-12664362, -3642988, -2383569, -3109317, -11422261, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, null, null, new int[]{9, 10, 11, 12, 13, 0, 1, 2, 3, 4, 5, 6, 7, 8}, new String[]{"", "", "", "", "", "", "", "", "", "", "", "", "", ""}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+        sortAccents(themeInfo6);
+        themes.add(themeInfo6);
+        themesDict.put("Day", themeInfo6);
         ThemeInfo themeInfo7 = new ThemeInfo();
-        themeInfo7.name = "Dark Blue";
-        themeInfo7.assetName = "darkblue.attheme";
-        themeInfo7.previewBackgroundColor = -10523006;
-        themeInfo7.previewInColor = -9009508;
-        themeInfo7.previewOutColor = -8214301;
-        themeInfo7.sortIndex = 3;
-        themeInfo7.setAccentColorOptions(new int[]{-7177260, -9860357, -14440464, -8687151, -9848491, -14053142, -9403671, -10044691, -13203974, -12138259, -10179489, -1344335, -1142742, -6127120, -2931932, -1131212, -8417365, -13270557}, new int[]{-6464359, -10267323, -13532789, -5413850, -11898828, -13410942, -13215889, -10914461, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-10465880, -9937588, -14983040, -6736562, -14197445, -13534568, -13144441, -10587280, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-14213586, -15263198, -16310753, -15724781, -15853551, -16051428, -14868183, -14668758, -15854566, -15326427, -15327979, -14411490, -14345453, -14738135, -14543346, -14212843, -15263205, -15854566}, new int[]{-15659501, -14277074, -15459034, -14542297, -14735336, -15129808, -15591910, -15459810, -15260623, -15853800, -15259879, -14477540, -14674936, -15461604, -13820650, -15067635, -14605528, -15260623}, new int[]{-13951445, -15395557, -15985382, -15855853, -16050417, -15525854, -15260627, -15327189, -15788258, -14799314, -15458796, -13952727, -13754603, -14081231, -14478324, -14081004, -15197667, -15788258}, new int[]{-15330777, -15066858, -15915220, -14213847, -15262439, -15260879, -15657695, -16443625, -15459285, -15589601, -14932454, -14740451, -15002870, -15264997, -13821660, -14805234, -14605784, -15459285}, new int[]{11, 12, 13, 14, 15, 16, 17, 18, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, new String[]{"O-wmAfBPSFADAAAA4zINVfD_bro", "RepJ5uE_SVABAAAAr4d0YhgB850", "dk_wwlghOFACAAAAfz9xrxi6euw", "9LW_RcoOSVACAAAAFTk3DTyXN-M", "PllZ-bf_SFAEAAAA8crRfwZiDNg", "-Xc-np9y2VMCAAAARKr0yNNPYW0", "kO4jyq55SFABAAAA0WEpcLfahXk", "CJNyxPMgSVAEAAAAvW9sMwc51cw", "fqv01SQemVIBAAAApND8LDRUhRU", "RepJ5uE_SVABAAAAr4d0YhgB850", "CJNyxPMgSVAEAAAAvW9sMwc51cw", "9LW_RcoOSVACAAAAFTk3DTyXN-M", "9GcNVISdSVADAAAAUcw5BYjELW4", "F5oWoCs7QFACAAAAgf2bD_mg8Bw", "9ShF73d1MFIIAAAAjWnm8_ZMe8Q", "3rX-PaKbSFACAAAAEiHNvcEm6X4", "dk_wwlghOFACAAAAfz9xrxi6euw", "fqv01SQemVIBAAAApND8LDRUhRU"}, new int[]{225, 45, 225, 135, 45, 225, 45, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{40, 40, 31, 50, 25, 34, 35, 35, 38, 29, 24, 34, 34, 31, 29, 37, 21, 38});
+        themeInfo7.name = "Night";
+        themeInfo7.assetName = "night.attheme";
+        themeInfo7.previewBackgroundColor = -11315623;
+        themeInfo7.previewInColor = -9143676;
+        themeInfo7.previewOutColor = -9067802;
+        themeInfo7.sortIndex = 4;
+        themeInfo7.setAccentColorOptions(new int[]{-9781697, -7505693, -2204034, -10913816, -2375398, -12678921, -11881005, -11880383, -2534026, -1934037, -7115558, -3128522, -1528292, -8812381}, new int[]{-7712108, -4953061, -5288081, -14258547, -9154889, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-9939525, -5948598, -10335844, -13659747, -14054507, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-15330532, -14806760, -15791344, -16184308, -16313063, -15921641, -15656164, -15986420, -15856883, -14871025, -16185078, -14937584, -14869736, -15855598}, new int[]{-14673881, -15724781, -15002342, -15458526, -15987697, -16184820, -16118258, -16250616, -15067624, -15527923, -14804447, -15790836, -15987960, -16316665}, new int[]{-15856877, -14608861, -15528430, -15921391, -15722209, -15197144, -15458015, -15591406, -15528431, -15068401, -16053749, -15594229, -15395825, -15724012}, new int[]{-14804694, -15658986, -14609382, -15656421, -16118509, -15855854, -16315381, -16052981, -14544354, -15791092, -15659241, -16316922, -15988214, -16185077}, new int[]{9, 10, 11, 12, 13, 0, 1, 2, 3, 4, 5, 6, 7, 8}, new String[]{"YIxYGEALQVADAAAAA3QbEH0AowY", "9LW_RcoOSVACAAAAFTk3DTyXN-M", "O-wmAfBPSFADAAAA4zINVfD_bro", "F5oWoCs7QFACAAAAgf2bD_mg8Bw", "-Xc-np9y2VMCAAAARKr0yNNPYW0", "fqv01SQemVIBAAAApND8LDRUhRU", "F5oWoCs7QFACAAAAgf2bD_mg8Bw", "ptuUd96JSFACAAAATobI23sPpz0", "p-pXcflrmFIBAAAAvXYQk-mCwZU", "Nl8Pg2rBQVACAAAA25Lxtb8SDp0", "dhf9pceaQVACAAAAbzdVo4SCiZA", "9GcNVISdSVADAAAAUcw5BYjELW4", "9LW_RcoOSVACAAAAFTk3DTyXN-M", "dk_wwlghOFACAAAAfz9xrxi6euw"}, new int[]{45, 135, 0, 180, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{34, 47, 52, 48, 54, 50, 37, 56, 48, 49, 40, 64, 38, 48});
         sortAccents(themeInfo7);
         themes.add(themeInfo7);
-        HashMap<String, ThemeInfo> hashMap2 = themesDict;
-        currentNightTheme = themeInfo7;
-        hashMap2.put("Dark Blue", themeInfo7);
-        ThemeInfo themeInfo8 = new ThemeInfo();
-        themeInfo8.name = "Arctic Blue";
-        themeInfo8.assetName = "arctic.attheme";
-        themeInfo8.previewBackgroundColor = -1971728;
-        themeInfo8.previewInColor = -1;
-        themeInfo8.previewOutColor = -9657877;
-        themeInfo8.sortIndex = 5;
-        themeInfo8.setAccentColorOptions(new int[]{-12537374, -12472227, -3240928, -11033621, -2194124, -3382903, -13332245, -12342073, -11359164, -3317869, -2981834, -8165684, -3256745, -2904512, -8681301}, new int[]{-13525046, -14113959, -7579073, -13597229, -3581840, -8883763, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-11616542, -9716647, -6400452, -12008744, -2592697, -4297041, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-3808528, -2433367, -2700891, -1838093, -1120848, -1712148, -2037779, -4202261, -4005713, -1058332, -925763, -1975316, -1189672, -1318451, -2302235}, new int[]{-1510157, -4398164, -1647697, -3610898, -1130838, -1980692, -4270093, -4202261, -3415654, -1259815, -1521765, -4341268, -1127744, -1318219, -3945761}, new int[]{-4924688, -3283031, -1523567, -2494477, -1126510, -595210, -2037517, -3478548, -4661623, -927514, -796762, -2696971, -1188403, -1319735, -1577487}, new int[]{-3149585, -5714021, -1978209, -4925720, -1134713, -1718833, -3613709, -5317397, -3218014, -999207, -2116466, -4343054, -931397, -1583186, -3815718}, new int[]{9, 10, 11, 12, 13, 14, 0, 1, 2, 3, 4, 5, 6, 7, 8}, new String[]{"MIo6r0qGSFAFAAAAtL8TsDzNX60", "dhf9pceaQVACAAAAbzdVo4SCiZA", "fqv01SQemVIBAAAApND8LDRUhRU", "p-pXcflrmFIBAAAAvXYQk-mCwZU", "JqSUrO0-mFIBAAAAWwTvLzoWGQI", "F5oWoCs7QFACAAAAgf2bD_mg8Bw", "fqv01SQemVIBAAAApND8LDRUhRU", "RepJ5uE_SVABAAAAr4d0YhgB850", "PllZ-bf_SFAEAAAA8crRfwZiDNg", "pgJfpFNRSFABAAAACDT8s5sEjfc", "ptuUd96JSFACAAAATobI23sPpz0", "dhf9pceaQVACAAAAbzdVo4SCiZA", "JqSUrO0-mFIBAAAAWwTvLzoWGQI", "9iklpvIPQVABAAAAORQXKur_Eyc", "F5oWoCs7QFACAAAAgf2bD_mg8Bw"}, new int[]{315, 315, 225, 315, 0, 180, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{50, 50, 58, 47, 46, 50, 49, 46, 51, 50, 49, 34, 54, 50, 40});
-        sortAccents(themeInfo8);
-        themes.add(themeInfo8);
-        themesDict.put("Arctic Blue", themeInfo8);
-        ThemeInfo themeInfo9 = new ThemeInfo();
-        themeInfo9.name = "Day";
-        themeInfo9.assetName = "day.attheme";
-        themeInfo9.previewBackgroundColor = -1;
-        themeInfo9.previewInColor = -1315084;
-        themeInfo9.previewOutColor = -8604930;
-        themeInfo9.sortIndex = 2;
-        themeInfo9.setAccentColorOptions(new int[]{-11099447, -3379581, -3109305, -3382174, -7963438, -11759137, -11029287, -11226775, -2506945, -3382174, -3379581, -6587438, -2649788, -8681301}, new int[]{-10125092, -9671214, -3451775, -3978678, -10711329, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-12664362, -3642988, -2383569, -3109317, -11422261, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, null, null, new int[]{9, 10, 11, 12, 13, 0, 1, 2, 3, 4, 5, 6, 7, 8}, new String[]{"", "", "", "", "", "", "", "", "", "", "", "", "", ""}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-        sortAccents(themeInfo9);
-        themes.add(themeInfo9);
-        themesDict.put("Day", themeInfo9);
-        ThemeInfo themeInfo10 = new ThemeInfo();
-        themeInfo10.name = "Night";
-        themeInfo10.assetName = "night.attheme";
-        themeInfo10.previewBackgroundColor = -11315623;
-        themeInfo10.previewInColor = -9143676;
-        themeInfo10.previewOutColor = -9067802;
-        themeInfo10.sortIndex = 4;
-        themeInfo10.setAccentColorOptions(new int[]{-9781697, -7505693, -2204034, -10913816, -2375398, -12678921, -11881005, -11880383, -2534026, -1934037, -7115558, -3128522, -1528292, -8812381}, new int[]{-7712108, -4953061, -5288081, -14258547, -9154889, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-9939525, -5948598, -10335844, -13659747, -14054507, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-15330532, -14806760, -15791344, -16184308, -16313063, -15921641, -15656164, -15986420, -15856883, -14871025, -16185078, -14937584, -14869736, -15855598}, new int[]{-14673881, -15724781, -15002342, -15458526, -15987697, -16184820, -16118258, -16250616, -15067624, -15527923, -14804447, -15790836, -15987960, -16316665}, new int[]{-15856877, -14608861, -15528430, -15921391, -15722209, -15197144, -15458015, -15591406, -15528431, -15068401, -16053749, -15594229, -15395825, -15724012}, new int[]{-14804694, -15658986, -14609382, -15656421, -16118509, -15855854, -16315381, -16052981, -14544354, -15791092, -15659241, -16316922, -15988214, -16185077}, new int[]{9, 10, 11, 12, 13, 0, 1, 2, 3, 4, 5, 6, 7, 8}, new String[]{"YIxYGEALQVADAAAAA3QbEH0AowY", "9LW_RcoOSVACAAAAFTk3DTyXN-M", "O-wmAfBPSFADAAAA4zINVfD_bro", "F5oWoCs7QFACAAAAgf2bD_mg8Bw", "-Xc-np9y2VMCAAAARKr0yNNPYW0", "fqv01SQemVIBAAAApND8LDRUhRU", "F5oWoCs7QFACAAAAgf2bD_mg8Bw", "ptuUd96JSFACAAAATobI23sPpz0", "p-pXcflrmFIBAAAAvXYQk-mCwZU", "Nl8Pg2rBQVACAAAA25Lxtb8SDp0", "dhf9pceaQVACAAAAbzdVo4SCiZA", "9GcNVISdSVADAAAAUcw5BYjELW4", "9LW_RcoOSVACAAAAFTk3DTyXN-M", "dk_wwlghOFACAAAAfz9xrxi6euw"}, new int[]{45, 135, 0, 180, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{34, 47, 52, 48, 54, 50, 37, 56, 48, 49, 40, 64, 38, 48});
-        sortAccents(themeInfo10);
-        themes.add(themeInfo10);
-        themesDict.put("Night", themeInfo10);
-        String str = null;
+        themesDict.put("Night", themeInfo7);
+        String str4 = null;
         String string = sharedPreferences.getString("themes2", null);
         if (sharedPreferences.getInt("remote_version", 0) == 1) {
             int i2 = 0;
@@ -4587,8 +4613,8 @@ public class Theme {
         } else {
             String string2 = sharedPreferences.getString("themes", null);
             if (!TextUtils.isEmpty(string2)) {
-                for (String str2 : string2.split("&")) {
-                    ThemeInfo createWithString = ThemeInfo.createWithString(str2);
+                for (String str5 : string2.split("&")) {
+                    ThemeInfo createWithString = ThemeInfo.createWithString(str5);
                     if (createWithString != null) {
                         otherThemes.add(createWithString);
                         themes.add(createWithString);
@@ -4602,14 +4628,14 @@ public class Theme {
         sortThemes();
         SharedPreferences globalMainSettings = MessagesController.getGlobalMainSettings();
         try {
-            ThemeInfo themeInfo11 = themesDict.get("Dark Blue");
+            ThemeInfo themeInfo8 = themesDict.get("Dark Blue");
             String string3 = globalMainSettings.getString("theme", null);
             if ("Default".equals(string3)) {
                 themeInfo = themesDict.get("Blue");
                 themeInfo.currentAccentId = DEFALT_THEME_ACCENT_ID;
             } else if ("Dark".equals(string3)) {
-                themeInfo11.currentAccentId = 9;
-                themeInfo = themeInfo11;
+                themeInfo8.currentAccentId = 9;
+                themeInfo = themeInfo8;
             } else if (string3 != null) {
                 themeInfo = themesDict.get(string3);
                 if (themeInfo != null && !sharedPreferences.contains("lastDayTheme")) {
@@ -4625,8 +4651,8 @@ public class Theme {
                 themeInfo = themesDict.get("Blue");
                 themeInfo.currentAccentId = DEFALT_THEME_ACCENT_ID;
             } else if ("Dark".equals(string4)) {
-                currentNightTheme = themeInfo11;
-                themeInfo11.currentAccentId = 9;
+                currentNightTheme = themeInfo8;
+                themeInfo8.currentAccentId = 9;
             } else if (string4 != null && (themeInfo2 = themesDict.get(string4)) != null) {
                 currentNightTheme = themeInfo2;
             }
@@ -4642,9 +4668,9 @@ public class Theme {
                 ThemeInfo next = it3.next();
                 if (next.assetName == null || next.accentBaseColor == 0) {
                     it = it3;
-                    themeInfo4 = themeInfo;
+                    str = str3;
                 } else {
-                    String string5 = sharedPreferences.getString("accents_" + next.assetName, str);
+                    String string5 = sharedPreferences.getString("accents_" + next.assetName, str4);
                     next.currentAccentId = sharedPreferences.getInt("accent_current_" + next.assetName, next.firstAccentIsDefault ? DEFALT_THEME_ACCENT_ID : 0);
                     ArrayList arrayList2 = new ArrayList();
                     if (!TextUtils.isEmpty(string5)) {
@@ -4677,11 +4703,11 @@ public class Theme {
                                 }
                                 if (readInt32 >= 3) {
                                     it2 = it3;
-                                    themeInfo5 = themeInfo;
+                                    str2 = str3;
                                     themeAccent.backgroundOverrideColor = serializedData3.readInt64(z2);
                                 } else {
                                     it2 = it3;
-                                    themeInfo5 = themeInfo;
+                                    str2 = str3;
                                     themeAccent.backgroundOverrideColor = serializedData3.readInt32(z2);
                                 }
                                 if (readInt32 >= 2) {
@@ -4728,7 +4754,7 @@ public class Theme {
                                 next.lastAccentId = Math.max(next.lastAccentId, themeAccent.id);
                                 i4++;
                                 serializedData3 = serializedData;
-                                themeInfo = themeInfo5;
+                                str3 = str2;
                                 it3 = it2;
                                 readInt32 = i;
                                 z3 = true;
@@ -4737,18 +4763,18 @@ public class Theme {
                             }
                         }
                         it = it3;
-                        themeInfo4 = themeInfo;
+                        str = str3;
                     } else {
                         it = it3;
-                        themeInfo4 = themeInfo;
-                        String str3 = "accent_for_" + next.assetName;
-                        int i5 = globalMainSettings.getInt(str3, 0);
+                        str = str3;
+                        String str6 = "accent_for_" + next.assetName;
+                        int i5 = globalMainSettings.getInt(str6, 0);
                         if (i5 != 0) {
                             if (editor == null) {
                                 editor = globalMainSettings.edit();
                                 editor2 = sharedPreferences.edit();
                             }
-                            editor.remove(str3);
+                            editor.remove(str6);
                             int size = next.themeAccents.size();
                             int i6 = 0;
                             while (true) {
@@ -4822,11 +4848,11 @@ public class Theme {
                     if (accent == null) {
                     }
                 }
-                themeInfo = themeInfo4;
+                str3 = str;
                 it3 = it;
-                str = null;
+                str4 = null;
             }
-            ThemeInfo themeInfo12 = themeInfo;
+            String str7 = str3;
             if (editor != null) {
                 editor.commit();
                 editor2.commit();
@@ -4838,7 +4864,7 @@ public class Theme {
             autoNightDayEndTime = globalMainSettings.getInt("autoNightDayEndTime", 480);
             autoNightSunsetTime = globalMainSettings.getInt("autoNightSunsetTime", 1320);
             autoNightSunriseTime = globalMainSettings.getInt("autoNightSunriseTime", 480);
-            autoNightCityName = globalMainSettings.getString("autoNightCityName", "");
+            autoNightCityName = globalMainSettings.getString("autoNightCityName", str7);
             long j = globalMainSettings.getLong("autoNightLocationLatitude3", 10000L);
             if (j != 10000) {
                 autoNightLocationLatitude = Double.longBitsToDouble(j);
@@ -4852,11 +4878,10 @@ public class Theme {
                 autoNightLocationLongitude = 10000.0d;
             }
             autoNightLastSunCheckDay = globalMainSettings.getInt("autoNightLastSunCheckDay", -1);
-            if (themeInfo12 == null) {
-                themeInfo3 = defaultTheme;
+            if (themeInfo == null) {
+                themeInfo = defaultTheme;
             } else {
-                currentDayTheme = themeInfo12;
-                themeInfo3 = themeInfo12;
+                currentDayTheme = themeInfo;
             }
             if (globalMainSettings.contains("overrideThemeWallpaper") || globalMainSettings.contains("selectedBackground2")) {
                 boolean z4 = globalMainSettings.getBoolean("overrideThemeWallpaper", false);
@@ -4864,11 +4889,11 @@ public class Theme {
                 if (j3 == -1 || (z4 && j3 != -2 && j3 != 1000001)) {
                     OverrideWallpaperInfo overrideWallpaperInfo = new OverrideWallpaperInfo();
                     overrideWallpaperInfo.color = globalMainSettings.getInt("selectedColor", 0);
-                    overrideWallpaperInfo.slug = globalMainSettings.getString("selectedBackgroundSlug", "");
+                    overrideWallpaperInfo.slug = globalMainSettings.getString("selectedBackgroundSlug", str7);
                     if (j3 >= -100 && j3 <= -1 && overrideWallpaperInfo.color != 0) {
                         overrideWallpaperInfo.slug = "c";
-                        overrideWallpaperInfo.fileName = "";
-                        overrideWallpaperInfo.originalFileName = "";
+                        overrideWallpaperInfo.fileName = str7;
+                        overrideWallpaperInfo.originalFileName = str7;
                     } else {
                         overrideWallpaperInfo.fileName = "wallpaper.jpg";
                         overrideWallpaperInfo.originalFileName = "wallpaper_original.jpg";
@@ -4889,9 +4914,9 @@ public class Theme {
             }
             int needSwitchToTheme = needSwitchToTheme();
             if (needSwitchToTheme == 2) {
-                themeInfo3 = currentNightTheme;
+                themeInfo = currentNightTheme;
             }
-            applyTheme(themeInfo3, false, false, needSwitchToTheme == 2);
+            applyTheme(themeInfo, false, false, needSwitchToTheme == 2);
             AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda230.INSTANCE);
             ambientSensorListener = new SensorEventListener() { // from class: org.telegram.ui.ActionBar.Theme.9
                 @Override // android.hardware.SensorEventListener
@@ -5535,6 +5560,10 @@ public class Theme {
 
         public static Drawable rect(int i, float... fArr) {
             return createRect(0, calcRippleColor(i), fArr);
+        }
+
+        public static Drawable filledRect() {
+            return filledRect(Theme.getColor("windowBackgroundWhite"), 0.0f);
         }
 
         public static Drawable filledRect(String str, float... fArr) {

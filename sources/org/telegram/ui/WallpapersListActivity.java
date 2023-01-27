@@ -511,8 +511,10 @@ public class WallpapersListActivity extends BaseFragment implements Notification
                     DialogsActivity dialogsActivity = new DialogsActivity(bundle);
                     dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.WallpapersListActivity$2$$ExternalSyntheticLambda3
                         @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                        public final void didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z) {
-                            WallpapersListActivity.2.this.lambda$onItemClick$3(dialogsActivity2, arrayList, charSequence, z);
+                        public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z) {
+                            boolean lambda$onItemClick$3;
+                            lambda$onItemClick$3 = WallpapersListActivity.2.this.lambda$onItemClick$3(dialogsActivity2, arrayList, charSequence, z);
+                            return lambda$onItemClick$3;
                         }
                     });
                     WallpapersListActivity.this.presentFragment(dialogsActivity);
@@ -615,7 +617,8 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onItemClick$3(DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z) {
+        public /* synthetic */ boolean lambda$onItemClick$3(DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z) {
+            long j;
             String url;
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < WallpapersListActivity.this.selectedWallPapers.size(); i++) {
@@ -638,35 +641,39 @@ public class WallpapersListActivity extends BaseFragment implements Notification
             if (arrayList.size() > 1 || ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId == UserConfig.getInstance(((BaseFragment) WallpapersListActivity.this).currentAccount).getClientUserId() || charSequence != null) {
                 WallpapersListActivity.this.updateRowsSelection();
                 for (int i2 = 0; i2 < arrayList.size(); i2++) {
-                    long j = ((MessagesStorage.TopicKey) arrayList.get(i2)).dialogId;
+                    long j2 = ((MessagesStorage.TopicKey) arrayList.get(i2)).dialogId;
                     if (charSequence != null) {
-                        SendMessagesHelper.getInstance(((BaseFragment) WallpapersListActivity.this).currentAccount).sendMessage(charSequence.toString(), j, null, null, null, true, null, null, null, true, 0, null, false);
+                        j = j2;
+                        SendMessagesHelper.getInstance(((BaseFragment) WallpapersListActivity.this).currentAccount).sendMessage(charSequence.toString(), j2, null, null, null, true, null, null, null, true, 0, null, false);
+                    } else {
+                        j = j2;
                     }
                     if (!TextUtils.isEmpty(sb)) {
                         SendMessagesHelper.getInstance(((BaseFragment) WallpapersListActivity.this).currentAccount).sendMessage(sb.toString(), j, null, null, null, true, null, null, null, true, 0, null, false);
                     }
                 }
                 dialogsActivity.finishFragment();
-                return;
-            }
-            long j2 = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
-            Bundle bundle = new Bundle();
-            bundle.putBoolean("scrollToTopOnResume", true);
-            if (DialogObject.isEncryptedDialog(j2)) {
-                bundle.putInt("enc_id", DialogObject.getEncryptedChatId(j2));
             } else {
-                if (DialogObject.isUserDialog(j2)) {
-                    bundle.putLong("user_id", j2);
-                } else if (DialogObject.isChatDialog(j2)) {
-                    bundle.putLong("chat_id", -j2);
+                long j3 = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("scrollToTopOnResume", true);
+                if (DialogObject.isEncryptedDialog(j3)) {
+                    bundle.putInt("enc_id", DialogObject.getEncryptedChatId(j3));
+                } else {
+                    if (DialogObject.isUserDialog(j3)) {
+                        bundle.putLong("user_id", j3);
+                    } else if (DialogObject.isChatDialog(j3)) {
+                        bundle.putLong("chat_id", -j3);
+                    }
+                    if (!MessagesController.getInstance(((BaseFragment) WallpapersListActivity.this).currentAccount).checkCanOpenChat(bundle, dialogsActivity)) {
+                        return true;
+                    }
                 }
-                if (!MessagesController.getInstance(((BaseFragment) WallpapersListActivity.this).currentAccount).checkCanOpenChat(bundle, dialogsActivity)) {
-                    return;
-                }
+                NotificationCenter.getInstance(((BaseFragment) WallpapersListActivity.this).currentAccount).postNotificationName(NotificationCenter.closeChats, new Object[0]);
+                WallpapersListActivity.this.presentFragment(new ChatActivity(bundle), true);
+                SendMessagesHelper.getInstance(((BaseFragment) WallpapersListActivity.this).currentAccount).sendMessage(sb.toString(), j3, null, null, null, true, null, null, null, true, 0, null, false);
             }
-            NotificationCenter.getInstance(((BaseFragment) WallpapersListActivity.this).currentAccount).postNotificationName(NotificationCenter.closeChats, new Object[0]);
-            WallpapersListActivity.this.presentFragment(new ChatActivity(bundle), true);
-            SendMessagesHelper.getInstance(((BaseFragment) WallpapersListActivity.this).currentAccount).sendMessage(sb.toString(), j2, null, null, null, true, null, null, null, true, 0, null, false);
+            return true;
         }
     }
 

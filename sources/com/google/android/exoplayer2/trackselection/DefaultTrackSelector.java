@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
+import org.telegram.messenger.TranslateController;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class DefaultTrackSelector extends MappingTrackSelector {
@@ -952,7 +953,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
     }
 
     protected static String normalizeUndeterminedLanguageToNull(String str) {
-        if (TextUtils.isEmpty(str) || TextUtils.equals(str, "und")) {
+        if (TextUtils.isEmpty(str) || TextUtils.equals(str, TranslateController.UNKNOWN_LANGUAGE)) {
             return null;
         }
         return str;

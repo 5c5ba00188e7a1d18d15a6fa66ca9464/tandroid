@@ -33,11 +33,17 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
     ArrayList<RecyclerView.ViewHolder> mChangeAnimations = new ArrayList<>();
     protected boolean delayAnimations = true;
 
+    protected void afterAnimateChangeImpl(RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder2) {
+    }
+
     protected void afterAnimateMoveImpl(RecyclerView.ViewHolder viewHolder) {
     }
 
     protected float animateByScale(View view) {
         return 0.0f;
+    }
+
+    protected void beforeAnimateChangeImpl(RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder2) {
     }
 
     protected void beforeAnimateMoveImpl(RecyclerView.ViewHolder viewHolder) {
@@ -50,7 +56,12 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
     public void onAllAnimationsDone() {
     }
 
-    protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void onChangeAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
     }
 
     static {
@@ -324,7 +335,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         final ViewPropertyAnimator animate = view.animate();
         this.mMoveAnimations.add(viewHolder);
         if (Build.VERSION.SDK_INT >= 19) {
-            animate.setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.DefaultItemAnimator$$ExternalSyntheticLambda0
+            animate.setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.DefaultItemAnimator$$ExternalSyntheticLambda2
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     DefaultItemAnimator.this.lambda$animateMoveImpl$0(viewHolder, valueAnimator);
@@ -406,6 +417,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         final View view = viewHolder == null ? null : viewHolder.itemView;
         RecyclerView.ViewHolder viewHolder2 = changeInfo.newHolder;
         final View view2 = viewHolder2 != null ? viewHolder2.itemView : null;
+        beforeAnimateChangeImpl(viewHolder, viewHolder2);
         if (view != null) {
             final ViewPropertyAnimator startDelay = view.animate().setDuration(getChangeRemoveDuration()).setStartDelay(getChangeDelay());
             this.mChangeAnimations.add(changeInfo.oldHolder);
@@ -414,6 +426,14 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
             startDelay.alpha(0.0f);
             if (animateByScale(view) > 0.0f) {
                 startDelay.scaleX(1.0f - animateByScale(view)).scaleY(1.0f - animateByScale(view));
+            }
+            if (Build.VERSION.SDK_INT >= 19) {
+                startDelay.setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.DefaultItemAnimator$$ExternalSyntheticLambda1
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        DefaultItemAnimator.this.lambda$animateChangeImpl$1(changeInfo, valueAnimator);
+                    }
+                });
             }
             startDelay.setInterpolator(getChangeInterpolator()).setListener(new AnimatorListenerAdapter() { // from class: androidx.recyclerview.widget.DefaultItemAnimator.7
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -444,6 +464,14 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
             if (animateByScale(view2) > 0.0f) {
                 animate.scaleX(1.0f).scaleY(1.0f);
             }
+            if (Build.VERSION.SDK_INT >= 19) {
+                animate.setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.DefaultItemAnimator$$ExternalSyntheticLambda0
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        DefaultItemAnimator.this.lambda$animateChangeImpl$2(changeInfo, valueAnimator);
+                    }
+                });
+            }
             animate.setListener(new AnimatorListenerAdapter() { // from class: androidx.recyclerview.widget.DefaultItemAnimator.8
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationStart(Animator animator) {
@@ -463,9 +491,22 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
                     DefaultItemAnimator.this.dispatchChangeFinished(changeInfo.newHolder, false);
                     DefaultItemAnimator.this.mChangeAnimations.remove(changeInfo.newHolder);
                     DefaultItemAnimator.this.dispatchFinishedWhenDone();
+                    DefaultItemAnimator defaultItemAnimator = DefaultItemAnimator.this;
+                    ChangeInfo changeInfo2 = changeInfo;
+                    defaultItemAnimator.afterAnimateChangeImpl(changeInfo2.oldHolder, changeInfo2.newHolder);
                 }
             }).start();
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$animateChangeImpl$1(ChangeInfo changeInfo, ValueAnimator valueAnimator) {
+        onChangeAnimationUpdate(changeInfo.oldHolder);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$animateChangeImpl$2(ChangeInfo changeInfo, ValueAnimator valueAnimator) {
+        onChangeAnimationUpdate(changeInfo.newHolder);
     }
 
     private void endChangeAnimation(List<ChangeInfo> list, RecyclerView.ViewHolder viewHolder) {

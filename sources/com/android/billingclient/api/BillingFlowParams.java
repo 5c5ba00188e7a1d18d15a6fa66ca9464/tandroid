@@ -108,6 +108,11 @@ public class BillingFlowParams {
             return this;
         }
 
+        public Builder setSubscriptionUpdateParams(SubscriptionUpdateParams subscriptionUpdateParams) {
+            this.zzf = SubscriptionUpdateParams.zzb(subscriptionUpdateParams);
+            return this;
+        }
+
         /* synthetic */ Builder(zzav zzavVar) {
             SubscriptionUpdateParams.Builder newBuilder = SubscriptionUpdateParams.newBuilder();
             newBuilder.zzb = true;
@@ -199,6 +204,28 @@ public class BillingFlowParams {
                 }
                 throw new IllegalArgumentException("Please provide Old SKU purchase information(token/id) or original external transaction id, not both.");
             }
+
+            public Builder setOldPurchaseToken(String str) {
+                this.zza = str;
+                return this;
+            }
+
+            @Deprecated
+            public Builder setOldSkuPurchaseToken(String str) {
+                this.zza = str;
+                return this;
+            }
+
+            public Builder setReplaceProrationMode(int i) {
+                this.zzc = i;
+                return this;
+            }
+
+            @Deprecated
+            public Builder setReplaceSkusProrationMode(int i) {
+                this.zzc = i;
+                return this;
+            }
         }
 
         /* synthetic */ SubscriptionUpdateParams(zzaz zzazVar) {
@@ -206,6 +233,13 @@ public class BillingFlowParams {
 
         public static Builder newBuilder() {
             return new Builder(null);
+        }
+
+        static /* bridge */ /* synthetic */ Builder zzb(SubscriptionUpdateParams subscriptionUpdateParams) {
+            Builder newBuilder = newBuilder();
+            newBuilder.setOldSkuPurchaseToken(subscriptionUpdateParams.zza);
+            newBuilder.setReplaceSkusProrationMode(subscriptionUpdateParams.zzb);
+            return newBuilder;
         }
 
         final int zza() {

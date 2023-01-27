@@ -2,7 +2,7 @@ package org.telegram.ui.Components.Reactions;
 
 import java.util.Comparator;
 import org.telegram.tgnet.TLRPC$User;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public final /* synthetic */ class ReactionsLayoutInBubble$$ExternalSyntheticLambda1 implements Comparator {
     public static final /* synthetic */ ReactionsLayoutInBubble$$ExternalSyntheticLambda1 INSTANCE = new ReactionsLayoutInBubble$$ExternalSyntheticLambda1();
 

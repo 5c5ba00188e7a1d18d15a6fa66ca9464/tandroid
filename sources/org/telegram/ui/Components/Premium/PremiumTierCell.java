@@ -24,7 +24,7 @@ import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.CheckBoxBase;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.PremiumPreviewFragment;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class PremiumTierCell extends ViewGroup {
     private CheckBox2 checkBox;
     private int color0;
@@ -181,14 +181,13 @@ public class PremiumTierCell extends ViewGroup {
     private void checkRtlAndLayout(View view) {
         Rect rect = AndroidUtilities.rectTmp2;
         rect.right = rect.left + view.getMeasuredWidth();
-        int measuredHeight = rect.top + view.getMeasuredHeight();
-        rect.bottom = measuredHeight;
+        rect.bottom = rect.top + view.getMeasuredHeight();
         if (LocaleController.isRTL) {
             int i = rect.right;
-            rect.right = rect.left;
-            rect.left = i;
+            rect.right = getWidth() - rect.left;
+            rect.left = getWidth() - i;
         }
-        view.layout(rect.left, rect.top, rect.right, measuredHeight);
+        view.layout(rect.left, rect.top, rect.right, rect.bottom);
     }
 
     @Override // android.view.View
