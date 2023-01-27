@@ -2,6 +2,7 @@ package org.telegram.messenger;
 
 import android.content.SharedPreferences;
 import android.util.LongSparseArray;
+import org.telegram.messenger.FilePathDatabase;
 import org.telegram.messenger.NotificationBadge;
 /* loaded from: classes.dex */
 public class SaveToGallerySettingsHelper {
@@ -50,7 +51,7 @@ public class SaveToGallerySettingsHelper {
         channels.type = 4;
     }
 
-    public static boolean needSave(int i, MessageObject messageObject, int i2) {
+    public static boolean needSave(int i, FilePathDatabase.FileMeta fileMeta, MessageObject messageObject, int i2) {
         SharedSettings sharedSettings;
         if (i == 1) {
             sharedSettings = user;
@@ -61,7 +62,7 @@ public class SaveToGallerySettingsHelper {
         } else {
             sharedSettings = groups;
         }
-        return sharedSettings.needSave(messageObject, i2);
+        return sharedSettings.needSave(fileMeta, messageObject, i2);
     }
 
     public static LongSparseArray<DialogException> loadExceptions(SharedPreferences sharedPreferences) {
@@ -164,25 +165,27 @@ public class SaveToGallerySettingsHelper {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public boolean needSave(MessageObject messageObject, int i) {
-            DialogException dialogException = UserConfig.getInstance(i).getSaveGalleryExceptions(this.type).get(messageObject.getDialogId());
-            if (messageObject.isOutOwner()) {
-                return false;
-            }
-            if (dialogException != null) {
-                if (messageObject.isVideo()) {
-                    if (dialogException.saveVideo && (dialogException.limitVideo == -1 || messageObject.getSize() < dialogException.limitVideo)) {
+        public boolean needSave(FilePathDatabase.FileMeta fileMeta, MessageObject messageObject, int i) {
+            DialogException dialogException = UserConfig.getInstance(i).getSaveGalleryExceptions(this.type).get(fileMeta.dialogId);
+            if (messageObject == null || !messageObject.isOutOwner()) {
+                boolean z = (messageObject != null && messageObject.isVideo()) || fileMeta.messageType == 3;
+                long size = messageObject != null ? messageObject.getSize() : fileMeta.messageSize;
+                boolean z2 = this.saveVideo;
+                boolean z3 = this.savePhoto;
+                long j = this.limitVideo;
+                if (dialogException != null) {
+                    z2 = dialogException.saveVideo;
+                    z3 = dialogException.savePhoto;
+                    j = dialogException.limitVideo;
+                }
+                if (z) {
+                    if (z2 && (j == -1 || size < j)) {
                         return true;
                     }
-                } else if (dialogException.savePhoto) {
+                } else if (z3) {
                     return true;
                 }
-            } else if (messageObject.isVideo()) {
-                if (this.saveVideo && (this.limitVideo == -1 || messageObject.getSize() < this.limitVideo)) {
-                    return true;
-                }
-            } else if (this.savePhoto) {
-                return true;
+                return false;
             }
             return false;
         }

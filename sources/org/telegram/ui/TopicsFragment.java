@@ -2386,127 +2386,129 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     }
 
     private void toggleSelection(View view) {
+        TopicDialogCell topicDialogCell;
+        TLRPC$TL_forumTopic tLRPC$TL_forumTopic;
         int i;
         String str;
         int i2;
         String str2;
-        if (view instanceof TopicDialogCell) {
-            TopicDialogCell topicDialogCell = (TopicDialogCell) view;
-            int i3 = topicDialogCell.forumTopic.id;
-            if (!this.selectedTopics.remove(Integer.valueOf(i3))) {
-                this.selectedTopics.add(Integer.valueOf(i3));
-            }
-            topicDialogCell.setChecked(this.selectedTopics.contains(Integer.valueOf(i3)), true);
-            TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(this.chatId));
-            if (this.selectedTopics.size() > 0) {
-                chekActionMode();
-                if (this.inPreviewMode) {
-                    ((View) this.fragmentView.getParent()).invalidate();
-                }
-                this.actionBar.showActionMode(true);
-                int i4 = 0;
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needCheckSystemBarColors, new Object[0]);
-                Iterator<Integer> it = this.selectedTopics.iterator();
-                int i5 = 0;
-                int i6 = 0;
-                int i7 = 0;
-                int i8 = 0;
-                while (it.hasNext()) {
-                    int intValue = it.next().intValue();
-                    TLRPC$TL_forumTopic findTopic = this.topicsController.findTopic(this.chatId, intValue);
-                    if (findTopic != null) {
-                        if (findTopic.unread_count != 0) {
-                            i5++;
-                        }
-                        if (ChatObject.canManageTopics(chat) && !findTopic.hidden) {
-                            if (findTopic.pinned) {
-                                i8++;
-                            } else {
-                                i7++;
-                            }
-                        }
-                    }
-                    if (getMessagesController().isDialogMuted(-this.chatId, intValue)) {
-                        i6++;
-                    }
-                }
-                if (i5 > 0) {
-                    this.readItem.setVisibility(0);
-                    this.readItem.setTextAndIcon(LocaleController.getString("MarkAsRead", R.string.MarkAsRead), R.drawable.msg_markread);
-                } else {
-                    this.readItem.setVisibility(8);
-                }
-                if (i6 != 0) {
-                    this.mute = false;
-                    this.muteItem.setIcon(R.drawable.msg_unmute);
-                    this.muteItem.setContentDescription(LocaleController.getString("ChatsUnmute", R.string.ChatsUnmute));
-                } else {
-                    this.mute = true;
-                    this.muteItem.setIcon(R.drawable.msg_mute);
-                    this.muteItem.setContentDescription(LocaleController.getString("ChatsMute", R.string.ChatsMute));
-                }
-                this.pinItem.setVisibility((i7 == 1 && i8 == 0) ? 0 : 8);
-                this.unpinItem.setVisibility((i8 == 1 && i7 == 0) ? 0 : 8);
-                this.selectedDialogsCountTextView.setNumber(this.selectedTopics.size(), true);
-                Iterator<Integer> it2 = this.selectedTopics.iterator();
-                int i9 = 0;
-                int i10 = 0;
-                int i11 = 0;
-                int i12 = 0;
-                int i13 = 0;
-                while (it2.hasNext()) {
-                    TLRPC$TL_forumTopic findTopic2 = this.topicsController.findTopic(this.chatId, it2.next().intValue());
-                    if (findTopic2 != null) {
-                        if (ChatObject.canDeleteTopic(this.currentAccount, chat, findTopic2)) {
-                            i11++;
-                        }
-                        if (ChatObject.canManageTopic(this.currentAccount, chat, findTopic2)) {
-                            if (findTopic2.id == 1) {
-                                if (findTopic2.hidden) {
-                                    i13++;
-                                } else {
-                                    i12++;
-                                }
-                            }
-                            if (!findTopic2.hidden) {
-                                if (findTopic2.closed) {
-                                    i9++;
-                                } else {
-                                    i10++;
-                                }
-                            }
-                        }
-                    }
-                }
-                this.closeTopic.setVisibility((i9 != 0 || i10 <= 0) ? 8 : 0);
-                ActionBarMenuSubItem actionBarMenuSubItem = this.closeTopic;
-                if (i10 > 1) {
-                    i = R.string.CloseTopics;
-                    str = "CloseTopics";
-                } else {
-                    i = R.string.CloseTopic;
-                    str = "CloseTopic";
-                }
-                actionBarMenuSubItem.setText(LocaleController.getString(str, i));
-                this.restartTopic.setVisibility((i10 != 0 || i9 <= 0) ? 8 : 0);
-                ActionBarMenuSubItem actionBarMenuSubItem2 = this.restartTopic;
-                if (i9 > 1) {
-                    i2 = R.string.RestartTopics;
-                    str2 = "RestartTopics";
-                } else {
-                    i2 = R.string.RestartTopic;
-                    str2 = "RestartTopic";
-                }
-                actionBarMenuSubItem2.setText(LocaleController.getString(str2, i2));
-                this.deleteItem.setVisibility(i11 == this.selectedTopics.size() ? 0 : 8);
-                this.hideItem.setVisibility((i12 == 1 && this.selectedTopics.size() == 1) ? 0 : 8);
-                this.showItem.setVisibility((i13 == 1 && this.selectedTopics.size() == 1) ? 8 : 8);
-                this.otherItem.checkHideMenuItem();
-                updateReordering();
-                return;
-            }
-            this.actionBar.hideActionMode();
+        if (!(view instanceof TopicDialogCell) || (tLRPC$TL_forumTopic = (topicDialogCell = (TopicDialogCell) view).forumTopic) == null) {
+            return;
         }
+        int i3 = tLRPC$TL_forumTopic.id;
+        if (!this.selectedTopics.remove(Integer.valueOf(i3))) {
+            this.selectedTopics.add(Integer.valueOf(i3));
+        }
+        topicDialogCell.setChecked(this.selectedTopics.contains(Integer.valueOf(i3)), true);
+        TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(this.chatId));
+        if (this.selectedTopics.size() > 0) {
+            chekActionMode();
+            if (this.inPreviewMode) {
+                ((View) this.fragmentView.getParent()).invalidate();
+            }
+            this.actionBar.showActionMode(true);
+            int i4 = 0;
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needCheckSystemBarColors, new Object[0]);
+            Iterator<Integer> it = this.selectedTopics.iterator();
+            int i5 = 0;
+            int i6 = 0;
+            int i7 = 0;
+            int i8 = 0;
+            while (it.hasNext()) {
+                int intValue = it.next().intValue();
+                TLRPC$TL_forumTopic findTopic = this.topicsController.findTopic(this.chatId, intValue);
+                if (findTopic != null) {
+                    if (findTopic.unread_count != 0) {
+                        i5++;
+                    }
+                    if (ChatObject.canManageTopics(chat) && !findTopic.hidden) {
+                        if (findTopic.pinned) {
+                            i8++;
+                        } else {
+                            i7++;
+                        }
+                    }
+                }
+                if (getMessagesController().isDialogMuted(-this.chatId, intValue)) {
+                    i6++;
+                }
+            }
+            if (i5 > 0) {
+                this.readItem.setVisibility(0);
+                this.readItem.setTextAndIcon(LocaleController.getString("MarkAsRead", R.string.MarkAsRead), R.drawable.msg_markread);
+            } else {
+                this.readItem.setVisibility(8);
+            }
+            if (i6 != 0) {
+                this.mute = false;
+                this.muteItem.setIcon(R.drawable.msg_unmute);
+                this.muteItem.setContentDescription(LocaleController.getString("ChatsUnmute", R.string.ChatsUnmute));
+            } else {
+                this.mute = true;
+                this.muteItem.setIcon(R.drawable.msg_mute);
+                this.muteItem.setContentDescription(LocaleController.getString("ChatsMute", R.string.ChatsMute));
+            }
+            this.pinItem.setVisibility((i7 == 1 && i8 == 0) ? 0 : 8);
+            this.unpinItem.setVisibility((i8 == 1 && i7 == 0) ? 0 : 8);
+            this.selectedDialogsCountTextView.setNumber(this.selectedTopics.size(), true);
+            Iterator<Integer> it2 = this.selectedTopics.iterator();
+            int i9 = 0;
+            int i10 = 0;
+            int i11 = 0;
+            int i12 = 0;
+            int i13 = 0;
+            while (it2.hasNext()) {
+                TLRPC$TL_forumTopic findTopic2 = this.topicsController.findTopic(this.chatId, it2.next().intValue());
+                if (findTopic2 != null) {
+                    if (ChatObject.canDeleteTopic(this.currentAccount, chat, findTopic2)) {
+                        i11++;
+                    }
+                    if (ChatObject.canManageTopic(this.currentAccount, chat, findTopic2)) {
+                        if (findTopic2.id == 1) {
+                            if (findTopic2.hidden) {
+                                i13++;
+                            } else {
+                                i12++;
+                            }
+                        }
+                        if (!findTopic2.hidden) {
+                            if (findTopic2.closed) {
+                                i9++;
+                            } else {
+                                i10++;
+                            }
+                        }
+                    }
+                }
+            }
+            this.closeTopic.setVisibility((i9 != 0 || i10 <= 0) ? 8 : 0);
+            ActionBarMenuSubItem actionBarMenuSubItem = this.closeTopic;
+            if (i10 > 1) {
+                i = R.string.CloseTopics;
+                str = "CloseTopics";
+            } else {
+                i = R.string.CloseTopic;
+                str = "CloseTopic";
+            }
+            actionBarMenuSubItem.setText(LocaleController.getString(str, i));
+            this.restartTopic.setVisibility((i10 != 0 || i9 <= 0) ? 8 : 0);
+            ActionBarMenuSubItem actionBarMenuSubItem2 = this.restartTopic;
+            if (i9 > 1) {
+                i2 = R.string.RestartTopics;
+                str2 = "RestartTopics";
+            } else {
+                i2 = R.string.RestartTopic;
+                str2 = "RestartTopic";
+            }
+            actionBarMenuSubItem2.setText(LocaleController.getString(str2, i2));
+            this.deleteItem.setVisibility(i11 == this.selectedTopics.size() ? 0 : 8);
+            this.hideItem.setVisibility((i12 == 1 && this.selectedTopics.size() == 1) ? 0 : 8);
+            this.showItem.setVisibility((i13 == 1 && this.selectedTopics.size() == 1) ? 8 : 8);
+            this.otherItem.checkHideMenuItem();
+            updateReordering();
+            return;
+        }
+        this.actionBar.hideActionMode();
     }
 
     public void updateReordering() {

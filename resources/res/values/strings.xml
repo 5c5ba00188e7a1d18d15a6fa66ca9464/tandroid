@@ -3003,7 +3003,6 @@
     <string name="MaxCacheSizeInfo">If your cache size exceeds this limit, the oldest media will be removed from the device.</string>
     <string name="MaxVideoSize">Maximum video size</string>
     <string name="May">May</string>
-    <string name="Media">Media</string>
     <string name="MediaSavedHint_few">%1$d items saved to gallery</string>
     <string name="MediaSavedHint_many">%1$d items saved to gallery</string>
     <string name="MediaSavedHint_one">An item saved to gallery</string>
@@ -3018,6 +3017,7 @@
     <string name="MediaSelected_zero">%1$d media selected</string>
     <string name="MediaShowPhotos">Show photos</string>
     <string name="MediaShowVideos">Show videos</string>
+    <string name="MediaTab">Media</string>
     <string name="MediaZoomIn">Zoom in</string>
     <string name="MediaZoomOut">Zoom out</string>
     <string name="Media_few">%1$d media</string>

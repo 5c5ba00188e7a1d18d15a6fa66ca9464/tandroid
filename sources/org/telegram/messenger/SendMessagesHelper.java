@@ -1979,8 +1979,8 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         checkUnsentMessages();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0083  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x00a5  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x008d  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00af  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2000,7 +2000,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     TLRPC$MessageMedia tLRPC$MessageMedia2 = tLRPC$Message2.media;
                     if ((tLRPC$MessageMedia2.photo instanceof TLRPC$TL_photo) || (tLRPC$MessageMedia2.document instanceof TLRPC$TL_document)) {
                         HashMap<String, String> hashMap2 = new HashMap<>();
-                        hashMap2.put("parentObject", "sent_" + messageObject.messageOwner.peer_id.channel_id + "_" + messageObject.getId() + "_" + messageObject.getDialogId() + "_" + messageObject.type);
+                        hashMap2.put("parentObject", "sent_" + messageObject.messageOwner.peer_id.channel_id + "_" + messageObject.getId() + "_" + messageObject.getDialogId() + "_" + messageObject.type + "_" + messageObject.getSize());
                         hashMap = hashMap2;
                         TLRPC$Message tLRPC$Message3 = messageObject.messageOwner;
                         TLRPC$MessageMedia tLRPC$MessageMedia3 = tLRPC$Message3.media;
@@ -2269,7 +2269,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:396:0x092e  */
     /* JADX WARN: Removed duplicated region for block: B:399:0x0980  */
     /* JADX WARN: Type inference failed for: r2v19 */
-    /* JADX WARN: Type inference failed for: r2v22, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v22, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v26 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -10497,7 +10497,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         getNotificationCenter().postNotificationName(NotificationCenter.messageReceivedByAck, Integer.valueOf(i));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:141:0x02eb  */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x02f5  */
     /* JADX WARN: Removed duplicated region for block: B:65:0x00da  */
     /* JADX WARN: Removed duplicated region for block: B:69:0x00f6  */
     /* JADX WARN: Removed duplicated region for block: B:70:0x010a  */
@@ -10598,7 +10598,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             TLRPC$MessageMedia tLRPC$MessageMedia8 = tLRPC$Message2.media;
             if ((tLRPC$MessageMedia8 instanceof TLRPC$TL_messageMediaPhoto) && tLRPC$MessageMedia8.photo != null) {
                 if (tLRPC$MessageMedia7.ttl_seconds == 0 && !messageObject.scheduled) {
-                    getMessagesStorage().putSentFile(str, tLRPC$Message.media.photo, 0, "sent_" + tLRPC$Message.peer_id.channel_id + "_" + tLRPC$Message.id + "_" + DialogObject.getPeerDialogId(tLRPC$Message.peer_id) + "_1");
+                    getMessagesStorage().putSentFile(str, tLRPC$Message.media.photo, 0, "sent_" + tLRPC$Message.peer_id.channel_id + "_" + tLRPC$Message.id + "_" + DialogObject.getPeerDialogId(tLRPC$Message.peer_id) + "_1_" + messageObject.getSize());
                 }
                 if (tLRPC$Message2.media.photo.sizes.size() == 1 && (tLRPC$Message2.media.photo.sizes.get(0).location instanceof TLRPC$TL_fileLocationUnavailable)) {
                     tLRPC$Message2.media.photo.sizes = tLRPC$Message.media.photo.sizes;
@@ -10669,14 +10669,14 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     if ((isVideoMessage || MessageObject.isGifMessage(tLRPC$Message)) && MessageObject.isGifDocument(tLRPC$Message.media.document) == MessageObject.isGifDocument(tLRPC$Message2.media.document)) {
                         if (!messageObject.scheduled) {
                             MessageObject messageObject2 = new MessageObject(this.currentAccount, tLRPC$Message, false, false);
-                            getMessagesStorage().putSentFile(str, tLRPC$Message.media.document, 2, "sent_" + tLRPC$Message.peer_id.channel_id + "_" + tLRPC$Message.id + "_" + DialogObject.getPeerDialogId(tLRPC$Message.peer_id) + "_" + messageObject2.type);
+                            getMessagesStorage().putSentFile(str, tLRPC$Message.media.document, 2, "sent_" + tLRPC$Message.peer_id.channel_id + "_" + tLRPC$Message.id + "_" + DialogObject.getPeerDialogId(tLRPC$Message.peer_id) + "_" + messageObject2.type + "_" + messageObject2.getSize());
                         }
                         if (isVideoMessage) {
                             tLRPC$Message.attachPath = tLRPC$Message2.attachPath;
                         }
                     } else if (!MessageObject.isVoiceMessage(tLRPC$Message) && !MessageObject.isRoundVideoMessage(tLRPC$Message) && !messageObject.scheduled) {
                         MessageObject messageObject3 = new MessageObject(this.currentAccount, tLRPC$Message, false, false);
-                        getMessagesStorage().putSentFile(str, tLRPC$Message.media.document, 1, "sent_" + tLRPC$Message.peer_id.channel_id + "_" + tLRPC$Message.id + "_" + DialogObject.getPeerDialogId(tLRPC$Message.peer_id) + "_" + messageObject3.type);
+                        getMessagesStorage().putSentFile(str, tLRPC$Message.media.document, 1, "sent_" + tLRPC$Message.peer_id.channel_id + "_" + tLRPC$Message.id + "_" + DialogObject.getPeerDialogId(tLRPC$Message.peer_id) + "_" + messageObject3.type + "_" + messageObject3.getSize());
                     }
                 }
                 TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Message2.media.document.thumbs, 320);

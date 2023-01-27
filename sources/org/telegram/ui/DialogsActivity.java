@@ -2676,10 +2676,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Removed duplicated region for block: B:293:0x0d52  */
     /* JADX WARN: Removed duplicated region for block: B:301:0x0d7c  */
     /* JADX WARN: Type inference failed for: r13v0 */
-    /* JADX WARN: Type inference failed for: r13v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v5 */
     /* JADX WARN: Type inference failed for: r7v0 */
-    /* JADX WARN: Type inference failed for: r7v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r7v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v5 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -10258,8 +10258,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             showFiltersHint();
         } else if (i == NotificationCenter.newSuggestionsAvailable) {
             showNextSupportedSuggestion();
-            this.premiumHintCell.setVisibility(isPremiumHintVisible() ? 0 : 8);
-            this.premiumHintCell.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(this.isPremiumHintUpgrade ? R.string.UpgradePremiumTitle : R.string.SaveOnAnnualPremiumTitle, MediaDataController.getInstance(this.currentAccount).getPremiumHintAnnualDiscount(false)), "windowBackgroundWhiteValueText", 0, null), LocaleController.getString(this.isPremiumHintUpgrade ? R.string.UpgradePremiumMessage : R.string.SaveOnAnnualPremiumMessage));
+            DialogsPremiumHintCell dialogsPremiumHintCell = this.premiumHintCell;
+            if (dialogsPremiumHintCell != null) {
+                dialogsPremiumHintCell.setVisibility(isPremiumHintVisible() ? 0 : 8);
+                this.premiumHintCell.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(this.isPremiumHintUpgrade ? R.string.UpgradePremiumTitle : R.string.SaveOnAnnualPremiumTitle, MediaDataController.getInstance(this.currentAccount).getPremiumHintAnnualDiscount(false)), "windowBackgroundWhiteValueText", 0, null), LocaleController.getString(this.isPremiumHintUpgrade ? R.string.UpgradePremiumMessage : R.string.SaveOnAnnualPremiumMessage));
+            }
         } else if (i == NotificationCenter.forceImportContactsStart) {
             setFloatingProgressVisible(true, true);
             for (ViewPage viewPage3 : this.viewPages) {

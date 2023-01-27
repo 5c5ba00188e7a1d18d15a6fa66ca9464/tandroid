@@ -30,6 +30,7 @@ public class FilePathDatabase {
     public static class FileMeta {
         public long dialogId;
         public int messageId;
+        public long messageSize;
         public int messageType;
     }
 

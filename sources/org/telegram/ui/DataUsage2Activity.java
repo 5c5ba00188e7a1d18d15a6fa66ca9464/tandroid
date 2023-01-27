@@ -245,23 +245,19 @@ public class DataUsage2Activity extends BaseFragment {
             while (true) {
                 Size[] sizeArr = this.segments;
                 if (i2 >= sizeArr.length) {
-                    break;
+                    StatsController.getInstance(((BaseFragment) DataUsage2Activity.this).currentAccount).resetStats(0);
+                    StatsController.getInstance(((BaseFragment) DataUsage2Activity.this).currentAccount).resetStats(1);
+                    StatsController.getInstance(((BaseFragment) DataUsage2Activity.this).currentAccount).resetStats(2);
+                    this.animateChart = true;
+                    setup();
+                    updateRows(true);
+                    return;
                 }
                 if (sizeArr[i2].size > 0) {
                     this.removedSegments.add(Integer.valueOf(sizeArr[i2].index));
                 }
                 i2++;
             }
-            if (this.currentType == 0) {
-                StatsController.getInstance(((BaseFragment) DataUsage2Activity.this).currentAccount).resetStats(0);
-                StatsController.getInstance(((BaseFragment) DataUsage2Activity.this).currentAccount).resetStats(1);
-                StatsController.getInstance(((BaseFragment) DataUsage2Activity.this).currentAccount).resetStats(2);
-            } else {
-                StatsController.getInstance(((BaseFragment) DataUsage2Activity.this).currentAccount).resetStats(this.currentType - 1);
-            }
-            this.animateChart = true;
-            setup();
-            updateRows(true);
         }
 
         public void setType(int i) {

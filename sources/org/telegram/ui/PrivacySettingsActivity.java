@@ -1087,6 +1087,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
             int i2;
             String string3;
             String str2;
+            SpannableStringBuilder spannableStringBuilder;
             String format2;
             String str3;
             String string4;
@@ -1310,19 +1311,25 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                 if (i != PrivacySettingsActivity.this.autoDeleteMesages) {
                     if (i != PrivacySettingsActivity.this.sessionsRow) {
                         if (i == PrivacySettingsActivity.this.emailLoginRow) {
-                            SpannableStringBuilder valueOf = SpannableStringBuilder.valueOf(PrivacySettingsActivity.this.currentPassword.login_email_pattern);
-                            int indexOf = PrivacySettingsActivity.this.currentPassword.login_email_pattern.indexOf(42);
-                            int lastIndexOf = PrivacySettingsActivity.this.currentPassword.login_email_pattern.lastIndexOf(42);
-                            if (indexOf != lastIndexOf && indexOf != -1 && lastIndexOf != -1) {
-                                TextStyleSpan.TextStyleRun textStyleRun = new TextStyleSpan.TextStyleRun();
-                                textStyleRun.flags |= 256;
-                                textStyleRun.start = indexOf;
-                                int i5 = lastIndexOf + 1;
-                                textStyleRun.end = i5;
-                                valueOf.setSpan(new TextStyleSpan(textStyleRun), indexOf, i5, 0);
+                            if (PrivacySettingsActivity.this.currentPassword == null) {
+                                spannableStringBuilder = "";
+                                z = true;
+                            } else {
+                                SpannableStringBuilder valueOf = SpannableStringBuilder.valueOf(PrivacySettingsActivity.this.currentPassword.login_email_pattern);
+                                int indexOf = PrivacySettingsActivity.this.currentPassword.login_email_pattern.indexOf(42);
+                                int lastIndexOf = PrivacySettingsActivity.this.currentPassword.login_email_pattern.lastIndexOf(42);
+                                if (indexOf != lastIndexOf && indexOf != -1 && lastIndexOf != -1) {
+                                    TextStyleSpan.TextStyleRun textStyleRun = new TextStyleSpan.TextStyleRun();
+                                    textStyleRun.flags |= 256;
+                                    textStyleRun.start = indexOf;
+                                    int i5 = lastIndexOf + 1;
+                                    textStyleRun.end = i5;
+                                    valueOf.setSpan(new TextStyleSpan(textStyleRun), indexOf, i5, 0);
+                                }
+                                spannableStringBuilder = valueOf;
                             }
                             textCell.setPrioritizeTitleOverValue(true);
-                            textCell.setTextAndSpoilersValueAndColorfulIcon(LocaleController.getString(R.string.EmailLogin), valueOf, R.drawable.msg_filled_email, PrivacySettingsActivity.this.getThemedColor("color_orange"), true);
+                            textCell.setTextAndSpoilersValueAndColorfulIcon(LocaleController.getString(R.string.EmailLogin), spannableStringBuilder, R.drawable.msg_filled_email, PrivacySettingsActivity.this.getThemedColor("color_orange"), true);
                         } else if (i == PrivacySettingsActivity.this.passwordRow) {
                             if (PrivacySettingsActivity.this.currentPassword == null) {
                                 str2 = "";

@@ -2513,7 +2513,7 @@ public class LoginActivity extends BaseFragment {
                     }
                 });
             }
-            if (BuildVars.DEBUG_PRIVATE_VERSION && LoginActivity.this.activityMode == 0) {
+            if (BuildVars.DEBUG_VERSION && LoginActivity.this.activityMode == 0) {
                 CheckBoxCell checkBoxCell2 = new CheckBoxCell(context, 2);
                 this.testBackendCheckBox = checkBoxCell2;
                 checkBoxCell2.setText(LocaleController.getString(R.string.DebugTestBackend), "", LoginActivity.this.testBackend, false);
@@ -2706,7 +2706,7 @@ public class LoginActivity extends BaseFragment {
             boolean z = true;
             loginActivity.testBackend = !loginActivity.testBackend;
             ((CheckBoxCell) view).setChecked(LoginActivity.this.testBackend, true);
-            if (((BuildVars.DEBUG_PRIVATE_VERSION && LoginActivity.this.getConnectionsManager().isTestBackend()) ? false : false) != LoginActivity.this.testBackend) {
+            if (((BuildVars.DEBUG_VERSION && LoginActivity.this.getConnectionsManager().isTestBackend()) ? false : false) != LoginActivity.this.testBackend) {
                 LoginActivity.this.getConnectionsManager().switchBackend(false);
             }
             loadCountries();

@@ -5,6 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.graphics.Typeface;
 import android.opengl.GLES20;
@@ -66,6 +70,7 @@ public class TextureRenderer {
     private int originalWidth;
     private String paintPath;
     private int[] paintTexture;
+    Path path;
     private FloatBuffer renderTextureBuffer;
     private int simpleInputTexCoordHandle;
     private int simplePositionHandle;
@@ -79,6 +84,7 @@ public class TextureRenderer {
     private int transformedWidth;
     private FloatBuffer verticesBuffer;
     private float videoFps;
+    Paint xRefPaint;
     float[] bitmapData = {-1.0f, 1.0f, 1.0f, 1.0f, -1.0f, -1.0f, 1.0f, -1.0f};
     private float[] mMVPMatrix = new float[16];
     private float[] mSTMatrix = new float[16];
@@ -301,6 +307,7 @@ public class TextureRenderer {
                 if (j != 0) {
                     Bitmap bitmap2 = this.stickerBitmap;
                     RLottieDrawable.getFrame(j, (int) mediaEntity.currentFrame, bitmap2, 512, 512, bitmap2.getRowBytes(), true);
+                    applyRoundRadius(mediaEntity, this.stickerBitmap);
                     GLES20.glBindTexture(3553, this.stickerTexture[0]);
                     GLUtils.texImage2D(3553, 0, this.stickerBitmap, 0);
                     float f = mediaEntity.currentFrame + mediaEntity.framesPerDraw;
@@ -329,6 +336,7 @@ public class TextureRenderer {
                         if (bitmap3 != null) {
                             bitmap3.eraseColor(0);
                             this.stickerCanvas.drawBitmap(backgroundBitmap, 0.0f, 0.0f, (Paint) null);
+                            applyRoundRadius(mediaEntity, this.stickerBitmap);
                             GLES20.glBindTexture(3553, this.stickerTexture[0]);
                             GLUtils.texImage2D(3553, 0, this.stickerBitmap, 0);
                             drawTexture(false, this.stickerTexture[0], mediaEntity.x, mediaEntity.y, mediaEntity.width, mediaEntity.height, mediaEntity.rotation, (mediaEntity.subType & 2) != 0);
@@ -342,6 +350,7 @@ public class TextureRenderer {
                     mediaEntity.currentFrame = f5;
                     ((EditTextEffects) mediaEntity.view).incrementFrames(((int) f5) - i9);
                     mediaEntity.view.draw(mediaEntity.canvas);
+                    applyRoundRadius(mediaEntity, mediaEntity.bitmap);
                     GLES20.glBindTexture(3553, this.stickerTexture[0]);
                     GLUtils.texImage2D(3553, 0, mediaEntity.bitmap, 0);
                     drawTexture(false, this.stickerTexture[0], mediaEntity.x, mediaEntity.y, mediaEntity.width, mediaEntity.height, mediaEntity.rotation, (mediaEntity.subType & 2) != 0);
@@ -353,6 +362,29 @@ public class TextureRenderer {
             }
         }
         GLES20.glFinish();
+    }
+
+    private void applyRoundRadius(VideoEditedInfo.MediaEntity mediaEntity, Bitmap bitmap) {
+        if (bitmap == null || mediaEntity == null || mediaEntity.roundRadius == 0.0f) {
+            return;
+        }
+        if (mediaEntity.roundRadiusCanvas == null) {
+            mediaEntity.roundRadiusCanvas = new Canvas(bitmap);
+        }
+        if (this.path == null) {
+            this.path = new Path();
+        }
+        if (this.xRefPaint == null) {
+            Paint paint = new Paint(1);
+            this.xRefPaint = paint;
+            paint.setColor(-16777216);
+            this.xRefPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        }
+        float min = Math.min(bitmap.getWidth(), bitmap.getHeight()) * mediaEntity.roundRadius;
+        this.path.rewind();
+        this.path.addRoundRect(new RectF(0.0f, 0.0f, bitmap.getWidth(), bitmap.getHeight()), min, min, Path.Direction.CCW);
+        this.path.toggleInverseFillType();
+        mediaEntity.roundRadiusCanvas.drawPath(this.path, this.xRefPaint);
     }
 
     private void drawTexture(boolean z, int i) {

@@ -424,14 +424,21 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x007a  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0086  */
     /* JADX WARN: Type inference failed for: r8v3, types: [android.graphics.drawable.BitmapDrawable] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void setForUserOrChat(TLObject tLObject, Drawable drawable, Object obj, boolean z, int i) {
         BitmapDrawable bitmapDrawable;
         TLRPC$VideoSize tLRPC$VideoSize;
         boolean z2;
         TLRPC$ChatPhoto tLRPC$ChatPhoto;
         ImageLocation imageLocation;
+        TLRPC$UserFull userFull;
         ArrayList<TLRPC$VideoSize> arrayList;
+        TLRPC$UserFull userFull2;
         Object obj2 = obj == null ? tLObject : obj;
         setUseRoundForThumbDrawable(true);
         ImageLocation imageLocation2 = null;
@@ -445,35 +452,43 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             if (tLRPC$UserProfilePhoto != null) {
                 ?? r8 = tLRPC$UserProfilePhoto.strippedBitmap;
                 boolean z6 = tLRPC$UserProfilePhoto.stripped_thumb != null;
-                if (z && MessagesController.getInstance(this.currentAccount).isPremiumUser(tLRPC$User) && tLRPC$User.photo.has_video && !SharedConfig.getLiteMode().enabled()) {
-                    TLRPC$UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(tLRPC$User.id);
-                    if (userFull == null) {
-                        MessagesController.getInstance(this.currentAccount).loadFullUser(tLRPC$User, this.currentGuid, false);
-                    } else {
-                        TLRPC$Photo tLRPC$Photo = userFull.profile_photo;
-                        if (tLRPC$Photo != null) {
-                            tLRPC$VideoSize = FileLoader.getVectorMarkupVideoSize(tLRPC$Photo);
-                            if (tLRPC$VideoSize == null && (arrayList = tLRPC$Photo.video_sizes) != null && !arrayList.isEmpty()) {
-                                TLRPC$VideoSize closestVideoSizeWithSize = FileLoader.getClosestVideoSizeWithSize(arrayList, 100);
-                                for (int i2 = 0; i2 < arrayList.size(); i2++) {
-                                    TLRPC$VideoSize tLRPC$VideoSize2 = arrayList.get(i2);
-                                    if ("p".equals(tLRPC$VideoSize2.type)) {
-                                        closestVideoSizeWithSize = tLRPC$VideoSize2;
+                if (i == 3 && (userFull2 = MessagesController.getInstance(this.currentAccount).getUserFull(tLRPC$User.id)) != null) {
+                    TLRPC$Photo tLRPC$Photo = tLRPC$User.photo.personal ? userFull2.personal_photo : userFull2.profile_photo;
+                    if (tLRPC$Photo != null) {
+                        tLRPC$VideoSize = FileLoader.getVectorMarkupVideoSize(tLRPC$Photo);
+                        if (tLRPC$VideoSize == null && z && MessagesController.getInstance(this.currentAccount).isPremiumUser(tLRPC$User) && tLRPC$User.photo.has_video && !SharedConfig.getLiteMode().enabled()) {
+                            userFull = MessagesController.getInstance(this.currentAccount).getUserFull(tLRPC$User.id);
+                            if (userFull != null) {
+                                MessagesController.getInstance(this.currentAccount).loadFullUser(tLRPC$User, this.currentGuid, false);
+                            } else {
+                                TLRPC$Photo tLRPC$Photo2 = tLRPC$User.photo.personal ? userFull.personal_photo : userFull.profile_photo;
+                                if (tLRPC$Photo2 != null && (tLRPC$VideoSize = FileLoader.getVectorMarkupVideoSize(tLRPC$Photo2)) == null && (arrayList = tLRPC$Photo2.video_sizes) != null && !arrayList.isEmpty()) {
+                                    TLRPC$VideoSize closestVideoSizeWithSize = FileLoader.getClosestVideoSizeWithSize(arrayList, 100);
+                                    for (int i2 = 0; i2 < arrayList.size(); i2++) {
+                                        TLRPC$VideoSize tLRPC$VideoSize2 = arrayList.get(i2);
+                                        if ("p".equals(tLRPC$VideoSize2.type)) {
+                                            closestVideoSizeWithSize = tLRPC$VideoSize2;
+                                        }
+                                        if ((tLRPC$VideoSize2 instanceof TLRPC$TL_videoSizeEmojiMarkup) || (tLRPC$VideoSize2 instanceof TLRPC$TL_videoSizeStickerMarkup)) {
+                                            tLRPC$VideoSize = tLRPC$VideoSize2;
+                                        }
                                     }
-                                    if ((tLRPC$VideoSize2 instanceof TLRPC$TL_videoSizeEmojiMarkup) || (tLRPC$VideoSize2 instanceof TLRPC$TL_videoSizeStickerMarkup)) {
-                                        tLRPC$VideoSize = tLRPC$VideoSize2;
-                                    }
+                                    imageLocation2 = ImageLocation.getForPhoto(closestVideoSizeWithSize, tLRPC$Photo2);
                                 }
-                                imageLocation2 = ImageLocation.getForPhoto(closestVideoSizeWithSize, tLRPC$Photo);
                             }
-                            imageLocation = imageLocation2;
-                            z4 = z6;
-                            imageLocation2 = r8;
                         }
+                        imageLocation = imageLocation2;
+                        z4 = z6;
+                        imageLocation2 = r8;
                     }
                 }
-                imageLocation = null;
                 tLRPC$VideoSize = null;
+                if (tLRPC$VideoSize == null) {
+                    userFull = MessagesController.getInstance(this.currentAccount).getUserFull(tLRPC$User.id);
+                    if (userFull != null) {
+                    }
+                }
+                imageLocation = imageLocation2;
                 z4 = z6;
                 imageLocation2 = r8;
             } else {
@@ -959,18 +974,24 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
 
     private void setStaticDrawable(Drawable drawable) {
         Drawable drawable2 = this.staticThumbDrawable;
+        if (drawable == drawable2) {
+            return;
+        }
+        AttachableDrawable attachableDrawable = null;
         if (drawable2 instanceof AttachableDrawable) {
             if (drawable2.equals(drawable)) {
                 return;
             }
-            if (this.attachedToWindow) {
-                ((AttachableDrawable) this.staticThumbDrawable).onDetachedFromWindow(this);
-            }
+            attachableDrawable = (AttachableDrawable) this.staticThumbDrawable;
         }
         this.staticThumbDrawable = drawable;
         if (this.attachedToWindow && (drawable instanceof AttachableDrawable)) {
             ((AttachableDrawable) drawable).onAttachedToWindow(this);
         }
+        if (!this.attachedToWindow || attachableDrawable == null) {
+            return;
+        }
+        attachableDrawable.onDetachedFromWindow(this);
     }
 
     private void setDrawableShader(Drawable drawable, BitmapShader bitmapShader) {

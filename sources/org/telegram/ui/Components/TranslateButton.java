@@ -206,6 +206,7 @@ public class TranslateButton extends FrameLayout {
     public /* synthetic */ void lambda$onMenuClick$6(String str, TranslateController translateController, String str2, ActionBarPopupWindow actionBarPopupWindow, View view) {
         RestrictedLanguagesSelectActivity.toggleLanguage(str, true);
         translateController.checkRestrictedLanguagesUpdate();
+        translateController.setForceDoNotTranslateDialog(this.dialogId, true);
         BulletinFactory.of(this.fragment).createSimpleBulletin(R.raw.msg_translate, AndroidUtilities.replaceTags(LocaleController.formatString("AddedToDoNotTranslate", R.string.AddedToDoNotTranslate, str2)), LocaleController.getString("Settings", R.string.Settings), new Runnable() { // from class: org.telegram.ui.Components.TranslateButton$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {

@@ -30,6 +30,7 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
     HashSet<ImageReceiver> parents;
     float roundRadius;
     TLRPC$TL_videoSizeStickerMarkup sizeStickerMarkup;
+    ImageReceiver stickerPreloadImageReceiver;
     private final int type;
 
     @Override // android.graphics.drawable.Drawable
@@ -45,6 +46,7 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
         GradientTools gradientTools = new GradientTools();
         this.gradientTools = gradientTools;
         this.parents = new HashSet<>();
+        this.stickerPreloadImageReceiver = new ImageReceiver();
         this.currentAccount = UserConfig.selectedAccount;
         this.type = i;
         this.isPremium = z;
@@ -75,21 +77,41 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
         }
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0074  */
+    /* JADX WARN: Removed duplicated region for block: B:26:? A[RETURN, SYNTHETIC] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private void setImage() {
         String str;
+        String str2;
         TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(this.currentAccount).getStickerSet(this.sizeStickerMarkup.stickerset, false);
         if (stickerSet != null) {
             this.imageSeted = true;
             for (int i = 0; i < stickerSet.documents.size(); i++) {
                 if (stickerSet.documents.get(i).id == this.sizeStickerMarkup.sticker_id) {
                     TLRPC$Document tLRPC$Document = stickerSet.documents.get(i);
+                    TLRPC$Document tLRPC$Document2 = null;
+                    String str3 = "50_50_firstframe";
                     if (this.isPremium && this.type == 1) {
-                        str = "50_50";
+                        str2 = "50_50";
+                    } else if (this.type != 2) {
+                        str = null;
+                        this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, ImageLocation.getForDocument(tLRPC$Document2), str, null, null, DocumentObject.getSvgThumb(tLRPC$Document, "windowBackgroundWhiteGrayIcon", 0.2f), 0L, "tgs", tLRPC$Document, 0);
+                        if (this.type != 3) {
+                            this.stickerPreloadImageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), "100_100", null, null, null, 0L, "tgs", tLRPC$Document, 0);
+                            return;
+                        }
+                        return;
                     } else {
-                        str = this.type == 2 ? "100_100" : "50_50_firstframe";
+                        str2 = "100_100";
                     }
-                    this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), str, null, null, DocumentObject.getSvgThumb(tLRPC$Document, "windowBackgroundWhiteGrayIcon", 0.2f), 0L, "tgs", tLRPC$Document, 0);
-                    return;
+                    tLRPC$Document2 = tLRPC$Document;
+                    str = "50_50_firstframe";
+                    str3 = str2;
+                    this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, ImageLocation.getForDocument(tLRPC$Document2), str, null, null, DocumentObject.getSvgThumb(tLRPC$Document, "windowBackgroundWhiteGrayIcon", 0.2f), 0L, "tgs", tLRPC$Document, 0);
+                    if (this.type != 3) {
+                    }
                 }
             }
         }
@@ -114,13 +136,17 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
         int width = ((int) (getBounds().width() * 0.7f)) >> 1;
         AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
         if (animatedEmojiDrawable != null) {
-            animatedEmojiDrawable.setBounds(centerX - width, centerY - width, centerX + width, centerY + width);
+            if (animatedEmojiDrawable.getImageReceiver() != null) {
+                this.animatedEmojiDrawable.getImageReceiver().setRoundRadius((int) (width * 2 * 0.13f));
+            }
+            this.animatedEmojiDrawable.setBounds(centerX - width, centerY - width, centerX + width, centerY + width);
             this.animatedEmojiDrawable.draw(canvas);
         }
         ImageReceiver imageReceiver2 = this.imageReceiver;
         if (imageReceiver2 != null) {
             float f2 = width * 2;
-            imageReceiver2.setImageCoords(centerX - width, centerY - width, f2, f2);
+            imageReceiver2.setRoundRadius((int) (0.13f * f2));
+            this.imageReceiver.setImageCoords(centerX - width, centerY - width, f2, f2);
             this.imageReceiver.draw(canvas);
         }
     }
@@ -149,6 +175,10 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
             if (imageReceiver2 != null) {
                 imageReceiver2.onAttachedToWindow();
             }
+            ImageReceiver imageReceiver3 = this.stickerPreloadImageReceiver;
+            if (imageReceiver3 != null) {
+                imageReceiver3.onAttachedToWindow();
+            }
         }
         this.parents.add(imageReceiver);
         if (this.sizeStickerMarkup != null) {
@@ -167,6 +197,10 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
             ImageReceiver imageReceiver2 = this.imageReceiver;
             if (imageReceiver2 != null) {
                 imageReceiver2.onDetachedFromWindow();
+            }
+            ImageReceiver imageReceiver3 = this.stickerPreloadImageReceiver;
+            if (imageReceiver3 != null) {
+                imageReceiver3.onDetachedFromWindow();
             }
         }
         if (this.sizeStickerMarkup != null) {
@@ -189,16 +223,18 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
         }
         if (obj != null && VectorAvatarThumbDrawable.class == obj.getClass()) {
             VectorAvatarThumbDrawable vectorAvatarThumbDrawable = (VectorAvatarThumbDrawable) obj;
-            GradientTools gradientTools = this.gradientTools;
-            int i = gradientTools.color1;
-            GradientTools gradientTools2 = vectorAvatarThumbDrawable.gradientTools;
-            if (i == gradientTools2.color1 && gradientTools.color2 == gradientTools2.color2 && gradientTools.color3 == gradientTools2.color3 && gradientTools.color4 == gradientTools2.color4) {
-                AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
-                if (animatedEmojiDrawable != null && vectorAvatarThumbDrawable.animatedEmojiDrawable != null) {
-                    return animatedEmojiDrawable.getDocumentId() == vectorAvatarThumbDrawable.animatedEmojiDrawable.getDocumentId();
+            if (this.type == vectorAvatarThumbDrawable.type) {
+                GradientTools gradientTools = this.gradientTools;
+                int i = gradientTools.color1;
+                GradientTools gradientTools2 = vectorAvatarThumbDrawable.gradientTools;
+                if (i == gradientTools2.color1 && gradientTools.color2 == gradientTools2.color2 && gradientTools.color3 == gradientTools2.color3 && gradientTools.color4 == gradientTools2.color4) {
+                    AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
+                    if (animatedEmojiDrawable != null && vectorAvatarThumbDrawable.animatedEmojiDrawable != null) {
+                        return animatedEmojiDrawable.getDocumentId() == vectorAvatarThumbDrawable.animatedEmojiDrawable.getDocumentId();
+                    }
+                    TLRPC$TL_videoSizeStickerMarkup tLRPC$TL_videoSizeStickerMarkup2 = this.sizeStickerMarkup;
+                    return tLRPC$TL_videoSizeStickerMarkup2 != null && (tLRPC$TL_videoSizeStickerMarkup = vectorAvatarThumbDrawable.sizeStickerMarkup) != null && tLRPC$TL_videoSizeStickerMarkup2.stickerset.id == tLRPC$TL_videoSizeStickerMarkup.stickerset.id && tLRPC$TL_videoSizeStickerMarkup2.sticker_id == tLRPC$TL_videoSizeStickerMarkup.sticker_id;
                 }
-                TLRPC$TL_videoSizeStickerMarkup tLRPC$TL_videoSizeStickerMarkup2 = this.sizeStickerMarkup;
-                return tLRPC$TL_videoSizeStickerMarkup2 != null && (tLRPC$TL_videoSizeStickerMarkup = vectorAvatarThumbDrawable.sizeStickerMarkup) != null && tLRPC$TL_videoSizeStickerMarkup2.stickerset.id == tLRPC$TL_videoSizeStickerMarkup.stickerset.id && tLRPC$TL_videoSizeStickerMarkup2.sticker_id == tLRPC$TL_videoSizeStickerMarkup.sticker_id;
             }
         }
         return false;

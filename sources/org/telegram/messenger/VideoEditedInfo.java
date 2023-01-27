@@ -95,6 +95,8 @@ public class VideoEditedInfo {
         public Object parentObject;
         public long ptr;
         public float rotation;
+        public float roundRadius;
+        public Canvas roundRadiusCanvas;
         public float scale;
         public byte subType;
         public String text;

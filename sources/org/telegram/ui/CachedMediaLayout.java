@@ -118,7 +118,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         this.allPages = pageArr;
         this.parentFragment = baseFragment;
         pageArr[0] = new Page(this, LocaleController.getString("Chats", R.string.Chats), 0, new DialogsAdapter(this, null), null);
-        this.allPages[1] = new Page(this, LocaleController.getString("Media", R.string.Media), 1, new MediaAdapter(this, null), null);
+        this.allPages[1] = new Page(this, LocaleController.getString("MediaTab", R.string.MediaTab), 1, new MediaAdapter(this, null), null);
         this.allPages[2] = new Page(this, LocaleController.getString("Files", R.string.Files), 2, new DocumentsAdapter(this, null), null);
         this.allPages[3] = new Page(this, LocaleController.getString("Music", R.string.Music), 3, new MusicAdapter(this, null), null);
         int i = 0;

@@ -4956,21 +4956,21 @@
     <public type="string" name="MaxCacheSizeInfo" id="0x7f0e0bbe" />
     <public type="string" name="MaxVideoSize" id="0x7f0e0bbf" />
     <public type="string" name="May" id="0x7f0e0bc0" />
-    <public type="string" name="Media" id="0x7f0e0bc1" />
-    <public type="string" name="MediaSavedHint_few" id="0x7f0e0bc2" />
-    <public type="string" name="MediaSavedHint_many" id="0x7f0e0bc3" />
-    <public type="string" name="MediaSavedHint_one" id="0x7f0e0bc4" />
-    <public type="string" name="MediaSavedHint_other" id="0x7f0e0bc5" />
-    <public type="string" name="MediaSavedHint_two" id="0x7f0e0bc6" />
-    <public type="string" name="MediaSavedHint_zero" id="0x7f0e0bc7" />
-    <public type="string" name="MediaSelected_few" id="0x7f0e0bc8" />
-    <public type="string" name="MediaSelected_many" id="0x7f0e0bc9" />
-    <public type="string" name="MediaSelected_one" id="0x7f0e0bca" />
-    <public type="string" name="MediaSelected_other" id="0x7f0e0bcb" />
-    <public type="string" name="MediaSelected_two" id="0x7f0e0bcc" />
-    <public type="string" name="MediaSelected_zero" id="0x7f0e0bcd" />
-    <public type="string" name="MediaShowPhotos" id="0x7f0e0bce" />
-    <public type="string" name="MediaShowVideos" id="0x7f0e0bcf" />
+    <public type="string" name="MediaSavedHint_few" id="0x7f0e0bc1" />
+    <public type="string" name="MediaSavedHint_many" id="0x7f0e0bc2" />
+    <public type="string" name="MediaSavedHint_one" id="0x7f0e0bc3" />
+    <public type="string" name="MediaSavedHint_other" id="0x7f0e0bc4" />
+    <public type="string" name="MediaSavedHint_two" id="0x7f0e0bc5" />
+    <public type="string" name="MediaSavedHint_zero" id="0x7f0e0bc6" />
+    <public type="string" name="MediaSelected_few" id="0x7f0e0bc7" />
+    <public type="string" name="MediaSelected_many" id="0x7f0e0bc8" />
+    <public type="string" name="MediaSelected_one" id="0x7f0e0bc9" />
+    <public type="string" name="MediaSelected_other" id="0x7f0e0bca" />
+    <public type="string" name="MediaSelected_two" id="0x7f0e0bcb" />
+    <public type="string" name="MediaSelected_zero" id="0x7f0e0bcc" />
+    <public type="string" name="MediaShowPhotos" id="0x7f0e0bcd" />
+    <public type="string" name="MediaShowVideos" id="0x7f0e0bce" />
+    <public type="string" name="MediaTab" id="0x7f0e0bcf" />
     <public type="string" name="MediaZoomIn" id="0x7f0e0bd0" />
     <public type="string" name="MediaZoomOut" id="0x7f0e0bd1" />
     <public type="string" name="Media_few" id="0x7f0e0bd2" />

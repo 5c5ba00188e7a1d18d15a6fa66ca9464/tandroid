@@ -1125,6 +1125,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             float f = i;
             float f2 = i2;
             imageReceiver2.setImageCoords(f, f, f2, f2);
+            imageReceiver2.setRoundRadius((int) (f2 * 0.13f));
             imageReceiver2.draw(canvas);
             imageReceiver2.clearImage();
             firstFrame.recycle();
@@ -1135,6 +1136,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             float f3 = i;
             float f4 = i2;
             imageReceiver.setImageCoords(f3, f3, f4, f4);
+            imageReceiver.setRoundRadius((int) (f4 * 0.13f));
             imageReceiver.draw(canvas);
         }
         File file2 = new File(FileLoader.getDirectory(4), SharedConfig.getLastLocalId() + "avatar_background.png");
@@ -1225,6 +1227,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             mediaEntity.document = findDocument;
             mediaEntity.parentObject = null;
             mediaEntity.text = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(findDocument, true).getAbsolutePath();
+            mediaEntity.roundRadius = 0.13f;
             if (MessageObject.isAnimatedStickerDocument(findDocument, true) || MessageObject.isVideoStickerDocument(findDocument)) {
                 mediaEntity.subType = (byte) (mediaEntity.subType | (MessageObject.isAnimatedStickerDocument(findDocument, true) ? (byte) 1 : (byte) 4));
             }
@@ -4401,6 +4404,9 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 photoAttachPhotoCell.getCheckBox().setVisibility(8);
             }
             MediaController.PhotoEntry photoEntryAtPosition = ChatAttachAlertPhotoLayout.this.getPhotoEntryAtPosition(i);
+            if (photoEntryAtPosition == null) {
+                return;
+            }
             photoAttachPhotoCell.setPhotoEntry(photoEntryAtPosition, this.needCamera && ChatAttachAlertPhotoLayout.this.selectedAlbumEntry == ChatAttachAlertPhotoLayout.this.galleryAlbumEntry, i == getItemCount() - 1);
             ChatAttachAlert chatAttachAlert = ChatAttachAlertPhotoLayout.this.parentAlert;
             if (!(chatAttachAlert.baseFragment instanceof ChatActivity) || !chatAttachAlert.allowOrder) {

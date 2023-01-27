@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.MessagesController;
@@ -490,7 +491,11 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
         }
         boolean onTouchEvent = this.isScrollingListView ? this.parentListView.onTouchEvent(motionEvent) : false;
         if (this.isSwipingViewPager) {
-            onTouchEvent |= super.onTouchEvent(motionEvent);
+            try {
+                onTouchEvent |= super.onTouchEvent(motionEvent);
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
         }
         if (action == 1 || action == 3) {
             this.isScrollingListView = false;

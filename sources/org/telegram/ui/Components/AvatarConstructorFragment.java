@@ -572,6 +572,9 @@ public class AvatarConstructorFragment extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void onDonePressed() {
+        if (this.previewView.getImageReceiver() == null || !this.previewView.getImageReceiver().hasImageLoaded()) {
+            return;
+        }
         Delegate delegate = this.delegate;
         if (delegate != null) {
             PreviewView previewView = this.previewView;
@@ -803,9 +806,13 @@ public class AvatarConstructorFragment extends BaseFragment {
             BackupImageView backupImageView = this.backupImageView;
             AnimatedEmojiDrawable animatedEmojiDrawable = backupImageView.animatedEmojiDrawable;
             if (animatedEmojiDrawable != null) {
+                if (animatedEmojiDrawable.getImageReceiver() != null) {
+                    this.backupImageView.animatedEmojiDrawable.getImageReceiver().setRoundRadius((int) (2.0f * lerp2 * 0.13f));
+                }
+                AnimatedEmojiDrawable animatedEmojiDrawable2 = this.backupImageView.animatedEmojiDrawable;
                 float f10 = this.cx;
                 float f11 = this.cy;
-                animatedEmojiDrawable.setBounds((int) (f10 - lerp2), (int) (f11 - lerp2), (int) (f10 + lerp2), (int) (f11 + lerp2));
+                animatedEmojiDrawable2.setBounds((int) (f10 - lerp2), (int) (f11 - lerp2), (int) (f10 + lerp2), (int) (f11 + lerp2));
                 this.backupImageView.animatedEmojiDrawable.draw(canvas);
                 return;
             }
@@ -814,6 +821,7 @@ public class AvatarConstructorFragment extends BaseFragment {
             float f13 = this.cy - lerp2;
             float f14 = lerp2 * 2.0f;
             imageReceiver.setImageCoords(f12, f13, f14, f14);
+            this.backupImageView.imageReceiver.setRoundRadius((int) (f14 * 0.13f));
             this.backupImageView.imageReceiver.draw(canvas);
         }
 
@@ -1051,7 +1059,8 @@ public class AvatarConstructorFragment extends BaseFragment {
             }
         };
         this.bottomSheet = bottomSheet;
-        bottomSheet.pauseAllHeavyOperations = false;
+        bottomSheet.fixNavigationBar();
+        this.bottomSheet.pauseAllHeavyOperations = false;
         this.drawForBlur = true;
         this.colorPickerPreviewView.setBackground(new BitmapDrawable(getContext().getResources(), AndroidUtilities.makeBlurBitmap(this.fragmentView, 12.0f, 10)));
         this.drawForBlur = false;
@@ -1351,7 +1360,7 @@ public class AvatarConstructorFragment extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean isLightStatusBar() {
         PreviewView previewView = this.previewView;
-        boolean z = previewView.expanded || previewView.overrideExpandProgress >= 0.0f ? AndroidUtilities.computePerceivedBrightness(previewView.backgroundGradient.getAverageColor()) > 0.721f : AndroidUtilities.computePerceivedBrightness(Theme.getColor("windowBackgroundGray")) > 0.721f;
+        boolean z = (previewView == null || !previewView.expanded) && (previewView.overrideExpandProgress < 0.0f || previewView.backgroundGradient == null) ? AndroidUtilities.computePerceivedBrightness(Theme.getColor("windowBackgroundGray")) > 0.721f : AndroidUtilities.computePerceivedBrightness(previewView.backgroundGradient.getAverageColor()) > 0.721f;
         if (this.isLightInternal != z) {
             this.isLightInternal = z;
             if (this.actionBar.getAlpha() == 0.0f) {

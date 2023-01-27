@@ -5345,7 +5345,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r13v178 */
     /* JADX WARN: Type inference failed for: r13v2 */
     /* JADX WARN: Type inference failed for: r13v3, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r15v109, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r15v109, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r15v110 */
     /* JADX WARN: Type inference failed for: r15v125 */
     /* JADX WARN: Type inference failed for: r2v1373 */
@@ -5355,9 +5355,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r3v1016 */
     /* JADX WARN: Type inference failed for: r3v1017 */
     /* JADX WARN: Type inference failed for: r3v26 */
-    /* JADX WARN: Type inference failed for: r3v27, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v27, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v35 */
-    /* JADX WARN: Type inference failed for: r3v48, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v48, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v749, types: [org.telegram.tgnet.TLRPC$InputStickerSet] */
     /* JADX WARN: Type inference failed for: r76v0, types: [android.view.View, org.telegram.ui.Cells.ChatMessageCell, android.view.ViewGroup, org.telegram.messenger.DownloadController$FileDownloadProgressListener] */
     /*
@@ -25781,7 +25781,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Removed duplicated region for block: B:1143:0x0a7c  */
     /* JADX WARN: Removed duplicated region for block: B:1161:0x0ad1  */
     /* JADX WARN: Removed duplicated region for block: B:1164:0x0add  */
-    /* JADX WARN: Removed duplicated region for block: B:1410:0x13ae  */
+    /* JADX WARN: Removed duplicated region for block: B:1410:0x13aa  */
     /* JADX WARN: Removed duplicated region for block: B:1417:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:893:0x04bf  */
     /* JADX WARN: Removed duplicated region for block: B:898:0x04e0  */
@@ -25822,6 +25822,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         float f12;
         int i7;
         float f13;
+        int color;
         float f14;
         int i8;
         int i9;
@@ -26601,13 +26602,18 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                 canvas.restore();
                             }
                             MessageObject messageObject8 = this.currentMessageObject;
-                            int color = (messageObject8 == null || !messageObject8.isOut() || ChatObject.isChannelAndNotMegaGroup(this.currentMessageObject.getChatId(), this.currentAccount)) ? this.replyTextLayout.getPaint().getColor() : getThemedColor("chat_outTimeText");
+                            if (messageObject8 != null && messageObject8.isOut() && !ChatObject.isChannelAndNotMegaGroup(this.currentMessageObject.getChatId(), this.currentAccount)) {
+                                color = getThemedColor("chat_outTimeText");
+                            } else {
+                                color = Theme.chat_replyTextPaint.getColor();
+                            }
+                            int i24 = color;
                             if (this.transitionParams.animateReplyTextLayout != null) {
                                 canvas.save();
                                 canvas.translate(this.forwardNameX, Theme.chat_replyNamePaint.getTextSize() + f37 + AndroidUtilities.dp(5.0f));
                                 int alpha10 = Theme.chat_replyTextPaint.getAlpha();
                                 Theme.chat_replyTextPaint.setAlpha((int) (alpha10 * (1.0f - this.transitionParams.animateChangeProgress)));
-                                SpoilerEffect.renderWithRipple(this, this.invalidateSpoilersParent, color, -AndroidUtilities.dp(2.0f), this.spoilersPatchedReplyTextLayout, this.transitionParams.animateReplyTextLayout, this.replySpoilers, canvas, false);
+                                SpoilerEffect.renderWithRipple(this, this.invalidateSpoilersParent, i24, -AndroidUtilities.dp(2.0f), this.spoilersPatchedReplyTextLayout, this.transitionParams.animateReplyTextLayout, this.replySpoilers, canvas, false);
                                 i8 = i7;
                                 i9 = i2;
                                 f14 = f37;
@@ -26626,7 +26632,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                 canvas2.translate(this.forwardNameX, f14 + Theme.chat_replyNamePaint.getTextSize() + AndroidUtilities.dp(5.0f));
                                 int alpha11 = Theme.chat_replyTextPaint.getAlpha();
                                 Theme.chat_replyTextPaint.setAlpha((int) (alpha11 * (this.transitionParams.animateReplyTextLayout != null ? this.transitionParams.animateChangeProgress : 1.0f)));
-                                SpoilerEffect.renderWithRipple(this, this.invalidateSpoilersParent, color, -AndroidUtilities.dp(2.0f), this.spoilersPatchedReplyTextLayout, this.replyTextLayout, this.replySpoilers, canvas, false);
+                                SpoilerEffect.renderWithRipple(this, this.invalidateSpoilersParent, i24, -AndroidUtilities.dp(2.0f), this.spoilersPatchedReplyTextLayout, this.replyTextLayout, this.replySpoilers, canvas, false);
                                 i3 = i9;
                                 i10 = i8;
                                 canvas2 = canvas2;

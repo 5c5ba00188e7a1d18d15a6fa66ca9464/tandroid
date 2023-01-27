@@ -134,7 +134,9 @@ public class HelloParticles {
                 this.duration = Math.abs(Utilities.fastRandom.nextLong() % 2250) + 2250;
                 this.scale = (Math.abs(Utilities.fastRandom.nextFloat()) * 0.45f) + 0.6f;
                 String str = HelloParticles.hellos[Math.abs(Utilities.fastRandom.nextInt() % HelloParticles.hellos.length)];
-                if (str.length() > 5) {
+                if (str.length() > 7) {
+                    this.scale *= 0.6f;
+                } else if (str.length() > 5) {
                     this.scale *= 0.75f;
                 }
                 StaticLayout staticLayout = new StaticLayout(str, Drawable.this.textPaint, AndroidUtilities.displaySize.x, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);

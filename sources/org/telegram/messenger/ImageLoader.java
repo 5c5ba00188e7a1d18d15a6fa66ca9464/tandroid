@@ -62,6 +62,7 @@ import org.json.JSONObject;
 import org.telegram.DispatchQueuePriority;
 import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.FilePathDatabase;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.secretmedia.EncryptedFileInputStream;
@@ -3651,23 +3652,24 @@ public class ImageLoader {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$5$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ImageLoader.5.this.lambda$fileDidLoaded$5(file, str, obj, i2, i);
+                    ImageLoader.5.this.lambda$fileDidLoaded$5(file, str, i2, obj, i);
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$fileDidLoaded$5(File file, String str, Object obj, int i, int i2) {
+        public /* synthetic */ void lambda$fileDidLoaded$5(File file, String str, int i, Object obj, int i2) {
+            FilePathDatabase.FileMeta fileMetadataFromParent;
             int i3;
-            if (file != null && ((str.endsWith(".mp4") || str.endsWith(".jpg")) && (obj instanceof MessageObject))) {
-                MessageObject messageObject = (MessageObject) obj;
-                long dialogId = messageObject.getDialogId();
-                if (dialogId >= 0) {
+            if (file != null && ((str.endsWith(".mp4") || str.endsWith(".jpg")) && (fileMetadataFromParent = FileLoader.getFileMetadataFromParent(i, obj)) != null)) {
+                MessageObject messageObject = obj instanceof MessageObject ? (MessageObject) obj : null;
+                long j = fileMetadataFromParent.dialogId;
+                if (j >= 0) {
                     i3 = 1;
                 } else {
-                    i3 = ChatObject.isChannelAndNotMegaGroup(MessagesController.getInstance(i).getChat(Long.valueOf(-dialogId))) ? 4 : 2;
+                    i3 = ChatObject.isChannelAndNotMegaGroup(MessagesController.getInstance(i).getChat(Long.valueOf(-j))) ? 4 : 2;
                 }
-                if (SaveToGallerySettingsHelper.needSave(i3, messageObject, i)) {
+                if (SaveToGallerySettingsHelper.needSave(i3, fileMetadataFromParent, messageObject, i)) {
                     AndroidUtilities.addMediaToGallery(file.toString());
                 }
             }

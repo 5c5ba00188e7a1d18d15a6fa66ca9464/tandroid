@@ -148,7 +148,7 @@ public class FileLoader extends BaseController {
             String str = (String) obj;
             if (str.startsWith("sent_")) {
                 if (sentPattern == null) {
-                    sentPattern = Pattern.compile("sent_.*_([0-9]+)_([0-9]+)_([0-9]+)");
+                    sentPattern = Pattern.compile("sent_.*_([0-9]+)_([0-9]+)_([0-9]+)_([0-9]+)");
                 }
                 try {
                     Matcher matcher = sentPattern.matcher(str);
@@ -157,6 +157,7 @@ public class FileLoader extends BaseController {
                         fileMeta.messageId = Integer.parseInt(matcher.group(1));
                         fileMeta.dialogId = Long.parseLong(matcher.group(2));
                         fileMeta.messageType = Integer.parseInt(matcher.group(3));
+                        fileMeta.messageSize = Long.parseLong(matcher.group(4));
                         return fileMeta;
                     }
                     return null;
@@ -172,6 +173,7 @@ public class FileLoader extends BaseController {
             fileMeta2.messageId = messageObject.getId();
             fileMeta2.dialogId = messageObject.getDialogId();
             fileMeta2.messageType = messageObject.type;
+            fileMeta2.messageSize = messageObject.getSize();
             return fileMeta2;
         } else {
             return null;
@@ -1244,22 +1246,42 @@ public class FileLoader extends BaseController {
         return (obj instanceof MessageObject) && ((MessageObject) obj).isDocument();
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x0059, code lost:
+        if (r12 != 2) goto L21;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private boolean canSaveToPublicStorage(Object obj) {
-        int i;
-        if (!BuildVars.NO_SCOPED_STORAGE && (obj instanceof MessageObject)) {
-            MessageObject messageObject = (MessageObject) obj;
-            long dialogId = messageObject.getDialogId();
-            if (!messageObject.isRoundVideo() && !messageObject.isVoice() && !messageObject.isAnyKindOfSticker()) {
-                long j = -dialogId;
-                if (!getMessagesController().isChatNoForwards(getMessagesController().getChat(Long.valueOf(j))) && !messageObject.messageOwner.noforwards && !DialogObject.isEncryptedDialog(dialogId)) {
-                    if (dialogId >= 0) {
-                        i = 1;
-                    } else {
-                        i = ChatObject.isChannelAndNotMegaGroup(getMessagesController().getChat(Long.valueOf(j))) ? 4 : 2;
+        if (BuildVars.NO_SCOPED_STORAGE) {
+            return false;
+        }
+        FilePathDatabase.FileMeta fileMetadataFromParent = getFileMetadataFromParent(this.currentAccount, obj);
+        MessageObject messageObject = null;
+        if (fileMetadataFromParent != null) {
+            long j = fileMetadataFromParent.dialogId;
+            long j2 = -j;
+            if (!getMessagesController().isChatNoForwards(getMessagesController().getChat(Long.valueOf(j2))) && !DialogObject.isEncryptedDialog(j)) {
+                int i = 2;
+                if (obj instanceof MessageObject) {
+                    messageObject = (MessageObject) obj;
+                    if (messageObject.isRoundVideo() || messageObject.isVoice() || messageObject.isAnyKindOfSticker() || messageObject.messageOwner.noforwards) {
+                        return false;
                     }
-                    if (SaveToGallerySettingsHelper.needSave(i, messageObject, this.currentAccount)) {
-                        return true;
+                } else {
+                    int i2 = fileMetadataFromParent.messageType;
+                    if (i2 != 5) {
+                        if (i2 != 13) {
+                        }
                     }
+                }
+                if (j >= 0) {
+                    i = 1;
+                } else if (ChatObject.isChannelAndNotMegaGroup(getMessagesController().getChat(Long.valueOf(j2)))) {
+                    i = 4;
+                }
+                if (SaveToGallerySettingsHelper.needSave(i, fileMetadataFromParent, messageObject, this.currentAccount)) {
+                    return true;
                 }
             }
         }

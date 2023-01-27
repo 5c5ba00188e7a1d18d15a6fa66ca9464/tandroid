@@ -684,7 +684,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             this.distanceRow = i51;
             this.rowCount = i52 + 1;
             this.settings2Row = i52;
-            if (SharedConfig.getDevicePerformanceClass() == 0 || BuildVars.DEBUG_VERSION) {
+            if (SharedConfig.getDevicePerformanceClass() <= 1 || BuildVars.DEBUG_VERSION) {
                 int i53 = this.rowCount;
                 int i54 = i53 + 1;
                 this.rowCount = i54;

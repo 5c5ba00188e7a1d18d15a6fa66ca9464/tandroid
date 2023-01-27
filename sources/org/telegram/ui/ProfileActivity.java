@@ -1729,7 +1729,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             getMessagesController().loadFullUser(getMessagesController().getUser(Long.valueOf(this.userId)), this.classGuid, true);
             this.participantsMap = null;
             if (UserObject.isUserSelf(user)) {
-                ImageUpdater imageUpdater = new ImageUpdater(true, 1);
+                ImageUpdater imageUpdater = new ImageUpdater(true, 0);
                 this.imageUpdater = imageUpdater;
                 imageUpdater.setOpenWithFrontfaceCamera(true);
                 ImageUpdater imageUpdater2 = this.imageUpdater;
@@ -3417,7 +3417,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             int realPosition = ProfileActivity.this.avatarsViewPager.getRealPosition();
             TLRPC$Photo photo = ProfileActivity.this.avatarsViewPager.getPhoto(realPosition);
             TLRPC$UserFull userInfo = ProfileActivity.this.getUserInfo();
-            if (ProfileActivity.this.hasFallbackPhoto && userInfo != null && (tLRPC$Photo = userInfo.fallback_photo) != null && tLRPC$Photo.id == photo.id) {
+            if (ProfileActivity.this.hasFallbackPhoto && photo != null && userInfo != null && (tLRPC$Photo = userInfo.fallback_photo) != null && tLRPC$Photo.id == photo.id) {
                 userInfo.fallback_photo = null;
                 userInfo.flags &= -4194305;
                 ProfileActivity.this.getMessagesStorage().updateUserInfo(userInfo, true);
@@ -8556,55 +8556,55 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Can't wrap try/catch for region: R(33:14|(1:238)(1:18)|(1:20)(1:237)|21|(2:23|(24:25|26|(1:28)|29|(1:(1:32)(1:(1:37)(1:36)))|38|(2:42|43)|(1:49)|50|(2:52|(2:54|(1:56))(1:203))(2:204|(1:231)(2:210|(1:212)(2:213|(1:215)(4:216|(1:218)(1:230)|219|(4:223|(1:225)(1:229)|226|(1:228))))))|57|(1:202)(1:61)|62|63|64|65|(4:68|(2:70|71)(10:(2:76|(8:90|(1:175)(1:93)|94|(1:96)(1:174)|97|(1:99)(1:173)|100|(10:102|(1:152)(2:106|(1:108)(11:129|(4:131|(2:133|(1:135))(1:150)|138|(8:140|141|111|(1:115)|116|(1:120)|121|(2:125|126))(4:142|(1:144)|145|(1:147)(2:148|149)))(1:151)|136|137|110|111|(1:115)|116|(2:118|120)|121|(1:128)(3:123|125|126)))|109|110|111|(0)|116|(0)|121|(0)(0))(11:153|(10:155|(1:172)(2:159|(1:161)(2:162|(9:171|137|110|111|(0)|116|(0)|121|(0)(0))(2:168|(8:170|141|111|(0)|116|(0)|121|(0)(0)))))|109|110|111|(0)|116|(0)|121|(0)(0))|149|109|110|111|(0)|116|(0)|121|(0)(0))))|176|(0)|175|94|(0)(0)|97|(0)(0)|100|(0)(0))|72|66)|177|178|(1:180)(2:192|(4:199|182|(1:184)|185)(1:198))|181|182|(0)|185))(1:236)|235|26|(0)|29|(0)|38|(21:40|42|43|(2:45|49)|50|(0)(0)|57|(1:59)|202|62|63|64|65|(1:66)|177|178|(0)(0)|181|182|(0)|185)|233|42|43|(0)|50|(0)(0)|57|(0)|202|62|63|64|65|(1:66)|177|178|(0)(0)|181|182|(0)|185) */
-    /* JADX WARN: Code restructure failed: missing block: B:264:0x058c, code lost:
-        if (r36.chatInfo.can_view_participants != false) goto L261;
+    /* JADX WARN: Can't wrap try/catch for region: R(33:14|(1:242)(1:18)|(1:20)(1:241)|21|(4:23|(1:25)(1:239)|26|(24:28|29|(1:31)|32|(1:(1:35)(1:(1:40)(1:39)))|41|(2:45|46)|(1:52)|53|(2:55|(2:57|(1:59))(1:206))(2:207|(1:234)(2:213|(1:215)(2:216|(1:218)(4:219|(1:221)(1:233)|222|(4:226|(1:228)(1:232)|229|(1:231))))))|60|(1:205)(1:64)|65|66|67|68|(4:71|(2:73|74)(10:(2:79|(8:93|(1:178)(1:96)|97|(1:99)(1:177)|100|(1:102)(1:176)|103|(10:105|(1:155)(2:109|(1:111)(11:132|(4:134|(2:136|(1:138))(1:153)|141|(8:143|144|114|(1:118)|119|(1:123)|124|(2:128|129))(4:145|(1:147)|148|(1:150)(2:151|152)))(1:154)|139|140|113|114|(1:118)|119|(2:121|123)|124|(1:131)(3:126|128|129)))|112|113|114|(0)|119|(0)|124|(0)(0))(11:156|(10:158|(1:175)(2:162|(1:164)(2:165|(9:174|140|113|114|(0)|119|(0)|124|(0)(0))(2:171|(8:173|144|114|(0)|119|(0)|124|(0)(0)))))|112|113|114|(0)|119|(0)|124|(0)(0))|152|112|113|114|(0)|119|(0)|124|(0)(0))))|179|(0)|178|97|(0)(0)|100|(0)(0)|103|(0)(0))|75|69)|180|181|(1:183)(2:195|(4:202|185|(1:187)|188)(1:201))|184|185|(0)|188))(1:240)|238|29|(0)|32|(0)|41|(21:43|45|46|(2:48|52)|53|(0)(0)|60|(1:62)|205|65|66|67|68|(1:69)|180|181|(0)(0)|184|185|(0)|188)|236|45|46|(0)|53|(0)(0)|60|(0)|205|65|66|67|68|(1:69)|180|181|(0)(0)|184|185|(0)|188) */
+    /* JADX WARN: Code restructure failed: missing block: B:268:0x0595, code lost:
+        if (r36.chatInfo.can_view_participants != false) goto L265;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:344:0x07b7, code lost:
-        if (r36.nameTextView[r10].setText(r1) != false) goto L374;
+    /* JADX WARN: Code restructure failed: missing block: B:348:0x07c0, code lost:
+        if (r36.nameTextView[r10].setText(r1) != false) goto L378;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:352:0x07e1, code lost:
-        if (r36.nameTextView[r10].setText(r1) != false) goto L374;
+    /* JADX WARN: Code restructure failed: missing block: B:356:0x07ea, code lost:
+        if (r36.nameTextView[r10].setText(r1) != false) goto L378;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:353:0x07e3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:357:0x07ec, code lost:
         r14 = true;
      */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x0211  */
-    /* JADX WARN: Removed duplicated region for block: B:116:0x0236  */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x02d5  */
-    /* JADX WARN: Removed duplicated region for block: B:145:0x02da  */
-    /* JADX WARN: Removed duplicated region for block: B:148:0x02e1  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x021a  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x023f  */
+    /* JADX WARN: Removed duplicated region for block: B:148:0x02de  */
     /* JADX WARN: Removed duplicated region for block: B:149:0x02e3  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x02e9  */
-    /* JADX WARN: Removed duplicated region for block: B:184:0x0398  */
-    /* JADX WARN: Removed duplicated region for block: B:211:0x03fd A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:216:0x040c  */
-    /* JADX WARN: Removed duplicated region for block: B:221:0x0428  */
-    /* JADX WARN: Removed duplicated region for block: B:227:0x0454  */
-    /* JADX WARN: Removed duplicated region for block: B:229:0x0475  */
-    /* JADX WARN: Removed duplicated region for block: B:239:0x0510  */
-    /* JADX WARN: Removed duplicated region for block: B:326:0x0764  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00af  */
-    /* JADX WARN: Removed duplicated region for block: B:430:0x09b0  */
-    /* JADX WARN: Removed duplicated region for block: B:431:0x09b3  */
-    /* JADX WARN: Removed duplicated region for block: B:434:0x09bc  */
-    /* JADX WARN: Removed duplicated region for block: B:437:0x09c2  */
-    /* JADX WARN: Removed duplicated region for block: B:438:0x09cf  */
-    /* JADX WARN: Removed duplicated region for block: B:442:0x09fe  */
-    /* JADX WARN: Removed duplicated region for block: B:445:0x0a06  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x00b8  */
-    /* JADX WARN: Removed duplicated region for block: B:451:0x0a12  */
-    /* JADX WARN: Removed duplicated region for block: B:452:0x0a20  */
-    /* JADX WARN: Removed duplicated region for block: B:455:0x0a41 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:462:0x0a64  */
-    /* JADX WARN: Removed duplicated region for block: B:468:0x0a74  */
-    /* JADX WARN: Removed duplicated region for block: B:472:0x0a89  */
-    /* JADX WARN: Removed duplicated region for block: B:481:0x0abd  */
-    /* JADX WARN: Removed duplicated region for block: B:499:0x0440 A[ADDED_TO_REGION, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:504:0x09df A[ADDED_TO_REGION, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0115  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0148  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x0194  */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x02ea  */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x02ec  */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x02f2  */
+    /* JADX WARN: Removed duplicated region for block: B:188:0x03a1  */
+    /* JADX WARN: Removed duplicated region for block: B:215:0x0406 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:220:0x0415  */
+    /* JADX WARN: Removed duplicated region for block: B:225:0x0431  */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x045d  */
+    /* JADX WARN: Removed duplicated region for block: B:233:0x047e  */
+    /* JADX WARN: Removed duplicated region for block: B:243:0x0519  */
+    /* JADX WARN: Removed duplicated region for block: B:330:0x076d  */
+    /* JADX WARN: Removed duplicated region for block: B:434:0x09b9  */
+    /* JADX WARN: Removed duplicated region for block: B:435:0x09bc  */
+    /* JADX WARN: Removed duplicated region for block: B:438:0x09c5  */
+    /* JADX WARN: Removed duplicated region for block: B:441:0x09cb  */
+    /* JADX WARN: Removed duplicated region for block: B:442:0x09d8  */
+    /* JADX WARN: Removed duplicated region for block: B:446:0x0a07  */
+    /* JADX WARN: Removed duplicated region for block: B:449:0x0a0f  */
+    /* JADX WARN: Removed duplicated region for block: B:455:0x0a1b  */
+    /* JADX WARN: Removed duplicated region for block: B:456:0x0a29  */
+    /* JADX WARN: Removed duplicated region for block: B:459:0x0a4a A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00b8  */
+    /* JADX WARN: Removed duplicated region for block: B:466:0x0a6d  */
+    /* JADX WARN: Removed duplicated region for block: B:472:0x0a7d  */
+    /* JADX WARN: Removed duplicated region for block: B:476:0x0a92  */
+    /* JADX WARN: Removed duplicated region for block: B:485:0x0ac6  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x00c1  */
+    /* JADX WARN: Removed duplicated region for block: B:503:0x0449 A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:508:0x09e8 A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x011e  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x0151  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x019d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8691,7 +8691,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             ImageLocation forUserOrChat5 = ImageLocation.getForUserOrChat(user, 4);
             TLRPC$UserFull tLRPC$UserFull = this.userInfo;
             if (tLRPC$UserFull != null) {
-                tLRPC$VideoSize = FileLoader.getVectorMarkupVideoSize(tLRPC$UserFull.profile_photo);
+                tLRPC$VideoSize = FileLoader.getVectorMarkupVideoSize(user.photo.personal ? tLRPC$UserFull.personal_photo : tLRPC$UserFull.profile_photo);
                 if (tLRPC$VideoSize != null) {
                     vectorAvatarThumbDrawable = new VectorAvatarThumbDrawable(tLRPC$VideoSize, user.premium, 2);
                     ImageLocation currentVideoLocation2 = this.avatarsViewPager.getCurrentVideoLocation(forUserOrChat4, forUserOrChat3);

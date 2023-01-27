@@ -42,7 +42,6 @@ import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$TL_account_authorizations;
-import org.telegram.tgnet.TLRPC$TL_account_getAuthorizations;
 import org.telegram.tgnet.TLRPC$TL_account_resetAuthorization;
 import org.telegram.tgnet.TLRPC$TL_account_resetWebAuthorization;
 import org.telegram.tgnet.TLRPC$TL_account_setAuthorizationTTL;
@@ -701,7 +700,19 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             this.loading = true;
         }
         if (this.currentType == 0) {
-            ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_getAuthorizations(), new RequestDelegate() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda18
+            ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_account_getAuthorizations
+                public static int constructor = -484392616;
+
+                @Override // org.telegram.tgnet.TLObject
+                public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z2) {
+                    return TLRPC$TL_account_authorizations.TLdeserialize(abstractSerializedData, i, z2);
+                }
+
+                @Override // org.telegram.tgnet.TLObject
+                public void serializeToStream(AbstractSerializedData abstractSerializedData) {
+                    abstractSerializedData.writeInt32(constructor);
+                }
+            }, new RequestDelegate() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda18
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     SessionsActivity.this.lambda$loadSessions$16(z, tLObject, tLRPC$TL_error);

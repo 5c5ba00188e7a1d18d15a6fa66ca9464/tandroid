@@ -2,7 +2,6 @@ package org.webrtc;
 
 import android.media.MediaCodecInfo;
 import android.os.Build;
-import android.util.Log;
 import java.util.ArrayList;
 import org.telegram.messenger.voip.Instance;
 import org.telegram.messenger.voip.VoIPService;
@@ -166,7 +165,6 @@ public class HardwareVideoEncoderFactory implements VideoEncoderFactory {
     }
 
     private boolean isHardwareSupportedInCurrentSdkVp8(MediaCodecInfo mediaCodecInfo) {
-        Log.d("kek", "isHardwareSupportedInCurrentSdkVp8" + Instance.getGlobalServerConfig().enable_vp8_encoder);
         if (Instance.getGlobalServerConfig().enable_vp8_encoder) {
             String name = mediaCodecInfo.getName();
             return (name.startsWith("OMX.qcom.") && Build.VERSION.SDK_INT >= 19) || (name.startsWith("OMX.hisi.") && Build.VERSION.SDK_INT >= 19) || ((name.startsWith("OMX.Exynos.") && Build.VERSION.SDK_INT >= 23) || ((name.startsWith("OMX.Intel.") && Build.VERSION.SDK_INT >= 21 && this.enableIntelVp8Encoder) || (name.startsWith("c2.exynos.") && Build.VERSION.SDK_INT >= 23)));
