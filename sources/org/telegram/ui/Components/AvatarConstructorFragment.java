@@ -456,7 +456,7 @@ public class AvatarConstructorFragment extends BaseFragment {
             if (avatarFor2 != null && avatarFor2.type == 2) {
                 textView3.setText(LocaleController.getString("SuggestPhoto", R.string.SuggestPhoto));
             } else {
-                textView3.setText(LocaleController.getString("SetProfilePhoto", R.string.SetProfilePhoto));
+                textView3.setText(LocaleController.getString("SetProfilePhotoAvatarConstructor", R.string.SetProfilePhotoAvatarConstructor));
             }
         }
         textView3.setGravity(17);
@@ -723,6 +723,7 @@ public class AvatarConstructorFragment extends BaseFragment {
             };
             this.backupImageView = backupImageView;
             backupImageView.getImageReceiver().setAutoRepeatCount(1);
+            this.backupImageView.getImageReceiver().setAspectFit(true);
             setClipChildren(false);
             addView(this.backupImageView, LayoutHelper.createFrame(70, 70, 17));
         }
@@ -1360,7 +1361,7 @@ public class AvatarConstructorFragment extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean isLightStatusBar() {
         PreviewView previewView = this.previewView;
-        boolean z = (previewView == null || !previewView.expanded) && (previewView.overrideExpandProgress < 0.0f || previewView.backgroundGradient == null) ? AndroidUtilities.computePerceivedBrightness(Theme.getColor("windowBackgroundGray")) > 0.721f : AndroidUtilities.computePerceivedBrightness(previewView.backgroundGradient.getAverageColor()) > 0.721f;
+        boolean z = previewView == null || (!previewView.expanded && (previewView.overrideExpandProgress < 0.0f || previewView.backgroundGradient == null)) ? AndroidUtilities.computePerceivedBrightness(Theme.getColor("windowBackgroundGray")) > 0.721f : AndroidUtilities.computePerceivedBrightness(previewView.backgroundGradient.getAverageColor()) > 0.721f;
         if (this.isLightInternal != z) {
             this.isLightInternal = z;
             if (this.actionBar.getAlpha() == 0.0f) {

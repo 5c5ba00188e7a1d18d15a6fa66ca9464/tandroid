@@ -401,13 +401,11 @@ public class DataUsage2Activity extends BaseFragment {
                         } else {
                             if (size.outSize > 0 || size.outCount > 0) {
                                 i6++;
-                                int i8 = R.string.OutgoingCallsCount;
-                                arrayList.add(i6, ItemInner.asCell(-1, 0, 0, LocaleController.formatString(i8, "" + AndroidUtilities.formatCount(size.outCount)), AndroidUtilities.formatFileSize(size.outSize)));
+                                arrayList.add(i6, ItemInner.asCell(-1, 0, 0, LocaleController.formatPluralStringComma("OutgoingCallsCount", size.outCount), AndroidUtilities.formatFileSize(size.outSize)));
                             }
                             if (size.inSize > 0 || size.inCount > 0) {
                                 i6++;
-                                int i9 = R.string.IncomingCallsCount;
-                                arrayList.add(i6, ItemInner.asCell(-1, 0, 0, LocaleController.formatString(i9, "" + AndroidUtilities.formatCount(size.inCount)), AndroidUtilities.formatFileSize(size.inSize)));
+                                arrayList.add(i6, ItemInner.asCell(-1, 0, 0, LocaleController.formatPluralStringComma("IncomingCallsCount", size.inCount), AndroidUtilities.formatFileSize(size.inSize)));
                             }
                         }
                         i = 1;
@@ -434,10 +432,10 @@ public class DataUsage2Activity extends BaseFragment {
                     this.itemInners.add(ItemInner.asSeparator());
                 }
                 this.itemInners.add(ItemInner.asCell(-2, R.drawable.msg_download_settings, getThemedColor("statisticChartLine_lightblue"), LocaleController.getString("AutomaticDownloadSettings", R.string.AutomaticDownloadSettings), null));
-                int i10 = this.currentType;
-                if (i10 == 1) {
+                int i8 = this.currentType;
+                if (i8 == 1) {
                     string = LocaleController.getString("AutomaticDownloadSettingsInfoMobile", R.string.AutomaticDownloadSettingsInfoMobile);
-                } else if (i10 == 3) {
+                } else if (i8 == 3) {
                     string = LocaleController.getString("AutomaticDownloadSettingsInfoRoaming", R.string.AutomaticDownloadSettingsInfoRoaming);
                 } else {
                     string = LocaleController.getString("AutomaticDownloadSettingsInfoWiFi", R.string.AutomaticDownloadSettingsInfoWiFi);

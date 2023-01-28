@@ -220,6 +220,7 @@ public class AndroidUtilities {
     public static final Linkify.MatchFilter sUrlMatchFilter;
     public static float touchSlop;
     private static Runnable unregisterRunnable;
+    private static Pattern uriParse;
     public static boolean usingHardwareInput;
     private static Vibrator vibrator;
     private static final Hashtable<String, Typeface> typefaceCache = new Hashtable<>();
@@ -4846,5 +4847,20 @@ public class AndroidUtilities {
             }
         }
         return false;
+    }
+
+    private static Pattern getURIParsePattern() {
+        if (uriParse == null) {
+            uriParse = Pattern.compile("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?");
+        }
+        return uriParse;
+    }
+
+    public static String getHostAuthority(String str) {
+        Matcher matcher = getURIParsePattern().matcher(str);
+        if (matcher.matches()) {
+            return matcher.group(4);
+        }
+        return null;
     }
 }

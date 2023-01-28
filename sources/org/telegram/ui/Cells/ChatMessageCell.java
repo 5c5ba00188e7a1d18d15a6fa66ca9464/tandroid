@@ -5345,7 +5345,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r13v178 */
     /* JADX WARN: Type inference failed for: r13v2 */
     /* JADX WARN: Type inference failed for: r13v3, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r15v109, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r15v109, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r15v110 */
     /* JADX WARN: Type inference failed for: r15v125 */
     /* JADX WARN: Type inference failed for: r2v1373 */
@@ -5355,9 +5355,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r3v1016 */
     /* JADX WARN: Type inference failed for: r3v1017 */
     /* JADX WARN: Type inference failed for: r3v26 */
-    /* JADX WARN: Type inference failed for: r3v27, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v27, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r3v35 */
-    /* JADX WARN: Type inference failed for: r3v48, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v48, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r3v749, types: [org.telegram.tgnet.TLRPC$InputStickerSet] */
     /* JADX WARN: Type inference failed for: r76v0, types: [android.view.View, org.telegram.ui.Cells.ChatMessageCell, android.view.ViewGroup, org.telegram.messenger.DownloadController$FileDownloadProgressListener] */
     /*
@@ -31532,31 +31532,31 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         /* JADX WARN: Removed duplicated region for block: B:269:0x00c8  */
         /* JADX WARN: Removed duplicated region for block: B:270:0x00ea  */
         /* JADX WARN: Removed duplicated region for block: B:274:0x0103  */
-        /* JADX WARN: Removed duplicated region for block: B:297:0x0202  */
-        /* JADX WARN: Removed duplicated region for block: B:300:0x0211  */
-        /* JADX WARN: Removed duplicated region for block: B:303:0x021e  */
-        /* JADX WARN: Removed duplicated region for block: B:327:0x02a4  */
-        /* JADX WARN: Removed duplicated region for block: B:339:0x02e0  */
-        /* JADX WARN: Removed duplicated region for block: B:343:0x02fe  */
-        /* JADX WARN: Removed duplicated region for block: B:346:0x0304  */
-        /* JADX WARN: Removed duplicated region for block: B:360:0x034d  */
-        /* JADX WARN: Removed duplicated region for block: B:363:0x035d  */
-        /* JADX WARN: Removed duplicated region for block: B:372:0x0392  */
-        /* JADX WARN: Removed duplicated region for block: B:373:0x0397  */
-        /* JADX WARN: Removed duplicated region for block: B:376:0x039c  */
-        /* JADX WARN: Removed duplicated region for block: B:383:0x03b8  */
-        /* JADX WARN: Removed duplicated region for block: B:388:0x03d4  */
-        /* JADX WARN: Removed duplicated region for block: B:399:0x0426  */
-        /* JADX WARN: Removed duplicated region for block: B:402:0x043b  */
-        /* JADX WARN: Removed duplicated region for block: B:404:0x0441  */
-        /* JADX WARN: Removed duplicated region for block: B:413:0x048d  */
-        /* JADX WARN: Removed duplicated region for block: B:416:0x0499  */
-        /* JADX WARN: Removed duplicated region for block: B:419:0x04a5  */
-        /* JADX WARN: Removed duplicated region for block: B:422:0x04b5  */
-        /* JADX WARN: Removed duplicated region for block: B:425:0x04c4  */
-        /* JADX WARN: Removed duplicated region for block: B:430:0x04fc  */
-        /* JADX WARN: Removed duplicated region for block: B:433:0x0509  */
-        /* JADX WARN: Removed duplicated region for block: B:444:0x053c  */
+        /* JADX WARN: Removed duplicated region for block: B:297:0x0206  */
+        /* JADX WARN: Removed duplicated region for block: B:300:0x0215  */
+        /* JADX WARN: Removed duplicated region for block: B:303:0x0222  */
+        /* JADX WARN: Removed duplicated region for block: B:327:0x02a8  */
+        /* JADX WARN: Removed duplicated region for block: B:339:0x02e4  */
+        /* JADX WARN: Removed duplicated region for block: B:343:0x0302  */
+        /* JADX WARN: Removed duplicated region for block: B:346:0x0308  */
+        /* JADX WARN: Removed duplicated region for block: B:360:0x0351  */
+        /* JADX WARN: Removed duplicated region for block: B:363:0x0361  */
+        /* JADX WARN: Removed duplicated region for block: B:372:0x0396  */
+        /* JADX WARN: Removed duplicated region for block: B:373:0x039b  */
+        /* JADX WARN: Removed duplicated region for block: B:376:0x03a0  */
+        /* JADX WARN: Removed duplicated region for block: B:383:0x03bc  */
+        /* JADX WARN: Removed duplicated region for block: B:388:0x03d8  */
+        /* JADX WARN: Removed duplicated region for block: B:399:0x042a  */
+        /* JADX WARN: Removed duplicated region for block: B:402:0x043f  */
+        /* JADX WARN: Removed duplicated region for block: B:404:0x0445  */
+        /* JADX WARN: Removed duplicated region for block: B:413:0x0491  */
+        /* JADX WARN: Removed duplicated region for block: B:416:0x049d  */
+        /* JADX WARN: Removed duplicated region for block: B:419:0x04a9  */
+        /* JADX WARN: Removed duplicated region for block: B:422:0x04b9  */
+        /* JADX WARN: Removed duplicated region for block: B:425:0x04c8  */
+        /* JADX WARN: Removed duplicated region for block: B:430:0x0500  */
+        /* JADX WARN: Removed duplicated region for block: B:433:0x050d  */
+        /* JADX WARN: Removed duplicated region for block: B:444:0x0540  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -31602,7 +31602,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             staticLayout2 = this.lastDrawnReplyTextLayout;
                             if (staticLayout != staticLayout2) {
                                 this.animateReplyTextLayout = staticLayout2;
-                                this.animateOutAnimateEmojiReply = AnimatedEmojiSpan.update(0, chatMessageCell5, chatMessageCell5.animatedEmojiStack, staticLayout2);
+                                this.animateOutAnimateEmojiReply = AnimatedEmojiSpan.update(0, (View) chatMessageCell5, false, this.animateOutAnimateEmojiReply, true, staticLayout2);
                                 z = true;
                             }
                             if (ChatMessageCell.this.edited || this.lastDrawingEdited || ChatMessageCell.this.timeLayout == null) {

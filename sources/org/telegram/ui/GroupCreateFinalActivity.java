@@ -161,7 +161,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.updateInterfaces);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.chatDidCreated);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.chatDidFailCreate);
-        ImageUpdater imageUpdater = new ImageUpdater(true, 2);
+        ImageUpdater imageUpdater = new ImageUpdater(true, 2, false);
         this.imageUpdater = imageUpdater;
         imageUpdater.parentFragment = this;
         imageUpdater.setDelegate(this);

@@ -121,13 +121,13 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
 
     public ContactAddActivity(Bundle bundle) {
         super(bundle);
-        this.imageUpdater = new ImageUpdater(true, 0);
+        this.imageUpdater = new ImageUpdater(true, 0, true);
     }
 
     public ContactAddActivity(Bundle bundle, Theme.ResourcesProvider resourcesProvider) {
         super(bundle);
         this.resourcesProvider = resourcesProvider;
-        this.imageUpdater = new ImageUpdater(true, 0);
+        this.imageUpdater = new ImageUpdater(true, 0, true);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -545,7 +545,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$10(TLRPC$User tLRPC$User) {
         this.avatar = null;
-        sendPhotoChangedRequest(null, null, null, null, 0.0d, 2);
+        sendPhotoChangedRequest(null, null, null, null, null, 0.0d, 2);
         TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.user_id));
         user.photo.personal = false;
         TLRPC$UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(this.user_id);
@@ -748,17 +748,17 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
     }
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
-    public void didUploadPhoto(final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, final boolean z, TLRPC$VideoSize tLRPC$VideoSize) {
+    public void didUploadPhoto(final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, final boolean z, final TLRPC$VideoSize tLRPC$VideoSize) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
-                ContactAddActivity.this.lambda$didUploadPhoto$13(tLRPC$PhotoSize2, tLRPC$InputFile, tLRPC$InputFile2, tLRPC$PhotoSize, d, z);
+                ContactAddActivity.this.lambda$didUploadPhoto$13(tLRPC$PhotoSize2, tLRPC$InputFile, tLRPC$InputFile2, tLRPC$PhotoSize, tLRPC$VideoSize, d, z);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didUploadPhoto$13(TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, TLRPC$PhotoSize tLRPC$PhotoSize2, double d, boolean z) {
+    public /* synthetic */ void lambda$didUploadPhoto$13(TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, TLRPC$PhotoSize tLRPC$PhotoSize2, TLRPC$VideoSize tLRPC$VideoSize, double d, boolean z) {
         if (this.imageUpdater.isCanceled()) {
             return;
         }
@@ -785,7 +785,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
                 getNotificationCenter().postNotificationName(NotificationCenter.reloadDialogPhotos, new Object[0]);
                 getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_AVATAR));
             }
-            sendPhotoChangedRequest(this.avatar, tLRPC$PhotoSize2.location, tLRPC$InputFile, tLRPC$InputFile2, d, this.photoSelectedTypeFinal);
+            sendPhotoChangedRequest(this.avatar, tLRPC$PhotoSize2.location, tLRPC$InputFile, tLRPC$InputFile2, tLRPC$VideoSize, d, this.photoSelectedTypeFinal);
             showAvatarProgress(false, true);
         } else {
             this.avatarImage.setImage(ImageLocation.getForLocal(this.avatar), "50_50", this.avatarDrawable, getMessagesController().getUser(Long.valueOf(this.user_id)));
@@ -864,7 +864,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         getMessagesController().photoSuggestion.put(tLRPC$TL_messageService.local_id, this.imageUpdater);
     }
 
-    private void sendPhotoChangedRequest(final TLRPC$FileLocation tLRPC$FileLocation, final TLRPC$FileLocation tLRPC$FileLocation2, TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, double d, final int i) {
+    private void sendPhotoChangedRequest(final TLRPC$FileLocation tLRPC$FileLocation, final TLRPC$FileLocation tLRPC$FileLocation2, TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, TLRPC$VideoSize tLRPC$VideoSize, double d, final int i) {
         TLRPC$TL_photos_uploadContactProfilePhoto tLRPC$TL_photos_uploadContactProfilePhoto = new TLRPC$TL_photos_uploadContactProfilePhoto();
         tLRPC$TL_photos_uploadContactProfilePhoto.user_id = getMessagesController().getInputUser(this.user_id);
         if (tLRPC$InputFile != null) {

@@ -185,7 +185,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         int i = this.currentStep;
         if (i == 0) {
             this.avatarDrawable = new AvatarDrawable();
-            this.imageUpdater = new ImageUpdater(true, 1);
+            this.imageUpdater = new ImageUpdater(true, 1, false);
             TLRPC$TL_channels_checkUsername tLRPC$TL_channels_checkUsername = new TLRPC$TL_channels_checkUsername();
             tLRPC$TL_channels_checkUsername.username = "1";
             tLRPC$TL_channels_checkUsername.channel = new TLRPC$TL_inputChannelEmpty();

@@ -54,7 +54,7 @@ public class PhotoUtilities {
     public static void setImageAsAvatar(MediaController.PhotoEntry photoEntry, BaseFragment baseFragment, final Runnable runnable) {
         final INavigationLayout parentLayout = baseFragment.getParentLayout();
         final int currentAccount = baseFragment.getCurrentAccount();
-        final ImageUpdater imageUpdater = new ImageUpdater(true, 0);
+        final ImageUpdater imageUpdater = new ImageUpdater(true, 0, true);
         imageUpdater.parentFragment = baseFragment;
         imageUpdater.processEntry(photoEntry);
         imageUpdater.setDelegate(new ImageUpdater.ImageUpdaterDelegate() { // from class: org.telegram.messenger.utils.PhotoUtilities$$ExternalSyntheticLambda4

@@ -2144,7 +2144,9 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                         } else {
                             this.timeLayout = null;
                             this.joinButton.setVisibility(0);
-                            if (groupCall2.call.rtmp_stream) {
+                            if (!TextUtils.isEmpty(groupCall2.call.title)) {
+                                this.titleTextView.setText(groupCall2.call.title, false);
+                            } else if (groupCall2.call.rtmp_stream) {
                                 this.titleTextView.setText(LocaleController.getString(R.string.VoipChannelVoiceChat), false);
                             } else if (ChatObject.isChannelOrGiga(currentChat)) {
                                 this.titleTextView.setText(LocaleController.getString("VoipChannelVoiceChat", R.string.VoipChannelVoiceChat), false);

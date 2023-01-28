@@ -2620,6 +2620,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
+    public void onBeginSlide() {
+        super.onBeginSlide();
+        ChatSelectionReactionMenuOverlay chatSelectionReactionMenuOverlay = this.selectionReactionsOverlay;
+        if (chatSelectionReactionMenuOverlay == null || !chatSelectionReactionMenuOverlay.isVisible()) {
+            return;
+        }
+        this.selectionReactionsOverlay.setHiddenByScroll(true);
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onFragmentDestroy() {
         super.onFragmentDestroy();
         ChatActivityEnterView chatActivityEnterView = this.chatActivityEnterView;
@@ -20103,14 +20113,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /*  JADX ERROR: JadxRuntimeException in pass: BlockProcessor
-        jadx.core.utils.exceptions.JadxRuntimeException: CFG modification limit reached, blocks count: 3324
+        jadx.core.utils.exceptions.JadxRuntimeException: CFG modification limit reached, blocks count: 3328
         	at jadx.core.dex.visitors.blocks.BlockProcessor.processBlocksTree(BlockProcessor.java:59)
         	at jadx.core.dex.visitors.blocks.BlockProcessor.visit(BlockProcessor.java:39)
         */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int r54, int r55, java.lang.Object... r56) {
         /*
-            Method dump skipped, instructions count: 15320
+            Method dump skipped, instructions count: 15337
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.ui.ChatActivity.didReceivedNotification(int, int, java.lang.Object[]):void");
@@ -20874,7 +20884,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r4v76 */
     /* JADX WARN: Type inference failed for: r4v78 */
     /* JADX WARN: Type inference failed for: r7v14 */
-    /* JADX WARN: Type inference failed for: r7v15, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r7v15, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v18 */
     /* JADX WARN: Type inference failed for: r7v19 */
     /*
@@ -21875,7 +21885,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:90:0x0175  */
     /* JADX WARN: Removed duplicated region for block: B:93:0x0181  */
     /* JADX WARN: Type inference failed for: r14v4 */
-    /* JADX WARN: Type inference failed for: r14v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r14v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r14v9 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -24943,7 +24953,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Code restructure failed: missing block: B:36:0x017e, code lost:
-        if (((org.telegram.tgnet.TLRPC$TL_emojiStatusUntil) r1).until > ((int) (java.lang.System.currentTimeMillis() / 1000))) goto L251;
+        if (((org.telegram.tgnet.TLRPC$TL_emojiStatusUntil) r1).until > ((int) (java.lang.System.currentTimeMillis() / 1000))) goto L252;
      */
     /* JADX WARN: Removed duplicated region for block: B:100:0x022b  */
     /* JADX WARN: Removed duplicated region for block: B:106:0x0239  */
@@ -24954,9 +24964,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:197:0x0563  */
     /* JADX WARN: Removed duplicated region for block: B:217:0x0652  */
     /* JADX WARN: Removed duplicated region for block: B:219:0x0665  */
-    /* JADX WARN: Removed duplicated region for block: B:230:0x069d  */
-    /* JADX WARN: Removed duplicated region for block: B:240:0x06cd  */
-    /* JADX WARN: Removed duplicated region for block: B:252:0x073c  */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x06a4  */
+    /* JADX WARN: Removed duplicated region for block: B:241:0x06d4  */
+    /* JADX WARN: Removed duplicated region for block: B:253:0x0743  */
     /* JADX WARN: Removed duplicated region for block: B:61:0x01d3  */
     /* JADX WARN: Removed duplicated region for block: B:80:0x01fb  */
     /* JADX WARN: Removed duplicated region for block: B:81:0x01fd  */
@@ -25222,7 +25232,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 this.topViewSeparator2.setVisibility(8);
             }
             if (!z5) {
-                if (this.addToContactsButton.getVisibility() == 0 || this.reportSpamButton.getVisibility() == 0 || (user != null && !TextUtils.isEmpty(string))) {
+                if (this.restartTopicButton.getVisibility() == 0) {
+                    this.topViewSeparator3.setVisibility(0);
+                } else if (this.addToContactsButton.getVisibility() == 0 || (user != null && !TextUtils.isEmpty(string))) {
                     this.topViewSeparator3.setVisibility(0);
                 } else {
                     dp -= AndroidUtilities.dp(48.0f);
@@ -26480,7 +26492,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r11v22, types: [android.widget.LinearLayout, org.telegram.ui.Components.ReactedUsersListView$ContainerLinerLayout] */
     /* JADX WARN: Type inference failed for: r12v32 */
     /* JADX WARN: Type inference failed for: r12v5 */
-    /* JADX WARN: Type inference failed for: r12v6, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r12v6, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r1v269 */
     /* JADX WARN: Type inference failed for: r1v270 */
     /* JADX WARN: Type inference failed for: r1v278, types: [org.telegram.ui.Components.AnimatedEmojiSpan[]] */

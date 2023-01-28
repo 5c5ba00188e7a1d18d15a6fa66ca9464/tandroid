@@ -220,7 +220,8 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         };
         this.avatarDrawable = new AvatarDrawable();
         this.chatId = bundle.getLong("chat_id", 0L);
-        this.imageUpdater = new ImageUpdater(true, 2);
+        TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(this.chatId));
+        this.imageUpdater = new ImageUpdater(true, (chat == null || !ChatObject.isChannelAndNotMegaGroup(chat)) ? 2 : 1, false);
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:24:0x0095, code lost:

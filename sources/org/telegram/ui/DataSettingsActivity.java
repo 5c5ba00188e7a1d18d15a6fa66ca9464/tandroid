@@ -762,7 +762,7 @@ public class DataSettingsActivity extends BaseFragment {
                                     if (i != DataSettingsActivity.this.streamSectionRow) {
                                         if (i != DataSettingsActivity.this.autoplayHeaderRow) {
                                             if (i == DataSettingsActivity.this.saveToGallerySectionRow) {
-                                                headerCell.setText(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
+                                                headerCell.setText(LocaleController.getString("SaveToGallerySettings", R.string.SaveToGallerySettings));
                                                 return;
                                             }
                                             return;

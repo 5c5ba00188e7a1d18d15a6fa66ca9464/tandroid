@@ -1889,6 +1889,9 @@ public class LoginActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$resendCodeFromSafetyNet$20() {
+        if (getParentActivity() == null) {
+            return;
+        }
         new AlertDialog.Builder(getContext()).setTitle(LocaleController.getString(R.string.RestorePasswordNoEmailTitle)).setMessage(LocaleController.getString(R.string.SafetyNetErrorOccurred)).setPositiveButton(LocaleController.getString(R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda6
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
@@ -2735,7 +2738,7 @@ public class LoginActivity extends BaseFragment {
 
         private void loadCountries() {
             TLRPC$TL_help_getCountriesList tLRPC$TL_help_getCountriesList = new TLRPC$TL_help_getCountriesList();
-            tLRPC$TL_help_getCountriesList.lang_code = "";
+            tLRPC$TL_help_getCountriesList.lang_code = LocaleController.getInstance().getCurrentLocaleInfo() != null ? LocaleController.getInstance().getCurrentLocaleInfo().getLangCode() : Locale.getDefault().getCountry();
             LoginActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_help_getCountriesList, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$PhoneView$$ExternalSyntheticLambda18
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
@@ -2769,16 +2772,22 @@ public class LoginActivity extends BaseFragment {
                         TLRPC$TL_help_countryCode tLRPC$TL_help_countryCode = tLRPC$TL_help_country.country_codes.get(i2);
                         if (tLRPC$TL_help_countryCode != null) {
                             CountrySelectActivity.Country country2 = new CountrySelectActivity.Country();
-                            country2.name = tLRPC$TL_help_country.default_name;
+                            String str = tLRPC$TL_help_country.name;
+                            country2.name = str;
+                            String str2 = tLRPC$TL_help_country.default_name;
+                            country2.defaultName = str2;
+                            if (str == null && str2 != null) {
+                                country2.name = str2;
+                            }
                             country2.code = tLRPC$TL_help_countryCode.country_code;
                             country2.shortname = tLRPC$TL_help_country.iso2;
                             this.countriesArray.add(country2);
                             List<CountrySelectActivity.Country> list = this.codesMap.get(tLRPC$TL_help_countryCode.country_code);
                             if (list == null) {
                                 HashMap<String, List<CountrySelectActivity.Country>> hashMap = this.codesMap;
-                                String str = tLRPC$TL_help_countryCode.country_code;
+                                String str3 = tLRPC$TL_help_countryCode.country_code;
                                 ArrayList arrayList = new ArrayList();
-                                hashMap.put(str, arrayList);
+                                hashMap.put(str3, arrayList);
                                 list = arrayList;
                             }
                             list.add(country2);
@@ -8918,7 +8927,7 @@ public class LoginActivity extends BaseFragment {
             this.nextPressed = false;
             this.isCameraWaitAnimationAllowed = true;
             setOrientation(1);
-            ImageUpdater imageUpdater = new ImageUpdater(false, 0);
+            ImageUpdater imageUpdater = new ImageUpdater(false, 0, false);
             this.imageUpdater = imageUpdater;
             imageUpdater.setOpenWithFrontfaceCamera(true);
             this.imageUpdater.setSearchAvailable(false);

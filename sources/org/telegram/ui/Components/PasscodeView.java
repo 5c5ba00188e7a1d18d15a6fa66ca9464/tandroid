@@ -786,7 +786,10 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                         PasscodeView.this.backgroundSpringQueue.remove(runnable2);
                     }
                     for (Integer num : arrayList2) {
-                        PasscodeView.this.backgroundSpringNextQueue.remove(num.intValue());
+                        int intValue = num.intValue();
+                        if (intValue < PasscodeView.this.backgroundSpringNextQueue.size()) {
+                            PasscodeView.this.backgroundSpringNextQueue.remove(intValue);
+                        }
                     }
                 }
             }

@@ -1729,7 +1729,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             getMessagesController().loadFullUser(getMessagesController().getUser(Long.valueOf(this.userId)), this.classGuid, true);
             this.participantsMap = null;
             if (UserObject.isUserSelf(user)) {
-                ImageUpdater imageUpdater = new ImageUpdater(true, 0);
+                ImageUpdater imageUpdater = new ImageUpdater(true, 0, true);
                 this.imageUpdater = imageUpdater;
                 imageUpdater.setOpenWithFrontfaceCamera(true);
                 ImageUpdater imageUpdater2 = this.imageUpdater;
@@ -8556,55 +8556,55 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Can't wrap try/catch for region: R(33:14|(1:242)(1:18)|(1:20)(1:241)|21|(4:23|(1:25)(1:239)|26|(24:28|29|(1:31)|32|(1:(1:35)(1:(1:40)(1:39)))|41|(2:45|46)|(1:52)|53|(2:55|(2:57|(1:59))(1:206))(2:207|(1:234)(2:213|(1:215)(2:216|(1:218)(4:219|(1:221)(1:233)|222|(4:226|(1:228)(1:232)|229|(1:231))))))|60|(1:205)(1:64)|65|66|67|68|(4:71|(2:73|74)(10:(2:79|(8:93|(1:178)(1:96)|97|(1:99)(1:177)|100|(1:102)(1:176)|103|(10:105|(1:155)(2:109|(1:111)(11:132|(4:134|(2:136|(1:138))(1:153)|141|(8:143|144|114|(1:118)|119|(1:123)|124|(2:128|129))(4:145|(1:147)|148|(1:150)(2:151|152)))(1:154)|139|140|113|114|(1:118)|119|(2:121|123)|124|(1:131)(3:126|128|129)))|112|113|114|(0)|119|(0)|124|(0)(0))(11:156|(10:158|(1:175)(2:162|(1:164)(2:165|(9:174|140|113|114|(0)|119|(0)|124|(0)(0))(2:171|(8:173|144|114|(0)|119|(0)|124|(0)(0)))))|112|113|114|(0)|119|(0)|124|(0)(0))|152|112|113|114|(0)|119|(0)|124|(0)(0))))|179|(0)|178|97|(0)(0)|100|(0)(0)|103|(0)(0))|75|69)|180|181|(1:183)(2:195|(4:202|185|(1:187)|188)(1:201))|184|185|(0)|188))(1:240)|238|29|(0)|32|(0)|41|(21:43|45|46|(2:48|52)|53|(0)(0)|60|(1:62)|205|65|66|67|68|(1:69)|180|181|(0)(0)|184|185|(0)|188)|236|45|46|(0)|53|(0)(0)|60|(0)|205|65|66|67|68|(1:69)|180|181|(0)(0)|184|185|(0)|188) */
-    /* JADX WARN: Code restructure failed: missing block: B:268:0x0595, code lost:
-        if (r36.chatInfo.can_view_participants != false) goto L265;
+    /* JADX WARN: Can't wrap try/catch for region: R(33:14|(1:244)(1:18)|(1:20)(1:243)|21|(4:23|(1:241)(1:27)|28|(24:30|31|(1:33)|34|(1:(1:37)(1:(1:42)(1:41)))|43|(2:47|48)|(1:54)|55|(2:57|(2:59|(1:61))(1:208))(2:209|(1:236)(2:215|(1:217)(2:218|(1:220)(4:221|(1:223)(1:235)|224|(4:228|(1:230)(1:234)|231|(1:233))))))|62|(1:207)(1:66)|67|68|69|70|(4:73|(2:75|76)(10:(2:81|(8:95|(1:180)(1:98)|99|(1:101)(1:179)|102|(1:104)(1:178)|105|(10:107|(1:157)(2:111|(1:113)(11:134|(4:136|(2:138|(1:140))(1:155)|143|(8:145|146|116|(1:120)|121|(1:125)|126|(2:130|131))(4:147|(1:149)|150|(1:152)(2:153|154)))(1:156)|141|142|115|116|(1:120)|121|(2:123|125)|126|(1:133)(3:128|130|131)))|114|115|116|(0)|121|(0)|126|(0)(0))(11:158|(10:160|(1:177)(2:164|(1:166)(2:167|(9:176|142|115|116|(0)|121|(0)|126|(0)(0))(2:173|(8:175|146|116|(0)|121|(0)|126|(0)(0)))))|114|115|116|(0)|121|(0)|126|(0)(0))|154|114|115|116|(0)|121|(0)|126|(0)(0))))|181|(0)|180|99|(0)(0)|102|(0)(0)|105|(0)(0))|77|71)|182|183|(1:185)(2:197|(4:204|187|(1:189)|190)(1:203))|186|187|(0)|190))(1:242)|240|31|(0)|34|(0)|43|(21:45|47|48|(2:50|54)|55|(0)(0)|62|(1:64)|207|67|68|69|70|(1:71)|182|183|(0)(0)|186|187|(0)|190)|238|47|48|(0)|55|(0)(0)|62|(0)|207|67|68|69|70|(1:71)|182|183|(0)(0)|186|187|(0)|190) */
+    /* JADX WARN: Code restructure failed: missing block: B:270:0x0597, code lost:
+        if (r36.chatInfo.can_view_participants != false) goto L267;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:348:0x07c0, code lost:
-        if (r36.nameTextView[r10].setText(r1) != false) goto L378;
+    /* JADX WARN: Code restructure failed: missing block: B:350:0x07c2, code lost:
+        if (r36.nameTextView[r10].setText(r1) != false) goto L380;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:356:0x07ea, code lost:
-        if (r36.nameTextView[r10].setText(r1) != false) goto L378;
+    /* JADX WARN: Code restructure failed: missing block: B:358:0x07ec, code lost:
+        if (r36.nameTextView[r10].setText(r1) != false) goto L380;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:357:0x07ec, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:359:0x07ee, code lost:
         r14 = true;
      */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x021a  */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x023f  */
-    /* JADX WARN: Removed duplicated region for block: B:148:0x02de  */
-    /* JADX WARN: Removed duplicated region for block: B:149:0x02e3  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x02ea  */
-    /* JADX WARN: Removed duplicated region for block: B:153:0x02ec  */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x02f2  */
-    /* JADX WARN: Removed duplicated region for block: B:188:0x03a1  */
-    /* JADX WARN: Removed duplicated region for block: B:215:0x0406 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:220:0x0415  */
-    /* JADX WARN: Removed duplicated region for block: B:225:0x0431  */
-    /* JADX WARN: Removed duplicated region for block: B:231:0x045d  */
-    /* JADX WARN: Removed duplicated region for block: B:233:0x047e  */
-    /* JADX WARN: Removed duplicated region for block: B:243:0x0519  */
-    /* JADX WARN: Removed duplicated region for block: B:330:0x076d  */
-    /* JADX WARN: Removed duplicated region for block: B:434:0x09b9  */
-    /* JADX WARN: Removed duplicated region for block: B:435:0x09bc  */
-    /* JADX WARN: Removed duplicated region for block: B:438:0x09c5  */
-    /* JADX WARN: Removed duplicated region for block: B:441:0x09cb  */
-    /* JADX WARN: Removed duplicated region for block: B:442:0x09d8  */
-    /* JADX WARN: Removed duplicated region for block: B:446:0x0a07  */
-    /* JADX WARN: Removed duplicated region for block: B:449:0x0a0f  */
-    /* JADX WARN: Removed duplicated region for block: B:455:0x0a1b  */
-    /* JADX WARN: Removed duplicated region for block: B:456:0x0a29  */
-    /* JADX WARN: Removed duplicated region for block: B:459:0x0a4a A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00b8  */
-    /* JADX WARN: Removed duplicated region for block: B:466:0x0a6d  */
-    /* JADX WARN: Removed duplicated region for block: B:472:0x0a7d  */
-    /* JADX WARN: Removed duplicated region for block: B:476:0x0a92  */
-    /* JADX WARN: Removed duplicated region for block: B:485:0x0ac6  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x00c1  */
-    /* JADX WARN: Removed duplicated region for block: B:503:0x0449 A[ADDED_TO_REGION, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:508:0x09e8 A[ADDED_TO_REGION, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x011e  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x0151  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x019d  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x021c  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x0241  */
+    /* JADX WARN: Removed duplicated region for block: B:150:0x02e0  */
+    /* JADX WARN: Removed duplicated region for block: B:151:0x02e5  */
+    /* JADX WARN: Removed duplicated region for block: B:154:0x02ec  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x02ee  */
+    /* JADX WARN: Removed duplicated region for block: B:158:0x02f4  */
+    /* JADX WARN: Removed duplicated region for block: B:190:0x03a3  */
+    /* JADX WARN: Removed duplicated region for block: B:217:0x0408 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:222:0x0417  */
+    /* JADX WARN: Removed duplicated region for block: B:227:0x0433  */
+    /* JADX WARN: Removed duplicated region for block: B:233:0x045f  */
+    /* JADX WARN: Removed duplicated region for block: B:235:0x0480  */
+    /* JADX WARN: Removed duplicated region for block: B:245:0x051b  */
+    /* JADX WARN: Removed duplicated region for block: B:332:0x076f  */
+    /* JADX WARN: Removed duplicated region for block: B:436:0x09bb  */
+    /* JADX WARN: Removed duplicated region for block: B:437:0x09be  */
+    /* JADX WARN: Removed duplicated region for block: B:440:0x09c7  */
+    /* JADX WARN: Removed duplicated region for block: B:443:0x09cd  */
+    /* JADX WARN: Removed duplicated region for block: B:444:0x09da  */
+    /* JADX WARN: Removed duplicated region for block: B:448:0x0a09  */
+    /* JADX WARN: Removed duplicated region for block: B:451:0x0a11  */
+    /* JADX WARN: Removed duplicated region for block: B:457:0x0a1d  */
+    /* JADX WARN: Removed duplicated region for block: B:458:0x0a2b  */
+    /* JADX WARN: Removed duplicated region for block: B:461:0x0a4c A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:468:0x0a6f  */
+    /* JADX WARN: Removed duplicated region for block: B:474:0x0a7f  */
+    /* JADX WARN: Removed duplicated region for block: B:478:0x0a94  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x00ba  */
+    /* JADX WARN: Removed duplicated region for block: B:487:0x0ac8  */
+    /* JADX WARN: Removed duplicated region for block: B:505:0x044b A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x00c3  */
+    /* JADX WARN: Removed duplicated region for block: B:510:0x09ea A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0120  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x0153  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x019f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8691,7 +8691,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             ImageLocation forUserOrChat5 = ImageLocation.getForUserOrChat(user, 4);
             TLRPC$UserFull tLRPC$UserFull = this.userInfo;
             if (tLRPC$UserFull != null) {
-                tLRPC$VideoSize = FileLoader.getVectorMarkupVideoSize(user.photo.personal ? tLRPC$UserFull.personal_photo : tLRPC$UserFull.profile_photo);
+                TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto2 = user.photo;
+                tLRPC$VideoSize = FileLoader.getVectorMarkupVideoSize((tLRPC$UserProfilePhoto2 == null || !tLRPC$UserProfilePhoto2.personal) ? tLRPC$UserFull.profile_photo : tLRPC$UserFull.personal_photo);
                 if (tLRPC$VideoSize != null) {
                     vectorAvatarThumbDrawable = new VectorAvatarThumbDrawable(tLRPC$VideoSize, user.premium, 2);
                     ImageLocation currentVideoLocation2 = this.avatarsViewPager.getCurrentVideoLocation(forUserOrChat4, forUserOrChat3);
@@ -8749,8 +8750,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             }
                         }
                     }
-                    TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto2 = user.photo;
-                    this.hasCustomPhoto = tLRPC$UserProfilePhoto2 == null && tLRPC$UserProfilePhoto2.personal;
+                    TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto3 = user.photo;
+                    this.hasCustomPhoto = tLRPC$UserProfilePhoto3 == null && tLRPC$UserProfilePhoto3.personal;
                     userName = Emoji.replaceEmoji(userName, this.nameTextView[1].getPaint().getFontMetricsInt(), AndroidUtilities.dp(24.0f), false);
                     i8 = 0;
                     while (i8 < 2) {
@@ -8961,8 +8962,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         this.onlineTextView[2].setText(LocaleController.getString("FallbackTooltip", R.string.FallbackTooltip));
                         this.onlineTextView[3].setText(LocaleController.getString("Online", R.string.Online));
                     } else {
-                        TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto3 = user.photo;
-                        if (tLRPC$UserProfilePhoto3 != null && tLRPC$UserProfilePhoto3.personal && tLRPC$UserProfilePhoto3.has_video) {
+                        TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto4 = user.photo;
+                        if (tLRPC$UserProfilePhoto4 != null && tLRPC$UserProfilePhoto4.personal && tLRPC$UserProfilePhoto4.has_video) {
                             SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(str19);
                             spannableStringBuilder2.setSpan(new EmptyStubSpan(), 0, str19.length(), 0);
                             spannableStringBuilder2.append((CharSequence) " d ");
@@ -9015,8 +9016,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 CharSequence userName2 = UserObject.getUserName(user);
                 if (user.id == getUserConfig().getClientUserId()) {
                 }
-                TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto22 = user.photo;
-                this.hasCustomPhoto = tLRPC$UserProfilePhoto22 == null && tLRPC$UserProfilePhoto22.personal;
+                TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto32 = user.photo;
+                this.hasCustomPhoto = tLRPC$UserProfilePhoto32 == null && tLRPC$UserProfilePhoto32.personal;
                 userName2 = Emoji.replaceEmoji(userName2, this.nameTextView[1].getPaint().getFontMetricsInt(), AndroidUtilities.dp(24.0f), false);
                 i8 = 0;
                 while (i8 < 2) {
@@ -9039,8 +9040,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             CharSequence userName22 = UserObject.getUserName(user);
             if (user.id == getUserConfig().getClientUserId()) {
             }
-            TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto222 = user.photo;
-            this.hasCustomPhoto = tLRPC$UserProfilePhoto222 == null && tLRPC$UserProfilePhoto222.personal;
+            TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto322 = user.photo;
+            this.hasCustomPhoto = tLRPC$UserProfilePhoto322 == null && tLRPC$UserProfilePhoto322.personal;
             userName22 = Emoji.replaceEmoji(userName22, this.nameTextView[1].getPaint().getFontMetricsInt(), AndroidUtilities.dp(24.0f), false);
             i8 = 0;
             while (i8 < 2) {
@@ -10217,7 +10218,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda28
             @Override // java.lang.Runnable
             public final void run() {
-                ProfileActivity.this.lambda$didUploadPhoto$45(tLRPC$InputFile, tLRPC$InputFile2, d, tLRPC$VideoSize, str, tLRPC$PhotoSize2, tLRPC$PhotoSize);
+                ProfileActivity.this.lambda$didUploadPhoto$45(tLRPC$InputFile, tLRPC$InputFile2, tLRPC$VideoSize, d, str, tLRPC$PhotoSize2, tLRPC$PhotoSize);
             }
         });
     }
@@ -10291,8 +10292,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didUploadPhoto$45(TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, double d, TLRPC$VideoSize tLRPC$VideoSize, final String str, TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$PhotoSize tLRPC$PhotoSize2) {
-        if (tLRPC$InputFile != null || tLRPC$InputFile2 != null) {
+    public /* synthetic */ void lambda$didUploadPhoto$45(TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, TLRPC$VideoSize tLRPC$VideoSize, double d, final String str, TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$PhotoSize tLRPC$PhotoSize2) {
+        if (tLRPC$InputFile != null || tLRPC$InputFile2 != null || tLRPC$VideoSize != null) {
             TLRPC$TL_photos_uploadProfilePhoto tLRPC$TL_photos_uploadProfilePhoto = new TLRPC$TL_photos_uploadProfilePhoto();
             if (tLRPC$InputFile != null) {
                 tLRPC$TL_photos_uploadProfilePhoto.file = tLRPC$InputFile;

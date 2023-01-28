@@ -194,7 +194,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         this.openWithFrontfaceCamera = z;
     }
 
-    public ImageUpdater(boolean z, int i) {
+    public ImageUpdater(boolean z, int i, boolean z2) {
         this.canSelectVideo = z;
         this.setForType = i;
     }
@@ -886,7 +886,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
             }
             ImageUpdaterDelegate imageUpdaterDelegate3 = this.delegate;
             if (imageUpdaterDelegate3 != null) {
-                imageUpdaterDelegate3.didUploadPhoto(null, null, 0.0d, null, this.bigPhoto, this.smallPhoto, this.isVideo, this.vectorMarkup);
+                imageUpdaterDelegate3.didUploadPhoto(null, null, 0.0d, null, this.bigPhoto, this.smallPhoto, this.isVideo, null);
             }
         }
     }

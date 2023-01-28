@@ -2191,6 +2191,7 @@
     <string name="FilesReceivedCount_one">**%s** file received</string>
     <string name="FilesReceivedCount_other">**%s** files received</string>
     <string name="FilesReceivedCount_two">**%s** files received</string>
+    <string name="FilesReceivedCount_zero">**%s** files received</string>
     <string name="FilesSavedHint_few">%1$d files saved to downloads</string>
     <string name="FilesSavedHint_many">%1$d files saved to downloads</string>
     <string name="FilesSavedHint_one">File saved to downloads</string>
@@ -2203,6 +2204,7 @@
     <string name="FilesSentCount_one">**%s** file sent</string>
     <string name="FilesSentCount_other">**%s** files sent</string>
     <string name="FilesSentCount_two">**%s** files sent</string>
+    <string name="FilesSentCount_zero">**%s** files sent</string>
     <string name="Files_few">%1$d files</string>
     <string name="Files_many">%1$d files</string>
     <string name="Files_one">%1$d file</string>
@@ -2656,7 +2658,12 @@
     <string name="InactiveChatSignature">%1$s, inactive for %2$s</string>
     <string name="InactiveChats">Inactive chats</string>
     <string name="IncomingCalls">Incoming calls</string>
-    <string name="IncomingCallsCount">%s incoming calls</string>
+    <string name="IncomingCallsCount_few">%1$d incoming calls</string>
+    <string name="IncomingCallsCount_many">%1$d incoming calls</string>
+    <string name="IncomingCallsCount_one">%1$d incoming call</string>
+    <string name="IncomingCallsCount_other">%1$d incoming calls</string>
+    <string name="IncomingCallsCount_two">%1$d incoming calls</string>
+    <string name="IncomingCallsCount_zero">%1$d incoming calls</string>
     <string name="IncorrectLocalization">Incorrect localization file</string>
     <string name="IncorrectTheme">Incorrect theme file</string>
     <string name="IncreaseLimit">Increase Limit</string>
@@ -3615,7 +3622,12 @@
     <string name="OtherStickers">More Stickers</string>
     <string name="OtherWebSessions">Connected websites</string>
     <string name="OutgoingCalls">Outgoing calls</string>
-    <string name="OutgoingCallsCount">%s outgoing calls</string>
+    <string name="OutgoingCallsCount_few">%1$d outgoing calls</string>
+    <string name="OutgoingCallsCount_many">%1$d outgoing calls</string>
+    <string name="OutgoingCallsCount_one">%1$d outgoing call</string>
+    <string name="OutgoingCallsCount_other">%1$d outgoing calls</string>
+    <string name="OutgoingCallsCount_two">%1$d outgoing calls</string>
+    <string name="OutgoingCallsCount_zero">%1$d outgoing calls</string>
     <string name="P2PContacts">My Contacts</string>
     <string name="P2PContactsMinus">My Contacts (-%1$d)</string>
     <string name="P2PContactsMinusPlus">My Contacts (-%1$d, +%2$d)</string>
@@ -4316,7 +4328,7 @@
     <string name="ProxyAddedSuccess">Proxy added.</string>
     <string name="ProxyConnections">Connections</string>
     <string name="ProxyDetails">Proxy Details</string>
-    <string name="ProxyRotationTimeoutInfo">You can configure timeout by which proxy will be switched if it\'s not available in time.</string>
+    <string name="ProxyRotationTimeoutInfo">You can configure the timeout for connecting to the nearest active proxy if the current one stops working.</string>
     <string name="ProxyRotationTimeoutSeconds">%1$d sec.</string>
     <string name="ProxySettings">Proxy Settings</string>
     <string name="PsaHide">Hide</string>
@@ -4850,6 +4862,7 @@
     <string name="SendMediaPermissionStickersGifs">Stickers &amp; GIFs</string>
     <string name="SendMediaPermissionVideos">Videos</string>
     <string name="SendMediaPermissionVoice">Voice Messages</string>
+    <string name="SendMediaPolls">Pools</string>
     <string name="SendMessage">Send Message</string>
     <string name="SendMessageAsTitle">Send message as...</string>
     <string name="SendMessageLocation">Send Message</string>
@@ -4922,6 +4935,7 @@
     <string name="SetPhotoFor">Set photo for %s</string>
     <string name="SetPhotoForRest">Set Public Photo</string>
     <string name="SetProfilePhoto">Set Profile Photo</string>
+    <string name="SetProfilePhotoAvatarConstructor">Set Profile Photo</string>
     <string name="SetProfileVideo">Set Profile Video</string>
     <string name="SetRecoveryEmail">Set Recovery Email</string>
     <string name="SetReminder">Set a reminder</string>
@@ -5567,7 +5581,7 @@
     <string name="UseProxyInfo">SOCKS5 proxy settings.</string>
     <string name="UseProxyPassword">Password</string>
     <string name="UseProxyPort">Port</string>
-    <string name="UseProxyRotation">Proxy rotation</string>
+    <string name="UseProxyRotation">Auto-switch proxies</string>
     <string name="UseProxySecret">Secret</string>
     <string name="UseProxySettings">Use Proxy</string>
     <string name="UseProxySocks5">SOCKS5 Proxy</string>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.ReplacementSpan;
@@ -17,12 +18,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Timer;
@@ -223,6 +227,7 @@ public class CountrySelectActivity extends BaseFragment {
     /* loaded from: classes3.dex */
     public static class Country {
         public String code;
+        public String defaultName;
         public String name;
         public String shortname;
 
@@ -254,6 +259,7 @@ public class CountrySelectActivity extends BaseFragment {
         }
 
         public CountryAdapter(Context context, ArrayList<Country> arrayList) {
+            final Comparator comparator;
             this.mContext = context;
             if (arrayList != null) {
                 for (int i = 0; i < arrayList.size(); i++) {
@@ -297,15 +303,34 @@ public class CountrySelectActivity extends BaseFragment {
                     FileLog.e(e);
                 }
             }
-            Collections.sort(this.sortedCountries, CountrySelectActivity$CountryAdapter$$ExternalSyntheticLambda0.INSTANCE);
+            if (Build.VERSION.SDK_INT >= 24) {
+                final Collator collator = Collator.getInstance(LocaleController.getInstance().getCurrentLocale() != null ? LocaleController.getInstance().getCurrentLocale() : Locale.getDefault());
+                Objects.requireNonNull(collator);
+                comparator = new Comparator() { // from class: org.telegram.ui.CountrySelectActivity$CountryAdapter$$ExternalSyntheticLambda0
+                    @Override // java.util.Comparator
+                    public final int compare(Object obj, Object obj2) {
+                        return collator.compare((String) obj, (String) obj2);
+                    }
+                };
+            } else {
+                comparator = CountrySelectActivity$CountryAdapter$$ExternalSyntheticLambda2.INSTANCE;
+            }
+            Collections.sort(this.sortedCountries, comparator);
             for (ArrayList<Country> arrayList4 : this.countries.values()) {
-                Collections.sort(arrayList4, CountrySelectActivity$CountryAdapter$$ExternalSyntheticLambda1.INSTANCE);
+                Collections.sort(arrayList4, new Comparator() { // from class: org.telegram.ui.CountrySelectActivity$CountryAdapter$$ExternalSyntheticLambda1
+                    @Override // java.util.Comparator
+                    public final int compare(Object obj, Object obj2) {
+                        int lambda$new$0;
+                        lambda$new$0 = CountrySelectActivity.CountryAdapter.lambda$new$0(comparator, (CountrySelectActivity.Country) obj, (CountrySelectActivity.Country) obj2);
+                        return lambda$new$0;
+                    }
+                });
             }
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public static /* synthetic */ int lambda$new$0(Country country, Country country2) {
-            return country.name.compareTo(country2.name);
+        public static /* synthetic */ int lambda$new$0(Comparator comparator, Country country, Country country2) {
+            return comparator.compare(country.name, country2.name);
         }
 
         public HashMap<String, ArrayList<Country>> getCountries() {
@@ -411,7 +436,9 @@ public class CountrySelectActivity extends BaseFragment {
             for (ArrayList<Country> arrayList : hashMap.values()) {
                 for (Country country : arrayList) {
                     this.countryList.add(country);
-                    this.countrySearchMap.put(country, Arrays.asList(country.name.split(" ")));
+                    ArrayList arrayList2 = new ArrayList(Arrays.asList(country.name.split(" ")));
+                    arrayList2.addAll(Arrays.asList(country.defaultName.split(" ")));
+                    this.countrySearchMap.put(country, arrayList2);
                 }
             }
         }

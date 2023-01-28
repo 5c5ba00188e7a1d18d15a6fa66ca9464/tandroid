@@ -2309,6 +2309,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     imageViewEmoji.imageReceiver = imageReceiver;
                     imageReceiver.setLayerNum(7);
                     imageViewEmoji.imageReceiver.onAttachedToWindow();
+                    imageViewEmoji.imageReceiver.setAspectFit(true);
                 }
                 imageViewEmoji.imageReceiver.setParentView(SelectAnimatedEmojiDialog.this.emojiSearchGridView);
                 imageViewEmoji.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), "100_100_firstframe", null, null, DocumentObject.getSvgThumb(tLRPC$Document, "windowBackgroundWhiteGrayIcon", 0.2f), 0L, "tgs", tLRPC$Document, 0);
@@ -3433,6 +3434,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 this.imageReceiver = imageReceiver;
                 imageReceiver.setLayerNum(7);
                 this.imageReceiver.onAttachedToWindow();
+                this.imageReceiver.setAspectFit(true);
             }
             this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), "100_100_firstframe", null, null, DocumentObject.getSvgThumb(tLRPC$Document, "windowBackgroundWhiteGrayIcon", 0.2f), 0L, "tgs", tLRPC$Document, 0);
             this.isStaticIcon = true;

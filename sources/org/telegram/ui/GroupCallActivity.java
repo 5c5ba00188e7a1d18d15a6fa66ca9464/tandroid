@@ -8428,7 +8428,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             ImageUpdater imageUpdater = this.currentAvatarUpdater;
             if (imageUpdater == null || !imageUpdater.isUploadingImage()) {
                 TLRPC$User currentUser = this.accountInstance.getUserConfig().getCurrentUser();
-                ImageUpdater imageUpdater2 = new ImageUpdater(true, 0);
+                ImageUpdater imageUpdater2 = new ImageUpdater(true, 0, true);
                 this.currentAvatarUpdater = imageUpdater2;
                 imageUpdater2.setOpenWithFrontfaceCamera(true);
                 this.currentAvatarUpdater.setForceDarkTheme(true);
@@ -9886,7 +9886,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupCallActivity$AvatarUpdaterDelegate$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
-                    GroupCallActivity.AvatarUpdaterDelegate.this.lambda$didUploadPhoto$3(tLRPC$InputFile, tLRPC$InputFile2, d, tLRPC$VideoSize, str, tLRPC$PhotoSize2, tLRPC$PhotoSize);
+                    GroupCallActivity.AvatarUpdaterDelegate.this.lambda$didUploadPhoto$3(tLRPC$InputFile, tLRPC$InputFile2, tLRPC$VideoSize, d, str, tLRPC$PhotoSize2, tLRPC$PhotoSize);
                 }
             });
         }
@@ -9985,8 +9985,8 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$didUploadPhoto$3(TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, double d, TLRPC$VideoSize tLRPC$VideoSize, final String str, TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$PhotoSize tLRPC$PhotoSize2) {
-            if (tLRPC$InputFile != null || tLRPC$InputFile2 != null) {
+        public /* synthetic */ void lambda$didUploadPhoto$3(TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, TLRPC$VideoSize tLRPC$VideoSize, double d, final String str, TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$PhotoSize tLRPC$PhotoSize2) {
+            if (tLRPC$InputFile != null || tLRPC$InputFile2 != null || tLRPC$VideoSize != null) {
                 if (this.peerId <= 0) {
                     GroupCallActivity.this.accountInstance.getMessagesController().changeChatAvatar(-this.peerId, null, tLRPC$InputFile, tLRPC$InputFile2, d, str, tLRPC$PhotoSize.location, tLRPC$PhotoSize2.location, new Runnable() { // from class: org.telegram.ui.GroupCallActivity$AvatarUpdaterDelegate$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable

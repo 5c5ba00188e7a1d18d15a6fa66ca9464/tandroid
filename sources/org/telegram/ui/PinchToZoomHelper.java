@@ -766,7 +766,9 @@ public class PinchToZoomHelper {
                 invalidateViews();
             } else if ((motionEvent.getActionMasked() == 1 || ((motionEvent.getActionMasked() == 6 && checkPointerIds(motionEvent)) || motionEvent.getActionMasked() == 3)) && this.isInPinchToZoomTouchMode) {
                 this.isInPinchToZoomTouchMode = false;
-                view.getParent().requestDisallowInterceptTouchEvent(false);
+                if (view != null && view.getParent() != null) {
+                    view.getParent().requestDisallowInterceptTouchEvent(false);
+                }
                 finishZoom();
             }
             return isInOverlayModeFor(view);
