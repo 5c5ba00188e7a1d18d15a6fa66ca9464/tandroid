@@ -102,6 +102,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
     private ImageView floatingButtonIcon;
     private boolean forImport;
     private ImageUpdater imageUpdater;
+    private TLRPC$VideoSize inputEmojiMarkup;
     private TLRPC$InputFile inputPhoto;
     private TLRPC$InputFile inputVideo;
     private String inputVideoPath;
@@ -161,7 +162,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.updateInterfaces);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.chatDidCreated);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.chatDidFailCreate);
-        ImageUpdater imageUpdater = new ImageUpdater(true, 2, false);
+        ImageUpdater imageUpdater = new ImageUpdater(true, 2, true);
         this.imageUpdater = imageUpdater;
         imageUpdater.parentFragment = this;
         imageUpdater.setDelegate(this);
@@ -679,6 +680,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         this.inputPhoto = null;
         this.inputVideo = null;
         this.inputVideoPath = null;
+        this.inputEmojiMarkup = null;
         this.videoTimestamp = 0.0d;
         showAvatarProgress(false, true);
         this.avatarImage.setImage((ImageLocation) null, (String) null, this.avatarDrawable, (Object) null);
@@ -801,20 +803,21 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
     }
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
-    public void didUploadPhoto(final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, final String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, boolean z, TLRPC$VideoSize tLRPC$VideoSize) {
+    public void didUploadPhoto(final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, final String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, boolean z, final TLRPC$VideoSize tLRPC$VideoSize) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
-                GroupCreateFinalActivity.this.lambda$didUploadPhoto$8(tLRPC$InputFile, tLRPC$InputFile2, str, d, tLRPC$PhotoSize2, tLRPC$PhotoSize);
+                GroupCreateFinalActivity.this.lambda$didUploadPhoto$8(tLRPC$InputFile, tLRPC$InputFile2, tLRPC$VideoSize, str, d, tLRPC$PhotoSize2, tLRPC$PhotoSize);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didUploadPhoto$8(TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, String str, double d, TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$PhotoSize tLRPC$PhotoSize2) {
+    public /* synthetic */ void lambda$didUploadPhoto$8(TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, TLRPC$VideoSize tLRPC$VideoSize, String str, double d, TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$PhotoSize tLRPC$PhotoSize2) {
         if (tLRPC$InputFile != null || tLRPC$InputFile2 != null) {
             this.inputPhoto = tLRPC$InputFile;
             this.inputVideo = tLRPC$InputFile2;
+            this.inputEmojiMarkup = tLRPC$VideoSize;
             this.inputVideoPath = str;
             this.videoTimestamp = d;
             if (this.createAfterUpload) {
@@ -982,10 +985,10 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
                 bundle.putBoolean("just_created_chat", true);
                 presentFragment(new ChatActivity(bundle), true);
             }
-            if (this.inputPhoto == null && this.inputVideo == null) {
+            if (this.inputPhoto == null && this.inputVideo == null && this.inputEmojiMarkup == null) {
                 return;
             }
-            getMessagesController().changeChatAvatar(longValue, null, this.inputPhoto, this.inputVideo, this.videoTimestamp, this.inputVideoPath, this.avatar, this.avatarBig, null);
+            getMessagesController().changeChatAvatar(longValue, null, this.inputPhoto, this.inputVideo, this.inputEmojiMarkup, this.videoTimestamp, this.inputVideoPath, this.avatar, this.avatarBig, null);
         }
     }
 

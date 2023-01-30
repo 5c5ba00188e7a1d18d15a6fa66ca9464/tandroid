@@ -47,6 +47,7 @@ public class DrawerActionCell extends FrameLayout {
         this.textView.setTextColor(Theme.getColor("chats_menuItemText"));
         this.textView.setTextSize(AndroidUtilities.dp(15.0f));
         this.textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.textView.setIgnoreRTL(true);
         addView(this.textView, LayoutHelper.createFrame(-1, -1.0f, 51, 72.0f, 0.0f, 16.0f, 0.0f));
         setWillNotDraw(false);
     }

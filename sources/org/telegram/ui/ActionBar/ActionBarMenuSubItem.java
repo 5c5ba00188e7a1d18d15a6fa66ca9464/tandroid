@@ -37,19 +37,23 @@ public class ActionBarMenuSubItem extends FrameLayout {
     }
 
     public ActionBarMenuSubItem(Context context, boolean z, boolean z2, boolean z3) {
-        this(context, z, z2, z3, null);
+        this(context, z ? 1 : 0, z2, z3, (Theme.ResourcesProvider) null);
     }
 
     public ActionBarMenuSubItem(Context context, boolean z, boolean z2, Theme.ResourcesProvider resourcesProvider) {
-        this(context, false, z, z2, resourcesProvider);
+        this(context, 0, z, z2, resourcesProvider);
     }
 
     public ActionBarMenuSubItem(Context context, boolean z, boolean z2, boolean z3, Theme.ResourcesProvider resourcesProvider) {
+        this(context, z ? 1 : 0, z2, z3, resourcesProvider);
+    }
+
+    public ActionBarMenuSubItem(Context context, int i, boolean z, boolean z2, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.itemHeight = 48;
         this.resourcesProvider = resourcesProvider;
-        this.top = z2;
-        this.bottom = z3;
+        this.top = z;
+        this.bottom = z2;
         this.textColor = getThemedColor("actionBarDefaultSubmenuItem");
         this.iconColor = getThemedColor("actionBarDefaultSubmenuItemIcon");
         this.selectorColor = getThemedColor("dialogButtonSelector");
@@ -69,13 +73,18 @@ public class ActionBarMenuSubItem extends FrameLayout {
         this.textView.setTextColor(this.textColor);
         this.textView.setTextSize(1, 16.0f);
         addView(this.textView, LayoutHelper.createFrame(-2, -2, (LocaleController.isRTL ? 5 : 3) | 16));
-        if (z) {
+        if (i > 0) {
             CheckBox2 checkBox2 = new CheckBox2(context, 26, resourcesProvider);
             this.checkView = checkBox2;
             checkBox2.setDrawUnchecked(false);
             this.checkView.setColor(null, null, "radioBackgroundChecked");
             this.checkView.setDrawBackgroundAsArc(-1);
-            addView(this.checkView, LayoutHelper.createFrame(26, -1, (LocaleController.isRTL ? 5 : 3) | 16));
+            if (i == 1) {
+                addView(this.checkView, LayoutHelper.createFrame(26, -1, (LocaleController.isRTL ? 5 : 3) | 16));
+                return;
+            }
+            addView(this.checkView, LayoutHelper.createFrame(26, -1, (LocaleController.isRTL ? 3 : 5) | 16));
+            this.textView.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(34.0f) : 0, 0, LocaleController.isRTL ? 0 : AndroidUtilities.dp(34.0f), 0);
         }
     }
 

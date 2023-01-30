@@ -437,7 +437,10 @@ public class CountrySelectActivity extends BaseFragment {
                 for (Country country : arrayList) {
                     this.countryList.add(country);
                     ArrayList arrayList2 = new ArrayList(Arrays.asList(country.name.split(" ")));
-                    arrayList2.addAll(Arrays.asList(country.defaultName.split(" ")));
+                    String str = country.defaultName;
+                    if (str != null) {
+                        arrayList2.addAll(Arrays.asList(str.split(" ")));
+                    }
                     this.countrySearchMap.put(country, arrayList2);
                 }
             }

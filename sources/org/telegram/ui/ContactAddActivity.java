@@ -878,6 +878,10 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             tLRPC$TL_photos_uploadContactProfilePhoto.video_start_ts = d;
             tLRPC$TL_photos_uploadContactProfilePhoto.flags = i2 | 4;
         }
+        if (tLRPC$VideoSize != null) {
+            tLRPC$TL_photos_uploadContactProfilePhoto.flags |= 32;
+            tLRPC$TL_photos_uploadContactProfilePhoto.video_emoji_markup = tLRPC$VideoSize;
+        }
         if (i == 1) {
             tLRPC$TL_photos_uploadContactProfilePhoto.suggest = true;
             tLRPC$TL_photos_uploadContactProfilePhoto.flags |= 8;

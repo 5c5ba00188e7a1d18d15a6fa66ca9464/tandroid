@@ -6006,7 +6006,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         if (baseFragment != null) {
             new PremiumFeatureBottomSheet(baseFragment, 11, false).show();
         } else if (baseFragment.getContext() instanceof LaunchActivity) {
-            ((LaunchActivity) baseFragment.getContext()).lambda$runLinkRequest$71(new PremiumPreviewFragment(null));
+            ((LaunchActivity) baseFragment.getContext()).lambda$runLinkRequest$72(new PremiumPreviewFragment(null));
         }
     }
 
@@ -8042,13 +8042,19 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
     public /* synthetic */ void lambda$setFieldFocused$46() {
         EditTextCaption editTextCaption;
-        ViewGroup view;
+        ViewGroup viewGroup = null;
         this.focusRunnable = null;
         boolean z = true;
         if (AndroidUtilities.isTablet()) {
             Activity activity = this.parentActivity;
-            if ((activity instanceof LaunchActivity) && (view = ((LaunchActivity) activity).getLayersActionBarLayout().getView()) != null && view.getVisibility() == 0) {
-                z = false;
+            if (activity instanceof LaunchActivity) {
+                LaunchActivity launchActivity = (LaunchActivity) activity;
+                if (launchActivity != null && launchActivity.getLayersActionBarLayout() != null) {
+                    viewGroup = launchActivity.getLayersActionBarLayout().getView();
+                }
+                if (viewGroup != null && viewGroup.getVisibility() == 0) {
+                    z = false;
+                }
             }
         }
         if (this.isPaused || !z || (editTextCaption = this.messageEditText) == null) {

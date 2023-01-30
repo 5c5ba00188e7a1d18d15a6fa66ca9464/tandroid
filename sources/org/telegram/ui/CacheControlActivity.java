@@ -1867,7 +1867,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.CacheControlActivity.ClearCacheButton.1
                 @Override // android.view.ViewGroup, android.view.View
                 protected void dispatchDraw(Canvas canvas) {
-                    int measuredWidth = (((getMeasuredWidth() - AndroidUtilities.dp(8.0f)) - ClearCacheButton.this.valueTextView.getCurrentWidth()) + ClearCacheButton.this.textView.getCurrentWidth()) / 2;
+                    int measuredWidth = (((getMeasuredWidth() - AndroidUtilities.dp(8.0f)) - ((int) ClearCacheButton.this.valueTextView.getCurrentWidth())) + ((int) ClearCacheButton.this.textView.getCurrentWidth())) / 2;
                     if (LocaleController.isRTL) {
                         super.dispatchDraw(canvas);
                         return;

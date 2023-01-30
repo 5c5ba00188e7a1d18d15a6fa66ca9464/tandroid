@@ -311,11 +311,11 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
             animatedTextDrawable.setTextColor(Theme.getColor("dialogTextBlack"));
             this.text2.setTextColor(Theme.getColor("dialogTextBlack"));
             if (this.dialogId != null) {
-                int currentWidth = this.text1.getCurrentWidth() + AndroidUtilities.dp(4.0f) + this.text2.getCurrentWidth();
-                int width3 = (getWidth() - currentWidth) / 2;
-                this.text1.setBounds(0, AndroidUtilities.dp(115.0f), this.text1.getCurrentWidth() + width3, AndroidUtilities.dp(145.0f));
+                float currentWidth = this.text1.getCurrentWidth() + AndroidUtilities.dp(4.0f) + this.text2.getCurrentWidth();
+                float width3 = (getWidth() - currentWidth) / 2.0f;
+                this.text1.setBounds(0, AndroidUtilities.dp(115.0f), (int) (this.text1.getCurrentWidth() + width3), AndroidUtilities.dp(145.0f));
                 AnimatedTextView.AnimatedTextDrawable animatedTextDrawable2 = this.text2;
-                animatedTextDrawable2.setBounds((width3 + currentWidth) - animatedTextDrawable2.getCurrentWidth(), AndroidUtilities.dp(118.0f), getWidth(), AndroidUtilities.dp(148.0f));
+                animatedTextDrawable2.setBounds((int) ((width3 + currentWidth) - animatedTextDrawable2.getCurrentWidth()), AndroidUtilities.dp(118.0f), getWidth(), AndroidUtilities.dp(148.0f));
             }
             this.text1.draw(canvas);
             this.text2.draw(canvas);

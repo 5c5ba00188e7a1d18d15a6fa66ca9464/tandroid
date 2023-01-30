@@ -233,9 +233,12 @@ public class ThemePreviewMessagesCell extends LinearLayout {
 
                     @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnDoubleTapListener
                     public boolean onDoubleTap(MotionEvent motionEvent) {
+                        if (MediaDataController.getInstance(1.this.val$currentAccount).getDoubleTapReaction() == null) {
+                            return false;
+                        }
                         boolean selectReaction = getMessageObject().selectReaction(ReactionsLayoutInBubble.VisibleReaction.fromEmojicon(MediaDataController.getInstance(1.this.val$currentAccount).getDoubleTapReaction()), false, false);
-                        1 r1 = 1.this;
-                        r1.setMessageObject(r1.getMessageObject(), null, false, false);
+                        1 r2 = 1.this;
+                        r2.setMessageObject(r2.getMessageObject(), null, false, false);
                         requestLayout();
                         ReactionsEffectOverlay.removeCurrent(false);
                         if (selectReaction) {

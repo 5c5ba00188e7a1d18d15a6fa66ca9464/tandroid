@@ -7172,7 +7172,7 @@ public class NotificationsController extends BaseController {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:121:0x02d0, code lost:
-        if (r9.local_id != 0) goto L518;
+        if (r9.local_id != 0) goto L519;
      */
     /* JADX WARN: Removed duplicated region for block: B:132:0x030a  */
     /* JADX WARN: Removed duplicated region for block: B:152:0x03b7  */
@@ -7212,24 +7212,24 @@ public class NotificationsController extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:448:0x0a7e  */
     /* JADX WARN: Removed duplicated region for block: B:455:0x0ae5  */
     /* JADX WARN: Removed duplicated region for block: B:456:0x0aef  */
-    /* JADX WARN: Removed duplicated region for block: B:461:0x0b04  */
-    /* JADX WARN: Removed duplicated region for block: B:464:0x0b23  */
-    /* JADX WARN: Removed duplicated region for block: B:467:0x0b7b  */
-    /* JADX WARN: Removed duplicated region for block: B:471:0x0bb6  */
-    /* JADX WARN: Removed duplicated region for block: B:476:0x0bdd  */
-    /* JADX WARN: Removed duplicated region for block: B:477:0x0c01  */
-    /* JADX WARN: Removed duplicated region for block: B:480:0x0cb6  */
-    /* JADX WARN: Removed duplicated region for block: B:482:0x0cc1  */
-    /* JADX WARN: Removed duplicated region for block: B:484:0x0cc6  */
-    /* JADX WARN: Removed duplicated region for block: B:487:0x0cd0  */
-    /* JADX WARN: Removed duplicated region for block: B:493:0x0ce4  */
-    /* JADX WARN: Removed duplicated region for block: B:495:0x0ce9  */
-    /* JADX WARN: Removed duplicated region for block: B:498:0x0cf5  */
-    /* JADX WARN: Removed duplicated region for block: B:503:0x0d02  */
-    /* JADX WARN: Removed duplicated region for block: B:516:0x0d87 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:525:0x0db9  */
-    /* JADX WARN: Removed duplicated region for block: B:583:0x0573 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:589:0x0946 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:462:0x0b21  */
+    /* JADX WARN: Removed duplicated region for block: B:465:0x0b40  */
+    /* JADX WARN: Removed duplicated region for block: B:468:0x0b98  */
+    /* JADX WARN: Removed duplicated region for block: B:472:0x0bd3  */
+    /* JADX WARN: Removed duplicated region for block: B:477:0x0bfa  */
+    /* JADX WARN: Removed duplicated region for block: B:478:0x0c1e  */
+    /* JADX WARN: Removed duplicated region for block: B:481:0x0cd3  */
+    /* JADX WARN: Removed duplicated region for block: B:483:0x0cde  */
+    /* JADX WARN: Removed duplicated region for block: B:485:0x0ce3  */
+    /* JADX WARN: Removed duplicated region for block: B:488:0x0ced  */
+    /* JADX WARN: Removed duplicated region for block: B:494:0x0d01  */
+    /* JADX WARN: Removed duplicated region for block: B:496:0x0d06  */
+    /* JADX WARN: Removed duplicated region for block: B:499:0x0d12  */
+    /* JADX WARN: Removed duplicated region for block: B:504:0x0d1f  */
+    /* JADX WARN: Removed duplicated region for block: B:517:0x0da4 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:526:0x0dd6  */
+    /* JADX WARN: Removed duplicated region for block: B:586:0x0573 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:590:0x0946 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:94:0x021f  */
     /* JADX WARN: Removed duplicated region for block: B:95:0x0228  */
     @SuppressLint({"InlinedApi"})
@@ -7628,6 +7628,7 @@ public class NotificationsController extends BaseController {
                                                         intent2.addCategory("android.intent.category.LAUNCHER");
                                                         if (!DialogObject.isEncryptedDialog(j7)) {
                                                         }
+                                                        FileLog.d("show extra notifications chatId " + j7 + " topicId " + i22);
                                                         if (i22 != 0) {
                                                         }
                                                         String str22 = "currentAccount";
@@ -8154,6 +8155,7 @@ public class NotificationsController extends BaseController {
                                             } else {
                                                 intent22.putExtra("chatId", -j7);
                                             }
+                                            FileLog.d("show extra notifications chatId " + j7 + " topicId " + i22);
                                             if (i22 != 0) {
                                                 intent22.putExtra("topicId", i22);
                                             }
@@ -8328,6 +8330,7 @@ public class NotificationsController extends BaseController {
                                 intent222.addCategory("android.intent.category.LAUNCHER");
                                 if (!DialogObject.isEncryptedDialog(j7)) {
                                 }
+                                FileLog.d("show extra notifications chatId " + j7 + " topicId " + i22);
                                 if (i22 != 0) {
                                 }
                                 String str2222 = "currentAccount";
@@ -8484,6 +8487,7 @@ public class NotificationsController extends BaseController {
                     intent2222.addCategory("android.intent.category.LAUNCHER");
                     if (!DialogObject.isEncryptedDialog(j7)) {
                     }
+                    FileLog.d("show extra notifications chatId " + j7 + " topicId " + i22);
                     if (i22 != 0) {
                     }
                     String str22222 = "currentAccount";
@@ -8698,6 +8702,7 @@ public class NotificationsController extends BaseController {
                     intent22222.addCategory("android.intent.category.LAUNCHER");
                     if (!DialogObject.isEncryptedDialog(j7)) {
                     }
+                    FileLog.d("show extra notifications chatId " + j7 + " topicId " + i22);
                     if (i22 != 0) {
                     }
                     String str222222 = "currentAccount";
@@ -8874,6 +8879,7 @@ public class NotificationsController extends BaseController {
                 intent222222.addCategory("android.intent.category.LAUNCHER");
                 if (!DialogObject.isEncryptedDialog(j7)) {
                 }
+                FileLog.d("show extra notifications chatId " + j7 + " topicId " + i22);
                 if (i22 != 0) {
                 }
                 String str2222222 = "currentAccount";

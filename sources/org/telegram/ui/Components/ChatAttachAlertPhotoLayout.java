@@ -1013,6 +1013,9 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             }
             if (this.showAvatarConstructor) {
                 if (i == 0) {
+                    if (!(view instanceof AvatarConstructorPreviewCell)) {
+                        return;
+                    }
                     ChatAttachAlert chatAttachAlert = this.parentAlert;
                     AvatarConstructorFragment avatarConstructorFragment = new AvatarConstructorFragment(chatAttachAlert.parentImageUpdater, chatAttachAlert.getAvatarFor());
                     avatarConstructorFragment.finishOnDone = this.parentAlert.getAvatarFor() == null || this.parentAlert.getAvatarFor().type != 2;
@@ -4311,7 +4314,11 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 photoAttachPhotoCell.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout.PhotoAttachAdapter.1
                     @Override // android.view.ViewOutlineProvider
                     public void getOutline(View view, Outline outline) {
-                        int intValue = ((Integer) ((PhotoAttachPhotoCell) view).getTag()).intValue();
+                        PhotoAttachPhotoCell photoAttachPhotoCell2 = (PhotoAttachPhotoCell) view;
+                        if (photoAttachPhotoCell2.getTag() == null) {
+                            return;
+                        }
+                        int intValue = ((Integer) photoAttachPhotoCell2.getTag()).intValue();
                         if (PhotoAttachAdapter.this.needCamera && ChatAttachAlertPhotoLayout.this.selectedAlbumEntry == ChatAttachAlertPhotoLayout.this.galleryAlbumEntry) {
                             intValue++;
                         }

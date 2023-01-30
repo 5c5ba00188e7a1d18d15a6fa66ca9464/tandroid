@@ -90,7 +90,7 @@ public class StickerSetNameCell extends FrameLayout {
             createFrame3 = LayoutHelper.createFrame(24, 24.0f, 53, 0.0f, 0.0f, this.isEmoji ? 0.0f : 11.0f, 0.0f);
         }
         if (this.isEmoji) {
-            this.buttonView.setTranslationY(AndroidUtilities.dp(9.0f));
+            this.buttonView.setTranslationY(AndroidUtilities.dp(4.0f));
         }
         addView(this.buttonView, createFrame3);
     }

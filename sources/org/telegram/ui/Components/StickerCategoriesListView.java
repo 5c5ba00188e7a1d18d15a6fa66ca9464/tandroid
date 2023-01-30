@@ -20,7 +20,9 @@ import android.widget.ImageView;
 import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.SQLite.SQLiteDatabase;
 import org.telegram.SQLite.SQLitePreparedStatement;
@@ -54,14 +56,13 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StickerCategoriesListView;
 /* loaded from: classes3.dex */
 public class StickerCategoriesListView extends RecyclerListView {
-    private static EmojiGroupFetcher fetcher = new EmojiGroupFetcher();
-    public static Fetcher<String, TLRPC$TL_emojiList> search = new EmojiSearch();
     private Adapter adapter;
     private Paint backgroundPaint;
     private EmojiCategory[] categories;
     private boolean categoriesShouldShow;
     private ValueAnimator categoriesShownAnimator;
     private float categoriesShownT;
+    private int categoriesType;
     private int dontOccupyWidth;
     public Integer layerNum;
     private LinearLayoutManager layoutManager;
@@ -83,6 +84,10 @@ public class StickerCategoriesListView extends RecyclerListView {
     private AnimatedFloat selectedIndex;
     private Paint selectedPaint;
     private float shownButtonsAtStart;
+    private static EmojiGroupFetcher fetcher = new EmojiGroupFetcher();
+    public static Fetcher<String, TLRPC$TL_emojiList> search = new EmojiSearch();
+    private static Set<Integer> loadedIconsType = new HashSet();
+    static int loadedCategoryIcons = 0;
 
     public static void preload(final int i, int i2) {
         fetcher.fetch(i, Integer.valueOf(i2), new Utilities.Callback() { // from class: org.telegram.ui.Components.StickerCategoriesListView$$ExternalSyntheticLambda1
@@ -121,6 +126,7 @@ public class StickerCategoriesListView extends RecyclerListView {
         this.rect1 = new RectF();
         this.rect2 = new RectF();
         this.rect3 = new RectF();
+        this.categoriesType = i;
         setPadding(0, 0, AndroidUtilities.dp(2.0f), 0);
         Adapter adapter = new Adapter();
         this.adapter = adapter;
@@ -508,6 +514,8 @@ public class StickerCategoriesListView extends RecyclerListView {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class Adapter extends RecyclerListView.SelectionAdapter {
+        private int lastItemCount;
+
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemViewType(int i) {
             return i == 0 ? 0 : 1;
@@ -529,7 +537,7 @@ public class StickerCategoriesListView extends RecyclerListView {
                         }
                         int size2 = View.MeasureSpec.getSize(i3) - AndroidUtilities.dp(4.0f);
                         StickerCategoriesListView stickerCategoriesListView = StickerCategoriesListView.this;
-                        super.onMeasure(View.MeasureSpec.makeMeasureSpec(stickerCategoriesListView.paddingWidth = Math.max(stickerCategoriesListView.dontOccupyWidth > 0 ? StickerCategoriesListView.this.dontOccupyWidth + AndroidUtilities.dp(4.0f) : 0, (int) (size - (StickerCategoriesListView.this.shownButtonsAtStart * size2))), 1073741824), i3);
+                        super.onMeasure(View.MeasureSpec.makeMeasureSpec(stickerCategoriesListView.paddingWidth = Math.max(stickerCategoriesListView.dontOccupyWidth > 0 ? StickerCategoriesListView.this.dontOccupyWidth + AndroidUtilities.dp(4.0f) : 0, (int) (size - Math.min(((Adapter.this.getItemCount() - 1) * size2) + AndroidUtilities.dp(4.0f), StickerCategoriesListView.this.shownButtonsAtStart * size2))), 1073741824), i3);
                     }
                 };
             } else {
@@ -547,7 +555,7 @@ public class StickerCategoriesListView extends RecyclerListView {
             int i2 = i - 1;
             EmojiCategory emojiCategory = StickerCategoriesListView.this.categories[i2];
             CategoryButton categoryButton = (CategoryButton) viewHolder.itemView;
-            categoryButton.set(emojiCategory, StickerCategoriesListView.this.selectedCategoryIndex == i2);
+            categoryButton.set(emojiCategory, i2, StickerCategoriesListView.this.selectedCategoryIndex == i2);
             categoryButton.setAlpha(StickerCategoriesListView.this.categoriesShownT);
             categoryButton.setScaleX(StickerCategoriesListView.this.categoriesShownT);
             categoryButton.setScaleY(StickerCategoriesListView.this.categoriesShownT);
@@ -565,7 +573,14 @@ public class StickerCategoriesListView extends RecyclerListView {
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemCount() {
-            return (StickerCategoriesListView.this.categories == null ? 0 : StickerCategoriesListView.this.categories.length) + 1;
+            int length = (StickerCategoriesListView.this.categories == null ? 0 : StickerCategoriesListView.this.categories.length) + 1;
+            if (length != this.lastItemCount) {
+                if (StickerCategoriesListView.this.paddingView != null) {
+                    StickerCategoriesListView.this.paddingView.requestLayout();
+                }
+                this.lastItemCount = length;
+            }
+            return length;
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
@@ -574,8 +589,8 @@ public class StickerCategoriesListView extends RecyclerListView {
         }
     }
 
-    protected boolean isTabIconsAnimationEnabled() {
-        return !SharedConfig.getLiteMode().enabled();
+    protected boolean isTabIconsAnimationEnabled(boolean z) {
+        return (SharedConfig.getLiteMode().enabled() || z) ? false : true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -583,6 +598,7 @@ public class StickerCategoriesListView extends RecyclerListView {
     public class CategoryButton extends RLottieImageView {
         ValueAnimator backAnimator;
         private int imageColor;
+        private int index;
         private long lastPlayed;
         float pressedProgress;
         private ValueAnimator selectedAnimator;
@@ -596,7 +612,8 @@ public class StickerCategoriesListView extends RecyclerListView {
             setLayerNum(StickerCategoriesListView.this.layerNum);
         }
 
-        public void set(EmojiCategory emojiCategory, boolean z) {
+        public void set(EmojiCategory emojiCategory, int i, boolean z) {
+            this.index = i;
             if (emojiCategory.remote) {
                 setImageResource(0);
                 clearAnimationDrawable();
@@ -619,9 +636,21 @@ public class StickerCategoriesListView extends RecyclerListView {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$set$0(TLRPC$Document tLRPC$Document) {
-            setOnlyLastFrame(!StickerCategoriesListView.this.isTabIconsAnimationEnabled());
+            setOnlyLastFrame(!StickerCategoriesListView.this.isTabIconsAnimationEnabled(StickerCategoriesListView.loadedIconsType.contains(Integer.valueOf(StickerCategoriesListView.this.categoriesType))));
             setAnimation(tLRPC$Document, 24, 24);
             playAnimation();
+        }
+
+        @Override // org.telegram.ui.Components.RLottieImageView
+        protected void onLoaded() {
+            if (this.index > Math.ceil(StickerCategoriesListView.this.shownButtonsAtStart) || StickerCategoriesListView.loadedIconsType.contains(Integer.valueOf(StickerCategoriesListView.this.categoriesType))) {
+                return;
+            }
+            int i = StickerCategoriesListView.loadedCategoryIcons + 1;
+            StickerCategoriesListView.loadedCategoryIcons = i;
+            if (i >= Math.ceil(StickerCategoriesListView.this.shownButtonsAtStart)) {
+                StickerCategoriesListView.loadedIconsType.add(Integer.valueOf(StickerCategoriesListView.this.categoriesType));
+            }
         }
 
         public void setSelected(boolean z, boolean z2) {

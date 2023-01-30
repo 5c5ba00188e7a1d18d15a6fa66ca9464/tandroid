@@ -5819,7 +5819,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     if (PhotoViewer.this.avatarsDialogId > 0) {
                         MessagesController.getInstance(PhotoViewer.this.currentAccount).deleteUserPhoto(null);
                     } else {
-                        MessagesController.getInstance(PhotoViewer.this.currentAccount).changeChatAvatar(-PhotoViewer.this.avatarsDialogId, null, null, null, 0.0d, null, null, null, null);
+                        MessagesController.getInstance(PhotoViewer.this.currentAccount).changeChatAvatar(-PhotoViewer.this.avatarsDialogId, null, null, null, null, 0.0d, null, null, null, null);
                     }
                     PhotoViewer.this.closePhoto(false, false);
                     return;
@@ -6277,7 +6277,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         tLRPC$TL_inputPhoto.id = tLRPC$Photo.id;
                         tLRPC$TL_inputPhoto.access_hash = tLRPC$Photo.access_hash;
                         tLRPC$TL_inputPhoto.file_reference = tLRPC$Photo.file_reference;
-                        MessagesController.getInstance(PhotoViewer.this.currentAccount).changeChatAvatar(-PhotoViewer.this.avatarsDialogId, tLRPC$TL_inputChatPhoto, null, null, 0.0d, null, null, null, null);
+                        MessagesController.getInstance(PhotoViewer.this.currentAccount).changeChatAvatar(-PhotoViewer.this.avatarsDialogId, tLRPC$TL_inputChatPhoto, null, null, null, 0.0d, null, null, null, null);
                         TLRPC$ChatPhoto tLRPC$ChatPhoto = chat3.photo;
                         tLRPC$ChatPhoto.dc_id = tLRPC$Photo.dc_id;
                         tLRPC$ChatPhoto.photo_small = closestPhotoSizeWithSize2.location;
@@ -6744,7 +6744,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         if (org.telegram.messenger.UserObject.isUserSelf(r2) != false) goto L26;
      */
     /* JADX WARN: Code restructure failed: missing block: B:60:0x00e0, code lost:
-        if (r11 == 3) goto L95;
+        if (r11 == 3) goto L100;
      */
     /* JADX WARN: Code restructure failed: missing block: B:61:0x00e2, code lost:
         if (r4 == false) goto L26;
@@ -6753,7 +6753,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         if (r11 != 4) goto L52;
      */
     /* JADX WARN: Code restructure failed: missing block: B:65:0x00e9, code lost:
-        if (r16.isCurrentVideo == false) goto L93;
+        if (r16.isCurrentVideo == false) goto L98;
      */
     /* JADX WARN: Code restructure failed: missing block: B:67:0x00f1, code lost:
         if (r16.timeItem.getColorFilter() == null) goto L52;
@@ -6762,7 +6762,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         r14 = r16.parentActivity;
      */
     /* JADX WARN: Code restructure failed: missing block: B:70:0x00f8, code lost:
-        if (r11 != 0) goto L74;
+        if (r11 != 0) goto L79;
      */
     /* JADX WARN: Code restructure failed: missing block: B:71:0x00fa, code lost:
         r15 = true;
@@ -6813,9 +6813,21 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         if (r11 != 4) goto L63;
      */
     /* JADX WARN: Code restructure failed: missing block: B:89:0x015b, code lost:
-        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SendWithoutCompression", org.telegram.messenger.R.string.SendWithoutCompression), org.telegram.messenger.R.drawable.msg_sendfile);
+        r3 = r16.placeProvider;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:90:0x0168, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:90:0x015d, code lost:
+        if (r3 == null) goto L78;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:92:0x0163, code lost:
+        if (r3.getSelectedCount() <= 1) goto L78;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:93:0x0165, code lost:
+        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString(org.telegram.messenger.R.string.SendAsFiles), org.telegram.messenger.R.drawable.msg_sendfile);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:94:0x0171, code lost:
+        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString(org.telegram.messenger.R.string.SendAsFile), org.telegram.messenger.R.drawable.msg_sendfile);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:95:0x017c, code lost:
         r13.setMinimumWidth(org.telegram.messenger.AndroidUtilities.dp(196.0f));
         r13.setColors(-1, -1);
         r16.sendPopupLayout.addView((android.view.View) r13, org.telegram.ui.Components.LayoutHelper.createLinear(-1, 48));
@@ -8386,14 +8398,14 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             textureView.setTranslationX((f * (1.0f - floatValue)) + (f5 * floatValue));
             this.videoTextureView.setTranslationY((f6 * (1.0f - interpolation)) + (f7 * interpolation));
             this.videoTextureView.invalidateOutline();
-        }
-        FirstFrameView firstFrameView = this.firstFrameView;
-        if (firstFrameView != null) {
-            firstFrameView.setTranslationX(this.videoTextureView.getTranslationX());
-            this.firstFrameView.setTranslationY(this.videoTextureView.getTranslationY());
-            this.firstFrameView.setScaleX(this.videoTextureView.getScaleX());
-            this.firstFrameView.setScaleY(this.videoTextureView.getScaleY());
-            this.firstFrameView.invalidateOutline();
+            FirstFrameView firstFrameView = this.firstFrameView;
+            if (firstFrameView != null) {
+                firstFrameView.setTranslationX(this.videoTextureView.getTranslationX());
+                this.firstFrameView.setTranslationY(this.videoTextureView.getTranslationY());
+                this.firstFrameView.setScaleX(this.videoTextureView.getScaleX());
+                this.firstFrameView.setScaleY(this.videoTextureView.getScaleY());
+                this.firstFrameView.invalidateOutline();
+            }
         }
     }
 

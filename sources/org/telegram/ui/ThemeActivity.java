@@ -1133,7 +1133,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onItemClick$0(DialogInterface dialogInterface, int i) {
             boolean fontSize = ThemeActivity.this.setFontSize(AndroidUtilities.isTablet() ? 18 : 16);
-            if (ThemeActivity.this.setBubbleRadius(10, true)) {
+            if (ThemeActivity.this.setBubbleRadius(17, true)) {
                 fontSize = true;
             }
             if (fontSize) {
@@ -1532,7 +1532,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         }
         int i = AndroidUtilities.isTablet() ? 18 : 16;
         Theme.ThemeInfo currentTheme2 = Theme.getCurrentTheme();
-        if (SharedConfig.fontSize != i || SharedConfig.bubbleRadius != 10 || !currentTheme2.firstAccentIsDefault || currentTheme2.currentAccentId != Theme.DEFALT_THEME_ACCENT_ID || (accent != null && (overrideWallpaperInfo = accent.overrideWallpaper) != null && !"d".equals(overrideWallpaperInfo.slug))) {
+        if (SharedConfig.fontSize != i || SharedConfig.bubbleRadius != 17 || !currentTheme2.firstAccentIsDefault || currentTheme2.currentAccentId != Theme.DEFALT_THEME_ACCENT_ID || (accent != null && (overrideWallpaperInfo = accent.overrideWallpaper) != null && !"d".equals(overrideWallpaperInfo.slug))) {
             this.menuItem.showSubItem(4);
         } else {
             this.menuItem.hideSubItem(4);

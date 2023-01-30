@@ -178,7 +178,8 @@ public class AvatarConstructorFragment extends BaseFragment {
 
             @Override // android.widget.FrameLayout, android.view.View
             protected void onMeasure(int i, int i2) {
-                boolean z = View.MeasureSpec.getSize(i) > View.MeasureSpec.getSize(i2);
+                measureKeyboardHeight();
+                boolean z = View.MeasureSpec.getSize(i) > View.MeasureSpec.getSize(i2) + this.keyboardHeight;
                 AvatarConstructorFragment avatarConstructorFragment = AvatarConstructorFragment.this;
                 if (z != avatarConstructorFragment.isLandscapeMode) {
                     avatarConstructorFragment.isLandscapeMode = z;
@@ -211,7 +212,6 @@ public class AvatarConstructorFragment extends BaseFragment {
                     ((ViewGroup.MarginLayoutParams) AvatarConstructorFragment.this.chooseBackgroundHint.getLayoutParams()).topMargin = AndroidUtilities.dp(10.0f);
                     ((ViewGroup.MarginLayoutParams) AvatarConstructorFragment.this.chooseEmojiHint.getLayoutParams()).topMargin = AndroidUtilities.dp(18.0f);
                 }
-                measureKeyboardHeight();
                 AvatarConstructorFragment avatarConstructorFragment4 = AvatarConstructorFragment.this;
                 boolean z2 = avatarConstructorFragment4.keyboardVisible;
                 avatarConstructorFragment4.keyboardVisible = this.keyboardHeight >= AndroidUtilities.dp(20.0f);

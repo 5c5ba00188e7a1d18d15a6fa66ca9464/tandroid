@@ -10266,14 +10266,23 @@ public class MessagesController extends BaseController implements NotificationCe
         return (str2 == null || str2.length() <= 0) ? "" : tLRPC$User.last_name;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:272:0x035a  */
+    /* JADX WARN: Removed duplicated region for block: B:276:0x0362  */
+    /* JADX WARN: Removed duplicated region for block: B:285:0x0148 A[ADDED_TO_REGION, SYNTHETIC] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private void updatePrintingStrings() {
         Iterator<Map.Entry<Long, ConcurrentHashMap<Integer, ArrayList<PrintingUser>>>> it;
         Iterator<Map.Entry<Integer, ArrayList<PrintingUser>>> it2;
         String string;
-        int i;
+        String string2;
         String str;
-        int i2;
-        String formatString;
+        int i;
+        String string3;
+        String string4;
+        String string5;
+        String string6;
         final LongSparseArray longSparseArray = new LongSparseArray();
         final LongSparseArray longSparseArray2 = new LongSparseArray();
         Iterator<Map.Entry<Long, ConcurrentHashMap<Integer, ArrayList<PrintingUser>>>> it3 = this.printingUsers.entrySet().iterator();
@@ -10300,101 +10309,109 @@ public class MessagesController extends BaseController implements NotificationCe
                         TLRPC$SendMessageAction tLRPC$SendMessageAction = printingUser.action;
                         if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageRecordAudioAction) {
                             if (z) {
-                                string = LocaleController.formatString("IsRecordingAudio", R.string.IsRecordingAudio, getUserNameForTyping(user));
+                                string6 = LocaleController.formatString("IsRecordingAudio", R.string.IsRecordingAudio, getUserNameForTyping(user));
                             } else {
-                                string = LocaleController.getString("RecordingAudio", R.string.RecordingAudio);
+                                string6 = LocaleController.getString("RecordingAudio", R.string.RecordingAudio);
                             }
+                            str = string6;
                             i = 1;
                         } else {
                             if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageRecordRoundAction) {
                                 if (z) {
-                                    string = LocaleController.formatString("IsRecordingRound", R.string.IsRecordingRound, getUserNameForTyping(user));
+                                    string5 = LocaleController.formatString("IsRecordingRound", R.string.IsRecordingRound, getUserNameForTyping(user));
                                 } else {
-                                    string = LocaleController.getString("RecordingRound", R.string.RecordingRound);
+                                    string5 = LocaleController.getString("RecordingRound", R.string.RecordingRound);
                                 }
                             } else if (!(tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageUploadRoundAction)) {
                                 if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageUploadAudioAction) {
                                     if (z) {
-                                        string = LocaleController.formatString("IsSendingAudio", R.string.IsSendingAudio, getUserNameForTyping(user));
+                                        string4 = LocaleController.formatString("IsSendingAudio", R.string.IsSendingAudio, getUserNameForTyping(user));
                                     } else {
-                                        string = LocaleController.getString("SendingAudio", R.string.SendingAudio);
+                                        string4 = LocaleController.getString("SendingAudio", R.string.SendingAudio);
                                     }
                                 } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageUploadVideoAction) {
                                     if (z) {
-                                        string = LocaleController.formatString("IsSendingVideo", R.string.IsSendingVideo, getUserNameForTyping(user));
+                                        string4 = LocaleController.formatString("IsSendingVideo", R.string.IsSendingVideo, getUserNameForTyping(user));
                                     } else {
-                                        string = LocaleController.getString("SendingVideoStatus", R.string.SendingVideoStatus);
+                                        string4 = LocaleController.getString("SendingVideoStatus", R.string.SendingVideoStatus);
                                     }
                                 } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageRecordVideoAction) {
                                     if (z) {
-                                        string = LocaleController.formatString("IsRecordingVideo", R.string.IsRecordingVideo, getUserNameForTyping(user));
+                                        string4 = LocaleController.formatString("IsRecordingVideo", R.string.IsRecordingVideo, getUserNameForTyping(user));
                                     } else {
-                                        string = LocaleController.getString("RecordingVideoStatus", R.string.RecordingVideoStatus);
+                                        string4 = LocaleController.getString("RecordingVideoStatus", R.string.RecordingVideoStatus);
                                     }
                                 } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageUploadDocumentAction) {
                                     if (z) {
-                                        string = LocaleController.formatString("IsSendingFile", R.string.IsSendingFile, getUserNameForTyping(user));
+                                        string4 = LocaleController.formatString("IsSendingFile", R.string.IsSendingFile, getUserNameForTyping(user));
                                     } else {
-                                        string = LocaleController.getString("SendingFile", R.string.SendingFile);
+                                        string4 = LocaleController.getString("SendingFile", R.string.SendingFile);
                                     }
                                 } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageUploadPhotoAction) {
                                     if (z) {
-                                        string = LocaleController.formatString("IsSendingPhoto", R.string.IsSendingPhoto, getUserNameForTyping(user));
+                                        string4 = LocaleController.formatString("IsSendingPhoto", R.string.IsSendingPhoto, getUserNameForTyping(user));
                                     } else {
-                                        string = LocaleController.getString("SendingPhoto", R.string.SendingPhoto);
+                                        string4 = LocaleController.getString("SendingPhoto", R.string.SendingPhoto);
                                     }
                                 } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageGamePlayAction) {
                                     if (z) {
-                                        string = LocaleController.formatString("IsSendingGame", R.string.IsSendingGame, getUserNameForTyping(user));
+                                        string3 = LocaleController.formatString("IsSendingGame", R.string.IsSendingGame, getUserNameForTyping(user));
                                     } else {
-                                        string = LocaleController.getString("SendingGame", R.string.SendingGame);
+                                        string3 = LocaleController.getString("SendingGame", R.string.SendingGame);
                                     }
+                                    str = string3;
                                     i = 3;
-                                } else {
-                                    if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageGeoLocationAction) {
-                                        if (z) {
-                                            string = LocaleController.formatString("IsSelectingLocation", R.string.IsSelectingLocation, getUserNameForTyping(user));
-                                        } else {
-                                            string = LocaleController.getString("SelectingLocation", R.string.SelectingLocation);
-                                        }
-                                    } else if (!(tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageChooseContactAction)) {
-                                        if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageEmojiInteractionSeen) {
-                                            String str2 = ((TLRPC$TL_sendMessageEmojiInteractionSeen) tLRPC$SendMessageAction).emoticon;
-                                            if (z) {
-                                                string = LocaleController.formatString("IsEnjoyngAnimations", R.string.IsEnjoyngAnimations, getUserNameForTyping(user), str2);
-                                            } else {
-                                                string = LocaleController.formatString("EnjoyngAnimations", R.string.EnjoyngAnimations, str2);
-                                            }
-                                        } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageChooseStickerAction) {
-                                            if (z) {
-                                                string = LocaleController.formatString("IsChoosingSticker", R.string.IsChoosingSticker, getUserNameForTyping(user));
-                                            } else {
-                                                string = LocaleController.getString("ChoosingSticker", R.string.ChoosingSticker);
-                                            }
-                                        } else if (z) {
-                                            string = LocaleController.formatString("IsTypingGroup", R.string.IsTypingGroup, getUserNameForTyping(user));
-                                        } else {
-                                            string = LocaleController.getString("Typing", R.string.Typing);
-                                        }
-                                        i = 5;
-                                    } else if (z) {
-                                        string = LocaleController.formatString("IsSelectingContact", R.string.IsSelectingContact, getUserNameForTyping(user));
+                                } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageGeoLocationAction) {
+                                    if (z) {
+                                        string = LocaleController.formatString("IsSelectingLocation", R.string.IsSelectingLocation, getUserNameForTyping(user));
                                     } else {
-                                        string = LocaleController.getString("SelectingContact", R.string.SelectingContact);
+                                        string = LocaleController.getString("SelectingLocation", R.string.SelectingLocation);
                                     }
-                                    i = 0;
+                                } else if (!(tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageChooseContactAction)) {
+                                    if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageEmojiInteractionSeen) {
+                                        String str2 = ((TLRPC$TL_sendMessageEmojiInteractionSeen) tLRPC$SendMessageAction).emoticon;
+                                        if (z) {
+                                            string2 = LocaleController.formatString("IsEnjoyngAnimations", R.string.IsEnjoyngAnimations, getUserNameForTyping(user), str2);
+                                        } else {
+                                            string2 = LocaleController.formatString("EnjoyngAnimations", R.string.EnjoyngAnimations, str2);
+                                        }
+                                    } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageChooseStickerAction) {
+                                        if (z) {
+                                            string2 = LocaleController.formatString("IsChoosingSticker", R.string.IsChoosingSticker, getUserNameForTyping(user));
+                                        } else {
+                                            string2 = LocaleController.getString("ChoosingSticker", R.string.ChoosingSticker);
+                                        }
+                                    } else if (z) {
+                                        string = LocaleController.formatString("IsTypingGroup", R.string.IsTypingGroup, getUserNameForTyping(user));
+                                    } else {
+                                        string = LocaleController.getString("Typing", R.string.Typing);
+                                    }
+                                    str = string2;
+                                    i = 5;
+                                } else if (z) {
+                                    string = LocaleController.formatString("IsSelectingContact", R.string.IsSelectingContact, getUserNameForTyping(user));
+                                } else {
+                                    string = LocaleController.getString("SelectingContact", R.string.SelectingContact);
                                 }
+                                str = string4;
                                 i = 2;
                             } else if (z) {
-                                string = LocaleController.formatString("IsSendingVideo", R.string.IsSendingVideo, getUserNameForTyping(user));
+                                string5 = LocaleController.formatString("IsSendingVideo", R.string.IsSendingVideo, getUserNameForTyping(user));
                             } else {
-                                string = LocaleController.getString("SendingVideoStatus", R.string.SendingVideoStatus);
+                                string5 = LocaleController.getString("SendingVideoStatus", R.string.SendingVideoStatus);
                             }
+                            str = string5;
                             i = 4;
                         }
-                        int i3 = i;
-                        str = string;
-                        i2 = i3;
+                        if (str == null && ApplicationLoader.applicationContext != null) {
+                            if (Theme.dialogs_messageNamePaint == null) {
+                                Theme.createDialogsResources(ApplicationLoader.applicationContext);
+                            }
+                            sparseArray.put(key2.intValue(), Emoji.replaceEmoji(str, Theme.dialogs_messageNamePaint.getFontMetricsInt(), false));
+                            sparseArray2.put(key2.intValue(), Integer.valueOf(i));
+                        }
+                        it3 = it;
+                        it4 = it2;
                     } else {
                         it3 = it;
                         it4 = it2;
@@ -10402,7 +10419,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 } else {
                     StringBuilder sb = new StringBuilder();
                     Iterator<PrintingUser> it5 = value.iterator();
-                    int i4 = 0;
+                    int i2 = 0;
                     while (true) {
                         if (!it5.hasNext()) {
                             it = it3;
@@ -10417,38 +10434,40 @@ public class MessagesController extends BaseController implements NotificationCe
                                 sb.append(", ");
                             }
                             sb.append(getUserNameForTyping(user2));
-                            i4++;
+                            i2++;
                         }
-                        if (i4 == 2) {
+                        if (i2 == 2) {
                             break;
                         }
                         it3 = it;
                         it4 = it2;
                     }
-                    if (sb.length() != 0) {
-                        if (i4 == 1) {
-                            formatString = LocaleController.formatString("IsTypingGroup", R.string.IsTypingGroup, sb.toString());
-                        } else if (value.size() > 2) {
-                            try {
-                                formatString = String.format(LocaleController.getPluralString("AndMoreTypingGroup", value.size() - 2), sb.toString(), Integer.valueOf(value.size() - 2));
-                            } catch (Exception unused) {
-                                formatString = "LOC_ERR: AndMoreTypingGroup";
-                            }
-                        } else {
-                            formatString = LocaleController.formatString("AreTypingGroup", R.string.AreTypingGroup, sb.toString());
-                            str = formatString;
-                            i2 = 0;
-                        }
-                        str = formatString;
-                        i2 = 0;
-                    } else {
-                        i2 = 0;
+                    if (sb.length() == 0) {
                         str = null;
+                        i = 0;
+                        if (str == null) {
+                            if (Theme.dialogs_messageNamePaint == null) {
+                            }
+                            sparseArray.put(key2.intValue(), Emoji.replaceEmoji(str, Theme.dialogs_messageNamePaint.getFontMetricsInt(), false));
+                            sparseArray2.put(key2.intValue(), Integer.valueOf(i));
+                        }
+                        it3 = it;
+                        it4 = it2;
+                    } else if (i2 == 1) {
+                        string = LocaleController.formatString("IsTypingGroup", R.string.IsTypingGroup, sb.toString());
+                    } else if (value.size() > 2) {
+                        try {
+                            string = String.format(LocaleController.getPluralString("AndMoreTypingGroup", value.size() - 2), sb.toString(), Integer.valueOf(value.size() - 2));
+                        } catch (Exception unused) {
+                            string = "LOC_ERR: AndMoreTypingGroup";
+                        }
+                    } else {
+                        string = LocaleController.formatString("AreTypingGroup", R.string.AreTypingGroup, sb.toString());
                     }
                 }
-                if (str != null) {
-                    sparseArray.put(key2.intValue(), Emoji.replaceEmoji(str, Theme.dialogs_messageNamePaint.getFontMetricsInt(), false));
-                    sparseArray2.put(key2.intValue(), Integer.valueOf(i2));
+                str = string;
+                i = 0;
+                if (str == null) {
                 }
                 it3 = it;
                 it4 = it2;
@@ -15859,14 +15878,14 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    public void changeChatAvatar(final long j, final TLRPC$TL_inputChatPhoto tLRPC$TL_inputChatPhoto, TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, double d, final String str, final TLRPC$FileLocation tLRPC$FileLocation, final TLRPC$FileLocation tLRPC$FileLocation2, final Runnable runnable) {
+    public void changeChatAvatar(final long j, final TLRPC$TL_inputChatPhoto tLRPC$TL_inputChatPhoto, TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, TLRPC$VideoSize tLRPC$VideoSize, double d, final String str, final TLRPC$FileLocation tLRPC$FileLocation, final TLRPC$FileLocation tLRPC$FileLocation2, final Runnable runnable) {
         MessagesController messagesController;
         TLRPC$InputChatPhoto tLRPC$InputChatPhoto;
         TLRPC$TL_messages_editChatPhoto tLRPC$TL_messages_editChatPhoto;
         if (tLRPC$TL_inputChatPhoto != null) {
             messagesController = this;
             tLRPC$InputChatPhoto = tLRPC$TL_inputChatPhoto;
-        } else if (tLRPC$InputFile != null || tLRPC$InputFile2 != null) {
+        } else if (tLRPC$InputFile != null || tLRPC$InputFile2 != null || tLRPC$VideoSize != null) {
             TLRPC$TL_inputChatUploadedPhoto tLRPC$TL_inputChatUploadedPhoto = new TLRPC$TL_inputChatUploadedPhoto();
             if (tLRPC$InputFile != null) {
                 tLRPC$TL_inputChatUploadedPhoto.file = tLRPC$InputFile;
@@ -15878,6 +15897,10 @@ public class MessagesController extends BaseController implements NotificationCe
                 tLRPC$TL_inputChatUploadedPhoto.flags = i;
                 tLRPC$TL_inputChatUploadedPhoto.video_start_ts = d;
                 tLRPC$TL_inputChatUploadedPhoto.flags = i | 4;
+            }
+            if (tLRPC$VideoSize != null) {
+                tLRPC$TL_inputChatUploadedPhoto.video_emoji_markup = tLRPC$VideoSize;
+                tLRPC$TL_inputChatUploadedPhoto.flags |= 8;
             }
             messagesController = this;
             tLRPC$InputChatPhoto = tLRPC$TL_inputChatUploadedPhoto;
@@ -23870,18 +23893,18 @@ public class MessagesController extends BaseController implements NotificationCe
         return this.clearingHistoryDialogs.get(j) != null;
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(21:1|(2:2|(3:4|(2:6|7)(1:9)|8)(1:10))|11|(4:14|(2:16|17)(1:19)|18|12)|20|21|(15:191|(2:192|(3:194|(1:214)(3:196|(3:198|(4:200|(1:204)|205|(2:207|208)(1:210))(1:211)|209)|212)|213)(0))|26|27|(2:29|(1:35))|36|(6:38|(6:40|(4:42|(4:45|(2:51|52)|53|43)|57|(2:61|62))|63|(2:65|(4:67|(1:(2:97|(1:99)(1:100))(1:96))|(3:116|(1:118)|108)(2:104|(1:106))|(2:112|(1:114)(1:115)))(2:120|(1:(3:130|(2:138|(1:140)(1:141))|144)(4:127|128|129|62))(2:145|(2:147|(1:149)))))|150|(3:110|112|(0)(0)))|151|(1:166)|155|(3:162|163|62)(4:161|128|129|62))|167|168|(1:172)|(1:176)|177|(4:180|(2:182|183)(1:185)|184|178)|186|187)(0)|25|26|27|(0)|36|(0)|167|168|(2:170|172)|(2:174|176)|177|(1:178)|186|187) */
-    /* JADX WARN: Code restructure failed: missing block: B:339:0x01be, code lost:
+    /* JADX WARN: Can't wrap try/catch for region: R(21:1|(2:2|(3:4|(2:6|7)(1:9)|8)(1:10))|11|(4:14|(2:16|17)(1:19)|18|12)|20|21|(15:191|(2:192|(3:194|(1:219)(5:196|197|198|(3:200|(4:202|(1:206)|207|(2:209|210)(1:212))(1:213)|211)|214)|215)(0))|26|27|(2:29|(1:35))|36|(6:38|(6:40|(4:42|(4:45|(2:51|52)|53|43)|57|(2:61|62))|63|(2:65|(4:67|(1:(2:97|(1:99)(1:100))(1:96))|(3:116|(1:118)|108)(2:104|(1:106))|(2:112|(1:114)(1:115)))(2:120|(1:(3:130|(2:138|(1:140)(1:141))|144)(4:127|128|129|62))(2:145|(2:147|(1:149)))))|150|(3:110|112|(0)(0)))|151|(1:166)|155|(3:162|163|62)(4:161|128|129|62))|167|168|(1:172)|(1:176)|177|(4:180|(2:182|183)(1:185)|184|178)|186|187)(0)|25|26|27|(0)|36|(0)|167|168|(2:170|172)|(2:174|176)|177|(1:178)|186|187) */
+    /* JADX WARN: Code restructure failed: missing block: B:349:0x01c3, code lost:
         if (org.telegram.messenger.ChatObject.hasAdminRights(r7) == false) goto L108;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:345:0x01d4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:355:0x01d9, code lost:
         if (org.telegram.messenger.ChatObject.canPost(r7) != false) goto L150;
      */
-    /* JADX WARN: Removed duplicated region for block: B:266:0x00df  */
-    /* JADX WARN: Removed duplicated region for block: B:275:0x0100  */
-    /* JADX WARN: Removed duplicated region for block: B:381:0x0248  */
-    /* JADX WARN: Removed duplicated region for block: B:382:0x024f  */
-    /* JADX WARN: Removed duplicated region for block: B:411:0x02d5  */
+    /* JADX WARN: Removed duplicated region for block: B:276:0x00e4  */
+    /* JADX WARN: Removed duplicated region for block: B:285:0x0105  */
+    /* JADX WARN: Removed duplicated region for block: B:391:0x024d  */
+    /* JADX WARN: Removed duplicated region for block: B:392:0x0254  */
+    /* JADX WARN: Removed duplicated region for block: B:421:0x02da  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -23942,7 +23965,11 @@ public class MessagesController extends BaseController implements NotificationCe
                     DialogFilter dialogFilter = dialogFilterArr3[i5];
                     this.sortingDialogFilter = dialogFilter;
                     if (dialogFilter != null) {
-                        Collections.sort(this.allDialogs, this.dialogDateComparator);
+                        try {
+                            Collections.sort(this.allDialogs, this.dialogDateComparator);
+                        } catch (Exception e) {
+                            FileLog.e(e);
+                        }
                         ArrayList<TLRPC$Dialog> arrayList = this.sortingDialogFilter.dialogs;
                         int size2 = this.allDialogs.size();
                         for (int i6 = 0; i6 < size2; i6++) {

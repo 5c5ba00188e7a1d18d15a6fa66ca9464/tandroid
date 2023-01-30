@@ -27,6 +27,9 @@ public class RLottieImageView extends ImageView {
     private boolean onlyLastFrame;
     private boolean playing;
 
+    protected void onLoaded() {
+    }
+
     public RLottieImageView(Context context) {
         super(context);
     }
@@ -114,7 +117,16 @@ public class RLottieImageView extends ImageView {
         if (tLRPC$Document == null) {
             return;
         }
-        ImageReceiver imageReceiver2 = new ImageReceiver();
+        ImageReceiver imageReceiver2 = new ImageReceiver() { // from class: org.telegram.ui.Components.RLottieImageView.1
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // org.telegram.messenger.ImageReceiver
+            public boolean setImageBitmapByKey(Drawable drawable, String str, int i3, boolean z, int i4) {
+                if (drawable instanceof RLottieDrawable) {
+                    RLottieImageView.this.onLoaded();
+                }
+                return super.setImageBitmapByKey(drawable, str, i3, z, i4);
+            }
+        };
         this.imageReceiver = imageReceiver2;
         if (this.onlyLastFrame) {
             ImageLocation forDocument = ImageLocation.getForDocument(tLRPC$Document);
@@ -147,7 +159,7 @@ public class RLottieImageView extends ImageView {
         Integer num = this.layerNum;
         imageReceiver5.setLayerNum(num != null ? num.intValue() : 7);
         this.imageReceiver.clip = false;
-        setImageDrawable(new Drawable() { // from class: org.telegram.ui.Components.RLottieImageView.1
+        setImageDrawable(new Drawable() { // from class: org.telegram.ui.Components.RLottieImageView.2
             @Override // android.graphics.drawable.Drawable
             public int getOpacity() {
                 return -2;

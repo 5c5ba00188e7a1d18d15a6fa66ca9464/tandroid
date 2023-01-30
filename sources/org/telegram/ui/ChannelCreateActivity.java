@@ -127,6 +127,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
     private HeaderCell headerCell2;
     private TextView helpTextView;
     private ImageUpdater imageUpdater;
+    private TLRPC$VideoSize inputEmojiMarkup;
     private TLRPC$InputFile inputPhoto;
     private TLRPC$InputFile inputVideo;
     private String inputVideoPath;
@@ -185,7 +186,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         int i = this.currentStep;
         if (i == 0) {
             this.avatarDrawable = new AvatarDrawable();
-            this.imageUpdater = new ImageUpdater(true, 1, false);
+            this.imageUpdater = new ImageUpdater(true, 1, true);
             TLRPC$TL_channels_checkUsername tLRPC$TL_channels_checkUsername = new TLRPC$TL_channels_checkUsername();
             tLRPC$TL_channels_checkUsername.username = "1";
             tLRPC$TL_channels_checkUsername.channel = new TLRPC$TL_inputChannelEmpty();
@@ -1063,6 +1064,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         this.inputPhoto = null;
         this.inputVideo = null;
         this.inputVideoPath = null;
+        this.inputEmojiMarkup = null;
         this.videoTimestamp = 0.0d;
         showAvatarProgress(false, true);
         this.avatarImage.setImage((ImageLocation) null, (String) null, this.avatarDrawable, (Object) null);
@@ -1261,20 +1263,21 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
     }
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
-    public void didUploadPhoto(final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, final String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, boolean z, TLRPC$VideoSize tLRPC$VideoSize) {
+    public void didUploadPhoto(final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, final String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, boolean z, final TLRPC$VideoSize tLRPC$VideoSize) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda18
             @Override // java.lang.Runnable
             public final void run() {
-                ChannelCreateActivity.this.lambda$didUploadPhoto$15(tLRPC$InputFile, tLRPC$InputFile2, str, d, tLRPC$PhotoSize2, tLRPC$PhotoSize);
+                ChannelCreateActivity.this.lambda$didUploadPhoto$15(tLRPC$InputFile, tLRPC$InputFile2, tLRPC$VideoSize, str, d, tLRPC$PhotoSize2, tLRPC$PhotoSize);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didUploadPhoto$15(TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, String str, double d, TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$PhotoSize tLRPC$PhotoSize2) {
+    public /* synthetic */ void lambda$didUploadPhoto$15(TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, TLRPC$VideoSize tLRPC$VideoSize, String str, double d, TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$PhotoSize tLRPC$PhotoSize2) {
         if (tLRPC$InputFile != null || tLRPC$InputFile2 != null) {
             this.inputPhoto = tLRPC$InputFile;
             this.inputVideo = tLRPC$InputFile2;
+            this.inputEmojiMarkup = tLRPC$VideoSize;
             this.inputVideoPath = str;
             this.videoTimestamp = d;
             if (this.createAfterUpload) {
@@ -1451,8 +1454,8 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             if (bool != null) {
                 bundle.putBoolean("forcePublic", bool.booleanValue());
             }
-            if (this.inputPhoto != null || this.inputVideo != null) {
-                MessagesController.getInstance(this.currentAccount).changeChatAvatar(longValue, null, this.inputPhoto, this.inputVideo, this.videoTimestamp, this.inputVideoPath, this.avatar, this.avatarBig, null);
+            if (this.inputPhoto != null || this.inputVideo != null || this.inputEmojiMarkup != null) {
+                MessagesController.getInstance(this.currentAccount).changeChatAvatar(longValue, null, this.inputPhoto, this.inputVideo, this.inputEmojiMarkup, this.videoTimestamp, this.inputVideoPath, this.avatar, this.avatarBig, null);
             }
             ChannelCreateActivity channelCreateActivity = new ChannelCreateActivity(bundle);
             channelCreateActivity.setOnFinishListener(this.onFinishListener);

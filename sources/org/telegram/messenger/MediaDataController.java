@@ -11129,7 +11129,7 @@ public class MediaDataController extends BaseController {
         return arrayList;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0075  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0079  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -11179,7 +11179,7 @@ public class MediaDataController extends BaseController {
             }
             tLRPC$TL_emojiList2 = tLRPC$TL_emojiList;
         }
-        if (tLRPC$TL_emojiList2 != null || System.currentTimeMillis() - j > 2073600000) {
+        if (tLRPC$TL_emojiList2 != null || System.currentTimeMillis() - j > 86400000 || BuildVars.DEBUG_PRIVATE_VERSION) {
             TLRPC$TL_account_getDefaultProfilePhotoEmojis tLRPC$TL_account_getDefaultProfilePhotoEmojis2 = new TLRPC$TL_account_getDefaultProfilePhotoEmojis();
             if (tLRPC$TL_emojiList2 != null) {
                 tLRPC$TL_account_getDefaultProfilePhotoEmojis2.hash = tLRPC$TL_emojiList2.hash;

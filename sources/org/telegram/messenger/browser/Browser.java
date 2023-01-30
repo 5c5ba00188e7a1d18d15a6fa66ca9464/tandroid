@@ -250,21 +250,21 @@ public class Browser {
         openUrl(context, uri, z, z2, null);
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(14:39|(2:40|41)|(11:45|46|(5:50|(2:52|53)(1:55)|54|47|48)|56|57|(3:59|(4:62|(2:63|(1:1)(2:65|(3:68|69|70)(1:67)))|71|60)|73)(3:96|(4:99|(2:105|106)(1:103)|104|97)|107)|74|(3:76|(3:79|80|77)|81)|83|84|(2:89|(2:91|92)(2:94|95)))|112|56|57|(0)(0)|74|(0)|83|84|(0)|89|(0)(0)) */
-    /* JADX WARN: Can't wrap try/catch for region: R(20:4|(3:142|143|(5:149|150|151|152|(2:154|155)(2:156|157)))|6|7|8|(1:10)(1:139)|11|(12:131|132|133|16|17|(9:19|(1:21)|22|23|(1:25)|26|(1:28)(1:32)|(1:30)|31)|(15:39|40|41|(11:45|46|(5:50|(2:52|53)(1:55)|54|47|48)|56|57|(3:59|(4:62|(2:63|(1:1)(2:65|(3:68|69|70)(1:67)))|71|60)|73)(3:96|(4:99|(2:105|106)(1:103)|104|97)|107)|74|(3:76|(3:79|80|77)|81)|83|84|(2:89|(2:91|92)(2:94|95)))|112|56|57|(0)(0)|74|(0)|83|84|(0)|89|(0)(0))|114|115|(1:117)|118|(2:124|125)(2:122|123))|15|16|17|(0)|(17:34|37|39|40|41|(14:43|45|46|(2:47|48)|56|57|(0)(0)|74|(0)|83|84|(0)|89|(0)(0))|112|56|57|(0)(0)|74|(0)|83|84|(0)|89|(0)(0))|114|115|(0)|118|(1:120)|124|125) */
-    /* JADX WARN: Code restructure failed: missing block: B:114:0x0333, code lost:
+    /* JADX WARN: Can't wrap try/catch for region: R(15:39|40|41|(11:45|46|(5:50|(2:52|53)(1:55)|54|47|48)|56|57|(3:59|(4:62|(2:63|(1:1)(2:65|(3:68|69|70)(1:67)))|71|60)|73)(3:96|(4:99|(2:105|106)(1:103)|104|97)|107)|74|(3:76|(3:79|80|77)|81)|83|84|(2:89|(2:91|92)(2:94|95)))|112|56|57|(0)(0)|74|(0)|83|84|(0)|89|(0)(0)) */
+    /* JADX WARN: Can't wrap try/catch for region: R(17:4|(3:142|143|(5:149|150|151|152|(2:154|155)(2:156|157)))|6|(4:7|8|(1:10)(1:139)|11)|(12:131|132|133|16|17|(9:19|(1:21)|22|23|(1:25)|26|(1:28)(1:32)|(1:30)|31)|(15:39|40|41|(11:45|46|(5:50|(2:52|53)(1:55)|54|47|48)|56|57|(3:59|(4:62|(2:63|(1:1)(2:65|(3:68|69|70)(1:67)))|71|60)|73)(3:96|(4:99|(2:105|106)(1:103)|104|97)|107)|74|(3:76|(3:79|80|77)|81)|83|84|(2:89|(2:91|92)(2:94|95)))|112|56|57|(0)(0)|74|(0)|83|84|(0)|89|(0)(0))|114|115|(1:117)|118|(2:124|125)(2:122|123))|15|16|17|(0)|(17:34|37|39|40|41|(14:43|45|46|(2:47|48)|56|57|(0)(0)|74|(0)|83|84|(0)|89|(0)(0))|112|56|57|(0)(0)|74|(0)|83|84|(0)|89|(0)(0))|114|115|(0)|118|(1:120)|124|125) */
+    /* JADX WARN: Code restructure failed: missing block: B:114:0x032f, code lost:
         r0 = e;
      */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x02a4 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:110:0x02b8 A[Catch: Exception -> 0x0333, TryCatch #5 {Exception -> 0x0333, blocks: (B:36:0x00c2, B:38:0x00de, B:40:0x010d, B:41:0x0113, B:45:0x011c, B:46:0x0134, B:48:0x013c, B:51:0x0167, B:52:0x0179, B:49:0x0151, B:54:0x0190, B:57:0x0196, B:103:0x02a0, B:106:0x02a6, B:108:0x02ac, B:110:0x02b8, B:112:0x02c8), top: B:146:0x00c2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x02c8 A[Catch: Exception -> 0x0333, TRY_LEAVE, TryCatch #5 {Exception -> 0x0333, blocks: (B:36:0x00c2, B:38:0x00de, B:40:0x010d, B:41:0x0113, B:45:0x011c, B:46:0x0134, B:48:0x013c, B:51:0x0167, B:52:0x0179, B:49:0x0151, B:54:0x0190, B:57:0x0196, B:103:0x02a0, B:106:0x02a6, B:108:0x02ac, B:110:0x02b8, B:112:0x02c8), top: B:146:0x00c2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x0342 A[Catch: Exception -> 0x0374, TryCatch #3 {Exception -> 0x0374, blocks: (B:119:0x033b, B:121:0x0342, B:122:0x0354, B:124:0x0365, B:126:0x0369, B:127:0x0370), top: B:143:0x033b }] */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x0365 A[Catch: Exception -> 0x0374, TryCatch #3 {Exception -> 0x0374, blocks: (B:119:0x033b, B:121:0x0342, B:122:0x0354, B:124:0x0365, B:126:0x0369, B:127:0x0370), top: B:143:0x033b }] */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00de A[Catch: Exception -> 0x0333, TryCatch #5 {Exception -> 0x0333, blocks: (B:36:0x00c2, B:38:0x00de, B:40:0x010d, B:41:0x0113, B:45:0x011c, B:46:0x0134, B:48:0x013c, B:51:0x0167, B:52:0x0179, B:49:0x0151, B:54:0x0190, B:57:0x0196, B:103:0x02a0, B:106:0x02a6, B:108:0x02ac, B:110:0x02b8, B:112:0x02c8), top: B:146:0x00c2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x01c9 A[Catch: Exception -> 0x01f3, TryCatch #4 {Exception -> 0x01f3, blocks: (B:66:0x01c3, B:68:0x01c9, B:70:0x01d9), top: B:144:0x01c3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0203  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x022c  */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x026b  */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x02a0 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x02b4 A[Catch: Exception -> 0x032f, TryCatch #2 {Exception -> 0x032f, blocks: (B:36:0x00be, B:38:0x00da, B:40:0x0109, B:41:0x010f, B:45:0x0118, B:46:0x0130, B:48:0x0138, B:51:0x0163, B:52:0x0175, B:49:0x014d, B:54:0x018c, B:57:0x0192, B:103:0x029c, B:106:0x02a2, B:108:0x02a8, B:110:0x02b4, B:112:0x02c4), top: B:140:0x00be }] */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x02c4 A[Catch: Exception -> 0x032f, TRY_LEAVE, TryCatch #2 {Exception -> 0x032f, blocks: (B:36:0x00be, B:38:0x00da, B:40:0x0109, B:41:0x010f, B:45:0x0118, B:46:0x0130, B:48:0x0138, B:51:0x0163, B:52:0x0175, B:49:0x014d, B:54:0x018c, B:57:0x0192, B:103:0x029c, B:106:0x02a2, B:108:0x02a8, B:110:0x02b4, B:112:0x02c4), top: B:140:0x00be }] */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x033e A[Catch: Exception -> 0x0370, TryCatch #0 {Exception -> 0x0370, blocks: (B:119:0x0337, B:121:0x033e, B:122:0x0350, B:124:0x0361, B:126:0x0365, B:127:0x036c), top: B:137:0x0337 }] */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x0361 A[Catch: Exception -> 0x0370, TryCatch #0 {Exception -> 0x0370, blocks: (B:119:0x0337, B:121:0x033e, B:122:0x0350, B:124:0x0361, B:126:0x0365, B:127:0x036c), top: B:137:0x0337 }] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00da A[Catch: Exception -> 0x032f, TryCatch #2 {Exception -> 0x032f, blocks: (B:36:0x00be, B:38:0x00da, B:40:0x0109, B:41:0x010f, B:45:0x0118, B:46:0x0130, B:48:0x0138, B:51:0x0163, B:52:0x0175, B:49:0x014d, B:54:0x018c, B:57:0x0192, B:103:0x029c, B:106:0x02a2, B:108:0x02a8, B:110:0x02b4, B:112:0x02c4), top: B:140:0x00be }] */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x01c5 A[Catch: Exception -> 0x01ef, TryCatch #1 {Exception -> 0x01ef, blocks: (B:66:0x01bf, B:68:0x01c5, B:70:0x01d5), top: B:138:0x01bf }] */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x01ff  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x0228  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x0267  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -284,7 +284,7 @@ public class Browser {
         boolean isInternalUri = isInternalUri(uri, zArr);
         if (z2) {
             try {
-                if (isTelegraphUrl(uri.getHost().toLowerCase(), true) || uri.toString().toLowerCase().contains("telegram.org/faq") || uri.toString().toLowerCase().contains("telegram.org/privacy")) {
+                if (isTelegraphUrl(AndroidUtilities.getHostAuthority(uri), true) || uri.toString().toLowerCase().contains("telegram.org/faq") || uri.toString().toLowerCase().contains("telegram.org/privacy")) {
                     final AlertDialog[] alertDialogArr = {new AlertDialog(context, 3)};
                     TLRPC$TL_messages_getWebPagePreview tLRPC$TL_messages_getWebPagePreview = new TLRPC$TL_messages_getWebPagePreview();
                     tLRPC$TL_messages_getWebPagePreview.message = uri.toString();
@@ -314,22 +314,22 @@ public class Browser {
             }
         }
         try {
-            lowerCase = uri.getScheme() != null ? uri.getScheme().toLowerCase() : "";
-        } catch (Exception e) {
-            e = e;
-            uri2 = uri;
-            FileLog.e(e);
-            intent = new Intent("android.intent.action.VIEW", uri2);
-            if (isInternalUri) {
+            try {
+                lowerCase = uri.getScheme() != null ? uri.getScheme().toLowerCase() : "";
+            } catch (Exception e) {
+                e = e;
+                uri2 = uri;
+                FileLog.e(e);
+                intent = new Intent("android.intent.action.VIEW", uri2);
+                if (isInternalUri) {
+                }
+                intent.putExtra("create_new_tab", true);
+                intent.putExtra("com.android.browser.application_id", context.getPackageName());
+                if (!isInternalUri) {
+                }
+                context.startActivity(intent);
+                return;
             }
-            intent.putExtra("create_new_tab", true);
-            intent.putExtra("com.android.browser.application_id", context.getPackageName());
-            if (!isInternalUri) {
-            }
-            context.startActivity(intent);
-            return;
-        }
-        try {
             if ("http".equals(lowerCase) || "https".equals(lowerCase)) {
                 try {
                     uri2 = uri.normalizeScheme();
@@ -598,8 +598,8 @@ public class Browser {
     public static boolean isInternalUri(Uri uri, boolean z, boolean[] zArr) {
         String str;
         String str2;
-        String host = uri.getHost();
-        String lowerCase = host != null ? host.toLowerCase() : "";
+        String hostAuthority = AndroidUtilities.getHostAuthority(uri);
+        String lowerCase = hostAuthority != null ? hostAuthority.toLowerCase() : "";
         if (MessagesController.getInstance(UserConfig.selectedAccount).authDomains.contains(lowerCase)) {
             if (zArr != null) {
                 zArr[0] = true;
@@ -624,8 +624,8 @@ public class Browser {
             }
             sb.append(str2);
             uri = Uri.parse(sb.toString());
-            String host2 = uri.getHost();
-            lowerCase = host2 != null ? host2.toLowerCase() : "";
+            String host = uri.getHost();
+            lowerCase = host != null ? host.toLowerCase() : "";
         }
         if ("ton".equals(uri.getScheme())) {
             try {

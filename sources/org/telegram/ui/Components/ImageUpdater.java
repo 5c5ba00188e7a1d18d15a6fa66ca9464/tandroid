@@ -26,6 +26,7 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SendMessagesHelper;
@@ -74,6 +75,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
     public final int setForType;
     private boolean showingFromDialog;
     private TLRPC$PhotoSize smallPhoto;
+    private boolean supportEmojiMarkup;
     private int type;
     private TLRPC$InputFile uploadedPhoto;
     private TLRPC$InputFile uploadedVideo;
@@ -196,6 +198,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
 
     public ImageUpdater(boolean z, int i, boolean z2) {
         this.canSelectVideo = z;
+        this.supportEmojiMarkup = z2;
         this.setForType = i;
     }
 
@@ -743,7 +746,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
             }
             PhotoCropActivity photoCropActivity = new PhotoCropActivity(bundle);
             photoCropActivity.setDelegate(this);
-            launchActivity.lambda$runLinkRequest$71(photoCropActivity);
+            launchActivity.lambda$runLinkRequest$72(photoCropActivity);
         } catch (Exception e) {
             FileLog.e(e);
             processBitmap(ImageLoader.loadBitmap(str, uri, 800.0f, 800.0f, true), null);
@@ -827,7 +830,6 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
     }
 
     private void processBitmap(Bitmap bitmap, MessageObject messageObject) {
-        VideoEditedInfo videoEditedInfo;
         if (bitmap == null) {
             return;
         }
@@ -850,8 +852,22 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
             UserConfig.getInstance(this.currentAccount).saveConfig(false);
             this.uploadingImage = FileLoader.getDirectory(4) + "/" + this.bigPhoto.location.volume_id + "_" + this.bigPhoto.location.local_id + ".jpg";
             if (this.uploadAfterSelect) {
-                if (messageObject != null && (videoEditedInfo = messageObject.videoEditedInfo) != null) {
+                if (messageObject != null && messageObject.videoEditedInfo != null) {
+                    if (this.supportEmojiMarkup && !MessagesController.getInstance(this.currentAccount).uploadMarkupVideo) {
+                        ImageUpdaterDelegate imageUpdaterDelegate = this.delegate;
+                        if (imageUpdaterDelegate != null) {
+                            imageUpdaterDelegate.didStartUpload(true);
+                        }
+                        ImageUpdaterDelegate imageUpdaterDelegate2 = this.delegate;
+                        if (imageUpdaterDelegate2 != null) {
+                            imageUpdaterDelegate2.didUploadPhoto(null, null, 0.0d, null, this.bigPhoto, this.smallPhoto, this.isVideo, null);
+                            this.delegate.didUploadPhoto(null, null, this.videoTimestamp, this.videoPath, this.bigPhoto, this.smallPhoto, this.isVideo, this.vectorMarkup);
+                            return;
+                        }
+                        return;
+                    }
                     this.convertingVideo = messageObject;
+                    VideoEditedInfo videoEditedInfo = messageObject.videoEditedInfo;
                     long j = videoEditedInfo.startTime;
                     if (j < 0) {
                         j = 0;
@@ -865,15 +881,15 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                     NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.fileNewChunkAvailable);
                     MediaController.getInstance().scheduleVideoConvert(messageObject, true);
                     this.uploadingImage = null;
-                    ImageUpdaterDelegate imageUpdaterDelegate = this.delegate;
-                    if (imageUpdaterDelegate != null) {
-                        imageUpdaterDelegate.didStartUpload(true);
+                    ImageUpdaterDelegate imageUpdaterDelegate3 = this.delegate;
+                    if (imageUpdaterDelegate3 != null) {
+                        imageUpdaterDelegate3.didStartUpload(true);
                     }
                     this.isVideo = true;
                 } else {
-                    ImageUpdaterDelegate imageUpdaterDelegate2 = this.delegate;
-                    if (imageUpdaterDelegate2 != null) {
-                        imageUpdaterDelegate2.didStartUpload(false);
+                    ImageUpdaterDelegate imageUpdaterDelegate4 = this.delegate;
+                    if (imageUpdaterDelegate4 != null) {
+                        imageUpdaterDelegate4.didStartUpload(false);
                     }
                     this.isVideo = false;
                 }
@@ -884,9 +900,9 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                     FileLoader.getInstance(this.currentAccount).uploadFile(this.uploadingImage, false, true, ConnectionsManager.FileTypePhoto);
                 }
             }
-            ImageUpdaterDelegate imageUpdaterDelegate3 = this.delegate;
-            if (imageUpdaterDelegate3 != null) {
-                imageUpdaterDelegate3.didUploadPhoto(null, null, 0.0d, null, this.bigPhoto, this.smallPhoto, this.isVideo, null);
+            ImageUpdaterDelegate imageUpdaterDelegate5 = this.delegate;
+            if (imageUpdaterDelegate5 != null) {
+                imageUpdaterDelegate5.didUploadPhoto(null, null, 0.0d, null, this.bigPhoto, this.smallPhoto, this.isVideo, null);
             }
         }
     }

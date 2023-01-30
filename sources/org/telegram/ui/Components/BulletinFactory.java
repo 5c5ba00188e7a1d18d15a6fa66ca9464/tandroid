@@ -215,6 +215,7 @@ public final class BulletinFactory {
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getContext(), this.resourcesProvider);
         lottieLayout.setAnimation(i, 36, 36, new String[0]);
         lottieLayout.textView.setTextSize(1, 14.0f);
+        lottieLayout.textView.setTextDirection(5);
         lottieLayout.textView.setSingleLine(false);
         lottieLayout.textView.setMaxLines(3);
         lottieLayout.textView.setText(charSequence);

@@ -9,6 +9,7 @@ import org.telegram.tgnet.TLRPC$DocumentAttribute;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$TL_document;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeImageSize;
+import org.telegram.tgnet.TLRPC$TL_documentAttributeVideo;
 import org.telegram.tgnet.TLRPC$TL_photoPathSize;
 import org.telegram.tgnet.TLRPC$TL_wallPaper;
 import org.telegram.tgnet.TLRPC$ThemeSettings;
@@ -118,6 +119,7 @@ public class DocumentObject {
     public static SvgHelper.SvgDrawable getSvgThumb(TLRPC$Document tLRPC$Document, String str, float f, float f2) {
         int i;
         int i2;
+        TLRPC$DocumentAttribute tLRPC$DocumentAttribute;
         SvgHelper.SvgDrawable svgDrawable = null;
         if (tLRPC$Document == null) {
             return null;
@@ -138,16 +140,16 @@ public class DocumentObject {
                         i2 = 512;
                         break;
                     }
-                    TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$Document.attributes.get(i4);
-                    if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeImageSize) {
-                        int i5 = tLRPC$DocumentAttribute.w;
-                        int i6 = tLRPC$DocumentAttribute.h;
-                        i = i5;
-                        i2 = i6;
+                    tLRPC$DocumentAttribute = tLRPC$Document.attributes.get(i4);
+                    if ((tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeImageSize) || (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeVideo)) {
                         break;
                     }
                     i4++;
                 }
+                int i5 = tLRPC$DocumentAttribute.w;
+                int i6 = tLRPC$DocumentAttribute.h;
+                i = i5;
+                i2 = i6;
                 if (i != 0 && i2 != 0 && (svgDrawable = SvgHelper.getDrawableByPath(SvgHelper.decompress(tLRPC$PhotoSize.bytes), (int) (i * f2), (int) (i2 * f2))) != null) {
                     svgDrawable.setupGradient(str, f, false);
                 }

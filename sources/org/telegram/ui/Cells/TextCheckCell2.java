@@ -124,7 +124,11 @@ public class TextCheckCell2 extends FrameLayout {
         super.onLayout(z, i, i2, i3, i4);
         LinearLayout linearLayout = this.collapseViewContainer;
         if (linearLayout != null) {
-            linearLayout.setTranslationX(this.textView.getRight() + AndroidUtilities.dp(4.0f));
+            if (LocaleController.isRTL) {
+                linearLayout.setTranslationX((this.textView.getLeft() - this.collapseViewContainer.getMeasuredWidth()) - AndroidUtilities.dp(4.0f));
+            } else {
+                linearLayout.setTranslationX(this.textView.getRight() + AndroidUtilities.dp(4.0f));
+            }
         }
     }
 
