@@ -3,13 +3,17 @@ package com.google.gson.internal.bind;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.internal.$Gson$Types;
 import com.google.gson.internal.ConstructorConstructor;
+import com.google.gson.internal.JsonReaderInternalAccess;
 import com.google.gson.internal.ObjectConstructor;
 import com.google.gson.internal.Streams;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -45,6 +49,7 @@ public final class MapTypeAdapterFactory implements TypeAdapterFactory {
 
     /* loaded from: classes.dex */
     private final class Adapter<K, V> extends TypeAdapter<Map<K, V>> {
+        private final ObjectConstructor<? extends Map<K, V>> constructor;
         private final TypeAdapter<K> keyTypeAdapter;
         private final TypeAdapter<V> valueTypeAdapter;
 
@@ -56,6 +61,40 @@ public final class MapTypeAdapterFactory implements TypeAdapterFactory {
         public Adapter(Gson gson, Type type, TypeAdapter<K> typeAdapter, Type type2, TypeAdapter<V> typeAdapter2, ObjectConstructor<? extends Map<K, V>> objectConstructor) {
             this.keyTypeAdapter = new TypeAdapterRuntimeTypeWrapper(gson, typeAdapter, type);
             this.valueTypeAdapter = new TypeAdapterRuntimeTypeWrapper(gson, typeAdapter2, type2);
+            this.constructor = objectConstructor;
+        }
+
+        @Override // com.google.gson.TypeAdapter
+        public Map<K, V> read(JsonReader jsonReader) throws IOException {
+            JsonToken peek = jsonReader.peek();
+            if (peek == JsonToken.NULL) {
+                jsonReader.nextNull();
+                return null;
+            }
+            Map<K, V> construct = this.constructor.construct();
+            if (peek == JsonToken.BEGIN_ARRAY) {
+                jsonReader.beginArray();
+                while (jsonReader.hasNext()) {
+                    jsonReader.beginArray();
+                    K read = this.keyTypeAdapter.read(jsonReader);
+                    if (construct.put(read, this.valueTypeAdapter.read(jsonReader)) != null) {
+                        throw new JsonSyntaxException("duplicate key: " + read);
+                    }
+                    jsonReader.endArray();
+                }
+                jsonReader.endArray();
+            } else {
+                jsonReader.beginObject();
+                while (jsonReader.hasNext()) {
+                    JsonReaderInternalAccess.INSTANCE.promoteNameToValue(jsonReader);
+                    K read2 = this.keyTypeAdapter.read(jsonReader);
+                    if (construct.put(read2, this.valueTypeAdapter.read(jsonReader)) != null) {
+                        throw new JsonSyntaxException("duplicate key: " + read2);
+                    }
+                }
+                jsonReader.endObject();
+            }
+            return construct;
         }
 
         /* JADX WARN: Multi-variable type inference failed */

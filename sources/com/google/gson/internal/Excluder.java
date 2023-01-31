@@ -9,6 +9,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.Since;
 import com.google.gson.annotations.Until;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -50,27 +51,28 @@ public final class Excluder implements TypeAdapterFactory, Cloneable {
     }
 
     @Override // com.google.gson.TypeAdapterFactory
-    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {
+    public <T> TypeAdapter<T> create(final Gson gson, final TypeToken<T> typeToken) {
         Class<? super T> rawType = typeToken.getRawType();
         boolean excludeClassChecks = excludeClassChecks(rawType);
-        boolean z = excludeClassChecks || excludeClassInStrategy(rawType, true);
-        boolean z2 = excludeClassChecks || excludeClassInStrategy(rawType, false);
+        final boolean z = excludeClassChecks || excludeClassInStrategy(rawType, true);
+        final boolean z2 = excludeClassChecks || excludeClassInStrategy(rawType, false);
         if (z || z2) {
-            return new TypeAdapter<T>(z2, z, gson, typeToken) { // from class: com.google.gson.internal.Excluder.1
+            return new TypeAdapter<T>() { // from class: com.google.gson.internal.Excluder.1
                 private TypeAdapter<T> delegate;
-                final /* synthetic */ Gson val$gson;
-                final /* synthetic */ boolean val$skipSerialize;
-                final /* synthetic */ TypeToken val$type;
 
-                {
-                    this.val$skipSerialize = z;
-                    this.val$gson = gson;
-                    this.val$type = typeToken;
+                /* JADX WARN: Type inference failed for: r2v1, types: [T, java.lang.Object] */
+                @Override // com.google.gson.TypeAdapter
+                public T read(JsonReader jsonReader) throws IOException {
+                    if (z2) {
+                        jsonReader.skipValue();
+                        return null;
+                    }
+                    return delegate().read(jsonReader);
                 }
 
                 @Override // com.google.gson.TypeAdapter
                 public void write(JsonWriter jsonWriter, T t) throws IOException {
-                    if (this.val$skipSerialize) {
+                    if (z) {
                         jsonWriter.nullValue();
                     } else {
                         delegate().write(jsonWriter, t);
@@ -82,7 +84,7 @@ public final class Excluder implements TypeAdapterFactory, Cloneable {
                     if (typeAdapter != 0) {
                         return typeAdapter;
                     }
-                    TypeAdapter<T> delegateAdapter = this.val$gson.getDelegateAdapter(Excluder.this, this.val$type);
+                    TypeAdapter<T> delegateAdapter = gson.getDelegateAdapter(Excluder.this, typeToken);
                     this.delegate = delegateAdapter;
                     return delegateAdapter;
                 }

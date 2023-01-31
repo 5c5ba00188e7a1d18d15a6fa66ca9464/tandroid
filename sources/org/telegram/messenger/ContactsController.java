@@ -708,13 +708,13 @@ public class ContactsController extends BaseController {
         return i > 3;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:216:0x04ae A[Catch: all -> 0x04c6, TRY_LEAVE, TryCatch #5 {all -> 0x04c6, blocks: (B:214:0x04a9, B:216:0x04ae), top: B:247:0x04a9 }] */
-    /* JADX WARN: Removed duplicated region for block: B:225:0x04c0  */
-    /* JADX WARN: Removed duplicated region for block: B:251:0x04b3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:279:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:217:0x04a8 A[Catch: all -> 0x04c0, TRY_LEAVE, TryCatch #0 {all -> 0x04c0, blocks: (B:215:0x04a3, B:217:0x04a8), top: B:239:0x04a3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:226:0x04ba  */
+    /* JADX WARN: Removed duplicated region for block: B:258:0x04ad A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:285:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r5v1 */
     /* JADX WARN: Type inference failed for: r5v12 */
-    /* JADX WARN: Type inference failed for: r5v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r5v2, types: [boolean, int] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -734,13 +734,8 @@ public class ContactsController extends BaseController {
         ContentResolver contentResolver2;
         StringBuilder sb;
         ArrayList arrayList2;
-        String join;
-        Uri uri;
         Pattern pattern;
-        String[] strArr;
-        Cursor cursor2;
         String str3;
-        String str4;
         ContactsController contactsController = this;
         if (!getUserConfig().syncContacts) {
             if (BuildVars.LOGS_ENABLED) {
@@ -759,7 +754,7 @@ public class ContactsController extends BaseController {
                 HashMap hashMap4 = new HashMap();
                 ArrayList arrayList3 = new ArrayList();
                 Cursor query = contentResolver3.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, contactsController.projectionPhones, null, null, null);
-                String str5 = "+";
+                String str4 = "+";
                 int i4 = 5;
                 int i5 = 0;
                 ?? r5 = 1;
@@ -773,14 +768,14 @@ public class ContactsController extends BaseController {
                                 try {
                                     String string = query.getString(r5);
                                     String string2 = query.getString(i4);
-                                    String str6 = string2 == null ? "" : string2;
-                                    boolean z = str6.indexOf(".sim") != 0;
+                                    String str5 = string2 == null ? "" : string2;
+                                    boolean z = str5.indexOf(".sim") != 0;
                                     if (!TextUtils.isEmpty(string)) {
                                         String stripExceptNumbers = PhoneFormat.stripExceptNumbers(string, r5);
                                         if (!TextUtils.isEmpty(stripExceptNumbers)) {
-                                            if (stripExceptNumbers.startsWith(str5)) {
+                                            if (stripExceptNumbers.startsWith(str4)) {
                                                 try {
-                                                    str2 = str5;
+                                                    str2 = str4;
                                                     substring = stripExceptNumbers.substring(r5);
                                                 } catch (Throwable th) {
                                                     th = th;
@@ -789,14 +784,8 @@ public class ContactsController extends BaseController {
                                                     try {
                                                         FileLog.e(th);
                                                         if (hashMap != null) {
-                                                            hashMap.clear();
                                                         }
                                                         if (cursor != null) {
-                                                            try {
-                                                                cursor.close();
-                                                            } catch (Exception e) {
-                                                                FileLog.e(e);
-                                                            }
                                                         }
                                                         hashMap2 = hashMap;
                                                         if (hashMap2 != null) {
@@ -805,8 +794,8 @@ public class ContactsController extends BaseController {
                                                         if (cursor != null) {
                                                             try {
                                                                 cursor.close();
-                                                            } catch (Exception e2) {
-                                                                FileLog.e(e2);
+                                                            } catch (Exception e) {
+                                                                FileLog.e(e);
                                                             }
                                                         }
                                                         throw th2;
@@ -814,7 +803,7 @@ public class ContactsController extends BaseController {
                                                 }
                                             } else {
                                                 substring = stripExceptNumbers;
-                                                str2 = str5;
+                                                str2 = str4;
                                             }
                                             String string3 = query.getString(i5);
                                             sb2.setLength(i5);
@@ -823,16 +812,16 @@ public class ContactsController extends BaseController {
                                             contentResolver2 = contentResolver3;
                                             Contact contact = (Contact) hashMap4.get(substring);
                                             if (contact != null) {
-                                                if (!contact.isGoodProvider && !str6.equals(contact.provider)) {
+                                                if (!contact.isGoodProvider && !str5.equals(contact.provider)) {
                                                     sb2.setLength(0);
                                                     DatabaseUtils.appendEscapedSQLString(sb2, contact.key);
                                                     arrayList3.remove(sb2.toString());
                                                     arrayList3.add(sb3);
                                                     contact.key = string3;
                                                     contact.isGoodProvider = z;
-                                                    contact.provider = str6;
+                                                    contact.provider = str5;
                                                 }
-                                                str5 = str2;
+                                                str4 = str2;
                                                 contentResolver3 = contentResolver2;
                                                 r5 = 1;
                                                 i5 = 0;
@@ -863,7 +852,7 @@ public class ContactsController extends BaseController {
                                                             contact2.last_name = "";
                                                         }
                                                     }
-                                                    contact2.provider = str6;
+                                                    contact2.provider = str5;
                                                     contact2.isGoodProvider = z;
                                                     contact2.key = string3;
                                                     contact2.contact_id = i3;
@@ -897,7 +886,7 @@ public class ContactsController extends BaseController {
                                                     }
                                                     hashMap4.put(substring, contact2);
                                                     contactsController = this;
-                                                    str5 = str2;
+                                                    str4 = str2;
                                                     sb2 = sb;
                                                     contentResolver3 = contentResolver2;
                                                     arrayList3 = arrayList2;
@@ -907,7 +896,7 @@ public class ContactsController extends BaseController {
                                                 }
                                                 hashMap4.put(substring, contact2);
                                                 contactsController = this;
-                                                str5 = str2;
+                                                str4 = str2;
                                                 sb2 = sb;
                                                 contentResolver3 = contentResolver2;
                                                 arrayList3 = arrayList2;
@@ -918,8 +907,8 @@ public class ContactsController extends BaseController {
                                         }
                                     }
                                     contentResolver2 = contentResolver3;
-                                    str2 = str5;
-                                    str5 = str2;
+                                    str2 = str4;
+                                    str4 = str2;
                                     contentResolver3 = contentResolver2;
                                     r5 = 1;
                                     i5 = 0;
@@ -930,7 +919,7 @@ public class ContactsController extends BaseController {
                             }
                             contentResolver = contentResolver3;
                             arrayList = arrayList3;
-                            str = str5;
+                            str = str4;
                             i = 0;
                             i2 = 2;
                         } else {
@@ -964,168 +953,167 @@ public class ContactsController extends BaseController {
                     hashMap2 = null;
                 }
                 try {
-                    join = TextUtils.join(",", arrayList);
-                    uri = ContactsContract.Data.CONTENT_URI;
-                } catch (Throwable th5) {
-                    th = th5;
-                }
-            } catch (Throwable th6) {
-                th = th6;
-                hashMap = null;
-                cursor = null;
-            }
-            try {
-                int i7 = 1;
-                cursor = contentResolver.query(uri, this.projectionNames, "lookup IN (" + join + ") AND mimetype = 'vnd.android.cursor.item/name'", null, null);
-                if (cursor != null) {
-                    while (cursor.moveToNext()) {
-                        String string6 = cursor.getString(i);
-                        String string7 = cursor.getString(1);
-                        String string8 = cursor.getString(i2);
-                        String string9 = cursor.getString(3);
-                        Contact contact3 = hashMap2 != null ? hashMap2.get(string6) : null;
-                        if (contact3 != null && !contact3.namesFilled) {
-                            if (contact3.isGoodProvider) {
-                                if (string7 != null) {
-                                    contact3.first_name = string7;
-                                } else {
-                                    contact3.first_name = "";
-                                }
-                                if (string8 != null) {
-                                    contact3.last_name = string8;
-                                } else {
-                                    contact3.last_name = "";
-                                }
-                                if (!TextUtils.isEmpty(string9)) {
-                                    if (!TextUtils.isEmpty(contact3.first_name)) {
-                                        contact3.first_name += " " + string9;
-                                    } else {
-                                        contact3.first_name = string9;
-                                    }
-                                }
-                            } else if ((!isNotValidNameString(string7) && (contact3.first_name.contains(string7) || string7.contains(contact3.first_name))) || (!isNotValidNameString(string8) && (contact3.last_name.contains(string8) || string7.contains(contact3.last_name)))) {
-                                if (string7 != null) {
-                                    contact3.first_name = string7;
-                                } else {
-                                    contact3.first_name = "";
-                                }
-                                if (!TextUtils.isEmpty(string9)) {
-                                    if (!TextUtils.isEmpty(contact3.first_name)) {
-                                        contact3.first_name += " " + string9;
-                                    } else {
-                                        contact3.first_name = string9;
-                                    }
-                                }
-                                if (string8 != null) {
-                                    contact3.last_name = string8;
-                                } else {
-                                    contact3.last_name = "";
-                                }
-                            }
-                            contact3.namesFilled = true;
-                        }
-                    }
+                    String join = TextUtils.join(",", arrayList);
+                    Uri uri = ContactsContract.Data.CONTENT_URI;
                     try {
-                        cursor.close();
-                    } catch (Exception unused2) {
-                    }
-                    cursor = null;
-                }
-                Cursor query2 = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, "has_phone_number = ?", new String[]{"0"}, null);
-                if (query2 != null) {
-                    String[] strArr2 = new String[5];
-                    Pattern compile = Pattern.compile(".*(\\+[0-9 \\-]+).*");
-                    while (query2.moveToNext()) {
-                        String string10 = query2.getString(query2.getColumnIndex("_id"));
-                        String string11 = query2.getString(query2.getColumnIndex("lookup"));
-                        String string12 = query2.getString(query2.getColumnIndex("display_name"));
-                        if (hashMap2.get(string11) == null && !TextUtils.isEmpty(string12)) {
-                            Uri uri2 = ContactsContract.Data.CONTENT_URI;
-                            String[] strArr3 = new String[i7];
-                            strArr3[i] = string10;
-                            Pattern pattern2 = compile;
-                            strArr = strArr2;
-                            cursor2 = query2;
-                            cursor = contentResolver.query(uri2, null, "contact_id = ?", strArr3, null);
-                            while (true) {
-                                if (!cursor.moveToNext()) {
-                                    pattern = pattern2;
-                                    str4 = null;
-                                    break;
-                                }
-                                strArr[i] = cursor.getString(cursor.getColumnIndex("data1"));
-                                strArr[i7] = cursor.getString(cursor.getColumnIndex("data2"));
-                                strArr[2] = cursor.getString(cursor.getColumnIndex("data3"));
-                                strArr[3] = cursor.getString(cursor.getColumnIndex("data4"));
-                                strArr[4] = cursor.getString(cursor.getColumnIndex("data5"));
-                                int i8 = 0;
-                                while (i8 < 5) {
-                                    if (strArr[i8] == null) {
-                                        pattern = pattern2;
-                                    } else {
-                                        pattern = pattern2;
-                                        Matcher matcher = pattern.matcher(strArr[i8]);
-                                        if (matcher.matches()) {
-                                            str4 = matcher.group(i7).replace(" ", "").replace("-", "");
-                                            break;
+                        int i7 = 1;
+                        cursor = contentResolver.query(uri, this.projectionNames, "lookup IN (" + join + ") AND mimetype = 'vnd.android.cursor.item/name'", null, null);
+                        if (cursor != null) {
+                            while (cursor.moveToNext()) {
+                                String string6 = cursor.getString(i);
+                                String string7 = cursor.getString(1);
+                                String string8 = cursor.getString(i2);
+                                String string9 = cursor.getString(3);
+                                Contact contact3 = hashMap2 != null ? hashMap2.get(string6) : null;
+                                if (contact3 != null && !contact3.namesFilled) {
+                                    if (contact3.isGoodProvider) {
+                                        if (string7 != null) {
+                                            contact3.first_name = string7;
+                                        } else {
+                                            contact3.first_name = "";
+                                        }
+                                        if (string8 != null) {
+                                            contact3.last_name = string8;
+                                        } else {
+                                            contact3.last_name = "";
+                                        }
+                                        if (!TextUtils.isEmpty(string9)) {
+                                            if (!TextUtils.isEmpty(contact3.first_name)) {
+                                                contact3.first_name += " " + string9;
+                                            } else {
+                                                contact3.first_name = string9;
+                                            }
+                                        }
+                                    } else if ((!isNotValidNameString(string7) && (contact3.first_name.contains(string7) || string7.contains(contact3.first_name))) || (!isNotValidNameString(string8) && (contact3.last_name.contains(string8) || string7.contains(contact3.last_name)))) {
+                                        if (string7 != null) {
+                                            contact3.first_name = string7;
+                                        } else {
+                                            contact3.first_name = "";
+                                        }
+                                        if (!TextUtils.isEmpty(string9)) {
+                                            if (!TextUtils.isEmpty(contact3.first_name)) {
+                                                contact3.first_name += " " + string9;
+                                            } else {
+                                                contact3.first_name = string9;
+                                            }
+                                        }
+                                        if (string8 != null) {
+                                            contact3.last_name = string8;
+                                        } else {
+                                            contact3.last_name = "";
                                         }
                                     }
-                                    i8++;
-                                    pattern2 = pattern;
+                                    contact3.namesFilled = true;
                                 }
                             }
-                            cursor.close();
-                            str3 = str;
-                            if (str4 != null) {
-                                String substring2 = str4.startsWith(str3) ? str4.substring(i7) : str4;
-                                Contact contact4 = new Contact();
-                                contact4.first_name = string12;
-                                contact4.last_name = "";
-                                contact4.contact_id = i3;
-                                contact4.key = string11;
-                                contact4.phones.add(str4);
-                                contact4.shortPhones.add(substring2);
-                                contact4.phoneDeleted.add(Integer.valueOf(i));
-                                contact4.phoneTypes.add(LocaleController.getString("PhoneOther", R.string.PhoneOther));
-                                hashMap2.put(string11, contact4);
-                                i3++;
+                            try {
+                                cursor.close();
+                            } catch (Exception unused2) {
                             }
-                            compile = pattern;
-                            str = str3;
-                            query2 = cursor2;
-                            strArr2 = strArr;
-                            i7 = 1;
+                            cursor = null;
                         }
-                        pattern = compile;
-                        strArr = strArr2;
-                        cursor2 = query2;
-                        str3 = str;
-                        compile = pattern;
-                        str = str3;
-                        query2 = cursor2;
-                        strArr2 = strArr;
-                        i7 = 1;
+                        Cursor query2 = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, "has_phone_number = ?", new String[]{"0"}, null);
+                        if (query2 != null) {
+                            String[] strArr = new String[5];
+                            Pattern compile = Pattern.compile(".*(\\+[0-9 \\-]+).*");
+                            while (query2.moveToNext()) {
+                                String string10 = query2.getString(query2.getColumnIndex("_id"));
+                                String string11 = query2.getString(query2.getColumnIndex("lookup"));
+                                String string12 = query2.getString(query2.getColumnIndex("display_name"));
+                                if (hashMap2 == null || hashMap2.get(string11) == null) {
+                                    if (!TextUtils.isEmpty(string12)) {
+                                        Uri uri2 = ContactsContract.Data.CONTENT_URI;
+                                        String[] strArr2 = new String[i7];
+                                        strArr2[i] = string10;
+                                        Pattern pattern2 = compile;
+                                        String[] strArr3 = strArr;
+                                        Cursor cursor2 = query2;
+                                        cursor = contentResolver.query(uri2, null, "contact_id = ?", strArr2, null);
+                                        while (true) {
+                                            if (!cursor.moveToNext()) {
+                                                pattern = pattern2;
+                                                str3 = null;
+                                                break;
+                                            }
+                                            strArr3[i] = cursor.getString(cursor.getColumnIndex("data1"));
+                                            strArr3[i7] = cursor.getString(cursor.getColumnIndex("data2"));
+                                            strArr3[2] = cursor.getString(cursor.getColumnIndex("data3"));
+                                            strArr3[3] = cursor.getString(cursor.getColumnIndex("data4"));
+                                            strArr3[4] = cursor.getString(cursor.getColumnIndex("data5"));
+                                            int i8 = 0;
+                                            while (i8 < 5) {
+                                                if (strArr3[i8] == null) {
+                                                    pattern = pattern2;
+                                                } else {
+                                                    pattern = pattern2;
+                                                    Matcher matcher = pattern.matcher(strArr3[i8]);
+                                                    if (matcher.matches()) {
+                                                        str3 = matcher.group(i7).replace(" ", "").replace("-", "");
+                                                        break;
+                                                    }
+                                                }
+                                                i8++;
+                                                pattern2 = pattern;
+                                            }
+                                        }
+                                        cursor.close();
+                                        String str6 = str;
+                                        if (str3 != null) {
+                                            String substring2 = str3.startsWith(str6) ? str3.substring(i7) : str3;
+                                            Contact contact4 = new Contact();
+                                            contact4.first_name = string12;
+                                            contact4.last_name = "";
+                                            contact4.contact_id = i3;
+                                            contact4.key = string11;
+                                            contact4.phones.add(str3);
+                                            contact4.shortPhones.add(substring2);
+                                            contact4.phoneDeleted.add(Integer.valueOf(i));
+                                            contact4.phoneTypes.add(LocaleController.getString("PhoneOther", R.string.PhoneOther));
+                                            hashMap2.put(string11, contact4);
+                                            i3++;
+                                        }
+                                        compile = pattern;
+                                        str = str6;
+                                        query2 = cursor2;
+                                        strArr = strArr3;
+                                        i7 = 1;
+                                    }
+                                }
+                            }
+                            query2.close();
+                        }
+                        if (cursor != null) {
+                            try {
+                                cursor.close();
+                            } catch (Exception e2) {
+                                FileLog.e(e2);
+                            }
+                        }
+                    } catch (Throwable th5) {
+                        th = th5;
+                        hashMap = hashMap2;
+                        FileLog.e(th);
+                        if (hashMap != null) {
+                            hashMap.clear();
+                        }
+                        if (cursor != null) {
+                            try {
+                                cursor.close();
+                            } catch (Exception e3) {
+                                FileLog.e(e3);
+                            }
+                        }
+                        hashMap2 = hashMap;
+                        if (hashMap2 != null) {
+                        }
                     }
-                    query2.close();
-                }
-                if (cursor != null) {
-                    try {
-                        cursor.close();
-                    } catch (Exception e3) {
-                        FileLog.e(e3);
-                    }
+                } catch (Throwable th6) {
+                    th = th6;
                 }
             } catch (Throwable th7) {
                 th = th7;
-                hashMap = hashMap2;
-                FileLog.e(th);
-                if (hashMap != null) {
-                }
-                if (cursor != null) {
-                }
-                hashMap2 = hashMap;
-                if (hashMap2 != null) {
-                }
+                hashMap = null;
+                cursor = null;
             }
             return hashMap2 != null ? hashMap2 : new HashMap<>();
         }

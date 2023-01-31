@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -20,6 +21,11 @@ public final class TypeAdapterRuntimeTypeWrapper<T> extends TypeAdapter<T> {
         this.context = gson;
         this.delegate = typeAdapter;
         this.type = type;
+    }
+
+    @Override // com.google.gson.TypeAdapter
+    public T read(JsonReader jsonReader) throws IOException {
+        return this.delegate.read(jsonReader);
     }
 
     @Override // com.google.gson.TypeAdapter

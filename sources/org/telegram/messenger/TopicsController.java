@@ -235,7 +235,7 @@ public class TopicsController extends BaseController {
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r4v3 */
-    /* JADX WARN: Type inference failed for: r4v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r4v4, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r4v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1073,11 +1073,7 @@ public class TopicsController extends BaseController {
         clearLoadingOffset(j);
         TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(j));
         if (chat != null && chat.forum) {
-            if (z) {
-                preloadTopics(j);
-            } else {
-                loadTopics(j, false, 0);
-            }
+            loadTopics(j, z, 0);
         }
         sortTopics(j);
     }

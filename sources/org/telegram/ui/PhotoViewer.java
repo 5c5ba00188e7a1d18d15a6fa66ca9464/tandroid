@@ -5888,7 +5888,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         /* JADX WARN: Removed duplicated region for block: B:454:? A[RETURN, SYNTHETIC] */
         /* JADX WARN: Type inference failed for: r10v28 */
         /* JADX WARN: Type inference failed for: r10v29 */
-        /* JADX WARN: Type inference failed for: r10v30, types: [int, boolean] */
+        /* JADX WARN: Type inference failed for: r10v30, types: [boolean, int] */
         /* JADX WARN: Type inference failed for: r10v31 */
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
         /*
@@ -18792,7 +18792,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* JADX WARN: Type inference failed for: r15v28 */
     /* JADX WARN: Type inference failed for: r15v3 */
     /* JADX WARN: Type inference failed for: r15v31 */
-    /* JADX WARN: Type inference failed for: r15v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r15v4, types: [boolean, int] */
     @SuppressLint({"NewApi", "DrawAllocation"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.

@@ -785,7 +785,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:68:0x01de, code lost:
-        if (r2 != false) goto L86;
+        if (r2 != false) goto L92;
      */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
@@ -936,7 +936,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                                     TLRPC$VideoSize closestVideoSizeWithSize2 = FileLoader.getClosestVideoSizeWithSize(tLRPC$Photo2.video_sizes, 1000);
                                     TLRPC$VideoSize vectorMarkupVideoSize = FileLoader.getVectorMarkupVideoSize(tLRPC$Photo2);
                                     if (vectorMarkupVideoSize != null) {
-                                        this.vectorAvatars.add(new VectorAvatarThumbDrawable(vectorMarkupVideoSize, user.premium, 2));
+                                        this.vectorAvatars.add(new VectorAvatarThumbDrawable(vectorMarkupVideoSize, user != null && user.premium, 2));
                                         f = null;
                                         this.videoLocations.add(null);
                                         this.videoFileNames.add(null);

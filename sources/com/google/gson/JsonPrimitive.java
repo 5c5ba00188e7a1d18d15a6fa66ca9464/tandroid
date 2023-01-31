@@ -66,6 +66,18 @@ public final class JsonPrimitive extends JsonElement {
         throw new AssertionError("Unexpected value type: " + this.value.getClass());
     }
 
+    public double getAsDouble() {
+        return isNumber() ? getAsNumber().doubleValue() : Double.parseDouble(getAsString());
+    }
+
+    public long getAsLong() {
+        return isNumber() ? getAsNumber().longValue() : Long.parseLong(getAsString());
+    }
+
+    public int getAsInt() {
+        return isNumber() ? getAsNumber().intValue() : Integer.parseInt(getAsString());
+    }
+
     public int hashCode() {
         long doubleToLongBits;
         if (this.value == null) {

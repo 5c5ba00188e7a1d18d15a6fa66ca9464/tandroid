@@ -184,7 +184,7 @@ public class ForwardingPreviewView extends FrameLayout {
                     chatMessageCell.drawCheckBox(canvas);
                     canvas.save();
                     canvas.translate(chatMessageCell.getX(), chatMessageCell.getY());
-                    chatMessageCell.drawMessageText(canvas, chatMessageCell.getMessageObject().textLayoutBlocks, true, 1.0f, false);
+                    chatMessageCell.drawMessageText(canvas, chatMessageCell.getMessageObject().textLayoutBlocks, chatMessageCell.getMessageObject().textXOffset, true, 1.0f, false);
                     if (chatMessageCell.getCurrentMessagesGroup() != null || chatMessageCell.getTransitionParams().animateBackgroundBoundsInner) {
                         chatMessageCell.drawNamesLayout(canvas, 1.0f);
                     }
@@ -222,7 +222,7 @@ public class ForwardingPreviewView extends FrameLayout {
             }
 
             /* JADX WARN: Type inference failed for: r3v0 */
-            /* JADX WARN: Type inference failed for: r3v1, types: [int, boolean] */
+            /* JADX WARN: Type inference failed for: r3v1, types: [boolean, int] */
             /* JADX WARN: Type inference failed for: r3v9 */
             private void drawChatBackgroundElements(Canvas canvas) {
                 boolean z;

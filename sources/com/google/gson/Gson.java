@@ -3,6 +3,7 @@ package com.google.gson;
 import com.google.gson.internal.ConstructorConstructor;
 import com.google.gson.internal.Excluder;
 import com.google.gson.internal.LazilyParsedNumber;
+import com.google.gson.internal.Primitives;
 import com.google.gson.internal.Streams;
 import com.google.gson.internal.bind.ArrayTypeAdapter;
 import com.google.gson.internal.bind.CollectionTypeAdapterFactory;
@@ -16,9 +17,15 @@ import com.google.gson.internal.bind.SerializationDelegatingTypeAdapter;
 import com.google.gson.internal.bind.TypeAdapters;
 import com.google.gson.internal.sql.SqlTypesSupport;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
+import com.google.gson.stream.MalformedJsonException;
 import j$.util.concurrent.ConcurrentHashMap;
+import java.io.EOFException;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Type;
@@ -36,10 +43,9 @@ import java.util.concurrent.atomic.AtomicLongArray;
 /* loaded from: classes.dex */
 public final class Gson {
     static final String DEFAULT_DATE_PATTERN = null;
-    static final ToNumberStrategy DEFAULT_NUMBER_TO_NUMBER_STRATEGY;
-    static final ToNumberStrategy DEFAULT_OBJECT_TO_NUMBER_STRATEGY;
     final List<TypeAdapterFactory> builderFactories;
     final List<TypeAdapterFactory> builderHierarchyFactories;
+    private final ThreadLocal<Map<TypeToken<?>, FutureTypeAdapter<?>>> calls;
     private final ConstructorConstructor constructorConstructor;
     final List<TypeAdapterFactory> factories;
     final boolean generateNonExecutableJson;
@@ -49,17 +55,19 @@ public final class Gson {
     final boolean prettyPrinting;
     final List<ReflectionAccessFilter> reflectionFilters;
     final boolean serializeNulls;
-    private final ThreadLocal<Map<TypeToken<?>, FutureTypeAdapter<?>>> calls = new ThreadLocal<>();
-    private final ConcurrentMap<TypeToken<?>, TypeAdapter<?>> typeTokenCache = new ConcurrentHashMap();
+    private final ConcurrentMap<TypeToken<?>, TypeAdapter<?>> typeTokenCache;
+    static final FieldNamingStrategy DEFAULT_FIELD_NAMING_STRATEGY = FieldNamingPolicy.IDENTITY;
+    static final ToNumberStrategy DEFAULT_OBJECT_TO_NUMBER_STRATEGY = ToNumberPolicy.DOUBLE;
+    static final ToNumberStrategy DEFAULT_NUMBER_TO_NUMBER_STRATEGY = ToNumberPolicy.LAZILY_PARSED_NUMBER;
 
-    static {
-        FieldNamingPolicy fieldNamingPolicy = FieldNamingPolicy.IDENTITY;
-        DEFAULT_OBJECT_TO_NUMBER_STRATEGY = ToNumberPolicy.DOUBLE;
-        DEFAULT_NUMBER_TO_NUMBER_STRATEGY = ToNumberPolicy.LAZILY_PARSED_NUMBER;
+    public Gson() {
+        this(Excluder.DEFAULT, DEFAULT_FIELD_NAMING_STRATEGY, Collections.emptyMap(), false, false, false, true, false, false, false, true, LongSerializationPolicy.DEFAULT, DEFAULT_DATE_PATTERN, 2, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), DEFAULT_OBJECT_TO_NUMBER_STRATEGY, DEFAULT_NUMBER_TO_NUMBER_STRATEGY, Collections.emptyList());
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public Gson(Excluder excluder, FieldNamingStrategy fieldNamingStrategy, Map<Type, InstanceCreator<?>> map, boolean z, boolean z2, boolean z3, boolean z4, boolean z5, boolean z6, boolean z7, boolean z8, LongSerializationPolicy longSerializationPolicy, String str, int i, int i2, List<TypeAdapterFactory> list, List<TypeAdapterFactory> list2, List<TypeAdapterFactory> list3, ToNumberStrategy toNumberStrategy, ToNumberStrategy toNumberStrategy2, List<ReflectionAccessFilter> list4) {
+        this.calls = new ThreadLocal<>();
+        this.typeTokenCache = new ConcurrentHashMap();
         ConstructorConstructor constructorConstructor = new ConstructorConstructor(map, z8, list4);
         this.constructorConstructor = constructorConstructor;
         this.serializeNulls = z;
@@ -128,6 +136,15 @@ public final class Gson {
         }
         return new TypeAdapter<Number>(this) { // from class: com.google.gson.Gson.1
             @Override // com.google.gson.TypeAdapter
+            public Number read(JsonReader jsonReader) throws IOException {
+                if (jsonReader.peek() == JsonToken.NULL) {
+                    jsonReader.nextNull();
+                    return null;
+                }
+                return Double.valueOf(jsonReader.nextDouble());
+            }
+
+            @Override // com.google.gson.TypeAdapter
             public void write(JsonWriter jsonWriter, Number number) throws IOException {
                 if (number == null) {
                     jsonWriter.nullValue();
@@ -145,6 +162,15 @@ public final class Gson {
             return TypeAdapters.FLOAT;
         }
         return new TypeAdapter<Number>(this) { // from class: com.google.gson.Gson.2
+            @Override // com.google.gson.TypeAdapter
+            public Number read(JsonReader jsonReader) throws IOException {
+                if (jsonReader.peek() == JsonToken.NULL) {
+                    jsonReader.nextNull();
+                    return null;
+                }
+                return Float.valueOf((float) jsonReader.nextDouble());
+            }
+
             @Override // com.google.gson.TypeAdapter
             public void write(JsonWriter jsonWriter, Number number) throws IOException {
                 if (number == null) {
@@ -173,6 +199,15 @@ public final class Gson {
         }
         return new TypeAdapter<Number>() { // from class: com.google.gson.Gson.3
             @Override // com.google.gson.TypeAdapter
+            public Number read(JsonReader jsonReader) throws IOException {
+                if (jsonReader.peek() == JsonToken.NULL) {
+                    jsonReader.nextNull();
+                    return null;
+                }
+                return Long.valueOf(jsonReader.nextLong());
+            }
+
+            @Override // com.google.gson.TypeAdapter
             public void write(JsonWriter jsonWriter, Number number) throws IOException {
                 if (number == null) {
                     jsonWriter.nullValue();
@@ -189,6 +224,11 @@ public final class Gson {
             public void write(JsonWriter jsonWriter, AtomicLong atomicLong) throws IOException {
                 TypeAdapter.this.write(jsonWriter, Long.valueOf(atomicLong.get()));
             }
+
+            @Override // com.google.gson.TypeAdapter
+            public AtomicLong read(JsonReader jsonReader) throws IOException {
+                return new AtomicLong(((Number) TypeAdapter.this.read(jsonReader)).longValue());
+            }
         }.nullSafe();
     }
 
@@ -202,6 +242,22 @@ public final class Gson {
                     TypeAdapter.this.write(jsonWriter, Long.valueOf(atomicLongArray.get(i)));
                 }
                 jsonWriter.endArray();
+            }
+
+            @Override // com.google.gson.TypeAdapter
+            public AtomicLongArray read(JsonReader jsonReader) throws IOException {
+                ArrayList arrayList = new ArrayList();
+                jsonReader.beginArray();
+                while (jsonReader.hasNext()) {
+                    arrayList.add(Long.valueOf(((Number) TypeAdapter.this.read(jsonReader)).longValue()));
+                }
+                jsonReader.endArray();
+                int size = arrayList.size();
+                AtomicLongArray atomicLongArray = new AtomicLongArray(size);
+                for (int i = 0; i < size; i++) {
+                    atomicLongArray.set(i, ((Long) arrayList.get(i)).longValue());
+                }
+                return atomicLongArray;
             }
         }.nullSafe();
     }
@@ -343,6 +399,12 @@ public final class Gson {
         return jsonWriter;
     }
 
+    public JsonReader newJsonReader(Reader reader) {
+        JsonReader jsonReader = new JsonReader(reader);
+        jsonReader.setLenient(this.lenient);
+        return jsonReader;
+    }
+
     public void toJson(JsonElement jsonElement, JsonWriter jsonWriter) throws JsonIOException {
         boolean isLenient = jsonWriter.isLenient();
         jsonWriter.setLenient(true);
@@ -364,6 +426,77 @@ public final class Gson {
             jsonWriter.setLenient(isLenient);
             jsonWriter.setHtmlSafe(isHtmlSafe);
             jsonWriter.setSerializeNulls(serializeNulls);
+        }
+    }
+
+    public <T> T fromJson(String str, Class<T> cls) throws JsonSyntaxException {
+        return (T) Primitives.wrap(cls).cast(fromJson(str, TypeToken.get((Class) cls)));
+    }
+
+    public <T> T fromJson(String str, TypeToken<T> typeToken) throws JsonSyntaxException {
+        if (str == null) {
+            return null;
+        }
+        return (T) fromJson(new StringReader(str), typeToken);
+    }
+
+    public <T> T fromJson(Reader reader, Class<T> cls) throws JsonSyntaxException, JsonIOException {
+        return (T) Primitives.wrap(cls).cast(fromJson(reader, TypeToken.get((Class) cls)));
+    }
+
+    public <T> T fromJson(Reader reader, TypeToken<T> typeToken) throws JsonIOException, JsonSyntaxException {
+        JsonReader newJsonReader = newJsonReader(reader);
+        T t = (T) fromJson(newJsonReader, typeToken);
+        assertFullConsumption(t, newJsonReader);
+        return t;
+    }
+
+    private static void assertFullConsumption(Object obj, JsonReader jsonReader) {
+        if (obj != null) {
+            try {
+                if (jsonReader.peek() == JsonToken.END_DOCUMENT) {
+                    return;
+                }
+                throw new JsonSyntaxException("JSON document was not fully consumed.");
+            } catch (MalformedJsonException e) {
+                throw new JsonSyntaxException(e);
+            } catch (IOException e2) {
+                throw new JsonIOException(e2);
+            }
+        }
+    }
+
+    public <T> T fromJson(JsonReader jsonReader, TypeToken<T> typeToken) throws JsonIOException, JsonSyntaxException {
+        boolean isLenient = jsonReader.isLenient();
+        boolean z = true;
+        jsonReader.setLenient(true);
+        try {
+            try {
+                try {
+                    jsonReader.peek();
+                    z = false;
+                    T read = getAdapter(typeToken).read(jsonReader);
+                    jsonReader.setLenient(isLenient);
+                    return read;
+                } catch (IOException e) {
+                    throw new JsonSyntaxException(e);
+                } catch (AssertionError e2) {
+                    AssertionError assertionError = new AssertionError("AssertionError (GSON 2.10): " + e2.getMessage());
+                    assertionError.initCause(e2);
+                    throw assertionError;
+                }
+            } catch (EOFException e3) {
+                if (!z) {
+                    throw new JsonSyntaxException(e3);
+                }
+                jsonReader.setLenient(isLenient);
+                return null;
+            } catch (IllegalStateException e4) {
+                throw new JsonSyntaxException(e4);
+            }
+        } catch (Throwable th) {
+            jsonReader.setLenient(isLenient);
+            throw th;
         }
     }
 
@@ -393,6 +526,11 @@ public final class Gson {
         @Override // com.google.gson.internal.bind.SerializationDelegatingTypeAdapter
         public TypeAdapter<T> getSerializationDelegate() {
             return delegate();
+        }
+
+        @Override // com.google.gson.TypeAdapter
+        public T read(JsonReader jsonReader) throws IOException {
+            return delegate().read(jsonReader);
         }
 
         @Override // com.google.gson.TypeAdapter

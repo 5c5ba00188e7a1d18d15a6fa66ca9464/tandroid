@@ -5,11 +5,14 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.internal.$Gson$Types;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 /* loaded from: classes.dex */
 public final class ArrayTypeAdapter<E> extends TypeAdapter<Object> {
     public static final TypeAdapterFactory FACTORY = new TypeAdapterFactory() { // from class: com.google.gson.internal.bind.ArrayTypeAdapter.1
@@ -23,10 +26,35 @@ public final class ArrayTypeAdapter<E> extends TypeAdapter<Object> {
             return null;
         }
     };
+    private final Class<E> componentType;
     private final TypeAdapter<E> componentTypeAdapter;
 
     public ArrayTypeAdapter(Gson gson, TypeAdapter<E> typeAdapter, Class<E> cls) {
         this.componentTypeAdapter = new TypeAdapterRuntimeTypeWrapper(gson, typeAdapter, cls);
+        this.componentType = cls;
+    }
+
+    @Override // com.google.gson.TypeAdapter
+    public Object read(JsonReader jsonReader) throws IOException {
+        if (jsonReader.peek() == JsonToken.NULL) {
+            jsonReader.nextNull();
+            return null;
+        }
+        ArrayList arrayList = new ArrayList();
+        jsonReader.beginArray();
+        while (jsonReader.hasNext()) {
+            arrayList.add(this.componentTypeAdapter.read(jsonReader));
+        }
+        jsonReader.endArray();
+        int size = arrayList.size();
+        if (this.componentType.isPrimitive()) {
+            Object newInstance = Array.newInstance((Class<?>) this.componentType, size);
+            for (int i = 0; i < size; i++) {
+                Array.set(newInstance, i, arrayList.get(i));
+            }
+            return newInstance;
+        }
+        return arrayList.toArray((Object[]) Array.newInstance((Class<?>) this.componentType, size));
     }
 
     /* JADX WARN: Multi-variable type inference failed */

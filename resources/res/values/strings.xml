@@ -1406,6 +1406,8 @@
     <string name="ClearSearchSingleChatAlertText">Are you sure you want to remove \"%1$s\" from search history?</string>
     <string name="ClearSearchSingleUserAlertText">Are you sure you want to remove \"%1$s\" from search history?</string>
     <string name="ClearSelectedCache">Clear Selected</string>
+    <string name="ClearStorageHintMessage">Clear storage space on your phone</string>
+    <string name="ClearStorageHintTitle">Free up to **%s**</string>
     <string name="ClearTelegramCache">Clear Telegram Cache</string>
     <string name="Close">Close</string>
     <string name="CloseEditor">CLOSE EDITOR</string>

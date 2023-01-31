@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.SQLite.SQLiteDatabase;
 import org.telegram.SQLite.SQLitePreparedStatement;
@@ -56,13 +55,14 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StickerCategoriesListView;
 /* loaded from: classes3.dex */
 public class StickerCategoriesListView extends RecyclerListView {
+    private static EmojiGroupFetcher fetcher = new EmojiGroupFetcher();
+    public static Fetcher<String, TLRPC$TL_emojiList> search = new EmojiSearch();
     private Adapter adapter;
     private Paint backgroundPaint;
     private EmojiCategory[] categories;
     private boolean categoriesShouldShow;
     private ValueAnimator categoriesShownAnimator;
     private float categoriesShownT;
-    private int categoriesType;
     private int dontOccupyWidth;
     public Integer layerNum;
     private LinearLayoutManager layoutManager;
@@ -84,10 +84,10 @@ public class StickerCategoriesListView extends RecyclerListView {
     private AnimatedFloat selectedIndex;
     private Paint selectedPaint;
     private float shownButtonsAtStart;
-    private static EmojiGroupFetcher fetcher = new EmojiGroupFetcher();
-    public static Fetcher<String, TLRPC$TL_emojiList> search = new EmojiSearch();
-    private static Set<Integer> loadedIconsType = new HashSet();
-    static int loadedCategoryIcons = 0;
+
+    static {
+        new HashSet();
+    }
 
     public static void preload(final int i, int i2) {
         fetcher.fetch(i, Integer.valueOf(i2), new Utilities.Callback() { // from class: org.telegram.ui.Components.StickerCategoriesListView$$ExternalSyntheticLambda1
@@ -126,7 +126,6 @@ public class StickerCategoriesListView extends RecyclerListView {
         this.rect1 = new RectF();
         this.rect2 = new RectF();
         this.rect3 = new RectF();
-        this.categoriesType = i;
         setPadding(0, 0, AndroidUtilities.dp(2.0f), 0);
         Adapter adapter = new Adapter();
         this.adapter = adapter;
@@ -598,14 +597,18 @@ public class StickerCategoriesListView extends RecyclerListView {
     public class CategoryButton extends RLottieImageView {
         ValueAnimator backAnimator;
         private int imageColor;
-        private int index;
         private long lastPlayed;
+        ValueAnimator loadAnimator;
+        float loadProgress;
+        private boolean loaded;
         float pressedProgress;
         private ValueAnimator selectedAnimator;
         private float selectedT;
 
         public CategoryButton(Context context) {
             super(context);
+            this.loaded = false;
+            this.loadProgress = 1.0f;
             setImageColor(StickerCategoriesListView.this.getThemedColor("chat_emojiPanelIcon"));
             setScaleType(ImageView.ScaleType.CENTER);
             setBackground(Theme.createSelectorDrawable(StickerCategoriesListView.this.getThemedColor("listSelectorSDK21"), 1, AndroidUtilities.dp(15.0f)));
@@ -613,44 +616,94 @@ public class StickerCategoriesListView extends RecyclerListView {
         }
 
         public void set(EmojiCategory emojiCategory, int i, boolean z) {
-            this.index = i;
+            ValueAnimator valueAnimator = this.loadAnimator;
+            if (valueAnimator != null) {
+                valueAnimator.cancel();
+                this.loadAnimator = null;
+            }
             if (emojiCategory.remote) {
                 setImageResource(0);
                 clearAnimationDrawable();
-                AnimatedEmojiDrawable.getDocumentFetcher(UserConfig.selectedAccount).fetchDocument(emojiCategory.documentId, new AnimatedEmojiDrawable.ReceivedDocument() { // from class: org.telegram.ui.Components.StickerCategoriesListView$CategoryButton$$ExternalSyntheticLambda2
+                final boolean isTabIconsAnimationEnabled = StickerCategoriesListView.this.isTabIconsAnimationEnabled(true);
+                this.loaded = false;
+                this.loadProgress = 1.0f;
+                AnimatedEmojiDrawable.getDocumentFetcher(UserConfig.selectedAccount).fetchDocument(emojiCategory.documentId, new AnimatedEmojiDrawable.ReceivedDocument() { // from class: org.telegram.ui.Components.StickerCategoriesListView$CategoryButton$$ExternalSyntheticLambda4
                     @Override // org.telegram.ui.Components.AnimatedEmojiDrawable.ReceivedDocument
                     public final void run(TLRPC$Document tLRPC$Document) {
-                        StickerCategoriesListView.CategoryButton.this.lambda$set$0(tLRPC$Document);
+                        StickerCategoriesListView.CategoryButton.this.lambda$set$0(isTabIconsAnimationEnabled, tLRPC$Document);
                     }
                 });
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.StickerCategoriesListView$CategoryButton$$ExternalSyntheticLambda3
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        StickerCategoriesListView.CategoryButton.this.lambda$set$1();
+                    }
+                }, 60L);
             } else if (emojiCategory.animated) {
+                this.cached = false;
                 setImageResource(0);
                 setAnimation(emojiCategory.iconResId, 24, 24);
                 playAnimation();
+                this.loadProgress = 1.0f;
             } else {
                 clearAnimationDrawable();
                 setImageResource(emojiCategory.iconResId);
+                this.loadProgress = 1.0f;
             }
             setSelected(z, false);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$set$0(TLRPC$Document tLRPC$Document) {
-            setOnlyLastFrame(!StickerCategoriesListView.this.isTabIconsAnimationEnabled(StickerCategoriesListView.loadedIconsType.contains(Integer.valueOf(StickerCategoriesListView.this.categoriesType))));
+        public /* synthetic */ void lambda$set$0(boolean z, TLRPC$Document tLRPC$Document) {
+            setOnlyLastFrame(!z);
             setAnimation(tLRPC$Document, 24, 24);
             playAnimation();
         }
 
-        @Override // org.telegram.ui.Components.RLottieImageView
-        protected void onLoaded() {
-            if (this.index > Math.ceil(StickerCategoriesListView.this.shownButtonsAtStart) || StickerCategoriesListView.loadedIconsType.contains(Integer.valueOf(StickerCategoriesListView.this.categoriesType))) {
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$set$1() {
+            if (this.loaded) {
                 return;
             }
-            int i = StickerCategoriesListView.loadedCategoryIcons + 1;
-            StickerCategoriesListView.loadedCategoryIcons = i;
-            if (i >= Math.ceil(StickerCategoriesListView.this.shownButtonsAtStart)) {
-                StickerCategoriesListView.loadedIconsType.add(Integer.valueOf(StickerCategoriesListView.this.categoriesType));
+            this.loadProgress = 0.0f;
+        }
+
+        @Override // org.telegram.ui.Components.RLottieImageView
+        protected void onLoaded() {
+            this.loaded = true;
+            if (this.loadProgress < 1.0f) {
+                ValueAnimator valueAnimator = this.loadAnimator;
+                if (valueAnimator != null) {
+                    valueAnimator.cancel();
+                    this.loadAnimator = null;
+                }
+                ValueAnimator ofFloat = ValueAnimator.ofFloat(this.loadProgress, 1.0f);
+                this.loadAnimator = ofFloat;
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.StickerCategoriesListView$CategoryButton$$ExternalSyntheticLambda2
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                        StickerCategoriesListView.CategoryButton.this.lambda$onLoaded$2(valueAnimator2);
+                    }
+                });
+                this.loadAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.StickerCategoriesListView.CategoryButton.1
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        CategoryButton categoryButton = CategoryButton.this;
+                        categoryButton.loadProgress = 1.0f;
+                        categoryButton.invalidate();
+                        CategoryButton.this.loadAnimator = null;
+                    }
+                });
+                this.loadAnimator.setDuration(320L);
+                this.loadAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+                this.loadAnimator.start();
             }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onLoaded$2(ValueAnimator valueAnimator) {
+            this.loadProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+            invalidate();
         }
 
         public void setSelected(boolean z, boolean z2) {
@@ -666,13 +719,13 @@ public class StickerCategoriesListView extends RecyclerListView {
                     fArr[1] = z ? 1.0f : 0.0f;
                     ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
                     this.selectedAnimator = ofFloat;
-                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.StickerCategoriesListView$CategoryButton$$ExternalSyntheticLambda1
+                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.StickerCategoriesListView$CategoryButton$$ExternalSyntheticLambda0
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                         public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                            StickerCategoriesListView.CategoryButton.this.lambda$setSelected$1(valueAnimator2);
+                            StickerCategoriesListView.CategoryButton.this.lambda$setSelected$3(valueAnimator2);
                         }
                     });
-                    this.selectedAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.StickerCategoriesListView.CategoryButton.1
+                    this.selectedAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.StickerCategoriesListView.CategoryButton.2
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
                             CategoryButton categoryButton = CategoryButton.this;
@@ -690,7 +743,7 @@ public class StickerCategoriesListView extends RecyclerListView {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$setSelected$1(ValueAnimator valueAnimator) {
+        public /* synthetic */ void lambda$setSelected$3(ValueAnimator valueAnimator) {
             updateSelectedT(((Float) valueAnimator.getAnimatedValue()).floatValue());
         }
 
@@ -758,7 +811,7 @@ public class StickerCategoriesListView extends RecyclerListView {
         }
 
         public float getScale() {
-            return ((1.0f - this.pressedProgress) * 0.15f) + 0.85f;
+            return (((1.0f - this.pressedProgress) * 0.15f) + 0.85f) * this.loadProgress;
         }
 
         @Override // android.view.View
@@ -779,13 +832,13 @@ public class StickerCategoriesListView extends RecyclerListView {
                 if (f != 0.0f) {
                     ValueAnimator ofFloat = ValueAnimator.ofFloat(f, 0.0f);
                     this.backAnimator = ofFloat;
-                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.StickerCategoriesListView$CategoryButton$$ExternalSyntheticLambda0
+                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.StickerCategoriesListView$CategoryButton$$ExternalSyntheticLambda1
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                         public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                            StickerCategoriesListView.CategoryButton.this.lambda$setPressed$2(valueAnimator2);
+                            StickerCategoriesListView.CategoryButton.this.lambda$setPressed$4(valueAnimator2);
                         }
                     });
-                    this.backAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.StickerCategoriesListView.CategoryButton.2
+                    this.backAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.StickerCategoriesListView.CategoryButton.3
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
                             super.onAnimationEnd(animator);
@@ -800,7 +853,7 @@ public class StickerCategoriesListView extends RecyclerListView {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$setPressed$2(ValueAnimator valueAnimator) {
+        public /* synthetic */ void lambda$setPressed$4(ValueAnimator valueAnimator) {
             this.pressedProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             invalidate();
         }

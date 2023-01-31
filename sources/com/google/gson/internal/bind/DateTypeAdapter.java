@@ -1,14 +1,20 @@
 package com.google.gson.internal.bind;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.internal.JavaVersion;
 import com.google.gson.internal.PreJava9DateFormatProvider;
+import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +42,32 @@ public final class DateTypeAdapter extends TypeAdapter<Date> {
         }
         if (JavaVersion.isJava9OrLater()) {
             arrayList.add(PreJava9DateFormatProvider.getUSDateTimeFormat(2, 2));
+        }
+    }
+
+    @Override // com.google.gson.TypeAdapter
+    public Date read(JsonReader jsonReader) throws IOException {
+        if (jsonReader.peek() == JsonToken.NULL) {
+            jsonReader.nextNull();
+            return null;
+        }
+        return deserializeToDate(jsonReader);
+    }
+
+    private Date deserializeToDate(JsonReader jsonReader) throws IOException {
+        String nextString = jsonReader.nextString();
+        synchronized (this.dateFormats) {
+            for (DateFormat dateFormat : this.dateFormats) {
+                try {
+                    return dateFormat.parse(nextString);
+                } catch (ParseException unused) {
+                }
+            }
+            try {
+                return ISO8601Utils.parse(nextString, new ParsePosition(0));
+            } catch (ParseException e) {
+                throw new JsonSyntaxException("Failed parsing '" + nextString + "' as Date; at path " + jsonReader.getPreviousPath(), e);
+            }
         }
     }
 

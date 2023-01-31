@@ -110,6 +110,7 @@ import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.BackupImageView;
+import org.telegram.ui.Components.CloseProgressDrawable2;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.DrawingInBackgroundThreadDrawable;
 import org.telegram.ui.Components.EditTextCaption;
@@ -1897,7 +1898,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             SearchBox searchBox = this.searchBox;
             if (searchBox != null) {
                 searchBox.showProgress(false);
-                AndroidUtilities.updateViewShow(this.searchBox.clear, false);
+                this.searchBox.toggleClear(false);
             }
             this.searchAdapter.updateRows(true);
             this.lastQuery = null;
@@ -1942,7 +1943,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             SearchBox searchBox3 = this.searchBox;
             if (searchBox3 != null) {
                 searchBox3.showProgress(true);
-                AndroidUtilities.updateViewShow(this.searchBox.clear, z);
+                this.searchBox.toggleClear(z);
             }
         }
         updateSearchBox();
@@ -4784,6 +4785,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         private FrameLayout box;
         private StickerCategoriesListView categoriesListView;
         private ImageView clear;
+        private Runnable delayedToggle;
         private EditTextCaption input;
         private FrameLayout inputBox;
         private View inputBoxGradient;
@@ -4901,13 +4903,13 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 TextPaint paint = this.input.getPaint();
                 stickerCategoriesListView2.setDontOccupyWidth((int) paint.measureText(((Object) this.input.getHint()) + ""));
                 this.categoriesListView.setBackgroundColor(Theme.getColor("chat_emojiPanelBackground", SelectAnimatedEmojiDialog.this.resourcesProvider));
-                this.categoriesListView.setOnScrollIntoOccupiedWidth(new Utilities.Callback() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$SearchBox$$ExternalSyntheticLambda3
+                this.categoriesListView.setOnScrollIntoOccupiedWidth(new Utilities.Callback() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$SearchBox$$ExternalSyntheticLambda4
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
                         SelectAnimatedEmojiDialog.SearchBox.this.lambda$new$2((Integer) obj);
                     }
                 });
-                this.categoriesListView.setOnCategoryClick(new Utilities.Callback() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$SearchBox$$ExternalSyntheticLambda4
+                this.categoriesListView.setOnCategoryClick(new Utilities.Callback() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$SearchBox$$ExternalSyntheticLambda5
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
                         SelectAnimatedEmojiDialog.SearchBox.this.lambda$new$3((StickerCategoriesListView.EmojiCategory) obj);
@@ -4918,8 +4920,16 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             ImageView imageView2 = new ImageView(context);
             this.clear = imageView2;
             imageView2.setScaleType(ImageView.ScaleType.CENTER);
-            this.clear.setImageResource(R.drawable.input_clear);
-            this.clear.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chat_emojiSearchIcon", SelectAnimatedEmojiDialog.this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
+            this.clear.setImageDrawable(new CloseProgressDrawable2(1.25f, SelectAnimatedEmojiDialog.this) { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.SearchBox.5
+                {
+                    setSide(AndroidUtilities.dp(7.0f));
+                }
+
+                @Override // org.telegram.ui.Components.CloseProgressDrawable2
+                protected int getCurrentColor() {
+                    return Theme.getColor("chat_emojiSearchIcon", SelectAnimatedEmojiDialog.this.resourcesProvider);
+                }
+            });
             this.clear.setBackground(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21", SelectAnimatedEmojiDialog.this.resourcesProvider), 1, AndroidUtilities.dp(15.0f)));
             this.clear.setAlpha(0.0f);
             this.clear.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$SearchBox$$ExternalSyntheticLambda0
@@ -5012,6 +5022,35 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             this.input.clearAnimation();
             this.input.animate().translationX(0.0f).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();
             showInputBoxGradient(false);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void toggleClear(boolean z) {
+            if (z) {
+                if (this.delayedToggle == null) {
+                    Runnable runnable = new Runnable() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$SearchBox$$ExternalSyntheticLambda3
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            SelectAnimatedEmojiDialog.SearchBox.this.lambda$toggleClear$5();
+                        }
+                    };
+                    this.delayedToggle = runnable;
+                    AndroidUtilities.runOnUIThread(runnable, 340L);
+                    return;
+                }
+                return;
+            }
+            Runnable runnable2 = this.delayedToggle;
+            if (runnable2 != null) {
+                AndroidUtilities.cancelRunOnUIThread(runnable2);
+                this.delayedToggle = null;
+            }
+            AndroidUtilities.updateViewShow(this.clear, false);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$toggleClear$5() {
+            AndroidUtilities.updateViewShow(this.clear, true);
         }
 
         /* JADX INFO: Access modifiers changed from: private */

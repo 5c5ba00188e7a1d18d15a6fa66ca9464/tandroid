@@ -14,7 +14,6 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
-import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,14 +28,11 @@ import androidx.core.math.MathUtils;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.Emoji;
-import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
@@ -70,7 +66,6 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.TranslateAlert2;
 /* loaded from: classes3.dex */
 public class TranslateAlert2 extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
-    private static HashMap<String, Pair<String, String>> languageNames;
     private PaddedAdapter adapter;
     private Boolean buttonShadowShown;
     private View buttonShadowView;
@@ -721,7 +716,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
                 textView2.setLines(1);
                 this.fromLanguageTextView.setTextColor(TranslateAlert2.this.getThemedColor("player_actionBarSubtitle"));
                 this.fromLanguageTextView.setTextSize(1, 14.0f);
-                this.fromLanguageTextView.setText(TranslateAlert2.languageName(TranslateAlert2.this.fromLanguage));
+                this.fromLanguageTextView.setText(TranslateAlert2.capitalFirst(TranslateAlert2.languageName(TranslateAlert2.this.fromLanguage)));
                 this.fromLanguageTextView.setPadding(0, AndroidUtilities.dp(2.0f), 0, AndroidUtilities.dp(2.0f));
             }
             ImageView imageView2 = new ImageView(context);
@@ -784,7 +779,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
             this.toLanguageTextView.setAnimationProperties(0.25f, 0L, 350L, CubicBezierInterpolator.EASE_OUT_QUINT);
             this.toLanguageTextView.setTextColor(TranslateAlert2.this.getThemedColor("player_actionBarSubtitle"));
             this.toLanguageTextView.setTextSize(AndroidUtilities.dp(14.0f));
-            this.toLanguageTextView.setText(TranslateAlert2.languageName(TranslateAlert2.this.toLanguage));
+            this.toLanguageTextView.setText(TranslateAlert2.capitalFirst(TranslateAlert2.languageName(TranslateAlert2.this.toLanguage)));
             this.toLanguageTextView.setPadding(AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f));
             this.toLanguageTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TranslateAlert2$HeaderView$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
@@ -841,9 +836,9 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
             boolean z = true;
             while (i < locales.size()) {
                 final LocaleController.LocaleInfo localeInfo = locales.get(i);
-                if (!localeInfo.pluralLangCode.equals(TranslateAlert2.this.fromLanguage) && !"nb".equals(localeInfo.pluralLangCode) && !"en_raw".equals(localeInfo.shortName) && "remote".equals(localeInfo.pathToFile)) {
+                if (!localeInfo.pluralLangCode.equals(TranslateAlert2.this.fromLanguage) && !"nb".equals(localeInfo.pluralLangCode) && "remote".equals(localeInfo.pathToFile)) {
                     ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(getContext(), 2, z, i == locales.size() - 1, ((BottomSheet) TranslateAlert2.this).resourcesProvider);
-                    actionBarMenuSubItem.setText(TranslateAlert2.languageName(localeInfo.pluralLangCode));
+                    actionBarMenuSubItem.setText(TranslateAlert2.capitalFirst(TranslateAlert2.languageName(localeInfo.pluralLangCode)));
                     actionBarMenuSubItem.setChecked(TextUtils.equals(TranslateAlert2.this.toLanguage, localeInfo.pluralLangCode));
                     actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TranslateAlert2$HeaderView$$ExternalSyntheticLambda2
                         @Override // android.view.View.OnClickListener
@@ -888,7 +883,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
                 TranslateAlert2 translateAlert2 = TranslateAlert2.this;
                 translateAlert2.prevToLanguage = translateAlert2.toLanguage;
             }
-            this.toLanguageTextView.setText(TranslateAlert2.languageName(TranslateAlert2.this.toLanguage = localeInfo.pluralLangCode));
+            this.toLanguageTextView.setText(TranslateAlert2.capitalFirst(TranslateAlert2.languageName(TranslateAlert2.this.toLanguage = localeInfo.pluralLangCode)));
             TranslateAlert2.this.adapter.updateMainView(TranslateAlert2.this.loadingTextView);
             TranslateAlert2.setToLanguage(TranslateAlert2.this.toLanguage);
             TranslateAlert2.this.translate();
@@ -1015,49 +1010,54 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    public static void loadLanguageNames() {
-        if (languageNames != null) {
-            return;
+    public static String capitalFirst(String str) {
+        if (str == null) {
+            return str;
         }
-        try {
-            languageNames = new HashMap<>();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ApplicationLoader.applicationContext.getResources().getAssets().open("languages.txt")));
-            while (true) {
-                String readLine = bufferedReader.readLine();
-                if (readLine != null) {
-                    String[] split = readLine.split(",");
-                    if (split.length >= 3) {
-                        languageNames.put(split[0], new Pair<>(split[1], split[2]));
-                    }
-                } else {
-                    bufferedReader.close();
-                    return;
-                }
-            }
-        } catch (Exception e) {
-            FileLog.e(e);
-        }
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
     public static String languageName(String str) {
-        Pair<String, String> pair;
+        Locale locale;
         if (str == null || str.equals(TranslateController.UNKNOWN_LANGUAGE) || str.equals("auto")) {
             return null;
         }
-        LocaleController.LocaleInfo builtinLanguageByPlural = LocaleController.getInstance().getBuiltinLanguageByPlural(str);
         LocaleController.LocaleInfo currentLocaleInfo = LocaleController.getInstance().getCurrentLocaleInfo();
-        boolean z = currentLocaleInfo != null && "en".equals(currentLocaleInfo.pluralLangCode);
-        if (builtinLanguageByPlural != null) {
-            if (z) {
-                return builtinLanguageByPlural.nameEnglish;
+        boolean z = false;
+        try {
+            Locale[] availableLocales = Locale.getAvailableLocales();
+            String str2 = str.split("_")[0];
+            if ("nb".equals(str2)) {
+                str2 = "no";
             }
-            return builtinLanguageByPlural.name;
+            int i = 0;
+            while (true) {
+                if (i >= availableLocales.length) {
+                    locale = null;
+                    break;
+                } else if (TextUtils.equals(str2, availableLocales[i].getLanguage())) {
+                    locale = availableLocales[i];
+                    break;
+                } else {
+                    i++;
+                }
+            }
+            if (locale != null) {
+                return locale.getDisplayLanguage(Locale.getDefault());
+            }
+        } catch (Exception unused) {
         }
-        HashMap<String, Pair<String, String>> hashMap = languageNames;
-        if (hashMap == null || (pair = hashMap.get(str)) == null) {
+        LocaleController.LocaleInfo builtinLanguageByPlural = LocaleController.getInstance().getBuiltinLanguageByPlural(str);
+        if (builtinLanguageByPlural == null) {
             return null;
         }
-        return (String) (z ? pair.first : pair.second);
+        if (currentLocaleInfo != null && "en".equals(currentLocaleInfo.pluralLangCode)) {
+            z = true;
+        }
+        if (z) {
+            return builtinLanguageByPlural.nameEnglish;
+        }
+        return builtinLanguageByPlural.name;
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog

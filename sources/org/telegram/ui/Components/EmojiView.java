@@ -746,6 +746,8 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         private View backgroundView;
         private FrameLayout box;
         private StickerCategoriesListView categoriesListView;
+        private ImageView clear;
+        private Runnable delayedToggle;
         private FrameLayout inputBox;
         private View inputBoxGradient;
         private boolean inputBoxShown;
@@ -763,25 +765,25 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         @SuppressLint({"ClickableViewAccessibility"})
         public SearchField(Context context, int i) {
             super(context);
-            EmojiView.this = r22;
+            EmojiView.this = r23;
             this.inputBoxShown = false;
             this.type = i;
             View view = new View(context);
             this.shadowView = view;
             view.setAlpha(0.0f);
             this.shadowView.setTag(1);
-            this.shadowView.setBackgroundColor(r22.getThemedColor("chat_emojiPanelShadowLine"));
+            this.shadowView.setBackgroundColor(r23.getThemedColor("chat_emojiPanelShadowLine"));
             addView(this.shadowView, new FrameLayout.LayoutParams(-1, AndroidUtilities.getShadowHeight(), 83));
             View view2 = new View(context);
             this.backgroundView = view2;
-            view2.setBackgroundColor(r22.getThemedColor("chat_emojiPanelBackground"));
-            addView(this.backgroundView, new FrameLayout.LayoutParams(-1, r22.searchFieldHeight));
+            view2.setBackgroundColor(r23.getThemedColor("chat_emojiPanelBackground"));
+            addView(this.backgroundView, new FrameLayout.LayoutParams(-1, r23.searchFieldHeight));
             FrameLayout frameLayout = new FrameLayout(context);
             this.box = frameLayout;
-            frameLayout.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(18.0f), r22.getThemedColor("chat_emojiSearchBackground")));
+            frameLayout.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(18.0f), r23.getThemedColor("chat_emojiSearchBackground")));
             if (Build.VERSION.SDK_INT >= 21) {
                 this.box.setClipToOutline(true);
-                this.box.setOutlineProvider(new ViewOutlineProvider(this, r22) { // from class: org.telegram.ui.Components.EmojiView.SearchField.1
+                this.box.setOutlineProvider(new ViewOutlineProvider(this, r23) { // from class: org.telegram.ui.Components.EmojiView.SearchField.1
                     @Override // android.view.ViewOutlineProvider
                     public void getOutline(View view3, Outline outline) {
                         outline.setRoundRect(0, 0, view3.getWidth(), view3.getHeight(), AndroidUtilities.dp(18.0f));
@@ -800,17 +802,17 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             SearchStateDrawable searchStateDrawable = new SearchStateDrawable();
             this.searchStateDrawable = searchStateDrawable;
             searchStateDrawable.setIconState(0, false);
-            this.searchStateDrawable.setColor(r22.getThemedColor("chat_emojiSearchIcon"));
+            this.searchStateDrawable.setColor(r23.getThemedColor("chat_emojiSearchIcon"));
             this.searchImageView.setScaleType(ImageView.ScaleType.CENTER);
             this.searchImageView.setImageDrawable(this.searchStateDrawable);
-            this.searchImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EmojiView$SearchField$$ExternalSyntheticLambda0
+            this.searchImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EmojiView$SearchField$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view3) {
                     EmojiView.SearchField.this.lambda$new$0(view3);
                 }
             });
             this.box.addView(this.searchImageView, LayoutHelper.createFrame(36, 36, 51));
-            EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context, r22, i) { // from class: org.telegram.ui.Components.EmojiView.SearchField.2
+            EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context, r23, i) { // from class: org.telegram.ui.Components.EmojiView.SearchField.2
                 final /* synthetic */ int val$type;
 
                 {
@@ -837,8 +839,8 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             };
             this.searchEditText = editTextBoldCursor;
             editTextBoldCursor.setTextSize(1, 16.0f);
-            this.searchEditText.setHintTextColor(r22.getThemedColor("chat_emojiSearchIcon"));
-            this.searchEditText.setTextColor(r22.getThemedColor("windowBackgroundWhiteBlackText"));
+            this.searchEditText.setHintTextColor(r23.getThemedColor("chat_emojiSearchIcon"));
+            this.searchEditText.setTextColor(r23.getThemedColor("windowBackgroundWhiteBlackText"));
             this.searchEditText.setBackgroundDrawable(null);
             this.searchEditText.setPadding(0, 0, 0, 0);
             this.searchEditText.setMaxLines(1);
@@ -846,12 +848,12 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             this.searchEditText.setSingleLine(true);
             this.searchEditText.setImeOptions(268435459);
             this.searchEditText.setHint(LocaleController.getString("Search", R.string.Search));
-            this.searchEditText.setCursorColor(r22.getThemedColor("featuredStickers_addedIcon"));
+            this.searchEditText.setCursorColor(r23.getThemedColor("featuredStickers_addedIcon"));
             this.searchEditText.setCursorSize(AndroidUtilities.dp(20.0f));
             this.searchEditText.setCursorWidth(1.5f);
             this.searchEditText.setTranslationY(AndroidUtilities.dp(-2.0f));
             this.inputBox.addView(this.searchEditText, LayoutHelper.createFrame(-1, 40.0f, 51, 0.0f, 0.0f, 28.0f, 0.0f));
-            this.searchEditText.addTextChangedListener(new TextWatcher(r22) { // from class: org.telegram.ui.Components.EmojiView.SearchField.3
+            this.searchEditText.addTextChangedListener(new TextWatcher(r23) { // from class: org.telegram.ui.Components.EmojiView.SearchField.3
                 @Override // android.text.TextWatcher
                 public void beforeTextChanged(CharSequence charSequence, int i2, int i3, int i4) {
                 }
@@ -873,6 +875,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                         SearchField.this.categoriesListView.selectCategory((StickerCategoriesListView.EmojiCategory) null);
                         SearchField.this.categoriesListView.updateCategoriesShown(TextUtils.isEmpty(obj), true);
                     }
+                    SearchField.this.toggleClear(!TextUtils.isEmpty(obj));
                     if (SearchField.this.searchEditText != null) {
                         SearchField.this.searchEditText.clearAnimation();
                         SearchField.this.searchEditText.animate().translationX(0.0f).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();
@@ -882,12 +885,35 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             });
             this.inputBoxGradient = new View(context);
             Drawable mutate = context.getResources().getDrawable(R.drawable.gradient_right).mutate();
-            mutate.setColorFilter(new PorterDuffColorFilter(Theme.blendOver(r22.getThemedColor("chat_emojiPanelBackground"), r22.getThemedColor("chat_emojiSearchBackground")), PorterDuff.Mode.MULTIPLY));
+            mutate.setColorFilter(new PorterDuffColorFilter(Theme.blendOver(r23.getThemedColor("chat_emojiPanelBackground"), r23.getThemedColor("chat_emojiSearchBackground")), PorterDuff.Mode.MULTIPLY));
             this.inputBoxGradient.setBackground(mutate);
             this.inputBoxGradient.setAlpha(0.0f);
             this.inputBox.addView(this.inputBoxGradient, LayoutHelper.createFrame(18, -1, 3));
-            if (r22.allowAnimatedEmoji && UserConfig.getInstance(UserConfig.selectedAccount).isPremium()) {
-                StickerCategoriesListView stickerCategoriesListView = new StickerCategoriesListView(context, null, 0, r22.resourcesProvider, r22, i) { // from class: org.telegram.ui.Components.EmojiView.SearchField.4
+            ImageView imageView = new ImageView(context);
+            this.clear = imageView;
+            imageView.setScaleType(ImageView.ScaleType.CENTER);
+            this.clear.setImageDrawable(new CloseProgressDrawable2(1.25f, r23) { // from class: org.telegram.ui.Components.EmojiView.SearchField.4
+                {
+                    SearchField.this = this;
+                    setSide(AndroidUtilities.dp(7.0f));
+                }
+
+                @Override // org.telegram.ui.Components.CloseProgressDrawable2
+                protected int getCurrentColor() {
+                    return Theme.getColor("chat_emojiSearchIcon", EmojiView.this.resourcesProvider);
+                }
+            });
+            this.clear.setBackground(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21", r23.resourcesProvider), 1, AndroidUtilities.dp(15.0f)));
+            this.clear.setAlpha(0.0f);
+            this.clear.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EmojiView$SearchField$$ExternalSyntheticLambda0
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view3) {
+                    EmojiView.SearchField.this.lambda$new$1(view3);
+                }
+            });
+            this.box.addView(this.clear, LayoutHelper.createFrame(36, 36, 53));
+            if (r23.allowAnimatedEmoji && UserConfig.getInstance(UserConfig.selectedAccount).isPremium()) {
+                StickerCategoriesListView stickerCategoriesListView = new StickerCategoriesListView(context, null, 0, r23.resourcesProvider, r23, i) { // from class: org.telegram.ui.Components.EmojiView.SearchField.5
                     final /* synthetic */ int val$type;
 
                     {
@@ -916,14 +942,14 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 this.categoriesListView = stickerCategoriesListView;
                 TextPaint paint = this.searchEditText.getPaint();
                 stickerCategoriesListView.setDontOccupyWidth(((int) paint.measureText(((Object) this.searchEditText.getHint()) + "")) + AndroidUtilities.dp(16.0f));
-                this.categoriesListView.setBackgroundColor(Theme.blendOver(r22.getThemedColor("chat_emojiPanelBackground"), r22.getThemedColor("chat_emojiSearchBackground")));
-                this.categoriesListView.setOnScrollIntoOccupiedWidth(new Utilities.Callback() { // from class: org.telegram.ui.Components.EmojiView$SearchField$$ExternalSyntheticLambda1
+                this.categoriesListView.setBackgroundColor(Theme.blendOver(r23.getThemedColor("chat_emojiPanelBackground"), r23.getThemedColor("chat_emojiSearchBackground")));
+                this.categoriesListView.setOnScrollIntoOccupiedWidth(new Utilities.Callback() { // from class: org.telegram.ui.Components.EmojiView$SearchField$$ExternalSyntheticLambda3
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
-                        EmojiView.SearchField.this.lambda$new$1((Integer) obj);
+                        EmojiView.SearchField.this.lambda$new$2((Integer) obj);
                     }
                 });
-                this.categoriesListView.setOnTouchListener(new View.OnTouchListener(r22) { // from class: org.telegram.ui.Components.EmojiView.SearchField.5
+                this.categoriesListView.setOnTouchListener(new View.OnTouchListener(r23) { // from class: org.telegram.ui.Components.EmojiView.SearchField.6
                     {
                         SearchField.this = this;
                     }
@@ -938,10 +964,10 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                         return false;
                     }
                 });
-                this.categoriesListView.setOnCategoryClick(new Utilities.Callback() { // from class: org.telegram.ui.Components.EmojiView$SearchField$$ExternalSyntheticLambda2
+                this.categoriesListView.setOnCategoryClick(new Utilities.Callback() { // from class: org.telegram.ui.Components.EmojiView$SearchField$$ExternalSyntheticLambda4
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
-                        EmojiView.SearchField.this.lambda$new$2((StickerCategoriesListView.EmojiCategory) obj);
+                        EmojiView.SearchField.this.lambda$new$3((StickerCategoriesListView.EmojiCategory) obj);
                     }
                 });
                 this.box.addView(this.categoriesListView, LayoutHelper.createFrame(-1, 36.0f, 51, 36.0f, 0.0f, 0.0f, 0.0f));
@@ -951,7 +977,6 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         public /* synthetic */ void lambda$new$0(View view) {
             if (this.searchStateDrawable.getIconState() == 1) {
                 this.searchEditText.setText("");
-                AndroidUtilities.hideKeyboard(this.searchEditText);
                 search(null, false);
                 StickerCategoriesListView stickerCategoriesListView = this.categoriesListView;
                 if (stickerCategoriesListView != null) {
@@ -959,6 +984,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     this.categoriesListView.selectCategory((StickerCategoriesListView.EmojiCategory) null);
                     this.categoriesListView.updateCategoriesShown(true, true);
                 }
+                toggleClear(false);
                 EditTextBoldCursor editTextBoldCursor = this.searchEditText;
                 if (editTextBoldCursor != null) {
                     editTextBoldCursor.clearAnimation();
@@ -968,13 +994,31 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             }
         }
 
-        public /* synthetic */ void lambda$new$1(Integer num) {
+        public /* synthetic */ void lambda$new$1(View view) {
+            this.searchEditText.setText("");
+            search(null, false);
+            StickerCategoriesListView stickerCategoriesListView = this.categoriesListView;
+            if (stickerCategoriesListView != null) {
+                stickerCategoriesListView.scrollToStart();
+                this.categoriesListView.selectCategory((StickerCategoriesListView.EmojiCategory) null);
+                this.categoriesListView.updateCategoriesShown(true, true);
+            }
+            toggleClear(false);
+            EditTextBoldCursor editTextBoldCursor = this.searchEditText;
+            if (editTextBoldCursor != null) {
+                editTextBoldCursor.clearAnimation();
+                this.searchEditText.animate().translationX(0.0f).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();
+            }
+            showInputBoxGradient(false);
+        }
+
+        public /* synthetic */ void lambda$new$2(Integer num) {
             this.searchEditText.setTranslationX(-Math.max(0, num.intValue()));
             showInputBoxGradient(num.intValue() > 0);
             updateButton();
         }
 
-        public /* synthetic */ void lambda$new$2(StickerCategoriesListView.EmojiCategory emojiCategory) {
+        public /* synthetic */ void lambda$new$3(StickerCategoriesListView.EmojiCategory emojiCategory) {
             if (emojiCategory == this.recent) {
                 showInputBoxGradient(false);
                 this.categoriesListView.selectCategory(this.recent);
@@ -1029,6 +1073,33 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             return this.isprogress;
         }
 
+        public void toggleClear(boolean z) {
+            if (z) {
+                if (this.delayedToggle == null) {
+                    Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.EmojiView$SearchField$$ExternalSyntheticLambda2
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            EmojiView.SearchField.this.lambda$toggleClear$4();
+                        }
+                    };
+                    this.delayedToggle = runnable;
+                    AndroidUtilities.runOnUIThread(runnable, 340L);
+                    return;
+                }
+                return;
+            }
+            Runnable runnable2 = this.delayedToggle;
+            if (runnable2 != null) {
+                AndroidUtilities.cancelRunOnUIThread(runnable2);
+                this.delayedToggle = null;
+            }
+            AndroidUtilities.updateViewShow(this.clear, false);
+        }
+
+        public /* synthetic */ void lambda$toggleClear$4() {
+            AndroidUtilities.updateViewShow(this.clear, true);
+        }
+
         public void showProgress(boolean z) {
             this.isprogress = z;
             if (z) {
@@ -1078,7 +1149,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     animatorSet2.playTogether(animatorArr);
                     this.shadowAnimator.setDuration(200L);
                     this.shadowAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT);
-                    this.shadowAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.EmojiView.SearchField.6
+                    this.shadowAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.EmojiView.SearchField.7
                         {
                             SearchField.this = this;
                         }
@@ -1714,7 +1785,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r7v39 */
-    /* JADX WARN: Type inference failed for: r7v40, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r7v40, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v44 */
     public EmojiView(BaseFragment baseFragment, boolean z, boolean z2, boolean z3, Context context, boolean z4, TLRPC$ChatFull tLRPC$ChatFull, ViewGroup viewGroup, final Theme.ResourcesProvider resourcesProvider) {
         super(context);
@@ -9089,7 +9160,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             return false;
         }
 
-        static /* synthetic */ int access$19504(StickersSearchGridAdapter stickersSearchGridAdapter) {
+        static /* synthetic */ int access$19604(StickersSearchGridAdapter stickersSearchGridAdapter) {
             int i = stickersSearchGridAdapter.emojiSearchId + 1;
             stickersSearchGridAdapter.emojiSearchId = i;
             return i;
@@ -9360,7 +9431,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     StickersSearchGridAdapter.this.notifyDataSetChanged();
                     return;
                 }
-                this.lastId = StickersSearchGridAdapter.access$19504(StickersSearchGridAdapter.this);
+                this.lastId = StickersSearchGridAdapter.access$19604(StickersSearchGridAdapter.this);
                 this.query = StickersSearchGridAdapter.this.searchQuery;
                 this.serverPacks.clear();
                 this.localPacks.clear();

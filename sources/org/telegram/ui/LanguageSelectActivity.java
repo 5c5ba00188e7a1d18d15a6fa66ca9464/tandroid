@@ -676,13 +676,13 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             return getContextValue() || getChatValue();
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:25:0x00b9, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:25:0x00c2, code lost:
             if (r11.doNotTranslateCell.getValueTextView().getPaint().measureText(r6) > java.lang.Math.min((org.telegram.messenger.AndroidUtilities.displaySize.x - org.telegram.messenger.AndroidUtilities.dp(34.0f)) / 2.0f, (org.telegram.messenger.AndroidUtilities.displaySize.x - org.telegram.messenger.AndroidUtilities.dp(84.0f)) - r11.doNotTranslateCell.getTextView().getPaint().measureText(r4))) goto L14;
          */
-        /* JADX WARN: Removed duplicated region for block: B:30:0x00c1  */
-        /* JADX WARN: Removed duplicated region for block: B:33:0x00fa  */
-        /* JADX WARN: Removed duplicated region for block: B:34:0x00fd  */
-        /* JADX WARN: Removed duplicated region for block: B:38:0x012a  */
+        /* JADX WARN: Removed duplicated region for block: B:30:0x00ca  */
+        /* JADX WARN: Removed duplicated region for block: B:33:0x0103  */
+        /* JADX WARN: Removed duplicated region for block: B:34:0x0106  */
+        /* JADX WARN: Removed duplicated region for block: B:38:0x0133  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -701,7 +701,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             String str = null;
             try {
                 if (restrictedLanguages.size() == 1) {
-                    str = TranslateAlert2.languageName(restrictedLanguages.iterator().next());
+                    str = TranslateAlert2.capitalFirst(TranslateAlert2.languageName(restrictedLanguages.iterator().next()));
                 } else {
                     Iterator<String> it = restrictedLanguages.iterator();
                     StringBuilder sb2 = new StringBuilder();
@@ -711,7 +711,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                         if (!z2) {
                             sb2.append(", ");
                         }
-                        sb2.append(TranslateAlert2.languageName(next));
+                        sb2.append(TranslateAlert2.capitalFirst(TranslateAlert2.languageName(next)));
                         z2 = false;
                     }
                     sb = sb2.toString();

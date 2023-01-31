@@ -501,16 +501,16 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         return layout.getLineRight(i) == ((float) layout.getWidth()) && layout.getLineLeft(i) != 0.0f;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:101:0x0590  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x03c4  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x03d3  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x040b  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x042b  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x0433  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x043a  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x04bc  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x04f6  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x050c  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x059c  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x03d0  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x03df  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x0417  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0437  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x043f  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x0446  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x04c8  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x0502  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x0518  */
     @Override // org.telegram.ui.MessageEnterTransitionContainer.Transition
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -550,7 +550,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                 emojiGroupedSpans.clearPositions();
             }
             ChatMessageCell chatMessageCell = this.messageView;
-            chatMessageCell.drawMessageText(canvas2, chatMessageCell.getMessageObject().textLayoutBlocks, true, 1.0f, true);
+            chatMessageCell.drawMessageText(canvas2, chatMessageCell.getMessageObject().textLayoutBlocks, this.messageView.getMessageObject().textXOffset, true, 1.0f, true);
             this.messageView.drawAnimatedEmojis(canvas2, 1.0f);
         }
         float y = (this.listView.getY() - this.container.getY()) + this.listView.getMeasuredHeight();

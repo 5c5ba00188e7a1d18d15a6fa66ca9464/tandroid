@@ -12,8 +12,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
+import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -34,6 +37,7 @@ import org.telegram.messenger.utils.BitmapsCache;
 import org.telegram.ui.Components.RLottieDrawable;
 /* loaded from: classes3.dex */
 public class RLottieDrawable extends BitmapDrawable implements Animatable, BitmapsCache.Cacheable {
+    public static Gson gson;
     public static DispatchQueue lottieCacheGenerateQueue;
     private boolean allowVibration;
     private boolean applyTransformation;
@@ -46,6 +50,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     private Paint[] backgroundPaint;
     BitmapsCache bitmapsCache;
     protected Runnable cacheGenerateTask;
+    private boolean createdForFirstFrame;
     protected int currentFrame;
     private View currentParentView;
     protected int customEndFrame;
@@ -115,6 +120,13 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     private static ThreadLocal<byte[]> readBufferLocal = new ThreadLocal<>();
     private static ThreadLocal<byte[]> bufferLocal = new ThreadLocal<>();
     private static final DispatchQueuePool loadFrameRunnableQueue = new DispatchQueuePool(4);
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes3.dex */
+    public class LottieMetadata {
+        int fr;
+        int op;
+    }
 
     public static native long create(String str, String str2, int i, int i2, int[] iArr, boolean z, int[] iArr2, boolean z2, int i3);
 
@@ -210,12 +222,16 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         if (this.destroyWhenDone) {
             checkRunningTasks();
             if (this.loadFrameTask == null && this.cacheGenerateTask == null && this.nativePtr != 0) {
-                destroy(this.nativePtr);
+                final long j = this.nativePtr;
+                final long j2 = this.secondNativePtr;
                 this.nativePtr = 0L;
-                if (this.secondNativePtr != 0) {
-                    destroy(this.secondNativePtr);
-                    this.secondNativePtr = 0L;
-                }
+                this.secondNativePtr = 0L;
+                DispatchQueuePoolBackground.execute(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        RLottieDrawable.lambda$decodeFrameFinishedInternal$0(j, j2);
+                    }
+                });
             }
         }
         if ((this.nativePtr == 0 || this.fallbackCache) && this.secondNativePtr == 0 && this.bitmapsCache == null) {
@@ -227,6 +243,16 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             stop();
         }
         scheduleNextGetFrame();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$decodeFrameFinishedInternal$0(long j, long j2) {
+        if (j != 0) {
+            destroy(j);
+        }
+        if (j2 != 0) {
+            destroy(j2);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -255,9 +281,9 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     }
 
     public RLottieDrawable(File file, int i, int i2, BitmapsCache.CacheOptions cacheOptions, boolean z, int[] iArr, int i3) {
-        int[] iArr2;
-        boolean z2;
         char c;
+        boolean z2;
+        int[] iArr2;
         int[] iArr3 = new int[3];
         this.metaData = iArr3;
         this.customEndFrame = -1;
@@ -511,13 +537,13 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         this.shouldLimitFps = z;
         this.precache = cacheOptions != null;
         this.fallbackCache = cacheOptions != null && cacheOptions.fallback;
+        this.createdForFirstFrame = cacheOptions != null && cacheOptions.firstFrame;
         getPaint().setFlags(2);
         this.file = file;
         if (this.precache && lottieCacheGenerateQueue == null) {
             createCacheGenQueue();
         }
         if (this.precache) {
-            this.bitmapsCache = new BitmapsCache(file, this, cacheOptions, i, i2, !z);
             NativePtrArgs nativePtrArgs = new NativePtrArgs();
             this.args = nativePtrArgs;
             nativePtrArgs.file = file.getAbsoluteFile();
@@ -525,23 +551,19 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             nativePtrArgs2.json = null;
             nativePtrArgs2.colorReplacement = iArr;
             nativePtrArgs2.fitzModifier = i3;
+            if (this.createdForFirstFrame) {
+                return;
+            }
+            this.bitmapsCache = new BitmapsCache(file, this, cacheOptions, i, i2, !z);
+            parseLottieMetadata(file, null, iArr3);
+            iArr2 = iArr3;
+            c = 1;
+            z2 = false;
+        } else {
             c = 1;
             z2 = false;
             iArr2 = iArr3;
             this.nativePtr = create(file.getAbsolutePath(), null, i, i2, iArr3, this.precache, iArr, this.shouldLimitFps, i3);
-            if (this.fallbackCache) {
-                if (this.nativePtr == 0) {
-                    file.delete();
-                }
-            } else {
-                destroy(this.nativePtr);
-                this.nativePtr = 0L;
-            }
-        } else {
-            iArr2 = iArr3;
-            z2 = false;
-            c = 1;
-            this.nativePtr = create(file.getAbsolutePath(), null, i, i2, iArr2, this.precache, iArr, this.shouldLimitFps, i3);
             if (this.nativePtr == 0) {
                 file.delete();
             }
@@ -553,9 +575,9 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     }
 
     public RLottieDrawable(File file, String str, int i, int i2, BitmapsCache.CacheOptions cacheOptions, boolean z, int[] iArr, int i3) {
-        int[] iArr2;
         char c;
         boolean z2;
+        int[] iArr2;
         int[] iArr3 = new int[3];
         this.metaData = iArr3;
         this.customEndFrame = -1;
@@ -808,12 +830,12 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         this.height = i2;
         this.shouldLimitFps = z;
         this.precache = cacheOptions != null;
+        this.createdForFirstFrame = cacheOptions != null && cacheOptions.firstFrame;
         getPaint().setFlags(2);
         if (this.precache && lottieCacheGenerateQueue == null) {
             createCacheGenQueue();
         }
         if (this.precache) {
-            this.bitmapsCache = new BitmapsCache(file, this, cacheOptions, i, i2, !z);
             NativePtrArgs nativePtrArgs = new NativePtrArgs();
             this.args = nativePtrArgs;
             nativePtrArgs.file = file.getAbsoluteFile();
@@ -821,25 +843,19 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             nativePtrArgs2.json = str;
             nativePtrArgs2.colorReplacement = iArr;
             nativePtrArgs2.fitzModifier = i3;
+            if (this.createdForFirstFrame) {
+                return;
+            }
+            this.bitmapsCache = new BitmapsCache(file, this, cacheOptions, i, i2, !z);
+            parseLottieMetadata(file, str, iArr3);
+            iArr2 = iArr3;
+            z2 = false;
+            c = 1;
+        } else {
             c = 1;
             z2 = false;
             iArr2 = iArr3;
             this.nativePtr = create(file.getAbsolutePath(), str, i, i2, iArr3, this.precache, iArr, this.shouldLimitFps, i3);
-            if (this.fallbackCache) {
-                if (this.nativePtr == 0) {
-                    file.delete();
-                }
-            } else {
-                if (this.nativePtr != 0) {
-                    destroy(this.nativePtr);
-                }
-                this.nativePtr = 0L;
-            }
-        } else {
-            iArr2 = iArr3;
-            c = 1;
-            z2 = false;
-            this.nativePtr = create(file.getAbsolutePath(), str, i, i2, iArr2, this.precache, iArr, this.shouldLimitFps, i3);
             if (this.nativePtr == 0) {
                 file.delete();
             }
@@ -848,6 +864,19 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             this.shouldLimitFps = z2;
         }
         this.timeBetweenFrames = Math.max(this.shouldLimitFps ? 33 : 16, (int) (1000.0f / iArr2[c]));
+    }
+
+    private void parseLottieMetadata(File file, String str, int[] iArr) {
+        if (gson == null) {
+            gson = new Gson();
+        }
+        try {
+            LottieMetadata lottieMetadata = file != null ? (LottieMetadata) gson.fromJson(new FileReader(file.getAbsolutePath()), LottieMetadata.class) : (LottieMetadata) gson.fromJson(str, LottieMetadata.class);
+            iArr[0] = lottieMetadata.op;
+            iArr[1] = lottieMetadata.fr;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public RLottieDrawable(int i, String str, int i2, int i3) {
@@ -1142,10 +1171,10 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 return false;
             }
             this.loadingInBackground = true;
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda4
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
-                    RLottieDrawable.this.lambda$setBaseDice$1(readRes);
+                    RLottieDrawable.this.lambda$setBaseDice$2(readRes);
                 }
             });
         }
@@ -1153,18 +1182,18 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setBaseDice$1(String str) {
+    public /* synthetic */ void lambda$setBaseDice$2(String str) {
         this.nativePtr = createWithJson(str, "dice", this.metaData, null);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
-                RLottieDrawable.this.lambda$setBaseDice$0();
+                RLottieDrawable.this.lambda$setBaseDice$1();
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setBaseDice$0() {
+    public /* synthetic */ void lambda$setBaseDice$1() {
         this.loadingInBackground = false;
         if (!this.secondLoadingInBackground && this.destroyAfterLoading) {
             recycle();
@@ -1190,10 +1219,10 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 this.setLastFrame = true;
             }
             this.secondLoadingInBackground = true;
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda5
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
-                    RLottieDrawable.this.lambda$setDiceNumber$4(readRes);
+                    RLottieDrawable.this.lambda$setDiceNumber$5(readRes);
                 }
             });
         }
@@ -1201,28 +1230,28 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setDiceNumber$4(String str) {
+    public /* synthetic */ void lambda$setDiceNumber$5(String str) {
         if (this.destroyAfterLoading) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
-                    RLottieDrawable.this.lambda$setDiceNumber$2();
+                    RLottieDrawable.this.lambda$setDiceNumber$3();
                 }
             });
             return;
         }
         final int[] iArr = new int[3];
         this.secondNativePtr = createWithJson(str, "dice", iArr, null);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
-                RLottieDrawable.this.lambda$setDiceNumber$3(iArr);
+                RLottieDrawable.this.lambda$setDiceNumber$4(iArr);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setDiceNumber$2() {
+    public /* synthetic */ void lambda$setDiceNumber$3() {
         this.secondLoadingInBackground = false;
         if (this.loadingInBackground || !this.destroyAfterLoading) {
             return;
@@ -1231,7 +1260,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setDiceNumber$3(int[] iArr) {
+    public /* synthetic */ void lambda$setDiceNumber$4(int[] iArr) {
         this.secondLoadingInBackground = false;
         if (this.destroyAfterLoading) {
             recycle();
@@ -2070,14 +2099,6 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         return this.width;
     }
 
-    public Bitmap getRenderingBitmap() {
-        return this.renderingBitmap;
-    }
-
-    public Bitmap getBackgroundBitmap() {
-        return this.backgroundBitmap;
-    }
-
     public Bitmap getAnimatedBitmap() {
         if (this.renderingBitmap != null) {
             return this.renderingBitmap;
@@ -2100,10 +2121,6 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         return this.cacheGenerateTask != null;
     }
 
-    public void setOnFrameReadyRunnable(Runnable runnable) {
-        this.onFrameReadyRunnable = runnable;
-    }
-
     public boolean isLastFrame() {
         return this.currentFrame == getFramesCount() - 1;
     }
@@ -2113,12 +2130,16 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         File file;
         String file2 = this.args.file.toString();
         NativePtrArgs nativePtrArgs = this.args;
-        long create = create(file2, nativePtrArgs.json, this.width, this.height, new int[3], false, nativePtrArgs.colorReplacement, false, nativePtrArgs.fitzModifier);
+        long create = create(file2, nativePtrArgs.json, this.width, this.height, this.createdForFirstFrame ? this.metaData : new int[3], false, nativePtrArgs.colorReplacement, false, nativePtrArgs.fitzModifier);
         this.generateCacheNativePtr = create;
         if (create != 0 || (file = this.file) == null) {
             return;
         }
         file.delete();
+    }
+
+    public void setGeneratingFrame(int i) {
+        this.generateCacheFramePointer = i;
     }
 
     @Override // org.telegram.messenger.utils.BitmapsCache.Cacheable
@@ -2195,10 +2216,10 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         if (this.cacheGenerateTask == null) {
             BitmapsCache.incrementTaskCounter();
             DispatchQueue dispatchQueue = lottieCacheGenerateQueue;
-            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda2
+            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
-                    RLottieDrawable.this.lambda$checkCache$6(runnable);
+                    RLottieDrawable.this.lambda$checkCache$7(runnable);
                 }
             };
             this.cacheGenerateTask = runnable2;
@@ -2207,7 +2228,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkCache$6(final Runnable runnable) {
+    public /* synthetic */ void lambda$checkCache$7(final Runnable runnable) {
         try {
             BitmapsCache bitmapsCache = this.bitmapsCache;
             if (bitmapsCache != null) {
@@ -2219,13 +2240,13 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
-                RLottieDrawable.this.lambda$checkCache$5(runnable);
+                RLottieDrawable.this.lambda$checkCache$6(runnable);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkCache$5(Runnable runnable) {
+    public /* synthetic */ void lambda$checkCache$6(Runnable runnable) {
         runnable.run();
         if (this.cacheGenerateTask != null) {
             this.cacheGenerateTask = null;

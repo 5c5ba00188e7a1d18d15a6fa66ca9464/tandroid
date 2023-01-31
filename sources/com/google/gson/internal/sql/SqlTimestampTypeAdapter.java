@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -23,6 +24,15 @@ class SqlTimestampTypeAdapter extends TypeAdapter<Timestamp> {
 
     private SqlTimestampTypeAdapter(TypeAdapter<Date> typeAdapter) {
         this.dateTypeAdapter = typeAdapter;
+    }
+
+    @Override // com.google.gson.TypeAdapter
+    public Timestamp read(JsonReader jsonReader) throws IOException {
+        Date read = this.dateTypeAdapter.read(jsonReader);
+        if (read != null) {
+            return new Timestamp(read.getTime());
+        }
+        return null;
     }
 
     @Override // com.google.gson.TypeAdapter

@@ -814,7 +814,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$didUploadPhoto$8(TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, TLRPC$VideoSize tLRPC$VideoSize, String str, double d, TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$PhotoSize tLRPC$PhotoSize2) {
-        if (tLRPC$InputFile != null || tLRPC$InputFile2 != null) {
+        if (tLRPC$InputFile != null || tLRPC$InputFile2 != null || tLRPC$VideoSize != null) {
             this.inputPhoto = tLRPC$InputFile;
             this.inputVideo = tLRPC$InputFile2;
             this.inputEmojiMarkup = tLRPC$VideoSize;

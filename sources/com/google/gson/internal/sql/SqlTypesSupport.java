@@ -24,8 +24,18 @@ public final class SqlTypesSupport {
         SUPPORTS_SQL_TYPES = z;
         if (z) {
             DATE_DATE_TYPE = new DefaultDateTypeAdapter.DateType<java.sql.Date>(java.sql.Date.class) { // from class: com.google.gson.internal.sql.SqlTypesSupport.1
+                /* JADX INFO: Access modifiers changed from: protected */
+                @Override // com.google.gson.internal.bind.DefaultDateTypeAdapter.DateType
+                public java.sql.Date deserialize(Date date) {
+                    return new java.sql.Date(date.getTime());
+                }
             };
             TIMESTAMP_DATE_TYPE = new DefaultDateTypeAdapter.DateType<Timestamp>(Timestamp.class) { // from class: com.google.gson.internal.sql.SqlTypesSupport.2
+                /* JADX INFO: Access modifiers changed from: protected */
+                @Override // com.google.gson.internal.bind.DefaultDateTypeAdapter.DateType
+                public Timestamp deserialize(Date date) {
+                    return new Timestamp(date.getTime());
+                }
             };
             DATE_FACTORY = SqlDateTypeAdapter.FACTORY;
             TIME_FACTORY = SqlTimeTypeAdapter.FACTORY;

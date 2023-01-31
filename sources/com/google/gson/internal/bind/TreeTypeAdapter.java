@@ -1,13 +1,16 @@
 package com.google.gson.internal.bind;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.internal.Streams;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 /* loaded from: classes.dex */
@@ -28,6 +31,18 @@ public final class TreeTypeAdapter<T> extends SerializationDelegatingTypeAdapter
         this.typeToken = typeToken;
         this.skipPast = typeAdapterFactory;
         this.nullSafe = z;
+    }
+
+    @Override // com.google.gson.TypeAdapter
+    public T read(JsonReader jsonReader) throws IOException {
+        if (this.deserializer == null) {
+            return delegate().read(jsonReader);
+        }
+        JsonElement parse = Streams.parse(jsonReader);
+        if (this.nullSafe && parse.isJsonNull()) {
+            return null;
+        }
+        return this.deserializer.deserialize(parse, this.typeToken.getType(), this.context);
     }
 
     @Override // com.google.gson.TypeAdapter
@@ -58,7 +73,7 @@ public final class TreeTypeAdapter<T> extends SerializationDelegatingTypeAdapter
     }
 
     /* loaded from: classes.dex */
-    private final class GsonContextImpl implements JsonSerializationContext {
+    private final class GsonContextImpl implements JsonSerializationContext, JsonDeserializationContext {
         private GsonContextImpl(TreeTypeAdapter treeTypeAdapter) {
         }
     }

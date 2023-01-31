@@ -20,6 +20,7 @@ import org.telegram.tgnet.TLRPC$PhotoSize;
 public class RLottieImageView extends ImageView {
     private boolean attachedToWindow;
     private boolean autoRepeat;
+    public boolean cached;
     private RLottieDrawable drawable;
     private ImageReceiver imageReceiver;
     private HashMap<String, Integer> layerColors;
@@ -121,7 +122,7 @@ public class RLottieImageView extends ImageView {
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.messenger.ImageReceiver
             public boolean setImageBitmapByKey(Drawable drawable, String str, int i3, boolean z, int i4) {
-                if (drawable instanceof RLottieDrawable) {
+                if (drawable != null) {
                     RLottieImageView.this.onLoaded();
                 }
                 return super.setImageBitmapByKey(drawable, str, i3, z, i4);
@@ -130,21 +131,35 @@ public class RLottieImageView extends ImageView {
         this.imageReceiver = imageReceiver2;
         if (this.onlyLastFrame) {
             ImageLocation forDocument = ImageLocation.getForDocument(tLRPC$Document);
-            imageReceiver2.setImage(null, null, forDocument, i + "_" + i2 + "_lastframe", null, null, null, 0L, null, tLRPC$Document, 1);
-        } else if ("video/webm".equals(tLRPC$Document.mime_type)) {
-            TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
-            ImageReceiver imageReceiver3 = this.imageReceiver;
-            ImageLocation forDocument2 = ImageLocation.getForDocument(tLRPC$Document);
-            imageReceiver3.setImage(forDocument2, i + "_" + i2 + "_pcache_" + ImageLoader.AUTOPLAY_FILTER, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), null, null, tLRPC$Document.size, null, tLRPC$Document, 1);
+            imageReceiver2.setImage(forDocument, i + "_" + i2 + "_lastframe", null, null, null, null, null, 0L, null, tLRPC$Document, 1);
         } else {
-            SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
-            if (svgThumb != null) {
-                svgThumb.overrideWidthAndHeight(512, 512);
+            if ("video/webm".equals(tLRPC$Document.mime_type)) {
+                TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
+                ImageReceiver imageReceiver3 = this.imageReceiver;
+                ImageLocation forDocument2 = ImageLocation.getForDocument(tLRPC$Document);
+                StringBuilder sb = new StringBuilder();
+                sb.append(i);
+                sb.append("_");
+                sb.append(i2);
+                sb.append(this.cached ? "_pcache" : "");
+                sb.append("_");
+                sb.append(ImageLoader.AUTOPLAY_FILTER);
+                imageReceiver3.setImage(forDocument2, sb.toString(), ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), null, null, tLRPC$Document.size, null, tLRPC$Document, 1);
+            } else {
+                SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
+                if (svgThumb != null) {
+                    svgThumb.overrideWidthAndHeight(512, 512);
+                }
+                TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
+                ImageReceiver imageReceiver4 = this.imageReceiver;
+                ImageLocation forDocument3 = ImageLocation.getForDocument(tLRPC$Document);
+                StringBuilder sb2 = new StringBuilder();
+                sb2.append(i);
+                sb2.append("_");
+                sb2.append(i2);
+                sb2.append(this.cached ? "_pcache" : "");
+                imageReceiver4.setImage(forDocument3, sb2.toString(), ImageLocation.getForDocument(closestPhotoSizeWithSize2, tLRPC$Document), null, null, null, svgThumb, 0L, null, tLRPC$Document, 1);
             }
-            TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
-            ImageReceiver imageReceiver4 = this.imageReceiver;
-            ImageLocation forDocument3 = ImageLocation.getForDocument(tLRPC$Document);
-            imageReceiver4.setImage(forDocument3, i + "_" + i2, ImageLocation.getForDocument(closestPhotoSizeWithSize2, tLRPC$Document), null, null, null, svgThumb, 0L, null, tLRPC$Document, 1);
         }
         this.imageReceiver.setAspectFit(true);
         this.imageReceiver.setParentView(this);

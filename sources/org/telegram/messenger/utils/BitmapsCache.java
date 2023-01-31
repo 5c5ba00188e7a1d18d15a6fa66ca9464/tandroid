@@ -77,6 +77,7 @@ public class BitmapsCache {
     public static class CacheOptions {
         public int compressQuality = 100;
         public boolean fallback = false;
+        public boolean firstFrame;
     }
 
     /* loaded from: classes.dex */

@@ -38,7 +38,6 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.ClickableSpan;
 import android.util.Base64;
-import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
 import android.view.ActionMode;
@@ -1877,16 +1876,16 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Removed duplicated region for block: B:1049:0x1fab  */
     /* JADX WARN: Removed duplicated region for block: B:1062:0x1fda  */
     /* JADX WARN: Removed duplicated region for block: B:1082:0x205c  */
-    /* JADX WARN: Removed duplicated region for block: B:1177:0x22b1  */
-    /* JADX WARN: Removed duplicated region for block: B:1178:0x22c0  */
-    /* JADX WARN: Removed duplicated region for block: B:1181:0x22ce  */
-    /* JADX WARN: Removed duplicated region for block: B:1182:0x22e0  */
-    /* JADX WARN: Removed duplicated region for block: B:1244:0x251d A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:1247:0x2525  */
-    /* JADX WARN: Removed duplicated region for block: B:1258:0x2574  */
-    /* JADX WARN: Removed duplicated region for block: B:1269:0x25c1  */
-    /* JADX WARN: Removed duplicated region for block: B:1271:0x25cd  */
-    /* JADX WARN: Removed duplicated region for block: B:1273:0x25d5  */
+    /* JADX WARN: Removed duplicated region for block: B:1177:0x2292  */
+    /* JADX WARN: Removed duplicated region for block: B:1178:0x22a1  */
+    /* JADX WARN: Removed duplicated region for block: B:1181:0x22af  */
+    /* JADX WARN: Removed duplicated region for block: B:1182:0x22c1  */
+    /* JADX WARN: Removed duplicated region for block: B:1244:0x24fe A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:1247:0x2506  */
+    /* JADX WARN: Removed duplicated region for block: B:1258:0x2555  */
+    /* JADX WARN: Removed duplicated region for block: B:1269:0x25a2  */
+    /* JADX WARN: Removed duplicated region for block: B:1271:0x25ae  */
+    /* JADX WARN: Removed duplicated region for block: B:1273:0x25b6  */
     /* JADX WARN: Removed duplicated region for block: B:1302:0x1334 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:1336:0x1c50 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:164:0x0319  */
@@ -1918,7 +1917,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r12v187 */
     /* JADX WARN: Type inference failed for: r12v188 */
     /* JADX WARN: Type inference failed for: r12v21 */
-    /* JADX WARN: Type inference failed for: r12v9, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v9, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r1v192, types: [java.util.HashMap] */
     /* JADX WARN: Type inference failed for: r1v215, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
     /* JADX WARN: Type inference failed for: r1v24, types: [org.telegram.ui.ActionBar.DrawerLayoutContainer] */
@@ -1928,9 +1927,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r1v30, types: [org.telegram.ui.ActionBar.INavigationLayout] */
     /* JADX WARN: Type inference failed for: r1v38, types: [org.telegram.ui.ActionBar.DrawerLayoutContainer] */
     /* JADX WARN: Type inference failed for: r1v399, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
-    /* JADX WARN: Type inference failed for: r2v90, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
+    /* JADX WARN: Type inference failed for: r2v88, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
     /* JADX WARN: Type inference failed for: r3v1 */
-    /* JADX WARN: Type inference failed for: r3v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v22 */
     /* JADX WARN: Type inference failed for: r3v25 */
     /* JADX WARN: Type inference failed for: r3v26 */
@@ -1939,11 +1938,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r43v41 */
     /* JADX WARN: Type inference failed for: r7v10, types: [android.os.Bundle, java.lang.String] */
     /* JADX WARN: Type inference failed for: r7v14 */
-    /* JADX WARN: Type inference failed for: r7v21 */
-    /* JADX WARN: Type inference failed for: r7v275, types: [java.lang.Long] */
+    /* JADX WARN: Type inference failed for: r7v19 */
+    /* JADX WARN: Type inference failed for: r7v273, types: [java.lang.Long] */
+    /* JADX WARN: Type inference failed for: r7v352 */
     /* JADX WARN: Type inference failed for: r7v354 */
-    /* JADX WARN: Type inference failed for: r7v356 */
-    /* JADX WARN: Type inference failed for: r7v363 */
+    /* JADX WARN: Type inference failed for: r7v361 */
     /* JADX WARN: Type inference failed for: r8v62, types: [java.lang.Long] */
     @SuppressLint({"Range"})
     /* renamed from: handleIntent */
@@ -6458,15 +6457,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             int i27 = i5;
                             if (i27 > 0) {
                                 TLRPC$TL_forumTopic findTopic = MessagesController.getInstance(launchActivity.currentAccount).getTopicsController().findTopic(j2, i27);
-                                StringBuilder sb3 = new StringBuilder();
-                                sb3.append(j2);
-                                String str87 = str;
-                                sb3.append(str87);
-                                sb3.append(i27);
-                                sb3.append(" TL_forumTopic ");
-                                sb3.append(findTopic);
-                                Log.d("kek", sb3.toString());
-                                FileLog.d(j2 + str87 + i27 + " TL_forumTopic " + findTopic);
+                                FileLog.d(j2 + str + i27 + " TL_forumTopic " + findTopic);
                                 if (findTopic != null) {
                                     TLRPC$Message tLRPC$Message = findTopic.topicStartMessage;
                                     ArrayList<MessageObject> arrayList6 = new ArrayList<>();
@@ -6493,7 +6484,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             z19 = false;
                             z23 = z24;
                         } else {
-                            String str88 = str;
+                            String str87 = str;
                             z17 = true;
                             z21 = true;
                             z24 = true;
@@ -6633,19 +6624,19 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     launchActivity.drawerLayoutContainer.setAllowOpenDrawer(true, false);
                                                 }
                                             } else {
-                                                String str89 = str3;
-                                                if (str89 != null) {
+                                                String str88 = str3;
+                                                if (str88 != null) {
                                                     Bundle bundle7 = new Bundle();
                                                     bundle7.putBoolean("destroyAfterSelect", true);
                                                     bundle7.putBoolean("returnAsResult", true);
                                                     bundle7.putBoolean("onlyUsers", true);
                                                     bundle7.putBoolean("allowSelf", false);
                                                     ContactsActivity contactsActivity = new ContactsActivity(bundle7);
-                                                    contactsActivity.setInitialSearchString(str89);
+                                                    contactsActivity.setInitialSearchString(str88);
                                                     contactsActivity.setDelegate(new ContactsActivity.ContactsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda112
                                                         @Override // org.telegram.ui.ContactsActivity.ContactsActivityDelegate
-                                                        public final void didSelectContact(TLRPC$User tLRPC$User, String str90, ContactsActivity contactsActivity2) {
-                                                            LaunchActivity.this.lambda$handleIntent$20(z4, iArr, tLRPC$User, str90, contactsActivity2);
+                                                        public final void didSelectContact(TLRPC$User tLRPC$User, String str89, ContactsActivity contactsActivity2) {
+                                                            LaunchActivity.this.lambda$handleIntent$20(z4, iArr, tLRPC$User, str89, contactsActivity2);
                                                         }
                                                     });
                                                     launchActivity.actionBarLayout.presentFragment(new INavigationLayout.NavigationParams(contactsActivity).setRemoveLast(launchActivity.actionBarLayout.getLastFragment() instanceof ContactsActivity));
@@ -6660,8 +6651,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     final ActionIntroActivity actionIntroActivity = new ActionIntroActivity(5);
                                                     actionIntroActivity.setQrLoginDelegate(new ActionIntroActivity.ActionIntroQRLoginDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda105
                                                         @Override // org.telegram.ui.ActionIntroActivity.ActionIntroQRLoginDelegate
-                                                        public final void didFindQRCode(String str90) {
-                                                            LaunchActivity.this.lambda$handleIntent$24(actionIntroActivity, str90);
+                                                        public final void didFindQRCode(String str89) {
+                                                            LaunchActivity.this.lambda$handleIntent$24(actionIntroActivity, str89);
                                                         }
                                                     });
                                                     launchActivity.actionBarLayout.presentFragment(new INavigationLayout.NavigationParams(actionIntroActivity).setNoAnimation(true));
@@ -6674,14 +6665,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     }
                                                 } else if (z13) {
                                                     NewContactBottomSheet newContactBottomSheet = new NewContactBottomSheet(launchActivity.actionBarLayout.getLastFragment(), launchActivity);
-                                                    String str90 = str4;
-                                                    if (str90 != null) {
-                                                        String[] split3 = str90.split(str88, 2);
+                                                    String str89 = str4;
+                                                    if (str89 != null) {
+                                                        String[] split3 = str89.split(str87, 2);
                                                         newContactBottomSheet.setInitialName(split3[0], split3.length > 1 ? split3[1] : null);
                                                     }
-                                                    String str91 = str5;
-                                                    if (str91 != null) {
-                                                        newContactBottomSheet.setInitialPhoneNumber(PhoneFormat.stripExceptNumbers(str91, true), false);
+                                                    String str90 = str5;
+                                                    if (str90 != null) {
+                                                        newContactBottomSheet.setInitialPhoneNumber(PhoneFormat.stripExceptNumbers(str90, true), false);
                                                     }
                                                     newContactBottomSheet.show();
                                                     if (AndroidUtilities.isTablet()) {
@@ -6692,8 +6683,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         launchActivity.drawerLayoutContainer.setAllowOpenDrawer(true, false);
                                                     }
                                                 } else {
-                                                    final String str92 = str4;
-                                                    String str93 = str5;
+                                                    final String str91 = str4;
+                                                    String str92 = str5;
                                                     if (z6) {
                                                         GroupCallActivity.create(this, AccountInstance.getInstance(launchActivity.currentAccount), null, null, false, null);
                                                         if (GroupCallActivity.groupCallInstance != null) {
@@ -6704,11 +6695,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         if (lastFragment2 == null || lastFragment2.getParentActivity() == null) {
                                                             z19 = false;
                                                         } else {
-                                                            final String phoneNumber = NewContactBottomSheet.getPhoneNumber(launchActivity, UserConfig.getInstance(launchActivity.currentAccount).getCurrentUser(), str93, false);
+                                                            final String phoneNumber = NewContactBottomSheet.getPhoneNumber(launchActivity, UserConfig.getInstance(launchActivity.currentAccount).getCurrentUser(), str92, false);
                                                             lastFragment2.showDialog(new AlertDialog.Builder(lastFragment2.getParentActivity()).setTitle(LocaleController.getString("NewContactAlertTitle", R.string.NewContactAlertTitle)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("NewContactAlertMessage", R.string.NewContactAlertMessage, PhoneFormat.getInstance().format(phoneNumber)))).setPositiveButton(LocaleController.getString("NewContactAlertButton", R.string.NewContactAlertButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda12
                                                                 @Override // android.content.DialogInterface.OnClickListener
                                                                 public final void onClick(DialogInterface dialogInterface, int i28) {
-                                                                    LaunchActivity.this.lambda$handleIntent$25(lastFragment2, phoneNumber, str92, dialogInterface, i28);
+                                                                    LaunchActivity.this.lambda$handleIntent$25(lastFragment2, phoneNumber, str91, dialogInterface, i28);
                                                                 }
                                                             }).setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null).create());
                                                             z19 = true;

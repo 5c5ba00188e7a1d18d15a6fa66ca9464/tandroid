@@ -5547,7 +5547,7 @@ public class MessagesController extends BaseController implements NotificationCe
         DialogsActivity.dialogsLoaded[this.currentAccount] = false;
         this.notificationsPreferences.edit().clear().commit();
         this.emojiPreferences.edit().putLong("lastGifLoadTime", 0L).putLong("lastStickersLoadTime", 0L).putLong("lastStickersLoadTimeMask", 0L).putLong("lastStickersLoadTimeFavs", 0L).commit();
-        this.mainPreferences.edit().remove("archivehint").remove("proximityhint").remove("archivehint_l").remove("gifhint").remove("reminderhint").remove("soundHint").remove("dcDomainName2").remove("webFileDatacenterId").remove("themehint").remove("premiumdialogshint").remove("showFiltersTooltip").remove("transcribeButtonPressed").commit();
+        this.mainPreferences.edit().remove("archivehint").remove("proximityhint").remove("archivehint_l").remove("gifhint").remove("reminderhint").remove("soundHint").remove("dcDomainName2").remove("webFileDatacenterId").remove("themehint").remove("showFiltersTooltip").remove("transcribeButtonPressed").commit();
         SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("shortcut_widget", 0);
         SharedPreferences.Editor editor = null;
         ArrayList arrayList = null;
@@ -6690,6 +6690,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         this.fullChats.put(j, tLRPC$TL_messages_chatFull.full_chat);
         long j2 = -j;
+        getTranslateController().updateDialogFull(j2);
         applyDialogNotificationsSettings(j2, 0, tLRPC$TL_messages_chatFull.full_chat.notify_settings);
         for (int i2 = 0; i2 < tLRPC$TL_messages_chatFull.full_chat.bot_info.size(); i2++) {
             getMediaDataController().putBotInfo(j2, tLRPC$TL_messages_chatFull.full_chat.bot_info.get(i2));
@@ -6804,6 +6805,7 @@ public class MessagesController extends BaseController implements NotificationCe
             getNotificationCenter().postNotificationName(NotificationCenter.blockedUsersDidLoad, new Object[0]);
         }
         this.fullUsers.put(tLRPC$User.id, tLRPC$UserFull);
+        getTranslateController().updateDialogFull(tLRPC$User.id);
         this.loadingFullUsers.remove(Long.valueOf(tLRPC$User.id));
         this.loadedFullUsers.put(tLRPC$User.id, System.currentTimeMillis());
         String str = tLRPC$User.first_name + tLRPC$User.last_name + UserObject.getPublicUsername(tLRPC$User);
@@ -8821,7 +8823,7 @@ public class MessagesController extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:411:0x03e0  */
     /* JADX WARN: Removed duplicated region for block: B:421:0x0419  */
     /* JADX WARN: Type inference failed for: r2v11 */
-    /* JADX WARN: Type inference failed for: r2v12, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v12, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v59 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -9274,6 +9276,7 @@ public class MessagesController extends BaseController implements NotificationCe
 
     public void putChatFull(TLRPC$ChatFull tLRPC$ChatFull) {
         this.fullChats.put(tLRPC$ChatFull.id, tLRPC$ChatFull);
+        getTranslateController().updateDialogFull(-tLRPC$ChatFull.id);
     }
 
     public void processChatInfo(final long j, final TLRPC$ChatFull tLRPC$ChatFull, final ArrayList<TLRPC$User> arrayList, final boolean z, final boolean z2, final boolean z3, final ArrayList<Integer> arrayList2, final HashMap<Integer, MessageObject> hashMap, final int i, final boolean z4) {
@@ -9292,6 +9295,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (tLRPC$ChatFull != null) {
             if (this.fullChats.get(j) == null) {
                 this.fullChats.put(j, tLRPC$ChatFull);
+                getTranslateController().updateDialogFull(-j);
             }
             putUsers(arrayList, z);
             if (tLRPC$ChatFull.stickerset != null) {
@@ -9338,6 +9342,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (tLRPC$UserFull != null) {
             if (this.fullUsers.get(tLRPC$User.id) == null) {
                 this.fullUsers.put(tLRPC$User.id, tLRPC$UserFull);
+                getTranslateController().updateDialogFull(tLRPC$User.id);
                 int indexOfKey = this.blockePeers.indexOfKey(tLRPC$User.id);
                 if (tLRPC$UserFull.blocked) {
                     if (indexOfKey < 0) {
@@ -12700,7 +12705,7 @@ public class MessagesController extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:446:0x03e6  */
     /* JADX WARN: Removed duplicated region for block: B:449:0x0413  */
     /* JADX WARN: Type inference failed for: r13v1 */
-    /* JADX WARN: Type inference failed for: r13v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -13132,7 +13137,9 @@ public class MessagesController extends BaseController implements NotificationCe
         putUsers(tLRPC$messages_Dialogs.users, true);
         if (arrayList != null) {
             for (int i3 = 0; i3 < arrayList.size(); i3++) {
-                this.fullUsers.put(((TLRPC$UserFull) arrayList.get(i3)).id, (TLRPC$UserFull) arrayList.get(i3));
+                long j = ((TLRPC$UserFull) arrayList.get(i3)).id;
+                this.fullUsers.put(j, (TLRPC$UserFull) arrayList.get(i3));
+                getTranslateController().updateDialogFull(j);
             }
         }
         this.loadingDialogs.put(i, false);
@@ -13152,7 +13159,7 @@ public class MessagesController extends BaseController implements NotificationCe
         checkChatInviter(tLRPC$Chat.id, true);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:468:0x0293, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:468:0x029a, code lost:
         if (r2.size() == r13.size()) goto L155;
      */
     /* JADX WARN: Multi-variable type inference failed */
@@ -13185,7 +13192,9 @@ public class MessagesController extends BaseController implements NotificationCe
         putChats(tLRPC$messages_Dialogs.chats, i == this.DIALOGS_LOAD_TYPE_CACHE);
         if (arrayList != null) {
             for (int i11 = 0; i11 < arrayList.size(); i11++) {
-                this.fullUsers.put(((TLRPC$UserFull) arrayList.get(i11)).id, (TLRPC$UserFull) arrayList.get(i11));
+                long j = ((TLRPC$UserFull) arrayList.get(i11)).id;
+                this.fullUsers.put(j, (TLRPC$UserFull) arrayList.get(i11));
+                getTranslateController().updateDialogFull(j);
             }
         }
         if (arrayList2 != null) {
@@ -13235,10 +13244,10 @@ public class MessagesController extends BaseController implements NotificationCe
                             MessageObject messageObject = arrayList5.get(i15);
                             if (messageObject != null && messageObject.messageOwner.peer_id.channel_id == 0) {
                                 this.dialogMessagesByIds.put(messageObject.getId(), messageObject);
-                                long j = messageObject.messageOwner.random_id;
-                                if (j != 0) {
+                                long j2 = messageObject.messageOwner.random_id;
+                                if (j2 != 0) {
                                     i10 = i5;
-                                    this.dialogMessagesByRandomIds.put(j, messageObject);
+                                    this.dialogMessagesByRandomIds.put(j2, messageObject);
                                     i15++;
                                     i5 = i10;
                                 }
@@ -13285,9 +13294,9 @@ public class MessagesController extends BaseController implements NotificationCe
                                     if (messageObject2.messageOwner.peer_id.channel_id == 0) {
                                         this.dialogMessagesByIds.remove(messageObject2.getId());
                                     }
-                                    long j2 = messageObject2.messageOwner.random_id;
-                                    if (j2 != 0) {
-                                        this.dialogMessagesByRandomIds.remove(j2);
+                                    long j3 = messageObject2.messageOwner.random_id;
+                                    if (j3 != 0) {
+                                        this.dialogMessagesByRandomIds.remove(j3);
                                     }
                                 }
                             }
@@ -13309,9 +13318,9 @@ public class MessagesController extends BaseController implements NotificationCe
                                         i19++;
                                     }
                                     this.dialogMessagesByIds.put(messageObject3.getId(), messageObject3);
-                                    long j3 = messageObject3.messageOwner.random_id;
-                                    if (j3 != 0) {
-                                        this.dialogMessagesByRandomIds.put(j3, messageObject3);
+                                    long j4 = messageObject3.messageOwner.random_id;
+                                    if (j4 != 0) {
+                                        this.dialogMessagesByRandomIds.put(j4, messageObject3);
                                     }
                                 }
                             }
@@ -13326,9 +13335,9 @@ public class MessagesController extends BaseController implements NotificationCe
                                 if (messageObject5.messageOwner.peer_id.channel_id == 0) {
                                     this.dialogMessagesByIds.remove(messageObject5.getId());
                                 }
-                                long j4 = messageObject5.messageOwner.random_id;
-                                if (j4 != 0) {
-                                    this.dialogMessagesByRandomIds.remove(j4);
+                                long j5 = messageObject5.messageOwner.random_id;
+                                if (j5 != 0) {
+                                    this.dialogMessagesByRandomIds.remove(j5);
                                 }
                             }
                         }
@@ -13359,9 +13368,9 @@ public class MessagesController extends BaseController implements NotificationCe
                                         i14 = i9;
                                     }
                                     this.dialogMessagesByIds.put(messageObject6.getId(), messageObject6);
-                                    long j5 = messageObject6.messageOwner.random_id;
-                                    if (j5 != 0) {
-                                        this.dialogMessagesByRandomIds.put(j5, messageObject6);
+                                    long j6 = messageObject6.messageOwner.random_id;
+                                    if (j6 != 0) {
+                                        this.dialogMessagesByRandomIds.put(j6, messageObject6);
                                     }
                                 }
                                 i21++;
@@ -14808,7 +14817,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (i == 0 && !z) {
             final TLRPC$TL_messages_createChat tLRPC$TL_messages_createChat = new TLRPC$TL_messages_createChat();
             tLRPC$TL_messages_createChat.title = str;
-            if (i2 > 0) {
+            if (i2 >= 0) {
                 tLRPC$TL_messages_createChat.ttl_period = i2;
                 tLRPC$TL_messages_createChat.flags |= 1;
             }
@@ -22232,7 +22241,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                     getTopicsController().applyPinnedOrder(tLRPC$TL_updateChannelPinnedTopic.channel_id, currentPinnedOrder);
                                                 } else if (tLRPC$Update instanceof TLRPC$TL_updateChannelPinnedTopics) {
                                                     TLRPC$TL_updateChannelPinnedTopics tLRPC$TL_updateChannelPinnedTopics = (TLRPC$TL_updateChannelPinnedTopics) tLRPC$Update;
-                                                    if ((tLRPC$TL_updateChannelPinnedTopics.flags & 1) > 0) {
+                                                    if ((tLRPC$TL_updateChannelPinnedTopics.flags & 1) != 0) {
                                                         getTopicsController().applyPinnedOrder(tLRPC$TL_updateChannelPinnedTopics.channel_id, tLRPC$TL_updateChannelPinnedTopics.order);
                                                     } else {
                                                         getTopicsController().reloadTopics(tLRPC$TL_updateChannelPinnedTopics.channel_id, false);

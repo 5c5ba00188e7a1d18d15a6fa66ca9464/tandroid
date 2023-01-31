@@ -914,7 +914,9 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         } else {
             textPaint = (TextPaint) getThemedPaint("paintChatActionText");
         }
-        this.textLayout = new StaticLayout(charSequence, textPaint, dp, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+        TextPaint textPaint2 = textPaint;
+        textPaint2.linkColor = textPaint2.getColor();
+        this.textLayout = new StaticLayout(charSequence, textPaint2, dp, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
         this.spoilersPool.addAll(this.spoilers);
         this.spoilers.clear();
         if (charSequence instanceof Spannable) {

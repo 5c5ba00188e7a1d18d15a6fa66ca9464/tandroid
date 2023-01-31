@@ -862,6 +862,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                         if (imageUpdaterDelegate2 != null) {
                             imageUpdaterDelegate2.didUploadPhoto(null, null, 0.0d, null, this.bigPhoto, this.smallPhoto, this.isVideo, null);
                             this.delegate.didUploadPhoto(null, null, this.videoTimestamp, this.videoPath, this.bigPhoto, this.smallPhoto, this.isVideo, this.vectorMarkup);
+                            cleanup();
                             return;
                         }
                         return;

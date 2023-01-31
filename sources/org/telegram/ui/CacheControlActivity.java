@@ -101,6 +101,8 @@ import org.telegram.ui.Storage.CacheModel;
 /* loaded from: classes3.dex */
 public class CacheControlActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     public static volatile boolean canceled = false;
+    private static Long lastDeviceTotalFreeSize;
+    private static Long lastDeviceTotalSize;
     private static Long lastTotalSizeCalculated;
     private static long lastTotalSizeCalculatedTime;
     private ValueAnimator actionBarAnimator;
@@ -229,6 +231,66 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$calculateTotalSize$0(Utilities.Callback callback, long j) {
         callback.run(Long.valueOf(j));
+    }
+
+    public static void getDeviceTotalSize(Utilities.Callback2<Long, Long> callback2) {
+        File file;
+        long blockSize;
+        long availableBlocks;
+        long blockCount;
+        Long l;
+        Long l2 = lastDeviceTotalSize;
+        if (l2 != null && (l = lastDeviceTotalFreeSize) != null) {
+            if (callback2 != null) {
+                callback2.run(l2, l);
+                return;
+            }
+            return;
+        }
+        if (Build.VERSION.SDK_INT >= 19) {
+            ArrayList<File> rootDirs = AndroidUtilities.getRootDirs();
+            file = rootDirs.get(0);
+            file.getAbsolutePath();
+            if (!TextUtils.isEmpty(SharedConfig.storageCacheDir)) {
+                int size = rootDirs.size();
+                for (int i = 0; i < size; i++) {
+                    File file2 = rootDirs.get(i);
+                    if (file2.getAbsolutePath().startsWith(SharedConfig.storageCacheDir)) {
+                        file = file2;
+                        break;
+                    }
+                }
+            }
+        } else {
+            file = new File(SharedConfig.storageCacheDir);
+        }
+        try {
+            StatFs statFs = new StatFs(file.getPath());
+            int i2 = Build.VERSION.SDK_INT;
+            if (i2 >= 18) {
+                blockSize = statFs.getBlockSizeLong();
+            } else {
+                blockSize = statFs.getBlockSize();
+            }
+            if (i2 >= 18) {
+                availableBlocks = statFs.getAvailableBlocksLong();
+            } else {
+                availableBlocks = statFs.getAvailableBlocks();
+            }
+            if (i2 >= 18) {
+                blockCount = statFs.getBlockCountLong();
+            } else {
+                blockCount = statFs.getBlockCount();
+            }
+            lastDeviceTotalSize = Long.valueOf(blockCount * blockSize);
+            Long valueOf = Long.valueOf(availableBlocks * blockSize);
+            lastDeviceTotalFreeSize = valueOf;
+            if (callback2 != null) {
+                callback2.run(lastDeviceTotalSize, valueOf);
+            }
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

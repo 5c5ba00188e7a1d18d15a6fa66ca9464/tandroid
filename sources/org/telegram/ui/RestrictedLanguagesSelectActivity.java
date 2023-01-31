@@ -83,9 +83,10 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
     }
 
     private void rebind(int i) {
+        int adapterPosition;
         for (int i2 = 0; i2 < this.listView.getChildCount(); i2++) {
             RecyclerView.ViewHolder childViewHolder = this.listView.getChildViewHolder(this.listView.getChildAt(i2));
-            if (childViewHolder != null && childViewHolder.getAdapterPosition() == i) {
+            if (childViewHolder != null && (adapterPosition = childViewHolder.getAdapterPosition()) != -1 && adapterPosition == i) {
                 this.listAdapter.onBindViewHolder(childViewHolder, i);
                 return;
             }
@@ -496,24 +497,20 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
             return new RecyclerListView.Holder(view);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:13:0x0042, code lost:
-            if (r9 == (r7.this$0.searchResult.size() - 1)) goto L15;
+        /* JADX WARN: Code restructure failed: missing block: B:17:0x0052, code lost:
+            if (r9 == (r7.this$0.searchResult.size() - 1)) goto L19;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:14:0x0044, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:18:0x0054, code lost:
             r9 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:15:0x0046, code lost:
-            r9 = false;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:17:0x005f, code lost:
-            if (r9 == (r7.this$0.sortedLanguages.size() - 1)) goto L15;
+        /* JADX WARN: Code restructure failed: missing block: B:23:0x007c, code lost:
+            if (r9 == (r7.this$0.sortedLanguages.size() - 1)) goto L19;
          */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-            LocaleController.LocaleInfo localeInfo;
             boolean z;
             int itemViewType = viewHolder.getItemViewType();
             if (itemViewType != 0) {
@@ -528,10 +525,19 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
                 i--;
             }
             TextCheckbox2Cell textCheckbox2Cell = (TextCheckbox2Cell) viewHolder.itemView;
+            LocaleController.LocaleInfo localeInfo = null;
             if (z2) {
-                localeInfo = (LocaleController.LocaleInfo) RestrictedLanguagesSelectActivity.this.searchResult.get(i);
+                if (i >= 0 && i < RestrictedLanguagesSelectActivity.this.searchResult.size()) {
+                    localeInfo = (LocaleController.LocaleInfo) RestrictedLanguagesSelectActivity.this.searchResult.get(i);
+                }
             } else {
-                localeInfo = (LocaleController.LocaleInfo) RestrictedLanguagesSelectActivity.this.sortedLanguages.get(i);
+                if (i >= 0 && i < RestrictedLanguagesSelectActivity.this.sortedLanguages.size()) {
+                    localeInfo = (LocaleController.LocaleInfo) RestrictedLanguagesSelectActivity.this.sortedLanguages.get(i);
+                }
+                z = false;
+            }
+            if (localeInfo == null) {
+                return;
             }
             boolean contains = RestrictedLanguagesSelectActivity.this.selectedLanguages.contains(localeInfo.pluralLangCode);
             if (localeInfo.isLocal()) {
