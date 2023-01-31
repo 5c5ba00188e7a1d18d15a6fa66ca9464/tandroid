@@ -15,7 +15,6 @@ import android.view.View;
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
@@ -124,8 +123,8 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class LottieMetadata {
-        int fr;
-        int op;
+        float fr;
+        float op;
     }
 
     public static native long create(String str, String str2, int i, int i2, int[] iArr, boolean z, int[] iArr2, boolean z2, int i3);
@@ -872,10 +871,18 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         }
         try {
             LottieMetadata lottieMetadata = file != null ? (LottieMetadata) gson.fromJson(new FileReader(file.getAbsolutePath()), LottieMetadata.class) : (LottieMetadata) gson.fromJson(str, LottieMetadata.class);
-            iArr[0] = lottieMetadata.op;
-            iArr[1] = lottieMetadata.fr;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            iArr[0] = (int) lottieMetadata.op;
+            iArr[1] = (int) lottieMetadata.fr;
+        } catch (Exception e) {
+            FileLog.e(e);
+            String absolutePath = file.getAbsolutePath();
+            int i = this.width;
+            int i2 = this.height;
+            NativePtrArgs nativePtrArgs = this.args;
+            long create = create(absolutePath, str, i, i2, iArr, false, nativePtrArgs.colorReplacement, this.shouldLimitFps, nativePtrArgs.fitzModifier);
+            if (create != 0) {
+                destroy(create);
+            }
         }
     }
 
@@ -2193,8 +2200,9 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         return this.precache ? this.bitmapsCache != null || this.fallbackCache : this.nativePtr != 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    private class NativePtrArgs {
+    public class NativePtrArgs {
         public int[] colorReplacement;
         File file;
         public int fitzModifier;
