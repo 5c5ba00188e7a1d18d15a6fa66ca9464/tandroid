@@ -2044,15 +2044,24 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     }
 
     private void removeFragmentFromStackInternal(BaseFragment baseFragment) {
-        baseFragment.onPause();
-        baseFragment.onFragmentDestroy();
-        baseFragment.setParentLayout(null);
-        this.fragmentsStack.remove(baseFragment);
-        onFragmentStackChanged();
+        if (this.fragmentsStack.contains(baseFragment)) {
+            List<BaseFragment> list = this.fragmentsStack;
+            if (list.get(list.size() - 1) == baseFragment) {
+                baseFragment.finishFragment();
+                return;
+            }
+            baseFragment.onPause();
+            baseFragment.onFragmentDestroy();
+            baseFragment.setParentLayout(null);
+            this.fragmentsStack.remove(baseFragment);
+            onFragmentStackChanged();
+        }
     }
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout
     public void removeFragmentFromStack(BaseFragment baseFragment) {
+        onOpenAnimationEnd();
+        onCloseAnimationEnd();
         if (this.useAlphaAnimations && this.fragmentsStack.size() == 1 && AndroidUtilities.isTablet()) {
             closeLastFragment(true);
             return;
@@ -2421,7 +2430,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         if (runnable != null) {
             runnable.run();
         }
-        checkNeedRebuild();
         checkNeedRebuild();
     }
 

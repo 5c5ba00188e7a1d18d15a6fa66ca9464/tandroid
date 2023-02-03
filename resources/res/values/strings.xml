@@ -1820,6 +1820,7 @@
     <string name="DoNoSetTheme">Do No Set Theme</string>
     <string name="DoNotTranslate">Do Not Translate</string>
     <string name="DoNotTranslateLanguage">Don\'t translate %s</string>
+    <string name="DoNotTranslateLanguageOther">Don\'t translate %s</string>
     <string name="DocumentsTitle">Shared Files</string>
     <string name="Done">Done</string>
     <string name="DontAskAgain">Don\'t ask again</string>
@@ -5205,6 +5206,7 @@
     <string name="SubscribeToPremiumNotAvailable">Subscription not available</string>
     <string name="SubscribeToPremiumOfficialAppNeeded">**Official app needed**</string>
     <string name="SubscribeToPremiumOfficialAppNeededDescription">You need an official Telegram app to subscribe to **Telegram Premium**.\n\nOnce subscribed, you will be able to use the benefits of Telegram Premium in any apps that support it, including unofficial ones.</string>
+    <string name="SubscribeToPremiumPerYear">Subscribe for %s per year</string>
     <string name="Subscribers_few">%1$d subscribers</string>
     <string name="Subscribers_many">%1$d subscribers</string>
     <string name="Subscribers_one">%1$d subscriber</string>
@@ -5474,6 +5476,7 @@
     <string name="TranslateMessagesInfo2">Google may have access to the messages you translate.</string>
     <string name="TranslateTo">Translate To</string>
     <string name="TranslateToButton">Translate to %s</string>
+    <string name="TranslateToButtonOther">Translate to %s</string>
     <string name="TranslationBarHiddenForChannel">Translation bar is now hidden for this channel.</string>
     <string name="TranslationBarHiddenForChat">Translation bar is now hidden for this chat.</string>
     <string name="TranslationBarHiddenForGroup">Translation bar is now hidden for this group.</string>
@@ -5565,6 +5568,8 @@
     <string name="Updating">Updating...</string>
     <string name="UpgradeGroup">Upgrade to Supergroup</string>
     <string name="UpgradePremiumMessage">Upgrade to the annual payment plan of Telegram Premium now to enjoy the discount.</string>
+    <string name="UpgradePremiumPerMonth">Upgrade for %s per year</string>
+    <string name="UpgradePremiumPerYear">Upgrade for %s per year</string>
     <string name="UpgradePremiumTitle">Upgrade to Premium with a discount of **%1$d%%**</string>
     <string name="UploadImage">Upload image</string>
     <string name="UploadItems">Upload %1$s</string>
@@ -6117,6 +6122,7 @@
     <string name="YourCode">Phone verification</string>
     <string name="YourContacts">Your contacts on Telegram</string>
     <string name="YourContactsToInvite">Your contacts</string>
+    <string name="YourCurrentPlan">your current plan</string>
     <string name="YourEmail">Your email</string>
     <string name="YourEmailAlmostThere">Almost there!</string>
     <string name="YourEmailAlmostThereText">Please check your email (don\'t forget the spam folder) to complete Two-Step Verification setup.</string>

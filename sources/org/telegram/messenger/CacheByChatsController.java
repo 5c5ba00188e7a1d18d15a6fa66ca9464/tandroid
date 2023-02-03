@@ -125,7 +125,7 @@ public class CacheByChatsController {
         edit.putInt("keep_media_type_" + i, i2).apply();
     }
 
-    public void lookupFiles(ArrayList<KeepMediaFile> arrayList) {
+    public void lookupFiles(ArrayList<? extends KeepMediaFile> arrayList) {
         int i;
         LongSparseArray<ArrayList<KeepMediaFile>> lookupFiles = FileLoader.getInstance(this.currentAccount).getFileDatabase().lookupFiles(arrayList);
         LongSparseArray<KeepMediaException> keepMediaExceptionsByDialogs = getKeepMediaExceptionsByDialogs();

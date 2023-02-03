@@ -904,7 +904,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             return super.onInterceptTouchEvent(motionEvent);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:85:0x0328  */
+        /* JADX WARN: Removed duplicated region for block: B:85:0x0322  */
         @Override // android.widget.LinearLayout, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -966,16 +966,15 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                 i3 -= AlertDialog.this.topImageView.getMeasuredHeight();
             }
             if (AlertDialog.this.topView != null) {
-                int dp = size - AndroidUtilities.dp(16.0f);
                 if (AlertDialog.this.aspectRatio == 0.0f) {
-                    f = dp / 936.0f;
+                    f = size / 936.0f;
                     f2 = 354.0f;
                 } else {
-                    f = dp;
+                    f = size;
                     f2 = AlertDialog.this.aspectRatio;
                 }
                 int i6 = (int) (f * f2);
-                AlertDialog.this.topView.measure(View.MeasureSpec.makeMeasureSpec(dp, 1073741824), View.MeasureSpec.makeMeasureSpec(i6, 1073741824));
+                AlertDialog.this.topView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(i6, 1073741824));
                 AlertDialog.this.topView.getLayoutParams().height = i6;
                 i3 -= AlertDialog.this.topView.getMeasuredHeight();
             }

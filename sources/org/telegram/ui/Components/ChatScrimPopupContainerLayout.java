@@ -185,4 +185,8 @@ public class ChatScrimPopupContainerLayout extends LinearLayout {
             view.setAlpha(f);
         }
     }
+
+    public ActionBarPopupWindow.ActionBarPopupWindowLayout getPopupWindowLayout() {
+        return this.popupWindowLayout;
+    }
 }

@@ -114,6 +114,7 @@ public class FileUploadOperation {
             return;
         }
         this.state = 1;
+        SharedConfig.lockFile(this.uploadingFilePath);
         Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
@@ -198,6 +199,7 @@ public class FileUploadOperation {
                 FileUploadOperation.this.lambda$cancel$2();
             }
         });
+        SharedConfig.unlockFile(this.uploadingFilePath);
         this.delegate.didFailedUploadingFile(this);
         cleanup();
     }
@@ -230,6 +232,7 @@ public class FileUploadOperation {
         } catch (Exception e) {
             FileLog.e(e);
         }
+        SharedConfig.unlockFile(this.uploadingFilePath);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

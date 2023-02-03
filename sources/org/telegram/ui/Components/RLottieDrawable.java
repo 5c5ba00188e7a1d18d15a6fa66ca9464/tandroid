@@ -221,16 +221,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         if (this.destroyWhenDone) {
             checkRunningTasks();
             if (this.loadFrameTask == null && this.cacheGenerateTask == null && this.nativePtr != 0) {
-                final long j = this.nativePtr;
-                final long j2 = this.secondNativePtr;
-                this.nativePtr = 0L;
-                this.secondNativePtr = 0L;
-                DispatchQueuePoolBackground.execute(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        RLottieDrawable.lambda$decodeFrameFinishedInternal$0(j, j2);
-                    }
-                });
+                recycleNativePtr();
             }
         }
         if ((this.nativePtr == 0 || this.fallbackCache) && this.secondNativePtr == 0 && this.bitmapsCache == null) {
@@ -244,8 +235,21 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         scheduleNextGetFrame();
     }
 
+    private void recycleNativePtr() {
+        final long j = this.nativePtr;
+        final long j2 = this.secondNativePtr;
+        this.nativePtr = 0L;
+        this.secondNativePtr = 0L;
+        DispatchQueuePoolBackground.execute(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                RLottieDrawable.lambda$recycleNativePtr$0(j, j2);
+            }
+        });
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$decodeFrameFinishedInternal$0(long j, long j2) {
+    public static /* synthetic */ void lambda$recycleNativePtr$0(long j, long j2) {
         if (j != 0) {
             destroy(j);
         }
@@ -866,11 +870,21 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     }
 
     private void parseLottieMetadata(File file, String str, int[] iArr) {
+        LottieMetadata lottieMetadata;
         if (gson == null) {
             gson = new Gson();
         }
         try {
-            LottieMetadata lottieMetadata = file != null ? (LottieMetadata) gson.fromJson(new FileReader(file.getAbsolutePath()), LottieMetadata.class) : (LottieMetadata) gson.fromJson(str, LottieMetadata.class);
+            if (file == null) {
+                lottieMetadata = (LottieMetadata) gson.fromJson(str, LottieMetadata.class);
+            } else {
+                FileReader fileReader = new FileReader(file.getAbsolutePath());
+                lottieMetadata = (LottieMetadata) gson.fromJson(fileReader, LottieMetadata.class);
+                try {
+                    fileReader.close();
+                } catch (Exception unused) {
+                }
+            }
             iArr[0] = (int) lottieMetadata.op;
             iArr[1] = (int) lottieMetadata.fr;
         } catch (Exception e) {
@@ -1699,14 +1713,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         if (this.loadingInBackground || this.secondLoadingInBackground) {
             this.destroyAfterLoading = true;
         } else if (this.loadFrameTask == null && this.cacheGenerateTask == null && !this.generatingCache) {
-            if (this.nativePtr != 0) {
-                destroy(this.nativePtr);
-                this.nativePtr = 0L;
-            }
-            if (this.secondNativePtr != 0) {
-                destroy(this.secondNativePtr);
-                this.secondNativePtr = 0L;
-            }
+            recycleNativePtr();
             BitmapsCache bitmapsCache = this.bitmapsCache;
             if (bitmapsCache != null) {
                 bitmapsCache.recycle();

@@ -2,8 +2,6 @@ package org.telegram.ui.Components;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -26,12 +24,12 @@ public class AvatarConstructorPreviewCell extends FrameLayout {
     private AnimatedEmojiDrawable animatedEmojiDrawable;
     int backgroundIndex;
     private final int currentAccount;
-    Drawable currentBackgroundDrawable;
+    GradientTools currentBackgroundDrawable;
     BackupImageView currentImage;
     int emojiIndex;
     TLRPC$TL_emojiList emojiList;
     public final boolean forUser;
-    Drawable nextBackgroundDrawable;
+    GradientTools nextBackgroundDrawable;
     BackupImageView nextImage;
     float progressToNext;
     Runnable scheduleSwitchToNextRunnable;
@@ -63,18 +61,27 @@ public class AvatarConstructorPreviewCell extends FrameLayout {
                     AvatarConstructorPreviewCell.this.emojiIndex = 0;
                 }
                 AvatarConstructorPreviewCell avatarConstructorPreviewCell2 = AvatarConstructorPreviewCell.this;
-                if (avatarConstructorPreviewCell2.backgroundIndex > Theme.keys_avatar_background.length - 1) {
+                int i3 = avatarConstructorPreviewCell2.backgroundIndex;
+                int[][] iArr = AvatarConstructorFragment.defaultColors;
+                if (i3 > iArr.length - 1) {
                     avatarConstructorPreviewCell2.backgroundIndex = 0;
                 }
-                int i3 = AvatarConstructorPreviewCell.this.currentAccount;
+                int i4 = AvatarConstructorPreviewCell.this.currentAccount;
                 AvatarConstructorPreviewCell avatarConstructorPreviewCell3 = AvatarConstructorPreviewCell.this;
-                avatarConstructorPreviewCell2.animatedEmojiDrawable = new AnimatedEmojiDrawable(4, i3, avatarConstructorPreviewCell3.emojiList.document_id.get(avatarConstructorPreviewCell3.emojiIndex).longValue());
+                avatarConstructorPreviewCell2.animatedEmojiDrawable = new AnimatedEmojiDrawable(4, i4, avatarConstructorPreviewCell3.emojiList.document_id.get(avatarConstructorPreviewCell3.emojiIndex).longValue());
                 AvatarConstructorPreviewCell avatarConstructorPreviewCell4 = AvatarConstructorPreviewCell.this;
                 avatarConstructorPreviewCell4.nextImage.setAnimatedEmojiDrawable(avatarConstructorPreviewCell4.animatedEmojiDrawable);
-                AvatarConstructorPreviewCell.this.nextBackgroundDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Theme.getColor(Theme.keys_avatar_background[AvatarConstructorPreviewCell.this.backgroundIndex]), Theme.getColor(Theme.keys_avatar_background2[AvatarConstructorPreviewCell.this.backgroundIndex])});
                 AvatarConstructorPreviewCell avatarConstructorPreviewCell5 = AvatarConstructorPreviewCell.this;
-                avatarConstructorPreviewCell5.progressToNext = 0.0f;
-                avatarConstructorPreviewCell5.invalidate();
+                int i5 = avatarConstructorPreviewCell5.backgroundIndex;
+                int i6 = iArr[i5][0];
+                int i7 = iArr[i5][1];
+                int i8 = iArr[i5][2];
+                int i9 = iArr[i5][3];
+                avatarConstructorPreviewCell5.nextBackgroundDrawable = new GradientTools();
+                AvatarConstructorPreviewCell.this.nextBackgroundDrawable.setColors(i6, i7, i8, i9);
+                AvatarConstructorPreviewCell avatarConstructorPreviewCell6 = AvatarConstructorPreviewCell.this;
+                avatarConstructorPreviewCell6.progressToNext = 0.0f;
+                avatarConstructorPreviewCell6.invalidate();
             }
         };
         this.forUser = z;
@@ -120,7 +127,15 @@ public class AvatarConstructorPreviewCell extends FrameLayout {
             this.animatedEmojiDrawable = animatedEmojiDrawable;
             this.currentImage.setAnimatedEmojiDrawable(animatedEmojiDrawable);
         }
-        this.currentBackgroundDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Theme.getColor(Theme.keys_avatar_background[this.backgroundIndex]), Theme.getColor(Theme.keys_avatar_background2[this.backgroundIndex])});
+        int[][] iArr = AvatarConstructorFragment.defaultColors;
+        int i4 = this.backgroundIndex;
+        int i5 = iArr[i4][0];
+        int i6 = iArr[i4][1];
+        int i7 = iArr[i4][2];
+        int i8 = iArr[i4][3];
+        GradientTools gradientTools = new GradientTools();
+        this.currentBackgroundDrawable = gradientTools;
+        gradientTools.setColors(i5, i6, i7, i8);
         TextView textView = new TextView(context);
         this.textView = textView;
         textView.setTextSize(1, 12.0f);
@@ -151,28 +166,28 @@ public class AvatarConstructorPreviewCell extends FrameLayout {
     @Override // android.view.ViewGroup, android.view.View
     protected void dispatchDraw(Canvas canvas) {
         BackupImageView backupImageView;
-        Drawable drawable = this.currentBackgroundDrawable;
-        if (drawable != null) {
-            drawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
+        GradientTools gradientTools = this.currentBackgroundDrawable;
+        if (gradientTools != null) {
+            gradientTools.setBounds(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
         }
-        Drawable drawable2 = this.nextBackgroundDrawable;
-        if (drawable2 != null) {
-            drawable2.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
+        GradientTools gradientTools2 = this.nextBackgroundDrawable;
+        if (gradientTools2 != null) {
+            gradientTools2.setBounds(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
         }
         float f = this.progressToNext;
         if (f == 1.0f) {
-            this.currentBackgroundDrawable.setAlpha(255);
-            this.currentBackgroundDrawable.draw(canvas);
+            this.currentBackgroundDrawable.paint.setAlpha(255);
+            canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), this.currentBackgroundDrawable.paint);
             this.currentImage.setAlpha(1.0f);
             this.currentImage.setScaleX(1.0f);
             this.currentImage.setScaleY(1.0f);
             this.nextImage.setAlpha(0.0f);
         } else {
             float interpolation = CubicBezierInterpolator.DEFAULT.getInterpolation(f);
-            this.currentBackgroundDrawable.setAlpha(255);
-            this.currentBackgroundDrawable.draw(canvas);
-            this.nextBackgroundDrawable.setAlpha((int) (255.0f * interpolation));
-            this.nextBackgroundDrawable.draw(canvas);
+            this.currentBackgroundDrawable.paint.setAlpha(255);
+            canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), this.currentBackgroundDrawable.paint);
+            this.nextBackgroundDrawable.paint.setAlpha((int) (255.0f * interpolation));
+            canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), this.nextBackgroundDrawable.paint);
             this.progressToNext += 0.064f;
             float f2 = 1.0f - interpolation;
             this.currentImage.setAlpha(f2);
@@ -209,8 +224,12 @@ public class AvatarConstructorPreviewCell extends FrameLayout {
 
     public AvatarConstructorFragment.BackgroundGradient getBackgroundGradient() {
         AvatarConstructorFragment.BackgroundGradient backgroundGradient = new AvatarConstructorFragment.BackgroundGradient();
-        backgroundGradient.color1 = Theme.getColor(Theme.keys_avatar_background[this.backgroundIndex]);
-        backgroundGradient.color2 = Theme.getColor(Theme.keys_avatar_background2[this.backgroundIndex]);
+        int[][] iArr = AvatarConstructorFragment.defaultColors;
+        int i = this.backgroundIndex;
+        backgroundGradient.color1 = iArr[i][0];
+        backgroundGradient.color2 = iArr[i][1];
+        backgroundGradient.color3 = iArr[i][2];
+        backgroundGradient.color4 = iArr[i][3];
         return backgroundGradient;
     }
 

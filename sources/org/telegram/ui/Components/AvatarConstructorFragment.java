@@ -53,6 +53,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.SelectAnimatedEmojiDialog;
 /* loaded from: classes3.dex */
 public class AvatarConstructorFragment extends BaseFragment {
+    public static final int[][] defaultColors = {new int[]{-11694593, -13910017, -14622003, -15801871}, new int[]{-10569989, -14692629, -12191817, -14683687}, new int[]{-16133536, -10560448, -4070106, -8331477}, new int[]{-693938, -690388, -11246, -22717}, new int[]{-636796, -1090751, -612560, -35006}, new int[]{-439392, -304000, -19910, -98718}, new int[]{-8160001, -5217281, -36183, -1938945}};
     CanvasButton avatarClickableArea;
     final ImageUpdater.AvatarFor avatarFor;
     private BackgroundSelectView backgroundSelectView;
@@ -69,6 +70,7 @@ public class AvatarConstructorFragment extends BaseFragment {
     ValueAnimator expandAnimator;
     boolean expandWithKeyboard;
     int expandedHeight;
+    boolean forGroup;
     private int gradientBackgroundItemWidth;
     ImageUpdater imageUpdater;
     boolean isLandscapeMode;
@@ -84,8 +86,6 @@ public class AvatarConstructorFragment extends BaseFragment {
     private ActionBarMenuItem setPhotoItem;
     boolean wasChanged;
     Paint actionBarPaint = new Paint();
-    public String[] keys_avatar_background = {"avatar_backgroundBlue", "avatar_backgroundCyan", "avatar_backgroundGreen", "avatar_backgroundOrange", "avatar_backgroundRed", "avatar_backgroundPink", "avatar_backgroundViolet"};
-    public String[] keys_avatar_background2 = {"avatar_background2Blue", "avatar_background2Cyan", "avatar_background2Green", "avatar_background2Orange", "avatar_background2Red", "avatar_background2Pink", "avatar_background2Violet"};
     public boolean finishOnDone = true;
     boolean isLightInternal = false;
     float progressToLightStatusBar = 0.0f;
@@ -433,6 +433,7 @@ public class AvatarConstructorFragment extends BaseFragment {
             }
         };
         this.selectAnimatedEmojiDialog = selectAnimatedEmojiDialog;
+        selectAnimatedEmojiDialog.forUser = !this.forGroup;
         selectAnimatedEmojiDialog.setAnimationsEnabled(this.fragmentBeginToShow);
         this.selectAnimatedEmojiDialog.setClipChildren(false);
         this.linearLayout.addView(this.selectAnimatedEmojiDialog, LayoutHelper.createLinear(-1, -1, 0, 12, 0, 12, 12));
@@ -898,64 +899,73 @@ public class AvatarConstructorFragment extends BaseFragment {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
             linearLayoutManager.setOrientation(0);
             setLayoutManager(linearLayoutManager);
-            for (int i = 0; i < AvatarConstructorFragment.this.keys_avatar_background.length; i++) {
-                BackgroundGradient backgroundGradient = new BackgroundGradient();
-                int i2 = this.stableIdPointer;
-                this.stableIdPointer = i2 + 1;
-                backgroundGradient.stableId = i2;
-                backgroundGradient.color1 = Theme.getColor(AvatarConstructorFragment.this.keys_avatar_background[i]);
-                backgroundGradient.color2 = Theme.getColor(AvatarConstructorFragment.this.keys_avatar_background2[i]);
-                this.gradients.add(backgroundGradient);
+            int i = 0;
+            while (true) {
+                int[][] iArr = AvatarConstructorFragment.defaultColors;
+                if (i < iArr.length) {
+                    BackgroundGradient backgroundGradient = new BackgroundGradient();
+                    int i2 = this.stableIdPointer;
+                    this.stableIdPointer = i2 + 1;
+                    backgroundGradient.stableId = i2;
+                    backgroundGradient.color1 = iArr[i][0];
+                    backgroundGradient.color2 = iArr[i][1];
+                    backgroundGradient.color3 = iArr[i][2];
+                    backgroundGradient.color4 = iArr[i][3];
+                    this.gradients.add(backgroundGradient);
+                    i++;
+                } else {
+                    setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.AvatarConstructorFragment$BackgroundSelectView$$ExternalSyntheticLambda0
+                        @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
+                        public final void onItemClick(View view, int i3) {
+                            AvatarConstructorFragment.BackgroundSelectView.this.lambda$new$0(view, i3);
+                        }
+                    });
+                    RecyclerView.Adapter adapter = new RecyclerView.Adapter(AvatarConstructorFragment.this) { // from class: org.telegram.ui.Components.AvatarConstructorFragment.BackgroundSelectView.1
+                        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+                        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i3) {
+                            BackgroundSelectView backgroundSelectView = BackgroundSelectView.this;
+                            return new RecyclerListView.Holder(new GradientSelectorView(backgroundSelectView.getContext()));
+                        }
+
+                        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+                        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i3) {
+                            if (viewHolder.getItemViewType() == 0) {
+                                GradientSelectorView gradientSelectorView = (GradientSelectorView) viewHolder.itemView;
+                                gradientSelectorView.setGradient(BackgroundSelectView.this.gradients.get(i3));
+                                BackgroundSelectView backgroundSelectView = BackgroundSelectView.this;
+                                gradientSelectorView.setSelectedInternal(backgroundSelectView.selectedItemId == backgroundSelectView.gradients.get(i3).stableId, true);
+                                return;
+                            }
+                            GradientSelectorView gradientSelectorView2 = (GradientSelectorView) viewHolder.itemView;
+                            gradientSelectorView2.setCustom(true);
+                            gradientSelectorView2.setGradient(BackgroundSelectView.this.customSelectedGradient);
+                            gradientSelectorView2.setSelectedInternal(BackgroundSelectView.this.selectedItemId == 1, true);
+                        }
+
+                        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+                        public int getItemCount() {
+                            return BackgroundSelectView.this.gradients.size() + 1;
+                        }
+
+                        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+                        public long getItemId(int i3) {
+                            if (i3 >= BackgroundSelectView.this.gradients.size()) {
+                                return 1L;
+                            }
+                            return BackgroundSelectView.this.gradients.get(i3).stableId;
+                        }
+
+                        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+                        public int getItemViewType(int i3) {
+                            return i3 >= BackgroundSelectView.this.gradients.size() ? 1 : 0;
+                        }
+                    };
+                    this.adapter = adapter;
+                    setAdapter(adapter);
+                    setOverScrollMode(1);
+                    return;
+                }
             }
-            setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.AvatarConstructorFragment$BackgroundSelectView$$ExternalSyntheticLambda0
-                @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-                public final void onItemClick(View view, int i3) {
-                    AvatarConstructorFragment.BackgroundSelectView.this.lambda$new$0(view, i3);
-                }
-            });
-            RecyclerView.Adapter adapter = new RecyclerView.Adapter(AvatarConstructorFragment.this) { // from class: org.telegram.ui.Components.AvatarConstructorFragment.BackgroundSelectView.1
-                @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-                public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i3) {
-                    BackgroundSelectView backgroundSelectView = BackgroundSelectView.this;
-                    return new RecyclerListView.Holder(new GradientSelectorView(backgroundSelectView.getContext()));
-                }
-
-                @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-                public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i3) {
-                    if (viewHolder.getItemViewType() == 0) {
-                        GradientSelectorView gradientSelectorView = (GradientSelectorView) viewHolder.itemView;
-                        gradientSelectorView.setGradient(BackgroundSelectView.this.gradients.get(i3));
-                        BackgroundSelectView backgroundSelectView = BackgroundSelectView.this;
-                        gradientSelectorView.setSelectedInternal(backgroundSelectView.selectedItemId == backgroundSelectView.gradients.get(i3).stableId, true);
-                        return;
-                    }
-                    GradientSelectorView gradientSelectorView2 = (GradientSelectorView) viewHolder.itemView;
-                    gradientSelectorView2.setCustom(true);
-                    gradientSelectorView2.setGradient(BackgroundSelectView.this.customSelectedGradient);
-                    gradientSelectorView2.setSelectedInternal(BackgroundSelectView.this.selectedItemId == 1, true);
-                }
-
-                @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-                public int getItemCount() {
-                    return BackgroundSelectView.this.gradients.size() + 1;
-                }
-
-                @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-                public long getItemId(int i3) {
-                    if (i3 >= BackgroundSelectView.this.gradients.size()) {
-                        return 1L;
-                    }
-                    return BackgroundSelectView.this.gradients.get(i3).stableId;
-                }
-
-                @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-                public int getItemViewType(int i3) {
-                    return i3 >= BackgroundSelectView.this.gradients.size() ? 1 : 0;
-                }
-            };
-            this.adapter = adapter;
-            setAdapter(adapter);
-            setOverScrollMode(1);
         }
 
         /* JADX INFO: Access modifiers changed from: private */

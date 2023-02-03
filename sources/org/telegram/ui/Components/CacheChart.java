@@ -409,6 +409,7 @@ public class CacheChart extends View {
         this.bottomCompleteText = new AnimatedTextView.AnimatedTextDrawable(false, true, true);
         this.interceptTouch = true;
         this.selectedIndex = -1;
+        setLayerType(2, null);
         this.sectionsCount = i;
         this.particles = iArr;
         this.type = i2;

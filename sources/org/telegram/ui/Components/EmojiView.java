@@ -70,6 +70,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -115,6 +116,7 @@ import org.telegram.tgnet.TLRPC$TL_contacts_resolveUsername;
 import org.telegram.tgnet.TLRPC$TL_contacts_resolvedPeer;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeImageSize;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeVideo;
+import org.telegram.tgnet.TLRPC$TL_emojiList;
 import org.telegram.tgnet.TLRPC$TL_emojiStatus;
 import org.telegram.tgnet.TLRPC$TL_emojiStatusEmpty;
 import org.telegram.tgnet.TLRPC$TL_emojiStatusUntil;
@@ -912,7 +914,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 }
             });
             this.box.addView(this.clear, LayoutHelper.createFrame(36, 36, 53));
-            if (r23.allowAnimatedEmoji && UserConfig.getInstance(UserConfig.selectedAccount).isPremium()) {
+            if (i != 1 || (r23.allowAnimatedEmoji && UserConfig.getInstance(UserConfig.selectedAccount).isPremium())) {
                 StickerCategoriesListView stickerCategoriesListView = new StickerCategoriesListView(context, null, 0, r23.resourcesProvider, r23, i) { // from class: org.telegram.ui.Components.EmojiView.SearchField.5
                     final /* synthetic */ int val$type;
 
@@ -8263,47 +8265,88 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 return;
             }
             EmojiView.this.emojiSearchField.showProgress(true);
-            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.EmojiView.EmojiSearchAdapter.3
-                {
-                    EmojiSearchAdapter.this = this;
-                }
-
+            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.EmojiView$EmojiSearchAdapter$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
-                public void run() {
-                    final String str2 = EmojiSearchAdapter.this.lastSearchEmojiString;
-                    String[] currentKeyboardLanguage = AndroidUtilities.getCurrentKeyboardLanguage();
-                    if (!Arrays.equals(EmojiView.this.lastSearchKeyboardLanguage, currentKeyboardLanguage)) {
-                        MediaDataController.getInstance(EmojiView.this.currentAccount).fetchNewEmojiKeywords(currentKeyboardLanguage);
-                    }
-                    EmojiView.this.lastSearchKeyboardLanguage = currentKeyboardLanguage;
-                    MediaDataController.getInstance(EmojiView.this.currentAccount).getEmojiSuggestions(EmojiView.this.lastSearchKeyboardLanguage, EmojiSearchAdapter.this.lastSearchEmojiString, false, new MediaDataController.KeywordResultCallback() { // from class: org.telegram.ui.Components.EmojiView.EmojiSearchAdapter.3.1
-                        {
-                            3.this = this;
-                        }
-
-                        @Override // org.telegram.messenger.MediaDataController.KeywordResultCallback
-                        public void run(ArrayList<MediaDataController.KeywordResult> arrayList, String str3) {
-                            if (str2.equals(EmojiSearchAdapter.this.lastSearchEmojiString)) {
-                                EmojiSearchAdapter.this.lastSearchAlias = str3;
-                                EmojiView.this.emojiSearchField.showProgress(false);
-                                EmojiSearchAdapter.this.searchWas = true;
-                                if (EmojiView.this.emojiGridView.getAdapter() != EmojiView.this.emojiSearchAdapter) {
-                                    EmojiView.this.emojiGridView.setAdapter(EmojiView.this.emojiSearchAdapter);
-                                }
-                                EmojiSearchAdapter.this.result.clear();
-                                EmojiSearchAdapter.this.searchByPackname(str2);
-                                EmojiSearchAdapter.this.result.addAll(arrayList);
-                                EmojiSearchAdapter.this.notifyDataSetChanged();
-                            }
-                        }
-                    }, null, true, false, true, 25);
+                public final void run() {
+                    EmojiView.EmojiSearchAdapter.this.lambda$search$2();
                 }
             };
             this.searchRunnable = runnable2;
             AndroidUtilities.runOnUIThread(runnable2, z ? 300L : 0L);
         }
 
-        public void searchByPackname(String str) {
+        public /* synthetic */ void lambda$search$2() {
+            final LinkedHashSet linkedHashSet = new LinkedHashSet();
+            final String str = this.lastSearchEmojiString;
+            final Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.EmojiView$EmojiSearchAdapter$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    EmojiView.EmojiSearchAdapter.this.lambda$search$0(str, linkedHashSet);
+                }
+            };
+            if (Emoji.fullyConsistsOfEmojis(str)) {
+                StickerCategoriesListView.search.fetch(UserConfig.selectedAccount, str, new Utilities.Callback() { // from class: org.telegram.ui.Components.EmojiView$EmojiSearchAdapter$$ExternalSyntheticLambda2
+                    @Override // org.telegram.messenger.Utilities.Callback
+                    public final void run(Object obj) {
+                        EmojiView.EmojiSearchAdapter.lambda$search$1(linkedHashSet, runnable, (TLRPC$TL_emojiList) obj);
+                    }
+                });
+            } else {
+                runnable.run();
+            }
+        }
+
+        public /* synthetic */ void lambda$search$0(final String str, final LinkedHashSet linkedHashSet) {
+            String[] currentKeyboardLanguage = AndroidUtilities.getCurrentKeyboardLanguage();
+            if (!Arrays.equals(EmojiView.this.lastSearchKeyboardLanguage, currentKeyboardLanguage)) {
+                MediaDataController.getInstance(EmojiView.this.currentAccount).fetchNewEmojiKeywords(currentKeyboardLanguage);
+            }
+            EmojiView.this.lastSearchKeyboardLanguage = currentKeyboardLanguage;
+            MediaDataController.getInstance(EmojiView.this.currentAccount).getEmojiSuggestions(EmojiView.this.lastSearchKeyboardLanguage, this.lastSearchEmojiString, false, new MediaDataController.KeywordResultCallback() { // from class: org.telegram.ui.Components.EmojiView.EmojiSearchAdapter.3
+                {
+                    EmojiSearchAdapter.this = this;
+                }
+
+                @Override // org.telegram.messenger.MediaDataController.KeywordResultCallback
+                public void run(ArrayList<MediaDataController.KeywordResult> arrayList, String str2) {
+                    String str3;
+                    if (str.equals(EmojiSearchAdapter.this.lastSearchEmojiString)) {
+                        EmojiSearchAdapter.this.lastSearchAlias = str2;
+                        EmojiView.this.emojiSearchField.showProgress(false);
+                        EmojiSearchAdapter.this.searchWas = true;
+                        if (EmojiView.this.emojiGridView.getAdapter() != EmojiView.this.emojiSearchAdapter) {
+                            EmojiView.this.emojiGridView.setAdapter(EmojiView.this.emojiSearchAdapter);
+                        }
+                        EmojiSearchAdapter.this.result.clear();
+                        EmojiSearchAdapter.this.searchByPackname(str, linkedHashSet);
+                        Iterator it = linkedHashSet.iterator();
+                        while (it.hasNext()) {
+                            long longValue = ((Long) it.next()).longValue();
+                            MediaDataController.KeywordResult keywordResult = new MediaDataController.KeywordResult();
+                            keywordResult.keyword = "";
+                            keywordResult.emoji = "animated_" + longValue;
+                            EmojiSearchAdapter.this.result.add(keywordResult);
+                        }
+                        for (int i = 0; i < arrayList.size(); i++) {
+                            MediaDataController.KeywordResult keywordResult2 = arrayList.get(i);
+                            if (keywordResult2 != null && (str3 = keywordResult2.emoji) != null && (!str3.startsWith("animated_") || !linkedHashSet.contains(Long.valueOf(Long.parseLong(keywordResult2.emoji.substring(9)))))) {
+                                EmojiSearchAdapter.this.result.add(keywordResult2);
+                            }
+                        }
+                        EmojiSearchAdapter.this.notifyDataSetChanged();
+                    }
+                }
+            }, null, true, false, true, 25);
+        }
+
+        public static /* synthetic */ void lambda$search$1(LinkedHashSet linkedHashSet, Runnable runnable, TLRPC$TL_emojiList tLRPC$TL_emojiList) {
+            if (tLRPC$TL_emojiList != null) {
+                linkedHashSet.addAll(tLRPC$TL_emojiList.document_id);
+            }
+            runnable.run();
+        }
+
+        public void searchByPackname(String str, LinkedHashSet<Long> linkedHashSet) {
             TLRPC$StickerSet tLRPC$StickerSet;
             TLRPC$StickerSet tLRPC$StickerSet2;
             if (str == null || str.length() <= 3 || !UserConfig.getInstance(EmojiView.this.currentAccount).isPremium()) {
@@ -8316,29 +8359,29 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             for (int i = 0; i < stickerSets.size(); i++) {
                 TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = stickerSets.get(i);
                 if (tLRPC$TL_messages_stickerSet != null && (tLRPC$StickerSet2 = tLRPC$TL_messages_stickerSet.set) != null) {
-                    checkAddPackToResults(tLRPC$StickerSet2, tLRPC$TL_messages_stickerSet.documents, lowerCase);
+                    checkAddPackToResults(tLRPC$StickerSet2, tLRPC$TL_messages_stickerSet.documents, lowerCase, linkedHashSet);
                 }
             }
             for (int i2 = 0; i2 < featuredEmojiSets.size(); i2++) {
                 TLRPC$StickerSetCovered tLRPC$StickerSetCovered = featuredEmojiSets.get(i2);
                 if (tLRPC$StickerSetCovered != null && (tLRPC$StickerSet = tLRPC$StickerSetCovered.set) != null) {
                     if (tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetFullCovered) {
-                        checkAddPackToResults(tLRPC$StickerSet, ((TLRPC$TL_stickerSetFullCovered) tLRPC$StickerSetCovered).documents, lowerCase);
+                        checkAddPackToResults(tLRPC$StickerSet, ((TLRPC$TL_stickerSetFullCovered) tLRPC$StickerSetCovered).documents, lowerCase, linkedHashSet);
                     } else if (tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetNoCovered) {
                         TLRPC$TL_inputStickerSetID tLRPC$TL_inputStickerSetID = new TLRPC$TL_inputStickerSetID();
                         tLRPC$TL_inputStickerSetID.id = tLRPC$StickerSetCovered.set.id;
                         TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(EmojiView.this.currentAccount).getStickerSet(tLRPC$TL_inputStickerSetID, true);
                         if (stickerSet != null) {
-                            checkAddPackToResults(stickerSet.set, stickerSet.documents, lowerCase);
+                            checkAddPackToResults(stickerSet.set, stickerSet.documents, lowerCase, linkedHashSet);
                         }
                     } else {
-                        checkAddPackToResults(tLRPC$StickerSet, tLRPC$StickerSetCovered.covers, lowerCase);
+                        checkAddPackToResults(tLRPC$StickerSet, tLRPC$StickerSetCovered.covers, lowerCase, linkedHashSet);
                     }
                 }
             }
         }
 
-        private void checkAddPackToResults(TLRPC$StickerSet tLRPC$StickerSet, ArrayList<TLRPC$Document> arrayList, String str) {
+        private void checkAddPackToResults(TLRPC$StickerSet tLRPC$StickerSet, ArrayList<TLRPC$Document> arrayList, String str, LinkedHashSet<Long> linkedHashSet) {
             if (tLRPC$StickerSet.title == null || this.addedSets.contains(Long.valueOf(tLRPC$StickerSet.id)) || !LocaleController.getInstance().getTranslitString(tLRPC$StickerSet.title.toLowerCase()).contains(str)) {
                 return;
             }
@@ -8346,10 +8389,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             while (it.hasNext()) {
                 TLRPC$Document next = it.next();
                 if (next != null) {
-                    MediaDataController.KeywordResult keywordResult = new MediaDataController.KeywordResult();
-                    keywordResult.emoji = "animated_" + next.id;
-                    keywordResult.keyword = "";
-                    this.result.add(keywordResult);
+                    linkedHashSet.add(Long.valueOf(next.id));
                 }
             }
             this.addedSets.add(Long.valueOf(tLRPC$StickerSet.id));

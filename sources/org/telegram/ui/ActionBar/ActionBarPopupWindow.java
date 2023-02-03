@@ -106,6 +106,8 @@ public class ActionBarPopupWindow extends PopupWindow {
         private OnDispatchKeyEventListener mOnDispatchKeyEventListener;
         private onSizeChangedListener onSizeChangedListener;
         private HashMap<View, Integer> positions;
+        private float reactionsEnterProgress;
+        Rect rect;
         private final Theme.ResourcesProvider resourcesProvider;
         private ScrollView scrollView;
         private boolean shownFromBottom;
@@ -141,6 +143,7 @@ public class ActionBarPopupWindow extends PopupWindow {
             this.gapStartY = -1000000;
             this.gapEndY = -1000000;
             this.bgPaddings = new Rect();
+            this.reactionsEnterProgress = 1.0f;
             this.backgroundColor = -1;
             this.resourcesProvider = resourcesProvider;
             if (i != 0) {
@@ -429,8 +432,25 @@ public class ActionBarPopupWindow extends PopupWindow {
             return super.dispatchKeyEvent(keyEvent);
         }
 
+        /* JADX WARN: Removed duplicated region for block: B:104:0x0256 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:38:0x00f9  */
+        /* JADX WARN: Removed duplicated region for block: B:39:0x00fc  */
+        /* JADX WARN: Removed duplicated region for block: B:42:0x0105  */
+        /* JADX WARN: Removed duplicated region for block: B:43:0x0122  */
+        /* JADX WARN: Removed duplicated region for block: B:67:0x01b2  */
+        /* JADX WARN: Removed duplicated region for block: B:73:0x01dd  */
+        /* JADX WARN: Removed duplicated region for block: B:88:0x0253  */
         @Override // android.view.ViewGroup, android.view.View
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
         protected void dispatchDraw(Canvas canvas) {
+            int i;
+            boolean z;
+            int i2;
+            int i3;
+            boolean z2;
+            boolean z3;
             if (this.swipeBackGravityRight) {
                 setTranslationX(getMeasuredWidth() * (1.0f - this.backScaleX));
                 View view = this.topView;
@@ -442,53 +462,31 @@ public class ActionBarPopupWindow extends PopupWindow {
                     setTranslationY(f);
                 }
             }
-            super.dispatchDraw(canvas);
-        }
-
-        /* JADX WARN: Removed duplicated region for block: B:34:0x00a9  */
-        /* JADX WARN: Removed duplicated region for block: B:35:0x00ac  */
-        /* JADX WARN: Removed duplicated region for block: B:38:0x00b7  */
-        /* JADX WARN: Removed duplicated region for block: B:39:0x00d3  */
-        /* JADX WARN: Removed duplicated region for block: B:63:0x0164  */
-        /* JADX WARN: Removed duplicated region for block: B:78:0x01dc  */
-        /* JADX WARN: Removed duplicated region for block: B:90:0x01df A[SYNTHETIC] */
-        @Override // android.view.View
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        protected void onDraw(Canvas canvas) {
-            int i;
-            boolean z;
-            int i2;
-            boolean z2;
-            boolean z3;
             if (this.backgroundDrawable != null) {
                 int scrollY = this.gapStartY - this.scrollView.getScrollY();
                 int scrollY2 = this.gapEndY - this.scrollView.getScrollY();
-                int i3 = 0;
+                int i4 = 0;
                 while (true) {
-                    i = 1;
-                    if (i3 >= this.linearLayout.getChildCount()) {
+                    if (i4 >= this.linearLayout.getChildCount()) {
                         z = false;
                         break;
-                    } else if ((this.linearLayout.getChildAt(i3) instanceof GapView) && this.linearLayout.getChildAt(i3).getVisibility() == 0) {
+                    } else if ((this.linearLayout.getChildAt(i4) instanceof GapView) && this.linearLayout.getChildAt(i4).getVisibility() == 0) {
                         z = true;
                         break;
                     } else {
-                        i3++;
+                        i4++;
                     }
                 }
-                int i4 = 0;
-                while (i4 < 2) {
-                    if (i4 == i && scrollY < (-AndroidUtilities.dp(16.0f))) {
-                        return;
-                    }
+                int i5 = 0;
+                for (i = 1; i5 < 2 && (i5 != i || scrollY >= (-AndroidUtilities.dp(16.0f))); i = 1) {
                     if (z && this.backAlpha != 255) {
-                        i2 = -1000000;
+                        i3 = -1000000;
+                        i2 = i5;
                         canvas.saveLayerAlpha(0.0f, this.bgPaddings.top, getMeasuredWidth(), getMeasuredHeight(), this.backAlpha, 31);
                         z2 = false;
                     } else {
-                        i2 = -1000000;
+                        i2 = i5;
+                        i3 = -1000000;
                         if (this.gapStartY != -1000000) {
                             canvas.save();
                             canvas.clipRect(0, this.bgPaddings.top, getMeasuredWidth(), getMeasuredHeight());
@@ -499,52 +497,64 @@ public class ActionBarPopupWindow extends PopupWindow {
                             this.backgroundDrawable.setAlpha(!z2 ? this.backAlpha : 255);
                             if (!this.shownFromBottom) {
                                 int measuredHeight = getMeasuredHeight();
-                                this.backgroundDrawable.setBounds(0, (int) (measuredHeight * (1.0f - this.backScaleY)), (int) (getMeasuredWidth() * this.backScaleX), measuredHeight);
+                                AndroidUtilities.rectTmp2.set(0, (int) (measuredHeight * (1.0f - this.backScaleY)), (int) (getMeasuredWidth() * this.backScaleX), measuredHeight);
                             } else if (scrollY > (-AndroidUtilities.dp(16.0f))) {
                                 int measuredHeight2 = (int) (getMeasuredHeight() * this.backScaleY);
-                                if (i4 == 0) {
-                                    Drawable drawable = this.backgroundDrawable;
-                                    int dp = (-this.scrollView.getScrollY()) + (this.gapStartY != i2 ? AndroidUtilities.dp(1.0f) : 0);
+                                if (i2 == 0) {
+                                    Rect rect = AndroidUtilities.rectTmp2;
+                                    int dp = (-this.scrollView.getScrollY()) + (this.gapStartY != i3 ? AndroidUtilities.dp(1.0f) : 0);
                                     int measuredWidth = (int) (getMeasuredWidth() * this.backScaleX);
-                                    if (this.gapStartY != i2) {
+                                    if (this.gapStartY != i3) {
                                         measuredHeight2 = Math.min(measuredHeight2, AndroidUtilities.dp(16.0f) + scrollY);
                                     }
-                                    drawable.setBounds(0, dp, measuredWidth, measuredHeight2 - this.subtractBackgroundHeight);
+                                    rect.set(0, dp, measuredWidth, measuredHeight2 - this.subtractBackgroundHeight);
                                 } else if (measuredHeight2 < scrollY2) {
-                                    if (this.gapStartY != i2) {
+                                    if (this.gapStartY != i3) {
                                         canvas.restore();
                                     }
-                                    i4++;
-                                    i = 1;
+                                    i5 = i2 + 1;
                                 } else {
-                                    this.backgroundDrawable.setBounds(0, scrollY2, (int) (getMeasuredWidth() * this.backScaleX), measuredHeight2 - this.subtractBackgroundHeight);
+                                    AndroidUtilities.rectTmp2.set(0, scrollY2, (int) (getMeasuredWidth() * this.backScaleX), measuredHeight2 - this.subtractBackgroundHeight);
                                 }
                             } else {
-                                this.backgroundDrawable.setBounds(0, this.gapStartY < 0 ? 0 : -AndroidUtilities.dp(16.0f), (int) (getMeasuredWidth() * this.backScaleX), ((int) (getMeasuredHeight() * this.backScaleY)) - this.subtractBackgroundHeight);
+                                AndroidUtilities.rectTmp2.set(0, this.gapStartY < 0 ? 0 : -AndroidUtilities.dp(16.0f), (int) (getMeasuredWidth() * this.backScaleX), ((int) (getMeasuredHeight() * this.backScaleY)) - this.subtractBackgroundHeight);
                             }
+                            if (this.reactionsEnterProgress != 1.0f) {
+                                if (this.rect == null) {
+                                    this.rect = new Rect();
+                                }
+                                Rect rect2 = this.rect;
+                                Rect rect3 = AndroidUtilities.rectTmp2;
+                                int i6 = rect3.right;
+                                int i7 = rect3.top;
+                                rect2.set(i6, i7, i6, i7);
+                                AndroidUtilities.lerp(this.rect, rect3, this.reactionsEnterProgress, rect3);
+                            }
+                            Drawable drawable = this.backgroundDrawable;
+                            Rect rect4 = AndroidUtilities.rectTmp2;
+                            drawable.setBounds(rect4);
                             this.backgroundDrawable.draw(canvas);
                             if (z) {
                                 canvas.save();
-                                Rect rect = AndroidUtilities.rectTmp2;
-                                rect.set(this.backgroundDrawable.getBounds());
-                                rect.inset(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f));
-                                canvas.clipRect(rect);
-                                for (int i5 = 0; i5 < this.linearLayout.getChildCount(); i5++) {
-                                    if ((this.linearLayout.getChildAt(i5) instanceof GapView) && this.linearLayout.getChildAt(i5).getVisibility() == 0) {
+                                rect4.set(this.backgroundDrawable.getBounds());
+                                rect4.inset(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f));
+                                canvas.clipRect(rect4);
+                                for (int i8 = 0; i8 < this.linearLayout.getChildCount(); i8++) {
+                                    if ((this.linearLayout.getChildAt(i8) instanceof GapView) && this.linearLayout.getChildAt(i8).getVisibility() == 0) {
                                         canvas.save();
-                                        GapView gapView = (GapView) this.linearLayout.getChildAt(i5);
-                                        float f = 0.0f;
-                                        View view = gapView;
+                                        GapView gapView = (GapView) this.linearLayout.getChildAt(i8);
                                         float f2 = 0.0f;
-                                        while (view != this) {
-                                            f += view.getX();
-                                            f2 += view.getY();
-                                            view = (View) view.getParent();
-                                            if (view == null) {
+                                        View view2 = gapView;
+                                        float f3 = 0.0f;
+                                        while (view2 != this) {
+                                            f2 += view2.getX();
+                                            f3 += view2.getY();
+                                            view2 = (View) view2.getParent();
+                                            if (view2 == null) {
                                                 break;
                                             }
                                         }
-                                        canvas.translate(f, f2 * this.scrollView.getScaleY());
+                                        canvas.translate(f2, f3 * this.scrollView.getScaleY());
                                         gapView.draw(canvas);
                                         canvas.restore();
                                     }
@@ -554,23 +564,37 @@ public class ActionBarPopupWindow extends PopupWindow {
                             if (!z3) {
                                 canvas.restore();
                             }
-                            i4++;
-                            i = 1;
+                            i5 = i2 + 1;
                         }
                     }
                     z3 = true;
                     this.backgroundDrawable.setAlpha(!z2 ? this.backAlpha : 255);
                     if (!this.shownFromBottom) {
                     }
+                    if (this.reactionsEnterProgress != 1.0f) {
+                    }
+                    Drawable drawable2 = this.backgroundDrawable;
+                    Rect rect42 = AndroidUtilities.rectTmp2;
+                    drawable2.setBounds(rect42);
                     this.backgroundDrawable.draw(canvas);
                     if (z) {
                     }
                     if (!z3) {
                     }
-                    i4++;
-                    i = 1;
+                    i5 = i2 + 1;
                 }
             }
+            float f4 = this.reactionsEnterProgress;
+            if (f4 != 1.0f) {
+                Rect rect5 = AndroidUtilities.rectTmp2;
+                canvas.saveLayerAlpha(rect5.left, rect5.top, rect5.right, rect5.bottom, (int) (f4 * 255.0f), 31);
+                float f5 = (this.reactionsEnterProgress * 0.5f) + 0.5f;
+                canvas.scale(f5, f5, rect5.right, rect5.top);
+                super.dispatchDraw(canvas);
+                canvas.restore();
+                return;
+            }
+            super.dispatchDraw(canvas);
         }
 
         public Drawable getBackgroundDrawable() {
@@ -667,6 +691,11 @@ public class ActionBarPopupWindow extends PopupWindow {
 
         public void setParentWindow(ActionBarPopupWindow actionBarPopupWindow) {
             this.window = actionBarPopupWindow;
+        }
+
+        public void setReactionsTransitionProgress(float f) {
+            this.reactionsEnterProgress = f;
+            invalidate();
         }
     }
 

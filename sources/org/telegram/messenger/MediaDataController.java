@@ -30,6 +30,7 @@ import androidx.collection.LongSparseArray;
 import androidx.core.content.pm.ShortcutInfoCompat;
 import androidx.core.content.pm.ShortcutManagerCompat;
 import androidx.core.graphics.drawable.IconCompat;
+import com.android.billingclient.api.ProductDetails;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -698,46 +699,132 @@ public class MediaDataController extends BaseController {
     public Integer getPremiumHintAnnualDiscount(boolean z) {
         TLRPC$TL_help_premiumPromo tLRPC$TL_help_premiumPromo;
         int i;
+        int i2;
+        double d;
+        double d2;
+        ProductDetails productDetails;
+        ProductDetails.SubscriptionOfferDetails subscriptionOfferDetails;
+        double d3;
+        double d4;
+        ProductDetails productDetails2;
+        ProductDetails.SubscriptionOfferDetails subscriptionOfferDetails2;
         if ((!z || (BillingController.getInstance().isReady() && BillingController.getInstance().getLastPremiumTransaction() != null)) && (tLRPC$TL_help_premiumPromo = this.premiumPromo) != null) {
-            double d = 0.0d;
+            double d5 = 0.0d;
             Iterator<TLRPC$TL_premiumSubscriptionOption> it = tLRPC$TL_help_premiumPromo.period_options.iterator();
-            int i2 = 0;
             boolean z2 = false;
-            while (it.hasNext()) {
+            while (true) {
+                i = 12;
+                i2 = 1;
+                if (!it.hasNext()) {
+                    break;
+                }
                 TLRPC$TL_premiumSubscriptionOption next = it.next();
                 if (z) {
                     if (next.current && Objects.equals(next.transaction.replaceAll("^(.*?)(?:\\.\\.\\d*|)$", "$1"), BillingController.getInstance().getLastPremiumTransaction())) {
-                        double d2 = next.amount;
-                        double d3 = next.months;
-                        Double.isNaN(d2);
-                        Double.isNaN(d3);
-                        d = d2 / d3;
+                        if (BuildVars.useInvoiceBilling() && (productDetails2 = BillingController.PREMIUM_PRODUCT_DETAILS) != null) {
+                            Iterator<ProductDetails.SubscriptionOfferDetails> it2 = productDetails2.getSubscriptionOfferDetails().iterator();
+                            while (true) {
+                                if (!it2.hasNext()) {
+                                    subscriptionOfferDetails2 = null;
+                                    break;
+                                }
+                                subscriptionOfferDetails2 = it2.next();
+                                String billingPeriod = subscriptionOfferDetails2.getPricingPhases().getPricingPhaseList().get(0).getBillingPeriod();
+                                int i3 = next.months;
+                                if (i3 == 12) {
+                                    if (billingPeriod.equals("P1Y")) {
+                                        break;
+                                    }
+                                } else if (billingPeriod.equals(String.format(Locale.ROOT, "P%dM", Integer.valueOf(i3)))) {
+                                    break;
+                                }
+                            }
+                            if (subscriptionOfferDetails2 == null) {
+                                d3 = next.amount;
+                                d4 = next.months;
+                                Double.isNaN(d3);
+                                Double.isNaN(d4);
+                            } else {
+                                d3 = subscriptionOfferDetails2.getPricingPhases().getPricingPhaseList().get(0).getPriceAmountMicros();
+                                d4 = next.months;
+                                Double.isNaN(d3);
+                                Double.isNaN(d4);
+                            }
+                        } else {
+                            d3 = next.amount;
+                            d4 = next.months;
+                            Double.isNaN(d3);
+                            Double.isNaN(d4);
+                        }
+                        d5 = d3 / d4;
                         z2 = true;
                     }
                 } else if (next.months == 1) {
-                    double d22 = next.amount;
-                    double d32 = next.months;
-                    Double.isNaN(d22);
-                    Double.isNaN(d32);
-                    d = d22 / d32;
+                    if (BuildVars.useInvoiceBilling()) {
+                    }
+                    d3 = next.amount;
+                    d4 = next.months;
+                    Double.isNaN(d3);
+                    Double.isNaN(d4);
+                    d5 = d3 / d4;
                     z2 = true;
                 }
             }
-            Iterator<TLRPC$TL_premiumSubscriptionOption> it2 = this.premiumPromo.period_options.iterator();
-            while (it2.hasNext()) {
-                TLRPC$TL_premiumSubscriptionOption next2 = it2.next();
-                if (z2 && (i = next2.months) == 12) {
-                    double d4 = next2.amount;
-                    double d5 = i;
-                    Double.isNaN(d4);
-                    Double.isNaN(d5);
-                    i2 = ((int) ((d / (d4 / d5)) * 100.0d)) - 100;
+            Iterator<TLRPC$TL_premiumSubscriptionOption> it3 = this.premiumPromo.period_options.iterator();
+            int i4 = 0;
+            while (it3.hasNext()) {
+                TLRPC$TL_premiumSubscriptionOption next2 = it3.next();
+                if (z2 && next2.months == i) {
+                    if (!BuildVars.useInvoiceBilling() && (productDetails = BillingController.PREMIUM_PRODUCT_DETAILS) != null) {
+                        Iterator<ProductDetails.SubscriptionOfferDetails> it4 = productDetails.getSubscriptionOfferDetails().iterator();
+                        while (true) {
+                            if (!it4.hasNext()) {
+                                subscriptionOfferDetails = null;
+                                break;
+                            }
+                            subscriptionOfferDetails = it4.next();
+                            String billingPeriod2 = subscriptionOfferDetails.getPricingPhases().getPricingPhaseList().get(0).getBillingPeriod();
+                            int i5 = next2.months;
+                            if (i5 != i) {
+                                Locale locale = Locale.ROOT;
+                                Object[] objArr = new Object[i2];
+                                objArr[0] = Integer.valueOf(i5);
+                                if (billingPeriod2.equals(String.format(locale, "P%dM", objArr))) {
+                                    break;
+                                }
+                                i = 12;
+                            } else if (billingPeriod2.equals("P1Y")) {
+                                break;
+                            } else {
+                                i = 12;
+                            }
+                        }
+                        if (subscriptionOfferDetails == null) {
+                            d = next2.amount;
+                            d2 = next2.months;
+                            Double.isNaN(d);
+                            Double.isNaN(d2);
+                        } else {
+                            d = subscriptionOfferDetails.getPricingPhases().getPricingPhaseList().get(0).getPriceAmountMicros();
+                            d2 = next2.months;
+                            Double.isNaN(d);
+                            Double.isNaN(d2);
+                        }
+                    } else {
+                        d = next2.amount;
+                        d2 = next2.months;
+                        Double.isNaN(d);
+                        Double.isNaN(d2);
+                    }
+                    i4 = (int) ((1.0d - ((d / d2) / d5)) * 100.0d);
                 }
+                i = 12;
+                i2 = 1;
             }
-            if (!z2 || i2 <= 0) {
+            if (!z2 || i4 <= 0) {
                 return null;
             }
-            return Integer.valueOf(i2);
+            return Integer.valueOf(i4);
         }
         return null;
     }

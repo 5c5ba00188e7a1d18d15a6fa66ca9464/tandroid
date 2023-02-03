@@ -503,10 +503,10 @@ public class AnimatedEmojiDrawable extends Drawable {
         return this.document;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:114:0x030c  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x01c9  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x01cf  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x01fe  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x0315  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x01c8  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x01ce  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x01fd  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -514,7 +514,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         SvgHelper.SvgDrawable svgDrawable;
         ImageLocation imageLocation;
         String str;
-        SvgHelper.SvgDrawable svgDrawable2;
+        SvgHelper.SvgDrawable svgThumb;
         int i;
         int i2;
         int i3;
@@ -574,7 +574,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                 if ("video/webm".equals(this.document.mime_type)) {
                     imageLocation = ImageLocation.getForDocument(this.document);
                     str2 = str2 + "_" + ImageLoader.AUTOPLAY_FILTER;
-                    svgDrawable2 = DocumentObject.getSvgThumb(this.document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
+                    svgThumb = DocumentObject.getSvgThumb(this.document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
                 } else if ("application/x-tgsticker".equals(this.document.mime_type)) {
                     StringBuilder sb = new StringBuilder();
                     if (this.cacheType != 0) {
@@ -588,13 +588,12 @@ public class AnimatedEmojiDrawable extends Drawable {
                     sb.append(str2);
                     String sb2 = sb.toString();
                     if (SharedConfig.getDevicePerformanceClass() == 0 && this.cacheType != 2 && ImageLoader.getInstance().hasLottieMemCache(sb2)) {
-                        svgDrawable2 = null;
+                        svgThumb = null;
                     } else {
-                        SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(this.document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
+                        svgThumb = DocumentObject.getSvgThumb(this.document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
                         if (svgThumb != null && MessageObject.isAnimatedStickerDocument(this.document, true)) {
                             svgThumb.overrideWidthAndHeight(512, 512);
                         }
-                        svgDrawable2 = svgThumb;
                     }
                     imageLocation = ImageLocation.getForDocument(this.document);
                 } else {
@@ -611,7 +610,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                         ImageReceiver imageReceiver2 = this.imageReceiver;
                         TLRPC$Document tLRPC$Document = this.document;
                         imageReceiver2.setImage(null, null, imageLocation2, str2, null, null, svgDrawable, tLRPC$Document.size, null, tLRPC$Document, 1);
-                    } else if (SharedConfig.getLiteMode().enabled()) {
+                    } else if (SharedConfig.getLiteMode().enabled() && this.cacheType != 14) {
                         if ("video/webm".equals(this.document.mime_type)) {
                             TLRPC$Document tLRPC$Document2 = this.document;
                             this.imageReceiver.setImage(null, null, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, svgDrawable, tLRPC$Document2.size, null, tLRPC$Document2, 1);
@@ -648,7 +647,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                     updateAttachState();
                     invalidate();
                 }
-                svgDrawable = svgDrawable2;
+                svgDrawable = svgThumb;
                 if (z2) {
                 }
                 if (this.absolutePath == null) {

@@ -17723,7 +17723,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
         }
         getMessagesController().addToPollsQueue(this.dialog_id, this.pollsToCheck);
-        if (i17 < 0 || i18 < 0) {
+        if (isInScheduleMode() || i17 < 0 || i18 < 0) {
             i = i13;
         } else {
             int i38 = (i18 - this.chatAdapter.messagesStartRow) - 10;
@@ -20127,14 +20127,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /*  JADX ERROR: JadxRuntimeException in pass: BlockProcessor
-        jadx.core.utils.exceptions.JadxRuntimeException: CFG modification limit reached, blocks count: 3321
+        jadx.core.utils.exceptions.JadxRuntimeException: CFG modification limit reached, blocks count: 3324
         	at jadx.core.dex.visitors.blocks.BlockProcessor.processBlocksTree(BlockProcessor.java:59)
         	at jadx.core.dex.visitors.blocks.BlockProcessor.visit(BlockProcessor.java:39)
         */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int r54, int r55, java.lang.Object... r56) {
         /*
-            Method dump skipped, instructions count: 15249
+            Method dump skipped, instructions count: 15257
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.ui.ChatActivity.didReceivedNotification(int, int, java.lang.Object[]):void");
@@ -24977,7 +24977,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Code restructure failed: missing block: B:36:0x017e, code lost:
-        if (((org.telegram.tgnet.TLRPC$TL_emojiStatusUntil) r1).until > ((int) (java.lang.System.currentTimeMillis() / 1000))) goto L251;
+        if (((org.telegram.tgnet.TLRPC$TL_emojiStatusUntil) r1).until > ((int) (java.lang.System.currentTimeMillis() / 1000))) goto L253;
      */
     /* JADX WARN: Removed duplicated region for block: B:100:0x022b  */
     /* JADX WARN: Removed duplicated region for block: B:106:0x0239  */
@@ -24988,9 +24988,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:196:0x059b  */
     /* JADX WARN: Removed duplicated region for block: B:216:0x068a  */
     /* JADX WARN: Removed duplicated region for block: B:218:0x069d  */
-    /* JADX WARN: Removed duplicated region for block: B:230:0x06dc  */
-    /* JADX WARN: Removed duplicated region for block: B:240:0x070c  */
-    /* JADX WARN: Removed duplicated region for block: B:252:0x077b  */
+    /* JADX WARN: Removed duplicated region for block: B:232:0x06e4  */
+    /* JADX WARN: Removed duplicated region for block: B:242:0x0714  */
+    /* JADX WARN: Removed duplicated region for block: B:254:0x0783  */
     /* JADX WARN: Removed duplicated region for block: B:61:0x01d3  */
     /* JADX WARN: Removed duplicated region for block: B:80:0x01fb  */
     /* JADX WARN: Removed duplicated region for block: B:81:0x01fd  */
@@ -25260,7 +25260,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             if (!z5) {
                 if (this.restartTopicButton.getVisibility() == 0) {
                     this.topViewSeparator3.setVisibility(0);
-                } else if (this.addToContactsButton.getVisibility() == 0 || (user != null && !TextUtils.isEmpty(string))) {
+                } else if (this.reportSpamButton.getVisibility() == 0 || this.addToContactsButton.getVisibility() == 0 || (user != null && !TextUtils.isEmpty(string))) {
                     this.topViewSeparator3.setVisibility(0);
                 } else {
                     dp -= AndroidUtilities.dp(48.0f);
@@ -26494,17 +26494,17 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:1010:0x182e  */
     /* JADX WARN: Removed duplicated region for block: B:1013:0x1849  */
     /* JADX WARN: Removed duplicated region for block: B:1036:0x19d6  */
-    /* JADX WARN: Removed duplicated region for block: B:1169:0x20c6  */
-    /* JADX WARN: Removed duplicated region for block: B:1170:0x20cb  */
-    /* JADX WARN: Removed duplicated region for block: B:1173:0x20d2  */
-    /* JADX WARN: Removed duplicated region for block: B:1174:0x20d7  */
-    /* JADX WARN: Removed duplicated region for block: B:1177:0x20ea  */
-    /* JADX WARN: Removed duplicated region for block: B:1201:0x21c7  */
-    /* JADX WARN: Removed duplicated region for block: B:1285:0x242b  */
-    /* JADX WARN: Removed duplicated region for block: B:1286:0x242f  */
-    /* JADX WARN: Removed duplicated region for block: B:1289:0x244a  */
-    /* JADX WARN: Removed duplicated region for block: B:1292:0x2451  */
-    /* JADX WARN: Removed duplicated region for block: B:1295:0x2458  */
+    /* JADX WARN: Removed duplicated region for block: B:1169:0x20c8  */
+    /* JADX WARN: Removed duplicated region for block: B:1170:0x20cd  */
+    /* JADX WARN: Removed duplicated region for block: B:1173:0x20d4  */
+    /* JADX WARN: Removed duplicated region for block: B:1174:0x20d9  */
+    /* JADX WARN: Removed duplicated region for block: B:1177:0x20ec  */
+    /* JADX WARN: Removed duplicated region for block: B:1201:0x21c9  */
+    /* JADX WARN: Removed duplicated region for block: B:1285:0x242c  */
+    /* JADX WARN: Removed duplicated region for block: B:1286:0x2430  */
+    /* JADX WARN: Removed duplicated region for block: B:1289:0x244b  */
+    /* JADX WARN: Removed duplicated region for block: B:1292:0x2452  */
+    /* JADX WARN: Removed duplicated region for block: B:1295:0x2459  */
     /* JADX WARN: Removed duplicated region for block: B:167:0x02f3  */
     /* JADX WARN: Removed duplicated region for block: B:177:0x0317  */
     /* JADX WARN: Removed duplicated region for block: B:178:0x0319  */
@@ -26531,9 +26531,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r1v270 */
     /* JADX WARN: Type inference failed for: r1v271 */
     /* JADX WARN: Type inference failed for: r1v279, types: [org.telegram.ui.Components.AnimatedEmojiSpan[]] */
-    /* JADX WARN: Type inference failed for: r20v12 */
-    /* JADX WARN: Type inference failed for: r20v6 */
-    /* JADX WARN: Type inference failed for: r20v7, types: [java.lang.String] */
+    /* JADX WARN: Type inference failed for: r20v10 */
+    /* JADX WARN: Type inference failed for: r20v4 */
+    /* JADX WARN: Type inference failed for: r20v5, types: [java.lang.String] */
     /* JADX WARN: Type inference failed for: r2v219 */
     /* JADX WARN: Type inference failed for: r2v220, types: [boolean] */
     /* JADX WARN: Type inference failed for: r2v270 */
@@ -27953,8 +27953,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     });
                                     if (actionBarPopupWindowLayout3 != null) {
                                         chatScrimPopupContainerLayout.addView(actionBarPopupWindowLayout3);
-                                        actionBarPopupWindowLayout4 = actionBarPopupWindowLayout2;
                                         reactionsContainerLayout2 = reactionsContainerLayout;
+                                        actionBarPopupWindowLayout4 = actionBarPopupWindowLayout2;
                                     } else {
                                         final ReactionsContainerLayout reactionsContainerLayout3 = new ReactionsContainerLayout(this, this.contentView.getContext(), this.currentAccount, getResourceProvider());
                                         if (z25) {
@@ -28107,6 +28107,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         actionBarPopupWindowLayout4 = actionBarPopupWindowLayout132;
                                         reactionsContainerLayout2 = reactionsContainerLayout3;
                                     }
+                                    reactionsContainerLayout2.setParentLayout(chatScrimPopupContainerLayout);
                                     final ReactionsContainerLayout reactionsContainerLayout4 = reactionsContainerLayout2;
                                     ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(chatScrimPopupContainerLayout, -2, -2) { // from class: org.telegram.ui.ChatActivity.122
                                         @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow, android.widget.PopupWindow
@@ -28149,7 +28150,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     this.scrimPopupWindow.setDismissAnimationDuration(220);
                                     this.scrimPopupWindow.setOutsideTouchable(true);
                                     this.scrimPopupWindow.setClippingEnabled(true);
-                                    this.scrimPopupWindow.setAnimationStyle(R.style.PopupContextAnimation);
+                                    this.scrimPopupWindow.setAnimationStyle(0);
                                     this.scrimPopupWindow.setFocusable(true);
                                     chatScrimPopupContainerLayout.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE));
                                     this.scrimPopupWindow.setInputMethodMode(2);

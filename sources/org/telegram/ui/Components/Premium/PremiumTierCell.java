@@ -103,6 +103,14 @@ public class PremiumTierCell extends ViewGroup {
     }
 
     @Override // android.view.View
+    public void setEnabled(boolean z) {
+        super.setEnabled(z);
+        this.titleView.setAlpha(z ? 1.0f : 0.6f);
+        this.pricePerMonthView.setAlpha(z ? 1.0f : 0.6f);
+        this.checkBox.setAlpha(z ? 1.0f : 0.6f);
+    }
+
+    @Override // android.view.View
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (this.hasDivider) {
@@ -136,7 +144,7 @@ public class PremiumTierCell extends ViewGroup {
         rect.set(AndroidUtilities.dp(this.leftPaddingToCheckboxDp) + getPaddingLeft(), (int) ((getMeasuredHeight() - this.checkBox.getMeasuredHeight()) / 2.0f), 0, 0);
         checkRtlAndLayout(this.checkBox);
         int measuredHeight = (int) ((getMeasuredHeight() - this.pricePerMonthView.getMeasuredHeight()) / 2.0f);
-        if (AndroidUtilities.dp(this.leftPaddingToCheckboxDp + this.leftPaddingToTextDp + 24) + this.checkBox.getMeasuredWidth() + this.pricePerYearStrikeView.getMeasuredWidth() + this.pricePerYearView.getMeasuredWidth() + getPaddingLeft() > getMeasuredWidth() - this.pricePerMonthView.getMeasuredWidth() && this.discountView.getVisibility() == 0) {
+        if (AndroidUtilities.dp(this.leftPaddingToCheckboxDp + this.leftPaddingToTextDp + 24) + this.checkBox.getMeasuredWidth() + (this.pricePerYearStrikeView.getVisibility() == 0 ? this.pricePerYearStrikeView.getMeasuredWidth() : 0) + this.pricePerYearView.getMeasuredWidth() + getPaddingLeft() > getMeasuredWidth() - this.pricePerMonthView.getMeasuredWidth() && this.discountView.getVisibility() == 0) {
             measuredHeight = getPaddingTop() + AndroidUtilities.dp(2.0f);
         }
         rect.set(((getMeasuredWidth() - this.pricePerMonthView.getMeasuredWidth()) - AndroidUtilities.dp(16.0f)) - getPaddingRight(), measuredHeight, 0, 0);
@@ -149,7 +157,7 @@ public class PremiumTierCell extends ViewGroup {
         }
         rect.set(AndroidUtilities.dp(this.leftPaddingToCheckboxDp + this.leftPaddingToTextDp) + this.checkBox.getMeasuredWidth() + getPaddingLeft(), (getMeasuredHeight() - this.pricePerYearStrikeView.getMeasuredHeight()) - getPaddingBottom(), 0, 0);
         checkRtlAndLayout(this.pricePerYearStrikeView);
-        rect.set(AndroidUtilities.dp(this.leftPaddingToCheckboxDp + this.leftPaddingToTextDp + 6) + this.checkBox.getMeasuredWidth() + this.pricePerYearStrikeView.getMeasuredWidth() + getPaddingLeft(), (getMeasuredHeight() - this.pricePerYearView.getMeasuredHeight()) - getPaddingBottom(), 0, 0);
+        rect.set(AndroidUtilities.dp(this.leftPaddingToCheckboxDp + this.leftPaddingToTextDp) + this.checkBox.getMeasuredWidth() + (this.pricePerYearStrikeView.getVisibility() == 0 ? this.pricePerYearStrikeView.getMeasuredWidth() + AndroidUtilities.dp(6.0f) : 0) + getPaddingLeft(), (getMeasuredHeight() - this.pricePerYearView.getMeasuredHeight()) - getPaddingBottom(), 0, 0);
         checkRtlAndLayout(this.pricePerYearView);
     }
 
@@ -204,7 +212,7 @@ public class PremiumTierCell extends ViewGroup {
             this.discountView.measure(View.MeasureSpec.makeMeasureSpec(0, 1073741824), View.MeasureSpec.makeMeasureSpec(0, 1073741824));
         }
         this.pricePerYearStrikeView.measure(View.MeasureSpec.makeMeasureSpec(size - this.checkBox.getMeasuredWidth(), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(dp, Integer.MIN_VALUE));
-        this.pricePerYearView.measure(View.MeasureSpec.makeMeasureSpec(((size - this.checkBox.getMeasuredWidth()) - this.pricePerYearStrikeView.getMeasuredWidth()) - AndroidUtilities.dp(6.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(dp, Integer.MIN_VALUE));
+        this.pricePerYearView.measure(View.MeasureSpec.makeMeasureSpec(((size - this.checkBox.getMeasuredWidth()) - (this.pricePerYearStrikeView.getVisibility() == 0 ? this.pricePerYearStrikeView.getMeasuredWidth() : 0)) - AndroidUtilities.dp(6.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(dp, Integer.MIN_VALUE));
         if (this.pricePerYearView.getVisibility() != 0) {
             dp -= AndroidUtilities.dp(8.0f);
         }
@@ -249,6 +257,10 @@ public class PremiumTierCell extends ViewGroup {
             this.pricePerYearStrikeView.setText(subscriptionTier.getFormattedPricePerYearRegular());
             this.pricePerYearView.setText(LocaleController.formatString(R.string.PricePerYear, subscriptionTier.getFormattedPricePerYear()));
             this.pricePerMonthView.setText(LocaleController.formatString(R.string.PricePerMonthMe, subscriptionTier.getFormattedPricePerMonth()));
+            if (subscriptionTier.subscriptionOption.current) {
+                this.pricePerYearView.setVisibility(0);
+                this.pricePerYearView.setText(LocaleController.getString(R.string.YourCurrentPlan));
+            }
         } else {
             this.discountView.setText(LocaleController.formatString(R.string.GiftPremiumOptionDiscount, 10));
             this.discountView.setVisibility(0);

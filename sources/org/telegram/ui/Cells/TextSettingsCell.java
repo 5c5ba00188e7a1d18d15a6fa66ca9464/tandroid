@@ -371,26 +371,4 @@ public class TextSettingsCell extends FrameLayout {
         }
         ((AnimatedEmojiDrawable) this.valueBackupImageView.getImageReceiver().getDrawable()).removeView(this);
     }
-
-    public void updateRTL() {
-        this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
-        removeView(this.textView);
-        TextView textView = this.textView;
-        int i = (LocaleController.isRTL ? 5 : 3) | 48;
-        int i2 = this.padding;
-        addView(textView, LayoutHelper.createFrame(-1, -1.0f, i, i2, 0.0f, i2, 0.0f));
-        this.valueTextView.setGravity((LocaleController.isRTL ? 3 : 5) | 16);
-        removeView(this.valueTextView);
-        AnimatedTextView animatedTextView = this.valueTextView;
-        int i3 = (LocaleController.isRTL ? 3 : 5) | 48;
-        int i4 = this.padding;
-        addView(animatedTextView, LayoutHelper.createFrame(-2, -1.0f, i3, i4, 0.0f, i4, 0.0f));
-        removeView(this.imageView);
-        addView(this.imageView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 5 : 3) | 16, 21.0f, 0.0f, 21.0f, 0.0f));
-        removeView(this.valueImageView);
-        ImageView imageView = this.valueImageView;
-        int i5 = LocaleController.isRTL ? 3 : 5;
-        int i6 = this.padding;
-        addView(imageView, LayoutHelper.createFrame(-2, -2.0f, i5 | 16, i6, 0.0f, i6, 0.0f));
-    }
 }

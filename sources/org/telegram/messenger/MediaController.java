@@ -4351,8 +4351,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         SharedConfig.saveConfig();
         File file = new File(FileLoader.getDirectory(4), FileLoader.getAttachFileName(this.recordingAudio));
         this.recordingAudioFile = file;
+        SharedConfig.lockFile(file);
         try {
-            if (startRecord(file.getAbsolutePath(), this.sampleRate) == 0) {
+            if (startRecord(this.recordingAudioFile.getAbsolutePath(), this.sampleRate) == 0) {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda21
                     @Override // java.lang.Runnable
                     public final void run() {
@@ -4382,6 +4383,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             FileLog.e(e);
             this.recordingAudio = null;
             stopRecord();
+            SharedConfig.unlockFile(this.recordingAudioFile);
             this.recordingAudioFile.delete();
             this.recordingAudioFile = null;
             try {
@@ -4482,6 +4484,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         if (i != 0) {
             final TLRPC$TL_document tLRPC$TL_document = this.recordingAudio;
             final File file = this.recordingAudioFile;
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.d("stop recording internal " + file.exists() + file.length());
+            }
             this.fileEncodingQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda33
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -4489,6 +4494,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 }
             });
         } else {
+            SharedConfig.unlockFile(this.recordingAudioFile);
             File file2 = this.recordingAudioFile;
             if (file2 != null) {
                 file2.delete();
@@ -4554,6 +4560,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         } else {
             z2 = false;
             NotificationCenter.getInstance(this.recordingCurrentAccount).postNotificationName(NotificationCenter.audioRecordTooShort, Integer.valueOf(this.recordingGuid), Boolean.FALSE, Integer.valueOf((int) j));
+            SharedConfig.unlockFile(file);
             file.delete();
         }
         requestAudioFocus(z2);

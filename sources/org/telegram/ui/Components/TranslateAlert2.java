@@ -288,6 +288,9 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
         if (str != null) {
             str = str.split("_")[0];
         }
+        if ("nb".equals(str)) {
+            str = "no";
+        }
         tLRPC$TL_messages_translateText.to_lang = str;
         this.reqId = Integer.valueOf(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_translateText, new RequestDelegate() { // from class: org.telegram.ui.Components.TranslateAlert2$$ExternalSyntheticLambda2
             @Override // org.telegram.tgnet.RequestDelegate
@@ -836,7 +839,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
             boolean z = true;
             while (i < locales.size()) {
                 final LocaleController.LocaleInfo localeInfo = locales.get(i);
-                if (!localeInfo.pluralLangCode.equals(TranslateAlert2.this.fromLanguage) && !"nb".equals(localeInfo.pluralLangCode) && "remote".equals(localeInfo.pathToFile)) {
+                if (!localeInfo.pluralLangCode.equals(TranslateAlert2.this.fromLanguage) && "remote".equals(localeInfo.pathToFile)) {
                     ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(getContext(), 2, z, i == locales.size() - 1, ((BottomSheet) TranslateAlert2.this).resourcesProvider);
                     actionBarMenuSubItem.setText(TranslateAlert2.capitalFirst(TranslateAlert2.languageName(localeInfo.pluralLangCode)));
                     actionBarMenuSubItem.setChecked(TextUtils.equals(TranslateAlert2.this.toLanguage, localeInfo.pluralLangCode));
@@ -1012,7 +1015,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
 
     public static String capitalFirst(String str) {
         if (str == null) {
-            return str;
+            return null;
         }
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
@@ -1046,6 +1049,9 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
                 return locale.getDisplayLanguage(Locale.getDefault());
             }
         } catch (Exception unused) {
+        }
+        if ("no".equals(str)) {
+            str = "nb";
         }
         LocaleController.LocaleInfo builtinLanguageByPlural = LocaleController.getInstance().getBuiltinLanguageByPlural(str);
         if (builtinLanguageByPlural == null) {
