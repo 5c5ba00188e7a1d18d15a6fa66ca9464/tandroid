@@ -7733,7 +7733,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCustomTransitionAnimation$37(ValueAnimator valueAnimator) {
-        this.fragmentView.invalidate();
+        View view = this.fragmentView;
+        if (view != null) {
+            view.invalidate();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
