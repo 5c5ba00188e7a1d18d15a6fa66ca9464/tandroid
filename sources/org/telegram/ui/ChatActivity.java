@@ -4012,7 +4012,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 this.topViewSeparator2 = view4;
                 view4.setVisibility(8);
                 this.topViewSeparator2.setBackgroundColor(getThemedColor("divider"));
-                this.topChatPanelView.addView(this.topViewSeparator2, LayoutHelper.createFrame(-1, 1.0f / AndroidUtilities.density, 51, 10.0f, 50.0f, 10.0f, 1.0f));
+                this.topChatPanelView.addView(this.topViewSeparator2, LayoutHelper.createFrame(-1, 1.0f / AndroidUtilities.density, 51, 10.0f, 48.0f, 10.0f, 1.0f));
                 View view5 = new View(context);
                 this.topViewSeparator3 = view5;
                 view5.setVisibility(8);
@@ -5691,7 +5691,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         this.topViewSeparator2 = view42;
         view42.setVisibility(8);
         this.topViewSeparator2.setBackgroundColor(getThemedColor("divider"));
-        this.topChatPanelView.addView(this.topViewSeparator2, LayoutHelper.createFrame(-1, 1.0f / AndroidUtilities.density, 51, 10.0f, 50.0f, 10.0f, 1.0f));
+        this.topChatPanelView.addView(this.topViewSeparator2, LayoutHelper.createFrame(-1, 1.0f / AndroidUtilities.density, 51, 10.0f, 48.0f, 10.0f, 1.0f));
         View view52 = new View(context);
         this.topViewSeparator3 = view52;
         view52.setVisibility(8);
@@ -19692,7 +19692,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             fillEditingMediaWithCaption(((SendMessagesHelper.SendingMediaInfo) arrayList2.get(0)).caption, ((SendMessagesHelper.SendingMediaInfo) arrayList2.get(0)).entities);
             SendMessagesHelper.prepareSendingMedia(getAccountInstance(), arrayList2, this.dialog_id, this.replyingMessageObject, getThreadMessage(), null, z2, true, null, z, i, ((SendMessagesHelper.SendingMediaInfo) arrayList2.get(0)).updateStickersOrder);
             afterMessageSend();
-            this.chatActivityEnterView.setFieldText("");
+            ChatActivityEnterView chatActivityEnterView = this.chatActivityEnterView;
+            if (chatActivityEnterView != null) {
+                chatActivityEnterView.setFieldText("");
+            }
         }
         if (i != 0) {
             if (this.scheduledMessagesCount == -1) {
@@ -24977,7 +24980,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Code restructure failed: missing block: B:36:0x017e, code lost:
-        if (((org.telegram.tgnet.TLRPC$TL_emojiStatusUntil) r1).until > ((int) (java.lang.System.currentTimeMillis() / 1000))) goto L253;
+        if (((org.telegram.tgnet.TLRPC$TL_emojiStatusUntil) r1).until > ((int) (java.lang.System.currentTimeMillis() / 1000))) goto L252;
      */
     /* JADX WARN: Removed duplicated region for block: B:100:0x022b  */
     /* JADX WARN: Removed duplicated region for block: B:106:0x0239  */
@@ -24988,9 +24991,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:196:0x059b  */
     /* JADX WARN: Removed duplicated region for block: B:216:0x068a  */
     /* JADX WARN: Removed duplicated region for block: B:218:0x069d  */
-    /* JADX WARN: Removed duplicated region for block: B:232:0x06e4  */
-    /* JADX WARN: Removed duplicated region for block: B:242:0x0714  */
-    /* JADX WARN: Removed duplicated region for block: B:254:0x0783  */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x06dd  */
+    /* JADX WARN: Removed duplicated region for block: B:241:0x070d  */
+    /* JADX WARN: Removed duplicated region for block: B:253:0x077c  */
     /* JADX WARN: Removed duplicated region for block: B:61:0x01d3  */
     /* JADX WARN: Removed duplicated region for block: B:80:0x01fb  */
     /* JADX WARN: Removed duplicated region for block: B:81:0x01fd  */
@@ -25249,7 +25252,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
                 this.emojiStatusSpamHint.setText(spannableStringBuilder);
                 this.emojiStatusSpamHint.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.displaySize.x - AndroidUtilities.dp(50.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(99999, Integer.MIN_VALUE));
-                int dp2 = dp + AndroidUtilities.dp(6.0f);
+                int dp2 = dp + AndroidUtilities.dp(4.0f);
                 this.emojiStatusSpamHint.setTranslationY(dp2);
                 dp = dp2 + AndroidUtilities.dp(10.0f) + this.emojiStatusSpamHint.getMeasuredHeight();
             } else {
@@ -25258,9 +25261,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 this.topViewSeparator2.setVisibility(8);
             }
             if (!z5) {
-                if (this.restartTopicButton.getVisibility() == 0) {
-                    this.topViewSeparator3.setVisibility(0);
-                } else if (this.reportSpamButton.getVisibility() == 0 || this.addToContactsButton.getVisibility() == 0 || (user != null && !TextUtils.isEmpty(string))) {
+                if (this.restartTopicButton.getVisibility() == 0 || this.reportSpamButton.getVisibility() == 0 || this.addToContactsButton.getVisibility() == 0 || (user != null && !TextUtils.isEmpty(string))) {
                     this.topViewSeparator3.setVisibility(0);
                 } else {
                     dp -= AndroidUtilities.dp(48.0f);

@@ -2060,10 +2060,27 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         }
     }
 
-    @Override // org.telegram.ui.ActionBar.INavigationLayout
-    public void removeFragmentFromStack(BaseFragment baseFragment) {
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x002c, code lost:
         onOpenAnimationEnd();
         onCloseAnimationEnd();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:5:0x0014, code lost:
+        if (r0.get(r0.size() - 1) != r4) goto L24;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:9:0x002a, code lost:
+        if (r0.get(r0.size() - 2) == r4) goto L5;
+     */
+    @Override // org.telegram.ui.ActionBar.INavigationLayout
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void removeFragmentFromStack(BaseFragment baseFragment) {
+        if (this.fragmentsStack.size() > 0) {
+            List<BaseFragment> list = this.fragmentsStack;
+        }
+        if (this.fragmentsStack.size() > 1) {
+            List<BaseFragment> list2 = this.fragmentsStack;
+        }
         if (this.useAlphaAnimations && this.fragmentsStack.size() == 1 && AndroidUtilities.isTablet()) {
             closeLastFragment(true);
             return;

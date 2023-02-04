@@ -30,6 +30,7 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.RestrictedLanguagesSelectActivity;
 /* loaded from: classes3.dex */
 public class TranslateButton extends FrameLayout {
+    private boolean[] accusative;
     private final int currentAccount;
     private final long dialogId;
     private final BaseFragment fragment;
@@ -48,6 +49,7 @@ public class TranslateButton extends FrameLayout {
 
     public TranslateButton(Context context, int i, long j, BaseFragment baseFragment, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.accusative = new boolean[1];
         this.currentAccount = i;
         this.dialogId = j;
         this.fragment = baseFragment;
@@ -168,6 +170,7 @@ public class TranslateButton extends FrameLayout {
         linearLayout.addView(scrollView, LayoutHelper.createLinear(-1, 420));
         final String dialogDetectedLanguage = translateController.getDialogDetectedLanguage(this.dialogId);
         final String languageName = TranslateAlert2.languageName(dialogDetectedLanguage);
+        String languageName2 = TranslateAlert2.languageName(dialogDetectedLanguage, this.accusative);
         String dialogTranslateTo = translateController.getDialogTranslateTo(this.dialogId);
         ArrayList<TranslateController.Language> suggestedLanguages = TranslateController.getSuggestedLanguages(dialogTranslateTo);
         ArrayList<TranslateController.Language> languages = TranslateController.getLanguages();
@@ -220,13 +223,12 @@ public class TranslateButton extends FrameLayout {
             }
         }
         actionBarPopupWindowLayout.addView(new ActionBarPopupWindow.GapView(getContext(), this.resourcesProvider), LayoutHelper.createLinear(-1, 8));
-        if (languageName != null && dialogDetectedLanguage != null) {
+        if (languageName2 != null) {
             ActionBarMenuSubItem actionBarMenuSubItem6 = new ActionBarMenuSubItem(getContext(), true, false, this.resourcesProvider);
-            String string = LocaleController.getString("TranslateLanguage" + dialogDetectedLanguage.toUpperCase());
-            if (string == null || string.startsWith("LOC_ERR")) {
-                formatString = LocaleController.formatString("DoNotTranslateLanguageOther", R.string.DoNotTranslateLanguageOther, languageName);
+            if (this.accusative[0]) {
+                formatString = LocaleController.formatString("DoNotTranslateLanguage", R.string.DoNotTranslateLanguage, languageName2);
             } else {
-                formatString = LocaleController.formatString("DoNotTranslateLanguage", R.string.DoNotTranslateLanguage, string);
+                formatString = LocaleController.formatString("DoNotTranslateLanguageOther", R.string.DoNotTranslateLanguageOther, languageName2);
             }
             actionBarMenuSubItem6.setTextAndIcon(formatString, R.drawable.msg_block2);
             actionBarMenuSubItem6.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TranslateButton$$ExternalSyntheticLambda4
@@ -339,11 +341,11 @@ public class TranslateButton extends FrameLayout {
         if (dialogTranslateTo == null) {
             dialogTranslateTo = "en";
         }
-        String string = LocaleController.getString("TranslateLanguage" + dialogTranslateTo.toUpperCase());
-        if (string == null || string.startsWith("LOC_ERR")) {
-            formatString = LocaleController.formatString("TranslateToButtonOther", R.string.TranslateToButtonOther, TranslateAlert2.languageName(dialogTranslateTo));
+        String languageName = TranslateAlert2.languageName(dialogTranslateTo, this.accusative);
+        if (this.accusative[0]) {
+            formatString = LocaleController.formatString("TranslateToButton", R.string.TranslateToButton, languageName);
         } else {
-            formatString = LocaleController.formatString("TranslateToButton", R.string.TranslateToButton, string);
+            formatString = LocaleController.formatString("TranslateToButtonOther", R.string.TranslateToButtonOther, languageName);
         }
         this.textView.setText(TextUtils.concat(this.translateIcon, " ", formatString));
     }

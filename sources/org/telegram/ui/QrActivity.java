@@ -567,7 +567,11 @@ public class QrActivity extends BaseFragment {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$5() {
         this.homeTheme.loadPreviewColors(this.currentAccount);
-        this.fragmentView.postDelayed(new Runnable() { // from class: org.telegram.ui.QrActivity$$ExternalSyntheticLambda5
+        View view = this.fragmentView;
+        if (view == null) {
+            return;
+        }
+        view.postDelayed(new Runnable() { // from class: org.telegram.ui.QrActivity$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 QrActivity.this.lambda$createView$4();

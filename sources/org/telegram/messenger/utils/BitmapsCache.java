@@ -34,6 +34,7 @@ import org.telegram.ui.Components.RLottieDrawable;
 public class BitmapsCache {
     private static ThreadPoolExecutor bitmapCompressExecutor;
     static volatile boolean cleanupScheduled;
+    private static boolean mkdir;
     private static CacheGeneratorSharedTools sharedTools;
     private static int taskCounter;
     byte[] bufferTmp;
@@ -97,7 +98,7 @@ public class BitmapsCache {
     public void cancelCreate() {
     }
 
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:50:0x0113 -> B:66:0x012b). Please submit an issue!!! */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:53:0x011c -> B:72:0x0134). Please submit an issue!!! */
     public BitmapsCache(File file, Cacheable cacheable, CacheOptions cacheOptions, int i, int i2, boolean z) {
         RandomAccessFile randomAccessFile;
         Throwable th;
@@ -111,6 +112,11 @@ public class BitmapsCache {
             bitmapCompressExecutor = new ThreadPoolExecutor(i3, i3, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue());
         }
         File file2 = new File(FileLoader.checkDirectory(4), "acache");
+        boolean z2 = true;
+        if (!mkdir) {
+            file2.mkdir();
+            mkdir = true;
+        }
         StringBuilder sb = new StringBuilder();
         sb.append(this.fileName);
         sb.append("_");
@@ -121,60 +127,60 @@ public class BitmapsCache {
         sb.append(".pcache2");
         File file3 = new File(file2, sb.toString());
         this.file = file3;
-        this.useSharedBuffers = i < AndroidUtilities.dp(60.0f) && i2 < AndroidUtilities.dp(60.0f);
+        this.useSharedBuffers = (i >= AndroidUtilities.dp(60.0f) || i2 >= AndroidUtilities.dp(60.0f)) ? false : false;
         if (SharedConfig.getDevicePerformanceClass() >= 2) {
             this.fileExist = file3.exists();
             if (this.fileExist) {
                 try {
                     try {
                         randomAccessFile = new RandomAccessFile(file3, "r");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        this.cacheCreated = randomAccessFile.readBoolean();
-                        if (this.cacheCreated && this.frameOffsets.isEmpty()) {
-                            randomAccessFile.seek(randomAccessFile.readInt());
-                            int readInt = randomAccessFile.readInt();
-                            fillFrames(randomAccessFile, readInt > 10000 ? 0 : readInt);
-                            if (this.frameOffsets.size() == 0) {
-                                this.cacheCreated = false;
-                                this.fileExist = false;
-                                file3.delete();
-                            } else {
-                                if (this.cachedFile != randomAccessFile) {
-                                    closeCachedFile();
-                                }
-                                this.cachedFile = randomAccessFile;
-                            }
-                        }
-                        if (this.cachedFile != randomAccessFile) {
-                            randomAccessFile.close();
-                        }
-                    } catch (Throwable th2) {
-                        th = th2;
                         try {
-                            th.printStackTrace();
-                            this.file.delete();
-                            this.fileExist = false;
-                            if (this.cachedFile != randomAccessFile && randomAccessFile != null) {
+                            this.cacheCreated = randomAccessFile.readBoolean();
+                            if (this.cacheCreated && this.frameOffsets.isEmpty()) {
+                                randomAccessFile.seek(randomAccessFile.readInt());
+                                int readInt = randomAccessFile.readInt();
+                                fillFrames(randomAccessFile, readInt > 10000 ? 0 : readInt);
+                                if (this.frameOffsets.size() == 0) {
+                                    this.cacheCreated = false;
+                                    this.fileExist = false;
+                                    file3.delete();
+                                } else {
+                                    if (this.cachedFile != randomAccessFile) {
+                                        closeCachedFile();
+                                    }
+                                    this.cachedFile = randomAccessFile;
+                                }
+                            }
+                            if (this.cachedFile != randomAccessFile) {
                                 randomAccessFile.close();
                             }
-                            return;
-                        } catch (Throwable th3) {
+                        } catch (Throwable th2) {
+                            th = th2;
                             try {
+                                th.printStackTrace();
+                                this.file.delete();
+                                this.fileExist = false;
                                 if (this.cachedFile != randomAccessFile && randomAccessFile != null) {
                                     randomAccessFile.close();
                                 }
-                            } catch (IOException e2) {
-                                e2.printStackTrace();
+                                return;
+                            } catch (Throwable th3) {
+                                try {
+                                    if (this.cachedFile != randomAccessFile && randomAccessFile != null) {
+                                        randomAccessFile.close();
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                throw th3;
                             }
-                            throw th3;
                         }
+                    } catch (Throwable th4) {
+                        randomAccessFile = null;
+                        th = th4;
                     }
-                } catch (Throwable th4) {
-                    randomAccessFile = null;
-                    th = th4;
+                } catch (IOException e2) {
+                    e2.printStackTrace();
                 }
                 return;
             }

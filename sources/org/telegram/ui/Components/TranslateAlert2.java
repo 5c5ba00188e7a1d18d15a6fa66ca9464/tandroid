@@ -1021,18 +1021,29 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
     }
 
     public static String languageName(String str) {
+        return languageName(str, null);
+    }
+
+    public static String languageName(String str, boolean[] zArr) {
         Locale locale;
         if (str == null || str.equals(TranslateController.UNKNOWN_LANGUAGE) || str.equals("auto")) {
             return null;
         }
-        LocaleController.LocaleInfo currentLocaleInfo = LocaleController.getInstance().getCurrentLocaleInfo();
         boolean z = false;
+        String str2 = str.split("_")[0];
+        if ("nb".equals(str2)) {
+            str2 = "no";
+        }
+        if (zArr != null) {
+            String string = LocaleController.getString("TranslateLanguage" + str2.toUpperCase());
+            boolean z2 = (string == null || string.startsWith("LOC_ERR")) ? false : true;
+            zArr[0] = z2;
+            if (z2) {
+                return string;
+            }
+        }
         try {
             Locale[] availableLocales = Locale.getAvailableLocales();
-            String str2 = str.split("_")[0];
-            if ("nb".equals(str2)) {
-                str2 = "no";
-            }
             int i = 0;
             while (true) {
                 if (i >= availableLocales.length) {
@@ -1053,6 +1064,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
         if ("no".equals(str)) {
             str = "nb";
         }
+        LocaleController.LocaleInfo currentLocaleInfo = LocaleController.getInstance().getCurrentLocaleInfo();
         LocaleController.LocaleInfo builtinLanguageByPlural = LocaleController.getInstance().getBuiltinLanguageByPlural(str);
         if (builtinLanguageByPlural == null) {
             return null;
