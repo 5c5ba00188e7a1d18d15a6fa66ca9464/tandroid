@@ -32,7 +32,7 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
     private boolean reset;
     public final int threadIndex;
     int width;
-    public int currentLayerNum = 1;
+    private int currentLayerNum = 1;
     private Paint paint = new Paint(1);
     private final Runnable bitmapCreateTask = new Runnable() { // from class: org.telegram.ui.Components.DrawingInBackgroundThreadDrawable.1
         /* JADX WARN: Code restructure failed: missing block: B:7:0x001b, code lost:
@@ -293,6 +293,15 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
                 return dispatchQueue2;
             }
             return dispatchQueue;
+        }
+    }
+
+    public void setLayerNum(int i) {
+        this.currentLayerNum = i;
+        if (this.attachedToWindow) {
+            int currentHeavyOperationFlags = NotificationCenter.getGlobalInstance().getCurrentHeavyOperationFlags();
+            this.currentOpenedLayerFlags = currentHeavyOperationFlags;
+            this.currentOpenedLayerFlags = currentHeavyOperationFlags & (this.currentLayerNum ^ (-1));
         }
     }
 }

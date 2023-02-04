@@ -1931,7 +1931,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 });
                 this.currentAnimation.start();
             } else {
-                removeFragmentFromStackInternal(baseFragment2);
+                removeFragmentFromStackInternal(baseFragment2, false);
                 setVisibility(8);
                 View view3 = this.backgroundView;
                 if (view3 != null) {
@@ -1971,7 +1971,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$closeLastFragment$5(BaseFragment baseFragment) {
-        removeFragmentFromStackInternal(baseFragment);
+        removeFragmentFromStackInternal(baseFragment, false);
         setVisibility(8);
         View view = this.backgroundView;
         if (view != null) {
@@ -2043,12 +2043,14 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         bringToFront(this.fragmentsStack.size() - 1);
     }
 
-    private void removeFragmentFromStackInternal(BaseFragment baseFragment) {
+    private void removeFragmentFromStackInternal(BaseFragment baseFragment, boolean z) {
         if (this.fragmentsStack.contains(baseFragment)) {
-            List<BaseFragment> list = this.fragmentsStack;
-            if (list.get(list.size() - 1) == baseFragment) {
-                baseFragment.finishFragment();
-                return;
+            if (z) {
+                List<BaseFragment> list = this.fragmentsStack;
+                if (list.get(list.size() - 1) == baseFragment) {
+                    baseFragment.finishFragment();
+                    return;
+                }
             }
             baseFragment.onPause();
             baseFragment.onFragmentDestroy();
@@ -2069,13 +2071,13 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         if (this.delegate != null && this.fragmentsStack.size() == 1 && AndroidUtilities.isTablet()) {
             this.delegate.needCloseLastFragment(this);
         }
-        removeFragmentFromStackInternal(baseFragment);
+        removeFragmentFromStackInternal(baseFragment, true);
     }
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout
     public void removeAllFragments() {
         while (this.fragmentsStack.size() > 0) {
-            removeFragmentFromStackInternal(this.fragmentsStack.get(0));
+            removeFragmentFromStackInternal(this.fragmentsStack.get(0), false);
         }
     }
 
@@ -2430,6 +2432,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         if (runnable != null) {
             runnable.run();
         }
+        checkNeedRebuild();
         checkNeedRebuild();
     }
 

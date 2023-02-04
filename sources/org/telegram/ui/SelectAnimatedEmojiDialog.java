@@ -4292,6 +4292,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                         drawingInBackgroundLine = arrayList3.remove(arrayList3.size() - 1);
                     } else {
                         drawingInBackgroundLine = new DrawingInBackgroundLine();
+                        drawingInBackgroundLine.setLayerNum(7);
                     }
                     drawingInBackgroundLine.position = childAdapterPosition;
                     drawingInBackgroundLine.onAttachToWindow();

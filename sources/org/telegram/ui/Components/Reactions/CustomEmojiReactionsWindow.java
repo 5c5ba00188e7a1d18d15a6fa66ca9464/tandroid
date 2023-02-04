@@ -904,10 +904,9 @@ public class CustomEmojiReactionsWindow {
                     CustomEmojiReactionsWindow.access$908(CustomEmojiReactionsWindow.this);
                 }
                 CustomEmojiReactionsWindow.this.selectAnimatedEmojiDialog.drawBigReaction(canvas, this);
-                if (CustomEmojiReactionsWindow.this.valueAnimator == null || !CustomEmojiReactionsWindow.this.valueAnimator.isRunning()) {
-                    return;
+                if (CustomEmojiReactionsWindow.this.valueAnimator != null) {
+                    invalidate();
                 }
-                invalidate();
             }
         }
     }

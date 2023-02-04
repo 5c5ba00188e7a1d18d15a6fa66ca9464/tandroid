@@ -475,7 +475,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                                     drawingInBackgroundLine = arrayList4.remove(arrayList4.size() - 1);
                                 } else {
                                     drawingInBackgroundLine = new DrawingInBackgroundLine();
-                                    drawingInBackgroundLine.currentLayerNum = 7;
+                                    drawingInBackgroundLine.setLayerNum(7);
                                 }
                                 drawingInBackgroundLine.position = childAdapterPosition;
                                 drawingInBackgroundLine.onAttachToWindow();
