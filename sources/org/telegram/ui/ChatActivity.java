@@ -30360,7 +30360,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-    public boolean didSelectDialogs(DialogsActivity dialogsActivity, ArrayList<MessagesStorage.TopicKey> arrayList, CharSequence charSequence, boolean z) {
+    public boolean didSelectDialogs(DialogsActivity dialogsActivity, ArrayList<MessagesStorage.TopicKey> arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
         if (this.forwardingMessage == null && this.selectedMessagesIds[0].size() == 0 && this.selectedMessagesIds[1].size() == 0) {
             return false;
         }

@@ -1891,12 +1891,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Removed duplicated region for block: B:1178:0x22a1  */
     /* JADX WARN: Removed duplicated region for block: B:1181:0x22af  */
     /* JADX WARN: Removed duplicated region for block: B:1182:0x22c1  */
-    /* JADX WARN: Removed duplicated region for block: B:1244:0x24fe A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:1247:0x2506  */
-    /* JADX WARN: Removed duplicated region for block: B:1258:0x2555  */
-    /* JADX WARN: Removed duplicated region for block: B:1269:0x25a2  */
-    /* JADX WARN: Removed duplicated region for block: B:1271:0x25ae  */
-    /* JADX WARN: Removed duplicated region for block: B:1273:0x25b6  */
+    /* JADX WARN: Removed duplicated region for block: B:1244:0x2506 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:1247:0x250e  */
+    /* JADX WARN: Removed duplicated region for block: B:1258:0x255d  */
+    /* JADX WARN: Removed duplicated region for block: B:1269:0x25aa  */
+    /* JADX WARN: Removed duplicated region for block: B:1271:0x25b6  */
+    /* JADX WARN: Removed duplicated region for block: B:1273:0x25be  */
     /* JADX WARN: Removed duplicated region for block: B:1302:0x1334 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:1336:0x1c50 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:164:0x0319  */
@@ -1929,21 +1929,21 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r12v188 */
     /* JADX WARN: Type inference failed for: r12v21 */
     /* JADX WARN: Type inference failed for: r12v9, types: [boolean, int] */
-    /* JADX WARN: Type inference failed for: r1v192, types: [java.util.HashMap] */
-    /* JADX WARN: Type inference failed for: r1v215, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
+    /* JADX WARN: Type inference failed for: r1v193, types: [java.util.HashMap] */
+    /* JADX WARN: Type inference failed for: r1v216, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
     /* JADX WARN: Type inference failed for: r1v24, types: [org.telegram.ui.ActionBar.DrawerLayoutContainer] */
-    /* JADX WARN: Type inference failed for: r1v269, types: [java.util.HashMap] */
     /* JADX WARN: Type inference failed for: r1v27, types: [org.telegram.ui.ActionBar.INavigationLayout] */
+    /* JADX WARN: Type inference failed for: r1v270, types: [java.util.HashMap] */
     /* JADX WARN: Type inference failed for: r1v29, types: [org.telegram.ui.ActionBar.INavigationLayout] */
     /* JADX WARN: Type inference failed for: r1v30, types: [org.telegram.ui.ActionBar.INavigationLayout] */
     /* JADX WARN: Type inference failed for: r1v38, types: [org.telegram.ui.ActionBar.DrawerLayoutContainer] */
-    /* JADX WARN: Type inference failed for: r1v399, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
-    /* JADX WARN: Type inference failed for: r2v88, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
+    /* JADX WARN: Type inference failed for: r1v400, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
+    /* JADX WARN: Type inference failed for: r2v89, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
     /* JADX WARN: Type inference failed for: r3v1 */
     /* JADX WARN: Type inference failed for: r3v2, types: [boolean, int] */
-    /* JADX WARN: Type inference failed for: r3v22 */
-    /* JADX WARN: Type inference failed for: r3v25 */
+    /* JADX WARN: Type inference failed for: r3v23 */
     /* JADX WARN: Type inference failed for: r3v26 */
+    /* JADX WARN: Type inference failed for: r3v27 */
     /* JADX WARN: Type inference failed for: r43v36 */
     /* JADX WARN: Type inference failed for: r43v37 */
     /* JADX WARN: Type inference failed for: r43v41 */
@@ -6742,7 +6742,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             } else {
                                                 ArrayList<MessagesStorage.TopicKey> arrayList7 = new ArrayList<>();
                                                 arrayList7.add(MessagesStorage.TopicKey.of(j18, 0));
-                                                launchActivity.didSelectDialogs(null, arrayList7, null, false);
+                                                didSelectDialogs(null, arrayList7, null, false, null);
                                             }
                                         }
                                     }
@@ -7619,9 +7619,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 DialogsActivity dialogsActivity = new DialogsActivity(bundle);
                                 dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda116
                                     @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                                    public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList4, CharSequence charSequence, boolean z2) {
+                                    public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList4, CharSequence charSequence, boolean z2, TopicsFragment topicsFragment) {
                                         boolean lambda$runLinkRequest$63;
-                                        lambda$runLinkRequest$63 = LaunchActivity.this.lambda$runLinkRequest$63(z, i4, str9, dialogsActivity2, arrayList4, charSequence, z2);
+                                        lambda$runLinkRequest$63 = LaunchActivity.this.lambda$runLinkRequest$63(z, i4, str9, dialogsActivity2, arrayList4, charSequence, z2, topicsFragment);
                                         return lambda$runLinkRequest$63;
                                     }
                                 });
@@ -8018,9 +8018,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 DialogsActivity dialogsActivity = new DialogsActivity(bundle);
                 dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda114
                     @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                    public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList3, CharSequence charSequence, boolean z3) {
+                    public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList3, CharSequence charSequence, boolean z3, TopicsFragment topicsFragment) {
                         boolean lambda$runLinkRequest$49;
-                        lambda$runLinkRequest$49 = LaunchActivity.this.lambda$runLinkRequest$49(str, i, tLRPC$TL_contacts_resolvedPeer, dialogsActivity2, arrayList3, charSequence, z3);
+                        lambda$runLinkRequest$49 = LaunchActivity.this.lambda$runLinkRequest$49(str, i, tLRPC$TL_contacts_resolvedPeer, dialogsActivity2, arrayList3, charSequence, z3, topicsFragment);
                         return lambda$runLinkRequest$49;
                     }
                 });
@@ -8071,9 +8071,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 final String str14 = str13;
                 dialogsActivity2.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda113
                     @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                    public final boolean didSelectDialogs(DialogsActivity dialogsActivity3, ArrayList arrayList4, CharSequence charSequence, boolean z3) {
+                    public final boolean didSelectDialogs(DialogsActivity dialogsActivity3, ArrayList arrayList4, CharSequence charSequence, boolean z3, TopicsFragment topicsFragment) {
                         boolean lambda$runLinkRequest$54;
-                        lambda$runLinkRequest$54 = LaunchActivity.this.lambda$runLinkRequest$54(i, tLRPC$User2, str9, str14, dialogsActivity2, dialogsActivity3, arrayList4, charSequence, z3);
+                        lambda$runLinkRequest$54 = LaunchActivity.this.lambda$runLinkRequest$54(i, tLRPC$User2, str9, str14, dialogsActivity2, dialogsActivity3, arrayList4, charSequence, z3, topicsFragment);
                         return lambda$runLinkRequest$54;
                     }
                 });
@@ -8226,9 +8226,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 DialogsActivity dialogsActivity2 = new DialogsActivity(bundle);
                 dialogsActivity2.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda115
                     @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                    public final boolean didSelectDialogs(DialogsActivity dialogsActivity3, ArrayList arrayList3, CharSequence charSequence, boolean z) {
+                    public final boolean didSelectDialogs(DialogsActivity dialogsActivity3, ArrayList arrayList3, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
                         boolean lambda$runLinkRequest$42;
-                        lambda$runLinkRequest$42 = LaunchActivity.this.lambda$runLinkRequest$42(tLRPC$User, str2, i, dialogsActivity3, arrayList3, charSequence, z);
+                        lambda$runLinkRequest$42 = LaunchActivity.this.lambda$runLinkRequest$42(tLRPC$User, str2, i, dialogsActivity3, arrayList3, charSequence, z, topicsFragment);
                         return lambda$runLinkRequest$42;
                     }
                 });
@@ -8286,7 +8286,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$runLinkRequest$42(TLRPC$User tLRPC$User, String str, int i, DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z) {
+    public /* synthetic */ boolean lambda$runLinkRequest$42(TLRPC$User tLRPC$User, String str, int i, DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
         long j = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
         Bundle bundle = new Bundle();
         bundle.putBoolean("scrollToTopOnResume", true);
@@ -8352,7 +8352,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$runLinkRequest$49(String str, int i, TLRPC$TL_contacts_resolvedPeer tLRPC$TL_contacts_resolvedPeer, DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z) {
+    public /* synthetic */ boolean lambda$runLinkRequest$49(String str, int i, TLRPC$TL_contacts_resolvedPeer tLRPC$TL_contacts_resolvedPeer, DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
         long j = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
         TLRPC$TL_inputMediaGame tLRPC$TL_inputMediaGame = new TLRPC$TL_inputMediaGame();
         TLRPC$TL_inputGameShortName tLRPC$TL_inputGameShortName = new TLRPC$TL_inputGameShortName();
@@ -8377,7 +8377,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$runLinkRequest$54(final int i, final TLRPC$User tLRPC$User, final String str, final String str2, final DialogsActivity dialogsActivity, DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z) {
+    public /* synthetic */ boolean lambda$runLinkRequest$54(final int i, final TLRPC$User tLRPC$User, final String str, final String str2, final DialogsActivity dialogsActivity, DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
         TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights;
         final long j = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
         final TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j));
@@ -8961,7 +8961,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$runLinkRequest$63(boolean z, int i, String str, DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z2) {
+    public /* synthetic */ boolean lambda$runLinkRequest$63(boolean z, int i, String str, DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z2, TopicsFragment topicsFragment) {
         long j = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
         Bundle bundle = new Bundle();
         bundle.putBoolean("scrollToTopOnResume", true);
@@ -9846,19 +9846,22 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-    public boolean didSelectDialogs(final DialogsActivity dialogsActivity, final ArrayList<MessagesStorage.TopicKey> arrayList, final CharSequence charSequence, final boolean z) {
+    public boolean didSelectDialogs(final DialogsActivity dialogsActivity, final ArrayList<MessagesStorage.TopicKey> arrayList, final CharSequence charSequence, final boolean z, TopicsFragment topicsFragment) {
         ChatActivity chatActivity;
-        long j;
-        ChatActivity chatActivity2;
         boolean z2;
+        ChatActivity chatActivity2;
+        MessageObject messageObject;
+        int i;
+        long j;
+        ChatActivity chatActivity3;
         boolean z3;
         boolean z4;
         boolean z5;
+        boolean z6;
         ArrayList<SendMessagesHelper.SendingMediaInfo> arrayList2;
         TLRPC$TL_forumTopic findTopic;
         final int currentAccount = dialogsActivity != null ? dialogsActivity.getCurrentAccount() : this.currentAccount;
         final Uri uri = this.exportingChatUri;
-        boolean z6 = false;
         if (uri != null) {
             final ArrayList arrayList3 = this.documentsUrisArray != null ? new ArrayList(this.documentsUrisArray) : null;
             final AlertDialog alertDialog = new AlertDialog(this, 3);
@@ -9891,9 +9894,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 if (!MessagesController.getInstance(currentAccount).checkCanOpenChat(bundle, dialogsActivity)) {
                     return false;
                 }
-                ChatActivity chatActivity3 = new ChatActivity(bundle);
-                ForumUtilities.applyTopic(chatActivity3, arrayList.get(0));
-                chatActivity = chatActivity3;
+                ChatActivity chatActivity4 = new ChatActivity(bundle);
+                ForumUtilities.applyTopic(chatActivity4, arrayList.get(0));
+                chatActivity = chatActivity4;
             } else {
                 chatActivity = null;
             }
@@ -9917,59 +9920,76 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             if (this.videoPath == null && this.photoPathsArray == null && this.documentsPathsArray == null && this.documentsUrisArray == null && this.sendingText != null) {
                 size++;
             }
-            for (int i = 0; i < arrayList.size(); i++) {
-                if (AlertsCreator.checkSlowMode(this, this.currentAccount, arrayList.get(i).dialogId, size > 1)) {
+            for (int i2 = 0; i2 < arrayList.size(); i2++) {
+                if (AlertsCreator.checkSlowMode(this, this.currentAccount, arrayList.get(i2).dialogId, size > 1)) {
                     return false;
                 }
+            }
+            if (topicsFragment != null) {
+                topicsFragment.removeSelfFromStack();
             }
             ArrayList<TLRPC$User> arrayList8 = this.contactsToSend;
             if (arrayList8 != null && arrayList8.size() == 1 && !mainFragmentsStack.isEmpty()) {
                 ArrayList<BaseFragment> arrayList9 = mainFragmentsStack;
                 PhonebookShareAlert phonebookShareAlert = new PhonebookShareAlert(arrayList9.get(arrayList9.size() - 1), null, null, this.contactsToSendUri, null, null, null);
-                final ChatActivity chatActivity4 = chatActivity;
+                final ChatActivity chatActivity5 = chatActivity;
                 phonebookShareAlert.setDelegate(new ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda107
                     @Override // org.telegram.ui.Components.ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate
-                    public final void didSelectContact(TLRPC$User tLRPC$User, boolean z8, int i2) {
-                        LaunchActivity.this.lambda$didSelectDialogs$94(chatActivity4, arrayList, currentAccount, charSequence, z7, tLRPC$User, z8, i2);
+                    public final void didSelectContact(TLRPC$User tLRPC$User, boolean z8, int i3) {
+                        LaunchActivity.this.lambda$didSelectDialogs$94(chatActivity5, arrayList, currentAccount, charSequence, z7, tLRPC$User, z8, i3);
                     }
                 });
                 ArrayList<BaseFragment> arrayList10 = mainFragmentsStack;
                 arrayList10.get(arrayList10.size() - 1).showDialog(phonebookShareAlert);
+                chatActivity2 = chatActivity;
+                z2 = true;
             } else {
-                int i2 = 0;
+                int i3 = 0;
+                z2 = false;
                 String str = null;
-                while (i2 < arrayList.size()) {
-                    long j3 = arrayList.get(i2).dialogId;
-                    int i3 = arrayList.get(i2).topicId;
+                while (i3 < arrayList.size()) {
+                    long j3 = arrayList.get(i3).dialogId;
+                    int i4 = arrayList.get(i3).topicId;
                     AccountInstance accountInstance = AccountInstance.getInstance(UserConfig.selectedAccount);
-                    MessageObject messageObject = (i3 == 0 || (findTopic = accountInstance.getMessagesController().getTopicsController().findTopic(-j3, i3)) == null || findTopic.topicStartMessage == null) ? null : new MessageObject(accountInstance.getCurrentAccount(), findTopic.topicStartMessage, z6, z6);
+                    if (i4 == 0 || (findTopic = accountInstance.getMessagesController().getTopicsController().findTopic(-j3, i4)) == null || findTopic.topicStartMessage == null) {
+                        messageObject = null;
+                    } else {
+                        messageObject = new MessageObject(accountInstance.getCurrentAccount(), findTopic.topicStartMessage, false, false);
+                        messageObject.isTopicMainMessage = true;
+                    }
                     if (chatActivity != null) {
+                        i = i4;
                         j = j3;
-                        chatActivity2 = chatActivity;
-                        this.actionBarLayout.presentFragment(chatActivity, dialogsActivity != null, dialogsActivity == null || this.videoPath != null || ((arrayList2 = this.photoPathsArray) != null && arrayList2.size() > 0), true, false);
+                        boolean z8 = dialogsActivity == null || this.videoPath != null || ((arrayList2 = this.photoPathsArray) != null && arrayList2.size() > 0);
+                        ChatActivity chatActivity6 = chatActivity;
+                        this.actionBarLayout.presentFragment(chatActivity, dialogsActivity != null, z8, true, false);
+                        boolean z9 = dialogsActivity != null;
                         String str2 = this.videoPath;
                         if (str2 != null) {
-                            chatActivity2.openVideoEditor(str2, this.sendingText);
+                            chatActivity6.openVideoEditor(str2, this.sendingText);
                             this.sendingText = null;
-                            z4 = false;
-                            z5 = true;
+                            z5 = false;
+                            z6 = true;
                         } else {
                             ArrayList<SendMessagesHelper.SendingMediaInfo> arrayList11 = this.photoPathsArray;
                             if (arrayList11 == null || arrayList11.size() <= 0) {
-                                z4 = false;
+                                z5 = false;
                             } else {
-                                z4 = chatActivity2.openPhotosEditor(this.photoPathsArray, (charSequence == null || charSequence.length() == 0) ? this.sendingText : charSequence);
-                                if (z4) {
+                                z5 = chatActivity6.openPhotosEditor(this.photoPathsArray, (charSequence == null || charSequence.length() == 0) ? this.sendingText : charSequence);
+                                if (z5) {
                                     this.sendingText = null;
                                 }
                             }
-                            z5 = false;
+                            z6 = false;
                         }
-                        z2 = z4;
+                        chatActivity3 = chatActivity6;
+                        z2 = z9;
                         z3 = z5;
+                        z4 = z6;
                     } else {
+                        i = i4;
                         j = j3;
-                        chatActivity2 = chatActivity;
+                        chatActivity3 = chatActivity;
                         if (this.videoPath != null) {
                             String str3 = this.sendingText;
                             if (str3 != null && str3.length() <= 1024) {
@@ -9980,10 +10000,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             arrayList12.add(this.videoPath);
                             SendMessagesHelper.prepareSendingDocuments(accountInstance, arrayList12, arrayList12, null, str, null, j, messageObject, messageObject, null, null, z7, 0);
                         }
-                        z2 = false;
                         z3 = false;
+                        z4 = false;
                     }
-                    if (this.photoPathsArray != null && !z2) {
+                    if (this.photoPathsArray != null && !z3) {
                         String str4 = this.sendingText;
                         if (str4 != null && str4.length() <= 1024 && this.photoPathsArray.size() == 1) {
                             this.photoPathsArray.get(0).caption = this.sendingText;
@@ -10002,28 +10022,27 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 this.sendingText = null;
                             }
                         }
-                        SendMessagesHelper.prepareSendingDocuments(accountInstance, this.documentsPathsArray, this.documentsOriginalPathsArray, this.documentsUrisArray, str, this.documentsMimeType, j, null, null, null, null, z7, 0);
+                        SendMessagesHelper.prepareSendingDocuments(accountInstance, this.documentsPathsArray, this.documentsOriginalPathsArray, this.documentsUrisArray, str, this.documentsMimeType, j, messageObject, messageObject, null, null, z7, 0);
                     }
                     String str6 = this.sendingText;
                     if (str6 != null) {
-                        SendMessagesHelper.prepareSendingText(accountInstance, str6, j, i3, z7, 0);
+                        SendMessagesHelper.prepareSendingText(accountInstance, str6, j, i, z7, 0);
                     }
                     ArrayList<TLRPC$User> arrayList15 = this.contactsToSend;
                     if (arrayList15 != null && !arrayList15.isEmpty()) {
-                        for (int i4 = 0; i4 < this.contactsToSend.size(); i4++) {
-                            SendMessagesHelper.getInstance(currentAccount).sendMessage(this.contactsToSend.get(i4), j, messageObject, messageObject, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, z7, 0);
+                        for (int i5 = 0; i5 < this.contactsToSend.size(); i5++) {
+                            SendMessagesHelper.getInstance(currentAccount).sendMessage(this.contactsToSend.get(i5), j, messageObject, messageObject, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, z7, 0);
                         }
                     }
-                    if (!TextUtils.isEmpty(charSequence) && !z3 && !z2) {
-                        SendMessagesHelper.prepareSendingText(accountInstance, charSequence.toString(), j, i3, z7, 0);
+                    if (!TextUtils.isEmpty(charSequence) && !z4 && !z3) {
+                        SendMessagesHelper.prepareSendingText(accountInstance, charSequence.toString(), j, i, z7, 0);
                     }
-                    i2++;
-                    chatActivity = chatActivity2;
-                    z6 = false;
+                    i3++;
+                    chatActivity = chatActivity3;
                 }
+                chatActivity2 = chatActivity;
             }
-            ChatActivity chatActivity5 = chatActivity;
-            if (dialogsActivity != null && chatActivity5 == null) {
+            if (dialogsActivity != null && chatActivity2 == null && !z2) {
                 dialogsActivity.finishFragment();
             }
         }
@@ -10071,13 +10090,21 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$didSelectDialogs$94(ChatActivity chatActivity, ArrayList arrayList, int i, CharSequence charSequence, boolean z, TLRPC$User tLRPC$User, boolean z2, int i2) {
+        TLRPC$TL_forumTopic findTopic;
         if (chatActivity != null) {
             this.actionBarLayout.presentFragment(chatActivity, true, false, true, false);
         }
         AccountInstance accountInstance = AccountInstance.getInstance(UserConfig.selectedAccount);
         for (int i3 = 0; i3 < arrayList.size(); i3++) {
             long j = ((MessagesStorage.TopicKey) arrayList.get(i3)).dialogId;
-            SendMessagesHelper.getInstance(i).sendMessage(tLRPC$User, j, (MessageObject) null, (MessageObject) null, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, z2, i2);
+            int i4 = ((MessagesStorage.TopicKey) arrayList.get(i3)).topicId;
+            MessageObject messageObject = null;
+            if (i4 != 0 && (findTopic = accountInstance.getMessagesController().getTopicsController().findTopic(-j, i4)) != null && findTopic.topicStartMessage != null) {
+                messageObject = new MessageObject(accountInstance.getCurrentAccount(), findTopic.topicStartMessage, false, false);
+                messageObject.isTopicMainMessage = true;
+            }
+            MessageObject messageObject2 = messageObject;
+            SendMessagesHelper.getInstance(i).sendMessage(tLRPC$User, j, messageObject2, messageObject2, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, z2, i2);
             if (!TextUtils.isEmpty(charSequence)) {
                 SendMessagesHelper.prepareSendingText(accountInstance, charSequence.toString(), j, z, 0);
             }

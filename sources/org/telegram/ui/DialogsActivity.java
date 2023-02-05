@@ -433,7 +433,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     /* loaded from: classes3.dex */
     public interface DialogsActivityDelegate {
-        boolean didSelectDialogs(DialogsActivity dialogsActivity, ArrayList<MessagesStorage.TopicKey> arrayList, CharSequence charSequence, boolean z);
+        boolean didSelectDialogs(DialogsActivity dialogsActivity, ArrayList<MessagesStorage.TopicKey> arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -3533,7 +3533,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     for (int i19 = 0; i19 < DialogsActivity.this.selectedDialogs.size(); i19++) {
                         arrayList.add(MessagesStorage.TopicKey.of(((Long) DialogsActivity.this.selectedDialogs.get(i19)).longValue(), 0));
                     }
-                    DialogsActivity.this.delegate.didSelectDialogs(DialogsActivity.this, arrayList, charSequence, false);
+                    DialogsActivity.this.delegate.didSelectDialogs(DialogsActivity.this, arrayList, charSequence, false, null);
                 }
             });
             FrameLayout frameLayout4 = new FrameLayout(context) { // from class: org.telegram.ui.DialogsActivity.24
@@ -5007,7 +5007,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     if (DialogsActivity.this.closeFragment) {
                         DialogsActivity.this.removeSelfFromStack();
                     }
-                    dialogsActivityDelegate.didSelectDialogs(DialogsActivity.this, arrayList, null, true);
+                    dialogsActivityDelegate.didSelectDialogs(DialogsActivity.this, arrayList, null, true, null);
                 }
             });
             presentFragment(groupCreateFinalActivity);
@@ -5207,7 +5207,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             for (int i = 0; i < this.selectedDialogs.size(); i++) {
                 arrayList.add(MessagesStorage.TopicKey.of(this.selectedDialogs.get(i).longValue(), 0));
             }
-            this.delegate.didSelectDialogs(this, arrayList, null, false);
+            this.delegate.didSelectDialogs(this, arrayList, null, false, null);
         } else if (this.floatingButton.getVisibility() == 0) {
             Bundle bundle = new Bundle();
             bundle.putBoolean("destroyAfterSelect", true);
@@ -5236,7 +5236,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         for (int i = 0; i < this.selectedDialogs.size(); i++) {
             arrayList.add(MessagesStorage.TopicKey.of(this.selectedDialogs.get(i).longValue(), 0));
         }
-        this.delegate.didSelectDialogs(this, arrayList, this.commentView.getFieldText(), false);
+        this.delegate.didSelectDialogs(this, arrayList, this.commentView.getFieldText(), false, null);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -5653,7 +5653,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (dialogsActivityDelegate != null) {
             ArrayList<MessagesStorage.TopicKey> arrayList = new ArrayList<>();
             arrayList.add(MessagesStorage.TopicKey.of(-l.longValue(), 0));
-            dialogsActivityDelegate.didSelectDialogs(this, arrayList, null, false);
+            dialogsActivityDelegate.didSelectDialogs(this, arrayList, null, false, null);
         }
     }
 
@@ -5824,7 +5824,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (dialogsActivityDelegate != null) {
                 ArrayList<MessagesStorage.TopicKey> arrayList = new ArrayList<>();
                 arrayList.add(MessagesStorage.TopicKey.of(-j, 0));
-                dialogsActivityDelegate.didSelectDialogs(DialogsActivity.this, arrayList, null, false);
+                dialogsActivityDelegate.didSelectDialogs(DialogsActivity.this, arrayList, null, false, null);
             }
         }
     }
@@ -11187,7 +11187,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         return true;
     }
 
-    public void didSelectResult(final long j, final int i, boolean z, final boolean z2) {
+    public void didSelectResult(long j, int i, boolean z, boolean z2) {
+        didSelectResult(j, i, z, z2, null);
+    }
+
+    public void didSelectResult(final long j, final int i, boolean z, final boolean z2, final TopicsFragment topicsFragment) {
         final TLRPC$Chat tLRPC$Chat;
         final TLRPC$User tLRPC$User;
         String string;
@@ -11237,7 +11241,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     final Runnable runnable = new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda55
                         @Override // java.lang.Runnable
                         public final void run() {
-                            DialogsActivity.this.lambda$didSelectResult$76(j, i, z2);
+                            DialogsActivity.this.lambda$didSelectResult$76(j, i, z2, topicsFragment);
                         }
                     };
                     Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda56
@@ -11254,7 +11258,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 } else if (this.delegate != null) {
                     ArrayList<MessagesStorage.TopicKey> arrayList = new ArrayList<>();
                     arrayList.add(MessagesStorage.TopicKey.of(j, i));
-                    if (this.delegate.didSelectDialogs(this, arrayList, null, z2) && this.resetDelegate) {
+                    if (this.delegate.didSelectDialogs(this, arrayList, null, z2, topicsFragment) && this.resetDelegate) {
                         this.delegate = null;
                     }
                 } else {
@@ -11304,12 +11308,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         string2 = LocaleController.getString("Send", R.string.Send);
                     }
                 }
+                String str2 = string2;
                 builder.setTitle(string);
                 builder.setMessage(AndroidUtilities.replaceTags(formatStringSimple));
-                builder.setPositiveButton(string2, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda16
+                builder.setPositiveButton(str2, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda16
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i3) {
-                        DialogsActivity.this.lambda$didSelectResult$75(j, i, dialogInterface, i3);
+                        DialogsActivity.this.lambda$didSelectResult$75(j, i, topicsFragment, dialogInterface, i3);
                     }
                 });
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -11354,20 +11359,20 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         setDialogsListFrozen(true);
         ArrayList<MessagesStorage.TopicKey> arrayList = new ArrayList<>();
         arrayList.add(MessagesStorage.TopicKey.of(j, 0));
-        this.delegate.didSelectDialogs(this, arrayList, null, z);
+        this.delegate.didSelectDialogs(this, arrayList, null, z, null);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didSelectResult$75(long j, int i, DialogInterface dialogInterface, int i2) {
-        didSelectResult(j, i, false, false);
+    public /* synthetic */ void lambda$didSelectResult$75(long j, int i, TopicsFragment topicsFragment, DialogInterface dialogInterface, int i2) {
+        didSelectResult(j, i, false, false, topicsFragment);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didSelectResult$76(long j, int i, boolean z) {
+    public /* synthetic */ void lambda$didSelectResult$76(long j, int i, boolean z, TopicsFragment topicsFragment) {
         if (this.delegate != null) {
             ArrayList<MessagesStorage.TopicKey> arrayList = new ArrayList<>();
             arrayList.add(MessagesStorage.TopicKey.of(j, i));
-            this.delegate.didSelectDialogs(this, arrayList, null, z);
+            this.delegate.didSelectDialogs(this, arrayList, null, z, topicsFragment);
             if (this.resetDelegate) {
                 this.delegate = null;
                 return;
@@ -11550,7 +11555,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         for (int i = 0; i < this.selectedDialogs.size(); i++) {
             arrayList.add(MessagesStorage.TopicKey.of(this.selectedDialogs.get(i).longValue(), 0));
         }
-        this.delegate.didSelectDialogs(this, arrayList, this.commentView.getFieldText(), false);
+        this.delegate.didSelectDialogs(this, arrayList, this.commentView.getFieldText(), false, null);
     }
 
     /* JADX WARN: Removed duplicated region for block: B:111:0x087a A[SYNTHETIC] */

@@ -71,6 +71,10 @@ public abstract class BaseFragment {
         void finishFragment();
     }
 
+    public boolean allowFinishFragmentInsteadOfRemoveFromStack() {
+        return true;
+    }
+
     protected boolean allowPresentFragment() {
         return true;
     }

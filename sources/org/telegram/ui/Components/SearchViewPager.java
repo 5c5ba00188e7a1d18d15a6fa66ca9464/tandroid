@@ -60,6 +60,7 @@ import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.ViewPagerFixed;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.FilteredSearchView;
+import org.telegram.ui.TopicsFragment;
 /* loaded from: classes3.dex */
 public class SearchViewPager extends ViewPagerFixed implements FilteredSearchView.UiCallback {
     private ActionBarMenu actionMode;
@@ -523,9 +524,9 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             DialogsActivity dialogsActivity = new DialogsActivity(bundle);
             dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda4
                 @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList2, CharSequence charSequence, boolean z) {
+                public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList2, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
                     boolean lambda$onActionBarItemClick$3;
-                    lambda$onActionBarItemClick$3 = SearchViewPager.this.lambda$onActionBarItemClick$3(dialogsActivity2, arrayList2, charSequence, z);
+                    lambda$onActionBarItemClick$3 = SearchViewPager.this.lambda$onActionBarItemClick$3(dialogsActivity2, arrayList2, charSequence, z, topicsFragment);
                     return lambda$onActionBarItemClick$3;
                 }
             });
@@ -541,7 +542,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$onActionBarItemClick$3(DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z) {
+    public /* synthetic */ boolean lambda$onActionBarItemClick$3(DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
         ArrayList<MessageObject> arrayList2 = new ArrayList<>();
         for (FilteredSearchView.MessageHashId messageHashId : this.selectedFiles.keySet()) {
             arrayList2.add(this.selectedFiles.get(messageHashId));

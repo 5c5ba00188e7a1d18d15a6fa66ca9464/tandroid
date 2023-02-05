@@ -3038,9 +3038,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 final DialogsActivity dialogsActivity2 = new DialogsActivity(bundle5);
                 dialogsActivity2.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.ProfileActivity$5$$ExternalSyntheticLambda11
                     @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                    public final boolean didSelectDialogs(DialogsActivity dialogsActivity3, ArrayList arrayList, CharSequence charSequence, boolean z) {
+                    public final boolean didSelectDialogs(DialogsActivity dialogsActivity3, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
                         boolean lambda$onItemClick$6;
-                        lambda$onItemClick$6 = ProfileActivity.5.this.lambda$onItemClick$6(user4, dialogsActivity2, dialogsActivity3, arrayList, charSequence, z);
+                        lambda$onItemClick$6 = ProfileActivity.5.this.lambda$onItemClick$6(user4, dialogsActivity2, dialogsActivity3, arrayList, charSequence, z, topicsFragment);
                         return lambda$onItemClick$6;
                     }
                 });
@@ -3292,7 +3292,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ boolean lambda$onItemClick$6(final TLRPC$User tLRPC$User, final DialogsActivity dialogsActivity, final DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z) {
+        public /* synthetic */ boolean lambda$onItemClick$6(final TLRPC$User tLRPC$User, final DialogsActivity dialogsActivity, final DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
             TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights;
             final long j = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
             TLRPC$Chat chat = MessagesController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).getChat(Long.valueOf(-j));
@@ -9963,7 +9963,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-    public boolean didSelectDialogs(DialogsActivity dialogsActivity, ArrayList<MessagesStorage.TopicKey> arrayList, CharSequence charSequence, boolean z) {
+    public boolean didSelectDialogs(DialogsActivity dialogsActivity, ArrayList<MessagesStorage.TopicKey> arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
         long j = arrayList.get(0).dialogId;
         Bundle bundle = new Bundle();
         bundle.putBoolean("scrollToTopOnResume", true);

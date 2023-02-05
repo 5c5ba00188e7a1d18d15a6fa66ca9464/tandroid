@@ -98,6 +98,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SeekBarView;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.LaunchActivity;
+import org.telegram.ui.TopicsFragment;
 /* loaded from: classes3.dex */
 public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate, DownloadController.FileDownloadProgressListener {
     private int TAG;
@@ -1545,9 +1546,9 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             arrayList.add(playingMessageObject);
             dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.Components.AudioPlayerAlert$$ExternalSyntheticLambda13
                 @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList2, CharSequence charSequence, boolean z) {
+                public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList2, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
                     boolean lambda$onSubItemClick$10;
-                    lambda$onSubItemClick$10 = AudioPlayerAlert.this.lambda$onSubItemClick$10(arrayList, dialogsActivity2, arrayList2, charSequence, z);
+                    lambda$onSubItemClick$10 = AudioPlayerAlert.this.lambda$onSubItemClick$10(arrayList, dialogsActivity2, arrayList2, charSequence, z, topicsFragment);
                     return lambda$onSubItemClick$10;
                 }
             });
@@ -1640,7 +1641,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$onSubItemClick$10(ArrayList arrayList, DialogsActivity dialogsActivity, ArrayList arrayList2, CharSequence charSequence, boolean z) {
+    public /* synthetic */ boolean lambda$onSubItemClick$10(ArrayList arrayList, DialogsActivity dialogsActivity, ArrayList arrayList2, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
         long j;
         if (arrayList2.size() > 1 || ((MessagesStorage.TopicKey) arrayList2.get(0)).dialogId == UserConfig.getInstance(this.currentAccount).getClientUserId() || charSequence != null) {
             for (int i = 0; i < arrayList2.size(); i++) {

@@ -152,6 +152,7 @@ import org.telegram.ui.Components.SharedMediaLayout;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.ProfileActivity;
+import org.telegram.ui.TopicsFragment;
 /* loaded from: classes3.dex */
 public class SharedMediaLayout extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private ActionBar actionBar;
@@ -3731,9 +3732,9 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             DialogsActivity dialogsActivity = new DialogsActivity(bundle);
             dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.Components.SharedMediaLayout$$ExternalSyntheticLambda17
                 @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z) {
+                public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
                     boolean lambda$onActionBarItemClick$16;
-                    lambda$onActionBarItemClick$16 = SharedMediaLayout.this.lambda$onActionBarItemClick$16(dialogsActivity2, arrayList, charSequence, z);
+                    lambda$onActionBarItemClick$16 = SharedMediaLayout.this.lambda$onActionBarItemClick$16(dialogsActivity2, arrayList, charSequence, z, topicsFragment);
                     return lambda$onActionBarItemClick$16;
                 }
             });
@@ -3776,7 +3777,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$onActionBarItemClick$16(DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z) {
+    public /* synthetic */ boolean lambda$onActionBarItemClick$16(DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
         ArrayList<MessageObject> arrayList2 = new ArrayList<>();
         int i = 1;
         while (true) {

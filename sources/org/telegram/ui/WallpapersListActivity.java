@@ -511,9 +511,9 @@ public class WallpapersListActivity extends BaseFragment implements Notification
                     DialogsActivity dialogsActivity = new DialogsActivity(bundle);
                     dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.WallpapersListActivity$2$$ExternalSyntheticLambda3
                         @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                        public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z) {
+                        public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
                             boolean lambda$onItemClick$3;
-                            lambda$onItemClick$3 = WallpapersListActivity.2.this.lambda$onItemClick$3(dialogsActivity2, arrayList, charSequence, z);
+                            lambda$onItemClick$3 = WallpapersListActivity.2.this.lambda$onItemClick$3(dialogsActivity2, arrayList, charSequence, z, topicsFragment);
                             return lambda$onItemClick$3;
                         }
                     });
@@ -617,7 +617,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ boolean lambda$onItemClick$3(DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z) {
+        public /* synthetic */ boolean lambda$onItemClick$3(DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
             long j;
             String url;
             StringBuilder sb = new StringBuilder();

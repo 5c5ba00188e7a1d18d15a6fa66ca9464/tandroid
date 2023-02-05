@@ -456,9 +456,9 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
             DialogsActivity dialogsActivity = new DialogsActivity(bundle);
             dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.NotificationsCustomSettingsActivity$$ExternalSyntheticLambda10
                 @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList4, CharSequence charSequence, boolean z5) {
+                public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList4, CharSequence charSequence, boolean z5, TopicsFragment topicsFragment) {
                     boolean lambda$createView$1;
-                    lambda$createView$1 = NotificationsCustomSettingsActivity.this.lambda$createView$1(dialogsActivity2, arrayList4, charSequence, z5);
+                    lambda$createView$1 = NotificationsCustomSettingsActivity.this.lambda$createView$1(dialogsActivity2, arrayList4, charSequence, z5, topicsFragment);
                     return lambda$createView$1;
                 }
             });
@@ -579,7 +579,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$createView$1(DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z) {
+    public /* synthetic */ boolean lambda$createView$1(DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
         Bundle bundle = new Bundle();
         bundle.putLong("dialog_id", ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId);
         bundle.putBoolean("exception", true);

@@ -210,6 +210,7 @@ import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.PremiumPreviewFragment;
 import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.StickersActivity;
+import org.telegram.ui.TopicsFragment;
 /* loaded from: classes3.dex */
 public class ChatActivityEnterView extends BlurredFrameLayout implements NotificationCenter.NotificationCenterDelegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate, StickersAlert.StickersAlertDelegate {
     private AccountInstance accountInstance;
@@ -8662,9 +8663,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     DialogsActivity dialogsActivity = new DialogsActivity(bundle);
                     dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda62
                         @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                        public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z) {
+                        public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
                             boolean lambda$didPressedBotButton$51;
-                            lambda$didPressedBotButton$51 = ChatActivityEnterView.this.lambda$didPressedBotButton$51(messageObject2, tLRPC$KeyboardButton, dialogsActivity2, arrayList, charSequence, z);
+                            lambda$didPressedBotButton$51 = ChatActivityEnterView.this.lambda$didPressedBotButton$51(messageObject2, tLRPC$KeyboardButton, dialogsActivity2, arrayList, charSequence, z, topicsFragment);
                             return lambda$didPressedBotButton$51;
                         }
                     });
@@ -8704,7 +8705,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                         }
 
                         @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                        public boolean didSelectDialogs(DialogsActivity dialogsActivity3, ArrayList<MessagesStorage.TopicKey> arrayList, CharSequence charSequence, boolean z) {
+                        public boolean didSelectDialogs(DialogsActivity dialogsActivity3, ArrayList<MessagesStorage.TopicKey> arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
                             if (arrayList != null && !arrayList.isEmpty()) {
                                 TLRPC$TL_messages_sendBotRequestedPeer tLRPC$TL_messages_sendBotRequestedPeer = new TLRPC$TL_messages_sendBotRequestedPeer();
                                 tLRPC$TL_messages_sendBotRequestedPeer.peer = MessagesController.getInstance(ChatActivityEnterView.this.currentAccount).getInputPeer(messageObject2.messageOwner.peer_id);
@@ -8741,7 +8742,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         SendMessagesHelper.getInstance(this.currentAccount).sendCurrentLocation(messageObject, tLRPC$KeyboardButton);
     }
 
-    public /* synthetic */ boolean lambda$didPressedBotButton$51(MessageObject messageObject, TLRPC$KeyboardButton tLRPC$KeyboardButton, DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z) {
+    public /* synthetic */ boolean lambda$didPressedBotButton$51(MessageObject messageObject, TLRPC$KeyboardButton tLRPC$KeyboardButton, DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
         TLRPC$Message tLRPC$Message = messageObject.messageOwner;
         long j = tLRPC$Message.from_id.user_id;
         long j2 = tLRPC$Message.via_bot_id;

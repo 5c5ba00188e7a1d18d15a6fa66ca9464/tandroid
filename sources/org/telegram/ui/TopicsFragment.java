@@ -259,6 +259,11 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     public static /* synthetic */ void lambda$onDialogAnimationFinished$7() {
     }
 
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public boolean allowFinishFragmentInsteadOfRemoveFromStack() {
+        return false;
+    }
+
     @Override // org.telegram.ui.Components.ChatActivityInterface
     public /* synthetic */ void checkAndUpdateAvatar() {
         ChatActivityInterface.-CC.$default$checkAndUpdateAvatar(this);
@@ -1273,9 +1278,8 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             }
             DialogsActivity dialogsActivity = this.dialogsActivity;
             if (dialogsActivity != null) {
-                dialogsActivity.didSelectResult(-this.chatId, tLRPC$TL_forumTopic.id, true, false);
+                dialogsActivity.didSelectResult(-this.chatId, tLRPC$TL_forumTopic.id, true, false, this);
             }
-            this.removeFragmentOnTransitionEnd = true;
         } else if (this.selectedTopics.size() > 0) {
             toggleSelection(view);
         } else {
