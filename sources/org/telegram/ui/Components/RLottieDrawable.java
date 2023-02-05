@@ -221,7 +221,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         if (this.destroyWhenDone) {
             checkRunningTasks();
             if (this.loadFrameTask == null && this.cacheGenerateTask == null && this.nativePtr != 0) {
-                recycleNativePtr();
+                recycleNativePtr(true);
             }
         }
         if ((this.nativePtr == 0 || this.fallbackCache) && this.secondNativePtr == 0 && this.bitmapsCache == null) {
@@ -235,21 +235,43 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         scheduleNextGetFrame();
     }
 
-    private void recycleNativePtr() {
+    private void recycleNativePtr(boolean z) {
         final long j = this.nativePtr;
         final long j2 = this.secondNativePtr;
         this.nativePtr = 0L;
         this.secondNativePtr = 0L;
-        DispatchQueuePoolBackground.execute(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                RLottieDrawable.lambda$recycleNativePtr$0(j, j2);
-            }
-        });
+        if (j == 0 && j2 == 0) {
+            return;
+        }
+        if (z) {
+            DispatchQueuePoolBackground.execute(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    RLottieDrawable.lambda$recycleNativePtr$0(j, j2);
+                }
+            });
+        } else {
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    RLottieDrawable.lambda$recycleNativePtr$1(j, j2);
+                }
+            });
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$recycleNativePtr$0(long j, long j2) {
+        if (j != 0) {
+            destroy(j);
+        }
+        if (j2 != 0) {
+            destroy(j2);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$recycleNativePtr$1(long j, long j2) {
         if (j != 0) {
             destroy(j);
         }
@@ -1192,10 +1214,10 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 return false;
             }
             this.loadingInBackground = true;
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda5
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
-                    RLottieDrawable.this.lambda$setBaseDice$2(readRes);
+                    RLottieDrawable.this.lambda$setBaseDice$3(readRes);
                 }
             });
         }
@@ -1203,21 +1225,21 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setBaseDice$2(String str) {
+    public /* synthetic */ void lambda$setBaseDice$3(String str) {
         this.nativePtr = createWithJson(str, "dice", this.metaData, null);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
-                RLottieDrawable.this.lambda$setBaseDice$1();
+                RLottieDrawable.this.lambda$setBaseDice$2();
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setBaseDice$1() {
+    public /* synthetic */ void lambda$setBaseDice$2() {
         this.loadingInBackground = false;
         if (!this.secondLoadingInBackground && this.destroyAfterLoading) {
-            recycle();
+            recycle(true);
             return;
         }
         this.timeBetweenFrames = Math.max(16, (int) (1000.0f / this.metaData[1]));
@@ -1240,10 +1262,10 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 this.setLastFrame = true;
             }
             this.secondLoadingInBackground = true;
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda6
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
-                    RLottieDrawable.this.lambda$setDiceNumber$5(readRes);
+                    RLottieDrawable.this.lambda$setDiceNumber$6(readRes);
                 }
             });
         }
@@ -1251,40 +1273,40 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setDiceNumber$5(String str) {
+    public /* synthetic */ void lambda$setDiceNumber$6(String str) {
         if (this.destroyAfterLoading) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda1
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
-                    RLottieDrawable.this.lambda$setDiceNumber$3();
+                    RLottieDrawable.this.lambda$setDiceNumber$4();
                 }
             });
             return;
         }
         final int[] iArr = new int[3];
         this.secondNativePtr = createWithJson(str, "dice", iArr, null);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda7
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
-                RLottieDrawable.this.lambda$setDiceNumber$4(iArr);
+                RLottieDrawable.this.lambda$setDiceNumber$5(iArr);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setDiceNumber$3() {
+    public /* synthetic */ void lambda$setDiceNumber$4() {
         this.secondLoadingInBackground = false;
         if (this.loadingInBackground || !this.destroyAfterLoading) {
             return;
         }
-        recycle();
+        recycle(true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setDiceNumber$4(int[] iArr) {
+    public /* synthetic */ void lambda$setDiceNumber$5(int[] iArr) {
         this.secondLoadingInBackground = false;
         if (this.destroyAfterLoading) {
-            recycle();
+            recycle(true);
             return;
         }
         this.secondFramesCount = iArr[0];
@@ -1706,14 +1728,14 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         }
     }
 
-    public void recycle() {
+    public void recycle(boolean z) {
         this.isRunning = false;
         this.isRecycled = true;
         checkRunningTasks();
         if (this.loadingInBackground || this.secondLoadingInBackground) {
             this.destroyAfterLoading = true;
         } else if (this.loadFrameTask == null && this.cacheGenerateTask == null && !this.generatingCache) {
-            recycleNativePtr();
+            recycleNativePtr(z);
             BitmapsCache bitmapsCache = this.bitmapsCache;
             if (bitmapsCache != null) {
                 bitmapsCache.recycle();
@@ -1738,7 +1760,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
 
     protected void finalize() throws Throwable {
         try {
-            recycle();
+            recycle(false);
         } finally {
             super.finalize();
         }
@@ -2234,7 +2256,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
-                    RLottieDrawable.this.lambda$checkCache$7(runnable);
+                    RLottieDrawable.this.lambda$checkCache$8(runnable);
                 }
             };
             this.cacheGenerateTask = runnable2;
@@ -2243,7 +2265,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkCache$7(final Runnable runnable) {
+    public /* synthetic */ void lambda$checkCache$8(final Runnable runnable) {
         try {
             BitmapsCache bitmapsCache = this.bitmapsCache;
             if (bitmapsCache != null) {
@@ -2252,16 +2274,16 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         } catch (Throwable th) {
             FileLog.e(th);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
-                RLottieDrawable.this.lambda$checkCache$6(runnable);
+                RLottieDrawable.this.lambda$checkCache$7(runnable);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkCache$6(Runnable runnable) {
+    public /* synthetic */ void lambda$checkCache$7(Runnable runnable) {
         runnable.run();
         if (this.cacheGenerateTask != null) {
             this.cacheGenerateTask = null;

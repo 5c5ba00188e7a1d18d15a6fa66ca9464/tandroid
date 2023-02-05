@@ -430,7 +430,6 @@ public class AlertsCreator {
         String str;
         TLRPC$InputPeer tLRPC$InputPeer;
         long peerDialogId;
-        String str2;
         int i2 = tLRPC$TL_error.code;
         if (i2 == 406 || (str = tLRPC$TL_error.text) == null) {
             return null;
@@ -548,8 +547,9 @@ public class AlertsCreator {
                     } else {
                         peerDialogId = tLObject instanceof TLRPC$TL_messages_sendScheduledMessages ? DialogObject.getPeerDialogId(((TLRPC$TL_messages_sendScheduledMessages) tLObject).peer) : 0L;
                     }
+                    String str2 = tLRPC$TL_error.text;
                     char c = 65535;
-                    if (BuildVars.DEBUG_VERSION && (str2 = tLRPC$TL_error.text) != null && str2.startsWith("CHAT_SEND_") && tLRPC$TL_error.text.endsWith("FORBIDDEN")) {
+                    if (str2 != null && str2.startsWith("CHAT_SEND_") && tLRPC$TL_error.text.endsWith("FORBIDDEN")) {
                         String str3 = tLRPC$TL_error.text;
                         TLRPC$Chat chat = peerDialogId < 0 ? MessagesController.getInstance(i).getChat(Long.valueOf(-peerDialogId)) : null;
                         String str4 = tLRPC$TL_error.text;

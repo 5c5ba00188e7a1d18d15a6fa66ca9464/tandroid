@@ -8762,27 +8762,27 @@ public class Theme {
             RLottieDrawable rLottieDrawable = dialogs_archiveAvatarDrawable;
             if (rLottieDrawable != null) {
                 rLottieDrawable.setCallback(null);
-                dialogs_archiveAvatarDrawable.recycle();
+                dialogs_archiveAvatarDrawable.recycle(false);
             }
             RLottieDrawable rLottieDrawable2 = dialogs_archiveDrawable;
             if (rLottieDrawable2 != null) {
-                rLottieDrawable2.recycle();
+                rLottieDrawable2.recycle(false);
             }
             RLottieDrawable rLottieDrawable3 = dialogs_unarchiveDrawable;
             if (rLottieDrawable3 != null) {
-                rLottieDrawable3.recycle();
+                rLottieDrawable3.recycle(false);
             }
             RLottieDrawable rLottieDrawable4 = dialogs_pinArchiveDrawable;
             if (rLottieDrawable4 != null) {
-                rLottieDrawable4.recycle();
+                rLottieDrawable4.recycle(false);
             }
             RLottieDrawable rLottieDrawable5 = dialogs_unpinArchiveDrawable;
             if (rLottieDrawable5 != null) {
-                rLottieDrawable5.recycle();
+                rLottieDrawable5.recycle(false);
             }
             RLottieDrawable rLottieDrawable6 = dialogs_hidePsaDrawable;
             if (rLottieDrawable6 != null) {
-                rLottieDrawable6.recycle();
+                rLottieDrawable6.recycle(false);
             }
             dialogs_archiveAvatarDrawable = new RLottieDrawable(R.raw.chats_archiveavatar, "chats_archiveavatar", AndroidUtilities.dp(36.0f), AndroidUtilities.dp(36.0f), false, null);
             dialogs_archiveDrawable = new RLottieDrawable(R.raw.chats_archive, "chats_archive", AndroidUtilities.dp(36.0f), AndroidUtilities.dp(36.0f));

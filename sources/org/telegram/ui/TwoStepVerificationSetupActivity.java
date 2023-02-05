@@ -269,7 +269,6 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onFragmentDestroy() {
         super.onFragmentDestroy();
-        int i = 0;
         this.doneAfterPasswordLoad = false;
         Runnable runnable = this.setAnimationRunnable;
         if (runnable != null) {
@@ -277,12 +276,13 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             this.setAnimationRunnable = null;
         }
         if (this.animationDrawables != null) {
+            int i = 0;
             while (true) {
                 RLottieDrawable[] rLottieDrawableArr = this.animationDrawables;
                 if (i >= rLottieDrawableArr.length) {
                     break;
                 }
-                rLottieDrawableArr[i].recycle();
+                rLottieDrawableArr[i].recycle(false);
                 i++;
             }
             this.animationDrawables = null;

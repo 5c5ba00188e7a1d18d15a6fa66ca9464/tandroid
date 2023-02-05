@@ -1731,7 +1731,7 @@ public class QrActivity extends BaseFragment {
             RLottieDrawable rLottieDrawable = this.loadingMatrix;
             if (rLottieDrawable != null) {
                 rLottieDrawable.stop();
-                this.loadingMatrix.recycle();
+                this.loadingMatrix.recycle(false);
                 this.loadingMatrix = null;
             }
         }

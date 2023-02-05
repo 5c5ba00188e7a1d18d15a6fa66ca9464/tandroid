@@ -3054,7 +3054,7 @@ public class ImageLoader {
                 canvas.drawBitmap(createBitmap2, 0.0f, 0.0f, paint);
                 bitmapDrawable = new BitmapDrawable(createBitmap);
             }
-            rLottieDrawable.recycle();
+            rLottieDrawable.recycle(false);
             createBitmap2.recycle();
             onPostExecute(bitmapDrawable);
         }
@@ -3071,10 +3071,11 @@ public class ImageLoader {
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onPostExecute$1(Drawable drawable) {
             final String str;
+            boolean z = false;
             final Drawable drawable2 = null;
-            r1 = null;
-            r1 = null;
-            r1 = null;
+            r2 = null;
+            r2 = null;
+            r2 = null;
             String str2 = null;
             if (drawable instanceof RLottieDrawable) {
                 RLottieDrawable rLottieDrawable = (RLottieDrawable) drawable;
@@ -3083,7 +3084,7 @@ public class ImageLoader {
                     ImageLoader.this.lottieMemCache.put(this.cacheImage.key, rLottieDrawable);
                     drawable = rLottieDrawable;
                 } else {
-                    rLottieDrawable.recycle();
+                    rLottieDrawable.recycle(false);
                     drawable = drawable3;
                 }
                 if (drawable != null) {
@@ -3115,24 +3116,25 @@ public class ImageLoader {
             } else {
                 BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
                 BitmapDrawable fromMemCache = ImageLoader.this.getFromMemCache(this.cacheImage.key);
-                boolean z = true;
+                boolean z2 = true;
                 if (fromMemCache == null) {
                     if (this.cacheImage.key.endsWith("_f")) {
                         ImageLoader.this.wallpaperMemCache.put(this.cacheImage.key, bitmapDrawable);
-                        z = false;
-                        drawable = bitmapDrawable;
-                    } else if (this.cacheImage.key.endsWith("_isc") || bitmapDrawable.getBitmap().getWidth() > AndroidUtilities.density * 80.0f || bitmapDrawable.getBitmap().getHeight() > AndroidUtilities.density * 80.0f) {
-                        ImageLoader.this.memCache.put(this.cacheImage.key, bitmapDrawable);
-                        drawable = bitmapDrawable;
                     } else {
-                        ImageLoader.this.smallImagesMemCache.put(this.cacheImage.key, bitmapDrawable);
-                        drawable = bitmapDrawable;
+                        if (this.cacheImage.key.endsWith("_isc") || bitmapDrawable.getBitmap().getWidth() > AndroidUtilities.density * 80.0f || bitmapDrawable.getBitmap().getHeight() > AndroidUtilities.density * 80.0f) {
+                            ImageLoader.this.memCache.put(this.cacheImage.key, bitmapDrawable);
+                        } else {
+                            ImageLoader.this.smallImagesMemCache.put(this.cacheImage.key, bitmapDrawable);
+                        }
+                        z = true;
                     }
+                    z2 = z;
+                    drawable = bitmapDrawable;
                 } else {
                     AndroidUtilities.recycleBitmap(bitmapDrawable.getBitmap());
                     drawable = fromMemCache;
                 }
-                if (drawable != null && z) {
+                if (drawable != null && z2) {
                     ImageLoader.this.incrementUseCount(this.cacheImage.key);
                     str2 = this.cacheImage.key;
                 }
@@ -3511,7 +3513,7 @@ public class ImageLoader {
                         ((AnimatedFileDrawable) bitmapDrawable).recycle();
                     }
                     if (bitmapDrawable instanceof RLottieDrawable) {
-                        ((RLottieDrawable) bitmapDrawable).recycle();
+                        ((RLottieDrawable) bitmapDrawable).recycle(false);
                     }
                 }
             }

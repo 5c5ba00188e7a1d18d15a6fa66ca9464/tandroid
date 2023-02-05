@@ -282,7 +282,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                     Drawable drawable = this.drawable;
                     if (drawable != null) {
                         if (drawable instanceof RLottieDrawable) {
-                            ((RLottieDrawable) drawable).recycle();
+                            ((RLottieDrawable) drawable).recycle(false);
                         } else if (drawable instanceof AnimatedFileDrawable) {
                             ((AnimatedFileDrawable) drawable).recycle();
                         } else if (drawable instanceof BitmapDrawable) {
@@ -3296,7 +3296,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                 RLottieDrawable rLottieDrawable = (RLottieDrawable) drawable;
                 boolean decrementUseCount = ImageLoader.getInstance().decrementUseCount(str2);
                 if (!ImageLoader.getInstance().isInMemCache(str2, true) && decrementUseCount) {
-                    rLottieDrawable.recycle();
+                    rLottieDrawable.recycle(false);
                 }
             } else if (drawable instanceof AnimatedFileDrawable) {
                 AnimatedFileDrawable animatedFileDrawable = (AnimatedFileDrawable) drawable;

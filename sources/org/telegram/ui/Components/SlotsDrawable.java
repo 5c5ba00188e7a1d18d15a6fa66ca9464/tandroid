@@ -300,7 +300,7 @@ public class SlotsDrawable extends RLottieDrawable {
         if (this.secondLoadingInBackground || !this.destroyAfterLoading) {
             return;
         }
-        recycle();
+        recycle(true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -318,7 +318,7 @@ public class SlotsDrawable extends RLottieDrawable {
     public /* synthetic */ void lambda$setBaseDice$4(int i, ChatMessageCell chatMessageCell) {
         this.loadingInBackground = false;
         if (!this.secondLoadingInBackground && this.destroyAfterLoading) {
-            recycle();
+            recycle(true);
             return;
         }
         this.nativePtr = this.nativePtrs[0];
@@ -473,7 +473,7 @@ public class SlotsDrawable extends RLottieDrawable {
         if (this.loadingInBackground || !this.destroyAfterLoading) {
             return;
         }
-        recycle();
+        recycle(true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -495,7 +495,7 @@ public class SlotsDrawable extends RLottieDrawable {
         }
         this.secondLoadingInBackground = false;
         if (!this.loadingInBackground && this.destroyAfterLoading) {
-            recycle();
+            recycle(true);
             return;
         }
         this.secondNativePtr = this.secondNativePtrs[0];
@@ -506,7 +506,7 @@ public class SlotsDrawable extends RLottieDrawable {
     }
 
     @Override // org.telegram.ui.Components.RLottieDrawable
-    public void recycle() {
+    public void recycle(boolean z) {
         int i = 0;
         this.isRunning = false;
         this.isRecycled = true;

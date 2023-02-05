@@ -10182,12 +10182,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:113:0x02a5  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public /* synthetic */ void lambda$performSendMessageRequest$59(final boolean z, TLRPC$TL_error tLRPC$TL_error, final TLRPC$Message tLRPC$Message, TLObject tLObject, final MessageObject messageObject, String str, TLObject tLObject2) {
         boolean z2;
+        String str2;
         boolean z3;
         int i;
         LongSparseArray<SparseArray<TLRPC$MessageReplies>> longSparseArray;
@@ -10198,7 +10195,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         if (tLRPC$TL_error == null) {
             final int i3 = tLRPC$Message.id;
             final ArrayList arrayList = new ArrayList();
-            final String str2 = tLRPC$Message.attachPath;
+            String str3 = tLRPC$Message.attachPath;
             boolean z5 = tLRPC$Message.date == 2147483646;
             if (tLObject instanceof TLRPC$TL_updateShortSentMessage) {
                 final TLRPC$TL_updateShortSentMessage tLRPC$TL_updateShortSentMessage = (TLRPC$TL_updateShortSentMessage) tLObject;
@@ -10241,7 +10238,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 });
                 arrayList.add(tLRPC$Message);
                 i = mediaExistanceFlags;
+                str2 = str3;
                 z3 = false;
+                z2 = false;
             } else if (tLObject instanceof TLRPC$Updates) {
                 final TLRPC$Updates tLRPC$Updates = (TLRPC$Updates) tLObject;
                 ArrayList<TLRPC$Update> arrayList2 = tLRPC$Updates.updates;
@@ -10272,7 +10271,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     if (tLRPC$Update instanceof TLRPC$TL_updateNewChannelMessage) {
                         final TLRPC$TL_updateNewChannelMessage tLRPC$TL_updateNewChannelMessage = (TLRPC$TL_updateNewChannelMessage) tLRPC$Update;
                         TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(MessagesController.getUpdateChannelId(tLRPC$TL_updateNewChannelMessage)));
-                        if ((chat != null && !chat.megagroup) || (tLRPC$TL_messageReplyHeader = tLRPC$TL_updateNewChannelMessage.message.reply_to) == null || (tLRPC$TL_messageReplyHeader.reply_to_top_id == 0 && tLRPC$TL_messageReplyHeader.reply_to_msg_id == 0)) {
+                        if (!(chat == null || chat.megagroup) || (tLRPC$TL_messageReplyHeader = tLRPC$TL_updateNewChannelMessage.message.reply_to) == null || (tLRPC$TL_messageReplyHeader.reply_to_top_id == 0 && tLRPC$TL_messageReplyHeader.reply_to_msg_id == 0)) {
                             longSparseArray = null;
                         } else {
                             longSparseArray = new LongSparseArray<>();
@@ -10321,7 +10320,10 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 longSparseArray = null;
                 if (longSparseArray != null) {
                     getMessagesStorage().putChannelViews(null, null, longSparseArray, true);
+                    str2 = str3;
                     getNotificationCenter().postNotificationName(NotificationCenter.didUpdateMessagesViews, null, null, longSparseArray, Boolean.TRUE);
+                } else {
+                    str2 = str3;
                 }
                 if (tLRPC$Message2 != null) {
                     MessageObject.getDialogId(tLRPC$Message2);
@@ -10348,6 +10350,14 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     i2 = mediaExistanceFlags2;
                     z4 = false;
                 } else {
+                    if (BuildVars.LOGS_ENABLED) {
+                        StringBuilder sb = new StringBuilder();
+                        for (int i7 = 0; i7 < arrayList2.size(); i7++) {
+                            sb.append(arrayList2.get(i7).getClass().getSimpleName());
+                            sb.append(", ");
+                        }
+                        FileLog.d("can't find message int updates " + ((Object) sb));
+                    }
                     z3 = z;
                     z4 = true;
                     i2 = 0;
@@ -10360,42 +10370,40 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 });
                 z2 = z4;
                 i = i2;
-                if (MessageObject.isLiveLocationMessage(tLRPC$Message) && tLRPC$Message.via_bot_id == 0 && TextUtils.isEmpty(tLRPC$Message.via_bot_name)) {
-                    getLocationController().addSharingLocation(tLRPC$Message);
-                }
-                if (!z2) {
-                    getStatsController().incrementSentItemsCount(ApplicationLoader.getCurrentNetworkType(), 1, 1);
-                    tLRPC$Message.send_state = 0;
-                    if (z && !z3) {
-                        ArrayList<Integer> arrayList3 = new ArrayList<>();
-                        arrayList3.add(Integer.valueOf(i3));
-                        getMessagesController().deleteMessages(arrayList3, null, null, tLRPC$Message.dialog_id, false, true);
-                        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda35
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                SendMessagesHelper.this.lambda$performSendMessageRequest$56(arrayList, messageObject, tLRPC$Message, i3, z, str2);
-                            }
-                        });
-                    } else {
-                        final int i7 = i;
-                        getNotificationCenter().postNotificationName(NotificationCenter.messageReceivedByServer, Integer.valueOf(i3), Integer.valueOf(tLRPC$Message.id), tLRPC$Message, Long.valueOf(tLRPC$Message.dialog_id), 0L, Integer.valueOf(i7), Boolean.valueOf(z));
-                        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda49
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                SendMessagesHelper.this.lambda$performSendMessageRequest$58(tLRPC$Message, i3, z, arrayList, i7, str2);
-                            }
-                        });
-                    }
-                }
             } else {
+                str2 = str3;
                 z3 = z;
                 i = 0;
+                z2 = false;
             }
-            z2 = false;
-            if (MessageObject.isLiveLocationMessage(tLRPC$Message)) {
+            if (MessageObject.isLiveLocationMessage(tLRPC$Message) && tLRPC$Message.via_bot_id == 0 && TextUtils.isEmpty(tLRPC$Message.via_bot_name)) {
                 getLocationController().addSharingLocation(tLRPC$Message);
             }
             if (!z2) {
+                getStatsController().incrementSentItemsCount(ApplicationLoader.getCurrentNetworkType(), 1, 1);
+                tLRPC$Message.send_state = 0;
+                if (z && !z3) {
+                    ArrayList<Integer> arrayList3 = new ArrayList<>();
+                    arrayList3.add(Integer.valueOf(i3));
+                    getMessagesController().deleteMessages(arrayList3, null, null, tLRPC$Message.dialog_id, false, true);
+                    final String str4 = str2;
+                    getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda35
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            SendMessagesHelper.this.lambda$performSendMessageRequest$56(arrayList, messageObject, tLRPC$Message, i3, z, str4);
+                        }
+                    });
+                } else {
+                    getNotificationCenter().postNotificationName(NotificationCenter.messageReceivedByServer, Integer.valueOf(i3), Integer.valueOf(tLRPC$Message.id), tLRPC$Message, Long.valueOf(tLRPC$Message.dialog_id), 0L, Integer.valueOf(i), Boolean.valueOf(z));
+                    final int i8 = i;
+                    final String str5 = str2;
+                    getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda49
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            SendMessagesHelper.this.lambda$performSendMessageRequest$58(tLRPC$Message, i3, z, arrayList, i8, str5);
+                        }
+                    });
+                }
             }
         } else {
             AlertsCreator.processError(this.currentAccount, tLRPC$TL_error, null, tLObject2, new Object[0]);

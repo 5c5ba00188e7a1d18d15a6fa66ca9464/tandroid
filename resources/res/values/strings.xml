@@ -438,6 +438,7 @@
     <string name="AddedMembersToGroup_other">**%d members** added to the group</string>
     <string name="AddedSubscribersToChannel_other">**%d subscribers** added to the channel</string>
     <string name="AddedToDoNotTranslate">**%s** is added to the Do Not Translate list.</string>
+    <string name="AddedToDoNotTranslateOther">**%s** is added to the Do Not Translate list.</string>
     <string name="AddedToFavorites">Sticker was added to Favorites</string>
     <string name="AdditionalReactions">Additional Reactions</string>
     <string name="AdditionalReactionsDescription">Unlock a wider range of reactions on messages by subscribing to Telegram Premium.</string>

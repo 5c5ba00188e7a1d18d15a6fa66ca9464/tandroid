@@ -169,8 +169,8 @@ public class TranslateButton extends FrameLayout {
         linearLayout.addView(actionBarMenuSubItem2);
         linearLayout.addView(scrollView, LayoutHelper.createLinear(-1, 420));
         final String dialogDetectedLanguage = translateController.getDialogDetectedLanguage(this.dialogId);
-        final String languageName = TranslateAlert2.languageName(dialogDetectedLanguage);
-        String languageName2 = TranslateAlert2.languageName(dialogDetectedLanguage, this.accusative);
+        TranslateAlert2.languageName(dialogDetectedLanguage);
+        final String languageName = TranslateAlert2.languageName(dialogDetectedLanguage, this.accusative);
         String dialogTranslateTo = translateController.getDialogTranslateTo(this.dialogId);
         ArrayList<TranslateController.Language> suggestedLanguages = TranslateController.getSuggestedLanguages(dialogTranslateTo);
         ArrayList<TranslateController.Language> languages = TranslateController.getLanguages();
@@ -223,12 +223,12 @@ public class TranslateButton extends FrameLayout {
             }
         }
         actionBarPopupWindowLayout.addView(new ActionBarPopupWindow.GapView(getContext(), this.resourcesProvider), LayoutHelper.createLinear(-1, 8));
-        if (languageName2 != null) {
+        if (languageName != null) {
             ActionBarMenuSubItem actionBarMenuSubItem6 = new ActionBarMenuSubItem(getContext(), true, false, this.resourcesProvider);
             if (this.accusative[0]) {
-                formatString = LocaleController.formatString("DoNotTranslateLanguage", R.string.DoNotTranslateLanguage, languageName2);
+                formatString = LocaleController.formatString("DoNotTranslateLanguage", R.string.DoNotTranslateLanguage, languageName);
             } else {
-                formatString = LocaleController.formatString("DoNotTranslateLanguageOther", R.string.DoNotTranslateLanguageOther, languageName2);
+                formatString = LocaleController.formatString("DoNotTranslateLanguageOther", R.string.DoNotTranslateLanguageOther, languageName);
             }
             actionBarMenuSubItem6.setTextAndIcon(formatString, R.drawable.msg_block2);
             actionBarMenuSubItem6.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TranslateButton$$ExternalSyntheticLambda4
@@ -286,10 +286,16 @@ public class TranslateButton extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onMenuClick$7(String str, TranslateController translateController, String str2, ActionBarPopupWindow actionBarPopupWindow, View view) {
+        String formatString;
         RestrictedLanguagesSelectActivity.toggleLanguage(str, true);
         translateController.checkRestrictedLanguagesUpdate();
         translateController.setHideTranslateDialog(this.dialogId, true);
-        BulletinFactory.of(this.fragment).createSimpleBulletin(R.raw.msg_translate, AndroidUtilities.replaceTags(LocaleController.formatString("AddedToDoNotTranslate", R.string.AddedToDoNotTranslate, TranslateAlert2.capitalFirst(str2))), LocaleController.getString("Settings", R.string.Settings), new Runnable() { // from class: org.telegram.ui.Components.TranslateButton$$ExternalSyntheticLambda8
+        if (this.accusative[0]) {
+            formatString = LocaleController.formatString("AddedToDoNotTranslate", R.string.AddedToDoNotTranslate, TranslateAlert2.capitalFirst(str2));
+        } else {
+            formatString = LocaleController.formatString("AddedToDoNotTranslateOther", R.string.AddedToDoNotTranslateOther, TranslateAlert2.capitalFirst(str2));
+        }
+        BulletinFactory.of(this.fragment).createSimpleBulletin(R.raw.msg_translate, formatString, LocaleController.getString("Settings", R.string.Settings), new Runnable() { // from class: org.telegram.ui.Components.TranslateButton$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 TranslateButton.this.lambda$onMenuClick$6();
