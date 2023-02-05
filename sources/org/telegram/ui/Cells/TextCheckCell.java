@@ -53,6 +53,7 @@ public class TextCheckCell extends FrameLayout {
     ImageView imageView;
     private boolean isAnimatingToThumbInsteadOfTouch;
     private boolean isMultiline;
+    private boolean isRTL;
     private float lastTouchX;
     private boolean needDivider;
     private int padding;
@@ -111,6 +112,7 @@ public class TextCheckCell extends FrameLayout {
         r2.setColors("switchTrack", "switchTrackChecked", "windowBackgroundWhite", "windowBackgroundWhite");
         addView(this.checkBox, LayoutHelper.createFrame(37, 20.0f, (LocaleController.isRTL ? 3 : 5) | 16, 22.0f, 0.0f, 22.0f, 0.0f));
         setClipChildren(false);
+        this.isRTL = LocaleController.isRTL;
     }
 
     @Override // android.view.View
@@ -154,6 +156,27 @@ public class TextCheckCell extends FrameLayout {
         layoutParams.topMargin = 0;
         this.textView.setLayoutParams(layoutParams);
         setWillNotDraw(!z2);
+    }
+
+    public void updateRTL() {
+        boolean z = this.isRTL;
+        boolean z2 = LocaleController.isRTL;
+        if (z == z2) {
+            return;
+        }
+        this.isRTL = z2;
+        this.textView.setGravity((z2 ? 5 : 3) | 16);
+        removeView(this.textView);
+        TextView textView = this.textView;
+        boolean z3 = LocaleController.isRTL;
+        addView(textView, LayoutHelper.createFrame(-1, -1.0f, (z3 ? 5 : 3) | 48, z3 ? 70.0f : this.padding, 0.0f, z3 ? this.padding : 70.0f, 0.0f));
+        this.valueTextView.setGravity(LocaleController.isRTL ? 5 : 3);
+        removeView(this.valueTextView);
+        TextView textView2 = this.valueTextView;
+        boolean z4 = LocaleController.isRTL;
+        addView(textView2, LayoutHelper.createFrame(-2, -2.0f, (z4 ? 5 : 3) | 48, z4 ? 64.0f : this.padding, 36.0f, z4 ? this.padding : 64.0f, 0.0f));
+        removeView(this.checkBox);
+        addView(this.checkBox, LayoutHelper.createFrame(37, 20.0f, (LocaleController.isRTL ? 3 : 5) | 16, 22.0f, 0.0f, 22.0f, 0.0f));
     }
 
     public void setColors(String str, String str2, String str3, String str4, String str5) {

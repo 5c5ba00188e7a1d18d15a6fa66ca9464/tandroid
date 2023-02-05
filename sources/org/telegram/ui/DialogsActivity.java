@@ -6216,6 +6216,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         DialogsActivity.37.this.lambda$onItemClick$1();
                     }
                 });
+                DialogsActivity.this.getNotificationsController().showNotifications();
                 DialogsActivity.this.updatePasscodeButton();
             } else if (i == 2) {
                 DialogsActivity.this.presentFragment(new ProxyListActivity());

@@ -108,6 +108,7 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.NotificationsController;
 import org.telegram.messenger.PushListenerController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SendMessagesHelper;
@@ -1792,6 +1793,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         for (PasscodeView passcodeView2 : this.overlayPasscodeViews) {
             passcodeView2.setDelegate(passcodeViewDelegate);
         }
+        try {
+            NotificationsController.getInstance(UserConfig.selectedAccount).showNotifications();
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1832,6 +1838,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             this.rightActionBarLayout.getView().setVisibility(0);
         }
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.passcodeDismissed, passcodeView);
+        try {
+            NotificationsController.getInstance(UserConfig.selectedAccount).showNotifications();
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
     }
 
     public boolean allowShowFingerprintDialog(PasscodeView passcodeView) {
@@ -11811,6 +11822,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 FileLog.d("lock app");
                             }
                             LaunchActivity.this.showPasscodeActivity(true, false, -1, -1, null, null);
+                            try {
+                                NotificationsController.getInstance(UserConfig.selectedAccount).showNotifications();
+                            } catch (Exception e) {
+                                FileLog.e(e);
+                            }
                         } else if (BuildVars.LOGS_ENABLED) {
                             FileLog.d("didn't pass lock check");
                         }

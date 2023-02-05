@@ -24,8 +24,10 @@ public class TextRadioCell extends FrameLayout {
     private float animationProgress;
     private int height;
     private boolean isMultiline;
+    private boolean isRTL;
     private float lastTouchX;
     private boolean needDivider;
+    private int padding;
     private RadioButton radioButton;
     private TextView textView;
     private TextView valueTextView;
@@ -56,6 +58,7 @@ public class TextRadioCell extends FrameLayout {
     public TextRadioCell(Context context, int i, boolean z) {
         super(context);
         this.height = 50;
+        this.padding = i;
         TextView textView = new TextView(context);
         this.textView = textView;
         textView.setTextColor(Theme.getColor(z ? "dialogTextBlack" : "windowBackgroundWhiteBlackText"));
@@ -86,7 +89,34 @@ public class TextRadioCell extends FrameLayout {
         radioButton.setSize(AndroidUtilities.dp(20.0f));
         this.radioButton.setColor(Theme.getColor("radioBackground"), Theme.getColor("radioBackgroundChecked"));
         addView(this.radioButton, LayoutHelper.createFrame(20, 20.0f, (LocaleController.isRTL ? 5 : 3) | 16, 22.0f, 0.0f, 22.0f, 0.0f));
+        this.isRTL = LocaleController.isRTL;
         setClipChildren(false);
+    }
+
+    public void updateRTL() {
+        boolean z = this.isRTL;
+        boolean z2 = LocaleController.isRTL;
+        if (z == z2) {
+            return;
+        }
+        this.isRTL = z2;
+        this.textView.setGravity((z2 ? 5 : 3) | 16);
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.textView.getLayoutParams();
+        boolean z3 = LocaleController.isRTL;
+        layoutParams.gravity = (z3 ? 5 : 3) | 48;
+        layoutParams.leftMargin = AndroidUtilities.dp(z3 ? this.padding : 64.0f);
+        layoutParams.rightMargin = AndroidUtilities.dp(LocaleController.isRTL ? 64.0f : this.padding);
+        this.textView.setLayoutParams(layoutParams);
+        this.valueTextView.setGravity(LocaleController.isRTL ? 5 : 3);
+        FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) this.valueTextView.getLayoutParams();
+        boolean z4 = LocaleController.isRTL;
+        layoutParams2.gravity = (z4 ? 5 : 3) | 48;
+        layoutParams2.leftMargin = AndroidUtilities.dp(z4 ? this.padding : 64.0f);
+        layoutParams2.rightMargin = AndroidUtilities.dp(LocaleController.isRTL ? 64.0f : this.padding);
+        this.valueTextView.setLayoutParams(layoutParams2);
+        FrameLayout.LayoutParams layoutParams3 = (FrameLayout.LayoutParams) this.radioButton.getLayoutParams();
+        layoutParams3.gravity = (LocaleController.isRTL ? 5 : 3) | 16;
+        this.radioButton.setLayoutParams(layoutParams3);
     }
 
     @Override // android.widget.FrameLayout, android.view.View

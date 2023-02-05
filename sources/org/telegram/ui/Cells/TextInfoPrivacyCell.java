@@ -23,6 +23,7 @@ import org.telegram.ui.Components.LinkSpanDrawable;
 public class TextInfoPrivacyCell extends FrameLayout {
     private int bottomPadding;
     private int fixedSize;
+    private boolean isRTL;
     private String linkTextColorKey;
     private LinkSpanDrawable.LinkCollector links;
     private final Theme.ResourcesProvider resourcesProvider;
@@ -70,7 +71,21 @@ public class TextInfoPrivacyCell extends FrameLayout {
         this.textView.setImportantForAccessibility(2);
         float f = i;
         addView(this.textView, LayoutHelper.createFrame(-1, -2.0f, (LocaleController.isRTL ? 5 : 3) | 48, f, 0.0f, f, 0.0f));
+        this.isRTL = LocaleController.isRTL;
         setWillNotDraw(false);
+    }
+
+    public void updateRTL() {
+        boolean z = this.isRTL;
+        boolean z2 = LocaleController.isRTL;
+        if (z == z2) {
+            return;
+        }
+        this.isRTL = z2;
+        this.textView.setGravity(z2 ? 5 : 3);
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.textView.getLayoutParams();
+        layoutParams.gravity = (LocaleController.isRTL ? 5 : 3) | 48;
+        this.textView.setLayoutParams(layoutParams);
     }
 
     @Override // android.view.View

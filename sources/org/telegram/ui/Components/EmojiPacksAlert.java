@@ -1215,16 +1215,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 }
             }
         }
-        boolean isPremium = UserConfig.getInstance(this.currentAccount).isPremium();
         final ArrayList arrayList4 = new ArrayList(arrayList3);
-        int i3 = 0;
-        while (i3 < arrayList4.size()) {
-            if (MessageObject.isPremiumEmojiPack((TLRPC$TL_messages_stickerSet) arrayList4.get(i3)) && !isPremium) {
-                arrayList4.remove(i3);
-                i3--;
-            }
-            i3++;
-        }
         boolean z = this.customEmojiPacks.inputStickerSets != null && arrayList.size() == this.customEmojiPacks.inputStickerSets.size();
         if (!this.loaded && z) {
             loadAnimation();
@@ -1252,48 +1243,43 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             this.addButtonView.setVisibility(8);
             this.removeButtonView.setVisibility(8);
             updateShowButton(false);
-        } else if ((arrayList4.size() <= 0 && arrayList3.size() >= 0 && !isPremium) || !this.loaded) {
-            this.premiumButtonView.setVisibility(0);
-            this.addButtonView.setVisibility(8);
+            return;
+        }
+        this.premiumButtonView.setVisibility(4);
+        if (arrayList4.size() > 0) {
+            this.addButtonView.setVisibility(0);
             this.removeButtonView.setVisibility(8);
+            if (arrayList4.size() == 1) {
+                this.addButtonView.setText(LocaleController.formatPluralString("AddManyEmojiCount", ((TLRPC$TL_messages_stickerSet) arrayList4.get(0)).documents.size(), new Object[0]));
+            } else {
+                this.addButtonView.setText(LocaleController.formatPluralString("AddManyEmojiPacksCount", arrayList4.size(), new Object[0]));
+            }
+            this.addButtonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EmojiPacksAlert$$ExternalSyntheticLambda2
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    EmojiPacksAlert.this.lambda$updateButton$10(arrayList4, view);
+                }
+            });
+            updateShowButton(true);
+        } else if (arrayList2.size() > 0) {
+            this.addButtonView.setVisibility(8);
+            this.removeButtonView.setVisibility(0);
+            if (arrayList2.size() == 1) {
+                this.removeButtonView.setText(LocaleController.formatPluralString("RemoveManyEmojiCount", ((TLRPC$TL_messages_stickerSet) arrayList2.get(0)).documents.size(), new Object[0]));
+            } else {
+                this.removeButtonView.setText(LocaleController.formatPluralString("RemoveManyEmojiPacksCount", arrayList2.size(), new Object[0]));
+            }
+            this.removeButtonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EmojiPacksAlert$$ExternalSyntheticLambda3
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    EmojiPacksAlert.this.lambda$updateButton$11(arrayList2, view);
+                }
+            });
             updateShowButton(true);
         } else {
-            this.premiumButtonView.setVisibility(4);
-            if (arrayList4.size() > 0) {
-                this.addButtonView.setVisibility(0);
-                this.removeButtonView.setVisibility(8);
-                if (arrayList4.size() == 1) {
-                    this.addButtonView.setText(LocaleController.formatPluralString("AddManyEmojiCount", ((TLRPC$TL_messages_stickerSet) arrayList4.get(0)).documents.size(), new Object[0]));
-                } else {
-                    this.addButtonView.setText(LocaleController.formatPluralString("AddManyEmojiPacksCount", arrayList4.size(), new Object[0]));
-                }
-                this.addButtonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EmojiPacksAlert$$ExternalSyntheticLambda2
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        EmojiPacksAlert.this.lambda$updateButton$10(arrayList4, view);
-                    }
-                });
-                updateShowButton(true);
-            } else if (arrayList2.size() > 0) {
-                this.addButtonView.setVisibility(8);
-                this.removeButtonView.setVisibility(0);
-                if (arrayList2.size() == 1) {
-                    this.removeButtonView.setText(LocaleController.formatPluralString("RemoveManyEmojiCount", ((TLRPC$TL_messages_stickerSet) arrayList2.get(0)).documents.size(), new Object[0]));
-                } else {
-                    this.removeButtonView.setText(LocaleController.formatPluralString("RemoveManyEmojiPacksCount", arrayList2.size(), new Object[0]));
-                }
-                this.removeButtonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EmojiPacksAlert$$ExternalSyntheticLambda3
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        EmojiPacksAlert.this.lambda$updateButton$11(arrayList2, view);
-                    }
-                });
-                updateShowButton(true);
-            } else {
-                this.addButtonView.setVisibility(8);
-                this.removeButtonView.setVisibility(8);
-                updateShowButton(false);
-            }
+            this.addButtonView.setVisibility(8);
+            this.removeButtonView.setVisibility(8);
+            updateShowButton(false);
         }
     }
 
