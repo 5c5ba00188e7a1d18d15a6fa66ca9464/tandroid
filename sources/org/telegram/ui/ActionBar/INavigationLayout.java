@@ -146,6 +146,8 @@ public interface INavigationLayout {
 
     void removeFragmentFromStack(BaseFragment baseFragment);
 
+    void removeFragmentFromStack(BaseFragment baseFragment, boolean z);
+
     void resumeDelayedFragmentAnimation();
 
     void setBackgroundView(View view);

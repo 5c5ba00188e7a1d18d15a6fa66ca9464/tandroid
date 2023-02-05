@@ -255,6 +255,11 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
         INavigationLayout.-CC.$default$removeFragmentFromStack(this, i);
     }
 
+    @Override // org.telegram.ui.ActionBar.INavigationLayout
+    public /* synthetic */ void removeFragmentFromStack(BaseFragment baseFragment) {
+        removeFragmentFromStack(baseFragment, false);
+    }
+
     public LNavigation(Context context) {
         this(context, null);
     }
@@ -1098,7 +1103,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
     }
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout
-    public void removeFragmentFromStack(BaseFragment baseFragment) {
+    public void removeFragmentFromStack(BaseFragment baseFragment, boolean z) {
         int indexOf = this.fragmentStack.indexOf(baseFragment);
         if (indexOf == -1) {
             return;

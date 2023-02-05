@@ -2404,7 +2404,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     SelectAnimatedEmojiDialog.this.emojiSearchGridView.animatedEmojiDrawables.put(imageViewEmoji2.span.getDocumentId(), animatedEmojiDrawable);
                 }
                 imageViewEmoji2.setDrawable(animatedEmojiDrawable);
-                if (UserConfig.getInstance(SelectAnimatedEmojiDialog.currentAccount).isPremium()) {
+                if (UserConfig.getInstance(SelectAnimatedEmojiDialog.currentAccount).isPremium() || SelectAnimatedEmojiDialog.this.type == 4 || SelectAnimatedEmojiDialog.this.type == 3) {
                     return;
                 }
                 if (imageViewEmoji2.premiumLockIconView == null) {
@@ -2633,8 +2633,8 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             return this.VIEW_TYPE_SEARCH;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:282:0x06b5  */
-        /* JADX WARN: Removed duplicated region for block: B:286:0x06f4  */
+        /* JADX WARN: Removed duplicated region for block: B:286:0x06c6  */
+        /* JADX WARN: Removed duplicated region for block: B:290:0x0705  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -2743,7 +2743,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                         SelectAnimatedEmojiDialog.this.emojiGridView.animatedEmojiDrawables.put(imageViewEmoji.span.getDocumentId(), drawable);
                     }
                     imageViewEmoji.setDrawable(drawable);
-                    if (UserConfig.getInstance(SelectAnimatedEmojiDialog.currentAccount).isPremium()) {
+                    if (UserConfig.getInstance(SelectAnimatedEmojiDialog.currentAccount).isPremium() || SelectAnimatedEmojiDialog.this.type == 4 || SelectAnimatedEmojiDialog.this.type == 3) {
                         return;
                     }
                     if (imageViewEmoji.premiumLockIconView == null) {

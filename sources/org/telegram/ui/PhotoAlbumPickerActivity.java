@@ -673,7 +673,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
                 this.loading = false;
             }
         } else if (i == NotificationCenter.closeChats) {
-            removeSelfFromStack();
+            removeSelfFromStack(true);
         }
     }
 

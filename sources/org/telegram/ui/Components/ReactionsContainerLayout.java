@@ -63,6 +63,7 @@ import org.telegram.tgnet.TLRPC$TL_chatReactionsSome;
 import org.telegram.tgnet.TLRPC$TL_messageReactions;
 import org.telegram.tgnet.TLRPC$TL_reactionCustomEmoji;
 import org.telegram.tgnet.TLRPC$TL_reactionEmoji;
+import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -90,6 +91,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     private boolean allReactionsAvailable;
     private boolean allReactionsIsDefault;
     private List<ReactionsLayoutInBubble.VisibleReaction> allReactionsList;
+    private boolean animatePopup;
     private final boolean animationEnabled;
     private Paint bgPaint;
     public int bigCircleOffset;
@@ -1082,7 +1084,11 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         this.transitionProgress = f;
         ChatScrimPopupContainerLayout chatScrimPopupContainerLayout = this.parentLayout;
         if (chatScrimPopupContainerLayout != null && chatScrimPopupContainerLayout.getPopupWindowLayout() != null) {
-            this.parentLayout.getPopupWindowLayout().setReactionsTransitionProgress(f);
+            ActionBarPopupWindow.ActionBarPopupWindowLayout popupWindowLayout = this.parentLayout.getPopupWindowLayout();
+            if (!this.animatePopup) {
+                f = 1.0f;
+            }
+            popupWindowLayout.setReactionsTransitionProgress(f);
         }
         invalidate();
     }
@@ -1186,7 +1192,8 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         }
     }
 
-    public void startEnterAnimation() {
+    public void startEnterAnimation(boolean z) {
+        this.animatePopup = z;
         setTransitionProgress(0.0f);
         setAlpha(1.0f);
         ObjectAnimator duration = ObjectAnimator.ofFloat(this, TRANSITION_PROGRESS_VALUE, 0.0f, 1.0f).setDuration(350L);
@@ -1784,7 +1791,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             }
             setMessage(this.messageObject, null);
             setVisibility(0);
-            startEnterAnimation();
+            startEnterAnimation(false);
         }
     }
 

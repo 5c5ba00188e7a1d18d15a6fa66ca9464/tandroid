@@ -246,6 +246,11 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         INavigationLayout.-CC.$default$removeFragmentFromStack(this, i);
     }
 
+    @Override // org.telegram.ui.ActionBar.INavigationLayout
+    public /* synthetic */ void removeFragmentFromStack(BaseFragment baseFragment) {
+        removeFragmentFromStack(baseFragment, false);
+    }
+
     static /* synthetic */ float access$1116(ActionBarLayout actionBarLayout, float f) {
         float f2 = actionBarLayout.animationProgress + f;
         actionBarLayout.animationProgress = f2;
@@ -2074,7 +2079,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void removeFragmentFromStack(BaseFragment baseFragment) {
+    public void removeFragmentFromStack(BaseFragment baseFragment, boolean z) {
         if (this.fragmentsStack.size() > 0) {
             List<BaseFragment> list = this.fragmentsStack;
         }
@@ -2088,7 +2093,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         if (this.delegate != null && this.fragmentsStack.size() == 1 && AndroidUtilities.isTablet()) {
             this.delegate.needCloseLastFragment(this);
         }
-        removeFragmentFromStackInternal(baseFragment, true);
+        removeFragmentFromStackInternal(baseFragment, !z);
     }
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout

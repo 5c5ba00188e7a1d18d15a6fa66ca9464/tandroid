@@ -1185,7 +1185,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             }
         } else if (i != NotificationCenter.closeChats || this.creatingChat) {
         } else {
-            removeSelfFromStack();
+            removeSelfFromStack(true);
         }
     }
 

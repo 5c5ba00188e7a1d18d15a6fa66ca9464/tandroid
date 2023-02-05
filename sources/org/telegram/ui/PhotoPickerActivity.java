@@ -1421,7 +1421,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.closeChats) {
-            removeSelfFromStack();
+            removeSelfFromStack(true);
         }
     }
 

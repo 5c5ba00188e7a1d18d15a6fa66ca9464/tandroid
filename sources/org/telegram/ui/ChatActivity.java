@@ -20130,14 +20130,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /*  JADX ERROR: JadxRuntimeException in pass: BlockProcessor
-        jadx.core.utils.exceptions.JadxRuntimeException: CFG modification limit reached, blocks count: 3324
+        jadx.core.utils.exceptions.JadxRuntimeException: CFG modification limit reached, blocks count: 3325
         	at jadx.core.dex.visitors.blocks.BlockProcessor.processBlocksTree(BlockProcessor.java:59)
         	at jadx.core.dex.visitors.blocks.BlockProcessor.visit(BlockProcessor.java:39)
         */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int r54, int r55, java.lang.Object... r56) {
         /*
-            Method dump skipped, instructions count: 15257
+            Method dump skipped, instructions count: 15258
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.ui.ChatActivity.didReceivedNotification(int, int, java.lang.Object[]):void");
@@ -27980,7 +27980,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                     @Override // org.telegram.ui.Components.PopupSwipeBackLayout.OnSwipeBackProgressListener
                                                     public void onSwipeBackProgress(PopupSwipeBackLayout popupSwipeBackLayout, float f3, float f4) {
                                                         if (f3 == 0.0f && !this.isEnter) {
-                                                            reactionsContainerLayout3.startEnterAnimation();
+                                                            reactionsContainerLayout3.startEnterAnimation(false);
                                                             this.isEnter = true;
                                                         } else if (f3 == 1.0f && this.isEnter) {
                                                             reactionsContainerLayout3.setAlpha(1.0f - f4);
@@ -28953,7 +28953,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
         this.scrimPopupWindow.showAtLocation(this.chatListView, 51, i, i2);
         if (z && reactionsContainerLayout != null) {
-            reactionsContainerLayout.startEnterAnimation();
+            reactionsContainerLayout.startEnterAnimation(true);
         }
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda133
             @Override // java.lang.Runnable

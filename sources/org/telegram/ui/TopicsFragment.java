@@ -3005,7 +3005,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             updateTopicsList(false, false);
             updateChatInfo(true);
         } else if (i != NotificationCenter.chatSwithcedToForum && i == NotificationCenter.closeChats) {
-            removeSelfFromStack();
+            removeSelfFromStack(true);
         }
         if (i == NotificationCenter.openedChatChanged && getParentActivity() != null && this.inPreviewMode && AndroidUtilities.isTablet()) {
             boolean booleanValue = ((Boolean) objArr[2]).booleanValue();

@@ -417,6 +417,10 @@ public abstract class BaseFragment {
     }
 
     public void removeSelfFromStack() {
+        removeSelfFromStack(false);
+    }
+
+    public void removeSelfFromStack(boolean z) {
         INavigationLayout iNavigationLayout;
         if (this.isFinished || (iNavigationLayout = this.parentLayout) == null) {
             return;
@@ -425,7 +429,7 @@ public abstract class BaseFragment {
         if (dialog != null) {
             dialog.dismiss();
         } else {
-            iNavigationLayout.removeFragmentFromStack(this);
+            iNavigationLayout.removeFragmentFromStack(this, z);
         }
     }
 

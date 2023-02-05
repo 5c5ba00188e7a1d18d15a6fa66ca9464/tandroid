@@ -7032,7 +7032,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 updateTtlIcon();
             }
         } else if (i == NotificationCenter.closeChats) {
-            removeSelfFromStack();
+            removeSelfFromStack(true);
         } else if (i == NotificationCenter.botInfoDidLoad) {
             TLRPC$BotInfo tLRPC$BotInfo = (TLRPC$BotInfo) objArr[0];
             if (tLRPC$BotInfo.user_id == this.userId) {

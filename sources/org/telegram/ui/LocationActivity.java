@@ -2837,7 +2837,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         LiveLocation liveLocation;
         LocationActivityAdapter locationActivityAdapter2;
         if (i == NotificationCenter.closeChats) {
-            removeSelfFromStack();
+            removeSelfFromStack(true);
             return;
         }
         if (i == NotificationCenter.locationPermissionGranted) {
