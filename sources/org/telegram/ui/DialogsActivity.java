@@ -2681,10 +2681,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Removed duplicated region for block: B:281:0x0d18  */
     /* JADX WARN: Removed duplicated region for block: B:289:0x0d42  */
     /* JADX WARN: Type inference failed for: r13v0 */
-    /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r13v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r13v5 */
     /* JADX WARN: Type inference failed for: r7v0 */
-    /* JADX WARN: Type inference failed for: r7v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r7v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v5 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -6194,7 +6194,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         DialogsActivity.this.searchViewPager.hideActionMode();
                     }
                 } else {
-                    DialogsActivity.this.rightSlidingDialogContainer.finishPreview();
+                    DialogsActivity.this.rightSlidingDialogContainer.lambda$presentFragment$1();
                     DialogsActivity.this.searchViewPager.updateTabs();
                 }
             } else if (i == 1) {
@@ -6768,7 +6768,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     public boolean onBackPressed() {
         if (this.rightSlidingDialogContainer.hasFragment()) {
             if (this.rightSlidingDialogContainer.getFragment().onBackPressed()) {
-                this.rightSlidingDialogContainer.finishPreview();
+                this.rightSlidingDialogContainer.lambda$presentFragment$1();
                 this.searchViewPager.updateTabs();
             }
             return false;
@@ -7775,7 +7775,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                                 topicsFragment2.parentDialogsActivity = this;
                                                 this.rightSlidingDialogContainer.presentFragment(getParentLayout(), topicsFragment2);
                                             } else {
-                                                this.rightSlidingDialogContainer.finishPreview();
+                                                this.rightSlidingDialogContainer.lambda$presentFragment$1();
                                             }
                                             this.searchViewPager.updateTabs();
                                             return;
@@ -12522,7 +12522,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean closeLastFragment() {
         if (this.rightSlidingDialogContainer.hasFragment()) {
-            this.rightSlidingDialogContainer.finishPreview();
+            this.rightSlidingDialogContainer.lambda$presentFragment$1();
             this.searchViewPager.updateTabs();
             return true;
         }

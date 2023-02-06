@@ -20898,7 +20898,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r4v76 */
     /* JADX WARN: Type inference failed for: r4v78 */
     /* JADX WARN: Type inference failed for: r7v14 */
-    /* JADX WARN: Type inference failed for: r7v15, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r7v15, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v18 */
     /* JADX WARN: Type inference failed for: r7v19 */
     /*
@@ -21899,7 +21899,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:90:0x0175  */
     /* JADX WARN: Removed duplicated region for block: B:93:0x0181  */
     /* JADX WARN: Type inference failed for: r14v4 */
-    /* JADX WARN: Type inference failed for: r14v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r14v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r14v9 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -26466,22 +26466,22 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Code restructure failed: missing block: B:359:0x06fb, code lost:
-        if (org.telegram.messenger.Emoji.fullyConsistsOfEmojis(r3) != false) goto L1283;
+        if (org.telegram.messenger.Emoji.fullyConsistsOfEmojis(r3) != false) goto L1287;
      */
     /* JADX WARN: Code restructure failed: missing block: B:601:0x0c6c, code lost:
-        if (r0.edit_messages != false) goto L993;
+        if (r0.edit_messages != false) goto L997;
      */
     /* JADX WARN: Code restructure failed: missing block: B:919:0x1677, code lost:
-        if (r2.isEmpty() == false) goto L709;
+        if (r2.isEmpty() == false) goto L713;
      */
     /* JADX WARN: Code restructure failed: missing block: B:932:0x169c, code lost:
-        if ((r0.available_reactions instanceof org.telegram.tgnet.TLRPC$TL_chatReactionsNone) == false) goto L722;
+        if ((r0.available_reactions instanceof org.telegram.tgnet.TLRPC$TL_chatReactionsNone) == false) goto L726;
      */
     /* JADX WARN: Code restructure failed: missing block: B:935:0x16a6, code lost:
-        if (org.telegram.messenger.ChatObject.isChannel(r14.currentChat) == false) goto L722;
+        if (org.telegram.messenger.ChatObject.isChannel(r14.currentChat) == false) goto L726;
      */
     /* JADX WARN: Code restructure failed: missing block: B:937:0x16aa, code lost:
-        if (r14.currentUser != null) goto L722;
+        if (r14.currentUser != null) goto L726;
      */
     /* JADX WARN: Code restructure failed: missing block: B:939:0x16b0, code lost:
         if (r2.isEmpty() != false) goto L341;
@@ -26501,11 +26501,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:1174:0x20d9  */
     /* JADX WARN: Removed duplicated region for block: B:1177:0x20ec  */
     /* JADX WARN: Removed duplicated region for block: B:1201:0x21c9  */
-    /* JADX WARN: Removed duplicated region for block: B:1285:0x242c  */
-    /* JADX WARN: Removed duplicated region for block: B:1286:0x2430  */
-    /* JADX WARN: Removed duplicated region for block: B:1289:0x244b  */
-    /* JADX WARN: Removed duplicated region for block: B:1292:0x2452  */
-    /* JADX WARN: Removed duplicated region for block: B:1295:0x2459  */
+    /* JADX WARN: Removed duplicated region for block: B:1289:0x2437  */
+    /* JADX WARN: Removed duplicated region for block: B:1290:0x243b  */
+    /* JADX WARN: Removed duplicated region for block: B:1293:0x2456  */
+    /* JADX WARN: Removed duplicated region for block: B:1296:0x245d  */
+    /* JADX WARN: Removed duplicated region for block: B:1299:0x2464  */
     /* JADX WARN: Removed duplicated region for block: B:167:0x02f3  */
     /* JADX WARN: Removed duplicated region for block: B:177:0x0317  */
     /* JADX WARN: Removed duplicated region for block: B:178:0x0319  */
@@ -26528,16 +26528,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r12v6, types: [org.telegram.ui.Components.AnimatedEmojiSpan[]] */
     /* JADX WARN: Type inference failed for: r13v33 */
     /* JADX WARN: Type inference failed for: r13v5 */
-    /* JADX WARN: Type inference failed for: r13v6, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r13v6, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r1v270 */
     /* JADX WARN: Type inference failed for: r1v271 */
     /* JADX WARN: Type inference failed for: r1v279, types: [org.telegram.ui.Components.AnimatedEmojiSpan[]] */
     /* JADX WARN: Type inference failed for: r20v10 */
     /* JADX WARN: Type inference failed for: r20v4 */
     /* JADX WARN: Type inference failed for: r20v5, types: [java.lang.String] */
-    /* JADX WARN: Type inference failed for: r2v219 */
-    /* JADX WARN: Type inference failed for: r2v220, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r2v270 */
+    /* JADX WARN: Type inference failed for: r2v218 */
+    /* JADX WARN: Type inference failed for: r2v219, types: [boolean] */
+    /* JADX WARN: Type inference failed for: r2v269 */
     /* JADX WARN: Type inference failed for: r4v118, types: [boolean] */
     /* JADX WARN: Type inference failed for: r6v27, types: [android.widget.LinearLayout, android.view.View] */
     @SuppressLint({"ClickableViewAccessibility"})
@@ -28151,7 +28151,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     this.scrimPopupWindow.setDismissAnimationDuration(220);
                                     this.scrimPopupWindow.setOutsideTouchable(true);
                                     this.scrimPopupWindow.setClippingEnabled(true);
-                                    this.scrimPopupWindow.setAnimationStyle(0);
+                                    if (!z25) {
+                                        this.scrimPopupWindow.setAnimationStyle(R.style.PopupContextAnimation);
+                                    } else {
+                                        this.scrimPopupWindow.setAnimationStyle(0);
+                                    }
                                     this.scrimPopupWindow.setFocusable(true);
                                     chatScrimPopupContainerLayout.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE));
                                     this.scrimPopupWindow.setInputMethodMode(2);

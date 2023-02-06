@@ -7,10 +7,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Locale;
-import org.telegram.SQLite.SQLiteException;
 import org.telegram.messenger.time.FastDateFormat;
 import org.telegram.messenger.video.MediaCodecVideoConvertor;
 import org.telegram.tgnet.TLObject;
@@ -312,8 +313,19 @@ public class FileLog {
             if (BuildVars.DEBUG_VERSION && needSent(th) && z) {
                 AndroidUtilities.appCenterLog(th);
             }
-            if (BuildVars.DEBUG_VERSION && (th instanceof SQLiteException) && th.getMessage() != null && th.getMessage().contains("disk image is malformed")) {
+            if (BuildVars.DEBUG_VERSION && th.getMessage() != null && th.getMessage().contains("disk image is malformed") && !databaseIsMalformed) {
+                d("copy malformed files");
                 databaseIsMalformed = true;
+                File file = new File(ApplicationLoader.getFilesDirFixed(), "malformed_database/");
+                file.mkdirs();
+                ArrayList<File> databaseFiles = MessagesStorage.getInstance(UserConfig.selectedAccount).getDatabaseFiles();
+                for (int i = 0; i < databaseFiles.size(); i++) {
+                    try {
+                        AndroidUtilities.copyFile(databaseFiles.get(i), new File(file, databaseFiles.get(i).getName()));
+                    } catch (IOException e) {
+                        e(e);
+                    }
+                }
             }
             ensureInitied();
             th.printStackTrace();

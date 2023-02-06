@@ -5345,7 +5345,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r13v178 */
     /* JADX WARN: Type inference failed for: r13v2 */
     /* JADX WARN: Type inference failed for: r13v3, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r15v109, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r15v109, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r15v110 */
     /* JADX WARN: Type inference failed for: r15v125 */
     /* JADX WARN: Type inference failed for: r2v1373 */
@@ -5355,9 +5355,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r3v1016 */
     /* JADX WARN: Type inference failed for: r3v1017 */
     /* JADX WARN: Type inference failed for: r3v26 */
-    /* JADX WARN: Type inference failed for: r3v27, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v27, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r3v35 */
-    /* JADX WARN: Type inference failed for: r3v48, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v48, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r3v749, types: [org.telegram.tgnet.TLRPC$InputStickerSet] */
     /* JADX WARN: Type inference failed for: r76v0, types: [android.view.View, org.telegram.ui.Cells.ChatMessageCell, android.view.ViewGroup, org.telegram.messenger.DownloadController$FileDownloadProgressListener] */
     /*

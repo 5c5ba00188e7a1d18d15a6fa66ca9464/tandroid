@@ -5029,7 +5029,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     if (rightSlidingDialogContainer != null) {
                         BaseFragment fragment = rightSlidingDialogContainer.getFragment();
                         if ((fragment instanceof TopicsFragment) && ((TopicsFragment) fragment).getDialogId() == getDialogId()) {
-                            dialogsActivity.rightSlidingDialogContainer.finishPreview();
+                            dialogsActivity.rightSlidingDialogContainer.lambda$presentFragment$1();
                         }
                     }
                 } else if (baseFragment instanceof ChatActivity) {
@@ -10475,8 +10475,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             for (File file3 : file.listFiles()) {
                 arrayList.add(file3);
             }
-            if (FileLog.databaseIsMalformed) {
-                arrayList.addAll(MessagesStorage.getInstance(UserConfig.selectedAccount).getDatabaseFiles());
+            File file4 = new File(ApplicationLoader.getFilesDirFixed(), "malformed_database/");
+            if (file4.exists() && file4.isDirectory()) {
+                for (File file5 : file4.listFiles()) {
+                    arrayList.add(file5);
+                }
             }
             try {
                 final boolean[] zArr = new boolean[1];
@@ -10486,11 +10489,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     try {
                         byte[] bArr = new byte[CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT];
                         for (int i = 0; i < arrayList.size(); i++) {
-                            File file4 = (File) arrayList.get(i);
-                            if ((file4.getName().contains("cache4") || ((!z && !file4.getName().contains("_mtproto")) || currentTimeMillis - file4.lastModified() <= 86400000)) && file4.exists()) {
-                                BufferedInputStream bufferedInputStream2 = new BufferedInputStream(new FileInputStream(file4), CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT);
+                            File file6 = (File) arrayList.get(i);
+                            if ((file6.getName().contains("cache4") || ((!z && !file6.getName().contains("_mtproto")) || currentTimeMillis - file6.lastModified() <= 86400000)) && file6.exists()) {
+                                BufferedInputStream bufferedInputStream2 = new BufferedInputStream(new FileInputStream(file6), CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT);
                                 try {
-                                    zipOutputStream.putNextEntry(new ZipEntry(file4.getName()));
+                                    zipOutputStream.putNextEntry(new ZipEntry(file6.getName()));
                                     while (true) {
                                         int read = bufferedInputStream2.read(bArr, 0, CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT);
                                         if (read == -1) {

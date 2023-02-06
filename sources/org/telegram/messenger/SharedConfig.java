@@ -30,6 +30,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLRPC$TL_help_appUpdate;
 import org.telegram.tgnet.TLRPC$help_AppUpdate;
+import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 /* loaded from: classes.dex */
 public class SharedConfig {
@@ -1707,6 +1708,7 @@ public class SharedConfig {
             this.enabled = !this.enabled;
             savePreference();
             AnimatedEmojiDrawable.lightModeChanged();
+            Theme.reloadWallpaper();
         }
 
         private void loadPreference() {
@@ -1718,6 +1720,10 @@ public class SharedConfig {
         }
 
         public boolean animatedEmojiEnabled() {
+            return !this.enabled;
+        }
+
+        public boolean animatedBackgroundEnabled() {
             return !this.enabled;
         }
     }

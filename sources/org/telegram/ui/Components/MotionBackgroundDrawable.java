@@ -195,6 +195,10 @@ public class MotionBackgroundDrawable extends Drawable {
         return this.currentBitmap;
     }
 
+    public Bitmap getPatternBitmap() {
+        return this.patternBitmap;
+    }
+
     public int getIntensity() {
         return this.intensity;
     }
