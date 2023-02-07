@@ -589,8 +589,11 @@ public class LocaleController {
         String str2;
         for (LocaleInfo localeInfo : this.languagesDict.values()) {
             String str3 = localeInfo.pathToFile;
-            if (str3 != null && str3.equals("remote") && !"en_raw".equals(localeInfo.shortName) && (str2 = localeInfo.pluralLangCode) != null && str2.equals(str)) {
-                return localeInfo;
+            if (str3 != null && str3.equals("remote") && ((str2 = localeInfo.shortName) == null || !str2.endsWith("_raw"))) {
+                String str4 = localeInfo.pluralLangCode;
+                if (str4 != null && str4.equals(str)) {
+                    return localeInfo;
+                }
             }
         }
         return null;

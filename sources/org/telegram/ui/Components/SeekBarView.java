@@ -43,10 +43,10 @@ public class SeekBarView extends FrameLayout {
     private Drawable hoverDrawable;
     private Paint innerPaint1;
     private CharSequence lastCaption;
+    private long lastDuration;
     private long lastTimestampUpdate;
     private long lastUpdateTime;
     int lastValue;
-    private long lastVideoDuration;
     private float lastWidth;
     private int lineWidthDp;
     private Paint outerPaint1;
@@ -536,7 +536,7 @@ public class SeekBarView extends FrameLayout {
             staticLayoutArr[0] = null;
         }
         this.lastCaption = null;
-        this.lastVideoDuration = -1L;
+        this.lastDuration = -1L;
     }
 
     public void updateTimestamps(MessageObject messageObject, Long l) {
@@ -561,11 +561,11 @@ public class SeekBarView extends FrameLayout {
             }
             charSequence = messageObject.youtubeDescription;
         }
-        if (charSequence == this.lastCaption && this.lastVideoDuration == l.longValue()) {
+        if (charSequence == this.lastCaption && this.lastDuration == l.longValue()) {
             return;
         }
         this.lastCaption = charSequence;
-        this.lastVideoDuration = l.longValue();
+        this.lastDuration = l.longValue();
         if (!(charSequence instanceof Spanned)) {
             this.timestamps = null;
             this.currentTimestamp = -1;
@@ -771,7 +771,7 @@ public class SeekBarView extends FrameLayout {
             this.timestampLabel = new StaticLayout[2];
         }
         float f = this.selectorWidth / 2.0f;
-        float abs = Math.abs(f - (getMeasuredWidth() - (this.selectorWidth / 2.0f))) - AndroidUtilities.dp(66.0f);
+        float abs = Math.abs(f - ((getMeasuredWidth() - (this.selectorWidth / 2.0f)) - (this.lastDuration > 600000 ? AndroidUtilities.dp(36.0f) : 0))) - AndroidUtilities.dp(66.0f);
         float f2 = this.lastWidth;
         if (f2 > 0.0f && Math.abs(f2 - abs) > 0.01f) {
             StaticLayout[] staticLayoutArr = this.timestampLabel;
@@ -830,7 +830,7 @@ public class SeekBarView extends FrameLayout {
         }
         float interpolation = CubicBezierInterpolator.DEFAULT.getInterpolation(this.timestampChangeT);
         canvas.save();
-        canvas.translate(f + AndroidUtilities.dp(25.0f), (getMeasuredHeight() / 2.0f) + AndroidUtilities.dp(13.0f));
+        canvas.translate(f + AndroidUtilities.dp(25.0f), (getMeasuredHeight() / 2.0f) + AndroidUtilities.dp(14.0f));
         this.timestampLabelPaint.setColor(getThemedColor("player_time"));
         if (this.timestampLabel[1] != null) {
             canvas.save();

@@ -1928,7 +1928,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r12v187 */
     /* JADX WARN: Type inference failed for: r12v188 */
     /* JADX WARN: Type inference failed for: r12v21 */
-    /* JADX WARN: Type inference failed for: r12v9, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v9, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r1v193, types: [java.util.HashMap] */
     /* JADX WARN: Type inference failed for: r1v216, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
     /* JADX WARN: Type inference failed for: r1v24, types: [org.telegram.ui.ActionBar.DrawerLayoutContainer] */
@@ -1940,7 +1940,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r1v400, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
     /* JADX WARN: Type inference failed for: r2v89, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
     /* JADX WARN: Type inference failed for: r3v1 */
-    /* JADX WARN: Type inference failed for: r3v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v23 */
     /* JADX WARN: Type inference failed for: r3v26 */
     /* JADX WARN: Type inference failed for: r3v27 */

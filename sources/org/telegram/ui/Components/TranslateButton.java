@@ -291,11 +291,11 @@ public class TranslateButton extends FrameLayout {
         translateController.checkRestrictedLanguagesUpdate();
         translateController.setHideTranslateDialog(this.dialogId, true);
         if (this.accusative[0]) {
-            formatString = LocaleController.formatString("AddedToDoNotTranslate", R.string.AddedToDoNotTranslate, TranslateAlert2.capitalFirst(str2));
+            formatString = LocaleController.formatString("AddedToDoNotTranslate", R.string.AddedToDoNotTranslate, str2);
         } else {
-            formatString = LocaleController.formatString("AddedToDoNotTranslateOther", R.string.AddedToDoNotTranslateOther, TranslateAlert2.capitalFirst(str2));
+            formatString = LocaleController.formatString("AddedToDoNotTranslateOther", R.string.AddedToDoNotTranslateOther, str2);
         }
-        BulletinFactory.of(this.fragment).createSimpleBulletin(R.raw.msg_translate, formatString, LocaleController.getString("Settings", R.string.Settings), new Runnable() { // from class: org.telegram.ui.Components.TranslateButton$$ExternalSyntheticLambda8
+        BulletinFactory.of(this.fragment).createSimpleBulletin(R.raw.msg_translate, TranslateAlert2.capitalFirst(AndroidUtilities.replaceTags(formatString)), LocaleController.getString("Settings", R.string.Settings), new Runnable() { // from class: org.telegram.ui.Components.TranslateButton$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 TranslateButton.this.lambda$onMenuClick$6();

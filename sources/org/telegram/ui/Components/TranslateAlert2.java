@@ -66,6 +66,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.TranslateAlert2;
 /* loaded from: classes3.dex */
 public class TranslateAlert2 extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
+    private static HashMap<String, Locale> localesByCode;
     private PaddedAdapter adapter;
     private Boolean buttonShadowShown;
     private View buttonShadowView;
@@ -1014,10 +1015,19 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
     }
 
     public static String capitalFirst(String str) {
-        if (str == null) {
+        if (str == null || str.length() <= 0) {
             return null;
         }
         return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
+    public static CharSequence capitalFirst(CharSequence charSequence) {
+        if (charSequence == null || charSequence.length() <= 0) {
+            return null;
+        }
+        SpannableStringBuilder valueOf = charSequence instanceof SpannableStringBuilder ? (SpannableStringBuilder) charSequence : SpannableStringBuilder.valueOf(charSequence);
+        valueOf.replace(0, 1, (CharSequence) valueOf.toString().substring(0, 1).toUpperCase());
+        return valueOf;
     }
 
     public static String languageName(String str) {
@@ -1025,7 +1035,6 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
     }
 
     public static String languageName(String str, boolean[] zArr) {
-        Locale locale;
         if (str == null || str.equals(TranslateController.UNKNOWN_LANGUAGE) || str.equals("auto")) {
             return null;
         }
@@ -1042,24 +1051,9 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
                 return string;
             }
         }
-        try {
-            Locale[] availableLocales = Locale.getAvailableLocales();
-            int i = 0;
-            while (true) {
-                if (i >= availableLocales.length) {
-                    locale = null;
-                    break;
-                } else if (TextUtils.equals(str2, availableLocales[i].getLanguage())) {
-                    locale = availableLocales[i];
-                    break;
-                } else {
-                    i++;
-                }
-            }
-            if (locale != null) {
-                return locale.getDisplayLanguage(Locale.getDefault());
-            }
-        } catch (Exception unused) {
+        String systemLanguageName = systemLanguageName(str2);
+        if (systemLanguageName != null) {
+            return systemLanguageName;
         }
         if ("no".equals(str)) {
             str = "nb";
@@ -1076,6 +1070,32 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
             return builtinLanguageByPlural.nameEnglish;
         }
         return builtinLanguageByPlural.name;
+    }
+
+    public static String systemLanguageName(String str) {
+        return systemLanguageName(str, false);
+    }
+
+    public static String systemLanguageName(String str, boolean z) {
+        if (localesByCode == null) {
+            localesByCode = new HashMap<>();
+            try {
+                Locale[] availableLocales = Locale.getAvailableLocales();
+                for (int i = 0; i < availableLocales.length; i++) {
+                    localesByCode.put(availableLocales[i].getLanguage(), availableLocales[i]);
+                }
+            } catch (Exception unused) {
+            }
+        }
+        try {
+            Locale locale = localesByCode.get(str);
+            if (locale != null) {
+                return locale.getDisplayLanguage(z ? locale : Locale.getDefault());
+            }
+            return null;
+        } catch (Exception unused2) {
+            return null;
+        }
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog

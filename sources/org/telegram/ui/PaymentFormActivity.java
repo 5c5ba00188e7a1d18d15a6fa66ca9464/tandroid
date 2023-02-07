@@ -585,7 +585,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Removed duplicated region for block: B:672:0x1bb0  */
     /* JADX WARN: Type inference failed for: r0v89, types: [org.telegram.ui.Cells.RecurrentPaymentsAcceptCell] */
     /* JADX WARN: Type inference failed for: r13v3 */
-    /* JADX WARN: Type inference failed for: r13v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v4, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v7 */
     /* JADX WARN: Type inference failed for: r1v122, types: [org.telegram.ui.ActionBar.ActionBarMenuItem, android.widget.FrameLayout] */
     /* JADX WARN: Type inference failed for: r1v141, types: [android.text.SpannableStringBuilder, java.lang.CharSequence] */
@@ -1475,7 +1475,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                 private int actionPosition;
                                 public final String[] PREFIXES_15 = {"34", "37"};
                                 public final String[] PREFIXES_14 = {"300", "301", "302", "303", "304", "305", "309", "36", "38", "39"};
-                                public final String[] PREFIXES_16 = {"2221", "2222", "2223", "2224", "2225", "2226", "2227", "2228", "2229", "2200", "2201", "2202", "2203", "2204", "223", "224", "225", "226", "227", "228", "229", "23", "24", "25", "26", "270", "271", "2720", "50", "51", "52", "53", "54", "55", "4", "60", "62", "64", "65", "35"};
+                                public final String[] PREFIXES_16 = {"2221", "2222", "2223", "2224", "2225", "2226", "2227", "2228", "2229", "2200", "2201", "2202", "2203", "2204", "8600", "9860", "223", "224", "225", "226", "227", "228", "229", "23", "24", "25", "26", "270", "271", "2720", "50", "51", "52", "53", "54", "55", "4", "60", "62", "64", "65", "35"};
                                 private int characterAction = -1;
 
                                 @Override // android.text.TextWatcher

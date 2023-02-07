@@ -671,25 +671,25 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:109:0x02ab, code lost:
-            if (r13 == (r11.this$0.sortedLanguages.size() - 1)) goto L107;
+        /* JADX WARN: Code restructure failed: missing block: B:101:0x0274, code lost:
+            if (r13 == (r11.this$0.unofficialLanguages.size() - 1)) goto L109;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:39:0x010d, code lost:
-            if (r12.getValueTextView().getPaint().measureText(r2) > java.lang.Math.min((org.telegram.messenger.AndroidUtilities.displaySize.x - org.telegram.messenger.AndroidUtilities.dp(34.0f)) / 2.0f, (org.telegram.messenger.AndroidUtilities.displaySize.x - org.telegram.messenger.AndroidUtilities.dp(84.0f)) - r12.getTextView().getPaint().measureText(r0))) goto L30;
+        /* JADX WARN: Code restructure failed: missing block: B:111:0x02b5, code lost:
+            if (r13 == (r11.this$0.sortedLanguages.size() - 1)) goto L109;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:90:0x0230, code lost:
-            if (r13 == (r11.this$0.searchResult.size() - 1)) goto L107;
+        /* JADX WARN: Code restructure failed: missing block: B:41:0x0117, code lost:
+            if (r12.getValueTextView().getPaint().measureText(r2) > java.lang.Math.min((org.telegram.messenger.AndroidUtilities.displaySize.x - org.telegram.messenger.AndroidUtilities.dp(34.0f)) / 2.0f, (org.telegram.messenger.AndroidUtilities.displaySize.x - org.telegram.messenger.AndroidUtilities.dp(84.0f)) - r12.getTextView().getPaint().measureText(r0))) goto L32;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:91:0x0232, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:92:0x023a, code lost:
+            if (r13 == (r11.this$0.searchResult.size() - 1)) goto L109;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:93:0x023c, code lost:
             r13 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:92:0x0235, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:94:0x023f, code lost:
             r13 = false;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:99:0x026a, code lost:
-            if (r13 == (r11.this$0.unofficialLanguages.size() - 1)) goto L107;
-         */
-        /* JADX WARN: Removed duplicated region for block: B:44:0x0115  */
+        /* JADX WARN: Removed duplicated region for block: B:46:0x011f  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -785,7 +785,10 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                     }
                     TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                     textInfoPrivacyCell.updateRTL();
-                    if (i == ((LanguageSelectActivity.this.getContextValue() || LanguageSelectActivity.this.getChatValue()) ? 4 : 4)) {
+                    if (!LanguageSelectActivity.this.getMessagesController().premiumLocked && (LanguageSelectActivity.this.getContextValue() || LanguageSelectActivity.this.getChatValue())) {
+                        i3 = 4;
+                    }
+                    if (i == i3) {
                         textInfoPrivacyCell.setText(LocaleController.getString("TranslateMessagesInfo1", R.string.TranslateMessagesInfo1));
                         textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                         textInfoPrivacyCell.setTopPadding(11);

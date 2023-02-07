@@ -65,6 +65,8 @@ public class TranslateController extends BaseController {
     public static class Language {
         public String code;
         public String displayName;
+        public String ownDisplayName;
+        public String q;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -285,9 +287,21 @@ public class TranslateController extends BaseController {
             Language language = new Language();
             String str = allLanguages.get(i);
             language.code = str;
-            String capitalFirst = TranslateAlert2.capitalFirst(TranslateAlert2.languageName(str));
-            language.displayName = capitalFirst;
-            if (capitalFirst != null) {
+            if ("no".equals(str)) {
+                language.code = "nb";
+            }
+            language.displayName = TranslateAlert2.capitalFirst(TranslateAlert2.languageName(language.code));
+            language.ownDisplayName = TranslateAlert2.capitalFirst(TranslateAlert2.systemLanguageName(language.code, true));
+            if (language.displayName != null) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(language.displayName);
+                sb.append(" ");
+                String str2 = language.ownDisplayName;
+                if (str2 == null) {
+                    str2 = "";
+                }
+                sb.append(str2);
+                language.q = sb.toString().toLowerCase();
                 arrayList.add(language);
             }
         }
@@ -369,9 +383,13 @@ public class TranslateController extends BaseController {
                 if (!"nb".equals(str) || !"no".equals(next)) {
                     Language language = new Language();
                     language.code = next;
-                    String capitalFirst = TranslateAlert2.capitalFirst(TranslateAlert2.languageName(next));
-                    language.displayName = capitalFirst;
-                    if (capitalFirst != null) {
+                    if ("no".equals(next)) {
+                        language.code = "nb";
+                    }
+                    language.displayName = TranslateAlert2.capitalFirst(TranslateAlert2.languageName(language.code));
+                    language.ownDisplayName = TranslateAlert2.capitalFirst(TranslateAlert2.systemLanguageName(language.code, true));
+                    if (language.displayName != null) {
+                        language.q = (language.displayName + " " + language.ownDisplayName).toLowerCase();
                         arrayList.add(language);
                     }
                 }
