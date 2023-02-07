@@ -20898,7 +20898,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r4v76 */
     /* JADX WARN: Type inference failed for: r4v78 */
     /* JADX WARN: Type inference failed for: r7v14 */
-    /* JADX WARN: Type inference failed for: r7v15, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r7v15, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v18 */
     /* JADX WARN: Type inference failed for: r7v19 */
     /*
@@ -21899,7 +21899,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:90:0x0175  */
     /* JADX WARN: Removed duplicated region for block: B:93:0x0181  */
     /* JADX WARN: Type inference failed for: r14v4 */
-    /* JADX WARN: Type inference failed for: r14v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r14v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r14v9 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -26528,7 +26528,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r12v6, types: [org.telegram.ui.Components.AnimatedEmojiSpan[]] */
     /* JADX WARN: Type inference failed for: r13v33 */
     /* JADX WARN: Type inference failed for: r13v5 */
-    /* JADX WARN: Type inference failed for: r13v6, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r13v6, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r1v270 */
     /* JADX WARN: Type inference failed for: r1v271 */
     /* JADX WARN: Type inference failed for: r1v279, types: [org.telegram.ui.Components.AnimatedEmojiSpan[]] */

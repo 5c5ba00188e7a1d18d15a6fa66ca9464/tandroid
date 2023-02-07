@@ -228,11 +228,13 @@ public class CodeFieldContainer extends LinearLayout {
                                 }
                                 CodeFieldContainer.this.ignoreOnTextChange = false;
                             }
-                            if (i8 != i - 1) {
+                            int i10 = i8 + 1;
+                            if (i10 >= 0) {
                                 CodeNumberField[] codeNumberFieldArr2 = CodeFieldContainer.this.codeField;
-                                int i10 = i8 + 1;
-                                codeNumberFieldArr2[i10].setSelection(codeNumberFieldArr2[i10].length());
-                                CodeFieldContainer.this.codeField[i10].requestFocus();
+                                if (i10 < codeNumberFieldArr2.length) {
+                                    codeNumberFieldArr2[i10].setSelection(codeNumberFieldArr2[i10].length());
+                                    CodeFieldContainer.this.codeField[i10].requestFocus();
+                                }
                             }
                             int i11 = i;
                             if ((i8 == i11 - 1 || (i8 == i11 - 2 && length >= 2)) && CodeFieldContainer.this.getCode().length() == i) {

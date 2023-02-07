@@ -1192,6 +1192,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onConfigurationChanged(Configuration configuration) {
+        CodeNumberField[] codeNumberFieldArr;
         int i;
         super.onConfigurationChanged(configuration);
         setCustomKeyboardVisible(isCustomKeyboardVisible(), false);
@@ -1207,7 +1208,11 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
             i = 8;
             rLottieImageView.setVisibility(i);
         }
-        for (CodeNumberField codeNumberField : this.codeFieldContainer.codeField) {
+        CodeFieldContainer codeFieldContainer = this.codeFieldContainer;
+        if (codeFieldContainer == null || (codeNumberFieldArr = codeFieldContainer.codeField) == null) {
+            return;
+        }
+        for (CodeNumberField codeNumberField : codeNumberFieldArr) {
             codeNumberField.setShowSoftInputOnFocusCompat(!isCustomKeyboardVisible());
         }
     }

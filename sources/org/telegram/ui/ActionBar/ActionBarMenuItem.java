@@ -77,6 +77,7 @@ public class ActionBarMenuItem extends FrameLayout {
     private boolean fixBackground;
     private boolean forceSmoothKeyboard;
     protected RLottieImageView iconView;
+    private int iconViewResId;
     private boolean ignoreOnTextChange;
     private boolean isSearchField;
     private boolean layoutInScreen;
@@ -1180,6 +1181,7 @@ public class ActionBarMenuItem extends FrameLayout {
         } else {
             rLottieImageView.setImageDrawable(drawable);
         }
+        this.iconViewResId = 0;
     }
 
     public RLottieImageView getIconView() {
@@ -1195,6 +1197,21 @@ public class ActionBarMenuItem extends FrameLayout {
         if (rLottieImageView == null) {
             return;
         }
+        this.iconViewResId = i;
+        rLottieImageView.setImageResource(i);
+    }
+
+    public void setIcon(int i, boolean z) {
+        RLottieImageView rLottieImageView = this.iconView;
+        if (rLottieImageView == null || this.iconViewResId == i) {
+            return;
+        }
+        if (z) {
+            this.iconViewResId = i;
+            AndroidUtilities.updateImageViewImageAnimated(rLottieImageView, i);
+            return;
+        }
+        this.iconViewResId = i;
         rLottieImageView.setImageResource(i);
     }
 
