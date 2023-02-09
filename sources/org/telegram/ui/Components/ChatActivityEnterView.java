@@ -4139,22 +4139,25 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     }
 
     public /* synthetic */ void lambda$new$15(View view) {
-        AnimatorSet animatorSet = this.runningAnimationAudio;
-        if (animatorSet == null || !animatorSet.isRunning()) {
-            if (this.videoToSendMessageObject != null) {
-                CameraController.getInstance().cancelOnInitRunnable(this.onFinishInitCameraRunnable);
-                this.delegate.needStartRecordVideo(2, true, 0);
-            } else {
-                MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
-                if (playingMessageObject != null && playingMessageObject == this.audioToSendMessageObject) {
-                    MediaController.getInstance().cleanupPlayer(true, true);
+        if (this.recordingAudioVideo) {
+            AnimatorSet animatorSet = this.runningAnimationAudio;
+            if (animatorSet == null || !animatorSet.isRunning()) {
+                if (this.videoToSendMessageObject != null) {
+                    CameraController.getInstance().cancelOnInitRunnable(this.onFinishInitCameraRunnable);
+                    this.delegate.needStartRecordVideo(2, true, 0);
+                } else {
+                    MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
+                    if (playingMessageObject != null && playingMessageObject == this.audioToSendMessageObject) {
+                        MediaController.getInstance().cleanupPlayer(true, true);
+                    }
                 }
+                this.recordingAudioVideo = false;
+                if (this.audioToSendPath != null) {
+                    new File(this.audioToSendPath).delete();
+                }
+                hideRecordedAudioPanel(false);
+                checkSendButton(true);
             }
-            if (this.audioToSendPath != null) {
-                new File(this.audioToSendPath).delete();
-            }
-            hideRecordedAudioPanel(false);
-            checkSendButton(true);
         }
     }
 

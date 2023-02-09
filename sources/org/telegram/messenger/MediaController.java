@@ -4349,7 +4349,15 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         tLRPC$TL_document2.mime_type = "audio/ogg";
         tLRPC$TL_document2.file_reference = new byte[0];
         SharedConfig.saveConfig();
-        File file = new File(FileLoader.getDirectory(4), FileLoader.getAttachFileName(this.recordingAudio));
+        File file = new File(FileLoader.getDirectory(4), FileLoader.getAttachFileName(this.recordingAudio)) { // from class: org.telegram.messenger.MediaController.13
+            @Override // java.io.File
+            public boolean delete() {
+                if (BuildVars.LOGS_ENABLED) {
+                    FileLog.e("delete voice file");
+                }
+                return super.delete();
+            }
+        };
         this.recordingAudioFile = file;
         SharedConfig.lockFile(file);
         try {
@@ -4599,9 +4607,11 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             setBluetoothScoOn(false);
         } catch (Exception e) {
             FileLog.e(e);
-            File file = this.recordingAudioFile;
-            if (file != null) {
-                file.delete();
+            if (this.recordingAudioFile != null) {
+                if (BuildVars.LOGS_ENABLED) {
+                    FileLog.e("delete voice file");
+                }
+                this.recordingAudioFile.delete();
             }
         }
         if (i == 0) {
@@ -7102,7 +7112,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("videoconvert", 0);
                     long currentTimeMillis = System.currentTimeMillis();
                     final File file3 = file;
-                    VideoConvertorListener videoConvertorListener = new VideoConvertorListener() { // from class: org.telegram.messenger.MediaController.13
+                    VideoConvertorListener videoConvertorListener = new VideoConvertorListener() { // from class: org.telegram.messenger.MediaController.14
                         private long lastAvailableSize = 0;
 
                         @Override // org.telegram.messenger.MediaController.VideoConvertorListener
@@ -7148,7 +7158,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             SharedPreferences sharedPreferences2 = ApplicationLoader.applicationContext.getSharedPreferences("videoconvert", 0);
             long currentTimeMillis2 = System.currentTimeMillis();
             final File file32 = file;
-            VideoConvertorListener videoConvertorListener2 = new VideoConvertorListener() { // from class: org.telegram.messenger.MediaController.13
+            VideoConvertorListener videoConvertorListener2 = new VideoConvertorListener() { // from class: org.telegram.messenger.MediaController.14
                 private long lastAvailableSize = 0;
 
                 @Override // org.telegram.messenger.MediaController.VideoConvertorListener
@@ -7203,7 +7213,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         SharedPreferences sharedPreferences22 = ApplicationLoader.applicationContext.getSharedPreferences("videoconvert", 0);
         long currentTimeMillis22 = System.currentTimeMillis();
         final File file322 = file;
-        VideoConvertorListener videoConvertorListener22 = new VideoConvertorListener() { // from class: org.telegram.messenger.MediaController.13
+        VideoConvertorListener videoConvertorListener22 = new VideoConvertorListener() { // from class: org.telegram.messenger.MediaController.14
             private long lastAvailableSize = 0;
 
             @Override // org.telegram.messenger.MediaController.VideoConvertorListener

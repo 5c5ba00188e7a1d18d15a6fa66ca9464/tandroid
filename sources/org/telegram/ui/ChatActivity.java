@@ -7509,9 +7509,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     public class 16 extends SizeNotifierFrameLayout {
         int backgroundColor;
         Paint backgroundPaint;
-        ArrayList<ChatMessageCell> drawCaptionAfter;
-        ArrayList<ChatMessageCell> drawNamesAfter;
-        ArrayList<ChatMessageCell> drawTimeAfter;
+        final ArrayList<ChatMessageCell> drawCaptionAfter;
+        final ArrayList<ChatMessageCell> drawNamesAfter;
+        final ArrayList<ChatMessageCell> drawTimeAfter;
         int inputFieldHeight;
         int lastHeight;
         int lastWidth;
@@ -8826,7 +8826,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         i12 = 51;
                     }
                     int i13 = i12 & 7;
-                    int i14 = i12 & 112;
+                    int i14 = i12 & MessagesStorage.LAST_DB_VERSION;
                     int i15 = i13 & 7;
                     if (i15 == 1) {
                         i5 = (((i3 - i) - measuredWidth) / 2) + layoutParams.leftMargin;

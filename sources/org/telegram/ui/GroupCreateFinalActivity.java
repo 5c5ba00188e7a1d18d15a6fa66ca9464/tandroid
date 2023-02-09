@@ -372,7 +372,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
                             i13 = 51;
                         }
                         int i14 = i13 & 7;
-                        int i15 = i13 & 112;
+                        int i15 = i13 & MessagesStorage.LAST_DB_VERSION;
                         int i16 = i14 & 7;
                         if (i16 == 1) {
                             i6 = (((i4 - i2) - measuredWidth) / 2) + layoutParams.leftMargin;

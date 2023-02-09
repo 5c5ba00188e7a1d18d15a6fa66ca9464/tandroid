@@ -503,7 +503,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         return this.document;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:115:0x0315  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x02fa  */
     /* JADX WARN: Removed duplicated region for block: B:88:0x01c8  */
     /* JADX WARN: Removed duplicated region for block: B:91:0x01ce  */
     /* JADX WARN: Removed duplicated region for block: B:92:0x01fd  */
@@ -616,7 +616,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                             this.imageReceiver.setImage(null, null, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, svgDrawable, tLRPC$Document2.size, null, tLRPC$Document2, 1);
                         } else {
                             TLRPC$Document tLRPC$Document3 = this.document;
-                            this.imageReceiver.setImage(imageLocation2, str2 + "_firstframe", ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, svgDrawable, tLRPC$Document3.size, null, tLRPC$Document3, 1);
+                            this.imageReceiver.setImage(imageLocation2, str2 + "_firstframe", null, null, svgDrawable, tLRPC$Document3.size, null, tLRPC$Document3, 1);
                         }
                     } else {
                         TLRPC$Document tLRPC$Document4 = this.document;

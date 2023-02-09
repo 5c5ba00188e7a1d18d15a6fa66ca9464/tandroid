@@ -38,6 +38,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
@@ -482,7 +483,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                                 i15 = 51;
                             }
                             int i16 = i15 & 7;
-                            int i17 = i15 & 112;
+                            int i17 = i15 & MessagesStorage.LAST_DB_VERSION;
                             int i18 = i16 & 7;
                             if (i18 == 1) {
                                 i8 = (((i6 - i4) - measuredWidth) / 2) + layoutParams.leftMargin;

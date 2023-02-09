@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
@@ -701,7 +702,7 @@ public class BottomSheet extends Dialog {
                                 i17 = 51;
                             }
                             int i18 = i17 & 7;
-                            int i19 = i17 & 112;
+                            int i19 = i17 & MessagesStorage.LAST_DB_VERSION;
                             int i20 = i18 & 7;
                             if (i20 == 1) {
                                 i7 = (((i6 - i5) - measuredWidth2) / 2) + layoutParams.leftMargin;

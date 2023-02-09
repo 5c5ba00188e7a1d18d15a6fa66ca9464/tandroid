@@ -4,16 +4,22 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.view.View;
 import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import androidx.core.math.MathUtils;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.ui.Components.EmojiTabsStrip;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: EmojiTabsStrip.java */
 /* loaded from: classes3.dex */
 public class ScrollableHorizontalScrollView extends HorizontalScrollView {
+    public LinearLayout contentView;
     private ValueAnimator scrollAnimator;
     protected boolean scrollingAnimation;
     private int scrollingTo;
+    ValueAnimator showAnimator;
+    boolean touching;
 
     public ScrollableHorizontalScrollView(Context context) {
         super(context);
@@ -84,5 +90,38 @@ public class ScrollableHorizontalScrollView extends HorizontalScrollView {
 
     public void resetScrollTo() {
         this.scrollingTo = -1;
+    }
+
+    @Override // android.widget.HorizontalScrollView, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        super.onLayout(z, i, i2, i3, i4);
+        updateButtonsVisibility();
+    }
+
+    @Override // android.view.View
+    protected void onScrollChanged(int i, int i2, int i3, int i4) {
+        super.onScrollChanged(i, i2, i3, i4);
+        if ((Math.abs(i2 - i4) < 2 || i2 >= getMeasuredHeight() || i2 == 0) && !this.touching) {
+            requestDisallowInterceptTouchEvent(false);
+        }
+        updateButtonsVisibility();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void updateButtonsVisibility() {
+        ValueAnimator valueAnimator;
+        int childCount = this.contentView.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View childAt = this.contentView.getChildAt(i);
+            if (childAt instanceof EmojiTabsStrip.EmojiTabButton) {
+                EmojiTabsStrip.EmojiTabButton emojiTabButton = (EmojiTabsStrip.EmojiTabButton) childAt;
+                boolean z = true;
+                boolean z2 = childAt.getRight() - getScrollX() > 0 && childAt.getLeft() - getScrollX() < getMeasuredWidth();
+                if (!this.scrollingAnimation || ((valueAnimator = this.showAnimator) != null && valueAnimator.isRunning())) {
+                    z = false;
+                }
+                emojiTabButton.updateVisibilityInbounds(z2, z);
+            }
+        }
     }
 }

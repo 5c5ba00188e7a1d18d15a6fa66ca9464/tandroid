@@ -70,6 +70,7 @@ import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.NotificationsSettingsFacade;
 import org.telegram.messenger.R;
@@ -2027,7 +2028,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                         i13 = 51;
                     }
                     int i14 = i13 & 7;
-                    int i15 = i13 & 112;
+                    int i15 = i13 & MessagesStorage.LAST_DB_VERSION;
                     int i16 = i14 & 7;
                     if (i16 == 1) {
                         i5 = ((i11 - measuredWidth) / 2) + layoutParams.leftMargin;

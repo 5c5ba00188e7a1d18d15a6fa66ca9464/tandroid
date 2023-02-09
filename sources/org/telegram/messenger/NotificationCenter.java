@@ -1256,6 +1256,10 @@ public class NotificationCenter {
             return;
         }
         arrayList2.add(notificationCenterDelegate);
+        if (!BuildVars.DEBUG_VERSION || arrayList2.size() <= 200) {
+            return;
+        }
+        FileLog.e((Throwable) new RuntimeException("Total observers more than 200, check for memory leak."), true);
     }
 
     private ArrayList<NotificationCenterDelegate> createArrayForId(int i) {

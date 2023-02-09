@@ -25,6 +25,7 @@ import java.util.Locale;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
@@ -491,7 +492,7 @@ public class ProximitySheet extends FrameLayout {
                     i14 = 51;
                 }
                 int i15 = i14 & 7;
-                int i16 = i14 & 112;
+                int i16 = i14 & MessagesStorage.LAST_DB_VERSION;
                 int i17 = i15 & 7;
                 if (i17 == 1) {
                     i5 = ((i12 - measuredWidth2) / 2) + layoutParams.leftMargin;

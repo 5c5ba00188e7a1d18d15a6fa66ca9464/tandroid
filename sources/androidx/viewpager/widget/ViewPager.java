@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes.dex */
 public class ViewPager extends ViewGroup {
     private int mActivePointerId;
@@ -1048,7 +1049,7 @@ public class ViewPager extends ViewGroup {
             if (childAt.getVisibility() != 8 && (layoutParams2 = (LayoutParams) childAt.getLayoutParams()) != null && layoutParams2.isDecor) {
                 int i8 = layoutParams2.gravity;
                 int i9 = i8 & 7;
-                int i10 = i8 & 112;
+                int i10 = i8 & MessagesStorage.LAST_DB_VERSION;
                 boolean z2 = i10 == 48 || i10 == 80;
                 if (i9 != 3 && i9 != 5) {
                     z = false;
@@ -1164,7 +1165,7 @@ public class ViewPager extends ViewGroup {
                 if (layoutParams.isDecor) {
                     int i11 = layoutParams.gravity;
                     int i12 = i11 & 7;
-                    int i13 = i11 & 112;
+                    int i13 = i11 & MessagesStorage.LAST_DB_VERSION;
                     if (i12 == 1) {
                         max = Math.max((i7 - childAt.getMeasuredWidth()) / 2, paddingLeft);
                     } else {

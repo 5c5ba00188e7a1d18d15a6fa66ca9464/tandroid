@@ -26,6 +26,7 @@ import java.util.HashMap;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.ActionBar.ActionBar;
@@ -303,7 +304,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                             i12 = 51;
                         }
                         int i13 = i12 & 7;
-                        int i14 = i12 & 112;
+                        int i14 = i12 & MessagesStorage.LAST_DB_VERSION;
                         int i15 = i13 & 7;
                         if (i15 == 1) {
                             i5 = (((i3 - i) - measuredWidth) / 2) + layoutParams.leftMargin;

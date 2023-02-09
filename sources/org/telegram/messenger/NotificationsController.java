@@ -45,7 +45,6 @@ import androidx.core.content.pm.ShortcutInfoCompat;
 import androidx.core.content.pm.ShortcutManagerCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.IconCompat;
-import com.google.android.exoplayer2.util.Log;
 import j$.util.function.Consumer;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -7193,39 +7192,43 @@ public class NotificationsController extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:241:0x05df  */
     /* JADX WARN: Removed duplicated region for block: B:249:0x05f4 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:260:0x0626  */
-    /* JADX WARN: Removed duplicated region for block: B:274:0x067f  */
-    /* JADX WARN: Removed duplicated region for block: B:278:0x06b0  */
-    /* JADX WARN: Removed duplicated region for block: B:303:0x0735  */
-    /* JADX WARN: Removed duplicated region for block: B:317:0x0776  */
-    /* JADX WARN: Removed duplicated region for block: B:358:0x082d  */
-    /* JADX WARN: Removed duplicated region for block: B:401:0x0934  */
-    /* JADX WARN: Removed duplicated region for block: B:402:0x0937  */
-    /* JADX WARN: Removed duplicated region for block: B:409:0x0963  */
-    /* JADX WARN: Removed duplicated region for block: B:414:0x09bd  */
-    /* JADX WARN: Removed duplicated region for block: B:418:0x09ed  */
-    /* JADX WARN: Removed duplicated region for block: B:422:0x09fb  */
-    /* JADX WARN: Removed duplicated region for block: B:430:0x0a1c  */
-    /* JADX WARN: Removed duplicated region for block: B:438:0x0a62  */
-    /* JADX WARN: Removed duplicated region for block: B:448:0x0adf  */
-    /* JADX WARN: Removed duplicated region for block: B:449:0x0ae9  */
-    /* JADX WARN: Removed duplicated region for block: B:455:0x0b35  */
-    /* JADX WARN: Removed duplicated region for block: B:458:0x0b54  */
-    /* JADX WARN: Removed duplicated region for block: B:461:0x0bac  */
-    /* JADX WARN: Removed duplicated region for block: B:465:0x0be7  */
-    /* JADX WARN: Removed duplicated region for block: B:470:0x0c0e  */
-    /* JADX WARN: Removed duplicated region for block: B:471:0x0c32  */
-    /* JADX WARN: Removed duplicated region for block: B:474:0x0ce7  */
-    /* JADX WARN: Removed duplicated region for block: B:476:0x0cf2  */
-    /* JADX WARN: Removed duplicated region for block: B:478:0x0cf7  */
-    /* JADX WARN: Removed duplicated region for block: B:481:0x0d01  */
-    /* JADX WARN: Removed duplicated region for block: B:487:0x0d15  */
-    /* JADX WARN: Removed duplicated region for block: B:489:0x0d1a  */
-    /* JADX WARN: Removed duplicated region for block: B:492:0x0d26  */
-    /* JADX WARN: Removed duplicated region for block: B:497:0x0d33  */
-    /* JADX WARN: Removed duplicated region for block: B:510:0x0db8 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:519:0x0dea  */
-    /* JADX WARN: Removed duplicated region for block: B:565:0x0940 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:583:0x0568 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:274:0x0680  */
+    /* JADX WARN: Removed duplicated region for block: B:278:0x06b1  */
+    /* JADX WARN: Removed duplicated region for block: B:296:0x0710  */
+    /* JADX WARN: Removed duplicated region for block: B:304:0x0730  */
+    /* JADX WARN: Removed duplicated region for block: B:318:0x0771  */
+    /* JADX WARN: Removed duplicated region for block: B:320:0x077c  */
+    /* JADX WARN: Removed duplicated region for block: B:327:0x079f  */
+    /* JADX WARN: Removed duplicated region for block: B:359:0x0828  */
+    /* JADX WARN: Removed duplicated region for block: B:402:0x092f  */
+    /* JADX WARN: Removed duplicated region for block: B:403:0x0932  */
+    /* JADX WARN: Removed duplicated region for block: B:410:0x095e  */
+    /* JADX WARN: Removed duplicated region for block: B:415:0x09b8  */
+    /* JADX WARN: Removed duplicated region for block: B:419:0x09e8  */
+    /* JADX WARN: Removed duplicated region for block: B:423:0x09f6  */
+    /* JADX WARN: Removed duplicated region for block: B:431:0x0a17  */
+    /* JADX WARN: Removed duplicated region for block: B:439:0x0a5d  */
+    /* JADX WARN: Removed duplicated region for block: B:442:0x0a73  */
+    /* JADX WARN: Removed duplicated region for block: B:449:0x0ada  */
+    /* JADX WARN: Removed duplicated region for block: B:450:0x0ae4  */
+    /* JADX WARN: Removed duplicated region for block: B:456:0x0b16  */
+    /* JADX WARN: Removed duplicated region for block: B:459:0x0b35  */
+    /* JADX WARN: Removed duplicated region for block: B:462:0x0b8d  */
+    /* JADX WARN: Removed duplicated region for block: B:466:0x0bc8  */
+    /* JADX WARN: Removed duplicated region for block: B:471:0x0bef  */
+    /* JADX WARN: Removed duplicated region for block: B:472:0x0c13  */
+    /* JADX WARN: Removed duplicated region for block: B:475:0x0cc8  */
+    /* JADX WARN: Removed duplicated region for block: B:477:0x0cd3  */
+    /* JADX WARN: Removed duplicated region for block: B:479:0x0cd8  */
+    /* JADX WARN: Removed duplicated region for block: B:482:0x0ce2  */
+    /* JADX WARN: Removed duplicated region for block: B:488:0x0cf6  */
+    /* JADX WARN: Removed duplicated region for block: B:490:0x0cfb  */
+    /* JADX WARN: Removed duplicated region for block: B:493:0x0d07  */
+    /* JADX WARN: Removed duplicated region for block: B:498:0x0d14  */
+    /* JADX WARN: Removed duplicated region for block: B:511:0x0d99 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:520:0x0dcb  */
+    /* JADX WARN: Removed duplicated region for block: B:572:0x093b A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:584:0x0568 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:90:0x0217  */
     /* JADX WARN: Removed duplicated region for block: B:91:0x0220  */
     @SuppressLint({"InlinedApi"})
@@ -7300,7 +7303,7 @@ public class NotificationsController extends BaseController {
         String str10;
         String str11;
         long j5;
-        long senderId;
+        long j6;
         Person person2;
         String str12;
         String str13;
@@ -7390,21 +7393,21 @@ public class NotificationsController extends BaseController {
             DialogKey dialogKey = (DialogKey) arrayList7.get(i21);
             ArrayList arrayList10 = arrayList7;
             Notification notification2 = build2;
-            long j6 = dialogKey.dialogId;
+            long j7 = dialogKey.dialogId;
             int i22 = dialogKey.topicId;
-            ArrayList arrayList11 = (ArrayList) longSparseArray7.get(j6);
+            ArrayList arrayList11 = (ArrayList) longSparseArray7.get(j7);
             int i23 = i21;
             int id = ((MessageObject) arrayList11.get(0)).getId();
-            Integer num3 = (Integer) longSparseArray8.get(j6);
+            Integer num3 = (Integer) longSparseArray8.get(j7);
             ArrayList arrayList12 = arrayList9;
             if (num3 == null) {
                 i5 = id;
                 z4 = z11;
-                num3 = Integer.valueOf(((int) j6) + ((int) (j6 >> 32)));
+                num3 = Integer.valueOf(((int) j7) + ((int) (j7 >> 32)));
             } else {
                 i5 = id;
                 z4 = z11;
-                longSparseArray8.remove(j6);
+                longSparseArray8.remove(j7);
             }
             Integer num4 = num3;
             MessageObject messageObject3 = (MessageObject) arrayList11.get(0);
@@ -7415,11 +7418,11 @@ public class NotificationsController extends BaseController {
                     i24 = ((MessageObject) arrayList11.get(i25)).messageOwner.date;
                 }
             }
-            if (!DialogObject.isEncryptedDialog(j6)) {
-                z5 = j6 != 777000;
-                if (DialogObject.isUserDialog(j6)) {
+            if (!DialogObject.isEncryptedDialog(j7)) {
+                z5 = j7 != 777000;
+                if (DialogObject.isUserDialog(j7)) {
                     i7 = size3;
-                    TLRPC$User user2 = getMessagesController().getUser(Long.valueOf(j6));
+                    TLRPC$User user2 = getMessagesController().getUser(Long.valueOf(j7));
                     if (user2 == null) {
                         if (messageObject3.isFcmMessage()) {
                             str18 = messageObject3.localName;
@@ -7427,7 +7430,7 @@ public class NotificationsController extends BaseController {
                             tLRPC$User5 = user2;
                         } else {
                             if (BuildVars.LOGS_ENABLED) {
-                                FileLog.w("not found user to show dialog notification " + j6);
+                                FileLog.w("not found user to show dialog notification " + j7);
                             }
                             j3 = clientUserId;
                             longSparseArray2 = longSparseArray9;
@@ -7453,9 +7456,9 @@ public class NotificationsController extends BaseController {
                             if (tLRPC$FileLocation5.volume_id != 0 && tLRPC$FileLocation5.local_id != 0) {
                                 tLRPC$FileLocation = tLRPC$FileLocation5;
                                 str18 = userName;
-                                if (!UserObject.isReplyUser(j6)) {
+                                if (!UserObject.isReplyUser(j7)) {
                                     str18 = LocaleController.getString("RepliesTitle", R.string.RepliesTitle);
-                                } else if (j6 == clientUserId) {
+                                } else if (j7 == clientUserId) {
                                     str18 = LocaleController.getString("MessageScheduledReminderNotification", R.string.MessageScheduledReminderNotification);
                                 }
                                 j2 = clientUserId;
@@ -7471,7 +7474,7 @@ public class NotificationsController extends BaseController {
                                 if (z12) {
                                     str3 = string;
                                 } else {
-                                    if (DialogObject.isChatDialog(j6)) {
+                                    if (DialogObject.isChatDialog(j7)) {
                                         string2 = LocaleController.getString("NotificationHiddenChatName", R.string.NotificationHiddenChatName);
                                     } else {
                                         string2 = LocaleController.getString("NotificationHiddenName", R.string.NotificationHiddenName);
@@ -7522,7 +7525,7 @@ public class NotificationsController extends BaseController {
                                     file2 = file;
                                     str4 = "NotificationHiddenChatName";
                                 }
-                                if (!(z7 || z6) || !z5 || SharedConfig.isWaitingForPasscodeEnter || j2 == j6 || UserObject.isReplyUser(j6)) {
+                                if (!(z7 || z6) || !z5 || SharedConfig.isWaitingForPasscodeEnter || j2 == j7 || UserObject.isReplyUser(j7)) {
                                     str6 = "max_id";
                                     bitmap2 = bitmap;
                                     str5 = str4;
@@ -7534,7 +7537,7 @@ public class NotificationsController extends BaseController {
                                     str5 = str4;
                                     file3 = file2;
                                     Intent intent = new Intent(ApplicationLoader.applicationContext, WearReplyReceiver.class);
-                                    intent.putExtra("dialog_id", j6);
+                                    intent.putExtra("dialog_id", j7);
                                     i10 = i5;
                                     intent.putExtra("max_id", i10);
                                     intent.putExtra("topic_id", i22);
@@ -7543,7 +7546,7 @@ public class NotificationsController extends BaseController {
                                     bitmap2 = bitmap;
                                     PendingIntent broadcast = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent, 167772160);
                                     RemoteInput build3 = new RemoteInput.Builder(EXTRA_VOICE_REPLY).setLabel(LocaleController.getString("Reply", R.string.Reply)).build();
-                                    if (!DialogObject.isChatDialog(j6)) {
+                                    if (!DialogObject.isChatDialog(j7)) {
                                         str6 = "max_id";
                                         formatString = LocaleController.formatString("ReplyToGroup", R.string.ReplyToGroup, str3);
                                     } else {
@@ -7552,7 +7555,7 @@ public class NotificationsController extends BaseController {
                                     }
                                     build = new NotificationCompat.Action.Builder(R.drawable.ic_reply_icon, formatString, broadcast).setAllowGeneratedReplies(true).setSemanticAction(1).addRemoteInput(build3).setShowsUserInterface(false).build();
                                 }
-                                num2 = notificationsController3.pushDialogs.get(j6);
+                                num2 = notificationsController3.pushDialogs.get(j7);
                                 if (num2 == null) {
                                     num2 = 0;
                                 }
@@ -7598,7 +7601,7 @@ public class NotificationsController extends BaseController {
                                                         if (i11 >= 28) {
                                                         }
                                                         messagingStyle.setConversationTitle(format);
-                                                        messagingStyle.setGroupConversation(i11 >= 28 || (!z7 && DialogObject.isChatDialog(j6)) || UserObject.isReplyUser(j6));
+                                                        messagingStyle.setGroupConversation(i11 >= 28 || (!z7 && DialogObject.isChatDialog(j7)) || UserObject.isReplyUser(j7));
                                                         StringBuilder sb = new StringBuilder();
                                                         int i26 = i10;
                                                         String[] strArr2 = new String[1];
@@ -7613,16 +7616,15 @@ public class NotificationsController extends BaseController {
                                                         arrayList5 = arrayList14;
                                                         String str21 = str3;
                                                         LongSparseArray longSparseArray11 = longSparseArray9;
-                                                        long j7 = j4;
+                                                        long j8 = j4;
                                                         NotificationCompat.MessagingStyle messagingStyle4 = messagingStyle3;
                                                         Intent intent2 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
                                                         intent2.setAction("com.tmessages.openchat" + Math.random() + ConnectionsManager.DEFAULT_DATACENTER_ID);
                                                         intent2.setFlags(ConnectionsManager.FileTypeFile);
                                                         intent2.addCategory("android.intent.category.LAUNCHER");
-                                                        if (!DialogObject.isEncryptedDialog(j6)) {
+                                                        if (!DialogObject.isEncryptedDialog(j7)) {
                                                         }
-                                                        Log.d("kek", "show extra notifications chatId " + j6 + " topicId " + i22);
-                                                        FileLog.d("show extra notifications chatId " + j6 + " topicId " + i22);
+                                                        FileLog.d("show extra notifications chatId " + j7 + " topicId " + i22);
                                                         if (i22 != 0) {
                                                         }
                                                         String str22 = "currentAccount";
@@ -7635,20 +7637,20 @@ public class NotificationsController extends BaseController {
                                                         Intent intent3 = new Intent(ApplicationLoader.applicationContext, AutoMessageHeardReceiver.class);
                                                         intent3.addFlags(32);
                                                         intent3.setAction("org.telegram.messenger.ACTION_MESSAGE_HEARD");
-                                                        intent3.putExtra(str7, j6);
+                                                        intent3.putExtra(str7, j7);
                                                         intent3.putExtra(str6, i26);
                                                         intent3.putExtra(str22, notificationsController3.currentAccount);
                                                         NotificationCompat.Action build5 = new NotificationCompat.Action.Builder(R.drawable.msg_markread, LocaleController.getString("MarkAsRead", R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent3, 167772160)).setSemanticAction(2).setShowsUserInterface(false).build();
-                                                        if (DialogObject.isEncryptedDialog(j6)) {
+                                                        if (DialogObject.isEncryptedDialog(j7)) {
                                                         }
                                                         if (str8 == null) {
                                                         }
-                                                        wearableExtender.setBridgeTag("tgaccount" + j7);
-                                                        long j8 = ((long) ((MessageObject) arrayList13.get(0)).messageOwner.date) * 1000;
-                                                        NotificationCompat.Builder category = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str21).setSmallIcon(R.drawable.notification).setContentText(sb.toString()).setAutoCancel(true).setNumber(arrayList13.size()).setColor(-15618822).setGroupSummary(false).setWhen(j8).setShowWhen(true).setStyle(messagingStyle4).setContentIntent(activity).extend(wearableExtender).setSortKey(String.valueOf(Long.MAX_VALUE - j8)).setCategory("msg");
+                                                        wearableExtender.setBridgeTag("tgaccount" + j8);
+                                                        long j9 = ((long) ((MessageObject) arrayList13.get(0)).messageOwner.date) * 1000;
+                                                        NotificationCompat.Builder category = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str21).setSmallIcon(R.drawable.notification).setContentText(sb.toString()).setAutoCancel(true).setNumber(arrayList13.size()).setColor(-15618822).setGroupSummary(false).setWhen(j9).setShowWhen(true).setStyle(messagingStyle4).setContentIntent(activity).extend(wearableExtender).setSortKey(String.valueOf(Long.MAX_VALUE - j9)).setCategory("msg");
                                                         Intent intent4 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                                                         intent4.putExtra("messageDate", i6);
-                                                        intent4.putExtra("dialogId", j6);
+                                                        intent4.putExtra("dialogId", j7);
                                                         intent4.putExtra(str22, notificationsController3.currentAccount);
                                                         category.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent4, 167772160));
                                                         if (z4) {
@@ -7659,7 +7661,7 @@ public class NotificationsController extends BaseController {
                                                         }
                                                         if (arrayList10.size() != 1) {
                                                         }
-                                                        if (DialogObject.isEncryptedDialog(j6)) {
+                                                        if (DialogObject.isEncryptedDialog(j7)) {
                                                         }
                                                         if (bitmap2 != null) {
                                                         }
@@ -7671,7 +7673,7 @@ public class NotificationsController extends BaseController {
                                                         boolean z14 = z4;
                                                         if (Build.VERSION.SDK_INT >= 26) {
                                                         }
-                                                        j3 = j7;
+                                                        j3 = j8;
                                                         i8 = i23;
                                                         z8 = z14;
                                                         longSparseArray2 = longSparseArray11;
@@ -7681,9 +7683,9 @@ public class NotificationsController extends BaseController {
                                                         arrayList4 = arrayList10;
                                                         notification = notification2;
                                                         arrayList3 = arrayList12;
-                                                        arrayList3.add(new 1NotificationHolder(num.intValue(), j6, i12, str21, tLRPC$User4, tLRPC$Chat2, category, i, str2, jArr, i2, uri, i3, z, z2, z3, i4));
+                                                        arrayList3.add(new 1NotificationHolder(num.intValue(), j7, i12, str21, tLRPC$User4, tLRPC$Chat2, category, i, str2, jArr, i2, uri, i3, z, z2, z3, i4));
                                                         notificationsController2 = this;
-                                                        notificationsController2.wearNotificationsIds.put(j6, num);
+                                                        notificationsController2.wearNotificationsIds.put(j7, num);
                                                         i21 = i8 + 1;
                                                         arrayList9 = arrayList3;
                                                         clientUserId = j3;
@@ -7710,10 +7712,10 @@ public class NotificationsController extends BaseController {
                                                 messagingStyle = new NotificationCompat.MessagingStyle("");
                                             }
                                             i11 = Build.VERSION.SDK_INT;
-                                            if (i11 >= 28 || ((DialogObject.isChatDialog(j6) && !z7) || UserObject.isReplyUser(j6))) {
+                                            if (i11 >= 28 || ((DialogObject.isChatDialog(j7) && !z7) || UserObject.isReplyUser(j7))) {
                                                 messagingStyle.setConversationTitle(format);
                                             }
-                                            messagingStyle.setGroupConversation(i11 >= 28 || (!z7 && DialogObject.isChatDialog(j6)) || UserObject.isReplyUser(j6));
+                                            messagingStyle.setGroupConversation(i11 >= 28 || (!z7 && DialogObject.isChatDialog(j7)) || UserObject.isReplyUser(j7));
                                             StringBuilder sb2 = new StringBuilder();
                                             int i262 = i10;
                                             String[] strArr22 = new String[1];
@@ -7733,11 +7735,13 @@ public class NotificationsController extends BaseController {
                                                     str10 = str3;
                                                 } else {
                                                     String shortStringForMessage = notificationsController3.getShortStringForMessage(messageObject4, strArr22, zArr2);
-                                                    if (j6 == j4) {
+                                                    if (j7 == j4) {
                                                         strArr22[0] = str3;
-                                                    } else if (DialogObject.isChatDialog(j6) && messageObject4.messageOwner.from_scheduled) {
+                                                    } else if (DialogObject.isChatDialog(j7)) {
                                                         str10 = str3;
-                                                        strArr22[0] = LocaleController.getString("NotificationMessageScheduledName", R.string.NotificationMessageScheduledName);
+                                                        if (messageObject4.messageOwner.from_scheduled) {
+                                                            strArr22[0] = LocaleController.getString("NotificationMessageScheduledName", R.string.NotificationMessageScheduledName);
+                                                        }
                                                         if (shortStringForMessage != null) {
                                                             if (BuildVars.LOGS_ENABLED) {
                                                                 FileLog.w("message text is null for " + messageObject4.getId() + " did = " + messageObject4.getDialogId());
@@ -7752,268 +7756,311 @@ public class NotificationsController extends BaseController {
                                                             if (sb2.length() > 0) {
                                                                 sb2.append("\n\n");
                                                             }
-                                                            if (j6 != j4 && messageObject4.messageOwner.from_scheduled && DialogObject.isUserDialog(j6)) {
+                                                            if (j7 != j4) {
                                                                 str11 = str23;
-                                                                shortStringForMessage = String.format("%1$s: %2$s", LocaleController.getString("NotificationMessageScheduledName", R.string.NotificationMessageScheduledName), shortStringForMessage);
-                                                                sb2.append(shortStringForMessage);
-                                                            } else {
-                                                                str11 = str23;
-                                                                if (strArr22[0] != null) {
-                                                                    sb2.append(String.format("%1$s: %2$s", strArr22[0], shortStringForMessage));
-                                                                } else {
+                                                                if (messageObject4.messageOwner.from_scheduled && DialogObject.isUserDialog(j7)) {
+                                                                    j5 = j4;
+                                                                    shortStringForMessage = String.format("%1$s: %2$s", LocaleController.getString("NotificationMessageScheduledName", R.string.NotificationMessageScheduledName), shortStringForMessage);
                                                                     sb2.append(shortStringForMessage);
-                                                                }
-                                                            }
-                                                            String str24 = shortStringForMessage;
-                                                            if (DialogObject.isUserDialog(j6)) {
-                                                                j5 = j4;
-                                                            } else {
-                                                                if (z7) {
-                                                                    j5 = j4;
-                                                                    senderId = -j6;
-                                                                } else {
-                                                                    j5 = j4;
-                                                                    if (DialogObject.isChatDialog(j6)) {
-                                                                        senderId = messageObject4.getSenderId();
-                                                                    }
-                                                                }
-                                                                person2 = (Person) longSparseArray9.get((i22 << 16) + senderId);
-                                                                if (strArr22[0] != null) {
-                                                                    if (!z12) {
-                                                                        str12 = str5;
-                                                                    } else if (!DialogObject.isChatDialog(j6)) {
-                                                                        str12 = str5;
-                                                                        if (Build.VERSION.SDK_INT > 27) {
-                                                                            str13 = LocaleController.getString(str19, R.string.NotificationHiddenName);
+                                                                    String str24 = shortStringForMessage;
+                                                                    if (!DialogObject.isUserDialog(j7)) {
+                                                                        if (z7) {
+                                                                            j6 = -j7;
+                                                                        } else if (DialogObject.isChatDialog(j7)) {
+                                                                            j6 = messageObject4.getSenderId();
                                                                         }
-                                                                    } else if (z7) {
-                                                                        if (Build.VERSION.SDK_INT > 27) {
-                                                                            str12 = str5;
-                                                                            str13 = LocaleController.getString(str12, R.string.NotificationHiddenChatName);
+                                                                        person2 = (Person) longSparseArray9.get((i22 << 16) + j6);
+                                                                        if (strArr22[0] == null) {
+                                                                            if (!z12) {
+                                                                                str12 = str5;
+                                                                            } else if (!DialogObject.isChatDialog(j7)) {
+                                                                                str12 = str5;
+                                                                                if (Build.VERSION.SDK_INT > 27) {
+                                                                                    str13 = LocaleController.getString(str19, R.string.NotificationHiddenName);
+                                                                                }
+                                                                            } else if (z7) {
+                                                                                if (Build.VERSION.SDK_INT > 27) {
+                                                                                    str12 = str5;
+                                                                                    str13 = LocaleController.getString(str12, R.string.NotificationHiddenChatName);
+                                                                                } else {
+                                                                                    str12 = str5;
+                                                                                }
+                                                                            } else {
+                                                                                str12 = str5;
+                                                                                str13 = LocaleController.getString("NotificationHiddenChatUserName", R.string.NotificationHiddenChatUserName);
+                                                                            }
+                                                                            str13 = str11;
                                                                         } else {
                                                                             str12 = str5;
+                                                                            str13 = strArr22[0];
                                                                         }
-                                                                    } else {
-                                                                        str12 = str5;
-                                                                        str13 = LocaleController.getString("NotificationHiddenChatUserName", R.string.NotificationHiddenChatUserName);
-                                                                    }
-                                                                    str13 = str11;
-                                                                } else {
-                                                                    str12 = str5;
-                                                                    str13 = strArr22[0];
-                                                                }
-                                                                if (person2 == null && TextUtils.equals(person2.getName(), str13)) {
-                                                                    str14 = str19;
-                                                                    strArr = strArr22;
-                                                                    str15 = str12;
-                                                                    notificationsController3 = this;
-                                                                } else {
-                                                                    Person.Builder name3 = new Person.Builder().setName(str13);
-                                                                    if (zArr2[0] || DialogObject.isEncryptedDialog(j6) || Build.VERSION.SDK_INT < 28) {
-                                                                        str14 = str19;
-                                                                        strArr = strArr22;
-                                                                        str15 = str12;
-                                                                        notificationsController3 = this;
-                                                                    } else {
-                                                                        if (DialogObject.isUserDialog(j6) || z7) {
+                                                                        if (person2 == null && TextUtils.equals(person2.getName(), str13)) {
                                                                             str14 = str19;
                                                                             strArr = strArr22;
                                                                             str15 = str12;
                                                                             notificationsController3 = this;
-                                                                            file4 = file3;
                                                                         } else {
-                                                                            String str25 = str19;
-                                                                            long senderId2 = messageObject4.getSenderId();
-                                                                            strArr = strArr22;
-                                                                            str14 = str25;
-                                                                            TLRPC$User user3 = getMessagesController().getUser(Long.valueOf(senderId2));
-                                                                            if (user3 == null && (user3 = getMessagesStorage().getUserSync(senderId2)) != null) {
-                                                                                getMessagesController().putUser(user3, true);
-                                                                            }
-                                                                            if (user3 == null || (tLRPC$UserProfilePhoto = user3.photo) == null || (tLRPC$FileLocation2 = tLRPC$UserProfilePhoto.photo_small) == null) {
+                                                                            Person.Builder name3 = new Person.Builder().setName(str13);
+                                                                            if (zArr2[0] || DialogObject.isEncryptedDialog(j7) || Build.VERSION.SDK_INT < 28) {
+                                                                                str14 = str19;
+                                                                                strArr = strArr22;
                                                                                 str15 = str12;
+                                                                                notificationsController3 = this;
                                                                             } else {
-                                                                                str15 = str12;
-                                                                                if (tLRPC$FileLocation2.volume_id != 0 && tLRPC$FileLocation2.local_id != 0) {
-                                                                                    file4 = getFileLoader().getPathToAttach(user3.photo.photo_small, true);
+                                                                                if (DialogObject.isUserDialog(j7) || z7) {
+                                                                                    str14 = str19;
+                                                                                    strArr = strArr22;
+                                                                                    str15 = str12;
+                                                                                    notificationsController3 = this;
+                                                                                    file4 = file3;
+                                                                                } else {
+                                                                                    String str25 = str19;
+                                                                                    long senderId = messageObject4.getSenderId();
+                                                                                    strArr = strArr22;
+                                                                                    str14 = str25;
+                                                                                    TLRPC$User user3 = getMessagesController().getUser(Long.valueOf(senderId));
+                                                                                    if (user3 == null && (user3 = getMessagesStorage().getUserSync(senderId)) != null) {
+                                                                                        getMessagesController().putUser(user3, true);
+                                                                                    }
+                                                                                    if (user3 == null || (tLRPC$UserProfilePhoto = user3.photo) == null || (tLRPC$FileLocation2 = tLRPC$UserProfilePhoto.photo_small) == null) {
+                                                                                        str15 = str12;
+                                                                                    } else {
+                                                                                        str15 = str12;
+                                                                                        if (tLRPC$FileLocation2.volume_id != 0 && tLRPC$FileLocation2.local_id != 0) {
+                                                                                            file4 = getFileLoader().getPathToAttach(user3.photo.photo_small, true);
+                                                                                            notificationsController3 = this;
+                                                                                        }
+                                                                                    }
+                                                                                    file4 = null;
                                                                                     notificationsController3 = this;
                                                                                 }
+                                                                                notificationsController3.loadRoundAvatar(file4, name3);
                                                                             }
-                                                                            file4 = null;
-                                                                            notificationsController3 = this;
+                                                                            person2 = name3.build();
+                                                                            longSparseArray9.put(j6, person2);
                                                                         }
-                                                                        notificationsController3.loadRoundAvatar(file4, name3);
-                                                                    }
-                                                                    person2 = name3.build();
-                                                                    longSparseArray9.put(senderId, person2);
-                                                                }
-                                                                Person person4 = person2;
-                                                                if (DialogObject.isEncryptedDialog(j6)) {
-                                                                    if (!zArr2[0] || Build.VERSION.SDK_INT < 28 || ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).isLowRamDevice() || z12 || messageObject4.isSecretMedia() || !(messageObject4.type == 1 || messageObject4.isSticker())) {
-                                                                        str16 = str15;
-                                                                        longSparseArray6 = longSparseArray9;
-                                                                        messagingStyle2 = messagingStyle32;
-                                                                        str17 = str11;
-                                                                    } else {
-                                                                        File pathToMessage = getFileLoader().getPathToMessage(messageObject4.messageOwner);
-                                                                        if (pathToMessage.exists() && messageObject4.hasMediaSpoilers()) {
-                                                                            file6 = new File(pathToMessage.getParentFile(), pathToMessage.getName() + ".blur.jpg");
-                                                                            if (file6.exists()) {
+                                                                        Person person4 = person2;
+                                                                        if (!DialogObject.isEncryptedDialog(j7)) {
+                                                                            if (!zArr2[0] || Build.VERSION.SDK_INT < 28 || ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).isLowRamDevice() || z12 || messageObject4.isSecretMedia() || !(messageObject4.type == 1 || messageObject4.isSticker())) {
                                                                                 str16 = str15;
                                                                                 longSparseArray6 = longSparseArray9;
-                                                                                file7 = pathToMessage;
+                                                                                messagingStyle2 = messagingStyle32;
+                                                                                str17 = str11;
                                                                             } else {
-                                                                                try {
-                                                                                    decodeFile = BitmapFactory.decodeFile(pathToMessage.getAbsolutePath());
-                                                                                    stackBlurBitmapMax = Utilities.stackBlurBitmapMax(decodeFile);
-                                                                                    decodeFile.recycle();
-                                                                                    str16 = str15;
-                                                                                } catch (Exception e) {
-                                                                                    e = e;
-                                                                                    str16 = str15;
-                                                                                }
-                                                                                try {
-                                                                                    createScaledBitmap = Bitmap.createScaledBitmap(stackBlurBitmapMax, decodeFile.getWidth(), decodeFile.getHeight(), true);
-                                                                                    Utilities.stackBlurBitmap(createScaledBitmap, 5);
-                                                                                    stackBlurBitmapMax.recycle();
-                                                                                    canvas = new Canvas(createScaledBitmap);
-                                                                                    longSparseArray6 = longSparseArray9;
-                                                                                } catch (Exception e2) {
-                                                                                    e = e2;
-                                                                                    longSparseArray6 = longSparseArray9;
-                                                                                    file7 = pathToMessage;
-                                                                                    FileLog.e(e);
+                                                                                File pathToMessage = getFileLoader().getPathToMessage(messageObject4.messageOwner);
+                                                                                if (pathToMessage.exists() && messageObject4.hasMediaSpoilers()) {
+                                                                                    file6 = new File(pathToMessage.getParentFile(), pathToMessage.getName() + ".blur.jpg");
+                                                                                    if (file6.exists()) {
+                                                                                        str16 = str15;
+                                                                                        longSparseArray6 = longSparseArray9;
+                                                                                        file7 = pathToMessage;
+                                                                                    } else {
+                                                                                        try {
+                                                                                            decodeFile = BitmapFactory.decodeFile(pathToMessage.getAbsolutePath());
+                                                                                            stackBlurBitmapMax = Utilities.stackBlurBitmapMax(decodeFile);
+                                                                                            decodeFile.recycle();
+                                                                                            str16 = str15;
+                                                                                        } catch (Exception e) {
+                                                                                            e = e;
+                                                                                            str16 = str15;
+                                                                                        }
+                                                                                        try {
+                                                                                            createScaledBitmap = Bitmap.createScaledBitmap(stackBlurBitmapMax, decodeFile.getWidth(), decodeFile.getHeight(), true);
+                                                                                            Utilities.stackBlurBitmap(createScaledBitmap, 5);
+                                                                                            stackBlurBitmapMax.recycle();
+                                                                                            canvas = new Canvas(createScaledBitmap);
+                                                                                            longSparseArray6 = longSparseArray9;
+                                                                                        } catch (Exception e2) {
+                                                                                            e = e2;
+                                                                                            longSparseArray6 = longSparseArray9;
+                                                                                            file7 = pathToMessage;
+                                                                                            FileLog.e(e);
+                                                                                            file5 = file7;
+                                                                                            NotificationCompat.MessagingStyle.Message message = new NotificationCompat.MessagingStyle.Message(str24, messageObject4.messageOwner.date * 1000, person4);
+                                                                                            String str26 = !messageObject4.isSticker() ? "image/webp" : "image/jpeg";
+                                                                                            if (!file5.exists()) {
+                                                                                            }
+                                                                                            if (uriForFile == null) {
+                                                                                            }
+                                                                                        }
+                                                                                        try {
+                                                                                            notificationsController3.mediaSpoilerEffect.setColor(ColorUtils.setAlphaComponent(-1, (int) (Color.alpha(-1) * 0.325f)));
+                                                                                            file7 = pathToMessage;
+                                                                                        } catch (Exception e3) {
+                                                                                            e = e3;
+                                                                                            file7 = pathToMessage;
+                                                                                            FileLog.e(e);
+                                                                                            file5 = file7;
+                                                                                            NotificationCompat.MessagingStyle.Message message2 = new NotificationCompat.MessagingStyle.Message(str24, messageObject4.messageOwner.date * 1000, person4);
+                                                                                            String str262 = !messageObject4.isSticker() ? "image/webp" : "image/jpeg";
+                                                                                            if (!file5.exists()) {
+                                                                                            }
+                                                                                            if (uriForFile == null) {
+                                                                                            }
+                                                                                        }
+                                                                                        try {
+                                                                                            notificationsController3.mediaSpoilerEffect.setBounds(0, 0, createScaledBitmap.getWidth(), createScaledBitmap.getHeight());
+                                                                                            notificationsController3.mediaSpoilerEffect.draw(canvas);
+                                                                                            FileOutputStream fileOutputStream = new FileOutputStream(file6);
+                                                                                            createScaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+                                                                                            fileOutputStream.close();
+                                                                                            createScaledBitmap.recycle();
+                                                                                            file5 = file6;
+                                                                                        } catch (Exception e4) {
+                                                                                            e = e4;
+                                                                                            FileLog.e(e);
+                                                                                            file5 = file7;
+                                                                                            NotificationCompat.MessagingStyle.Message message22 = new NotificationCompat.MessagingStyle.Message(str24, messageObject4.messageOwner.date * 1000, person4);
+                                                                                            String str2622 = !messageObject4.isSticker() ? "image/webp" : "image/jpeg";
+                                                                                            if (!file5.exists()) {
+                                                                                            }
+                                                                                            if (uriForFile == null) {
+                                                                                            }
+                                                                                        }
+                                                                                    }
                                                                                     file5 = file7;
-                                                                                    NotificationCompat.MessagingStyle.Message message = new NotificationCompat.MessagingStyle.Message(str24, messageObject4.messageOwner.date * 1000, person4);
-                                                                                    String str26 = !messageObject4.isSticker() ? "image/webp" : "image/jpeg";
-                                                                                    if (!file5.exists()) {
-                                                                                    }
-                                                                                    if (uriForFile == null) {
-                                                                                    }
+                                                                                } else {
+                                                                                    str16 = str15;
+                                                                                    longSparseArray6 = longSparseArray9;
+                                                                                    file5 = pathToMessage;
+                                                                                    file6 = null;
                                                                                 }
-                                                                                try {
-                                                                                    notificationsController3.mediaSpoilerEffect.setColor(ColorUtils.setAlphaComponent(-1, (int) (Color.alpha(-1) * 0.325f)));
-                                                                                    file7 = pathToMessage;
+                                                                                NotificationCompat.MessagingStyle.Message message222 = new NotificationCompat.MessagingStyle.Message(str24, messageObject4.messageOwner.date * 1000, person4);
+                                                                                String str26222 = !messageObject4.isSticker() ? "image/webp" : "image/jpeg";
+                                                                                if (!file5.exists()) {
                                                                                     try {
-                                                                                        notificationsController3.mediaSpoilerEffect.setBounds(0, 0, createScaledBitmap.getWidth(), createScaledBitmap.getHeight());
-                                                                                        notificationsController3.mediaSpoilerEffect.draw(canvas);
-                                                                                        FileOutputStream fileOutputStream = new FileOutputStream(file6);
-                                                                                        createScaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
-                                                                                        fileOutputStream.close();
-                                                                                        createScaledBitmap.recycle();
-                                                                                        file5 = file6;
-                                                                                    } catch (Exception e3) {
-                                                                                        e = e3;
-                                                                                        FileLog.e(e);
-                                                                                        file5 = file7;
-                                                                                        NotificationCompat.MessagingStyle.Message message2 = new NotificationCompat.MessagingStyle.Message(str24, messageObject4.messageOwner.date * 1000, person4);
-                                                                                        String str262 = !messageObject4.isSticker() ? "image/webp" : "image/jpeg";
-                                                                                        if (!file5.exists()) {
+                                                                                        uriForFile = FileProvider.getUriForFile(ApplicationLoader.applicationContext, ApplicationLoader.getApplicationId() + ".provider", file5);
+                                                                                        str17 = str11;
+                                                                                    } catch (Exception e5) {
+                                                                                        FileLog.e(e5);
+                                                                                    }
+                                                                                } else {
+                                                                                    if (getFileLoader().isLoadingFile(file5.getName())) {
+                                                                                        Uri.Builder appendPath = new Uri.Builder().scheme("content").authority(NotificationImageProvider.getAuthority()).appendPath("msg_media_raw");
+                                                                                        StringBuilder sb3 = new StringBuilder();
+                                                                                        sb3.append(notificationsController3.currentAccount);
+                                                                                        str17 = str11;
+                                                                                        sb3.append(str17);
+                                                                                        uriForFile = appendPath.appendPath(sb3.toString()).appendPath(file5.getName()).appendQueryParameter("final_path", file5.getAbsolutePath()).build();
+                                                                                    }
+                                                                                    str17 = str11;
+                                                                                    uriForFile = null;
+                                                                                }
+                                                                                if (uriForFile == null) {
+                                                                                    message222.setData(str26222, uriForFile);
+                                                                                    messagingStyle2 = messagingStyle32;
+                                                                                    messagingStyle2.addMessage(message222);
+                                                                                    ApplicationLoader.applicationContext.grantUriPermission("com.android.systemui", uriForFile, 1);
+                                                                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda4
+                                                                                        @Override // java.lang.Runnable
+                                                                                        public final void run() {
+                                                                                            NotificationsController.lambda$showExtraNotifications$34(uriForFile, file6);
                                                                                         }
-                                                                                        if (uriForFile == null) {
+                                                                                    }, 20000L);
+                                                                                    if (!TextUtils.isEmpty(messageObject4.caption)) {
+                                                                                        messagingStyle2.addMessage(messageObject4.caption, messageObject4.messageOwner.date * 1000, person4);
+                                                                                    }
+                                                                                    z9 = true;
+                                                                                    if (!z9) {
+                                                                                        messagingStyle2.addMessage(str24, messageObject4.messageOwner.date * 1000, person4);
+                                                                                    }
+                                                                                    if (zArr2[0] && !z12 && messageObject4.isVoice()) {
+                                                                                        messages = messagingStyle2.getMessages();
+                                                                                        if (!messages.isEmpty()) {
+                                                                                            File pathToMessage2 = getFileLoader().getPathToMessage(messageObject4.messageOwner);
+                                                                                            if (Build.VERSION.SDK_INT >= 24) {
+                                                                                                try {
+                                                                                                    uri2 = FileProvider.getUriForFile(ApplicationLoader.applicationContext, ApplicationLoader.getApplicationId() + ".provider", pathToMessage2);
+                                                                                                } catch (Exception unused2) {
+                                                                                                    uri2 = null;
+                                                                                                }
+                                                                                            } else {
+                                                                                                uri2 = Uri.fromFile(pathToMessage2);
+                                                                                            }
+                                                                                            if (uri2 != null) {
+                                                                                                messages.get(messages.size() - 1).setData("audio/ogg", uri2);
+                                                                                            }
                                                                                         }
                                                                                     }
-                                                                                } catch (Exception e4) {
-                                                                                    e = e4;
-                                                                                    file7 = pathToMessage;
-                                                                                    FileLog.e(e);
-                                                                                    file5 = file7;
-                                                                                    NotificationCompat.MessagingStyle.Message message22 = new NotificationCompat.MessagingStyle.Message(str24, messageObject4.messageOwner.date * 1000, person4);
-                                                                                    String str2622 = !messageObject4.isSticker() ? "image/webp" : "image/jpeg";
-                                                                                    if (!file5.exists()) {
-                                                                                    }
-                                                                                    if (uriForFile == null) {
-                                                                                    }
+                                                                                } else {
+                                                                                    messagingStyle2 = messagingStyle32;
                                                                                 }
                                                                             }
-                                                                            file5 = file7;
+                                                                            z9 = false;
+                                                                            if (!z9) {
+                                                                            }
+                                                                            if (zArr2[0]) {
+                                                                                messages = messagingStyle2.getMessages();
+                                                                                if (!messages.isEmpty()) {
+                                                                                }
+                                                                            }
                                                                         } else {
                                                                             str16 = str15;
                                                                             longSparseArray6 = longSparseArray9;
-                                                                            file5 = pathToMessage;
-                                                                            file6 = null;
-                                                                        }
-                                                                        NotificationCompat.MessagingStyle.Message message222 = new NotificationCompat.MessagingStyle.Message(str24, messageObject4.messageOwner.date * 1000, person4);
-                                                                        String str26222 = !messageObject4.isSticker() ? "image/webp" : "image/jpeg";
-                                                                        if (!file5.exists()) {
-                                                                            try {
-                                                                                uriForFile = FileProvider.getUriForFile(ApplicationLoader.applicationContext, ApplicationLoader.getApplicationId() + ".provider", file5);
-                                                                                str17 = str11;
-                                                                            } catch (Exception e5) {
-                                                                                FileLog.e(e5);
-                                                                            }
-                                                                        } else {
-                                                                            if (getFileLoader().isLoadingFile(file5.getName())) {
-                                                                                Uri.Builder appendPath = new Uri.Builder().scheme("content").authority(NotificationImageProvider.getAuthority()).appendPath("msg_media_raw");
-                                                                                StringBuilder sb3 = new StringBuilder();
-                                                                                sb3.append(notificationsController3.currentAccount);
-                                                                                str17 = str11;
-                                                                                sb3.append(str17);
-                                                                                uriForFile = appendPath.appendPath(sb3.toString()).appendPath(file5.getName()).appendQueryParameter("final_path", file5.getAbsolutePath()).build();
-                                                                            }
+                                                                            messagingStyle2 = messagingStyle32;
                                                                             str17 = str11;
-                                                                            uriForFile = null;
+                                                                            messagingStyle2.addMessage(str24, messageObject4.messageOwner.date * 1000, person4);
                                                                         }
-                                                                        if (uriForFile == null) {
-                                                                            message222.setData(str26222, uriForFile);
-                                                                            messagingStyle2 = messagingStyle32;
-                                                                            messagingStyle2.addMessage(message222);
-                                                                            ApplicationLoader.applicationContext.grantUriPermission("com.android.systemui", uriForFile, 1);
-                                                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda4
-                                                                                @Override // java.lang.Runnable
-                                                                                public final void run() {
-                                                                                    NotificationsController.lambda$showExtraNotifications$34(uriForFile, file6);
-                                                                                }
-                                                                            }, 20000L);
-                                                                            if (!TextUtils.isEmpty(messageObject4.caption)) {
-                                                                                messagingStyle2.addMessage(messageObject4.caption, messageObject4.messageOwner.date * 1000, person4);
-                                                                            }
-                                                                            z9 = true;
-                                                                            if (!z9) {
-                                                                                messagingStyle2.addMessage(str24, messageObject4.messageOwner.date * 1000, person4);
-                                                                            }
-                                                                            if (zArr2[0] && !z12 && messageObject4.isVoice()) {
-                                                                                messages = messagingStyle2.getMessages();
-                                                                                if (!messages.isEmpty()) {
-                                                                                    File pathToMessage2 = getFileLoader().getPathToMessage(messageObject4.messageOwner);
-                                                                                    if (Build.VERSION.SDK_INT >= 24) {
-                                                                                        try {
-                                                                                            uri2 = FileProvider.getUriForFile(ApplicationLoader.applicationContext, ApplicationLoader.getApplicationId() + ".provider", pathToMessage2);
-                                                                                        } catch (Exception unused2) {
-                                                                                            uri2 = null;
-                                                                                        }
-                                                                                    } else {
-                                                                                        uri2 = Uri.fromFile(pathToMessage2);
-                                                                                    }
-                                                                                    if (uri2 != null) {
-                                                                                        messages.get(messages.size() - 1).setData("audio/ogg", uri2);
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        } else {
-                                                                            messagingStyle2 = messagingStyle32;
+                                                                        if (j7 == 777000 && (tLRPC$ReplyMarkup = messageObject4.messageOwner.reply_markup) != null) {
+                                                                            ArrayList<TLRPC$TL_keyboardButtonRow> arrayList16 = tLRPC$ReplyMarkup.rows;
+                                                                            int id2 = messageObject4.getId();
+                                                                            arrayList142 = arrayList16;
+                                                                            i272 = id2;
+                                                                            messagingStyle32 = messagingStyle2;
+                                                                            str202 = str17;
+                                                                            strArr22 = strArr;
+                                                                            str3 = str10;
+                                                                            j4 = j5;
+                                                                            str19 = str14;
+                                                                            str5 = str16;
+                                                                            longSparseArray9 = longSparseArray6;
+                                                                            size = i28 - 1;
                                                                         }
+                                                                        arrayList142 = arrayList15;
+                                                                        messagingStyle32 = messagingStyle2;
+                                                                        str202 = str17;
+                                                                        strArr22 = strArr;
+                                                                        str3 = str10;
+                                                                        j4 = j5;
+                                                                        str19 = str14;
+                                                                        str5 = str16;
+                                                                        longSparseArray9 = longSparseArray6;
+                                                                        size = i28 - 1;
                                                                     }
-                                                                    z9 = false;
-                                                                    if (!z9) {
+                                                                    j6 = j7;
+                                                                    person2 = (Person) longSparseArray9.get((i22 << 16) + j6);
+                                                                    if (strArr22[0] == null) {
                                                                     }
+                                                                    if (person2 == null) {
+                                                                    }
+                                                                    Person.Builder name32 = new Person.Builder().setName(str13);
                                                                     if (zArr2[0]) {
-                                                                        messages = messagingStyle2.getMessages();
-                                                                        if (!messages.isEmpty()) {
-                                                                        }
                                                                     }
-                                                                } else {
-                                                                    str16 = str15;
-                                                                    longSparseArray6 = longSparseArray9;
-                                                                    messagingStyle2 = messagingStyle32;
-                                                                    str17 = str11;
-                                                                    messagingStyle2.addMessage(str24, messageObject4.messageOwner.date * 1000, person4);
-                                                                }
-                                                                if (j6 == 777000 && (tLRPC$ReplyMarkup = messageObject4.messageOwner.reply_markup) != null) {
-                                                                    ArrayList<TLRPC$TL_keyboardButtonRow> arrayList16 = tLRPC$ReplyMarkup.rows;
-                                                                    int id2 = messageObject4.getId();
-                                                                    arrayList142 = arrayList16;
-                                                                    i272 = id2;
+                                                                    str14 = str19;
+                                                                    strArr = strArr22;
+                                                                    str15 = str12;
+                                                                    notificationsController3 = this;
+                                                                    person2 = name32.build();
+                                                                    longSparseArray9.put(j6, person2);
+                                                                    Person person42 = person2;
+                                                                    if (!DialogObject.isEncryptedDialog(j7)) {
+                                                                    }
+                                                                    if (j7 == 777000) {
+                                                                        ArrayList<TLRPC$TL_keyboardButtonRow> arrayList162 = tLRPC$ReplyMarkup.rows;
+                                                                        int id22 = messageObject4.getId();
+                                                                        arrayList142 = arrayList162;
+                                                                        i272 = id22;
+                                                                        messagingStyle32 = messagingStyle2;
+                                                                        str202 = str17;
+                                                                        strArr22 = strArr;
+                                                                        str3 = str10;
+                                                                        j4 = j5;
+                                                                        str19 = str14;
+                                                                        str5 = str16;
+                                                                        longSparseArray9 = longSparseArray6;
+                                                                        size = i28 - 1;
+                                                                    }
+                                                                    arrayList142 = arrayList15;
                                                                     messagingStyle32 = messagingStyle2;
                                                                     str202 = str17;
                                                                     strArr22 = strArr;
@@ -8024,49 +8071,37 @@ public class NotificationsController extends BaseController {
                                                                     longSparseArray9 = longSparseArray6;
                                                                     size = i28 - 1;
                                                                 }
-                                                                arrayList142 = arrayList15;
-                                                                messagingStyle32 = messagingStyle2;
-                                                                str202 = str17;
-                                                                strArr22 = strArr;
-                                                                str3 = str10;
-                                                                j4 = j5;
-                                                                str19 = str14;
-                                                                str5 = str16;
-                                                                longSparseArray9 = longSparseArray6;
-                                                                size = i28 - 1;
+                                                            } else {
+                                                                str11 = str23;
                                                             }
-                                                            senderId = j6;
-                                                            person2 = (Person) longSparseArray9.get((i22 << 16) + senderId);
+                                                            j5 = j4;
                                                             if (strArr22[0] != null) {
+                                                                sb2.append(String.format("%1$s: %2$s", strArr22[0], shortStringForMessage));
+                                                            } else {
+                                                                sb2.append(shortStringForMessage);
+                                                            }
+                                                            String str242 = shortStringForMessage;
+                                                            if (!DialogObject.isUserDialog(j7)) {
+                                                            }
+                                                            j6 = j7;
+                                                            person2 = (Person) longSparseArray9.get((i22 << 16) + j6);
+                                                            if (strArr22[0] == null) {
                                                             }
                                                             if (person2 == null) {
                                                             }
-                                                            Person.Builder name32 = new Person.Builder().setName(str13);
+                                                            Person.Builder name322 = new Person.Builder().setName(str13);
                                                             if (zArr2[0]) {
                                                             }
                                                             str14 = str19;
                                                             strArr = strArr22;
                                                             str15 = str12;
                                                             notificationsController3 = this;
-                                                            person2 = name32.build();
-                                                            longSparseArray9.put(senderId, person2);
-                                                            Person person42 = person2;
-                                                            if (DialogObject.isEncryptedDialog(j6)) {
+                                                            person2 = name322.build();
+                                                            longSparseArray9.put(j6, person2);
+                                                            Person person422 = person2;
+                                                            if (!DialogObject.isEncryptedDialog(j7)) {
                                                             }
-                                                            if (j6 == 777000) {
-                                                                ArrayList<TLRPC$TL_keyboardButtonRow> arrayList162 = tLRPC$ReplyMarkup.rows;
-                                                                int id22 = messageObject4.getId();
-                                                                arrayList142 = arrayList162;
-                                                                i272 = id22;
-                                                                messagingStyle32 = messagingStyle2;
-                                                                str202 = str17;
-                                                                strArr22 = strArr;
-                                                                str3 = str10;
-                                                                j4 = j5;
-                                                                str19 = str14;
-                                                                str5 = str16;
-                                                                longSparseArray9 = longSparseArray6;
-                                                                size = i28 - 1;
+                                                            if (j7 == 777000) {
                                                             }
                                                             arrayList142 = arrayList15;
                                                             messagingStyle32 = messagingStyle2;
@@ -8103,21 +8138,20 @@ public class NotificationsController extends BaseController {
                                             arrayList5 = arrayList142;
                                             String str212 = str3;
                                             LongSparseArray longSparseArray112 = longSparseArray9;
-                                            long j72 = j4;
+                                            long j82 = j4;
                                             NotificationCompat.MessagingStyle messagingStyle42 = messagingStyle32;
                                             Intent intent22 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
                                             intent22.setAction("com.tmessages.openchat" + Math.random() + ConnectionsManager.DEFAULT_DATACENTER_ID);
                                             intent22.setFlags(ConnectionsManager.FileTypeFile);
                                             intent22.addCategory("android.intent.category.LAUNCHER");
-                                            if (!DialogObject.isEncryptedDialog(j6)) {
-                                                intent22.putExtra("encId", DialogObject.getEncryptedChatId(j6));
-                                            } else if (DialogObject.isUserDialog(j6)) {
-                                                intent22.putExtra("userId", j6);
+                                            if (!DialogObject.isEncryptedDialog(j7)) {
+                                                intent22.putExtra("encId", DialogObject.getEncryptedChatId(j7));
+                                            } else if (DialogObject.isUserDialog(j7)) {
+                                                intent22.putExtra("userId", j7);
                                             } else {
-                                                intent22.putExtra("chatId", -j6);
+                                                intent22.putExtra("chatId", -j7);
                                             }
-                                            Log.d("kek", "show extra notifications chatId " + j6 + " topicId " + i22);
-                                            FileLog.d("show extra notifications chatId " + j6 + " topicId " + i22);
+                                            FileLog.d("show extra notifications chatId " + j7 + " topicId " + i22);
                                             if (i22 != 0) {
                                                 intent22.putExtra("topicId", i22);
                                             }
@@ -8132,26 +8166,26 @@ public class NotificationsController extends BaseController {
                                             Intent intent32 = new Intent(ApplicationLoader.applicationContext, AutoMessageHeardReceiver.class);
                                             intent32.addFlags(32);
                                             intent32.setAction("org.telegram.messenger.ACTION_MESSAGE_HEARD");
-                                            intent32.putExtra(str7, j6);
+                                            intent32.putExtra(str7, j7);
                                             intent32.putExtra(str6, i262);
                                             intent32.putExtra(str222, notificationsController3.currentAccount);
                                             NotificationCompat.Action build52 = new NotificationCompat.Action.Builder(R.drawable.msg_markread, LocaleController.getString("MarkAsRead", R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent32, 167772160)).setSemanticAction(2).setShowsUserInterface(false).build();
-                                            if (DialogObject.isEncryptedDialog(j6)) {
-                                                if (DialogObject.isUserDialog(j6)) {
-                                                    str8 = "tguser" + j6 + "_" + i262;
+                                            if (DialogObject.isEncryptedDialog(j7)) {
+                                                if (DialogObject.isUserDialog(j7)) {
+                                                    str8 = "tguser" + j7 + "_" + i262;
                                                     i12 = i22;
                                                 } else {
                                                     StringBuilder sb4 = new StringBuilder();
                                                     sb4.append("tgchat");
                                                     i12 = i22;
-                                                    sb4.append(-j6);
+                                                    sb4.append(-j7);
                                                     sb4.append("_");
                                                     sb4.append(i262);
                                                     str8 = sb4.toString();
                                                 }
                                             } else {
                                                 i12 = i22;
-                                                str8 = j6 != globalSecretChatId ? "tgenc" + DialogObject.getEncryptedChatId(j6) + "_" + i262 : null;
+                                                str8 = j7 != globalSecretChatId ? "tgenc" + DialogObject.getEncryptedChatId(j7) + "_" + i262 : null;
                                             }
                                             if (str8 == null) {
                                                 wearableExtender2.setDismissalId(str8);
@@ -8159,12 +8193,12 @@ public class NotificationsController extends BaseController {
                                                 wearableExtender3.setDismissalId("summary_" + str8);
                                                 builder.extend(wearableExtender3);
                                             }
-                                            wearableExtender2.setBridgeTag("tgaccount" + j72);
-                                            long j82 = ((long) ((MessageObject) arrayList132.get(0)).messageOwner.date) * 1000;
-                                            NotificationCompat.Builder category2 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str212).setSmallIcon(R.drawable.notification).setContentText(sb2.toString()).setAutoCancel(true).setNumber(arrayList132.size()).setColor(-15618822).setGroupSummary(false).setWhen(j82).setShowWhen(true).setStyle(messagingStyle42).setContentIntent(activity2).extend(wearableExtender2).setSortKey(String.valueOf(Long.MAX_VALUE - j82)).setCategory("msg");
+                                            wearableExtender2.setBridgeTag("tgaccount" + j82);
+                                            long j92 = ((long) ((MessageObject) arrayList132.get(0)).messageOwner.date) * 1000;
+                                            NotificationCompat.Builder category2 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str212).setSmallIcon(R.drawable.notification).setContentText(sb2.toString()).setAutoCancel(true).setNumber(arrayList132.size()).setColor(-15618822).setGroupSummary(false).setWhen(j92).setShowWhen(true).setStyle(messagingStyle42).setContentIntent(activity2).extend(wearableExtender2).setSortKey(String.valueOf(Long.MAX_VALUE - j92)).setCategory("msg");
                                             Intent intent42 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                                             intent42.putExtra("messageDate", i6);
-                                            intent42.putExtra("dialogId", j6);
+                                            intent42.putExtra("dialogId", j7);
                                             intent42.putExtra(str222, notificationsController3.currentAccount);
                                             category2.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent42, 167772160));
                                             if (z4) {
@@ -8180,7 +8214,7 @@ public class NotificationsController extends BaseController {
                                             if (arrayList10.size() != 1 && !TextUtils.isEmpty(str)) {
                                                 category2.setSubText(str);
                                             }
-                                            if (DialogObject.isEncryptedDialog(j6)) {
+                                            if (DialogObject.isEncryptedDialog(j7)) {
                                                 category2.setLocalOnly(true);
                                             }
                                             if (bitmap2 != null) {
@@ -8199,7 +8233,7 @@ public class NotificationsController extends BaseController {
                                                             i14 = size2;
                                                             Intent intent5 = new Intent(ApplicationLoader.applicationContext, NotificationCallbackReceiver.class);
                                                             intent5.putExtra(str222, notificationsController3.currentAccount);
-                                                            intent5.putExtra("did", j6);
+                                                            intent5.putExtra("did", j7);
                                                             byte[] bArr = tLRPC$KeyboardButton.data;
                                                             if (bArr != null) {
                                                                 intent5.putExtra("data", bArr);
@@ -8241,7 +8275,7 @@ public class NotificationsController extends BaseController {
                                             if (Build.VERSION.SDK_INT >= 26) {
                                                 notificationsController3.setNotificationChannel(notification2, category2, z142);
                                             }
-                                            j3 = j72;
+                                            j3 = j82;
                                             i8 = i23;
                                             z8 = z142;
                                             longSparseArray2 = longSparseArray112;
@@ -8251,9 +8285,9 @@ public class NotificationsController extends BaseController {
                                             arrayList4 = arrayList10;
                                             notification = notification2;
                                             arrayList3 = arrayList12;
-                                            arrayList3.add(new 1NotificationHolder(num.intValue(), j6, i12, str212, tLRPC$User4, tLRPC$Chat2, category2, i, str2, jArr, i2, uri, i3, z, z2, z3, i4));
+                                            arrayList3.add(new 1NotificationHolder(num.intValue(), j7, i12, str212, tLRPC$User4, tLRPC$Chat2, category2, i, str2, jArr, i2, uri, i3, z, z2, z3, i4));
                                             notificationsController2 = this;
-                                            notificationsController2.wearNotificationsIds.put(j6, num);
+                                            notificationsController2.wearNotificationsIds.put(j7, num);
                                         }
                                     }
                                 }
@@ -8269,7 +8303,7 @@ public class NotificationsController extends BaseController {
                                 if (i11 >= 28) {
                                 }
                                 messagingStyle.setConversationTitle(format);
-                                messagingStyle.setGroupConversation(i11 >= 28 || (!z7 && DialogObject.isChatDialog(j6)) || UserObject.isReplyUser(j6));
+                                messagingStyle.setGroupConversation(i11 >= 28 || (!z7 && DialogObject.isChatDialog(j7)) || UserObject.isReplyUser(j7));
                                 StringBuilder sb22 = new StringBuilder();
                                 int i2622 = i10;
                                 String[] strArr222 = new String[1];
@@ -8284,16 +8318,15 @@ public class NotificationsController extends BaseController {
                                 arrayList5 = arrayList1422;
                                 String str2122 = str3;
                                 LongSparseArray longSparseArray1122 = longSparseArray9;
-                                long j722 = j4;
+                                long j822 = j4;
                                 NotificationCompat.MessagingStyle messagingStyle422 = messagingStyle322;
                                 Intent intent222 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
                                 intent222.setAction("com.tmessages.openchat" + Math.random() + ConnectionsManager.DEFAULT_DATACENTER_ID);
                                 intent222.setFlags(ConnectionsManager.FileTypeFile);
                                 intent222.addCategory("android.intent.category.LAUNCHER");
-                                if (!DialogObject.isEncryptedDialog(j6)) {
+                                if (!DialogObject.isEncryptedDialog(j7)) {
                                 }
-                                Log.d("kek", "show extra notifications chatId " + j6 + " topicId " + i22);
-                                FileLog.d("show extra notifications chatId " + j6 + " topicId " + i22);
+                                FileLog.d("show extra notifications chatId " + j7 + " topicId " + i22);
                                 if (i22 != 0) {
                                 }
                                 String str2222 = "currentAccount";
@@ -8306,20 +8339,20 @@ public class NotificationsController extends BaseController {
                                 Intent intent322 = new Intent(ApplicationLoader.applicationContext, AutoMessageHeardReceiver.class);
                                 intent322.addFlags(32);
                                 intent322.setAction("org.telegram.messenger.ACTION_MESSAGE_HEARD");
-                                intent322.putExtra(str7, j6);
+                                intent322.putExtra(str7, j7);
                                 intent322.putExtra(str6, i2622);
                                 intent322.putExtra(str2222, notificationsController3.currentAccount);
                                 NotificationCompat.Action build522 = new NotificationCompat.Action.Builder(R.drawable.msg_markread, LocaleController.getString("MarkAsRead", R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent322, 167772160)).setSemanticAction(2).setShowsUserInterface(false).build();
-                                if (DialogObject.isEncryptedDialog(j6)) {
+                                if (DialogObject.isEncryptedDialog(j7)) {
                                 }
                                 if (str8 == null) {
                                 }
-                                wearableExtender22.setBridgeTag("tgaccount" + j722);
-                                long j822 = ((long) ((MessageObject) arrayList1322.get(0)).messageOwner.date) * 1000;
-                                NotificationCompat.Builder category22 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str2122).setSmallIcon(R.drawable.notification).setContentText(sb22.toString()).setAutoCancel(true).setNumber(arrayList1322.size()).setColor(-15618822).setGroupSummary(false).setWhen(j822).setShowWhen(true).setStyle(messagingStyle422).setContentIntent(activity22).extend(wearableExtender22).setSortKey(String.valueOf(Long.MAX_VALUE - j822)).setCategory("msg");
+                                wearableExtender22.setBridgeTag("tgaccount" + j822);
+                                long j922 = ((long) ((MessageObject) arrayList1322.get(0)).messageOwner.date) * 1000;
+                                NotificationCompat.Builder category22 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str2122).setSmallIcon(R.drawable.notification).setContentText(sb22.toString()).setAutoCancel(true).setNumber(arrayList1322.size()).setColor(-15618822).setGroupSummary(false).setWhen(j922).setShowWhen(true).setStyle(messagingStyle422).setContentIntent(activity22).extend(wearableExtender22).setSortKey(String.valueOf(Long.MAX_VALUE - j922)).setCategory("msg");
                                 Intent intent422 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                                 intent422.putExtra("messageDate", i6);
-                                intent422.putExtra("dialogId", j6);
+                                intent422.putExtra("dialogId", j7);
                                 intent422.putExtra(str2222, notificationsController3.currentAccount);
                                 category22.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent422, 167772160));
                                 if (z4) {
@@ -8330,7 +8363,7 @@ public class NotificationsController extends BaseController {
                                 }
                                 if (arrayList10.size() != 1) {
                                 }
-                                if (DialogObject.isEncryptedDialog(j6)) {
+                                if (DialogObject.isEncryptedDialog(j7)) {
                                 }
                                 if (bitmap2 != null) {
                                 }
@@ -8345,7 +8378,7 @@ public class NotificationsController extends BaseController {
                                 boolean z1422 = z4;
                                 if (Build.VERSION.SDK_INT >= 26) {
                                 }
-                                j3 = j722;
+                                j3 = j822;
                                 i8 = i23;
                                 z8 = z1422;
                                 longSparseArray2 = longSparseArray1122;
@@ -8355,15 +8388,15 @@ public class NotificationsController extends BaseController {
                                 arrayList4 = arrayList10;
                                 notification = notification2;
                                 arrayList3 = arrayList12;
-                                arrayList3.add(new 1NotificationHolder(num.intValue(), j6, i12, str2122, tLRPC$User4, tLRPC$Chat2, category22, i, str2, jArr, i2, uri, i3, z, z2, z3, i4));
+                                arrayList3.add(new 1NotificationHolder(num.intValue(), j7, i12, str2122, tLRPC$User4, tLRPC$Chat2, category22, i, str2, jArr, i2, uri, i3, z, z2, z3, i4));
                                 notificationsController2 = this;
-                                notificationsController2.wearNotificationsIds.put(j6, num);
+                                notificationsController2.wearNotificationsIds.put(j7, num);
                             }
                         }
                         str18 = userName;
                     }
                     tLRPC$FileLocation = null;
-                    if (!UserObject.isReplyUser(j6)) {
+                    if (!UserObject.isReplyUser(j7)) {
                     }
                     j2 = clientUserId;
                     num = num4;
@@ -8386,7 +8419,7 @@ public class NotificationsController extends BaseController {
                     str5 = str4;
                     file3 = file2;
                     Intent intent6 = new Intent(ApplicationLoader.applicationContext, WearReplyReceiver.class);
-                    intent6.putExtra("dialog_id", j6);
+                    intent6.putExtra("dialog_id", j7);
                     i10 = i5;
                     intent6.putExtra("max_id", i10);
                     intent6.putExtra("topic_id", i22);
@@ -8395,10 +8428,10 @@ public class NotificationsController extends BaseController {
                     bitmap2 = bitmap;
                     PendingIntent broadcast2 = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent6, 167772160);
                     RemoteInput build32 = new RemoteInput.Builder(EXTRA_VOICE_REPLY).setLabel(LocaleController.getString("Reply", R.string.Reply)).build();
-                    if (!DialogObject.isChatDialog(j6)) {
+                    if (!DialogObject.isChatDialog(j7)) {
                     }
                     build = new NotificationCompat.Action.Builder(R.drawable.ic_reply_icon, formatString, broadcast2).setAllowGeneratedReplies(true).setSemanticAction(1).addRemoteInput(build32).setShowsUserInterface(false).build();
-                    num2 = notificationsController3.pushDialogs.get(j6);
+                    num2 = notificationsController3.pushDialogs.get(j7);
                     if (num2 == null) {
                     }
                     int max2 = Math.max(num2.intValue(), arrayList2.size());
@@ -8425,7 +8458,7 @@ public class NotificationsController extends BaseController {
                     if (i11 >= 28) {
                     }
                     messagingStyle.setConversationTitle(format);
-                    messagingStyle.setGroupConversation(i11 >= 28 || (!z7 && DialogObject.isChatDialog(j6)) || UserObject.isReplyUser(j6));
+                    messagingStyle.setGroupConversation(i11 >= 28 || (!z7 && DialogObject.isChatDialog(j7)) || UserObject.isReplyUser(j7));
                     StringBuilder sb222 = new StringBuilder();
                     int i26222 = i10;
                     String[] strArr2222 = new String[1];
@@ -8440,16 +8473,15 @@ public class NotificationsController extends BaseController {
                     arrayList5 = arrayList14222;
                     String str21222 = str3;
                     LongSparseArray longSparseArray11222 = longSparseArray9;
-                    long j7222 = j4;
+                    long j8222 = j4;
                     NotificationCompat.MessagingStyle messagingStyle4222 = messagingStyle3222;
                     Intent intent2222 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
                     intent2222.setAction("com.tmessages.openchat" + Math.random() + ConnectionsManager.DEFAULT_DATACENTER_ID);
                     intent2222.setFlags(ConnectionsManager.FileTypeFile);
                     intent2222.addCategory("android.intent.category.LAUNCHER");
-                    if (!DialogObject.isEncryptedDialog(j6)) {
+                    if (!DialogObject.isEncryptedDialog(j7)) {
                     }
-                    Log.d("kek", "show extra notifications chatId " + j6 + " topicId " + i22);
-                    FileLog.d("show extra notifications chatId " + j6 + " topicId " + i22);
+                    FileLog.d("show extra notifications chatId " + j7 + " topicId " + i22);
                     if (i22 != 0) {
                     }
                     String str22222 = "currentAccount";
@@ -8462,20 +8494,20 @@ public class NotificationsController extends BaseController {
                     Intent intent3222 = new Intent(ApplicationLoader.applicationContext, AutoMessageHeardReceiver.class);
                     intent3222.addFlags(32);
                     intent3222.setAction("org.telegram.messenger.ACTION_MESSAGE_HEARD");
-                    intent3222.putExtra(str7, j6);
+                    intent3222.putExtra(str7, j7);
                     intent3222.putExtra(str6, i26222);
                     intent3222.putExtra(str22222, notificationsController3.currentAccount);
                     NotificationCompat.Action build5222 = new NotificationCompat.Action.Builder(R.drawable.msg_markread, LocaleController.getString("MarkAsRead", R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent3222, 167772160)).setSemanticAction(2).setShowsUserInterface(false).build();
-                    if (DialogObject.isEncryptedDialog(j6)) {
+                    if (DialogObject.isEncryptedDialog(j7)) {
                     }
                     if (str8 == null) {
                     }
-                    wearableExtender222.setBridgeTag("tgaccount" + j7222);
-                    long j8222 = ((long) ((MessageObject) arrayList13222.get(0)).messageOwner.date) * 1000;
-                    NotificationCompat.Builder category222 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str21222).setSmallIcon(R.drawable.notification).setContentText(sb222.toString()).setAutoCancel(true).setNumber(arrayList13222.size()).setColor(-15618822).setGroupSummary(false).setWhen(j8222).setShowWhen(true).setStyle(messagingStyle4222).setContentIntent(activity222).extend(wearableExtender222).setSortKey(String.valueOf(Long.MAX_VALUE - j8222)).setCategory("msg");
+                    wearableExtender222.setBridgeTag("tgaccount" + j8222);
+                    long j9222 = ((long) ((MessageObject) arrayList13222.get(0)).messageOwner.date) * 1000;
+                    NotificationCompat.Builder category222 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str21222).setSmallIcon(R.drawable.notification).setContentText(sb222.toString()).setAutoCancel(true).setNumber(arrayList13222.size()).setColor(-15618822).setGroupSummary(false).setWhen(j9222).setShowWhen(true).setStyle(messagingStyle4222).setContentIntent(activity222).extend(wearableExtender222).setSortKey(String.valueOf(Long.MAX_VALUE - j9222)).setCategory("msg");
                     Intent intent4222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                     intent4222.putExtra("messageDate", i6);
-                    intent4222.putExtra("dialogId", j6);
+                    intent4222.putExtra("dialogId", j7);
                     intent4222.putExtra(str22222, notificationsController3.currentAccount);
                     category222.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent4222, 167772160));
                     if (z4) {
@@ -8486,7 +8518,7 @@ public class NotificationsController extends BaseController {
                     }
                     if (arrayList10.size() != 1) {
                     }
-                    if (DialogObject.isEncryptedDialog(j6)) {
+                    if (DialogObject.isEncryptedDialog(j7)) {
                     }
                     if (bitmap2 != null) {
                     }
@@ -8498,7 +8530,7 @@ public class NotificationsController extends BaseController {
                     boolean z14222 = z4;
                     if (Build.VERSION.SDK_INT >= 26) {
                     }
-                    j3 = j7222;
+                    j3 = j8222;
                     i8 = i23;
                     z8 = z14222;
                     longSparseArray2 = longSparseArray11222;
@@ -8508,13 +8540,13 @@ public class NotificationsController extends BaseController {
                     arrayList4 = arrayList10;
                     notification = notification2;
                     arrayList3 = arrayList12;
-                    arrayList3.add(new 1NotificationHolder(num.intValue(), j6, i12, str21222, tLRPC$User4, tLRPC$Chat2, category222, i, str2, jArr, i2, uri, i3, z, z2, z3, i4));
+                    arrayList3.add(new 1NotificationHolder(num.intValue(), j7, i12, str21222, tLRPC$User4, tLRPC$Chat2, category222, i, str2, jArr, i2, uri, i3, z, z2, z3, i4));
                     notificationsController2 = this;
-                    notificationsController2.wearNotificationsIds.put(j6, num);
+                    notificationsController2.wearNotificationsIds.put(j7, num);
                 } else {
                     i6 = i24;
                     i7 = size3;
-                    TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-j6));
+                    TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-j7));
                     if (chat == null) {
                         if (messageObject3.isFcmMessage()) {
                             boolean isSupergroup = messageObject3.isSupergroup();
@@ -8532,7 +8564,7 @@ public class NotificationsController extends BaseController {
                             tLRPC$FileLocation = null;
                         } else {
                             if (BuildVars.LOGS_ENABLED) {
-                                FileLog.w("not found chat to show dialog notification " + j6);
+                                FileLog.w("not found chat to show dialog notification " + j7);
                             }
                             j3 = clientUserId;
                             longSparseArray2 = longSparseArray9;
@@ -8605,7 +8637,7 @@ public class NotificationsController extends BaseController {
                     str5 = str4;
                     file3 = file2;
                     Intent intent62 = new Intent(ApplicationLoader.applicationContext, WearReplyReceiver.class);
-                    intent62.putExtra("dialog_id", j6);
+                    intent62.putExtra("dialog_id", j7);
                     i10 = i5;
                     intent62.putExtra("max_id", i10);
                     intent62.putExtra("topic_id", i22);
@@ -8614,10 +8646,10 @@ public class NotificationsController extends BaseController {
                     bitmap2 = bitmap;
                     PendingIntent broadcast22 = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent62, 167772160);
                     RemoteInput build322 = new RemoteInput.Builder(EXTRA_VOICE_REPLY).setLabel(LocaleController.getString("Reply", R.string.Reply)).build();
-                    if (!DialogObject.isChatDialog(j6)) {
+                    if (!DialogObject.isChatDialog(j7)) {
                     }
                     build = new NotificationCompat.Action.Builder(R.drawable.ic_reply_icon, formatString, broadcast22).setAllowGeneratedReplies(true).setSemanticAction(1).addRemoteInput(build322).setShowsUserInterface(false).build();
-                    num2 = notificationsController3.pushDialogs.get(j6);
+                    num2 = notificationsController3.pushDialogs.get(j7);
                     if (num2 == null) {
                     }
                     int max22 = Math.max(num2.intValue(), arrayList2.size());
@@ -8639,7 +8671,7 @@ public class NotificationsController extends BaseController {
                     if (i11 >= 28) {
                     }
                     messagingStyle.setConversationTitle(format);
-                    messagingStyle.setGroupConversation(i11 >= 28 || (!z7 && DialogObject.isChatDialog(j6)) || UserObject.isReplyUser(j6));
+                    messagingStyle.setGroupConversation(i11 >= 28 || (!z7 && DialogObject.isChatDialog(j7)) || UserObject.isReplyUser(j7));
                     StringBuilder sb2222 = new StringBuilder();
                     int i262222 = i10;
                     String[] strArr22222 = new String[1];
@@ -8654,16 +8686,15 @@ public class NotificationsController extends BaseController {
                     arrayList5 = arrayList142222;
                     String str212222 = str3;
                     LongSparseArray longSparseArray112222 = longSparseArray9;
-                    long j72222 = j4;
+                    long j82222 = j4;
                     NotificationCompat.MessagingStyle messagingStyle42222 = messagingStyle32222;
                     Intent intent22222 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
                     intent22222.setAction("com.tmessages.openchat" + Math.random() + ConnectionsManager.DEFAULT_DATACENTER_ID);
                     intent22222.setFlags(ConnectionsManager.FileTypeFile);
                     intent22222.addCategory("android.intent.category.LAUNCHER");
-                    if (!DialogObject.isEncryptedDialog(j6)) {
+                    if (!DialogObject.isEncryptedDialog(j7)) {
                     }
-                    Log.d("kek", "show extra notifications chatId " + j6 + " topicId " + i22);
-                    FileLog.d("show extra notifications chatId " + j6 + " topicId " + i22);
+                    FileLog.d("show extra notifications chatId " + j7 + " topicId " + i22);
                     if (i22 != 0) {
                     }
                     String str222222 = "currentAccount";
@@ -8676,20 +8707,20 @@ public class NotificationsController extends BaseController {
                     Intent intent32222 = new Intent(ApplicationLoader.applicationContext, AutoMessageHeardReceiver.class);
                     intent32222.addFlags(32);
                     intent32222.setAction("org.telegram.messenger.ACTION_MESSAGE_HEARD");
-                    intent32222.putExtra(str7, j6);
+                    intent32222.putExtra(str7, j7);
                     intent32222.putExtra(str6, i262222);
                     intent32222.putExtra(str222222, notificationsController3.currentAccount);
                     NotificationCompat.Action build52222 = new NotificationCompat.Action.Builder(R.drawable.msg_markread, LocaleController.getString("MarkAsRead", R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent32222, 167772160)).setSemanticAction(2).setShowsUserInterface(false).build();
-                    if (DialogObject.isEncryptedDialog(j6)) {
+                    if (DialogObject.isEncryptedDialog(j7)) {
                     }
                     if (str8 == null) {
                     }
-                    wearableExtender2222.setBridgeTag("tgaccount" + j72222);
-                    long j82222 = ((long) ((MessageObject) arrayList132222.get(0)).messageOwner.date) * 1000;
-                    NotificationCompat.Builder category2222 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str212222).setSmallIcon(R.drawable.notification).setContentText(sb2222.toString()).setAutoCancel(true).setNumber(arrayList132222.size()).setColor(-15618822).setGroupSummary(false).setWhen(j82222).setShowWhen(true).setStyle(messagingStyle42222).setContentIntent(activity2222).extend(wearableExtender2222).setSortKey(String.valueOf(Long.MAX_VALUE - j82222)).setCategory("msg");
+                    wearableExtender2222.setBridgeTag("tgaccount" + j82222);
+                    long j92222 = ((long) ((MessageObject) arrayList132222.get(0)).messageOwner.date) * 1000;
+                    NotificationCompat.Builder category2222 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str212222).setSmallIcon(R.drawable.notification).setContentText(sb2222.toString()).setAutoCancel(true).setNumber(arrayList132222.size()).setColor(-15618822).setGroupSummary(false).setWhen(j92222).setShowWhen(true).setStyle(messagingStyle42222).setContentIntent(activity2222).extend(wearableExtender2222).setSortKey(String.valueOf(Long.MAX_VALUE - j92222)).setCategory("msg");
                     Intent intent42222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                     intent42222.putExtra("messageDate", i6);
-                    intent42222.putExtra("dialogId", j6);
+                    intent42222.putExtra("dialogId", j7);
                     intent42222.putExtra(str222222, notificationsController3.currentAccount);
                     category2222.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent42222, 167772160));
                     if (z4) {
@@ -8700,7 +8731,7 @@ public class NotificationsController extends BaseController {
                     }
                     if (arrayList10.size() != 1) {
                     }
-                    if (DialogObject.isEncryptedDialog(j6)) {
+                    if (DialogObject.isEncryptedDialog(j7)) {
                     }
                     if (bitmap2 != null) {
                     }
@@ -8712,7 +8743,7 @@ public class NotificationsController extends BaseController {
                     boolean z142222 = z4;
                     if (Build.VERSION.SDK_INT >= 26) {
                     }
-                    j3 = j72222;
+                    j3 = j82222;
                     i8 = i23;
                     z8 = z142222;
                     longSparseArray2 = longSparseArray112222;
@@ -8722,9 +8753,9 @@ public class NotificationsController extends BaseController {
                     arrayList4 = arrayList10;
                     notification = notification2;
                     arrayList3 = arrayList12;
-                    arrayList3.add(new 1NotificationHolder(num.intValue(), j6, i12, str212222, tLRPC$User4, tLRPC$Chat2, category2222, i, str2, jArr, i2, uri, i3, z, z2, z3, i4));
+                    arrayList3.add(new 1NotificationHolder(num.intValue(), j7, i12, str212222, tLRPC$User4, tLRPC$Chat2, category2222, i, str2, jArr, i2, uri, i3, z, z2, z3, i4));
                     notificationsController2 = this;
-                    notificationsController2.wearNotificationsIds.put(j6, num);
+                    notificationsController2.wearNotificationsIds.put(j7, num);
                 }
             } else {
                 j2 = clientUserId;
@@ -8733,8 +8764,8 @@ public class NotificationsController extends BaseController {
                 i6 = i24;
                 i7 = size3;
                 arrayList2 = arrayList11;
-                if (j6 != globalSecretChatId) {
-                    int encryptedChatId = DialogObject.getEncryptedChatId(j6);
+                if (j7 != globalSecretChatId) {
+                    int encryptedChatId = DialogObject.getEncryptedChatId(j7);
                     TLRPC$EncryptedChat encryptedChat = getMessagesController().getEncryptedChat(Integer.valueOf(encryptedChatId));
                     if (encryptedChat == null) {
                         if (BuildVars.LOGS_ENABLED) {
@@ -8781,7 +8812,7 @@ public class NotificationsController extends BaseController {
                 str5 = str4;
                 file3 = file2;
                 Intent intent622 = new Intent(ApplicationLoader.applicationContext, WearReplyReceiver.class);
-                intent622.putExtra("dialog_id", j6);
+                intent622.putExtra("dialog_id", j7);
                 i10 = i5;
                 intent622.putExtra("max_id", i10);
                 intent622.putExtra("topic_id", i22);
@@ -8790,10 +8821,10 @@ public class NotificationsController extends BaseController {
                 bitmap2 = bitmap;
                 PendingIntent broadcast222 = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent622, 167772160);
                 RemoteInput build3222 = new RemoteInput.Builder(EXTRA_VOICE_REPLY).setLabel(LocaleController.getString("Reply", R.string.Reply)).build();
-                if (!DialogObject.isChatDialog(j6)) {
+                if (!DialogObject.isChatDialog(j7)) {
                 }
                 build = new NotificationCompat.Action.Builder(R.drawable.ic_reply_icon, formatString, broadcast222).setAllowGeneratedReplies(true).setSemanticAction(1).addRemoteInput(build3222).setShowsUserInterface(false).build();
-                num2 = notificationsController3.pushDialogs.get(j6);
+                num2 = notificationsController3.pushDialogs.get(j7);
                 if (num2 == null) {
                 }
                 int max222 = Math.max(num2.intValue(), arrayList2.size());
@@ -8815,7 +8846,7 @@ public class NotificationsController extends BaseController {
                 if (i11 >= 28) {
                 }
                 messagingStyle.setConversationTitle(format);
-                messagingStyle.setGroupConversation(i11 >= 28 || (!z7 && DialogObject.isChatDialog(j6)) || UserObject.isReplyUser(j6));
+                messagingStyle.setGroupConversation(i11 >= 28 || (!z7 && DialogObject.isChatDialog(j7)) || UserObject.isReplyUser(j7));
                 StringBuilder sb22222 = new StringBuilder();
                 int i2622222 = i10;
                 String[] strArr222222 = new String[1];
@@ -8830,16 +8861,15 @@ public class NotificationsController extends BaseController {
                 arrayList5 = arrayList1422222;
                 String str2122222 = str3;
                 LongSparseArray longSparseArray1122222 = longSparseArray9;
-                long j722222 = j4;
+                long j822222 = j4;
                 NotificationCompat.MessagingStyle messagingStyle422222 = messagingStyle322222;
                 Intent intent222222 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
                 intent222222.setAction("com.tmessages.openchat" + Math.random() + ConnectionsManager.DEFAULT_DATACENTER_ID);
                 intent222222.setFlags(ConnectionsManager.FileTypeFile);
                 intent222222.addCategory("android.intent.category.LAUNCHER");
-                if (!DialogObject.isEncryptedDialog(j6)) {
+                if (!DialogObject.isEncryptedDialog(j7)) {
                 }
-                Log.d("kek", "show extra notifications chatId " + j6 + " topicId " + i22);
-                FileLog.d("show extra notifications chatId " + j6 + " topicId " + i22);
+                FileLog.d("show extra notifications chatId " + j7 + " topicId " + i22);
                 if (i22 != 0) {
                 }
                 String str2222222 = "currentAccount";
@@ -8852,20 +8882,20 @@ public class NotificationsController extends BaseController {
                 Intent intent322222 = new Intent(ApplicationLoader.applicationContext, AutoMessageHeardReceiver.class);
                 intent322222.addFlags(32);
                 intent322222.setAction("org.telegram.messenger.ACTION_MESSAGE_HEARD");
-                intent322222.putExtra(str7, j6);
+                intent322222.putExtra(str7, j7);
                 intent322222.putExtra(str6, i2622222);
                 intent322222.putExtra(str2222222, notificationsController3.currentAccount);
                 NotificationCompat.Action build522222 = new NotificationCompat.Action.Builder(R.drawable.msg_markread, LocaleController.getString("MarkAsRead", R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent322222, 167772160)).setSemanticAction(2).setShowsUserInterface(false).build();
-                if (DialogObject.isEncryptedDialog(j6)) {
+                if (DialogObject.isEncryptedDialog(j7)) {
                 }
                 if (str8 == null) {
                 }
-                wearableExtender22222.setBridgeTag("tgaccount" + j722222);
-                long j822222 = ((long) ((MessageObject) arrayList1322222.get(0)).messageOwner.date) * 1000;
-                NotificationCompat.Builder category22222 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str2122222).setSmallIcon(R.drawable.notification).setContentText(sb22222.toString()).setAutoCancel(true).setNumber(arrayList1322222.size()).setColor(-15618822).setGroupSummary(false).setWhen(j822222).setShowWhen(true).setStyle(messagingStyle422222).setContentIntent(activity22222).extend(wearableExtender22222).setSortKey(String.valueOf(Long.MAX_VALUE - j822222)).setCategory("msg");
+                wearableExtender22222.setBridgeTag("tgaccount" + j822222);
+                long j922222 = ((long) ((MessageObject) arrayList1322222.get(0)).messageOwner.date) * 1000;
+                NotificationCompat.Builder category22222 = new NotificationCompat.Builder(ApplicationLoader.applicationContext).setContentTitle(str2122222).setSmallIcon(R.drawable.notification).setContentText(sb22222.toString()).setAutoCancel(true).setNumber(arrayList1322222.size()).setColor(-15618822).setGroupSummary(false).setWhen(j922222).setShowWhen(true).setStyle(messagingStyle422222).setContentIntent(activity22222).extend(wearableExtender22222).setSortKey(String.valueOf(Long.MAX_VALUE - j922222)).setCategory("msg");
                 Intent intent422222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                 intent422222.putExtra("messageDate", i6);
-                intent422222.putExtra("dialogId", j6);
+                intent422222.putExtra("dialogId", j7);
                 intent422222.putExtra(str2222222, notificationsController3.currentAccount);
                 category22222.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent422222, 167772160));
                 if (z4) {
@@ -8876,7 +8906,7 @@ public class NotificationsController extends BaseController {
                 }
                 if (arrayList10.size() != 1) {
                 }
-                if (DialogObject.isEncryptedDialog(j6)) {
+                if (DialogObject.isEncryptedDialog(j7)) {
                 }
                 if (bitmap2 != null) {
                 }
@@ -8888,7 +8918,7 @@ public class NotificationsController extends BaseController {
                 boolean z1422222 = z4;
                 if (Build.VERSION.SDK_INT >= 26) {
                 }
-                j3 = j722222;
+                j3 = j822222;
                 i8 = i23;
                 z8 = z1422222;
                 longSparseArray2 = longSparseArray1122222;
@@ -8898,9 +8928,9 @@ public class NotificationsController extends BaseController {
                 arrayList4 = arrayList10;
                 notification = notification2;
                 arrayList3 = arrayList12;
-                arrayList3.add(new 1NotificationHolder(num.intValue(), j6, i12, str2122222, tLRPC$User4, tLRPC$Chat2, category22222, i, str2, jArr, i2, uri, i3, z, z2, z3, i4));
+                arrayList3.add(new 1NotificationHolder(num.intValue(), j7, i12, str2122222, tLRPC$User4, tLRPC$Chat2, category22222, i, str2, jArr, i2, uri, i3, z, z2, z3, i4));
                 notificationsController2 = this;
-                notificationsController2.wearNotificationsIds.put(j6, num);
+                notificationsController2.wearNotificationsIds.put(j7, num);
             }
             i21 = i8 + 1;
             arrayList9 = arrayList3;
@@ -8965,9 +8995,9 @@ public class NotificationsController extends BaseController {
                 longSparseArray = longSparseArray12;
             } else {
                 NotificationCompat.Builder builder2 = r3.notification;
-                long j9 = r3.dialogId;
+                long j10 = r3.dialogId;
                 longSparseArray = longSparseArray12;
-                String createNotificationShortcut = createNotificationShortcut(builder2, j9, r3.name, r3.user, r3.chat, (Person) longSparseArray.get(j9));
+                String createNotificationShortcut = createNotificationShortcut(builder2, j10, r3.name, r3.user, r3.chat, (Person) longSparseArray.get(j10));
                 if (createNotificationShortcut != null) {
                     arrayList19.add(createNotificationShortcut);
                 }

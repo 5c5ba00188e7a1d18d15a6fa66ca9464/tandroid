@@ -36,6 +36,7 @@ import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
@@ -1555,7 +1556,7 @@ public class ActionBar extends FrameLayout {
                         i19 = 51;
                     }
                     int i20 = i19 & 7;
-                    int i21 = i19 & 112;
+                    int i21 = i19 & MessagesStorage.LAST_DB_VERSION;
                     int i22 = i20 & 7;
                     if (i22 == 1) {
                         i5 = (((i3 - i) - measuredWidth) / 2) + layoutParams.leftMargin;

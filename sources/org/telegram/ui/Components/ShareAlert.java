@@ -883,7 +883,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                             i14 = 51;
                         }
                         int i15 = i14 & 7;
-                        int i16 = i14 & 112;
+                        int i16 = i14 & MessagesStorage.LAST_DB_VERSION;
                         int i17 = i15 & 7;
                         if (i17 == 1) {
                             i7 = (((i5 - i3) - measuredWidth) / 2) + layoutParams.leftMargin;

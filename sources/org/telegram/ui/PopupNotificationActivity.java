@@ -39,6 +39,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.NotificationsController;
 import org.telegram.messenger.R;
@@ -219,7 +220,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                             i13 = 51;
                         }
                         int i14 = i13 & 7;
-                        int i15 = i13 & 112;
+                        int i15 = i13 & MessagesStorage.LAST_DB_VERSION;
                         int i16 = i14 & 7;
                         if (i16 == 1) {
                             i6 = (((i4 - i2) - measuredWidth) / 2) + layoutParams.leftMargin;

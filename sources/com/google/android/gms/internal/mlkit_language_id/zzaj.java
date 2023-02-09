@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.MessagesStorage;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public enum zzaj implements zzet {
@@ -83,7 +84,7 @@ public enum zzaj implements zzet {
     zzby(92),
     zzbz(93),
     zzca(111),
-    zzcb(112),
+    zzcb(MessagesStorage.LAST_DB_VERSION),
     zzcc(113),
     zzcd(121),
     zzce(122),

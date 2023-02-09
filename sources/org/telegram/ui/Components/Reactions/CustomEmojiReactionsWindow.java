@@ -27,6 +27,7 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
+import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC$Document;
@@ -303,7 +304,7 @@ public class CustomEmojiReactionsWindow {
         this.fromRect.offset((this.location[0] - iArr[0]) - this.containerView.getX(), (this.location[1] - iArr[1]) - this.containerView.getY());
         this.reactionsContainerLayout.setCustomEmojiEnterProgress(this.enterTransitionProgress);
         if (z) {
-            this.cascadeAnimation = false;
+            this.cascadeAnimation = SharedConfig.getDevicePerformanceClass() >= 2;
             this.enterTransitionFinished = false;
         } else {
             this.cascadeAnimation = false;
@@ -360,7 +361,7 @@ public class CustomEmojiReactionsWindow {
         this.valueAnimator.setStartDelay(30L);
         if (this.cascadeAnimation) {
             this.valueAnimator.setDuration(450L);
-            this.valueAnimator.setInterpolator(new OvershootInterpolator(1.0f));
+            this.valueAnimator.setInterpolator(new OvershootInterpolator(0.5f));
         } else {
             this.valueAnimator.setDuration(350L);
             this.valueAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
@@ -569,7 +570,6 @@ public class CustomEmojiReactionsWindow {
     /* loaded from: classes.dex */
     public class ContainerView extends FrameLayout {
         Paint backgroundPaint;
-        private Paint dimPaint;
         int[] radiusTmp;
         Drawable shadow;
         Rect shadowPad;
@@ -579,7 +579,6 @@ public class CustomEmojiReactionsWindow {
             super(context);
             this.shadowPad = new Rect();
             this.backgroundPaint = new Paint(1);
-            this.dimPaint = new Paint(1);
             this.radiusTmp = new int[4];
             this.transitionReactions = new HashMap<>();
             this.shadow = ContextCompat.getDrawable(context, R.drawable.reactions_bubble_shadow).mutate();
@@ -634,8 +633,6 @@ public class CustomEmojiReactionsWindow {
                 float f16 = 1.0f;
                 float f17 = 0.0f;
                 float clamp = Utilities.clamp(customEmojiReactionsWindow2.enterTransitionProgress, 1.0f, 0.0f);
-                this.dimPaint.setAlpha((int) (0.2f * clamp * 255.0f));
-                canvas.drawPaint(this.dimPaint);
                 RectF rectF = AndroidUtilities.rectTmp;
                 rectF.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
                 CustomEmojiReactionsWindow customEmojiReactionsWindow3 = CustomEmojiReactionsWindow.this;

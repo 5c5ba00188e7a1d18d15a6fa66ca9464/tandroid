@@ -150,7 +150,7 @@ import org.telegram.ui.Adapters.DialogsSearchAdapter;
 /* loaded from: classes.dex */
 public class MessagesStorage extends BaseController {
     public static final String[] DATABASE_TABLES;
-    private static final int LAST_DB_VERSION = 112;
+    public static final int LAST_DB_VERSION = 112;
     private int archiveUnreadCount;
     private int[][] bots;
     private File cacheFile;
@@ -475,7 +475,7 @@ public class MessagesStorage extends BaseController {
                         FileLog.e(e2);
                     }
                 }
-                if (intValue < LAST_DB_VERSION) {
+                if (intValue < 112) {
                     try {
                         updateDbToLastVersion(intValue);
                     } catch (Exception e3) {
@@ -541,15 +541,30 @@ public class MessagesStorage extends BaseController {
     private boolean recoverDatabase() {
         this.database.close();
         boolean recoverDatabase = DatabaseMigrationHelper.recoverDatabase(this.cacheFile, this.walCacheFile, this.shmCacheFile, this.currentAccount);
-        try {
-            SQLiteDatabase sQLiteDatabase = new SQLiteDatabase(this.cacheFile.getPath());
-            this.database = sQLiteDatabase;
-            sQLiteDatabase.executeFast("PRAGMA secure_delete = ON").stepThis().dispose();
-            this.database.executeFast("PRAGMA temp_store = MEMORY").stepThis().dispose();
-            this.database.executeFast("PRAGMA journal_mode = WAL").stepThis().dispose();
-            this.database.executeFast("PRAGMA journal_size_limit = 10485760").stepThis().dispose();
-        } catch (SQLiteException e) {
-            FileLog.e(e);
+        if (recoverDatabase) {
+            try {
+                SQLiteDatabase sQLiteDatabase = new SQLiteDatabase(this.cacheFile.getPath());
+                this.database = sQLiteDatabase;
+                sQLiteDatabase.executeFast("PRAGMA secure_delete = ON").stepThis().dispose();
+                this.database.executeFast("PRAGMA temp_store = MEMORY").stepThis().dispose();
+                this.database.executeFast("PRAGMA journal_mode = WAL").stepThis().dispose();
+                this.database.executeFast("PRAGMA journal_size_limit = 10485760").stepThis().dispose();
+            } catch (SQLiteException e) {
+                FileLog.e(new Exception(e));
+                recoverDatabase = false;
+            }
+        }
+        if (!recoverDatabase) {
+            cleanupInternal(true);
+            int i = 0;
+            while (i < 2) {
+                int i2 = i;
+                getUserConfig().setDialogsLoadOffset(i, 0, 0, 0L, 0L, 0L, 0L);
+                getUserConfig().setTotalDialogsCount(i2, 0);
+                i = i2 + 1;
+            }
+            getUserConfig().saveConfig(false);
+            openDatabase(1);
         }
         return recoverDatabase;
     }
@@ -838,11 +853,11 @@ public class MessagesStorage extends BaseController {
             this.tryRecover = true;
             if (recoverDatabase()) {
                 this.tryRecover = false;
-                return;
-            } else {
-                FileLog.e(th, z);
+                FileLog.e(new Exception("database restored!!"));
                 return;
             }
+            FileLog.e(new Exception(th), z);
+            return;
         }
         FileLog.e(th, z);
     }

@@ -12,6 +12,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes.dex */
 public class IidStore {
     private static final String[] ALLOWABLE_SCOPES = {"*", "FCM", "GCM", ""};
@@ -105,7 +106,7 @@ public class IidStore {
     private static String getIdFromPublicKey(PublicKey publicKey) {
         try {
             byte[] digest = MessageDigest.getInstance("SHA1").digest(publicKey.getEncoded());
-            digest[0] = (byte) (((digest[0] & 15) + 112) & 255);
+            digest[0] = (byte) (((digest[0] & 15) + MessagesStorage.LAST_DB_VERSION) & 255);
             return Base64.encodeToString(digest, 0, 8, 11);
         } catch (NoSuchAlgorithmException unused) {
             Log.w("ContentValues", "Unexpected error, device missing required algorithms");

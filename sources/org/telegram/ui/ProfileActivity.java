@@ -11850,7 +11850,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     ProfileActivity.SearchAdapter.this.lambda$onCreateSearchArray$32();
                 }
             }) : null;
-            searchResultArr[32] = new SearchResult(this, 112, LocaleController.getString("DeleteAccountIfAwayFor2", R.string.DeleteAccountIfAwayFor2), "deleteAccountRow", LocaleController.getString("PrivacySettings", i3), i4, new Runnable() { // from class: org.telegram.ui.ProfileActivity$SearchAdapter$$ExternalSyntheticLambda40
+            searchResultArr[32] = new SearchResult(this, MessagesStorage.LAST_DB_VERSION, LocaleController.getString("DeleteAccountIfAwayFor2", R.string.DeleteAccountIfAwayFor2), "deleteAccountRow", LocaleController.getString("PrivacySettings", i3), i4, new Runnable() { // from class: org.telegram.ui.ProfileActivity$SearchAdapter$$ExternalSyntheticLambda40
                 @Override // java.lang.Runnable
                 public final void run() {
                     ProfileActivity.SearchAdapter.this.lambda$onCreateSearchArray$33();

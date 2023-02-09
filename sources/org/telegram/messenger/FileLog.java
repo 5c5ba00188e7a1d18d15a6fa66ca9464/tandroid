@@ -81,7 +81,7 @@ public class FileLog {
                 }
             });
         } catch (Throwable th) {
-            e(th);
+            e(th, BuildVars.DEBUG_PRIVATE_VERSION);
         }
     }
 
@@ -150,6 +150,7 @@ public class FileLog {
             hashSet.add("bytes");
             hashSet.add("secret");
             hashSet.add("stripped_thumb");
+            hashSet.add("strippedBitmap");
             hashSet.add("networkType");
             hashSet.add("disableFree");
             HashSet<String> hashSet2 = new HashSet<>();

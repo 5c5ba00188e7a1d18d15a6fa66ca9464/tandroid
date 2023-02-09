@@ -988,7 +988,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         i12 = 51;
                     }
                     int i13 = i12 & 7;
-                    int i14 = i12 & 112;
+                    int i14 = i12 & MessagesStorage.LAST_DB_VERSION;
                     int i15 = i13 & 7;
                     if (i15 == 1) {
                         i5 = (((i3 - i) - measuredWidth) / 2) + layoutParams.leftMargin;
@@ -12354,9 +12354,18 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (z) {
             ViewPage[] viewPageArr = this.viewPages;
             if (viewPageArr != null && viewPageArr[0] != null) {
-                viewPageArr[0].setClipChildren(false);
+                viewPageArr[0].setLayerType(2, null);
+                this.viewPages[0].setClipChildren(false);
                 this.viewPages[0].setClipToPadding(false);
                 this.viewPages[0].listView.setClipChildren(false);
+            }
+            ActionBar actionBar = this.actionBar;
+            if (actionBar != null) {
+                actionBar.setLayerType(2, null);
+            }
+            FilterTabsView filterTabsView = this.filterTabsView;
+            if (filterTabsView != null) {
+                filterTabsView.getListView().setLayerType(2, null);
             }
             View view = this.fragmentView;
             if (view != null) {
@@ -12381,13 +12390,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             i++;
         }
-        ActionBar actionBar = this.actionBar;
-        if (actionBar != null) {
-            actionBar.setLayerType(0, null);
+        ActionBar actionBar2 = this.actionBar;
+        if (actionBar2 != null) {
+            actionBar2.setLayerType(0, null);
         }
-        FilterTabsView filterTabsView = this.filterTabsView;
-        if (filterTabsView != null) {
-            filterTabsView.getListView().setLayerType(0, null);
+        FilterTabsView filterTabsView2 = this.filterTabsView;
+        if (filterTabsView2 != null) {
+            filterTabsView2.getListView().setLayerType(0, null);
         }
         View view2 = this.fragmentView;
         if (view2 != null) {

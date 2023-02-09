@@ -1173,13 +1173,15 @@ public class DatabaseMigrationHelper {
         if (i7 == 111) {
             sQLiteDatabase.executeFast("CREATE TABLE emoji_groups(type INTEGER PRIMARY KEY, data BLOB)").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 112").stepThis().dispose();
-            return 112;
+            return MessagesStorage.LAST_DB_VERSION;
         }
         return i7;
     }
 
     public static boolean recoverDatabase(File file, File file2, File file3, int i) {
         boolean z;
+        SQLiteDatabase sQLiteDatabase;
+        int intValue;
         SQLiteCursor sQLiteCursor;
         int i2;
         File filesDirFixed = ApplicationLoader.getFilesDirFixed();
@@ -1203,88 +1205,94 @@ public class DatabaseMigrationHelper {
         int i4 = 0;
         try {
             j = System.currentTimeMillis();
-            SQLiteDatabase sQLiteDatabase = new SQLiteDatabase(file5.getPath());
+            sQLiteDatabase = new SQLiteDatabase(file5.getPath());
             sQLiteDatabase.executeFast("PRAGMA secure_delete = ON").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA temp_store = MEMORY").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA journal_mode = WAL").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA journal_size_limit = 10485760").stepThis().dispose();
             MessagesStorage.createTables(sQLiteDatabase);
             sQLiteDatabase.executeFast("ATTACH DATABASE \"" + file.getAbsolutePath() + "\" AS old;").stepThis().dispose();
-            HashSet hashSet = new HashSet();
-            hashSet.add("messages_v2");
-            hashSet.add("messages_holes");
-            hashSet.add("scheduled_messages_v2");
-            hashSet.add("media_holes_v2");
-            hashSet.add("media_v4");
-            hashSet.add("messages_holes_topics");
-            hashSet.add("messages_topics");
-            hashSet.add("media_topics");
-            hashSet.add("media_holes_topics");
-            hashSet.add("topics");
-            hashSet.add("media_counts_v2");
-            hashSet.add("media_counts_topics");
-            int i5 = 0;
-            while (true) {
-                String[] strArr = MessagesStorage.DATABASE_TABLES;
-                if (i5 >= strArr.length) {
-                    break;
-                }
-                String str = strArr[i5];
-                if (!hashSet.contains(str)) {
-                    sQLiteDatabase.executeFast(String.format(Locale.US, "INSERT OR IGNORE INTO %s SELECT * FROM old.%s;", str, str)).stepThis().dispose();
-                }
-                i5++;
-            }
-            SQLiteCursor queryFinalized = sQLiteDatabase.queryFinalized("SELECT did FROM old.dialogs", new Object[0]);
-            while (queryFinalized.next()) {
-                long longValue = queryFinalized.longValue(0);
-                if (DialogObject.isEncryptedDialog(longValue)) {
-                    arrayList.add(Long.valueOf(longValue));
-                } else {
-                    arrayList2.add(Long.valueOf(longValue));
-                }
-            }
-            queryFinalized.dispose();
-            for (int i6 = 0; i6 < arrayList.size(); i6++) {
-                long longValue2 = ((Long) arrayList.get(i6)).longValue();
-                Locale locale = Locale.US;
-                sQLiteDatabase.executeFast(String.format(locale, "INSERT OR IGNORE INTO messages_v2 SELECT * FROM old.messages_v2 WHERE uid = %d;", Long.valueOf(longValue2))).stepThis().dispose();
-                sQLiteDatabase.executeFast(String.format(locale, "INSERT OR IGNORE INTO messages_holes SELECT * FROM old.messages_holes WHERE uid = %d;", Long.valueOf(longValue2))).stepThis().dispose();
-                sQLiteDatabase.executeFast(String.format(locale, "INSERT OR IGNORE INTO media_holes_v2 SELECT * FROM old.media_holes_v2 WHERE uid = %d;", Long.valueOf(longValue2))).stepThis().dispose();
-                sQLiteDatabase.executeFast(String.format(locale, "INSERT OR IGNORE INTO media_v4 SELECT * FROM old.media_v4 WHERE uid = %d;", Long.valueOf(longValue2))).stepThis().dispose();
-            }
-            SQLitePreparedStatement executeFast = sQLiteDatabase.executeFast("REPLACE INTO messages_holes VALUES(?, ?, ?)");
-            SQLitePreparedStatement executeFast2 = sQLiteDatabase.executeFast("REPLACE INTO media_holes_v2 VALUES(?, ?, ?, ?)");
-            int i7 = 0;
-            while (i7 < arrayList2.size()) {
-                Long l = (Long) arrayList2.get(i7);
-                SQLiteCursor queryFinalized2 = sQLiteDatabase.queryFinalized("SELECT last_mid_i, last_mid FROM old.dialogs WHERE did = " + l, new Object[i4]);
-                if (queryFinalized2.next()) {
-                    long longValue3 = queryFinalized2.longValue(i4);
-                    SQLiteDatabase sQLiteDatabase2 = sQLiteDatabase;
-                    long longValue4 = queryFinalized2.longValue(i3);
-                    sQLiteDatabase2.executeFast("INSERT OR IGNORE INTO messages_v2 SELECT * FROM old.messages_v2 WHERE uid = " + l + " AND mid IN (" + longValue3 + "," + longValue4 + ")").stepThis().dispose();
-                    sQLiteDatabase = sQLiteDatabase2;
-                    sQLiteCursor = queryFinalized2;
-                    i2 = i7;
-                    MessagesStorage.createFirstHoles(l.longValue(), executeFast, executeFast2, (int) longValue4, 0);
-                } else {
-                    sQLiteCursor = queryFinalized2;
-                    i2 = i7;
-                }
-                sQLiteCursor.dispose();
-                i7 = i2 + 1;
-                i3 = 1;
-                i4 = 0;
-            }
-            executeFast.dispose();
-            executeFast2.dispose();
-            sQLiteDatabase.executeFast("DETACH DATABASE old;").stepThis().dispose();
-            z = true;
+            intValue = sQLiteDatabase.executeInt("PRAGMA old.user_version", new Object[0]).intValue();
         } catch (Exception e2) {
             FileLog.e(e2);
             z = false;
         }
+        if (intValue != 112) {
+            FileLog.e("can't restore database from version " + intValue);
+            return false;
+        }
+        HashSet hashSet = new HashSet();
+        hashSet.add("messages_v2");
+        hashSet.add("messages_holes");
+        hashSet.add("scheduled_messages_v2");
+        hashSet.add("media_holes_v2");
+        hashSet.add("media_v4");
+        hashSet.add("messages_holes_topics");
+        hashSet.add("messages_topics");
+        hashSet.add("media_topics");
+        hashSet.add("media_holes_topics");
+        hashSet.add("topics");
+        hashSet.add("media_counts_v2");
+        hashSet.add("media_counts_topics");
+        int i5 = 0;
+        while (true) {
+            String[] strArr = MessagesStorage.DATABASE_TABLES;
+            if (i5 >= strArr.length) {
+                break;
+            }
+            String str = strArr[i5];
+            if (!hashSet.contains(str)) {
+                sQLiteDatabase.executeFast(String.format(Locale.US, "INSERT OR IGNORE INTO %s SELECT * FROM old.%s;", str, str)).stepThis().dispose();
+            }
+            i5++;
+        }
+        SQLiteCursor queryFinalized = sQLiteDatabase.queryFinalized("SELECT did FROM old.dialogs", new Object[0]);
+        while (queryFinalized.next()) {
+            long longValue = queryFinalized.longValue(0);
+            if (DialogObject.isEncryptedDialog(longValue)) {
+                arrayList.add(Long.valueOf(longValue));
+            } else {
+                arrayList2.add(Long.valueOf(longValue));
+            }
+        }
+        queryFinalized.dispose();
+        for (int i6 = 0; i6 < arrayList.size(); i6++) {
+            long longValue2 = ((Long) arrayList.get(i6)).longValue();
+            Locale locale = Locale.US;
+            sQLiteDatabase.executeFast(String.format(locale, "INSERT OR IGNORE INTO messages_v2 SELECT * FROM old.messages_v2 WHERE uid = %d;", Long.valueOf(longValue2))).stepThis().dispose();
+            sQLiteDatabase.executeFast(String.format(locale, "INSERT OR IGNORE INTO messages_holes SELECT * FROM old.messages_holes WHERE uid = %d;", Long.valueOf(longValue2))).stepThis().dispose();
+            sQLiteDatabase.executeFast(String.format(locale, "INSERT OR IGNORE INTO media_holes_v2 SELECT * FROM old.media_holes_v2 WHERE uid = %d;", Long.valueOf(longValue2))).stepThis().dispose();
+            sQLiteDatabase.executeFast(String.format(locale, "INSERT OR IGNORE INTO media_v4 SELECT * FROM old.media_v4 WHERE uid = %d;", Long.valueOf(longValue2))).stepThis().dispose();
+        }
+        SQLitePreparedStatement executeFast = sQLiteDatabase.executeFast("REPLACE INTO messages_holes VALUES(?, ?, ?)");
+        SQLitePreparedStatement executeFast2 = sQLiteDatabase.executeFast("REPLACE INTO media_holes_v2 VALUES(?, ?, ?, ?)");
+        int i7 = 0;
+        while (i7 < arrayList2.size()) {
+            Long l = (Long) arrayList2.get(i7);
+            SQLiteCursor queryFinalized2 = sQLiteDatabase.queryFinalized("SELECT last_mid_i, last_mid FROM old.dialogs WHERE did = " + l, new Object[i4]);
+            if (queryFinalized2.next()) {
+                long longValue3 = queryFinalized2.longValue(i4);
+                SQLiteDatabase sQLiteDatabase2 = sQLiteDatabase;
+                long longValue4 = queryFinalized2.longValue(i3);
+                sQLiteDatabase2.executeFast("INSERT OR IGNORE INTO messages_v2 SELECT * FROM old.messages_v2 WHERE uid = " + l + " AND mid IN (" + longValue3 + "," + longValue4 + ")").stepThis().dispose();
+                sQLiteDatabase = sQLiteDatabase2;
+                sQLiteCursor = queryFinalized2;
+                i2 = i7;
+                MessagesStorage.createFirstHoles(l.longValue(), executeFast, executeFast2, (int) longValue4, 0);
+            } else {
+                sQLiteCursor = queryFinalized2;
+                i2 = i7;
+            }
+            sQLiteCursor.dispose();
+            i7 = i2 + 1;
+            i3 = 1;
+            i4 = 0;
+        }
+        executeFast.dispose();
+        executeFast2.dispose();
+        sQLiteDatabase.executeFast("DETACH DATABASE old;").stepThis().dispose();
+        sQLiteDatabase.close();
+        z = true;
         if (z) {
             try {
                 file.delete();

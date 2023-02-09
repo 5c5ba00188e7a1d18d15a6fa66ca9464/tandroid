@@ -2660,7 +2660,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         i12 = 51;
                     }
                     int i13 = i12 & 7;
-                    int i14 = i12 & 112;
+                    int i14 = i12 & MessagesStorage.LAST_DB_VERSION;
                     if (i13 == 1) {
                         i5 = (((paddingRight - paddingLeft) - measuredWidth) / 2) + layoutParams.leftMargin;
                         i6 = layoutParams.rightMargin;
