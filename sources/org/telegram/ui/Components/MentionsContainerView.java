@@ -52,6 +52,7 @@ public class MentionsContainerView extends BlurredFrameLayout {
     private Path path;
     private android.graphics.Rect rect;
     private final Theme.ResourcesProvider resourcesProvider;
+    private int scrollRangeUpdateTries;
     private boolean scrollToFirst;
     private boolean shouldLiftMentions;
     private boolean shown;
@@ -251,10 +252,13 @@ public class MentionsContainerView extends BlurredFrameLayout {
             @Override // org.telegram.ui.Adapters.MentionsAdapter.MentionsAdapterDelegate
             public void needChangePanelVisibility(boolean z) {
                 boolean z2 = false;
-                if (MentionsContainerView.this.getNeededLayoutManager() != MentionsContainerView.this.getCurrentLayoutManager() && MentionsContainerView.this.canOpen() && MentionsContainerView.this.adapter.getItemCountInternal() > 0) {
-                    MentionsContainerView.this.switchLayoutManagerOnEnd = true;
-                    MentionsContainerView.this.updateVisibility(false);
-                    return;
+                if (MentionsContainerView.this.getNeededLayoutManager() != MentionsContainerView.this.getCurrentLayoutManager() && MentionsContainerView.this.canOpen()) {
+                    if (MentionsContainerView.this.adapter.getLastItemCount() > 0) {
+                        MentionsContainerView.this.switchLayoutManagerOnEnd = true;
+                        MentionsContainerView.this.updateVisibility(false);
+                        return;
+                    }
+                    MentionsContainerView.this.listView.setLayoutManager(MentionsContainerView.this.getNeededLayoutManager());
                 }
                 if (z && !MentionsContainerView.this.canOpen()) {
                     z = false;
@@ -474,77 +478,86 @@ public class MentionsContainerView extends BlurredFrameLayout {
     }
 
     private void updateListViewTranslation(final boolean z, boolean z2) {
-        float computeVerticalScrollRange;
+        float f;
+        int i;
         SpringAnimation springAnimation;
         if (this.listView == null || this.paddedAdapter == null) {
-            return;
-        }
-        if (this.listViewHiding && (springAnimation = this.listViewTranslationAnimator) != null && springAnimation.isRunning() && z) {
-            return;
-        }
-        boolean isReversed = isReversed();
-        if (z) {
-            computeVerticalScrollRange = (-this.containerPadding) - AndroidUtilities.dp(6.0f);
+            this.scrollRangeUpdateTries = 0;
+        } else if (this.listViewHiding && (springAnimation = this.listViewTranslationAnimator) != null && springAnimation.isRunning() && z) {
+            this.scrollRangeUpdateTries = 0;
         } else {
-            computeVerticalScrollRange = (this.listView.computeVerticalScrollRange() - this.paddedAdapter.getPadding()) + this.containerPadding;
-        }
-        float f = this.listViewPadding;
-        float max = isReversed ? -Math.max(0.0f, f - computeVerticalScrollRange) : Math.max(0.0f, f - computeVerticalScrollRange) + (-f);
-        if (z && !isReversed) {
-            max += this.listView.computeVerticalScrollOffset();
-        }
-        final float f2 = max;
-        SpringAnimation springAnimation2 = this.listViewTranslationAnimator;
-        if (springAnimation2 != null) {
-            springAnimation2.cancel();
-        }
-        Integer num = null;
-        if (z2) {
-            this.listViewHiding = z;
-            final float translationY = this.listView.getTranslationY();
-            final float f3 = this.hideT;
-            final float f4 = z ? 1.0f : 0.0f;
-            if (translationY == f2) {
-                this.listViewTranslationAnimator = null;
-                Integer valueOf = Integer.valueOf(z ? 8 : 0);
-                if (this.switchLayoutManagerOnEnd && z) {
-                    this.switchLayoutManagerOnEnd = false;
-                    this.listView.setLayoutManager(getNeededLayoutManager());
-                    this.shown = true;
-                    updateVisibility(true);
-                }
-                num = valueOf;
+            boolean isReversed = isReversed();
+            if (z) {
+                f = (-this.containerPadding) - AndroidUtilities.dp(6.0f);
             } else {
-                SpringAnimation spring = new SpringAnimation(new FloatValueHolder(translationY)).setSpring(new SpringForce(f2).setDampingRatio(1.0f).setStiffness(550.0f));
-                this.listViewTranslationAnimator = spring;
-                spring.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda2
-                    @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
-                    public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f5, float f6) {
-                        MentionsContainerView.this.lambda$updateListViewTranslation$1(f3, f4, translationY, f2, dynamicAnimation, f5, f6);
+                int computeVerticalScrollRange = this.listView.computeVerticalScrollRange();
+                float padding = (computeVerticalScrollRange - this.paddedAdapter.getPadding()) + this.containerPadding;
+                if (computeVerticalScrollRange <= 0 && this.adapter.getItemCountInternal() > 0 && (i = this.scrollRangeUpdateTries) < 3) {
+                    this.scrollRangeUpdateTries = i + 1;
+                    updateVisibility(true);
+                    return;
+                }
+                f = padding;
+            }
+            this.scrollRangeUpdateTries = 0;
+            float f2 = this.listViewPadding;
+            float max = isReversed ? -Math.max(0.0f, f2 - f) : Math.max(0.0f, f2 - f) + (-f2);
+            if (z && !isReversed) {
+                max += this.listView.computeVerticalScrollOffset();
+            }
+            final float f3 = max;
+            SpringAnimation springAnimation2 = this.listViewTranslationAnimator;
+            if (springAnimation2 != null) {
+                springAnimation2.cancel();
+            }
+            Integer num = null;
+            if (z2) {
+                this.listViewHiding = z;
+                final float translationY = this.listView.getTranslationY();
+                final float f4 = this.hideT;
+                final float f5 = z ? 1.0f : 0.0f;
+                if (translationY == f3) {
+                    this.listViewTranslationAnimator = null;
+                    Integer valueOf = Integer.valueOf(z ? 8 : 0);
+                    if (this.switchLayoutManagerOnEnd && z) {
+                        this.switchLayoutManagerOnEnd = false;
+                        this.listView.setLayoutManager(getNeededLayoutManager());
+                        this.shown = true;
+                        updateVisibility(true);
                     }
-                });
-                if (z) {
-                    this.listViewTranslationAnimator.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda0
-                        @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
-                        public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z3, float f5, float f6) {
-                            MentionsContainerView.this.lambda$updateListViewTranslation$2(z, dynamicAnimation, z3, f5, f6);
+                    num = valueOf;
+                } else {
+                    SpringAnimation spring = new SpringAnimation(new FloatValueHolder(translationY)).setSpring(new SpringForce(f3).setDampingRatio(1.0f).setStiffness(550.0f));
+                    this.listViewTranslationAnimator = spring;
+                    spring.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda2
+                        @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
+                        public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f6, float f7) {
+                            MentionsContainerView.this.lambda$updateListViewTranslation$1(f4, f5, translationY, f3, dynamicAnimation, f6, f7);
                         }
                     });
+                    if (z) {
+                        this.listViewTranslationAnimator.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda0
+                            @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
+                            public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z3, float f6, float f7) {
+                                MentionsContainerView.this.lambda$updateListViewTranslation$2(z, dynamicAnimation, z3, f6, f7);
+                            }
+                        });
+                    }
+                    this.listViewTranslationAnimator.addEndListener(MentionsContainerView$$ExternalSyntheticLambda1.INSTANCE);
+                    this.listViewTranslationAnimator.start();
                 }
-                this.listViewTranslationAnimator.addEndListener(MentionsContainerView$$ExternalSyntheticLambda1.INSTANCE);
-                this.listViewTranslationAnimator.start();
+            } else {
+                this.hideT = z ? 1.0f : 0.0f;
+                this.listView.setTranslationY(f3);
+                if (z) {
+                    num = 8;
+                }
             }
-        } else {
-            this.hideT = z ? 1.0f : 0.0f;
-            this.listView.setTranslationY(f2);
-            if (z) {
-                num = 8;
+            if (num == null || getVisibility() == num.intValue()) {
+                return;
             }
+            setVisibility(num.intValue());
         }
-        if (num == null || getVisibility() == num.intValue()) {
-            return;
-        }
-        setVisibility(num.intValue());
     }
 
     /* JADX INFO: Access modifiers changed from: private */

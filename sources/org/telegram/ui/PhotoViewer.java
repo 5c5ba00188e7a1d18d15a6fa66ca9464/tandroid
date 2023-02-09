@@ -18695,13 +18695,13 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
     /* JADX INFO: Access modifiers changed from: private */
     public boolean shouldMessageObjectAutoPlayed(MessageObject messageObject) {
-        return messageObject != null && messageObject.isVideo() && (messageObject.mediaExists || messageObject.attachPathExists || (messageObject.canStreamVideo() && SharedConfig.streamMedia)) && SharedConfig.autoplayVideo;
+        return messageObject != null && messageObject.isVideo() && (messageObject.mediaExists || messageObject.attachPathExists || (messageObject.canStreamVideo() && SharedConfig.streamMedia)) && SharedConfig.isAutoplayVideo();
     }
 
     private boolean shouldIndexAutoPlayed(int i) {
         File file;
         PageBlocksAdapter pageBlocksAdapter = this.pageBlocksAdapter;
-        return pageBlocksAdapter != null && pageBlocksAdapter.isVideo(i) && SharedConfig.autoplayVideo && (file = this.pageBlocksAdapter.getFile(i)) != null && file.exists();
+        return pageBlocksAdapter != null && pageBlocksAdapter.isVideo(i) && SharedConfig.isAutoplayVideo() && (file = this.pageBlocksAdapter.getFile(i)) != null && file.exists();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

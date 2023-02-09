@@ -524,12 +524,12 @@ public class DataSettingsActivity extends BaseFragment {
         } else if (i == this.autoplayGifsRow) {
             SharedConfig.toggleAutoplayGifs();
             if (view instanceof TextCheckCell) {
-                ((TextCheckCell) view).setChecked(SharedConfig.autoplayGifs);
+                ((TextCheckCell) view).setChecked(SharedConfig.isAutoplayGifs());
             }
         } else if (i == this.autoplayVideoRow) {
             SharedConfig.toggleAutoplayVideo();
             if (view instanceof TextCheckCell) {
-                ((TextCheckCell) view).setChecked(SharedConfig.autoplayVideo);
+                ((TextCheckCell) view).setChecked(SharedConfig.isAutoplayGifs());
             }
         } else if (i == this.clearDraftsRow) {
             AlertDialog.Builder builder3 = new AlertDialog.Builder(getParentActivity());
@@ -796,12 +796,12 @@ public class DataSettingsActivity extends BaseFragment {
                             if (i != DataSettingsActivity.this.enableAllStreamRow) {
                                 if (i != DataSettingsActivity.this.autoplayGifsRow) {
                                     if (i == DataSettingsActivity.this.autoplayVideoRow) {
-                                        textCheckCell.setTextAndCheck(LocaleController.getString("AutoplayVideo", R.string.AutoplayVideo), SharedConfig.autoplayVideo, false);
+                                        textCheckCell.setTextAndCheck(LocaleController.getString("AutoplayVideo", R.string.AutoplayVideo), SharedConfig.isAutoplayVideo(), false);
                                         return;
                                     }
                                     return;
                                 }
-                                textCheckCell.setTextAndCheck(LocaleController.getString("AutoplayGIF", R.string.AutoplayGIF), SharedConfig.autoplayGifs, true);
+                                textCheckCell.setTextAndCheck(LocaleController.getString("AutoplayGIF", R.string.AutoplayGIF), SharedConfig.isAutoplayGifs(), true);
                                 return;
                             }
                             textCheckCell.setTextAndCheck("(beta only) Stream All Videos", SharedConfig.streamAllVideo, false);
@@ -967,12 +967,12 @@ public class DataSettingsActivity extends BaseFragment {
                             if (adapterPosition != DataSettingsActivity.this.enableMkvRow) {
                                 if (adapterPosition != DataSettingsActivity.this.autoplayGifsRow) {
                                     if (adapterPosition == DataSettingsActivity.this.autoplayVideoRow) {
-                                        textCheckCell.setChecked(SharedConfig.autoplayVideo);
+                                        textCheckCell.setChecked(SharedConfig.isAutoplayVideo());
                                         return;
                                     }
                                     return;
                                 }
-                                textCheckCell.setChecked(SharedConfig.autoplayGifs);
+                                textCheckCell.setChecked(SharedConfig.isAutoplayGifs());
                                 return;
                             }
                             textCheckCell.setChecked(SharedConfig.streamMkv);

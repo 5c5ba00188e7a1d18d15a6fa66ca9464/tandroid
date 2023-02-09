@@ -273,25 +273,26 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         this.topAnimationAutoRepeat = true;
         float f = 0.8f;
         this.blurAlpha = 0.8f;
-        boolean z2 = supportsNativeBlur() && this.progressViewStyle == 0;
-        this.blurredNativeBackground = z2;
-        if (!z2 && (supportsNativeBlur() || SharedConfig.getDevicePerformanceClass() < 2)) {
+        this.blurredNativeBackground = supportsNativeBlur() && this.progressViewStyle == 0;
+        int themedColor = getThemedColor("dialogBackground");
+        this.backgroundColor = themedColor;
+        boolean z2 = AndroidUtilities.computePerceivedBrightness(themedColor) < 0.721f;
+        if (!this.blurredNativeBackground && (supportsNativeBlur() || SharedConfig.getDevicePerformanceClass() < 2 || !z2)) {
             z = false;
         }
         this.blurredBackground = z;
         this.resourcesProvider = resourcesProvider;
         this.backgroundPaddings = new Rect();
         if (i != 3 || this.blurredBackground) {
-            this.shadowDrawable = context.getResources().getDrawable(R.drawable.popup_fixed_alert3).mutate();
-            int themedColor = getThemedColor("dialogBackground");
-            this.backgroundColor = themedColor;
+            Drawable mutate = context.getResources().getDrawable(R.drawable.popup_fixed_alert3).mutate();
+            this.shadowDrawable = mutate;
             if (i == 3) {
                 f = 0.55f;
-            } else if (AndroidUtilities.computePerceivedBrightness(themedColor) >= 0.721f) {
+            } else if (!z2) {
                 f = 0.97f;
             }
             this.blurOpacity = f;
-            this.shadowDrawable.setColorFilter(new PorterDuffColorFilter(this.backgroundColor, PorterDuff.Mode.MULTIPLY));
+            mutate.setColorFilter(new PorterDuffColorFilter(this.backgroundColor, PorterDuff.Mode.MULTIPLY));
             this.shadowDrawable.getPadding(this.backgroundPaddings);
         }
         this.progressViewStyle = i;

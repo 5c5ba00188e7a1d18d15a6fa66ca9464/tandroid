@@ -1593,8 +1593,6 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                                 }
                                             }
                                         }
-                                    } else {
-                                        editTextBoldCursor2.setTextColor(sb.length() > 0 ? PaymentFormActivity.this.getThemedColor("windowBackgroundWhiteRedText4") : PaymentFormActivity.this.getThemedColor("windowBackgroundWhiteBlackText"));
                                     }
                                     if (sb.toString().equals(editable.toString())) {
                                         z6 = false;
@@ -5249,7 +5247,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             view.performHapticFeedback(3, 2);
         } catch (Exception unused) {
         }
-        AndroidUtilities.shakeView(view);
+        AndroidUtilities.shakeViewSpring(view, 2.5f);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -5284,7 +5282,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 this.inputFields[1].performHapticFeedback(3, 2);
             } catch (Exception unused) {
             }
-            AndroidUtilities.shakeView(this.inputFields[1]);
+            AndroidUtilities.shakeViewSpring(this.inputFields[1], 2.5f);
         } else {
             final String obj = this.inputFields[1].getText().toString();
             showEditDoneProgress(true, true);
@@ -5390,7 +5388,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 this.inputFields[1].performHapticFeedback(3, 2);
             } catch (Exception unused) {
             }
-            AndroidUtilities.shakeView(this.inputFields[1]);
+            AndroidUtilities.shakeViewSpring(this.inputFields[1], 3.25f);
             this.inputFields[1].setText("");
         } else {
             AlertsCreator.processError(this.currentAccount, tLRPC$TL_error, this, tLRPC$TL_account_getTmpPassword, new Object[0]);

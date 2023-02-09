@@ -844,7 +844,7 @@ public class MessagesStorage extends BaseController {
         }
     }
 
-    private void checkSQLException(Throwable th) {
+    public void checkSQLException(Throwable th) {
         checkSQLException(th, true);
     }
 

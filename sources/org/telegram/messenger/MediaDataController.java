@@ -2678,7 +2678,7 @@ public class MediaDataController extends BaseController {
                 }
             });
         } catch (Throwable th) {
-            FileLog.e(th);
+            getMessagesStorage().checkSQLException(th);
         }
     }
 

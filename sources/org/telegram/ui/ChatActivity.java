@@ -34819,24 +34819,21 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             return null;
         }
 
-        /* JADX WARN: Can't wrap try/catch for region: R(13:1|(1:3)|(2:5|(10:7|(1:9)|10|11|12|13|(2:14|(2:16|(1:18)(3:19|20|(2:22|(1:26)(0))(0)))(1:39))|38|27|(1:37)(2:33|34)))|43|10|11|12|13|(3:14|(0)(0)|18)|38|27|(2:29|31)|37) */
-        /* JADX WARN: Code restructure failed: missing block: B:15:0x0055, code lost:
+        /* JADX WARN: Can't wrap try/catch for region: R(11:(2:2|(10:4|(1:6)|7|8|9|10|(2:11|(2:13|(1:15)(3:16|17|(2:19|(1:23)(0))(0)))(1:36))|35|24|(1:34)(2:30|31)))|40|7|8|9|10|(3:11|(0)(0)|15)|35|24|(2:26|28)|34) */
+        /* JADX WARN: Code restructure failed: missing block: B:12:0x0039, code lost:
             r7 = move-exception;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:16:0x0056, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:13:0x003a, code lost:
             org.telegram.messenger.FileLog.e(r7);
          */
-        /* JADX WARN: Removed duplicated region for block: B:20:0x0066  */
-        /* JADX WARN: Removed duplicated region for block: B:43:0x0087 A[EDGE_INSN: B:43:0x0087->B:30:0x0087 ?: BREAK  , SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:17:0x004a  */
+        /* JADX WARN: Removed duplicated region for block: B:40:0x006b A[EDGE_INSN: B:40:0x006b->B:27:0x006b ?: BREAK  , SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void notifyDataSetChanged(boolean z) {
             int size;
             boolean z2;
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("notify data set changed fragmentOpened=" + ChatActivity.this.fragmentOpened);
-            }
             if (z) {
                 ChatActivity chatActivity = ChatActivity.this;
                 if (chatActivity.fragmentOpened) {
@@ -34892,9 +34889,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
         @Override // org.telegram.ui.Components.RecyclerAnimationScrollHelper.AnimatableAdapter, androidx.recyclerview.widget.RecyclerView.Adapter
         public void notifyItemChanged(int i) {
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("notify item changed " + i);
-            }
             if (!((BaseFragment) ChatActivity.this).fragmentBeginToShow) {
                 ChatActivity.this.chatListView.setItemAnimator(null);
             } else if (ChatActivity.this.chatListView.getItemAnimator() != ChatActivity.this.chatListItemAnimator) {
@@ -34910,9 +34904,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
         @Override // org.telegram.ui.Components.RecyclerAnimationScrollHelper.AnimatableAdapter, androidx.recyclerview.widget.RecyclerView.Adapter
         public void notifyItemRangeChanged(int i, int i2) {
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("notify item range changed " + i + ":" + i2);
-            }
             if (!((BaseFragment) ChatActivity.this).fragmentBeginToShow) {
                 ChatActivity.this.chatListView.setItemAnimator(null);
             } else if (ChatActivity.this.chatListView.getItemAnimator() != ChatActivity.this.chatListItemAnimator) {
@@ -34928,9 +34919,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
         @Override // org.telegram.ui.Components.RecyclerAnimationScrollHelper.AnimatableAdapter, androidx.recyclerview.widget.RecyclerView.Adapter
         public void notifyItemInserted(int i) {
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("notify item inserted " + i);
-            }
             if (!((BaseFragment) ChatActivity.this).fragmentBeginToShow) {
                 ChatActivity.this.chatListView.setItemAnimator(null);
             } else if (ChatActivity.this.chatListView.getItemAnimator() != ChatActivity.this.chatListItemAnimator) {
@@ -34946,9 +34934,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void notifyItemMoved(int i, int i2) {
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("notify item moved" + i + ":" + i2);
-            }
             if (!((BaseFragment) ChatActivity.this).fragmentBeginToShow) {
                 ChatActivity.this.chatListView.setItemAnimator(null);
             } else if (ChatActivity.this.chatListView.getItemAnimator() != ChatActivity.this.chatListItemAnimator) {
@@ -34966,9 +34951,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         public void notifyItemRangeInserted(int i, int i2) {
             int i3;
             int i4;
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("notify item range inserted" + i + ":" + i2);
-            }
             if (!((BaseFragment) ChatActivity.this).fragmentBeginToShow) {
                 ChatActivity.this.chatListView.setItemAnimator(null);
             } else if (ChatActivity.this.chatListView.getItemAnimator() != ChatActivity.this.chatListItemAnimator) {
@@ -34991,9 +34973,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
         @Override // org.telegram.ui.Components.RecyclerAnimationScrollHelper.AnimatableAdapter, androidx.recyclerview.widget.RecyclerView.Adapter
         public void notifyItemRemoved(int i) {
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("notify item removed " + i);
-            }
             if (!((BaseFragment) ChatActivity.this).fragmentBeginToShow) {
                 ChatActivity.this.chatListView.setItemAnimator(null);
             } else if (ChatActivity.this.chatListView.getItemAnimator() != ChatActivity.this.chatListItemAnimator) {
@@ -35009,9 +34988,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
         @Override // org.telegram.ui.Components.RecyclerAnimationScrollHelper.AnimatableAdapter, androidx.recyclerview.widget.RecyclerView.Adapter
         public void notifyItemRangeRemoved(int i, int i2) {
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("notify item range removed" + i + ":" + i2);
-            }
             if (!((BaseFragment) ChatActivity.this).fragmentBeginToShow) {
                 ChatActivity.this.chatListView.setItemAnimator(null);
             } else if (ChatActivity.this.chatListView.getItemAnimator() != ChatActivity.this.chatListItemAnimator) {

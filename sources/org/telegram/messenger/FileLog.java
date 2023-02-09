@@ -56,7 +56,7 @@ public class FileLog {
     }
 
     public static void dumpResponseAndRequest(TLObject tLObject, TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error, final long j, final long j2, final int i) {
-        if (!BuildVars.DEBUG_VERSION || !BuildVars.LOGS_ENABLED || tLObject == null || SharedConfig.getDevicePerformanceClass() == 0) {
+        if (!BuildVars.DEBUG_PRIVATE_VERSION || !BuildVars.LOGS_ENABLED || tLObject == null || SharedConfig.getDevicePerformanceClass() == 0) {
             return;
         }
         String simpleName = tLObject.getClass().getSimpleName();
@@ -106,7 +106,7 @@ public class FileLog {
     }
 
     public static void dumpUnparsedMessage(TLObject tLObject, final long j) {
-        if (BuildVars.DEBUG_VERSION && BuildVars.LOGS_ENABLED && tLObject != null) {
+        if (BuildVars.DEBUG_PRIVATE_VERSION && BuildVars.LOGS_ENABLED && tLObject != null) {
             try {
                 checkGson();
                 getInstance().dateFormat.format(System.currentTimeMillis());
@@ -118,8 +118,7 @@ public class FileLog {
                         FileLog.lambda$dumpUnparsedMessage$1(currentTimeMillis, str, j);
                     }
                 });
-            } catch (Throwable th) {
-                e(th);
+            } catch (Throwable unused) {
             }
         }
     }

@@ -21,6 +21,7 @@ import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ArticleViewer;
@@ -31,6 +32,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
     private final Path circlePath;
     private int color;
     private int cornerRadius;
+    private final boolean isLite;
     private android.graphics.Rect mBounds;
     private final long mDuration;
     private final long mLongPressDuration;
@@ -60,6 +62,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
         this.circlePath = new Path();
         this.mStart = -1L;
         this.mReleaseStart = -1L;
+        this.isLite = SharedConfig.getLiteMode().enabled();
         this.mSpan = s;
         this.mResourcesProvider = resourcesProvider;
         setColor(Theme.getColor("chat_linkSelectBackground", resourcesProvider));
@@ -117,7 +120,8 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
 
     public boolean draw(Canvas canvas) {
         float f;
-        boolean z = this.cornerRadius != AndroidUtilities.dp(4.0f);
+        int dp = this.isLite ? 0 : AndroidUtilities.dp(4.0f);
+        boolean z = this.cornerRadius != dp;
         if (this.mSelectionPaint == null) {
             Paint paint = new Paint(1);
             this.mSelectionPaint = paint;
@@ -133,9 +137,14 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
             this.mRippleAlpha = Color.alpha(this.color);
         }
         if (z) {
-            this.cornerRadius = AndroidUtilities.dp(4.0f);
-            this.mSelectionPaint.setPathEffect(new CornerPathEffect(this.cornerRadius));
-            this.mRipplePaint.setPathEffect(new CornerPathEffect(this.cornerRadius));
+            this.cornerRadius = dp;
+            if (dp <= 0) {
+                this.mSelectionPaint.setPathEffect(null);
+                this.mRipplePaint.setPathEffect(null);
+            } else {
+                this.mSelectionPaint.setPathEffect(new CornerPathEffect(this.cornerRadius));
+                this.mRipplePaint.setPathEffect(new CornerPathEffect(this.cornerRadius));
+            }
         }
         if (this.mBounds == null && this.mPathesCount > 0) {
             RectF rectF = AndroidUtilities.rectTmp;
@@ -155,6 +164,12 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
             }
             this.mMaxRadius = (float) Math.sqrt(Math.max(Math.max(Math.pow(this.mBounds.left - this.mTouchX, 2.0d) + Math.pow(this.mBounds.top - this.mTouchY, 2.0d), Math.pow(this.mBounds.right - this.mTouchX, 2.0d) + Math.pow(this.mBounds.top - this.mTouchY, 2.0d)), Math.max(Math.pow(this.mBounds.left - this.mTouchX, 2.0d) + Math.pow(this.mBounds.bottom - this.mTouchY, 2.0d), Math.pow(this.mBounds.right - this.mTouchX, 2.0d) + Math.pow(this.mBounds.bottom - this.mTouchY, 2.0d))));
         }
+        if (this.isLite) {
+            for (int i2 = 0; i2 < this.mPathesCount; i2++) {
+                canvas.drawPath(this.mPathes.get(i2), this.mRipplePaint);
+            }
+            return false;
+        }
         long elapsedRealtime = SystemClock.elapsedRealtime();
         if (this.mStart < 0) {
             this.mStart = elapsedRealtime;
@@ -173,8 +188,8 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
         this.mSelectionPaint.setAlpha((int) (this.mSelectionAlpha * 0.2f * Math.min(1.0f, interpolation * 5.0f) * f2));
         float f3 = 1.0f - f;
         this.mSelectionPaint.setStrokeWidth(Math.min(1.0f, f3) * AndroidUtilities.dp(5.0f));
-        for (int i2 = 0; i2 < this.mPathesCount; i2++) {
-            canvas.drawPath(this.mPathes.get(i2), this.mSelectionPaint);
+        for (int i3 = 0; i3 < this.mPathesCount; i3++) {
+            canvas.drawPath(this.mPathes.get(i3), this.mSelectionPaint);
         }
         this.mRipplePaint.setAlpha((int) (this.mRippleAlpha * 0.8f * f2));
         this.mRipplePaint.setStrokeWidth(Math.min(1.0f, f3) * AndroidUtilities.dp(5.0f));
@@ -183,13 +198,13 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
             this.circlePath.reset();
             this.circlePath.addCircle(this.mTouchX, this.mTouchY, this.mMaxRadius * interpolation, Path.Direction.CW);
             canvas.clipPath(this.circlePath);
-            for (int i3 = 0; i3 < this.mPathesCount; i3++) {
-                canvas.drawPath(this.mPathes.get(i3), this.mRipplePaint);
+            for (int i4 = 0; i4 < this.mPathesCount; i4++) {
+                canvas.drawPath(this.mPathes.get(i4), this.mRipplePaint);
             }
             canvas.restore();
         } else {
-            for (int i4 = 0; i4 < this.mPathesCount; i4++) {
-                canvas.drawPath(this.mPathes.get(i4), this.mRipplePaint);
+            for (int i5 = 0; i5 < this.mPathesCount; i5++) {
+                canvas.drawPath(this.mPathes.get(i5), this.mRipplePaint);
             }
         }
         return interpolation < 1.0f || this.mReleaseStart >= 0 || (this.mSupportsLongPress && elapsedRealtime - this.mStart < this.mLongPressDuration + this.mDuration);

@@ -1089,20 +1089,9 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
         chatMessageCell.invalidate();
     }
 
-    @Override // androidx.recyclerview.widget.DefaultItemAnimator
-    public void resetAnimation(RecyclerView.ViewHolder viewHolder) {
-        if (BuildVars.LOGS_ENABLED) {
-            FileLog.d("reset animation");
-        }
-        super.resetAnimation(viewHolder);
-    }
-
     @Override // androidx.recyclerview.widget.DefaultItemAnimator, androidx.recyclerview.widget.SimpleItemAnimator
     public boolean animateChange(RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder2, RecyclerView.ItemAnimator.ItemHolderInfo itemHolderInfo, int i, int i2, int i3, int i4) {
         float translationX;
-        if (BuildVars.LOGS_ENABLED) {
-            FileLog.d("animate change");
-        }
         if (viewHolder == viewHolder2) {
             return animateMove(viewHolder, itemHolderInfo, i, i2, i3, i4);
         }
@@ -1143,9 +1132,6 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
 
     @Override // androidx.recyclerview.widget.DefaultItemAnimator
     void animateChangeImpl(final DefaultItemAnimator.ChangeInfo changeInfo) {
-        if (BuildVars.LOGS_ENABLED) {
-            FileLog.d("animate change impl");
-        }
         RecyclerView.ViewHolder viewHolder = changeInfo.oldHolder;
         final View view = viewHolder == null ? null : viewHolder.itemView;
         RecyclerView.ViewHolder viewHolder2 = changeInfo.newHolder;
@@ -1236,9 +1222,6 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
     @Override // androidx.recyclerview.widget.DefaultItemAnimator
     public void onAllAnimationsDone() {
         super.onAllAnimationsDone();
-        if (BuildVars.LOGS_ENABLED) {
-            FileLog.d("all animations done");
-        }
         this.recyclerListView.setClipChildren(true);
         while (!this.runOnAnimationsEnd.isEmpty()) {
             this.runOnAnimationsEnd.remove(0).run();
@@ -1247,9 +1230,6 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
     }
 
     private void cancelAnimators() {
-        if (BuildVars.LOGS_ENABLED) {
-            FileLog.d("cancel animations");
-        }
         ArrayList arrayList = new ArrayList(this.animators.values());
         this.animators.clear();
         Iterator it = arrayList.iterator();
@@ -1269,9 +1249,6 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
         }
         super.endAnimation(viewHolder);
         restoreTransitionParams(viewHolder.itemView);
-        if (BuildVars.LOGS_ENABLED) {
-            FileLog.d("end animation");
-        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

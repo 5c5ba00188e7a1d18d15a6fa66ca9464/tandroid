@@ -14,6 +14,7 @@ public class NotificationCenter {
     private static volatile NotificationCenter[] Instance = new NotificationCenter[4];
     public static final int activeGroupCallsUpdated;
     public static final int albumsDidLoad;
+    public static boolean alreadyLogged = false;
     public static final int animatedEmojiDocumentLoaded;
     public static final int appDidLogout;
     public static final int appUpdateAvailable;
@@ -1256,10 +1257,11 @@ public class NotificationCenter {
             return;
         }
         arrayList2.add(notificationCenterDelegate);
-        if (!BuildVars.DEBUG_VERSION || arrayList2.size() <= 200) {
+        if (!BuildVars.DEBUG_VERSION || alreadyLogged || arrayList2.size() <= 1000) {
             return;
         }
-        FileLog.e((Throwable) new RuntimeException("Total observers more than 200, check for memory leak."), true);
+        alreadyLogged = true;
+        FileLog.e((Throwable) new RuntimeException("Total observers more than 1000, need check for memory leak. " + i), true);
     }
 
     private ArrayList<NotificationCenterDelegate> createArrayForId(int i) {

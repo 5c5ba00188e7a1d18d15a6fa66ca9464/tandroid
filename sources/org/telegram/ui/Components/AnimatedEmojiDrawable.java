@@ -49,6 +49,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.Premium.PremiumLockIconView;
+import org.telegram.ui.SelectAnimatedEmojiDialog;
 /* loaded from: classes3.dex */
 public class AnimatedEmojiDrawable extends Drawable {
     private static HashMap<Long, Integer> dominantColors;
@@ -765,6 +766,9 @@ public class AnimatedEmojiDrawable extends Drawable {
     }
 
     public void addView(View view) {
+        if (view instanceof SelectAnimatedEmojiDialog.EmojiListView) {
+            throw new RuntimeException();
+        }
         if (this.views == null) {
             this.views = new ArrayList<>(10);
         }
@@ -995,6 +999,7 @@ public class AnimatedEmojiDrawable extends Drawable {
     /* loaded from: classes3.dex */
     public static class SwapAnimatedEmojiDrawable extends Drawable implements AnimatedEmojiSpan.InvalidateHolder {
         private int alpha;
+        boolean attached;
         private int cacheType;
         public boolean center;
         private AnimatedFloat changeProgress;
@@ -1004,6 +1009,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         private Integer lastColor;
         private OvershootInterpolator overshootInterpolator;
         private View parentView;
+        private View secondParent;
         private int size;
 
         @Override // android.graphics.drawable.Drawable
@@ -1042,33 +1048,8 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
 
         public void setParentView(View view) {
-            removeParentView(this.parentView);
-            this.parentView = view;
-            addParentView(view);
             this.changeProgress.setParent(view);
             this.parentView = view;
-        }
-
-        public void addParentView(View view) {
-            Drawable[] drawableArr = this.drawables;
-            if (drawableArr[0] instanceof AnimatedEmojiDrawable) {
-                ((AnimatedEmojiDrawable) drawableArr[0]).addView(view);
-            }
-            Drawable[] drawableArr2 = this.drawables;
-            if (drawableArr2[1] instanceof AnimatedEmojiDrawable) {
-                ((AnimatedEmojiDrawable) drawableArr2[1]).addView(view);
-            }
-        }
-
-        public void removeParentView(View view) {
-            Drawable[] drawableArr = this.drawables;
-            if (drawableArr[0] instanceof AnimatedEmojiDrawable) {
-                ((AnimatedEmojiDrawable) drawableArr[0]).removeView(view);
-            }
-            Drawable[] drawableArr2 = this.drawables;
-            if (drawableArr2[1] instanceof AnimatedEmojiDrawable) {
-                ((AnimatedEmojiDrawable) drawableArr2[1]).removeView(view);
-            }
         }
 
         public void play() {
@@ -1256,17 +1237,24 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
 
         public void detach() {
-            Drawable[] drawableArr = this.drawables;
-            if (drawableArr[0] instanceof AnimatedEmojiDrawable) {
-                ((AnimatedEmojiDrawable) drawableArr[0]).removeView(this);
-            }
-            Drawable[] drawableArr2 = this.drawables;
-            if (drawableArr2[1] instanceof AnimatedEmojiDrawable) {
-                ((AnimatedEmojiDrawable) drawableArr2[1]).removeView(this);
+            if (this.attached) {
+                this.attached = false;
+                Drawable[] drawableArr = this.drawables;
+                if (drawableArr[0] instanceof AnimatedEmojiDrawable) {
+                    ((AnimatedEmojiDrawable) drawableArr[0]).removeView(this);
+                }
+                Drawable[] drawableArr2 = this.drawables;
+                if (drawableArr2[1] instanceof AnimatedEmojiDrawable) {
+                    ((AnimatedEmojiDrawable) drawableArr2[1]).removeView(this);
+                }
             }
         }
 
         public void attach() {
+            if (this.attached) {
+                return;
+            }
+            this.attached = true;
             Drawable[] drawableArr = this.drawables;
             if (drawableArr[0] instanceof AnimatedEmojiDrawable) {
                 ((AnimatedEmojiDrawable) drawableArr[0]).addView(this);
@@ -1302,6 +1290,14 @@ public class AnimatedEmojiDrawable extends Drawable {
                     this.parentView.invalidate();
                 }
             }
+            View view2 = this.secondParent;
+            if (view2 != null) {
+                view2.invalidate();
+            }
+        }
+
+        public void setSecondParent(View view) {
+            this.secondParent = view;
         }
     }
 

@@ -403,6 +403,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private String showingSuggestion;
     private RecyclerView sideMenu;
     ValueAnimator slideBackTransitionAnimator;
+    boolean slideFragmentLite;
     float slideFragmentProgress;
     private DialogCell slidingView;
     private boolean slowedReloadAfterDialogClick;
@@ -640,9 +641,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 if (view == ((BaseFragment) DialogsActivity.this).actionBar && DialogsActivity.this.slideFragmentProgress != 1.0f) {
                     canvas.save();
                     DialogsActivity dialogsActivity = DialogsActivity.this;
-                    float f = 1.0f - ((1.0f - dialogsActivity.slideFragmentProgress) * 0.05f);
-                    canvas.translate((dialogsActivity.isDrawerTransition ? AndroidUtilities.dp(4.0f) : -AndroidUtilities.dp(4.0f)) * (1.0f - DialogsActivity.this.slideFragmentProgress), 0.0f);
-                    canvas.scale(f, f, DialogsActivity.this.isDrawerTransition ? getMeasuredWidth() : 0.0f, (((BaseFragment) DialogsActivity.this).actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0) + (ActionBar.getCurrentActionBarHeight() / 2.0f));
+                    if (dialogsActivity.slideFragmentLite) {
+                        canvas.translate((dialogsActivity.isDrawerTransition ? 1 : -1) * AndroidUtilities.dp(20.0f) * (1.0f - DialogsActivity.this.slideFragmentProgress), 0.0f);
+                    } else {
+                        float f = 1.0f - ((1.0f - dialogsActivity.slideFragmentProgress) * 0.05f);
+                        canvas.translate((dialogsActivity.isDrawerTransition ? AndroidUtilities.dp(4.0f) : -AndroidUtilities.dp(4.0f)) * (1.0f - DialogsActivity.this.slideFragmentProgress), 0.0f);
+                        canvas.scale(f, f, DialogsActivity.this.isDrawerTransition ? getMeasuredWidth() : 0.0f, (((BaseFragment) DialogsActivity.this).actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0) + (ActionBar.getCurrentActionBarHeight() / 2.0f));
+                    }
                     boolean drawChild = super.drawChild(canvas, view, j);
                     canvas.restore();
                     return drawChild;
@@ -654,9 +659,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             DialogsActivity dialogsActivity2 = DialogsActivity.this;
             float f2 = dialogsActivity2.slideFragmentProgress;
             if (f2 != 1.0f) {
-                float f3 = 1.0f - ((1.0f - f2) * 0.05f);
-                canvas.translate((dialogsActivity2.isDrawerTransition ? AndroidUtilities.dp(4.0f) : -AndroidUtilities.dp(4.0f)) * (1.0f - DialogsActivity.this.slideFragmentProgress), 0.0f);
-                canvas.scale(f3, f3, DialogsActivity.this.isDrawerTransition ? getMeasuredWidth() : 0.0f, (-getY()) + ((BaseFragment) DialogsActivity.this).actionBar.getY() + getActionBarFullHeight());
+                if (dialogsActivity2.slideFragmentLite) {
+                    canvas.translate((dialogsActivity2.isDrawerTransition ? 1 : -1) * AndroidUtilities.dp(20.0f) * (1.0f - DialogsActivity.this.slideFragmentProgress), 0.0f);
+                } else {
+                    float f3 = 1.0f - ((1.0f - f2) * 0.05f);
+                    canvas.translate((dialogsActivity2.isDrawerTransition ? AndroidUtilities.dp(4.0f) : -AndroidUtilities.dp(4.0f)) * (1.0f - DialogsActivity.this.slideFragmentProgress), 0.0f);
+                    canvas.scale(f3, f3, DialogsActivity.this.isDrawerTransition ? getMeasuredWidth() : 0.0f, (-getY()) + ((BaseFragment) DialogsActivity.this).actionBar.getY() + getActionBarFullHeight());
+                }
             }
             boolean drawChild2 = super.drawChild(canvas, view, j);
             canvas.restore();
@@ -780,9 +789,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 DialogsActivity dialogsActivity4 = DialogsActivity.this;
                 float f5 = dialogsActivity4.slideFragmentProgress;
                 if (f5 != f) {
-                    float f6 = f - ((f - f5) * 0.05f);
-                    canvas.translate((dialogsActivity4.isDrawerTransition ? AndroidUtilities.dp(4.0f) : -AndroidUtilities.dp(4.0f)) * (f - DialogsActivity.this.slideFragmentProgress), 0.0f);
-                    canvas.scale(f6, f, DialogsActivity.this.isDrawerTransition ? getMeasuredWidth() : 0.0f, DialogsActivity.this.fragmentContextView.getY());
+                    if (dialogsActivity4.slideFragmentLite) {
+                        canvas.translate((dialogsActivity4.isDrawerTransition ? 1 : -1) * AndroidUtilities.dp(20.0f) * (f - DialogsActivity.this.slideFragmentProgress), 0.0f);
+                    } else {
+                        float f6 = f - ((f - f5) * 0.05f);
+                        canvas.translate((dialogsActivity4.isDrawerTransition ? AndroidUtilities.dp(4.0f) : -AndroidUtilities.dp(4.0f)) * (f - DialogsActivity.this.slideFragmentProgress), 0.0f);
+                        canvas.scale(f6, f, DialogsActivity.this.isDrawerTransition ? getMeasuredWidth() : 0.0f, DialogsActivity.this.fragmentContextView.getY());
+                    }
                 }
                 DialogsActivity.this.fragmentContextView.setDrawOverlay(true);
                 DialogsActivity.this.fragmentContextView.draw(canvas);
@@ -7010,6 +7023,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (!z && (filterTabsView = this.filterTabsView) != null && this.canShowFilterTabsView) {
             filterTabsView.setVisibility(0);
         }
+        boolean z6 = SharedConfig.getDevicePerformanceClass() == 0 || SharedConfig.getLiteMode().enabled();
         if (z4) {
             if (!z) {
                 this.viewPages[0].listView.setVisibility(0);
@@ -7034,16 +7048,21 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             float[] fArr = new float[1];
             fArr[0] = z ? 0.0f : 1.0f;
             arrayList.add(ObjectAnimator.ofFloat(viewPage, property, fArr));
-            ViewPage viewPage2 = this.viewPages[0];
-            Property property2 = View.SCALE_X;
-            float[] fArr2 = new float[1];
-            fArr2[0] = z ? 0.9f : 1.0f;
-            arrayList.add(ObjectAnimator.ofFloat(viewPage2, property2, fArr2));
-            ViewPage viewPage3 = this.viewPages[0];
-            Property property3 = View.SCALE_Y;
-            float[] fArr3 = new float[1];
-            fArr3[0] = z ? 0.9f : 1.0f;
-            arrayList.add(ObjectAnimator.ofFloat(viewPage3, property3, fArr3));
+            if (!z6) {
+                ViewPage viewPage2 = this.viewPages[0];
+                Property property2 = View.SCALE_X;
+                float[] fArr2 = new float[1];
+                fArr2[0] = z ? 0.9f : 1.0f;
+                arrayList.add(ObjectAnimator.ofFloat(viewPage2, property2, fArr2));
+                ViewPage viewPage3 = this.viewPages[0];
+                Property property3 = View.SCALE_Y;
+                float[] fArr3 = new float[1];
+                fArr3[0] = z ? 0.9f : 1.0f;
+                arrayList.add(ObjectAnimator.ofFloat(viewPage3, property3, fArr3));
+            } else {
+                this.viewPages[0].setScaleX(1.0f);
+                this.viewPages[0].setScaleY(1.0f);
+            }
             RightSlidingDialogContainer rightSlidingDialogContainer2 = this.rightSlidingDialogContainer;
             if (rightSlidingDialogContainer2 != null) {
                 rightSlidingDialogContainer2.setVisibility(0);
@@ -7058,16 +7077,21 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             float[] fArr5 = new float[1];
             fArr5[0] = z ? 1.0f : 0.0f;
             arrayList.add(ObjectAnimator.ofFloat(searchViewPager, property5, fArr5));
-            SearchViewPager searchViewPager2 = this.searchViewPager;
-            Property property6 = View.SCALE_X;
-            float[] fArr6 = new float[1];
-            fArr6[0] = z ? 1.0f : 1.05f;
-            arrayList.add(ObjectAnimator.ofFloat(searchViewPager2, property6, fArr6));
-            SearchViewPager searchViewPager3 = this.searchViewPager;
-            Property property7 = View.SCALE_Y;
-            float[] fArr7 = new float[1];
-            fArr7[0] = z ? 1.0f : 1.05f;
-            arrayList.add(ObjectAnimator.ofFloat(searchViewPager3, property7, fArr7));
+            if (!z6) {
+                SearchViewPager searchViewPager2 = this.searchViewPager;
+                Property property6 = View.SCALE_X;
+                float[] fArr6 = new float[1];
+                fArr6[0] = z ? 1.0f : 1.05f;
+                arrayList.add(ObjectAnimator.ofFloat(searchViewPager2, property6, fArr6));
+                SearchViewPager searchViewPager3 = this.searchViewPager;
+                Property property7 = View.SCALE_Y;
+                float[] fArr7 = new float[1];
+                fArr7[0] = z ? 1.0f : 1.05f;
+                arrayList.add(ObjectAnimator.ofFloat(searchViewPager3, property7, fArr7));
+            } else {
+                this.searchViewPager.setScaleX(1.0f);
+                this.searchViewPager.setScaleY(1.0f);
+            }
             ActionBarMenuItem actionBarMenuItem = this.passcodeItem;
             if (actionBarMenuItem != null) {
                 RLottieImageView iconView = actionBarMenuItem.getIconView();
@@ -7213,12 +7237,22 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 this.viewPages[0].listView.show();
             }
             this.viewPages[0].setAlpha(z ? 0.0f : 1.0f);
-            this.viewPages[0].setScaleX(z ? 0.9f : 1.0f);
-            this.viewPages[0].setScaleY(z ? 0.9f : 1.0f);
+            if (!z6) {
+                this.viewPages[0].setScaleX(z ? 0.9f : 1.0f);
+                this.viewPages[0].setScaleY(z ? 0.9f : 1.0f);
+            } else {
+                this.viewPages[0].setScaleX(1.0f);
+                this.viewPages[0].setScaleY(1.0f);
+            }
             this.searchViewPager.setAlpha(z ? 1.0f : 0.0f);
             this.filtersView.setAlpha(z ? 1.0f : 0.0f);
-            this.searchViewPager.setScaleX(z ? 1.0f : 1.1f);
-            this.searchViewPager.setScaleY(z ? 1.0f : 1.1f);
+            if (!z6) {
+                this.searchViewPager.setScaleX(z ? 1.0f : 1.1f);
+                this.searchViewPager.setScaleY(z ? 1.0f : 1.1f);
+            } else {
+                this.searchViewPager.setScaleX(1.0f);
+                this.searchViewPager.setScaleY(1.0f);
+            }
             FilterTabsView filterTabsView3 = this.filterTabsView;
             if (filterTabsView3 != null && filterTabsView3.getVisibility() == 0) {
                 this.filterTabsView.setTranslationY(z ? -AndroidUtilities.dp(44.0f) : 0.0f);
@@ -7345,6 +7379,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     public void setSearchAnimationProgress(float f, boolean z) {
         this.searchAnimationProgress = f;
+        boolean z2 = true;
         if (this.whiteActionBar) {
             this.actionBar.setItemsColor(ColorUtils.blendARGB(Theme.getColor(this.folderId != 0 ? "actionBarDefaultArchivedIcon" : "actionBarDefaultIcon"), Theme.getColor("actionBarActionModeDefaultIcon"), this.searchAnimationProgress), false);
             this.actionBar.setItemsColor(ColorUtils.blendARGB(Theme.getColor("actionBarActionModeDefaultIcon"), Theme.getColor("actionBarActionModeDefaultIcon"), this.searchAnimationProgress), true);
@@ -7358,6 +7393,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (dialogsHintCell != null) {
             dialogsHintCell.setAlpha(1.0f - f);
         }
+        if (SharedConfig.getDevicePerformanceClass() != 0 && !SharedConfig.getLiteMode().enabled()) {
+            z2 = false;
+        }
         if (z) {
             ViewPage[] viewPageArr = this.viewPages;
             if (viewPageArr[0] != null) {
@@ -7365,9 +7403,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     viewPageArr[0].setVisibility(0);
                 }
                 this.viewPages[0].setAlpha(1.0f - f);
-                float f2 = (0.1f * f) + 0.9f;
-                this.viewPages[0].setScaleX(f2);
-                this.viewPages[0].setScaleY(f2);
+                if (!z2) {
+                    float f2 = (0.1f * f) + 0.9f;
+                    this.viewPages[0].setScaleX(f2);
+                    this.viewPages[0].setScaleY(f2);
+                }
             }
             RightSlidingDialogContainer rightSlidingDialogContainer = this.rightSlidingDialogContainer;
             if (rightSlidingDialogContainer != null) {
@@ -7381,9 +7421,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             SearchViewPager searchViewPager = this.searchViewPager;
             if (searchViewPager != null) {
                 searchViewPager.setAlpha(f);
-                float f3 = ((1.0f - f) * 0.05f) + 1.0f;
-                this.searchViewPager.setScaleX(f3);
-                this.searchViewPager.setScaleY(f3);
+                if (!z2) {
+                    float f3 = ((1.0f - f) * 0.05f) + 1.0f;
+                    this.searchViewPager.setScaleX(f3);
+                    this.searchViewPager.setScaleY(f3);
+                }
             }
             ActionBarMenuItem actionBarMenuItem = this.passcodeItem;
             if (actionBarMenuItem != null) {
@@ -7764,7 +7806,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                 if (getMessagesController().checkCanOpenChat(bundle3, this)) {
                                     TLRPC$Chat chat2 = getMessagesController().getChat(Long.valueOf(-j));
                                     if (chat2 != null && chat2.forum && i2 == 0) {
-                                        if (SharedConfig.getDevicePerformanceClass() == 0) {
+                                        if (SharedConfig.getDevicePerformanceClass() == 0 || SharedConfig.getLiteMode().enabled()) {
                                             presentFragment(new TopicsFragment(bundle3));
                                             return;
                                         } else if (!z4) {
@@ -12348,7 +12390,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private void setFragmentIsSliding(boolean z) {
-        if (SharedConfig.getDevicePerformanceClass() == 0) {
+        if (SharedConfig.getDevicePerformanceClass() <= 1 || SharedConfig.getLiteMode().enabled()) {
             return;
         }
         if (z) {
@@ -12407,32 +12449,46 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onSlideProgress(boolean z, float f) {
-        if (SharedConfig.getDevicePerformanceClass() != 0 && this.isSlideBackTransition && this.slideBackTransitionAnimator == null) {
+        if (SharedConfig.getDevicePerformanceClass() > 0 && this.isSlideBackTransition && this.slideBackTransitionAnimator == null) {
             setSlideTransitionProgress(f);
         }
     }
 
     private void setSlideTransitionProgress(float f) {
-        if (SharedConfig.getDevicePerformanceClass() == 0) {
+        if (SharedConfig.getDevicePerformanceClass() <= 0) {
             return;
         }
+        this.slideFragmentLite = SharedConfig.getDevicePerformanceClass() <= 1 || SharedConfig.getLiteMode().enabled();
         this.slideFragmentProgress = f;
         View view = this.fragmentView;
         if (view != null) {
             view.invalidate();
         }
+        if (this.slideFragmentLite) {
+            FilterTabsView filterTabsView = this.filterTabsView;
+            if (filterTabsView != null) {
+                filterTabsView.getListView().setTranslationX((this.isDrawerTransition ? 1 : -1) * AndroidUtilities.dp(20.0f) * (1.0f - this.slideFragmentProgress));
+                this.filterTabsView.invalidate();
+            }
+            RightSlidingDialogContainer rightSlidingDialogContainer = this.rightSlidingDialogContainer;
+            if (rightSlidingDialogContainer == null || rightSlidingDialogContainer.getFragmentView() == null || this.rightFragmentTransitionInProgress) {
+                return;
+            }
+            this.rightSlidingDialogContainer.getFragmentView().setTranslationX((this.isDrawerTransition ? 1 : -1) * AndroidUtilities.dp(20.0f) * (1.0f - this.slideFragmentProgress));
+            return;
+        }
         float f2 = 1.0f - ((1.0f - this.slideFragmentProgress) * 0.05f);
-        FilterTabsView filterTabsView = this.filterTabsView;
-        if (filterTabsView != null) {
-            filterTabsView.getListView().setScaleX(f2);
+        FilterTabsView filterTabsView2 = this.filterTabsView;
+        if (filterTabsView2 != null) {
+            filterTabsView2.getListView().setScaleX(f2);
             this.filterTabsView.getListView().setScaleY(f2);
             this.filterTabsView.getListView().setTranslationX((this.isDrawerTransition ? AndroidUtilities.dp(4.0f) : -AndroidUtilities.dp(4.0f)) * (1.0f - this.slideFragmentProgress));
             this.filterTabsView.getListView().setPivotX(this.isDrawerTransition ? this.filterTabsView.getMeasuredWidth() : 0.0f);
             this.filterTabsView.getListView().setPivotY(0.0f);
             this.filterTabsView.invalidate();
         }
-        RightSlidingDialogContainer rightSlidingDialogContainer = this.rightSlidingDialogContainer;
-        if (rightSlidingDialogContainer == null || rightSlidingDialogContainer.getFragmentView() == null) {
+        RightSlidingDialogContainer rightSlidingDialogContainer2 = this.rightSlidingDialogContainer;
+        if (rightSlidingDialogContainer2 == null || rightSlidingDialogContainer2.getFragmentView() == null) {
             return;
         }
         if (!this.rightFragmentTransitionInProgress) {
@@ -12451,7 +12507,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void setProgressToDrawerOpened(float f) {
-        if (SharedConfig.getDevicePerformanceClass() == 0 || this.isSlideBackTransition) {
+        if (SharedConfig.getDevicePerformanceClass() <= 0 || this.isSlideBackTransition) {
             return;
         }
         boolean z = f > 0.0f;

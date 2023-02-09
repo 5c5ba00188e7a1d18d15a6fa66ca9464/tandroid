@@ -1068,49 +1068,51 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     }
 
     public void onDetachedFromWindow() {
-        this.attachedToWindow = false;
-        if (this.currentImageLocation != null || this.currentMediaLocation != null || this.currentThumbLocation != null || this.staticThumbDrawable != null) {
-            if (this.setImageBackup == null) {
-                this.setImageBackup = new SetImageBackup();
+        if (this.attachedToWindow) {
+            this.attachedToWindow = false;
+            if (this.currentImageLocation != null || this.currentMediaLocation != null || this.currentThumbLocation != null || this.staticThumbDrawable != null) {
+                if (this.setImageBackup == null) {
+                    this.setImageBackup = new SetImageBackup();
+                }
+                SetImageBackup setImageBackup = this.setImageBackup;
+                setImageBackup.mediaLocation = this.currentMediaLocation;
+                setImageBackup.mediaFilter = this.currentMediaFilter;
+                setImageBackup.imageLocation = this.currentImageLocation;
+                setImageBackup.imageFilter = this.currentImageFilter;
+                setImageBackup.thumbLocation = this.currentThumbLocation;
+                setImageBackup.thumbFilter = this.currentThumbFilter;
+                setImageBackup.thumb = this.staticThumbDrawable;
+                setImageBackup.size = this.currentSize;
+                setImageBackup.ext = this.currentExt;
+                setImageBackup.cacheType = this.currentCacheType;
+                setImageBackup.parentObject = this.currentParentObject;
             }
-            SetImageBackup setImageBackup = this.setImageBackup;
-            setImageBackup.mediaLocation = this.currentMediaLocation;
-            setImageBackup.mediaFilter = this.currentMediaFilter;
-            setImageBackup.imageLocation = this.currentImageLocation;
-            setImageBackup.imageFilter = this.currentImageFilter;
-            setImageBackup.thumbLocation = this.currentThumbLocation;
-            setImageBackup.thumbFilter = this.currentThumbFilter;
-            setImageBackup.thumb = this.staticThumbDrawable;
-            setImageBackup.size = this.currentSize;
-            setImageBackup.ext = this.currentExt;
-            setImageBackup.cacheType = this.currentCacheType;
-            setImageBackup.parentObject = this.currentParentObject;
-        }
-        if (!this.ignoreNotifications) {
-            NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.didReplacedPhotoInMemCache);
-            NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.stopAllHeavyOperations);
-            NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.startAllHeavyOperations);
-        }
-        Drawable drawable = this.staticThumbDrawable;
-        if (drawable instanceof AttachableDrawable) {
-            ((AttachableDrawable) drawable).onDetachedFromWindow(this);
-        }
-        if (this.staticThumbDrawable != null) {
-            setStaticDrawable(null);
-            this.thumbShader = null;
-            this.roundPaint.setShader(null);
-        }
-        clearImage();
-        if (this.isPressed == 0) {
-            this.pressedProgress = 0.0f;
-        }
-        AnimatedFileDrawable animation = getAnimation();
-        if (animation != null) {
-            animation.removeParent(this);
-        }
-        RLottieDrawable lottieAnimation = getLottieAnimation();
-        if (lottieAnimation != null) {
-            lottieAnimation.removeParentView(this);
+            if (!this.ignoreNotifications) {
+                NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.didReplacedPhotoInMemCache);
+                NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.stopAllHeavyOperations);
+                NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.startAllHeavyOperations);
+            }
+            Drawable drawable = this.staticThumbDrawable;
+            if (drawable instanceof AttachableDrawable) {
+                ((AttachableDrawable) drawable).onDetachedFromWindow(this);
+            }
+            if (this.staticThumbDrawable != null) {
+                setStaticDrawable(null);
+                this.thumbShader = null;
+                this.roundPaint.setShader(null);
+            }
+            clearImage();
+            if (this.isPressed == 0) {
+                this.pressedProgress = 0.0f;
+            }
+            AnimatedFileDrawable animation = getAnimation();
+            if (animation != null) {
+                animation.removeParent(this);
+            }
+            RLottieDrawable lottieAnimation = getLottieAnimation();
+            if (lottieAnimation != null) {
+                lottieAnimation.removeParentView(this);
+            }
         }
     }
 
@@ -1152,6 +1154,9 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     }
 
     public boolean onAttachedToWindow() {
+        if (this.attachedToWindow) {
+            return false;
+        }
         this.attachedToWindow = true;
         int currentHeavyOperationFlags = NotificationCenter.getGlobalInstance().getCurrentHeavyOperationFlags();
         this.currentOpenedLayerFlags = currentHeavyOperationFlags;
