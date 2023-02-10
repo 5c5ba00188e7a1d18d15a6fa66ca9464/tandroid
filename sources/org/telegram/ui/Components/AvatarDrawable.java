@@ -10,6 +10,7 @@ import android.os.Build;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
@@ -319,20 +320,25 @@ public class AvatarDrawable extends Drawable {
             }
         }
         if (this.stringBuilder.length() > 0) {
-            try {
-                StaticLayout staticLayout = new StaticLayout(Emoji.replaceEmoji(this.stringBuilder.toString().toUpperCase(), this.namePaint.getFontMetricsInt(), AndroidUtilities.dp(16.0f), true), this.namePaint, AndroidUtilities.dp(100.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-                this.textLayout = staticLayout;
-                if (staticLayout.getLineCount() > 0) {
-                    this.textLeft = this.textLayout.getLineLeft(0);
-                    this.textWidth = this.textLayout.getLineWidth(0);
-                    this.textHeight = this.textLayout.getLineBottom(0);
+            CharSequence replaceEmoji = Emoji.replaceEmoji(this.stringBuilder.toString().toUpperCase(), this.namePaint.getFontMetricsInt(), AndroidUtilities.dp(16.0f), true);
+            StaticLayout staticLayout = this.textLayout;
+            if (staticLayout == null || !TextUtils.equals(replaceEmoji, staticLayout.getText())) {
+                try {
+                    StaticLayout staticLayout2 = new StaticLayout(replaceEmoji, this.namePaint, AndroidUtilities.dp(100.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                    this.textLayout = staticLayout2;
+                    if (staticLayout2.getLineCount() > 0) {
+                        this.textLeft = this.textLayout.getLineLeft(0);
+                        this.textWidth = this.textLayout.getLineWidth(0);
+                        this.textHeight = this.textLayout.getLineBottom(0);
+                        return;
+                    }
+                    return;
+                } catch (Exception e) {
+                    FileLog.e(e);
                     return;
                 }
-                return;
-            } catch (Exception e) {
-                FileLog.e(e);
-                return;
             }
+            return;
         }
         this.textLayout = null;
     }

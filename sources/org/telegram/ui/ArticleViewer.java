@@ -3469,6 +3469,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 }
                 return super.drawChild(canvas, view, j);
             }
+
+            @Override // android.view.View
+            public void invalidate() {
+                super.invalidate();
+            }
         };
         this.containerView = frameLayout;
         this.windowView.addView(frameLayout, LayoutHelper.createFrame(-1, -1, 51));

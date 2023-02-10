@@ -52,7 +52,7 @@ public class RadialProgress2 {
     private View parent;
     private int progressColor;
     private RectF progressRect;
-    private final Theme.ResourcesProvider resourcesProvider;
+    private Theme.ResourcesProvider resourcesProvider;
 
     public RadialProgress2(View view) {
         this(view, null);
@@ -99,6 +99,10 @@ public class RadialProgress2 {
         this.circleRadius = dp;
         this.overlayImageView.setRoundRadius(dp);
         this.overlayPaint.setColor(1677721600);
+    }
+
+    public void setResourcesProvider(Theme.ResourcesProvider resourcesProvider) {
+        this.resourcesProvider = resourcesProvider;
     }
 
     public void setAsMini() {

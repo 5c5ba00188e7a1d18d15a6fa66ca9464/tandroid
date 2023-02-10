@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.LinearLayout;
+import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -13,6 +14,7 @@ import org.telegram.ui.Components.RLottieDrawable;
 /* loaded from: classes3.dex */
 public class ActionBarMenu extends LinearLayout {
     public boolean drawBlur;
+    private ArrayList<Integer> ids;
     protected boolean isActionMode;
     protected ActionBar parentActionBar;
 
@@ -82,19 +84,27 @@ public class ActionBarMenu extends LinearLayout {
     }
 
     public ActionBarMenuItem addItem(int i, int i2, CharSequence charSequence, int i3, Drawable drawable, int i4, CharSequence charSequence2, Theme.ResourcesProvider resourcesProvider) {
-        int i5 = i4;
-        ActionBarMenuItem actionBarMenuItem = new ActionBarMenuItem(getContext(), this, i3, this.isActionMode ? this.parentActionBar.itemsActionModeColor : this.parentActionBar.itemsColor, charSequence != null, resourcesProvider);
-        actionBarMenuItem.setTag(Integer.valueOf(i));
+        if (this.ids == null) {
+            this.ids = new ArrayList<>();
+        }
+        this.ids.add(Integer.valueOf(i));
+        return addItemAt(-1, i, i2, charSequence, i3, drawable, i4, charSequence2, resourcesProvider);
+    }
+
+    protected ActionBarMenuItem addItemAt(int i, int i2, int i3, CharSequence charSequence, int i4, Drawable drawable, int i5, CharSequence charSequence2, Theme.ResourcesProvider resourcesProvider) {
+        int i6 = i5;
+        ActionBarMenuItem actionBarMenuItem = new ActionBarMenuItem(getContext(), this, i4, this.isActionMode ? this.parentActionBar.itemsActionModeColor : this.parentActionBar.itemsColor, charSequence != null, resourcesProvider);
+        actionBarMenuItem.setTag(Integer.valueOf(i2));
         if (charSequence != null) {
             actionBarMenuItem.textView.setText(charSequence);
-            if (i5 == 0) {
-                i5 = -2;
+            if (i6 == 0) {
+                i6 = -2;
             }
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(i5, -1);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(i6, -1);
             int dp = AndroidUtilities.dp(14.0f);
             layoutParams.rightMargin = dp;
             layoutParams.leftMargin = dp;
-            addView(actionBarMenuItem, layoutParams);
+            addView(actionBarMenuItem, i, layoutParams);
         } else {
             if (drawable != null) {
                 if (drawable instanceof RLottieDrawable) {
@@ -102,15 +112,15 @@ public class ActionBarMenu extends LinearLayout {
                 } else {
                     actionBarMenuItem.iconView.setImageDrawable(drawable);
                 }
-            } else if (i2 != 0) {
-                actionBarMenuItem.iconView.setImageResource(i2);
+            } else if (i3 != 0) {
+                actionBarMenuItem.iconView.setImageResource(i3);
             }
-            addView(actionBarMenuItem, new LinearLayout.LayoutParams(i5, -1));
+            addView(actionBarMenuItem, i, new LinearLayout.LayoutParams(i6, -1));
         }
         actionBarMenuItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenu$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                ActionBarMenu.this.lambda$addItem$0(view);
+                ActionBarMenu.this.lambda$addItemAt$0(view);
             }
         });
         if (charSequence2 != null) {
@@ -120,7 +130,7 @@ public class ActionBarMenu extends LinearLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$addItem$0(View view) {
+    public /* synthetic */ void lambda$addItemAt$0(View view) {
         ActionBarMenuItem actionBarMenuItem = (ActionBarMenuItem) view;
         if (actionBarMenuItem.hasSubMenu()) {
             if (this.parentActionBar.actionBarMenuOnItemClick.canOpenMenu()) {
@@ -130,6 +140,165 @@ public class ActionBarMenu extends LinearLayout {
             this.parentActionBar.onSearchFieldVisibilityChanged(actionBarMenuItem.toggleSearch(true));
         } else {
             onItemClick(((Integer) view.getTag()).intValue());
+        }
+    }
+
+    public LazyItem lazilyAddItem(int i, int i2, Theme.ResourcesProvider resourcesProvider) {
+        return lazilyAddItem(i, i2, null, this.isActionMode ? this.parentActionBar.itemsActionModeBackgroundColor : this.parentActionBar.itemsBackgroundColor, null, AndroidUtilities.dp(48.0f), null, resourcesProvider);
+    }
+
+    public LazyItem lazilyAddItem(int i, int i2, CharSequence charSequence, int i3, Drawable drawable, int i4, CharSequence charSequence2, Theme.ResourcesProvider resourcesProvider) {
+        if (this.ids == null) {
+            this.ids = new ArrayList<>();
+        }
+        this.ids.add(Integer.valueOf(i));
+        return new LazyItem(this, i, i2, charSequence, i3, drawable, i4, charSequence2, resourcesProvider);
+    }
+
+    /* loaded from: classes3.dex */
+    public static class LazyItem {
+        Boolean allowCloseAnimation;
+        int backgroundColor;
+        ActionBarMenuItem cell;
+        CharSequence contentDescription;
+        Drawable drawable;
+        int icon;
+        int id;
+        Boolean isSearchField;
+        Boolean overrideMenuClick;
+        ActionBarMenu parent;
+        Theme.ResourcesProvider resourcesProvider;
+        CharSequence searchFieldHint;
+        ActionBarMenuItem.ActionBarMenuItemSearchListener searchListener;
+        Object tag;
+        CharSequence text;
+        CharSequence title;
+        int width;
+        float alpha = 1.0f;
+        int visibility = 8;
+
+        public LazyItem(ActionBarMenu actionBarMenu, int i, int i2, CharSequence charSequence, int i3, Drawable drawable, int i4, CharSequence charSequence2, Theme.ResourcesProvider resourcesProvider) {
+            this.parent = actionBarMenu;
+            this.id = i;
+            this.icon = i2;
+            this.text = charSequence;
+            this.backgroundColor = i3;
+            this.drawable = drawable;
+            this.width = i4;
+            this.title = charSequence2;
+            this.resourcesProvider = resourcesProvider;
+        }
+
+        public void setVisibility(int i) {
+            if (this.visibility != i) {
+                this.visibility = i;
+                if (i == 0) {
+                    add();
+                }
+                ActionBarMenuItem actionBarMenuItem = this.cell;
+                if (actionBarMenuItem != null) {
+                    actionBarMenuItem.setVisibility(i);
+                }
+            }
+        }
+
+        public int getVisibility() {
+            return this.visibility;
+        }
+
+        public Object getTag() {
+            return this.tag;
+        }
+
+        public void setTag(Object obj) {
+            this.tag = obj;
+        }
+
+        public ActionBarMenuItem createView() {
+            add();
+            return this.cell;
+        }
+
+        public void setContentDescription(CharSequence charSequence) {
+            this.contentDescription = charSequence;
+            ActionBarMenuItem actionBarMenuItem = this.cell;
+            if (actionBarMenuItem != null) {
+                actionBarMenuItem.setContentDescription(charSequence);
+            }
+        }
+
+        public void setOverrideMenuClick(boolean z) {
+            this.overrideMenuClick = Boolean.valueOf(z);
+            ActionBarMenuItem actionBarMenuItem = this.cell;
+            if (actionBarMenuItem != null) {
+                actionBarMenuItem.setOverrideMenuClick(z);
+            }
+        }
+
+        public void setAllowCloseAnimation(boolean z) {
+            Boolean valueOf = Boolean.valueOf(z);
+            this.allowCloseAnimation = valueOf;
+            ActionBarMenuItem actionBarMenuItem = this.cell;
+            if (actionBarMenuItem != null) {
+                actionBarMenuItem.setAllowCloseAnimation(valueOf.booleanValue());
+            }
+        }
+
+        public void setAlpha(float f) {
+            this.alpha = f;
+            ActionBarMenuItem actionBarMenuItem = this.cell;
+            if (actionBarMenuItem != null) {
+                actionBarMenuItem.setAlpha(f);
+            }
+        }
+
+        public void add() {
+            int i;
+            if (this.cell != null) {
+                return;
+            }
+            int childCount = this.parent.getChildCount();
+            if (this.parent.ids != null) {
+                int indexOf = this.parent.ids.indexOf(Integer.valueOf(this.id));
+                for (int i2 = 0; i2 < this.parent.getChildCount(); i2++) {
+                    Object tag = this.parent.getChildAt(i2).getTag();
+                    if (tag instanceof Integer) {
+                        if (this.parent.ids.indexOf(Integer.valueOf(((Integer) tag).intValue())) > indexOf) {
+                            i = i2;
+                            break;
+                        }
+                    }
+                }
+            }
+            i = childCount;
+            ActionBarMenuItem addItemAt = this.parent.addItemAt(i, this.id, this.icon, this.text, this.backgroundColor, this.drawable, this.width, this.title, this.resourcesProvider);
+            this.cell = addItemAt;
+            addItemAt.setVisibility(this.visibility);
+            CharSequence charSequence = this.contentDescription;
+            if (charSequence != null) {
+                this.cell.setContentDescription(charSequence);
+            }
+            Boolean bool = this.allowCloseAnimation;
+            if (bool != null) {
+                this.cell.setAllowCloseAnimation(bool.booleanValue());
+            }
+            Boolean bool2 = this.overrideMenuClick;
+            if (bool2 != null) {
+                this.cell.setOverrideMenuClick(bool2.booleanValue());
+            }
+            Boolean bool3 = this.isSearchField;
+            if (bool3 != null) {
+                this.cell.setIsSearchField(bool3.booleanValue());
+            }
+            ActionBarMenuItem.ActionBarMenuItemSearchListener actionBarMenuItemSearchListener = this.searchListener;
+            if (actionBarMenuItemSearchListener != null) {
+                this.cell.setActionBarMenuItemSearchListener(actionBarMenuItemSearchListener);
+            }
+            CharSequence charSequence2 = this.searchFieldHint;
+            if (charSequence2 != null) {
+                this.cell.setSearchFieldHint(charSequence2);
+            }
+            this.cell.setAlpha(this.alpha);
         }
     }
 
@@ -184,6 +353,10 @@ public class ActionBarMenu extends LinearLayout {
     }
 
     public void clearItems() {
+        ArrayList<Integer> arrayList = this.ids;
+        if (arrayList != null) {
+            arrayList.clear();
+        }
         removeAllViews();
     }
 

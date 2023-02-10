@@ -42,12 +42,14 @@ public class VoiceMessageEnterTransition implements MessageEnterTransitionContai
         this.messageView = chatMessageCell;
         this.container = messageEnterTransitionContainer;
         this.listView = recyclerListView;
-        this.fromRadius = chatActivityEnterView.getRecordCicle().drawingCircleRadius;
         chatMessageCell.setEnterTransitionInProgress(true);
-        ChatActivityEnterView.RecordCircle recordCicle = chatActivityEnterView.getRecordCicle();
-        this.recordCircle = recordCicle;
-        recordCicle.voiceEnterTransitionInProgress = true;
-        recordCicle.skipDraw = true;
+        ChatActivityEnterView.RecordCircle recordCircle = chatActivityEnterView.getRecordCircle();
+        this.recordCircle = recordCircle;
+        if (recordCircle != null) {
+            this.fromRadius = recordCircle.drawingCircleRadius;
+            recordCircle.voiceEnterTransitionInProgress = true;
+            recordCircle.skipDraw = true;
+        }
         this.gradientMatrix = new Matrix();
         Paint paint = new Paint(1);
         this.gradientPaint = paint;
@@ -72,7 +74,9 @@ public class VoiceMessageEnterTransition implements MessageEnterTransitionContai
             public void onAnimationEnd(Animator animator) {
                 chatMessageCell.setEnterTransitionInProgress(false);
                 messageEnterTransitionContainer.removeTransition(VoiceMessageEnterTransition.this);
-                VoiceMessageEnterTransition.this.recordCircle.skipDraw = false;
+                if (VoiceMessageEnterTransition.this.recordCircle != null) {
+                    VoiceMessageEnterTransition.this.recordCircle.skipDraw = false;
+                }
             }
         });
         if (chatMessageCell.getSeekBarWaveform() != null) {
@@ -97,9 +101,9 @@ public class VoiceMessageEnterTransition implements MessageEnterTransitionContai
         float f = this.progress;
         float f2 = f > 0.6f ? 1.0f : f / 0.6f;
         ChatActivityEnterView.RecordCircle recordCircle = this.recordCircle;
-        float x = (recordCircle.drawingCx + recordCircle.getX()) - this.container.getX();
+        float x = recordCircle == null ? 0.0f : (recordCircle.drawingCx + recordCircle.getX()) - this.container.getX();
         ChatActivityEnterView.RecordCircle recordCircle2 = this.recordCircle;
-        float y = (recordCircle2.drawingCy + recordCircle2.getY()) - this.container.getY();
+        float y = recordCircle2 == null ? 0.0f : (recordCircle2.drawingCy + recordCircle2.getY()) - this.container.getY();
         if (this.messageView.getMessageObject().stableId != this.messageId) {
             centerX = this.lastToCx;
             centerY = this.lastToCy;
@@ -118,7 +122,10 @@ public class VoiceMessageEnterTransition implements MessageEnterTransitionContai
         float f6 = (this.fromRadius * f4) + (height * interpolation);
         int measuredHeight = this.container.getMeasuredHeight() > 0 ? (int) ((this.container.getMeasuredHeight() * f4) + (((this.listView.getY() - this.container.getY()) + this.listView.getMeasuredHeight()) * interpolation)) : 0;
         this.circlePaint.setColor(ColorUtils.blendARGB(getThemedColor("chat_messagePanelVoiceBackground"), getThemedColor(this.messageView.getRadialProgress().getCircleColorKey()), interpolation));
-        this.recordCircle.drawWaves(canvas, f3, f5, 1.0f - f2);
+        ChatActivityEnterView.RecordCircle recordCircle3 = this.recordCircle;
+        if (recordCircle3 != null) {
+            recordCircle3.drawWaves(canvas, f3, f5, 1.0f - f2);
+        }
         canvas.drawCircle(f3, f5, f6, this.circlePaint);
         canvas.save();
         float f7 = f6 / height;
@@ -134,7 +141,10 @@ public class VoiceMessageEnterTransition implements MessageEnterTransitionContai
             this.gradientMatrix.setTranslate(0.0f, measuredHeight);
             this.gradientShader.setLocalMatrix(this.gradientMatrix);
         }
-        this.recordCircle.drawIcon(canvas, (int) x, (int) y, 1.0f - f);
+        ChatActivityEnterView.RecordCircle recordCircle4 = this.recordCircle;
+        if (recordCircle4 != null) {
+            recordCircle4.drawIcon(canvas, (int) x, (int) y, 1.0f - f);
+        }
     }
 
     private int getThemedColor(String str) {

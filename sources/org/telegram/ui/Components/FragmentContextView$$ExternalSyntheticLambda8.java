@@ -10,6 +10,6 @@ public final /* synthetic */ class FragmentContextView$$ExternalSyntheticLambda8
 
     @Override // android.view.View.OnClickListener
     public final void onClick(View view) {
-        FragmentContextView.lambda$new$2(view);
+        FragmentContextView.lambda$checkCreateView$2(view);
     }
 }

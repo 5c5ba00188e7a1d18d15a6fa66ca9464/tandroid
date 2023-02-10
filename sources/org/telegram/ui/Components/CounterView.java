@@ -171,7 +171,9 @@ public class CounterView extends View {
                 View view3 = this.parent;
                 if (view3 != null) {
                     view3.invalidate();
+                    return;
                 }
+                return;
             }
             String stringOfCCount2 = getStringOfCCount(i);
             if (z2) {

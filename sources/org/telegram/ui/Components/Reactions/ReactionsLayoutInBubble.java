@@ -113,32 +113,42 @@ public class ReactionsLayoutInBubble {
     }
 
     public void setMessage(MessageObject messageObject, boolean z, Theme.ResourcesProvider resourcesProvider) {
+        ReactionButton reactionButton;
         this.resourcesProvider = resourcesProvider;
         this.isSmall = z;
         this.messageObject = messageObject;
-        for (int i = 0; i < this.reactionButtons.size(); i++) {
-            this.reactionButtons.get(i).detach();
-        }
+        ArrayList arrayList = new ArrayList(this.reactionButtons);
         this.hasUnreadReactions = false;
         this.reactionButtons.clear();
         if (messageObject != null) {
             comparator.dialogId = messageObject.getDialogId();
             TLRPC$TL_messageReactions tLRPC$TL_messageReactions = messageObject.messageOwner.reactions;
             if (tLRPC$TL_messageReactions != null && tLRPC$TL_messageReactions.results != null) {
-                int i2 = 0;
-                for (int i3 = 0; i3 < messageObject.messageOwner.reactions.results.size(); i3++) {
-                    i2 += messageObject.messageOwner.reactions.results.get(i3).count;
+                int i = 0;
+                for (int i2 = 0; i2 < messageObject.messageOwner.reactions.results.size(); i2++) {
+                    i += messageObject.messageOwner.reactions.results.get(i2).count;
                 }
-                int i4 = 0;
+                int i3 = 0;
                 while (true) {
-                    if (i4 >= messageObject.messageOwner.reactions.results.size()) {
+                    if (i3 >= messageObject.messageOwner.reactions.results.size()) {
                         break;
                     }
-                    TLRPC$ReactionCount tLRPC$ReactionCount = messageObject.messageOwner.reactions.results.get(i4);
-                    ReactionButton reactionButton = new ReactionButton(tLRPC$ReactionCount, z);
-                    this.reactionButtons.add(reactionButton);
+                    TLRPC$ReactionCount tLRPC$ReactionCount = messageObject.messageOwner.reactions.results.get(i3);
+                    int i4 = 0;
+                    while (true) {
+                        if (i4 >= arrayList.size()) {
+                            reactionButton = null;
+                            break;
+                        }
+                        reactionButton = (ReactionButton) arrayList.get(i4);
+                        if (reactionButton.reaction.equals(tLRPC$ReactionCount.reaction)) {
+                            break;
+                        }
+                        i4++;
+                    }
+                    ReactionButton reactionButton2 = new ReactionButton(reactionButton, tLRPC$ReactionCount, z);
+                    this.reactionButtons.add(reactionButton2);
                     if (!z && messageObject.messageOwner.reactions.recent_reactions != null) {
-                        ArrayList<TLRPC$User> arrayList = null;
                         if (messageObject.getDialogId() > 0) {
                             ArrayList<TLRPC$User> arrayList2 = new ArrayList<>();
                             if (tLRPC$ReactionCount.count == 2) {
@@ -149,30 +159,31 @@ public class ReactionsLayoutInBubble {
                             } else {
                                 arrayList2.add(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(messageObject.getDialogId())));
                             }
-                            reactionButton.setUsers(arrayList2);
+                            reactionButton2.setUsers(arrayList2);
                             if (!arrayList2.isEmpty()) {
-                                reactionButton.count = 0;
-                                reactionButton.counterDrawable.setCount(0, false);
+                                reactionButton2.count = 0;
+                                reactionButton2.counterDrawable.setCount(0, false);
                             }
-                        } else if (tLRPC$ReactionCount.count <= 3 && i2 <= 3) {
+                        } else if (tLRPC$ReactionCount.count <= 3 && i <= 3) {
+                            ArrayList<TLRPC$User> arrayList3 = null;
                             for (int i5 = 0; i5 < messageObject.messageOwner.reactions.recent_reactions.size(); i5++) {
                                 TLRPC$MessagePeerReaction tLRPC$MessagePeerReaction = messageObject.messageOwner.reactions.recent_reactions.get(i5);
                                 if (VisibleReaction.fromTLReaction(tLRPC$MessagePeerReaction.reaction).equals(VisibleReaction.fromTLReaction(tLRPC$ReactionCount.reaction)) && MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(MessageObject.getPeerId(tLRPC$MessagePeerReaction.peer_id))) != null) {
-                                    if (arrayList == null) {
-                                        arrayList = new ArrayList<>();
+                                    if (arrayList3 == null) {
+                                        arrayList3 = new ArrayList<>();
                                     }
-                                    arrayList.add(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(MessageObject.getPeerId(tLRPC$MessagePeerReaction.peer_id))));
+                                    arrayList3.add(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(MessageObject.getPeerId(tLRPC$MessagePeerReaction.peer_id))));
                                 }
                             }
-                            reactionButton.setUsers(arrayList);
-                            if (arrayList != null && !arrayList.isEmpty()) {
-                                reactionButton.count = 0;
-                                reactionButton.counterDrawable.setCount(0, false);
+                            reactionButton2.setUsers(arrayList3);
+                            if (arrayList3 != null && !arrayList3.isEmpty()) {
+                                reactionButton2.count = 0;
+                                reactionButton2.counterDrawable.setCount(0, false);
                             }
                         }
                     }
                     if (z && tLRPC$ReactionCount.count > 1 && tLRPC$ReactionCount.chosen) {
-                        this.reactionButtons.add(new ReactionButton(tLRPC$ReactionCount, z));
+                        this.reactionButtons.add(new ReactionButton(null, tLRPC$ReactionCount, z));
                         this.reactionButtons.get(0).isSelected = false;
                         this.reactionButtons.get(1).isSelected = true;
                         this.reactionButtons.get(0).realCount = 1;
@@ -180,13 +191,13 @@ public class ReactionsLayoutInBubble {
                         this.reactionButtons.get(1).key += "_";
                         break;
                     }
-                    if (z && i4 == 2) {
+                    if (z && i3 == 2) {
                         break;
                     }
                     if (this.attached) {
-                        reactionButton.attach();
+                        reactionButton2.attach();
                     }
-                    i4++;
+                    i3++;
                 }
             }
             if (!z && !this.reactionButtons.isEmpty()) {
@@ -201,6 +212,9 @@ public class ReactionsLayoutInBubble {
                 }
             }
             this.hasUnreadReactions = MessageObject.hasUnreadReactions(messageObject.messageOwner);
+        }
+        for (int i8 = 0; i8 < arrayList.size(); i8++) {
+            ((ReactionButton) arrayList.get(i8)).detach();
         }
         this.isEmpty = this.reactionButtons.isEmpty();
     }
@@ -486,9 +500,12 @@ public class ReactionsLayoutInBubble {
         int count;
         String countText;
         CounterView.CounterDrawable counterDrawable;
+        public boolean drawImage = true;
+        Rect drawingImageRect = new Rect();
         public int fromBackgroundColor;
         public int fromTextColor;
         public int height;
+        ImageReceiver imageReceiver;
         boolean isSelected;
         private final boolean isSmall;
         public String key;
@@ -506,12 +523,19 @@ public class ReactionsLayoutInBubble {
         public int width;
         public int x;
         public int y;
-        public boolean drawImage = true;
-        Rect drawingImageRect = new Rect();
-        ImageReceiver imageReceiver = new ImageReceiver();
 
-        public ReactionButton(TLRPC$ReactionCount tLRPC$ReactionCount, boolean z) {
-            this.counterDrawable = new CounterView.CounterDrawable(ReactionsLayoutInBubble.this.parentView, false, null);
+        public ReactionButton(ReactionButton reactionButton, TLRPC$ReactionCount tLRPC$ReactionCount, boolean z) {
+            if (reactionButton != null) {
+                this.imageReceiver = reactionButton.imageReceiver;
+                this.counterDrawable = reactionButton.counterDrawable;
+                this.animatedEmojiDrawable = reactionButton.animatedEmojiDrawable;
+                reactionButton.counterDrawable = null;
+                reactionButton.imageReceiver = null;
+                reactionButton.animatedEmojiDrawable = null;
+            } else {
+                this.imageReceiver = new ImageReceiver();
+                this.counterDrawable = new CounterView.CounterDrawable(ReactionsLayoutInBubble.this.parentView, false, null);
+            }
             this.reactionCount = tLRPC$ReactionCount;
             TLRPC$Reaction tLRPC$Reaction = tLRPC$ReactionCount.reaction;
             this.reaction = tLRPC$Reaction;
@@ -716,9 +740,9 @@ public class ReactionsLayoutInBubble {
                     AvatarsDrawable avatarsDrawable2 = this.avatarsDrawable;
                     avatarsDrawable2.height = this.height;
                     avatarsDrawable2.setAvatarsTextSize(AndroidUtilities.dp(22.0f));
-                    if (ReactionsLayoutInBubble.this.attached) {
-                        this.avatarsDrawable.onAttachedToWindow();
-                    }
+                }
+                if (ReactionsLayoutInBubble.this.attached) {
+                    this.avatarsDrawable.onAttachedToWindow();
                 }
                 for (int i = 0; i < arrayList.size() && i != 3; i++) {
                     this.avatarsDrawable.setObject(i, ReactionsLayoutInBubble.this.currentAccount, arrayList.get(i));

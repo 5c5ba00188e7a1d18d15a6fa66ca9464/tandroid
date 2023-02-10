@@ -1194,7 +1194,9 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 }
                 long nanoTime = System.nanoTime() / 1000000;
                 long j = nanoTime - ActionBarLayout.this.lastFrameTime;
-                if (j > 18) {
+                if (j > 40 && z2) {
+                    j = 0;
+                } else if (j > 18) {
                     j = 18;
                 }
                 ActionBarLayout.this.lastFrameTime = nanoTime;
@@ -1531,7 +1533,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                                             ActionBarLayout.this.delayedOpenAnimationRunnable.run();
                                             return;
                                         } else {
-                                            AndroidUtilities.runOnUIThread(ActionBarLayout.this.delayedOpenAnimationRunnable, 200L);
+                                            AndroidUtilities.runOnUIThread(ActionBarLayout.this.delayedOpenAnimationRunnable, 100L);
                                             return;
                                         }
                                     }

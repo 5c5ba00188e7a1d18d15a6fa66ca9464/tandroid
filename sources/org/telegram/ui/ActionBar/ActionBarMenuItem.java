@@ -43,6 +43,7 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
+import java.util.HashMap;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
@@ -81,6 +82,8 @@ public class ActionBarMenuItem extends FrameLayout {
     private boolean ignoreOnTextChange;
     private boolean isSearchField;
     private boolean layoutInScreen;
+    private ArrayList<Item> lazyList;
+    private HashMap<Integer, Item> lazyMap;
     protected ActionBarMenuItemSearchListener listener;
     private int[] location;
     private boolean longClickEnabled;
@@ -397,7 +400,8 @@ public class ActionBarMenuItem extends FrameLayout {
         this.forceSmoothKeyboard = z;
     }
 
-    private void createPopupLayout() {
+    /* JADX INFO: Access modifiers changed from: private */
+    public void createPopupLayout() {
         if (this.popupLayout != null) {
             return;
         }
@@ -744,7 +748,8 @@ public class ActionBarMenuItem extends FrameLayout {
     }
 
     public boolean hasSubMenu() {
-        return this.popupLayout != null;
+        ArrayList<Item> arrayList;
+        return (this.popupLayout == null && ((arrayList = this.lazyList) == null || arrayList.isEmpty())) ? false : true;
     }
 
     public ActionBarPopupWindow.ActionBarPopupWindowLayout getPopupLayout() {
@@ -761,6 +766,10 @@ public class ActionBarMenuItem extends FrameLayout {
     /* JADX WARN: Multi-variable type inference failed */
     public void toggleSubMenu(final View view, View view2) {
         ActionBar actionBar;
+        ActionBarPopupWindow actionBarPopupWindow = this.popupWindow;
+        if (actionBarPopupWindow == null || !actionBarPopupWindow.isShowing()) {
+            layoutLazyItems();
+        }
         if (this.popupLayout != null) {
             ActionBarMenu actionBarMenu = this.parentMenu;
             if (actionBarMenu == null || !actionBarMenu.isActionMode || (actionBar = actionBarMenu.parentActionBar) == null || actionBar.isActionModeShowed()) {
@@ -769,8 +778,8 @@ public class ActionBarMenuItem extends FrameLayout {
                     AndroidUtilities.cancelRunOnUIThread(runnable);
                     this.showMenuRunnable = null;
                 }
-                ActionBarPopupWindow actionBarPopupWindow = this.popupWindow;
-                if (actionBarPopupWindow != null && actionBarPopupWindow.isShowing()) {
+                ActionBarPopupWindow actionBarPopupWindow2 = this.popupWindow;
+                if (actionBarPopupWindow2 != null && actionBarPopupWindow2.isShowing()) {
                     this.popupWindow.dismiss();
                     return;
                 }
@@ -809,12 +818,12 @@ public class ActionBarMenuItem extends FrameLayout {
                     this.popupLayout.setTopView(frameLayout);
                     actionBarPopupWindowLayout = linearLayout;
                 }
-                ActionBarPopupWindow actionBarPopupWindow2 = new ActionBarPopupWindow(actionBarPopupWindowLayout, -2, -2);
-                this.popupWindow = actionBarPopupWindow2;
+                ActionBarPopupWindow actionBarPopupWindow3 = new ActionBarPopupWindow(actionBarPopupWindowLayout, -2, -2);
+                this.popupWindow = actionBarPopupWindow3;
                 if (this.animationEnabled && Build.VERSION.SDK_INT >= 19) {
-                    actionBarPopupWindow2.setAnimationStyle(0);
+                    actionBarPopupWindow3.setAnimationStyle(0);
                 } else {
-                    actionBarPopupWindow2.setAnimationStyle(R.style.PopupAnimation);
+                    actionBarPopupWindow3.setAnimationStyle(R.style.PopupAnimation);
                 }
                 boolean z = this.animationEnabled;
                 if (!z) {
@@ -1947,6 +1956,10 @@ public class ActionBarMenuItem extends FrameLayout {
 
     public void hideSubItem(int i) {
         View findViewWithTag;
+        Item findLazyItem = findLazyItem(i);
+        if (findLazyItem != null) {
+            findLazyItem.setVisibility(8);
+        }
         ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = this.popupLayout;
         if (actionBarPopupWindowLayout == null || (findViewWithTag = actionBarPopupWindowLayout.findViewWithTag(Integer.valueOf(i))) == null || findViewWithTag.getVisibility() == 8) {
             return;
@@ -1986,6 +1999,10 @@ public class ActionBarMenuItem extends FrameLayout {
 
     public void showSubItem(int i, boolean z) {
         View findViewWithTag;
+        Item findLazyItem = findLazyItem(i);
+        if (findLazyItem != null) {
+            findLazyItem.setVisibility(0);
+        }
         ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = this.popupLayout;
         if (actionBarPopupWindowLayout == null || (findViewWithTag = actionBarPopupWindowLayout.findViewWithTag(Integer.valueOf(i))) == null || findViewWithTag.getVisibility() == 0) {
             return;
@@ -2255,6 +2272,250 @@ public class ActionBarMenuItem extends FrameLayout {
         gapView.setTag(R.id.fit_width_tag, 1);
         this.popupLayout.addView((View) gapView, LayoutHelper.createLinear(-1, 8));
         return gapView;
+    }
+
+    /* loaded from: classes3.dex */
+    public static class Item {
+        public boolean dismiss;
+        public int icon;
+        public Drawable iconDrawable;
+        public int id;
+        public boolean needCheck;
+        private View.OnClickListener overrideClickListener;
+        public CharSequence text;
+        private View view;
+        public View viewToSwipeBack;
+        public int viewType;
+        private int visibility = 0;
+        private int rightIconVisibility = 0;
+
+        private Item(int i) {
+            this.viewType = i;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static Item asSubItem(int i, int i2, Drawable drawable, CharSequence charSequence, boolean z, boolean z2) {
+            Item item = new Item(0);
+            item.id = i;
+            item.icon = i2;
+            item.iconDrawable = drawable;
+            item.text = charSequence;
+            item.dismiss = z;
+            item.needCheck = z2;
+            return item;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static Item asColoredGap() {
+            return new Item(1);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static Item asSwipeBackItem(int i, Drawable drawable, String str, View view) {
+            Item item = new Item(2);
+            item.icon = i;
+            item.iconDrawable = drawable;
+            item.text = str;
+            item.viewToSwipeBack = view;
+            return item;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public View add(final ActionBarMenuItem actionBarMenuItem) {
+            actionBarMenuItem.createPopupLayout();
+            if (this.view != null) {
+                actionBarMenuItem.popupLayout.addView(this.view);
+            } else {
+                int i = this.viewType;
+                if (i == 0) {
+                    ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(actionBarMenuItem.getContext(), this.needCheck, false, false, actionBarMenuItem.resourcesProvider);
+                    actionBarMenuSubItem.setTextAndIcon(this.text, this.icon, this.iconDrawable);
+                    actionBarMenuSubItem.setMinimumWidth(AndroidUtilities.dp(196.0f));
+                    actionBarMenuSubItem.setTag(Integer.valueOf(this.id));
+                    actionBarMenuItem.popupLayout.addView(actionBarMenuSubItem);
+                    LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) actionBarMenuSubItem.getLayoutParams();
+                    if (LocaleController.isRTL) {
+                        layoutParams.gravity = 5;
+                    }
+                    layoutParams.width = -1;
+                    layoutParams.height = AndroidUtilities.dp(48.0f);
+                    actionBarMenuSubItem.setLayoutParams(layoutParams);
+                    actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$Item$$ExternalSyntheticLambda0
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view) {
+                            ActionBarMenuItem.Item.this.lambda$add$0(actionBarMenuItem, view);
+                        }
+                    });
+                    this.view = actionBarMenuSubItem;
+                } else if (i == 1) {
+                    ActionBarPopupWindow.GapView gapView = new ActionBarPopupWindow.GapView(actionBarMenuItem.getContext(), actionBarMenuItem.resourcesProvider, "actionBarDefaultSubmenuSeparator");
+                    gapView.setTag(R.id.fit_width_tag, 1);
+                    actionBarMenuItem.popupLayout.addView((View) gapView, LayoutHelper.createLinear(-1, 8));
+                    this.view = gapView;
+                } else if (i == 2) {
+                    final ActionBarMenuSubItem actionBarMenuSubItem2 = new ActionBarMenuSubItem(actionBarMenuItem.getContext(), false, false, false, actionBarMenuItem.resourcesProvider);
+                    actionBarMenuSubItem2.setTextAndIcon(this.text, this.icon, this.iconDrawable);
+                    actionBarMenuSubItem2.setMinimumWidth(AndroidUtilities.dp(196.0f));
+                    actionBarMenuSubItem2.setRightIcon(R.drawable.msg_arrowright);
+                    actionBarMenuSubItem2.getRightIcon().setVisibility(this.rightIconVisibility);
+                    actionBarMenuItem.popupLayout.addView(actionBarMenuSubItem2);
+                    LinearLayout.LayoutParams layoutParams2 = (LinearLayout.LayoutParams) actionBarMenuSubItem2.getLayoutParams();
+                    if (LocaleController.isRTL) {
+                        layoutParams2.gravity = 5;
+                    }
+                    layoutParams2.width = -1;
+                    layoutParams2.height = AndroidUtilities.dp(48.0f);
+                    actionBarMenuSubItem2.setLayoutParams(layoutParams2);
+                    final int addViewToSwipeBack = actionBarMenuItem.popupLayout.addViewToSwipeBack(this.viewToSwipeBack);
+                    actionBarMenuSubItem2.openSwipeBackLayout = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$Item$$ExternalSyntheticLambda2
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            ActionBarMenuItem.Item.lambda$add$1(ActionBarMenuItem.this, addViewToSwipeBack);
+                        }
+                    };
+                    actionBarMenuSubItem2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$Item$$ExternalSyntheticLambda1
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view) {
+                            ActionBarMenuSubItem.this.openSwipeBack();
+                        }
+                    });
+                    actionBarMenuItem.popupLayout.swipeBackGravityRight = true;
+                    this.view = actionBarMenuSubItem2;
+                }
+            }
+            View view = this.view;
+            if (view != null) {
+                view.setVisibility(this.visibility);
+                View.OnClickListener onClickListener = this.overrideClickListener;
+                if (onClickListener != null) {
+                    this.view.setOnClickListener(onClickListener);
+                }
+            }
+            return this.view;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$add$0(ActionBarMenuItem actionBarMenuItem, View view) {
+            if (actionBarMenuItem.popupWindow != null && actionBarMenuItem.popupWindow.isShowing() && this.dismiss) {
+                if (actionBarMenuItem.processedPopupClick) {
+                    return;
+                }
+                actionBarMenuItem.processedPopupClick = true;
+                actionBarMenuItem.popupWindow.dismiss(actionBarMenuItem.allowCloseAnimation);
+            }
+            if (actionBarMenuItem.parentMenu != null) {
+                actionBarMenuItem.parentMenu.onItemClick(((Integer) view.getTag()).intValue());
+            } else if (actionBarMenuItem.delegate != null) {
+                actionBarMenuItem.delegate.onItemClick(((Integer) view.getTag()).intValue());
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ void lambda$add$1(ActionBarMenuItem actionBarMenuItem, int i) {
+            if (actionBarMenuItem.popupLayout.getSwipeBack() != null) {
+                actionBarMenuItem.popupLayout.getSwipeBack().openForeground(i);
+            }
+        }
+
+        public void setVisibility(int i) {
+            this.visibility = i;
+            View view = this.view;
+            if (view != null) {
+                view.setVisibility(i);
+            }
+        }
+
+        public void setOnClickListener(View.OnClickListener onClickListener) {
+            this.overrideClickListener = onClickListener;
+            View view = this.view;
+            if (view != null) {
+                view.setOnClickListener(onClickListener);
+            }
+        }
+
+        public void openSwipeBack() {
+            View view = this.view;
+            if (view instanceof ActionBarMenuSubItem) {
+                ((ActionBarMenuSubItem) view).openSwipeBack();
+            }
+        }
+
+        public void setText(CharSequence charSequence) {
+            this.text = charSequence;
+            View view = this.view;
+            if (view instanceof ActionBarMenuSubItem) {
+                ((ActionBarMenuSubItem) view).setText(charSequence);
+            }
+        }
+
+        public void setIcon(int i) {
+            if (i != this.icon) {
+                this.icon = i;
+                View view = this.view;
+                if (view instanceof ActionBarMenuSubItem) {
+                    ((ActionBarMenuSubItem) view).setIcon(i);
+                }
+            }
+        }
+
+        public void setRightIconVisibility(int i) {
+            if (this.rightIconVisibility != i) {
+                this.rightIconVisibility = i;
+                View view = this.view;
+                if (view instanceof ActionBarMenuSubItem) {
+                    ((ActionBarMenuSubItem) view).getRightIcon().setVisibility(this.rightIconVisibility);
+                }
+            }
+        }
+    }
+
+    public Item lazilyAddSwipeBackItem(int i, Drawable drawable, String str, View view) {
+        return putLazyItem(Item.asSwipeBackItem(i, drawable, str, view));
+    }
+
+    public Item lazilyAddSubItem(int i, int i2, CharSequence charSequence) {
+        return lazilyAddSubItem(i, i2, null, charSequence, true, false);
+    }
+
+    public Item lazilyAddSubItem(int i, int i2, Drawable drawable, CharSequence charSequence, boolean z, boolean z2) {
+        return putLazyItem(Item.asSubItem(i, i2, drawable, charSequence, z, z2));
+    }
+
+    public Item lazilyAddColoredGap() {
+        return putLazyItem(Item.asColoredGap());
+    }
+
+    private Item putLazyItem(Item item) {
+        if (item == null) {
+            return item;
+        }
+        if (this.lazyList == null) {
+            this.lazyList = new ArrayList<>();
+        }
+        this.lazyList.add(item);
+        if (this.lazyMap == null) {
+            this.lazyMap = new HashMap<>();
+        }
+        this.lazyMap.put(Integer.valueOf(item.id), item);
+        return item;
+    }
+
+    private Item findLazyItem(int i) {
+        HashMap<Integer, Item> hashMap = this.lazyMap;
+        if (hashMap == null) {
+            return null;
+        }
+        return hashMap.get(Integer.valueOf(i));
+    }
+
+    private void layoutLazyItems() {
+        if (this.lazyList == null) {
+            return;
+        }
+        for (int i = 0; i < this.lazyList.size(); i++) {
+            this.lazyList.get(i).add(this);
+        }
+        this.lazyList.clear();
     }
 
     public static ActionBarMenuSubItem addItem(ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout, int i, CharSequence charSequence, boolean z, Theme.ResourcesProvider resourcesProvider) {

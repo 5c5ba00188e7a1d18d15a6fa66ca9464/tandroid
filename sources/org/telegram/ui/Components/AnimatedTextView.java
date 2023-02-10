@@ -390,13 +390,15 @@ public class AnimatedTextView extends View {
             this.toSetText = null;
             this.toSetTextMoveDown = false;
             this.t = 0.0f;
-            this.currentParts = r11;
-            this.currentText = charSequence;
-            Part[] partArr3 = {new Part(this, makeLayout(charSequence, this.bounds.width()), 0.0f, -1)};
-            Part[] partArr4 = this.currentParts;
-            this.currentWidth = partArr4[0].width;
-            this.currentHeight = partArr4[0].layout.getHeight();
-            this.isRTL = AndroidUtilities.isRTL(this.currentText);
+            if (!charSequence.equals(this.currentText)) {
+                this.currentParts = r11;
+                this.currentText = charSequence;
+                Part[] partArr3 = {new Part(this, makeLayout(charSequence, this.bounds.width()), 0.0f, -1)};
+                Part[] partArr4 = this.currentParts;
+                this.currentWidth = partArr4[0].width;
+                this.currentHeight = partArr4[0].layout.getHeight();
+                this.isRTL = AndroidUtilities.isRTL(this.currentText);
+            }
             this.oldParts = null;
             this.oldText = null;
             this.oldWidth = 0.0f;

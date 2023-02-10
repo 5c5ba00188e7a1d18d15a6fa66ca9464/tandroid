@@ -33,7 +33,7 @@ public class CheckBoxBase {
     private View parentView;
     private float progress;
     private ProgressDelegate progressDelegate;
-    private final Theme.ResourcesProvider resourcesProvider;
+    private Theme.ResourcesProvider resourcesProvider;
     private float size;
     private TextPaint textPaint;
     private boolean useDefaultCheck;
@@ -75,6 +75,10 @@ public class CheckBoxBase {
         this.backgroundPaint = paint4;
         paint4.setStyle(Paint.Style.STROKE);
         this.backgroundPaint.setStrokeWidth(AndroidUtilities.dp(1.2f));
+    }
+
+    public void setResourcesProvider(Theme.ResourcesProvider resourcesProvider) {
+        this.resourcesProvider = resourcesProvider;
     }
 
     public void onAttachedToWindow() {

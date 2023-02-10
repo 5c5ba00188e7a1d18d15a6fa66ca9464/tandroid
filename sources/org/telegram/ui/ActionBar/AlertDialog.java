@@ -273,6 +273,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         this.topAnimationAutoRepeat = true;
         float f = 0.8f;
         this.blurAlpha = 0.8f;
+        this.resourcesProvider = resourcesProvider;
         this.blurredNativeBackground = supportsNativeBlur() && this.progressViewStyle == 0;
         int themedColor = getThemedColor("dialogBackground");
         this.backgroundColor = themedColor;
@@ -281,7 +282,6 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             z = false;
         }
         this.blurredBackground = z;
-        this.resourcesProvider = resourcesProvider;
         this.backgroundPaddings = new Rect();
         if (i != 3 || this.blurredBackground) {
             Drawable mutate = context.getResources().getDrawable(R.drawable.popup_fixed_alert3).mutate();

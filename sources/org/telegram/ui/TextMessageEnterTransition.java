@@ -17,6 +17,7 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.text.Editable;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -100,24 +101,24 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
     private final int currentAccount = UserConfig.selectedAccount;
 
     /* JADX WARN: Can't wrap try/catch for region: R(42:15|(1:17)|18|(3:20|21|(1:24))|30|(3:32|(3:35|(33:38|39|40|(3:150|(1:152)(1:154)|153)(1:43)|44|(1:46)(1:149)|47|(4:50|(2:52|53)(1:55)|54|48)|56|57|(1:59)|60|(1:62)|63|(1:65)|66|(2:68|(1:(2:146|147)(4:70|(1:72)(1:145)|73|(2:76|77)(1:75))))(1:148)|78|(5:82|(3:84|(4:86|(1:88)|89|90)(2:92|93)|91)|94|95|(1:97)(1:98))|99|100|101|(4:103|(1:105)|106|(2:108|(1:110)(1:111)))|112|(1:143)(1:116)|117|(1:119)|120|(1:126)|127|(1:133)|134|(1:141)(2:138|139))(1:37)|33)|155)|156|40|(0)|150|(0)(0)|153|44|(0)(0)|47|(1:48)|56|57|(0)|60|(0)|63|(0)|66|(0)(0)|78|(5:82|(0)|94|95|(0)(0))|99|100|101|(0)|112|(1:114)|143|117|(0)|120|(3:122|124|126)|127|(3:129|131|133)|134|(2:136|141)(1:142)) */
-    /* JADX WARN: Code restructure failed: missing block: B:118:0x04c6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:118:0x04bb, code lost:
         r24.drawBitmaps = false;
      */
-    /* JADX WARN: Removed duplicated region for block: B:103:0x03cb  */
-    /* JADX WARN: Removed duplicated region for block: B:104:0x0405  */
-    /* JADX WARN: Removed duplicated region for block: B:108:0x044a A[Catch: Exception -> 0x04c6, TryCatch #0 {Exception -> 0x04c6, blocks: (B:106:0x0446, B:108:0x044a, B:110:0x046e, B:111:0x048c, B:113:0x0490, B:115:0x049a, B:116:0x04ae), top: B:148:0x0446 }] */
-    /* JADX WARN: Removed duplicated region for block: B:127:0x04de  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0150  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x018b  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x01c9  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x01e7  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0297  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x02a9  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x02ce  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x0318  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0335  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x0363  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x0380  */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x03c0  */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x03fa  */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x043f A[Catch: Exception -> 0x04bb, TryCatch #0 {Exception -> 0x04bb, blocks: (B:106:0x043b, B:108:0x043f, B:110:0x0463, B:111:0x0481, B:113:0x0485, B:115:0x048f, B:116:0x04a3), top: B:148:0x043b }] */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x04d3  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0145  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0180  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x01be  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x01dc  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x028c  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x029e  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x02c3  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x030d  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x032a  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x0358  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x0375  */
     @SuppressLint({"WrongConstant"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -152,14 +153,14 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         if (chatActivityEnterView == null || chatActivityEnterView.getEditField() == null || chatActivityEnterView.getEditField().getLayout() == null) {
             return;
         }
-        float f2 = chatActivityEnterView.getRecordCicle().drawingCircleRadius;
+        chatActivityEnterView.getRecordCircle();
         this.bitmapPaint.setFilterBitmap(true);
         this.currentMessageObject = chatMessageCell.getMessageObject();
         if (!chatMessageCell.getTransitionParams().wasDraw) {
             chatMessageCell.draw(new Canvas());
         }
         chatMessageCell.setEnterTransitionInProgress(true);
-        CharSequence text = chatActivityEnterView.getEditField().getLayout().getText();
+        Editable editText = chatActivityEnterView.getEditText();
         CharSequence charSequence = chatMessageCell.getMessageObject().messageText;
         this.crossfade = false;
         int height = chatActivityEnterView.getEditField().getLayout().getHeight();
@@ -196,10 +197,10 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
             for (Object obj : ((Spannable) charSequence).getSpans(0, charSequence.length(), Object.class)) {
                 if (!(obj instanceof Emoji.EmojiSpan)) {
                     z = true;
-                    if (text.length() == charSequence.length() || z) {
+                    if (editText.length() == charSequence.length() || z) {
                         this.crossfade = true;
                         iArr = new int[1];
-                        CharSequence trim = AndroidUtilities.trim(text, iArr);
+                        CharSequence trim = AndroidUtilities.trim(editText, iArr);
                         if (iArr[0] <= 0) {
                             i = chatActivityEnterView.getEditField().getLayout().getLineTop(chatActivityEnterView.getEditField().getLayout().getLineForOffset(iArr[0]));
                             height = chatActivityEnterView.getEditField().getLayout().getLineBottom(chatActivityEnterView.getEditField().getLayout().getLineForOffset(iArr[0] + trim.length())) - i;
@@ -207,7 +208,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                             i = 0;
                         }
                         AnimatedEmojiSpan.cloneSpans(charSequence);
-                        charSequence = Emoji.replaceEmoji(text, textPaint.getFontMetricsInt(), dp, false);
+                        charSequence = Emoji.replaceEmoji(editText, textPaint.getFontMetricsInt(), dp, false);
                     } else {
                         i = 0;
                     }
@@ -276,12 +277,12 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                     if (!this.crossfade && i4 > 0 && i3 > 0) {
                         SpannableString spannableString = new SpannableString(charSequence);
                         SpannableString spannableString2 = new SpannableString(charSequence);
-                        float f3 = Float.MAX_VALUE;
+                        float f2 = Float.MAX_VALUE;
                         for (i5 = 0; i5 < lineCount; i5++) {
                             if (isRtlLine(this.layout, i5)) {
                                 spannableString.setSpan(new EmptyStubSpan(), this.layout.getLineStart(i5), this.layout.getLineEnd(i5), 0);
                                 float lineLeft2 = this.layout.getLineLeft(i5);
-                                f3 = lineLeft2 < f3 ? lineLeft2 : f3;
+                                f2 = lineLeft2 < f2 ? lineLeft2 : f2;
                             } else {
                                 spannableString2.setSpan(new EmptyStubSpan(), this.layout.getLineStart(i5), this.layout.getLineEnd(i5), 0);
                             }
@@ -380,15 +381,15 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
             }
         }
         z = false;
-        if (text.length() == charSequence.length()) {
+        if (editText.length() == charSequence.length()) {
         }
         this.crossfade = true;
         iArr = new int[1];
-        CharSequence trim2 = AndroidUtilities.trim(text, iArr);
+        CharSequence trim2 = AndroidUtilities.trim(editText, iArr);
         if (iArr[0] <= 0) {
         }
         AnimatedEmojiSpan.cloneSpans(charSequence);
-        charSequence = Emoji.replaceEmoji(text, textPaint.getFontMetricsInt(), dp, false);
+        charSequence = Emoji.replaceEmoji(editText, textPaint.getFontMetricsInt(), dp, false);
         this.scaleFrom = chatActivityEnterView.getEditField().getTextSize() / textPaint.getTextSize();
         lineCount = chatActivityEnterView.getEditField().getLayout().getLineCount();
         int width2 = (int) (chatActivityEnterView.getEditField().getLayout().getWidth() / this.scaleFrom);
@@ -421,7 +422,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         if (!this.crossfade) {
             SpannableString spannableString3 = new SpannableString(charSequence);
             SpannableString spannableString22 = new SpannableString(charSequence);
-            float f32 = Float.MAX_VALUE;
+            float f22 = Float.MAX_VALUE;
             while (i5 < lineCount) {
             }
             if (Build.VERSION.SDK_INT < 24) {

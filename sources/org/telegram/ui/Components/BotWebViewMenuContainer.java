@@ -139,6 +139,15 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         }
     }
 
+    private void checkBotMenuItem() {
+        if (this.botMenuItem == null) {
+            ActionBarMenuItem addItem = this.parentEnterView.getParentFragment().getActionBar().createMenu().addItem(1000, R.drawable.ic_ab_other);
+            this.botMenuItem = addItem;
+            addItem.setVisibility(8);
+            this.botMenuItem.addSubItem(R.id.menu_reload_page, R.drawable.msg_retry, LocaleController.getString(R.string.BotWebViewReloadPage));
+        }
+    }
+
     public BotWebViewMenuContainer(Context context, final ChatActivityEnterView chatActivityEnterView) {
         super(context);
         this.dimPaint = new Paint();
@@ -153,10 +162,6 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         };
         this.parentEnterView = chatActivityEnterView;
         final ActionBar actionBar = chatActivityEnterView.getParentFragment().getActionBar();
-        ActionBarMenuItem addItem = actionBar.createMenu().addItem(1000, R.drawable.ic_ab_other);
-        this.botMenuItem = addItem;
-        addItem.setVisibility(8);
-        this.botMenuItem.addSubItem(R.id.menu_reload_page, R.drawable.msg_retry, LocaleController.getString(R.string.BotWebViewReloadPage));
         this.actionBarOnItemClick = actionBar.getActionBarMenuOnItemClick();
         BotWebViewContainer botWebViewContainer = new BotWebViewContainer(context, chatActivityEnterView.getParentFragment().getResourceProvider(), getColor("windowBackgroundWhite"));
         this.webViewContainer = botWebViewContainer;
@@ -601,6 +606,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         ActionBar actionBar = parentFragment.getActionBar();
         if (f == 100.0f && this.parentEnterView.hasBotWebView()) {
             parentFragment.showHeaderItem(false);
+            checkBotMenuItem();
             this.botMenuItem.setVisibility(0);
             actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer.4
                 @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
@@ -630,7 +636,10 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             return;
         }
         parentFragment.showHeaderItem(true);
-        this.botMenuItem.setVisibility(8);
+        ActionBarMenuItem actionBarMenuItem = this.botMenuItem;
+        if (actionBarMenuItem != null) {
+            actionBarMenuItem.setVisibility(8);
+        }
         actionBar.setActionBarMenuOnItemClick(this.actionBarOnItemClick);
     }
 
@@ -782,7 +791,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         this.currentAccount = i;
         this.botId = j;
         this.botUrl = str;
-        this.savedEditText = this.parentEnterView.getEditField().getText();
+        this.savedEditText = this.parentEnterView.getEditText();
         this.parentEnterView.getEditField().setText((CharSequence) null);
         this.savedReplyMessageObject = this.parentEnterView.getReplyingMessageObject();
         this.savedEditMessageObject = this.parentEnterView.getEditingMessageObject();
@@ -991,7 +1000,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDismiss$21() {
-        if (this.savedEditText != null) {
+        if (this.savedEditText != null && this.parentEnterView.getEditField() != null) {
             this.parentEnterView.getEditField().setText(this.savedEditText);
             this.savedEditText = null;
         }

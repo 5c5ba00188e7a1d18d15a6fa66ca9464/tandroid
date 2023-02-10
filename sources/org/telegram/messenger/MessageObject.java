@@ -327,12 +327,14 @@ public class MessageObject {
     public static final int TYPE_ACTION_PHOTO = 11;
     public static final int TYPE_ANIMATED_STICKER = 15;
     public static final int TYPE_CONTACT = 12;
+    public static final int TYPE_DATE = 10;
     public static final int TYPE_EMOJIS = 19;
     public static final int TYPE_EXTENDED_MEDIA_PREVIEW = 20;
     public static final int TYPE_FILE = 9;
     public static final int TYPE_GEO = 4;
     public static final int TYPE_GIF = 8;
     public static final int TYPE_GIFT_PREMIUM = 18;
+    public static final int TYPE_LOADING = 6;
     public static final int TYPE_MUSIC = 14;
     public static final int TYPE_PHONE_CALL = 16;
     public static final int TYPE_PHOTO = 1;
@@ -349,6 +351,7 @@ public class MessageObject {
     public static Pattern videoTimeUrlPattern;
     public boolean animateComments;
     public boolean attachPathExists;
+    public int attributeDuration;
     public int audioPlayerDuration;
     public float audioProgress;
     public int audioProgressMs;
@@ -3194,7 +3197,7 @@ public class MessageObject {
     }
 
     public boolean updateTranslation() {
-        return updateTranslation(true);
+        return updateTranslation(false);
     }
 
     public boolean updateTranslation(boolean z) {
@@ -8392,21 +8395,28 @@ public class MessageObject {
     }
 
     public int getDuration() {
+        int i = this.attributeDuration;
+        if (i > 0) {
+            return i;
+        }
         TLRPC$Document document = getDocument();
         if (document == null) {
             return 0;
         }
-        int i = this.audioPlayerDuration;
-        if (i > 0) {
-            return i;
+        int i2 = this.audioPlayerDuration;
+        if (i2 > 0) {
+            return i2;
         }
-        for (int i2 = 0; i2 < document.attributes.size(); i2++) {
-            TLRPC$DocumentAttribute tLRPC$DocumentAttribute = document.attributes.get(i2);
+        for (int i3 = 0; i3 < document.attributes.size(); i3++) {
+            TLRPC$DocumentAttribute tLRPC$DocumentAttribute = document.attributes.get(i3);
             if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeAudio) {
-                return tLRPC$DocumentAttribute.duration;
-            }
-            if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeVideo) {
-                return tLRPC$DocumentAttribute.duration;
+                int i4 = tLRPC$DocumentAttribute.duration;
+                this.attributeDuration = i4;
+                return i4;
+            } else if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeVideo) {
+                int i5 = tLRPC$DocumentAttribute.duration;
+                this.attributeDuration = i5;
+                return i5;
             }
         }
         return this.audioPlayerDuration;

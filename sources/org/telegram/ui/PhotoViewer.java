@@ -17095,7 +17095,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 }
             };
             if (PhotoViewer.this.parentChatActivity != null && PhotoViewer.this.parentChatActivity.getFragmentView() != null) {
-                PhotoViewer.this.parentChatActivity.getUndoView().hide(false, 1);
+                if (PhotoViewer.this.parentChatActivity.getUndoView() != null) {
+                    PhotoViewer.this.parentChatActivity.getUndoView().hide(false, 1);
+                }
                 PhotoViewer.this.parentChatActivity.getFragmentView().invalidate();
             }
             return true;
@@ -17701,7 +17703,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                 }
                                             }
                                             if (chatActivity2 != null) {
-                                                chatActivity2.lambda$openDiscussionMessageChat$240(PhotoViewer.this.animationEndRunnable);
+                                                chatActivity2.lambda$openDiscussionMessageChat$244(PhotoViewer.this.animationEndRunnable);
                                                 return;
                                             }
                                             PhotoViewer.this.animationEndRunnable.run();

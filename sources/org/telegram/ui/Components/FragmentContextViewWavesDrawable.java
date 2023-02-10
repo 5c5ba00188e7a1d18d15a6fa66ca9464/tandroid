@@ -266,14 +266,6 @@ public class FragmentContextViewWavesDrawable {
         }
     }
 
-    public int getState() {
-        WeavingState weavingState = this.currentState;
-        if (weavingState != null) {
-            return weavingState.currentState;
-        }
-        return 0;
-    }
-
     /* loaded from: classes3.dex */
     public static class WeavingState {
         int color1;

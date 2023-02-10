@@ -456,10 +456,10 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x02be  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x0421  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x043c  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x0448  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x02c5  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x0428  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0443  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x044f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -519,6 +519,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 SelectAnimatedEmojiDialog.this.lambda$new$28();
             }
         };
+        SharedConfig.getLiteMode().enabled();
         this.paint = new Paint();
         this.resourcesProvider = resourcesProvider;
         this.type = i;
@@ -4737,14 +4738,12 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             listStates.get(num);
         }
         this.dismiss = runnable;
-        int i = 0;
         if (!this.drawBackground) {
             checkScroll();
-            while (i < this.emojiGridView.getChildCount()) {
+            for (int i = 0; i < this.emojiGridView.getChildCount(); i++) {
                 View childAt = this.emojiGridView.getChildAt(i);
                 childAt.setScaleX(1.0f);
                 childAt.setScaleY(1.0f);
-                i++;
             }
             return;
         }
@@ -4759,10 +4758,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             this.hideAnimator = null;
         }
         int i2 = this.type;
-        if (i2 != 3 && i2 != 4) {
-            i = 1;
-        }
-        if (i != 0) {
+        if ((i2 == 3 || i2 == 4) ? false : true) {
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             this.showAnimator = ofFloat;
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$$ExternalSyntheticLambda1
@@ -4791,6 +4787,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             });
             updateShow(0.0f);
             this.showAnimator.setDuration(800L);
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 512);
             this.showAnimator.start();
             return;
         }
@@ -4974,6 +4971,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 if (stickerCategoriesListView != null) {
                     stickerCategoriesListView.selectCategory((StickerCategoriesListView.EmojiCategory) null);
                     this.categoriesListView.updateCategoriesShown(true, true);
+                    this.categoriesListView.scrollToStart();
                 }
                 this.input.clearAnimation();
                 this.input.animate().translationX(0.0f).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();

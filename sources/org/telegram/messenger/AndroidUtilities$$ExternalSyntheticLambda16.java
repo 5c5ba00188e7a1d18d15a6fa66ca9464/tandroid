@@ -1,18 +1,13 @@
 package org.telegram.messenger;
-
-import java.util.Comparator;
-import org.telegram.messenger.AndroidUtilities;
 /* loaded from: classes.dex */
-public final /* synthetic */ class AndroidUtilities$$ExternalSyntheticLambda16 implements Comparator {
+public final /* synthetic */ class AndroidUtilities$$ExternalSyntheticLambda16 implements Runnable {
     public static final /* synthetic */ AndroidUtilities$$ExternalSyntheticLambda16 INSTANCE = new AndroidUtilities$$ExternalSyntheticLambda16();
 
     private /* synthetic */ AndroidUtilities$$ExternalSyntheticLambda16() {
     }
 
-    @Override // java.util.Comparator
-    public final int compare(Object obj, Object obj2) {
-        int lambda$pruneOverlaps$4;
-        lambda$pruneOverlaps$4 = AndroidUtilities.lambda$pruneOverlaps$4((AndroidUtilities.LinkSpec) obj, (AndroidUtilities.LinkSpec) obj2);
-        return lambda$pruneOverlaps$4;
+    @Override // java.lang.Runnable
+    public final void run() {
+        AndroidUtilities.lambda$static$21();
     }
 }

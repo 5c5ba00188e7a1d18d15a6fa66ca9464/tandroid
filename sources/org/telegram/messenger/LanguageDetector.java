@@ -34,23 +34,23 @@ public class LanguageDetector {
                 if (!z) {
                     detectLanguage(str, stringCallback, exceptionCallback, true);
                     return;
-                } else if (exceptionCallback != null) {
-                    exceptionCallback.run(e);
-                    return;
-                } else {
-                    return;
                 }
+                if (exceptionCallback != null) {
+                    exceptionCallback.run(e);
+                }
+                FileLog.e(e);
+                return;
             } catch (Exception e2) {
                 if (exceptionCallback != null) {
                     exceptionCallback.run(e2);
-                    return;
                 }
+                FileLog.e(e2);
                 return;
-            } catch (Throwable unused) {
+            } catch (Throwable th) {
                 if (exceptionCallback != null) {
                     exceptionCallback.run(null);
-                    return;
                 }
+                FileLog.e(th);
                 return;
             }
         }

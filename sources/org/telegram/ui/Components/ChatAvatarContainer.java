@@ -18,6 +18,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import androidx.core.content.ContextCompat;
+import java.util.concurrent.atomic.AtomicReference;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ChatObject;
@@ -82,16 +83,46 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
     private SharedMediaLayout.SharedMediaPreloader sharedMediaPreloader;
     private StatusDrawable[] statusDrawables;
     public boolean[] statusMadeShorter;
-    private SimpleTextView subtitleTextLargerCopyView;
+    private AtomicReference<SimpleTextView> subtitleTextLargerCopyView;
     private SimpleTextView subtitleTextView;
     private ImageView timeItem;
     private TimerDrawable timerDrawable;
     private AnimatorSet titleAnimation;
-    private SimpleTextView titleTextLargerCopyView;
+    private AtomicReference<SimpleTextView> titleTextLargerCopyView;
     private SimpleTextView titleTextView;
 
     protected boolean onAvatarClick() {
         return false;
+    }
+
+    /* loaded from: classes3.dex */
+    private class SimpleTextConnectedView extends SimpleTextView {
+        private AtomicReference<SimpleTextView> reference;
+
+        public SimpleTextConnectedView(ChatAvatarContainer chatAvatarContainer, Context context, AtomicReference<SimpleTextView> atomicReference) {
+            super(context);
+            this.reference = atomicReference;
+        }
+
+        @Override // android.view.View
+        public void setTranslationY(float f) {
+            SimpleTextView simpleTextView;
+            AtomicReference<SimpleTextView> atomicReference = this.reference;
+            if (atomicReference != null && (simpleTextView = atomicReference.get()) != null) {
+                simpleTextView.setTranslationY(f);
+            }
+            super.setTranslationY(f);
+        }
+
+        @Override // org.telegram.ui.ActionBar.SimpleTextView
+        public boolean setText(CharSequence charSequence) {
+            SimpleTextView simpleTextView;
+            AtomicReference<SimpleTextView> atomicReference = this.reference;
+            if (atomicReference != null && (simpleTextView = atomicReference.get()) != null) {
+                simpleTextView.setText(charSequence);
+            }
+            return super.setText(charSequence);
+        }
     }
 
     public ChatAvatarContainer(Context context, BaseFragment baseFragment, boolean z) {
@@ -100,6 +131,8 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
 
     public ChatAvatarContainer(Context context, BaseFragment baseFragment, boolean z, final Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.titleTextLargerCopyView = new AtomicReference<>();
+        this.subtitleTextLargerCopyView = new AtomicReference<>();
         this.statusDrawables = new StatusDrawable[6];
         this.avatarDrawable = new AvatarDrawable();
         this.currentAccount = UserConfig.selectedAccount;
@@ -153,25 +186,9 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                 }
             });
         }
-        SimpleTextView simpleTextView = new SimpleTextView(context) { // from class: org.telegram.ui.Components.ChatAvatarContainer.2
-            @Override // org.telegram.ui.ActionBar.SimpleTextView
-            public boolean setText(CharSequence charSequence) {
-                if (ChatAvatarContainer.this.titleTextLargerCopyView != null) {
-                    ChatAvatarContainer.this.titleTextLargerCopyView.setText(charSequence);
-                }
-                return super.setText(charSequence);
-            }
-
-            @Override // android.view.View
-            public void setTranslationY(float f) {
-                if (ChatAvatarContainer.this.titleTextLargerCopyView != null) {
-                    ChatAvatarContainer.this.titleTextLargerCopyView.setTranslationY(f);
-                }
-                super.setTranslationY(f);
-            }
-        };
-        this.titleTextView = simpleTextView;
-        simpleTextView.setEllipsizeByGradient(true);
+        SimpleTextConnectedView simpleTextConnectedView = new SimpleTextConnectedView(this, context, this.titleTextLargerCopyView);
+        this.titleTextView = simpleTextConnectedView;
+        simpleTextConnectedView.setEllipsizeByGradient(true);
         this.titleTextView.setTextColor(getThemedColor("actionBarDefaultTitle"));
         this.titleTextView.setTextSize(18);
         this.titleTextView.setGravity(3);
@@ -181,25 +198,9 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         this.titleTextView.setRightDrawableOutside(true);
         this.titleTextView.setPadding(0, AndroidUtilities.dp(6.0f), 0, AndroidUtilities.dp(12.0f));
         addView(this.titleTextView);
-        SimpleTextView simpleTextView2 = new SimpleTextView(context) { // from class: org.telegram.ui.Components.ChatAvatarContainer.3
-            @Override // org.telegram.ui.ActionBar.SimpleTextView
-            public boolean setText(CharSequence charSequence) {
-                if (ChatAvatarContainer.this.subtitleTextLargerCopyView != null) {
-                    ChatAvatarContainer.this.subtitleTextLargerCopyView.setText(charSequence);
-                }
-                return super.setText(charSequence);
-            }
-
-            @Override // android.view.View
-            public void setTranslationY(float f) {
-                if (ChatAvatarContainer.this.subtitleTextLargerCopyView != null) {
-                    ChatAvatarContainer.this.subtitleTextLargerCopyView.setTranslationY(f);
-                }
-                super.setTranslationY(f);
-            }
-        };
-        this.subtitleTextView = simpleTextView2;
-        simpleTextView2.setEllipsizeByGradient(true);
+        SimpleTextConnectedView simpleTextConnectedView2 = new SimpleTextConnectedView(this, context, this.subtitleTextLargerCopyView);
+        this.subtitleTextView = simpleTextConnectedView2;
+        simpleTextConnectedView2.setEllipsizeByGradient(true);
         this.subtitleTextView.setTextColor(getThemedColor("actionBarDefaultSubtitle"));
         this.subtitleTextView.setTag("actionBarDefaultSubtitle");
         this.subtitleTextView.setTextSize(14);
@@ -317,7 +318,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         } else {
             i = currentChatInfo != null ? currentChatInfo.ttl_period : 0;
         }
-        AutoDeletePopupWrapper autoDeletePopupWrapper = new AutoDeletePopupWrapper(getContext(), null, new AutoDeletePopupWrapper.Callback() { // from class: org.telegram.ui.Components.ChatAvatarContainer.4
+        AutoDeletePopupWrapper autoDeletePopupWrapper = new AutoDeletePopupWrapper(getContext(), null, new AutoDeletePopupWrapper.Callback() { // from class: org.telegram.ui.Components.ChatAvatarContainer.2
             @Override // org.telegram.ui.Components.AutoDeletePopupWrapper.Callback
             public /* synthetic */ void showGlobalAutoDeleteScreen() {
                 AutoDeletePopupWrapper.Callback.-CC.$default$showGlobalAutoDeleteScreen(this);
@@ -346,7 +347,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             }
         }, true, 0, this.resourcesProvider);
         autoDeletePopupWrapper.lambda$updateItems$7(i);
-        final ActionBarPopupWindow[] actionBarPopupWindowArr = {new ActionBarPopupWindow(autoDeletePopupWrapper.windowLayout, -2, -2) { // from class: org.telegram.ui.Components.ChatAvatarContainer.5
+        final ActionBarPopupWindow[] actionBarPopupWindowArr = {new ActionBarPopupWindow(autoDeletePopupWrapper.windowLayout, -2, -2) { // from class: org.telegram.ui.Components.ChatAvatarContainer.3
             @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow, android.widget.PopupWindow
             public void dismiss() {
                 super.dismiss();
@@ -468,30 +469,31 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         if (i3 != -1 && i3 != size && i3 > size) {
             fadeOutToLessWidth(i3);
         }
-        if (this.titleTextLargerCopyView != null) {
-            this.titleTextLargerCopyView.measure(View.MeasureSpec.makeMeasureSpec(this.largerWidth - AndroidUtilities.dp((this.avatarImageView.getVisibility() != 0 ? 0 : 54) + 16), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(24.0f), Integer.MIN_VALUE));
+        SimpleTextView simpleTextView = this.titleTextLargerCopyView.get();
+        if (simpleTextView != null) {
+            simpleTextView.measure(View.MeasureSpec.makeMeasureSpec(this.largerWidth - AndroidUtilities.dp((this.avatarImageView.getVisibility() != 0 ? 0 : 54) + 16), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(24.0f), Integer.MIN_VALUE));
         }
         this.lastWidth = size;
     }
 
     private void fadeOutToLessWidth(int i) {
         this.largerWidth = i;
-        SimpleTextView simpleTextView = this.titleTextLargerCopyView;
-        if (simpleTextView != null) {
-            removeView(simpleTextView);
+        View view = (SimpleTextView) this.titleTextLargerCopyView.get();
+        if (view != null) {
+            removeView(view);
         }
-        SimpleTextView simpleTextView2 = new SimpleTextView(getContext());
-        this.titleTextLargerCopyView = simpleTextView2;
-        simpleTextView2.setTextColor(getThemedColor("actionBarDefaultTitle"));
-        this.titleTextLargerCopyView.setTextSize(18);
-        this.titleTextLargerCopyView.setGravity(3);
-        this.titleTextLargerCopyView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        this.titleTextLargerCopyView.setLeftDrawableTopPadding(-AndroidUtilities.dp(1.3f));
-        this.titleTextLargerCopyView.setRightDrawable(this.titleTextView.getRightDrawable());
-        this.titleTextLargerCopyView.setRightDrawableOutside(this.titleTextView.getRightDrawableOutside());
-        this.titleTextLargerCopyView.setLeftDrawable(this.titleTextView.getLeftDrawable());
-        this.titleTextLargerCopyView.setText(this.titleTextView.getText());
-        ViewPropertyAnimator duration = this.titleTextLargerCopyView.animate().alpha(0.0f).setDuration(350L);
+        SimpleTextView simpleTextView = new SimpleTextView(getContext());
+        this.titleTextLargerCopyView.set(simpleTextView);
+        simpleTextView.setTextColor(getThemedColor("actionBarDefaultTitle"));
+        simpleTextView.setTextSize(18);
+        simpleTextView.setGravity(3);
+        simpleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        simpleTextView.setLeftDrawableTopPadding(-AndroidUtilities.dp(1.3f));
+        simpleTextView.setRightDrawable(this.titleTextView.getRightDrawable());
+        simpleTextView.setRightDrawableOutside(this.titleTextView.getRightDrawableOutside());
+        simpleTextView.setLeftDrawable(this.titleTextView.getLeftDrawable());
+        simpleTextView.setText(this.titleTextView.getText());
+        ViewPropertyAnimator duration = simpleTextView.animate().alpha(0.0f).setDuration(350L);
         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
         duration.setInterpolator(cubicBezierInterpolator).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
@@ -499,39 +501,43 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                 ChatAvatarContainer.this.lambda$fadeOutToLessWidth$3();
             }
         }).start();
-        addView(this.titleTextLargerCopyView);
-        SimpleTextView simpleTextView3 = new SimpleTextView(getContext());
-        this.subtitleTextLargerCopyView = simpleTextView3;
-        simpleTextView3.setTextColor(getThemedColor("actionBarDefaultSubtitle"));
-        this.subtitleTextLargerCopyView.setTag("actionBarDefaultSubtitle");
-        this.subtitleTextLargerCopyView.setTextSize(14);
-        this.subtitleTextLargerCopyView.setGravity(3);
-        this.subtitleTextLargerCopyView.setText(this.subtitleTextView.getText());
-        this.subtitleTextLargerCopyView.animate().alpha(0.0f).setDuration(350L).setInterpolator(cubicBezierInterpolator).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda4
+        addView(simpleTextView);
+        View view2 = (SimpleTextView) this.subtitleTextLargerCopyView.get();
+        if (view2 != null) {
+            removeView(view2);
+        }
+        SimpleTextView simpleTextView2 = new SimpleTextView(getContext());
+        this.subtitleTextLargerCopyView.set(simpleTextView2);
+        simpleTextView2.setTextColor(getThemedColor("actionBarDefaultSubtitle"));
+        simpleTextView2.setTag("actionBarDefaultSubtitle");
+        simpleTextView2.setTextSize(14);
+        simpleTextView2.setGravity(3);
+        simpleTextView2.setText(this.subtitleTextView.getText());
+        simpleTextView2.animate().alpha(0.0f).setDuration(350L).setInterpolator(cubicBezierInterpolator).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 ChatAvatarContainer.this.lambda$fadeOutToLessWidth$4();
             }
         }).start();
-        addView(this.subtitleTextLargerCopyView);
+        addView(simpleTextView2);
         setClipChildren(false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$fadeOutToLessWidth$3() {
-        SimpleTextView simpleTextView = this.titleTextLargerCopyView;
+        SimpleTextView simpleTextView = this.titleTextLargerCopyView.get();
         if (simpleTextView != null) {
             removeView(simpleTextView);
-            this.titleTextLargerCopyView = null;
+            this.titleTextLargerCopyView.set(null);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$fadeOutToLessWidth$4() {
-        SimpleTextView simpleTextView = this.subtitleTextLargerCopyView;
+        SimpleTextView simpleTextView = this.subtitleTextLargerCopyView.get();
         if (simpleTextView != null) {
             removeView(simpleTextView);
-            this.subtitleTextLargerCopyView = null;
+            this.subtitleTextLargerCopyView.set(null);
             setClipChildren(true);
         }
     }
@@ -544,17 +550,16 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         int i6 = currentActionBarHeight + 1;
         backupImageView.layout(i5, i6, AndroidUtilities.dp(42.0f) + i5, AndroidUtilities.dp(42.0f) + i6);
         int dp = this.leftPadding + (this.avatarImageView.getVisibility() == 0 ? AndroidUtilities.dp(54.0f) : 0);
+        SimpleTextView simpleTextView = this.titleTextLargerCopyView.get();
         if (this.subtitleTextView.getVisibility() != 8) {
             this.titleTextView.layout(dp, (AndroidUtilities.dp(1.3f) + currentActionBarHeight) - this.titleTextView.getPaddingTop(), this.titleTextView.getMeasuredWidth() + dp, (((this.titleTextView.getTextHeight() + currentActionBarHeight) + AndroidUtilities.dp(1.3f)) - this.titleTextView.getPaddingTop()) + this.titleTextView.getPaddingBottom());
-            SimpleTextView simpleTextView = this.titleTextLargerCopyView;
             if (simpleTextView != null) {
-                simpleTextView.layout(dp, AndroidUtilities.dp(1.3f) + currentActionBarHeight, this.titleTextLargerCopyView.getMeasuredWidth() + dp, this.titleTextLargerCopyView.getTextHeight() + currentActionBarHeight + AndroidUtilities.dp(1.3f));
+                simpleTextView.layout(dp, AndroidUtilities.dp(1.3f) + currentActionBarHeight, simpleTextView.getMeasuredWidth() + dp, simpleTextView.getTextHeight() + currentActionBarHeight + AndroidUtilities.dp(1.3f));
             }
         } else {
             this.titleTextView.layout(dp, (AndroidUtilities.dp(11.0f) + currentActionBarHeight) - this.titleTextView.getPaddingTop(), this.titleTextView.getMeasuredWidth() + dp, (((this.titleTextView.getTextHeight() + currentActionBarHeight) + AndroidUtilities.dp(11.0f)) - this.titleTextView.getPaddingTop()) + this.titleTextView.getPaddingBottom());
-            SimpleTextView simpleTextView2 = this.titleTextLargerCopyView;
-            if (simpleTextView2 != null) {
-                simpleTextView2.layout(dp, AndroidUtilities.dp(11.0f) + currentActionBarHeight, this.titleTextLargerCopyView.getMeasuredWidth() + dp, this.titleTextLargerCopyView.getTextHeight() + currentActionBarHeight + AndroidUtilities.dp(11.0f));
+            if (simpleTextView != null) {
+                simpleTextView.layout(dp, AndroidUtilities.dp(11.0f) + currentActionBarHeight, simpleTextView.getMeasuredWidth() + dp, simpleTextView.getTextHeight() + currentActionBarHeight + AndroidUtilities.dp(11.0f));
             }
         }
         ImageView imageView = this.timeItem;
@@ -562,9 +567,9 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             imageView.layout(this.leftPadding + AndroidUtilities.dp(16.0f), AndroidUtilities.dp(15.0f) + currentActionBarHeight, this.leftPadding + AndroidUtilities.dp(50.0f), AndroidUtilities.dp(49.0f) + currentActionBarHeight);
         }
         this.subtitleTextView.layout(dp, AndroidUtilities.dp(24.0f) + currentActionBarHeight, this.subtitleTextView.getMeasuredWidth() + dp, this.subtitleTextView.getTextHeight() + currentActionBarHeight + AndroidUtilities.dp(24.0f));
-        SimpleTextView simpleTextView3 = this.subtitleTextLargerCopyView;
-        if (simpleTextView3 != null) {
-            simpleTextView3.layout(dp, AndroidUtilities.dp(24.0f) + currentActionBarHeight, this.subtitleTextLargerCopyView.getMeasuredWidth() + dp, currentActionBarHeight + this.subtitleTextLargerCopyView.getTextHeight() + AndroidUtilities.dp(24.0f));
+        SimpleTextView simpleTextView2 = this.subtitleTextLargerCopyView.get();
+        if (simpleTextView2 != null) {
+            simpleTextView2.layout(dp, AndroidUtilities.dp(24.0f) + currentActionBarHeight, simpleTextView2.getMeasuredWidth() + dp, currentActionBarHeight + simpleTextView2.getTextHeight() + AndroidUtilities.dp(24.0f));
         }
     }
 
@@ -596,7 +601,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         this.timeItem.clearAnimation();
         this.timeItem.setTag(null);
         if (z) {
-            this.timeItem.animate().setDuration(180L).alpha(0.0f).scaleX(0.0f).scaleY(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAvatarContainer.6
+            this.timeItem.animate().setDuration(180L).alpha(0.0f).scaleX(0.0f).scaleY(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAvatarContainer.4
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     ChatAvatarContainer.this.timeItem.setVisibility(8);
@@ -807,7 +812,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                     AnimatorSet animatorSet2 = new AnimatorSet();
                     this.titleAnimation = animatorSet2;
                     animatorSet2.playTogether(ObjectAnimator.ofFloat(this.titleTextView, View.TRANSLATION_Y, AndroidUtilities.dp(9.7f)), ObjectAnimator.ofFloat(this.subtitleTextView, View.ALPHA, 0.0f));
-                    this.titleAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAvatarContainer.7
+                    this.titleAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAvatarContainer.5
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationCancel(Animator animator) {
                             ChatAvatarContainer.this.titleAnimation = null;
@@ -916,7 +921,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                     AnimatorSet animatorSet4 = new AnimatorSet();
                     this.titleAnimation = animatorSet4;
                     animatorSet4.playTogether(ObjectAnimator.ofFloat(this.titleTextView, View.TRANSLATION_Y, 0.0f), ObjectAnimator.ofFloat(this.subtitleTextView, View.ALPHA, 1.0f));
-                    this.titleAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAvatarContainer.8
+                    this.titleAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAvatarContainer.6
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
                             ChatAvatarContainer.this.titleAnimation = null;

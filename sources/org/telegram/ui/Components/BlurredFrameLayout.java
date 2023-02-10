@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.FrameLayout;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.SharedConfig;
@@ -28,7 +29,6 @@ public class BlurredFrameLayout extends FrameLayout {
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
     public void dispatchDraw(Canvas canvas) {
-        SizeNotifierFrameLayout sizeNotifierFrameLayout;
         if (SharedConfig.chatBlurEnabled() && this.sizeNotifierFrameLayout != null && this.drawBlur && this.backgroundColor != 0) {
             if (this.backgroundPaint == null) {
                 this.backgroundPaint = new Paint();
@@ -38,14 +38,21 @@ public class BlurredFrameLayout extends FrameLayout {
             float f = 0.0f;
             View view = this;
             while (true) {
-                sizeNotifierFrameLayout = this.sizeNotifierFrameLayout;
-                if (view == sizeNotifierFrameLayout) {
+                SizeNotifierFrameLayout sizeNotifierFrameLayout = this.sizeNotifierFrameLayout;
+                if (view != sizeNotifierFrameLayout) {
+                    f += view.getY();
+                    ViewParent parent = view.getParent();
+                    if (parent instanceof View) {
+                        view = (View) parent;
+                    } else {
+                        super.dispatchDraw(canvas);
+                        return;
+                    }
+                } else {
+                    sizeNotifierFrameLayout.drawBlurRect(canvas, f, AndroidUtilities.rectTmp2, this.backgroundPaint, this.isTopView);
                     break;
                 }
-                f += view.getY();
-                view = (View) view.getParent();
             }
-            sizeNotifierFrameLayout.drawBlurRect(canvas, f, AndroidUtilities.rectTmp2, this.backgroundPaint, this.isTopView);
         }
         super.dispatchDraw(canvas);
     }

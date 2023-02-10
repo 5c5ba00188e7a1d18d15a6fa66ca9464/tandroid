@@ -85,7 +85,7 @@ public class DrawerActionCell extends FrameLayout {
         this.textView.setTextColor(Theme.getColor("chats_menuItemText"));
     }
 
-    public void setTextAndIcon(int i, String str, int i2, int i3) {
+    public void setTextAndIcon(int i, String str, final int i2, int i3) {
         this.currentId = i;
         try {
             this.textView.setText(str, false);
@@ -94,18 +94,28 @@ public class DrawerActionCell extends FrameLayout {
                 RLottieImageView rLottieImageView = this.lottieImageView;
                 this.currentLottieId = i3;
                 rLottieImageView.setAnimation(i3, 28, 28);
-                return;
+            } else {
+                post(new Runnable() { // from class: org.telegram.ui.Cells.DrawerActionCell$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        DrawerActionCell.this.lambda$setTextAndIcon$0(i2);
+                    }
+                });
+                this.lottieImageView.clearAnimationDrawable();
+                this.currentLottieId = 0;
             }
-            Drawable mutate = getResources().getDrawable(i2).mutate();
-            if (mutate != null) {
-                mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chats_menuItemIcon"), PorterDuff.Mode.MULTIPLY));
-            }
-            this.imageView.setImageDrawable(mutate);
-            this.lottieImageView.clearAnimationDrawable();
-            this.currentLottieId = 0;
         } catch (Throwable th) {
             FileLog.e(th);
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$setTextAndIcon$0(int i) {
+        Drawable mutate = getResources().getDrawable(i).mutate();
+        if (mutate != null) {
+            mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chats_menuItemIcon"), PorterDuff.Mode.MULTIPLY));
+        }
+        this.imageView.setImageDrawable(mutate);
     }
 
     public void updateText(String str) {
@@ -115,10 +125,10 @@ public class DrawerActionCell extends FrameLayout {
     public void updateIcon(final int i) {
         try {
             if (i != this.currentLottieId) {
-                this.lottieImageView.setOnAnimationEndListener(new Runnable() { // from class: org.telegram.ui.Cells.DrawerActionCell$$ExternalSyntheticLambda0
+                this.lottieImageView.setOnAnimationEndListener(new Runnable() { // from class: org.telegram.ui.Cells.DrawerActionCell$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
-                        DrawerActionCell.this.lambda$updateIcon$0(i);
+                        DrawerActionCell.this.lambda$updateIcon$1(i);
                     }
                 });
                 this.lottieImageView.playAnimation();
@@ -129,7 +139,7 @@ public class DrawerActionCell extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateIcon$0(int i) {
+    public /* synthetic */ void lambda$updateIcon$1(int i) {
         RLottieImageView rLottieImageView = this.lottieImageView;
         this.currentLottieId = i;
         rLottieImageView.setAnimation(i, 28, 28);

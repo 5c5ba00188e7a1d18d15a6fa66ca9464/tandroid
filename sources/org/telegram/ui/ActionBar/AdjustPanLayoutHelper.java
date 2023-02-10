@@ -294,7 +294,12 @@ public class AdjustPanLayoutHelper {
         this.enabled = true;
         this.useInsetsAnimator = z;
         this.parent = view;
-        onAttach();
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.AdjustPanLayoutHelper$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                AdjustPanLayoutHelper.this.onAttach();
+            }
+        });
     }
 
     public void onAttach() {

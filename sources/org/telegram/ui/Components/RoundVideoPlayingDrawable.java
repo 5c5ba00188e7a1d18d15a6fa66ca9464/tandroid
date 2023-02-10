@@ -12,7 +12,7 @@ import org.telegram.ui.ActionBar.Theme;
 public class RoundVideoPlayingDrawable extends Drawable {
     public float colorProgress;
     private View parentView;
-    private final Theme.ResourcesProvider resourcesProvider;
+    private Theme.ResourcesProvider resourcesProvider;
     public int timeColor;
     private long lastUpdateTime = 0;
     private boolean started = false;
@@ -37,6 +37,10 @@ public class RoundVideoPlayingDrawable extends Drawable {
     public RoundVideoPlayingDrawable(View view, Theme.ResourcesProvider resourcesProvider) {
         this.resourcesProvider = resourcesProvider;
         this.parentView = view;
+    }
+
+    public void setResourcesProvider(Theme.ResourcesProvider resourcesProvider) {
+        this.resourcesProvider = resourcesProvider;
     }
 
     private void update() {

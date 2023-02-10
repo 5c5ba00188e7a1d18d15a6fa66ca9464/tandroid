@@ -29,6 +29,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.GroupCallUserCell;
 /* loaded from: classes3.dex */
 public class AvatarsDrawable {
+    private boolean attached;
     boolean centered;
     public int count;
     int currentStyle;
@@ -638,17 +639,24 @@ public class AvatarsDrawable {
     }
 
     public void onDetachedFromWindow() {
-        this.wasDraw = false;
-        for (int i = 0; i < 3; i++) {
-            this.currentStates[i].imageReceiver.onDetachedFromWindow();
-            this.animatingStates[i].imageReceiver.onDetachedFromWindow();
-        }
-        if (this.currentStyle == 3) {
-            Theme.getFragmentContextViewWavesDrawable().setAmplitude(0.0f);
+        if (this.attached) {
+            this.attached = false;
+            this.wasDraw = false;
+            for (int i = 0; i < 3; i++) {
+                this.currentStates[i].imageReceiver.onDetachedFromWindow();
+                this.animatingStates[i].imageReceiver.onDetachedFromWindow();
+            }
+            if (this.currentStyle == 3) {
+                Theme.getFragmentContextViewWavesDrawable().setAmplitude(0.0f);
+            }
         }
     }
 
     public void onAttachedToWindow() {
+        if (this.attached) {
+            return;
+        }
+        this.attached = true;
         for (int i = 0; i < 3; i++) {
             this.currentStates[i].imageReceiver.onAttachedToWindow();
             this.animatingStates[i].imageReceiver.onAttachedToWindow();
