@@ -4458,13 +4458,17 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$generateWaveform$29(String str, final String str2, final MessageObject messageObject) {
-        final byte[] waveform = getWaveform(str);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda29
-            @Override // java.lang.Runnable
-            public final void run() {
-                MediaController.this.lambda$generateWaveform$28(str2, waveform, messageObject);
-            }
-        });
+        try {
+            final byte[] waveform = getWaveform(str);
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda29
+                @Override // java.lang.Runnable
+                public final void run() {
+                    MediaController.this.lambda$generateWaveform$28(str2, waveform, messageObject);
+                }
+            });
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

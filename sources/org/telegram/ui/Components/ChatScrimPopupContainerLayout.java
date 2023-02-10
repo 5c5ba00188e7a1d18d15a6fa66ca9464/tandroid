@@ -10,6 +10,7 @@ import org.telegram.ui.Components.PopupSwipeBackLayout;
 /* loaded from: classes3.dex */
 public class ChatScrimPopupContainerLayout extends LinearLayout {
     private View bottomView;
+    private float bottomViewReactionsOffset;
     private float bottomViewYOffset;
     private float expandSize;
     private int maxHeight;
@@ -164,7 +165,7 @@ public class ChatScrimPopupContainerLayout extends LinearLayout {
     private void updateBottomViewPosition() {
         View view = this.bottomView;
         if (view != null) {
-            view.setTranslationY(this.bottomViewYOffset + this.expandSize);
+            view.setTranslationY(this.bottomViewYOffset + this.expandSize + this.bottomViewReactionsOffset);
         }
     }
 
@@ -186,7 +187,19 @@ public class ChatScrimPopupContainerLayout extends LinearLayout {
         }
     }
 
-    public ActionBarPopupWindow.ActionBarPopupWindowLayout getPopupWindowLayout() {
-        return this.popupWindowLayout;
+    public void setReactionsTransitionProgress(float f) {
+        this.popupWindowLayout.setReactionsTransitionProgress(f);
+        View view = this.bottomView;
+        if (view != null) {
+            view.setAlpha(f);
+            float f2 = (f * 0.5f) + 0.5f;
+            View view2 = this.bottomView;
+            view2.setPivotX(view2.getMeasuredWidth());
+            this.bottomView.setPivotY(0.0f);
+            this.bottomViewReactionsOffset = (-this.popupWindowLayout.getMeasuredHeight()) * (1.0f - f);
+            updateBottomViewPosition();
+            this.bottomView.setScaleX(f2);
+            this.bottomView.setScaleY(f2);
+        }
     }
 }

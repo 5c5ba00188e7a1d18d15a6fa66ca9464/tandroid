@@ -24,6 +24,7 @@ import android.os.Process;
 import android.os.SystemClock;
 import android.service.media.MediaBrowserService;
 import android.text.TextUtils;
+import android.widget.Toast;
 import androidx.collection.LongSparseArray;
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -105,7 +106,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
 
     @Override // android.service.media.MediaBrowserService
     public MediaBrowserService.BrowserRoot onGetRoot(String str, int i, Bundle bundle) {
-        if (str == null || !(1000 == i || Process.myUid() == i || str.equals("com.google.android.mediasimulator") || str.equals("com.google.android.projection.gearhead"))) {
+        if (str == null || (!(1000 == i || Process.myUid() == i || str.equals("com.google.android.mediasimulator") || str.equals("com.google.android.projection.gearhead")) || passcode())) {
             return null;
         }
         return new MediaBrowserService.BrowserRoot(MEDIA_ID_ROOT, null);
@@ -113,7 +114,11 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
 
     @Override // android.service.media.MediaBrowserService
     public void onLoadChildren(final String str, final MediaBrowserService.Result<List<MediaBrowser.MediaItem>> result) {
-        if (!this.chatsLoaded) {
+        if (passcode()) {
+            Toast.makeText(getApplicationContext(), LocaleController.getString(R.string.EnterYourTelegramPasscode), 1).show();
+            stopSelf();
+            result.detach();
+        } else if (!this.chatsLoaded) {
             result.detach();
             if (this.loadingChats) {
                 return;
@@ -126,9 +131,9 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
                     MusicBrowserService.this.lambda$onLoadChildren$1(messagesStorage, str, result);
                 }
             });
-            return;
+        } else {
+            loadChildrenImpl(str, result);
         }
-        loadChildrenImpl(str, result);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -247,6 +252,12 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
             }
         }
         updatePlaybackState(null);
+    }
+
+    private static boolean passcode() {
+        int i;
+        int elapsedRealtime = (int) (SystemClock.elapsedRealtime() / 1000);
+        return SharedConfig.passcodeHash.length() > 0 && (SharedConfig.appLocked || (!(SharedConfig.autoLockIn == 0 || (i = SharedConfig.lastPauseTime) == 0 || i + SharedConfig.autoLockIn > elapsedRealtime) || elapsedRealtime + 5 < SharedConfig.lastPauseTime));
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:13:0x0060, code lost:

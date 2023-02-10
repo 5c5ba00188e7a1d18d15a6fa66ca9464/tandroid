@@ -1788,7 +1788,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                 canvas.clipOutRect(rect3);
             }
         } else {
-            if (z) {
+            if (z && !staticLayout.isRtlCharAt(i)) {
                 Rect rect4 = AndroidUtilities.rectTmp2;
                 rect4.set((int) primaryHorizontal2, (int) (lineBottom - f2), (int) Math.min(primaryHorizontal2 + f2, staticLayout.getLineRight(lineForOffset)), (int) lineBottom);
                 RectF rectF3 = AndroidUtilities.rectTmp;
@@ -1799,7 +1799,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                     canvas.clipOutRect(rect4);
                 }
             }
-            if (z2) {
+            if (z2 && !staticLayout.isRtlCharAt(i2)) {
                 Rect rect5 = AndroidUtilities.rectTmp2;
                 rect5.set((int) Math.max(primaryHorizontal3 - f2, staticLayout.getLineLeft(lineForOffset2)), (int) (lineBottom2 - f2), (int) primaryHorizontal3, (int) lineBottom2);
                 RectF rectF4 = AndroidUtilities.rectTmp;

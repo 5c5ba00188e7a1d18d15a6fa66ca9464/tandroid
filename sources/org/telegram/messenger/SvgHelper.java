@@ -500,6 +500,20 @@ public class SvgHelper {
         }
     }
 
+    public static SvgDrawable getDrawableByPath(Path path, int i, int i2) {
+        try {
+            SvgDrawable svgDrawable = new SvgDrawable();
+            svgDrawable.commands.add(path);
+            svgDrawable.paints.put(path, new Paint(1));
+            svgDrawable.width = i;
+            svgDrawable.height = i2;
+            return svgDrawable;
+        } catch (Exception e) {
+            FileLog.e(e);
+            return null;
+        }
+    }
+
     public static Bitmap getBitmapByPathOnly(String str, int i, int i2, int i3, int i4) {
         try {
             Path doPath = doPath(str);
@@ -662,7 +676,6 @@ public class SvgHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Code restructure failed: missing block: B:34:0x0064, code lost:
         if (r4 != 'V') goto L9;
      */

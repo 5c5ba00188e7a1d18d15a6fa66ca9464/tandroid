@@ -504,7 +504,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         return this.document;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:115:0x02fa  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x0339  */
     /* JADX WARN: Removed duplicated region for block: B:88:0x01c8  */
     /* JADX WARN: Removed duplicated region for block: B:91:0x01ce  */
     /* JADX WARN: Removed duplicated region for block: B:92:0x01fd  */
@@ -611,17 +611,20 @@ public class AnimatedEmojiDrawable extends Drawable {
                         ImageReceiver imageReceiver2 = this.imageReceiver;
                         TLRPC$Document tLRPC$Document = this.document;
                         imageReceiver2.setImage(null, null, imageLocation2, str2, null, null, svgDrawable, tLRPC$Document.size, null, tLRPC$Document, 1);
-                    } else if (SharedConfig.getLiteMode().enabled() && this.cacheType != 14) {
+                    } else if (!SharedConfig.getLiteMode().animatedEmojiEnabled() && this.cacheType != 14) {
                         if ("video/webm".equals(this.document.mime_type)) {
                             TLRPC$Document tLRPC$Document2 = this.document;
                             this.imageReceiver.setImage(null, null, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, svgDrawable, tLRPC$Document2.size, null, tLRPC$Document2, 1);
-                        } else {
+                        } else if (MessageObject.isAnimatedStickerDocument(this.document, true)) {
                             TLRPC$Document tLRPC$Document3 = this.document;
                             this.imageReceiver.setImage(imageLocation2, str2 + "_firstframe", null, null, svgDrawable, tLRPC$Document3.size, null, tLRPC$Document3, 1);
+                        } else {
+                            TLRPC$Document tLRPC$Document4 = this.document;
+                            this.imageReceiver.setImage(ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, svgDrawable, tLRPC$Document4.size, null, tLRPC$Document4, 1);
                         }
                     } else {
-                        TLRPC$Document tLRPC$Document4 = this.document;
-                        this.imageReceiver.setImage(imageLocation2, str2, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, svgDrawable, tLRPC$Document4.size, null, tLRPC$Document4, 1);
+                        TLRPC$Document tLRPC$Document5 = this.document;
+                        this.imageReceiver.setImage(imageLocation2, str2, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, svgDrawable, tLRPC$Document5.size, null, tLRPC$Document5, 1);
                     }
                     updateAutoRepeat(this.imageReceiver);
                     i = this.cacheType;

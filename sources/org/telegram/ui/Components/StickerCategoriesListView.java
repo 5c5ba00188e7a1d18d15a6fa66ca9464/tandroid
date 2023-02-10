@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import org.telegram.SQLite.SQLiteCursor;
@@ -100,7 +101,11 @@ public class StickerCategoriesListView extends RecyclerListView {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$preload$0(int i, TLRPC$TL_messages_emojiGroups tLRPC$TL_messages_emojiGroups) {
-        Iterator<TLRPC$TL_emojiGroup> it = tLRPC$TL_messages_emojiGroups.groups.iterator();
+        ArrayList<TLRPC$TL_emojiGroup> arrayList = tLRPC$TL_messages_emojiGroups.groups;
+        if (arrayList == null) {
+            return;
+        }
+        Iterator<TLRPC$TL_emojiGroup> it = arrayList.iterator();
         while (it.hasNext()) {
             AnimatedEmojiDrawable.getDocumentFetcher(i).fetchDocument(it.next().icon_emoji_id, null);
         }

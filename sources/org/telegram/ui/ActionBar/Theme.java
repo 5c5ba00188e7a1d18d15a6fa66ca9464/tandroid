@@ -9821,7 +9821,7 @@ public class Theme {
             drawable = drawable2;
         }
         boolean z2 = drawable instanceof MotionBackgroundDrawable;
-        if ((!z2 || SharedConfig.getDevicePerformanceClass() == 0 || SharedConfig.getLiteMode().enabled()) ? false : false) {
+        if ((z2 && SharedConfig.getDevicePerformanceClass() != 0 && SharedConfig.getLiteMode().animatedBackgroundEnabled()) ? false : false) {
             Bitmap bitmap = ((MotionBackgroundDrawable) drawable).getBitmap();
             if (serviceBitmap != bitmap) {
                 serviceBitmap = bitmap;
@@ -10668,7 +10668,7 @@ public class Theme {
             if (backgroundDrawableSettings.wallpaper == null) {
             }
         }
-        if (SharedConfig.getLiteMode().enabled()) {
+        if (!SharedConfig.getLiteMode().animatedEmojiEnabled()) {
             Drawable drawable = backgroundDrawableSettings.wallpaper;
             if (drawable instanceof MotionBackgroundDrawable) {
                 MotionBackgroundDrawable motionBackgroundDrawable4 = (MotionBackgroundDrawable) drawable;

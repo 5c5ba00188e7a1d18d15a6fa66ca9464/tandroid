@@ -63,7 +63,6 @@ import org.telegram.tgnet.TLRPC$TL_chatReactionsSome;
 import org.telegram.tgnet.TLRPC$TL_messageReactions;
 import org.telegram.tgnet.TLRPC$TL_reactionCustomEmoji;
 import org.telegram.tgnet.TLRPC$TL_reactionEmoji;
-import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -1083,12 +1082,11 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     public void setTransitionProgress(float f) {
         this.transitionProgress = f;
         ChatScrimPopupContainerLayout chatScrimPopupContainerLayout = this.parentLayout;
-        if (chatScrimPopupContainerLayout != null && chatScrimPopupContainerLayout.getPopupWindowLayout() != null) {
-            ActionBarPopupWindow.ActionBarPopupWindowLayout popupWindowLayout = this.parentLayout.getPopupWindowLayout();
+        if (chatScrimPopupContainerLayout != null) {
             if (!this.animatePopup) {
                 f = 1.0f;
             }
-            popupWindowLayout.setReactionsTransitionProgress(f);
+            chatScrimPopupContainerLayout.setReactionsTransitionProgress(f);
         }
         invalidate();
     }
@@ -1537,7 +1535,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             resetAnimation();
             this.currentReaction = visibleReaction;
             this.selected = ReactionsContainerLayout.this.selectedReactions.contains(visibleReaction);
-            this.hasEnterAnimation = this.currentReaction.emojicon != null && (!ReactionsContainerLayout.this.showCustomEmojiReaction() || ReactionsContainerLayout.this.allReactionsIsDefault) && !SharedConfig.getLiteMode().enabled();
+            this.hasEnterAnimation = this.currentReaction.emojicon != null && (!ReactionsContainerLayout.this.showCustomEmojiReaction() || ReactionsContainerLayout.this.allReactionsIsDefault) && SharedConfig.getLiteMode().animatedEmojiEnabled();
             if (this.currentReaction.emojicon != null) {
                 updateImage(visibleReaction);
                 this.pressedBackupImageView.setAnimatedEmojiDrawable(null);
@@ -1596,7 +1594,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 return;
             }
             SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.activate_animation, "windowBackgroundGray", 1.0f);
-            if (SharedConfig.getLiteMode().enabled()) {
+            if (!SharedConfig.getLiteMode().animatedEmojiEnabled()) {
                 this.enterImageView.getImageReceiver().clearImage();
                 this.loopImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_firstframe", null, null, this.hasEnterAnimation ? null : svgThumb, 0L, "tgs", this.currentReaction, 0);
             } else {

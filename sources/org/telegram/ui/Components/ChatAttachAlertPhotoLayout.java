@@ -1096,22 +1096,18 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x0227  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0230  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x0234 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0235  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public /* synthetic */ void lambda$new$2(AvatarConstructorFragment.BackgroundGradient backgroundGradient, long j, TLRPC$Document tLRPC$Document, AvatarConstructorFragment.PreviewView previewView) {
         MediaController.PhotoEntry photoEntry;
-        int i;
-        TLRPC$Document findDocument;
         selectedPhotos.clear();
         Bitmap createBitmap = Bitmap.createBitmap(800, 800, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(createBitmap);
         GradientTools gradientTools = new GradientTools();
-        gradientTools.setColors(backgroundGradient.color1, backgroundGradient.color2, backgroundGradient.color3, backgroundGradient.color4);
+        if (backgroundGradient != null) {
+            gradientTools.setColors(backgroundGradient.color1, backgroundGradient.color2, backgroundGradient.color3, backgroundGradient.color4);
+        } else {
+            int[][] iArr = AvatarConstructorFragment.defaultColors;
+            gradientTools.setColors(iArr[0][0], iArr[0][1], iArr[0][2], iArr[0][3]);
+        }
         gradientTools.setBounds(0.0f, 0.0f, 800.0f, 800.0f);
         canvas.drawRect(0.0f, 0.0f, 800.0f, 800.0f, gradientTools.paint);
         File file = new File(FileLoader.getDirectory(4), SharedConfig.getLastLocalId() + "avatar_background.png");
@@ -1127,15 +1123,15 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         } catch (IOException e) {
             e.printStackTrace();
         }
-        int i2 = (int) 120.00001f;
-        int i3 = (int) 560.0f;
+        int i = (int) 120.00001f;
+        int i2 = (int) 560.0f;
         ImageReceiver imageReceiver = previewView.getImageReceiver();
         if (imageReceiver.getAnimation() != null) {
             Bitmap firstFrame = imageReceiver.getAnimation().getFirstFrame(null);
             ImageReceiver imageReceiver2 = new ImageReceiver();
             imageReceiver2.setImageBitmap(firstFrame);
-            float f = i2;
-            float f2 = i3;
+            float f = i;
+            float f2 = i2;
             imageReceiver2.setImageCoords(f, f, f2, f2);
             imageReceiver2.setRoundRadius((int) (f2 * 0.13f));
             imageReceiver2.draw(canvas);
@@ -1145,8 +1141,8 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             if (imageReceiver.getLottieAnimation() != null) {
                 imageReceiver.getLottieAnimation().setCurrentFrame(0, false, true);
             }
-            float f3 = i2;
-            float f4 = i3;
+            float f3 = i;
+            float f4 = i2;
             imageReceiver.setImageCoords(f3, f3, f4, f4);
             imageReceiver.setRoundRadius((int) (f4 * 0.13f));
             imageReceiver.draw(canvas);
@@ -1171,109 +1167,80 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 TLRPC$TL_videoSizeEmojiMarkup tLRPC$TL_videoSizeEmojiMarkup = new TLRPC$TL_videoSizeEmojiMarkup();
                 tLRPC$TL_videoSizeEmojiMarkup.emoji_id = previewView.documentId;
                 tLRPC$TL_videoSizeEmojiMarkup.background_colors.add(Integer.valueOf(previewView.backgroundGradient.color1));
-                int i4 = previewView.backgroundGradient.color2;
+                int i3 = previewView.backgroundGradient.color2;
+                if (i3 != 0) {
+                    tLRPC$TL_videoSizeEmojiMarkup.background_colors.add(Integer.valueOf(i3));
+                }
+                int i4 = previewView.backgroundGradient.color3;
                 if (i4 != 0) {
                     tLRPC$TL_videoSizeEmojiMarkup.background_colors.add(Integer.valueOf(i4));
                 }
-                int i5 = previewView.backgroundGradient.color3;
+                int i5 = previewView.backgroundGradient.color4;
                 if (i5 != 0) {
                     tLRPC$TL_videoSizeEmojiMarkup.background_colors.add(Integer.valueOf(i5));
-                }
-                int i6 = previewView.backgroundGradient.color4;
-                if (i6 != 0) {
-                    tLRPC$TL_videoSizeEmojiMarkup.background_colors.add(Integer.valueOf(i6));
                 }
                 photoEntry.emojiMarkup = tLRPC$TL_videoSizeEmojiMarkup;
             } else if (previewView.document != null) {
                 TLRPC$TL_videoSizeStickerMarkup tLRPC$TL_videoSizeStickerMarkup = new TLRPC$TL_videoSizeStickerMarkup();
                 TLRPC$Document tLRPC$Document2 = previewView.document;
-                i = i3;
                 tLRPC$TL_videoSizeStickerMarkup.sticker_id = tLRPC$Document2.id;
                 tLRPC$TL_videoSizeStickerMarkup.stickerset = MessageObject.getInputStickerSet(tLRPC$Document2);
                 tLRPC$TL_videoSizeStickerMarkup.background_colors.add(Integer.valueOf(previewView.backgroundGradient.color1));
-                int i7 = previewView.backgroundGradient.color2;
+                int i6 = previewView.backgroundGradient.color2;
+                if (i6 != 0) {
+                    tLRPC$TL_videoSizeStickerMarkup.background_colors.add(Integer.valueOf(i6));
+                }
+                int i7 = previewView.backgroundGradient.color3;
                 if (i7 != 0) {
                     tLRPC$TL_videoSizeStickerMarkup.background_colors.add(Integer.valueOf(i7));
                 }
-                int i8 = previewView.backgroundGradient.color3;
+                int i8 = previewView.backgroundGradient.color4;
                 if (i8 != 0) {
                     tLRPC$TL_videoSizeStickerMarkup.background_colors.add(Integer.valueOf(i8));
                 }
-                int i9 = previewView.backgroundGradient.color4;
-                if (i9 != 0) {
-                    tLRPC$TL_videoSizeStickerMarkup.background_colors.add(Integer.valueOf(i9));
-                }
                 photoEntry.emojiMarkup = tLRPC$TL_videoSizeStickerMarkup;
-                VideoEditedInfo videoEditedInfo = new VideoEditedInfo();
-                photoEntry.editedInfo = videoEditedInfo;
-                videoEditedInfo.originalPath = file.getPath();
-                VideoEditedInfo videoEditedInfo2 = photoEntry.editedInfo;
-                videoEditedInfo2.resultWidth = 800;
-                videoEditedInfo2.resultHeight = 800;
-                videoEditedInfo2.originalWidth = 800;
-                videoEditedInfo2.originalHeight = 800;
-                videoEditedInfo2.isPhoto = true;
-                videoEditedInfo2.bitrate = -1;
-                videoEditedInfo2.muted = true;
-                videoEditedInfo2.startTime = 0L;
-                videoEditedInfo2.start = (float) 0;
-                videoEditedInfo2.endTime = previewView.getDuration();
-                VideoEditedInfo videoEditedInfo3 = photoEntry.editedInfo;
-                videoEditedInfo3.framerate = 30;
-                videoEditedInfo3.avatarStartTime = 0L;
-                long j2 = videoEditedInfo3.endTime;
-                videoEditedInfo3.estimatedSize = (int) ((((float) j2) / 1000.0f) * 115200.0f);
-                videoEditedInfo3.estimatedDuration = j2;
-                VideoEditedInfo.MediaEntity mediaEntity = new VideoEditedInfo.MediaEntity();
-                mediaEntity.type = (byte) 0;
-                findDocument = tLRPC$Document != null ? AnimatedEmojiDrawable.findDocument(UserConfig.selectedAccount, j) : tLRPC$Document;
-                if (findDocument != null) {
-                    return;
-                }
-                int i10 = i;
-                mediaEntity.viewWidth = i10;
-                mediaEntity.viewHeight = i10;
-                mediaEntity.width = 0.7f;
-                mediaEntity.height = 0.7f;
-                mediaEntity.x = 0.15f;
-                mediaEntity.y = 0.15f;
-                mediaEntity.document = findDocument;
-                mediaEntity.parentObject = null;
-                mediaEntity.text = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(findDocument, true).getAbsolutePath();
-                mediaEntity.roundRadius = 0.13f;
-                if (MessageObject.isAnimatedStickerDocument(findDocument, true) || MessageObject.isVideoStickerDocument(findDocument)) {
-                    mediaEntity.subType = (byte) (mediaEntity.subType | (MessageObject.isAnimatedStickerDocument(findDocument, true) ? (byte) 1 : (byte) 4));
-                }
-                photoEntry.editedInfo.mediaEntities = new ArrayList<>();
-                photoEntry.editedInfo.mediaEntities.add(mediaEntity);
             }
-            i = i3;
-            VideoEditedInfo videoEditedInfo4 = new VideoEditedInfo();
-            photoEntry.editedInfo = videoEditedInfo4;
-            videoEditedInfo4.originalPath = file.getPath();
-            VideoEditedInfo videoEditedInfo22 = photoEntry.editedInfo;
-            videoEditedInfo22.resultWidth = 800;
-            videoEditedInfo22.resultHeight = 800;
-            videoEditedInfo22.originalWidth = 800;
-            videoEditedInfo22.originalHeight = 800;
-            videoEditedInfo22.isPhoto = true;
-            videoEditedInfo22.bitrate = -1;
-            videoEditedInfo22.muted = true;
-            videoEditedInfo22.startTime = 0L;
-            videoEditedInfo22.start = (float) 0;
-            videoEditedInfo22.endTime = previewView.getDuration();
-            VideoEditedInfo videoEditedInfo32 = photoEntry.editedInfo;
-            videoEditedInfo32.framerate = 30;
-            videoEditedInfo32.avatarStartTime = 0L;
-            long j22 = videoEditedInfo32.endTime;
-            videoEditedInfo32.estimatedSize = (int) ((((float) j22) / 1000.0f) * 115200.0f);
-            videoEditedInfo32.estimatedDuration = j22;
-            VideoEditedInfo.MediaEntity mediaEntity2 = new VideoEditedInfo.MediaEntity();
-            mediaEntity2.type = (byte) 0;
-            if (tLRPC$Document != null) {
+            VideoEditedInfo videoEditedInfo = new VideoEditedInfo();
+            photoEntry.editedInfo = videoEditedInfo;
+            videoEditedInfo.originalPath = file.getPath();
+            VideoEditedInfo videoEditedInfo2 = photoEntry.editedInfo;
+            videoEditedInfo2.resultWidth = 800;
+            videoEditedInfo2.resultHeight = 800;
+            videoEditedInfo2.originalWidth = 800;
+            videoEditedInfo2.originalHeight = 800;
+            videoEditedInfo2.isPhoto = true;
+            videoEditedInfo2.bitrate = -1;
+            videoEditedInfo2.muted = true;
+            videoEditedInfo2.startTime = 0L;
+            videoEditedInfo2.start = (float) 0;
+            videoEditedInfo2.endTime = previewView.getDuration();
+            VideoEditedInfo videoEditedInfo3 = photoEntry.editedInfo;
+            videoEditedInfo3.framerate = 30;
+            videoEditedInfo3.avatarStartTime = 0L;
+            long j2 = videoEditedInfo3.endTime;
+            videoEditedInfo3.estimatedSize = (int) ((((float) j2) / 1000.0f) * 115200.0f);
+            videoEditedInfo3.estimatedDuration = j2;
+            VideoEditedInfo.MediaEntity mediaEntity = new VideoEditedInfo.MediaEntity();
+            mediaEntity.type = (byte) 0;
+            TLRPC$Document findDocument = tLRPC$Document == null ? AnimatedEmojiDrawable.findDocument(UserConfig.selectedAccount, j) : tLRPC$Document;
+            if (findDocument == null) {
+                return;
             }
-            if (findDocument != null) {
+            mediaEntity.viewWidth = i2;
+            mediaEntity.viewHeight = i2;
+            mediaEntity.width = 0.7f;
+            mediaEntity.height = 0.7f;
+            mediaEntity.x = 0.15f;
+            mediaEntity.y = 0.15f;
+            mediaEntity.document = findDocument;
+            mediaEntity.parentObject = null;
+            mediaEntity.text = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(findDocument, true).getAbsolutePath();
+            mediaEntity.roundRadius = 0.13f;
+            if (MessageObject.isAnimatedStickerDocument(findDocument, true) || MessageObject.isVideoStickerDocument(findDocument)) {
+                mediaEntity.subType = (byte) (mediaEntity.subType | (MessageObject.isAnimatedStickerDocument(findDocument, true) ? (byte) 1 : (byte) 4));
             }
+            photoEntry.editedInfo.mediaEntities = new ArrayList<>();
+            photoEntry.editedInfo.mediaEntities.add(mediaEntity);
         } else {
             photoEntry = new MediaController.PhotoEntry(0, 0, 0L, file2.getPath(), 0, false, 0, 0, 0L);
         }
@@ -2194,7 +2161,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             View childAt = this.gridView.getChildAt(i2);
             if (childAt.getTop() < this.gridView.getMeasuredHeight() - this.parentAlert.getClipLayoutBottom() && (childAt instanceof PhotoAttachPhotoCell)) {
                 PhotoAttachPhotoCell photoAttachPhotoCell = (PhotoAttachPhotoCell) childAt;
-                if (((Integer) photoAttachPhotoCell.getImageView().getTag()).intValue() == i) {
+                if (photoAttachPhotoCell.getImageView().getTag() != null && ((Integer) photoAttachPhotoCell.getImageView().getTag()).intValue() == i) {
                     return photoAttachPhotoCell;
                 }
             }

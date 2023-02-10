@@ -69,7 +69,7 @@ public class DocumentObject {
                 i2 = tLRPC$PhotoSize.h;
             }
             if (tLRPC$TL_photoPathSize != null && i != 0 && i2 != 0) {
-                SvgHelper.SvgDrawable drawableByPath = SvgHelper.getDrawableByPath(SvgHelper.decompress(tLRPC$TL_photoPathSize.bytes), i, i2);
+                SvgHelper.SvgDrawable drawableByPath = SvgHelper.getDrawableByPath(tLRPC$TL_photoPathSize.svgPath, i, i2);
                 if (drawableByPath != null) {
                     drawableByPath.setupGradient(str, f, false);
                 }

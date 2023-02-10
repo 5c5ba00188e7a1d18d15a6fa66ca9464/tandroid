@@ -679,6 +679,7 @@
     <string name="AudioAutodownload">Voice messages</string>
     <string name="AudioSavedHint">File saved to music</string>
     <string name="AudioSpeedFast">Audio will play two times faster.</string>
+    <string name="AudioSpeedMedium">Audio will play at 1.5x speed.</string>
     <string name="AudioSpeedNormal">Audio will play at normal speed.</string>
     <string name="AudioTitle">Shared Music</string>
     <string name="AudioUnknownArtist">Unknown artist</string>
@@ -5107,8 +5108,10 @@
     <string name="SpeakingWithVolume">%1$d%% speaking</string>
     <string name="Speed">Speed</string>
     <string name="SpeedFast">Fast</string>
+    <string name="SpeedMedium">Medium</string>
     <string name="SpeedNormal">Normal</string>
     <string name="SpeedSlow">Slow</string>
+    <string name="SpeedSuperFast">Super Fast</string>
     <string name="SpeedVeryFast">Very fast</string>
     <string name="SpeedVerySlow">Very slow</string>
     <string name="Spoiler">Spoiler</string>

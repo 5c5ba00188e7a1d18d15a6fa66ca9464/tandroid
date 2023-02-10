@@ -73,7 +73,6 @@ public class SharedConfig {
     public static int fastScrollHintCount = 0;
     public static int fontSize = 0;
     public static boolean fontSizeIsDefault = false;
-    private static boolean forceAutoplayGifs = false;
     private static boolean forceAutoplayVideo = false;
     public static boolean forceDisableTabletMode = false;
     public static boolean forceRtmpStream = false;
@@ -182,7 +181,6 @@ public class SharedConfig {
     static {
         chatBubbles = Build.VERSION.SDK_INT >= 30;
         autoplayGifs = true;
-        forceAutoplayGifs = false;
         autoplayVideo = true;
         forceAutoplayVideo = false;
         raiseToSpeak = false;
@@ -342,12 +340,12 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x017e A[Catch: Exception -> 0x01a0, all -> 0x040c, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:83:0x012f, outer: #4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0182 A[Catch: Exception -> 0x01a0, all -> 0x040c, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:83:0x012f, outer: #4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0231  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0234  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0244  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0246  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x017e A[Catch: Exception -> 0x01a0, all -> 0x0404, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:83:0x012f, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0182 A[Catch: Exception -> 0x01a0, all -> 0x0404, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:83:0x012f, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0229  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x022c  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x023c  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x023e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -431,7 +429,6 @@ public class SharedConfig {
                             SharedPreferences sharedPreferences2 = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
                             SaveToGallerySettingsHelper.load(sharedPreferences2);
                             autoplayGifs = sharedPreferences2.getBoolean("autoplay_gif", true);
-                            forceAutoplayGifs = sharedPreferences2.getBoolean("autoplay_gif_liteforce", false);
                             autoplayVideo = sharedPreferences2.getBoolean("autoplay_video", true);
                             forceAutoplayVideo = sharedPreferences2.getBoolean("autoplay_video_liteforce", false);
                             mapPreviewType = sharedPreferences2.getInt("mapPreviewType", 2);
@@ -519,7 +516,6 @@ public class SharedConfig {
                 SharedPreferences sharedPreferences22 = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
                 SaveToGallerySettingsHelper.load(sharedPreferences22);
                 autoplayGifs = sharedPreferences22.getBoolean("autoplay_gif", true);
-                forceAutoplayGifs = sharedPreferences22.getBoolean("autoplay_gif_liteforce", false);
                 autoplayVideo = sharedPreferences22.getBoolean("autoplay_video", true);
                 forceAutoplayVideo = sharedPreferences22.getBoolean("autoplay_video_liteforce", false);
                 mapPreviewType = sharedPreferences22.getInt("mapPreviewType", 2);
@@ -633,7 +629,7 @@ public class SharedConfig {
     }
 
     public static boolean isAutoplayGifs() {
-        return autoplayGifs && (forceAutoplayGifs || !getLiteMode().enabled());
+        return autoplayGifs;
     }
 
     public static boolean isPassportConfigLoaded() {
@@ -1227,15 +1223,9 @@ public class SharedConfig {
     }
 
     public static void toggleAutoplayGifs() {
-        boolean isAutoplayGifs = isAutoplayGifs();
-        autoplayGifs = !isAutoplayGifs;
+        autoplayGifs = !isAutoplayGifs();
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putBoolean("autoplay_gif", autoplayGifs);
-        if (getLiteMode().enabled()) {
-            boolean z = !isAutoplayGifs;
-            forceAutoplayGifs = z;
-            edit.putBoolean("autoplay_gif_liteforce", z);
-        }
         edit.commit();
     }
 
@@ -1722,6 +1712,8 @@ public class SharedConfig {
 
     /* loaded from: classes.dex */
     public static class LiteMode {
+        public boolean animatedBackground;
+        public boolean animatedEmoji;
         private boolean enabled;
 
         LiteMode() {
@@ -1740,27 +1732,38 @@ public class SharedConfig {
         }
 
         private void loadPreference() {
-            this.enabled = (MessagesController.getGlobalMainSettings().getInt("light_mode", SharedConfig.getDevicePerformanceClass() == 0 ? 1 : 0) & 1) != 0;
+            int i = MessagesController.getGlobalMainSettings().getInt("light_mode", SharedConfig.getDevicePerformanceClass() == 0 ? 1 : 0);
+            this.enabled = (i & 1) != 0;
+            this.animatedEmoji = (i & 2) != 0;
+            this.animatedBackground = (i & 4) != 0;
         }
 
+        /* JADX WARN: Multi-variable type inference failed */
         public void savePreference() {
             boolean z = this.enabled;
+            boolean z2 = z;
+            if (this.animatedEmoji) {
+                z2 = (z ? 1 : 0) | true;
+            }
+            int i = z2;
+            if (this.animatedBackground) {
+                i = (z2 ? 1 : 0) | true;
+            }
             SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
-            edit.putInt("light_mode", z ? 1 : 0);
+            edit.putInt("light_mode", i);
             if (!this.enabled) {
-                edit.remove("autoplay_video_liteforce").remove("autoplay_gif_liteforce");
-                boolean unused = SharedConfig.forceAutoplayGifs = false;
-                boolean unused2 = SharedConfig.forceAutoplayVideo = false;
+                edit.remove("autoplay_video_liteforce");
+                boolean unused = SharedConfig.forceAutoplayVideo = false;
             }
             edit.apply();
         }
 
         public boolean animatedEmojiEnabled() {
-            return !this.enabled;
+            return !this.enabled || this.animatedEmoji;
         }
 
         public boolean animatedBackgroundEnabled() {
-            return !this.enabled;
+            return !this.enabled || this.animatedBackground;
         }
     }
 

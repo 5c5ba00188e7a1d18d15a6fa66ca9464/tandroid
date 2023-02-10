@@ -12,33 +12,16 @@ public abstract class TLRPC$PhotoSize extends TLObject {
     public int w;
 
     public static TLRPC$PhotoSize TLdeserialize(long j, long j2, long j3, AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        TLRPC$PhotoSize tLRPC$PhotoSize;
+        TLRPC$PhotoSize tLRPC$TL_photoPathSize;
         switch (i) {
             case -668906175:
-                tLRPC$PhotoSize = new TLRPC$PhotoSize() { // from class: org.telegram.tgnet.TLRPC$TL_photoPathSize
-                    public static int constructor = -668906175;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.type = abstractSerializedData2.readString(z2);
-                        this.bytes = abstractSerializedData2.readByteArray(z2);
-                        this.h = 50;
-                        this.w = 50;
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeString(this.type);
-                        abstractSerializedData2.writeByteArray(this.bytes);
-                    }
-                };
+                tLRPC$TL_photoPathSize = new TLRPC$TL_photoPathSize();
                 break;
             case -525288402:
-                tLRPC$PhotoSize = new TLRPC$TL_photoStrippedSize();
+                tLRPC$TL_photoPathSize = new TLRPC$TL_photoStrippedSize();
                 break;
             case -374917894:
-                tLRPC$PhotoSize = new TLRPC$TL_photoCachedSize() { // from class: org.telegram.tgnet.TLRPC$TL_photoCachedSize_layer127
+                tLRPC$TL_photoPathSize = new TLRPC$TL_photoCachedSize() { // from class: org.telegram.tgnet.TLRPC$TL_photoCachedSize_layer127
                     public static int constructor = -374917894;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_photoCachedSize, org.telegram.tgnet.TLObject
@@ -62,16 +45,16 @@ public abstract class TLRPC$PhotoSize extends TLObject {
                 };
                 break;
             case -96535659:
-                tLRPC$PhotoSize = new TLRPC$TL_photoSizeProgressive();
+                tLRPC$TL_photoPathSize = new TLRPC$TL_photoSizeProgressive();
                 break;
             case 35527382:
-                tLRPC$PhotoSize = new TLRPC$TL_photoCachedSize();
+                tLRPC$TL_photoPathSize = new TLRPC$TL_photoCachedSize();
                 break;
             case 236446268:
-                tLRPC$PhotoSize = new TLRPC$TL_photoSizeEmpty();
+                tLRPC$TL_photoPathSize = new TLRPC$TL_photoSizeEmpty();
                 break;
             case 1520986705:
-                tLRPC$PhotoSize = new TLRPC$TL_photoSizeProgressive() { // from class: org.telegram.tgnet.TLRPC$TL_photoSizeProgressive_layer127
+                tLRPC$TL_photoPathSize = new TLRPC$TL_photoSizeProgressive() { // from class: org.telegram.tgnet.TLRPC$TL_photoSizeProgressive_layer127
                     public static int constructor = 1520986705;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_photoSizeProgressive, org.telegram.tgnet.TLObject
@@ -115,39 +98,39 @@ public abstract class TLRPC$PhotoSize extends TLObject {
                 };
                 break;
             case 1976012384:
-                tLRPC$PhotoSize = new TLRPC$TL_photoSize();
+                tLRPC$TL_photoPathSize = new TLRPC$TL_photoSize();
                 break;
             case 2009052699:
-                tLRPC$PhotoSize = new TLRPC$TL_photoSize_layer127();
+                tLRPC$TL_photoPathSize = new TLRPC$TL_photoSize_layer127();
                 break;
             default:
-                tLRPC$PhotoSize = null;
+                tLRPC$TL_photoPathSize = null;
                 break;
         }
-        if (tLRPC$PhotoSize == null && z) {
+        if (tLRPC$TL_photoPathSize == null && z) {
             throw new RuntimeException(String.format("can't parse magic %x in PhotoSize", Integer.valueOf(i)));
         }
-        if (tLRPC$PhotoSize != null) {
-            tLRPC$PhotoSize.readParams(abstractSerializedData, z);
-            if (tLRPC$PhotoSize.location == null) {
-                if (!TextUtils.isEmpty(tLRPC$PhotoSize.type) && (j != 0 || j2 != 0 || j3 != 0)) {
+        if (tLRPC$TL_photoPathSize != null) {
+            tLRPC$TL_photoPathSize.readParams(abstractSerializedData, z);
+            if (tLRPC$TL_photoPathSize.location == null) {
+                if (!TextUtils.isEmpty(tLRPC$TL_photoPathSize.type) && (j != 0 || j2 != 0 || j3 != 0)) {
                     TLRPC$TL_fileLocationToBeDeprecated tLRPC$TL_fileLocationToBeDeprecated = new TLRPC$TL_fileLocationToBeDeprecated();
-                    tLRPC$PhotoSize.location = tLRPC$TL_fileLocationToBeDeprecated;
+                    tLRPC$TL_photoPathSize.location = tLRPC$TL_fileLocationToBeDeprecated;
                     if (j != 0) {
                         tLRPC$TL_fileLocationToBeDeprecated.volume_id = -j;
-                        tLRPC$TL_fileLocationToBeDeprecated.local_id = tLRPC$PhotoSize.type.charAt(0);
+                        tLRPC$TL_fileLocationToBeDeprecated.local_id = tLRPC$TL_photoPathSize.type.charAt(0);
                     } else if (j2 != 0) {
                         tLRPC$TL_fileLocationToBeDeprecated.volume_id = -j2;
-                        tLRPC$TL_fileLocationToBeDeprecated.local_id = tLRPC$PhotoSize.type.charAt(0) + 1000;
+                        tLRPC$TL_fileLocationToBeDeprecated.local_id = tLRPC$TL_photoPathSize.type.charAt(0) + 1000;
                     } else if (j3 != 0) {
                         tLRPC$TL_fileLocationToBeDeprecated.volume_id = -j3;
-                        tLRPC$TL_fileLocationToBeDeprecated.local_id = tLRPC$PhotoSize.type.charAt(0) + 2000;
+                        tLRPC$TL_fileLocationToBeDeprecated.local_id = tLRPC$TL_photoPathSize.type.charAt(0) + 2000;
                     }
                 } else {
-                    tLRPC$PhotoSize.location = new TLRPC$TL_fileLocationUnavailable();
+                    tLRPC$TL_photoPathSize.location = new TLRPC$TL_fileLocationUnavailable();
                 }
             }
         }
-        return tLRPC$PhotoSize;
+        return tLRPC$TL_photoPathSize;
     }
 }

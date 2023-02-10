@@ -369,12 +369,12 @@ public class UndoView extends FrameLayout {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:603:0x174a  */
-    /* JADX WARN: Removed duplicated region for block: B:606:0x176a  */
-    /* JADX WARN: Removed duplicated region for block: B:609:0x1791  */
-    /* JADX WARN: Removed duplicated region for block: B:613:0x17d6  */
-    /* JADX WARN: Removed duplicated region for block: B:644:0x1888  */
-    /* JADX WARN: Removed duplicated region for block: B:670:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:593:0x16f6  */
+    /* JADX WARN: Removed duplicated region for block: B:596:0x1716  */
+    /* JADX WARN: Removed duplicated region for block: B:599:0x173d  */
+    /* JADX WARN: Removed duplicated region for block: B:603:0x1782  */
+    /* JADX WARN: Removed duplicated region for block: B:634:0x1834  */
+    /* JADX WARN: Removed duplicated region for block: B:660:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r2v394, types: [java.lang.CharSequence] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -775,7 +775,7 @@ public class UndoView extends FrameLayout {
             this.undoButton.setVisibility(i7);
         } else {
             int i11 = this.currentAction;
-            if (i11 == 45 || i11 == 46 || i11 == 47 || i11 == 51 || i11 == 50 || i11 == 52 || i11 == 53 || i11 == 54 || i11 == 55 || i11 == 56 || i11 == 57 || i11 == 58 || i11 == 59 || i11 == 60 || i11 == 71 || i11 == 70 || i11 == 75 || i11 == 76 || i11 == 41 || i11 == 78 || i11 == 79 || i11 == 61 || i11 == 80) {
+            if (i11 == 45 || i11 == 46 || i11 == 47 || i11 == 52 || i11 == 53 || i11 == 54 || i11 == 55 || i11 == 56 || i11 == 57 || i11 == 58 || i11 == 59 || i11 == 60 || i11 == 71 || i11 == 70 || i11 == 75 || i11 == 76 || i11 == 41 || i11 == 78 || i11 == 79 || i11 == 61 || i11 == 80) {
                 this.undoImageView.setVisibility(8);
                 this.leftImageView.setVisibility(0);
                 this.infoTextView.setTypeface(Typeface.DEFAULT);
@@ -825,16 +825,6 @@ public class UndoView extends FrameLayout {
                             this.leftImageView.setPadding(0, 0, 0, AndroidUtilities.dp(5.0f));
                             layoutParams.topMargin = AndroidUtilities.dp(9.0f);
                             this.infoTextView.setTextSize(1, 14.0f);
-                        } else if (i12 == 51) {
-                            this.infoTextView.setText(LocaleController.getString("AudioSpeedNormal", R.string.AudioSpeedNormal));
-                            this.leftImageView.setAnimation(R.raw.audio_stop_speed, 36, 36);
-                            this.timeLeft = 3000L;
-                            this.infoTextView.setTextSize(1, 15.0f);
-                        } else if (i12 == 50) {
-                            this.infoTextView.setText(LocaleController.getString("AudioSpeedFast", R.string.AudioSpeedFast));
-                            this.leftImageView.setAnimation(R.raw.audio_speed, 36, 36);
-                            this.timeLeft = 3000L;
-                            this.infoTextView.setTextSize(1, 15.0f);
                         } else if (i12 == 52 || i12 == 56 || i12 == 57 || i12 == 58 || i12 == 59 || i12 == 60 || i12 == 80) {
                             if (!AndroidUtilities.shouldShowClipboardToast()) {
                                 return;
