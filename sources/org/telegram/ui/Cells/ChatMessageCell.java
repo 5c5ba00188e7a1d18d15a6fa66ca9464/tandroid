@@ -239,6 +239,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     public Property<ChatMessageCell, Float> ANIMATION_OFFSET_X;
     private int TAG;
     CharSequence accessibilityText;
+    private boolean accessibilityTextContentUnread;
+    private long accessibilityTextFileSize;
     private boolean accessibilityTextUnread;
     private SparseArray<Rect> accessibilityVirtualViewBounds;
     private int addedCaptionHeight;
@@ -31656,12 +31658,15 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         public AccessibilityNodeInfo createAccessibilityNodeInfo(int i) {
             int i2;
             String str;
+            boolean z;
             String formatShortNumber;
             int i3;
             String str2;
+            boolean z2;
+            boolean z3;
             CharacterStyle[] characterStyleArr;
             TLRPC$ReactionCount tLRPC$ReactionCount;
-            boolean z;
+            boolean z4;
             TLRPC$MessagePeerReaction tLRPC$MessagePeerReaction;
             int i4;
             String str3;
@@ -31675,9 +31680,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             if (i == -1) {
                 AccessibilityNodeInfo obtain = AccessibilityNodeInfo.obtain(ChatMessageCell.this);
                 ChatMessageCell.this.onInitializeAccessibilityNodeInfo(obtain);
-                boolean z2 = ChatMessageCell.this.currentMessageObject != null && ChatMessageCell.this.currentMessageObject.isOut() && !ChatMessageCell.this.currentMessageObject.scheduled && ChatMessageCell.this.currentMessageObject.isUnread();
+                boolean z5 = ChatMessageCell.this.currentMessageObject != null && ChatMessageCell.this.currentMessageObject.isOut() && !ChatMessageCell.this.currentMessageObject.scheduled && ChatMessageCell.this.currentMessageObject.isUnread();
+                boolean z6 = ChatMessageCell.this.currentMessageObject != null && ChatMessageCell.this.currentMessageObject.isContentUnread();
+                long j = ChatMessageCell.this.currentMessageObject != null ? ChatMessageCell.this.currentMessageObject.loadedFileSize : 0L;
                 ChatMessageCell chatMessageCell = ChatMessageCell.this;
-                if (chatMessageCell.accessibilityText == null || chatMessageCell.accessibilityTextUnread != z2) {
+                if (chatMessageCell.accessibilityText == null || chatMessageCell.accessibilityTextUnread != z5 || ChatMessageCell.this.accessibilityTextContentUnread != z6 || ChatMessageCell.this.accessibilityTextFileSize != j) {
                     SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
                     ChatMessageCell chatMessageCell2 = ChatMessageCell.this;
                     if (chatMessageCell2.isChat && chatMessageCell2.currentUser != null && !ChatMessageCell.this.currentMessageObject.isOut()) {
@@ -31698,9 +31705,12 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     if (!TextUtils.isEmpty(ChatMessageCell.this.currentMessageObject.messageText)) {
                         spannableStringBuilder.append(ChatMessageCell.this.currentMessageObject.messageText);
                     }
-                    if (ChatMessageCell.this.documentAttach != null && ((ChatMessageCell.this.documentAttachType == 1 || ChatMessageCell.this.documentAttachType == 2 || ChatMessageCell.this.documentAttachType == 4) && ChatMessageCell.this.buttonState == 1 && ChatMessageCell.this.loadingProgressLayout != null)) {
+                    if (ChatMessageCell.this.documentAttach == null || !((ChatMessageCell.this.documentAttachType == 1 || ChatMessageCell.this.documentAttachType == 2 || ChatMessageCell.this.documentAttachType == 4) && ChatMessageCell.this.buttonState == 1 && ChatMessageCell.this.loadingProgressLayout != null)) {
+                        z3 = z5;
+                    } else {
                         spannableStringBuilder.append((CharSequence) "\n");
                         boolean isSending = ChatMessageCell.this.currentMessageObject.isSending();
+                        z3 = z5;
                         spannableStringBuilder.append((CharSequence) LocaleController.formatString(isSending ? "AccDescrUploadProgress" : "AccDescrDownloadProgress", isSending ? R.string.AccDescrUploadProgress : R.string.AccDescrDownloadProgress, AndroidUtilities.formatFileSize(ChatMessageCell.this.currentMessageObject.loadedFileSize), AndroidUtilities.formatFileSize(ChatMessageCell.this.lastLoadingSizeTotal)));
                     }
                     if (!ChatMessageCell.this.currentMessageObject.isMusic()) {
@@ -31810,15 +31820,15 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             if (i6 == 1) {
                                 spannableStringBuilder.append((CharSequence) "\n");
                                 if (ChatMessageCell.this.currentMessageObject.messageOwner.reactions.recent_reactions == null || ChatMessageCell.this.currentMessageObject.messageOwner.reactions.recent_reactions.size() != 1 || (tLRPC$MessagePeerReaction = ChatMessageCell.this.currentMessageObject.messageOwner.reactions.recent_reactions.get(0)) == null) {
-                                    z = false;
+                                    z4 = false;
                                 } else {
                                     TLRPC$User user = MessagesController.getInstance(ChatMessageCell.this.currentAccount).getUser(Long.valueOf(MessageObject.getPeerId(tLRPC$MessagePeerReaction.peer_id)));
-                                    z = UserObject.isUserSelf(user);
+                                    z4 = UserObject.isUserSelf(user);
                                     if (user != null) {
                                         str4 = UserObject.getFirstName(user);
                                     }
                                 }
-                                if (z) {
+                                if (z4) {
                                     spannableStringBuilder.append((CharSequence) LocaleController.formatString("AccDescrYouReactedWith", R.string.AccDescrYouReactedWith, str5));
                                 } else {
                                     spannableStringBuilder.append((CharSequence) LocaleController.formatString("AccDescrReactedWith", R.string.AccDescrReactedWith, str4, str5));
@@ -31870,7 +31880,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     }
                     ChatMessageCell chatMessageCell3 = ChatMessageCell.this;
                     chatMessageCell3.accessibilityText = spannableStringBuilder;
-                    chatMessageCell3.accessibilityTextUnread = z2;
+                    chatMessageCell3.accessibilityTextUnread = z3;
+                    ChatMessageCell.this.accessibilityTextContentUnread = z6;
+                    ChatMessageCell.this.accessibilityTextFileSize = j;
                 }
                 int i8 = Build.VERSION.SDK_INT;
                 if (i8 < 24) {
@@ -32043,6 +32055,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 Iterator<MessageObject.TextLayoutBlock> it3 = ChatMessageCell.this.currentMessageObject.textLayoutBlocks.iterator();
                 while (true) {
                     if (!it3.hasNext()) {
+                        z2 = true;
                         break;
                     }
                     MessageObject.TextLayoutBlock next = it3.next();
@@ -32060,14 +32073,15 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         if (ChatMessageCell.this.accessibilityVirtualViewBounds.get(i) == null) {
                             ChatMessageCell.this.accessibilityVirtualViewBounds.put(i, new Rect(this.rect));
                         }
+                        z2 = true;
                         this.rect.offset(iArr[0], iArr[1]);
                         obtain2.setBoundsInScreen(this.rect);
                     }
                 }
                 obtain2.setClassName("android.widget.TextView");
-                obtain2.setEnabled(true);
-                obtain2.setClickable(true);
-                obtain2.setLongClickable(true);
+                obtain2.setEnabled(z2);
+                obtain2.setClickable(z2);
+                obtain2.setLongClickable(z2);
                 obtain2.addAction(16);
                 obtain2.addAction(32);
             } else if (i >= 1000) {
@@ -32267,12 +32281,17 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     this.rect.set((int) ChatMessageCell.this.transcribeX, (int) ChatMessageCell.this.transcribeY, (int) (ChatMessageCell.this.transcribeX + ChatMessageCell.this.transcribeButton.width()), (int) (ChatMessageCell.this.transcribeY + ChatMessageCell.this.transcribeButton.height()));
                 }
                 obtain2.setBoundsInParent(this.rect);
+                z = true;
                 this.rect.offset(iArr[0], iArr[1]);
                 obtain2.setBoundsInScreen(this.rect);
                 obtain2.setClickable(true);
+                obtain2.setFocusable(z);
+                obtain2.setVisibleToUser(z);
+                return obtain2;
             }
-            obtain2.setFocusable(true);
-            obtain2.setVisibleToUser(true);
+            z = true;
+            obtain2.setFocusable(z);
+            obtain2.setVisibleToUser(z);
             return obtain2;
         }
 

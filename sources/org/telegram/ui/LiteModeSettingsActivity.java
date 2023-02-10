@@ -20,7 +20,10 @@ import org.telegram.ui.Components.LayoutHelper;
 public class LiteModeSettingsActivity extends BaseFragment {
     TextCheckCell animatedBackground;
     TextCheckCell animatedEmoji;
+    LinearLayout contentView;
     TextCheckCell enableMode;
+    TextCheckCell other;
+    TextCheckCell topicsInRightMenu;
     ArrayList<TextCheckCell> checkBoxViews = new ArrayList<>();
     SharedConfig.LiteMode liteMode = SharedConfig.getLiteMode();
 
@@ -38,48 +41,64 @@ public class LiteModeSettingsActivity extends BaseFragment {
             }
         });
         LinearLayout linearLayout = new LinearLayout(context);
+        this.contentView = linearLayout;
         linearLayout.setOrientation(1);
-        this.fragmentView = linearLayout;
+        this.fragmentView = this.contentView;
         TextCheckCell textCheckCell = new TextCheckCell(context);
         this.enableMode = textCheckCell;
         textCheckCell.setHeight(56);
-        this.enableMode.setTextAndCheck(LocaleController.getString("EnableLightMode", R.string.EnableLightMode), SharedConfig.getLiteMode().enabled(), false);
+        this.enableMode.setTextAndCheck(LocaleController.getString("EnableLightMode", R.string.EnableLightMode), SharedConfig.getLiteMode().enabled, false);
         TextCheckCell textCheckCell2 = this.enableMode;
         textCheckCell2.setBackgroundColor(Theme.getColor(textCheckCell2.isChecked() ? "windowBackgroundChecked" : "windowBackgroundUnchecked"));
         this.enableMode.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        this.enableMode.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda0
+        this.enableMode.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 LiteModeSettingsActivity.this.lambda$createView$0(view);
             }
         });
-        linearLayout.addView(this.enableMode, LayoutHelper.createLinear(-1, -2));
+        this.contentView.addView(this.enableMode, LayoutHelper.createLinear(-1, -2));
         TextInfoPrivacyCell textInfoPrivacyCell = new TextInfoPrivacyCell(context);
         textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
-        linearLayout.addView(textInfoPrivacyCell, LayoutHelper.createLinear(-1, -2));
-        TextCheckCell textCheckCell3 = new TextCheckCell(context);
-        this.animatedEmoji = textCheckCell3;
-        textCheckCell3.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-        linearLayout.addView(this.animatedEmoji, LayoutHelper.createLinear(-1, -2));
-        this.animatedEmoji.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda2
+        this.contentView.addView(textInfoPrivacyCell, LayoutHelper.createLinear(-1, -2));
+        TextCheckCell createCheckCell = createCheckCell(getContext());
+        this.animatedEmoji = createCheckCell;
+        createCheckCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 LiteModeSettingsActivity.this.lambda$createView$1(view);
             }
         });
-        TextCheckCell textCheckCell4 = new TextCheckCell(context);
-        this.animatedBackground = textCheckCell4;
-        textCheckCell4.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-        linearLayout.addView(this.animatedBackground, LayoutHelper.createLinear(-1, -2));
-        this.animatedBackground.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda1
+        TextCheckCell createCheckCell2 = createCheckCell(getContext());
+        this.animatedBackground = createCheckCell2;
+        createCheckCell2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 LiteModeSettingsActivity.this.lambda$createView$2(view);
             }
         });
+        TextCheckCell createCheckCell3 = createCheckCell(getContext());
+        this.topicsInRightMenu = createCheckCell3;
+        createCheckCell3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda3
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                LiteModeSettingsActivity.this.lambda$createView$3(view);
+            }
+        });
+        TextCheckCell createCheckCell4 = createCheckCell(getContext());
+        this.other = createCheckCell4;
+        createCheckCell4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda0
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                LiteModeSettingsActivity.this.lambda$createView$4(view);
+            }
+        });
+        update();
         update();
         this.checkBoxViews.add(this.animatedEmoji);
         this.checkBoxViews.add(this.animatedBackground);
+        this.checkBoxViews.add(this.topicsInRightMenu);
+        this.checkBoxViews.add(this.other);
         updateEnableMode();
         updateColors();
         return this.fragmentView;
@@ -106,22 +125,45 @@ public class LiteModeSettingsActivity extends BaseFragment {
         update();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$3(View view) {
+        SharedConfig.LiteMode liteMode = this.liteMode;
+        liteMode.topicsInRightMenu = !liteMode.topicsInRightMenu;
+        update();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$4(View view) {
+        SharedConfig.LiteMode liteMode = this.liteMode;
+        liteMode.other = !liteMode.other;
+        update();
+    }
+
+    private TextCheckCell createCheckCell(Context context) {
+        TextCheckCell textCheckCell = new TextCheckCell(context);
+        textCheckCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+        this.contentView.addView(textCheckCell, LayoutHelper.createLinear(-1, -2));
+        return textCheckCell;
+    }
+
     private void update() {
-        this.animatedEmoji.setTextAndCheck("Animated Emoji", this.liteMode.animatedEmojiEnabled(), true);
-        this.animatedBackground.setTextAndCheck("Animated Backgrounds", this.liteMode.animatedBackgroundEnabled(), true);
+        this.animatedEmoji.setTextAndCheck("Animated Emoji", this.liteMode.animatedEmoji, true);
+        this.animatedBackground.setTextAndCheck("Animated Backgrounds", this.liteMode.animatedBackground, true);
+        this.other.setTextAndCheck("Other", this.liteMode.other, true);
+        this.topicsInRightMenu.setTextAndCheck("Topics in Right Menu", this.liteMode.topicsInRightMenu, true);
     }
 
     private void updateEnableMode() {
-        boolean enabled = SharedConfig.getLiteMode().enabled();
-        this.enableMode.setChecked(enabled);
-        int color = Theme.getColor(enabled ? "windowBackgroundChecked" : "windowBackgroundUnchecked");
-        if (enabled) {
-            this.enableMode.setBackgroundColorAnimated(enabled, color);
+        boolean z = SharedConfig.getLiteMode().enabled;
+        this.enableMode.setChecked(z);
+        int color = Theme.getColor(z ? "windowBackgroundChecked" : "windowBackgroundUnchecked");
+        if (z) {
+            this.enableMode.setBackgroundColorAnimated(z, color);
         } else {
             this.enableMode.setBackgroundColorAnimatedReverse(color);
         }
         for (int i = 0; i < this.checkBoxViews.size(); i++) {
-            this.checkBoxViews.get(i).setVisibility(enabled ? 0 : 8);
+            this.checkBoxViews.get(i).setVisibility(z ? 0 : 8);
         }
     }
 

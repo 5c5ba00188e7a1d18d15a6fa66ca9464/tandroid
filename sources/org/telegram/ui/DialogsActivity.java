@@ -7768,7 +7768,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                         this.searchObject = null;
                                     }
                                 }
-                                boolean z4 = LocaleController.isRTL && !this.searching && (!AndroidUtilities.isTablet() || i6 == 0) && !SharedConfig.getLiteMode().enabled();
+                                boolean z4 = LocaleController.isRTL && !this.searching && (!AndroidUtilities.isTablet() || i6 == 0) && SharedConfig.getLiteMode().topicsInRightMenuEnabled();
                                 bundle3.putInt("dialog_folder_id", i6);
                                 bundle3.putInt("dialog_filter_id", i5);
                                 if (!AndroidUtilities.isTablet() && ((!getMessagesController().isForum(j) || !z4) && this.openedDialogId.dialogId == j && adapter != this.searchViewPager.dialogsSearchAdapter)) {

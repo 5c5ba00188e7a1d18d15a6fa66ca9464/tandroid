@@ -532,8 +532,11 @@ public class ReactionsLayoutInBubble {
                 reactionButton.counterDrawable = null;
                 reactionButton.imageReceiver = null;
                 reactionButton.animatedEmojiDrawable = null;
-            } else {
+            }
+            if (this.imageReceiver == null) {
                 this.imageReceiver = new ImageReceiver();
+            }
+            if (this.counterDrawable == null) {
                 this.counterDrawable = new CounterView.CounterDrawable(ReactionsLayoutInBubble.this.parentView, false, null);
             }
             this.reactionCount = tLRPC$ReactionCount;

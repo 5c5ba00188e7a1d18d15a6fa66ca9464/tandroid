@@ -6,6 +6,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
@@ -80,6 +81,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -4351,7 +4353,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (i6 >= 2 || BuildVars.DEBUG_PRIVATE_VERSION) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this.getParentActivity(), ProfileActivity.this.resourcesProvider);
                 builder.setTitle(LocaleController.getString("DebugMenu", R.string.DebugMenu));
-                CharSequence[] charSequenceArr = new CharSequence[24];
+                CharSequence[] charSequenceArr = new CharSequence[25];
                 charSequenceArr[0] = LocaleController.getString("DebugMenuImportContacts", R.string.DebugMenuImportContacts);
                 charSequenceArr[1] = LocaleController.getString("DebugMenuReloadContacts", R.string.DebugMenuReloadContacts);
                 charSequenceArr[2] = LocaleController.getString("DebugMenuResetContacts", R.string.DebugMenuResetContacts);
@@ -4430,7 +4432,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     str7 = null;
                 }
                 charSequenceArr[22] = str7;
-                charSequenceArr[23] = BuildVars.DEBUG_PRIVATE_VERSION ? "Force remove premium suggestions" : null;
+                boolean z2 = BuildVars.DEBUG_PRIVATE_VERSION;
+                charSequenceArr[23] = z2 ? "Force remove premium suggestions" : null;
+                charSequenceArr[24] = z2 ? "Share device info" : null;
                 final Context context = this.val$context;
                 builder.setItems(charSequenceArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$15$$ExternalSyntheticLambda0
                     @Override // android.content.DialogInterface.OnClickListener
@@ -4554,6 +4558,26 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         ProfileActivity.15.this.lambda$onItemClick$1(tLObject, tLRPC$TL_error);
                     }
                 });
+            } else if (i == 24) {
+                int i2 = Build.VERSION.SDK_INT;
+                int i3 = ConnectionsManager.CPU_COUNT;
+                int memoryClass = ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).getMemoryClass();
+                int i4 = 0;
+                int i5 = 0;
+                for (int i6 = 0; i6 < i3; i6++) {
+                    try {
+                        RandomAccessFile randomAccessFile = new RandomAccessFile(String.format(Locale.ENGLISH, "/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_max_freq", Integer.valueOf(i6)), "r");
+                        String readLine = randomAccessFile.readLine();
+                        if (readLine != null) {
+                            i5 += Utilities.parseInt((CharSequence) readLine).intValue() / 1000;
+                            i4++;
+                        }
+                        randomAccessFile.close();
+                    } catch (Throwable unused) {
+                    }
+                }
+                int ceil = i4 != 0 ? (int) Math.ceil(i5 / i4) : -1;
+                ProfileActivity.this.showDialog(new 1(ProfileActivity.this.getParentActivity(), null, "device performance info selected_class = " + SharedConfig.getDevicePerformanceClass() + " (cpu_count = " + i3 + ", freq = " + ceil + ", memoryClass = " + memoryClass + ", android version " + i2 + ", manufacture " + Build.MANUFACTURER + ")", false, null, false));
             }
         }
 
@@ -4573,6 +4597,29 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onItemClick$0(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
             ProfileActivity.this.getMessagesController().lambda$new$14();
+        }
+
+        /* JADX INFO: Access modifiers changed from: package-private */
+        /* loaded from: classes3.dex */
+        public class 1 extends ShareAlert {
+            1(Context context, ArrayList arrayList, String str, boolean z, String str2, boolean z2) {
+                super(context, arrayList, str, z, str2, z2);
+            }
+
+            @Override // org.telegram.ui.Components.ShareAlert
+            protected void onSend(final LongSparseArray<TLRPC$Dialog> longSparseArray, final int i, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$15$1$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ProfileActivity.15.1.this.lambda$onSend$0(longSparseArray, i);
+                    }
+                }, 250L);
+            }
+
+            /* JADX INFO: Access modifiers changed from: private */
+            public /* synthetic */ void lambda$onSend$0(LongSparseArray longSparseArray, int i) {
+                BulletinFactory.createInviteSentBulletin(ProfileActivity.this.getParentActivity(), ProfileActivity.this.contentView, longSparseArray.size(), longSparseArray.size() == 1 ? ((TLRPC$Dialog) longSparseArray.valueAt(0)).id : 0L, i, getThemedColor("undo_background"), getThemedColor("undo_infoColor")).show();
+            }
         }
     }
 

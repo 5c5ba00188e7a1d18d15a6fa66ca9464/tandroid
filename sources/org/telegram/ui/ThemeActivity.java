@@ -2622,7 +2622,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                                             if (i != ThemeActivity.this.directShareRow) {
                                                 if (i != ThemeActivity.this.chatBlurRow) {
                                                     if (i == ThemeActivity.this.lightModeRow) {
-                                                        textCheckCell.setTextAndCheck(LocaleController.getString("LightMode", R.string.LightMode), SharedConfig.getLiteMode().enabled(), true);
+                                                        textCheckCell.setTextAndCheck(LocaleController.getString("LightMode", R.string.LightMode), SharedConfig.getLiteMode().enabled, true);
                                                         return;
                                                     }
                                                     return;

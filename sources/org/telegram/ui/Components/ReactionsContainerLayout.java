@@ -1194,7 +1194,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         this.animatePopup = z;
         setTransitionProgress(0.0f);
         setAlpha(1.0f);
-        ObjectAnimator duration = ObjectAnimator.ofFloat(this, TRANSITION_PROGRESS_VALUE, 0.0f, 1.0f).setDuration(350L);
+        ObjectAnimator duration = ObjectAnimator.ofFloat(this, TRANSITION_PROGRESS_VALUE, 0.0f, 1.0f).setDuration(250L);
         duration.setInterpolator(new OvershootInterpolator(0.5f));
         duration.start();
     }

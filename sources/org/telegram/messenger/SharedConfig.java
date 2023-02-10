@@ -1624,7 +1624,7 @@ public class SharedConfig {
             int ceil = i3 == 0 ? -1 : (int) Math.ceil(i4 / i3);
             if (i < 21 || i2 <= 2 || memoryClass <= 100 || ((i2 <= 4 && ceil != -1 && ceil <= 1250) || ((i2 <= 4 && ceil <= 1600 && memoryClass <= 128 && i <= 21) || (i2 <= 4 && ceil <= 1300 && memoryClass <= 128 && i <= 24)))) {
                 devicePerformanceClass = 0;
-            } else if (i2 < 8 || memoryClass <= 160 || ((ceil != -1 && ceil <= 2050) || (ceil == -1 && i2 == 8 && i <= 23))) {
+            } else if (i2 < 8 || memoryClass <= 160 || ((ceil != -1 && ceil <= 2055) || (ceil == -1 && i2 == 8 && i <= 23))) {
                 devicePerformanceClass = 1;
             } else {
                 devicePerformanceClass = 2;
@@ -1714,14 +1714,17 @@ public class SharedConfig {
     public static class LiteMode {
         public boolean animatedBackground;
         public boolean animatedEmoji;
-        private boolean enabled;
+        public boolean enabled;
+        public boolean other;
+        public boolean skeletonAnimation;
+        public boolean topicsInRightMenu;
 
         LiteMode() {
             loadPreference();
         }
 
         public boolean enabled() {
-            return this.enabled;
+            return this.enabled && !this.other;
         }
 
         public void toggleMode() {
@@ -1736,6 +1739,8 @@ public class SharedConfig {
             this.enabled = (i & 1) != 0;
             this.animatedEmoji = (i & 2) != 0;
             this.animatedBackground = (i & 4) != 0;
+            this.other = (i & 8) != 0;
+            this.topicsInRightMenu = (i & 16) != 0;
         }
 
         /* JADX WARN: Multi-variable type inference failed */
@@ -1745,9 +1750,17 @@ public class SharedConfig {
             if (this.animatedEmoji) {
                 z2 = (z ? 1 : 0) | true;
             }
-            int i = z2;
+            boolean z3 = z2;
             if (this.animatedBackground) {
-                i = (z2 ? 1 : 0) | true;
+                z3 = (z2 ? 1 : 0) | true;
+            }
+            boolean z4 = z3;
+            if (this.other) {
+                z4 = (z3 ? 1 : 0) | true;
+            }
+            int i = z4;
+            if (this.topicsInRightMenu) {
+                i = (z4 ? 1 : 0) | true;
             }
             SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
             edit.putInt("light_mode", i);
@@ -1764,6 +1777,10 @@ public class SharedConfig {
 
         public boolean animatedBackgroundEnabled() {
             return !this.enabled || this.animatedBackground;
+        }
+
+        public boolean topicsInRightMenuEnabled() {
+            return !this.enabled || this.topicsInRightMenu;
         }
     }
 

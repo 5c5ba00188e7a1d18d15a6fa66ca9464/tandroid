@@ -2461,7 +2461,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
             this.fragmentPanTranslationOffset = 0;
             invalidate();
             removeAllViews();
-            if (baseFragment == null) {
+            if (baseFragment == null || getContext() == null) {
                 invalidateBackgroundColor();
                 return;
             }

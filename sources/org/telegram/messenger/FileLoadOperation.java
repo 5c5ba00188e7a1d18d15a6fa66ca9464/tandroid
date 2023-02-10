@@ -922,12 +922,12 @@ public class FileLoadOperation {
     /* JADX WARN: Removed duplicated region for block: B:265:0x0731  */
     /* JADX WARN: Removed duplicated region for block: B:272:0x075c  */
     /* JADX WARN: Removed duplicated region for block: B:278:0x0788  */
-    /* JADX WARN: Removed duplicated region for block: B:283:0x07c7  */
-    /* JADX WARN: Removed duplicated region for block: B:312:0x082b  */
-    /* JADX WARN: Removed duplicated region for block: B:320:0x084e A[Catch: Exception -> 0x0854, TRY_LEAVE, TryCatch #4 {Exception -> 0x0854, blocks: (B:318:0x083d, B:320:0x084e), top: B:354:0x083d }] */
-    /* JADX WARN: Removed duplicated region for block: B:330:0x086e  */
-    /* JADX WARN: Removed duplicated region for block: B:332:0x0872  */
-    /* JADX WARN: Removed duplicated region for block: B:333:0x087f  */
+    /* JADX WARN: Removed duplicated region for block: B:283:0x07d1  */
+    /* JADX WARN: Removed duplicated region for block: B:312:0x0835  */
+    /* JADX WARN: Removed duplicated region for block: B:320:0x0858 A[Catch: Exception -> 0x085e, TRY_LEAVE, TryCatch #4 {Exception -> 0x085e, blocks: (B:318:0x0847, B:320:0x0858), top: B:354:0x0847 }] */
+    /* JADX WARN: Removed duplicated region for block: B:330:0x0878  */
+    /* JADX WARN: Removed duplicated region for block: B:332:0x087c  */
+    /* JADX WARN: Removed duplicated region for block: B:333:0x0889  */
     /* JADX WARN: Removed duplicated region for block: B:366:0x061d A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r2v64 */
     /* JADX WARN: Type inference failed for: r2v67, types: [int, boolean] */
@@ -1416,7 +1416,7 @@ public class FileLoadOperation {
                     if (this.isPreloadVideoOperation) {
                         FileLog.d("start preloading file to temp = " + this.cacheFileTemp);
                     } else {
-                        FileLog.d("start loading file to temp = " + this.cacheFileTemp + " final = " + this.cacheFileFinal);
+                        FileLog.d("start loading file to temp = " + this.cacheFileTemp + " final = " + this.cacheFileFinal + " priority" + this.priority);
                     }
                 }
                 if (str8 != null) {
