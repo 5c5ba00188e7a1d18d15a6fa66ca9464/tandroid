@@ -25,6 +25,7 @@ import com.microsoft.appcenter.utils.AppCenterLog;
 import com.microsoft.appcenter.utils.DeviceInfoHelper;
 import com.microsoft.appcenter.utils.HandlerUtils;
 import com.microsoft.appcenter.utils.async.AppCenterFuture;
+import com.microsoft.appcenter.utils.async.DefaultAppCenterFuture;
 import com.microsoft.appcenter.utils.context.SessionContext;
 import com.microsoft.appcenter.utils.context.UserIdContext;
 import com.microsoft.appcenter.utils.storage.FileManager;
@@ -43,7 +44,7 @@ import java.util.UUID;
 import org.json.JSONException;
 /* loaded from: classes.dex */
 public class Crashes extends AbstractAppCenterService {
-    private static final CrashesListener DEFAULT_ERROR_REPORTING_LISTENER = new DefaultCrashesListener(null);
+    private static final CrashesListener DEFAULT_ERROR_REPORTING_LISTENER = new DefaultCrashesListener();
     @SuppressLint({"StaticFieldLeak"})
     private static Crashes sInstance = null;
     private boolean mAutomaticProcessing = true;
@@ -59,11 +60,6 @@ public class Crashes extends AbstractAppCenterService {
     private boolean mSavedUncaughtException;
     private UncaughtExceptionHandler mUncaughtExceptionHandler;
     private final Map<UUID, ErrorLogReport> mUnprocessedErrorReports;
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class 1 implements Runnable {
-    }
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
@@ -139,6 +135,22 @@ public class Crashes extends AbstractAppCenterService {
 
     public static void trackError(Throwable th, Map<String, String> map, Iterable<ErrorAttachmentLog> iterable) {
         getInstance().queueException(th, map, iterable);
+    }
+
+    public static AppCenterFuture<String> getMinidumpDirectory() {
+        return getInstance().getNewMinidumpDirectoryAsync();
+    }
+
+    private synchronized AppCenterFuture<String> getNewMinidumpDirectoryAsync() {
+        final DefaultAppCenterFuture defaultAppCenterFuture;
+        defaultAppCenterFuture = new DefaultAppCenterFuture();
+        postAsyncGetter(new Runnable() { // from class: com.microsoft.appcenter.crashes.Crashes.1
+            @Override // java.lang.Runnable
+            public void run() {
+                defaultAppCenterFuture.complete(ErrorLogHelper.getNewMinidumpSubfolderWithContextData(Crashes.this.mContext).getAbsolutePath());
+            }
+        }, defaultAppCenterFuture, null);
+        return defaultAppCenterFuture;
     }
 
     @Override // com.microsoft.appcenter.AbstractAppCenterService
@@ -501,7 +513,7 @@ public class Crashes extends AbstractAppCenterService {
             File storedThrowableFile = ErrorLogHelper.getStoredThrowableFile(id);
             if (storedThrowableFile != null) {
                 ErrorReport errorReportFromErrorLog = ErrorLogHelper.getErrorReportFromErrorLog(managedErrorLog, storedThrowableFile.length() > 0 ? FileManager.read(storedThrowableFile) : null);
-                this.mErrorReportCache.put(id, new ErrorLogReport(managedErrorLog, errorReportFromErrorLog, null));
+                this.mErrorReportCache.put(id, new ErrorLogReport(managedErrorLog, errorReportFromErrorLog));
                 return errorReportFromErrorLog;
             }
             return null;
@@ -661,10 +673,6 @@ public class Crashes extends AbstractAppCenterService {
     private static class DefaultCrashesListener extends AbstractCrashesListener {
         private DefaultCrashesListener() {
         }
-
-        /* synthetic */ DefaultCrashesListener(1 r1) {
-            this();
-        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -672,10 +680,6 @@ public class Crashes extends AbstractAppCenterService {
     public static class ErrorLogReport {
         private final ManagedErrorLog log;
         private final ErrorReport report;
-
-        /* synthetic */ ErrorLogReport(ManagedErrorLog managedErrorLog, ErrorReport errorReport, 1 r3) {
-            this(managedErrorLog, errorReport);
-        }
 
         private ErrorLogReport(ManagedErrorLog managedErrorLog, ErrorReport errorReport) {
             this.log = managedErrorLog;

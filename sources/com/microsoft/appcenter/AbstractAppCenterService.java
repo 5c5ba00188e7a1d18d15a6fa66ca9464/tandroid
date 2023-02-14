@@ -183,7 +183,8 @@ public abstract class AbstractAppCenterService implements AppCenterService {
         return true;
     }
 
-    protected synchronized <T> void postAsyncGetter(final Runnable runnable, final DefaultAppCenterFuture<T> defaultAppCenterFuture, final T t) {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public synchronized <T> void postAsyncGetter(final Runnable runnable, final DefaultAppCenterFuture<T> defaultAppCenterFuture, final T t) {
         Runnable runnable2 = new Runnable(this) { // from class: com.microsoft.appcenter.AbstractAppCenterService.5
             @Override // java.lang.Runnable
             public void run() {

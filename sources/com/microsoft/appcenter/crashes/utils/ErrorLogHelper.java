@@ -18,6 +18,7 @@ import com.microsoft.appcenter.utils.context.UserIdContext;
 import com.microsoft.appcenter.utils.storage.FileManager;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -29,6 +30,7 @@ import java.util.Map;
 import java.util.UUID;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONStringer;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class ErrorLogHelper {
@@ -104,6 +106,40 @@ public class ErrorLogHelper {
             file = new File(new File(getErrorStorageDirectory().getAbsolutePath(), "minidump"), "new");
         }
         return file;
+    }
+
+    public static synchronized File getNewMinidumpSubfolder() {
+        File file;
+        synchronized (ErrorLogHelper.class) {
+            if (sNewMinidumpDirectory == null) {
+                File file2 = new File(getNewMinidumpDirectory(), UUID.randomUUID().toString());
+                sNewMinidumpDirectory = file2;
+                FileManager.mkdir(file2.getPath());
+            }
+            file = sNewMinidumpDirectory;
+        }
+        return file;
+    }
+
+    public static synchronized File getNewMinidumpSubfolderWithContextData(Context context) {
+        File newMinidumpSubfolder;
+        synchronized (ErrorLogHelper.class) {
+            newMinidumpSubfolder = getNewMinidumpSubfolder();
+            File file = new File(newMinidumpSubfolder, "deviceInfo");
+            try {
+                Device deviceInfo = DeviceInfoHelper.getDeviceInfo(context);
+                deviceInfo.setWrapperSdkName("appcenter.ndk");
+                JSONStringer jSONStringer = new JSONStringer();
+                jSONStringer.object();
+                deviceInfo.write(jSONStringer);
+                jSONStringer.endObject();
+                FileManager.write(file, jSONStringer.toString());
+            } catch (DeviceInfoHelper.DeviceInfoException | IOException | JSONException e) {
+                AppCenterLog.error("AppCenterCrashes", "Failed to store device info in a minidump folder.", e);
+                file.delete();
+            }
+        }
+        return newMinidumpSubfolder;
     }
 
     public static synchronized File getPendingMinidumpDirectory() {

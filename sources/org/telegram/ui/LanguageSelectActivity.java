@@ -291,7 +291,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                     if (!z6) {
                         alertDialog.showDelayed(500L);
                     }
-                    final int applyLanguage = LocaleController.getInstance().applyLanguage(localeInfo, true, false, false, true, false, this.currentAccount, new Runnable() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda6
+                    final int applyLanguage = LocaleController.getInstance().applyLanguage(localeInfo, true, false, false, true, true, this.currentAccount, new Runnable() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda6
                         @Override // java.lang.Runnable
                         public final void run() {
                             LanguageSelectActivity.this.lambda$createView$1(alertDialog, z6);

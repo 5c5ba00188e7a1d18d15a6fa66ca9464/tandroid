@@ -136,7 +136,7 @@ public class ReactionTabHolderView extends FrameLayout {
         if (visibleReaction != null) {
             accessibilityNodeInfo.setText(LocaleController.formatPluralString("AccDescrNumberOfPeopleReactions", this.count, visibleReaction));
         } else {
-            accessibilityNodeInfo.setText(LocaleController.formatPluralString("AccDescrNumberOfReactions", this.count, new Object[0]));
+            accessibilityNodeInfo.setText(LocaleController.formatPluralString("ReactionsCount", this.count, new Object[0]));
         }
     }
 }

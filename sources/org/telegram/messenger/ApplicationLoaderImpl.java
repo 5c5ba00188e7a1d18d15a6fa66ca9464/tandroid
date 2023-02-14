@@ -24,10 +24,18 @@ public class ApplicationLoaderImpl extends ApplicationLoader {
                     throw new RuntimeException("App Center hash is empty. add to local.properties field APP_CENTER_HASH_PRIVATE and APP_CENTER_HASH_PUBLIC");
                 }
                 AppCenter.start(activity.getApplication(), BuildConfig.APP_CENTER_HASH, Distribute.class, Crashes.class);
+                Crashes.getMinidumpDirectory().thenAccept(ApplicationLoaderImpl$$ExternalSyntheticLambda0.INSTANCE);
                 AppCenter.setUserId("uid=" + UserConfig.getInstance(UserConfig.selectedAccount).clientUserId);
             }
         } catch (Throwable th) {
             FileLog.e(th);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$startAppCenterInternal$0(String str) {
+        if (str != null) {
+            Utilities.setupNativeCrashesListener(str);
         }
     }
 

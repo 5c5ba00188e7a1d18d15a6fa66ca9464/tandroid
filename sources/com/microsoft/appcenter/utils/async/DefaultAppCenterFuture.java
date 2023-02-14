@@ -2,6 +2,7 @@ package com.microsoft.appcenter.utils.async;
 
 import com.microsoft.appcenter.utils.HandlerUtils;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 /* loaded from: classes.dex */
@@ -27,6 +28,24 @@ public class DefaultAppCenterFuture<T> implements AppCenterFuture<T> {
                 return this.mLatch.await(0L, TimeUnit.MILLISECONDS);
             } catch (InterruptedException unused) {
             }
+        }
+    }
+
+    @Override // com.microsoft.appcenter.utils.async.AppCenterFuture
+    public synchronized void thenAccept(final AppCenterConsumer<T> appCenterConsumer) {
+        if (isDone()) {
+            HandlerUtils.runOnUiThread(new Runnable() { // from class: com.microsoft.appcenter.utils.async.DefaultAppCenterFuture.1
+                /* JADX WARN: Multi-variable type inference failed */
+                @Override // java.lang.Runnable
+                public void run() {
+                    appCenterConsumer.accept(DefaultAppCenterFuture.this.mResult);
+                }
+            });
+        } else {
+            if (this.mConsumers == null) {
+                this.mConsumers = new LinkedList();
+            }
+            this.mConsumers.add(appCenterConsumer);
         }
     }
 

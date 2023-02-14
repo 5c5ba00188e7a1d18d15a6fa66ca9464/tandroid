@@ -83,7 +83,7 @@ public final class Instance {
     }
 
     static {
-        AVAILABLE_VERSIONS = Build.VERSION.SDK_INT >= 18 ? Arrays.asList("4.1.2", "4.0.2", "4.0.1", "4.0.0", "3.0.0", "2.7.7", "2.4.4") : Arrays.asList("2.4.4");
+        AVAILABLE_VERSIONS = Build.VERSION.SDK_INT >= 18 ? Arrays.asList("4.1.2", "4.0.2", "4.0.1", "4.0.0", "5.0.0", "2.7.7", "2.4.4") : Arrays.asList("2.4.4");
         globalServerConfig = new ServerConfig(new JSONObject());
     }
 

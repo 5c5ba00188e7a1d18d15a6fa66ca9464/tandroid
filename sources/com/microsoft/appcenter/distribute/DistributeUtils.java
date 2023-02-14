@@ -12,8 +12,9 @@ import com.microsoft.appcenter.utils.NetworkStateHelper;
 import com.microsoft.appcenter.utils.storage.SharedPreferencesManager;
 import java.util.UUID;
 import org.json.JSONException;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-class DistributeUtils {
+public class DistributeUtils {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int getNotificationId() {
         return Distribute.class.getName().hashCode();
