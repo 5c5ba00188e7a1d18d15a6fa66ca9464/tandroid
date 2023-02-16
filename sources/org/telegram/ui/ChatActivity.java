@@ -32826,16 +32826,23 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
                     @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
                     public void didClickImage(ChatActionCell chatActionCell3) {
+                        TLRPC$VideoSize tLRPC$VideoSize;
                         MessageObject messageObject = chatActionCell3.getMessageObject();
                         PhotoViewer photoViewer = PhotoViewer.getInstance();
                         ChatActivity chatActivity = ChatActivity.this;
                         photoViewer.setParentActivity(chatActivity, chatActivity.themeDelegate);
                         TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, 640);
                         ArrayList<TLRPC$VideoSize> arrayList = messageObject.messageOwner.action.photo.video_sizes;
-                        TLRPC$VideoSize closestVideoSizeWithSize = (arrayList == null || arrayList.isEmpty()) ? null : FileLoader.getClosestVideoSizeWithSize(messageObject.messageOwner.action.photo.video_sizes, 1000);
+                        TLRPC$VideoSize tLRPC$VideoSize2 = null;
+                        if (arrayList == null || arrayList.isEmpty()) {
+                            tLRPC$VideoSize = null;
+                        } else {
+                            tLRPC$VideoSize2 = FileLoader.getClosestVideoSizeWithSize(messageObject.messageOwner.action.photo.video_sizes, 1000);
+                            tLRPC$VideoSize = FileLoader.getEmojiMarkup(messageObject.messageOwner.action.photo.video_sizes);
+                        }
                         if (chatActionCell3.getMessageObject().type != 21 || messageObject.isOutOwner()) {
-                            if (closestVideoSizeWithSize != null) {
-                                PhotoViewer.getInstance().openPhoto(closestVideoSizeWithSize.location, ImageLocation.getForPhoto(closestVideoSizeWithSize, messageObject.messageOwner.action.photo), ChatActivity.this.photoViewerProvider);
+                            if (tLRPC$VideoSize2 != null) {
+                                PhotoViewer.getInstance().openPhoto(tLRPC$VideoSize2.location, ImageLocation.getForPhoto(tLRPC$VideoSize2, messageObject.messageOwner.action.photo), ChatActivity.this.photoViewerProvider);
                                 if (chatActionCell3.getMessageObject().type == 21) {
                                     PhotoViewer.getInstance().setTitle(LocaleController.getString("SuggestedVideo", R.string.SuggestedVideo));
                                 }
@@ -32849,10 +32856,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                         } else if (messageObject.settingAvatar) {
                         } else {
+                            if (tLRPC$VideoSize != null) {
+                                PhotoUtilities.showAvatartConstructorForUpdateUserPhoto(ChatActivity.this, tLRPC$VideoSize);
+                                return;
+                            }
                             ArrayList<Object> arrayList2 = new ArrayList<>();
-                            ImageLocation.getForPhoto(closestVideoSizeWithSize, messageObject.messageOwner.action.photo);
+                            ImageLocation.getForPhoto(tLRPC$VideoSize2, messageObject.messageOwner.action.photo);
                             FileLoader fileLoader = ChatActivity.this.getFileLoader();
-                            File pathToAttach = closestVideoSizeWithSize == null ? fileLoader.getPathToAttach(messageObject.messageOwner.action.photo) : fileLoader.getPathToAttach(closestVideoSizeWithSize);
+                            File pathToAttach = tLRPC$VideoSize2 == null ? fileLoader.getPathToAttach(messageObject.messageOwner.action.photo) : fileLoader.getPathToAttach(tLRPC$VideoSize2);
                             File file = new File(FileLoader.getDirectory(4), pathToAttach.getName());
                             if (!pathToAttach.exists()) {
                                 if (!file.exists()) {
@@ -32862,7 +32873,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                             MediaController.PhotoEntry photoEntry = new MediaController.PhotoEntry(0, 0, 0L, pathToAttach.getAbsolutePath(), 0, false, 0, 0, 0L);
                             photoEntry.caption = ChatActivity.this.chatActivityEnterView.getFieldText();
-                            photoEntry.isVideo = closestVideoSizeWithSize != null;
+                            photoEntry.isVideo = tLRPC$VideoSize2 != null;
                             arrayList2.add(photoEntry);
                             PhotoViewer.getInstance().openPhotoForSelect(arrayList2, 0, 1, false, new 1(messageObject, photoEntry), null);
                             if (photoEntry.isVideo) {
@@ -32871,7 +32882,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 PhotoViewer.getInstance().setTitle(LocaleController.getString(R.string.SuggestedPhoto));
                             }
                             ImageUpdater.AvatarFor avatarFor = new ImageUpdater.AvatarFor(ChatActivity.this.getUserConfig().getCurrentUser(), 1);
-                            avatarFor.isVideo = closestVideoSizeWithSize != null;
+                            avatarFor.isVideo = tLRPC$VideoSize2 != null;
                             avatarFor.fromObject = ChatActivity.this.getMessagesController().getUser(Long.valueOf(ChatActivity.this.dialog_id));
                             PhotoViewer.getInstance().setAvatarFor(avatarFor);
                         }
@@ -32944,7 +32955,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     PhotoUtilities.applyPhotoToUser(messageObject.messageOwner.action.photo, user, false);
                                     ChatActivity.this.getUserConfig().setCurrentUser(user);
                                     ChatActivity.this.getUserConfig().saveConfig(true);
-                                    BulletinFactory.of(ChatActivity.this).createUsersBulletin(Collections.singletonList(user), AndroidUtilities.replaceTags(LocaleController.getString("ApplyAvatarHint", R.string.ApplyAvatarHintTitle)), AndroidUtilities.replaceSingleTag(LocaleController.getString("ApplyAvatarHint", R.string.ApplyAvatarHint), new Runnable() { // from class: org.telegram.ui.ChatActivity$ChatActivityAdapter$2$1$$ExternalSyntheticLambda1
+                                    BulletinFactory.of(ChatActivity.this).createUsersBulletin(Collections.singletonList(user), AndroidUtilities.replaceTags(LocaleController.getString("ApplyAvatarHintTitle", R.string.ApplyAvatarHintTitle)), AndroidUtilities.replaceSingleTag(LocaleController.getString("ApplyAvatarHint", R.string.ApplyAvatarHint), new Runnable() { // from class: org.telegram.ui.ChatActivity$ChatActivityAdapter$2$1$$ExternalSyntheticLambda1
                                         @Override // java.lang.Runnable
                                         public final void run() {
                                             ChatActivity.ChatActivityAdapter.2.1.this.lambda$sendButtonPressed$1();

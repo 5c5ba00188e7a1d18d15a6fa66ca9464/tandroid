@@ -820,6 +820,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                 TopicsFragment.this.lambda$createView$5(view);
             }
         });
+        this.closeReportSpam.setVisibility(8);
         updateChatInfo();
         FrameLayout frameLayout4 = new FrameLayout(context) { // from class: org.telegram.ui.TopicsFragment.17
             @Override // android.view.ViewGroup

@@ -11,6 +11,6 @@ public final /* synthetic */ class ChatAttachAlertPhotoLayout$$ExternalSynthetic
 
     @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
     public final void onItemClick(View view, int i) {
-        ChatAttachAlertPhotoLayout.lambda$new$10(view, i);
+        ChatAttachAlertPhotoLayout.lambda$new$9(view, i);
     }
 }

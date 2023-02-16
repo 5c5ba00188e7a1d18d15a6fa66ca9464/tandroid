@@ -1633,6 +1633,7 @@ public class SharedConfig {
     }
 
     public static int measureDevicePerformanceClass() {
+        long j;
         int i = Build.VERSION.SDK_INT;
         int i2 = ConnectionsManager.CPU_COUNT;
         int memoryClass = ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).getMemoryClass();
@@ -1652,7 +1653,14 @@ public class SharedConfig {
             }
         }
         int ceil = i4 == 0 ? -1 : (int) Math.ceil(i5 / i4);
-        if (i >= 21 && i2 > 2 && memoryClass > 100 && ((i2 > 4 || ceil == -1 || ceil > 1250) && ((i2 > 4 || ceil > 1600 || memoryClass > 128 || i > 21) && (i2 > 4 || ceil > 1300 || memoryClass > 128 || i > 24)))) {
+        try {
+            ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
+            ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).getMemoryInfo(memoryInfo);
+            j = memoryInfo.totalMem;
+        } catch (Exception unused2) {
+            j = -1;
+        }
+        if (i >= 21 && i2 > 2 && memoryClass > 100 && ((i2 > 4 || ceil == -1 || ceil > 1250) && ((i2 > 4 || ceil > 1600 || memoryClass > 128 || i > 21) && ((i2 > 4 || ceil > 1300 || memoryClass > 128 || i > 24) && (j == -1 || j >= 2147483648L))))) {
             i3 = (i2 < 8 || memoryClass <= 160 || (ceil != -1 && ceil <= 2055) || (ceil == -1 && i2 == 8 && i <= 23)) ? 1 : 2;
         }
         if (BuildVars.LOGS_ENABLED) {

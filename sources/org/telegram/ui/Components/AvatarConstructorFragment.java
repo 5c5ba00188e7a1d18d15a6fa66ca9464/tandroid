@@ -33,10 +33,15 @@ import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC$Document;
+import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
+import org.telegram.tgnet.TLRPC$TL_videoSizeEmojiMarkup;
+import org.telegram.tgnet.TLRPC$TL_videoSizeStickerMarkup;
+import org.telegram.tgnet.TLRPC$VideoSize;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -412,24 +417,7 @@ public class AvatarConstructorFragment extends BaseFragment {
 
             @Override // org.telegram.ui.SelectAnimatedEmojiDialog
             protected void onEmojiSelected(View view, Long l, TLRPC$Document tLRPC$Document, Integer num) {
-                long longValue = l == null ? 0L : l.longValue();
-                PreviewView previewView2 = AvatarConstructorFragment.this.previewView;
-                previewView2.documentId = longValue;
-                previewView2.document = tLRPC$Document;
-                if (longValue != 0) {
-                    previewView2.backupImageView.setAnimatedEmojiDrawable(new AnimatedEmojiDrawable(14, ((BaseFragment) AvatarConstructorFragment.this).currentAccount, longValue));
-                    AvatarConstructorFragment.this.previewView.backupImageView.getImageReceiver().clearImage();
-                } else {
-                    previewView2.backupImageView.setAnimatedEmojiDrawable(null);
-                    AvatarConstructorFragment.this.previewView.backupImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$Document), "100_100", null, null, DocumentObject.getSvgThumb(tLRPC$Document, "windowBackgroundWhiteGrayIcon", 0.2f), 0L, "tgs", tLRPC$Document, 0);
-                }
-                if (AvatarConstructorFragment.this.previewView.getImageReceiver() != null && AvatarConstructorFragment.this.previewView.getImageReceiver().getAnimation() != null) {
-                    AvatarConstructorFragment.this.previewView.getImageReceiver().getAnimation().seekTo(0L, true);
-                }
-                if (AvatarConstructorFragment.this.previewView.getImageReceiver() != null && AvatarConstructorFragment.this.previewView.getImageReceiver().getLottieAnimation() != null) {
-                    AvatarConstructorFragment.this.previewView.getImageReceiver().getLottieAnimation().setCurrentFrame(0, false, true);
-                }
-                AvatarConstructorFragment.this.wasChanged = true;
+                AvatarConstructorFragment.this.setPreview(l == null ? 0L : l.longValue(), tLRPC$Document);
             }
         };
         this.selectAnimatedEmojiDialog = selectAnimatedEmojiDialog;
@@ -489,6 +477,27 @@ public class AvatarConstructorFragment extends BaseFragment {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(View view) {
         onDonePressed();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void setPreview(long j, TLRPC$Document tLRPC$Document) {
+        PreviewView previewView = this.previewView;
+        previewView.documentId = j;
+        previewView.document = tLRPC$Document;
+        if (j == 0) {
+            previewView.backupImageView.setAnimatedEmojiDrawable(null);
+            this.previewView.backupImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$Document), "100_100", null, null, DocumentObject.getSvgThumb(tLRPC$Document, "windowBackgroundWhiteGrayIcon", 0.2f), 0L, "tgs", tLRPC$Document, 0);
+        } else {
+            previewView.backupImageView.setAnimatedEmojiDrawable(new AnimatedEmojiDrawable(14, this.currentAccount, j));
+            this.previewView.backupImageView.getImageReceiver().clearImage();
+        }
+        if (this.previewView.getImageReceiver() != null && this.previewView.getImageReceiver().getAnimation() != null) {
+            this.previewView.getImageReceiver().getAnimation().seekTo(0L, true);
+        }
+        if (this.previewView.getImageReceiver() != null && this.previewView.getImageReceiver().getLottieAnimation() != null) {
+            this.previewView.getImageReceiver().getLottieAnimation().setCurrentFrame(0, false, true);
+        }
+        this.wasChanged = true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -678,6 +687,32 @@ public class AvatarConstructorFragment extends BaseFragment {
         }
         this.backgroundSelectView.selectGradient(backgroundGradient);
         this.selectAnimatedEmojiDialog.setForUser(avatarConstructorPreviewCell.forUser);
+    }
+
+    public void startFrom(TLRPC$VideoSize tLRPC$VideoSize) {
+        BackgroundGradient backgroundGradient = new BackgroundGradient();
+        backgroundGradient.color1 = ColorUtils.setAlphaComponent(tLRPC$VideoSize.background_colors.get(0).intValue(), 255);
+        backgroundGradient.color2 = tLRPC$VideoSize.background_colors.size() > 1 ? ColorUtils.setAlphaComponent(tLRPC$VideoSize.background_colors.get(1).intValue(), 255) : 0;
+        backgroundGradient.color3 = tLRPC$VideoSize.background_colors.size() > 2 ? ColorUtils.setAlphaComponent(tLRPC$VideoSize.background_colors.get(2).intValue(), 255) : 0;
+        backgroundGradient.color4 = tLRPC$VideoSize.background_colors.size() > 3 ? ColorUtils.setAlphaComponent(tLRPC$VideoSize.background_colors.get(3).intValue(), 255) : 0;
+        this.previewView.setGradient(backgroundGradient);
+        TLRPC$Document tLRPC$Document = null;
+        if (tLRPC$VideoSize instanceof TLRPC$TL_videoSizeEmojiMarkup) {
+            setPreview(((TLRPC$TL_videoSizeEmojiMarkup) tLRPC$VideoSize).emoji_id, null);
+        } else {
+            TLRPC$TL_videoSizeStickerMarkup tLRPC$TL_videoSizeStickerMarkup = new TLRPC$TL_videoSizeStickerMarkup();
+            TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(this.currentAccount).getStickerSet(tLRPC$TL_videoSizeStickerMarkup.stickerset, false);
+            if (stickerSet != null) {
+                for (int i = 0; i < stickerSet.documents.size(); i++) {
+                    if (stickerSet.documents.get(i).id == tLRPC$TL_videoSizeStickerMarkup.sticker_id) {
+                        tLRPC$Document = stickerSet.documents.get(i);
+                    }
+                }
+            }
+            setPreview(0L, tLRPC$Document);
+        }
+        this.backgroundSelectView.selectGradient(backgroundGradient);
+        this.selectAnimatedEmojiDialog.setForUser(true);
     }
 
     /* loaded from: classes3.dex */

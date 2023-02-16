@@ -1576,7 +1576,7 @@ public class Bulletin {
                 LinearLayout linearLayout = new LinearLayout(getContext());
                 this.linearLayout = linearLayout;
                 linearLayout.setOrientation(1);
-                addView(this.linearLayout, LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 8388627, 76.0f, 0.0f, 8.0f, 0.0f));
+                addView(this.linearLayout, LayoutHelper.createFrameRelatively(-1.0f, -2.0f, 8388627, 76.0f, 0.0f, 8.0f, 0.0f));
                 LinkSpanDrawable.LinksTextView linksTextView2 = new LinkSpanDrawable.LinksTextView(this, context) { // from class: org.telegram.ui.Components.Bulletin.UsersLayout.2
                     @Override // android.widget.TextView
                     public void setText(CharSequence charSequence, TextView.BufferType bufferType) {

@@ -192,6 +192,15 @@ public class FileLoader extends BaseController {
         return null;
     }
 
+    public static TLRPC$VideoSize getEmojiMarkup(ArrayList<TLRPC$VideoSize> arrayList) {
+        for (int i = 0; i < arrayList.size(); i++) {
+            if ((arrayList.get(i) instanceof TLRPC$TL_videoSizeEmojiMarkup) || (arrayList.get(i) instanceof TLRPC$TL_videoSizeStickerMarkup)) {
+                return arrayList.get(i);
+            }
+        }
+        return null;
+    }
+
     private int getPriorityValue(int i) {
         if (i == 4) {
             return ConnectionsManager.DEFAULT_DATACENTER_ID;

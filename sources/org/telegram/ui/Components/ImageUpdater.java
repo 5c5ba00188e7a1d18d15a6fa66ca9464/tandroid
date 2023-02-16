@@ -173,6 +173,11 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         return this.canceled;
     }
 
+    public void showAvatarConstructor(TLRPC$VideoSize tLRPC$VideoSize) {
+        createChatAttachView();
+        this.chatAttachAlert.getPhotoLayout().showAvatarConstructorFragment(null, tLRPC$VideoSize);
+    }
+
     public boolean isUploadingImage() {
         return (this.uploadingImage == null && this.uploadingVideo == null && this.convertingVideo == null) ? false : true;
     }

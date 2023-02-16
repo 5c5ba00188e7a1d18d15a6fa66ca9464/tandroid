@@ -2059,6 +2059,11 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                     return;
                 }
             }
+            List<BaseFragment> list2 = this.fragmentsStack;
+            if (list2.get(list2.size() - 1) == baseFragment && this.fragmentsStack.size() > 1) {
+                baseFragment.finishFragment(false);
+                return;
+            }
             baseFragment.onPause();
             baseFragment.onFragmentDestroy();
             baseFragment.setParentLayout(null);

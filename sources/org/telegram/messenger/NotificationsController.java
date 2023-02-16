@@ -1211,7 +1211,7 @@ public class NotificationsController extends BaseController {
                                             z10 = messageObject4.messageOwner.from_scheduled;
                                         }
                                         this.delayedPushMessages.add(messageObject4);
-                                        this.pushMessages.add(0, messageObject4);
+                                        appendMessage(messageObject4);
                                         if (i3 != 0) {
                                             if (sparseArray == null) {
                                                 sparseArray2 = new SparseArray<>();
@@ -1361,6 +1361,15 @@ public class NotificationsController extends BaseController {
     public /* synthetic */ void lambda$processNewMessages$17(int i) {
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.notificationsCountUpdated, Integer.valueOf(this.currentAccount));
         getNotificationCenter().postNotificationName(NotificationCenter.dialogsUnreadCounterChanged, Integer.valueOf(i));
+    }
+
+    private void appendMessage(MessageObject messageObject) {
+        for (int i = 0; i < this.pushMessages.size(); i++) {
+            if (this.pushMessages.get(i).getId() == messageObject.getId() && this.pushMessages.get(i).getDialogId() == messageObject.getDialogId()) {
+                return;
+            }
+        }
+        this.pushMessages.add(0, messageObject);
     }
 
     public int getTotalUnreadCount() {
@@ -1631,7 +1640,7 @@ public class NotificationsController extends BaseController {
                                     sparseArray2 = sparseArray;
                                 }
                                 sparseArray2.put(tLRPC$Message.id, messageObject);
-                                this.pushMessages.add(0, messageObject);
+                                appendMessage(messageObject);
                                 if (dialogId != j) {
                                     Integer num = this.pushDialogsOverrideMention.get(dialogId);
                                     this.pushDialogsOverrideMention.put(dialogId, Integer.valueOf(num == null ? 1 : num.intValue() + 1));
@@ -1715,7 +1724,7 @@ public class NotificationsController extends BaseController {
                         } else if (j5 != 0) {
                             this.fcmRandomMessagesDict.put(j5, messageObject2);
                         }
-                        this.pushMessages.add(0, messageObject2);
+                        appendMessage(messageObject2);
                         if (dialogId2 != fromChatId) {
                             Integer num2 = this.pushDialogsOverrideMention.get(dialogId2);
                             this.pushDialogsOverrideMention.put(dialogId2, Integer.valueOf(num2 == null ? 1 : num2.intValue() + 1));
