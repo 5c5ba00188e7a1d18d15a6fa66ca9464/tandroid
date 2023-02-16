@@ -81,17 +81,17 @@ public class ReactionsEffectOverlay {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x0405  */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x054c  */
-    /* JADX WARN: Removed duplicated region for block: B:155:0x05dc  */
-    /* JADX WARN: Removed duplicated region for block: B:160:0x0617  */
-    /* JADX WARN: Removed duplicated region for block: B:163:0x063b  */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x03e5  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x03fa  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x040d  */
+    /* JADX WARN: Removed duplicated region for block: B:138:0x0554  */
+    /* JADX WARN: Removed duplicated region for block: B:163:0x05e4  */
+    /* JADX WARN: Removed duplicated region for block: B:168:0x061f  */
+    /* JADX WARN: Removed duplicated region for block: B:171:0x0643  */
     /* JADX WARN: Removed duplicated region for block: B:45:0x0191  */
     /* JADX WARN: Removed duplicated region for block: B:46:0x01b7  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x0342  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x0352  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x03dd  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x03f2  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x034a  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x035a  */
     /* JADX WARN: Type inference failed for: r15v11 */
     /* JADX WARN: Type inference failed for: r15v13 */
     /* JADX WARN: Type inference failed for: r15v14 */
@@ -275,8 +275,12 @@ public class ReactionsEffectOverlay {
                 f5 = this.holderView.loopImageView.getWidth() * this.holderView.getScaleX();
             } else if (reactionButton != null) {
                 chatMessageCell.getLocationInWindow(this.loc);
-                imageX = this.loc[0] + chatMessageCell.reactionsLayoutInBubble.x + reactionButton.x + reactionButton.imageReceiver.getImageX();
-                imageY = this.loc[1] + chatMessageCell.reactionsLayoutInBubble.y + reactionButton.y + reactionButton.imageReceiver.getImageY();
+                float f20 = this.loc[0] + chatMessageCell.reactionsLayoutInBubble.x + reactionButton.x;
+                ImageReceiver imageReceiver2 = reactionButton.imageReceiver;
+                imageX = f20 + (imageReceiver2 == null ? 0.0f : imageReceiver2.getImageX());
+                float f21 = this.loc[1] + chatMessageCell.reactionsLayoutInBubble.y + reactionButton.y;
+                ImageReceiver imageReceiver3 = reactionButton.imageReceiver;
+                imageY = f21 + (imageReceiver3 == null ? 0.0f : imageReceiver3.getImageY());
                 f5 = reactionButton.imageReceiver.getImageHeight();
             } else {
                 ((View) chatMessageCell.getParent()).getLocationInWindow(this.loc);
@@ -331,7 +335,7 @@ public class ReactionsEffectOverlay {
                                     str2 = i13 + "_" + i13;
                                 }
                                 String str3 = str2;
-                                ImageReceiver imageReceiver2 = animationView.getImageReceiver();
+                                ImageReceiver imageReceiver4 = animationView.getImageReceiver();
                                 StringBuilder sb = new StringBuilder();
                                 int i15 = uniqPrefix;
                                 uniqPrefix = i15 + 1;
@@ -339,7 +343,7 @@ public class ReactionsEffectOverlay {
                                 sb.append("_");
                                 sb.append(chatMessageCell.getMessageObject().getId());
                                 sb.append("_");
-                                imageReceiver2.setUniqKeyPrefix(sb.toString());
+                                imageReceiver4.setUniqKeyPrefix(sb.toString());
                                 animationView.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, (ImageLocation) null, (String) null, 0, (Object) null);
                                 z = false;
                                 animationView.getImageReceiver().setAutoRepeat(0);
@@ -356,7 +360,7 @@ public class ReactionsEffectOverlay {
                         }
                         if (i5 == 2) {
                             TLRPC$Document tLRPC$Document2 = tLRPC$TL_availableReaction.appear_animation;
-                            ImageReceiver imageReceiver3 = animationView2.getImageReceiver();
+                            ImageReceiver imageReceiver5 = animationView2.getImageReceiver();
                             StringBuilder sb2 = new StringBuilder();
                             int i16 = uniqPrefix;
                             uniqPrefix = i16 + 1;
@@ -364,11 +368,11 @@ public class ReactionsEffectOverlay {
                             sb2.append("_");
                             sb2.append(chatMessageCell.getMessageObject().getId());
                             sb2.append("_");
-                            imageReceiver3.setUniqKeyPrefix(sb2.toString());
+                            imageReceiver5.setUniqKeyPrefix(sb2.toString());
                             animationView2.setImage(ImageLocation.getForDocument(tLRPC$Document2), i12 + "_" + i12, (ImageLocation) null, (String) null, 0, (Object) null);
                         } else if (i5 == 0) {
                             TLRPC$Document tLRPC$Document3 = tLRPC$TL_availableReaction.activate_animation;
-                            ImageReceiver imageReceiver4 = animationView2.getImageReceiver();
+                            ImageReceiver imageReceiver6 = animationView2.getImageReceiver();
                             StringBuilder sb3 = new StringBuilder();
                             int i17 = uniqPrefix;
                             uniqPrefix = i17 + 1;
@@ -376,7 +380,7 @@ public class ReactionsEffectOverlay {
                             sb3.append("_");
                             sb3.append(chatMessageCell.getMessageObject().getId());
                             sb3.append("_");
-                            imageReceiver4.setUniqKeyPrefix(sb3.toString());
+                            imageReceiver6.setUniqKeyPrefix(sb3.toString());
                             animationView2.setImage(ImageLocation.getForDocument(tLRPC$Document3), i12 + "_" + i12, (ImageLocation) null, (String) null, 0, (Object) null);
                         }
                     } else {

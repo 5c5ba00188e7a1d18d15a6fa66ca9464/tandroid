@@ -15391,7 +15391,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     public static Bitmap createVideoThumbnailAtTime(String str, long j, int[] iArr, boolean z) {
         Bitmap bitmap;
         if (z) {
-            AnimatedFileDrawable animatedFileDrawable = new AnimatedFileDrawable(new File(str), true, 0L, null, null, null, 0L, 0, true, null);
+            AnimatedFileDrawable animatedFileDrawable = new AnimatedFileDrawable(new File(str), true, 0L, 0, null, null, null, 0L, 0, true, null);
             bitmap = animatedFileDrawable.getFrameAtTime(j, z);
             if (iArr != null) {
                 iArr[0] = animatedFileDrawable.getOrientation();
@@ -15414,13 +15414,13 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         }
                     }
                     bitmap = frameAtTime;
-                } catch (Exception unused2) {
+                } finally {
+                    try {
+                        mediaMetadataRetriever.release();
+                    } catch (Throwable unused2) {
+                    }
                 }
-            } finally {
-                try {
-                    mediaMetadataRetriever.release();
-                } catch (Throwable unused3) {
-                }
+            } catch (Exception unused3) {
             }
         }
         return bitmap;

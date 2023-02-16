@@ -459,6 +459,10 @@ public class AnimatedTextView extends View {
             return this.currentWidth;
         }
 
+        public float getHeight() {
+            return this.currentHeight;
+        }
+
         private StaticLayout makeLayout(CharSequence charSequence, int i) {
             if (i <= 0) {
                 android.graphics.Point point = AndroidUtilities.displaySize;

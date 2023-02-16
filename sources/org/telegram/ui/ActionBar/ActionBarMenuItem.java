@@ -809,11 +809,18 @@ public class ActionBarMenuItem extends FrameLayout {
                     FrameLayout frameLayout = new FrameLayout(getContext());
                     frameLayout.setAlpha(0.0f);
                     frameLayout.animate().alpha(1.0f).setDuration(100L).start();
-                    Drawable mutate = ContextCompat.getDrawable(getContext(), R.drawable.popup_fixed_alert2).mutate();
-                    mutate.setColorFilter(new PorterDuffColorFilter(this.popupLayout.getBackgroundColor(), PorterDuff.Mode.MULTIPLY));
-                    frameLayout.setBackground(mutate);
-                    frameLayout.addView(view);
-                    linearLayout.addView(frameLayout, LayoutHelper.createLinear(-2, -2));
+                    if (view.getParent() instanceof ViewGroup) {
+                        ((ViewGroup) view.getParent()).removeView(view);
+                    }
+                    if ((view instanceof ActionBarMenuSubItem) || (view instanceof LinearLayout)) {
+                        Drawable mutate = ContextCompat.getDrawable(getContext(), R.drawable.popup_fixed_alert2).mutate();
+                        mutate.setColorFilter(new PorterDuffColorFilter(this.popupLayout.getBackgroundColor(), PorterDuff.Mode.MULTIPLY));
+                        frameLayout.setBackground(mutate);
+                        frameLayout.addView(view, LayoutHelper.createFrame(-1, -2.0f));
+                    } else {
+                        frameLayout.addView(view, LayoutHelper.createFrame(-1, -2.0f, 0, 0.0f, 0.0f, 0.0f, 4.0f));
+                    }
+                    linearLayout.addView(frameLayout, LayoutHelper.createLinear(-1, -2));
                     linearLayout.addView(this.popupLayout, LayoutHelper.createLinear(-2, -2, 0, 0, -AndroidUtilities.dp(4.0f), 0, 0));
                     this.popupLayout.setTopView(frameLayout);
                     actionBarPopupWindowLayout = linearLayout;
@@ -2278,11 +2285,13 @@ public class ActionBarMenuItem extends FrameLayout {
     public static class Item {
         public boolean dismiss;
         public int icon;
+        private Integer iconColor;
         public Drawable iconDrawable;
         public int id;
         public boolean needCheck;
         private View.OnClickListener overrideClickListener;
         public CharSequence text;
+        private Integer textColor;
         private View view;
         public View viewToSwipeBack;
         public int viewType;
@@ -2346,6 +2355,10 @@ public class ActionBarMenuItem extends FrameLayout {
                             ActionBarMenuItem.Item.this.lambda$add$0(actionBarMenuItem, view);
                         }
                     });
+                    Integer num = this.textColor;
+                    if (num != null && this.iconColor != null) {
+                        actionBarMenuSubItem.setColors(num.intValue(), this.iconColor.intValue());
+                    }
                     this.view = actionBarMenuSubItem;
                 } else if (i == 1) {
                     ActionBarPopupWindow.GapView gapView = new ActionBarPopupWindow.GapView(actionBarMenuItem.getContext(), actionBarMenuItem.resourcesProvider, "actionBarDefaultSubmenuSeparator");
@@ -2380,6 +2393,10 @@ public class ActionBarMenuItem extends FrameLayout {
                         }
                     });
                     actionBarMenuItem.popupLayout.swipeBackGravityRight = true;
+                    Integer num2 = this.textColor;
+                    if (num2 != null && this.iconColor != null) {
+                        actionBarMenuSubItem2.setColors(num2.intValue(), this.iconColor.intValue());
+                    }
                     this.view = actionBarMenuSubItem2;
                 }
             }
@@ -2464,6 +2481,18 @@ public class ActionBarMenuItem extends FrameLayout {
                 View view = this.view;
                 if (view instanceof ActionBarMenuSubItem) {
                     ((ActionBarMenuSubItem) view).getRightIcon().setVisibility(this.rightIconVisibility);
+                }
+            }
+        }
+
+        public void setColors(int i, int i2) {
+            Integer num = this.textColor;
+            if (num == null || this.iconColor == null || num.intValue() != i || this.iconColor.intValue() != i2) {
+                this.textColor = Integer.valueOf(i);
+                this.iconColor = Integer.valueOf(i2);
+                View view = this.view;
+                if (view instanceof ActionBarMenuSubItem) {
+                    ((ActionBarMenuSubItem) view).setColors(i, i2);
                 }
             }
         }

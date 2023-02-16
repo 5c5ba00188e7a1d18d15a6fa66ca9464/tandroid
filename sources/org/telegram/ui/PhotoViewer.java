@@ -21830,7 +21830,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 File file = new File(uri.getPath());
                 int i2 = UserConfig.selectedAccount;
                 Point point = AndroidUtilities.displaySize;
-                AnimatedFileDrawable animatedFileDrawable = new AnimatedFileDrawable(file, true, 0L, null, null, null, 0L, i2, false, point.x, point.y, null);
+                AnimatedFileDrawable animatedFileDrawable = new AnimatedFileDrawable(file, true, 0L, 0, null, null, null, 0L, i2, false, point.x, point.y, null);
                 final Bitmap frameAtTime = animatedFileDrawable.getFrameAtTime(0L);
                 animatedFileDrawable.recycle();
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PhotoViewer$FirstFrameView$$ExternalSyntheticLambda2

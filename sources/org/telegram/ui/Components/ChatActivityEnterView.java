@@ -2736,7 +2736,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     this.moveToSendStateRunnable = runnable;
                     AndroidUtilities.runOnUIThread(runnable, 200L);
                 }
-                return false;
+                getParent().requestDisallowInterceptTouchEvent(true);
+                return true;
             }
             ChatActivity chatActivity = this.parentFragment;
             if (chatActivity != null) {

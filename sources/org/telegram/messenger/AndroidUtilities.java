@@ -112,6 +112,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -4255,25 +4256,28 @@ public class AndroidUtilities {
         if (Build.VERSION.SDK_INT >= 23) {
             View decorView = window.getDecorView();
             int systemUiVisibility = decorView.getSystemUiVisibility();
+            int i = 0;
             if (z) {
                 if ((systemUiVisibility & 8192) == 0) {
                     decorView.setSystemUiVisibility(systemUiVisibility | 8192);
                 }
                 if (!SharedConfig.noStatusBar && !z2) {
-                    window.setStatusBarColor(LIGHT_STATUS_BAR_OVERLAY);
-                    return;
-                } else {
-                    window.setStatusBarColor(0);
+                    i = LIGHT_STATUS_BAR_OVERLAY;
+                }
+                if (window.getStatusBarColor() != i) {
+                    window.setStatusBarColor(i);
                     return;
                 }
+                return;
             }
             if ((systemUiVisibility & 8192) != 0) {
                 decorView.setSystemUiVisibility(systemUiVisibility & (-8193));
             }
             if (!SharedConfig.noStatusBar && !z2) {
-                window.setStatusBarColor(DARK_STATUS_BAR_OVERLAY);
-            } else {
-                window.setStatusBarColor(0);
+                i = DARK_STATUS_BAR_OVERLAY;
+            }
+            if (window.getStatusBarColor() != i) {
+                window.setStatusBarColor(i);
             }
         }
     }
@@ -5002,5 +5006,50 @@ public class AndroidUtilities {
         sb.append("ms] ");
         sb.append(str);
         Log.i("timer", sb.toString());
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x004e, code lost:
+        if (r2 == null) goto L25;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public static Long getCpuInfo(int i, int i2) {
+        RandomAccessFile randomAccessFile;
+        RandomAccessFile randomAccessFile2 = null;
+        try {
+            randomAccessFile = new RandomAccessFile(String.format(Locale.ENGLISH, "/sys/devices/system/cpu/cpu%d/%s", Integer.valueOf(i), i2 != 0 ? i2 != 1 ? i2 != 3 ? "cpufreq/cpuinfo_max_freq" : "cpu_capacity" : "cpufreq/cpuinfo_cur_freq" : "cpufreq/cpuinfo_min_freq"), "r");
+            try {
+                String readLine = randomAccessFile.readLine();
+                if (readLine != null) {
+                    Long parseLong = Utilities.parseLong(readLine);
+                    try {
+                        randomAccessFile.close();
+                    } catch (Exception unused) {
+                    }
+                    return parseLong;
+                }
+            } catch (Exception unused2) {
+            } catch (Throwable th) {
+                th = th;
+                randomAccessFile2 = randomAccessFile;
+                if (randomAccessFile2 != null) {
+                    try {
+                        randomAccessFile2.close();
+                    } catch (Exception unused3) {
+                    }
+                }
+                throw th;
+            }
+        } catch (Exception unused4) {
+            randomAccessFile = null;
+        } catch (Throwable th2) {
+            th = th2;
+        }
+        try {
+            randomAccessFile.close();
+        } catch (Exception unused5) {
+            return null;
+        }
     }
 }

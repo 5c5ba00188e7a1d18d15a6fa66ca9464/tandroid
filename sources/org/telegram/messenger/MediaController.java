@@ -242,7 +242,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     private VideoPlayer emojiSoundPlayer = null;
     private int emojiSoundPlayerNum = 0;
     private float currentPlaybackSpeed = VOLUME_NORMAL;
+    private boolean currentPlaybackSpeed2xFake = false;
     private float currentMusicPlaybackSpeed = VOLUME_NORMAL;
+    private boolean currentMusicPlaybackSpeed2xFake = false;
     private float fastPlaybackSpeed = VOLUME_NORMAL;
     private float fastMusicPlaybackSpeed = VOLUME_NORMAL;
     private long lastProgress = 0;
@@ -830,6 +832,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         MediaController.this.fileBuffer.rewind();
                         MediaController mediaController2 = MediaController.this;
                         MediaController.access$1614(mediaController2, (mediaController2.fileBuffer.limit() / 2) / (MediaController.this.sampleRate / 1000));
+                        FileLog.d("frame writed");
+                    } else {
+                        FileLog.e("writing frame failed");
                     }
                 }
                 if (i != -1) {
@@ -1173,7 +1178,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     public /* synthetic */ void lambda$new$3() {
         try {
             this.currentPlaybackSpeed = MessagesController.getGlobalMainSettings().getFloat("playbackSpeed", VOLUME_NORMAL);
+            this.currentPlaybackSpeed2xFake = MessagesController.getGlobalMainSettings().getBoolean("playbackSpeedFake2x", false);
             this.currentMusicPlaybackSpeed = MessagesController.getGlobalMainSettings().getFloat("musicPlaybackSpeed", VOLUME_NORMAL);
+            this.currentMusicPlaybackSpeed2xFake = MessagesController.getGlobalMainSettings().getBoolean("musicPlaybackSpeedFake2x", false);
             this.fastPlaybackSpeed = MessagesController.getGlobalMainSettings().getFloat("fastPlaybackSpeed", 1.8f);
             this.fastMusicPlaybackSpeed = MessagesController.getGlobalMainSettings().getFloat("fastMusicPlaybackSpeed", 1.8f);
             SensorManager sensorManager = (SensorManager) ApplicationLoader.applicationContext.getSystemService("sensor");
@@ -3024,7 +3031,12 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     public void setPlaybackSpeed(boolean z, float f) {
+        setPlaybackSpeed(z, f, false);
+    }
+
+    public void setPlaybackSpeed(boolean z, float f, boolean z2) {
         if (z) {
+            this.currentMusicPlaybackSpeed2xFake = z2;
             if (this.currentMusicPlaybackSpeed >= 6.0f && f == VOLUME_NORMAL && this.playingMessageObject != null) {
                 this.audioPlayer.pause();
                 final MessageObject messageObject = this.playingMessageObject;
@@ -3041,6 +3053,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 this.fastMusicPlaybackSpeed = f;
             }
         } else {
+            this.currentPlaybackSpeed2xFake = z2;
             this.currentPlaybackSpeed = f;
             if (Math.abs(f - VOLUME_NORMAL) > 0.001f) {
                 this.fastPlaybackSpeed = f;
@@ -3055,7 +3068,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 videoPlayer2.setPlaybackSpeed(f);
             }
         }
-        MessagesController.getGlobalMainSettings().edit().putFloat(z ? "musicPlaybackSpeed" : "playbackSpeed", f).putFloat(z ? "fastMusicPlaybackSpeed" : "fastPlaybackSpeed", z ? this.fastMusicPlaybackSpeed : this.fastPlaybackSpeed).commit();
+        MessagesController.getGlobalMainSettings().edit().putFloat(z ? "musicPlaybackSpeed" : "playbackSpeed", f).putBoolean(z ? "musicPlaybackSpeedFake2x" : "playbackSpeedFake2x", z2).putFloat(z ? "fastMusicPlaybackSpeed" : "fastPlaybackSpeed", z ? this.fastMusicPlaybackSpeed : this.fastPlaybackSpeed).commit();
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.messagePlayingSpeedChanged, new Object[0]);
     }
 
@@ -3071,11 +3084,31 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     public float getPlaybackSpeed(boolean z) {
-        return z ? this.currentMusicPlaybackSpeed : this.currentPlaybackSpeed;
+        float f = z ? this.currentMusicPlaybackSpeed : this.currentPlaybackSpeed;
+        if (Math.abs(f - 1.8f) < 0.01f) {
+            if (z) {
+                if (this.currentMusicPlaybackSpeed2xFake) {
+                    return 2.0f;
+                }
+            } else if (this.currentPlaybackSpeed2xFake) {
+                return 2.0f;
+            }
+        }
+        return f;
     }
 
     public float getFastPlaybackSpeed(boolean z) {
-        return z ? this.fastMusicPlaybackSpeed : this.fastPlaybackSpeed;
+        float f = z ? this.fastMusicPlaybackSpeed : this.fastPlaybackSpeed;
+        if (Math.abs(f - 1.8f) < 0.01f) {
+            if (z) {
+                if (this.currentPlaybackSpeed2xFake) {
+                    return 2.0f;
+                }
+            } else if (this.currentMusicPlaybackSpeed2xFake) {
+                return 2.0f;
+            }
+        }
+        return f;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -4364,7 +4397,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
         SharedConfig.lockFile(this.recordingAudioFile);
         try {
-            if (startRecord(this.recordingAudioFile.getAbsolutePath(), this.sampleRate) == 0) {
+            if (startRecord(this.recordingAudioFile.getPath(), this.sampleRate) == 0) {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda21
                     @Override // java.lang.Runnable
                     public final void run() {
@@ -4503,6 +4536,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         if (i != 0) {
             final TLRPC$TL_document tLRPC$TL_document = this.recordingAudio;
             final File file = this.recordingAudioFile;
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.d("stop recording internal filename " + this.recordingAudioFile.getPath());
+            }
             this.fileEncodingQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda26
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -4533,6 +4569,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$stopRecordingInternal$31(final File file, final TLRPC$TL_document tLRPC$TL_document, final int i, final boolean z, final int i2) {
         stopRecord();
+        if (BuildVars.LOGS_ENABLED) {
+            FileLog.d("stop recording internal in queue " + file.exists() + " " + file.length());
+        }
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda27
             @Override // java.lang.Runnable
             public final void run() {

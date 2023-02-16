@@ -300,6 +300,9 @@ public class CodeFieldContainer extends LinearLayout {
     }
 
     public void setText(String str, boolean z) {
+        if (this.codeField == null) {
+            return;
+        }
         int i = 0;
         if (z) {
             int i2 = 0;

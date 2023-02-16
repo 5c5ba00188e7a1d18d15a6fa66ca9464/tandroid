@@ -661,7 +661,8 @@ public class ReactionsLayoutInBubble {
                 imageReceiver.setImageCoords(this.drawingImageRect);
                 drawImage(canvas, f2);
             }
-            if (this.count != 0 || this.counterDrawable.countChangeProgress != 1.0f) {
+            CounterView.CounterDrawable counterDrawable = this.counterDrawable;
+            if (counterDrawable != null && (this.count != 0 || counterDrawable.countChangeProgress != 1.0f)) {
                 canvas.save();
                 canvas.translate(AndroidUtilities.dp(8.0f) + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(2.0f), 0.0f);
                 this.counterDrawable.draw(canvas);

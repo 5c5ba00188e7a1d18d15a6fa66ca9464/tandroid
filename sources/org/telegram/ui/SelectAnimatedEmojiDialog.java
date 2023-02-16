@@ -2379,7 +2379,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(SelectAnimatedEmojiDialog.currentAccount).getReactionsMap().get(visibleReaction.emojicon);
                     if (tLRPC$TL_availableReaction != null) {
                         SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.activate_animation, "windowBackgroundWhiteGrayIcon", 0.2f);
-                        if (!SharedConfig.getLiteMode().animatedEmojiEnabled()) {
+                        if (!SharedConfig.getLiteMode().animatedEmojiEnabled() || SharedConfig.getDevicePerformanceClass() == 0) {
                             imageViewEmoji2.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_firstframe", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
                         } else {
                             imageViewEmoji2.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_pcache", ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "30_30_firstframe", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
@@ -2635,8 +2635,8 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             return this.VIEW_TYPE_SEARCH;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:280:0x06a7  */
-        /* JADX WARN: Removed duplicated region for block: B:284:0x06e6  */
+        /* JADX WARN: Removed duplicated region for block: B:283:0x06ae  */
+        /* JADX WARN: Removed duplicated region for block: B:287:0x06ed  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -2708,7 +2708,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                         TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(SelectAnimatedEmojiDialog.currentAccount).getReactionsMap().get(visibleReaction.emojicon);
                         if (tLRPC$TL_availableReaction != null) {
                             SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.activate_animation, "windowBackgroundWhiteGrayIcon", 0.2f);
-                            if (!SharedConfig.getLiteMode().animatedEmojiEnabled()) {
+                            if (!SharedConfig.getLiteMode().animatedEmojiEnabled() || SharedConfig.getDevicePerformanceClass() == 0) {
                                 imageViewEmoji.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_firstframe", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
                             } else {
                                 imageViewEmoji.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_pcache", ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "30_30_firstframe", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
@@ -4770,6 +4770,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             this.showAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.21
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
+                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, 512);
                     SelectAnimatedEmojiDialog.this.checkScroll();
                     SelectAnimatedEmojiDialog.this.updateShow(1.0f);
                     for (int i3 = 0; i3 < SelectAnimatedEmojiDialog.this.emojiGridView.getChildCount(); i3++) {

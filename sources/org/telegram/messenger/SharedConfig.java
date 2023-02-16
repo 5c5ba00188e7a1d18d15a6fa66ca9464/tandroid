@@ -97,6 +97,7 @@ public class SharedConfig {
     public static boolean noSoundHintShowed = false;
     public static boolean noStatusBar = false;
     public static boolean noiseSupression = false;
+    private static int overrideDevicePerformanceClass = 0;
     public static String passcodeHash = "";
     public static long passcodeRetryInMs = 0;
     public static int passcodeType = 0;
@@ -162,6 +163,10 @@ public class SharedConfig {
     @Retention(RetentionPolicy.SOURCE)
     /* loaded from: classes.dex */
     public @interface PerformanceClass {
+    }
+
+    public static String performanceClassName(int i) {
+        return i != 0 ? i != 1 ? i != 2 ? "UNKNOWN" : "HIGH" : "AVERAGE" : "LOW";
     }
 
     public static void toggleSaveToGalleryFlag(int i) {
@@ -340,8 +345,8 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x017e A[Catch: Exception -> 0x01a0, all -> 0x0404, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:83:0x012f, outer: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0182 A[Catch: Exception -> 0x01a0, all -> 0x0404, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:83:0x012f, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x017e A[Catch: Exception -> 0x01a0, all -> 0x040c, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:83:0x012f, outer: #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0182 A[Catch: Exception -> 0x01a0, all -> 0x040c, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:83:0x012f, outer: #4 }] */
     /* JADX WARN: Removed duplicated region for block: B:61:0x0229  */
     /* JADX WARN: Removed duplicated region for block: B:62:0x022c  */
     /* JADX WARN: Removed duplicated region for block: B:65:0x023c  */
@@ -467,6 +472,7 @@ public class SharedConfig {
                             archiveHidden = sharedPreferences2.getBoolean("archiveHidden", false);
                             distanceSystemType = sharedPreferences2.getInt("distanceSystemType", 0);
                             devicePerformanceClass = sharedPreferences2.getInt("devicePerformanceClass", -1);
+                            overrideDevicePerformanceClass = sharedPreferences2.getInt("overrideDevicePerformanceClass", -1);
                             loopStickers = sharedPreferences2.getBoolean("loopStickers", true);
                             keepMedia = sharedPreferences2.getInt("keep_media", CacheByChatsController.KEEP_MEDIA_ONE_MONTH);
                             noStatusBar = sharedPreferences2.getBoolean("noStatusBar", true);
@@ -554,6 +560,7 @@ public class SharedConfig {
                 archiveHidden = sharedPreferences22.getBoolean("archiveHidden", false);
                 distanceSystemType = sharedPreferences22.getInt("distanceSystemType", 0);
                 devicePerformanceClass = sharedPreferences22.getInt("devicePerformanceClass", -1);
+                overrideDevicePerformanceClass = sharedPreferences22.getInt("overrideDevicePerformanceClass", -1);
                 loopStickers = sharedPreferences22.getBoolean("loopStickers", true);
                 keepMedia = sharedPreferences22.getInt("keep_media", CacheByChatsController.KEEP_MEDIA_ONE_MONTH);
                 noStatusBar = sharedPreferences22.getBoolean("noStatusBar", true);
@@ -914,9 +921,9 @@ public class SharedConfig {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x0253  */
-    /* JADX WARN: Removed duplicated region for block: B:135:0x027c  */
-    /* JADX WARN: Removed duplicated region for block: B:175:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x025d  */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x0286  */
+    /* JADX WARN: Removed duplicated region for block: B:180:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -982,9 +989,11 @@ public class SharedConfig {
                 try {
                     File[] listFiles = createMediaPaths.valueAt(i9).listFiles();
                     ArrayList<? extends CacheByChatsController.KeepMediaFile> arrayList3 = new ArrayList<>();
-                    for (int i10 = 0; i10 < listFiles.length; i10++) {
-                        if (!usingFilePaths.contains(listFiles[i10].getAbsolutePath())) {
-                            arrayList3.add(new CacheByChatsController.KeepMediaFile(listFiles[i10]));
+                    if (listFiles != null) {
+                        for (int i10 = 0; i10 < listFiles.length; i10++) {
+                            if (!listFiles[i10].isDirectory() && !usingFilePaths.contains(listFiles[i10].getAbsolutePath())) {
+                                arrayList3.add(new CacheByChatsController.KeepMediaFile(listFiles[i10]));
+                            }
                         }
                     }
                     for (int i11 = 0; i11 < arrayList2.size(); i11++) {
@@ -1220,6 +1229,16 @@ public class SharedConfig {
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putInt("repeatMode", repeatMode);
         edit.commit();
+    }
+
+    public static void overrideDevicePerformanceClass(int i) {
+        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+        overrideDevicePerformanceClass = i;
+        edit.putInt("overrideDevicePerformanceClass", i).remove("light_mode").commit();
+        LiteMode liteMode2 = liteMode;
+        if (liteMode2 != null) {
+            liteMode2.loadPreference();
+        }
     }
 
     public static void toggleAutoplayGifs() {
@@ -1603,37 +1622,43 @@ public class SharedConfig {
     }
 
     public static int getDevicePerformanceClass() {
+        int i = overrideDevicePerformanceClass;
+        if (i != -1) {
+            return i;
+        }
         if (devicePerformanceClass == -1) {
-            int i = Build.VERSION.SDK_INT;
-            int i2 = ConnectionsManager.CPU_COUNT;
-            int memoryClass = ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).getMemoryClass();
-            int i3 = 0;
-            int i4 = 0;
-            for (int i5 = 0; i5 < i2; i5++) {
-                try {
-                    RandomAccessFile randomAccessFile = new RandomAccessFile(String.format(Locale.ENGLISH, "/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_max_freq", Integer.valueOf(i5)), "r");
-                    String readLine = randomAccessFile.readLine();
-                    if (readLine != null) {
-                        i4 += Utilities.parseInt((CharSequence) readLine).intValue() / 1000;
-                        i3++;
-                    }
-                    randomAccessFile.close();
-                } catch (Throwable unused) {
-                }
-            }
-            int ceil = i3 == 0 ? -1 : (int) Math.ceil(i4 / i3);
-            if (i < 21 || i2 <= 2 || memoryClass <= 100 || ((i2 <= 4 && ceil != -1 && ceil <= 1250) || ((i2 <= 4 && ceil <= 1600 && memoryClass <= 128 && i <= 21) || (i2 <= 4 && ceil <= 1300 && memoryClass <= 128 && i <= 24)))) {
-                devicePerformanceClass = 0;
-            } else if (i2 < 8 || memoryClass <= 160 || ((ceil != -1 && ceil <= 2055) || (ceil == -1 && i2 == 8 && i <= 23))) {
-                devicePerformanceClass = 1;
-            } else {
-                devicePerformanceClass = 2;
-            }
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("device performance info selected_class = " + devicePerformanceClass + " (cpu_count = " + i2 + ", freq = " + ceil + ", memoryClass = " + memoryClass + ", android version " + i + ", manufacture " + Build.MANUFACTURER + ", screenRefreshRate=" + AndroidUtilities.screenRefreshRate + ")");
-            }
+            devicePerformanceClass = measureDevicePerformanceClass();
         }
         return devicePerformanceClass;
+    }
+
+    public static int measureDevicePerformanceClass() {
+        int i = Build.VERSION.SDK_INT;
+        int i2 = ConnectionsManager.CPU_COUNT;
+        int memoryClass = ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).getMemoryClass();
+        int i3 = 0;
+        int i4 = 0;
+        int i5 = 0;
+        for (int i6 = 0; i6 < i2; i6++) {
+            try {
+                RandomAccessFile randomAccessFile = new RandomAccessFile(String.format(Locale.ENGLISH, "/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_max_freq", Integer.valueOf(i6)), "r");
+                String readLine = randomAccessFile.readLine();
+                if (readLine != null) {
+                    i5 += Utilities.parseInt((CharSequence) readLine).intValue() / 1000;
+                    i4++;
+                }
+                randomAccessFile.close();
+            } catch (Throwable unused) {
+            }
+        }
+        int ceil = i4 == 0 ? -1 : (int) Math.ceil(i5 / i4);
+        if (i >= 21 && i2 > 2 && memoryClass > 100 && ((i2 > 4 || ceil == -1 || ceil > 1250) && ((i2 > 4 || ceil > 1600 || memoryClass > 128 || i > 21) && (i2 > 4 || ceil > 1300 || memoryClass > 128 || i > 24)))) {
+            i3 = (i2 < 8 || memoryClass <= 160 || (ceil != -1 && ceil <= 2055) || (ceil == -1 && i2 == 8 && i <= 23)) ? 1 : 2;
+        }
+        if (BuildVars.LOGS_ENABLED) {
+            FileLog.d("device performance info selected_class = " + i3 + " (cpu_count = " + i2 + ", freq = " + ceil + ", memoryClass = " + memoryClass + ", android version " + i + ", manufacture " + Build.MANUFACTURER + ", screenRefreshRate=" + AndroidUtilities.screenRefreshRate + ")");
+        }
+        return i3;
     }
 
     public static void setMediaColumnsCount(int i) {
@@ -1734,7 +1759,8 @@ public class SharedConfig {
             Theme.reloadWallpaper();
         }
 
-        private void loadPreference() {
+        /* JADX INFO: Access modifiers changed from: private */
+        public void loadPreference() {
             int i = MessagesController.getGlobalMainSettings().getInt("light_mode", SharedConfig.getDevicePerformanceClass() == 0 ? 1 : 0);
             this.enabled = (i & 1) != 0;
             this.animatedEmoji = (i & 2) != 0;

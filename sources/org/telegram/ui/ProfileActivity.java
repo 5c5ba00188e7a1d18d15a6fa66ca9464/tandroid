@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ConfigurationInfo;
 import android.content.pm.PackageInfo;
 import android.content.res.Configuration;
 import android.database.DataSetObserver;
@@ -81,7 +82,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -4353,7 +4353,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (i6 >= 2 || BuildVars.DEBUG_PRIVATE_VERSION) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this.getParentActivity(), ProfileActivity.this.resourcesProvider);
                 builder.setTitle(LocaleController.getString("DebugMenu", R.string.DebugMenu));
-                CharSequence[] charSequenceArr = new CharSequence[25];
+                CharSequence[] charSequenceArr = new CharSequence[26];
                 charSequenceArr[0] = LocaleController.getString("DebugMenuImportContacts", R.string.DebugMenuImportContacts);
                 charSequenceArr[1] = LocaleController.getString("DebugMenuReloadContacts", R.string.DebugMenuReloadContacts);
                 charSequenceArr[2] = LocaleController.getString("DebugMenuResetContacts", R.string.DebugMenuResetContacts);
@@ -4435,11 +4435,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 boolean z2 = BuildVars.DEBUG_PRIVATE_VERSION;
                 charSequenceArr[23] = z2 ? "Force remove premium suggestions" : null;
                 charSequenceArr[24] = z2 ? "Share device info" : null;
+                charSequenceArr[25] = z2 ? "Force performance class" : null;
                 final Context context = this.val$context;
-                builder.setItems(charSequenceArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$15$$ExternalSyntheticLambda0
+                builder.setItems(charSequenceArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$15$$ExternalSyntheticLambda1
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i8) {
-                        ProfileActivity.15.this.lambda$onItemClick$2(context, dialogInterface, i8);
+                        ProfileActivity.15.this.lambda$onItemClick$3(context, dialogInterface, i8);
                     }
                 });
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -4455,129 +4456,275 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onItemClick$2(Context context, DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$onItemClick$3(Context context, DialogInterface dialogInterface, int i) {
+            int i2;
+            int i3 = 1;
+            int i4 = 0;
             if (i == 0) {
                 ProfileActivity.this.getUserConfig().syncContacts = true;
                 ProfileActivity.this.getUserConfig().saveConfig(false);
                 ProfileActivity.this.getContactsController().forceImportContacts();
             } else if (i == 1) {
                 ProfileActivity.this.getContactsController().loadContacts(false, 0L);
-            } else if (i == 2) {
-                ProfileActivity.this.getContactsController().resetImportedContacts();
-            } else if (i == 3) {
-                ProfileActivity.this.getMessagesController().forceResetDialogs();
-            } else if (i == 4) {
-                BuildVars.LOGS_ENABLED = !BuildVars.LOGS_ENABLED;
-                ApplicationLoader.applicationContext.getSharedPreferences("systemConfig", 0).edit().putBoolean("logsEnabled", BuildVars.LOGS_ENABLED).commit();
-                ProfileActivity.this.updateRowsIds();
-                ProfileActivity.this.listAdapter.notifyDataSetChanged();
-            } else if (i == 5) {
-                SharedConfig.toggleInappCamera();
-            } else if (i == 6) {
-                ProfileActivity.this.getMessagesStorage().clearSentMedia();
-                SharedConfig.setNoSoundHintShowed(false);
-                MessagesController.getGlobalMainSettings().edit().remove("archivehint").remove("proximityhint").remove("archivehint_l").remove("gifhint").remove("reminderhint").remove("soundHint").remove("themehint").remove("bganimationhint").remove("filterhint").commit();
-                MessagesController.getEmojiSettings(((BaseFragment) ProfileActivity.this).currentAccount).edit().remove("featured_hidden").remove("emoji_featured_hidden").commit();
-                SharedConfig.textSelectionHintShows = 0;
-                SharedConfig.lockRecordAudioVideoHint = 0;
-                SharedConfig.stickersReorderingHintUsed = false;
-                SharedConfig.forwardingOptionsHintShown = false;
-                SharedConfig.messageSeenHintCount = 3;
-                SharedConfig.emojiInteractionsHintCount = 3;
-                SharedConfig.dayNightThemeSwitchHintCount = 3;
-                SharedConfig.fastScrollHintCount = 3;
-                ChatThemeController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).clearCache();
-                ProfileActivity.this.getNotificationCenter().postNotificationName(NotificationCenter.newSuggestionsAvailable, new Object[0]);
-                RestrictedLanguagesSelectActivity.cleanup();
-            } else if (i == 7) {
-                VoIPHelper.showCallDebugSettings(ProfileActivity.this.getParentActivity());
-            } else if (i == 8) {
-                SharedConfig.toggleRoundCamera16to9();
-            } else if (i == 9) {
-                ((LaunchActivity) ProfileActivity.this.getParentActivity()).checkAppUpdate(true);
-            } else if (i == 10) {
-                ProfileActivity.this.getMessagesStorage().readAllDialogs(-1);
-            } else if (i == 11) {
-                SharedConfig.togglePauseMusicOnRecord();
-            } else if (i == 12) {
-                SharedConfig.toggleSmoothKeyboard();
-                if (!SharedConfig.smoothKeyboard || ProfileActivity.this.getParentActivity() == null) {
+            } else {
+                int i5 = 2;
+                if (i == 2) {
+                    ProfileActivity.this.getContactsController().resetImportedContacts();
                     return;
                 }
-                ProfileActivity.this.getParentActivity().getWindow().setSoftInputMode(16);
-            } else if (i == 13) {
-                SharedConfig.toggleDisableVoiceAudioEffects();
-            } else if (i == 14) {
-                SharedConfig.toggleNoStatusBar();
-                if (ProfileActivity.this.getParentActivity() == null || Build.VERSION.SDK_INT < 21) {
-                    return;
-                }
-                if (SharedConfig.noStatusBar) {
-                    ProfileActivity.this.getParentActivity().getWindow().setStatusBarColor(0);
-                } else {
-                    ProfileActivity.this.getParentActivity().getWindow().setStatusBarColor(AndroidUtilities.DARK_STATUS_BAR_OVERLAY);
-                }
-            } else if (i == 15) {
-                SharedConfig.pendingAppUpdate = null;
-                SharedConfig.saveConfig();
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.appUpdateAvailable, new Object[0]);
-            } else if (i == 16) {
-                Set<String> set = ProfileActivity.this.getMessagesController().pendingSuggestions;
-                set.add("VALIDATE_PHONE_NUMBER");
-                set.add("VALIDATE_PASSWORD");
-                ProfileActivity.this.getNotificationCenter().postNotificationName(NotificationCenter.newSuggestionsAvailable, new Object[0]);
-            } else if (i == 17) {
-                SharedConfig.toggleForceRTMPStream();
-            } else if (i == 18) {
-                ApplicationLoader.applicationContext.deleteDatabase("webview.db");
-                ApplicationLoader.applicationContext.deleteDatabase("webviewCache.db");
-                WebStorage.getInstance().deleteAllData();
-            } else if (i == 19) {
-                SharedConfig.toggleDebugWebView();
-                Toast.makeText(ProfileActivity.this.getParentActivity(), LocaleController.getString(SharedConfig.debugWebView ? R.string.DebugMenuWebViewDebugEnabled : R.string.DebugMenuWebViewDebugDisabled), 0).show();
-            } else if (i == 20) {
-                SharedConfig.toggleForceDisableTabletMode();
-                Activity findActivity = AndroidUtilities.findActivity(context);
-                Intent launchIntentForPackage = findActivity.getPackageManager().getLaunchIntentForPackage(findActivity.getPackageName());
-                findActivity.finishAffinity();
-                findActivity.startActivity(launchIntentForPackage);
-                System.exit(0);
-            } else if (i == 21) {
-                SharedConfig.useLNavigation = !SharedConfig.useLNavigation;
-                SharedConfig.saveConfig();
-                ProfileActivity.this.getParentActivity().recreate();
-            } else if (i == 22) {
-                FloatingDebugController.setActive((LaunchActivity) ProfileActivity.this.getParentActivity(), true ^ FloatingDebugController.isActive());
-            } else if (i == 23) {
-                TLRPC$TL_help_dismissSuggestion tLRPC$TL_help_dismissSuggestion = new TLRPC$TL_help_dismissSuggestion();
-                tLRPC$TL_help_dismissSuggestion.suggestion = "VALIDATE_PHONE_NUMBER";
-                tLRPC$TL_help_dismissSuggestion.peer = new TLRPC$TL_inputPeerEmpty();
-                ProfileActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_help_dismissSuggestion, new RequestDelegate() { // from class: org.telegram.ui.ProfileActivity$15$$ExternalSyntheticLambda2
-                    @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        ProfileActivity.15.this.lambda$onItemClick$1(tLObject, tLRPC$TL_error);
+                int i6 = 3;
+                if (i == 3) {
+                    ProfileActivity.this.getMessagesController().forceResetDialogs();
+                } else if (i == 4) {
+                    BuildVars.LOGS_ENABLED = !BuildVars.LOGS_ENABLED;
+                    ApplicationLoader.applicationContext.getSharedPreferences("systemConfig", 0).edit().putBoolean("logsEnabled", BuildVars.LOGS_ENABLED).commit();
+                    ProfileActivity.this.updateRowsIds();
+                    ProfileActivity.this.listAdapter.notifyDataSetChanged();
+                } else if (i == 5) {
+                    SharedConfig.toggleInappCamera();
+                } else if (i == 6) {
+                    ProfileActivity.this.getMessagesStorage().clearSentMedia();
+                    SharedConfig.setNoSoundHintShowed(false);
+                    MessagesController.getGlobalMainSettings().edit().remove("archivehint").remove("proximityhint").remove("archivehint_l").remove("gifhint").remove("reminderhint").remove("soundHint").remove("themehint").remove("bganimationhint").remove("filterhint").commit();
+                    MessagesController.getEmojiSettings(((BaseFragment) ProfileActivity.this).currentAccount).edit().remove("featured_hidden").remove("emoji_featured_hidden").commit();
+                    SharedConfig.textSelectionHintShows = 0;
+                    SharedConfig.lockRecordAudioVideoHint = 0;
+                    SharedConfig.stickersReorderingHintUsed = false;
+                    SharedConfig.forwardingOptionsHintShown = false;
+                    SharedConfig.messageSeenHintCount = 3;
+                    SharedConfig.emojiInteractionsHintCount = 3;
+                    SharedConfig.dayNightThemeSwitchHintCount = 3;
+                    SharedConfig.fastScrollHintCount = 3;
+                    ChatThemeController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).clearCache();
+                    ProfileActivity.this.getNotificationCenter().postNotificationName(NotificationCenter.newSuggestionsAvailable, new Object[0]);
+                    RestrictedLanguagesSelectActivity.cleanup();
+                } else if (i == 7) {
+                    VoIPHelper.showCallDebugSettings(ProfileActivity.this.getParentActivity());
+                } else if (i == 8) {
+                    SharedConfig.toggleRoundCamera16to9();
+                } else if (i == 9) {
+                    ((LaunchActivity) ProfileActivity.this.getParentActivity()).checkAppUpdate(true);
+                } else if (i == 10) {
+                    ProfileActivity.this.getMessagesStorage().readAllDialogs(-1);
+                } else if (i == 11) {
+                    SharedConfig.togglePauseMusicOnRecord();
+                } else if (i == 12) {
+                    SharedConfig.toggleSmoothKeyboard();
+                    if (!SharedConfig.smoothKeyboard || ProfileActivity.this.getParentActivity() == null) {
+                        return;
                     }
-                });
-            } else if (i == 24) {
-                int i2 = Build.VERSION.SDK_INT;
-                int i3 = ConnectionsManager.CPU_COUNT;
-                int memoryClass = ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).getMemoryClass();
-                int i4 = 0;
-                int i5 = 0;
-                for (int i6 = 0; i6 < i3; i6++) {
-                    try {
-                        RandomAccessFile randomAccessFile = new RandomAccessFile(String.format(Locale.ENGLISH, "/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_max_freq", Integer.valueOf(i6)), "r");
-                        String readLine = randomAccessFile.readLine();
-                        if (readLine != null) {
-                            i5 += Utilities.parseInt((CharSequence) readLine).intValue() / 1000;
-                            i4++;
+                    ProfileActivity.this.getParentActivity().getWindow().setSoftInputMode(16);
+                } else if (i == 13) {
+                    SharedConfig.toggleDisableVoiceAudioEffects();
+                } else if (i == 14) {
+                    SharedConfig.toggleNoStatusBar();
+                    if (ProfileActivity.this.getParentActivity() == null || Build.VERSION.SDK_INT < 21) {
+                        return;
+                    }
+                    if (SharedConfig.noStatusBar) {
+                        ProfileActivity.this.getParentActivity().getWindow().setStatusBarColor(0);
+                    } else {
+                        ProfileActivity.this.getParentActivity().getWindow().setStatusBarColor(AndroidUtilities.DARK_STATUS_BAR_OVERLAY);
+                    }
+                } else if (i == 15) {
+                    SharedConfig.pendingAppUpdate = null;
+                    SharedConfig.saveConfig();
+                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.appUpdateAvailable, new Object[0]);
+                } else if (i == 16) {
+                    Set<String> set = ProfileActivity.this.getMessagesController().pendingSuggestions;
+                    set.add("VALIDATE_PHONE_NUMBER");
+                    set.add("VALIDATE_PASSWORD");
+                    ProfileActivity.this.getNotificationCenter().postNotificationName(NotificationCenter.newSuggestionsAvailable, new Object[0]);
+                } else if (i == 17) {
+                    SharedConfig.toggleForceRTMPStream();
+                } else if (i == 18) {
+                    ApplicationLoader.applicationContext.deleteDatabase("webview.db");
+                    ApplicationLoader.applicationContext.deleteDatabase("webviewCache.db");
+                    WebStorage.getInstance().deleteAllData();
+                } else if (i == 19) {
+                    SharedConfig.toggleDebugWebView();
+                    Toast.makeText(ProfileActivity.this.getParentActivity(), LocaleController.getString(SharedConfig.debugWebView ? R.string.DebugMenuWebViewDebugEnabled : R.string.DebugMenuWebViewDebugDisabled), 0).show();
+                } else if (i == 20) {
+                    SharedConfig.toggleForceDisableTabletMode();
+                    Activity findActivity = AndroidUtilities.findActivity(context);
+                    Intent launchIntentForPackage = findActivity.getPackageManager().getLaunchIntentForPackage(findActivity.getPackageName());
+                    findActivity.finishAffinity();
+                    findActivity.startActivity(launchIntentForPackage);
+                    System.exit(0);
+                } else if (i == 21) {
+                    SharedConfig.useLNavigation = !SharedConfig.useLNavigation;
+                    SharedConfig.saveConfig();
+                    ProfileActivity.this.getParentActivity().recreate();
+                } else if (i == 22) {
+                    FloatingDebugController.setActive((LaunchActivity) ProfileActivity.this.getParentActivity(), true ^ FloatingDebugController.isActive());
+                } else if (i == 23) {
+                    TLRPC$TL_help_dismissSuggestion tLRPC$TL_help_dismissSuggestion = new TLRPC$TL_help_dismissSuggestion();
+                    tLRPC$TL_help_dismissSuggestion.suggestion = "VALIDATE_PHONE_NUMBER";
+                    tLRPC$TL_help_dismissSuggestion.peer = new TLRPC$TL_inputPeerEmpty();
+                    ProfileActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_help_dismissSuggestion, new RequestDelegate() { // from class: org.telegram.ui.ProfileActivity$15$$ExternalSyntheticLambda3
+                        @Override // org.telegram.tgnet.RequestDelegate
+                        public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                            ProfileActivity.15.this.lambda$onItemClick$1(tLObject, tLRPC$TL_error);
                         }
-                        randomAccessFile.close();
-                    } catch (Throwable unused) {
+                    });
+                } else if (i != 24) {
+                    if (i == 25) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this.getParentActivity(), ProfileActivity.this.resourcesProvider);
+                        builder.setTitle("Force performance class");
+                        int devicePerformanceClass = SharedConfig.getDevicePerformanceClass();
+                        final int measureDevicePerformanceClass = SharedConfig.measureDevicePerformanceClass();
+                        CharSequence[] charSequenceArr = new CharSequence[3];
+                        StringBuilder sb = new StringBuilder();
+                        sb.append(devicePerformanceClass == 2 ? "**HIGH**" : "HIGH");
+                        sb.append(measureDevicePerformanceClass == 2 ? " (measured)" : "");
+                        charSequenceArr[0] = AndroidUtilities.replaceTags(sb.toString());
+                        StringBuilder sb2 = new StringBuilder();
+                        sb2.append(devicePerformanceClass == 1 ? "**AVERAGE**" : "AVERAGE");
+                        sb2.append(measureDevicePerformanceClass == 1 ? " (measured)" : "");
+                        charSequenceArr[1] = AndroidUtilities.replaceTags(sb2.toString());
+                        StringBuilder sb3 = new StringBuilder();
+                        sb3.append(devicePerformanceClass == 0 ? "**LOW**" : "LOW");
+                        sb3.append(measureDevicePerformanceClass != 0 ? "" : " (measured)");
+                        charSequenceArr[2] = AndroidUtilities.replaceTags(sb3.toString());
+                        builder.setItems(charSequenceArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$15$$ExternalSyntheticLambda0
+                            @Override // android.content.DialogInterface.OnClickListener
+                            public final void onClick(DialogInterface dialogInterface2, int i7) {
+                                ProfileActivity.15.lambda$onItemClick$2(measureDevicePerformanceClass, dialogInterface2, i7);
+                            }
+                        });
+                        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                        builder.show();
                     }
+                } else {
+                    int i7 = ConnectionsManager.CPU_COUNT;
+                    int memoryClass = ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).getMemoryClass();
+                    StringBuilder sb4 = new StringBuilder();
+                    long j = 0;
+                    long j2 = 0;
+                    long j3 = 0;
+                    long j4 = 0;
+                    long j5 = 0;
+                    long j6 = 0;
+                    long j7 = 0;
+                    long j8 = 0;
+                    int i8 = 0;
+                    while (i8 < i7) {
+                        Long cpuInfo = AndroidUtilities.getCpuInfo(i8, i4);
+                        Long cpuInfo2 = AndroidUtilities.getCpuInfo(i8, i3);
+                        Long cpuInfo3 = AndroidUtilities.getCpuInfo(i8, i5);
+                        Long cpuInfo4 = AndroidUtilities.getCpuInfo(i8, i6);
+                        sb4.append("#");
+                        sb4.append(i8);
+                        sb4.append(" ");
+                        if (cpuInfo != null) {
+                            sb4.append("min=");
+                            i2 = memoryClass;
+                            sb4.append(cpuInfo.longValue() / 1000);
+                            sb4.append(" ");
+                            j += cpuInfo.longValue() / 1000;
+                            j2++;
+                        } else {
+                            i2 = memoryClass;
+                        }
+                        if (cpuInfo2 != null) {
+                            sb4.append("cur=");
+                            sb4.append(cpuInfo2.longValue() / 1000);
+                            sb4.append(" ");
+                            j3 += cpuInfo2.longValue() / 1000;
+                            j4++;
+                        }
+                        if (cpuInfo3 != null) {
+                            sb4.append("max=");
+                            sb4.append(cpuInfo3.longValue() / 1000);
+                            sb4.append(" ");
+                            j5 += cpuInfo3.longValue() / 1000;
+                            j6++;
+                        }
+                        if (cpuInfo4 != null) {
+                            sb4.append("cpc=");
+                            sb4.append(cpuInfo4);
+                            sb4.append(" ");
+                            j7 += cpuInfo4.longValue();
+                            j8++;
+                        }
+                        sb4.append("\n");
+                        i8++;
+                        memoryClass = i2;
+                        i3 = 1;
+                        i4 = 0;
+                        i5 = 2;
+                        i6 = 3;
+                    }
+                    int i9 = memoryClass;
+                    StringBuilder sb5 = new StringBuilder();
+                    sb5.append(Build.MANUFACTURER);
+                    sb5.append(", ");
+                    sb5.append(Build.MODEL);
+                    sb5.append(" (");
+                    sb5.append(Build.PRODUCT);
+                    sb5.append(", ");
+                    sb5.append(Build.DEVICE);
+                    sb5.append(") ");
+                    sb5.append(" (android ");
+                    int i10 = Build.VERSION.SDK_INT;
+                    sb5.append(i10);
+                    sb5.append(")\n");
+                    if (i10 >= 31) {
+                        sb5.append("SoC: ");
+                        sb5.append(Build.SOC_MANUFACTURER);
+                        sb5.append(", ");
+                        sb5.append(Build.SOC_MODEL);
+                        sb5.append("\n");
+                    }
+                    ConfigurationInfo deviceConfigurationInfo = ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).getDeviceConfigurationInfo();
+                    sb5.append("GLES Version: ");
+                    sb5.append(deviceConfigurationInfo.getGlEsVersion());
+                    sb5.append("\n");
+                    sb5.append("Memory: class=");
+                    sb5.append(AndroidUtilities.formatFileSize(i9 * 1024 * 1024));
+                    ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
+                    ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).getMemoryInfo(memoryInfo);
+                    sb5.append(", total=");
+                    sb5.append(AndroidUtilities.formatFileSize(memoryInfo.totalMem));
+                    sb5.append(", avail=");
+                    sb5.append(AndroidUtilities.formatFileSize(memoryInfo.availMem));
+                    sb5.append(", low?=");
+                    sb5.append(memoryInfo.lowMemory);
+                    sb5.append(" (threshold=");
+                    sb5.append(AndroidUtilities.formatFileSize(memoryInfo.threshold));
+                    sb5.append(")");
+                    sb5.append("\n");
+                    sb5.append("Current class: ");
+                    sb5.append(SharedConfig.performanceClassName(SharedConfig.getDevicePerformanceClass()));
+                    sb5.append(", measured: ");
+                    sb5.append(SharedConfig.performanceClassName(SharedConfig.measureDevicePerformanceClass()));
+                    if (i10 >= 31) {
+                        sb5.append(", suggest=");
+                        sb5.append(Build.VERSION.MEDIA_PERFORMANCE_CLASS);
+                    }
+                    sb5.append("\n");
+                    sb5.append(i7);
+                    sb5.append(" CPUs");
+                    if (j2 > 0) {
+                        sb5.append(", avgMinFreq=");
+                        sb5.append(j / j2);
+                    }
+                    if (j4 > 0) {
+                        sb5.append(", avgCurFreq=");
+                        sb5.append(j3 / j4);
+                    }
+                    if (j6 > 0) {
+                        sb5.append(", avgMaxFreq=");
+                        sb5.append(j5 / j6);
+                    }
+                    if (j8 > 0) {
+                        sb5.append(", avgCapacity=");
+                        sb5.append(j7 / j8);
+                    }
+                    sb5.append("\n");
+                    sb5.append((CharSequence) sb4);
+                    ProfileActivity.this.showDialog(new 1(ProfileActivity.this.getParentActivity(), null, sb5.toString(), false, null, false));
                 }
-                int ceil = i4 != 0 ? (int) Math.ceil(i5 / i4) : -1;
-                ProfileActivity.this.showDialog(new 1(ProfileActivity.this.getParentActivity(), null, "device performance info selected_class = " + SharedConfig.getDevicePerformanceClass() + " (cpu_count = " + i3 + ", freq = " + ceil + ", memoryClass = " + memoryClass + ", android version " + i2 + ", manufacture " + Build.MANUFACTURER + ")", false, null, false));
             }
         }
 
@@ -4586,7 +4733,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             TLRPC$TL_help_dismissSuggestion tLRPC$TL_help_dismissSuggestion = new TLRPC$TL_help_dismissSuggestion();
             tLRPC$TL_help_dismissSuggestion.suggestion = "VALIDATE_PASSWORD";
             tLRPC$TL_help_dismissSuggestion.peer = new TLRPC$TL_inputPeerEmpty();
-            ProfileActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_help_dismissSuggestion, new RequestDelegate() { // from class: org.telegram.ui.ProfileActivity$15$$ExternalSyntheticLambda1
+            ProfileActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_help_dismissSuggestion, new RequestDelegate() { // from class: org.telegram.ui.ProfileActivity$15$$ExternalSyntheticLambda2
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
                     ProfileActivity.15.this.lambda$onItemClick$0(tLObject2, tLRPC$TL_error2);
@@ -4619,6 +4766,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$onSend$0(LongSparseArray longSparseArray, int i) {
                 BulletinFactory.createInviteSentBulletin(ProfileActivity.this.getParentActivity(), ProfileActivity.this.contentView, longSparseArray.size(), longSparseArray.size() == 1 ? ((TLRPC$Dialog) longSparseArray.valueAt(0)).id : 0L, i, getThemedColor("undo_background"), getThemedColor("undo_infoColor")).show();
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ void lambda$onItemClick$2(int i, DialogInterface dialogInterface, int i2) {
+            int i3 = 2 - i2;
+            if (i3 == i) {
+                SharedConfig.overrideDevicePerformanceClass(-1);
+            } else {
+                SharedConfig.overrideDevicePerformanceClass(i3);
             }
         }
     }

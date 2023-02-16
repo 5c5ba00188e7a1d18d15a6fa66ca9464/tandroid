@@ -35,6 +35,7 @@ public class AvatarDrawable extends Drawable {
     private int gradientColor1;
     private int gradientColor2;
     private boolean hasGradient;
+    private boolean invalidateTextLayout;
     private TextPaint namePaint;
     private boolean needApplyColorAccent;
     private Theme.ResourcesProvider resourcesProvider;
@@ -277,6 +278,7 @@ public class AvatarDrawable extends Drawable {
 
     public void setInfo(long j, String str, String str2, String str3) {
         this.hasGradient = true;
+        this.invalidateTextLayout = true;
         this.color = getThemedColor(Theme.keys_avatar_background[getColorIndex(j)]);
         this.color2 = getThemedColor(Theme.keys_avatar_background2[getColorIndex(j)]);
         this.needApplyColorAccent = j == 5;
@@ -289,58 +291,32 @@ public class AvatarDrawable extends Drawable {
         this.stringBuilder.setLength(0);
         if (str3 != null) {
             this.stringBuilder.append(str3);
-        } else {
-            if (str != null && str.length() > 0) {
-                this.stringBuilder.append(takeFirstCharacter(str));
-            }
-            if (str2 != null && str2.length() > 0) {
-                int lastIndexOf = str2.lastIndexOf(32);
-                if (lastIndexOf >= 0) {
-                    str2 = str2.substring(lastIndexOf + 1);
-                }
-                if (Build.VERSION.SDK_INT > 17) {
-                    this.stringBuilder.append("\u200c");
-                }
-                this.stringBuilder.append(takeFirstCharacter(str2));
-            } else if (str != null && str.length() > 0) {
-                int length = str.length() - 1;
-                while (true) {
-                    if (length < 0) {
-                        break;
-                    } else if (str.charAt(length) != ' ' || length == str.length() - 1 || str.charAt(length + 1) == ' ') {
-                        length--;
-                    } else {
-                        int length2 = this.stringBuilder.length();
-                        if (Build.VERSION.SDK_INT > 17) {
-                            this.stringBuilder.append("\u200c");
-                        }
-                        this.stringBuilder.append(takeFirstCharacter(str.substring(length2)));
-                    }
-                }
-            }
-        }
-        if (this.stringBuilder.length() > 0) {
-            CharSequence replaceEmoji = Emoji.replaceEmoji(this.stringBuilder.toString().toUpperCase(), this.namePaint.getFontMetricsInt(), AndroidUtilities.dp(16.0f), true);
-            StaticLayout staticLayout = this.textLayout;
-            if (staticLayout == null || !TextUtils.equals(replaceEmoji, staticLayout.getText())) {
-                try {
-                    StaticLayout staticLayout2 = new StaticLayout(replaceEmoji, this.namePaint, AndroidUtilities.dp(100.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-                    this.textLayout = staticLayout2;
-                    if (staticLayout2.getLineCount() > 0) {
-                        this.textLeft = this.textLayout.getLineLeft(0);
-                        this.textWidth = this.textLayout.getLineWidth(0);
-                        this.textHeight = this.textLayout.getLineBottom(0);
-                        return;
-                    }
-                    return;
-                } catch (Exception e) {
-                    FileLog.e(e);
-                    return;
-                }
-            }
             return;
         }
-        this.textLayout = null;
+        if (str != null && str.length() > 0) {
+            this.stringBuilder.append(takeFirstCharacter(str));
+        }
+        if (str2 != null && str2.length() > 0) {
+            int lastIndexOf = str2.lastIndexOf(32);
+            if (lastIndexOf >= 0) {
+                str2 = str2.substring(lastIndexOf + 1);
+            }
+            if (Build.VERSION.SDK_INT > 17) {
+                this.stringBuilder.append("\u200c");
+            }
+            this.stringBuilder.append(takeFirstCharacter(str2));
+        } else if (str != null && str.length() > 0) {
+            for (int length = str.length() - 1; length >= 0; length--) {
+                if (str.charAt(length) == ' ' && length != str.length() - 1 && str.charAt(length + 1) != ' ') {
+                    int length2 = this.stringBuilder.length();
+                    if (Build.VERSION.SDK_INT > 17) {
+                        this.stringBuilder.append("\u200c");
+                    }
+                    this.stringBuilder.append(takeFirstCharacter(str.substring(length2)));
+                    return;
+                }
+            }
+        }
     }
 
     @Override // android.graphics.drawable.Drawable
@@ -463,6 +439,28 @@ public class AvatarDrawable extends Drawable {
                     int i9 = (width - intrinsicHeight3) / 2;
                     Theme.avatarDrawables[1].setBounds(i8, i9, intrinsicWidth3 + i8, intrinsicHeight3 + i9);
                     Theme.avatarDrawables[1].draw(canvas);
+                }
+            }
+            if (this.invalidateTextLayout) {
+                this.invalidateTextLayout = false;
+                if (this.stringBuilder.length() > 0) {
+                    CharSequence replaceEmoji = Emoji.replaceEmoji(this.stringBuilder.toString().toUpperCase(), this.namePaint.getFontMetricsInt(), AndroidUtilities.dp(16.0f), true);
+                    StaticLayout staticLayout = this.textLayout;
+                    if (staticLayout == null || !TextUtils.equals(replaceEmoji, staticLayout.getText())) {
+                        try {
+                            StaticLayout staticLayout2 = new StaticLayout(replaceEmoji, this.namePaint, AndroidUtilities.dp(100.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                            this.textLayout = staticLayout2;
+                            if (staticLayout2.getLineCount() > 0) {
+                                this.textLeft = this.textLayout.getLineLeft(0);
+                                this.textWidth = this.textLayout.getLineWidth(0);
+                                this.textHeight = this.textLayout.getLineBottom(0);
+                            }
+                        } catch (Exception e) {
+                            FileLog.e(e);
+                        }
+                    }
+                } else {
+                    this.textLayout = null;
                 }
             }
             if (this.textLayout != null) {

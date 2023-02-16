@@ -77,7 +77,7 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
         Object obj = this.parentObject;
         long j = dataSpec.position;
         this.currentOffset = j;
-        this.loadOperation = fileLoader.loadStreamFile(this, tLRPC$Document, null, obj, j, false);
+        this.loadOperation = fileLoader.loadStreamFile(this, tLRPC$Document, null, obj, j, false, 3);
         long j2 = dataSpec.length;
         if (j2 == -1) {
             j2 = this.document.size - dataSpec.position;
@@ -116,7 +116,7 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
                 }
                 i3 = (int) this.loadOperation.getDownloadedLengthFromOffset(this.currentOffset, i2)[0];
                 if (i3 == 0) {
-                    FileLoader.getInstance(this.currentAccount).loadStreamFile(this, this.document, null, this.parentObject, this.currentOffset, false);
+                    FileLoader.getInstance(this.currentAccount).loadStreamFile(this, this.document, null, this.parentObject, this.currentOffset, false, 3);
                     CountDownLatch countDownLatch = new CountDownLatch(1);
                     this.countDownLatch = countDownLatch;
                     countDownLatch.await();

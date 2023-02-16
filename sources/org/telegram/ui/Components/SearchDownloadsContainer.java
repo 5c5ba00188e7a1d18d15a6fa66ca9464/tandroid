@@ -438,7 +438,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
                             messageObject2 = searchDownloadsContainer.recentLoadingFiles.get(i9 - i13);
                         }
                     }
-                    return (messageObject2 == null || messageObject == null || messageObject2.getDocument().id != messageObject.getDocument().id) ? false : true;
+                    return (messageObject2 == null || messageObject == null || messageObject2.getDocument() == null || messageObject.getDocument() == null || messageObject2.getDocument().id != messageObject.getDocument().id) ? false : true;
                 }
 
                 @Override // androidx.recyclerview.widget.DiffUtil.Callback

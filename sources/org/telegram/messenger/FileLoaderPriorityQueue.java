@@ -1,6 +1,7 @@
 package org.telegram.messenger;
 
 import java.util.ArrayList;
+import java.util.Objects;
 /* loaded from: classes.dex */
 public class FileLoaderPriorityQueue {
     private final int maxActiveOperationsCount;
@@ -21,17 +22,23 @@ public class FileLoaderPriorityQueue {
         if (fileLoadOperation == null) {
             return;
         }
-        int i = -1;
-        this.allOperations.remove(fileLoadOperation);
+        int i = 0;
         int i2 = 0;
+        while (i2 < this.allOperations.size()) {
+            if (this.allOperations.get(i2) == fileLoadOperation || Objects.equals(this.allOperations.get(i2).getFileName(), fileLoadOperation.getFileName())) {
+                this.allOperations.remove(i2);
+                i2--;
+            }
+            i2++;
+        }
         while (true) {
-            if (i2 >= this.allOperations.size()) {
+            if (i >= this.allOperations.size()) {
+                i = -1;
                 break;
-            } else if (fileLoadOperation.getPriority() > this.allOperations.get(i2).getPriority()) {
-                i = i2;
+            } else if (fileLoadOperation.getPriority() > this.allOperations.get(i).getPriority()) {
                 break;
             } else {
-                i2++;
+                i++;
             }
         }
         if (i >= 0) {

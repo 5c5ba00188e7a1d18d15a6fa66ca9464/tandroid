@@ -114,7 +114,7 @@ public class SaveToGallerySettingsHelper {
         if (i == 1) {
             user.save("user", sharedPreferences);
         } else if (i == 2) {
-            groups.save("group", sharedPreferences);
+            groups.save("groups", sharedPreferences);
         } else if (i == 4) {
             channels.save("channels", sharedPreferences);
         }
@@ -220,6 +220,12 @@ public class SaveToGallerySettingsHelper {
                 sb.append(LocaleController.formatPluralString("Exception", saveGalleryExceptions.size(), Integer.valueOf(saveGalleryExceptions.size())));
             }
             return sb;
+        }
+
+        @Override // org.telegram.messenger.SaveToGallerySettingsHelper.Settings
+        public void toggle() {
+            super.toggle();
+            SaveToGallerySettingsHelper.saveSettings(this.type);
         }
     }
 

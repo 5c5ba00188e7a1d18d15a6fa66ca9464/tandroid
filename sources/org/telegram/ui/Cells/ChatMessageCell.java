@@ -1070,6 +1070,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     }
 
     private void setAvatar(final MessageObject messageObject) {
+        TLRPC$Photo tLRPC$Photo;
         if (messageObject == null) {
             return;
         }
@@ -1122,11 +1123,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     return;
                 }
                 this.avatarDrawable.setInfo(tLRPC$ChatInvite);
-                TLRPC$Photo tLRPC$Photo = messageObject.sponsoredChatInvite.photo;
-                if (tLRPC$Photo != null) {
-                    this.avatarImage.setImage(ImageLocation.getForPhoto(tLRPC$Photo.sizes.get(0), tLRPC$Photo), "50_50", this.avatarDrawable, null, null, 0);
+                TLRPC$ChatInvite tLRPC$ChatInvite2 = messageObject.sponsoredChatInvite;
+                if (tLRPC$ChatInvite2 == null || (tLRPC$Photo = tLRPC$ChatInvite2.photo) == null) {
                     return;
                 }
+                this.avatarImage.setImage(ImageLocation.getForPhoto(tLRPC$Photo.sizes.get(0), tLRPC$Photo), "50_50", this.avatarDrawable, null, null, 0);
                 return;
             } else {
                 this.currentPhoto = null;
@@ -4896,11 +4897,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 if (!(MessageObject.isStickerDocument(document) || MessageObject.isAnimatedStickerDocument(document, true) || MessageObject.isGifDocument(document) || MessageObject.isRoundVideoDocument(document))) {
                     TLRPC$PhotoSize closestPhotoSizeWithSize = document == null ? FileLoader.getClosestPhotoSizeWithSize(this.currentMessageObject.photoThumbs, AndroidUtilities.getPhotoSize()) : null;
                     int i3 = 2;
-                    if (canDownloadMedia == 2 || (canDownloadMedia == 1 && this.currentMessageObject.isVideo())) {
-                        if (document != null && !this.currentMessageObject.shouldEncryptPhotoOrVideo() && this.currentMessageObject.canStreamVideo()) {
-                            FileLoader.getInstance(this.currentAccount).loadFile(document, this.currentMessageObject, 1, 10);
-                        }
-                    } else if (canDownloadMedia != 0) {
+                    if (canDownloadMedia != 2 && ((canDownloadMedia != 1 || !this.currentMessageObject.isVideo()) && canDownloadMedia != 0)) {
                         if (document != null) {
                             FileLoader.getInstance(this.currentAccount).loadFile(document, this.currentMessageObject, 1, (MessageObject.isVideoDocument(document) && this.currentMessageObject.shouldEncryptPhotoOrVideo()) ? 0 : 0);
                         } else if (closestPhotoSizeWithSize != null) {

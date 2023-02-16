@@ -469,7 +469,7 @@ public class TextureRenderer {
         editTextOutline.setBreakStrategy(0);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:124:0x0427, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:124:0x0429, code lost:
         if (org.telegram.messenger.LocaleController.isRTL != false) goto L83;
      */
     /* JADX WARN: Removed duplicated region for block: B:170:0x0209 A[SYNTHETIC] */
@@ -637,7 +637,7 @@ public class TextureRenderer {
                             mediaEntity.ptr = RLottieDrawable.create(mediaEntity.text, null, 512, 512, iArr6, false, null, false, 0);
                             mediaEntity.framesPerDraw = mediaEntity.metadata[1] / this.videoFps;
                         } else if ((b2 & 4) != 0) {
-                            mediaEntity.animatedFileDrawable = new AnimatedFileDrawable(new File(mediaEntity.text), true, 0L, null, null, null, 0L, UserConfig.selectedAccount, true, 512, 512, null);
+                            mediaEntity.animatedFileDrawable = new AnimatedFileDrawable(new File(mediaEntity.text), true, 0L, 0, null, null, null, 0L, UserConfig.selectedAccount, true, 512, 512, null);
                             mediaEntity.framesPerDraw = this.videoFps / 30.0f;
                             mediaEntity.currentFrame = 0.0f;
                         } else {
