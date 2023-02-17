@@ -5362,6 +5362,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+                    public /* synthetic */ boolean isReplyOrSelf() {
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$isReplyOrSelf(this);
+                    }
+
+                    @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ boolean keyboardIsOpened() {
                         return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$keyboardIsOpened(this);
                     }

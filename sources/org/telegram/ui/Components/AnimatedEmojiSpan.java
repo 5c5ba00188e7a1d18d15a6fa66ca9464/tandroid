@@ -695,7 +695,7 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
 
         private void checkBackgroundRendering() {
             DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable;
-            if (this.allowBackgroundRendering && this.holders.size() >= 10 && this.backgroundThreadDrawable == null && SharedConfig.getLiteMode().animatedEmojiEnabled()) {
+            if (this.allowBackgroundRendering && this.holders.size() >= 10 && this.backgroundThreadDrawable == null && SharedConfig.getLiteMode().animatedEmojiEnabled() && SharedConfig.playEmojiInKeyboard) {
                 DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable2 = new DrawingInBackgroundThreadDrawable() { // from class: org.telegram.ui.Components.AnimatedEmojiSpan.SpansChunk.1
                     private final ArrayList<AnimatedEmojiHolder> backgroundHolders = new ArrayList<>();
 

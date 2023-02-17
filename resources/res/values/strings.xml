@@ -23,6 +23,8 @@
     <string name="AccActionRecordVideo">Record video</string>
     <string name="AccActionTakePicture">Take a picture</string>
     <string name="AccAutoDeleteTimer">Auto-delete timer</string>
+    <string name="AccDescrArchivedChatsHidden">Archived chats hidden</string>
+    <string name="AccDescrArchivedChatsShown">Archived chats shown</string>
     <string name="AccDescrAspectRatio">Aspect ratio</string>
     <string name="AccDescrAttachButton">Attach media</string>
     <string name="AccDescrBackspace">Backspace</string>
@@ -47,6 +49,7 @@
     <string name="AccDescrCollapsePanel">Collapse panel</string>
     <string name="AccDescrContactSorting">Change sorting</string>
     <string name="AccDescrCustomEmoji">Custom emoji</string>
+    <string name="AccDescrDocumentType">, %s file</string>
     <string name="AccDescrDownloadProgress">Downloaded %1$s of %2$s</string>
     <string name="AccDescrEditing">Editing</string>
     <string name="AccDescrEmojiButton">Emoji, stickers, and GIFs</string>
@@ -4109,6 +4112,7 @@
     <string name="PinnedPoll">Pinned poll</string>
     <string name="PlacesInThisArea">Places in this area</string>
     <string name="PlainTextRestrictedHint">Text not allowed</string>
+    <string name="PlayEmojiInKeyboard">Emoji Panel Animations</string>
     <string name="PlayFile">Play File</string>
     <string name="PleaseDownload">Please download media first</string>
     <string name="PleaseEnterCurrentPassword">Enter your password</string>

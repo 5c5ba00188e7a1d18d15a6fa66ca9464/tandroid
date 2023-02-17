@@ -1594,7 +1594,7 @@ public class AlertsCreator {
             try {
                 str2 = parse.getScheme() + "://" + IDN.toASCII(Uri.parse(str).getHost(), 1) + parse.getPath();
             } catch (Exception e) {
-                FileLog.e(e);
+                FileLog.e((Throwable) e, false);
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(baseFragment.getParentActivity(), resourcesProvider);
             builder.setTitle(LocaleController.getString("OpenUrlTitle", R.string.OpenUrlTitle));

@@ -778,6 +778,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         String string;
         TLRPC$ChatParticipants tLRPC$ChatParticipants;
         int i;
+        String formatShortNumber;
         ChatActivity chatActivity = this.parentFragment;
         if (chatActivity == null) {
             return;
@@ -849,7 +850,14 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                             string = this.onlineCount > 1 ? String.format("%s, %s", LocaleController.formatPluralString("Members", i, new Object[0]), LocaleController.formatPluralString("OnlineCount", Math.min(this.onlineCount, currentChatInfo.participants_count), new Object[0])) : LocaleController.formatPluralString("Members", i, new Object[0]);
                         } else {
                             int[] iArr = new int[1];
-                            String formatShortNumber = LocaleController.formatShortNumber(i, iArr);
+                            boolean isAccessibilityScreenReaderEnabled = AndroidUtilities.isAccessibilityScreenReaderEnabled();
+                            int i3 = currentChatInfo.participants_count;
+                            if (isAccessibilityScreenReaderEnabled) {
+                                iArr[0] = i3;
+                                formatShortNumber = String.valueOf(i3);
+                            } else {
+                                formatShortNumber = LocaleController.formatShortNumber(i3, iArr);
+                            }
                             if (currentChat.megagroup) {
                                 string = LocaleController.formatPluralString("Members", iArr[0], new Object[0]).replace(String.format("%d", Integer.valueOf(iArr[0])), formatShortNumber);
                             } else {
@@ -876,11 +884,11 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                 } else if (ChatObject.isLeftFromChat(currentChat)) {
                     string = LocaleController.getString("YouLeft", R.string.YouLeft);
                 } else {
-                    int i3 = currentChat.participants_count;
+                    int i4 = currentChat.participants_count;
                     if (currentChatInfo != null && (tLRPC$ChatParticipants = currentChatInfo.participants) != null) {
-                        i3 = tLRPC$ChatParticipants.participants.size();
+                        i4 = tLRPC$ChatParticipants.participants.size();
                     }
-                    string = (this.onlineCount <= 1 || i3 == 0) ? LocaleController.formatPluralString("Members", i3, new Object[0]) : String.format("%s, %s", LocaleController.formatPluralString("Members", i3, new Object[0]), LocaleController.formatPluralString("OnlineCount", this.onlineCount, new Object[0]));
+                    string = (this.onlineCount <= 1 || i4 == 0) ? LocaleController.formatPluralString("Members", i4, new Object[0]) : String.format("%s, %s", LocaleController.formatPluralString("Members", i4, new Object[0]), LocaleController.formatPluralString("OnlineCount", this.onlineCount, new Object[0]));
                 }
             } else if (currentUser != null) {
                 TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(currentUser.id));

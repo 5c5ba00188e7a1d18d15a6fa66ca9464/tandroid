@@ -34,6 +34,8 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 /* loaded from: classes.dex */
 public class SharedConfig {
+    private static final int[] AVERAGE_DEVICES;
+    private static final int[] HIGH_DEVICES;
     private static final int[] LOW_DEVICES;
     private static final int[] LOW_SOC;
     public static final int PASSCODE_TYPE_PASSWORD = 1;
@@ -108,6 +110,7 @@ public class SharedConfig {
     public static boolean pauseMusicOnRecord = false;
     public static TLRPC$TL_help_appUpdate pendingAppUpdate = null;
     public static int pendingAppUpdateBuildVersion = 0;
+    public static boolean playEmojiInKeyboard = false;
     public static boolean playOrderReversed = false;
     public static ArrayList<ProxyInfo> proxyList = null;
     private static boolean proxyListLoaded = false;
@@ -167,10 +170,6 @@ public class SharedConfig {
     public @interface PerformanceClass {
     }
 
-    public static int getDevicePerformanceClass() {
-        return 1;
-    }
-
     public static String performanceClassName(int i) {
         return i != 0 ? i != 1 ? i != 2 ? "UNKNOWN" : "HIGH" : "AVERAGE" : "LOW";
     }
@@ -217,10 +216,12 @@ public class SharedConfig {
         fastScrollHintCount = 3;
         translateChats = true;
         usingFilePaths = Collections.newSetFromMap(new ConcurrentHashMap());
+        LOW_SOC = new int[]{-1775228513, 802464304, 802464333, 802464302, 2067362118, 2067362060, 2067362084, 2067362241, 2067362117, 2067361998, -1853602818};
+        LOW_DEVICES = new int[]{1903542002, 1904553494, 1616144535, -713271737, -1394191140, -270252297, -270251367, -270252359};
+        AVERAGE_DEVICES = new int[]{812981419, -993913431};
+        HIGH_DEVICES = new int[]{1908570923, -980514379, 577463889, 1764745014, 1908524435, -215458996, -1394179578, 220599115, 1737652784};
         loadConfig();
         proxyList = new ArrayList<>();
-        LOW_SOC = new int[]{-1775228513, 802464304, 802464333, 802464302, 2067362118, 2067362060, 2067362084, 2067362241, 2067362117, 2067361998, -1853602818};
-        LOW_DEVICES = new int[]{1903542002, -993913431, 812981419, 1904553494, 1616144535, -713271737, -1394191140, -270252297, -270251367, -270252359};
     }
 
     /* loaded from: classes.dex */
@@ -353,12 +354,14 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x017e A[Catch: Exception -> 0x01a0, all -> 0x040c, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:83:0x012f, outer: #4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0182 A[Catch: Exception -> 0x01a0, all -> 0x040c, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:83:0x012f, outer: #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x017e A[Catch: Exception -> 0x01a0, all -> 0x041d, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:87:0x012f, outer: #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0182 A[Catch: Exception -> 0x01a0, all -> 0x041d, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:87:0x012f, outer: #4 }] */
     /* JADX WARN: Removed duplicated region for block: B:61:0x0229  */
     /* JADX WARN: Removed duplicated region for block: B:62:0x022c  */
     /* JADX WARN: Removed duplicated region for block: B:65:0x023c  */
     /* JADX WARN: Removed duplicated region for block: B:66:0x023e  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x02d8  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x02da  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -472,6 +475,9 @@ public class SharedConfig {
                             streamMkv = sharedPreferences2.getBoolean("streamMkv", false);
                             suggestStickers = sharedPreferences2.getInt("suggestStickers", 0);
                             suggestAnimatedEmoji = sharedPreferences2.getBoolean("suggestAnimatedEmoji", true);
+                            overrideDevicePerformanceClass = sharedPreferences2.getInt("overrideDevicePerformanceClass", -1);
+                            devicePerformanceClass = sharedPreferences2.getInt("devicePerformanceClass", -1);
+                            playEmojiInKeyboard = sharedPreferences2.getBoolean("playEmojiInKeyboard", getDevicePerformanceClass() < 2);
                             sortContactsByName = sharedPreferences2.getBoolean("sortContactsByName", false);
                             sortFilesByName = sharedPreferences2.getBoolean("sortFilesByName", false);
                             noSoundHintShowed = sharedPreferences2.getBoolean("noSoundHintShowed", false);
@@ -479,8 +485,6 @@ public class SharedConfig {
                             useThreeLinesLayout = sharedPreferences2.getBoolean("useThreeLinesLayout", false);
                             archiveHidden = sharedPreferences2.getBoolean("archiveHidden", false);
                             distanceSystemType = sharedPreferences2.getInt("distanceSystemType", 0);
-                            devicePerformanceClass = sharedPreferences2.getInt("devicePerformanceClass", -1);
-                            overrideDevicePerformanceClass = sharedPreferences2.getInt("overrideDevicePerformanceClass", -1);
                             loopStickers = sharedPreferences2.getBoolean("loopStickers", true);
                             keepMedia = sharedPreferences2.getInt("keep_media", CacheByChatsController.KEEP_MEDIA_ONE_MONTH);
                             noStatusBar = sharedPreferences2.getBoolean("noStatusBar", true);
@@ -560,6 +564,9 @@ public class SharedConfig {
                 streamMkv = sharedPreferences22.getBoolean("streamMkv", false);
                 suggestStickers = sharedPreferences22.getInt("suggestStickers", 0);
                 suggestAnimatedEmoji = sharedPreferences22.getBoolean("suggestAnimatedEmoji", true);
+                overrideDevicePerformanceClass = sharedPreferences22.getInt("overrideDevicePerformanceClass", -1);
+                devicePerformanceClass = sharedPreferences22.getInt("devicePerformanceClass", -1);
+                playEmojiInKeyboard = sharedPreferences22.getBoolean("playEmojiInKeyboard", getDevicePerformanceClass() < 2);
                 sortContactsByName = sharedPreferences22.getBoolean("sortContactsByName", false);
                 sortFilesByName = sharedPreferences22.getBoolean("sortFilesByName", false);
                 noSoundHintShowed = sharedPreferences22.getBoolean("noSoundHintShowed", false);
@@ -567,8 +574,6 @@ public class SharedConfig {
                 useThreeLinesLayout = sharedPreferences22.getBoolean("useThreeLinesLayout", false);
                 archiveHidden = sharedPreferences22.getBoolean("archiveHidden", false);
                 distanceSystemType = sharedPreferences22.getInt("distanceSystemType", 0);
-                devicePerformanceClass = sharedPreferences22.getInt("devicePerformanceClass", -1);
-                overrideDevicePerformanceClass = sharedPreferences22.getInt("overrideDevicePerformanceClass", -1);
                 loopStickers = sharedPreferences22.getBoolean("loopStickers", true);
                 keepMedia = sharedPreferences22.getInt("keep_media", CacheByChatsController.KEEP_MEDIA_ONE_MONTH);
                 noStatusBar = sharedPreferences22.getBoolean("noStatusBar", true);
@@ -1211,6 +1216,13 @@ public class SharedConfig {
         edit.commit();
     }
 
+    public static void togglePlayEmojiInKeyboard() {
+        playEmojiInKeyboard = !playEmojiInKeyboard;
+        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+        edit.putBoolean("playEmojiInKeyboard", playEmojiInKeyboard);
+        edit.commit();
+    }
+
     public static void setPlaybackOrderType(int i) {
         if (i == 2) {
             shuffleMusic = true;
@@ -1629,6 +1641,17 @@ public class SharedConfig {
         ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0).edit().putInt("dayNightThemeSwitchHintCount", dayNightThemeSwitchHintCount).apply();
     }
 
+    public static int getDevicePerformanceClass() {
+        int i = overrideDevicePerformanceClass;
+        if (i != -1) {
+            return i;
+        }
+        if (devicePerformanceClass == -1) {
+            devicePerformanceClass = measureDevicePerformanceClass();
+        }
+        return devicePerformanceClass;
+    }
+
     public static int measureDevicePerformanceClass() {
         long j;
         String str;
@@ -1636,14 +1659,35 @@ public class SharedConfig {
         int i = Build.VERSION.SDK_INT;
         int i2 = ConnectionsManager.CPU_COUNT;
         int memoryClass = ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).getMemoryClass();
-        int i3 = 0;
-        if (i >= 31 && (str2 = Build.SOC_MODEL) != null) {
-            int hashCode = str2.toUpperCase().hashCode();
+        String str3 = Build.DEVICE;
+        int i3 = 2;
+        if (str3 != null && (str2 = Build.MANUFACTURER) != null) {
+            int hashCode = (str2 + " " + str3).toUpperCase().hashCode();
             int i4 = 0;
             while (true) {
-                int[] iArr = LOW_SOC;
+                int[] iArr = LOW_DEVICES;
                 if (i4 >= iArr.length) {
-                    break;
+                    int i5 = 0;
+                    while (true) {
+                        int[] iArr2 = AVERAGE_DEVICES;
+                        if (i5 >= iArr2.length) {
+                            int i6 = 0;
+                            while (true) {
+                                int[] iArr3 = HIGH_DEVICES;
+                                if (i6 >= iArr3.length) {
+                                    break;
+                                } else if (iArr3[i6] == hashCode) {
+                                    return 2;
+                                } else {
+                                    i6++;
+                                }
+                            }
+                        } else if (iArr2[i5] == hashCode) {
+                            return 1;
+                        } else {
+                            i5++;
+                        }
+                    }
                 } else if (iArr[i4] == hashCode) {
                     return 0;
                 } else {
@@ -1651,36 +1695,35 @@ public class SharedConfig {
                 }
             }
         }
-        String str3 = Build.DEVICE;
-        if (str3 != null && (str = Build.MANUFACTURER) != null) {
-            int hashCode2 = (str + " " + str3).toUpperCase().hashCode();
-            int i5 = 0;
+        if (Build.VERSION.SDK_INT >= 31 && (str = Build.SOC_MODEL) != null) {
+            int hashCode2 = str.toUpperCase().hashCode();
+            int i7 = 0;
             while (true) {
-                int[] iArr2 = LOW_DEVICES;
-                if (i5 >= iArr2.length) {
+                int[] iArr4 = LOW_SOC;
+                if (i7 >= iArr4.length) {
                     break;
-                } else if (iArr2[i5] == hashCode2) {
+                } else if (iArr4[i7] == hashCode2) {
                     return 0;
                 } else {
-                    i5++;
+                    i7++;
                 }
             }
         }
-        int i6 = 0;
-        int i7 = 0;
-        for (int i8 = 0; i8 < i2; i8++) {
+        int i8 = 0;
+        int i9 = 0;
+        for (int i10 = 0; i10 < i2; i10++) {
             try {
-                RandomAccessFile randomAccessFile = new RandomAccessFile(String.format(Locale.ENGLISH, "/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_max_freq", Integer.valueOf(i8)), "r");
+                RandomAccessFile randomAccessFile = new RandomAccessFile(String.format(Locale.ENGLISH, "/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_max_freq", Integer.valueOf(i10)), "r");
                 String readLine = randomAccessFile.readLine();
                 if (readLine != null) {
-                    i7 += Utilities.parseInt((CharSequence) readLine).intValue() / 1000;
-                    i6++;
+                    i9 += Utilities.parseInt((CharSequence) readLine).intValue() / 1000;
+                    i8++;
                 }
                 randomAccessFile.close();
             } catch (Throwable unused) {
             }
         }
-        int ceil = i6 == 0 ? -1 : (int) Math.ceil(i7 / i6);
+        int ceil = i8 == 0 ? -1 : (int) Math.ceil(i9 / i8);
         try {
             ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
             ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).getMemoryInfo(memoryInfo);
@@ -1688,8 +1731,10 @@ public class SharedConfig {
         } catch (Exception unused2) {
             j = -1;
         }
-        if (i >= 21 && i2 > 2 && memoryClass > 100 && ((i2 > 4 || ceil == -1 || ceil > 1250) && ((i2 > 4 || ceil > 1600 || memoryClass > 128 || i > 21) && ((i2 > 4 || ceil > 1300 || memoryClass > 128 || i > 24) && (j == -1 || j >= 2147483648L))))) {
-            i3 = (i2 < 8 || memoryClass <= 160 || (ceil != -1 && ceil <= 2055) || (ceil == -1 && i2 == 8 && i <= 23)) ? 1 : 2;
+        if (i < 21 || i2 <= 2 || memoryClass <= 100 || ((i2 <= 4 && ceil != -1 && ceil <= 1250) || ((i2 <= 4 && ceil <= 1600 && memoryClass <= 128 && i <= 21) || ((i2 <= 4 && ceil <= 1300 && memoryClass <= 128 && i <= 24) || (j != -1 && j < 2147483648L))))) {
+            i3 = 0;
+        } else if (i2 < 8 || memoryClass <= 160 || ((ceil != -1 && ceil <= 2055) || (ceil == -1 && i2 == 8 && i <= 23))) {
+            i3 = 1;
         }
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("device performance info selected_class = " + i3 + " (cpu_count = " + i2 + ", freq = " + ceil + ", memoryClass = " + memoryClass + ", android version " + i + ", manufacture " + Build.MANUFACTURER + ", screenRefreshRate=" + AndroidUtilities.screenRefreshRate + ")");
@@ -1791,7 +1836,7 @@ public class SharedConfig {
         public void toggleMode() {
             this.enabled = !this.enabled;
             savePreference();
-            AnimatedEmojiDrawable.lightModeChanged();
+            AnimatedEmojiDrawable.updateAll();
             Theme.reloadWallpaper();
         }
 

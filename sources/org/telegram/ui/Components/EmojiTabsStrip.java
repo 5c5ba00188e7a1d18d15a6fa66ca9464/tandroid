@@ -897,7 +897,34 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
 
         @Override // android.view.View
         public boolean performClick() {
+            playAnimation();
             return super.performClick();
+        }
+
+        private void playAnimation() {
+            ImageReceiver imageReceiver;
+            ImageView imageView = this.imageView;
+            if (imageView == null || !(imageView.getDrawable() instanceof AnimatedEmojiDrawable) || (imageReceiver = ((AnimatedEmojiDrawable) this.imageView.getDrawable()).getImageReceiver()) == null) {
+                return;
+            }
+            if (imageReceiver.getAnimation() != null) {
+                imageReceiver.getAnimation().seekTo(0L, true);
+            }
+            imageReceiver.startAnimation();
+        }
+
+        private void stopAnimation() {
+            ImageReceiver imageReceiver;
+            ImageView imageView = this.imageView;
+            if (imageView == null || !(imageView.getDrawable() instanceof AnimatedEmojiDrawable) || (imageReceiver = ((AnimatedEmojiDrawable) this.imageView.getDrawable()).getImageReceiver()) == null) {
+                return;
+            }
+            if (imageReceiver.getLottieAnimation() != null) {
+                imageReceiver.getLottieAnimation().setCurrentFrame(0);
+                imageReceiver.getLottieAnimation().stop();
+            } else if (imageReceiver.getAnimation() != null) {
+                imageReceiver.getAnimation().stop();
+            }
         }
 
         public void updateVisibilityInbounds(boolean z, boolean z2) {
@@ -918,6 +945,8 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                     if (imageView != null) {
                         imageView.invalidate();
                     }
+                } else {
+                    stopAnimation();
                 }
                 updateAttachState();
             }
@@ -1088,6 +1117,9 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                 if (valueAnimator != null) {
                     valueAnimator.cancel();
                     this.selectAnimator = null;
+                }
+                if (!z) {
+                    stopAnimation();
                 }
                 if (z2) {
                     float[] fArr = new float[2];

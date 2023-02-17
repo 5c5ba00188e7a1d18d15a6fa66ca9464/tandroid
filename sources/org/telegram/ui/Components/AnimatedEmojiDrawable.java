@@ -504,11 +504,11 @@ public class AnimatedEmojiDrawable extends Drawable {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r1v15, types: [org.telegram.messenger.ImageReceiver] */
-    /* JADX WARN: Type inference failed for: r1v16, types: [org.telegram.messenger.ImageReceiver] */
     /* JADX WARN: Type inference failed for: r1v17, types: [org.telegram.messenger.ImageReceiver] */
-    /* JADX WARN: Type inference failed for: r1v20, types: [org.telegram.messenger.ImageReceiver] */
-    /* JADX WARN: Type inference failed for: r1v22, types: [org.telegram.messenger.ImageReceiver] */
+    /* JADX WARN: Type inference failed for: r1v18, types: [org.telegram.messenger.ImageReceiver] */
+    /* JADX WARN: Type inference failed for: r1v19, types: [org.telegram.messenger.ImageReceiver] */
+    /* JADX WARN: Type inference failed for: r1v23, types: [org.telegram.messenger.ImageReceiver] */
+    /* JADX WARN: Type inference failed for: r1v25, types: [org.telegram.messenger.ImageReceiver] */
     /* JADX WARN: Type inference failed for: r22v0, types: [android.graphics.drawable.Drawable] */
     /* JADX WARN: Type inference failed for: r22v1, types: [android.graphics.drawable.Drawable] */
     /* JADX WARN: Type inference failed for: r24v0, types: [android.graphics.drawable.Drawable] */
@@ -517,9 +517,9 @@ public class AnimatedEmojiDrawable extends Drawable {
     /* JADX WARN: Type inference failed for: r2v2, types: [org.telegram.messenger.SvgHelper$SvgDrawable] */
     /* JADX WARN: Type inference failed for: r2v3, types: [org.telegram.messenger.SvgHelper$SvgDrawable] */
     private void initDocument(boolean z) {
+        int i;
         String str;
         Object obj;
-        int i;
         if (this.document != null) {
             ImageReceiver imageReceiver = this.imageReceiver;
             if (imageReceiver == null || z) {
@@ -553,7 +553,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                     this.imageReceiver.setUniqKeyPrefix(i2 + "_");
                 }
                 this.imageReceiver.setVideoThumbIsSame(true);
-                boolean z2 = SharedConfig.getDevicePerformanceClass() == 0 && ((i = this.cacheType) == 2 || i == 3 || i == 5);
+                boolean z2 = (SharedConfig.getDevicePerformanceClass() == 0 && this.cacheType == 5) || (((i = this.cacheType) == 2 || i == 3) && !SharedConfig.playEmojiInKeyboard);
                 if (this.cacheType == 13) {
                     z2 = true;
                 }
@@ -617,7 +617,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                     ?? r1 = this.imageReceiver;
                     TLRPC$Document tLRPC$Document = this.document;
                     r1.setImage(null, null, obj2, str2, null, null, obj, tLRPC$Document.size, null, tLRPC$Document, 1);
-                } else if (z2 || (!SharedConfig.getLiteMode().animatedEmojiEnabled() && this.cacheType != 14)) {
+                } else if (z2 || ((!SharedConfig.getLiteMode().animatedEmojiEnabled() || !SharedConfig.playEmojiInKeyboard) && this.cacheType != 14)) {
                     if ("video/webm".equals(this.document.mime_type)) {
                         TLRPC$Document tLRPC$Document2 = this.document;
                         this.imageReceiver.setImage(null, null, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, obj, tLRPC$Document2.size, null, tLRPC$Document2, 1);
@@ -642,7 +642,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                 }
                 this.imageReceiver.setAspectFit(true);
                 int i6 = this.cacheType;
-                if (i6 == 12 || i6 == 8) {
+                if (i6 == 12 || i6 == 8 || i6 == 6 || i6 == 5) {
                     this.imageReceiver.setAllowStartAnimation(false);
                     this.imageReceiver.setAllowStartLottieAnimation(false);
                     this.imageReceiver.setAutoRepeat(0);
@@ -665,7 +665,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         int i = this.cacheType;
         if (i == 7 || i == 9 || i == 10) {
             imageReceiver.setAutoRepeatCount(2);
-        } else if (i == 11 || i == 14) {
+        } else if (i == 11 || i == 14 || i == 6 || i == 5) {
             imageReceiver.setAutoRepeatCount(1);
         }
     }
@@ -1285,7 +1285,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
     }
 
-    public static void lightModeChanged() {
+    public static void updateAll() {
         for (HashMap<Long, AnimatedEmojiDrawable> hashMap : globalEmojiCache.values()) {
             Iterator it = new ArrayList(hashMap.keySet()).iterator();
             while (it.hasNext()) {

@@ -18634,6 +18634,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 hideActionMode();
                 updatePinnedMessageView(true);
             } else {
+                createActionMode();
                 ActionBarMenuItem item = this.actionBar.createActionMode().getItem(25);
                 ActionBarMenuItem item2 = this.actionBar.createActionMode().getItem(10);
                 ActionBarMenuItem item3 = this.actionBar.createActionMode().getItem(22);
@@ -26393,59 +26394,59 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:367:0x0710, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:367:0x0713, code lost:
         if (org.telegram.messenger.Emoji.fullyConsistsOfEmojis(r3) != false) goto L1301;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:609:0x0c81, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:609:0x0c84, code lost:
         if (r0.edit_messages != false) goto L1011;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:927:0x168c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:927:0x168f, code lost:
         if (r2.isEmpty() == false) goto L727;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:940:0x16b1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:940:0x16b4, code lost:
         if ((r0.available_reactions instanceof org.telegram.tgnet.TLRPC$TL_chatReactionsNone) == false) goto L740;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:943:0x16bb, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:943:0x16be, code lost:
         if (org.telegram.messenger.ChatObject.isChannel(r14.currentChat) == false) goto L740;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:945:0x16bf, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:945:0x16c2, code lost:
         if (r14.currentUser != null) goto L740;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:947:0x16c5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:947:0x16c8, code lost:
         if (r2.isEmpty() != false) goto L349;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1009:0x17f6  */
-    /* JADX WARN: Removed duplicated region for block: B:1010:0x17f9  */
-    /* JADX WARN: Removed duplicated region for block: B:1013:0x1830  */
-    /* JADX WARN: Removed duplicated region for block: B:1014:0x1832  */
-    /* JADX WARN: Removed duplicated region for block: B:1017:0x183c  */
-    /* JADX WARN: Removed duplicated region for block: B:1018:0x1843  */
-    /* JADX WARN: Removed duplicated region for block: B:1021:0x185e  */
-    /* JADX WARN: Removed duplicated region for block: B:1044:0x19eb  */
-    /* JADX WARN: Removed duplicated region for block: B:1177:0x20dd  */
-    /* JADX WARN: Removed duplicated region for block: B:1178:0x20e2  */
-    /* JADX WARN: Removed duplicated region for block: B:1181:0x20e9  */
-    /* JADX WARN: Removed duplicated region for block: B:1182:0x20ee  */
-    /* JADX WARN: Removed duplicated region for block: B:1185:0x2101  */
-    /* JADX WARN: Removed duplicated region for block: B:1209:0x21de  */
-    /* JADX WARN: Removed duplicated region for block: B:1300:0x2453  */
-    /* JADX WARN: Removed duplicated region for block: B:1301:0x2457  */
-    /* JADX WARN: Removed duplicated region for block: B:1304:0x2472  */
-    /* JADX WARN: Removed duplicated region for block: B:1307:0x2479  */
+    /* JADX WARN: Removed duplicated region for block: B:1009:0x17f9  */
+    /* JADX WARN: Removed duplicated region for block: B:1010:0x17fc  */
+    /* JADX WARN: Removed duplicated region for block: B:1013:0x1833  */
+    /* JADX WARN: Removed duplicated region for block: B:1014:0x1835  */
+    /* JADX WARN: Removed duplicated region for block: B:1017:0x183f  */
+    /* JADX WARN: Removed duplicated region for block: B:1018:0x1846  */
+    /* JADX WARN: Removed duplicated region for block: B:1021:0x1861  */
+    /* JADX WARN: Removed duplicated region for block: B:1044:0x19ee  */
+    /* JADX WARN: Removed duplicated region for block: B:1177:0x20e0  */
+    /* JADX WARN: Removed duplicated region for block: B:1178:0x20e5  */
+    /* JADX WARN: Removed duplicated region for block: B:1181:0x20ec  */
+    /* JADX WARN: Removed duplicated region for block: B:1182:0x20f1  */
+    /* JADX WARN: Removed duplicated region for block: B:1185:0x2104  */
+    /* JADX WARN: Removed duplicated region for block: B:1209:0x21e1  */
+    /* JADX WARN: Removed duplicated region for block: B:1300:0x2456  */
+    /* JADX WARN: Removed duplicated region for block: B:1301:0x245a  */
+    /* JADX WARN: Removed duplicated region for block: B:1304:0x2475  */
+    /* JADX WARN: Removed duplicated region for block: B:1307:0x247c  */
     /* JADX WARN: Removed duplicated region for block: B:167:0x02f3  */
     /* JADX WARN: Removed duplicated region for block: B:177:0x0317  */
     /* JADX WARN: Removed duplicated region for block: B:178:0x0319  */
-    /* JADX WARN: Removed duplicated region for block: B:283:0x0517 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:284:0x0518  */
-    /* JADX WARN: Removed duplicated region for block: B:371:0x0719  */
-    /* JADX WARN: Removed duplicated region for block: B:379:0x074a  */
-    /* JADX WARN: Removed duplicated region for block: B:392:0x07ac  */
-    /* JADX WARN: Removed duplicated region for block: B:880:0x15de  */
-    /* JADX WARN: Removed duplicated region for block: B:881:0x15e1  */
-    /* JADX WARN: Removed duplicated region for block: B:886:0x15f3 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:891:0x15fc  */
-    /* JADX WARN: Removed duplicated region for block: B:893:0x1605  */
+    /* JADX WARN: Removed duplicated region for block: B:283:0x051a A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:284:0x051b  */
+    /* JADX WARN: Removed duplicated region for block: B:371:0x071c  */
+    /* JADX WARN: Removed duplicated region for block: B:379:0x074d  */
+    /* JADX WARN: Removed duplicated region for block: B:392:0x07af  */
+    /* JADX WARN: Removed duplicated region for block: B:880:0x15e1  */
+    /* JADX WARN: Removed duplicated region for block: B:881:0x15e4  */
+    /* JADX WARN: Removed duplicated region for block: B:886:0x15f6 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:891:0x15ff  */
+    /* JADX WARN: Removed duplicated region for block: B:893:0x1608  */
     /* JADX WARN: Type inference failed for: r10v5 */
     /* JADX WARN: Type inference failed for: r10v6, types: [org.telegram.ui.Components.AnimatedEmojiSpan] */
     /* JADX WARN: Type inference failed for: r10v8 */
@@ -28337,6 +28338,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             } else {
                 ChatActivityEnterView chatActivityEnterView2 = chatActivity.chatActivityEnterView;
                 if (chatActivityEnterView2 == null || !(chatActivityEnterView2.isRecordingAudioVideo() || chatActivity.chatActivityEnterView.isRecordLocked())) {
+                    createActionMode();
                     ActionBarMenuItem item = chatActivity.actionBar.createActionMode().getItem(12);
                     if (item != null) {
                         item.setVisibility(0);
@@ -34119,6 +34121,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
 
         private ChatMessageCellDelegate() {
+        }
+
+        @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+        public boolean isReplyOrSelf() {
+            return UserObject.isReplyUser(ChatActivity.this.currentUser) || UserObject.isUserSelf(ChatActivity.this.currentUser);
         }
 
         @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate

@@ -1292,6 +1292,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             selectAnimatedEmojiDialog.pressedProgress = 0.0f;
             selectAnimatedEmojiDialog.cancelPressed = false;
             if (imageViewEmoji2.isDefaultReaction) {
+                selectAnimatedEmojiDialog.setBigReactionAnimatedEmoji(null);
                 TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(SelectAnimatedEmojiDialog.currentAccount).getReactionsMap().get(SelectAnimatedEmojiDialog.this.selectedReactionView.reaction.emojicon);
                 if (tLRPC$TL_availableReaction != null) {
                     SelectAnimatedEmojiDialog.this.bigReactionImageReceiver.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_pcache", null, null, null, 0L, "tgs", SelectAnimatedEmojiDialog.this.selectedReactionView.reaction, 0);
@@ -1395,7 +1396,8 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             }
             this.bigReactionAnimatedEmoji = animatedEmojiDrawable;
             if (animatedEmojiDrawable != null) {
-                animatedEmojiDrawable.addView(this);
+                animatedEmojiDrawable.setColorFilter(this.premiumStarColorFilter);
+                this.bigReactionAnimatedEmoji.addView(this);
             }
         }
     }
@@ -2379,7 +2381,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(SelectAnimatedEmojiDialog.currentAccount).getReactionsMap().get(visibleReaction.emojicon);
                     if (tLRPC$TL_availableReaction != null) {
                         SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.activate_animation, "windowBackgroundWhiteGrayIcon", 0.2f);
-                        if (!SharedConfig.getLiteMode().animatedEmojiEnabled() || SharedConfig.getDevicePerformanceClass() == 0) {
+                        if (!SharedConfig.getLiteMode().animatedEmojiEnabled() || !SharedConfig.playEmojiInKeyboard) {
                             imageViewEmoji2.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_firstframe", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
                         } else {
                             imageViewEmoji2.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_pcache", ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "30_30_firstframe", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
@@ -2635,8 +2637,8 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             return this.VIEW_TYPE_SEARCH;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:283:0x06ae  */
-        /* JADX WARN: Removed duplicated region for block: B:287:0x06ed  */
+        /* JADX WARN: Removed duplicated region for block: B:283:0x06ac  */
+        /* JADX WARN: Removed duplicated region for block: B:287:0x06eb  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -2708,7 +2710,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                         TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(SelectAnimatedEmojiDialog.currentAccount).getReactionsMap().get(visibleReaction.emojicon);
                         if (tLRPC$TL_availableReaction != null) {
                             SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.activate_animation, "windowBackgroundWhiteGrayIcon", 0.2f);
-                            if (!SharedConfig.getLiteMode().animatedEmojiEnabled() || SharedConfig.getDevicePerformanceClass() == 0) {
+                            if (!SharedConfig.getLiteMode().animatedEmojiEnabled() || !SharedConfig.playEmojiInKeyboard) {
                                 imageViewEmoji.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_firstframe", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
                             } else {
                                 imageViewEmoji.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_pcache", ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "30_30_firstframe", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
@@ -4348,7 +4350,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             public DrawingInBackgroundLine() {
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:57:0x0126, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:57:0x0124, code lost:
                 prepareDraw(java.lang.System.currentTimeMillis());
                 drawInUiThread(r12, r17);
                 reset();
@@ -4376,7 +4378,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     }
                 }
                 boolean z = true;
-                boolean z2 = this.skewAlpha < 1.0f || EmojiListView.this.isAnimating() || this.imageViewEmojis.size() <= 4 || SharedConfig.getDevicePerformanceClass() == 0 || SelectAnimatedEmojiDialog.this.enterAnimationInProgress() || !SharedConfig.getLiteMode().animatedEmojiEnabled() || SelectAnimatedEmojiDialog.this.type == 4;
+                boolean z2 = this.skewAlpha < 1.0f || EmojiListView.this.isAnimating() || this.imageViewEmojis.size() <= 4 || !SharedConfig.playEmojiInKeyboard || !SharedConfig.getLiteMode().animatedEmojiEnabled() || SelectAnimatedEmojiDialog.this.enterAnimationInProgress() || SelectAnimatedEmojiDialog.this.type == 4;
                 if (!z2) {
                     boolean z3 = SelectAnimatedEmojiDialog.this.animateExpandStartTime > 0 && SystemClock.elapsedRealtime() - SelectAnimatedEmojiDialog.this.animateExpandStartTime < SelectAnimatedEmojiDialog.this.animateExpandDuration();
                     for (int i3 = 0; i3 < this.imageViewEmojis.size(); i3++) {

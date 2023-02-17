@@ -329,27 +329,27 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         this.canShowProgress = !preferences.getBoolean("topics_end_reached_" + j, false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x0044, code lost:
-        if (((org.telegram.ui.TopicsFragment) r1).chatId == (-r7.getDialogId())) goto L8;
-     */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0042  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static void prepareToSwitchAnimation(ChatActivity chatActivity) {
-        if (chatActivity.getParentLayout() == null) {
-            return;
-        }
-        boolean z = false;
+        boolean z;
         if (chatActivity.getParentLayout().getFragmentStack().size() > 1) {
             BaseFragment baseFragment = chatActivity.getParentLayout().getFragmentStack().get(chatActivity.getParentLayout().getFragmentStack().size() - 2);
-            if (baseFragment instanceof TopicsFragment) {
+            if ((baseFragment instanceof TopicsFragment) && ((TopicsFragment) baseFragment).chatId == (-chatActivity.getDialogId())) {
+                z = false;
+                if (z) {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("chat_id", -chatActivity.getDialogId());
+                    chatActivity.getParentLayout().addFragmentToStack(new TopicsFragment(bundle), chatActivity.getParentLayout().getFragmentStack().size() - 1);
+                }
+                chatActivity.setSwitchFromTopics(true);
+                chatActivity.finishFragment();
             }
         }
         z = true;
         if (z) {
-            Bundle bundle = new Bundle();
-            bundle.putLong("chat_id", -chatActivity.getDialogId());
-            chatActivity.getParentLayout().addFragmentToStack(new TopicsFragment(bundle), chatActivity.getParentLayout().getFragmentStack().size() - 1);
         }
         chatActivity.setSwitchFromTopics(true);
         chatActivity.finishFragment();

@@ -177,7 +177,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
     public void onFragmentDestroy() {
         super.onFragmentDestroy();
         this.liteMode.savePreference();
-        AnimatedEmojiDrawable.lightModeChanged();
+        AnimatedEmojiDrawable.updateAll();
         Theme.reloadWallpaper();
     }
 }

@@ -1935,6 +1935,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         }
                         ((DialogCell) findViewByPosition).startOutAnimation();
                         this.parentPage.archivePullViewState = 1;
+                        if (AndroidUtilities.isAccessibilityScreenReaderEnabled()) {
+                            AndroidUtilities.makeAccessibilityAnnouncement(LocaleController.getString(R.string.AccDescrArchivedChatsShown));
+                        }
                     }
                     if (getViewOffset() != 0.0f) {
                         ValueAnimator ofFloat = ValueAnimator.ofFloat(getViewOffset(), 0.0f);
@@ -4844,11 +4847,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             float viewOffset;
             int i3;
             View findViewByPosition;
-            boolean z = false;
             if (this.val$viewPage.listView.fastScrollAnimationRunning) {
                 return 0;
             }
-            boolean z2 = this.val$viewPage.listView.getScrollState() == 1;
+            boolean z = this.val$viewPage.listView.getScrollState() == 1;
             int paddingTop = this.val$viewPage.listView.getPaddingTop();
             if (this.val$viewPage.dialogsType == 0 && !DialogsActivity.this.onlySelect && DialogsActivity.this.folderId == 0 && i < 0 && DialogsActivity.this.getMessagesController().hasHiddenArchive() && this.val$viewPage.archivePullViewState == 2) {
                 this.val$viewPage.listView.setOverScrollMode(0);
@@ -4856,7 +4858,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 if (findFirstVisibleItemPosition == 0 && (findViewByPosition = this.val$viewPage.layoutManager.findViewByPosition(findFirstVisibleItemPosition)) != null && findViewByPosition.getBottom() - paddingTop <= AndroidUtilities.dp(1.0f)) {
                     findFirstVisibleItemPosition = 1;
                 }
-                if (!z2) {
+                if (!z) {
                     View findViewByPosition2 = this.val$viewPage.layoutManager.findViewByPosition(findFirstVisibleItemPosition);
                     if (findViewByPosition2 != null) {
                         int dp = (-(findViewByPosition2.getTop() - paddingTop)) + ((findFirstVisibleItemPosition - 1) * (AndroidUtilities.dp(SharedConfig.useThreeLinesLayout ? 78.0f : 72.0f) + 1));
@@ -4879,7 +4881,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         DialogsActivity.this.undoView[0].hide(true, 1);
                     }
                 }
-                if (this.val$viewPage.dialogsType == 0 && this.val$viewPage.listView.getViewOffset() != 0.0f && i > 0 && z2) {
+                if (this.val$viewPage.dialogsType == 0 && this.val$viewPage.listView.getViewOffset() != 0.0f && i > 0 && z) {
                     viewOffset = ((int) this.val$viewPage.listView.getViewOffset()) - i;
                     if (viewOffset >= 0.0f) {
                         i3 = (int) viewOffset;
@@ -4900,7 +4902,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     if (findFirstVisibleItemPosition2 != 0 || findViewByPosition4 == null || findViewByPosition4.getBottom() - paddingTop < AndroidUtilities.dp(4.0f)) {
                         DialogsActivity.this.startArchivePullingTime = 0L;
                         DialogsActivity.this.canShowHiddenArchive = false;
+                        r5 = this.val$viewPage.archivePullViewState != 2;
                         this.val$viewPage.archivePullViewState = 2;
+                        if (r5 && AndroidUtilities.isAccessibilityScreenReaderEnabled()) {
+                            AndroidUtilities.makeAccessibilityAnnouncement(LocaleController.getString(R.string.AccDescrArchivedChatsHidden));
+                        }
                         if (this.val$viewPage.pullForegroundDrawable != null) {
                             this.val$viewPage.pullForegroundDrawable.resetText();
                             this.val$viewPage.pullForegroundDrawable.pullProgress = 0.0f;
@@ -4919,18 +4925,18 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         }
                         long currentTimeMillis = System.currentTimeMillis() - DialogsActivity.this.startArchivePullingTime;
                         if (top2 > 0.85f && currentTimeMillis > 220) {
-                            z = true;
+                            r5 = true;
                         }
-                        if (DialogsActivity.this.canShowHiddenArchive != z) {
-                            DialogsActivity.this.canShowHiddenArchive = z;
+                        if (DialogsActivity.this.canShowHiddenArchive != r5) {
+                            DialogsActivity.this.canShowHiddenArchive = r5;
                             if (this.val$viewPage.archivePullViewState == 2) {
                                 this.val$viewPage.listView.performHapticFeedback(3, 2);
                                 if (this.val$viewPage.pullForegroundDrawable != null) {
-                                    this.val$viewPage.pullForegroundDrawable.colorize(z);
+                                    this.val$viewPage.pullForegroundDrawable.colorize(r5);
                                 }
                             }
                         }
-                        if (this.val$viewPage.archivePullViewState == 2 && i2 - scrollVerticallyBy != 0 && i < 0 && z2) {
+                        if (this.val$viewPage.archivePullViewState == 2 && i2 - scrollVerticallyBy != 0 && i < 0 && z) {
                             this.val$viewPage.listView.setViewsOffset(this.val$viewPage.listView.getViewOffset() - ((i * 0.2f) * (1.0f - (this.val$viewPage.listView.getViewOffset() / PullForegroundDrawable.getMaxOverscroll()))));
                         }
                         if (this.val$viewPage.pullForegroundDrawable != null) {
