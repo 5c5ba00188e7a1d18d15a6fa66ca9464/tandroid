@@ -1144,7 +1144,10 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createCamera$4() {
-        this.cameraThread.setCurrentSession(this.cameraSession);
+        CameraGLThread cameraGLThread = this.cameraThread;
+        if (cameraGLThread != null) {
+            cameraGLThread.setCurrentSession(this.cameraSession);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

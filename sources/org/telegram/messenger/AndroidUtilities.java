@@ -61,7 +61,6 @@ import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.StateSet;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -3746,7 +3745,7 @@ public class AndroidUtilities {
                 linearLayout.addView(textDetailSettingsCell, LayoutHelper.createLinear(-1, -2));
                 if (i == 5) {
                     try {
-                        ConnectionsManager.getInstance(UserConfig.selectedAccount).checkProxy(str, Integer.parseInt(str2), str3, str4, str5, new RequestTimeDelegate() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda21
+                        ConnectionsManager.getInstance(UserConfig.selectedAccount).checkProxy(str, Integer.parseInt(str2), str3, str4, str5, new RequestTimeDelegate() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda20
                             @Override // org.telegram.tgnet.RequestTimeDelegate
                             public final void run(long j) {
                                 AndroidUtilities.lambda$showProxyAlert$12(TextDetailSettingsCell.this, j);
@@ -4421,7 +4420,7 @@ public class AndroidUtilities {
             Field declaredField = baseFragment.getClass().getDeclaredField("listView");
             declaredField.setAccessible(true);
             final RecyclerListView recyclerListView = (RecyclerListView) declaredField.get(baseFragment);
-            recyclerListView.highlightRow(new RecyclerListView.IntReturnCallback() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda22
+            recyclerListView.highlightRow(new RecyclerListView.IntReturnCallback() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda21
                 @Override // org.telegram.ui.Components.RecyclerListView.IntReturnCallback
                 public final int run() {
                     int lambda$scrollToFragmentRow$17;
@@ -4980,54 +4979,25 @@ public class AndroidUtilities {
         return Math.max(i, i2) >= Math.min(i3, i4) && Math.max(i3, i4) >= Math.min(i, i2);
     }
 
-    public static Runnable timer(String str) {
-        return emptyRunnable;
-    }
-
-    public static Utilities.Callback<String> timers() {
-        final long nanoTime = System.nanoTime();
-        return new Utilities.Callback() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda20
-            @Override // org.telegram.messenger.Utilities.Callback
-            public final void run(Object obj) {
-                AndroidUtilities.lambda$timers$22(nanoTime, (String) obj);
-            }
-        };
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$timers$22(long j, String str) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[");
-        double nanoTime = System.nanoTime() - j;
-        Double.isNaN(nanoTime);
-        double round = Math.round(nanoTime / 1000.0d);
-        Double.isNaN(round);
-        sb.append(round / 1000.0d);
-        sb.append("ms] ");
-        sb.append(str);
-        Log.i("timer", sb.toString());
-    }
-
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x004e, code lost:
-        if (r2 == null) goto L25;
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x0023, code lost:
+        if (r1 == null) goto L11;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static Long getCpuInfo(int i, int i2) {
+    public static String getSysInfoString(String str) {
         RandomAccessFile randomAccessFile;
         RandomAccessFile randomAccessFile2 = null;
         try {
-            randomAccessFile = new RandomAccessFile(String.format(Locale.ENGLISH, "/sys/devices/system/cpu/cpu%d/%s", Integer.valueOf(i), i2 != 0 ? i2 != 1 ? i2 != 3 ? "cpufreq/cpuinfo_max_freq" : "cpu_capacity" : "cpufreq/cpuinfo_cur_freq" : "cpufreq/cpuinfo_min_freq"), "r");
+            randomAccessFile = new RandomAccessFile(str, "r");
             try {
                 String readLine = randomAccessFile.readLine();
                 if (readLine != null) {
-                    Long parseLong = Utilities.parseLong(readLine);
                     try {
                         randomAccessFile.close();
                     } catch (Exception unused) {
                     }
-                    return parseLong;
+                    return readLine;
                 }
             } catch (Exception unused2) {
             } catch (Throwable th) {
@@ -5051,5 +5021,17 @@ public class AndroidUtilities {
         } catch (Exception unused5) {
             return null;
         }
+    }
+
+    public static Long getSysInfoLong(String str) {
+        String sysInfoString = getSysInfoString(str);
+        if (sysInfoString != null) {
+            try {
+                return Utilities.parseLong(sysInfoString);
+            } catch (Exception unused) {
+                return null;
+            }
+        }
+        return null;
     }
 }

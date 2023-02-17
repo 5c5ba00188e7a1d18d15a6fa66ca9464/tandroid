@@ -1480,7 +1480,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$8(View view, int i) {
-        if (i == this.lightModeRow) {
+        if (i == this.lightModeRow && BuildVars.DEBUG_VERSION) {
             presentFragment(new LiteModeSettingsActivity());
             return true;
         }

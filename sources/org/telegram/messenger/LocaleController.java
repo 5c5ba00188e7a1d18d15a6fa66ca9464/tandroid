@@ -1138,7 +1138,8 @@ public class LocaleController {
             }
             this.currentLocale = locale;
             this.currentLocaleInfo = localeInfo;
-            if (!TextUtils.isEmpty(localeInfo.pluralLangCode)) {
+            FileLog.d("applyLanguage: currentLocaleInfo is set");
+            if (!TextUtils.isEmpty(this.currentLocaleInfo.pluralLangCode)) {
                 this.currentPluralRules = this.allRules.get(this.currentLocaleInfo.pluralLangCode);
             }
             if (this.currentPluralRules == null) {
@@ -2781,7 +2782,19 @@ public class LocaleController {
         final int i2;
         File pathToBaseFile;
         HashMap<String, String> localeFileStrings;
+        boolean z = true;
         if (tLRPC$TL_langPackDifference == null || tLRPC$TL_langPackDifference.strings.isEmpty() || localeInfo == null || localeInfo.isLocal()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("saveRemoteLocaleStrings: empty difference=");
+            sb.append(tLRPC$TL_langPackDifference == null || tLRPC$TL_langPackDifference.strings.isEmpty());
+            sb.append("; locale is local or null=");
+            if (localeInfo != null && !localeInfo.isLocal()) {
+                z = false;
+            }
+            sb.append(z);
+            FileLog.d(sb.toString());
+            recreateFormatters();
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.reloadInterface, new Object[0]);
             if (runnable != null) {
                 runnable.run();
                 return;
@@ -2795,6 +2808,7 @@ public class LocaleController {
             i2 = lowerCase.equals(localeInfo.baseLangCode) ? 1 : -1;
         }
         if (i2 == -1) {
+            FileLog.d("saveRemoteLocaleStrings: unknown language " + lowerCase + " (locale short=" + localeInfo.shortName + ", base=" + localeInfo.baseLangCode + ")");
             return;
         }
         if (i2 == 0) {
@@ -3042,6 +3056,7 @@ public class LocaleController {
         if (localeInfo == null || !(localeInfo.isRemote() || localeInfo.isUnofficial())) {
             return 0;
         }
+        FileLog.d("applyRemoteLanguage " + str + " force=" + z + " forceFullDifference=" + z2 + " currentAccount=" + i);
         final int[] iArr = {0};
         final int[] iArr2 = {0};
         final Runnable runnable2 = new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda10
@@ -3053,6 +3068,7 @@ public class LocaleController {
         if (localeInfo.hasBaseLang() && (str == null || str.equals(localeInfo.baseLangCode))) {
             if (localeInfo.baseVersion != 0 && !z2) {
                 if (localeInfo.hasBaseLang()) {
+                    FileLog.d("applyRemoteLanguage getDifference of base");
                     TLRPC$TL_langpack_getDifference tLRPC$TL_langpack_getDifference = new TLRPC$TL_langpack_getDifference();
                     tLRPC$TL_langpack_getDifference.from_version = localeInfo.baseVersion;
                     tLRPC$TL_langpack_getDifference.lang_code = localeInfo.getBaseLangCode();
@@ -3066,6 +3082,7 @@ public class LocaleController {
                     }, 8);
                 }
             } else {
+                FileLog.d("applyRemoteLanguage getLangPack of base");
                 TLRPC$TL_langpack_getLangPack tLRPC$TL_langpack_getLangPack = new TLRPC$TL_langpack_getLangPack();
                 tLRPC$TL_langpack_getLangPack.lang_code = localeInfo.getBaseLangCode();
                 iArr2[0] = iArr2[0] + 1;
@@ -3079,6 +3096,7 @@ public class LocaleController {
         }
         if (str == null || str.equals(localeInfo.shortName)) {
             if (localeInfo.version != 0 && !z2) {
+                FileLog.d("applyRemoteLanguage getDifference");
                 TLRPC$TL_langpack_getDifference tLRPC$TL_langpack_getDifference2 = new TLRPC$TL_langpack_getDifference();
                 tLRPC$TL_langpack_getDifference2.from_version = localeInfo.version;
                 tLRPC$TL_langpack_getDifference2.lang_code = localeInfo.getLangCode();
@@ -3094,6 +3112,7 @@ public class LocaleController {
             for (int i2 = 0; i2 < 4; i2++) {
                 ConnectionsManager.setLangCode(localeInfo.getLangCode());
             }
+            FileLog.d("applyRemoteLanguage getLangPack");
             TLRPC$TL_langpack_getLangPack tLRPC$TL_langpack_getLangPack2 = new TLRPC$TL_langpack_getLangPack();
             tLRPC$TL_langpack_getLangPack2.lang_code = localeInfo.getLangCode();
             iArr2[0] = iArr2[0] + 1;

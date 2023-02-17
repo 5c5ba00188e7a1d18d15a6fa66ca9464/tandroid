@@ -654,9 +654,9 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         this.listAdapter.notifyDataSetChanged();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:137:0x046e  */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x0474  */
     /* JADX WARN: Removed duplicated region for block: B:13:0x0075  */
-    /* JADX WARN: Removed duplicated region for block: B:140:0x048f  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x0495  */
     /* JADX WARN: Removed duplicated region for block: B:16:0x007c  */
     /* JADX WARN: Removed duplicated region for block: B:31:0x00c7  */
     /* JADX WARN: Removed duplicated region for block: B:41:0x00f8  */
@@ -775,7 +775,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                         int i4 = 0;
                         while (i2 < this.recyclerListView.getChildCount()) {
                             View childAt = this.recyclerListView.getChildAt(i2);
-                            if (this.transitionProgress != f15) {
+                            if (this.transitionProgress != f15 && allowSmoothEnterTransition()) {
                                 i4 = (int) (Math.abs(((childAt.getLeft() + (childAt.getMeasuredWidth() / 2.0f)) / this.recyclerListView.getMeasuredWidth()) - 0.8f) * 200.0f);
                             }
                             if (childAt instanceof ReactionHolderView) {
@@ -1083,10 +1083,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         this.transitionProgress = f;
         ChatScrimPopupContainerLayout chatScrimPopupContainerLayout = this.parentLayout;
         if (chatScrimPopupContainerLayout != null) {
-            if (!this.animatePopup) {
-                f = 1.0f;
-            }
-            chatScrimPopupContainerLayout.setReactionsTransitionProgress(f);
+            chatScrimPopupContainerLayout.setReactionsTransitionProgress((this.animatePopup && allowSmoothEnterTransition()) ? 1.0f : 1.0f);
         }
         invalidate();
     }
@@ -1194,9 +1191,15 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         this.animatePopup = z;
         setTransitionProgress(0.0f);
         setAlpha(1.0f);
-        ObjectAnimator duration = ObjectAnimator.ofFloat(this, TRANSITION_PROGRESS_VALUE, 0.0f, 1.0f).setDuration(250L);
-        duration.setInterpolator(new OvershootInterpolator(0.5f));
-        duration.start();
+        if (allowSmoothEnterTransition()) {
+            ObjectAnimator duration = ObjectAnimator.ofFloat(this, TRANSITION_PROGRESS_VALUE, 0.0f, 1.0f).setDuration(400L);
+            duration.setInterpolator(new OvershootInterpolator(1.004f));
+            duration.start();
+            return;
+        }
+        ObjectAnimator duration2 = ObjectAnimator.ofFloat(this, TRANSITION_PROGRESS_VALUE, 0.0f, 1.0f).setDuration(250L);
+        duration2.setInterpolator(new OvershootInterpolator(0.5f));
+        duration2.start();
     }
 
     public int getTotalWidth() {
@@ -1899,5 +1902,9 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
 
     public void setParentLayout(ChatScrimPopupContainerLayout chatScrimPopupContainerLayout) {
         this.parentLayout = chatScrimPopupContainerLayout;
+    }
+
+    public static boolean allowSmoothEnterTransition() {
+        return SharedConfig.deviceIsHigh();
     }
 }

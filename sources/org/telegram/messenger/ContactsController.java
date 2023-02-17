@@ -2523,58 +2523,60 @@ public class ContactsController extends BaseController {
     /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: performWriteContactsToPhoneBookInternal */
     public void lambda$performWriteContactsToPhoneBook$45(ArrayList<TLRPC$TL_contact> arrayList) {
+        Account account;
         Cursor cursor = null;
         try {
             try {
-            } catch (Exception e) {
-                e = e;
+                account = this.systemAccount;
+            } catch (Throwable th) {
+                th = th;
             }
-            if (hasContactsPermission()) {
-                SharedPreferences mainSettings = MessagesController.getMainSettings(this.currentAccount);
-                boolean z = !mainSettings.getBoolean("contacts_updated_v7", false);
-                if (z) {
-                    mainSettings.edit().putBoolean("contacts_updated_v7", true).commit();
+        } catch (Exception e) {
+            e = e;
+        }
+        if (hasContactsPermission() && account != null) {
+            SharedPreferences mainSettings = MessagesController.getMainSettings(this.currentAccount);
+            boolean z = !mainSettings.getBoolean("contacts_updated_v7", false);
+            if (z) {
+                mainSettings.edit().putBoolean("contacts_updated_v7", true).commit();
+            }
+            Cursor query = ApplicationLoader.applicationContext.getContentResolver().query(ContactsContract.RawContacts.CONTENT_URI.buildUpon().appendQueryParameter("account_name", this.systemAccount.name).appendQueryParameter("account_type", this.systemAccount.type).build(), new String[]{"_id", "sync2"}, null, null, null);
+            try {
+                LongSparseArray longSparseArray = new LongSparseArray();
+                if (query != null) {
+                    while (query.moveToNext()) {
+                        longSparseArray.put(query.getLong(1), Long.valueOf(query.getLong(0)));
+                    }
+                    query.close();
+                    for (int i = 0; i < arrayList.size(); i++) {
+                        TLRPC$TL_contact tLRPC$TL_contact = arrayList.get(i);
+                        if (z || longSparseArray.indexOfKey(tLRPC$TL_contact.user_id) < 0) {
+                            addContactToPhoneBook(getMessagesController().getUser(Long.valueOf(tLRPC$TL_contact.user_id)), z);
+                        }
+                    }
+                } else {
+                    cursor = query;
                 }
-                Cursor query = ApplicationLoader.applicationContext.getContentResolver().query(ContactsContract.RawContacts.CONTENT_URI.buildUpon().appendQueryParameter("account_name", this.systemAccount.name).appendQueryParameter("account_type", this.systemAccount.type).build(), new String[]{"_id", "sync2"}, null, null, null);
-                try {
-                    LongSparseArray longSparseArray = new LongSparseArray();
-                    if (query != null) {
-                        while (query.moveToNext()) {
-                            longSparseArray.put(query.getLong(1), Long.valueOf(query.getLong(0)));
-                        }
-                        query.close();
-                        for (int i = 0; i < arrayList.size(); i++) {
-                            TLRPC$TL_contact tLRPC$TL_contact = arrayList.get(i);
-                            if (z || longSparseArray.indexOfKey(tLRPC$TL_contact.user_id) < 0) {
-                                addContactToPhoneBook(getMessagesController().getUser(Long.valueOf(tLRPC$TL_contact.user_id)), z);
-                            }
-                        }
-                    } else {
-                        cursor = query;
-                    }
-                    if (cursor == null) {
-                        return;
-                    }
-                } catch (Exception e2) {
-                    e = e2;
-                    cursor = query;
-                    FileLog.e(e);
-                    if (cursor == null) {
-                        return;
-                    }
-                    cursor.close();
-                } catch (Throwable th) {
-                    th = th;
-                    cursor = query;
-                    if (cursor != null) {
-                        cursor.close();
-                    }
-                    throw th;
+                if (cursor == null) {
+                    return;
+                }
+            } catch (Exception e2) {
+                e = e2;
+                cursor = query;
+                FileLog.e(e);
+                if (cursor == null) {
+                    return;
                 }
                 cursor.close();
+            } catch (Throwable th2) {
+                th = th2;
+                cursor = query;
+                if (cursor != null) {
+                    cursor.close();
+                }
+                throw th;
             }
-        } catch (Throwable th2) {
-            th = th2;
+            cursor.close();
         }
     }
 
@@ -2840,7 +2842,7 @@ public class ContactsController extends BaseController {
                 Uri build = ContactsContract.RawContacts.CONTENT_URI.buildUpon().appendQueryParameter("caller_is_syncadapter", "true").appendQueryParameter("account_name", this.systemAccount.name).appendQueryParameter("account_type", this.systemAccount.type).build();
                 contentResolver.delete(build, "sync2 = " + j, null);
             } catch (Exception e) {
-                FileLog.e(e);
+                FileLog.e((Throwable) e, false);
             }
             synchronized (this.observerLock) {
                 this.ignoreChanges = false;

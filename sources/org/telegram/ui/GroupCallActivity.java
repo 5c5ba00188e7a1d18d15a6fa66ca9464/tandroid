@@ -8504,20 +8504,20 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Code restructure failed: missing block: B:101:0x02c7, code lost:
-        if ((r9 instanceof org.telegram.tgnet.TLRPC$TL_chatParticipantCreator) == false) goto L223;
+        if ((r9 instanceof org.telegram.tgnet.TLRPC$TL_chatParticipantCreator) == false) goto L225;
      */
     /* JADX WARN: Code restructure failed: missing block: B:106:0x02e1, code lost:
-        if (r3 == (-r28.currentChat.id)) goto L225;
+        if (r3 == (-r28.currentChat.id)) goto L227;
      */
     /* JADX WARN: Removed duplicated region for block: B:112:0x02ef  */
     /* JADX WARN: Removed duplicated region for block: B:140:0x03b4  */
     /* JADX WARN: Removed duplicated region for block: B:179:0x0517  */
     /* JADX WARN: Removed duplicated region for block: B:194:0x05b6  */
     /* JADX WARN: Removed duplicated region for block: B:197:0x05c3  */
-    /* JADX WARN: Removed duplicated region for block: B:198:0x05dc  */
-    /* JADX WARN: Removed duplicated region for block: B:209:0x060a  */
-    /* JADX WARN: Removed duplicated region for block: B:223:0x0665  */
-    /* JADX WARN: Removed duplicated region for block: B:230:0x06ad  */
+    /* JADX WARN: Removed duplicated region for block: B:200:0x05f1  */
+    /* JADX WARN: Removed duplicated region for block: B:211:0x061f  */
+    /* JADX WARN: Removed duplicated region for block: B:225:0x067a  */
+    /* JADX WARN: Removed duplicated region for block: B:232:0x06c2  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8857,6 +8857,9 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 TLRPC$User user = groupCallActivity.accountInstance.getMessagesController().getUser(Long.valueOf(peerId));
                 forUserOrChat = ImageLocation.getForUserOrChat(user, 0);
                 forUserOrChat2 = ImageLocation.getForUserOrChat(user, 1);
+                if (MessagesController.getInstance(groupCallActivity.currentAccount).getUserFull(peerId) == null) {
+                    MessagesController.getInstance(groupCallActivity.currentAccount).loadUserInfo(user, false, 0);
+                }
             } else {
                 TLRPC$Chat chat = groupCallActivity.accountInstance.getMessagesController().getChat(Long.valueOf(-peerId));
                 forUserOrChat = ImageLocation.getForUserOrChat(chat, 0);

@@ -4456,6 +4456,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
         /* renamed from: openPhotoViewerForEdit */
         public void lambda$editPhoto$4(final ArrayList<Object> arrayList, final File file) {
+            if (ChatActivityEnterView.this.parentFragment.getParentActivity() == null) {
+                return;
+            }
             final MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) arrayList.get(0);
             if (!ChatActivityEnterView.this.keyboardVisible) {
                 PhotoViewer.getInstance().setParentActivity(ChatActivityEnterView.this.parentFragment, ChatActivityEnterView.this.resourcesProvider);
@@ -4557,12 +4560,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         if (this.messageEditText != null) {
             return;
         }
-        Runnable timer = AndroidUtilities.timer("createMessageEditText");
-        Runnable timer2 = AndroidUtilities.timer("createMessageEditText: create");
-        this.messageEditText = new ChatActivityEditTextCaption(getContext(), this.resourcesProvider);
-        timer2.run();
+        ChatActivityEditTextCaption chatActivityEditTextCaption = new ChatActivityEditTextCaption(getContext(), this.resourcesProvider);
+        this.messageEditText = chatActivityEditTextCaption;
         if (Build.VERSION.SDK_INT >= 28) {
-            this.messageEditText.setFallbackLineSpacing(false);
+            chatActivityEditTextCaption.setFallbackLineSpacing(false);
         }
         this.messageEditText.setDelegate(new EditTextCaption.EditTextCaptionDelegate() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda60
             @Override // org.telegram.ui.Components.EditTextCaption.EditTextCaptionDelegate
@@ -4689,7 +4690,6 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         if (chatActivity3 != null) {
             chatActivity3.applyDraftMaybe(false);
         }
-        timer.run();
     }
 
     public /* synthetic */ void lambda$createMessageEditText$35() {

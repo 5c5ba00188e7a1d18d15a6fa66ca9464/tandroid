@@ -81,17 +81,17 @@ public class ReactionsEffectOverlay {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x03e5  */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x03fa  */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x040d  */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x0554  */
-    /* JADX WARN: Removed duplicated region for block: B:163:0x05e4  */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x061f  */
-    /* JADX WARN: Removed duplicated region for block: B:171:0x0643  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x034e  */
+    /* JADX WARN: Removed duplicated region for block: B:102:0x035e  */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x03e9  */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x03fe  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x0411  */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x0558  */
+    /* JADX WARN: Removed duplicated region for block: B:166:0x05e8  */
+    /* JADX WARN: Removed duplicated region for block: B:171:0x0623  */
+    /* JADX WARN: Removed duplicated region for block: B:174:0x0647  */
     /* JADX WARN: Removed duplicated region for block: B:45:0x0191  */
     /* JADX WARN: Removed duplicated region for block: B:46:0x01b7  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x034a  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x035a  */
     /* JADX WARN: Type inference failed for: r15v11 */
     /* JADX WARN: Type inference failed for: r15v13 */
     /* JADX WARN: Type inference failed for: r15v14 */
@@ -281,7 +281,8 @@ public class ReactionsEffectOverlay {
                 float f21 = this.loc[1] + chatMessageCell.reactionsLayoutInBubble.y + reactionButton.y;
                 ImageReceiver imageReceiver3 = reactionButton.imageReceiver;
                 imageY = f21 + (imageReceiver3 == null ? 0.0f : imageReceiver3.getImageY());
-                f5 = reactionButton.imageReceiver.getImageHeight();
+                ImageReceiver imageReceiver4 = reactionButton.imageReceiver;
+                f5 = imageReceiver4 == null ? 0.0f : imageReceiver4.getImageHeight();
             } else {
                 ((View) chatMessageCell.getParent()).getLocationInWindow(this.loc);
                 int[] iArr2 = this.loc;
@@ -335,7 +336,7 @@ public class ReactionsEffectOverlay {
                                     str2 = i13 + "_" + i13;
                                 }
                                 String str3 = str2;
-                                ImageReceiver imageReceiver4 = animationView.getImageReceiver();
+                                ImageReceiver imageReceiver5 = animationView.getImageReceiver();
                                 StringBuilder sb = new StringBuilder();
                                 int i15 = uniqPrefix;
                                 uniqPrefix = i15 + 1;
@@ -343,7 +344,7 @@ public class ReactionsEffectOverlay {
                                 sb.append("_");
                                 sb.append(chatMessageCell.getMessageObject().getId());
                                 sb.append("_");
-                                imageReceiver4.setUniqKeyPrefix(sb.toString());
+                                imageReceiver5.setUniqKeyPrefix(sb.toString());
                                 animationView.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, (ImageLocation) null, (String) null, 0, (Object) null);
                                 z = false;
                                 animationView.getImageReceiver().setAutoRepeat(0);
@@ -360,7 +361,7 @@ public class ReactionsEffectOverlay {
                         }
                         if (i5 == 2) {
                             TLRPC$Document tLRPC$Document2 = tLRPC$TL_availableReaction.appear_animation;
-                            ImageReceiver imageReceiver5 = animationView2.getImageReceiver();
+                            ImageReceiver imageReceiver6 = animationView2.getImageReceiver();
                             StringBuilder sb2 = new StringBuilder();
                             int i16 = uniqPrefix;
                             uniqPrefix = i16 + 1;
@@ -368,11 +369,11 @@ public class ReactionsEffectOverlay {
                             sb2.append("_");
                             sb2.append(chatMessageCell.getMessageObject().getId());
                             sb2.append("_");
-                            imageReceiver5.setUniqKeyPrefix(sb2.toString());
+                            imageReceiver6.setUniqKeyPrefix(sb2.toString());
                             animationView2.setImage(ImageLocation.getForDocument(tLRPC$Document2), i12 + "_" + i12, (ImageLocation) null, (String) null, 0, (Object) null);
                         } else if (i5 == 0) {
                             TLRPC$Document tLRPC$Document3 = tLRPC$TL_availableReaction.activate_animation;
-                            ImageReceiver imageReceiver6 = animationView2.getImageReceiver();
+                            ImageReceiver imageReceiver7 = animationView2.getImageReceiver();
                             StringBuilder sb3 = new StringBuilder();
                             int i17 = uniqPrefix;
                             uniqPrefix = i17 + 1;
@@ -380,7 +381,7 @@ public class ReactionsEffectOverlay {
                             sb3.append("_");
                             sb3.append(chatMessageCell.getMessageObject().getId());
                             sb3.append("_");
-                            imageReceiver6.setUniqKeyPrefix(sb3.toString());
+                            imageReceiver7.setUniqKeyPrefix(sb3.toString());
                             animationView2.setImage(ImageLocation.getForDocument(tLRPC$Document3), i12 + "_" + i12, (ImageLocation) null, (String) null, 0, (Object) null);
                         }
                     } else {

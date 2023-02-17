@@ -54,6 +54,7 @@ import org.telegram.ui.CountrySelectActivity;
 /* loaded from: classes3.dex */
 public class CountrySelectActivity extends BaseFragment {
     private CountrySelectActivityDelegate delegate;
+    private boolean disableAnonymousNumbers;
     private EmptyTextProgressView emptyView;
     private ArrayList<Country> existingCountries;
     private RecyclerListView listView;
@@ -77,6 +78,10 @@ public class CountrySelectActivity extends BaseFragment {
             this.existingCountries = new ArrayList<>(arrayList);
         }
         this.needPhoneCode = z;
+    }
+
+    public void setDisableAnonymousNumbers(boolean z) {
+        this.disableAnonymousNumbers = z;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -147,7 +152,7 @@ public class CountrySelectActivity extends BaseFragment {
         this.actionBar.setSearchCursorColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         this.searching = false;
         this.searchWas = false;
-        CountryAdapter countryAdapter = new CountryAdapter(context, this.existingCountries);
+        CountryAdapter countryAdapter = new CountryAdapter(context, this.existingCountries, this.disableAnonymousNumbers);
         this.listViewAdapter = countryAdapter;
         this.searchListViewAdapter = new CountrySearchAdapter(context, countryAdapter.getCountries());
         FrameLayout frameLayout = new FrameLayout(context);
@@ -258,7 +263,7 @@ public class CountrySelectActivity extends BaseFragment {
             return null;
         }
 
-        public CountryAdapter(Context context, ArrayList<Country> arrayList) {
+        public CountryAdapter(Context context, ArrayList<Country> arrayList, boolean z) {
             final Comparator comparator;
             this.mContext = context;
             if (arrayList != null) {
@@ -284,18 +289,20 @@ public class CountrySelectActivity extends BaseFragment {
                         }
                         String[] split = readLine.split(";");
                         Country country2 = new Country();
-                        String str = split[2];
-                        country2.name = str;
+                        country2.name = split[2];
                         country2.code = split[0];
-                        country2.shortname = split[1];
-                        String upperCase2 = str.substring(0, 1).toUpperCase();
-                        ArrayList<Country> arrayList3 = this.countries.get(upperCase2);
-                        if (arrayList3 == null) {
-                            arrayList3 = new ArrayList<>();
-                            this.countries.put(upperCase2, arrayList3);
-                            this.sortedCountries.add(upperCase2);
+                        String str = split[1];
+                        country2.shortname = str;
+                        if (!str.equals("FT") || !z) {
+                            String upperCase2 = country2.name.substring(0, 1).toUpperCase();
+                            ArrayList<Country> arrayList3 = this.countries.get(upperCase2);
+                            if (arrayList3 == null) {
+                                arrayList3 = new ArrayList<>();
+                                this.countries.put(upperCase2, arrayList3);
+                                this.sortedCountries.add(upperCase2);
+                            }
+                            arrayList3.add(country2);
                         }
-                        arrayList3.add(country2);
                     }
                     bufferedReader.close();
                     open.close();

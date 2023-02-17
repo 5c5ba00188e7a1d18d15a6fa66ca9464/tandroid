@@ -34,6 +34,8 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 /* loaded from: classes.dex */
 public class SharedConfig {
+    private static final int[] LOW_DEVICES;
+    private static final int[] LOW_SOC;
     public static final int PASSCODE_TYPE_PASSWORD = 1;
     public static final int PASSCODE_TYPE_PIN = 0;
     public static final int PERFORMANCE_CLASS_AVERAGE = 1;
@@ -165,6 +167,10 @@ public class SharedConfig {
     public @interface PerformanceClass {
     }
 
+    public static int getDevicePerformanceClass() {
+        return 1;
+    }
+
     public static String performanceClassName(int i) {
         return i != 0 ? i != 1 ? i != 2 ? "UNKNOWN" : "HIGH" : "AVERAGE" : "LOW";
     }
@@ -213,6 +219,8 @@ public class SharedConfig {
         usingFilePaths = Collections.newSetFromMap(new ConcurrentHashMap());
         loadConfig();
         proxyList = new ArrayList<>();
+        LOW_SOC = new int[]{-1775228513, 802464304, 802464333, 802464302, 2067362118, 2067362060, 2067362084, 2067362241, 2067362117, 2067361998, -1853602818};
+        LOW_DEVICES = new int[]{1903542002, -993913431, 812981419, 1904553494, 1616144535, -713271737, -1394191140, -270252297, -270251367, -270252359};
     }
 
     /* loaded from: classes.dex */
@@ -1621,38 +1629,58 @@ public class SharedConfig {
         ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0).edit().putInt("dayNightThemeSwitchHintCount", dayNightThemeSwitchHintCount).apply();
     }
 
-    public static int getDevicePerformanceClass() {
-        int i = overrideDevicePerformanceClass;
-        if (i != -1) {
-            return i;
-        }
-        if (devicePerformanceClass == -1) {
-            devicePerformanceClass = measureDevicePerformanceClass();
-        }
-        return devicePerformanceClass;
-    }
-
     public static int measureDevicePerformanceClass() {
         long j;
+        String str;
+        String str2;
         int i = Build.VERSION.SDK_INT;
         int i2 = ConnectionsManager.CPU_COUNT;
         int memoryClass = ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).getMemoryClass();
         int i3 = 0;
-        int i4 = 0;
-        int i5 = 0;
-        for (int i6 = 0; i6 < i2; i6++) {
+        if (i >= 31 && (str2 = Build.SOC_MODEL) != null) {
+            int hashCode = str2.toUpperCase().hashCode();
+            int i4 = 0;
+            while (true) {
+                int[] iArr = LOW_SOC;
+                if (i4 >= iArr.length) {
+                    break;
+                } else if (iArr[i4] == hashCode) {
+                    return 0;
+                } else {
+                    i4++;
+                }
+            }
+        }
+        String str3 = Build.DEVICE;
+        if (str3 != null && (str = Build.MANUFACTURER) != null) {
+            int hashCode2 = (str + " " + str3).toUpperCase().hashCode();
+            int i5 = 0;
+            while (true) {
+                int[] iArr2 = LOW_DEVICES;
+                if (i5 >= iArr2.length) {
+                    break;
+                } else if (iArr2[i5] == hashCode2) {
+                    return 0;
+                } else {
+                    i5++;
+                }
+            }
+        }
+        int i6 = 0;
+        int i7 = 0;
+        for (int i8 = 0; i8 < i2; i8++) {
             try {
-                RandomAccessFile randomAccessFile = new RandomAccessFile(String.format(Locale.ENGLISH, "/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_max_freq", Integer.valueOf(i6)), "r");
+                RandomAccessFile randomAccessFile = new RandomAccessFile(String.format(Locale.ENGLISH, "/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_max_freq", Integer.valueOf(i8)), "r");
                 String readLine = randomAccessFile.readLine();
                 if (readLine != null) {
-                    i5 += Utilities.parseInt((CharSequence) readLine).intValue() / 1000;
-                    i4++;
+                    i7 += Utilities.parseInt((CharSequence) readLine).intValue() / 1000;
+                    i6++;
                 }
                 randomAccessFile.close();
             } catch (Throwable unused) {
             }
         }
-        int ceil = i4 == 0 ? -1 : (int) Math.ceil(i5 / i4);
+        int ceil = i6 == 0 ? -1 : (int) Math.ceil(i7 / i6);
         try {
             ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
             ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).getMemoryInfo(memoryInfo);
@@ -1844,5 +1872,17 @@ public class SharedConfig {
             return;
         }
         usingFilePaths.remove(str);
+    }
+
+    public static boolean deviceIsLow() {
+        return getDevicePerformanceClass() == 0;
+    }
+
+    public static boolean deviceIsAboveAverage() {
+        return getDevicePerformanceClass() >= 1;
+    }
+
+    public static boolean deviceIsHigh() {
+        return getDevicePerformanceClass() >= 2;
     }
 }

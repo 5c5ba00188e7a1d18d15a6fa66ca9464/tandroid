@@ -1858,17 +1858,19 @@ public class LoginActivity extends BaseFragment {
     }
 
     private void resendCodeFromSafetyNet(final Bundle bundle, TLRPC$auth_SentCode tLRPC$auth_SentCode) {
-        needHideProgress(false);
-        this.isRequestingFirebaseSms = false;
-        TLRPC$TL_auth_resendCode tLRPC$TL_auth_resendCode = new TLRPC$TL_auth_resendCode();
-        tLRPC$TL_auth_resendCode.phone_number = bundle.getString("phoneFormated");
-        tLRPC$TL_auth_resendCode.phone_code_hash = tLRPC$auth_SentCode.phone_code_hash;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_auth_resendCode, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda26
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                LoginActivity.this.lambda$resendCodeFromSafetyNet$21(bundle, tLObject, tLRPC$TL_error);
-            }
-        }, 10);
+        if (this.isRequestingFirebaseSms) {
+            needHideProgress(false);
+            this.isRequestingFirebaseSms = false;
+            TLRPC$TL_auth_resendCode tLRPC$TL_auth_resendCode = new TLRPC$TL_auth_resendCode();
+            tLRPC$TL_auth_resendCode.phone_number = bundle.getString("phoneFormated");
+            tLRPC$TL_auth_resendCode.phone_code_hash = tLRPC$auth_SentCode.phone_code_hash;
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_auth_resendCode, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda26
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    LoginActivity.this.lambda$resendCodeFromSafetyNet$21(bundle, tLObject, tLRPC$TL_error);
+                }
+            }, 10);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -4379,7 +4381,7 @@ public class LoginActivity extends BaseFragment {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$8(Context context, View view) {
-            if (this.nextPressed || this.timeText.getVisibility() != 8) {
+            if (this.nextPressed || this.timeText.getVisibility() != 8 || this.isResendingCode) {
                 return;
             }
             if (!(this.nextType == 0)) {
@@ -4469,7 +4471,7 @@ public class LoginActivity extends BaseFragment {
         }
 
         private void resendCode() {
-            if (this.nextPressed) {
+            if (this.nextPressed || this.isResendingCode || LoginActivity.this.isRequestingFirebaseSms) {
                 return;
             }
             this.isResendingCode = true;

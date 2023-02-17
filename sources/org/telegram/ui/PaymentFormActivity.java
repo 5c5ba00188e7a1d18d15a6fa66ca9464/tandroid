@@ -189,6 +189,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     private HashMap<String, String> codesMap;
     private ArrayList<String> countriesArray;
     private HashMap<String, String> countriesMap;
+    private CountrySelectActivity.Country country;
     private String countryName;
     private String currentBotName;
     private String currentItemName;
@@ -1634,11 +1635,11 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                     }
                                 }
 
-                                /* JADX WARN: Removed duplicated region for block: B:59:0x0163  */
-                                /* JADX WARN: Removed duplicated region for block: B:63:0x0177  */
-                                /* JADX WARN: Removed duplicated region for block: B:67:0x0185  */
-                                /* JADX WARN: Removed duplicated region for block: B:69:0x018b  */
-                                /* JADX WARN: Removed duplicated region for block: B:76:0x01a0  */
+                                /* JADX WARN: Removed duplicated region for block: B:73:0x019c  */
+                                /* JADX WARN: Removed duplicated region for block: B:77:0x01b0  */
+                                /* JADX WARN: Removed duplicated region for block: B:81:0x01be  */
+                                /* JADX WARN: Removed duplicated region for block: B:83:0x01c4  */
+                                /* JADX WARN: Removed duplicated region for block: B:90:0x01d9  */
                                 @Override // android.text.TextWatcher
                                 /*
                                     Code decompiled incorrectly, please refer to instructions dump.
@@ -1684,8 +1685,9 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                             int intValue = Utilities.parseInt((CharSequence) strArr[0]).intValue();
                                             int intValue2 = Utilities.parseInt((CharSequence) strArr[1]).intValue() + 2000;
                                             Calendar calendar = Calendar.getInstance();
-                                            int i22 = calendar.get(1);
-                                            int i23 = calendar.get(2) + 1;
+                                            boolean z7 = UserConfig.getInstance(((BaseFragment) PaymentFormActivity.this).currentAccount).getClientPhone().startsWith("7") || (PaymentFormActivity.this.country != null && PaymentFormActivity.this.country.code.equals("7"));
+                                            int i22 = z7 ? 2022 : calendar.get(1);
+                                            int i23 = z7 ? 1 : calendar.get(2) + 1;
                                             if (intValue2 < i22 || (intValue2 == i22 && intValue < i23)) {
                                                 PaymentFormActivity.this.inputFields[1].setTextColor(PaymentFormActivity.this.getThemedColor("windowBackgroundWhiteRedText4"));
                                                 if (!z6) {
@@ -2809,6 +2811,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         }
         if (motionEvent.getAction() == 1) {
             CountrySelectActivity countrySelectActivity = new CountrySelectActivity(false);
+            countrySelectActivity.setDisableAnonymousNumbers(true);
             countrySelectActivity.setCountrySelectActivityDelegate(new CountrySelectActivity.CountrySelectActivityDelegate() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda66
                 @Override // org.telegram.ui.CountrySelectActivity.CountrySelectActivityDelegate
                 public final void didSelectCountry(CountrySelectActivity.Country country) {
@@ -2822,6 +2825,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(CountrySelectActivity.Country country) {
+        this.country = country;
         this.inputFields[4].setText(country.name);
         this.countryName = country.shortname;
     }
@@ -2872,6 +2876,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         }
         if (motionEvent.getAction() == 1) {
             CountrySelectActivity countrySelectActivity = new CountrySelectActivity(false);
+            countrySelectActivity.setDisableAnonymousNumbers(true);
             countrySelectActivity.setCountrySelectActivityDelegate(new CountrySelectActivity.CountrySelectActivityDelegate() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda67
                 @Override // org.telegram.ui.CountrySelectActivity.CountrySelectActivityDelegate
                 public final void didSelectCountry(CountrySelectActivity.Country country) {
@@ -2885,6 +2890,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$5(CountrySelectActivity.Country country) {
+        this.country = country;
         this.inputFields[4].setText(country.name);
     }
 

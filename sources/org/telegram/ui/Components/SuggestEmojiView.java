@@ -294,17 +294,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
         }
         this.path = new Path();
         this.circlePath = new Path();
-        FrameLayout frameLayout = this.containerView;
-        CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
-        this.showFloat1 = new AnimatedFloat(frameLayout, 120L, 350L, cubicBezierInterpolator);
-        this.showFloat2 = new AnimatedFloat(this.containerView, 150L, 600L, cubicBezierInterpolator);
-        new OvershootInterpolator(0.4f);
-        this.leftGradientAlpha = new AnimatedFloat(this.containerView, 300L, cubicBezierInterpolator);
-        this.rightGradientAlpha = new AnimatedFloat(this.containerView, 300L, cubicBezierInterpolator);
-        this.arrowXAnimated = new AnimatedFloat(this.containerView, 200L, cubicBezierInterpolator);
-        this.listViewCenterAnimated = new AnimatedFloat(this.containerView, 350L, cubicBezierInterpolator);
-        this.listViewWidthAnimated = new AnimatedFloat(this.containerView, 350L, cubicBezierInterpolator);
-        this.containerView = new FrameLayout(getContext()) { // from class: org.telegram.ui.Components.SuggestEmojiView.2
+        FrameLayout frameLayout = new FrameLayout(getContext()) { // from class: org.telegram.ui.Components.SuggestEmojiView.2
             @Override // android.view.ViewGroup, android.view.View
             protected void dispatchDraw(Canvas canvas) {
                 SuggestEmojiView.this.drawContainerBegin(canvas);
@@ -337,6 +327,16 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
                 }
             }
         };
+        this.containerView = frameLayout;
+        CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
+        this.showFloat1 = new AnimatedFloat(frameLayout, 120L, 350L, cubicBezierInterpolator);
+        this.showFloat2 = new AnimatedFloat(this.containerView, 150L, 600L, cubicBezierInterpolator);
+        new OvershootInterpolator(0.4f);
+        this.leftGradientAlpha = new AnimatedFloat(this.containerView, 300L, cubicBezierInterpolator);
+        this.rightGradientAlpha = new AnimatedFloat(this.containerView, 300L, cubicBezierInterpolator);
+        this.arrowXAnimated = new AnimatedFloat(this.containerView, 200L, cubicBezierInterpolator);
+        this.listViewCenterAnimated = new AnimatedFloat(this.containerView, 350L, cubicBezierInterpolator);
+        this.listViewWidthAnimated = new AnimatedFloat(this.containerView, 350L, cubicBezierInterpolator);
         RecyclerListView recyclerListView = new RecyclerListView(getContext()) { // from class: org.telegram.ui.Components.SuggestEmojiView.3
             private boolean left;
             private boolean right;

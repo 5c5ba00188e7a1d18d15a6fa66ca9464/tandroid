@@ -261,65 +261,84 @@ public class PhonebookShareAlert extends BottomSheet {
     }
 
     public PhonebookShareAlert(BaseFragment baseFragment, ContactsController.Contact contact, TLRPC$User tLRPC$User, Uri uri, File file, String str, String str2) {
-        this(baseFragment, contact, tLRPC$User, uri, file, str, str2, null);
+        this(baseFragment, contact, tLRPC$User, uri, file, (String) null, str, str2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:43:0x0105  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0126  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x01a7  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x022a  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0236  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x02e1  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x02ed  */
+    public PhonebookShareAlert(BaseFragment baseFragment, ContactsController.Contact contact, TLRPC$User tLRPC$User, Uri uri, File file, String str, String str2, String str3) {
+        this(baseFragment, contact, tLRPC$User, uri, file, str, str2, str3, null);
+    }
+
+    public PhonebookShareAlert(BaseFragment baseFragment, ContactsController.Contact contact, TLRPC$User tLRPC$User, Uri uri, File file, String str, String str2, Theme.ResourcesProvider resourcesProvider) {
+        this(baseFragment, contact, tLRPC$User, uri, file, null, str, str2, resourcesProvider);
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:47:0x012f  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0150  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x01d1  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0254  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0260  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x030b  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0317  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public PhonebookShareAlert(BaseFragment baseFragment, ContactsController.Contact contact, TLRPC$User tLRPC$User, Uri uri, File file, String str, String str2, final Theme.ResourcesProvider resourcesProvider) {
+    public PhonebookShareAlert(BaseFragment baseFragment, ContactsController.Contact contact, TLRPC$User tLRPC$User, Uri uri, File file, String str, String str2, String str3, final Theme.ResourcesProvider resourcesProvider) {
         super(baseFragment.getParentActivity(), false, resourcesProvider);
-        ArrayList<TLRPC$User> arrayList;
-        String str3;
+        ArrayList<TLRPC$User> loadVCardFromStream;
         String str4;
-        ArrayList<TLRPC$TL_restrictionReason> arrayList2;
+        String str5;
+        ArrayList<TLRPC$TL_restrictionReason> arrayList;
         int itemCount;
         final int i;
         boolean z;
         this.backgroundPaint = new Paint(1);
         this.other = new ArrayList<>();
         this.phones = new ArrayList<>();
-        String formatName = ContactsController.formatName(str, str2);
-        ArrayList arrayList3 = new ArrayList();
+        String formatName = ContactsController.formatName(str2, str3);
+        ArrayList arrayList2 = new ArrayList();
         if (uri != null) {
-            arrayList = AndroidUtilities.loadVCardFromStream(uri, this.currentAccount, false, arrayList3, formatName);
+            loadVCardFromStream = AndroidUtilities.loadVCardFromStream(uri, this.currentAccount, false, arrayList2, formatName);
         } else if (file != null) {
-            arrayList = AndroidUtilities.loadVCardFromStream(Uri.fromFile(file), this.currentAccount, false, arrayList3, formatName);
+            loadVCardFromStream = AndroidUtilities.loadVCardFromStream(Uri.fromFile(file), this.currentAccount, false, arrayList2, formatName);
             file.delete();
             this.isImport = true;
         } else {
-            String str5 = contact.key;
-            if (str5 != null) {
-                arrayList = AndroidUtilities.loadVCardFromStream(Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_VCARD_URI, str5), this.currentAccount, true, arrayList3, formatName);
-            } else {
+            if (str != null) {
                 AndroidUtilities.VcardItem vcardItem = new AndroidUtilities.VcardItem();
                 vcardItem.type = 0;
-                ArrayList<String> arrayList4 = vcardItem.vcardData;
-                String str6 = "TEL;MOBILE:+" + contact.user.phone;
+                ArrayList<String> arrayList3 = vcardItem.vcardData;
+                String str6 = "TEL;MOBILE:+" + str;
                 vcardItem.fullData = str6;
-                arrayList4.add(str6);
+                arrayList3.add(str6);
                 this.phones.add(vcardItem);
-                arrayList = null;
+                this.isImport = true;
+            } else {
+                String str7 = contact.key;
+                if (str7 != null) {
+                    loadVCardFromStream = AndroidUtilities.loadVCardFromStream(Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_VCARD_URI, str7), this.currentAccount, true, arrayList2, formatName);
+                } else {
+                    AndroidUtilities.VcardItem vcardItem2 = new AndroidUtilities.VcardItem();
+                    vcardItem2.type = 0;
+                    ArrayList<String> arrayList4 = vcardItem2.vcardData;
+                    String str8 = "TEL;MOBILE:+" + contact.user.phone;
+                    vcardItem2.fullData = str8;
+                    arrayList4.add(str8);
+                    this.phones.add(vcardItem2);
+                }
             }
+            loadVCardFromStream = null;
         }
         TLRPC$User tLRPC$User2 = (tLRPC$User != null || contact == null) ? tLRPC$User : contact.user;
-        if (arrayList != null) {
-            for (int i2 = 0; i2 < arrayList3.size(); i2++) {
-                AndroidUtilities.VcardItem vcardItem2 = (AndroidUtilities.VcardItem) arrayList3.get(i2);
-                if (vcardItem2.type == 0) {
+        if (loadVCardFromStream != null) {
+            for (int i2 = 0; i2 < arrayList2.size(); i2++) {
+                AndroidUtilities.VcardItem vcardItem3 = (AndroidUtilities.VcardItem) arrayList2.get(i2);
+                if (vcardItem3.type == 0) {
                     int i3 = 0;
                     while (true) {
                         if (i3 >= this.phones.size()) {
                             z = false;
                             break;
-                        } else if (this.phones.get(i3).getValue(false).equals(vcardItem2.getValue(false))) {
+                        } else if (this.phones.get(i3).getValue(false).equals(vcardItem3.getValue(false))) {
                             z = true;
                             break;
                         } else {
@@ -327,23 +346,23 @@ public class PhonebookShareAlert extends BottomSheet {
                         }
                     }
                     if (z) {
-                        vcardItem2.checked = false;
+                        vcardItem3.checked = false;
                     } else {
-                        this.phones.add(vcardItem2);
+                        this.phones.add(vcardItem3);
                     }
                 } else {
-                    this.other.add(vcardItem2);
+                    this.other.add(vcardItem3);
                 }
             }
-            if (!arrayList.isEmpty()) {
-                TLRPC$User tLRPC$User3 = arrayList.get(0);
-                arrayList2 = tLRPC$User3.restriction_reason;
-                if (TextUtils.isEmpty(str)) {
-                    str3 = tLRPC$User3.first_name;
-                    str4 = tLRPC$User3.last_name;
+            if (!loadVCardFromStream.isEmpty()) {
+                TLRPC$User tLRPC$User3 = loadVCardFromStream.get(0);
+                arrayList = tLRPC$User3.restriction_reason;
+                if (TextUtils.isEmpty(str2)) {
+                    str4 = tLRPC$User3.first_name;
+                    str5 = tLRPC$User3.last_name;
                 } else {
-                    str3 = str;
                     str4 = str2;
+                    str5 = str3;
                 }
                 TLRPC$TL_userContact_old2 tLRPC$TL_userContact_old2 = new TLRPC$TL_userContact_old2();
                 this.currentUser = tLRPC$TL_userContact_old2;
@@ -355,12 +374,12 @@ public class PhonebookShareAlert extends BottomSheet {
                     tLRPC$TL_userContact_old2.first_name = tLRPC$User2.first_name;
                     tLRPC$TL_userContact_old2.last_name = tLRPC$User2.last_name;
                     tLRPC$TL_userContact_old2.phone = tLRPC$User2.phone;
-                    if (arrayList2 != null) {
-                        tLRPC$TL_userContact_old2.restriction_reason = arrayList2;
+                    if (arrayList != null) {
+                        tLRPC$TL_userContact_old2.restriction_reason = arrayList;
                     }
                 } else {
-                    tLRPC$TL_userContact_old2.first_name = str3;
-                    tLRPC$TL_userContact_old2.last_name = str4;
+                    tLRPC$TL_userContact_old2.first_name = str4;
+                    tLRPC$TL_userContact_old2.last_name = str5;
                 }
                 this.parentFragment = baseFragment;
                 final Activity parentActivity = baseFragment.getParentActivity();
@@ -574,9 +593,9 @@ public class PhonebookShareAlert extends BottomSheet {
                 });
             }
         }
-        str3 = str;
         str4 = str2;
-        arrayList2 = null;
+        str5 = str3;
+        arrayList = null;
         TLRPC$TL_userContact_old2 tLRPC$TL_userContact_old22 = new TLRPC$TL_userContact_old2();
         this.currentUser = tLRPC$TL_userContact_old22;
         if (tLRPC$User2 == null) {

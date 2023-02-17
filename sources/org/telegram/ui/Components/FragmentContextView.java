@@ -949,11 +949,8 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             }
         }
         int i2 = i + 1;
-        int i3 = i2 < fArr.length ? i2 : 0;
-        MediaController mediaController = MediaController.getInstance();
-        boolean z = this.isMusic;
-        float f = fArr[i3];
-        mediaController.setPlaybackSpeed(z, f);
+        float f = fArr[i2 < fArr.length ? i2 : 0];
+        MediaController.getInstance().setPlaybackSpeed(this.isMusic, f, equals(f, 1.8f));
         playbackSpeedChanged(playbackSpeed, f);
     }
 

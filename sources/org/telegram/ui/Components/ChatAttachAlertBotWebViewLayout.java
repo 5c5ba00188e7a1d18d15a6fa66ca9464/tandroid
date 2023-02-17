@@ -805,16 +805,27 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
                     return true;
                 }
 
+                /* JADX WARN: Code restructure failed: missing block: B:36:0x00d2, code lost:
+                    if (r9.this$0.webView.canScrollHorizontally(r12 >= 0.0f ? 1 : -1) == false) goto L39;
+                 */
+                /* JADX WARN: Code restructure failed: missing block: B:40:0x00eb, code lost:
+                    if ((java.lang.Math.abs(r12) * 1.5f) >= java.lang.Math.abs(r13)) goto L37;
+                 */
+                /* JADX WARN: Code restructure failed: missing block: B:41:0x00ed, code lost:
+                    r9.this$0.isSwipeDisallowed = true;
+                 */
                 @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
+                /*
+                    Code decompiled incorrectly, please refer to instructions dump.
+                */
                 public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
                     if (!WebViewSwipeContainer.this.isScrolling && !WebViewSwipeContainer.this.isSwipeDisallowed) {
                         if (((Boolean) WebViewSwipeContainer.this.isKeyboardVisible.provide(null)).booleanValue() && WebViewSwipeContainer.this.swipeOffsetY == (-WebViewSwipeContainer.this.offsetY) + WebViewSwipeContainer.this.topActionBarOffsetY) {
                             WebViewSwipeContainer.this.isSwipeDisallowed = true;
                         } else if (Math.abs(f2) < scaledTouchSlop || Math.abs(f2) * 1.5f < Math.abs(f) || (WebViewSwipeContainer.this.swipeOffsetY == (-WebViewSwipeContainer.this.offsetY) + WebViewSwipeContainer.this.topActionBarOffsetY && WebViewSwipeContainer.this.webView != null && (f2 >= 0.0f || WebViewSwipeContainer.this.webView.getScrollY() != 0))) {
                             if (WebViewSwipeContainer.this.webView != null) {
-                                if (WebViewSwipeContainer.this.webView.canScrollHorizontally(f >= 0.0f ? 1 : -1)) {
-                                    WebViewSwipeContainer.this.isSwipeDisallowed = true;
-                                }
+                            }
+                            if (Math.abs(f) >= scaledTouchSlop) {
                             }
                         } else {
                             WebViewSwipeContainer.this.isScrolling = true;
