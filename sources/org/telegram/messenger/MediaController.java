@@ -832,7 +832,6 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         MediaController.this.fileBuffer.rewind();
                         MediaController mediaController2 = MediaController.this;
                         MediaController.access$1614(mediaController2, (mediaController2.fileBuffer.limit() / 2) / (MediaController.this.sampleRate / 1000));
-                        FileLog.d("frame writed");
                     } else {
                         FileLog.e("writing frame failed");
                     }

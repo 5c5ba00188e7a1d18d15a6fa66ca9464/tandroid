@@ -3833,6 +3833,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             return;
         }
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.webRtcMicAmplitudeEvent, Float.valueOf(fArr[0]));
+        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.webRtcSpeakerAmplitudeEvent, Float.valueOf(fArr[1]));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
