@@ -8,10 +8,8 @@ import android.os.Environment;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.SparseArray;
 import android.webkit.WebView;
 import androidx.core.content.pm.ShortcutManagerCompat;
-import j$.util.concurrent.ConcurrentHashMap;
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.io.UnsupportedEncodingException;
@@ -23,9 +21,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
-import java.util.Set;
 import org.json.JSONObject;
-import org.telegram.messenger.CacheByChatsController;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLRPC$TL_help_appUpdate;
@@ -151,7 +147,6 @@ public class SharedConfig {
     public static boolean useLNavigation;
     public static boolean useSystemEmoji;
     public static boolean useThreeLinesLayout;
-    public static Set<String> usingFilePaths;
     public static byte[] passcodeSalt = new byte[0];
     public static int keepMedia = CacheByChatsController.KEEP_MEDIA_ONE_MONTH;
     private static int lastLocalId = -210000;
@@ -215,11 +210,10 @@ public class SharedConfig {
         mediaColumnsCount = 3;
         fastScrollHintCount = 3;
         translateChats = true;
-        usingFilePaths = Collections.newSetFromMap(new ConcurrentHashMap());
         LOW_SOC = new int[]{-1775228513, 802464304, 802464333, 802464302, 2067362118, 2067362060, 2067362084, 2067362241, 2067362117, 2067361998, -1853602818};
         LOW_DEVICES = new int[]{1903542002, 1904553494, 1616144535, -713271737, -1394191140, -270252297, -270251367, -270252359};
         AVERAGE_DEVICES = new int[]{812981419, -993913431};
-        HIGH_DEVICES = new int[]{1908570923, -980514379, 577463889, 1764745014, 1908524435, -215458996, -1394179578, 220599115, 1737652784};
+        HIGH_DEVICES = new int[]{1908570923, -980514379, 577463889, 1764745014, 1908524435, -215787089, -215458996, -1394179578, 220599115, 1737652784};
         loadConfig();
         proxyList = new ArrayList<>();
     }
@@ -441,7 +435,7 @@ public class SharedConfig {
                             if (pendingAppUpdateBuildVersion == i) {
                             }
                             pendingAppUpdate = null;
-                            AndroidUtilities.runOnUIThread(SharedConfig$$ExternalSyntheticLambda3.INSTANCE);
+                            AndroidUtilities.runOnUIThread(SharedConfig$$ExternalSyntheticLambda2.INSTANCE);
                             SharedPreferences sharedPreferences2 = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
                             SaveToGallerySettingsHelper.load(sharedPreferences2);
                             autoplayGifs = sharedPreferences2.getBoolean("autoplay_gif", true);
@@ -525,7 +519,7 @@ public class SharedConfig {
                         }
                         if (pendingAppUpdateBuildVersion == i || (str2 = pendingAppUpdate.version) == null || str.compareTo(str2) >= 0 || BuildVars.DEBUG_PRIVATE_VERSION) {
                             pendingAppUpdate = null;
-                            AndroidUtilities.runOnUIThread(SharedConfig$$ExternalSyntheticLambda3.INSTANCE);
+                            AndroidUtilities.runOnUIThread(SharedConfig$$ExternalSyntheticLambda2.INSTANCE);
                         }
                     }
                 } catch (Exception e3) {
@@ -919,243 +913,6 @@ public class SharedConfig {
         edit.commit();
     }
 
-    public static void checkKeepMedia() {
-        final int currentTimeMillis = (int) (System.currentTimeMillis() / 1000);
-        if (BuildVars.DEBUG_PRIVATE_VERSION || Math.abs(currentTimeMillis - lastKeepMediaCheckTime) >= 86400) {
-            lastKeepMediaCheckTime = currentTimeMillis;
-            final File checkDirectory = FileLoader.checkDirectory(4);
-            Utilities.cacheClearQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    SharedConfig.lambda$checkKeepMedia$2(currentTimeMillis, checkDirectory);
-                }
-            });
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:132:0x025d  */
-    /* JADX WARN: Removed duplicated region for block: B:139:0x0286  */
-    /* JADX WARN: Removed duplicated region for block: B:180:? A[RETURN, SYNTHETIC] */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public static /* synthetic */ void lambda$checkKeepMedia$2(int i, File file) {
-        int i2;
-        int i3;
-        long j;
-        long j2;
-        int i4;
-        int i5;
-        File file2;
-        long j3;
-        ArrayList<? extends CacheByChatsController.KeepMediaFile> arrayList;
-        long currentTimeMillis = System.currentTimeMillis();
-        if (BuildVars.LOGS_ENABLED) {
-            FileLog.d("checkKeepMedia start task");
-        }
-        ArrayList arrayList2 = new ArrayList();
-        int i6 = 0;
-        boolean z = false;
-        while (true) {
-            i2 = 4;
-            if (i6 >= 4) {
-                break;
-            }
-            if (UserConfig.getInstance(i6).isClientActivated()) {
-                CacheByChatsController cacheByChatsController = UserConfig.getInstance(i6).getMessagesController().getCacheByChatsController();
-                arrayList2.add(cacheByChatsController);
-                if (cacheByChatsController.getKeepMediaExceptionsByDialogs().size() > 0) {
-                    z = true;
-                }
-            }
-            i6++;
-        }
-        int[] iArr = new int[3];
-        int i7 = 0;
-        boolean z2 = true;
-        long j4 = Long.MAX_VALUE;
-        for (int i8 = 3; i7 < i8; i8 = 3) {
-            iArr[i7] = getPreferences().getInt("keep_media_type_" + i7, CacheByChatsController.getDefault(i7));
-            if (iArr[i7] != CacheByChatsController.KEEP_MEDIA_FOREVER) {
-                z2 = false;
-            }
-            long daysInSeconds = CacheByChatsController.getDaysInSeconds(iArr[i7]);
-            if (daysInSeconds < j4) {
-                j4 = daysInSeconds;
-            }
-            i7++;
-        }
-        if (z) {
-            z2 = false;
-        }
-        if (z2) {
-            i3 = 0;
-            j = 0;
-        } else {
-            SparseArray<File> createMediaPaths = ImageLoader.getInstance().createMediaPaths();
-            int i9 = 0;
-            i3 = 0;
-            j = 0;
-            while (i9 < createMediaPaths.size()) {
-                boolean z3 = createMediaPaths.keyAt(i9) == i2;
-                try {
-                    File[] listFiles = createMediaPaths.valueAt(i9).listFiles();
-                    ArrayList<? extends CacheByChatsController.KeepMediaFile> arrayList3 = new ArrayList<>();
-                    if (listFiles != null) {
-                        for (int i10 = 0; i10 < listFiles.length; i10++) {
-                            if (!listFiles[i10].isDirectory() && !usingFilePaths.contains(listFiles[i10].getAbsolutePath())) {
-                                arrayList3.add(new CacheByChatsController.KeepMediaFile(listFiles[i10]));
-                            }
-                        }
-                    }
-                    for (int i11 = 0; i11 < arrayList2.size(); i11++) {
-                        ((CacheByChatsController) arrayList2.get(i11)).lookupFiles(arrayList3);
-                    }
-                    int i12 = 0;
-                    while (i12 < arrayList3.size()) {
-                        CacheByChatsController.KeepMediaFile keepMediaFile = (CacheByChatsController.KeepMediaFile) arrayList3.get(i12);
-                        int i13 = keepMediaFile.keepMedia;
-                        if (i13 != CacheByChatsController.KEEP_MEDIA_FOREVER) {
-                            if (i13 >= 0) {
-                                j3 = CacheByChatsController.getDaysInSeconds(i13);
-                            } else {
-                                int i14 = keepMediaFile.dialogType;
-                                if (i14 >= 0) {
-                                    j3 = CacheByChatsController.getDaysInSeconds(iArr[i14]);
-                                } else if (!z3) {
-                                    j3 = j4;
-                                }
-                            }
-                            if (j3 == Long.MAX_VALUE) {
-                                arrayList = arrayList3;
-                            } else {
-                                try {
-                                    arrayList = arrayList3;
-                                    if (Utilities.getLastUsageFileTime(keepMediaFile.file.getAbsolutePath()) < ((long) i) - j3) {
-                                        try {
-                                            if (BuildVars.LOGS_ENABLED) {
-                                                i3++;
-                                                j += keepMediaFile.file.length();
-                                            }
-                                            keepMediaFile.file.delete();
-                                        } catch (Exception e) {
-                                            FileLog.e(e);
-                                        }
-                                    }
-                                } catch (Throwable th) {
-                                    th = th;
-                                    FileLog.e(th);
-                                    i9++;
-                                    i2 = 4;
-                                }
-                            }
-                            i12++;
-                            arrayList3 = arrayList;
-                        }
-                        arrayList = arrayList3;
-                        i12++;
-                        arrayList3 = arrayList;
-                    }
-                } catch (Throwable th2) {
-                    th = th2;
-                }
-                i9++;
-                i2 = 4;
-            }
-        }
-        int i15 = getPreferences().getInt("cache_limit", ConnectionsManager.DEFAULT_DATACENTER_ID);
-        if (i15 != Integer.MAX_VALUE) {
-            long j5 = i15 == 1 ? 314572800L : i15 * 1024 * 1024 * 1000;
-            SparseArray<File> createMediaPaths2 = ImageLoader.getInstance().createMediaPaths();
-            long j6 = 0;
-            for (int i16 = 0; i16 < createMediaPaths2.size(); i16++) {
-                j6 += Utilities.getDirSize(createMediaPaths2.valueAt(i16).getAbsolutePath(), 0, true);
-            }
-            if (j6 > j5) {
-                ArrayList<? extends CacheByChatsController.KeepMediaFile> arrayList4 = new ArrayList<>();
-                for (int i17 = 0; i17 < createMediaPaths2.size(); i17++) {
-                    fillFilesRecursive(createMediaPaths2.valueAt(i17), arrayList4);
-                }
-                for (int i18 = 0; i18 < arrayList2.size(); i18++) {
-                    ((CacheByChatsController) arrayList2.get(i18)).lookupFiles(arrayList4);
-                }
-                Collections.sort(arrayList4, SharedConfig$$ExternalSyntheticLambda4.INSTANCE);
-                int i19 = 0;
-                i4 = 0;
-                long j7 = 0;
-                for (int i20 = 0; i20 < arrayList4.size(); i20++) {
-                    if (((FileInfoInternal) arrayList4.get(i20)).keepMedia != CacheByChatsController.KEEP_MEDIA_FOREVER) {
-                        if (((FileInfoInternal) arrayList4.get(i20)).lastUsageDate > 0) {
-                            long length = ((FileInfoInternal) arrayList4.get(i20)).file.length();
-                            j6 -= length;
-                            i4++;
-                            j7 += length;
-                            try {
-                                ((FileInfoInternal) arrayList4.get(i20)).file.delete();
-                            } catch (Exception unused) {
-                            }
-                            if (j6 < j5) {
-                                break;
-                            }
-                        } else {
-                            i19++;
-                        }
-                    }
-                }
-                i5 = i19;
-                j2 = j7;
-                file2 = new File(file, "acache");
-                if (file2.exists()) {
-                    try {
-                        Utilities.clearDir(file2.getAbsolutePath(), 0, i - 86400, false);
-                    } catch (Throwable th3) {
-                        FileLog.e(th3);
-                    }
-                }
-                MessagesController.getGlobalMainSettings().edit().putInt("lastKeepMediaCheckTime", lastKeepMediaCheckTime).apply();
-                if (BuildVars.LOGS_ENABLED) {
-                    return;
-                }
-                FileLog.d("checkKeepMedia task end time " + (System.currentTimeMillis() - currentTimeMillis) + "auto deleted info: files " + i3 + " size " + AndroidUtilities.formatFileSize(j) + "   deleted by size limit info: files " + i4 + " size " + AndroidUtilities.formatFileSize(j2) + " unknownTimeFiles " + i5);
-                return;
-            }
-        }
-        j2 = 0;
-        i4 = 0;
-        i5 = 0;
-        file2 = new File(file, "acache");
-        if (file2.exists()) {
-        }
-        MessagesController.getGlobalMainSettings().edit().putInt("lastKeepMediaCheckTime", lastKeepMediaCheckTime).apply();
-        if (BuildVars.LOGS_ENABLED) {
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ int lambda$checkKeepMedia$1(FileInfoInternal fileInfoInternal, FileInfoInternal fileInfoInternal2) {
-        long j = fileInfoInternal2.lastUsageDate;
-        long j2 = fileInfoInternal.lastUsageDate;
-        if (j > j2) {
-            return -1;
-        }
-        return j < j2 ? 1 : 0;
-    }
-
-    private static void fillFilesRecursive(File file, ArrayList<FileInfoInternal> arrayList) {
-        File[] listFiles;
-        if (file == null || (listFiles = file.listFiles()) == null) {
-            return;
-        }
-        for (File file2 : listFiles) {
-            if (file2.isDirectory()) {
-                fillFilesRecursive(file2, arrayList);
-            } else if (!file2.getName().equals(".nomedia") && !usingFilePaths.contains(file2.getAbsolutePath())) {
-                arrayList.add(new FileInfoInternal(file2));
-            }
-        }
-    }
-
     public static void toggleDisableVoiceAudioEffects() {
         disableVoiceAudioEffects = !disableVoiceAudioEffects;
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
@@ -1486,7 +1243,7 @@ public class SharedConfig {
 
     public static void saveProxyList() {
         ArrayList arrayList = new ArrayList(proxyList);
-        Collections.sort(arrayList, SharedConfig$$ExternalSyntheticLambda5.INSTANCE);
+        Collections.sort(arrayList, SharedConfig$$ExternalSyntheticLambda3.INSTANCE);
         SerializedData serializedData = new SerializedData();
         serializedData.writeInt32(-1);
         serializedData.writeByte(2);
@@ -1524,7 +1281,7 @@ public class SharedConfig {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ int lambda$saveProxyList$3(ProxyInfo proxyInfo, ProxyInfo proxyInfo2) {
+    public static /* synthetic */ int lambda$saveProxyList$1(ProxyInfo proxyInfo, ProxyInfo proxyInfo2) {
         ProxyInfo proxyInfo3 = currentProxy;
         long j = proxyInfo3 == proxyInfo ? -200000L : 0L;
         if (!proxyInfo.available) {
@@ -1578,11 +1335,11 @@ public class SharedConfig {
     }
 
     public static void checkSaveToGalleryFiles() {
-        Utilities.globalQueue.postRunnable(SharedConfig$$ExternalSyntheticLambda2.INSTANCE);
+        Utilities.globalQueue.postRunnable(SharedConfig$$ExternalSyntheticLambda1.INSTANCE);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$checkSaveToGalleryFiles$4() {
+    public static /* synthetic */ void lambda$checkSaveToGalleryFiles$2() {
         try {
             File file = new File(Environment.getExternalStorageDirectory(), "Telegram");
             File file2 = new File(file, "Telegram Images");
@@ -1805,17 +1562,6 @@ public class SharedConfig {
         return ApplicationLoader.applicationContext.getSharedPreferences("userconfing", 0);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class FileInfoInternal extends CacheByChatsController.KeepMediaFile {
-        final long lastUsageDate;
-
-        private FileInfoInternal(File file) {
-            super(file);
-            this.lastUsageDate = Utilities.getLastUsageFileTime(file.getAbsolutePath());
-        }
-    }
-
     /* loaded from: classes.dex */
     public static class LiteMode {
         public boolean animatedBackground;
@@ -1889,34 +1635,6 @@ public class SharedConfig {
         public boolean topicsInRightMenuEnabled() {
             return !this.enabled || this.topicsInRightMenu;
         }
-    }
-
-    public static void lockFile(File file) {
-        if (file == null) {
-            return;
-        }
-        lockFile(file.getAbsolutePath());
-    }
-
-    public static void unlockFile(File file) {
-        if (file == null) {
-            return;
-        }
-        unlockFile(file.getAbsolutePath());
-    }
-
-    public static void lockFile(String str) {
-        if (str == null) {
-            return;
-        }
-        usingFilePaths.add(str);
-    }
-
-    public static void unlockFile(String str) {
-        if (str == null) {
-            return;
-        }
-        usingFilePaths.remove(str);
     }
 
     public static boolean deviceIsLow() {

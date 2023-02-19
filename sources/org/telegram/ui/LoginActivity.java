@@ -1719,6 +1719,7 @@ public class LoginActivity extends BaseFragment {
                         LoginActivity.this.showDoneButton(true, true);
                     }
                     slideView.setVisibility(8);
+                    slideView.onHide();
                     slideView.setX(0.0f);
                 }
             });
@@ -1737,6 +1738,7 @@ public class LoginActivity extends BaseFragment {
         }
         this.backButtonView.setVisibility((this.views[i].needBackButton() || this.newAccount) ? 0 : 8);
         this.views[this.currentViewNum].setVisibility(8);
+        this.views[this.currentViewNum].onHide();
         this.currentViewNum = i;
         this.views[i].setParams(bundle, false);
         this.views[i].setVisibility(0);
@@ -3888,12 +3890,12 @@ public class LoginActivity extends BaseFragment {
 
         /* JADX WARN: Removed duplicated region for block: B:61:0x03d5  */
         /* JADX WARN: Removed duplicated region for block: B:64:0x03f5  */
-        /* JADX WARN: Removed duplicated region for block: B:67:0x0460  */
-        /* JADX WARN: Removed duplicated region for block: B:68:0x04c3  */
-        /* JADX WARN: Removed duplicated region for block: B:71:0x05da  */
-        /* JADX WARN: Removed duplicated region for block: B:83:0x0613  */
-        /* JADX WARN: Removed duplicated region for block: B:88:0x0641  */
-        /* JADX WARN: Removed duplicated region for block: B:91:0x065f  */
+        /* JADX WARN: Removed duplicated region for block: B:67:0x045e  */
+        /* JADX WARN: Removed duplicated region for block: B:68:0x04ca  */
+        /* JADX WARN: Removed duplicated region for block: B:71:0x05e5  */
+        /* JADX WARN: Removed duplicated region for block: B:83:0x061f  */
+        /* JADX WARN: Removed duplicated region for block: B:88:0x064d  */
+        /* JADX WARN: Removed duplicated region for block: B:91:0x066b  */
         /* JADX WARN: Removed duplicated region for block: B:93:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -4084,12 +4086,61 @@ public class LoginActivity extends BaseFragment {
                         Animation loadAnimation2 = AnimationUtils.loadAnimation(context, R.anim.text_out);
                         loadAnimation2.setInterpolator(interpolator);
                         this.errorViewSwitcher.setOutAnimation(loadAnimation2);
-                        TextView textView7 = new TextView(context);
+                        TextView textView7 = new TextView(context, LoginActivity.this) { // from class: org.telegram.ui.LoginActivity.LoginActivitySmsView.5
+                            private LoadingDrawable loadingDrawable;
+
+                            {
+                                LoadingDrawable loadingDrawable = new LoadingDrawable();
+                                this.loadingDrawable = loadingDrawable;
+                                loadingDrawable.setAppearByGradient(true);
+                            }
+
+                            @Override // android.widget.TextView
+                            public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
+                                super.setText(charSequence, bufferType);
+                                updateLoadingLayout();
+                            }
+
+                            @Override // android.widget.TextView, android.view.View
+                            protected void onLayout(boolean z, int i5, int i6, int i7, int i8) {
+                                super.onLayout(z, i5, i6, i7, i8);
+                                updateLoadingLayout();
+                            }
+
+                            private void updateLoadingLayout() {
+                                CharSequence text;
+                                Layout layout = getLayout();
+                                if (layout == null || (text = layout.getText()) == null) {
+                                    return;
+                                }
+                                LinkPath linkPath = new LinkPath(true);
+                                int length = text.length();
+                                linkPath.setCurrentLayout(layout, 0, 0.0f);
+                                layout.getSelectionPath(0, length, linkPath);
+                                this.loadingDrawable.usePath(linkPath);
+                                this.loadingDrawable.setRadiiDp(4.0f);
+                                int themedColor = LoginActivity.this.getThemedColor("chat_linkSelectBackground");
+                                this.loadingDrawable.setColors(Theme.multAlpha(themedColor, 0.85f), Theme.multAlpha(themedColor, 2.0f), Theme.multAlpha(themedColor, 3.5f), Theme.multAlpha(themedColor, 6.0f));
+                                this.loadingDrawable.updateBounds();
+                            }
+
+                            @Override // android.widget.TextView, android.view.View
+                            protected void onDraw(Canvas canvas) {
+                                super.onDraw(canvas);
+                                if (LoginActivitySmsView.this.isResendingCode) {
+                                    canvas.save();
+                                    canvas.translate(getPaddingLeft(), getPaddingTop());
+                                    this.loadingDrawable.draw(canvas);
+                                    canvas.restore();
+                                    invalidate();
+                                }
+                            }
+                        };
                         this.problemText = textView7;
                         textView7.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
                         this.problemText.setTextSize(1, 15.0f);
                         this.problemText.setGravity(49);
-                        this.problemText.setPadding(0, AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f));
+                        this.problemText.setPadding(AndroidUtilities.dp(6.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(6.0f), AndroidUtilities.dp(16.0f));
                         this.problemFrame.addView(this.problemText, LayoutHelper.createFrame(-1, -2, 17));
                         this.errorViewSwitcher.addView(this.problemFrame, LayoutHelper.createFrame(-2, -2, 17));
                     } else {
@@ -4726,7 +4777,7 @@ public class LoginActivity extends BaseFragment {
                 if (Build.VERSION.SDK_INT >= 21) {
                     codeNumberField.setShowSoftInputOnFocusCompat(!hasCustomKeyboard() || LoginActivity.this.isCustomKeyboardForceDisabled());
                 }
-                codeNumberField.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.LoginActivity.LoginActivitySmsView.5
+                codeNumberField.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.LoginActivity.LoginActivitySmsView.6
                     @Override // android.text.TextWatcher
                     public void afterTextChanged(Editable editable) {
                     }
@@ -4877,21 +4928,21 @@ public class LoginActivity extends BaseFragment {
             this.codeTime = 15000;
             this.codeTimer = new Timer();
             this.lastCodeTime = System.currentTimeMillis();
-            this.codeTimer.schedule(new 6(), 0L, 1000L);
+            this.codeTimer.schedule(new 7(), 0L, 1000L);
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
         /* loaded from: classes3.dex */
-        public class 6 extends TimerTask {
-            6() {
+        public class 7 extends TimerTask {
+            7() {
             }
 
             @Override // java.util.TimerTask, java.lang.Runnable
             public void run() {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$6$$ExternalSyntheticLambda0
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$7$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        LoginActivity.LoginActivitySmsView.6.this.lambda$run$0();
+                        LoginActivity.LoginActivitySmsView.7.this.lambda$run$0();
                     }
                 });
             }
@@ -4934,13 +4985,13 @@ public class LoginActivity extends BaseFragment {
             this.timeText.setTag(R.id.color_key_tag, "windowBackgroundWhiteGrayText6");
             Timer timer = new Timer();
             this.timeTimer = timer;
-            timer.schedule(new 7(), 0L, 1000L);
+            timer.schedule(new 8(), 0L, 1000L);
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
         /* loaded from: classes3.dex */
-        public class 7 extends TimerTask {
-            7() {
+        public class 8 extends TimerTask {
+            8() {
             }
 
             @Override // java.util.TimerTask, java.lang.Runnable
@@ -4948,10 +4999,10 @@ public class LoginActivity extends BaseFragment {
                 if (LoginActivitySmsView.this.timeTimer == null) {
                     return;
                 }
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$7$$ExternalSyntheticLambda0
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$8$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        LoginActivity.LoginActivitySmsView.7.this.lambda$run$0();
+                        LoginActivity.LoginActivitySmsView.8.this.lambda$run$0();
                     }
                 });
             }
@@ -5709,6 +5760,13 @@ public class LoginActivity extends BaseFragment {
                     }
                 }
             }
+        }
+
+        @Override // org.telegram.ui.Components.SlideView
+        public void onHide() {
+            super.onHide();
+            this.isResendingCode = false;
+            this.nextPressed = false;
         }
 
         @Override // org.telegram.ui.Components.SlideView
@@ -7919,7 +7977,7 @@ public class LoginActivity extends BaseFragment {
             this.inboxImageView.getAnimatedDrawable().setCurrentFrame(0, false);
             this.inboxImageView.playAnimation();
             CodeFieldContainer codeFieldContainer = this.codeFieldContainer;
-            if (codeFieldContainer != null) {
+            if (codeFieldContainer != null && codeFieldContainer.codeField != null) {
                 codeFieldContainer.setText("");
                 this.codeFieldContainer.codeField[0].requestFocus();
             }

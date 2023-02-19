@@ -1876,7 +1876,9 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         }
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static void sentShowScreenStat(String str) {
+        TLRPC$TL_jsonNull tLRPC$TL_jsonNull;
         ConnectionsManager connectionsManager = ConnectionsManager.getInstance(UserConfig.selectedAccount);
         TLRPC$TL_help_saveAppLog tLRPC$TL_help_saveAppLog = new TLRPC$TL_help_saveAppLog();
         TLRPC$TL_inputAppEvent tLRPC$TL_inputAppEvent = new TLRPC$TL_inputAppEvent();
@@ -1885,10 +1887,15 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         TLRPC$TL_jsonObject tLRPC$TL_jsonObject = new TLRPC$TL_jsonObject();
         tLRPC$TL_inputAppEvent.data = tLRPC$TL_jsonObject;
         TLRPC$TL_jsonObjectValue tLRPC$TL_jsonObjectValue = new TLRPC$TL_jsonObjectValue();
-        TLRPC$TL_jsonString tLRPC$TL_jsonString = new TLRPC$TL_jsonString();
-        tLRPC$TL_jsonString.value = str;
+        if (str != null) {
+            TLRPC$TL_jsonString tLRPC$TL_jsonString = new TLRPC$TL_jsonString();
+            tLRPC$TL_jsonString.value = str;
+            tLRPC$TL_jsonNull = tLRPC$TL_jsonString;
+        } else {
+            tLRPC$TL_jsonNull = new TLRPC$TL_jsonNull();
+        }
         tLRPC$TL_jsonObjectValue.key = "source";
-        tLRPC$TL_jsonObjectValue.value = tLRPC$TL_jsonString;
+        tLRPC$TL_jsonObjectValue.value = tLRPC$TL_jsonNull;
         tLRPC$TL_jsonObject.value.add(tLRPC$TL_jsonObjectValue);
         tLRPC$TL_help_saveAppLog.events.add(tLRPC$TL_inputAppEvent);
         connectionsManager.sendRequest(tLRPC$TL_help_saveAppLog, PremiumPreviewFragment$$ExternalSyntheticLambda16.INSTANCE);
@@ -1922,13 +1929,17 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         TLRPC$TL_jsonObject tLRPC$TL_jsonObject = new TLRPC$TL_jsonObject();
         tLRPC$TL_inputAppEvent.data = tLRPC$TL_jsonObject;
         TLRPC$TL_jsonObjectValue tLRPC$TL_jsonObjectValue = new TLRPC$TL_jsonObjectValue();
-        TLRPC$TL_jsonString tLRPC$TL_jsonString = new TLRPC$TL_jsonString();
-        tLRPC$TL_jsonString.value = featureTypeToServerString(i2);
+        String featureTypeToServerString = featureTypeToServerString(i2);
+        if (featureTypeToServerString != null) {
+            TLRPC$TL_jsonString tLRPC$TL_jsonString = new TLRPC$TL_jsonString();
+            tLRPC$TL_jsonString.value = featureTypeToServerString;
+            tLRPC$TL_jsonObjectValue.value = tLRPC$TL_jsonString;
+        } else {
+            tLRPC$TL_jsonObjectValue.value = new TLRPC$TL_jsonNull();
+        }
         tLRPC$TL_jsonObjectValue.key = "item";
-        tLRPC$TL_jsonObjectValue.value = tLRPC$TL_jsonString;
         tLRPC$TL_jsonObject.value.add(tLRPC$TL_jsonObjectValue);
         tLRPC$TL_help_saveAppLog.events.add(tLRPC$TL_inputAppEvent);
-        tLRPC$TL_inputAppEvent.data = tLRPC$TL_jsonObject;
         ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_help_saveAppLog, PremiumPreviewFragment$$ExternalSyntheticLambda14.INSTANCE);
     }
 

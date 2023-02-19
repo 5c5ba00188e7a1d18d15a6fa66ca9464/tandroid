@@ -1787,7 +1787,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r7v39 */
-    /* JADX WARN: Type inference failed for: r7v40, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r7v40, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v44 */
     public EmojiView(BaseFragment baseFragment, boolean z, boolean z2, boolean z3, Context context, boolean z4, TLRPC$ChatFull tLRPC$ChatFull, ViewGroup viewGroup, final Theme.ResourcesProvider resourcesProvider) {
         super(context);
@@ -6740,7 +6740,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             if (forSticker == null) {
                 return;
             }
-            String str = SharedConfig.getLiteMode().enabled() ? "30_30_firstframe" : "30_30";
+            String str = (SharedConfig.getLiteMode().enabled() || (this.emoji && !SharedConfig.playEmojiInKeyboard)) ? "30_30_firstframe" : "30_30";
             if (z && (MessageObject.isAnimatedStickerDocument(tLRPC$Document, true) || MessageObject.isVideoSticker(tLRPC$Document))) {
                 if (svgThumb != null) {
                     backupImageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str, svgThumb, 0, tLRPC$StickerSetCovered);

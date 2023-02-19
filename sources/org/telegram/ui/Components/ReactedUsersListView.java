@@ -476,8 +476,13 @@ public class ReactedUsersListView extends FrameLayout {
             addView(this.overlaySelectorView, LayoutHelper.createFrame(-1, -1.0f));
         }
 
+        /* JADX WARN: Removed duplicated region for block: B:23:0x00b2  */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
         void setUserReaction(TLRPC$MessagePeerReaction tLRPC$MessagePeerReaction) {
             boolean z;
+            Object obj;
             Drawable drawable;
             TLRPC$User user = MessagesController.getInstance(ReactedUsersListView.this.currentAccount).getUser(Long.valueOf(MessageObject.getPeerId(tLRPC$MessagePeerReaction.peer_id)));
             if (user == null) {
@@ -502,7 +507,15 @@ public class ReactedUsersListView extends FrameLayout {
                     } else {
                         this.reactView.setImageDrawable(null);
                         z = false;
-                        setContentDescription(LocaleController.formatString("AccDescrReactedWith", R.string.AccDescrReactedWith, UserObject.getUserName(user), tLRPC$MessagePeerReaction.reaction));
+                        int i = R.string.AccDescrReactedWith;
+                        Object[] objArr = new Object[2];
+                        objArr[0] = UserObject.getUserName(user);
+                        obj = fromTLReaction.emojicon;
+                        if (obj == null) {
+                            obj = tLRPC$MessagePeerReaction.reaction;
+                        }
+                        objArr[1] = obj;
+                        setContentDescription(LocaleController.formatString("AccDescrReactedWith", i, objArr));
                         z2 = z;
                     }
                 } else {
@@ -511,7 +524,14 @@ public class ReactedUsersListView extends FrameLayout {
                     this.reactView.setAnimatedEmojiDrawable(animatedEmojiDrawable);
                 }
                 z = true;
-                setContentDescription(LocaleController.formatString("AccDescrReactedWith", R.string.AccDescrReactedWith, UserObject.getUserName(user), tLRPC$MessagePeerReaction.reaction));
+                int i2 = R.string.AccDescrReactedWith;
+                Object[] objArr2 = new Object[2];
+                objArr2[0] = UserObject.getUserName(user);
+                obj = fromTLReaction.emojicon;
+                if (obj == null) {
+                }
+                objArr2[1] = obj;
+                setContentDescription(LocaleController.formatString("AccDescrReactedWith", i2, objArr2));
                 z2 = z;
             } else {
                 this.reactView.setImageDrawable(null);

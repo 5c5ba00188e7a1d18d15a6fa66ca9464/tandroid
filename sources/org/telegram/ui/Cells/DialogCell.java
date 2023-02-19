@@ -5756,6 +5756,14 @@ public class DialogCell extends BaseCell {
             sb.append(LocaleController.getString("AccDescrVerified", R.string.AccDescrVerified));
             sb.append(". ");
         }
+        if (this.dialogMuted) {
+            sb.append(LocaleController.getString("AccDescrNotificationsMuted", R.string.AccDescrNotificationsMuted));
+            sb.append(". ");
+        }
+        if (isOnline()) {
+            sb.append(LocaleController.getString("AccDescrUserOnline", R.string.AccDescrUserOnline));
+            sb.append(". ");
+        }
         int i = this.unreadCount;
         if (i > 0) {
             sb.append(LocaleController.formatPluralString("NewMessages", i, new Object[0]));
@@ -5772,7 +5780,8 @@ public class DialogCell extends BaseCell {
         }
         MessageObject messageObject = this.message;
         if (messageObject == null || this.currentDialogFolderId != 0) {
-            accessibilityEvent.setContentDescription(sb.toString());
+            accessibilityEvent.setContentDescription(sb);
+            setContentDescription(sb);
             return;
         }
         int i3 = this.lastMessageDate;
@@ -5820,7 +5829,8 @@ public class DialogCell extends BaseCell {
                 sb.append((CharSequence) sb2);
             }
         }
-        accessibilityEvent.setContentDescription(sb.toString());
+        accessibilityEvent.setContentDescription(sb);
+        setContentDescription(sb);
     }
 
     private MessageObject getCaptionMessage() {

@@ -4395,7 +4395,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("start recording internal " + this.recordingAudioFile.getPath() + " " + this.recordingAudioFile.exists());
         }
-        SharedConfig.lockFile(this.recordingAudioFile);
+        AutoDeleteMediaTask.lockFile(this.recordingAudioFile);
         try {
             if (startRecord(this.recordingAudioFile.getPath(), this.sampleRate) == 0) {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda21
@@ -4431,7 +4431,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             FileLog.e(e);
             this.recordingAudio = null;
             stopRecord();
-            SharedConfig.unlockFile(this.recordingAudioFile);
+            AutoDeleteMediaTask.unlockFile(this.recordingAudioFile);
             this.recordingAudioFile.delete();
             this.recordingAudioFile = null;
             try {
@@ -4546,7 +4546,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 }
             });
         } else {
-            SharedConfig.unlockFile(this.recordingAudioFile);
+            AutoDeleteMediaTask.unlockFile(this.recordingAudioFile);
             File file2 = this.recordingAudioFile;
             if (file2 != null) {
                 file2.delete();
@@ -4618,7 +4618,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         } else {
             z2 = false;
             NotificationCenter.getInstance(this.recordingCurrentAccount).postNotificationName(NotificationCenter.audioRecordTooShort, Integer.valueOf(this.recordingGuid), Boolean.FALSE, Integer.valueOf((int) j));
-            SharedConfig.unlockFile(file);
+            AutoDeleteMediaTask.unlockFile(file);
             file.delete();
         }
         requestAudioFocus(z2);

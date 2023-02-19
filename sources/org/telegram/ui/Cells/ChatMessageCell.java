@@ -5372,7 +5372,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r13v176 */
     /* JADX WARN: Type inference failed for: r13v177 */
     /* JADX WARN: Type inference failed for: r13v178 */
-    /* JADX WARN: Type inference failed for: r13v180, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v180, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v185 */
     /* JADX WARN: Type inference failed for: r13v190 */
     /* JADX WARN: Type inference failed for: r13v2 */
@@ -5392,9 +5392,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r13v99, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r15v115, types: [org.telegram.tgnet.TLRPC$InputStickerSet] */
     /* JADX WARN: Type inference failed for: r2v26 */
-    /* JADX WARN: Type inference failed for: r2v27, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v27, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v35 */
-    /* JADX WARN: Type inference failed for: r2v48, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v48, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v757 */
     /* JADX WARN: Type inference failed for: r2v758 */
     /* JADX WARN: Type inference failed for: r2v785 */
@@ -31714,14 +31714,14 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             i6++;
                         }
                     }
-                    if (!TextUtils.isEmpty(ChatMessageCell.this.currentMessageObject.messageText)) {
-                        spannableStringBuilder.append(ChatMessageCell.this.currentMessageObject.messageText);
-                    }
                     if (ChatMessageCell.this.documentAttach != null && ChatMessageCell.this.documentAttachType == 1) {
                         String attachFileName = FileLoader.getAttachFileName(ChatMessageCell.this.documentAttach);
                         if (attachFileName.indexOf(46) != -1) {
                             spannableStringBuilder.append((CharSequence) LocaleController.formatString(R.string.AccDescrDocumentType, attachFileName.substring(attachFileName.lastIndexOf(46) + 1).toUpperCase(Locale.ROOT)));
                         }
+                    }
+                    if (!TextUtils.isEmpty(ChatMessageCell.this.currentMessageObject.messageText)) {
+                        spannableStringBuilder.append(ChatMessageCell.this.currentMessageObject.messageText);
                     }
                     if (ChatMessageCell.this.documentAttach == null || !((ChatMessageCell.this.documentAttachType == 1 || ChatMessageCell.this.documentAttachType == 2 || ChatMessageCell.this.documentAttachType == 4) && ChatMessageCell.this.buttonState == 1 && ChatMessageCell.this.loadingProgressLayout != null)) {
                         charSequence2 = ", ";
@@ -31773,15 +31773,6 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         }
                         spannableStringBuilder.append((CharSequence) string);
                     }
-                    if (!ChatMessageCell.this.currentMessageObject.isVoiceTranscriptionOpen()) {
-                        if (MessageObject.getMedia(ChatMessageCell.this.currentMessageObject.messageOwner) != null && !TextUtils.isEmpty(ChatMessageCell.this.currentMessageObject.caption)) {
-                            spannableStringBuilder.append(charSequence3);
-                            spannableStringBuilder.append(ChatMessageCell.this.currentMessageObject.caption);
-                        }
-                    } else {
-                        spannableStringBuilder.append(charSequence3);
-                        spannableStringBuilder.append(ChatMessageCell.this.currentMessageObject.getVoiceTranscription());
-                    }
                     if (ChatMessageCell.this.documentAttach != null) {
                         if (ChatMessageCell.this.documentAttachType == 4) {
                             spannableStringBuilder.append(charSequence4);
@@ -31791,6 +31782,15 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             spannableStringBuilder.append(charSequence4);
                             spannableStringBuilder.append((CharSequence) AndroidUtilities.formatFileSize(ChatMessageCell.this.documentAttach.size));
                         }
+                    }
+                    if (!ChatMessageCell.this.currentMessageObject.isVoiceTranscriptionOpen()) {
+                        if (MessageObject.getMedia(ChatMessageCell.this.currentMessageObject.messageOwner) != null && !TextUtils.isEmpty(ChatMessageCell.this.currentMessageObject.caption)) {
+                            spannableStringBuilder.append(charSequence3);
+                            spannableStringBuilder.append(ChatMessageCell.this.currentMessageObject.caption);
+                        }
+                    } else {
+                        spannableStringBuilder.append(charSequence3);
+                        spannableStringBuilder.append(ChatMessageCell.this.currentMessageObject.getVoiceTranscription());
                     }
                     if (ChatMessageCell.this.currentMessageObject.isOut()) {
                         if (!ChatMessageCell.this.currentMessageObject.isSent()) {

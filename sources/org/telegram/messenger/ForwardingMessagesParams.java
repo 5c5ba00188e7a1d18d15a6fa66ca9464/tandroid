@@ -37,7 +37,7 @@ public class ForwardingMessagesParams {
     /* JADX WARN: Removed duplicated region for block: B:54:0x0178  */
     /* JADX WARN: Removed duplicated region for block: B:92:0x01ed A[SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r8v0 */
-    /* JADX WARN: Type inference failed for: r8v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r8v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r8v7 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

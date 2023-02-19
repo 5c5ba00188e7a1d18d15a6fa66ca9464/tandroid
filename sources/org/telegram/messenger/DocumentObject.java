@@ -150,7 +150,7 @@ public class DocumentObject {
                 int i6 = tLRPC$DocumentAttribute.h;
                 i = i5;
                 i2 = i6;
-                if (i != 0 && i2 != 0 && (svgDrawable = SvgHelper.getDrawableByPath(SvgHelper.decompress(tLRPC$PhotoSize.bytes), (int) (i * f2), (int) (i2 * f2))) != null) {
+                if (i != 0 && i2 != 0 && (svgDrawable = SvgHelper.getDrawableByPath(((TLRPC$TL_photoPathSize) tLRPC$PhotoSize).svgPath, (int) (i * f2), (int) (i2 * f2))) != null) {
                     svgDrawable.setupGradient(str, f, false);
                 }
             } else {

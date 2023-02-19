@@ -49,7 +49,7 @@
     <string name="AccDescrCollapsePanel">Collapse panel</string>
     <string name="AccDescrContactSorting">Change sorting</string>
     <string name="AccDescrCustomEmoji">Custom emoji</string>
-    <string name="AccDescrDocumentType">, %s file</string>
+    <string name="AccDescrDocumentType">%s file,</string>
     <string name="AccDescrDownloadProgress">Downloaded %1$s of %2$s</string>
     <string name="AccDescrEditing">Editing</string>
     <string name="AccDescrEmojiButton">Emoji, stickers, and GIFs</string>
@@ -83,6 +83,7 @@
     <string name="AccDescrMusicInfo">%2$s by %1$s</string>
     <string name="AccDescrMuteMic">Mute microphone</string>
     <string name="AccDescrMyLocation">My location</string>
+    <string name="AccDescrNotificationsMuted">Muted</string>
     <string name="AccDescrNumberOfPeopleReactions_few">%1$d people reacted with %2$s</string>
     <string name="AccDescrNumberOfPeopleReactions_many">%1$d people reacted with %2$s</string>
     <string name="AccDescrNumberOfPeopleReactions_one">%1$d person reacted with %2$s</string>
@@ -174,6 +175,7 @@
     <string name="AccDescrUnreadCount_other">%1$d unread chats</string>
     <string name="AccDescrUnreadCount_two">%1$d unread chats</string>
     <string name="AccDescrUploadProgress">Uploaded %1$s of %2$s</string>
+    <string name="AccDescrUserOnline">Online</string>
     <string name="AccDescrUserOptions">User options</string>
     <string name="AccDescrVerified">Verified</string>
     <string name="AccDescrVideoCompressHigh">Higher quality</string>

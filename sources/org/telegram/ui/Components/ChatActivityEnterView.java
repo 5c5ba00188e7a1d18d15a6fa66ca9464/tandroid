@@ -2980,7 +2980,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         if (Build.VERSION.SDK_INT >= 21) {
             this.scheduledButton.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor("listSelectorSDK21")));
         }
-        this.messageEditTextContainer.addView(this.scheduledButton, 1, LayoutHelper.createFrame(48, 48, 85));
+        this.messageEditTextContainer.addView(this.scheduledButton, 2, LayoutHelper.createFrame(48, 48, 85));
         this.scheduledButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda25
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
@@ -8690,9 +8690,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
         boolean z3 = (this.delegate == null || isInScheduleMode() || !this.delegate.hasScheduledMessages()) ? false : true;
         final boolean z4 = (!z3 || this.scheduleButtonHidden || this.recordingAudioVideo) ? false : true;
-        if (z3) {
-            createScheduledButton();
-        }
+        createScheduledButton();
         ImageView imageView3 = this.scheduledButton;
         float f = 96.0f;
         if (imageView3 != null) {

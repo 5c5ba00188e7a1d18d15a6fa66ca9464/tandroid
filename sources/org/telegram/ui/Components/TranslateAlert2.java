@@ -1051,7 +1051,10 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
                 return string;
             }
         }
-        String systemLanguageName = systemLanguageName(str2);
+        String systemLanguageName = systemLanguageName(str);
+        if (systemLanguageName == null) {
+            systemLanguageName = systemLanguageName(str2);
+        }
         if (systemLanguageName != null) {
             return systemLanguageName;
         }
@@ -1077,25 +1080,41 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
     }
 
     public static String systemLanguageName(String str, boolean z) {
+        if (str == null) {
+            return null;
+        }
         if (localesByCode == null) {
             localesByCode = new HashMap<>();
             try {
                 Locale[] availableLocales = Locale.getAvailableLocales();
                 for (int i = 0; i < availableLocales.length; i++) {
                     localesByCode.put(availableLocales[i].getLanguage(), availableLocales[i]);
+                    String country = availableLocales[i].getCountry();
+                    if (country != null && country.length() > 0) {
+                        HashMap<String, Locale> hashMap = localesByCode;
+                        hashMap.put(availableLocales[i].getLanguage() + "-" + country.toLowerCase(), availableLocales[i]);
+                    }
                 }
             } catch (Exception unused) {
             }
         }
+        String lowerCase = str.replace("_", "-").toLowerCase();
         try {
-            Locale locale = localesByCode.get(str);
+            Locale locale = localesByCode.get(lowerCase);
             if (locale != null) {
-                return locale.getDisplayLanguage(z ? locale : Locale.getDefault());
+                String displayLanguage = locale.getDisplayLanguage(z ? locale : Locale.getDefault());
+                if (lowerCase.contains("-")) {
+                    String displayCountry = locale.getDisplayCountry(z ? locale : Locale.getDefault());
+                    if (TextUtils.isEmpty(displayCountry)) {
+                        return displayLanguage;
+                    }
+                    return displayLanguage + " (" + displayCountry + ")";
+                }
+                return displayLanguage;
             }
-            return null;
         } catch (Exception unused2) {
-            return null;
         }
+        return null;
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog

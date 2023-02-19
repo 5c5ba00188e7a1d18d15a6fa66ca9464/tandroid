@@ -1,6 +1,5 @@
 package org.telegram.messenger.voip;
 
-import android.os.Build;
 import java.util.Arrays;
 import java.util.List;
 import org.json.JSONException;
@@ -15,7 +14,6 @@ import org.webrtc.VideoSink;
 public final class Instance {
     public static final int AUDIO_STATE_ACTIVE = 1;
     public static final int AUDIO_STATE_MUTED = 0;
-    public static final List<String> AVAILABLE_VERSIONS;
     public static final int DATA_SAVING_ALWAYS = 2;
     public static final int DATA_SAVING_MOBILE = 1;
     public static final int DATA_SAVING_NEVER = 0;
@@ -55,8 +53,9 @@ public final class Instance {
     public static final int VIDEO_STATE_INACTIVE = 0;
     public static final int VIDEO_STATE_PAUSED = 1;
     private static int bufferSize;
-    private static ServerConfig globalServerConfig;
     private static NativeInstance instance;
+    public static final List<String> AVAILABLE_VERSIONS = Arrays.asList("2.4.4", "2.7.7", "5.0.0", "6.0.0", "7.0.0", "8.0.0", "9.0.0", "10.0.0", "11.0.0");
+    private static ServerConfig globalServerConfig = new ServerConfig(new JSONObject());
 
     /* loaded from: classes.dex */
     public interface OnRemoteMediaStateUpdatedListener {
@@ -80,11 +79,6 @@ public final class Instance {
 
     public static int getConnectionMaxLayer() {
         return 92;
-    }
-
-    static {
-        AVAILABLE_VERSIONS = Build.VERSION.SDK_INT >= 18 ? Arrays.asList("4.1.2", "4.0.2", "4.0.1", "4.0.0", "5.0.0", "2.7.7", "2.4.4") : Arrays.asList("2.4.4");
-        globalServerConfig = new ServerConfig(new JSONObject());
     }
 
     private Instance() {

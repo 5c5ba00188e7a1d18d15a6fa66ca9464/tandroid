@@ -101,15 +101,16 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
         if (str == null) {
             return false;
         }
+        String lowerCase = str.toLowerCase();
         LocaleController.LocaleInfo currentLocaleInfo = LocaleController.getInstance().getCurrentLocaleInfo();
         HashSet<String> restrictedLanguages = getRestrictedLanguages();
-        if (str.equals(currentLocaleInfo.pluralLangCode) && z) {
+        if (lowerCase != null && lowerCase.equals(currentLocaleInfo.pluralLangCode) && z) {
             return false;
         }
         if (!z) {
-            restrictedLanguages.remove(str);
+            restrictedLanguages.remove(lowerCase);
         } else {
-            restrictedLanguages.add(str);
+            restrictedLanguages.add(lowerCase);
         }
         if (restrictedLanguages.size() == 1 && restrictedLanguages.contains(currentLocaleInfo.pluralLangCode)) {
             MessagesController.getGlobalMainSettings().edit().remove("translate_button_restricted_languages").commit();
@@ -312,20 +313,33 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
         this.allLanguages = TranslateController.getLanguages();
         String str = LocaleController.getInstance().getCurrentLocaleInfo().pluralLangCode;
         ArrayList arrayList = new ArrayList();
+        ArrayList arrayList2 = new ArrayList(this.firstSelectedLanguages);
         TranslateController.Language language = null;
         int i = 0;
         while (i < this.allLanguages.size()) {
             TranslateController.Language language2 = this.allLanguages.get(i);
             if (TextUtils.equals(language2.code, str)) {
+                arrayList2.remove(language2.code);
                 this.allLanguages.remove(i);
                 i--;
                 language = language2;
             } else if (this.firstSelectedLanguages.contains(language2.code)) {
                 arrayList.add(language2);
+                arrayList2.remove(language2.code);
                 this.allLanguages.remove(i);
                 i--;
             }
             i++;
+        }
+        for (int i2 = 0; i2 < arrayList2.size(); i2++) {
+            TranslateController.Language language3 = new TranslateController.Language();
+            String str2 = (String) arrayList2.get(i2);
+            language3.code = str2;
+            String upperCase = str2.toUpperCase();
+            language3.displayName = upperCase;
+            language3.ownDisplayName = upperCase;
+            language3.q = language3.code.toLowerCase();
+            arrayList.add(language3);
         }
         this.separatorRow = 0;
         this.allLanguages.addAll(0, arrayList);
