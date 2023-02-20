@@ -10,6 +10,10 @@ public class TLRPC$TL_chatPhoto extends TLRPC$ChatPhoto {
 
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
+        readParams(abstractSerializedData, z, true);
+    }
+
+    public void readParams(AbstractSerializedData abstractSerializedData, boolean z, boolean z2) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
         this.has_video = (readInt32 & 1) != 0;
@@ -26,7 +30,7 @@ public class TLRPC$TL_chatPhoto extends TLRPC$ChatPhoto {
         this.photo_big = tLRPC$TL_fileLocationToBeDeprecated2;
         tLRPC$TL_fileLocationToBeDeprecated2.volume_id = -this.photo_id;
         tLRPC$TL_fileLocationToBeDeprecated2.local_id = 99;
-        if (this.stripped_thumb == null || Build.VERSION.SDK_INT < 21) {
+        if (!z2 || this.stripped_thumb == null || Build.VERSION.SDK_INT < 21) {
             return;
         }
         try {

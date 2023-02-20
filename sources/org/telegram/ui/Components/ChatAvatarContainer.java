@@ -334,16 +334,17 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
 
             @Override // org.telegram.ui.Components.AutoDeletePopupWrapper.Callback
             public void setAutoDeleteHistory(int i2, int i3) {
+                UndoView undoView;
                 if (ChatAvatarContainer.this.parentFragment == null) {
                     return;
                 }
                 ChatAvatarContainer.this.parentFragment.getMessagesController().setDialogHistoryTTL(ChatAvatarContainer.this.parentFragment.getDialogId(), i2);
                 TLRPC$ChatFull currentChatInfo2 = ChatAvatarContainer.this.parentFragment.getCurrentChatInfo();
                 TLRPC$UserFull currentUserInfo2 = ChatAvatarContainer.this.parentFragment.getCurrentUserInfo();
-                if (currentUserInfo2 == null && currentChatInfo2 == null) {
+                if ((currentUserInfo2 == null && currentChatInfo2 == null) || (undoView = ChatAvatarContainer.this.parentFragment.getUndoView()) == null) {
                     return;
                 }
-                ChatAvatarContainer.this.parentFragment.getUndoView().showWithAction(ChatAvatarContainer.this.parentFragment.getDialogId(), i3, ChatAvatarContainer.this.parentFragment.getCurrentUser(), Integer.valueOf(currentUserInfo2 != null ? currentUserInfo2.ttl_period : currentChatInfo2.ttl_period), (Runnable) null, (Runnable) null);
+                undoView.showWithAction(ChatAvatarContainer.this.parentFragment.getDialogId(), i3, ChatAvatarContainer.this.parentFragment.getCurrentUser(), Integer.valueOf(currentUserInfo2 != null ? currentUserInfo2.ttl_period : currentChatInfo2.ttl_period), (Runnable) null, (Runnable) null);
             }
         }, true, 0, this.resourcesProvider);
         autoDeletePopupWrapper.lambda$updateItems$7(i);

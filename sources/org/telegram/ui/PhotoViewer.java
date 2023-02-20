@@ -5731,6 +5731,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ boolean lambda$onItemClick$10(ArrayList arrayList, ChatActivity chatActivity, DialogsActivity dialogsActivity, ArrayList arrayList2, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
+            UndoView undoView;
             if (arrayList2.size() > 1 || ((MessagesStorage.TopicKey) arrayList2.get(0)).dialogId == UserConfig.getInstance(PhotoViewer.this.currentAccount).getClientUserId() || charSequence != null) {
                 for (int i = 0; i < arrayList2.size(); i++) {
                     long j = ((MessagesStorage.TopicKey) arrayList2.get(i)).dialogId;
@@ -5740,11 +5741,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     SendMessagesHelper.getInstance(PhotoViewer.this.currentAccount).sendMessage(arrayList, j, false, false, true, 0);
                 }
                 dialogsActivity.finishFragment();
-                if (chatActivity != null) {
+                if (chatActivity != null && (undoView = chatActivity.getUndoView()) != null) {
                     if (arrayList2.size() == 1) {
-                        chatActivity.getUndoView().showWithAction(((MessagesStorage.TopicKey) arrayList2.get(0)).dialogId, 53, Integer.valueOf(arrayList.size()));
+                        undoView.showWithAction(((MessagesStorage.TopicKey) arrayList2.get(0)).dialogId, 53, Integer.valueOf(arrayList.size()));
                     } else {
-                        chatActivity.getUndoView().showWithAction(0L, 53, Integer.valueOf(arrayList.size()), Integer.valueOf(arrayList2.size()), (Runnable) null, (Runnable) null);
+                        undoView.showWithAction(0L, 53, Integer.valueOf(arrayList.size()), Integer.valueOf(arrayList2.size()), (Runnable) null, (Runnable) null);
                     }
                 }
             } else {
@@ -16776,7 +16777,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     setCropBitmap();
                     ChatActivity chatActivity2 = this.parentChatActivity;
                     if (chatActivity2 != null) {
-                        chatActivity2.getUndoView().hide(false, 1);
+                        UndoView undoView = chatActivity2.getUndoView();
+                        if (undoView != null) {
+                            undoView.hide(false, 1);
+                        }
                         this.parentChatActivity.getFragmentView().invalidate();
                     }
                     this.windowView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.PhotoViewer.72
@@ -17095,8 +17099,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 }
             };
             if (PhotoViewer.this.parentChatActivity != null && PhotoViewer.this.parentChatActivity.getFragmentView() != null) {
-                if (PhotoViewer.this.parentChatActivity.getUndoView() != null) {
-                    PhotoViewer.this.parentChatActivity.getUndoView().hide(false, 1);
+                UndoView undoView = PhotoViewer.this.parentChatActivity.getUndoView();
+                if (undoView != null) {
+                    undoView.hide(false, 1);
                 }
                 PhotoViewer.this.parentChatActivity.getFragmentView().invalidate();
             }

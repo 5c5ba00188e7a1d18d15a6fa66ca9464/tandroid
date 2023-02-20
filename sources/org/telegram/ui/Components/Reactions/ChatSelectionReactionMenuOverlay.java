@@ -316,18 +316,20 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
     }
 
     private MessageObject findPrimaryObject() {
+        MessageObject.GroupedMessages group;
+        ArrayList<MessageObject> arrayList;
         TLRPC$TL_messageReactions tLRPC$TL_messageReactions;
-        ArrayList<TLRPC$ReactionCount> arrayList;
+        ArrayList<TLRPC$ReactionCount> arrayList2;
         if (!this.isVisible || this.selectedMessages.isEmpty()) {
             return null;
         }
         MessageObject messageObject = this.selectedMessages.get(0);
-        if (messageObject.getGroupId() != 0) {
-            Iterator<MessageObject> it = this.parentFragment.getGroup(messageObject.getGroupId()).messages.iterator();
+        if (messageObject.getGroupId() != 0 && (group = this.parentFragment.getGroup(messageObject.getGroupId())) != null && (arrayList = group.messages) != null) {
+            Iterator<MessageObject> it = arrayList.iterator();
             while (it.hasNext()) {
                 MessageObject next = it.next();
                 TLRPC$Message tLRPC$Message = next.messageOwner;
-                if (tLRPC$Message != null && (tLRPC$TL_messageReactions = tLRPC$Message.reactions) != null && (arrayList = tLRPC$TL_messageReactions.results) != null && !arrayList.isEmpty()) {
+                if (tLRPC$Message != null && (tLRPC$TL_messageReactions = tLRPC$Message.reactions) != null && (arrayList2 = tLRPC$TL_messageReactions.results) != null && !arrayList2.isEmpty()) {
                     return next;
                 }
             }

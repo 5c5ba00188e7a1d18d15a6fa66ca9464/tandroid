@@ -2363,7 +2363,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     long j = ChatActivityEnterView.this.dialog_id;
                     ChatActivity chatActivity2 = chatActivity;
                     notificationsController.updateServerNotificationsSettings(j, chatActivity2 == null ? 0 : chatActivity2.getTopicId());
-                    chatActivity.getUndoView().showWithAction(0L, !ChatActivityEnterView.this.silent ? 54 : 55, (Runnable) null);
+                    UndoView undoView = chatActivity.getUndoView();
+                    if (undoView != null) {
+                        undoView.showWithAction(0L, !ChatActivityEnterView.this.silent ? 54 : 55, (Runnable) null);
+                    }
                     ImageView imageView2 = ChatActivityEnterView.this.notifyButton;
                     if (ChatActivityEnterView.this.silent) {
                         i4 = R.string.AccDescrChanSilentOn;

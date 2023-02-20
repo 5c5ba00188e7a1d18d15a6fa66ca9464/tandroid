@@ -1669,7 +1669,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         ViewGroup viewGroup;
         ViewGroup viewGroup2;
         INavigationLayout.INavigationLayoutDelegate iNavigationLayoutDelegate = this.delegate;
-        if ((iNavigationLayoutDelegate == null || iNavigationLayoutDelegate.needAddFragmentToStack(baseFragment, this)) && baseFragment.onFragmentCreate()) {
+        if ((iNavigationLayoutDelegate == null || iNavigationLayoutDelegate.needAddFragmentToStack(baseFragment, this)) && baseFragment.onFragmentCreate() && !this.fragmentsStack.contains(baseFragment)) {
             baseFragment.setParentLayout(this);
             if (i == -1) {
                 if (!this.fragmentsStack.isEmpty()) {
@@ -1687,6 +1687,11 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                     }
                 }
                 this.fragmentsStack.add(baseFragment);
+                attachView(baseFragment);
+                baseFragment.onResume();
+                baseFragment.onTransitionAnimationEnd(false, true);
+                baseFragment.onTransitionAnimationEnd(true, true);
+                baseFragment.onBecomeFullyVisible();
                 onFragmentStackChanged("addFragmentToStack " + i);
             } else {
                 this.fragmentsStack.add(i, baseFragment);
@@ -1695,6 +1700,33 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             return true;
         }
         return false;
+    }
+
+    private void attachView(BaseFragment baseFragment) {
+        View view = baseFragment.fragmentView;
+        if (view == null) {
+            view = baseFragment.createView(this.parentActivity);
+        } else {
+            ViewGroup viewGroup = (ViewGroup) view.getParent();
+            if (viewGroup != null) {
+                baseFragment.onRemoveFromParent();
+                viewGroup.removeView(view);
+            }
+        }
+        this.containerView.addView(view, LayoutHelper.createFrame(-1, -1.0f));
+        ActionBar actionBar = baseFragment.actionBar;
+        if (actionBar == null || !actionBar.shouldAddToContainer()) {
+            return;
+        }
+        if (this.removeActionBarExtraHeight) {
+            baseFragment.actionBar.setOccupyStatusBar(false);
+        }
+        ViewGroup viewGroup2 = (ViewGroup) baseFragment.actionBar.getParent();
+        if (viewGroup2 != null) {
+            viewGroup2.removeView(baseFragment.actionBar);
+        }
+        this.containerView.addView(baseFragment.actionBar);
+        baseFragment.actionBar.setTitleOverlayText(this.titleOverlayText, this.titleOverlayTextId, this.overlayAction);
     }
 
     private void closeLastFragmentInternalRemoveOld(BaseFragment baseFragment) {
@@ -2655,9 +2687,13 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$8() {
-        if (getLastFragment() != null && this.containerView.getChildCount() == 0) {
-            throw new RuntimeException(TextUtils.join(", ", this.lastActions));
+        if (getLastFragment() == null || this.containerView.getChildCount() != 0) {
+            return;
         }
+        if (BuildVars.DEBUG_VERSION) {
+            FileLog.e(new RuntimeException(TextUtils.join(", ", this.lastActions)));
+        }
+        rebuildAllFragmentViews(true, true);
     }
 
     public void checkBlackScreen(String str) {
@@ -2670,8 +2706,8 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 }
                 this.lastActions = arrayList;
             }
-            AndroidUtilities.cancelRunOnUIThread(this.debugBlackScreenRunnable);
-            AndroidUtilities.runOnUIThread(this.debugBlackScreenRunnable, 500L);
         }
+        AndroidUtilities.cancelRunOnUIThread(this.debugBlackScreenRunnable);
+        AndroidUtilities.runOnUIThread(this.debugBlackScreenRunnable, 500L);
     }
 }

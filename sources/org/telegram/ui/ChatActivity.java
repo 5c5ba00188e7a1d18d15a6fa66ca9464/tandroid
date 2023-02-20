@@ -1170,7 +1170,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         ChatActivityAdapter chatActivityAdapter = this.chatAdapter;
         chatActivityAdapter.isFrozen = true;
         chatActivityAdapter.notifyDataSetChanged(true);
-        getUndoView().showWithAction(this.dialog_id, 81, new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda180
+        UndoView undoView = getUndoView();
+        if (undoView == null) {
+            return;
+        }
+        undoView.showWithAction(this.dialog_id, 81, new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda180
             @Override // java.lang.Runnable
             public final void run() {
                 ChatActivity.this.lambda$deleteHistory$3(i, i2, z);
@@ -18751,19 +18755,22 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     while (true) {
                         if (i14 >= this.selectedMessagesCanStarIds[i13].size()) {
                             break;
-                        } else if (!getMediaDataController().isStickerInFavorites(this.selectedMessagesCanStarIds[i13].valueAt(i14).getDocument())) {
+                        }
+                        MessageObject valueAt = this.selectedMessagesCanStarIds[i13].valueAt(i14);
+                        if (valueAt != null && !getMediaDataController().isStickerInFavorites(valueAt.getDocument())) {
                             this.hasUnfavedSelected = true;
                             break;
-                        } else {
-                            i14++;
                         }
+                        i14++;
                     }
                     if (this.hasUnfavedSelected) {
                         break;
                     }
                     i13++;
                 }
-                item3.setIcon(this.hasUnfavedSelected ? R.drawable.msg_fave : R.drawable.msg_unfave);
+                if (item3 != null) {
+                    item3.setIcon(this.hasUnfavedSelected ? R.drawable.msg_fave : R.drawable.msg_unfave);
+                }
                 final int i15 = (this.canEditMessagesCount == 1 && size == 1) ? 0 : 8;
                 createBottomMessagesActionButtons();
                 if (this.replyButton != null) {
@@ -19652,7 +19659,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     public boolean isSkeletonVisible() {
-        if (this.justCreatedTopic || this.justCreatedChat || this.currentUser != null || !SharedConfig.animationsEnabled() || SharedConfig.getLiteMode().enabled()) {
+        if (this.justCreatedTopic || this.justCreatedChat || this.currentUser != null || this.chatListView == null || !SharedConfig.animationsEnabled() || SharedConfig.getLiteMode().enabled()) {
             return false;
         }
         int i = ConnectionsManager.DEFAULT_DATACENTER_ID;
@@ -28676,8 +28683,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createMenu$175(MessageObject messageObject, View view) {
-        if (getMediaDataController().saveToRingtones(messageObject.getDocument())) {
-            getUndoView().showWithAction(this.dialog_id, UndoView.ACTION_RINGTONE_ADDED, new Runnable() { // from class: org.telegram.ui.ChatActivity.111
+        UndoView undoView;
+        if (getMediaDataController().saveToRingtones(messageObject.getDocument()) && (undoView = getUndoView()) != null) {
+            undoView.showWithAction(this.dialog_id, UndoView.ACTION_RINGTONE_ADDED, new Runnable() { // from class: org.telegram.ui.ChatActivity.111
                 boolean clicked;
 
                 @Override // java.lang.Runnable
@@ -32102,7 +32110,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (characterStyle instanceof URLSpanMono) {
             if (!z4) {
                 ((URLSpanMono) characterStyle).copyToClipboard();
-                getUndoView().showWithAction(0L, 58, (Runnable) null);
+                UndoView undoView = getUndoView();
+                if (undoView != null) {
+                    undoView.showWithAction(0L, 58, (Runnable) null);
+                }
             }
             if (!z || chatMessageCell == null) {
                 return;

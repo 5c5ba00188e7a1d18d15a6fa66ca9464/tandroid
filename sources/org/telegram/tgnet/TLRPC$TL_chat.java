@@ -5,6 +5,10 @@ public class TLRPC$TL_chat extends TLRPC$Chat {
 
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
+        readParams(abstractSerializedData, z, true);
+    }
+
+    public void readParams(AbstractSerializedData abstractSerializedData, boolean z, boolean z2) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
         this.creator = (readInt32 & 1) != 0;
@@ -16,7 +20,7 @@ public class TLRPC$TL_chat extends TLRPC$Chat {
         this.noforwards = (readInt32 & ConnectionsManager.FileTypeVideo) != 0;
         this.id = abstractSerializedData.readInt64(z);
         this.title = abstractSerializedData.readString(z);
-        this.photo = TLRPC$ChatPhoto.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+        this.photo = TLRPC$ChatPhoto.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z, z2);
         this.participants_count = abstractSerializedData.readInt32(z);
         this.date = abstractSerializedData.readInt32(z);
         this.version = abstractSerializedData.readInt32(z);

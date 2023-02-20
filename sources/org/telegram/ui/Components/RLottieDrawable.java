@@ -232,7 +232,9 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         if (!hasParentView()) {
             stop();
         }
-        scheduleNextGetFrame();
+        if (this.isRunning) {
+            scheduleNextGetFrame();
+        }
     }
 
     private void recycleNativePtr(boolean z) {

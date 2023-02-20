@@ -114,6 +114,7 @@ public class ReactionsLayoutInBubble {
 
     public void setMessage(MessageObject messageObject, boolean z, Theme.ResourcesProvider resourcesProvider) {
         ReactionButton reactionButton;
+        TLRPC$User user;
         this.resourcesProvider = resourcesProvider;
         this.isSmall = z;
         this.messageObject = messageObject;
@@ -151,13 +152,21 @@ public class ReactionsLayoutInBubble {
                     if (!z && messageObject.messageOwner.reactions.recent_reactions != null) {
                         if (messageObject.getDialogId() > 0) {
                             ArrayList<TLRPC$User> arrayList2 = new ArrayList<>();
+                            TLRPC$User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
+                            TLRPC$User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(messageObject.getDialogId()));
                             if (tLRPC$ReactionCount.count == 2) {
-                                arrayList2.add(UserConfig.getInstance(this.currentAccount).getCurrentUser());
-                                arrayList2.add(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(messageObject.getDialogId())));
+                                if (currentUser != null) {
+                                    arrayList2.add(currentUser);
+                                }
+                                if (user2 != null) {
+                                    arrayList2.add(user2);
+                                }
                             } else if (tLRPC$ReactionCount.chosen) {
-                                arrayList2.add(UserConfig.getInstance(this.currentAccount).getCurrentUser());
-                            } else {
-                                arrayList2.add(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(messageObject.getDialogId())));
+                                if (currentUser != null) {
+                                    arrayList2.add(currentUser);
+                                }
+                            } else if (user2 != null) {
+                                arrayList2.add(user2);
                             }
                             reactionButton2.setUsers(arrayList2);
                             if (!arrayList2.isEmpty()) {
@@ -168,11 +177,11 @@ public class ReactionsLayoutInBubble {
                             ArrayList<TLRPC$User> arrayList3 = null;
                             for (int i5 = 0; i5 < messageObject.messageOwner.reactions.recent_reactions.size(); i5++) {
                                 TLRPC$MessagePeerReaction tLRPC$MessagePeerReaction = messageObject.messageOwner.reactions.recent_reactions.get(i5);
-                                if (VisibleReaction.fromTLReaction(tLRPC$MessagePeerReaction.reaction).equals(VisibleReaction.fromTLReaction(tLRPC$ReactionCount.reaction)) && MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(MessageObject.getPeerId(tLRPC$MessagePeerReaction.peer_id))) != null) {
+                                if (VisibleReaction.fromTLReaction(tLRPC$MessagePeerReaction.reaction).equals(VisibleReaction.fromTLReaction(tLRPC$ReactionCount.reaction)) && MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(MessageObject.getPeerId(tLRPC$MessagePeerReaction.peer_id))) != null && (user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(MessageObject.getPeerId(tLRPC$MessagePeerReaction.peer_id)))) != null) {
                                     if (arrayList3 == null) {
                                         arrayList3 = new ArrayList<>();
                                     }
-                                    arrayList3.add(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(MessageObject.getPeerId(tLRPC$MessagePeerReaction.peer_id))));
+                                    arrayList3.add(user);
                                 }
                             }
                             reactionButton2.setUsers(arrayList3);
@@ -442,11 +451,13 @@ public class ReactionsLayoutInBubble {
     }
 
     private boolean equalsUsersList(ArrayList<TLRPC$User> arrayList, ArrayList<TLRPC$User> arrayList2) {
-        if (arrayList.size() != arrayList2.size()) {
+        if (arrayList == null || arrayList2 == null || arrayList.size() != arrayList2.size()) {
             return false;
         }
         for (int i = 0; i < arrayList.size(); i++) {
-            if (arrayList.get(i).id != arrayList.get(i).id) {
+            TLRPC$User tLRPC$User = arrayList.get(i);
+            TLRPC$User tLRPC$User2 = arrayList2.get(i);
+            if (tLRPC$User == null || tLRPC$User2 == null || tLRPC$User.id != tLRPC$User2.id) {
                 return false;
             }
         }

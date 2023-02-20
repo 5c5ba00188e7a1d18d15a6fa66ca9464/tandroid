@@ -928,7 +928,10 @@ public class LoginActivity extends BaseFragment {
             ConnectionsManager.getInstance(this.currentAccount).setAppPaused(false, false);
         }
         AndroidUtilities.requestAdjustResize(getParentActivity(), this.classGuid);
-        this.fragmentView.requestLayout();
+        View view = this.fragmentView;
+        if (view != null) {
+            view.requestLayout();
+        }
         try {
             int i2 = this.currentViewNum;
             if (i2 >= 1 && i2 <= 4) {
@@ -7714,7 +7717,6 @@ public class LoginActivity extends BaseFragment {
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public /* synthetic */ void lambda$onNextPressed$15(TLRPC$TL_error tLRPC$TL_error, final String str, final TLObject tLObject) {
-            CodeFieldContainer codeFieldContainer;
             CodeNumberField[] codeNumberFieldArr;
             LoginActivity.this.needHideProgress(false);
             boolean z = true;
@@ -7763,18 +7765,19 @@ public class LoginActivity extends BaseFragment {
                 } else if (tLRPC$TL_error.text.contains("CODE_EMPTY") || tLRPC$TL_error.text.contains("CODE_INVALID") || tLRPC$TL_error.text.contains("EMAIL_CODE_INVALID") || tLRPC$TL_error.text.contains("PHONE_CODE_INVALID")) {
                     shakeWrongCode();
                     if (!z) {
-                        int i = 0;
-                        while (true) {
-                            codeFieldContainer = this.codeFieldContainer;
-                            codeNumberFieldArr = codeFieldContainer.codeField;
-                            if (i >= codeNumberFieldArr.length) {
-                                break;
+                        if (this.codeFieldContainer.codeField != null) {
+                            int i = 0;
+                            while (true) {
+                                codeNumberFieldArr = this.codeFieldContainer.codeField;
+                                if (i >= codeNumberFieldArr.length) {
+                                    break;
+                                }
+                                codeNumberFieldArr[i].setText("");
+                                i++;
                             }
-                            codeNumberFieldArr[i].setText("");
-                            i++;
+                            codeNumberFieldArr[0].requestFocus();
                         }
-                        codeFieldContainer.isFocusSuppressed = false;
-                        codeNumberFieldArr[0].requestFocus();
+                        this.codeFieldContainer.isFocusSuppressed = false;
                     }
                 } else if (tLRPC$TL_error.text.contains("EMAIL_TOKEN_INVALID")) {
                     LoginActivity.this.needShowAlert(LocaleController.getString(R.string.RestorePasswordNoEmailTitle), LocaleController.getString(R.string.EmailTokenInvalid));

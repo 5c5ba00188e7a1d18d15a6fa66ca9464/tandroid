@@ -175,6 +175,7 @@ import org.telegram.ui.Components.HintEditText;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.Components.URLSpanNoUnderline;
+import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.CountrySelectActivity;
 import org.telegram.ui.PaymentFormActivity;
 /* loaded from: classes3.dex */
@@ -5147,6 +5148,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$sendData$56(TLRPC$Message[] tLRPC$MessageArr) {
+        UndoView undoView;
         this.paymentStatusSent = true;
         InvoiceStatus invoiceStatus = InvoiceStatus.PAID;
         this.invoiceStatus = invoiceStatus;
@@ -5155,9 +5157,11 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             paymentFormCallback.onInvoiceStatusChanged(invoiceStatus);
         }
         goToNextStep();
-        if (this.parentFragment instanceof ChatActivity) {
-            ((ChatActivity) this.parentFragment).getUndoView().showWithAction(0L, 77, AndroidUtilities.replaceTags(LocaleController.formatString(R.string.PaymentInfoHint, this.totalPrice[0], this.currentItemName)), tLRPC$MessageArr[0], (Runnable) null, (Runnable) null);
+        BaseFragment baseFragment = this.parentFragment;
+        if (!(baseFragment instanceof ChatActivity) || (undoView = ((ChatActivity) baseFragment).getUndoView()) == null) {
+            return;
         }
+        undoView.showWithAction(0L, 77, AndroidUtilities.replaceTags(LocaleController.formatString(R.string.PaymentInfoHint, this.totalPrice[0], this.currentItemName)), tLRPC$MessageArr[0], (Runnable) null, (Runnable) null);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -5217,6 +5221,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$sendData$57(INavigationLayout iNavigationLayout, Activity activity, TLRPC$Message tLRPC$Message) {
+        UndoView undoView;
         this.paymentStatusSent = true;
         InvoiceStatus invoiceStatus = InvoiceStatus.PAID;
         this.invoiceStatus = invoiceStatus;
@@ -5225,9 +5230,11 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             paymentFormCallback.onInvoiceStatusChanged(invoiceStatus);
         }
         onCheckoutSuccess(iNavigationLayout, activity);
-        if (this.parentFragment instanceof ChatActivity) {
-            ((ChatActivity) this.parentFragment).getUndoView().showWithAction(0L, 77, AndroidUtilities.replaceTags(LocaleController.formatString(R.string.PaymentInfoHint, this.totalPrice[0], this.currentItemName)), tLRPC$Message, (Runnable) null, (Runnable) null);
+        BaseFragment baseFragment = this.parentFragment;
+        if (!(baseFragment instanceof ChatActivity) || (undoView = ((ChatActivity) baseFragment).getUndoView()) == null) {
+            return;
         }
+        undoView.showWithAction(0L, 77, AndroidUtilities.replaceTags(LocaleController.formatString(R.string.PaymentInfoHint, this.totalPrice[0], this.currentItemName)), tLRPC$Message, (Runnable) null, (Runnable) null);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

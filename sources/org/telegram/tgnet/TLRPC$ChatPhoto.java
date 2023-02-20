@@ -16,6 +16,10 @@ public abstract class TLRPC$ChatPhoto extends TLObject {
     public byte[] stripped_thumb;
 
     public static TLRPC$ChatPhoto TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
+        return TLdeserialize(abstractSerializedData, i, z, true);
+    }
+
+    public static TLRPC$ChatPhoto TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z, boolean z2) {
         TLRPC$ChatPhoto tLRPC$ChatPhoto;
         switch (i) {
             case -770990276:
@@ -23,13 +27,13 @@ public abstract class TLRPC$ChatPhoto extends TLObject {
                     public static int constructor = -770990276;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chatPhoto, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        int readInt32 = abstractSerializedData2.readInt32(z2);
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
+                        int readInt32 = abstractSerializedData2.readInt32(z3);
                         this.flags = readInt32;
                         this.has_video = (readInt32 & 1) != 0;
-                        this.photo_small = TLRPC$FileLocation.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        this.photo_big = TLRPC$FileLocation.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        this.dc_id = abstractSerializedData2.readInt32(z2);
+                        this.photo_small = TLRPC$FileLocation.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
+                        this.photo_big = TLRPC$FileLocation.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
+                        this.dc_id = abstractSerializedData2.readInt32(z3);
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chatPhoto, org.telegram.tgnet.TLObject
@@ -62,10 +66,10 @@ public abstract class TLRPC$ChatPhoto extends TLObject {
                     public static int constructor = 1197267925;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chatPhoto, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.photo_small = TLRPC$FileLocation.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        this.photo_big = TLRPC$FileLocation.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        this.dc_id = abstractSerializedData2.readInt32(z2);
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
+                        this.photo_small = TLRPC$FileLocation.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
+                        this.photo_big = TLRPC$FileLocation.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
+                        this.dc_id = abstractSerializedData2.readInt32(z3);
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chatPhoto, org.telegram.tgnet.TLObject
@@ -82,14 +86,14 @@ public abstract class TLRPC$ChatPhoto extends TLObject {
                     public static int constructor = 1200680453;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chatPhoto, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        int readInt32 = abstractSerializedData2.readInt32(z2);
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
+                        int readInt32 = abstractSerializedData2.readInt32(z3);
                         this.flags = readInt32;
                         this.has_video = (readInt32 & 1) != 0;
-                        this.photo_small = TLRPC$FileLocation.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        this.photo_big = TLRPC$FileLocation.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                        this.photo_small = TLRPC$FileLocation.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
+                        this.photo_big = TLRPC$FileLocation.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
                         if ((this.flags & 2) != 0) {
-                            this.stripped_thumb = abstractSerializedData2.readByteArray(z2);
+                            this.stripped_thumb = abstractSerializedData2.readByteArray(z3);
                             if (Build.VERSION.SDK_INT >= 21) {
                                 try {
                                     this.strippedBitmap = new BitmapDrawable(ImageLoader.getStrippedPhotoBitmap(this.stripped_thumb, "b"));
@@ -98,7 +102,7 @@ public abstract class TLRPC$ChatPhoto extends TLObject {
                                 }
                             }
                         }
-                        this.dc_id = abstractSerializedData2.readInt32(z2);
+                        this.dc_id = abstractSerializedData2.readInt32(z3);
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chatPhoto, org.telegram.tgnet.TLObject
@@ -121,9 +125,9 @@ public abstract class TLRPC$ChatPhoto extends TLObject {
                     public static int constructor = 1632839530;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chatPhoto, org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.photo_small = TLRPC$FileLocation.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        this.photo_big = TLRPC$FileLocation.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
+                        this.photo_small = TLRPC$FileLocation.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
+                        this.photo_big = TLRPC$FileLocation.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chatPhoto, org.telegram.tgnet.TLObject

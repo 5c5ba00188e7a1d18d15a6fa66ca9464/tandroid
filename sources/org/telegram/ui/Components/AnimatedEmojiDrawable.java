@@ -1286,15 +1286,19 @@ public class AnimatedEmojiDrawable extends Drawable {
     }
 
     public static void updateAll() {
-        for (HashMap<Long, AnimatedEmojiDrawable> hashMap : globalEmojiCache.values()) {
-            Iterator it = new ArrayList(hashMap.keySet()).iterator();
+        HashMap<Integer, HashMap<Long, AnimatedEmojiDrawable>> hashMap = globalEmojiCache;
+        if (hashMap == null) {
+            return;
+        }
+        for (HashMap<Long, AnimatedEmojiDrawable> hashMap2 : hashMap.values()) {
+            Iterator it = new ArrayList(hashMap2.keySet()).iterator();
             while (it.hasNext()) {
                 Long l = (Long) it.next();
-                AnimatedEmojiDrawable animatedEmojiDrawable = hashMap.get(l);
-                if (animatedEmojiDrawable.attached) {
+                AnimatedEmojiDrawable animatedEmojiDrawable = hashMap2.get(l);
+                if (animatedEmojiDrawable != null && animatedEmojiDrawable.attached) {
                     animatedEmojiDrawable.initDocument(true);
                 } else {
-                    hashMap.remove(l);
+                    hashMap2.remove(l);
                 }
             }
         }

@@ -259,6 +259,7 @@ import org.telegram.ui.Components.StickerSetBulletinLayout;
 import org.telegram.ui.Components.StickersAlert;
 import org.telegram.ui.Components.TermsOfServiceView;
 import org.telegram.ui.Components.ThemeEditorView;
+import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.Components.UpdateAppAlertDialog;
 import org.telegram.ui.Components.voip.VoIPHelper;
 import org.telegram.ui.ContactsActivity;
@@ -10446,6 +10447,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         this.feedbackView = view;
         mediaController.setFeedbackView(view, true);
         ApplicationLoader.mainInterfacePaused = false;
+        MessagesController.getInstance(this.currentAccount).sortDialogs(null);
         showLanguageAlert(false);
         Utilities.stageQueue.postRunnable(LaunchActivity$$ExternalSyntheticLambda75.INSTANCE);
         checkFreeDiscSpace(0);
@@ -11404,7 +11406,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     private void showVoiceChatTooltip(int i) {
         VoIPService sharedInstance = VoIPService.getSharedInstance();
-        if (sharedInstance == null || mainFragmentsStack.isEmpty() || sharedInstance.groupCall == null || mainFragmentsStack.isEmpty()) {
+        if (sharedInstance == null || mainFragmentsStack.isEmpty() || sharedInstance.groupCall == null) {
             return;
         }
         TLRPC$Chat chat = sharedInstance.getChat();
@@ -11414,7 +11416,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             if (chatActivity.getDialogId() == (-chat.id)) {
                 chat = null;
             }
-            chatActivity.getUndoView().showWithAction(0L, i, chat);
+            UndoView undoView = chatActivity.getUndoView();
+            if (undoView != null) {
+                undoView.showWithAction(0L, i, chat);
+            }
         } else if (baseFragment instanceof DialogsActivity) {
             ((DialogsActivity) baseFragment).getUndoView().showWithAction(0L, i, chat);
         } else if (baseFragment instanceof ProfileActivity) {

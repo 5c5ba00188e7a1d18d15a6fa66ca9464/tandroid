@@ -220,6 +220,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     private ArrayList<MessageObject> voiceMessagesPlaylist;
     private SparseArray<MessageObject> voiceMessagesPlaylistMap;
     private boolean voiceMessagesPlaylistUnread;
+    private int writedFrame;
     AudioManager.OnAudioFocusChangeListener audioRecordFocusChangedListener = new AudioManager.OnAudioFocusChangeListener() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda2
         @Override // android.media.AudioManager.OnAudioFocusChangeListener
         public final void onAudioFocusChange(int i) {
@@ -360,6 +361,12 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         long j2 = mediaController.recordTimeCount + j;
         mediaController.recordTimeCount = j2;
         return j2;
+    }
+
+    static /* synthetic */ int access$1708(MediaController mediaController) {
+        int i = mediaController.writedFrame;
+        mediaController.writedFrame = i + 1;
+        return i;
     }
 
     public boolean isBuffering() {
@@ -832,6 +839,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         MediaController.this.fileBuffer.rewind();
                         MediaController mediaController2 = MediaController.this;
                         MediaController.access$1614(mediaController2, (mediaController2.fileBuffer.limit() / 2) / (MediaController.this.sampleRate / 1000));
+                        MediaController.access$1708(MediaController.this);
                     } else {
                         FileLog.e("writing frame failed");
                     }
@@ -4412,6 +4420,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             this.audioRecorder = new AudioRecord(0, this.sampleRate, 16, 2, this.recordBufferSize);
             this.recordStartTime = System.currentTimeMillis();
             this.recordTimeCount = 0L;
+            this.writedFrame = 0;
             this.samplesCount = 0L;
             this.recordDialogId = j;
             this.recordingCurrentAccount = i;
@@ -4584,7 +4593,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         boolean z2;
         char c;
         if (BuildVars.LOGS_ENABLED) {
-            FileLog.d("stop recording internal " + file.exists() + " " + file.length());
+            FileLog.d("stop recording internal " + file.exists() + " " + file.length() + "  recordTimeCount " + this.recordTimeCount + " writedFrames" + this.writedFrame);
+        }
+        if (!file.exists() && BuildVars.DEBUG_VERSION) {
+            FileLog.e(new RuntimeException("file not found :( recordTimeCount " + this.recordTimeCount + " writedFrames" + this.writedFrame));
         }
         tLRPC$TL_document.date = ConnectionsManager.getInstance(this.recordingCurrentAccount).getCurrentTime();
         tLRPC$TL_document.size = (int) file.length();

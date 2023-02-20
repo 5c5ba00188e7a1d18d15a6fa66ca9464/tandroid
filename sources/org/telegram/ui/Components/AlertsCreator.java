@@ -1124,6 +1124,7 @@ public class AlertsCreator {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$showBlockReportSpamReplyAlert$14(TLRPC$User tLRPC$User, final AccountInstance accountInstance, ChatActivity chatActivity, TLRPC$Chat tLRPC$Chat, MessageObject messageObject, CheckBoxCell[] checkBoxCellArr, Theme.ResourcesProvider resourcesProvider, DialogInterface dialogInterface, int i) {
+        UndoView undoView;
         if (tLRPC$User != null) {
             accountInstance.getMessagesStorage().deleteUserChatHistory(chatActivity.getDialogId(), tLRPC$User.id);
         } else {
@@ -1135,8 +1136,8 @@ public class AlertsCreator {
         tLRPC$TL_contacts_blockFromReplies.delete_history = true;
         if (checkBoxCellArr[0].isChecked()) {
             tLRPC$TL_contacts_blockFromReplies.report_spam = true;
-            if (chatActivity.getParentActivity() != null) {
-                chatActivity.getUndoView().showWithAction(0L, 74, (Runnable) null);
+            if (chatActivity.getParentActivity() != null && (undoView = chatActivity.getUndoView()) != null) {
+                undoView.showWithAction(0L, 74, (Runnable) null);
             }
         }
         accountInstance.getConnectionsManager().sendRequest(tLRPC$TL_contacts_blockFromReplies, new RequestDelegate() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda98
@@ -4760,6 +4761,7 @@ public class AlertsCreator {
 
                 @Override // org.telegram.ui.Components.ReportAlert
                 protected void onSend(int i4, String str) {
+                    UndoView undoView;
                     ArrayList arrayList = new ArrayList();
                     int i5 = i;
                     if (i5 != 0) {
@@ -4767,9 +4769,10 @@ public class AlertsCreator {
                     }
                     AlertsCreator.sendReport(MessagesController.getInstance(UserConfig.selectedAccount).getInputPeer(j), i4, str, arrayList);
                     BaseFragment baseFragment2 = baseFragment;
-                    if (baseFragment2 instanceof ChatActivity) {
-                        ((ChatActivity) baseFragment2).getUndoView().showWithAction(0L, 74, (Runnable) null);
+                    if (!(baseFragment2 instanceof ChatActivity) || (undoView = ((ChatActivity) baseFragment2).getUndoView()) == null) {
+                        return;
                     }
+                    undoView.showWithAction(0L, 74, (Runnable) null);
                 }
             });
         } else {
@@ -4829,10 +4832,14 @@ public class AlertsCreator {
             }
             ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_account_reportPeer, AlertsCreator$$ExternalSyntheticLambda100.INSTANCE);
             if (baseFragment instanceof ChatActivity) {
-                ((ChatActivity) baseFragment).getUndoView().showWithAction(0L, 74, (Runnable) null);
-            } else {
-                BulletinFactory.of(baseFragment).createReportSent(resourcesProvider).show();
+                UndoView undoView = ((ChatActivity) baseFragment).getUndoView();
+                if (undoView != null) {
+                    undoView.showWithAction(0L, 74, (Runnable) null);
+                    return;
+                }
+                return;
             }
+            BulletinFactory.of(baseFragment).createReportSent(resourcesProvider).show();
         }
     }
 

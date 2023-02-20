@@ -23905,18 +23905,18 @@ public class MessagesController extends BaseController implements NotificationCe
         return this.clearingHistoryDialogs.get(j) != null;
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(21:1|(2:2|(3:4|(2:6|7)(1:9)|8)(1:10))|11|(4:14|(2:16|17)(1:19)|18|12)|20|21|(15:191|(2:192|(3:194|(1:219)(5:196|197|198|(3:200|(4:202|(1:206)|207|(2:209|210)(1:212))(1:213)|211)|214)|215)(0))|26|27|(2:29|(1:35))|36|(6:38|(6:40|(4:42|(4:45|(2:51|52)|53|43)|57|(2:61|62))|63|(2:65|(4:67|(1:(2:97|(1:99)(1:100))(1:96))|(3:116|(1:118)|108)(2:104|(1:106))|(2:112|(1:114)(1:115)))(2:120|(1:(3:130|(2:138|(1:140)(1:141))|144)(4:127|128|129|62))(2:145|(2:147|(1:149)))))|150|(3:110|112|(0)(0)))|151|(1:166)|155|(3:162|163|62)(4:161|128|129|62))|167|168|(1:172)|(1:176)|177|(4:180|(2:182|183)(1:185)|184|178)|186|187)(0)|25|26|27|(0)|36|(0)|167|168|(2:170|172)|(2:174|176)|177|(1:178)|186|187) */
-    /* JADX WARN: Code restructure failed: missing block: B:349:0x01c3, code lost:
-        if (org.telegram.messenger.ChatObject.hasAdminRights(r7) == false) goto L108;
+    /* JADX WARN: Can't wrap try/catch for region: R(21:7|(2:8|(3:10|(2:12|13)(1:15)|14)(1:16))|17|(4:20|(2:22|23)(1:25)|24|18)|26|27|(15:196|(2:197|(3:199|(1:224)(5:201|202|203|(3:205|(4:207|(1:211)|212|(2:214|215)(1:217))(1:218)|216)|219)|220)(0))|32|33|(2:35|(1:41))|42|(6:44|(6:46|(4:48|(4:51|(2:57|58)|59|49)|63|(2:67|68))|69|(2:71|(4:73|(1:(2:103|(1:105)(1:106))(1:102))|(3:122|(1:124)|114)(2:110|(1:112))|(2:118|(1:120)(1:121)))(2:126|(1:(3:136|(2:144|(1:146)(1:147))|150)(4:133|134|135|68))(2:151|(2:153|(1:155)))))|156|(3:116|118|(0)(0)))|157|(1:172)|161|(3:168|169|68)(4:167|134|135|68))|173|174|(1:178)|(1:182)|183|(4:186|(2:188|189)(1:191)|190|184)|192|193)(0)|31|32|33|(0)|42|(0)|173|174|(2:176|178)|(2:180|182)|183|(1:184)|192|193) */
+    /* JADX WARN: Code restructure failed: missing block: B:359:0x01ca, code lost:
+        if (org.telegram.messenger.ChatObject.hasAdminRights(r7) == false) goto L114;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:355:0x01d9, code lost:
-        if (org.telegram.messenger.ChatObject.canPost(r7) != false) goto L150;
+    /* JADX WARN: Code restructure failed: missing block: B:365:0x01e0, code lost:
+        if (org.telegram.messenger.ChatObject.canPost(r7) != false) goto L156;
      */
-    /* JADX WARN: Removed duplicated region for block: B:276:0x00e4  */
-    /* JADX WARN: Removed duplicated region for block: B:285:0x0105  */
-    /* JADX WARN: Removed duplicated region for block: B:391:0x024d  */
-    /* JADX WARN: Removed duplicated region for block: B:392:0x0254  */
-    /* JADX WARN: Removed duplicated region for block: B:421:0x02da  */
+    /* JADX WARN: Removed duplicated region for block: B:286:0x00eb  */
+    /* JADX WARN: Removed duplicated region for block: B:295:0x010c  */
+    /* JADX WARN: Removed duplicated region for block: B:401:0x0254  */
+    /* JADX WARN: Removed duplicated region for block: B:402:0x025b  */
+    /* JADX WARN: Removed duplicated region for block: B:431:0x02e1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -23940,6 +23940,9 @@ public class MessagesController extends BaseController implements NotificationCe
         TLRPC$Message tLRPC$Message;
         int i2;
         TLRPC$Chat chat;
+        if (longSparseArray == null && ApplicationLoader.mainInterfacePaused) {
+            return;
+        }
         this.dialogsServerOnly.clear();
         this.dialogsCanAddUsers.clear();
         this.dialogsMyGroups.clear();

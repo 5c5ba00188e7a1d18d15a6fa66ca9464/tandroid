@@ -171,6 +171,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ShareAlert;
 import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.Components.URLSpanReplacement;
+import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.ThemePreviewActivity;
 import org.telegram.ui.WallpapersListActivity;
@@ -3808,6 +3809,8 @@ public class AndroidUtilities {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$showProxyAlert$14(String str, String str2, String str3, String str4, String str5, Activity activity, Runnable runnable, View view) {
         SharedConfig.ProxyInfo proxyInfo;
+        boolean z;
+        UndoView undoView;
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putBoolean("proxy_enabled", true);
         edit.putString("proxy_ip", str);
@@ -3838,9 +3841,13 @@ public class AndroidUtilities {
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.proxySettingsChanged, new Object[0]);
         if (activity instanceof LaunchActivity) {
             BaseFragment lastFragment = ((LaunchActivity) activity).getActionBarLayout().getLastFragment();
-            if (lastFragment instanceof ChatActivity) {
-                ((ChatActivity) lastFragment).getUndoView().showWithAction(0L, 87, (Runnable) null);
+            if (!(lastFragment instanceof ChatActivity) || (undoView = ((ChatActivity) lastFragment).getUndoView()) == null) {
+                z = false;
             } else {
+                undoView.showWithAction(0L, 87, (Runnable) null);
+                z = true;
+            }
+            if (!z) {
                 NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 6, LocaleController.getString(R.string.ProxyAddedSuccess));
             }
         } else {
