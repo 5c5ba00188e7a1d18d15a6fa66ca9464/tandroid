@@ -7,7 +7,7 @@ import android.os.Build;
 import android.view.View;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
@@ -175,7 +175,7 @@ public class SnowflakesEffect {
 
     public void onDraw(View view, Canvas canvas) {
         Particle particle;
-        if (view == null || canvas == null || SharedConfig.getLiteMode().enabled()) {
+        if (view == null || canvas == null || !LiteMode.isEnabled(32)) {
             return;
         }
         int size = this.particles.size();

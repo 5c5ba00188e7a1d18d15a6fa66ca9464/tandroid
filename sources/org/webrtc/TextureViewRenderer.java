@@ -9,7 +9,7 @@ import android.view.TextureView;
 import android.view.View;
 import java.util.concurrent.CountDownLatch;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda2;
 import org.webrtc.EglBase;
@@ -45,36 +45,35 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
     private int videoWidth;
 
     public void setBackgroundRenderer(TextureView textureView) {
-        if (SharedConfig.getLiteMode().enabled()) {
-            return;
-        }
-        this.backgroundRenderer = textureView;
-        if (textureView == null) {
-            ThreadUtils.checkIsOnMainThread();
-            this.eglRenderer.releaseEglSurface(null, true);
-            return;
-        }
-        textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() { // from class: org.webrtc.TextureViewRenderer.1
-            @Override // android.view.TextureView.SurfaceTextureListener
-            public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i2) {
-            }
-
-            @Override // android.view.TextureView.SurfaceTextureListener
-            public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
-            }
-
-            @Override // android.view.TextureView.SurfaceTextureListener
-            public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i2) {
-                TextureViewRenderer.this.createBackgroundSurface(surfaceTexture);
-            }
-
-            @Override // android.view.TextureView.SurfaceTextureListener
-            public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
+        if (LiteMode.isEnabled(LiteMode.FLAG_CALLS_ANIMATIONS)) {
+            this.backgroundRenderer = textureView;
+            if (textureView == null) {
                 ThreadUtils.checkIsOnMainThread();
-                TextureViewRenderer.this.eglRenderer.releaseEglSurface(null, true);
-                return false;
+                this.eglRenderer.releaseEglSurface(null, true);
+                return;
             }
-        });
+            textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() { // from class: org.webrtc.TextureViewRenderer.1
+                @Override // android.view.TextureView.SurfaceTextureListener
+                public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i2) {
+                }
+
+                @Override // android.view.TextureView.SurfaceTextureListener
+                public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
+                }
+
+                @Override // android.view.TextureView.SurfaceTextureListener
+                public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i2) {
+                    TextureViewRenderer.this.createBackgroundSurface(surfaceTexture);
+                }
+
+                @Override // android.view.TextureView.SurfaceTextureListener
+                public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
+                    ThreadUtils.checkIsOnMainThread();
+                    TextureViewRenderer.this.eglRenderer.releaseEglSurface(null, true);
+                    return false;
+                }
+            });
+        }
     }
 
     public void clearFirstFrame() {

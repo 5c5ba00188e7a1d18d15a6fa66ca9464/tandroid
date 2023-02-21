@@ -8,7 +8,7 @@ import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import org.telegram.tgnet.ConnectionsManager;
-@TargetApi(28)
+@TargetApi(LiteMode.FLAGS_ANIMATED_EMOJI)
 /* loaded from: classes.dex */
 public class NotificationsDisabledReceiver extends BroadcastReceiver {
     @Override // android.content.BroadcastReceiver

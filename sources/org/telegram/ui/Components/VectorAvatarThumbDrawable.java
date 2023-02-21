@@ -204,7 +204,7 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
             }
         }
         if (this.sizeStickerMarkup != null) {
-            NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.groupStickersDidLoad);
+            NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.groupStickersDidLoad);
         }
     }
 

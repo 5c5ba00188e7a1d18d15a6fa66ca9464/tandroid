@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.voip.VideoCapturerDevice;
 import org.webrtc.Camera1Enumerator;
 import org.webrtc.Camera2Enumerator;
@@ -49,7 +50,7 @@ public class VideoCapturerDevice {
 
     static {
         int i = Build.VERSION.SDK_INT;
-        CAPTURE_WIDTH = i <= 19 ? 480 : 1280;
+        CAPTURE_WIDTH = i <= 19 ? LiteMode.FLAGS_CHAT : 1280;
         CAPTURE_HEIGHT = i <= 19 ? 320 : 720;
         instance = new VideoCapturerDevice[2];
     }

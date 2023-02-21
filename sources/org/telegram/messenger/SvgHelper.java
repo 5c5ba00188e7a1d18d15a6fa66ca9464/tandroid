@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.xml.parsers.SAXParserFactory;
 import org.telegram.messenger.voip.VoIPService;
-import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.Theme;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -35,7 +34,7 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 /* loaded from: classes.dex */
 public class SvgHelper {
-    private static final double[] pow10 = new double[ConnectionsManager.RequestFlagNeedQuickAck];
+    private static final double[] pow10 = new double[128];
 
     private static void drawArc(Path path, float f, float f2, float f3, float f4, float f5, float f6, float f7, int i, int i2) {
     }
@@ -165,7 +164,7 @@ public class SvgHelper {
                 setupGradient(str, this.currentResourcesProvider, this.colorAlpha, z);
             }
             float scale = getScale((int) f3, (int) f4);
-            if (this.placeholderGradient[i] != null && gradientWidth > 0.0f && !SharedConfig.getLiteMode().enabled()) {
+            if (this.placeholderGradient[i] != null && gradientWidth > 0.0f && LiteMode.isEnabled(32)) {
                 if (z) {
                     long j3 = j - lastUpdateTime;
                     j2 = j3 <= 64 ? j3 : 64L;
@@ -322,7 +321,7 @@ public class SvgHelper {
                 this.currentColorKey = str;
                 iArr[z ? 1 : 0] = color;
                 gradientWidth = AndroidUtilities.displaySize.x * 2;
-                if (SharedConfig.getLiteMode().enabled()) {
+                if (!LiteMode.isEnabled(32)) {
                     int alphaComponent = ColorUtils.setAlphaComponent(this.currentColor[z ? 1 : 0], 70);
                     if (z) {
                         if (this.backgroundPaint == null) {

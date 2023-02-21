@@ -38,6 +38,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
@@ -1025,7 +1026,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                 return;
             }
             boolean z = true;
-            boolean z2 = arrayList.size() <= 4 || SharedConfig.getDevicePerformanceClass() == 0 || SharedConfig.getLiteMode().enabled();
+            boolean z2 = arrayList.size() <= 4 || SharedConfig.getDevicePerformanceClass() == 0 || !LiteMode.isEnabled(4);
             if (!z2) {
                 for (int i3 = 0; i3 < this.imageViewEmojis.size(); i3++) {
                     ImageViewEmoji imageViewEmoji = this.imageViewEmojis.get(i3);

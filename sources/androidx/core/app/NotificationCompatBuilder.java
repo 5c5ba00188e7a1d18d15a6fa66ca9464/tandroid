@@ -15,7 +15,7 @@ import androidx.core.graphics.drawable.IconCompat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.messenger.LiteMode;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class NotificationCompatBuilder implements NotificationBuilderWithBuilderAccessor {
@@ -43,7 +43,7 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
             this.mBuilder = new Notification.Builder(b.mContext);
         }
         Notification notification = b.mNotification;
-        this.mBuilder.setWhen(notification.when).setSmallIcon(notification.icon, notification.iconLevel).setContent(notification.contentView).setTicker(notification.tickerText, b.mTickerView).setVibrate(notification.vibrate).setLights(notification.ledARGB, notification.ledOnMS, notification.ledOffMS).setOngoing((notification.flags & 2) != 0).setOnlyAlertOnce((notification.flags & 8) != 0).setAutoCancel((notification.flags & 16) != 0).setDefaults(notification.defaults).setContentTitle(b.mContentTitle).setContentText(b.mContentText).setContentInfo(b.mContentInfo).setContentIntent(b.mContentIntent).setDeleteIntent(notification.deleteIntent).setFullScreenIntent(b.mFullScreenIntent, (notification.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0).setLargeIcon(b.mLargeIcon).setNumber(b.mNumber).setProgress(b.mProgressMax, b.mProgress, b.mProgressIndeterminate);
+        this.mBuilder.setWhen(notification.when).setSmallIcon(notification.icon, notification.iconLevel).setContent(notification.contentView).setTicker(notification.tickerText, b.mTickerView).setVibrate(notification.vibrate).setLights(notification.ledARGB, notification.ledOnMS, notification.ledOffMS).setOngoing((notification.flags & 2) != 0).setOnlyAlertOnce((notification.flags & 8) != 0).setAutoCancel((notification.flags & 16) != 0).setDefaults(notification.defaults).setContentTitle(b.mContentTitle).setContentText(b.mContentText).setContentInfo(b.mContentInfo).setContentIntent(b.mContentIntent).setDeleteIntent(notification.deleteIntent).setFullScreenIntent(b.mFullScreenIntent, (notification.flags & 128) != 0).setLargeIcon(b.mLargeIcon).setNumber(b.mNumber).setProgress(b.mProgressMax, b.mProgress, b.mProgressIndeterminate);
         if (i < 21) {
             this.mBuilder.setSound(notification.sound, notification.audioStreamType);
         }
@@ -298,10 +298,10 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
         if (i >= 24) {
             Notification build = this.mBuilder.build();
             if (this.mGroupAlertBehavior != 0) {
-                if (build.getGroup() != null && (build.flags & 512) != 0 && this.mGroupAlertBehavior == 2) {
+                if (build.getGroup() != null && (build.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0 && this.mGroupAlertBehavior == 2) {
                     removeSoundAndVibration(build);
                 }
-                if (build.getGroup() != null && (build.flags & 512) == 0 && this.mGroupAlertBehavior == 1) {
+                if (build.getGroup() != null && (build.flags & LiteMode.FLAG_CALLS_ANIMATIONS) == 0 && this.mGroupAlertBehavior == 1) {
                     removeSoundAndVibration(build);
                 }
             }
@@ -322,10 +322,10 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
                 build2.headsUpContentView = remoteViews3;
             }
             if (this.mGroupAlertBehavior != 0) {
-                if (build2.getGroup() != null && (build2.flags & 512) != 0 && this.mGroupAlertBehavior == 2) {
+                if (build2.getGroup() != null && (build2.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0 && this.mGroupAlertBehavior == 2) {
                     removeSoundAndVibration(build2);
                 }
-                if (build2.getGroup() != null && (build2.flags & 512) == 0 && this.mGroupAlertBehavior == 1) {
+                if (build2.getGroup() != null && (build2.flags & LiteMode.FLAG_CALLS_ANIMATIONS) == 0 && this.mGroupAlertBehavior == 1) {
                     removeSoundAndVibration(build2);
                 }
             }
@@ -342,10 +342,10 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
                 build3.bigContentView = remoteViews5;
             }
             if (this.mGroupAlertBehavior != 0) {
-                if (build3.getGroup() != null && (build3.flags & 512) != 0 && this.mGroupAlertBehavior == 2) {
+                if (build3.getGroup() != null && (build3.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0 && this.mGroupAlertBehavior == 2) {
                     removeSoundAndVibration(build3);
                 }
-                if (build3.getGroup() != null && (build3.flags & 512) == 0 && this.mGroupAlertBehavior == 1) {
+                if (build3.getGroup() != null && (build3.flags & LiteMode.FLAG_CALLS_ANIMATIONS) == 0 && this.mGroupAlertBehavior == 1) {
                     removeSoundAndVibration(build3);
                 }
             }

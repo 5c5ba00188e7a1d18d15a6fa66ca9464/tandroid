@@ -97,7 +97,7 @@ public class ThemeEditorView {
             this.windowManager.removeViewImmediate(frameLayout);
             this.windowView = null;
         } catch (Exception e) {
-            FileLog.e(e);
+            FileLog.e((Throwable) e, false);
         }
         try {
             EditorAlert editorAlert = this.editorAlert;

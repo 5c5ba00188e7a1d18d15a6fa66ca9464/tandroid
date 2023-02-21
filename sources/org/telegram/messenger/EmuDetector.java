@@ -14,7 +14,6 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class EmuDetector {
     private static final String IP = "10.0.2.15";
@@ -235,7 +234,7 @@ public class EmuDetector {
         for (int i = 0; i < 2; i++) {
             File file = fileArr[i];
             if (file.exists() && file.canRead()) {
-                byte[] bArr = new byte[ConnectionsManager.RequestFlagDoNotWaitFloodWait];
+                byte[] bArr = new byte[1024];
                 try {
                     FileInputStream fileInputStream = new FileInputStream(file);
                     fileInputStream.read(bArr);
@@ -300,7 +299,7 @@ public class EmuDetector {
                 processBuilder.directory(new File("/system/bin/"));
                 processBuilder.redirectErrorStream(true);
                 InputStream inputStream = processBuilder.start().getInputStream();
-                byte[] bArr = new byte[ConnectionsManager.RequestFlagDoNotWaitFloodWait];
+                byte[] bArr = new byte[1024];
                 while (inputStream.read(bArr) != -1) {
                     sb.append(new String(bArr));
                 }

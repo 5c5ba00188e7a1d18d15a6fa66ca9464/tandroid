@@ -2909,7 +2909,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                     if (cameraView3 != null) {
                         cameraView3.setFpsLimit(30);
                         if (i3 >= 21) {
-                            ChatAttachAlertPhotoLayout.this.cameraView.setSystemUiVisibility(ConnectionsManager.RequestFlagDoNotWaitFloodWait);
+                            ChatAttachAlertPhotoLayout.this.cameraView.setSystemUiVisibility(1024);
                         }
                     }
                 }
@@ -2942,7 +2942,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             this.cameraOpened = false;
             this.cameraView.setFpsLimit(30);
             if (Build.VERSION.SDK_INT >= 21) {
-                this.cameraView.setSystemUiVisibility(ConnectionsManager.RequestFlagDoNotWaitFloodWait);
+                this.cameraView.setSystemUiVisibility(1024);
             }
         }
         this.cameraView.setImportantForAccessibility(0);

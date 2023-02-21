@@ -19,7 +19,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import org.telegram.tgnet.ConnectionsManager;
 import org.xmlpull.v1.XmlPullParserException;
 /* loaded from: classes.dex */
 public class FileProvider extends ContentProvider {
@@ -139,7 +138,7 @@ public class FileProvider extends ContentProvider {
 
     private static PathStrategy parsePathStrategy(Context context, String authority) throws IOException, XmlPullParserException {
         SimplePathStrategy simplePathStrategy = new SimplePathStrategy(authority);
-        ProviderInfo resolveContentProvider = context.getPackageManager().resolveContentProvider(authority, ConnectionsManager.RequestFlagNeedQuickAck);
+        ProviderInfo resolveContentProvider = context.getPackageManager().resolveContentProvider(authority, 128);
         if (resolveContentProvider == null) {
             throw new IllegalArgumentException("Couldn't find meta-data for provider with authority " + authority);
         }

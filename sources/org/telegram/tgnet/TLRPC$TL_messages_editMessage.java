@@ -1,6 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_editMessage extends TLObject {
     public static int constructor = 1224152952;
@@ -27,7 +28,7 @@ public class TLRPC$TL_messages_editMessage extends TLObject {
         abstractSerializedData.writeInt32(i);
         this.peer.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(this.id);
-        if ((this.flags & 2048) != 0) {
+        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
             abstractSerializedData.writeString(this.message);
         }
         if ((this.flags & 16384) != 0) {

@@ -5,7 +5,6 @@ import android.text.TextPaint;
 import android.text.style.MetricAffectingSpan;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.SharedConfig;
-import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.TextStyleSpan;
 /* loaded from: classes3.dex */
@@ -31,7 +30,7 @@ public class URLSpanMono extends MetricAffectingSpan {
     @Override // android.text.style.MetricAffectingSpan
     public void updateMeasureState(TextPaint textPaint) {
         textPaint.setTextSize(AndroidUtilities.dp(SharedConfig.fontSize - 1));
-        textPaint.setFlags(textPaint.getFlags() | ConnectionsManager.RequestFlagNeedQuickAck);
+        textPaint.setFlags(textPaint.getFlags() | 128);
         TextStyleSpan.TextStyleRun textStyleRun = this.style;
         if (textStyleRun != null) {
             textStyleRun.applyStyle(textPaint);

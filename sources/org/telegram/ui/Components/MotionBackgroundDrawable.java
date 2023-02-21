@@ -25,8 +25,8 @@ import java.lang.ref.WeakReference;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.GenericProvider;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes3.dex */
@@ -284,7 +284,7 @@ public class MotionBackgroundDrawable extends Drawable {
     }
 
     public void switchToNextPosition(boolean z) {
-        if (this.posAnimationProgress < 1.0f || SharedConfig.getLiteMode().enabled()) {
+        if (this.posAnimationProgress < 1.0f || !LiteMode.isEnabled(32)) {
             return;
         }
         this.rotatingPreview = false;

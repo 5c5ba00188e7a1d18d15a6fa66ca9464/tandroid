@@ -137,9 +137,14 @@ public class LongPressListenerWithMovingGesture implements View.OnTouchListener 
                 }
             }
         }
-        if (motionEvent.getAction() == 1 && !this.subItemClicked && (view2 = this.selectedMenuView) != null) {
-            view2.callOnClick();
-            this.subItemClicked = true;
+        if (motionEvent.getAction() == 1 && !this.subItemClicked) {
+            View view3 = this.selectedMenuView;
+            if (view3 != null) {
+                view3.callOnClick();
+                this.subItemClicked = true;
+            } else if (this.submenu == null && (view2 = this.view) != null) {
+                view2.callOnClick();
+            }
         }
         return true;
     }

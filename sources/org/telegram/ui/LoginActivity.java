@@ -106,6 +106,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.GenericProvider;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
@@ -4225,7 +4226,7 @@ public class LoginActivity extends BaseFragment {
                 FrameLayout frameLayout5 = new FrameLayout(context);
                 addView(frameLayout5, LayoutHelper.createLinear(-2, -2, 49, 0, 16, 0, 0));
                 int i6 = this.currentType;
-                int i7 = i6 == 1 ? ConnectionsManager.RequestFlagNeedQuickAck : 64;
+                int i7 = i6 == 1 ? 128 : 64;
                 if (i6 == 1) {
                     int i8 = R.raw.code_laptop;
                     float f = i7;
@@ -6068,7 +6069,7 @@ public class LoginActivity extends BaseFragment {
                 int lastIndexOf = str.lastIndexOf(42);
                 if (indexOf != lastIndexOf && indexOf != -1 && lastIndexOf != -1) {
                     TextStyleSpan.TextStyleRun textStyleRun = new TextStyleSpan.TextStyleRun();
-                    textStyleRun.flags |= 256;
+                    textStyleRun.flags |= LiteMode.FLAG_CHAT_BLUR;
                     textStyleRun.start = indexOf;
                     int i = lastIndexOf + 1;
                     textStyleRun.end = i;
@@ -7558,7 +7559,7 @@ public class LoginActivity extends BaseFragment {
                 int lastIndexOf = string.lastIndexOf(42);
                 if (indexOf != lastIndexOf && indexOf != -1 && lastIndexOf != -1) {
                     TextStyleSpan.TextStyleRun textStyleRun = new TextStyleSpan.TextStyleRun();
-                    textStyleRun.flags |= 256;
+                    textStyleRun.flags |= LiteMode.FLAG_CHAT_BLUR;
                     textStyleRun.start = indexOf;
                     int i = lastIndexOf + 1;
                     textStyleRun.end = i;
@@ -8276,7 +8277,7 @@ public class LoginActivity extends BaseFragment {
             int lastIndexOf = string.lastIndexOf(42);
             if (indexOf != lastIndexOf && indexOf != -1 && lastIndexOf != -1) {
                 TextStyleSpan.TextStyleRun textStyleRun = new TextStyleSpan.TextStyleRun();
-                textStyleRun.flags |= 256;
+                textStyleRun.flags |= LiteMode.FLAG_CHAT_BLUR;
                 textStyleRun.start = indexOf;
                 int i = lastIndexOf + 1;
                 textStyleRun.end = i;
@@ -8641,7 +8642,7 @@ public class LoginActivity extends BaseFragment {
                 }
                 int selectionStart = editTextBoldCursorArr[i].getSelectionStart();
                 int selectionEnd = this.codeField[i].getSelectionEnd();
-                this.codeField[i].setInputType((this.isPasswordVisible ? 144 : ConnectionsManager.RequestFlagNeedQuickAck) | 1);
+                this.codeField[i].setInputType((this.isPasswordVisible ? 144 : 128) | 1);
                 this.codeField[i].setSelection(selectionStart, selectionEnd);
                 i++;
             }

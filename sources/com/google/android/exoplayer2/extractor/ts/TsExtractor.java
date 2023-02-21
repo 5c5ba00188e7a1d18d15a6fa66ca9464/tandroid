@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class TsExtractor implements Extractor {
     private int bytesSinceLastSync;
@@ -284,7 +283,7 @@ public final class TsExtractor implements Extractor {
 
         @Override // com.google.android.exoplayer2.extractor.ts.SectionPayloadReader
         public void consume(ParsableByteArray parsableByteArray) {
-            if (parsableByteArray.readUnsignedByte() == 0 && (parsableByteArray.readUnsignedByte() & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+            if (parsableByteArray.readUnsignedByte() == 0 && (parsableByteArray.readUnsignedByte() & 128) != 0) {
                 parsableByteArray.skipBytes(6);
                 int bytesLeft = parsableByteArray.bytesLeft() / 4;
                 for (int i = 0; i < bytesLeft; i++) {
@@ -333,7 +332,7 @@ public final class TsExtractor implements Extractor {
                 timestampAdjuster = new TimestampAdjuster(((TimestampAdjuster) TsExtractor.this.timestampAdjusters.get(0)).getFirstSampleTimestampUs());
                 TsExtractor.this.timestampAdjusters.add(timestampAdjuster);
             }
-            if ((parsableByteArray.readUnsignedByte() & ConnectionsManager.RequestFlagNeedQuickAck) == 0) {
+            if ((parsableByteArray.readUnsignedByte() & 128) == 0) {
                 return;
             }
             parsableByteArray.skipBytes(1);

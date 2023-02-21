@@ -13,6 +13,7 @@ import java.security.cert.X509Certificate;
 import java.util.Calendar;
 import java.util.Date;
 import javax.security.auth.x500.X500Principal;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 class CryptoRsaHandler implements CryptoHandler {
     @Override // com.microsoft.appcenter.utils.crypto.CryptoHandler
@@ -27,7 +28,7 @@ class CryptoRsaHandler implements CryptoHandler {
         calendar.add(1, 1);
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA", "AndroidKeyStore");
         KeyPairGeneratorSpec.Builder alias = new KeyPairGeneratorSpec.Builder(context).setAlias(str);
-        keyPairGenerator.initialize(alias.setSubject(new X500Principal("CN=" + str)).setStartDate(new Date()).setEndDate(calendar.getTime()).setSerialNumber(BigInteger.TEN).setKeySize(2048).build());
+        keyPairGenerator.initialize(alias.setSubject(new X500Principal("CN=" + str)).setStartDate(new Date()).setEndDate(calendar.getTime()).setSerialNumber(BigInteger.TEN).setKeySize(LiteMode.FLAG_AUTOPLAY_GIFS).build());
         keyPairGenerator.generateKeyPair();
     }
 

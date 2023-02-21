@@ -49,7 +49,6 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.support.fingerprint.FingerprintManagerCompat;
-import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -970,7 +969,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
         atomicBoolean.set(!atomicBoolean.get());
         int selectionStart = this.passwordEditText.getSelectionStart();
         int selectionEnd = this.passwordEditText.getSelectionEnd();
-        this.passwordEditText.setInputType((atomicBoolean.get() ? 144 : ConnectionsManager.RequestFlagNeedQuickAck) | 1);
+        this.passwordEditText.setInputType((atomicBoolean.get() ? 144 : 128) | 1);
         this.passwordEditText.setSelection(selectionStart, selectionEnd);
         this.passwordButton.setColorFilter(Theme.getColor(atomicBoolean.get() ? "windowBackgroundWhiteInputFieldActivated" : "windowBackgroundWhiteHintText"));
     }

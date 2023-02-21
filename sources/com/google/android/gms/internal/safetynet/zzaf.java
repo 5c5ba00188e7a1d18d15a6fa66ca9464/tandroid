@@ -10,7 +10,6 @@ import android.os.Looper;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.GmsClient;
-import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.android.gms:play-services-safetynet@@17.0.1 */
 /* loaded from: classes.dex */
 public final class zzaf extends GmsClient<zzh> {
@@ -61,7 +60,7 @@ public final class zzaf extends GmsClient<zzh> {
         Bundle bundle;
         try {
             PackageManager packageManager = this.zze.getPackageManager();
-            if (packageManager == null || (applicationInfo = packageManager.getApplicationInfo(this.zze.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck)) == null || (bundle = applicationInfo.metaData) == null) {
+            if (packageManager == null || (applicationInfo = packageManager.getApplicationInfo(this.zze.getPackageName(), 128)) == null || (bundle = applicationInfo.metaData) == null) {
                 return "";
             }
             String str2 = (String) bundle.get(str);

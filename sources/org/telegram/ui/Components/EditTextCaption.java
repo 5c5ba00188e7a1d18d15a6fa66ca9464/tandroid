@@ -29,6 +29,7 @@ import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.R;
@@ -128,7 +129,7 @@ public class EditTextCaption extends EditTextBoldCursor {
 
     public void makeSelectedSpoiler() {
         TextStyleSpan.TextStyleRun textStyleRun = new TextStyleSpan.TextStyleRun();
-        textStyleRun.flags |= 256;
+        textStyleRun.flags |= LiteMode.FLAG_CHAT_BLUR;
         applyTextStyleToSelection(new TextStyleSpan(textStyleRun));
     }
 

@@ -451,7 +451,7 @@ public class ChatObject {
         }
 
         public boolean isScheduled() {
-            return (this.call.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
+            return (this.call.flags & 128) != 0;
         }
 
         private long getSelfId() {
@@ -1355,7 +1355,7 @@ public class ChatObject {
                             tLRPC$TL_groupCallParticipant2.muted_by_you = tLRPC$TL_groupCallParticipant.muted_by_you;
                         } else {
                             int i8 = tLRPC$TL_groupCallParticipant.flags;
-                            if ((i8 & ConnectionsManager.RequestFlagNeedQuickAck) != 0 && (tLRPC$TL_groupCallParticipant2.flags & ConnectionsManager.RequestFlagNeedQuickAck) == 0) {
+                            if ((i8 & 128) != 0 && (tLRPC$TL_groupCallParticipant2.flags & 128) == 0) {
                                 tLRPC$TL_groupCallParticipant.flags = i8 & (-129);
                             }
                             if (tLRPC$TL_groupCallParticipant.volume_by_admin && tLRPC$TL_groupCallParticipant2.volume_by_admin) {
@@ -1804,7 +1804,7 @@ public class ChatObject {
     }
 
     public static int getParticipantVolume(TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant) {
-        if ((tLRPC$TL_groupCallParticipant.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+        if ((tLRPC$TL_groupCallParticipant.flags & 128) != 0) {
             return tLRPC$TL_groupCallParticipant.volume;
         }
         return 10000;

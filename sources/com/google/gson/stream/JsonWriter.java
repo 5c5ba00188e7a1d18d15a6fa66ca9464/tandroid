@@ -11,7 +11,6 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Pattern;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class JsonWriter implements Closeable, Flushable {
     private static final String[] HTML_SAFE_REPLACEMENT_CHARS;
@@ -25,7 +24,7 @@ public class JsonWriter implements Closeable, Flushable {
     private int[] stack = new int[32];
     private int stackSize = 0;
     private static final Pattern VALID_JSON_NUMBER_PATTERN = Pattern.compile("-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?(?:[eE][-+]?[0-9]+)?");
-    private static final String[] REPLACEMENT_CHARS = new String[ConnectionsManager.RequestFlagNeedQuickAck];
+    private static final String[] REPLACEMENT_CHARS = new String[128];
 
     static {
         for (int i = 0; i <= 31; i++) {

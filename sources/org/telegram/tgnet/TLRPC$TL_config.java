@@ -1,6 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_config extends TLObject {
     public static int constructor = 589653676;
@@ -80,7 +81,7 @@ public class TLRPC$TL_config extends TLObject {
         this.preload_featured_stickers = (readInt32 & 16) != 0;
         this.ignore_phone_entities = (readInt32 & 32) != 0;
         this.revoke_pm_inbox = (readInt32 & 64) != 0;
-        this.blocked_mode = (readInt32 & 256) != 0;
+        this.blocked_mode = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
         this.pfs_enabled = (readInt32 & 8192) != 0;
         this.force_try_ipv6 = (readInt32 & 16384) != 0;
         this.date = abstractSerializedData.readInt32(z);
@@ -132,16 +133,16 @@ public class TLRPC$TL_config extends TLObject {
         this.call_connect_timeout_ms = abstractSerializedData.readInt32(z);
         this.call_packet_timeout_ms = abstractSerializedData.readInt32(z);
         this.me_url_prefix = abstractSerializedData.readString(z);
-        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+        if ((this.flags & 128) != 0) {
             this.autoupdate_url_prefix = abstractSerializedData.readString(z);
         }
-        if ((this.flags & 512) != 0) {
+        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
             this.gif_search_username = abstractSerializedData.readString(z);
         }
-        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+        if ((this.flags & 1024) != 0) {
             this.venue_search_username = abstractSerializedData.readString(z);
         }
-        if ((this.flags & 2048) != 0) {
+        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
             this.img_search_username = abstractSerializedData.readString(z);
         }
         if ((this.flags & 4096) != 0) {
@@ -177,7 +178,7 @@ public class TLRPC$TL_config extends TLObject {
         this.flags = i4;
         int i5 = this.revoke_pm_inbox ? i4 | 64 : i4 & (-65);
         this.flags = i5;
-        int i6 = this.blocked_mode ? i5 | 256 : i5 & (-257);
+        int i6 = this.blocked_mode ? i5 | LiteMode.FLAG_CHAT_BLUR : i5 & (-257);
         this.flags = i6;
         int i7 = this.pfs_enabled ? i6 | 8192 : i6 & (-8193);
         this.flags = i7;
@@ -224,16 +225,16 @@ public class TLRPC$TL_config extends TLObject {
         abstractSerializedData.writeInt32(this.call_connect_timeout_ms);
         abstractSerializedData.writeInt32(this.call_packet_timeout_ms);
         abstractSerializedData.writeString(this.me_url_prefix);
-        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+        if ((this.flags & 128) != 0) {
             abstractSerializedData.writeString(this.autoupdate_url_prefix);
         }
-        if ((this.flags & 512) != 0) {
+        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
             abstractSerializedData.writeString(this.gif_search_username);
         }
-        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+        if ((this.flags & 1024) != 0) {
             abstractSerializedData.writeString(this.venue_search_username);
         }
-        if ((this.flags & 2048) != 0) {
+        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
             abstractSerializedData.writeString(this.img_search_username);
         }
         if ((this.flags & 4096) != 0) {

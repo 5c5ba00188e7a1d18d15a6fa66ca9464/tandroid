@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import com.google.android.gms.common.wrappers.Wrappers;
 import javax.annotation.concurrent.GuardedBy;
-import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zzag {
@@ -28,7 +27,7 @@ public final class zzag {
             }
             zzb = true;
             try {
-                bundle = Wrappers.packageManager(context).getApplicationInfo(context.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck).metaData;
+                bundle = Wrappers.packageManager(context).getApplicationInfo(context.getPackageName(), 128).metaData;
             } catch (PackageManager.NameNotFoundException e) {
                 Log.wtf("MetadataValueReader", "This should never happen.", e);
             }

@@ -40,6 +40,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
@@ -359,11 +360,10 @@ public class SpoilerEffect extends Drawable {
         }
         SpoilerEffectBitmapFactory.getInstance().getPaint().setColorFilter(new PorterDuffColorFilter(this.lastColor, PorterDuff.Mode.SRC_IN));
         canvas.drawRect(getBounds().left, getBounds().top, getBounds().right, getBounds().bottom, SpoilerEffectBitmapFactory.getInstance().getPaint());
-        if (SharedConfig.getLiteMode().enabled()) {
-            return;
+        if (LiteMode.isEnabled(128)) {
+            invalidateSelf();
+            SpoilerEffectBitmapFactory.getInstance().checkUpdate();
         }
-        invalidateSelf();
-        SpoilerEffectBitmapFactory.getInstance().checkUpdate();
     }
 
     public void setVisibleBounds(float f, float f2, float f3, float f4) {

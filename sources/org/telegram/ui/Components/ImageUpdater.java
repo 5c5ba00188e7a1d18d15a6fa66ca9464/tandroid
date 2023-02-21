@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
@@ -1027,10 +1028,16 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                     if (createVideoThumbnailAtTime != null) {
                         File pathToAttach = FileLoader.getInstance(this.currentAccount).getPathToAttach(this.smallPhoto, true);
                         if (pathToAttach != null) {
+                            if (BuildVars.LOGS_ENABLED) {
+                                FileLog.e("delete file " + pathToAttach);
+                            }
                             pathToAttach.delete();
                         }
                         File pathToAttach2 = FileLoader.getInstance(this.currentAccount).getPathToAttach(this.bigPhoto, true);
                         if (pathToAttach2 != null) {
+                            if (BuildVars.LOGS_ENABLED) {
+                                FileLog.e("delete file " + pathToAttach2);
+                            }
                             pathToAttach2.delete();
                         }
                         this.bigPhoto = ImageLoader.scaleAndSaveImage(createVideoThumbnailAtTime, 800.0f, 800.0f, 80, false, 320, 320);

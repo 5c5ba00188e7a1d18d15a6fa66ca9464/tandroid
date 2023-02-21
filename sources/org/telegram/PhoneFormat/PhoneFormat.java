@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class PhoneFormat {
     private static volatile PhoneFormat Instance;
@@ -92,9 +91,9 @@ public class PhoneFormat {
             inputStream = null;
         }
         try {
-            byte[] bArr = new byte[ConnectionsManager.RequestFlagDoNotWaitFloodWait];
+            byte[] bArr = new byte[1024];
             while (true) {
-                int read = inputStream.read(bArr, 0, ConnectionsManager.RequestFlagDoNotWaitFloodWait);
+                int read = inputStream.read(bArr, 0, 1024);
                 if (read == -1) {
                     break;
                 }

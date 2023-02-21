@@ -2125,7 +2125,7 @@ public class PushListenerController {
                                                     z13 = true;
                                                     str15 = null;
                                                     break;
-                                                case 28:
+                                                case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                                                     z17 = z7;
                                                     i7 = i5;
                                                     str14 = str17;
@@ -3164,7 +3164,7 @@ public class PushListenerController {
                                                     tLRPC$TL_message.peer_id = tLRPC$TL_peerUser2;
                                                     tLRPC$TL_peerUser2.user_id = j16;
                                                 }
-                                                tLRPC$TL_message.flags |= 256;
+                                                tLRPC$TL_message.flags |= LiteMode.FLAG_CHAT_BLUR;
                                                 if (optLong3 != 0) {
                                                     TLRPC$TL_peerChat tLRPC$TL_peerChat3 = new TLRPC$TL_peerChat();
                                                     tLRPC$TL_message.from_id = tLRPC$TL_peerChat3;
@@ -3628,7 +3628,7 @@ public class PushListenerController {
                 return LocaleController.formatString("PushReactGeo", R.string.PushReactGeo, objArr);
             case 27:
                 return LocaleController.formatString("PushReactGif", R.string.PushReactGif, objArr);
-            case 28:
+            case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                 return LocaleController.formatString("PushChatReactGame", R.string.PushChatReactGame, objArr);
             case 29:
                 return LocaleController.formatString("PushChatReactPoll", R.string.PushChatReactPoll, objArr);

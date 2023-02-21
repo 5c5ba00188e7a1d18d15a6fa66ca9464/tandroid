@@ -238,7 +238,10 @@ public class WebRtcAudioManager {
     private int getLowLatencyOutputFramesPerBuffer() {
         String property;
         assertTrue(isLowLatencyOutputSupported());
-        return (Build.VERSION.SDK_INT >= 17 && (property = this.audioManager.getProperty("android.media.property.OUTPUT_FRAMES_PER_BUFFER")) != null) ? Integer.parseInt(property) : DEFAULT_FRAME_PER_BUFFER;
+        if (Build.VERSION.SDK_INT >= 17 && (property = this.audioManager.getProperty("android.media.property.OUTPUT_FRAMES_PER_BUFFER")) != null) {
+            return Integer.parseInt(property);
+        }
+        return 256;
     }
 
     private static boolean isAcousticEchoCancelerSupported() {

@@ -15,9 +15,9 @@ import java.util.Locale;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.Utilities;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes3.dex */
 public class FilterShaders {
     private BlurProgram blurProgram;
@@ -594,7 +594,7 @@ public class FilterShaders {
             GLES20.glTexParameteri(3553, 10240, 9729);
             GLES20.glTexParameteri(3553, 10242, 33071);
             GLES20.glTexParameteri(3553, 10243, 33071);
-            ByteBuffer allocateDirect = ByteBuffer.allocateDirect(ConnectionsManager.RequestFlagDoNotWaitFloodWait);
+            ByteBuffer allocateDirect = ByteBuffer.allocateDirect(1024);
             allocateDirect.order(ByteOrder.LITTLE_ENDIAN);
             if (this.redCurve.length < 256 || this.greenCurve.length < 256 || this.blueCurve.length < 256 || this.rgbCompositeCurve.length < 256) {
                 return;
@@ -610,7 +610,7 @@ public class FilterShaders {
                 allocateDirect.put((byte) -1);
             }
             allocateDirect.position(0);
-            GLES20.glTexImage2D(3553, 0, 6408, 256, 1, 0, 6408, 5121, allocateDirect);
+            GLES20.glTexImage2D(3553, 0, 6408, LiteMode.FLAG_CHAT_BLUR, 1, 0, 6408, 5121, allocateDirect);
         }
 
         public int getCurveTexture() {
@@ -1036,7 +1036,7 @@ public class FilterShaders {
             GLES20.glReadPixels(0, 0, this.renderBufferWidth, this.renderBufferHeight, 6408, 5121, this.hsvBuffer);
             Utilities.calcCDT(this.hsvBuffer, this.renderBufferWidth, this.renderBufferHeight, this.cdtBuffer, this.calcBuffer);
             GLES20.glBindTexture(3553, this.enhanceTextures[1]);
-            GLES20.glTexImage2D(3553, 0, 6408, 256, 16, 0, 6408, 5121, this.cdtBuffer);
+            GLES20.glTexImage2D(3553, 0, 6408, LiteMode.FLAG_CHAT_BLUR, 16, 0, 6408, 5121, this.cdtBuffer);
             if (!this.isVideo) {
                 this.hsvBuffer = null;
                 this.cdtBuffer = null;

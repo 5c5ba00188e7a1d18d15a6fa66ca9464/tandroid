@@ -22,7 +22,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import org.telegram.messenger.MediaController;
-import org.telegram.tgnet.ConnectionsManager;
 import org.webrtc.MediaStreamTrack;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -513,7 +512,7 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
                 if (intValue == 3) {
                     String str2 = (String) getNormalizedAttribute("Subtype");
                     str2.hashCode();
-                    this.format = Format.createTextContainerFormat(attributeValue, str, "application/mp4", fourCCToMimeType, null, parseRequiredInt, 0, !str2.equals("CAPT") ? !str2.equals("DESC") ? 0 : ConnectionsManager.RequestFlagDoNotWaitFloodWait : 64, (String) getNormalizedAttribute("Language"));
+                    this.format = Format.createTextContainerFormat(attributeValue, str, "application/mp4", fourCCToMimeType, null, parseRequiredInt, 0, !str2.equals("CAPT") ? !str2.equals("DESC") ? 0 : 1024 : 64, (String) getNormalizedAttribute("Language"));
                     return;
                 }
                 this.format = Format.createContainerFormat(attributeValue, str, "application/mp4", fourCCToMimeType, null, parseRequiredInt, 0, 0, null);

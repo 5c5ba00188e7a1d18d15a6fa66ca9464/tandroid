@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import org.telegram.messenger.CharacterCompat;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.Utilities;
 /* loaded from: classes.dex */
 public class TLRPC$Message extends TLObject {
@@ -111,14 +112,14 @@ public class TLRPC$Message extends TLObject {
                         this.pinned = (16777216 & readInt32) != 0;
                         this.noforwards = (readInt32 & ConnectionsManager.FileTypeFile) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             this.from_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         this.peer_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         if ((this.flags & 4) != 0) {
                             this.fwd_from = TLRPC$MessageFwdHeader.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             this.via_bot_id = abstractSerializedData2.readInt64(z2);
                         }
                         if ((this.flags & 8) != 0) {
@@ -126,7 +127,7 @@ public class TLRPC$Message extends TLObject {
                         }
                         this.date = abstractSerializedData2.readInt32(z2);
                         this.message = abstractSerializedData2.readString(z2);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             TLRPC$MessageMedia TLdeserialize = TLRPC$MessageMedia.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             this.media = TLdeserialize;
                             if (TLdeserialize != null) {
@@ -139,7 +140,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 64) != 0) {
                             this.reply_markup = TLRPC$ReplyMarkup.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             int readInt322 = abstractSerializedData2.readInt32(z2);
                             if (readInt322 != 481674261) {
                                 if (z2) {
@@ -156,10 +157,10 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize2);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             this.forwards = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 8388608) != 0) {
@@ -221,14 +222,14 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i11;
                         abstractSerializedData2.writeInt32(i11);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             this.from_id.serializeToStream(abstractSerializedData2);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
                         if ((this.flags & 4) != 0) {
                             this.fwd_from.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             abstractSerializedData2.writeInt64(this.via_bot_id);
                         }
                         if ((this.flags & 8) != 0) {
@@ -236,13 +237,13 @@ public class TLRPC$Message extends TLObject {
                         }
                         abstractSerializedData2.writeInt32(this.date);
                         abstractSerializedData2.writeString(this.message);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             this.media.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 64) != 0) {
                             this.reply_markup.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(481674261);
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
@@ -250,10 +251,10 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.get(i12).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.forwards);
                         }
                         if ((this.flags & 8388608) != 0) {
@@ -300,7 +301,7 @@ public class TLRPC$Message extends TLObject {
                         this.silent = (readInt32 & 8192) != 0;
                         this.post = (readInt32 & 16384) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                             this.from_id = tLRPC$TL_peerUser;
                             tLRPC$TL_peerUser.user_id = abstractSerializedData2.readInt32(z2);
@@ -309,7 +310,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 4) != 0) {
                             this.fwd_from = TLRPC$MessageFwdHeader.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             this.via_bot_id = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 8) != 0) {
@@ -319,7 +320,7 @@ public class TLRPC$Message extends TLObject {
                         }
                         this.date = abstractSerializedData2.readInt32(z2);
                         this.message = abstractSerializedData2.readString(z2);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             TLRPC$MessageMedia TLdeserialize = TLRPC$MessageMedia.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             this.media = TLdeserialize;
                             if (TLdeserialize != null) {
@@ -332,7 +333,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 64) != 0) {
                             this.reply_markup = TLRPC$ReplyMarkup.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             int readInt322 = abstractSerializedData2.readInt32(z2);
                             if (readInt322 != 481674261) {
                                 if (z2) {
@@ -349,7 +350,7 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize2);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -375,14 +376,14 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i6;
                         abstractSerializedData2.writeInt32(i6);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             abstractSerializedData2.writeInt32((int) this.from_id.user_id);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
                         if ((this.flags & 4) != 0) {
                             this.fwd_from.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             abstractSerializedData2.writeInt32((int) this.via_bot_id);
                         }
                         if ((this.flags & 8) != 0) {
@@ -390,13 +391,13 @@ public class TLRPC$Message extends TLObject {
                         }
                         abstractSerializedData2.writeInt32(this.date);
                         abstractSerializedData2.writeString(this.message);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             this.media.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 64) != 0) {
                             this.reply_markup.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(481674261);
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
@@ -404,7 +405,7 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.get(i7).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -434,7 +435,7 @@ public class TLRPC$Message extends TLObject {
                         this.legacy = (524288 & readInt32) != 0;
                         this.edit_hide = (readInt32 & 2097152) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                             this.from_id = tLRPC$TL_peerUser;
                             tLRPC$TL_peerUser.user_id = abstractSerializedData2.readInt32(z2);
@@ -443,7 +444,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 4) != 0) {
                             this.fwd_from = TLRPC$MessageFwdHeader.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             this.via_bot_id = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 8) != 0) {
@@ -453,7 +454,7 @@ public class TLRPC$Message extends TLObject {
                         }
                         this.date = abstractSerializedData2.readInt32(z2);
                         this.message = abstractSerializedData2.readString(z2);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             TLRPC$MessageMedia TLdeserialize = TLRPC$MessageMedia.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             this.media = TLdeserialize;
                             if (TLdeserialize != null) {
@@ -466,7 +467,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 64) != 0) {
                             this.reply_markup = TLRPC$ReplyMarkup.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             int readInt322 = abstractSerializedData2.readInt32(z2);
                             if (readInt322 != 481674261) {
                                 if (z2) {
@@ -483,7 +484,7 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize2);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -538,14 +539,14 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i9;
                         abstractSerializedData2.writeInt32(i9);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             abstractSerializedData2.writeInt32((int) this.from_id.user_id);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
                         if ((this.flags & 4) != 0) {
                             this.fwd_from.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             abstractSerializedData2.writeInt32((int) this.via_bot_id);
                         }
                         if ((this.flags & 8) != 0) {
@@ -553,13 +554,13 @@ public class TLRPC$Message extends TLObject {
                         }
                         abstractSerializedData2.writeInt32(this.date);
                         abstractSerializedData2.writeString(this.message);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             this.media.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 64) != 0) {
                             this.reply_markup.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(481674261);
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
@@ -567,7 +568,7 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.get(i10).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -610,7 +611,7 @@ public class TLRPC$Message extends TLObject {
                         this.post = (readInt32 & 16384) != 0;
                         this.legacy = (readInt32 & 524288) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                             this.from_id = tLRPC$TL_peerUser;
                             tLRPC$TL_peerUser.user_id = abstractSerializedData2.readInt32(z2);
@@ -644,7 +645,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i8;
                         abstractSerializedData2.writeInt32(i8);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             abstractSerializedData2.writeInt32((int) this.from_id.user_id);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
@@ -670,7 +671,7 @@ public class TLRPC$Message extends TLObject {
                         this.peer_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         this.out = abstractSerializedData2.readBool(z2);
                         this.unread = abstractSerializedData2.readBool(z2);
-                        this.flags |= 256;
+                        this.flags |= LiteMode.FLAG_CHAT_BLUR;
                         this.date = abstractSerializedData2.readInt32(z2);
                         this.action = TLRPC$MessageAction.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                     }
@@ -697,7 +698,7 @@ public class TLRPC$Message extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_message, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        int readInt32 = abstractSerializedData2.readInt32(z2) | 256 | 512;
+                        int readInt32 = abstractSerializedData2.readInt32(z2) | LiteMode.FLAG_CHAT_BLUR | LiteMode.FLAG_CALLS_ANIMATIONS;
                         this.flags = readInt32;
                         this.unread = (readInt32 & 1) != 0;
                         this.out = (readInt32 & 2) != 0;
@@ -779,14 +780,14 @@ public class TLRPC$Message extends TLObject {
                         this.edit_hide = (2097152 & readInt32) != 0;
                         this.pinned = (readInt32 & ConnectionsManager.FileTypePhoto) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             this.from_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         this.peer_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         if ((this.flags & 4) != 0) {
                             this.fwd_from = TLRPC$MessageFwdHeader.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             this.via_bot_id = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 8) != 0) {
@@ -794,7 +795,7 @@ public class TLRPC$Message extends TLObject {
                         }
                         this.date = abstractSerializedData2.readInt32(z2);
                         this.message = abstractSerializedData2.readString(z2);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             TLRPC$MessageMedia TLdeserialize = TLRPC$MessageMedia.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             this.media = TLdeserialize;
                             if (TLdeserialize != null) {
@@ -807,7 +808,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 64) != 0) {
                             this.reply_markup = TLRPC$ReplyMarkup.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             int readInt322 = abstractSerializedData2.readInt32(z2);
                             if (readInt322 != 481674261) {
                                 if (z2) {
@@ -824,10 +825,10 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize2);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             this.forwards = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 8388608) != 0) {
@@ -887,14 +888,14 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i10;
                         abstractSerializedData2.writeInt32(i10);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             this.from_id.serializeToStream(abstractSerializedData2);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
                         if ((this.flags & 4) != 0) {
                             this.fwd_from.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             abstractSerializedData2.writeInt32((int) this.via_bot_id);
                         }
                         if ((this.flags & 8) != 0) {
@@ -902,13 +903,13 @@ public class TLRPC$Message extends TLObject {
                         }
                         abstractSerializedData2.writeInt32(this.date);
                         abstractSerializedData2.writeString(this.message);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             this.media.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 64) != 0) {
                             this.reply_markup.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(481674261);
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
@@ -916,10 +917,10 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.get(i11).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.forwards);
                         }
                         if ((this.flags & 8388608) != 0) {
@@ -964,7 +965,7 @@ public class TLRPC$Message extends TLObject {
                         this.silent = (readInt32 & 8192) != 0;
                         this.post = (readInt32 & 16384) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                             this.from_id = tLRPC$TL_peerUser;
                             tLRPC$TL_peerUser.user_id = abstractSerializedData2.readInt32(z2);
@@ -995,7 +996,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i7;
                         abstractSerializedData2.writeInt32(i7);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             abstractSerializedData2.writeInt32((int) this.from_id.user_id);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
@@ -1020,7 +1021,7 @@ public class TLRPC$Message extends TLObject {
                         this.post = (readInt32 & 16384) != 0;
                         this.with_my_score = (readInt32 & 1073741824) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                             this.from_id = tLRPC$TL_peerUser;
                             tLRPC$TL_peerUser.user_id = abstractSerializedData2.readInt32(z2);
@@ -1033,7 +1034,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 4) != 0) {
                             this.fwd_from = TLRPC$MessageFwdHeader.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             this.via_bot_id = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 8) != 0) {
@@ -1043,7 +1044,7 @@ public class TLRPC$Message extends TLObject {
                         }
                         this.date = abstractSerializedData2.readInt32(z2);
                         this.message = abstractSerializedData2.readString(z2);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             TLRPC$MessageMedia TLdeserialize2 = TLRPC$MessageMedia.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             this.media = TLdeserialize2;
                             if (TLdeserialize2 != null && !TextUtils.isEmpty(TLdeserialize2.captionLegacy)) {
@@ -1055,7 +1056,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 64) != 0) {
                             this.reply_markup = TLRPC$ReplyMarkup.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             int readInt322 = abstractSerializedData2.readInt32(z2);
                             if (readInt322 != 481674261) {
                                 if (z2) {
@@ -1072,7 +1073,7 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize3);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -1099,14 +1100,14 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i8;
                         abstractSerializedData2.writeInt32(i8);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             abstractSerializedData2.writeInt32((int) this.from_id.user_id);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
                         if ((this.flags & 4) != 0) {
                             this.fwd_from.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             abstractSerializedData2.writeInt32((int) this.via_bot_id);
                         }
                         if ((this.flags & 8) != 0) {
@@ -1114,13 +1115,13 @@ public class TLRPC$Message extends TLObject {
                         }
                         abstractSerializedData2.writeInt32(this.date);
                         abstractSerializedData2.writeString(this.message);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             this.media.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 64) != 0) {
                             this.reply_markup.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(481674261);
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
@@ -1128,7 +1129,7 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.get(i9).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -1144,7 +1145,7 @@ public class TLRPC$Message extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_message, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        int readInt32 = abstractSerializedData2.readInt32(z2) | 256 | 512;
+                        int readInt32 = abstractSerializedData2.readInt32(z2) | LiteMode.FLAG_CHAT_BLUR | LiteMode.FLAG_CALLS_ANIMATIONS;
                         this.flags = readInt32;
                         this.unread = (readInt32 & 1) != 0;
                         this.out = (readInt32 & 2) != 0;
@@ -1226,7 +1227,7 @@ public class TLRPC$Message extends TLObject {
                         this.mentioned = (readInt32 & 16) != 0;
                         this.media_unread = (readInt32 & 32) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                             this.from_id = tLRPC$TL_peerUser;
                             tLRPC$TL_peerUser.user_id = abstractSerializedData2.readInt32(z2);
@@ -1246,7 +1247,7 @@ public class TLRPC$Message extends TLObject {
                             }
                             this.fwd_from.date = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             this.via_bot_id = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 8) != 0) {
@@ -1256,7 +1257,7 @@ public class TLRPC$Message extends TLObject {
                         }
                         this.date = abstractSerializedData2.readInt32(z2);
                         this.message = abstractSerializedData2.readString(z2);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             TLRPC$MessageMedia TLdeserialize3 = TLRPC$MessageMedia.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             this.media = TLdeserialize3;
                             if (TLdeserialize3 != null && !TextUtils.isEmpty(TLdeserialize3.captionLegacy)) {
@@ -1268,7 +1269,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 64) != 0) {
                             this.reply_markup = TLRPC$ReplyMarkup.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             int readInt322 = abstractSerializedData2.readInt32(z2);
                             if (readInt322 != 481674261) {
                                 if (z2) {
@@ -1285,7 +1286,7 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize4);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
                     }
@@ -1303,7 +1304,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i5;
                         abstractSerializedData2.writeInt32(i5);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             abstractSerializedData2.writeInt32((int) this.from_id.user_id);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
@@ -1314,7 +1315,7 @@ public class TLRPC$Message extends TLObject {
                             }
                             abstractSerializedData2.writeInt32(this.fwd_from.date);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             abstractSerializedData2.writeInt32((int) this.via_bot_id);
                         }
                         if ((this.flags & 8) != 0) {
@@ -1322,13 +1323,13 @@ public class TLRPC$Message extends TLObject {
                         }
                         abstractSerializedData2.writeInt32(this.date);
                         abstractSerializedData2.writeString(this.message);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             this.media.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 64) != 0) {
                             this.reply_markup.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(481674261);
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
@@ -1336,7 +1337,7 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.get(i6).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
                         writeAttachPath(abstractSerializedData2);
@@ -1349,7 +1350,7 @@ public class TLRPC$Message extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_message, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        int readInt32 = abstractSerializedData2.readInt32(z2) | 256 | 512;
+                        int readInt32 = abstractSerializedData2.readInt32(z2) | LiteMode.FLAG_CHAT_BLUR | LiteMode.FLAG_CALLS_ANIMATIONS;
                         this.flags = readInt32;
                         this.unread = (readInt32 & 1) != 0;
                         this.out = (readInt32 & 2) != 0;
@@ -1384,7 +1385,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 64) != 0) {
                             this.reply_markup = TLRPC$ReplyMarkup.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             int readInt322 = abstractSerializedData2.readInt32(z2);
                             if (readInt322 != 481674261) {
                                 if (z2) {
@@ -1431,7 +1432,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 64) != 0) {
                             this.reply_markup.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(481674261);
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
@@ -1460,7 +1461,7 @@ public class TLRPC$Message extends TLObject {
                         this.legacy = (524288 & readInt32) != 0;
                         this.edit_hide = (readInt32 & 2097152) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                             this.from_id = tLRPC$TL_peerUser;
                             tLRPC$TL_peerUser.user_id = abstractSerializedData2.readInt32(z2);
@@ -1469,7 +1470,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 4) != 0) {
                             this.fwd_from = TLRPC$MessageFwdHeader.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             this.via_bot_id = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 8) != 0) {
@@ -1479,7 +1480,7 @@ public class TLRPC$Message extends TLObject {
                         }
                         this.date = abstractSerializedData2.readInt32(z2);
                         this.message = abstractSerializedData2.readString(z2);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             TLRPC$MessageMedia TLdeserialize = TLRPC$MessageMedia.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             this.media = TLdeserialize;
                             if (TLdeserialize != null) {
@@ -1492,7 +1493,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 64) != 0) {
                             this.reply_markup = TLRPC$ReplyMarkup.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             int readInt322 = abstractSerializedData2.readInt32(z2);
                             if (readInt322 != 481674261) {
                                 if (z2) {
@@ -1509,10 +1510,10 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize2);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             this.forwards = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -1564,14 +1565,14 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i9;
                         abstractSerializedData2.writeInt32(i9);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             abstractSerializedData2.writeInt32((int) this.from_id.user_id);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
                         if ((this.flags & 4) != 0) {
                             this.fwd_from.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             abstractSerializedData2.writeInt32((int) this.via_bot_id);
                         }
                         if ((this.flags & 8) != 0) {
@@ -1579,13 +1580,13 @@ public class TLRPC$Message extends TLObject {
                         }
                         abstractSerializedData2.writeInt32(this.date);
                         abstractSerializedData2.writeString(this.message);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             this.media.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 64) != 0) {
                             this.reply_markup.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(481674261);
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
@@ -1593,10 +1594,10 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.get(i10).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.forwards);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -1685,7 +1686,7 @@ public class TLRPC$Message extends TLObject {
                         this.legacy = (524288 & readInt32) != 0;
                         this.edit_hide = (readInt32 & 2097152) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                             this.from_id = tLRPC$TL_peerUser;
                             tLRPC$TL_peerUser.user_id = abstractSerializedData2.readInt32(z2);
@@ -1694,7 +1695,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 4) != 0) {
                             this.fwd_from = TLRPC$MessageFwdHeader.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             this.via_bot_id = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 8) != 0) {
@@ -1704,7 +1705,7 @@ public class TLRPC$Message extends TLObject {
                         }
                         this.date = abstractSerializedData2.readInt32(z2);
                         this.message = abstractSerializedData2.readString(z2);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             TLRPC$MessageMedia TLdeserialize = TLRPC$MessageMedia.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             this.media = TLdeserialize;
                             if (TLdeserialize != null) {
@@ -1717,7 +1718,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 64) != 0) {
                             this.reply_markup = TLRPC$ReplyMarkup.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             int readInt322 = abstractSerializedData2.readInt32(z2);
                             if (readInt322 != 481674261) {
                                 if (z2) {
@@ -1734,7 +1735,7 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize2);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -1775,14 +1776,14 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i9;
                         abstractSerializedData2.writeInt32(i9);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             abstractSerializedData2.writeInt32((int) this.from_id.user_id);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
                         if ((this.flags & 4) != 0) {
                             this.fwd_from.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             abstractSerializedData2.writeInt32((int) this.via_bot_id);
                         }
                         if ((this.flags & 8) != 0) {
@@ -1790,13 +1791,13 @@ public class TLRPC$Message extends TLObject {
                         }
                         abstractSerializedData2.writeInt32(this.date);
                         abstractSerializedData2.writeString(this.message);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             this.media.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 64) != 0) {
                             this.reply_markup.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(481674261);
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
@@ -1804,7 +1805,7 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.get(i10).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -1845,7 +1846,7 @@ public class TLRPC$Message extends TLObject {
                         this.peer_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         this.date = abstractSerializedData2.readInt32(z2);
                         this.action = TLRPC$MessageAction.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        this.flags |= 256;
+                        this.flags |= LiteMode.FLAG_CHAT_BLUR;
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_messageService, org.telegram.tgnet.TLObject
@@ -1922,7 +1923,7 @@ public class TLRPC$Message extends TLObject {
                         this.post = (readInt32 & 16384) != 0;
                         this.legacy = (readInt32 & 524288) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             this.from_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         this.peer_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
@@ -1950,7 +1951,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i7;
                         abstractSerializedData2.writeInt32(i7);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             this.from_id.serializeToStream(abstractSerializedData2);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
@@ -1972,7 +1973,7 @@ public class TLRPC$Message extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_message, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        int readInt32 = abstractSerializedData2.readInt32(z2) | 256;
+                        int readInt32 = abstractSerializedData2.readInt32(z2) | LiteMode.FLAG_CHAT_BLUR;
                         this.flags = readInt32;
                         this.unread = (readInt32 & 1) != 0;
                         this.out = (readInt32 & 2) != 0;
@@ -1999,7 +2000,7 @@ public class TLRPC$Message extends TLObject {
                         }
                         this.date = abstractSerializedData2.readInt32(z2);
                         this.message = abstractSerializedData2.readString(z2);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             TLRPC$MessageMedia TLdeserialize = TLRPC$MessageMedia.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             this.media = TLdeserialize;
                             if (TLdeserialize != null && !TextUtils.isEmpty(TLdeserialize.captionLegacy)) {
@@ -2011,7 +2012,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 64) != 0) {
                             this.reply_markup = TLRPC$ReplyMarkup.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             int readInt322 = abstractSerializedData2.readInt32(z2);
                             if (readInt322 != 481674261) {
                                 if (z2) {
@@ -2054,13 +2055,13 @@ public class TLRPC$Message extends TLObject {
                         }
                         abstractSerializedData2.writeInt32(this.date);
                         abstractSerializedData2.writeString(this.message);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             this.media.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 64) != 0) {
                             this.reply_markup.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(481674261);
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
@@ -2091,7 +2092,7 @@ public class TLRPC$Message extends TLObject {
                         this.from_scheduled = (262144 & readInt32) != 0;
                         this.legacy = (readInt32 & 524288) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                             this.from_id = tLRPC$TL_peerUser;
                             tLRPC$TL_peerUser.user_id = abstractSerializedData2.readInt32(z2);
@@ -2100,7 +2101,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 4) != 0) {
                             this.fwd_from = TLRPC$MessageFwdHeader.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             this.via_bot_id = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 8) != 0) {
@@ -2110,7 +2111,7 @@ public class TLRPC$Message extends TLObject {
                         }
                         this.date = abstractSerializedData2.readInt32(z2);
                         this.message = abstractSerializedData2.readString(z2);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             TLRPC$MessageMedia TLdeserialize = TLRPC$MessageMedia.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             this.media = TLdeserialize;
                             if (TLdeserialize != null) {
@@ -2123,7 +2124,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 64) != 0) {
                             this.reply_markup = TLRPC$ReplyMarkup.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             int readInt322 = abstractSerializedData2.readInt32(z2);
                             if (readInt322 != 481674261) {
                                 if (z2) {
@@ -2140,7 +2141,7 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize2);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -2173,14 +2174,14 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i8;
                         abstractSerializedData2.writeInt32(i8);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             abstractSerializedData2.writeInt32((int) this.from_id.user_id);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
                         if ((this.flags & 4) != 0) {
                             this.fwd_from.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             abstractSerializedData2.writeInt32((int) this.via_bot_id);
                         }
                         if ((this.flags & 8) != 0) {
@@ -2188,13 +2189,13 @@ public class TLRPC$Message extends TLObject {
                         }
                         abstractSerializedData2.writeInt32(this.date);
                         abstractSerializedData2.writeString(this.message);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             this.media.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 64) != 0) {
                             this.reply_markup.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(481674261);
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
@@ -2202,7 +2203,7 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.get(i9).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -2235,7 +2236,7 @@ public class TLRPC$Message extends TLObject {
                         this.legacy = (524288 & readInt32) != 0;
                         this.edit_hide = (readInt32 & 2097152) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                             this.from_id = tLRPC$TL_peerUser;
                             tLRPC$TL_peerUser.user_id = abstractSerializedData2.readInt32(z2);
@@ -2244,7 +2245,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 4) != 0) {
                             this.fwd_from = TLRPC$MessageFwdHeader.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             this.via_bot_id = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 8) != 0) {
@@ -2254,7 +2255,7 @@ public class TLRPC$Message extends TLObject {
                         }
                         this.date = abstractSerializedData2.readInt32(z2);
                         this.message = abstractSerializedData2.readString(z2);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             TLRPC$MessageMedia TLdeserialize = TLRPC$MessageMedia.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             this.media = TLdeserialize;
                             if (TLdeserialize != null) {
@@ -2267,7 +2268,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 64) != 0) {
                             this.reply_markup = TLRPC$ReplyMarkup.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             int readInt322 = abstractSerializedData2.readInt32(z2);
                             if (readInt322 != 481674261) {
                                 if (z2) {
@@ -2284,7 +2285,7 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize2);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -2336,14 +2337,14 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i9;
                         abstractSerializedData2.writeInt32(i9);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             abstractSerializedData2.writeInt32((int) this.from_id.user_id);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
                         if ((this.flags & 4) != 0) {
                             this.fwd_from.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             abstractSerializedData2.writeInt32((int) this.via_bot_id);
                         }
                         if ((this.flags & 8) != 0) {
@@ -2351,13 +2352,13 @@ public class TLRPC$Message extends TLObject {
                         }
                         abstractSerializedData2.writeInt32(this.date);
                         abstractSerializedData2.writeString(this.message);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             this.media.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 64) != 0) {
                             this.reply_markup.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(481674261);
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
@@ -2365,7 +2366,7 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.get(i10).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -2404,7 +2405,7 @@ public class TLRPC$Message extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_message, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        int readInt32 = abstractSerializedData2.readInt32(z2) | 256 | 512;
+                        int readInt32 = abstractSerializedData2.readInt32(z2) | LiteMode.FLAG_CHAT_BLUR | LiteMode.FLAG_CALLS_ANIMATIONS;
                         this.flags = readInt32;
                         this.unread = (readInt32 & 1) != 0;
                         this.out = (readInt32 & 2) != 0;
@@ -2465,14 +2466,14 @@ public class TLRPC$Message extends TLObject {
                         this.edit_hide = (2097152 & readInt32) != 0;
                         this.pinned = (readInt32 & ConnectionsManager.FileTypePhoto) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             this.from_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         this.peer_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         if ((this.flags & 4) != 0) {
                             this.fwd_from = TLRPC$MessageFwdHeader.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             this.via_bot_id = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 8) != 0) {
@@ -2480,7 +2481,7 @@ public class TLRPC$Message extends TLObject {
                         }
                         this.date = abstractSerializedData2.readInt32(z2);
                         this.message = abstractSerializedData2.readString(z2);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             TLRPC$MessageMedia TLdeserialize = TLRPC$MessageMedia.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             this.media = TLdeserialize;
                             if (TLdeserialize != null) {
@@ -2493,7 +2494,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 64) != 0) {
                             this.reply_markup = TLRPC$ReplyMarkup.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             int readInt322 = abstractSerializedData2.readInt32(z2);
                             if (readInt322 != 481674261) {
                                 if (z2) {
@@ -2510,10 +2511,10 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize2);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             this.forwards = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 8388608) != 0) {
@@ -2570,14 +2571,14 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i10;
                         abstractSerializedData2.writeInt32(i10);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             this.from_id.serializeToStream(abstractSerializedData2);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
                         if ((this.flags & 4) != 0) {
                             this.fwd_from.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             abstractSerializedData2.writeInt32((int) this.via_bot_id);
                         }
                         if ((this.flags & 8) != 0) {
@@ -2585,13 +2586,13 @@ public class TLRPC$Message extends TLObject {
                         }
                         abstractSerializedData2.writeInt32(this.date);
                         abstractSerializedData2.writeString(this.message);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             this.media.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 64) != 0) {
                             this.reply_markup.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(481674261);
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
@@ -2599,10 +2600,10 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.get(i11).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.forwards);
                         }
                         if ((this.flags & 8388608) != 0) {
@@ -2642,7 +2643,7 @@ public class TLRPC$Message extends TLObject {
                         this.mentioned = (readInt32 & 16) != 0;
                         this.media_unread = (readInt32 & 32) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                             this.from_id = tLRPC$TL_peerUser;
                             tLRPC$TL_peerUser.user_id = abstractSerializedData2.readInt32(z2);
@@ -2669,7 +2670,7 @@ public class TLRPC$Message extends TLObject {
                         }
                         this.date = abstractSerializedData2.readInt32(z2);
                         this.message = abstractSerializedData2.readString(z2);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             TLRPC$MessageMedia TLdeserialize3 = TLRPC$MessageMedia.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                             this.media = TLdeserialize3;
                             if (TLdeserialize3 != null && !TextUtils.isEmpty(TLdeserialize3.captionLegacy)) {
@@ -2681,7 +2682,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 64) != 0) {
                             this.reply_markup = TLRPC$ReplyMarkup.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             int readInt322 = abstractSerializedData2.readInt32(z2);
                             if (readInt322 != 481674261) {
                                 if (z2) {
@@ -2698,7 +2699,7 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize4);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
                     }
@@ -2716,7 +2717,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i5;
                         abstractSerializedData2.writeInt32(i5);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             abstractSerializedData2.writeInt32((int) this.from_id.user_id);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
@@ -2732,13 +2733,13 @@ public class TLRPC$Message extends TLObject {
                         }
                         abstractSerializedData2.writeInt32(this.date);
                         abstractSerializedData2.writeString(this.message);
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             this.media.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 64) != 0) {
                             this.reply_markup.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(481674261);
                             int size = this.entities.size();
                             abstractSerializedData2.writeInt32(size);
@@ -2746,7 +2747,7 @@ public class TLRPC$Message extends TLObject {
                                 this.entities.get(i6).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
                         writeAttachPath(abstractSerializedData2);

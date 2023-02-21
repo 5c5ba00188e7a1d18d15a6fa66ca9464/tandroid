@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.telegram.messenger.CharacterCompat;
-import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class AccessibilityNodeInfoCompat {
     private static int sClickableSpanId;
@@ -41,15 +41,15 @@ public class AccessibilityNodeInfoCompat {
                         return "ACTION_LONG_CLICK";
                     case 64:
                         return "ACTION_ACCESSIBILITY_FOCUS";
-                    case ConnectionsManager.RequestFlagNeedQuickAck /* 128 */:
+                    case 128:
                         return "ACTION_CLEAR_ACCESSIBILITY_FOCUS";
-                    case 256:
+                    case LiteMode.FLAG_CHAT_BLUR /* 256 */:
                         return "ACTION_NEXT_AT_MOVEMENT_GRANULARITY";
-                    case 512:
+                    case LiteMode.FLAG_CALLS_ANIMATIONS /* 512 */:
                         return "ACTION_PREVIOUS_AT_MOVEMENT_GRANULARITY";
-                    case ConnectionsManager.RequestFlagDoNotWaitFloodWait /* 1024 */:
+                    case 1024:
                         return "ACTION_NEXT_HTML_ELEMENT";
-                    case 2048:
+                    case LiteMode.FLAG_AUTOPLAY_GIFS /* 2048 */:
                         return "ACTION_PREVIOUS_HTML_ELEMENT";
                     case 4096:
                         return "ACTION_SCROLL_FORWARD";
@@ -137,11 +137,11 @@ public class AccessibilityNodeInfoCompat {
             new AccessibilityActionCompat(16, null);
             new AccessibilityActionCompat(32, null);
             new AccessibilityActionCompat(64, null);
-            new AccessibilityActionCompat(ConnectionsManager.RequestFlagNeedQuickAck, null);
-            new AccessibilityActionCompat(256, null, AccessibilityViewCommand.MoveAtGranularityArguments.class);
-            new AccessibilityActionCompat(512, null, AccessibilityViewCommand.MoveAtGranularityArguments.class);
-            new AccessibilityActionCompat(ConnectionsManager.RequestFlagDoNotWaitFloodWait, null, AccessibilityViewCommand.MoveHtmlArguments.class);
-            new AccessibilityActionCompat(2048, null, AccessibilityViewCommand.MoveHtmlArguments.class);
+            new AccessibilityActionCompat(128, null);
+            new AccessibilityActionCompat(LiteMode.FLAG_CHAT_BLUR, null, AccessibilityViewCommand.MoveAtGranularityArguments.class);
+            new AccessibilityActionCompat(LiteMode.FLAG_CALLS_ANIMATIONS, null, AccessibilityViewCommand.MoveAtGranularityArguments.class);
+            new AccessibilityActionCompat(1024, null, AccessibilityViewCommand.MoveHtmlArguments.class);
+            new AccessibilityActionCompat(LiteMode.FLAG_AUTOPLAY_GIFS, null, AccessibilityViewCommand.MoveHtmlArguments.class);
             ACTION_SCROLL_FORWARD = new AccessibilityActionCompat(4096, null);
             ACTION_SCROLL_BACKWARD = new AccessibilityActionCompat(8192, null);
             new AccessibilityActionCompat(16384, null);

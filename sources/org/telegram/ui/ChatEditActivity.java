@@ -42,7 +42,6 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
-import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$ChannelLocation;
@@ -669,7 +668,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 }
             }
         });
-        this.nameTextView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(ConnectionsManager.RequestFlagNeedQuickAck)});
+        this.nameTextView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(128)});
         EditTextEmoji editTextEmoji4 = this.nameTextView;
         boolean z5 = LocaleController.isRTL;
         frameLayout.addView(editTextEmoji4, LayoutHelper.createFrame(-1, -2.0f, 16, z5 ? 5.0f : 96.0f, 0.0f, z5 ? 96.0f : 5.0f, 0.0f));

@@ -55,6 +55,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
@@ -1169,7 +1170,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             return;
         }
         surfaceTexture.setDefaultBufferSize(size.getWidth(), this.previewSize.getHeight());
-        CameraSession cameraSession = new CameraSession(this.info, this.previewSize, this.pictureSize, 256, false);
+        CameraSession cameraSession = new CameraSession(this.info, this.previewSize, this.pictureSize, LiteMode.FLAG_CHAT_BLUR, false);
         this.cameraSession = cameraSession;
         this.cameraThread.setCurrentSession(cameraSession);
         requestLayout();
@@ -1318,7 +1319,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                                 }
                                 ByteBuffer byteBuffer = audioBufferInfo.buffer[i];
                                 byteBuffer.rewind();
-                                int read = VideoRecorder.this.audioRecorder.read(byteBuffer, 2048);
+                                int read = VideoRecorder.this.audioRecorder.read(byteBuffer, LiteMode.FLAG_AUTOPLAY_GIFS);
                                 if (read <= 0) {
                                     audioBufferInfo.results = i;
                                     if (!VideoRecorder.this.running) {
@@ -1719,7 +1720,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                 if (minBufferSize <= 0) {
                     minBufferSize = 3584;
                 }
-                int i = 49152 < minBufferSize ? ((minBufferSize / 2048) + 1) * 2048 * 2 : 49152;
+                int i = 49152 < minBufferSize ? ((minBufferSize / LiteMode.FLAG_AUTOPLAY_GIFS) + 1) * LiteMode.FLAG_AUTOPLAY_GIFS * 2 : 49152;
                 for (int i2 = 0; i2 < 3; i2++) {
                     this.buffers.add(new InstantCameraView.AudioBufferInfo());
                 }

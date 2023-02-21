@@ -1,4 +1,6 @@
 package org.telegram.tgnet;
+
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_dialogFilter extends TLRPC$DialogFilter {
     public static int constructor = 1949890536;
@@ -12,7 +14,7 @@ public class TLRPC$TL_dialogFilter extends TLRPC$DialogFilter {
         this.groups = (readInt32 & 4) != 0;
         this.broadcasts = (readInt32 & 8) != 0;
         this.bots = (readInt32 & 16) != 0;
-        this.exclude_muted = (readInt32 & 2048) != 0;
+        this.exclude_muted = (readInt32 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
         this.exclude_read = (readInt32 & 4096) != 0;
         this.exclude_archived = (readInt32 & 8192) != 0;
         this.id = abstractSerializedData.readInt32(z);
@@ -80,7 +82,7 @@ public class TLRPC$TL_dialogFilter extends TLRPC$DialogFilter {
         this.flags = i4;
         int i5 = this.bots ? i4 | 16 : i4 & (-17);
         this.flags = i5;
-        int i6 = this.exclude_muted ? i5 | 2048 : i5 & (-2049);
+        int i6 = this.exclude_muted ? i5 | LiteMode.FLAG_AUTOPLAY_GIFS : i5 & (-2049);
         this.flags = i6;
         int i7 = this.exclude_read ? i6 | 4096 : i6 & (-4097);
         this.flags = i7;

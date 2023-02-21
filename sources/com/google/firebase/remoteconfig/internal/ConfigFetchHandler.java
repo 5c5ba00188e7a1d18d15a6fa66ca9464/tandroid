@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
-import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class ConfigFetchHandler {
     private final Provider<AnalyticsConnector> analyticsConnector;
@@ -35,7 +35,7 @@ public class ConfigFetchHandler {
     private final ConfigMetadataClient frcMetadata;
     private final Random randomGenerator;
     public static final long DEFAULT_MINIMUM_FETCH_INTERVAL_IN_SECONDS = TimeUnit.HOURS.toSeconds(12);
-    static final int[] BACKOFF_TIME_DURATIONS_IN_MINUTES = {2, 4, 8, 16, 32, 64, ConnectionsManager.RequestFlagNeedQuickAck, 256};
+    static final int[] BACKOFF_TIME_DURATIONS_IN_MINUTES = {2, 4, 8, 16, 32, 64, 128, LiteMode.FLAG_CHAT_BLUR};
 
     private boolean isThrottleableServerError(int i) {
         return i == 429 || i == 502 || i == 503 || i == 504;

@@ -1,6 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_codeSettings extends TLObject {
     public static int constructor = -1390068360;
@@ -22,7 +23,7 @@ public class TLRPC$TL_codeSettings extends TLObject {
         this.current_number = (readInt32 & 2) != 0;
         this.allow_app_hash = (readInt32 & 16) != 0;
         this.allow_missed_call = (readInt32 & 32) != 0;
-        this.allow_firebase = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
+        this.allow_firebase = (readInt32 & 128) != 0;
         if ((readInt32 & 64) != 0) {
             int readInt322 = abstractSerializedData.readInt32(z);
             if (readInt322 != 481674261) {
@@ -40,10 +41,10 @@ public class TLRPC$TL_codeSettings extends TLObject {
                 this.logout_tokens.add(readByteArray);
             }
         }
-        if ((this.flags & 256) != 0) {
+        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
             this.token = abstractSerializedData.readString(z);
         }
-        this.app_sandbox = (this.flags & 256) != 0;
+        this.app_sandbox = (this.flags & LiteMode.FLAG_CHAT_BLUR) != 0;
     }
 
     @Override // org.telegram.tgnet.TLObject
@@ -57,9 +58,9 @@ public class TLRPC$TL_codeSettings extends TLObject {
         this.flags = i3;
         int i4 = this.allow_missed_call ? i3 | 32 : i3 & (-33);
         this.flags = i4;
-        int i5 = this.allow_firebase ? i4 | ConnectionsManager.RequestFlagNeedQuickAck : i4 & (-129);
+        int i5 = this.allow_firebase ? i4 | 128 : i4 & (-129);
         this.flags = i5;
-        int i6 = this.app_sandbox ? i5 | 256 : i5 & (-257);
+        int i6 = this.app_sandbox ? i5 | LiteMode.FLAG_CHAT_BLUR : i5 & (-257);
         this.flags = i6;
         abstractSerializedData.writeInt32(i6);
         if ((this.flags & 64) != 0) {
@@ -70,7 +71,7 @@ public class TLRPC$TL_codeSettings extends TLObject {
                 abstractSerializedData.writeByteArray(this.logout_tokens.get(i7));
             }
         }
-        if ((this.flags & 256) != 0) {
+        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
             abstractSerializedData.writeString(this.token);
         }
     }

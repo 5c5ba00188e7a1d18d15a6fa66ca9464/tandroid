@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.util;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
 /* loaded from: classes.dex */
 public final class NalUnitUtil {
@@ -366,7 +367,7 @@ public final class NalUnitUtil {
         int i3 = 8;
         for (int i4 = 0; i4 < i; i4++) {
             if (i2 != 0) {
-                i2 = ((parsableNalUnitBitArray.readSignedExpGolombCodedInt() + i3) + 256) % 256;
+                i2 = ((parsableNalUnitBitArray.readSignedExpGolombCodedInt() + i3) + LiteMode.FLAG_CHAT_BLUR) % LiteMode.FLAG_CHAT_BLUR;
             }
             if (i2 != 0) {
                 i3 = i2;

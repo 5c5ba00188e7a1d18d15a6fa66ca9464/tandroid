@@ -1,7 +1,7 @@
 package com.google.android.gms.internal.clearcut;
 
 import java.nio.ByteBuffer;
-import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 final class zzfh extends zzfg {
     @Override // com.google.android.gms.internal.clearcut.zzfg
@@ -91,7 +91,7 @@ final class zzfh extends zzfg {
                     int i9 = i8 + 1;
                     bArr[i8] = (byte) ((charAt2 >>> 6) | 960);
                     i8 = i9 + 1;
-                    bArr[i9] = (byte) ((charAt2 & '?') | ConnectionsManager.RequestFlagNeedQuickAck);
+                    bArr[i9] = (byte) ((charAt2 & '?') | 128);
                 } else if ((charAt2 >= 55296 && 57343 >= charAt2) || i8 > i6 - 3) {
                     if (i8 > i6 - 4) {
                         if (55296 > charAt2 || charAt2 > 57343 || ((i4 = i7 + 1) != charSequence.length() && Character.isSurrogatePair(charAt2, charSequence.charAt(i4)))) {
@@ -112,11 +112,11 @@ final class zzfh extends zzfg {
                             int i11 = i8 + 1;
                             bArr[i8] = (byte) ((codePoint >>> 18) | 240);
                             int i12 = i11 + 1;
-                            bArr[i11] = (byte) (((codePoint >>> 12) & 63) | ConnectionsManager.RequestFlagNeedQuickAck);
+                            bArr[i11] = (byte) (((codePoint >>> 12) & 63) | 128);
                             int i13 = i12 + 1;
-                            bArr[i12] = (byte) (((codePoint >>> 6) & 63) | ConnectionsManager.RequestFlagNeedQuickAck);
+                            bArr[i12] = (byte) (((codePoint >>> 6) & 63) | 128);
                             i8 = i13 + 1;
-                            bArr[i13] = (byte) ((codePoint & 63) | ConnectionsManager.RequestFlagNeedQuickAck);
+                            bArr[i13] = (byte) ((codePoint & 63) | 128);
                             i7 = i10;
                         } else {
                             i7 = i10;
@@ -125,11 +125,11 @@ final class zzfh extends zzfg {
                     throw new zzfi(i7 - 1, length);
                 } else {
                     int i14 = i8 + 1;
-                    bArr[i8] = (byte) ((charAt2 >>> '\f') | 480);
+                    bArr[i8] = (byte) ((charAt2 >>> '\f') | LiteMode.FLAGS_CHAT);
                     int i15 = i14 + 1;
-                    bArr[i14] = (byte) (((charAt2 >>> 6) & 63) | ConnectionsManager.RequestFlagNeedQuickAck);
+                    bArr[i14] = (byte) (((charAt2 >>> 6) & 63) | 128);
                     i3 = i15 + 1;
-                    bArr[i15] = (byte) ((charAt2 & '?') | ConnectionsManager.RequestFlagNeedQuickAck);
+                    bArr[i15] = (byte) ((charAt2 & '?') | 128);
                 }
                 i7++;
             } else {

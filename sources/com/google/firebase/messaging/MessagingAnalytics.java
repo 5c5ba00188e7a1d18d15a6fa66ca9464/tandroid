@@ -19,7 +19,6 @@ import com.google.firebase.installations.FirebaseInstallations;
 import com.google.firebase.messaging.reporting.MessagingClientEvent;
 import com.google.firebase.messaging.reporting.MessagingClientEventExtension;
 import java.util.concurrent.ExecutionException;
-import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public class MessagingAnalytics {
@@ -35,7 +34,7 @@ public class MessagingAnalytics {
             }
             try {
                 PackageManager packageManager = applicationContext.getPackageManager();
-                if (packageManager != null && (applicationInfo = packageManager.getApplicationInfo(applicationContext.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck)) != null && (bundle = applicationInfo.metaData) != null && bundle.containsKey("delivery_metrics_exported_to_big_query_enabled")) {
+                if (packageManager != null && (applicationInfo = packageManager.getApplicationInfo(applicationContext.getPackageName(), 128)) != null && (bundle = applicationInfo.metaData) != null && bundle.containsKey("delivery_metrics_exported_to_big_query_enabled")) {
                     return applicationInfo.metaData.getBoolean("delivery_metrics_exported_to_big_query_enabled", false);
                 }
             } catch (PackageManager.NameNotFoundException unused) {

@@ -1,6 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_sendMedia extends TLObject {
     public static int constructor = 1967638886;
@@ -33,7 +34,7 @@ public class TLRPC$TL_messages_sendMedia extends TLObject {
         this.flags = i;
         int i2 = this.background ? i | 64 : i & (-65);
         this.flags = i2;
-        int i3 = this.clear_draft ? i2 | ConnectionsManager.RequestFlagNeedQuickAck : i2 & (-129);
+        int i3 = this.clear_draft ? i2 | 128 : i2 & (-129);
         this.flags = i3;
         int i4 = this.noforwards ? i3 | 16384 : i3 & (-16385);
         this.flags = i4;
@@ -44,7 +45,7 @@ public class TLRPC$TL_messages_sendMedia extends TLObject {
         if ((this.flags & 1) != 0) {
             abstractSerializedData.writeInt32(this.reply_to_msg_id);
         }
-        if ((this.flags & 512) != 0) {
+        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
             abstractSerializedData.writeInt32(this.top_msg_id);
         }
         this.media.serializeToStream(abstractSerializedData);
@@ -61,7 +62,7 @@ public class TLRPC$TL_messages_sendMedia extends TLObject {
                 this.entities.get(i6).serializeToStream(abstractSerializedData);
             }
         }
-        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+        if ((this.flags & 1024) != 0) {
             abstractSerializedData.writeInt32(this.schedule_date);
         }
         if ((this.flags & 8192) != 0) {

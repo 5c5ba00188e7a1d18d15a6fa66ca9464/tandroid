@@ -7,13 +7,15 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
+import android.util.LongSparseArray;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Objects;
 import org.telegram.SQLite.SQLiteCursor;
@@ -28,6 +30,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.SharedConfig;
@@ -51,9 +54,11 @@ import org.telegram.ui.Components.Premium.PremiumLockIconView;
 import org.telegram.ui.SelectAnimatedEmojiDialog;
 /* loaded from: classes3.dex */
 public class AnimatedEmojiDrawable extends Drawable {
+    public static int attachedCount;
+    public static ArrayList<AnimatedEmojiDrawable> attachedDrawable;
     private static HashMap<Long, Integer> dominantColors;
     private static HashMap<Integer, EmojiDocumentFetcher> fetchers;
-    private static HashMap<Integer, HashMap<Long, AnimatedEmojiDrawable>> globalEmojiCache;
+    private static SparseArray<LongSparseArray<AnimatedEmojiDrawable>> globalEmojiCache;
     private String absolutePath;
     private boolean attached;
     private int cacheType;
@@ -66,6 +71,7 @@ public class AnimatedEmojiDrawable extends Drawable {
     public int rawDrawIndex;
     public int sizedp;
     private ArrayList<View> views;
+    private boolean LOG_MEMORY_LEAK = false;
     private float alpha = 1.0f;
     private Boolean canOverrideColorCached = null;
     private Boolean isDefaultStatusEmojiCached = null;
@@ -86,22 +92,20 @@ public class AnimatedEmojiDrawable extends Drawable {
 
     public static AnimatedEmojiDrawable make(int i, int i2, long j, String str) {
         if (globalEmojiCache == null) {
-            globalEmojiCache = new HashMap<>();
+            globalEmojiCache = new SparseArray<>();
         }
         int hash = Objects.hash(Integer.valueOf(i), Integer.valueOf(i2));
-        HashMap<Long, AnimatedEmojiDrawable> hashMap = globalEmojiCache.get(Integer.valueOf(hash));
-        if (hashMap == null) {
-            HashMap<Integer, HashMap<Long, AnimatedEmojiDrawable>> hashMap2 = globalEmojiCache;
-            Integer valueOf = Integer.valueOf(hash);
-            HashMap<Long, AnimatedEmojiDrawable> hashMap3 = new HashMap<>();
-            hashMap2.put(valueOf, hashMap3);
-            hashMap = hashMap3;
+        LongSparseArray<AnimatedEmojiDrawable> longSparseArray = globalEmojiCache.get(hash);
+        if (longSparseArray == null) {
+            SparseArray<LongSparseArray<AnimatedEmojiDrawable>> sparseArray = globalEmojiCache;
+            LongSparseArray<AnimatedEmojiDrawable> longSparseArray2 = new LongSparseArray<>();
+            sparseArray.put(hash, longSparseArray2);
+            longSparseArray = longSparseArray2;
         }
-        AnimatedEmojiDrawable animatedEmojiDrawable = hashMap.get(Long.valueOf(j));
+        AnimatedEmojiDrawable animatedEmojiDrawable = longSparseArray.get(j);
         if (animatedEmojiDrawable == null) {
-            Long valueOf2 = Long.valueOf(j);
             AnimatedEmojiDrawable animatedEmojiDrawable2 = new AnimatedEmojiDrawable(i2, i, j, str);
-            hashMap.put(valueOf2, animatedEmojiDrawable2);
+            longSparseArray.put(j, animatedEmojiDrawable2);
             return animatedEmojiDrawable2;
         }
         return animatedEmojiDrawable;
@@ -109,22 +113,21 @@ public class AnimatedEmojiDrawable extends Drawable {
 
     public static AnimatedEmojiDrawable make(int i, int i2, TLRPC$Document tLRPC$Document) {
         if (globalEmojiCache == null) {
-            globalEmojiCache = new HashMap<>();
+            globalEmojiCache = new SparseArray<>();
         }
         int hash = Objects.hash(Integer.valueOf(i), Integer.valueOf(i2));
-        HashMap<Long, AnimatedEmojiDrawable> hashMap = globalEmojiCache.get(Integer.valueOf(hash));
-        if (hashMap == null) {
-            HashMap<Integer, HashMap<Long, AnimatedEmojiDrawable>> hashMap2 = globalEmojiCache;
-            Integer valueOf = Integer.valueOf(hash);
-            HashMap<Long, AnimatedEmojiDrawable> hashMap3 = new HashMap<>();
-            hashMap2.put(valueOf, hashMap3);
-            hashMap = hashMap3;
+        LongSparseArray<AnimatedEmojiDrawable> longSparseArray = globalEmojiCache.get(hash);
+        if (longSparseArray == null) {
+            SparseArray<LongSparseArray<AnimatedEmojiDrawable>> sparseArray = globalEmojiCache;
+            LongSparseArray<AnimatedEmojiDrawable> longSparseArray2 = new LongSparseArray<>();
+            sparseArray.put(hash, longSparseArray2);
+            longSparseArray = longSparseArray2;
         }
-        AnimatedEmojiDrawable animatedEmojiDrawable = hashMap.get(Long.valueOf(tLRPC$Document.id));
+        AnimatedEmojiDrawable animatedEmojiDrawable = longSparseArray.get(tLRPC$Document.id);
         if (animatedEmojiDrawable == null) {
-            Long valueOf2 = Long.valueOf(tLRPC$Document.id);
+            long j = tLRPC$Document.id;
             AnimatedEmojiDrawable animatedEmojiDrawable2 = new AnimatedEmojiDrawable(i2, i, tLRPC$Document);
-            hashMap.put(valueOf2, animatedEmojiDrawable2);
+            longSparseArray.put(j, animatedEmojiDrawable2);
             return animatedEmojiDrawable2;
         }
         return animatedEmojiDrawable;
@@ -507,8 +510,8 @@ public class AnimatedEmojiDrawable extends Drawable {
     /* JADX WARN: Type inference failed for: r1v17, types: [org.telegram.messenger.ImageReceiver] */
     /* JADX WARN: Type inference failed for: r1v18, types: [org.telegram.messenger.ImageReceiver] */
     /* JADX WARN: Type inference failed for: r1v19, types: [org.telegram.messenger.ImageReceiver] */
-    /* JADX WARN: Type inference failed for: r1v23, types: [org.telegram.messenger.ImageReceiver] */
-    /* JADX WARN: Type inference failed for: r1v25, types: [org.telegram.messenger.ImageReceiver] */
+    /* JADX WARN: Type inference failed for: r1v22, types: [org.telegram.messenger.ImageReceiver] */
+    /* JADX WARN: Type inference failed for: r1v24, types: [org.telegram.messenger.ImageReceiver] */
     /* JADX WARN: Type inference failed for: r22v0, types: [android.graphics.drawable.Drawable] */
     /* JADX WARN: Type inference failed for: r22v1, types: [android.graphics.drawable.Drawable] */
     /* JADX WARN: Type inference failed for: r24v0, types: [android.graphics.drawable.Drawable] */
@@ -593,7 +596,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                     if (SharedConfig.getDevicePerformanceClass() != 0 || this.cacheType == 2 || !ImageLoader.getInstance().hasLottieMemCache(sb2)) {
                         ?? svgThumb = DocumentObject.getSvgThumb(this.document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
                         if (svgThumb != 0 && MessageObject.isAnimatedStickerDocument(this.document, true)) {
-                            svgThumb.overrideWidthAndHeight(512, 512);
+                            svgThumb.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
                         }
                         obj2 = svgThumb;
                     }
@@ -606,18 +609,18 @@ public class AnimatedEmojiDrawable extends Drawable {
                     if (svgThumb2 != 0) {
                         obj = svgThumb2;
                         if (MessageObject.isAnimatedStickerDocument(this.document, true)) {
-                            svgThumb2.overrideWidthAndHeight(512, 512);
+                            svgThumb2.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
                             obj = svgThumb2;
                         }
                     }
                 }
                 if (this.absolutePath != null) {
-                    this.imageReceiver.setImageBitmap(new AnimatedFileDrawable(new File(this.absolutePath), true, 0L, 0, null, null, null, 0L, this.currentAccount, true, 512, 512, null));
+                    this.imageReceiver.setImageBitmap(new AnimatedFileDrawable(new File(this.absolutePath), true, 0L, 0, null, null, null, 0L, this.currentAccount, true, LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS, null));
                 } else if (this.cacheType == 8) {
                     ?? r1 = this.imageReceiver;
                     TLRPC$Document tLRPC$Document = this.document;
                     r1.setImage(null, null, obj2, str2, null, null, obj, tLRPC$Document.size, null, tLRPC$Document, 1);
-                } else if (z2 || ((!SharedConfig.getLiteMode().animatedEmojiEnabled() || !SharedConfig.playEmojiInKeyboard) && this.cacheType != 14)) {
+                } else if (z2 || ((!LiteMode.isEnabled(4) || !SharedConfig.playEmojiInKeyboard) && this.cacheType != 14)) {
                     if ("video/webm".equals(this.document.mime_type)) {
                         TLRPC$Document tLRPC$Document2 = this.document;
                         this.imageReceiver.setImage(null, null, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, obj, tLRPC$Document2.size, null, tLRPC$Document2, 1);
@@ -801,6 +804,19 @@ public class AnimatedEmojiDrawable extends Drawable {
                 this.imageReceiver.onAttachedToWindow();
             } else {
                 this.imageReceiver.onDetachedFromWindow();
+            }
+            if (this.LOG_MEMORY_LEAK) {
+                if (attachedDrawable == null) {
+                    attachedDrawable = new ArrayList<>();
+                }
+                if (this.attached) {
+                    attachedCount--;
+                    attachedDrawable.remove(this);
+                } else {
+                    attachedCount++;
+                    attachedDrawable.add(this);
+                }
+                Log.d("animatedDrable", "attached count " + attachedCount);
             }
         }
     }
@@ -1130,7 +1146,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                 this.changeProgress.set(0.0f, true);
                 Drawable[] drawableArr2 = this.drawables;
                 if (drawableArr2[1] != null) {
-                    if (drawableArr2[1] instanceof AnimatedEmojiDrawable) {
+                    if (this.attached && (drawableArr2[1] instanceof AnimatedEmojiDrawable)) {
                         ((AnimatedEmojiDrawable) drawableArr2[1]).removeView(this);
                     }
                     this.drawables[1] = null;
@@ -1138,12 +1154,19 @@ public class AnimatedEmojiDrawable extends Drawable {
                 Drawable[] drawableArr3 = this.drawables;
                 drawableArr3[1] = drawableArr3[0];
                 drawableArr3[0] = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i, j);
-                ((AnimatedEmojiDrawable) this.drawables[0]).addView(this);
+                if (this.attached) {
+                    ((AnimatedEmojiDrawable) this.drawables[0]).addView(this);
+                }
             } else {
                 this.changeProgress.set(1.0f, true);
-                detach();
+                boolean z2 = this.attached;
+                if (z2) {
+                    detach();
+                }
                 this.drawables[0] = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i, j);
-                ((AnimatedEmojiDrawable) this.drawables[0]).addView(this);
+                if (z2) {
+                    attach();
+                }
             }
             this.lastColor = -1;
             this.colorFilter = null;
@@ -1173,18 +1196,25 @@ public class AnimatedEmojiDrawable extends Drawable {
                 drawableArr3[1] = drawableArr3[0];
                 if (tLRPC$Document != null) {
                     drawableArr3[0] = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i, tLRPC$Document);
-                    ((AnimatedEmojiDrawable) this.drawables[0]).addView(this);
+                    if (this.attached) {
+                        ((AnimatedEmojiDrawable) this.drawables[0]).addView(this);
+                    }
                 } else {
                     drawableArr3[0] = null;
                 }
             } else {
                 this.changeProgress.set(1.0f, true);
-                detach();
+                boolean z2 = this.attached;
+                if (z2) {
+                    detach();
+                }
                 if (tLRPC$Document != null) {
                     this.drawables[0] = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i, tLRPC$Document);
-                    ((AnimatedEmojiDrawable) this.drawables[0]).addView(this);
                 } else {
                     this.drawables[0] = null;
+                }
+                if (z2) {
+                    attach();
                 }
             }
             this.lastColor = -1;
@@ -1201,7 +1231,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                 this.changeProgress.set(0.0f, true);
                 Drawable[] drawableArr = this.drawables;
                 if (drawableArr[1] != null) {
-                    if (drawableArr[1] instanceof AnimatedEmojiDrawable) {
+                    if (this.attached && (drawableArr[1] instanceof AnimatedEmojiDrawable)) {
                         ((AnimatedEmojiDrawable) drawableArr[1]).removeView(this);
                     }
                     this.drawables[1] = null;
@@ -1211,8 +1241,14 @@ public class AnimatedEmojiDrawable extends Drawable {
                 drawableArr2[0] = drawable;
             } else {
                 this.changeProgress.set(1.0f, true);
-                detach();
+                boolean z2 = this.attached;
+                if (z2) {
+                    detach();
+                }
                 this.drawables[0] = drawable;
+                if (z2) {
+                    attach();
+                }
             }
             this.lastColor = -1;
             this.colorFilter = null;
@@ -1286,19 +1322,18 @@ public class AnimatedEmojiDrawable extends Drawable {
     }
 
     public static void updateAll() {
-        HashMap<Integer, HashMap<Long, AnimatedEmojiDrawable>> hashMap = globalEmojiCache;
-        if (hashMap == null) {
+        if (globalEmojiCache == null) {
             return;
         }
-        for (HashMap<Long, AnimatedEmojiDrawable> hashMap2 : hashMap.values()) {
-            Iterator it = new ArrayList(hashMap2.keySet()).iterator();
-            while (it.hasNext()) {
-                Long l = (Long) it.next();
-                AnimatedEmojiDrawable animatedEmojiDrawable = hashMap2.get(l);
+        for (int i = 0; i < globalEmojiCache.size(); i++) {
+            LongSparseArray<AnimatedEmojiDrawable> valueAt = globalEmojiCache.valueAt(i);
+            for (int i2 = 0; i2 < valueAt.size(); i2++) {
+                long keyAt = valueAt.keyAt(i2);
+                AnimatedEmojiDrawable animatedEmojiDrawable = valueAt.get(keyAt);
                 if (animatedEmojiDrawable != null && animatedEmojiDrawable.attached) {
                     animatedEmojiDrawable.initDocument(true);
                 } else {
-                    hashMap2.remove(l);
+                    valueAt.remove(keyAt);
                 }
             }
         }

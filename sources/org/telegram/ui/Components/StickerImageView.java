@@ -4,6 +4,7 @@ import android.content.Context;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.ImageLocation;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SvgHelper;
@@ -78,7 +79,7 @@ public class StickerImageView extends BackupImageView implements NotificationCen
                 tLRPC$Document = tLRPC$TL_messages_stickerSet.documents.get(i);
                 svgThumb = tLRPC$Document != null ? DocumentObject.getSvgThumb(tLRPC$Document.thumbs, "emptyListPlaceholder", 0.2f) : null;
                 if (svgThumb != null) {
-                    svgThumb.overrideWidthAndHeight(512, 512);
+                    svgThumb.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
                 }
                 if (tLRPC$Document == null) {
                     setImage(ImageLocation.getForDocument(tLRPC$Document), "130_130", "tgs", svgThumb, tLRPC$TL_messages_stickerSet);

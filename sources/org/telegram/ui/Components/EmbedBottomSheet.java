@@ -49,7 +49,6 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.browser.Browser;
-import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
@@ -517,7 +516,7 @@ public class EmbedBottomSheet extends BottomSheet {
             public void onPlayStateChanged(WebPlayerView webPlayerView2, boolean z) {
                 if (z) {
                     try {
-                        EmbedBottomSheet.this.parentActivity.getWindow().addFlags(ConnectionsManager.RequestFlagNeedQuickAck);
+                        EmbedBottomSheet.this.parentActivity.getWindow().addFlags(128);
                         return;
                     } catch (Exception e) {
                         FileLog.e(e);
@@ -525,7 +524,7 @@ public class EmbedBottomSheet extends BottomSheet {
                     }
                 }
                 try {
-                    EmbedBottomSheet.this.parentActivity.getWindow().clearFlags(ConnectionsManager.RequestFlagNeedQuickAck);
+                    EmbedBottomSheet.this.parentActivity.getWindow().clearFlags(128);
                 } catch (Exception e2) {
                     FileLog.e(e2);
                 }
@@ -742,7 +741,7 @@ public class EmbedBottomSheet extends BottomSheet {
                     return false;
                 }
                 try {
-                    EmbedBottomSheet.this.parentActivity.getWindow().clearFlags(ConnectionsManager.RequestFlagNeedQuickAck);
+                    EmbedBottomSheet.this.parentActivity.getWindow().clearFlags(128);
                     return true;
                 } catch (Exception e) {
                     FileLog.e(e);

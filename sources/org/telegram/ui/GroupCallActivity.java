@@ -78,6 +78,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
@@ -843,7 +844,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant = this.currentParticipant;
             tLRPC$TL_groupCallParticipant.volume = (int) (d * 20000.0d);
             tLRPC$TL_groupCallParticipant.volume_by_admin = false;
-            tLRPC$TL_groupCallParticipant.flags |= ConnectionsManager.RequestFlagNeedQuickAck;
+            tLRPC$TL_groupCallParticipant.flags |= 128;
             double participantVolume = ChatObject.getParticipantVolume(tLRPC$TL_groupCallParticipant);
             Double.isNaN(participantVolume);
             double d2 = participantVolume / 100.0d;
@@ -5055,17 +5056,17 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         /* JADX WARN: Removed duplicated region for block: B:162:0x06da  */
         /* JADX WARN: Removed duplicated region for block: B:169:0x07ea  */
         /* JADX WARN: Removed duplicated region for block: B:170:0x07ee  */
-        /* JADX WARN: Removed duplicated region for block: B:179:0x089b  */
-        /* JADX WARN: Removed duplicated region for block: B:182:0x08fd  */
-        /* JADX WARN: Removed duplicated region for block: B:185:0x092b  */
-        /* JADX WARN: Removed duplicated region for block: B:191:0x094d  */
-        /* JADX WARN: Removed duplicated region for block: B:194:0x095a  */
-        /* JADX WARN: Removed duplicated region for block: B:195:0x095d  */
-        /* JADX WARN: Removed duplicated region for block: B:198:0x09c3  */
-        /* JADX WARN: Removed duplicated region for block: B:201:0x09d8 A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:204:0x09e0  */
-        /* JADX WARN: Removed duplicated region for block: B:207:0x0a4f A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:213:0x0a7f  */
+        /* JADX WARN: Removed duplicated region for block: B:179:0x0899  */
+        /* JADX WARN: Removed duplicated region for block: B:182:0x08fb  */
+        /* JADX WARN: Removed duplicated region for block: B:185:0x0929  */
+        /* JADX WARN: Removed duplicated region for block: B:191:0x094b  */
+        /* JADX WARN: Removed duplicated region for block: B:194:0x0958  */
+        /* JADX WARN: Removed duplicated region for block: B:195:0x095b  */
+        /* JADX WARN: Removed duplicated region for block: B:198:0x09c1  */
+        /* JADX WARN: Removed duplicated region for block: B:201:0x09d6 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:204:0x09de  */
+        /* JADX WARN: Removed duplicated region for block: B:207:0x0a4d A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:213:0x0a7d  */
         /* JADX WARN: Removed duplicated region for block: B:219:? A[RETURN, SYNTHETIC] */
         /* JADX WARN: Removed duplicated region for block: B:40:0x0155  */
         @Override // android.view.ViewGroup, android.view.View
@@ -5325,7 +5326,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                                     float dp5 = !GroupCallActivity.isLandscapeMode ? 0.0f : AndroidUtilities.dp(65.0f) * (1.0f - GroupCallActivity.this.switchToButtonInt2);
                                     float f10 = BlobDrawable.SCALE_BIG_MIN + (BlobDrawable.SCALE_BIG * GroupCallActivity.this.amplitude * f3);
                                     canvas.scale(GroupCallActivity.this.showLightingProgress * f10, f10 * GroupCallActivity.this.showLightingProgress, x2, y2);
-                                    if (i6 != 1 && !SharedConfig.getLiteMode().enabled()) {
+                                    if (i6 != 1 && LiteMode.isEnabled(LiteMode.FLAG_CALLS_ANIMATIONS)) {
                                         float f11 = (BlobDrawable.LIGHT_GRADIENT_SIZE * GroupCallActivity.this.scheduleButtonsScale) + 0.7f;
                                         canvas.save();
                                         canvas.scale(f11, f11, x2, y2);
@@ -6147,7 +6148,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         tLRPC$GroupCall.can_change_join_muted = true;
         call2.chatId = tLRPC$Chat.id;
         tLRPC$GroupCall.schedule_date = this.scheduleStartAt;
-        tLRPC$GroupCall.flags |= ConnectionsManager.RequestFlagNeedQuickAck;
+        tLRPC$GroupCall.flags |= 128;
         call2.currentAccount = this.accountInstance;
         call2.setSelfPeer(tLRPC$InputPeer);
         ChatObject.Call call3 = this.call;
@@ -6275,12 +6276,12 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 int systemUiVisibility = this.containerView.getSystemUiVisibility();
                 if (z) {
                     i = systemUiVisibility & (-5) & (-3);
-                    getWindow().clearFlags(ConnectionsManager.RequestFlagDoNotWaitFloodWait);
+                    getWindow().clearFlags(1024);
                     setHideSystemVerticalInsets(false);
                 } else {
                     setHideSystemVerticalInsets(true);
                     i = systemUiVisibility | 4 | 2;
-                    getWindow().addFlags(ConnectionsManager.RequestFlagDoNotWaitFloodWait);
+                    getWindow().addFlags(1024);
                 }
                 this.containerView.setSystemUiVisibility(i);
                 this.wasNotInLayoutFullscreen = Boolean.valueOf(z);
@@ -6691,7 +6692,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
     public void show() {
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 2048);
+        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_AUTOPLAY_GIFS));
         super.show();
         if (RTMPStreamPipOverlay.isVisible()) {
             RTMPStreamPipOverlay.dismiss();
@@ -6719,7 +6720,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 this.containerView.removeView(this.renderersContainer);
             }
         }
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, 2048);
+        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_AUTOPLAY_GIFS));
         super.dismissInternal();
         if (VoIPService.getSharedInstance() != null) {
             VoIPService.getSharedInstance().unregisterStateListener(this);
@@ -8457,7 +8458,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             getUndoView().showWithAction(0L, 35, tLObject);
             sharedInstance.setParticipantVolume(tLRPC$TL_groupCallParticipant, 0);
         } else {
-            if ((tLRPC$TL_groupCallParticipant.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0 && tLRPC$TL_groupCallParticipant.volume == 0) {
+            if ((tLRPC$TL_groupCallParticipant.flags & 128) != 0 && tLRPC$TL_groupCallParticipant.volume == 0) {
                 tLRPC$TL_groupCallParticipant.volume = 10000;
                 tLRPC$TL_groupCallParticipant.volume_by_admin = false;
                 sharedInstance.editCallMember(tLObject, Boolean.FALSE, null, 10000, null, null);

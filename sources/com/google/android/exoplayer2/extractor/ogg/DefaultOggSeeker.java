@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.io.EOFException;
 import java.io.IOException;
+import org.telegram.messenger.LiteMode;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class DefaultOggSeeker implements OggSeeker {
@@ -154,8 +155,8 @@ public final class DefaultOggSeeker implements OggSeeker {
     private boolean skipToNextPage(ExtractorInput extractorInput, long j) throws IOException, InterruptedException {
         int i;
         long min = Math.min(j + 3, this.payloadEndPosition);
-        int i2 = 2048;
-        byte[] bArr = new byte[2048];
+        int i2 = LiteMode.FLAG_AUTOPLAY_GIFS;
+        byte[] bArr = new byte[LiteMode.FLAG_AUTOPLAY_GIFS];
         while (true) {
             int i3 = 0;
             if (extractorInput.getPosition() + i2 > min && (i2 = (int) (min - extractorInput.getPosition())) < 4) {

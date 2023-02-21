@@ -16,6 +16,7 @@ import androidx.core.view.accessibility.AccessibilityRecordCompat;
 import java.util.ArrayList;
 import java.util.List;
 import org.telegram.messenger.CharacterCompat;
+import org.telegram.messenger.LiteMode;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
@@ -109,8 +110,8 @@ public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
             return;
         }
         this.mHoveredVirtualViewId = i;
-        sendEventForVirtualView(i, ConnectionsManager.RequestFlagNeedQuickAck);
-        sendEventForVirtualView(i2, 256);
+        sendEventForVirtualView(i, 128);
+        sendEventForVirtualView(i2, LiteMode.FLAG_CHAT_BLUR);
     }
 
     private AccessibilityEvent createEvent(int i, int i2) {
@@ -198,14 +199,14 @@ public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
         }
         int actions = obtain.getActions();
         if ((actions & 64) == 0) {
-            if ((actions & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+            if ((actions & 128) != 0) {
                 throw new RuntimeException("Callbacks must not add ACTION_CLEAR_ACCESSIBILITY_FOCUS in populateNodeForVirtualViewId()");
             }
             obtain.setPackageName(this.mHost.getContext().getPackageName());
             obtain.setSource(this.mHost, i);
             if (this.mAccessibilityFocusedVirtualViewId == i) {
                 obtain.setAccessibilityFocused(true);
-                obtain.addAction(ConnectionsManager.RequestFlagNeedQuickAck);
+                obtain.addAction(128);
             } else {
                 obtain.setAccessibilityFocused(false);
                 obtain.addAction(64);

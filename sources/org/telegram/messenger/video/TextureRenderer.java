@@ -34,6 +34,7 @@ import org.telegram.messenger.Bitmaps;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.UserConfig;
@@ -306,7 +307,7 @@ public class TextureRenderer {
                 long j = mediaEntity.ptr;
                 if (j != 0) {
                     Bitmap bitmap2 = this.stickerBitmap;
-                    RLottieDrawable.getFrame(j, (int) mediaEntity.currentFrame, bitmap2, 512, 512, bitmap2.getRowBytes(), true);
+                    RLottieDrawable.getFrame(j, (int) mediaEntity.currentFrame, bitmap2, LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS, bitmap2.getRowBytes(), true);
                     applyRoundRadius(mediaEntity, this.stickerBitmap);
                     GLES20.glBindTexture(3553, this.stickerTexture[0]);
                     GLUtils.texImage2D(3553, 0, this.stickerBitmap, 0);
@@ -616,7 +617,7 @@ public class TextureRenderer {
         }
         if (this.mediaEntities != null) {
             try {
-                this.stickerBitmap = Bitmap.createBitmap(512, 512, Bitmap.Config.ARGB_8888);
+                this.stickerBitmap = Bitmap.createBitmap(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS, Bitmap.Config.ARGB_8888);
                 int[] iArr5 = new int[1];
                 this.stickerTexture = iArr5;
                 GLES20.glGenTextures(1, iArr5, 0);
@@ -634,10 +635,10 @@ public class TextureRenderer {
                         if ((b2 & 1) != 0) {
                             int[] iArr6 = new int[3];
                             mediaEntity.metadata = iArr6;
-                            mediaEntity.ptr = RLottieDrawable.create(mediaEntity.text, null, 512, 512, iArr6, false, null, false, 0);
+                            mediaEntity.ptr = RLottieDrawable.create(mediaEntity.text, null, LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS, iArr6, false, null, false, 0);
                             mediaEntity.framesPerDraw = mediaEntity.metadata[1] / this.videoFps;
                         } else if ((b2 & 4) != 0) {
-                            mediaEntity.animatedFileDrawable = new AnimatedFileDrawable(new File(mediaEntity.text), true, 0L, 0, null, null, null, 0L, UserConfig.selectedAccount, true, 512, 512, null);
+                            mediaEntity.animatedFileDrawable = new AnimatedFileDrawable(new File(mediaEntity.text), true, 0L, 0, null, null, null, 0L, UserConfig.selectedAccount, true, LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS, null);
                             mediaEntity.framesPerDraw = this.videoFps / 30.0f;
                             mediaEntity.currentFrame = 0.0f;
                         } else {

@@ -89,8 +89,8 @@ public class DocumentObject {
             SvgHelper.Circle circle = new SvgHelper.Circle(256.0f, 256.0f, f * 512.0f);
             svgDrawable.commands.add(circle);
             svgDrawable.paints.put(circle, new Paint(1));
-            svgDrawable.width = 512;
-            svgDrawable.height = 512;
+            svgDrawable.width = LiteMode.FLAG_CALLS_ANIMATIONS;
+            svgDrawable.height = LiteMode.FLAG_CALLS_ANIMATIONS;
             svgDrawable.setupGradient(str, f2, false);
             return svgDrawable;
         } catch (Exception e) {
@@ -110,8 +110,8 @@ public class DocumentObject {
         SvgHelper.SvgDrawable svgDrawable = new SvgHelper.SvgDrawable();
         svgDrawable.commands.add(path);
         svgDrawable.paints.put(path, new Paint(1));
-        svgDrawable.width = 512;
-        svgDrawable.height = 512;
+        svgDrawable.width = LiteMode.FLAG_CALLS_ANIMATIONS;
+        svgDrawable.height = LiteMode.FLAG_CALLS_ANIMATIONS;
         svgDrawable.setupGradient(str, f, false);
         return svgDrawable;
     }
@@ -135,9 +135,9 @@ public class DocumentObject {
                 int size2 = tLRPC$Document.attributes.size();
                 int i4 = 0;
                 while (true) {
-                    i = 512;
+                    i = LiteMode.FLAG_CALLS_ANIMATIONS;
                     if (i4 >= size2) {
-                        i2 = 512;
+                        i2 = LiteMode.FLAG_CALLS_ANIMATIONS;
                         break;
                     }
                     tLRPC$DocumentAttribute = tLRPC$Document.attributes.get(i4);

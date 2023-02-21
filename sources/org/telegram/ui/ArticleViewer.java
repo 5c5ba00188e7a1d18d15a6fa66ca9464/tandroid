@@ -99,6 +99,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
@@ -2088,14 +2089,14 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
         if (tLRPC$RichText instanceof TLRPC$TL_textUrl) {
             if (((TLRPC$TL_textUrl) tLRPC$RichText).webpage_id != 0) {
-                return getTextFlags(tLRPC$RichText.parentRichText) | 512;
+                return getTextFlags(tLRPC$RichText.parentRichText) | LiteMode.FLAG_CALLS_ANIMATIONS;
             }
             return getTextFlags(tLRPC$RichText.parentRichText) | 8;
         } else if (tLRPC$RichText instanceof TLRPC$TL_textSubscript) {
-            return getTextFlags(tLRPC$RichText.parentRichText) | ConnectionsManager.RequestFlagNeedQuickAck;
+            return getTextFlags(tLRPC$RichText.parentRichText) | 128;
         } else {
             if (tLRPC$RichText instanceof TLRPC$TL_textSuperscript) {
-                return getTextFlags(tLRPC$RichText.parentRichText) | 256;
+                return getTextFlags(tLRPC$RichText.parentRichText) | LiteMode.FLAG_CHAT_BLUR;
             }
             if (tLRPC$RichText instanceof TLRPC$TL_textMarked) {
                 return getTextFlags(tLRPC$RichText.parentRichText) | 64;
@@ -2240,12 +2241,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     int length = spannableStringBuilder4.length();
                     spannableStringBuilder4.append(text);
                     if (textFlags != 0 && !(text instanceof SpannableStringBuilder)) {
-                        if ((textFlags & 8) != 0 || (textFlags & 512) != 0) {
+                        if ((textFlags & 8) != 0 || (textFlags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             String url = getUrl(tLRPC$RichText3);
                             if (url == null) {
                                 url = getUrl(tLRPC$RichText);
                             }
-                            if ((textFlags & 512) != 0) {
+                            if ((textFlags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                                 textPaintUrlSpan = new TextPaintWebpageUrlSpan(getTextPaint(tLRPC$RichText, lastRichText, tLRPC$PageBlock), url);
                             } else {
                                 textPaintUrlSpan = new TextPaintUrlSpan(getTextPaint(tLRPC$RichText, lastRichText, tLRPC$PageBlock), url);
@@ -2620,8 +2621,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
             textColor = -65536;
         }
-        int i = textFlags & 256;
-        if (i != 0 || (textFlags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+        int i = textFlags & LiteMode.FLAG_CHAT_BLUR;
+        if (i != 0 || (textFlags & 128) != 0) {
             dp8 -= AndroidUtilities.dp(4.0f);
         }
         if (sparseArray8 == null) {
@@ -2669,13 +2670,13 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if ((textFlags & 16) != 0) {
                 textPaint2.setFlags(textPaint2.getFlags() | 8);
             }
-            if ((textFlags & 8) != 0 || (textFlags & 512) != 0) {
+            if ((textFlags & 8) != 0 || (textFlags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                 textPaint2.setFlags(textPaint2.getFlags());
                 textColor = getLinkTextColor();
             }
             if (i != 0) {
                 textPaint2.baselineShift -= AndroidUtilities.dp(6.0f);
-            } else if ((textFlags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+            } else if ((textFlags & 128) != 0) {
                 textPaint2.baselineShift += AndroidUtilities.dp(2.0f);
             }
             textPaint2.setColor(textColor);
@@ -3385,7 +3386,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         for (int i = 0; i < sparseArray.size(); i++) {
             int keyAt = sparseArray.keyAt(i);
             TextPaint valueAt = sparseArray.valueAt(i);
-            if ((keyAt & 8) != 0 || (keyAt & 512) != 0) {
+            if ((keyAt & 8) != 0 || (keyAt & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                 valueAt.setColor(getLinkTextColor());
             } else {
                 valueAt.setColor(getTextColor());
@@ -5257,7 +5258,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             this.adapter[i].cleanup();
         }
         try {
-            this.parentActivity.getWindow().clearFlags(ConnectionsManager.RequestFlagNeedQuickAck);
+            this.parentActivity.getWindow().clearFlags(128);
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -5439,7 +5440,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
         this.createdWebViews.clear();
         try {
-            this.parentActivity.getWindow().clearFlags(ConnectionsManager.RequestFlagNeedQuickAck);
+            this.parentActivity.getWindow().clearFlags(128);
         } catch (Exception e2) {
             FileLog.e(e2);
         }
@@ -6293,7 +6294,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     case 27:
                         textView = new BlockDetailsBottomCell(this.context);
                         break;
-                    case 28:
+                    case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                         textView = new BlockRelatedArticlesShadowCell(this.context);
                         break;
                     default:
@@ -8038,7 +8039,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         }
                         ArticleViewer.this.currentPlayingVideo = webPlayerView2;
                         try {
-                            ArticleViewer.this.parentActivity.getWindow().addFlags(ConnectionsManager.RequestFlagNeedQuickAck);
+                            ArticleViewer.this.parentActivity.getWindow().addFlags(128);
                             return;
                         } catch (Exception e) {
                             FileLog.e(e);
@@ -8049,7 +8050,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         ArticleViewer.this.currentPlayingVideo = null;
                     }
                     try {
-                        ArticleViewer.this.parentActivity.getWindow().clearFlags(ConnectionsManager.RequestFlagNeedQuickAck);
+                        ArticleViewer.this.parentActivity.getWindow().clearFlags(128);
                     } catch (Exception e2) {
                         FileLog.e(e2);
                     }

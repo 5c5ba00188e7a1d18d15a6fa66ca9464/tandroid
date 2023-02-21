@@ -3,7 +3,6 @@ package com.google.zxing.common;
 import com.google.zxing.DecodeHintType;
 import java.nio.charset.Charset;
 import java.util.Map;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class StringUtils {
     private static final boolean ASSUME_SHIFT_JIS;
@@ -44,11 +43,11 @@ public final class StringUtils {
             int i13 = bArr2[i3] & 255;
             if (z4) {
                 if (i4 > 0) {
-                    if ((i13 & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                    if ((i13 & 128) != 0) {
                         i4--;
                     }
                     z4 = false;
-                } else if ((i13 & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                } else if ((i13 & 128) != 0) {
                     if ((i13 & 64) != 0) {
                         i4++;
                         if ((i13 & 32) == 0) {

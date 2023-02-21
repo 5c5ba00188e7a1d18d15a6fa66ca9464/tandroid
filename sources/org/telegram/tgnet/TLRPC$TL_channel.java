@@ -1,4 +1,6 @@
 package org.telegram.tgnet;
+
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_channel extends TLRPC$Chat {
     public static int constructor = -2094689180;
@@ -14,10 +16,10 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
         this.creator = (readInt32 & 1) != 0;
         this.left = (readInt32 & 4) != 0;
         this.broadcast = (readInt32 & 32) != 0;
-        this.verified = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
-        this.megagroup = (readInt32 & 256) != 0;
-        this.restricted = (readInt32 & 512) != 0;
-        this.signatures = (readInt32 & 2048) != 0;
+        this.verified = (readInt32 & 128) != 0;
+        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+        this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
+        this.signatures = (readInt32 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
         this.min = (readInt32 & 4096) != 0;
         this.scam = (524288 & readInt32) != 0;
         this.has_link = (1048576 & readInt32) != 0;
@@ -42,7 +44,7 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
         }
         this.photo = TLRPC$ChatPhoto.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z, z2);
         this.date = abstractSerializedData.readInt32(z);
-        if ((this.flags & 512) != 0) {
+        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
             int readInt322 = abstractSerializedData.readInt32(z);
             if (readInt322 != 481674261) {
                 if (z) {
@@ -99,13 +101,13 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
         this.flags = i2;
         int i3 = this.broadcast ? i2 | 32 : i2 & (-33);
         this.flags = i3;
-        int i4 = this.verified ? i3 | ConnectionsManager.RequestFlagNeedQuickAck : i3 & (-129);
+        int i4 = this.verified ? i3 | 128 : i3 & (-129);
         this.flags = i4;
-        int i5 = this.megagroup ? i4 | 256 : i4 & (-257);
+        int i5 = this.megagroup ? i4 | LiteMode.FLAG_CHAT_BLUR : i4 & (-257);
         this.flags = i5;
-        int i6 = this.restricted ? i5 | 512 : i5 & (-513);
+        int i6 = this.restricted ? i5 | LiteMode.FLAG_CALLS_ANIMATIONS : i5 & (-513);
         this.flags = i6;
-        int i7 = this.signatures ? i6 | 2048 : i6 & (-2049);
+        int i7 = this.signatures ? i6 | LiteMode.FLAG_AUTOPLAY_GIFS : i6 & (-2049);
         this.flags = i7;
         int i8 = this.min ? i7 | 4096 : i7 & (-4097);
         this.flags = i8;
@@ -145,7 +147,7 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
         }
         this.photo.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(this.date);
-        if ((this.flags & 512) != 0) {
+        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
             abstractSerializedData.writeInt32(481674261);
             int size = this.restriction_reason.size();
             abstractSerializedData.writeInt32(size);

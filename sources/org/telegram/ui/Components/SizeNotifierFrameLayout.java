@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.ActionBar;
@@ -465,13 +466,12 @@ public class SizeNotifierFrameLayout extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void checkSnowflake(Canvas canvas) {
-        if (!Theme.canStartHolidayAnimation() || SharedConfig.getLiteMode().enabled()) {
-            return;
+        if (Theme.canStartHolidayAnimation() && LiteMode.isEnabled(32)) {
+            if (this.snowflakesEffect == null) {
+                this.snowflakesEffect = new SnowflakesEffect(1);
+            }
+            this.snowflakesEffect.onDraw(this.backgroundView, canvas);
         }
-        if (this.snowflakesEffect == null) {
-            this.snowflakesEffect = new SnowflakesEffect(1);
-        }
-        this.snowflakesEffect.onDraw(this.backgroundView, canvas);
     }
 
     public void setSkipBackgroundDrawing(boolean z) {

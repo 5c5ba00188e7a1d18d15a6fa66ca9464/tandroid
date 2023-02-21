@@ -115,6 +115,7 @@ import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LanguageDetector;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
@@ -388,6 +389,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private int filtersRow;
     private boolean firstLayout;
     private boolean fragmentOpened;
+    private boolean fragmentViewAttached;
     private HintView fwdRestrictedHint;
     private boolean hasCustomPhoto;
     private boolean hasFallbackPhoto;
@@ -580,7 +582,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void access$29500(ProfileActivity profileActivity, View view) {
+    public static /* synthetic */ void access$29600(ProfileActivity profileActivity, View view) {
         profileActivity.onTextDetailCellImageClicked(view);
     }
 
@@ -1922,12 +1924,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         PinchToZoomHelper pinchToZoomHelper = this.pinchToZoomHelper;
         if (pinchToZoomHelper != null) {
             pinchToZoomHelper.clear();
-        }
-        for (int i = 0; i < 2; i++) {
-            AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable[] swapAnimatedEmojiDrawableArr = this.emojiStatusDrawable;
-            if (swapAnimatedEmojiDrawableArr[i] != null) {
-                swapAnimatedEmojiDrawableArr[i].detach();
-            }
         }
     }
 
@@ -3870,6 +3866,28 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 return true;
             }
             return super.drawChild(canvas, view, j);
+        }
+
+        @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
+        protected void onAttachedToWindow() {
+            super.onAttachedToWindow();
+            ProfileActivity.this.fragmentViewAttached = true;
+            for (int i = 0; i < ProfileActivity.this.emojiStatusDrawable.length; i++) {
+                if (ProfileActivity.this.emojiStatusDrawable[i] != null) {
+                    ProfileActivity.this.emojiStatusDrawable[i].attach();
+                }
+            }
+        }
+
+        @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
+        protected void onDetachedFromWindow() {
+            super.onDetachedFromWindow();
+            ProfileActivity.this.fragmentViewAttached = false;
+            for (int i = 0; i < ProfileActivity.this.emojiStatusDrawable.length; i++) {
+                if (ProfileActivity.this.emojiStatusDrawable[i] != null) {
+                    ProfileActivity.this.emojiStatusDrawable[i].detach();
+                }
+            }
         }
     }
 
@@ -8784,6 +8802,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable[] swapAnimatedEmojiDrawableArr = this.emojiStatusDrawable;
         if (swapAnimatedEmojiDrawableArr[i] == null) {
             swapAnimatedEmojiDrawableArr[i] = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this.nameTextView[i], AndroidUtilities.dp(24.0f), i == 0 ? 7 : 2);
+            if (this.fragmentViewAttached) {
+                this.emojiStatusDrawable[i].attach();
+            }
         }
         if (tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatus) {
             this.emojiStatusDrawable[i].set(((TLRPC$TL_emojiStatus) tLRPC$EmojiStatus).document_id, z2);
@@ -9838,11 +9859,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     forDocument = ImageLocation.getForDocument(document);
                     str = "160_160_" + ImageLoader.AUTOPLAY_FILTER;
                     if (svgThumb != null) {
-                        svgThumb.overrideWidthAndHeight(512, 512);
+                        svgThumb.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
                     }
                 } else {
                     if (svgThumb != null && MessageObject.isAnimatedStickerDocument(document, false)) {
-                        svgThumb.overrideWidthAndHeight(512, 512);
+                        svgThumb.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
                     }
                     forDocument = ImageLocation.getForDocument(document);
                 }
@@ -11505,7 +11526,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 textDetailCell.setImageClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
-                        ProfileActivity.access$29500(ProfileActivity.this, view2);
+                        ProfileActivity.access$29600(ProfileActivity.this, view2);
                     }
                 });
                 str = null;

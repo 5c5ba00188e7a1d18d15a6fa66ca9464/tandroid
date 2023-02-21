@@ -12,7 +12,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class ComponentDiscovery<T> {
     private final T context;
@@ -116,7 +115,7 @@ public final class ComponentDiscovery<T> {
                     Log.w("ComponentDiscovery", "Context has no PackageManager.");
                     return null;
                 }
-                ServiceInfo serviceInfo = packageManager.getServiceInfo(new ComponentName(context, this.discoveryService), ConnectionsManager.RequestFlagNeedQuickAck);
+                ServiceInfo serviceInfo = packageManager.getServiceInfo(new ComponentName(context, this.discoveryService), 128);
                 if (serviceInfo == null) {
                     Log.w("ComponentDiscovery", this.discoveryService + " has no service info.");
                     return null;

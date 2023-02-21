@@ -10,6 +10,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLocation;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
@@ -127,8 +128,8 @@ public class ChatGreetingsView extends LinearLayout {
             i3++;
         }
         if (MessageObject.isAnimatedStickerDocument(tLRPC$Document, true) && i == 0 && i2 == 0) {
-            i = 512;
-            i2 = 512;
+            i = LiteMode.FLAG_CALLS_ANIMATIONS;
+            i2 = LiteMode.FLAG_CALLS_ANIMATIONS;
         }
         if (i == 0) {
             i2 = (int) f2;

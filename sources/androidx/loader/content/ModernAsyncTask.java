@@ -18,7 +18,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 abstract class ModernAsyncTask<Params, Progress, Result> {
     public static final Executor THREAD_POOL_EXECUTOR;
@@ -64,7 +63,7 @@ abstract class ModernAsyncTask<Params, Progress, Result> {
         sThreadFactory = threadFactory;
         LinkedBlockingQueue linkedBlockingQueue = new LinkedBlockingQueue(10);
         sPoolWorkQueue = linkedBlockingQueue;
-        THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(5, (int) ConnectionsManager.RequestFlagNeedQuickAck, 1L, TimeUnit.SECONDS, linkedBlockingQueue, threadFactory);
+        THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(5, 128, 1L, TimeUnit.SECONDS, linkedBlockingQueue, threadFactory);
     }
 
     private static Handler getHandler() {

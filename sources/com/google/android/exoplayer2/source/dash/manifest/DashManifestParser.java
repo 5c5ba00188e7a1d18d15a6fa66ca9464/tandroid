@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.messenger.LiteMode;
 import org.webrtc.MediaStreamTrack;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xmlpull.v1.XmlPullParser;
@@ -875,7 +875,7 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         String parseString2 = parseString(xmlPullParser, "value", "");
         long parseLong = parseLong(xmlPullParser, "timescale", 1L);
         ArrayList arrayList = new ArrayList();
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(512);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(LiteMode.FLAG_CALLS_ANIMATIONS);
         do {
             xmlPullParser.next();
             if (XmlPullParserUtil.isStartTag(xmlPullParser, "Event")) {
@@ -1214,11 +1214,11 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         }
         switch (c) {
             case 0:
-                return ConnectionsManager.RequestFlagNeedQuickAck;
+                return 128;
             case 1:
-                return 512;
+                return LiteMode.FLAG_CALLS_ANIMATIONS;
             case 2:
-                return 2048;
+                return LiteMode.FLAG_AUTOPLAY_GIFS;
             case 3:
                 return 2;
             case 4:
@@ -1226,7 +1226,7 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
             case 5:
                 return 1;
             case 6:
-                return 256;
+                return LiteMode.FLAG_CHAT_BLUR;
             case 7:
                 return 64;
             case '\b':
@@ -1279,9 +1279,9 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         }
         switch (c) {
             case 0:
-                return 512;
+                return LiteMode.FLAG_CALLS_ANIMATIONS;
             case 1:
-                return 2048;
+                return LiteMode.FLAG_AUTOPLAY_GIFS;
             case 2:
                 return 4;
             case 3:

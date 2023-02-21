@@ -3,7 +3,6 @@ package com.google.android.exoplayer2.util;
 import android.util.Pair;
 import com.google.android.exoplayer2.ParserException;
 import java.util.ArrayList;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class CodecSpecificDataUtil {
     private static final byte[] NAL_START_CODE = {0, 0, 0, 1};
@@ -11,7 +10,7 @@ public final class CodecSpecificDataUtil {
     private static final int[] AUDIO_SPECIFIC_CONFIG_CHANNEL_COUNT_TABLE = {0, 1, 2, 3, 4, 5, 6, 8, -1, -1, -1, 7, 8, -1, 8, -1};
 
     public static byte[] buildAacAudioSpecificConfig(int i, int i2, int i3) {
-        return new byte[]{(byte) (((i << 3) & 248) | ((i2 >> 1) & 7)), (byte) (((i2 << 7) & ConnectionsManager.RequestFlagNeedQuickAck) | ((i3 << 3) & 120))};
+        return new byte[]{(byte) (((i << 3) & 248) | ((i2 >> 1) & 7)), (byte) (((i2 << 7) & 128) | ((i3 << 3) & 120))};
     }
 
     public static Pair<Integer, Integer> parseAacAudioSpecificConfig(byte[] bArr) throws ParserException {

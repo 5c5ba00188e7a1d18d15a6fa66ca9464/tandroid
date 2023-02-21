@@ -49,6 +49,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
@@ -1315,10 +1316,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                         ((TextCheckCell) view).setChecked(SharedConfig.chatBlurEnabled());
                     }
                 } else if (i == this.lightModeRow) {
-                    SharedConfig.getLiteMode().toggleMode();
-                    if (view instanceof TextCheckCell) {
-                        ((TextCheckCell) view).setChecked(SharedConfig.getLiteMode().enabled());
-                    }
+                    presentFragment(new LiteModeSettingsActivity());
                 } else if (i == this.nightThemeRow) {
                     if ((LocaleController.isRTL && f <= AndroidUtilities.dp(76.0f)) || (!LocaleController.isRTL && f >= view.getMeasuredWidth() - AndroidUtilities.dp(76.0f))) {
                         NotificationsCheckCell notificationsCheckCell = (NotificationsCheckCell) view;
@@ -2452,6 +2450,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             String string;
             String string2;
             String string3;
+            String str;
             switch (viewHolder.getItemViewType()) {
                 case 1:
                     TextSettingsCell textSettingsCell = (TextSettingsCell) viewHolder.itemView;
@@ -2620,14 +2619,10 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                                     if (i != ThemeActivity.this.pauseOnRecordRow) {
                                         if (i != ThemeActivity.this.customTabsRow) {
                                             if (i != ThemeActivity.this.directShareRow) {
-                                                if (i != ThemeActivity.this.chatBlurRow) {
-                                                    if (i == ThemeActivity.this.lightModeRow) {
-                                                        textCheckCell.setTextAndCheck(LocaleController.getString("LightMode", R.string.LightMode), SharedConfig.getLiteMode().enabled, true);
-                                                        return;
-                                                    }
+                                                if (i == ThemeActivity.this.chatBlurRow) {
+                                                    textCheckCell.setTextAndCheck(LocaleController.getString("BlurInChat", R.string.BlurInChat), SharedConfig.chatBlurEnabled(), true);
                                                     return;
                                                 }
-                                                textCheckCell.setTextAndCheck(LocaleController.getString("BlurInChat", R.string.BlurInChat), SharedConfig.chatBlurEnabled(), true);
                                                 return;
                                             }
                                             textCheckCell.setTextAndValueAndCheck(LocaleController.getString("DirectShare", R.string.DirectShare), LocaleController.getString("DirectShareInfo", R.string.DirectShareInfo), SharedConfig.directShare, false, true);
@@ -2700,18 +2695,32 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     return;
                 case 14:
                     TextCell textCell = (TextCell) viewHolder.itemView;
-                    textCell.setColors("windowBackgroundWhiteBlueText4", "windowBackgroundWhiteBlueText4");
                     if (i != ThemeActivity.this.backgroundRow) {
                         if (i != ThemeActivity.this.editThemeRow) {
-                            if (i == ThemeActivity.this.createNewThemeRow) {
-                                textCell.setTextAndIcon(LocaleController.getString("CreateNewTheme", R.string.CreateNewTheme), R.drawable.msg_colors, false);
+                            if (i != ThemeActivity.this.createNewThemeRow) {
+                                if (i == ThemeActivity.this.lightModeRow) {
+                                    textCell.setColors("windowBackgroundWhiteBlueText4", "windowBackgroundWhiteBlackText");
+                                    if (LiteMode.getValue() == 4095) {
+                                        str = "High";
+                                    } else if (LiteMode.getValue() == 3666) {
+                                        str = "Medium";
+                                    } else {
+                                        str = LiteMode.getValue() == 0 ? "Low" : "Custom";
+                                    }
+                                    textCell.setTextAndValue(LocaleController.getString("PowerUsage", R.string.PowerUsage), str, true, false);
+                                    return;
+                                }
                                 return;
                             }
+                            textCell.setColors("windowBackgroundWhiteBlueText4", "windowBackgroundWhiteBlueText4");
+                            textCell.setTextAndIcon(LocaleController.getString("CreateNewTheme", R.string.CreateNewTheme), R.drawable.msg_colors, false);
                             return;
                         }
+                        textCell.setColors("windowBackgroundWhiteBlueText4", "windowBackgroundWhiteBlueText4");
                         textCell.setTextAndIcon(LocaleController.getString("EditCurrentTheme", R.string.EditCurrentTheme), R.drawable.msg_theme, true);
                         return;
                     }
+                    textCell.setColors("windowBackgroundWhiteBlueText4", "windowBackgroundWhiteBlueText4");
                     textCell.setTextAndIcon(LocaleController.getString("ChangeChatBackground", R.string.ChangeChatBackground), R.drawable.msg_background, false);
                     return;
                 case 17:
@@ -2761,7 +2770,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             if (i == ThemeActivity.this.automaticBrightnessRow) {
                 return 6;
             }
-            if (i == ThemeActivity.this.scheduleLocationRow || i == ThemeActivity.this.enableAnimationsRow || i == ThemeActivity.this.sendByEnterRow || i == ThemeActivity.this.raiseToSpeakRow || i == ThemeActivity.this.pauseOnRecordRow || i == ThemeActivity.this.customTabsRow || i == ThemeActivity.this.directShareRow || i == ThemeActivity.this.chatBlurRow || i == ThemeActivity.this.lightModeRow) {
+            if (i == ThemeActivity.this.scheduleLocationRow || i == ThemeActivity.this.enableAnimationsRow || i == ThemeActivity.this.sendByEnterRow || i == ThemeActivity.this.raiseToSpeakRow || i == ThemeActivity.this.pauseOnRecordRow || i == ThemeActivity.this.customTabsRow || i == ThemeActivity.this.directShareRow || i == ThemeActivity.this.chatBlurRow) {
                 return 7;
             }
             if (i == ThemeActivity.this.textSizeRow) {
@@ -2782,7 +2791,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             if (i == ThemeActivity.this.bubbleRadiusRow) {
                 return 13;
             }
-            if (i == ThemeActivity.this.backgroundRow || i == ThemeActivity.this.editThemeRow || i == ThemeActivity.this.createNewThemeRow) {
+            if (i == ThemeActivity.this.backgroundRow || i == ThemeActivity.this.editThemeRow || i == ThemeActivity.this.createNewThemeRow || i == ThemeActivity.this.lightModeRow) {
                 return 14;
             }
             if (i == ThemeActivity.this.swipeGestureRow) {

@@ -1,6 +1,7 @@
 package org.telegram.tgnet;
 
 import org.telegram.messenger.CharacterCompat;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_user extends TLRPC$User {
     public static int constructor = -1885878744;
@@ -9,8 +10,8 @@ public class TLRPC$TL_user extends TLRPC$User {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        this.self = (readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0;
-        this.contact = (readInt32 & 2048) != 0;
+        this.self = (readInt32 & 1024) != 0;
+        this.contact = (readInt32 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
         this.mutual_contact = (readInt32 & 4096) != 0;
         this.deleted = (readInt32 & 8192) != 0;
         this.bot = (readInt32 & 16384) != 0;
@@ -104,9 +105,9 @@ public class TLRPC$TL_user extends TLRPC$User {
             this.flags &= -9;
         }
         abstractSerializedData.writeInt32(constructor);
-        int i = this.self ? this.flags | ConnectionsManager.RequestFlagDoNotWaitFloodWait : this.flags & (-1025);
+        int i = this.self ? this.flags | 1024 : this.flags & (-1025);
         this.flags = i;
-        int i2 = this.contact ? i | 2048 : i & (-2049);
+        int i2 = this.contact ? i | LiteMode.FLAG_AUTOPLAY_GIFS : i & (-2049);
         this.flags = i2;
         int i3 = this.mutual_contact ? i2 | 4096 : i2 & (-4097);
         this.flags = i3;

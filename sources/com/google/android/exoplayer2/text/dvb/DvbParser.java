@@ -13,7 +13,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 final class DvbParser {
     private static final byte[] defaultMap2To4 = {0, 7, 8, 15};
@@ -307,7 +307,7 @@ final class DvbParser {
             int readBits5 = parsableBitArray.readBits(i4);
             int readBits6 = parsableBitArray.readBits(i4);
             int i7 = i6 - 2;
-            int[] iArr = (readBits6 & ConnectionsManager.RequestFlagNeedQuickAck) != 0 ? generateDefault2BitClutEntries : (readBits6 & 64) != 0 ? generateDefault4BitClutEntries : generateDefault8BitClutEntries;
+            int[] iArr = (readBits6 & 128) != 0 ? generateDefault2BitClutEntries : (readBits6 & 64) != 0 ? generateDefault4BitClutEntries : generateDefault8BitClutEntries;
             if ((readBits6 & 1) != 0) {
                 readBits3 = parsableBitArray.readBits(i4);
                 i3 = parsableBitArray.readBits(i4);
@@ -391,7 +391,7 @@ final class DvbParser {
     }
 
     private static int[] generateDefault8BitClutEntries() {
-        int[] iArr = new int[256];
+        int[] iArr = new int[LiteMode.FLAG_CHAT_BLUR];
         iArr[0] = 0;
         for (int i = 0; i < 256; i++) {
             if (i < 8) {

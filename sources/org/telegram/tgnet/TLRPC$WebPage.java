@@ -1,6 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public abstract class TLRPC$WebPage extends TLObject {
     public ArrayList<TLRPC$TL_webPageAttributeTheme> attributes = new ArrayList<>();
@@ -74,10 +75,10 @@ public abstract class TLRPC$WebPage extends TLObject {
                         if ((this.flags & 64) != 0) {
                             this.embed_height = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             this.duration = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             this.author = abstractSerializedData2.readString(z2);
                         }
                     }
@@ -116,10 +117,10 @@ public abstract class TLRPC$WebPage extends TLObject {
                         if ((this.flags & 64) != 0) {
                             abstractSerializedData2.writeInt32(this.embed_height);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(this.duration);
                         }
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             abstractSerializedData2.writeString(this.author);
                         }
                     }
@@ -165,13 +166,13 @@ public abstract class TLRPC$WebPage extends TLObject {
                         if ((this.flags & 64) != 0) {
                             this.embed_height = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             this.duration = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             this.author = abstractSerializedData2.readString(z2);
                         }
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             this.document = TLRPC$Document.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                     }
@@ -210,13 +211,13 @@ public abstract class TLRPC$WebPage extends TLObject {
                         if ((this.flags & 64) != 0) {
                             abstractSerializedData2.writeInt32(this.embed_height);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(this.duration);
                         }
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             abstractSerializedData2.writeString(this.author);
                         }
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             this.document.serializeToStream(abstractSerializedData2);
                         }
                     }
@@ -269,16 +270,16 @@ public abstract class TLRPC$WebPage extends TLObject {
                         if ((this.flags & 64) != 0) {
                             this.embed_height = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             this.duration = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             this.author = abstractSerializedData2.readString(z2);
                         }
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             this.document = TLRPC$Document.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             int readInt32 = abstractSerializedData2.readInt32(z2);
                             if (readInt32 != 481674261) {
                                 if (z2) {
@@ -297,7 +298,7 @@ public abstract class TLRPC$WebPage extends TLObject {
                             }
                             this.attributes.add(tLRPC$TL_webPageAttributeTheme);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             this.cached_page = TLRPC$Page.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                     }
@@ -337,20 +338,20 @@ public abstract class TLRPC$WebPage extends TLObject {
                         if ((this.flags & 64) != 0) {
                             abstractSerializedData2.writeInt32(this.embed_height);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(this.duration);
                         }
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             abstractSerializedData2.writeString(this.author);
                         }
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             this.document.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & 2048) != 0) {
+                        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                             abstractSerializedData2.writeInt32(481674261);
                             abstractSerializedData2.writeInt32(0);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             this.cached_page.serializeToStream(abstractSerializedData2);
                         }
                     }
@@ -394,16 +395,16 @@ public abstract class TLRPC$WebPage extends TLObject {
                         if ((this.flags & 64) != 0) {
                             this.embed_height = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             this.duration = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             this.author = abstractSerializedData2.readString(z2);
                         }
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             this.document = TLRPC$Document.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             this.cached_page = TLRPC$Page.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                     }
@@ -443,16 +444,16 @@ public abstract class TLRPC$WebPage extends TLObject {
                         if ((this.flags & 64) != 0) {
                             abstractSerializedData2.writeInt32(this.embed_height);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+                        if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(this.duration);
                         }
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             abstractSerializedData2.writeString(this.author);
                         }
-                        if ((this.flags & 512) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             this.document.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                        if ((this.flags & 1024) != 0) {
                             this.cached_page.serializeToStream(abstractSerializedData2);
                         }
                     }

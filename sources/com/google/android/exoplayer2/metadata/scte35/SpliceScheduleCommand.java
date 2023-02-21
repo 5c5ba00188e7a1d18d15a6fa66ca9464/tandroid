@@ -6,7 +6,6 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class SpliceScheduleCommand extends SpliceCommand {
     public static final Parcelable.Creator<SpliceScheduleCommand> CREATOR = new Parcelable.Creator<SpliceScheduleCommand>() { // from class: com.google.android.exoplayer2.metadata.scte35.SpliceScheduleCommand.1
@@ -83,7 +82,7 @@ public final class SpliceScheduleCommand extends SpliceCommand {
             boolean z4;
             long j3;
             long readUnsignedInt = parsableByteArray.readUnsignedInt();
-            boolean z5 = (parsableByteArray.readUnsignedByte() & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
+            boolean z5 = (parsableByteArray.readUnsignedByte() & 128) != 0;
             ArrayList arrayList2 = new ArrayList();
             if (z5) {
                 arrayList = arrayList2;
@@ -97,7 +96,7 @@ public final class SpliceScheduleCommand extends SpliceCommand {
                 z3 = false;
             } else {
                 int readUnsignedByte = parsableByteArray.readUnsignedByte();
-                boolean z6 = (readUnsignedByte & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
+                boolean z6 = (readUnsignedByte & 128) != 0;
                 boolean z7 = (readUnsignedByte & 64) != 0;
                 boolean z8 = (readUnsignedByte & 32) != 0;
                 long readUnsignedInt2 = z7 ? parsableByteArray.readUnsignedInt() : -9223372036854775807L;

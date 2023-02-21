@@ -55,6 +55,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.telegram.messenger.BuildVars;
+import org.telegram.messenger.LiteMode;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class RecyclerView extends ViewGroup implements NestedScrollingChild {
@@ -513,7 +514,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
                     if (childViewHolderInt.isTmpDetached() && !childViewHolderInt.shouldIgnore()) {
                         throw new IllegalArgumentException("called detach on an already detached child " + childViewHolderInt + RecyclerView.this.exceptionLabel());
                     }
-                    childViewHolderInt.addFlags(256);
+                    childViewHolderInt.addFlags(LiteMode.FLAG_CHAT_BLUR);
                 }
                 RecyclerView.this.detachViewFromParent(i);
             }
@@ -2250,7 +2251,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
             return;
         }
         AccessibilityEvent obtain = AccessibilityEvent.obtain();
-        obtain.setEventType(2048);
+        obtain.setEventType(LiteMode.FLAG_AUTOPLAY_GIFS);
         AccessibilityEventCompat.setContentChangeTypes(obtain, i);
         sendAccessibilityEventUnchecked(obtain);
     }
@@ -5158,7 +5159,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
                 throw new IllegalArgumentException("View should be fully attached to be ignored" + this.mRecyclerView.exceptionLabel());
             }
             ViewHolder childViewHolderInt = RecyclerView.getChildViewHolderInt(view);
-            childViewHolderInt.addFlags(ConnectionsManager.RequestFlagNeedQuickAck);
+            childViewHolderInt.addFlags(128);
             this.mRecyclerView.mViewInfoStore.removeViewHolder(childViewHolderInt);
         }
 
@@ -5738,7 +5739,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         }
 
         public boolean shouldIgnore() {
-            return (this.mFlags & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
+            return (this.mFlags & 128) != 0;
         }
 
         @Deprecated
@@ -5825,7 +5826,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         }
 
         boolean isTmpDetached() {
-            return (this.mFlags & 256) != 0;
+            return (this.mFlags & LiteMode.FLAG_CHAT_BLUR) != 0;
         }
 
         boolean isAttachedToTransitionOverlay() {
@@ -5833,7 +5834,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         }
 
         boolean isAdapterPositionUnknown() {
-            return (this.mFlags & 512) != 0 || isInvalid();
+            return (this.mFlags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0 || isInvalid();
         }
 
         void setFlags(int i, int i2) {
@@ -5846,7 +5847,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
 
         void addChangePayload(Object obj) {
             if (obj == null) {
-                addFlags(ConnectionsManager.RequestFlagDoNotWaitFloodWait);
+                addFlags(1024);
             } else if ((1024 & this.mFlags) == 0) {
                 createPayloadsIfNeeded();
                 this.mPayloads.add(obj);
@@ -5870,7 +5871,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         }
 
         List<Object> getUnmodifiedPayloads() {
-            if ((this.mFlags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) == 0) {
+            if ((this.mFlags & 1024) == 0) {
                 List<Object> list = this.mPayloads;
                 if (list == null || list.size() == 0) {
                     return FULLUPDATE_PAYLOADS;
@@ -6727,7 +6728,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
             if ((i & 4) == 0) {
                 int oldPosition = viewHolder.getOldPosition();
                 int adapterPosition = viewHolder.getAdapterPosition();
-                return (oldPosition == -1 || adapterPosition == -1 || oldPosition == adapterPosition) ? i : i | 2048;
+                return (oldPosition == -1 || adapterPosition == -1 || oldPosition == adapterPosition) ? i : i | LiteMode.FLAG_AUTOPLAY_GIFS;
             }
             return i;
         }

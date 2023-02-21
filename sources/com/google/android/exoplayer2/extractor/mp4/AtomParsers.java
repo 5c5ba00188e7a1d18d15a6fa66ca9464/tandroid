@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.telegram.messenger.MediaController;
-import org.telegram.tgnet.ConnectionsManager;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class AtomParsers {
@@ -1080,7 +1079,7 @@ public final class AtomParsers {
         parseExpandableClassSize(parsableByteArray);
         parsableByteArray.skipBytes(2);
         int readUnsignedByte = parsableByteArray.readUnsignedByte();
-        if ((readUnsignedByte & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+        if ((readUnsignedByte & 128) != 0) {
             parsableByteArray.skipBytes(2);
         }
         if ((readUnsignedByte & 64) != 0) {
@@ -1203,7 +1202,7 @@ public final class AtomParsers {
     private static int parseExpandableClassSize(ParsableByteArray parsableByteArray) {
         int readUnsignedByte = parsableByteArray.readUnsignedByte();
         int i = readUnsignedByte & 127;
-        while ((readUnsignedByte & ConnectionsManager.RequestFlagNeedQuickAck) == 128) {
+        while ((readUnsignedByte & 128) == 128) {
             readUnsignedByte = parsableByteArray.readUnsignedByte();
             i = (i << 7) | (readUnsignedByte & 127);
         }

@@ -13,7 +13,6 @@ import java.util.Random;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.SharedConfig;
-import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class FlickerLoadingView extends View {
@@ -247,7 +246,7 @@ public class FlickerLoadingView extends View {
             while (i10 <= getMeasuredHeight()) {
                 canvas.drawCircle(checkRtl(this.paddingLeft + AndroidUtilities.dp(9.0f) + dp13), AndroidUtilities.dp(29.0f) + i10, AndroidUtilities.dp(20.0f), paint2);
                 float f3 = 76;
-                this.rectF.set(AndroidUtilities.dp(f3), AndroidUtilities.dp(16.0f) + i10, AndroidUtilities.dp((i2 % 2 == 0 ? 92 : ConnectionsManager.RequestFlagNeedQuickAck) + 76), AndroidUtilities.dp(24.0f) + i10);
+                this.rectF.set(AndroidUtilities.dp(f3), AndroidUtilities.dp(16.0f) + i10, AndroidUtilities.dp((i2 % 2 == 0 ? 92 : 128) + 76), AndroidUtilities.dp(24.0f) + i10);
                 checkRtl(this.rectF);
                 canvas.drawRoundRect(this.rectF, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), paint2);
                 this.rectF.set(AndroidUtilities.dp(f3), AndroidUtilities.dp(38.0f) + i10, AndroidUtilities.dp(240), AndroidUtilities.dp(46.0f) + i10);

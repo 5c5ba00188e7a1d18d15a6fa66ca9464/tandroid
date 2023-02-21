@@ -424,8 +424,8 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x007a  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0086  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0078  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0084  */
     /* JADX WARN: Type inference failed for: r8v3, types: [android.graphics.drawable.BitmapDrawable] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -456,7 +456,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                     TLRPC$Photo tLRPC$Photo = tLRPC$User.photo.personal ? userFull2.personal_photo : userFull2.profile_photo;
                     if (tLRPC$Photo != null) {
                         tLRPC$VideoSize = FileLoader.getVectorMarkupVideoSize(tLRPC$Photo);
-                        if (tLRPC$VideoSize == null && z && MessagesController.getInstance(this.currentAccount).isPremiumUser(tLRPC$User) && tLRPC$User.photo.has_video && !SharedConfig.getLiteMode().enabled()) {
+                        if (tLRPC$VideoSize == null && z && MessagesController.getInstance(this.currentAccount).isPremiumUser(tLRPC$User) && tLRPC$User.photo.has_video && LiteMode.isEnabled(1024)) {
                             userFull = MessagesController.getInstance(this.currentAccount).getUserFull(tLRPC$User.id);
                             if (userFull != null) {
                                 MessagesController.getInstance(this.currentAccount).loadFullUser(tLRPC$User, this.currentGuid, false);
@@ -1186,7 +1186,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             invalidate();
         }
         if (NotificationCenter.getGlobalInstance().isAnimationInProgress()) {
-            didReceivedNotification(NotificationCenter.stopAllHeavyOperations, this.currentAccount, 512);
+            didReceivedNotification(NotificationCenter.stopAllHeavyOperations, this.currentAccount, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
         }
         Drawable drawable = this.staticThumbDrawable;
         if (drawable instanceof AttachableDrawable) {

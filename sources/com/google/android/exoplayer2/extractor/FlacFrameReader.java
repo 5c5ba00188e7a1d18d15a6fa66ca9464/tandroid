@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.util.FlacStreamMetadata;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class FlacFrameReader {
 
@@ -79,7 +80,7 @@ public final class FlacFrameReader {
             case 13:
             case 14:
             case 15:
-                return 256 << (i - 8);
+                return LiteMode.FLAG_CHAT_BLUR << (i - 8);
             default:
                 return -1;
         }

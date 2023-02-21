@@ -27,6 +27,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
@@ -83,7 +84,7 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
         if ((file != null && file.exists()) || SharedConfig.streamMedia) {
             File file2 = this.file;
             if (file2 != null && file2.exists()) {
-                if ((NotificationCenter.getGlobalInstance().getCurrentHeavyOperationFlags() & 512) != 0) {
+                if ((NotificationCenter.getGlobalInstance().getCurrentHeavyOperationFlags() & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                     Runnable runnable = this.nextCheck;
                     if (runnable != null) {
                         AndroidUtilities.cancelRunOnUIThread(runnable);

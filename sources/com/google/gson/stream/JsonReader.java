@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.Arrays;
 import java.util.Objects;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class JsonReader implements Closeable {
     private final Reader in;
@@ -20,7 +19,7 @@ public class JsonReader implements Closeable {
     private int[] stack;
     private int stackSize;
     private boolean lenient = false;
-    private final char[] buffer = new char[ConnectionsManager.RequestFlagDoNotWaitFloodWait];
+    private final char[] buffer = new char[1024];
     private int pos = 0;
     private int limit = 0;
     private int lineNumber = 0;

@@ -53,7 +53,6 @@ public class PremiumLockIconView extends ImageView {
         this.path = new Path();
         this.paint = new Paint(1);
         this.shaderCrossfadeProgress = 1.0f;
-        this.cellFlickerDrawable = new CellFlickerDrawable();
         this.type = i;
         this.resourcesProvider = resourcesProvider;
         setImageResource(i == TYPE_REACTIONS ? R.drawable.msg_premium_lock2 : R.drawable.msg_mini_premiumlock);
@@ -119,6 +118,9 @@ public class PremiumLockIconView extends ImageView {
             } else {
                 PremiumGradient.getInstance().updateMainGradientMatrix(0, 0, getMeasuredWidth(), getMeasuredHeight(), -AndroidUtilities.dp(24.0f), 0.0f);
                 canvas.drawPath(this.path, PremiumGradient.getInstance().getMainGradientPaint());
+            }
+            if (this.cellFlickerDrawable == null) {
+                this.cellFlickerDrawable = new CellFlickerDrawable();
             }
             this.cellFlickerDrawable.setParentWidth(getMeasuredWidth() / 2);
             CellFlickerDrawable cellFlickerDrawable = this.cellFlickerDrawable;
@@ -238,8 +240,10 @@ public class PremiumLockIconView extends ImageView {
 
     public void play(int i) {
         CellFlickerDrawable cellFlickerDrawable = this.cellFlickerDrawable;
-        cellFlickerDrawable.progress = 0.0f;
-        cellFlickerDrawable.repeatEnabled = false;
+        if (cellFlickerDrawable != null) {
+            cellFlickerDrawable.progress = 0.0f;
+            cellFlickerDrawable.repeatEnabled = false;
+        }
         invalidate();
         animate().scaleX(1.1f).scaleY(1.1f).setStartDelay(i).setInterpolator(AndroidUtilities.overshootInterpolator).setDuration(300L);
     }

@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.telegram.messenger.ImageReceiver;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class Cea708Decoder extends CeaDecoder {
     private final CueBuilder[] cueBuilders;
@@ -222,7 +221,7 @@ public final class Cea708Decoder extends CeaDecoder {
         CueBuilder cueBuilder;
         int i2 = 1;
         switch (i) {
-            case ConnectionsManager.RequestFlagNeedQuickAck /* 128 */:
+            case 128:
             case 129:
             case 130:
             case 131:

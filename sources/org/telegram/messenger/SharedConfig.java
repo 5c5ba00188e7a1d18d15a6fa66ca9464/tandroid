@@ -26,8 +26,6 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLRPC$TL_help_appUpdate;
 import org.telegram.tgnet.TLRPC$help_AppUpdate;
-import org.telegram.ui.ActionBar.Theme;
-import org.telegram.ui.Components.AnimatedEmojiDrawable;
 /* loaded from: classes.dex */
 public class SharedConfig {
     private static final int[] AVERAGE_DEVICES;
@@ -50,11 +48,8 @@ public class SharedConfig {
     public static boolean appLocked = false;
     public static boolean archiveHidden = false;
     public static int autoLockIn = 3600;
-    private static boolean autoplayGifs = false;
-    private static boolean autoplayVideo = false;
     public static int badPasscodeTries = 0;
     public static int bubbleRadius = 0;
-    public static boolean chatBlur = false;
     public static boolean chatBubbles = false;
     private static int chatSwipeAction = 0;
     private static boolean configLoaded = false;
@@ -73,7 +68,6 @@ public class SharedConfig {
     public static int fastScrollHintCount = 0;
     public static int fontSize = 0;
     public static boolean fontSizeIsDefault = false;
-    private static boolean forceAutoplayVideo = false;
     public static boolean forceDisableTabletMode = false;
     public static boolean forceRtmpStream = false;
     public static boolean forwardingOptionsHintShown = false;
@@ -91,7 +85,6 @@ public class SharedConfig {
     public static long lastUptimeMillis = 0;
     public static LiteMode liteMode = null;
     public static int lockRecordAudioVideoHint = 0;
-    public static boolean loopStickers = false;
     public static int mediaColumnsCount = 0;
     public static int messageSeenHintCount = 0;
     public static boolean noSoundHintShowed = false;
@@ -149,6 +142,7 @@ public class SharedConfig {
     public static boolean useThreeLinesLayout;
     public static byte[] passcodeSalt = new byte[0];
     public static int keepMedia = CacheByChatsController.KEEP_MEDIA_ONE_MONTH;
+    public static boolean updateStickersOrderOnSend = true;
     private static int lastLocalId = -210000;
     private static String passportConfigJson = "";
     private static final Object sync = new Object();
@@ -169,25 +163,12 @@ public class SharedConfig {
         return i != 0 ? i != 1 ? i != 2 ? "UNKNOWN" : "HIGH" : "AVERAGE" : "LOW";
     }
 
-    public static void toggleSaveToGalleryFlag(int i) {
-    }
-
-    public static LiteMode getLiteMode() {
-        if (liteMode == null) {
-            liteMode = new LiteMode();
-        }
-        return liteMode;
-    }
-
     public static boolean loopStickers() {
-        return loopStickers && !getLiteMode().enabled;
+        return LiteMode.isEnabled(2);
     }
 
     static {
         chatBubbles = Build.VERSION.SDK_INT >= 30;
-        autoplayGifs = true;
-        autoplayVideo = true;
-        forceAutoplayVideo = false;
         raiseToSpeak = false;
         recordViaSco = false;
         customTabs = true;
@@ -201,7 +182,6 @@ public class SharedConfig {
         saveStreamMedia = true;
         smoothKeyboard = true;
         pauseMusicOnRecord = false;
-        chatBlur = true;
         noStatusBar = true;
         showNotificationsForAllAccounts = true;
         fontSize = 16;
@@ -348,14 +328,14 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x017e A[Catch: Exception -> 0x01a0, all -> 0x041d, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:87:0x012f, outer: #4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0182 A[Catch: Exception -> 0x01a0, all -> 0x041d, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:87:0x012f, outer: #4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0229  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x022c  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x023c  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x023e  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x02d8  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x02da  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x017e A[Catch: Exception -> 0x01a0, all -> 0x03fe, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:87:0x012f, outer: #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0182 A[Catch: Exception -> 0x01a0, all -> 0x03fe, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:87:0x012f, outer: #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0211  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0214  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0224  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0226  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x02b8  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x02ba  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -438,9 +418,6 @@ public class SharedConfig {
                             AndroidUtilities.runOnUIThread(SharedConfig$$ExternalSyntheticLambda2.INSTANCE);
                             SharedPreferences sharedPreferences2 = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
                             SaveToGallerySettingsHelper.load(sharedPreferences2);
-                            autoplayGifs = sharedPreferences2.getBoolean("autoplay_gif", true);
-                            autoplayVideo = sharedPreferences2.getBoolean("autoplay_video", true);
-                            forceAutoplayVideo = sharedPreferences2.getBoolean("autoplay_video_liteforce", false);
                             mapPreviewType = sharedPreferences2.getInt("mapPreviewType", 2);
                             raiseToSpeak = sharedPreferences2.getBoolean("raise_to_speak", false);
                             recordViaSco = sharedPreferences2.getBoolean("record_via_sco", false);
@@ -463,7 +440,6 @@ public class SharedConfig {
                             saveStreamMedia = sharedPreferences2.getBoolean("saveStreamMedia", true);
                             smoothKeyboard = sharedPreferences2.getBoolean("smoothKeyboard2", true);
                             pauseMusicOnRecord = sharedPreferences2.getBoolean("pauseMusicOnRecord", false);
-                            chatBlur = sharedPreferences2.getBoolean("chatBlur", true);
                             forceDisableTabletMode = sharedPreferences2.getBoolean("forceDisableTabletMode", false);
                             streamAllVideo = sharedPreferences2.getBoolean("streamAllVideo", BuildVars.DEBUG_VERSION);
                             streamMkv = sharedPreferences2.getBoolean("streamMkv", false);
@@ -479,7 +455,6 @@ public class SharedConfig {
                             useThreeLinesLayout = sharedPreferences2.getBoolean("useThreeLinesLayout", false);
                             archiveHidden = sharedPreferences2.getBoolean("archiveHidden", false);
                             distanceSystemType = sharedPreferences2.getInt("distanceSystemType", 0);
-                            loopStickers = sharedPreferences2.getBoolean("loopStickers", true);
                             keepMedia = sharedPreferences2.getInt("keep_media", CacheByChatsController.KEEP_MEDIA_ONE_MONTH);
                             noStatusBar = sharedPreferences2.getBoolean("noStatusBar", true);
                             forceRtmpStream = sharedPreferences2.getBoolean("forceRtmpStream", false);
@@ -505,6 +480,7 @@ public class SharedConfig {
                             hasEmailLogin = sharedPreferences2.getBoolean("hasEmailLogin", false);
                             useLNavigation = sharedPreferences2.getBoolean("useLNavigation", false);
                             isFloatingDebugActive = sharedPreferences2.getBoolean("floatingDebugActive", false);
+                            updateStickersOrderOnSend = sharedPreferences2.getBoolean("updateStickersOrderOnSend", true);
                             showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
                             configLoaded = true;
                             if (Build.VERSION.SDK_INT >= 19) {
@@ -527,9 +503,6 @@ public class SharedConfig {
                 }
                 SharedPreferences sharedPreferences22 = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
                 SaveToGallerySettingsHelper.load(sharedPreferences22);
-                autoplayGifs = sharedPreferences22.getBoolean("autoplay_gif", true);
-                autoplayVideo = sharedPreferences22.getBoolean("autoplay_video", true);
-                forceAutoplayVideo = sharedPreferences22.getBoolean("autoplay_video_liteforce", false);
                 mapPreviewType = sharedPreferences22.getInt("mapPreviewType", 2);
                 raiseToSpeak = sharedPreferences22.getBoolean("raise_to_speak", false);
                 recordViaSco = sharedPreferences22.getBoolean("record_via_sco", false);
@@ -552,7 +525,6 @@ public class SharedConfig {
                 saveStreamMedia = sharedPreferences22.getBoolean("saveStreamMedia", true);
                 smoothKeyboard = sharedPreferences22.getBoolean("smoothKeyboard2", true);
                 pauseMusicOnRecord = sharedPreferences22.getBoolean("pauseMusicOnRecord", false);
-                chatBlur = sharedPreferences22.getBoolean("chatBlur", true);
                 forceDisableTabletMode = sharedPreferences22.getBoolean("forceDisableTabletMode", false);
                 streamAllVideo = sharedPreferences22.getBoolean("streamAllVideo", BuildVars.DEBUG_VERSION);
                 streamMkv = sharedPreferences22.getBoolean("streamMkv", false);
@@ -568,7 +540,6 @@ public class SharedConfig {
                 useThreeLinesLayout = sharedPreferences22.getBoolean("useThreeLinesLayout", false);
                 archiveHidden = sharedPreferences22.getBoolean("archiveHidden", false);
                 distanceSystemType = sharedPreferences22.getInt("distanceSystemType", 0);
-                loopStickers = sharedPreferences22.getBoolean("loopStickers", true);
                 keepMedia = sharedPreferences22.getInt("keep_media", CacheByChatsController.KEEP_MEDIA_ONE_MONTH);
                 noStatusBar = sharedPreferences22.getBoolean("noStatusBar", true);
                 forceRtmpStream = sharedPreferences22.getBoolean("forceRtmpStream", false);
@@ -594,6 +565,7 @@ public class SharedConfig {
                 hasEmailLogin = sharedPreferences22.getBoolean("hasEmailLogin", false);
                 useLNavigation = sharedPreferences22.getBoolean("useLNavigation", false);
                 isFloatingDebugActive = sharedPreferences22.getBoolean("floatingDebugActive", false);
+                updateStickersOrderOnSend = sharedPreferences22.getBoolean("updateStickersOrderOnSend", true);
                 showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
                 configLoaded = true;
                 try {
@@ -639,11 +611,11 @@ public class SharedConfig {
     }
 
     public static boolean isAutoplayVideo() {
-        return autoplayVideo && (forceAutoplayVideo || !getLiteMode().enabled());
+        return LiteMode.isEnabled(1024);
     }
 
     public static boolean isAutoplayGifs() {
-        return autoplayGifs;
+        return LiteMode.isEnabled(LiteMode.FLAG_AUTOPLAY_GIFS);
     }
 
     public static boolean isPassportConfigLoaded() {
@@ -883,6 +855,14 @@ public class SharedConfig {
         edit.commit();
     }
 
+    public static void toggleUpdateStickersOrderOnSend() {
+        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+        boolean z = !updateStickersOrderOnSend;
+        updateStickersOrderOnSend = z;
+        edit.putBoolean("updateStickersOrderOnSend", z);
+        edit.commit();
+    }
+
     public static void checkLogsToDelete() {
         if (BuildVars.LOGS_ENABLED) {
             final int currentTimeMillis = (int) (System.currentTimeMillis() / 1000);
@@ -953,10 +933,7 @@ public class SharedConfig {
     }
 
     public static void toggleLoopStickers() {
-        loopStickers = !loopStickers;
-        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
-        edit.putBoolean("loopStickers", loopStickers);
-        edit.commit();
+        LiteMode.toggleFlag(2);
     }
 
     public static void toggleBigEmoji() {
@@ -1011,18 +988,14 @@ public class SharedConfig {
     public static void overrideDevicePerformanceClass(int i) {
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         overrideDevicePerformanceClass = i;
-        edit.putInt("overrideDevicePerformanceClass", i).remove("light_mode").commit();
-        LiteMode liteMode2 = liteMode;
-        if (liteMode2 != null) {
-            liteMode2.loadPreference();
+        edit.putInt("overrideDevicePerformanceClass", i).remove("lite_mode").commit();
+        if (liteMode != null) {
+            LiteMode.loadPreference();
         }
     }
 
     public static void toggleAutoplayGifs() {
-        autoplayGifs = !isAutoplayGifs();
-        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
-        edit.putBoolean("autoplay_gif", autoplayGifs);
-        edit.commit();
+        LiteMode.toggleFlag(LiteMode.FLAG_AUTOPLAY_GIFS);
     }
 
     public static void setUseThreeLinesLayout(boolean z) {
@@ -1041,16 +1014,7 @@ public class SharedConfig {
     }
 
     public static void toggleAutoplayVideo() {
-        boolean isAutoplayVideo = isAutoplayVideo();
-        autoplayVideo = !isAutoplayVideo;
-        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
-        edit.putBoolean("autoplay_video", autoplayVideo);
-        if (getLiteMode().enabled()) {
-            boolean z = !isAutoplayVideo;
-            forceAutoplayVideo = z;
-            edit.putBoolean("autoplay_video_liteforce", z);
-        }
-        edit.commit();
+        LiteMode.toggleFlag(1024, !isAutoplayVideo());
     }
 
     public static boolean isSecretMapPreviewSet() {
@@ -1154,10 +1118,7 @@ public class SharedConfig {
     }
 
     public static void toggleChatBlur() {
-        chatBlur = !chatBlur;
-        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
-        edit.putBoolean("chatBlur", chatBlur);
-        edit.commit();
+        LiteMode.toggleFlag(LiteMode.FLAG_CHAT_BLUR);
     }
 
     public static void toggleForceDisableTabletMode() {
@@ -1523,7 +1484,7 @@ public class SharedConfig {
     }
 
     public static boolean chatBlurEnabled() {
-        return canBlurChat() && chatBlur;
+        return canBlurChat() && LiteMode.isEnabled(LiteMode.FLAG_CHAT_BLUR);
     }
 
     /* loaded from: classes.dex */
@@ -1560,81 +1521,6 @@ public class SharedConfig {
 
     public static SharedPreferences getPreferences() {
         return ApplicationLoader.applicationContext.getSharedPreferences("userconfing", 0);
-    }
-
-    /* loaded from: classes.dex */
-    public static class LiteMode {
-        public boolean animatedBackground;
-        public boolean animatedEmoji;
-        public boolean enabled;
-        public boolean other;
-        public boolean skeletonAnimation;
-        public boolean topicsInRightMenu;
-
-        LiteMode() {
-            loadPreference();
-        }
-
-        public boolean enabled() {
-            return this.enabled && !this.other;
-        }
-
-        public void toggleMode() {
-            this.enabled = !this.enabled;
-            savePreference();
-            AnimatedEmojiDrawable.updateAll();
-            Theme.reloadWallpaper();
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public void loadPreference() {
-            int i = MessagesController.getGlobalMainSettings().getInt("light_mode", SharedConfig.getDevicePerformanceClass() == 0 ? 1 : 0);
-            this.enabled = (i & 1) != 0;
-            this.animatedEmoji = (i & 2) != 0;
-            this.animatedBackground = (i & 4) != 0;
-            this.other = (i & 8) != 0;
-            this.topicsInRightMenu = (i & 16) != 0;
-        }
-
-        /* JADX WARN: Multi-variable type inference failed */
-        public void savePreference() {
-            boolean z = this.enabled;
-            boolean z2 = z;
-            if (this.animatedEmoji) {
-                z2 = (z ? 1 : 0) | true;
-            }
-            boolean z3 = z2;
-            if (this.animatedBackground) {
-                z3 = (z2 ? 1 : 0) | true;
-            }
-            boolean z4 = z3;
-            if (this.other) {
-                z4 = (z3 ? 1 : 0) | true;
-            }
-            int i = z4;
-            if (this.topicsInRightMenu) {
-                i = (z4 ? 1 : 0) | true;
-            }
-            SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
-            edit.putInt("light_mode", i);
-            if (!this.enabled) {
-                edit.remove("autoplay_video_liteforce");
-                boolean unused = SharedConfig.forceAutoplayVideo = false;
-            }
-            edit.apply();
-        }
-
-        public boolean animatedEmojiEnabled() {
-            return !this.enabled || this.animatedEmoji;
-        }
-
-        public boolean animatedBackgroundEnabled() {
-            return !this.enabled || this.animatedBackground;
-        }
-
-        public boolean topicsInRightMenuEnabled() {
-            return !this.enabled || this.topicsInRightMenu;
-        }
     }
 
     public static boolean deviceIsLow() {

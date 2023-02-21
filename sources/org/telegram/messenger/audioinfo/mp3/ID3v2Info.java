@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.audioinfo.AudioInfo;
 /* loaded from: classes.dex */
 public class ID3v2Info extends AudioInfo {
@@ -437,7 +438,7 @@ public class ID3v2Info extends AudioInfo {
                 this.artist = parseTextFrame(iD3v2FrameBody);
                 return;
             case '\t':
-            case 28:
+            case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                 this.albumArtist = parseTextFrame(iD3v2FrameBody);
                 return;
             case '\n':

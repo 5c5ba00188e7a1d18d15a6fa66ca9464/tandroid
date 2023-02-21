@@ -1,7 +1,7 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import com.google.android.gms.internal.mlkit_language_id.zzeo;
-import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.messenger.LiteMode;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzy$zzbh extends zzeo<zzy$zzbh, zza> implements zzgb {
@@ -151,19 +151,19 @@ public final class zzy$zzbh extends zzeo<zzy$zzbh, zza> implements zzgb {
     /* JADX INFO: Access modifiers changed from: private */
     public final void zze(String str) {
         str.getClass();
-        this.zzc |= ConnectionsManager.RequestFlagNeedQuickAck;
+        this.zzc |= 128;
         this.zzl = str;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public final void zza(boolean z) {
-        this.zzc |= 256;
+        this.zzc |= LiteMode.FLAG_CHAT_BLUR;
         this.zzm = true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public final void zzb(boolean z) {
-        this.zzc |= 512;
+        this.zzc |= LiteMode.FLAG_CALLS_ANIMATIONS;
         this.zzn = true;
     }
 

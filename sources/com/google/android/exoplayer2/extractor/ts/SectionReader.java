@@ -5,7 +5,6 @@ import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
 import com.google.android.exoplayer2.util.Util;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class SectionReader implements TsPayloadReader {
     private int bytesRead;
@@ -62,7 +61,7 @@ public final class SectionReader implements TsPayloadReader {
                     this.sectionData.skipBytes(1);
                     int readUnsignedByte2 = this.sectionData.readUnsignedByte();
                     int readUnsignedByte3 = this.sectionData.readUnsignedByte();
-                    this.sectionSyntaxIndicator = (readUnsignedByte2 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
+                    this.sectionSyntaxIndicator = (readUnsignedByte2 & 128) != 0;
                     this.totalSectionLength = (((readUnsignedByte2 & 15) << 8) | readUnsignedByte3) + 3;
                     int capacity = this.sectionData.capacity();
                     int i4 = this.totalSectionLength;

@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class ShortcutManagerCompat {
     private static volatile List<ShortcutInfoChangeListener> sShortcutInfoChangeListeners;
@@ -295,7 +294,7 @@ public class ShortcutManagerCompat {
                 PackageManager packageManager = context.getPackageManager();
                 Intent intent = new Intent("androidx.core.content.pm.SHORTCUT_LISTENER");
                 intent.setPackage(context.getPackageName());
-                for (ResolveInfo resolveInfo : packageManager.queryIntentActivities(intent, ConnectionsManager.RequestFlagNeedQuickAck)) {
+                for (ResolveInfo resolveInfo : packageManager.queryIntentActivities(intent, 128)) {
                     ActivityInfo activityInfo = resolveInfo.activityInfo;
                     if (activityInfo != null && (bundle = activityInfo.metaData) != null && (string = bundle.getString("androidx.core.content.pm.shortcut_listener_impl")) != null) {
                         try {

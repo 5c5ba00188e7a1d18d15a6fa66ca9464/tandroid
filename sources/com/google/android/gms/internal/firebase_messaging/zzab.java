@@ -12,7 +12,6 @@ import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Map;
-import org.telegram.tgnet.ConnectionsManager;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
@@ -112,7 +111,7 @@ public final class zzab implements ObjectEncoderContext {
 
     private final void zzn(int i) throws IOException {
         while ((i & (-128)) != 0) {
-            this.zzb.write((i & 127) | ConnectionsManager.RequestFlagNeedQuickAck);
+            this.zzb.write((i & 127) | 128);
             i >>>= 7;
         }
         this.zzb.write(i & 127);
@@ -120,7 +119,7 @@ public final class zzab implements ObjectEncoderContext {
 
     private final void zzo(long j) throws IOException {
         while (((-128) & j) != 0) {
-            this.zzb.write((((int) j) & 127) | ConnectionsManager.RequestFlagNeedQuickAck);
+            this.zzb.write((((int) j) & 127) | 128);
             j >>>= 7;
         }
         this.zzb.write(((int) j) & 127);

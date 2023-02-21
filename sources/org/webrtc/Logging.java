@@ -5,7 +5,7 @@ import java.io.StringWriter;
 import java.util.EnumSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class Logging {
     private static final Logger fallbackLogger = createFallbackLogger();
@@ -64,10 +64,10 @@ public class Logging {
         TRACE_APICALL(16),
         TRACE_DEFAULT(255),
         TRACE_MODULECALL(32),
-        TRACE_MEMORY(256),
-        TRACE_TIMER(512),
-        TRACE_STREAM(ConnectionsManager.RequestFlagDoNotWaitFloodWait),
-        TRACE_DEBUG(2048),
+        TRACE_MEMORY(LiteMode.FLAG_CHAT_BLUR),
+        TRACE_TIMER(LiteMode.FLAG_CALLS_ANIMATIONS),
+        TRACE_STREAM(1024),
+        TRACE_DEBUG(LiteMode.FLAG_AUTOPLAY_GIFS),
         TRACE_INFO(4096),
         TRACE_TERSEINFO(8192),
         TRACE_ALL(65535);

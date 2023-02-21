@@ -71,7 +71,6 @@ import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
-import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.ResultCallback;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$PrivacyRule;
@@ -675,7 +674,7 @@ public class QrActivity extends BaseFragment {
 
     private void applyScreenSettings() {
         if (getParentActivity() != null) {
-            getParentActivity().getWindow().getDecorView().setSystemUiVisibility(this.prevSystemUiVisibility | ConnectionsManager.RequestFlagDoNotWaitFloodWait | 4);
+            getParentActivity().getWindow().getDecorView().setSystemUiVisibility(this.prevSystemUiVisibility | 1024 | 4);
         }
     }
 

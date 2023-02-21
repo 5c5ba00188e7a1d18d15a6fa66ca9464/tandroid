@@ -48,6 +48,7 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.FileRefController;
 import org.telegram.messenger.ImageLocation;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
@@ -585,7 +586,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 }
                 SendMessagesHelper.ImportingSticker importingSticker = new SendMessagesHelper.ImportingSticker();
                 importingSticker.animated = equals;
-                String copyFileToCache = MediaController.copyFileToCache(uri, stickerExt, (equals ? 64 : 512) * ConnectionsManager.RequestFlagDoNotWaitFloodWait);
+                String copyFileToCache = MediaController.copyFileToCache(uri, stickerExt, (equals ? 64 : LiteMode.FLAG_CALLS_ANIMATIONS) * 1024);
                 importingSticker.path = copyFileToCache;
                 if (copyFileToCache != null) {
                     if (!equals) {

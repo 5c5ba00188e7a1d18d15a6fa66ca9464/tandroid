@@ -34,7 +34,6 @@ import androidx.loader.app.LoaderManager;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuListener, LifecycleOwner, ViewModelStoreOwner {
     boolean mAdded;
@@ -257,7 +256,7 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
     }
 
     public String toString() {
-        StringBuilder sb = new StringBuilder((int) ConnectionsManager.RequestFlagNeedQuickAck);
+        StringBuilder sb = new StringBuilder(128);
         DebugUtils.buildShortClassTag(this, sb);
         if (this.mIndex >= 0) {
             sb.append(" #");

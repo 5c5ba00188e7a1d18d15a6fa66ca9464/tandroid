@@ -1,6 +1,7 @@
 package org.telegram.tgnet;
 
 import org.telegram.messenger.CharacterCompat;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
     public static int constructor = -231385849;
@@ -11,8 +12,8 @@ public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
         this.flags = readInt32;
         this.can_view_participants = (readInt32 & 8) != 0;
         this.can_set_username = (readInt32 & 64) != 0;
-        this.can_set_stickers = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
-        this.hidden_prehistory = (readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0;
+        this.can_set_stickers = (readInt32 & 128) != 0;
+        this.hidden_prehistory = (readInt32 & 1024) != 0;
         this.can_set_location = (65536 & readInt32) != 0;
         this.has_scheduled = (524288 & readInt32) != 0;
         this.can_view_stats = (1048576 & readInt32) != 0;
@@ -72,13 +73,13 @@ public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
         if ((this.flags & 32) != 0) {
             this.pinned_msg_id = abstractSerializedData.readInt32(z);
         }
-        if ((this.flags & 256) != 0) {
+        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
             this.stickerset = TLRPC$StickerSet.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
-        if ((this.flags & 512) != 0) {
+        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
             this.available_min_id = abstractSerializedData.readInt32(z);
         }
-        if ((this.flags & 2048) != 0) {
+        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
             this.folder_id = abstractSerializedData.readInt32(z);
         }
         if ((this.flags & 16384) != 0) {
@@ -153,9 +154,9 @@ public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
         this.flags = i;
         int i2 = this.can_set_username ? i | 64 : i & (-65);
         this.flags = i2;
-        int i3 = this.can_set_stickers ? i2 | ConnectionsManager.RequestFlagNeedQuickAck : i2 & (-129);
+        int i3 = this.can_set_stickers ? i2 | 128 : i2 & (-129);
         this.flags = i3;
-        int i4 = this.hidden_prehistory ? i3 | ConnectionsManager.RequestFlagDoNotWaitFloodWait : i3 & (-1025);
+        int i4 = this.hidden_prehistory ? i3 | 1024 : i3 & (-1025);
         this.flags = i4;
         int i5 = this.can_set_location ? i4 | CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT : i4 & (-65537);
         this.flags = i5;
@@ -215,13 +216,13 @@ public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
         if ((this.flags & 32) != 0) {
             abstractSerializedData.writeInt32(this.pinned_msg_id);
         }
-        if ((this.flags & 256) != 0) {
+        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
             this.stickerset.serializeToStream(abstractSerializedData);
         }
-        if ((this.flags & 512) != 0) {
+        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
             abstractSerializedData.writeInt32(this.available_min_id);
         }
-        if ((this.flags & 2048) != 0) {
+        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
             abstractSerializedData.writeInt32(this.folder_id);
         }
         if ((this.flags & 16384) != 0) {

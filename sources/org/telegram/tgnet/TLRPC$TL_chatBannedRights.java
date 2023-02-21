@@ -1,4 +1,6 @@
 package org.telegram.tgnet;
+
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_chatBannedRights extends TLObject {
     public static int constructor = -1626209256;
@@ -49,9 +51,9 @@ public class TLRPC$TL_chatBannedRights extends TLObject {
         this.send_gifs = (readInt32 & 16) != 0;
         this.send_games = (readInt32 & 32) != 0;
         this.send_inline = (readInt32 & 64) != 0;
-        this.embed_links = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
-        this.send_polls = (readInt32 & 256) != 0;
-        this.change_info = (readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0;
+        this.embed_links = (readInt32 & 128) != 0;
+        this.send_polls = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+        this.change_info = (readInt32 & 1024) != 0;
         this.invite_users = (32768 & readInt32) != 0;
         this.pin_messages = (131072 & readInt32) != 0;
         this.manage_topics = (262144 & readInt32) != 0;
@@ -102,11 +104,11 @@ public class TLRPC$TL_chatBannedRights extends TLObject {
         this.flags = i6;
         int i7 = this.send_inline ? i6 | 64 : i6 & (-65);
         this.flags = i7;
-        int i8 = this.embed_links ? i7 | ConnectionsManager.RequestFlagNeedQuickAck : i7 & (-129);
+        int i8 = this.embed_links ? i7 | 128 : i7 & (-129);
         this.flags = i8;
-        int i9 = this.send_polls ? i8 | 256 : i8 & (-257);
+        int i9 = this.send_polls ? i8 | LiteMode.FLAG_CHAT_BLUR : i8 & (-257);
         this.flags = i9;
-        int i10 = this.change_info ? i9 | ConnectionsManager.RequestFlagDoNotWaitFloodWait : i9 & (-1025);
+        int i10 = this.change_info ? i9 | 1024 : i9 & (-1025);
         this.flags = i10;
         int i11 = this.invite_users ? i10 | 32768 : i10 & (-32769);
         this.flags = i11;

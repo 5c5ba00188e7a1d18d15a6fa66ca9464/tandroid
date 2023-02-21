@@ -87,6 +87,7 @@ import org.telegram.messenger.FilesMigrationService;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
@@ -1358,6 +1359,22 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 }
             }
         }
+
+        @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
+        protected void onAttachedToWindow() {
+            super.onAttachedToWindow();
+            if (DialogsActivity.this.statusDrawable != null) {
+                DialogsActivity.this.statusDrawable.attach();
+            }
+        }
+
+        @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
+        protected void onDetachedFromWindow() {
+            super.onDetachedFromWindow();
+            if (DialogsActivity.this.statusDrawable != null) {
+                DialogsActivity.this.statusDrawable.detach();
+            }
+        }
     }
 
     /* loaded from: classes3.dex */
@@ -2451,6 +2468,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         getNotificationCenter().addObserver(this, NotificationCenter.onDatabaseMigration);
         getNotificationCenter().addObserver(this, NotificationCenter.onDatabaseOpened);
         getNotificationCenter().addObserver(this, NotificationCenter.didClearDatabase);
+        getNotificationCenter().addObserver(this, NotificationCenter.onDatabaseReset);
         loadDialogs(getAccountInstance());
         getMessagesController().loadPinnedDialogs(this.folderId, 0L, null);
         if (this.databaseMigrationHint != null && !getMessagesStorage().isDatabaseMigrationInProgress()) {
@@ -2621,6 +2639,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         getNotificationCenter().removeObserver(this, NotificationCenter.onDatabaseMigration);
         getNotificationCenter().removeObserver(this, NotificationCenter.onDatabaseOpened);
         getNotificationCenter().removeObserver(this, NotificationCenter.didClearDatabase);
+        getNotificationCenter().removeObserver(this, NotificationCenter.onDatabaseReset);
         ChatActivityEnterView chatActivityEnterView = this.commentView;
         if (chatActivityEnterView != null) {
             chatActivityEnterView.onDestroy();
@@ -7033,7 +7052,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (!z && (filterTabsView = this.filterTabsView) != null && this.canShowFilterTabsView) {
             filterTabsView.setVisibility(0);
         }
-        boolean z6 = SharedConfig.getDevicePerformanceClass() == 0 || SharedConfig.getLiteMode().enabled();
+        boolean z6 = SharedConfig.getDevicePerformanceClass() == 0 || !LiteMode.isEnabled(32);
         if (z4) {
             if (!z) {
                 this.viewPages[0].listView.setVisibility(0);
@@ -7403,7 +7422,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (dialogsHintCell != null) {
             dialogsHintCell.setAlpha(1.0f - f);
         }
-        if (SharedConfig.getDevicePerformanceClass() != 0 && !SharedConfig.getLiteMode().enabled()) {
+        if (SharedConfig.getDevicePerformanceClass() != 0 && LiteMode.isEnabled(32)) {
             z2 = false;
         }
         if (z) {
@@ -7575,11 +7594,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Removed duplicated region for block: B:133:0x0234  */
     /* JADX WARN: Removed duplicated region for block: B:178:0x030d  */
     /* JADX WARN: Removed duplicated region for block: B:179:0x0313  */
-    /* JADX WARN: Removed duplicated region for block: B:186:0x032c  */
-    /* JADX WARN: Removed duplicated region for block: B:197:0x0357  */
-    /* JADX WARN: Removed duplicated region for block: B:222:0x03e4  */
-    /* JADX WARN: Removed duplicated region for block: B:225:0x03ed  */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x040c  */
+    /* JADX WARN: Removed duplicated region for block: B:186:0x032e  */
+    /* JADX WARN: Removed duplicated region for block: B:197:0x0355  */
+    /* JADX WARN: Removed duplicated region for block: B:222:0x03e2  */
+    /* JADX WARN: Removed duplicated region for block: B:225:0x03eb  */
+    /* JADX WARN: Removed duplicated region for block: B:228:0x040a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7774,7 +7793,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                         this.searchObject = null;
                                     }
                                 }
-                                boolean z4 = LocaleController.isRTL && !this.searching && (!AndroidUtilities.isTablet() || i6 == 0) && SharedConfig.getLiteMode().topicsInRightMenuEnabled();
+                                boolean z4 = LocaleController.isRTL && !this.searching && (!AndroidUtilities.isTablet() || i6 == 0) && LiteMode.isEnabled(64);
                                 bundle3.putInt("dialog_folder_id", i6);
                                 bundle3.putInt("dialog_filter_id", i5);
                                 if (!AndroidUtilities.isTablet() && ((!getMessagesController().isForum(j) || !z4) && this.openedDialogId.dialogId == j && adapter != this.searchViewPager.dialogsSearchAdapter)) {
@@ -7816,7 +7835,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                 if (getMessagesController().checkCanOpenChat(bundle3, this)) {
                                     TLRPC$Chat chat2 = getMessagesController().getChat(Long.valueOf(-j));
                                     if (chat2 != null && chat2.forum && i2 == 0) {
-                                        if (SharedConfig.getDevicePerformanceClass() == 0 || SharedConfig.getLiteMode().enabled()) {
+                                        if (SharedConfig.getDevicePerformanceClass() == 0 || !LiteMode.isEnabled(64)) {
                                             presentFragment(new TopicsFragment(bundle3));
                                             return;
                                         } else if (!z4) {
@@ -10483,6 +10502,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             updateStatus((TLRPC$User) objArr[0], true);
         } else if (i == NotificationCenter.currentUserPremiumStatusChanged) {
             updateStatus(UserConfig.getInstance(i2).getCurrentUser(), true);
+        } else if (i == NotificationCenter.onDatabaseReset) {
+            dialogsLoaded[this.currentAccount] = false;
+            loadDialogs(getAccountInstance());
         }
     }
 
@@ -12400,7 +12422,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private void setFragmentIsSliding(boolean z) {
-        if (SharedConfig.getDevicePerformanceClass() <= 1 || SharedConfig.getLiteMode().enabled()) {
+        if (SharedConfig.getDevicePerformanceClass() <= 1 || !LiteMode.isEnabled(32)) {
             return;
         }
         if (z) {
@@ -12459,14 +12481,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onSlideProgress(boolean z, float f) {
-        if (SharedConfig.getDevicePerformanceClass() <= 0 || SharedConfig.getLiteMode().enabled() || !this.isSlideBackTransition || this.slideBackTransitionAnimator != null) {
-            return;
+        if (SharedConfig.getDevicePerformanceClass() > 0 && LiteMode.isEnabled(32) && this.isSlideBackTransition && this.slideBackTransitionAnimator == null) {
+            setSlideTransitionProgress(f);
         }
-        setSlideTransitionProgress(f);
     }
 
     private void setSlideTransitionProgress(float f) {
-        if (SharedConfig.getDevicePerformanceClass() <= 0 || SharedConfig.getLiteMode().enabled()) {
+        if (SharedConfig.getDevicePerformanceClass() <= 0 || !LiteMode.isEnabled(32)) {
             return;
         }
         this.slideFragmentLite = SharedConfig.getDevicePerformanceClass() <= 1;

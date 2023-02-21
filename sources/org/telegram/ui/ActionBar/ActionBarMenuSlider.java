@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import androidx.core.math.MathUtils;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
@@ -194,7 +195,7 @@ public class ActionBarMenuSlider extends FrameLayout {
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i) + getPaddingRight() + getPaddingLeft(), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(44.0f) + getPaddingTop() + getPaddingBottom(), 1073741824));
-        boolean z = SharedConfig.getDevicePerformanceClass() >= 2 && !SharedConfig.getLiteMode().enabled;
+        boolean z = SharedConfig.getDevicePerformanceClass() >= 2 && LiteMode.isEnabled(LiteMode.FLAG_CHAT_BLUR);
         if (this.blurBitmap == null && !this.preparingBlur && z) {
             this.prepareBlur.run();
         }

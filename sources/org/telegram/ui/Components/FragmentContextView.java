@@ -930,7 +930,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createPlaybackSpeedButton$10(Float f, Boolean bool) {
-        MediaController.getInstance().setPlaybackSpeed(this.isMusic, (f.floatValue() * 2.9f) + 0.1f);
+        MediaController.getInstance().setPlaybackSpeed(this.isMusic, (f.floatValue() * 2.7f) + 0.3f);
         updatePlaybackButton(bool.booleanValue(), true);
     }
 
@@ -956,7 +956,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createPlaybackSpeedButton$12(View view) {
-        this.speedSlider.setValue((MediaController.getInstance().getPlaybackSpeed(this.isMusic) - 0.1f) / 2.9f, false);
+        this.speedSlider.setValue((MediaController.getInstance().getPlaybackSpeed(this.isMusic) - 0.3f) / 2.7f, false);
         this.speedSlider.invalidateBlur(this.fragment instanceof ChatActivity);
         this.playbackSpeedButton.toggleSubMenu(this.speedSlider, null);
         return true;
@@ -976,7 +976,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 this.speedItems[i].setColors(getThemedColor("actionBarDefaultSubmenuItem"), getThemedColor("actionBarDefaultSubmenuItem"));
             }
         }
-        this.speedSlider.setValue((playbackSpeed - 0.1f) / 2.9f, z && z2);
+        this.speedSlider.setValue((playbackSpeed - 0.3f) / 2.7f, z && z2);
         if (this.speedSliderText != null) {
             String str = String.format("%s", Float.valueOf(Math.round(playbackSpeed * 10.0f) / 10.0f)) + "x";
             if (TextUtils.equals(str, this.speedSliderText.getText())) {

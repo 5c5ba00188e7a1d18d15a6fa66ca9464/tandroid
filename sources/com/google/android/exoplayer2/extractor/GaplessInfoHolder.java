@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.metadata.id3.CommentFrame;
 import com.google.android.exoplayer2.metadata.id3.InternalFrame;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class GaplessInfoHolder {
     private static final Pattern GAPLESS_COMMENT_PATTERN = Pattern.compile("^ [0-9a-fA-F]{8} ([0-9a-fA-F]{8}) ([0-9a-fA-F]{8})");
@@ -13,7 +14,7 @@ public final class GaplessInfoHolder {
 
     public boolean setFromXingHeaderValue(int i) {
         int i2 = i >> 12;
-        int i3 = i & 4095;
+        int i3 = i & LiteMode.PRESET_HIGH;
         if (i2 > 0 || i3 > 0) {
             this.encoderDelay = i2;
             this.encoderPadding = i3;

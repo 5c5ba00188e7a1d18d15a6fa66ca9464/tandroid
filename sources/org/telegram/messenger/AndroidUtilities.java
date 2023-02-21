@@ -103,8 +103,10 @@ import com.google.android.gms.auth.api.phone.SmsRetriever;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -630,6 +632,10 @@ public class AndroidUtilities {
         if (view.getParent() != null) {
             ((ViewGroup) view.getParent()).removeView(view);
         }
+    }
+
+    public static boolean isFilNotFoundException(Throwable th) {
+        return (th instanceof FileNotFoundException) || (th instanceof EOFException);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -4247,7 +4253,7 @@ public class AndroidUtilities {
         int i4 = red - red2;
         int green2 = green - Color.green(i2);
         int blue2 = blue - Color.blue(i2);
-        return ((((i3 + 512) * i4) * i4) >> 8) + (green2 * 4 * green2) + ((((767 - i3) * blue2) * blue2) >> 8);
+        return ((((i3 + LiteMode.FLAG_CALLS_ANIMATIONS) * i4) * i4) >> 8) + (green2 * 4 * green2) + ((((767 - i3) * blue2) * blue2) >> 8);
     }
 
     public static int getAverageColor(int i, int i2) {

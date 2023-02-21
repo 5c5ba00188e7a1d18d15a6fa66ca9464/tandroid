@@ -1327,7 +1327,7 @@ public class MediaDataController extends BaseController {
     }
 
     public void preloadDefaultReactions() {
-        if (this.reactionsList == null || this.reactionsCacheGenerated || SharedConfig.getLiteMode().enabled()) {
+        if (this.reactionsList == null || this.reactionsCacheGenerated || !LiteMode.isEnabled(8)) {
             return;
         }
         this.reactionsCacheGenerated = true;
@@ -1348,12 +1348,11 @@ public class MediaDataController extends BaseController {
     }
 
     public void preloadImage(ImageReceiver imageReceiver, ImageLocation imageLocation, String str) {
-        if (SharedConfig.getLiteMode().enabled()) {
-            return;
+        if (LiteMode.isEnabled(8)) {
+            imageReceiver.setUniqKeyPrefix("preload");
+            imageReceiver.setFileLoadingPriority(0);
+            imageReceiver.setImage(imageLocation, str, null, null, 0, 11);
         }
-        imageReceiver.setUniqKeyPrefix("preload");
-        imageReceiver.setFileLoadingPriority(0);
-        imageReceiver.setImage(imageLocation, str, null, null, 0, 11);
     }
 
     private void putReactionsToCache(List<TLRPC$TL_availableReaction> list, final int i, final int i2) {
@@ -8506,7 +8505,7 @@ public class MediaDataController extends BaseController {
                     textStyleRun.start = i4;
                     textStyleRun.end = i4 + tLRPC$MessageEntity.length;
                     if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntitySpoiler) {
-                        textStyleRun.flags = 256;
+                        textStyleRun.flags = LiteMode.FLAG_CHAT_BLUR;
                     } else if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityStrike) {
                         textStyleRun.flags = 8;
                     } else if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityUnderline) {
@@ -8526,7 +8525,7 @@ public class MediaDataController extends BaseController {
                         textStyleRun.flags = 64;
                         textStyleRun.urlEntity = tLRPC$MessageEntity;
                     } else {
-                        textStyleRun.flags = ConnectionsManager.RequestFlagNeedQuickAck;
+                        textStyleRun.flags = 128;
                         textStyleRun.urlEntity = tLRPC$MessageEntity;
                     }
                     textStyleRun.flags &= i;
@@ -8608,7 +8607,7 @@ public class MediaDataController extends BaseController {
     }
 
     public void addStyle(int i, int i2, int i3, ArrayList<TLRPC$MessageEntity> arrayList) {
-        if ((i & 256) != 0) {
+        if ((i & LiteMode.FLAG_CHAT_BLUR) != 0) {
             arrayList.add(setEntityStartEnd(new TLRPC$TL_messageEntitySpoiler(), i2, i3));
         }
         if ((i & 1) != 0) {
@@ -9689,7 +9688,7 @@ public class MediaDataController extends BaseController {
             return true;
         }
         if (tLRPC$Document.size > MessagesController.getInstance(this.currentAccount).ringtoneSizeMax) {
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 4, LocaleController.formatString("TooLargeError", R.string.TooLargeError, new Object[0]), LocaleController.formatString("ErrorRingtoneSizeTooBig", R.string.ErrorRingtoneSizeTooBig, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).ringtoneSizeMax / ConnectionsManager.RequestFlagDoNotWaitFloodWait)));
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 4, LocaleController.formatString("TooLargeError", R.string.TooLargeError, new Object[0]), LocaleController.formatString("ErrorRingtoneSizeTooBig", R.string.ErrorRingtoneSizeTooBig, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).ringtoneSizeMax / 1024)));
             return false;
         }
         for (int i = 0; i < tLRPC$Document.attributes.size(); i++) {

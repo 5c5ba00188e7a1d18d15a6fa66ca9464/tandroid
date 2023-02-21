@@ -1,6 +1,7 @@
 package org.telegram.tgnet;
 
 import org.telegram.messenger.CharacterCompat;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_chatFull extends TLRPC$ChatFull {
     public static int constructor = -908914376;
@@ -9,8 +10,8 @@ public class TLRPC$TL_chatFull extends TLRPC$ChatFull {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        this.can_set_username = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
-        this.has_scheduled = (readInt32 & 256) != 0;
+        this.can_set_username = (readInt32 & 128) != 0;
+        this.has_scheduled = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
         this.id = abstractSerializedData.readInt64(z);
         this.about = abstractSerializedData.readString(z);
         this.participants = TLRPC$ChatParticipants.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
@@ -41,7 +42,7 @@ public class TLRPC$TL_chatFull extends TLRPC$ChatFull {
         if ((this.flags & 64) != 0) {
             this.pinned_msg_id = abstractSerializedData.readInt32(z);
         }
-        if ((this.flags & 2048) != 0) {
+        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
             this.folder_id = abstractSerializedData.readInt32(z);
         }
         if ((this.flags & 4096) != 0) {
@@ -80,9 +81,9 @@ public class TLRPC$TL_chatFull extends TLRPC$ChatFull {
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
         abstractSerializedData.writeInt32(constructor);
-        int i = this.can_set_username ? this.flags | ConnectionsManager.RequestFlagNeedQuickAck : this.flags & (-129);
+        int i = this.can_set_username ? this.flags | 128 : this.flags & (-129);
         this.flags = i;
-        int i2 = this.has_scheduled ? i | 256 : i & (-257);
+        int i2 = this.has_scheduled ? i | LiteMode.FLAG_CHAT_BLUR : i & (-257);
         this.flags = i2;
         abstractSerializedData.writeInt32(i2);
         abstractSerializedData.writeInt64(this.id);
@@ -106,7 +107,7 @@ public class TLRPC$TL_chatFull extends TLRPC$ChatFull {
         if ((this.flags & 64) != 0) {
             abstractSerializedData.writeInt32(this.pinned_msg_id);
         }
-        if ((this.flags & 2048) != 0) {
+        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
             abstractSerializedData.writeInt32(this.folder_id);
         }
         if ((this.flags & 4096) != 0) {

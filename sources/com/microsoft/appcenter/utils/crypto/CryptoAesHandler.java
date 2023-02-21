@@ -6,6 +6,7 @@ import com.microsoft.appcenter.utils.crypto.CryptoUtils;
 import java.security.KeyStore;
 import java.util.Calendar;
 import javax.crypto.spec.IvParameterSpec;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 class CryptoAesHandler implements CryptoHandler {
     @Override // com.microsoft.appcenter.utils.crypto.CryptoHandler
@@ -18,7 +19,7 @@ class CryptoAesHandler implements CryptoHandler {
         Calendar calendar = Calendar.getInstance();
         calendar.add(1, 1);
         CryptoUtils.IKeyGenerator keyGenerator = iCryptoFactory.getKeyGenerator("AES", "AndroidKeyStore");
-        keyGenerator.init(new KeyGenParameterSpec.Builder(str, 3).setBlockModes("CBC").setEncryptionPaddings("PKCS7Padding").setKeySize(256).setKeyValidityForOriginationEnd(calendar.getTime()).build());
+        keyGenerator.init(new KeyGenParameterSpec.Builder(str, 3).setBlockModes("CBC").setEncryptionPaddings("PKCS7Padding").setKeySize(LiteMode.FLAG_CHAT_BLUR).setKeyValidityForOriginationEnd(calendar.getTime()).build());
         keyGenerator.generateKey();
     }
 

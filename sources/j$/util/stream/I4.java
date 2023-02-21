@@ -3,7 +3,6 @@ package j$.util.stream;
 import j$.util.function.Consumer;
 import java.util.Comparator;
 import java.util.Objects;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes2.dex */
 final class I4 extends J4 implements j$.util.u, Consumer {
     Object e;
@@ -51,7 +50,7 @@ final class I4 extends J4 implements j$.util.u, Consumer {
             }
             if (r == 2) {
                 if (k4Var == null) {
-                    k4Var = new k4(ConnectionsManager.RequestFlagNeedQuickAck);
+                    k4Var = new k4(128);
                 } else {
                     k4Var.a = 0;
                 }

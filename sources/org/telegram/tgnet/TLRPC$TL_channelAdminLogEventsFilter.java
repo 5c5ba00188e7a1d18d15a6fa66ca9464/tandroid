@@ -1,4 +1,6 @@
 package org.telegram.tgnet;
+
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_channelAdminLogEventsFilter extends TLObject {
     public static int constructor = -368018716;
@@ -31,11 +33,11 @@ public class TLRPC$TL_channelAdminLogEventsFilter extends TLObject {
         this.unban = (readInt32 & 16) != 0;
         this.kick = (readInt32 & 32) != 0;
         this.unkick = (readInt32 & 64) != 0;
-        this.promote = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
-        this.demote = (readInt32 & 256) != 0;
-        this.info = (readInt32 & 512) != 0;
-        this.settings = (readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0;
-        this.pinned = (readInt32 & 2048) != 0;
+        this.promote = (readInt32 & 128) != 0;
+        this.demote = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+        this.info = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
+        this.settings = (readInt32 & 1024) != 0;
+        this.pinned = (readInt32 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
         this.edit = (readInt32 & 4096) != 0;
         this.delete = (readInt32 & 8192) != 0;
         this.group_call = (readInt32 & 16384) != 0;
@@ -59,15 +61,15 @@ public class TLRPC$TL_channelAdminLogEventsFilter extends TLObject {
         this.flags = i6;
         int i7 = this.unkick ? i6 | 64 : i6 & (-65);
         this.flags = i7;
-        int i8 = this.promote ? i7 | ConnectionsManager.RequestFlagNeedQuickAck : i7 & (-129);
+        int i8 = this.promote ? i7 | 128 : i7 & (-129);
         this.flags = i8;
-        int i9 = this.demote ? i8 | 256 : i8 & (-257);
+        int i9 = this.demote ? i8 | LiteMode.FLAG_CHAT_BLUR : i8 & (-257);
         this.flags = i9;
-        int i10 = this.info ? i9 | 512 : i9 & (-513);
+        int i10 = this.info ? i9 | LiteMode.FLAG_CALLS_ANIMATIONS : i9 & (-513);
         this.flags = i10;
-        int i11 = this.settings ? i10 | ConnectionsManager.RequestFlagDoNotWaitFloodWait : i10 & (-1025);
+        int i11 = this.settings ? i10 | 1024 : i10 & (-1025);
         this.flags = i11;
-        int i12 = this.pinned ? i11 | 2048 : i11 & (-2049);
+        int i12 = this.pinned ? i11 | LiteMode.FLAG_AUTOPLAY_GIFS : i11 & (-2049);
         this.flags = i12;
         int i13 = this.edit ? i12 | 4096 : i12 & (-4097);
         this.flags = i13;

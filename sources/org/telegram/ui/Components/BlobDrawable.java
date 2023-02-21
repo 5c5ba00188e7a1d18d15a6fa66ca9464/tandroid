@@ -5,7 +5,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import java.util.Random;
-import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes3.dex */
 public class BlobDrawable {
     public static float AMPLITUDE_SPEED = 0.33f;
@@ -73,29 +73,28 @@ public class BlobDrawable {
     }
 
     public void update(float f, float f2) {
-        if (SharedConfig.getLiteMode().enabled()) {
-            return;
-        }
-        for (int i = 0; i < this.N; i++) {
-            float[] fArr = this.progress;
-            float f3 = fArr[i];
-            float[] fArr2 = this.speed;
-            fArr[i] = f3 + (fArr2[i] * MIN_SPEED) + (fArr2[i] * f * MAX_SPEED * f2);
-            if (fArr[i] >= 1.0f) {
-                fArr[i] = 0.0f;
-                float[] fArr3 = this.radius;
-                float[] fArr4 = this.radiusNext;
-                fArr3[i] = fArr4[i];
-                float[] fArr5 = this.angle;
-                float[] fArr6 = this.angleNext;
-                fArr5[i] = fArr6[i];
-                generateBlob(fArr4, fArr6, i);
+        if (LiteMode.isEnabled(LiteMode.FLAG_CALLS_ANIMATIONS)) {
+            for (int i = 0; i < this.N; i++) {
+                float[] fArr = this.progress;
+                float f3 = fArr[i];
+                float[] fArr2 = this.speed;
+                fArr[i] = f3 + (fArr2[i] * MIN_SPEED) + (fArr2[i] * f * MAX_SPEED * f2);
+                if (fArr[i] >= 1.0f) {
+                    fArr[i] = 0.0f;
+                    float[] fArr3 = this.radius;
+                    float[] fArr4 = this.radiusNext;
+                    fArr3[i] = fArr4[i];
+                    float[] fArr5 = this.angle;
+                    float[] fArr6 = this.angleNext;
+                    fArr5[i] = fArr6[i];
+                    generateBlob(fArr4, fArr6, i);
+                }
             }
         }
     }
 
     public void draw(float f, float f2, Canvas canvas, Paint paint) {
-        if (SharedConfig.getLiteMode().enabled()) {
+        if (!LiteMode.isEnabled(LiteMode.FLAG_CALLS_ANIMATIONS)) {
             return;
         }
         this.path.reset();
@@ -168,26 +167,25 @@ public class BlobDrawable {
 
     public void setValue(float f, boolean z) {
         this.animateToAmplitude = f;
-        if (SharedConfig.getLiteMode().enabled()) {
-            return;
-        }
-        if (z) {
-            float f2 = this.animateToAmplitude;
-            float f3 = this.amplitude;
-            if (f2 > f3) {
-                this.animateAmplitudeDiff = (f2 - f3) / 205.0f;
-                return;
-            } else {
-                this.animateAmplitudeDiff = (f2 - f3) / 275.0f;
-                return;
+        if (LiteMode.isEnabled(LiteMode.FLAG_CALLS_ANIMATIONS)) {
+            if (z) {
+                float f2 = this.animateToAmplitude;
+                float f3 = this.amplitude;
+                if (f2 > f3) {
+                    this.animateAmplitudeDiff = (f2 - f3) / 205.0f;
+                    return;
+                } else {
+                    this.animateAmplitudeDiff = (f2 - f3) / 275.0f;
+                    return;
+                }
             }
-        }
-        float f4 = this.animateToAmplitude;
-        float f5 = this.amplitude;
-        if (f4 > f5) {
-            this.animateAmplitudeDiff = (f4 - f5) / 320.0f;
-        } else {
-            this.animateAmplitudeDiff = (f4 - f5) / 375.0f;
+            float f4 = this.animateToAmplitude;
+            float f5 = this.amplitude;
+            if (f4 > f5) {
+                this.animateAmplitudeDiff = (f4 - f5) / 320.0f;
+            } else {
+                this.animateAmplitudeDiff = (f4 - f5) / 375.0f;
+            }
         }
     }
 

@@ -27,10 +27,10 @@ import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ImageLocation;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
-import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.voip.VoIPService;
@@ -1238,58 +1238,57 @@ public class GroupCallUserCell extends FrameLayout {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:28:0x0068  */
+        /* JADX WARN: Removed duplicated region for block: B:28:0x0066  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void draw(Canvas canvas, float f, float f2, View view) {
-            if (SharedConfig.getLiteMode().enabled()) {
-                return;
-            }
-            float f3 = (this.amplitude * 0.4f) + 0.8f;
-            if (this.showWaves || this.wavesEnter != 0.0f) {
-                canvas.save();
-                float interpolation = f3 * CubicBezierInterpolator.DEFAULT.getInterpolation(this.wavesEnter);
-                canvas.scale(interpolation, interpolation, f, f2);
-                if (!this.hasCustomColor) {
-                    int i = this.isMuted;
-                    if (i != 1) {
-                        float f4 = this.progressToMuted;
-                        if (f4 != 1.0f) {
-                            float f5 = f4 + 0.10666667f;
-                            this.progressToMuted = f5;
-                            if (f5 > 1.0f) {
-                                this.progressToMuted = 1.0f;
-                            }
-                            this.invalidateColor = true;
-                            if (this.invalidateColor) {
-                                this.blobDrawable.paint.setColor(ColorUtils.setAlphaComponent(ColorUtils.blendARGB(Theme.getColor("voipgroup_speakingText"), Theme.getColor(this.isMuted == 2 ? "voipgroup_mutedByAdminIcon" : "voipgroup_listeningText"), this.progressToMuted), 38));
+            if (LiteMode.isEnabled(LiteMode.FLAG_CALLS_ANIMATIONS)) {
+                float f3 = (this.amplitude * 0.4f) + 0.8f;
+                if (this.showWaves || this.wavesEnter != 0.0f) {
+                    canvas.save();
+                    float interpolation = f3 * CubicBezierInterpolator.DEFAULT.getInterpolation(this.wavesEnter);
+                    canvas.scale(interpolation, interpolation, f, f2);
+                    if (!this.hasCustomColor) {
+                        int i = this.isMuted;
+                        if (i != 1) {
+                            float f4 = this.progressToMuted;
+                            if (f4 != 1.0f) {
+                                float f5 = f4 + 0.10666667f;
+                                this.progressToMuted = f5;
+                                if (f5 > 1.0f) {
+                                    this.progressToMuted = 1.0f;
+                                }
+                                this.invalidateColor = true;
+                                if (this.invalidateColor) {
+                                    this.blobDrawable.paint.setColor(ColorUtils.setAlphaComponent(ColorUtils.blendARGB(Theme.getColor("voipgroup_speakingText"), Theme.getColor(this.isMuted == 2 ? "voipgroup_mutedByAdminIcon" : "voipgroup_listeningText"), this.progressToMuted), 38));
+                                }
                             }
                         }
-                    }
-                    if (i == 1) {
-                        float f6 = this.progressToMuted;
-                        if (f6 != 0.0f) {
-                            float f7 = f6 - 0.10666667f;
-                            this.progressToMuted = f7;
-                            if (f7 < 0.0f) {
-                                this.progressToMuted = 0.0f;
+                        if (i == 1) {
+                            float f6 = this.progressToMuted;
+                            if (f6 != 0.0f) {
+                                float f7 = f6 - 0.10666667f;
+                                this.progressToMuted = f7;
+                                if (f7 < 0.0f) {
+                                    this.progressToMuted = 0.0f;
+                                }
+                                this.invalidateColor = true;
                             }
-                            this.invalidateColor = true;
+                        }
+                        if (this.invalidateColor) {
                         }
                     }
-                    if (this.invalidateColor) {
-                    }
+                    this.blobDrawable.update(this.amplitude, 1.0f);
+                    BlobDrawable blobDrawable = this.blobDrawable;
+                    blobDrawable.draw(f, f2, canvas, blobDrawable.paint);
+                    this.blobDrawable2.update(this.amplitude, 1.0f);
+                    this.blobDrawable2.draw(f, f2, canvas, this.blobDrawable.paint);
+                    canvas.restore();
                 }
-                this.blobDrawable.update(this.amplitude, 1.0f);
-                BlobDrawable blobDrawable = this.blobDrawable;
-                blobDrawable.draw(f, f2, canvas, blobDrawable.paint);
-                this.blobDrawable2.update(this.amplitude, 1.0f);
-                this.blobDrawable2.draw(f, f2, canvas, this.blobDrawable.paint);
-                canvas.restore();
-            }
-            if (this.wavesEnter != 0.0f) {
-                view.invalidate();
+                if (this.wavesEnter != 0.0f) {
+                    view.invalidate();
+                }
             }
         }
 

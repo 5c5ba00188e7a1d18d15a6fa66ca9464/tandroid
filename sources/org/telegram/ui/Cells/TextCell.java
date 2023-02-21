@@ -412,10 +412,10 @@ public class TextCell extends FrameLayout {
         this.imageView.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(9.0f), i));
     }
 
-    public void setTextAndCheck(String str, boolean z, boolean z2) {
+    public void setTextAndCheck(CharSequence charSequence, boolean z, boolean z2) {
         this.imageLeft = 21;
         this.offsetFromImage = 71;
-        this.textView.setText(str);
+        this.textView.setText(charSequence);
         this.imageView.setVisibility(8);
         this.valueImageView.setVisibility(8);
         this.needDivider = z2;
@@ -428,10 +428,10 @@ public class TextCell extends FrameLayout {
         setWillNotDraw(!z2);
     }
 
-    public void setTextAndCheckAndIcon(String str, boolean z, int i, boolean z2) {
+    public void setTextAndCheckAndIcon(CharSequence charSequence, boolean z, int i, boolean z2) {
         this.imageLeft = 21;
         this.offsetFromImage = 71;
-        this.textView.setText(str);
+        this.textView.setText(charSequence);
         this.valueTextView.setVisibility(8);
         this.valueSpoilersTextView.setVisibility(8);
         this.valueImageView.setVisibility(8);

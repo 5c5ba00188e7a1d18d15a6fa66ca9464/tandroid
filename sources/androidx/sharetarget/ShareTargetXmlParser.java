@@ -10,7 +10,6 @@ import android.util.Log;
 import androidx.sharetarget.ShareTargetCompat;
 import java.util.ArrayList;
 import java.util.List;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 class ShareTargetXmlParser {
     private static final Object GET_INSTANCE_LOCK = new Object();
@@ -33,7 +32,7 @@ class ShareTargetXmlParser {
         Intent intent = new Intent("android.intent.action.MAIN");
         intent.addCategory("android.intent.category.LAUNCHER");
         intent.setPackage(context.getPackageName());
-        List<ResolveInfo> queryIntentActivities = context.getPackageManager().queryIntentActivities(intent, ConnectionsManager.RequestFlagNeedQuickAck);
+        List<ResolveInfo> queryIntentActivities = context.getPackageManager().queryIntentActivities(intent, 128);
         if (queryIntentActivities == null) {
             return arrayList;
         }

@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import org.telegram.messenger.CharacterCompat;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.voip.VoIPService;
-import org.telegram.tgnet.ConnectionsManager;
 import sun.misc.Unsafe;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
@@ -370,7 +370,7 @@ public final class zzko<T> implements zzlc<T> {
                 }
                 int i72 = charAt24 & 255;
                 int i73 = charAt2;
-                if ((charAt24 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                if ((charAt24 & 1024) != 0) {
                     iArr[i62] = i63;
                     i62++;
                 }
@@ -454,7 +454,7 @@ public final class zzko<T> implements zzlc<T> {
                                 int i84 = (i63 / 3) << 1;
                                 i20 = i82 + 1;
                                 objArr2[i84] = zze[i82];
-                                if ((charAt24 & 2048) != 0) {
+                                if ((charAt24 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                                     i82 = i20 + 1;
                                     objArr2[i84 + 1] = zze[i20];
                                     i59 = i83;
@@ -547,7 +547,7 @@ public final class zzko<T> implements zzlc<T> {
                 iArr2[i63] = charAt23;
                 int i91 = i90 + 1;
                 int i92 = i26;
-                iArr2[i90] = ((charAt24 & 256) != 0 ? 268435456 : 0) | ((charAt24 & 512) != 0 ? 536870912 : 0) | (i72 << 20) | objectFieldOffset;
+                iArr2[i90] = ((charAt24 & LiteMode.FLAG_CHAT_BLUR) != 0 ? 268435456 : 0) | ((charAt24 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0 ? 536870912 : 0) | (i72 << 20) | objectFieldOffset;
                 int i93 = i91 + 1;
                 iArr2[i91] = (i18 << 20) | i16;
                 i60 = i17;
@@ -784,7 +784,7 @@ public final class zzko<T> implements zzlc<T> {
                     case 25:
                     case 26:
                     case 27:
-                    case 28:
+                    case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                     case 29:
                     case 30:
                     case 31:
@@ -967,7 +967,7 @@ public final class zzko<T> implements zzlc<T> {
                 case 25:
                 case 26:
                 case 27:
-                case 28:
+                case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                 case 29:
                 case 30:
                 case 31:
@@ -1318,7 +1318,7 @@ public final class zzko<T> implements zzlc<T> {
                 case 25:
                 case 26:
                 case 27:
-                case 28:
+                case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                 case 29:
                 case 30:
                 case 31:
@@ -1651,7 +1651,7 @@ public final class zzko<T> implements zzlc<T> {
                     case 27:
                         zzb3 = zzle.zza(i8, zza(t, j2), zza(i5));
                         break;
-                    case 28:
+                    case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                         zzb3 = zzle.zzb(i8, zza(t, j2));
                         break;
                     case 29:
@@ -2281,7 +2281,7 @@ public final class zzko<T> implements zzlc<T> {
                     i10 += 3;
                     i3 = 1048575;
                     i4 = 1;
-                case 28:
+                case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                     zzb2 = zzle.zzb(i14, (List) unsafe2.getObject(t, j3));
                     i11 += zzb2;
                     j = 0;
@@ -2900,7 +2900,7 @@ public final class zzko<T> implements zzlc<T> {
                             case 27:
                                 zzle.zza(this.zzc[length2], (List) zzma.zzf(t, zzd & 1048575), zzmrVar, zza(length2));
                                 break;
-                            case 28:
+                            case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                                 zzle.zzb(this.zzc[length2], (List) zzma.zzf(t, zzd & 1048575), zzmrVar);
                                 break;
                             case 29:
@@ -3280,7 +3280,7 @@ public final class zzko<T> implements zzlc<T> {
                             case 27:
                                 zzle.zza(this.zzc[i], (List) zzma.zzf(t, zzd2 & 1048575), zzmrVar, zza(i));
                                 break;
-                            case 28:
+                            case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                                 zzle.zzb(this.zzc[i], (List) zzma.zzf(t, zzd2 & 1048575), zzmrVar);
                                 break;
                             case 29:
@@ -3676,7 +3676,7 @@ public final class zzko<T> implements zzlc<T> {
                         case 27:
                             zzle.zza(this.zzc[i], (List) unsafe.getObject(t, j), zzmrVar, zza(i));
                             break;
-                        case 28:
+                        case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                             zzle.zzb(this.zzc[i], (List) unsafe.getObject(t, j), zzmrVar);
                             break;
                         case 29:
@@ -4198,7 +4198,7 @@ public final class zzko<T> implements zzlc<T> {
                     return zzhl.zza(zza(i6), i3, bArr, i, i2, zzjlVar, zzhnVar);
                 }
                 return i9;
-            case 28:
+            case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                 if (i5 == 2) {
                     int zza12 = zzhl.zza(bArr, i9, zzhnVar);
                     int i23 = zzhnVar.zza;

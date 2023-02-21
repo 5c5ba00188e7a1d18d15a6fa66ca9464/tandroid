@@ -31,7 +31,7 @@ import java.util.UUID;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
-import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class ErrorLogHelper {
     private static File sErrorLogDirectory;
@@ -310,11 +310,11 @@ public class ErrorLogHelper {
     private static List<StackFrame> getModelFramesFromStackTrace(Throwable th) {
         StackTraceElement[] stackTrace = th.getStackTrace();
         if (stackTrace.length > 256) {
-            StackTraceElement[] stackTraceElementArr = new StackTraceElement[256];
-            System.arraycopy(stackTrace, 0, stackTraceElementArr, 0, ConnectionsManager.RequestFlagNeedQuickAck);
-            System.arraycopy(stackTrace, stackTrace.length - ConnectionsManager.RequestFlagNeedQuickAck, stackTraceElementArr, ConnectionsManager.RequestFlagNeedQuickAck, ConnectionsManager.RequestFlagNeedQuickAck);
+            StackTraceElement[] stackTraceElementArr = new StackTraceElement[LiteMode.FLAG_CHAT_BLUR];
+            System.arraycopy(stackTrace, 0, stackTraceElementArr, 0, 128);
+            System.arraycopy(stackTrace, stackTrace.length - 128, stackTraceElementArr, 128, 128);
             th.setStackTrace(stackTraceElementArr);
-            AppCenterLog.warn("AppCenterCrashes", "Crash frames truncated from " + stackTrace.length + " to 256 frames.");
+            AppCenterLog.warn("AppCenterCrashes", "Crash frames truncated from " + stackTrace.length + " to " + LiteMode.FLAG_CHAT_BLUR + " frames.");
             stackTrace = stackTraceElementArr;
         }
         return getModelFramesFromStackTrace(stackTrace);

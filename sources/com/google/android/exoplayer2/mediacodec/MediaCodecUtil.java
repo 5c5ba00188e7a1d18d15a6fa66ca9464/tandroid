@@ -23,6 +23,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 import org.telegram.messenger.CharacterCompat;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
 import org.telegram.tgnet.ConnectionsManager;
 @SuppressLint({"InlinedApi"})
@@ -72,14 +73,14 @@ public final class MediaCodecUtil {
                 return 101376;
             case 64:
                 return 202752;
-            case ConnectionsManager.RequestFlagNeedQuickAck /* 128 */:
-            case 256:
+            case 128:
+            case LiteMode.FLAG_CHAT_BLUR /* 256 */:
                 return 414720;
-            case 512:
+            case LiteMode.FLAG_CALLS_ANIMATIONS /* 512 */:
                 return 921600;
-            case ConnectionsManager.RequestFlagDoNotWaitFloodWait /* 1024 */:
+            case 1024:
                 return 1310720;
-            case 2048:
+            case LiteMode.FLAG_AUTOPLAY_GIFS /* 2048 */:
             case 4096:
                 return 2097152;
             case 8192:
@@ -119,12 +120,13 @@ public final class MediaCodecUtil {
         sparseIntArray2.put(13, 16);
         sparseIntArray2.put(20, 32);
         sparseIntArray2.put(21, 64);
-        Integer valueOf = Integer.valueOf((int) ConnectionsManager.RequestFlagNeedQuickAck);
-        sparseIntArray2.put(22, ConnectionsManager.RequestFlagNeedQuickAck);
-        sparseIntArray2.put(30, 256);
-        sparseIntArray2.put(31, 512);
-        sparseIntArray2.put(32, ConnectionsManager.RequestFlagDoNotWaitFloodWait);
-        sparseIntArray2.put(40, 2048);
+        sparseIntArray2.put(22, 128);
+        Integer valueOf = Integer.valueOf((int) LiteMode.FLAG_CHAT_BLUR);
+        sparseIntArray2.put(30, LiteMode.FLAG_CHAT_BLUR);
+        Integer valueOf2 = Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS);
+        sparseIntArray2.put(31, LiteMode.FLAG_CALLS_ANIMATIONS);
+        sparseIntArray2.put(32, 1024);
+        sparseIntArray2.put(40, LiteMode.FLAG_AUTOPLAY_GIFS);
         sparseIntArray2.put(41, 4096);
         sparseIntArray2.put(42, 8192);
         sparseIntArray2.put(50, 16384);
@@ -145,10 +147,10 @@ public final class MediaCodecUtil {
         sparseIntArray4.put(30, 16);
         sparseIntArray4.put(31, 32);
         sparseIntArray4.put(40, 64);
-        sparseIntArray4.put(41, ConnectionsManager.RequestFlagNeedQuickAck);
-        sparseIntArray4.put(50, 256);
-        sparseIntArray4.put(51, 512);
-        sparseIntArray4.put(60, 2048);
+        sparseIntArray4.put(41, 128);
+        sparseIntArray4.put(50, LiteMode.FLAG_CHAT_BLUR);
+        sparseIntArray4.put(51, LiteMode.FLAG_CALLS_ANIMATIONS);
+        sparseIntArray4.put(60, LiteMode.FLAG_AUTOPLAY_GIFS);
         sparseIntArray4.put(61, 4096);
         sparseIntArray4.put(62, 8192);
         HashMap hashMap = new HashMap();
@@ -157,8 +159,8 @@ public final class MediaCodecUtil {
         hashMap.put("L60", 4);
         hashMap.put("L63", 16);
         hashMap.put("L90", 64);
-        hashMap.put("L93", 256);
-        hashMap.put("L120", Integer.valueOf((int) ConnectionsManager.RequestFlagDoNotWaitFloodWait));
+        hashMap.put("L93", valueOf);
+        hashMap.put("L120", 1024);
         hashMap.put("L123", 4096);
         hashMap.put("L150", 16384);
         hashMap.put("L153", Integer.valueOf((int) CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT));
@@ -169,9 +171,9 @@ public final class MediaCodecUtil {
         hashMap.put("H30", 2);
         hashMap.put("H60", 8);
         hashMap.put("H63", 32);
-        hashMap.put("H90", valueOf);
-        hashMap.put("H93", 512);
-        hashMap.put("H120", 2048);
+        hashMap.put("H90", 128);
+        hashMap.put("H93", valueOf2);
+        hashMap.put("H120", Integer.valueOf((int) LiteMode.FLAG_AUTOPLAY_GIFS));
         hashMap.put("H123", 8192);
         hashMap.put("H150", 32768);
         hashMap.put("H153", 131072);
@@ -188,9 +190,9 @@ public final class MediaCodecUtil {
         hashMap2.put("04", 16);
         hashMap2.put("05", 32);
         hashMap2.put("06", 64);
-        hashMap2.put("07", valueOf);
-        hashMap2.put("08", 256);
-        hashMap2.put("09", 512);
+        hashMap2.put("07", 128);
+        hashMap2.put("08", valueOf);
+        hashMap2.put("09", valueOf2);
         HashMap hashMap3 = new HashMap();
         DOLBY_VISION_STRING_TO_LEVEL = hashMap3;
         hashMap3.put("01", 1);
@@ -200,8 +202,8 @@ public final class MediaCodecUtil {
         hashMap3.put("05", 16);
         hashMap3.put("06", 32);
         hashMap3.put("07", 64);
-        hashMap3.put("08", valueOf);
-        hashMap3.put("09", 256);
+        hashMap3.put("08", 128);
+        hashMap3.put("09", valueOf);
         SparseIntArray sparseIntArray5 = new SparseIntArray();
         AV1_LEVEL_NUMBER_TO_CONST = sparseIntArray5;
         sparseIntArray5.put(0, 1);
@@ -211,11 +213,11 @@ public final class MediaCodecUtil {
         sparseIntArray5.put(4, 16);
         sparseIntArray5.put(5, 32);
         sparseIntArray5.put(6, 64);
-        sparseIntArray5.put(7, ConnectionsManager.RequestFlagNeedQuickAck);
-        sparseIntArray5.put(8, 256);
-        sparseIntArray5.put(9, 512);
-        sparseIntArray5.put(10, ConnectionsManager.RequestFlagDoNotWaitFloodWait);
-        sparseIntArray5.put(11, 2048);
+        sparseIntArray5.put(7, 128);
+        sparseIntArray5.put(8, LiteMode.FLAG_CHAT_BLUR);
+        sparseIntArray5.put(9, LiteMode.FLAG_CALLS_ANIMATIONS);
+        sparseIntArray5.put(10, 1024);
+        sparseIntArray5.put(11, LiteMode.FLAG_AUTOPLAY_GIFS);
         sparseIntArray5.put(12, 4096);
         sparseIntArray5.put(13, 8192);
         sparseIntArray5.put(14, 16384);

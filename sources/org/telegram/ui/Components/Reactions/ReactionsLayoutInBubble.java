@@ -537,12 +537,7 @@ public class ReactionsLayoutInBubble {
 
         public ReactionButton(ReactionButton reactionButton, TLRPC$ReactionCount tLRPC$ReactionCount, boolean z) {
             if (reactionButton != null) {
-                this.imageReceiver = reactionButton.imageReceiver;
                 this.counterDrawable = reactionButton.counterDrawable;
-                this.animatedEmojiDrawable = reactionButton.animatedEmojiDrawable;
-                reactionButton.counterDrawable = null;
-                reactionButton.imageReceiver = null;
-                reactionButton.animatedEmojiDrawable = null;
             }
             if (this.imageReceiver == null) {
                 this.imageReceiver = new ImageReceiver();
@@ -974,40 +969,56 @@ public class ReactionsLayoutInBubble {
     public static class VisibleReaction {
         public long documentId;
         public String emojicon;
+        public long hash;
 
         public static VisibleReaction fromTLReaction(TLRPC$Reaction tLRPC$Reaction) {
             VisibleReaction visibleReaction = new VisibleReaction();
             if (tLRPC$Reaction instanceof TLRPC$TL_reactionEmoji) {
-                visibleReaction.emojicon = ((TLRPC$TL_reactionEmoji) tLRPC$Reaction).emoticon;
+                String str = ((TLRPC$TL_reactionEmoji) tLRPC$Reaction).emoticon;
+                visibleReaction.emojicon = str;
+                visibleReaction.hash = str.hashCode();
             } else if (tLRPC$Reaction instanceof TLRPC$TL_reactionCustomEmoji) {
-                visibleReaction.documentId = ((TLRPC$TL_reactionCustomEmoji) tLRPC$Reaction).document_id;
+                long j = ((TLRPC$TL_reactionCustomEmoji) tLRPC$Reaction).document_id;
+                visibleReaction.documentId = j;
+                visibleReaction.hash = j;
             }
             return visibleReaction;
         }
 
         public static VisibleReaction fromEmojicon(TLRPC$TL_availableReaction tLRPC$TL_availableReaction) {
             VisibleReaction visibleReaction = new VisibleReaction();
-            visibleReaction.emojicon = tLRPC$TL_availableReaction.reaction;
+            String str = tLRPC$TL_availableReaction.reaction;
+            visibleReaction.emojicon = str;
+            visibleReaction.hash = str.hashCode();
             return visibleReaction;
         }
 
         public static VisibleReaction fromEmojicon(String str) {
+            if (str == null) {
+                str = "";
+            }
             VisibleReaction visibleReaction = new VisibleReaction();
             if (str.startsWith("animated_")) {
                 try {
-                    visibleReaction.documentId = Long.parseLong(str.substring(9));
+                    long parseLong = Long.parseLong(str.substring(9));
+                    visibleReaction.documentId = parseLong;
+                    visibleReaction.hash = parseLong;
                 } catch (Exception unused) {
                     visibleReaction.emojicon = str;
+                    visibleReaction.hash = str.hashCode();
                 }
             } else {
                 visibleReaction.emojicon = str;
+                visibleReaction.hash = str.hashCode();
             }
             return visibleReaction;
         }
 
         public static VisibleReaction fromCustomEmoji(Long l) {
             VisibleReaction visibleReaction = new VisibleReaction();
-            visibleReaction.documentId = l.longValue();
+            long longValue = l.longValue();
+            visibleReaction.documentId = longValue;
+            visibleReaction.hash = longValue;
             return visibleReaction;
         }
 
@@ -1020,10 +1031,6 @@ public class ReactionsLayoutInBubble {
             }
             VisibleReaction visibleReaction = (VisibleReaction) obj;
             return this.documentId == visibleReaction.documentId && Objects.equals(this.emojicon, visibleReaction.emojicon);
-        }
-
-        public int hashCode() {
-            return Objects.hash(this.emojicon, Long.valueOf(this.documentId));
         }
     }
 }

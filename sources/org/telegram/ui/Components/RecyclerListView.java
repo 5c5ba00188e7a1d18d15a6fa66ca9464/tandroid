@@ -42,6 +42,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
@@ -1638,15 +1639,16 @@ public class RecyclerListView extends RecyclerView {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void checkStopHeavyOperations(int i) {
+        Integer valueOf = Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS);
         if (i == 0) {
             if (this.stoppedAllHeavyOperations) {
                 this.stoppedAllHeavyOperations = false;
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, 512);
+                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, valueOf);
             }
         } else if (this.stoppedAllHeavyOperations || !this.allowStopHeaveOperations) {
         } else {
             this.stoppedAllHeavyOperations = true;
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 512);
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, valueOf);
         }
     }
 
@@ -2667,7 +2669,7 @@ public class RecyclerListView extends RecyclerView {
         }
         if (this.stoppedAllHeavyOperations) {
             this.stoppedAllHeavyOperations = false;
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, 512);
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
         }
     }
 

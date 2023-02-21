@@ -1,13 +1,14 @@
 package org.telegram.tgnet;
 
 import android.text.TextUtils;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_message_secret_old extends TLRPC$TL_message_secret {
     public static int constructor = 1431655928;
 
     @Override // org.telegram.tgnet.TLRPC$TL_message_secret, org.telegram.tgnet.TLRPC$TL_message, org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
-        int readInt32 = abstractSerializedData.readInt32(z) | 256 | 512;
+        int readInt32 = abstractSerializedData.readInt32(z) | LiteMode.FLAG_CHAT_BLUR | LiteMode.FLAG_CALLS_ANIMATIONS;
         this.flags = readInt32;
         this.unread = (readInt32 & 1) != 0;
         this.out = (readInt32 & 2) != 0;

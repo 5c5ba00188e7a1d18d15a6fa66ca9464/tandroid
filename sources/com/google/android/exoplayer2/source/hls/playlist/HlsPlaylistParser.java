@@ -37,7 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.checkerframework.checker.nullness.qual.EnsuresNonNullIf;
 import org.telegram.messenger.BuildConfig;
-import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlaylist> {
     private final HlsMasterPlaylist masterPlaylist;
@@ -707,12 +707,12 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
             return 0;
         }
         String[] split = Util.split(parseOptionalStringAttr, ",");
-        int i = Util.contains(split, "public.accessibility.describes-video") ? 512 : 0;
+        int i = Util.contains(split, "public.accessibility.describes-video") ? LiteMode.FLAG_CALLS_ANIMATIONS : 0;
         if (Util.contains(split, "public.accessibility.transcribes-spoken-dialog")) {
             i |= 4096;
         }
         if (Util.contains(split, "public.accessibility.describes-music-and-sound")) {
-            i |= ConnectionsManager.RequestFlagDoNotWaitFloodWait;
+            i |= 1024;
         }
         return Util.contains(split, "public.easy-to-read") ? i | 8192 : i;
     }

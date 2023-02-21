@@ -1,6 +1,4 @@
 package com.google.android.exoplayer2.util;
-
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class ParsableNalUnitBitArray {
     private int bitOffset;
@@ -82,7 +80,7 @@ public final class ParsableNalUnitBitArray {
     }
 
     public boolean readBit() {
-        boolean z = (this.data[this.byteOffset] & (ConnectionsManager.RequestFlagNeedQuickAck >> this.bitOffset)) != 0;
+        boolean z = (this.data[this.byteOffset] & (128 >> this.bitOffset)) != 0;
         skipBit();
         return z;
     }

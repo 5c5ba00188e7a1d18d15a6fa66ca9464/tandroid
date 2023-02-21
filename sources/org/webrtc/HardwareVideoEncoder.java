@@ -215,7 +215,7 @@ public class HardwareVideoEncoder implements VideoEncoder {
                         c = 1;
                     }
                     createVideoFormat.setInteger("profile", 8);
-                    createVideoFormat.setInteger("level", VIDEO_AVC_LEVEL_3);
+                    createVideoFormat.setInteger("level", 256);
                 }
                 Logging.d(TAG, "Format: " + createVideoFormat);
                 this.codec.configure(createVideoFormat, null, null, 1);

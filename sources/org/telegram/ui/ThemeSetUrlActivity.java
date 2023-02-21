@@ -208,7 +208,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         this.nameField.setBackgroundDrawable(null);
         this.nameField.setPadding(0, 0, 0, 0);
         this.nameField.setSingleLine(true);
-        this.nameField.setFilters(new InputFilter[]{new InputFilter.LengthFilter(ConnectionsManager.RequestFlagNeedQuickAck)});
+        this.nameField.setFilters(new InputFilter[]{new InputFilter.LengthFilter(128)});
         this.nameField.setInputType(163872);
         this.nameField.setImeOptions(6);
         this.nameField.setHint(LocaleController.getString("ThemeNamePlaceholder", R.string.ThemeNamePlaceholder));

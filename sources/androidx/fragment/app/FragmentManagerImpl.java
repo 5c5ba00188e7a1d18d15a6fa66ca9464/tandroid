@@ -48,7 +48,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import org.telegram.tgnet.ConnectionsManager;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: FragmentManager.java */
 /* loaded from: classes.dex */
@@ -278,7 +277,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
     }
 
     public String toString() {
-        StringBuilder sb = new StringBuilder((int) ConnectionsManager.RequestFlagNeedQuickAck);
+        StringBuilder sb = new StringBuilder(128);
         sb.append("FragmentManager{");
         sb.append(Integer.toHexString(System.identityHashCode(this)));
         sb.append(" in ");

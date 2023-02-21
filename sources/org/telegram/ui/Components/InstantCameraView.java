@@ -70,11 +70,13 @@ import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.egl.EGLSurface;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.AutoDeleteMediaTask;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessagesController;
@@ -524,9 +526,9 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         }
         try {
             if (i == 0) {
-                ((Activity) getContext()).getWindow().addFlags(ConnectionsManager.RequestFlagNeedQuickAck);
+                ((Activity) getContext()).getWindow().addFlags(128);
             } else {
-                ((Activity) getContext()).getWindow().clearFlags(ConnectionsManager.RequestFlagNeedQuickAck);
+                ((Activity) getContext()).getWindow().clearFlags(128);
             }
         } catch (Exception e) {
             FileLog.e(e);
@@ -571,9 +573,9 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         this.needDrawFlickerStub = true;
         if (initCamera()) {
             MediaController.getInstance().lambda$startAudioAgain$7(MediaController.getInstance().getPlayingMessageObject());
-            FileLoader.getDirectory(4).mkdirs();
-            File directory = FileLoader.getDirectory(4);
-            this.cameraFile = new File(this, directory, SharedConfig.getLastLocalId() + ".mp4") { // from class: org.telegram.ui.Components.InstantCameraView.8
+            FileLoader.getDirectory(3).mkdirs();
+            File directory = FileLoader.getDirectory(3);
+            this.cameraFile = new File(this, directory, System.currentTimeMillis() + "_" + SharedConfig.getLastLocalId() + ".mp4") { // from class: org.telegram.ui.Components.InstantCameraView.8
                 @Override // java.io.File
                 public boolean delete() {
                     if (BuildVars.LOGS_ENABLED) {
@@ -583,6 +585,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 }
             };
             SharedConfig.saveConfig();
+            AutoDeleteMediaTask.lockFile(this.cameraFile);
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.d("show round camera " + this.cameraFile.getAbsolutePath());
             }
@@ -784,6 +787,9 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             this.videoPlayer = null;
         }
         if (i == 4) {
+            if (BuildVars.DEBUG_VERSION && !this.cameraFile.exists()) {
+                FileLog.e(new RuntimeException("file not found :( round video"));
+            }
             if (this.videoEditedInfo.needConvert()) {
                 this.file = null;
                 this.encryptedFile = null;
@@ -898,6 +904,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 FileLog.e("delete camera file by cancel");
             }
             this.cameraFile.delete();
+            AutoDeleteMediaTask.unlockFile(this.cameraFile);
             this.cameraFile = null;
         }
         MediaController.getInstance().requestAudioFocus(false);
@@ -1053,9 +1060,9 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 arrayList = arrayList2;
             }
             if (Build.MANUFACTURER.equalsIgnoreCase("Xiaomi")) {
-                return CameraController.chooseOptimalSize(arrayList, 640, 480, this.aspectRatio);
+                return CameraController.chooseOptimalSize(arrayList, 640, LiteMode.FLAGS_CHAT, this.aspectRatio);
             }
-            return CameraController.chooseOptimalSize(arrayList, 480, 270, this.aspectRatio);
+            return CameraController.chooseOptimalSize(arrayList, LiteMode.FLAGS_CHAT, 270, this.aspectRatio);
         }
         Collections.sort(arrayList2, InstantCameraView$$ExternalSyntheticLambda6.INSTANCE);
         return arrayList2.get(0);
@@ -1090,7 +1097,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             FileLog.d("create camera session");
         }
         surfaceTexture.setDefaultBufferSize(this.previewSize.getWidth(), this.previewSize.getHeight());
-        CameraSession cameraSession = new CameraSession(this.selectedCamera, this.previewSize, this.pictureSize, 256, true);
+        CameraSession cameraSession = new CameraSession(this.selectedCamera, this.previewSize, this.pictureSize, LiteMode.FLAG_CHAT_BLUR, true);
         this.cameraSession = cameraSession;
         this.cameraThread.setCurrentSession(cameraSession);
         CameraController.getInstance().openRound(this.cameraSession, surfaceTexture, new Runnable() { // from class: org.telegram.ui.Components.InstantCameraView$$ExternalSyntheticLambda4
@@ -1695,7 +1702,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
 
         public AudioBufferInfo() {
             for (int i = 0; i < 10; i++) {
-                this.buffer[i] = ByteBuffer.allocateDirect(2048);
+                this.buffer[i] = ByteBuffer.allocateDirect(LiteMode.FLAG_AUTOPLAY_GIFS);
                 this.buffer[i].order(ByteOrder.nativeOrder());
             }
         }
@@ -1824,7 +1831,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                             }
                             ByteBuffer byteBuffer = audioBufferInfo.buffer[i];
                             byteBuffer.rewind();
-                            int read = VideoRecorder.this.audioRecorder.read(byteBuffer, 2048);
+                            int read = VideoRecorder.this.audioRecorder.read(byteBuffer, LiteMode.FLAG_AUTOPLAY_GIFS);
                             if (read > 0 && i % 2 == 0) {
                                 byteBuffer.limit(read);
                                 double d = 0.0d;
@@ -1892,11 +1899,10 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
 
         public void startRecording(File file, android.opengl.EGLContext eGLContext) {
             int i = MessagesController.getInstance(InstantCameraView.this.currentAccount).roundVideoSize;
-            int i2 = MessagesController.getInstance(InstantCameraView.this.currentAccount).roundVideoBitrate * ConnectionsManager.RequestFlagDoNotWaitFloodWait;
             this.videoFile = file;
             this.videoWidth = i;
             this.videoHeight = i;
-            this.videoBitrate = i2;
+            this.videoBitrate = MessagesController.getInstance(InstantCameraView.this.currentAccount).roundVideoBitrate * 1024;
             this.sharedEglContext = eGLContext;
             synchronized (this.sync) {
                 if (this.running) {
@@ -2547,7 +2553,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 if (minBufferSize <= 0) {
                     minBufferSize = 3584;
                 }
-                int i = 49152 < minBufferSize ? ((minBufferSize / 2048) + 1) * 2048 * 2 : 49152;
+                int i = 49152 < minBufferSize ? ((minBufferSize / LiteMode.FLAG_AUTOPLAY_GIFS) + 1) * LiteMode.FLAG_AUTOPLAY_GIFS * 2 : 49152;
                 for (int i2 = 0; i2 < 3; i2++) {
                     this.buffers.add(new AudioBufferInfo());
                 }
@@ -2566,7 +2572,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 mediaFormat.setString("mime", MediaController.AUIDO_MIME_TYPE);
                 mediaFormat.setInteger("sample-rate", 48000);
                 mediaFormat.setInteger("channel-count", 1);
-                mediaFormat.setInteger("bitrate", MessagesController.getInstance(InstantCameraView.this.currentAccount).roundAudioBitrate * ConnectionsManager.RequestFlagDoNotWaitFloodWait);
+                mediaFormat.setInteger("bitrate", MessagesController.getInstance(InstantCameraView.this.currentAccount).roundAudioBitrate * 1024);
                 mediaFormat.setInteger("max-input-size", 20480);
                 MediaCodec createEncoderByType = MediaCodec.createEncoderByType(MediaController.AUIDO_MIME_TYPE);
                 this.audioEncoder = createEncoderByType;

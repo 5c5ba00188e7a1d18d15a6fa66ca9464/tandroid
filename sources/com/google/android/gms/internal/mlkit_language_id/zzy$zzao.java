@@ -1,7 +1,7 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import com.google.android.gms.internal.mlkit_language_id.zzeo;
-import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.messenger.LiteMode;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzy$zzao extends zzeo<zzy$zzao, zzc> implements zzgb {
@@ -27,11 +27,11 @@ public final class zzy$zzao extends zzeo<zzy$zzao, zzc> implements zzgb {
         zzf(16),
         zzg(32),
         zzh(64),
-        zzi(ConnectionsManager.RequestFlagNeedQuickAck),
-        zzj(256),
-        zzk(512),
-        zzl(ConnectionsManager.RequestFlagDoNotWaitFloodWait),
-        zzm(2048),
+        zzi(128),
+        zzj(LiteMode.FLAG_CHAT_BLUR),
+        zzk(LiteMode.FLAG_CALLS_ANIMATIONS),
+        zzl(1024),
+        zzm(LiteMode.FLAG_AUTOPLAY_GIFS),
         zzn(4096);
         
         private final int zzp;

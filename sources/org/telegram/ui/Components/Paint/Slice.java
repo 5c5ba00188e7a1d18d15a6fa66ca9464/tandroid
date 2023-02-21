@@ -11,7 +11,6 @@ import java.util.zip.Inflater;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLog;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class Slice {
     private RectF bounds;
@@ -45,7 +44,7 @@ public class Slice {
             Deflater deflater = new Deflater(1, true);
             deflater.setInput(array, byteBuffer.arrayOffset(), byteBuffer.remaining());
             deflater.finish();
-            byte[] bArr = new byte[ConnectionsManager.RequestFlagDoNotWaitFloodWait];
+            byte[] bArr = new byte[1024];
             while (!deflater.finished()) {
                 fileOutputStream.write(bArr, 0, deflater.deflate(bArr));
             }
@@ -58,8 +57,8 @@ public class Slice {
 
     public ByteBuffer getData() {
         try {
-            byte[] bArr = new byte[ConnectionsManager.RequestFlagDoNotWaitFloodWait];
-            byte[] bArr2 = new byte[ConnectionsManager.RequestFlagDoNotWaitFloodWait];
+            byte[] bArr = new byte[1024];
+            byte[] bArr2 = new byte[1024];
             FileInputStream fileInputStream = new FileInputStream(this.file);
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             Inflater inflater = new Inflater(true);
@@ -69,7 +68,7 @@ public class Slice {
                     inflater.setInput(bArr, 0, read);
                 }
                 while (true) {
-                    int inflate = inflater.inflate(bArr2, 0, ConnectionsManager.RequestFlagDoNotWaitFloodWait);
+                    int inflate = inflater.inflate(bArr2, 0, 1024);
                     if (inflate == 0) {
                         break;
                     }

@@ -33,8 +33,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class MatroskaExtractor implements Extractor {
     private final ParsableByteArray blockAdditionalData;
@@ -946,9 +946,7 @@ public class MatroskaExtractor implements Extractor {
             if (!this.sampleEncodingHandled) {
                 if (track.hasContentEncryption) {
                     this.blockFlags &= -1073741825;
-                    boolean z = this.sampleSignalByteRead;
-                    int i3 = ConnectionsManager.RequestFlagNeedQuickAck;
-                    if (!z) {
+                    if (!this.sampleSignalByteRead) {
                         extractorInput.readFully(this.scratch.data, 0, 1);
                         this.sampleBytesRead++;
                         byte[] bArr = this.scratch.data;
@@ -960,18 +958,14 @@ public class MatroskaExtractor implements Extractor {
                     }
                     byte b = this.sampleSignalByte;
                     if ((b & 1) == 1) {
-                        boolean z2 = (b & 2) == 2;
+                        boolean z = (b & 2) == 2;
                         this.blockFlags |= 1073741824;
                         if (!this.sampleInitializationVectorRead) {
                             extractorInput.readFully(this.encryptionInitializationVector.data, 0, 8);
                             this.sampleBytesRead += 8;
                             this.sampleInitializationVectorRead = true;
                             ParsableByteArray parsableByteArray = this.scratch;
-                            byte[] bArr2 = parsableByteArray.data;
-                            if (!z2) {
-                                i3 = 0;
-                            }
-                            bArr2[0] = (byte) (i3 | 8);
+                            parsableByteArray.data[0] = (byte) ((z ? 128 : 0) | 8);
                             parsableByteArray.setPosition(0);
                             trackOutput.sampleData(this.scratch, 1);
                             this.sampleBytesWritten++;
@@ -979,7 +973,7 @@ public class MatroskaExtractor implements Extractor {
                             trackOutput.sampleData(this.encryptionInitializationVector, 8);
                             this.sampleBytesWritten += 8;
                         }
-                        if (z2) {
+                        if (z) {
                             if (!this.samplePartitionCountRead) {
                                 extractorInput.readFully(this.scratch.data, 0, 1);
                                 this.sampleBytesRead++;
@@ -987,50 +981,50 @@ public class MatroskaExtractor implements Extractor {
                                 this.samplePartitionCount = this.scratch.readUnsignedByte();
                                 this.samplePartitionCountRead = true;
                             }
-                            int i4 = this.samplePartitionCount * 4;
-                            this.scratch.reset(i4);
-                            extractorInput.readFully(this.scratch.data, 0, i4);
-                            this.sampleBytesRead += i4;
+                            int i3 = this.samplePartitionCount * 4;
+                            this.scratch.reset(i3);
+                            extractorInput.readFully(this.scratch.data, 0, i3);
+                            this.sampleBytesRead += i3;
                             short s = (short) ((this.samplePartitionCount / 2) + 1);
-                            int i5 = (s * 6) + 2;
+                            int i4 = (s * 6) + 2;
                             ByteBuffer byteBuffer = this.encryptionSubsampleDataBuffer;
-                            if (byteBuffer == null || byteBuffer.capacity() < i5) {
-                                this.encryptionSubsampleDataBuffer = ByteBuffer.allocate(i5);
+                            if (byteBuffer == null || byteBuffer.capacity() < i4) {
+                                this.encryptionSubsampleDataBuffer = ByteBuffer.allocate(i4);
                             }
                             this.encryptionSubsampleDataBuffer.position(0);
                             this.encryptionSubsampleDataBuffer.putShort(s);
+                            int i5 = 0;
                             int i6 = 0;
-                            int i7 = 0;
                             while (true) {
                                 i2 = this.samplePartitionCount;
-                                if (i6 >= i2) {
+                                if (i5 >= i2) {
                                     break;
                                 }
                                 int readUnsignedIntToInt = this.scratch.readUnsignedIntToInt();
-                                if (i6 % 2 == 0) {
-                                    this.encryptionSubsampleDataBuffer.putShort((short) (readUnsignedIntToInt - i7));
+                                if (i5 % 2 == 0) {
+                                    this.encryptionSubsampleDataBuffer.putShort((short) (readUnsignedIntToInt - i6));
                                 } else {
-                                    this.encryptionSubsampleDataBuffer.putInt(readUnsignedIntToInt - i7);
+                                    this.encryptionSubsampleDataBuffer.putInt(readUnsignedIntToInt - i6);
                                 }
-                                i6++;
-                                i7 = readUnsignedIntToInt;
+                                i5++;
+                                i6 = readUnsignedIntToInt;
                             }
-                            int i8 = (i - this.sampleBytesRead) - i7;
+                            int i7 = (i - this.sampleBytesRead) - i6;
                             if (i2 % 2 == 1) {
-                                this.encryptionSubsampleDataBuffer.putInt(i8);
+                                this.encryptionSubsampleDataBuffer.putInt(i7);
                             } else {
-                                this.encryptionSubsampleDataBuffer.putShort((short) i8);
+                                this.encryptionSubsampleDataBuffer.putShort((short) i7);
                                 this.encryptionSubsampleDataBuffer.putInt(0);
                             }
-                            this.encryptionSubsampleData.reset(this.encryptionSubsampleDataBuffer.array(), i5);
-                            trackOutput.sampleData(this.encryptionSubsampleData, i5);
-                            this.sampleBytesWritten += i5;
+                            this.encryptionSubsampleData.reset(this.encryptionSubsampleDataBuffer.array(), i4);
+                            trackOutput.sampleData(this.encryptionSubsampleData, i4);
+                            this.sampleBytesWritten += i4;
                         }
                     }
                 } else {
-                    byte[] bArr3 = track.sampleStrippedBytes;
-                    if (bArr3 != null) {
-                        this.sampleStrippedBytes.reset(bArr3, bArr3.length);
+                    byte[] bArr2 = track.sampleStrippedBytes;
+                    if (bArr2 != null) {
+                        this.sampleStrippedBytes.reset(bArr2, bArr2.length);
                     }
                 }
                 if (track.maxBlockAdditionId > 0) {
@@ -1038,11 +1032,11 @@ public class MatroskaExtractor implements Extractor {
                     this.blockAdditionalData.reset();
                     this.scratch.reset(4);
                     ParsableByteArray parsableByteArray2 = this.scratch;
-                    byte[] bArr4 = parsableByteArray2.data;
-                    bArr4[0] = (byte) ((i >> 24) & 255);
-                    bArr4[1] = (byte) ((i >> 16) & 255);
-                    bArr4[2] = (byte) ((i >> 8) & 255);
-                    bArr4[3] = (byte) (i & 255);
+                    byte[] bArr3 = parsableByteArray2.data;
+                    bArr3[0] = (byte) ((i >> 24) & 255);
+                    bArr3[1] = (byte) ((i >> 16) & 255);
+                    bArr3[2] = (byte) ((i >> 8) & 255);
+                    bArr3[3] = (byte) (i & 255);
                     trackOutput.sampleData(parsableByteArray2, 4);
                     this.sampleBytesWritten += 4;
                 }
@@ -1050,24 +1044,24 @@ public class MatroskaExtractor implements Extractor {
             }
             int limit = i + this.sampleStrippedBytes.limit();
             if ("V_MPEG4/ISO/AVC".equals(track.codecId) || "V_MPEGH/ISO/HEVC".equals(track.codecId)) {
-                byte[] bArr5 = this.nalLength.data;
-                bArr5[0] = 0;
-                bArr5[1] = 0;
-                bArr5[2] = 0;
-                int i9 = track.nalUnitLengthFieldLength;
-                int i10 = 4 - i9;
+                byte[] bArr4 = this.nalLength.data;
+                bArr4[0] = 0;
+                bArr4[1] = 0;
+                bArr4[2] = 0;
+                int i8 = track.nalUnitLengthFieldLength;
+                int i9 = 4 - i8;
                 while (this.sampleBytesRead < limit) {
-                    int i11 = this.sampleCurrentNalBytesRemaining;
-                    if (i11 == 0) {
-                        writeToTarget(extractorInput, bArr5, i10, i9);
-                        this.sampleBytesRead += i9;
+                    int i10 = this.sampleCurrentNalBytesRemaining;
+                    if (i10 == 0) {
+                        writeToTarget(extractorInput, bArr4, i9, i8);
+                        this.sampleBytesRead += i8;
                         this.nalLength.setPosition(0);
                         this.sampleCurrentNalBytesRemaining = this.nalLength.readUnsignedIntToInt();
                         this.nalStartCode.setPosition(0);
                         trackOutput.sampleData(this.nalStartCode, 4);
                         this.sampleBytesWritten += 4;
                     } else {
-                        int writeToOutput = writeToOutput(extractorInput, trackOutput, i11);
+                        int writeToOutput = writeToOutput(extractorInput, trackOutput, i10);
                         this.sampleBytesRead += writeToOutput;
                         this.sampleBytesWritten += writeToOutput;
                         this.sampleCurrentNalBytesRemaining -= writeToOutput;
@@ -1079,11 +1073,11 @@ public class MatroskaExtractor implements Extractor {
                     track.trueHdSampleRechunker.startSample(extractorInput);
                 }
                 while (true) {
-                    int i12 = this.sampleBytesRead;
-                    if (i12 >= limit) {
+                    int i11 = this.sampleBytesRead;
+                    if (i11 >= limit) {
                         break;
                     }
-                    int writeToOutput2 = writeToOutput(extractorInput, trackOutput, limit - i12);
+                    int writeToOutput2 = writeToOutput(extractorInput, trackOutput, limit - i11);
                     this.sampleBytesRead += writeToOutput2;
                     this.sampleBytesWritten += writeToOutput2;
                 }
@@ -1877,7 +1871,7 @@ public class MatroskaExtractor implements Extractor {
                     i2 = -1;
                     i3 = -1;
                     break;
-                case 28:
+                case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                     singletonList = Collections.singletonList(this.codecPrivate);
                     str = "audio/flac";
                     str5 = str;

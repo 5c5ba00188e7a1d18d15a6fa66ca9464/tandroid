@@ -60,6 +60,7 @@ import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
@@ -4246,7 +4247,7 @@ public class AlertsCreator {
         ScheduleDatePickerColors scheduleDatePickerColors = new ScheduleDatePickerColors(resourcesProvider);
         final BottomSheet.Builder builder = new BottomSheet.Builder(context, false, resourcesProvider);
         builder.setApplyBottomPadding(false);
-        final int[] iArr = {30, 60, 120, 180, 480, 1440, 2880, 4320, 5760, 7200, 8640, 10080, 20160, 30240, 44640, 89280, 133920, 178560, 223200, 267840, 525600};
+        final int[] iArr = {30, 60, 120, 180, LiteMode.FLAGS_CHAT, 1440, 2880, 4320, 5760, 7200, 8640, 10080, 20160, 30240, 44640, 89280, 133920, 178560, 223200, 267840, 525600};
         final NumberPicker numberPicker = new NumberPicker(context, resourcesProvider) { // from class: org.telegram.ui.Components.AlertsCreator.31
             @Override // org.telegram.ui.Components.NumberPicker
             protected CharSequence getContentDescription(int i) {
@@ -6944,7 +6945,7 @@ public class AlertsCreator {
         hashMap.put(96647, "Lagoon");
         hashMap.put(7461346, "Aquamarine");
         hashMap.put(1182351, "Ultramarine");
-        hashMap.put(Integer.valueOf((int) ConnectionsManager.RequestFlagNeedQuickAck), "Navy");
+        hashMap.put(128, "Navy");
         hashMap.put(3101086, "Sapphire");
         hashMap.put(7788522, "Sky");
         hashMap.put(32896, "Teal");
@@ -7013,7 +7014,7 @@ public class AlertsCreator {
             int i4 = red - red2;
             int green2 = green - Color.green(num.intValue());
             int blue2 = blue - Color.blue(num.intValue());
-            int i5 = ((((i3 + 512) * i4) * i4) >> 8) + (green2 * 4 * green2) + ((((767 - i3) * blue2) * blue2) >> 8);
+            int i5 = ((((i3 + LiteMode.FLAG_CALLS_ANIMATIONS) * i4) * i4) >> 8) + (green2 * 4 * green2) + ((((767 - i3) * blue2) * blue2) >> 8);
             if (i5 < i2) {
                 str = (String) entry.getValue();
                 i2 = i5;

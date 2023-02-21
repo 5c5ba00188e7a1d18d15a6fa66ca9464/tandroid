@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import org.telegram.messenger.CharacterCompat;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.voip.VoIPService;
-import org.telegram.tgnet.ConnectionsManager;
 import sun.misc.Unsafe;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
@@ -364,7 +364,7 @@ final class zzgd<T> implements zzgp<T> {
                 }
                 int i72 = charAt24 & 255;
                 int i73 = charAt2;
-                if ((charAt24 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                if ((charAt24 & 1024) != 0) {
                     iArr[i62] = i63;
                     i62++;
                 }
@@ -448,7 +448,7 @@ final class zzgd<T> implements zzgp<T> {
                                 int i84 = (i63 / 3) << 1;
                                 i20 = i82 + 1;
                                 objArr2[i84] = zze[i82];
-                                if ((charAt24 & 2048) != 0) {
+                                if ((charAt24 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                                     i82 = i20 + 1;
                                     objArr2[i84 + 1] = zze[i20];
                                     i59 = i83;
@@ -541,7 +541,7 @@ final class zzgd<T> implements zzgp<T> {
                 iArr2[i63] = charAt23;
                 int i91 = i90 + 1;
                 int i92 = i26;
-                iArr2[i90] = ((charAt24 & 256) != 0 ? 268435456 : 0) | ((charAt24 & 512) != 0 ? 536870912 : 0) | (i72 << 20) | objectFieldOffset;
+                iArr2[i90] = ((charAt24 & LiteMode.FLAG_CHAT_BLUR) != 0 ? 268435456 : 0) | ((charAt24 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0 ? 536870912 : 0) | (i72 << 20) | objectFieldOffset;
                 int i93 = i91 + 1;
                 iArr2[i91] = (i18 << 20) | i16;
                 i60 = i17;
@@ -773,7 +773,7 @@ final class zzgd<T> implements zzgp<T> {
                     case 25:
                     case 26:
                     case 27:
-                    case 28:
+                    case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                     case 29:
                     case 30:
                     case 31:
@@ -956,7 +956,7 @@ final class zzgd<T> implements zzgp<T> {
                 case 25:
                 case 26:
                 case 27:
-                case 28:
+                case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                 case 29:
                 case 30:
                 case 31:
@@ -1307,7 +1307,7 @@ final class zzgd<T> implements zzgp<T> {
                 case 25:
                 case 26:
                 case 27:
-                case 28:
+                case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                 case 29:
                 case 30:
                 case 31:
@@ -1640,7 +1640,7 @@ final class zzgd<T> implements zzgp<T> {
                     case 27:
                         zzb3 = zzgr.zza(i8, zza(t, j2), zza(i5));
                         break;
-                    case 28:
+                    case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                         zzb3 = zzgr.zzb(i8, zza(t, j2));
                         break;
                     case 29:
@@ -2270,7 +2270,7 @@ final class zzgd<T> implements zzgp<T> {
                     i10 += 3;
                     i3 = 1048575;
                     i4 = 1;
-                case 28:
+                case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                     zzb2 = zzgr.zzb(i14, (List) unsafe2.getObject(t, j3));
                     i11 += zzb2;
                     j = 0;
@@ -2889,7 +2889,7 @@ final class zzgd<T> implements zzgp<T> {
                             case 27:
                                 zzgr.zza(this.zzc[length2], (List) zzhn.zzf(t, zzc & 1048575), zzibVar, zza(length2));
                                 break;
-                            case 28:
+                            case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                                 zzgr.zzb(this.zzc[length2], (List) zzhn.zzf(t, zzc & 1048575), zzibVar);
                                 break;
                             case 29:
@@ -3269,7 +3269,7 @@ final class zzgd<T> implements zzgp<T> {
                             case 27:
                                 zzgr.zza(this.zzc[i], (List) zzhn.zzf(t, zzc2 & 1048575), zzibVar, zza(i));
                                 break;
-                            case 28:
+                            case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                                 zzgr.zzb(this.zzc[i], (List) zzhn.zzf(t, zzc2 & 1048575), zzibVar);
                                 break;
                             case 29:
@@ -3665,7 +3665,7 @@ final class zzgd<T> implements zzgp<T> {
                         case 27:
                             zzgr.zza(this.zzc[i], (List) unsafe.getObject(t, j), zzibVar, zza(i));
                             break;
-                        case 28:
+                        case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                             zzgr.zzb(this.zzc[i], (List) unsafe.getObject(t, j), zzibVar);
                             break;
                         case 29:

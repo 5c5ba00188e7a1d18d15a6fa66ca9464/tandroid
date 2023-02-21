@@ -169,6 +169,7 @@ public class NotificationCenter {
     public static final int onActivityResultReceived;
     public static final int onDatabaseMigration;
     public static final int onDatabaseOpened;
+    public static int onDatabaseReset = 0;
     public static final int onDownloadingFilesChanged;
     public static final int onEmojiInteractionsReceived;
     public static final int onRequestPermissionResultReceived;
@@ -963,8 +964,11 @@ public class NotificationCenter {
         int i230 = i229 + 1;
         totalEvents = i230;
         chatSwithcedToForum = i229;
-        totalEvents = i230 + 1;
+        int i231 = i230 + 1;
+        totalEvents = i231;
         didUpdateGlobalAutoDeleteTimer = i230;
+        totalEvents = i231 + 1;
+        onDatabaseReset = i231;
     }
 
     /* loaded from: classes.dex */
@@ -1019,7 +1023,7 @@ public class NotificationCenter {
     public int setAnimationInProgress(int i, int[] iArr, boolean z) {
         onAnimationFinish(i);
         if (this.heavyOperationsCounter.isEmpty() && z) {
-            getGlobalInstance().postNotificationName(stopAllHeavyOperations, 512);
+            getGlobalInstance().postNotificationName(stopAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
         }
         this.animationInProgressCount++;
         int i2 = this.animationInProgressPointer + 1;
@@ -1089,7 +1093,7 @@ public class NotificationCenter {
             if (!this.heavyOperationsCounter.isEmpty()) {
                 this.heavyOperationsCounter.remove(Integer.valueOf(i));
                 if (this.heavyOperationsCounter.isEmpty()) {
-                    getGlobalInstance().postNotificationName(startAllHeavyOperations, 512);
+                    getGlobalInstance().postNotificationName(startAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
                 }
             }
             if (this.animationInProgressCount == 0) {

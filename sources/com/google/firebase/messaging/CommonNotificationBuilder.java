@@ -138,7 +138,7 @@ public final class CommonNotificationBuilder {
 
     private static Bundle getManifestMetadata(PackageManager packageManager, String str) {
         try {
-            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(str, ConnectionsManager.RequestFlagNeedQuickAck);
+            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(str, 128);
             if (applicationInfo != null) {
                 Bundle bundle = applicationInfo.metaData;
                 if (bundle != null) {

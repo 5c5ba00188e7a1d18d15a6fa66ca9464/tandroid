@@ -84,6 +84,7 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
@@ -938,7 +939,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
 
                     @Override // org.telegram.ui.Components.StickerCategoriesListView
                     protected boolean isTabIconsAnimationEnabled(boolean z) {
-                        return !SharedConfig.getLiteMode().enabled();
+                        return LiteMode.isEnabled(8);
                     }
                 };
                 this.categoriesListView = stickerCategoriesListView;
@@ -3092,6 +3093,12 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     return lambda$stickerSetPositionChanged$0;
                 }
             });
+            ArrayList<TLRPC$TL_messages_stickerSet> arrayList = EmojiView.this.frozenStickerSets;
+            if (arrayList != null) {
+                arrayList.clear();
+                EmojiView emojiView = EmojiView.this;
+                emojiView.frozenStickerSets.addAll(emojiView.stickerSets);
+            }
             EmojiView.this.reloadStickersAdapter();
             AndroidUtilities.cancelRunOnUIThread(EmojiView.this.checkExpandStickerTabsRunnable);
             AndroidUtilities.runOnUIThread(EmojiView.this.checkExpandStickerTabsRunnable, 1500L);
@@ -3574,7 +3581,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 EmojiGridView.this = r2;
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:84:0x0088, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:84:0x0084, code lost:
                 prepareDraw(java.lang.System.currentTimeMillis());
                 drawInUiThread(r9, r14);
                 reset();
@@ -3592,7 +3599,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     return;
                 }
                 boolean z = true;
-                boolean z2 = arrayList.size() <= 4 || SharedConfig.getDevicePerformanceClass() == 0 || SharedConfig.getLiteMode().enabled();
+                boolean z2 = arrayList.size() <= 4 || SharedConfig.getDevicePerformanceClass() == 0 || !LiteMode.isEnabled(4);
                 if (!z2) {
                     boolean z3 = EmojiView.this.animateExpandStartTime > 0 && SystemClock.elapsedRealtime() - EmojiView.this.animateExpandStartTime < EmojiGridView.this.animateExpandDuration();
                     for (int i3 = 0; i3 < this.imageViewEmojis.size(); i3++) {
@@ -6724,7 +6731,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             TLObject closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$StickerSetCovered.set.thumbs, 90);
             SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$StickerSetCovered.set.thumbs, "emptyListPlaceholder", 0.2f);
             if (svgThumb != null) {
-                svgThumb.overrideWidthAndHeight(512, 512);
+                svgThumb.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
             }
             if (closestPhotoSizeWithSize == null || MessageObject.isVideoSticker(tLRPC$Document)) {
                 closestPhotoSizeWithSize = tLRPC$Document;
@@ -6740,7 +6747,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             if (forSticker == null) {
                 return;
             }
-            String str = (SharedConfig.getLiteMode().enabled() || (this.emoji && !SharedConfig.playEmojiInKeyboard)) ? "30_30_firstframe" : "30_30";
+            String str = !LiteMode.isEnabled(this.emoji ? 4 : 1) ? "30_30_firstframe" : "30_30";
             if (z && (MessageObject.isAnimatedStickerDocument(tLRPC$Document, true) || MessageObject.isVideoSticker(tLRPC$Document))) {
                 if (svgThumb != null) {
                     backupImageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str, svgThumb, 0, tLRPC$StickerSetCovered);

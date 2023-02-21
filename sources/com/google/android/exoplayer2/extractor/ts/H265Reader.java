@@ -9,7 +9,6 @@ import com.google.android.exoplayer2.util.NalUnitUtil;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.ParsableNalUnitBitArray;
 import java.util.Collections;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class H265Reader implements ElementaryStreamReader {
     private String formatId;
@@ -20,11 +19,11 @@ public final class H265Reader implements ElementaryStreamReader {
     private final SeiReader seiReader;
     private long totalBytesWritten;
     private final boolean[] prefixFlags = new boolean[3];
-    private final NalUnitTargetBuffer vps = new NalUnitTargetBuffer(32, ConnectionsManager.RequestFlagNeedQuickAck);
-    private final NalUnitTargetBuffer sps = new NalUnitTargetBuffer(33, ConnectionsManager.RequestFlagNeedQuickAck);
-    private final NalUnitTargetBuffer pps = new NalUnitTargetBuffer(34, ConnectionsManager.RequestFlagNeedQuickAck);
-    private final NalUnitTargetBuffer prefixSei = new NalUnitTargetBuffer(39, ConnectionsManager.RequestFlagNeedQuickAck);
-    private final NalUnitTargetBuffer suffixSei = new NalUnitTargetBuffer(40, ConnectionsManager.RequestFlagNeedQuickAck);
+    private final NalUnitTargetBuffer vps = new NalUnitTargetBuffer(32, 128);
+    private final NalUnitTargetBuffer sps = new NalUnitTargetBuffer(33, 128);
+    private final NalUnitTargetBuffer pps = new NalUnitTargetBuffer(34, 128);
+    private final NalUnitTargetBuffer prefixSei = new NalUnitTargetBuffer(39, 128);
+    private final NalUnitTargetBuffer suffixSei = new NalUnitTargetBuffer(40, 128);
     private final ParsableByteArray seiWrapper = new ParsableByteArray();
 
     @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader

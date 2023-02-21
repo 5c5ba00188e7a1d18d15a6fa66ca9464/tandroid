@@ -1234,6 +1234,10 @@ public class DatabaseMigrationHelper {
         hashSet.add("topics");
         hashSet.add("media_counts_v2");
         hashSet.add("media_counts_topics");
+        hashSet.add("dialogs");
+        hashSet.add("dialog_filter");
+        hashSet.add("dialog_filter_ep");
+        hashSet.add("dialog_filter_pin_v2");
         int i5 = 0;
         while (true) {
             String[] strArr = MessagesStorage.DATABASE_TABLES;

@@ -56,6 +56,7 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
@@ -145,6 +146,7 @@ public class DialogCell extends BaseCell {
     private float archiveBackgroundProgress;
     private boolean archiveHidden;
     protected PullForegroundDrawable archivedChatsDrawable;
+    private boolean attachedToWindow;
     private AvatarDrawable avatarDrawable;
     public ImageReceiver avatarImage;
     private int bottomClip;
@@ -692,6 +694,7 @@ public class DialogCell extends BaseCell {
         this.isSliding = false;
         this.drawRevealBackground = false;
         this.currentRevealProgress = 0.0f;
+        this.attachedToWindow = false;
         this.reorderIconProgress = (getIsPinned() && this.drawReorder) ? 1.0f : 0.0f;
         this.avatarImage.onDetachedFromWindow();
         int i = 0;
@@ -733,17 +736,20 @@ public class DialogCell extends BaseCell {
         int i = 0;
         while (true) {
             ImageReceiver[] imageReceiverArr = this.thumbImage;
-            if (i < imageReceiverArr.length) {
-                imageReceiverArr[i].onAttachedToWindow();
-                i++;
-            } else {
-                resetPinnedArchiveState();
-                this.animatedEmojiStack = AnimatedEmojiSpan.update(0, this, this.animatedEmojiStack, this.messageLayout);
-                this.animatedEmojiStack2 = AnimatedEmojiSpan.update(0, this, this.animatedEmojiStack2, this.messageNameLayout);
-                this.animatedEmojiStack3 = AnimatedEmojiSpan.update(0, this, this.animatedEmojiStack3, this.buttonLayout);
-                this.animatedEmojiStackName = AnimatedEmojiSpan.update(0, this, this.animatedEmojiStackName, this.nameLayout);
-                return;
+            if (i >= imageReceiverArr.length) {
+                break;
             }
+            imageReceiverArr[i].onAttachedToWindow();
+            i++;
+        }
+        resetPinnedArchiveState();
+        this.animatedEmojiStack = AnimatedEmojiSpan.update(0, this, this.animatedEmojiStack, this.messageLayout);
+        this.animatedEmojiStack2 = AnimatedEmojiSpan.update(0, this, this.animatedEmojiStack2, this.messageNameLayout);
+        this.animatedEmojiStack3 = AnimatedEmojiSpan.update(0, this, this.animatedEmojiStack3, this.buttonLayout);
+        this.animatedEmojiStackName = AnimatedEmojiSpan.update(0, this, this.animatedEmojiStackName, this.nameLayout);
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.emojiStatus;
+        if (swapAnimatedEmojiDrawable != null) {
+            swapAnimatedEmojiDrawable.attach();
         }
     }
 
@@ -757,13 +763,15 @@ public class DialogCell extends BaseCell {
         this.clipProgress = 0.0f;
         this.isSliding = false;
         this.reorderIconProgress = (getIsPinned() && this.drawReorder) ? 0.0f : 0.0f;
+        this.attachedToWindow = true;
         this.cornerProgress = 0.0f;
         setTranslationX(0.0f);
         setTranslationY(0.0f);
         AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.emojiStatus;
-        if (swapAnimatedEmojiDrawable != null) {
-            swapAnimatedEmojiDrawable.attach();
+        if (swapAnimatedEmojiDrawable == null || !this.attachedToWindow) {
+            return;
         }
+        swapAnimatedEmojiDrawable.attach();
     }
 
     @Override // android.view.View
@@ -3824,8 +3832,8 @@ public class DialogCell extends BaseCell {
     /* JADX WARN: Code restructure failed: missing block: B:688:0x1460, code lost:
         if (r1 > 0) goto L407;
      */
-    /* JADX WARN: Removed duplicated region for block: B:1003:0x1ba5  */
-    /* JADX WARN: Removed duplicated region for block: B:1013:0x1bc3  */
+    /* JADX WARN: Removed duplicated region for block: B:1003:0x1ba1  */
+    /* JADX WARN: Removed duplicated region for block: B:1013:0x1bbf  */
     /* JADX WARN: Removed duplicated region for block: B:1029:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:249:0x08f8  */
     /* JADX WARN: Removed duplicated region for block: B:275:0x09b7  */
@@ -3853,22 +3861,22 @@ public class DialogCell extends BaseCell {
     /* JADX WARN: Removed duplicated region for block: B:699:0x14d3  */
     /* JADX WARN: Removed duplicated region for block: B:702:0x14df  */
     /* JADX WARN: Removed duplicated region for block: B:713:0x1541  */
-    /* JADX WARN: Removed duplicated region for block: B:843:0x18d0  */
-    /* JADX WARN: Removed duplicated region for block: B:851:0x18f0  */
-    /* JADX WARN: Removed duplicated region for block: B:856:0x1901  */
-    /* JADX WARN: Removed duplicated region for block: B:863:0x1917  */
-    /* JADX WARN: Removed duplicated region for block: B:881:0x194e  */
-    /* JADX WARN: Removed duplicated region for block: B:883:0x1952  */
-    /* JADX WARN: Removed duplicated region for block: B:897:0x19bf  */
-    /* JADX WARN: Removed duplicated region for block: B:900:0x19c8  */
-    /* JADX WARN: Removed duplicated region for block: B:916:0x1a07  */
-    /* JADX WARN: Removed duplicated region for block: B:945:0x1a8f  */
-    /* JADX WARN: Removed duplicated region for block: B:954:0x1ae4  */
-    /* JADX WARN: Removed duplicated region for block: B:959:0x1af7  */
-    /* JADX WARN: Removed duplicated region for block: B:968:0x1b11  */
-    /* JADX WARN: Removed duplicated region for block: B:976:0x1b3a  */
-    /* JADX WARN: Removed duplicated region for block: B:987:0x1b67  */
-    /* JADX WARN: Removed duplicated region for block: B:993:0x1b7f  */
+    /* JADX WARN: Removed duplicated region for block: B:843:0x18cc  */
+    /* JADX WARN: Removed duplicated region for block: B:851:0x18ec  */
+    /* JADX WARN: Removed duplicated region for block: B:856:0x18fd  */
+    /* JADX WARN: Removed duplicated region for block: B:863:0x1913  */
+    /* JADX WARN: Removed duplicated region for block: B:881:0x194a  */
+    /* JADX WARN: Removed duplicated region for block: B:883:0x194e  */
+    /* JADX WARN: Removed duplicated region for block: B:897:0x19bb  */
+    /* JADX WARN: Removed duplicated region for block: B:900:0x19c4  */
+    /* JADX WARN: Removed duplicated region for block: B:916:0x1a03  */
+    /* JADX WARN: Removed duplicated region for block: B:945:0x1a8b  */
+    /* JADX WARN: Removed duplicated region for block: B:954:0x1ae0  */
+    /* JADX WARN: Removed duplicated region for block: B:959:0x1af3  */
+    /* JADX WARN: Removed duplicated region for block: B:968:0x1b0d  */
+    /* JADX WARN: Removed duplicated region for block: B:976:0x1b36  */
+    /* JADX WARN: Removed duplicated region for block: B:987:0x1b63  */
+    /* JADX WARN: Removed duplicated region for block: B:993:0x1b7b  */
     @Override // android.view.View
     @SuppressLint({"DrawAllocation"})
     /*
@@ -5092,7 +5100,7 @@ public class DialogCell extends BaseCell {
                         Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor("chats_onlineCircle", this.resourcesProvider));
                         canvas2.drawCircle(f40, f41, AndroidUtilities.dp(9.0f) * this.chatCallProgress * progress, Theme.dialogs_onlineCirclePaint);
                         Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(str3, this.resourcesProvider));
-                        if (SharedConfig.getLiteMode().enabled()) {
+                        if (!LiteMode.isEnabled(32)) {
                             this.innerProgress = 0.65f;
                         }
                         int i35 = this.progressStage;
@@ -5155,7 +5163,7 @@ public class DialogCell extends BaseCell {
                             if (this.chatCallProgress >= f3 || progress < f3) {
                                 canvas.restore();
                             }
-                            if (!SharedConfig.getLiteMode().enabled()) {
+                            if (!LiteMode.isEnabled(32)) {
                                 float f45 = this.innerProgress + 0.04f;
                                 this.innerProgress = f45;
                                 if (f45 >= f3) {
@@ -5208,7 +5216,7 @@ public class DialogCell extends BaseCell {
                         if (this.chatCallProgress >= f3) {
                         }
                         canvas.restore();
-                        if (!SharedConfig.getLiteMode().enabled()) {
+                        if (!LiteMode.isEnabled(32)) {
                         }
                         if (!this.hasCall) {
                         }

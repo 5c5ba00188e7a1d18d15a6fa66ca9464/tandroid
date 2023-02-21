@@ -2,6 +2,7 @@ package org.telegram.tgnet;
 
 import java.util.ArrayList;
 import org.telegram.messenger.CharacterCompat;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public abstract class TLRPC$User extends TLObject {
     public long access_hash;
@@ -56,8 +57,8 @@ public abstract class TLRPC$User extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        this.self = (readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0;
-                        this.contact = (readInt32 & 2048) != 0;
+                        this.self = (readInt32 & 1024) != 0;
+                        this.contact = (readInt32 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
                         this.mutual_contact = (readInt32 & 4096) != 0;
                         this.deleted = (readInt32 & 8192) != 0;
                         this.bot = (readInt32 & 16384) != 0;
@@ -124,9 +125,9 @@ public abstract class TLRPC$User extends TLObject {
                     @Override // org.telegram.tgnet.TLRPC$TL_user, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
                         abstractSerializedData2.writeInt32(constructor);
-                        int i2 = this.self ? this.flags | ConnectionsManager.RequestFlagDoNotWaitFloodWait : this.flags & (-1025);
+                        int i2 = this.self ? this.flags | 1024 : this.flags & (-1025);
                         this.flags = i2;
-                        int i3 = this.contact ? i2 | 2048 : i2 & (-2049);
+                        int i3 = this.contact ? i2 | LiteMode.FLAG_AUTOPLAY_GIFS : i2 & (-2049);
                         this.flags = i3;
                         int i4 = this.mutual_contact ? i3 | 4096 : i3 & (-4097);
                         this.flags = i4;
@@ -228,8 +229,8 @@ public abstract class TLRPC$User extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        this.self = (readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0;
-                        this.contact = (readInt32 & 2048) != 0;
+                        this.self = (readInt32 & 1024) != 0;
+                        this.contact = (readInt32 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
                         this.mutual_contact = (readInt32 & 4096) != 0;
                         this.deleted = (readInt32 & 8192) != 0;
                         this.bot = (readInt32 & 16384) != 0;
@@ -275,9 +276,9 @@ public abstract class TLRPC$User extends TLObject {
                     @Override // org.telegram.tgnet.TLRPC$TL_user, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
                         abstractSerializedData2.writeInt32(constructor);
-                        int i2 = this.self ? this.flags | ConnectionsManager.RequestFlagDoNotWaitFloodWait : this.flags & (-1025);
+                        int i2 = this.self ? this.flags | 1024 : this.flags & (-1025);
                         this.flags = i2;
-                        int i3 = this.contact ? i2 | 2048 : i2 & (-2049);
+                        int i3 = this.contact ? i2 | LiteMode.FLAG_AUTOPLAY_GIFS : i2 & (-2049);
                         this.flags = i3;
                         int i4 = this.mutual_contact ? i3 | 4096 : i3 & (-4097);
                         this.flags = i4;
@@ -399,8 +400,8 @@ public abstract class TLRPC$User extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        this.self = (readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0;
-                        this.contact = (readInt32 & 2048) != 0;
+                        this.self = (readInt32 & 1024) != 0;
+                        this.contact = (readInt32 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
                         this.mutual_contact = (readInt32 & 4096) != 0;
                         this.deleted = (readInt32 & 8192) != 0;
                         this.bot = (readInt32 & 16384) != 0;
@@ -438,9 +439,9 @@ public abstract class TLRPC$User extends TLObject {
                     @Override // org.telegram.tgnet.TLRPC$TL_user, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
                         abstractSerializedData2.writeInt32(constructor);
-                        int i2 = this.self ? this.flags | ConnectionsManager.RequestFlagDoNotWaitFloodWait : this.flags & (-1025);
+                        int i2 = this.self ? this.flags | 1024 : this.flags & (-1025);
                         this.flags = i2;
-                        int i3 = this.contact ? i2 | 2048 : i2 & (-2049);
+                        int i3 = this.contact ? i2 | LiteMode.FLAG_AUTOPLAY_GIFS : i2 & (-2049);
                         this.flags = i3;
                         int i4 = this.mutual_contact ? i3 | 4096 : i3 & (-4097);
                         this.flags = i4;
@@ -521,8 +522,8 @@ public abstract class TLRPC$User extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        this.self = (readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0;
-                        this.contact = (readInt32 & 2048) != 0;
+                        this.self = (readInt32 & 1024) != 0;
+                        this.contact = (readInt32 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
                         this.mutual_contact = (readInt32 & 4096) != 0;
                         this.deleted = (readInt32 & 8192) != 0;
                         this.bot = (readInt32 & 16384) != 0;
@@ -573,9 +574,9 @@ public abstract class TLRPC$User extends TLObject {
                     @Override // org.telegram.tgnet.TLRPC$TL_user, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
                         abstractSerializedData2.writeInt32(constructor);
-                        int i2 = this.self ? this.flags | ConnectionsManager.RequestFlagDoNotWaitFloodWait : this.flags & (-1025);
+                        int i2 = this.self ? this.flags | 1024 : this.flags & (-1025);
                         this.flags = i2;
-                        int i3 = this.contact ? i2 | 2048 : i2 & (-2049);
+                        int i3 = this.contact ? i2 | LiteMode.FLAG_AUTOPLAY_GIFS : i2 & (-2049);
                         this.flags = i3;
                         int i4 = this.mutual_contact ? i3 | 4096 : i3 & (-4097);
                         this.flags = i4;
@@ -645,8 +646,8 @@ public abstract class TLRPC$User extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        this.self = (readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0;
-                        this.contact = (readInt32 & 2048) != 0;
+                        this.self = (readInt32 & 1024) != 0;
+                        this.contact = (readInt32 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
                         this.mutual_contact = (readInt32 & 4096) != 0;
                         this.deleted = (readInt32 & 8192) != 0;
                         this.bot = (readInt32 & 16384) != 0;
@@ -715,9 +716,9 @@ public abstract class TLRPC$User extends TLObject {
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
                         abstractSerializedData2.writeInt32(constructor);
-                        int i2 = this.self ? this.flags | ConnectionsManager.RequestFlagDoNotWaitFloodWait : this.flags & (-1025);
+                        int i2 = this.self ? this.flags | 1024 : this.flags & (-1025);
                         this.flags = i2;
-                        int i3 = this.contact ? i2 | 2048 : i2 & (-2049);
+                        int i3 = this.contact ? i2 | LiteMode.FLAG_AUTOPLAY_GIFS : i2 & (-2049);
                         this.flags = i3;
                         int i4 = this.mutual_contact ? i3 | 4096 : i3 & (-4097);
                         this.flags = i4;
@@ -826,8 +827,8 @@ public abstract class TLRPC$User extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        this.self = (readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0;
-                        this.contact = (readInt32 & 2048) != 0;
+                        this.self = (readInt32 & 1024) != 0;
+                        this.contact = (readInt32 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
                         this.mutual_contact = (readInt32 & 4096) != 0;
                         this.deleted = (readInt32 & 8192) != 0;
                         this.bot = (readInt32 & 16384) != 0;
@@ -900,9 +901,9 @@ public abstract class TLRPC$User extends TLObject {
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
                         abstractSerializedData2.writeInt32(constructor);
-                        int i2 = this.self ? this.flags | ConnectionsManager.RequestFlagDoNotWaitFloodWait : this.flags & (-1025);
+                        int i2 = this.self ? this.flags | 1024 : this.flags & (-1025);
                         this.flags = i2;
-                        int i3 = this.contact ? i2 | 2048 : i2 & (-2049);
+                        int i3 = this.contact ? i2 | LiteMode.FLAG_AUTOPLAY_GIFS : i2 & (-2049);
                         this.flags = i3;
                         int i4 = this.mutual_contact ? i3 | 4096 : i3 & (-4097);
                         this.flags = i4;

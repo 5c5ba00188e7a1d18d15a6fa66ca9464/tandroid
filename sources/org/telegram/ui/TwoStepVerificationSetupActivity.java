@@ -44,6 +44,7 @@ import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
@@ -1011,7 +1012,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 int lastIndexOf = str2.lastIndexOf(42);
                 if (indexOf != lastIndexOf && indexOf != -1 && lastIndexOf != -1) {
                     TextStyleSpan.TextStyleRun textStyleRun = new TextStyleSpan.TextStyleRun();
-                    textStyleRun.flags |= 256;
+                    textStyleRun.flags |= LiteMode.FLAG_CHAT_BLUR;
                     textStyleRun.start = indexOf;
                     int i17 = lastIndexOf + 1;
                     textStyleRun.end = i17;

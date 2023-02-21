@@ -84,6 +84,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
@@ -7903,12 +7904,12 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                     i74 = 0;
                                                     i75 = 0;
                                                     if ((messageObject.isAnimatedSticker() || messageObject.isVideoSticker()) && i75 == 0 && i74 == 0) {
-                                                        i75 = 512;
-                                                        i74 = 512;
+                                                        i75 = LiteMode.FLAG_CALLS_ANIMATIONS;
+                                                        i74 = LiteMode.FLAG_CALLS_ANIMATIONS;
                                                     }
                                                     if (messageObject.isAnimatedAnimatedEmoji()) {
-                                                        i75 = Math.max(512, i75);
-                                                        i74 = Math.max(512, i74);
+                                                        i75 = Math.max((int) LiteMode.FLAG_CALLS_ANIMATIONS, i75);
+                                                        i74 = Math.max((int) LiteMode.FLAG_CALLS_ANIMATIONS, i74);
                                                         if (MessageObject.isTextColorEmoji(messageObject.getDocument())) {
                                                             this.photoImage.setColorFilter(Theme.chat_animatedEmojiTextColorFilter);
                                                         }
@@ -19160,7 +19161,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     }
 
     private boolean loopStickers() {
-        return SharedConfig.loopStickers && !SharedConfig.getLiteMode().enabled();
+        return LiteMode.isEnabled(2);
     }
 
     public void highlightCaptionLink(URLSpan uRLSpan) {
@@ -20348,7 +20349,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 }
             }
             this.timeX -= getExtraTimeX();
-            if ((this.currentMessageObject.messageOwner.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+            if ((this.currentMessageObject.messageOwner.flags & 1024) != 0) {
                 this.viewsLayout = new StaticLayout(this.currentViewsString, Theme.chat_timePaint, this.viewsTextWidth, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             } else {
                 this.viewsLayout = null;
@@ -24477,7 +24478,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         this.timeWidth = ceil - AndroidUtilities.dp(8.0f);
                     }
                     tLRPC$Message = messageObject.messageOwner;
-                    if ((tLRPC$Message.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                    if ((tLRPC$Message.flags & 1024) != 0) {
                         this.currentViewsString = String.format("%s", LocaleController.formatShortNumber(Math.max(1, tLRPC$Message.views), null));
                         this.viewsTextWidth = (int) Math.ceil(Theme.chat_timePaint.measureText(format3));
                         this.timeWidth = (int) (this.timeWidth + this.viewsTextWidth + ((Theme.chat_msgInViewsDrawable.getIntrinsicWidth() * (Theme.chat_timePaint.getTextSize() - AndroidUtilities.dp(2.0f))) / Theme.chat_msgInViewsDrawable.getIntrinsicHeight()) + AndroidUtilities.dp(10.0f));
@@ -24564,7 +24565,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 this.timeWidth = ceil - AndroidUtilities.dp(8.0f);
             }
             tLRPC$Message = messageObject.messageOwner;
-            if ((tLRPC$Message.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+            if ((tLRPC$Message.flags & 1024) != 0) {
             }
             if (messageObject.type != 20) {
             }
@@ -24604,7 +24605,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 if (messageObject2.scheduled) {
                 }
                 tLRPC$Message = messageObject.messageOwner;
-                if ((tLRPC$Message.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                if ((tLRPC$Message.flags & 1024) != 0) {
                 }
                 if (messageObject.type != 20) {
                 }
@@ -24635,7 +24636,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         if (messageObject2.scheduled) {
         }
         tLRPC$Message = messageObject.messageOwner;
-        if ((tLRPC$Message.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+        if ((tLRPC$Message.flags & 1024) != 0) {
         }
         if (messageObject.type != 20) {
         }
@@ -24841,7 +24842,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         SpannableStringBuilder spannableStringBuilder2;
         TLRPC$Chat tLRPC$Chat;
         TLRPC$Message tLRPC$Message2 = messageObject.messageOwner;
-        if ((tLRPC$Message2.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0 || tLRPC$Message2.replies != null) {
+        if ((tLRPC$Message2.flags & 1024) != 0 || tLRPC$Message2.replies != null) {
             MessageObject messageObject3 = this.currentMessageObject;
             if (!messageObject3.scheduled && !messageObject3.isSponsored() && !this.currentMessageObject.viewsReloaded) {
                 MessagesController.getInstance(this.currentAccount).addToViewsQueue(this.currentMessageObject);
@@ -29053,7 +29054,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     updateReactionLayoutPosition();
                     this.reactionsLayoutInBubble.draw(canvas, this.transitionParams.animateChangeProgress, null);
                 }
-                if ((!ChatObject.isChannel(this.currentChat) || this.currentChat.megagroup) && (this.currentMessageObject.messageOwner.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) == 0 && this.repliesLayout == null && !this.isPinned) {
+                if ((!ChatObject.isChannel(this.currentChat) || this.currentChat.megagroup) && (this.currentMessageObject.messageOwner.flags & 1024) == 0 && this.repliesLayout == null && !this.isPinned) {
                     i5 = i6;
                     c = 7;
                     c2 = 4;
@@ -29142,7 +29143,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     updateReactionLayoutPosition();
                     this.reactionsLayoutInBubble.draw(canvas, this.transitionParams.animateChangeProgress, null);
                 }
-                if ((ChatObject.isChannel(this.currentChat) && !this.currentChat.megagroup) || (this.currentMessageObject.messageOwner.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0 || this.repliesLayout != null || this.transitionParams.animateReplies || this.isPinned || this.transitionParams.animatePinned) {
+                if ((ChatObject.isChannel(this.currentChat) && !this.currentChat.megagroup) || (this.currentMessageObject.messageOwner.flags & 1024) != 0 || this.repliesLayout != null || this.transitionParams.animateReplies || this.isPinned || this.transitionParams.animatePinned) {
                     float lineWidth2 = f25 + (f3 - staticLayout.getLineWidth(0));
                     ReactionsLayoutInBubble reactionsLayoutInBubble3 = this.reactionsLayoutInBubble;
                     if (reactionsLayoutInBubble3.isSmall && !reactionsLayoutInBubble3.isEmpty) {
@@ -31872,7 +31873,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             spannableStringBuilder.append(charSequence3);
                         }
                     }
-                    if ((ChatMessageCell.this.currentMessageObject.messageOwner.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                    if ((ChatMessageCell.this.currentMessageObject.messageOwner.flags & 1024) != 0) {
                         spannableStringBuilder.append(charSequence3);
                         i4 = 0;
                         spannableStringBuilder.append((CharSequence) LocaleController.formatPluralString("AccDescrNumberOfViews", ChatMessageCell.this.currentMessageObject.messageOwner.views, new Object[0]));

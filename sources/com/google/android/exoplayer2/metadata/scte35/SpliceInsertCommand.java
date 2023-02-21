@@ -7,7 +7,6 @@ import com.google.android.exoplayer2.util.TimestampAdjuster;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class SpliceInsertCommand extends SpliceCommand {
     public static final Parcelable.Creator<SpliceInsertCommand> CREATOR = new Parcelable.Creator<SpliceInsertCommand>() { // from class: com.google.android.exoplayer2.metadata.scte35.SpliceInsertCommand.1
@@ -87,7 +86,7 @@ public final class SpliceInsertCommand extends SpliceCommand {
         boolean z5;
         long j4;
         long readUnsignedInt = parsableByteArray.readUnsignedInt();
-        boolean z6 = (parsableByteArray.readUnsignedByte() & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
+        boolean z6 = (parsableByteArray.readUnsignedByte() & 128) != 0;
         List emptyList = Collections.emptyList();
         if (z6) {
             list = emptyList;
@@ -102,7 +101,7 @@ public final class SpliceInsertCommand extends SpliceCommand {
             z4 = false;
         } else {
             int readUnsignedByte = parsableByteArray.readUnsignedByte();
-            boolean z7 = (readUnsignedByte & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
+            boolean z7 = (readUnsignedByte & 128) != 0;
             boolean z8 = (readUnsignedByte & 64) != 0;
             boolean z9 = (readUnsignedByte & 32) != 0;
             boolean z10 = (readUnsignedByte & 16) != 0;

@@ -5,15 +5,15 @@ import com.google.android.exoplayer2.drm.DrmInitData;
 import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.nio.ByteBuffer;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MessagesStorage;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class Ac3Util {
     private static final int[] BLOCKS_PER_SYNCFRAME_BY_NUMBLKSCOD = {1, 2, 3, 6};
     private static final int[] SAMPLE_RATE_BY_FSCOD = {48000, 44100, 32000};
     private static final int[] SAMPLE_RATE_BY_FSCOD2 = {24000, 22050, 16000};
     private static final int[] CHANNEL_COUNT_BY_ACMOD = {2, 1, 2, 3, 3, 4, 4, 5};
-    private static final int[] BITRATE_BY_HALF_FRMSIZECOD = {32, 40, 48, 56, 64, 80, 96, MessagesStorage.LAST_DB_VERSION, ConnectionsManager.RequestFlagNeedQuickAck, 160, 192, 224, 256, 320, 384, 448, 512, 576, 640};
+    private static final int[] BITRATE_BY_HALF_FRMSIZECOD = {32, 40, 48, 56, 64, 80, 96, MessagesStorage.LAST_DB_VERSION, 128, 160, 192, 224, LiteMode.FLAG_CHAT_BLUR, 320, 384, 448, LiteMode.FLAG_CALLS_ANIMATIONS, 576, 640};
     private static final int[] SYNCFRAME_SIZE_WORDS_BY_HALF_FRMSIZECOD_44_1 = {69, 87, 104, 121, 139, 174, 208, 243, 278, 348, 417, 487, 557, 696, 835, 975, 1114, 1253, 1393};
 
     /* loaded from: classes.dex */
@@ -97,7 +97,7 @@ public final class Ac3Util {
                 i6 = BLOCKS_PER_SYNCFRAME_BY_NUMBLKSCOD[readBits];
                 i7 = SAMPLE_RATE_BY_FSCOD[readBits4];
             }
-            int i12 = i6 * 256;
+            int i12 = i6 * LiteMode.FLAG_CHAT_BLUR;
             int readBits5 = parsableBitArray.readBits(3);
             boolean readBit = parsableBitArray.readBit();
             int i13 = CHANNEL_COUNT_BY_ACMOD[readBits5] + (readBit ? 1 : 0);
@@ -287,7 +287,7 @@ public final class Ac3Util {
 
     public static int parseAc3SyncframeAudioSampleCount(ByteBuffer byteBuffer) {
         if (((byteBuffer.get(byteBuffer.position() + 5) & 248) >> 3) > 10) {
-            return BLOCKS_PER_SYNCFRAME_BY_NUMBLKSCOD[((byteBuffer.get(byteBuffer.position() + 4) & 192) >> 6) != 3 ? (byteBuffer.get(byteBuffer.position() + 4) & 48) >> 4 : 3] * 256;
+            return BLOCKS_PER_SYNCFRAME_BY_NUMBLKSCOD[((byteBuffer.get(byteBuffer.position() + 4) & 192) >> 6) != 3 ? (byteBuffer.get(byteBuffer.position() + 4) & 48) >> 4 : 3] * LiteMode.FLAG_CHAT_BLUR;
         }
         return 1536;
     }

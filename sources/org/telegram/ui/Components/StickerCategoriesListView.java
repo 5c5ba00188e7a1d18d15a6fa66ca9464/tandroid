@@ -29,9 +29,9 @@ import org.telegram.SQLite.SQLitePreparedStatement;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Fetcher;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.R;
-import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
@@ -594,7 +594,7 @@ public class StickerCategoriesListView extends RecyclerListView {
     }
 
     protected boolean isTabIconsAnimationEnabled(boolean z) {
-        return (SharedConfig.getLiteMode().enabled() || z) ? false : true;
+        return LiteMode.isEnabled(4) && !z;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

@@ -83,6 +83,7 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
@@ -8330,7 +8331,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         TLRPC$account_Password tLRPC$account_Password = this.currentPassword;
                         tLRPC$account_Password.hint = (String) objArr[5];
                         tLRPC$account_Password.srp_id = -1L;
-                        byte[] bArr = new byte[256];
+                        byte[] bArr = new byte[LiteMode.FLAG_CHAT_BLUR];
                         tLRPC$account_Password.srp_B = bArr;
                         Utilities.random.nextBytes(bArr);
                         EditTextBoldCursor[] editTextBoldCursorArr2 = this.inputFields;

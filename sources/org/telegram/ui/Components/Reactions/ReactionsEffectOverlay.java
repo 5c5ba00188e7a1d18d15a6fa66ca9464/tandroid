@@ -16,10 +16,10 @@ import java.util.Random;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.SharedConfig;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$MessagePeerReaction;
@@ -86,10 +86,10 @@ public class ReactionsEffectOverlay {
     /* JADX WARN: Removed duplicated region for block: B:109:0x03e9  */
     /* JADX WARN: Removed duplicated region for block: B:110:0x03fe  */
     /* JADX WARN: Removed duplicated region for block: B:118:0x0411  */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x0558  */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x05e8  */
-    /* JADX WARN: Removed duplicated region for block: B:171:0x0623  */
-    /* JADX WARN: Removed duplicated region for block: B:174:0x0647  */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x0556  */
+    /* JADX WARN: Removed duplicated region for block: B:166:0x05e6  */
+    /* JADX WARN: Removed duplicated region for block: B:171:0x0621  */
+    /* JADX WARN: Removed duplicated region for block: B:174:0x0645  */
     /* JADX WARN: Removed duplicated region for block: B:45:0x0191  */
     /* JADX WARN: Removed duplicated region for block: B:46:0x01b7  */
     /* JADX WARN: Type inference failed for: r15v11 */
@@ -326,9 +326,7 @@ public class ReactionsEffectOverlay {
                         i5 = i2;
                         i6 = 2;
                         if (i5 != 2) {
-                            if ((i5 != 1 || SharedConfig.getLiteMode().enabled()) && i5 != 0) {
-                                z = false;
-                            } else {
+                            if ((i5 == 1 && LiteMode.isEnabled(16)) || i5 == 0) {
                                 TLRPC$Document tLRPC$Document = i5 == 1 ? tLRPC$TL_availableReaction.around_animation : tLRPC$TL_availableReaction.effect_animation;
                                 if (i5 == 1) {
                                     str2 = getFilterForAroundAnimation();
@@ -349,6 +347,8 @@ public class ReactionsEffectOverlay {
                                 z = false;
                                 animationView.getImageReceiver().setAutoRepeat(0);
                                 animationView.getImageReceiver().setAllowStartAnimation(false);
+                            } else {
+                                z = false;
                             }
                             r15 = z;
                             if (animationView.getImageReceiver().getLottieAnimation() != null) {

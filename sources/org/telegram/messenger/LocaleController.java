@@ -1653,7 +1653,7 @@ public class LocaleController {
             case 25:
             case 26:
             case 27:
-            case 28:
+            case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
             case 29:
                 d = abs;
                 str2 = " %.0f";
@@ -1920,7 +1920,7 @@ public class LocaleController {
             case 25:
             case 26:
             case 27:
-            case 28:
+            case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                 return 1;
             case 3:
                 return 10000;
@@ -2152,7 +2152,7 @@ public class LocaleController {
             case 25:
             case 26:
             case 27:
-            case 28:
+            case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
             case 29:
                 d = abs;
                 str2 = " %.0f";

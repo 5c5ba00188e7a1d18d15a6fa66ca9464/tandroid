@@ -91,12 +91,14 @@ import java.util.Objects;
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
@@ -2098,6 +2100,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     ChatActivityEnterView.this.slideText.setAlpha(1.0f);
                     ChatActivityEnterView.this.slideText.setTranslationY(0.0f);
                 }
+                ChatActivityEnterView.this.audioToSendPath = null;
+                ChatActivityEnterView.this.audioToSend = null;
                 if (!ChatActivityEnterView.this.isInVideoMode()) {
                     if (ChatActivityEnterView.this.parentFragment == null || Build.VERSION.SDK_INT < 23 || ChatActivityEnterView.this.parentActivity.checkSelfPermission("android.permission.RECORD_AUDIO") == 0) {
                         ChatActivityEnterView.this.delegate.needStartRecordAudio(1);
@@ -3285,6 +3289,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 }
             }
             if (this.audioToSendPath != null) {
+                if (BuildVars.LOGS_ENABLED) {
+                    FileLog.d("delete file " + this.audioToSendPath);
+                }
                 new File(this.audioToSendPath).delete();
             }
             hideRecordedAudioPanel(false);
@@ -3518,11 +3525,11 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         dialog.getWindow().setLayout(-1, -1);
         int i = Build.VERSION.SDK_INT;
         if (i >= 21) {
-            dialog.getWindow().clearFlags(ConnectionsManager.RequestFlagDoNotWaitFloodWait);
+            dialog.getWindow().clearFlags(1024);
             dialog.getWindow().clearFlags(ConnectionsManager.FileTypeFile);
             dialog.getWindow().clearFlags(134217728);
             dialog.getWindow().addFlags(Integer.MIN_VALUE);
-            dialog.getWindow().addFlags(512);
+            dialog.getWindow().addFlags(LiteMode.FLAG_CALLS_ANIMATIONS);
             dialog.getWindow().addFlags(131072);
             dialog.getWindow().getAttributes().windowAnimations = 0;
             dialog.getWindow().getDecorView().setSystemUiVisibility(1792);
@@ -4431,7 +4438,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             try {
                 InputStream openInputStream = getContext().getContentResolver().openInputStream(uri);
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
-                byte[] bArr = new byte[ConnectionsManager.RequestFlagDoNotWaitFloodWait];
+                byte[] bArr = new byte[1024];
                 while (true) {
                     int read = openInputStream.read(bArr);
                     if (read > 0) {
@@ -8204,7 +8211,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                                                     spannableStringBuilder.setSpan(uRLSpanReplacement, i8, tLRPC$MessageEntity.length + i8, 33);
                                                 } else if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntitySpoiler) {
                                                     TextStyleSpan.TextStyleRun textStyleRun5 = new TextStyleSpan.TextStyleRun();
-                                                    textStyleRun5.flags |= 256;
+                                                    textStyleRun5.flags |= LiteMode.FLAG_CHAT_BLUR;
                                                     TextStyleSpan textStyleSpan5 = new TextStyleSpan(textStyleRun5);
                                                     int i9 = tLRPC$MessageEntity.offset;
                                                     MediaDataController.addStyleToText(textStyleSpan5, i9, tLRPC$MessageEntity.length + i9, spannableStringBuilder, true);

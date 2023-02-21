@@ -2,6 +2,7 @@ package com.google.android.gms.internal.clearcut;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import org.telegram.messenger.LiteMode;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 final class zzed {
@@ -116,7 +117,7 @@ final class zzed {
         r6.zzof = zzcw();
      */
     /* JADX WARN: Code restructure failed: missing block: B:68:0x0152, code lost:
-        if (((r6.zznz & 2048) != 0) != false) goto L32;
+        if (((r6.zznz & org.telegram.messenger.LiteMode.FLAG_AUTOPLAY_GIFS) != 0) != false) goto L32;
      */
     /* JADX WARN: Code restructure failed: missing block: B:71:0x0159, code lost:
         if (zzcz() != false) goto L32;
@@ -156,7 +157,7 @@ final class zzed {
                 i = this.zznv + 1;
             }
             this.zznv = i;
-            if ((this.zznz & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+            if ((this.zznz & 1024) != 0) {
                 int[] iArr = this.zzms;
                 int i6 = this.zznq;
                 this.zznq = i6 + 1;
@@ -266,12 +267,12 @@ final class zzed {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final boolean zzdh() {
-        return (this.zznz & 256) != 0;
+        return (this.zznz & LiteMode.FLAG_CHAT_BLUR) != 0;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final boolean zzdi() {
-        return (this.zznz & 512) != 0;
+        return (this.zznz & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

@@ -13,7 +13,6 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class Id3Decoder implements MetadataDecoder {
     public static final FramePredicate NO_FRAMES_PREDICATE = Id3Decoder$$ExternalSyntheticLambda0.INSTANCE;
@@ -121,7 +120,7 @@ public final class Id3Decoder implements MetadataDecoder {
                 readSynchSafeInt -= 10;
             }
         }
-        if (readUnsignedByte < 4 && (readUnsignedByte2 & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+        if (readUnsignedByte < 4 && (readUnsignedByte2 & 128) != 0) {
             z = true;
         }
         return new Id3Header(readUnsignedByte, z, readSynchSafeInt);
@@ -131,7 +130,7 @@ public final class Id3Decoder implements MetadataDecoder {
         if ((r10 & 1) != 0) goto L33;
      */
     /* JADX WARN: Code restructure failed: missing block: B:40:0x0086, code lost:
-        if ((r10 & org.telegram.tgnet.ConnectionsManager.RequestFlagNeedQuickAck) != 0) goto L33;
+        if ((r10 & 128) != 0) goto L33;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -250,7 +249,7 @@ public final class Id3Decoder implements MetadataDecoder {
         }
         if (i == 3) {
             int i6 = i4;
-            z3 = (i6 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
+            z3 = (i6 & 128) != 0;
             z4 = (i6 & 64) != 0;
             z2 = (i6 & 32) != 0;
             z6 = z3;

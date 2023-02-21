@@ -19,6 +19,7 @@ import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import javax.net.ssl.SSLException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.telegram.messenger.AccountInstance;
@@ -170,7 +172,7 @@ public class ConnectionsManager extends BaseController {
         CORE_POOL_SIZE = max;
         int i = (availableProcessors * 2) + 1;
         MAXIMUM_POOL_SIZE = i;
-        LinkedBlockingQueue linkedBlockingQueue = new LinkedBlockingQueue((int) RequestFlagNeedQuickAck);
+        LinkedBlockingQueue linkedBlockingQueue = new LinkedBlockingQueue(128);
         sPoolWorkQueue = linkedBlockingQueue;
         ThreadFactory threadFactory = new ThreadFactory() { // from class: org.telegram.tgnet.ConnectionsManager.1
             private final AtomicInteger mCount = new AtomicInteger(1);
@@ -717,7 +719,7 @@ public class ConnectionsManager extends BaseController {
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.d("detected emu");
             }
-            return RequestFlagDoNotWaitFloodWait;
+            return 1024;
         }
         return 0;
     }
@@ -1310,6 +1312,7 @@ public class ConnectionsManager extends BaseController {
             InputStream inputStream2;
             ByteArrayOutputStream byteArrayOutputStream2;
             int read;
+            boolean z = false;
             try {
                 String str = ConnectionsManager.native_isTestBackend(this.currentAccount) != 0 ? "tapv3.stel.com" : AccountInstance.getInstance(this.currentAccount).getMessagesController().dcDomainName;
                 int nextInt = Utilities.random.nextInt(116) + 13;
@@ -1375,7 +1378,10 @@ public class ConnectionsManager extends BaseController {
                 th = th4;
                 inputStream = inputStream2;
                 try {
-                    FileLog.e(th);
+                    if (!(th instanceof SocketTimeoutException) && !(th instanceof SSLException)) {
+                        z = true;
+                    }
+                    FileLog.e(th, z);
                     if (inputStream != null) {
                         try {
                             inputStream.close();

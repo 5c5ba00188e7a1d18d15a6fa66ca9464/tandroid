@@ -83,6 +83,7 @@ import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
@@ -3362,11 +3363,11 @@ public class Theme {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:149:0x388c A[Catch: Exception -> 0x3a72, TryCatch #4 {Exception -> 0x3a72, blocks: (B:38:0x3543, B:40:0x355b, B:51:0x359e, B:53:0x35ac, B:61:0x35d9, B:63:0x35dd, B:65:0x35e5, B:66:0x35f7, B:67:0x3603, B:69:0x3609, B:71:0x3613, B:73:0x3617, B:75:0x3645, B:77:0x3649, B:147:0x3886, B:149:0x388c, B:150:0x3895, B:152:0x3899, B:154:0x38a1, B:156:0x38a5, B:158:0x38a9, B:159:0x38ab, B:161:0x38b5, B:132:0x377e, B:135:0x379d, B:136:0x37a5, B:138:0x37b1, B:140:0x37bd, B:144:0x37c9, B:146:0x386e, B:141:0x37c3, B:166:0x38ca, B:167:0x38d0, B:171:0x38db, B:173:0x3932, B:175:0x3940, B:177:0x394e, B:179:0x395c, B:178:0x3955, B:174:0x3939, B:54:0x35bc, B:56:0x35c4, B:58:0x35cd, B:60:0x35d7, B:41:0x356a, B:43:0x3572, B:45:0x357a, B:47:0x3584, B:49:0x358c, B:79:0x365a, B:125:0x3767, B:126:0x376c), top: B:223:0x3543 }] */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x38a5 A[Catch: Exception -> 0x3a72, TryCatch #4 {Exception -> 0x3a72, blocks: (B:38:0x3543, B:40:0x355b, B:51:0x359e, B:53:0x35ac, B:61:0x35d9, B:63:0x35dd, B:65:0x35e5, B:66:0x35f7, B:67:0x3603, B:69:0x3609, B:71:0x3613, B:73:0x3617, B:75:0x3645, B:77:0x3649, B:147:0x3886, B:149:0x388c, B:150:0x3895, B:152:0x3899, B:154:0x38a1, B:156:0x38a5, B:158:0x38a9, B:159:0x38ab, B:161:0x38b5, B:132:0x377e, B:135:0x379d, B:136:0x37a5, B:138:0x37b1, B:140:0x37bd, B:144:0x37c9, B:146:0x386e, B:141:0x37c3, B:166:0x38ca, B:167:0x38d0, B:171:0x38db, B:173:0x3932, B:175:0x3940, B:177:0x394e, B:179:0x395c, B:178:0x3955, B:174:0x3939, B:54:0x35bc, B:56:0x35c4, B:58:0x35cd, B:60:0x35d7, B:41:0x356a, B:43:0x3572, B:45:0x357a, B:47:0x3584, B:49:0x358c, B:79:0x365a, B:125:0x3767, B:126:0x376c), top: B:223:0x3543 }] */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x38a8  */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x38b5 A[Catch: Exception -> 0x3a72, TryCatch #4 {Exception -> 0x3a72, blocks: (B:38:0x3543, B:40:0x355b, B:51:0x359e, B:53:0x35ac, B:61:0x35d9, B:63:0x35dd, B:65:0x35e5, B:66:0x35f7, B:67:0x3603, B:69:0x3609, B:71:0x3613, B:73:0x3617, B:75:0x3645, B:77:0x3649, B:147:0x3886, B:149:0x388c, B:150:0x3895, B:152:0x3899, B:154:0x38a1, B:156:0x38a5, B:158:0x38a9, B:159:0x38ab, B:161:0x38b5, B:132:0x377e, B:135:0x379d, B:136:0x37a5, B:138:0x37b1, B:140:0x37bd, B:144:0x37c9, B:146:0x386e, B:141:0x37c3, B:166:0x38ca, B:167:0x38d0, B:171:0x38db, B:173:0x3932, B:175:0x3940, B:177:0x394e, B:179:0x395c, B:178:0x3955, B:174:0x3939, B:54:0x35bc, B:56:0x35c4, B:58:0x35cd, B:60:0x35d7, B:41:0x356a, B:43:0x3572, B:45:0x357a, B:47:0x3584, B:49:0x358c, B:79:0x365a, B:125:0x3767, B:126:0x376c), top: B:223:0x3543 }] */
-    /* JADX WARN: Removed duplicated region for block: B:232:0x38bf A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x387e A[Catch: Exception -> 0x3a64, TryCatch #4 {Exception -> 0x3a64, blocks: (B:38:0x3535, B:40:0x354d, B:51:0x3590, B:53:0x359e, B:61:0x35cb, B:63:0x35cf, B:65:0x35d7, B:66:0x35e9, B:67:0x35f5, B:69:0x35fb, B:71:0x3605, B:73:0x3609, B:75:0x3637, B:77:0x363b, B:147:0x3878, B:149:0x387e, B:150:0x3887, B:152:0x388b, B:154:0x3893, B:156:0x3897, B:158:0x389b, B:159:0x389d, B:161:0x38a7, B:132:0x3770, B:135:0x378f, B:136:0x3797, B:138:0x37a3, B:140:0x37af, B:144:0x37bb, B:146:0x3860, B:141:0x37b5, B:166:0x38bc, B:167:0x38c2, B:171:0x38cd, B:173:0x3924, B:175:0x3932, B:177:0x3940, B:179:0x394e, B:178:0x3947, B:174:0x392b, B:54:0x35ae, B:56:0x35b6, B:58:0x35bf, B:60:0x35c9, B:41:0x355c, B:43:0x3564, B:45:0x356c, B:47:0x3576, B:49:0x357e, B:79:0x364c, B:125:0x3759, B:126:0x375e), top: B:223:0x3535 }] */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x3897 A[Catch: Exception -> 0x3a64, TryCatch #4 {Exception -> 0x3a64, blocks: (B:38:0x3535, B:40:0x354d, B:51:0x3590, B:53:0x359e, B:61:0x35cb, B:63:0x35cf, B:65:0x35d7, B:66:0x35e9, B:67:0x35f5, B:69:0x35fb, B:71:0x3605, B:73:0x3609, B:75:0x3637, B:77:0x363b, B:147:0x3878, B:149:0x387e, B:150:0x3887, B:152:0x388b, B:154:0x3893, B:156:0x3897, B:158:0x389b, B:159:0x389d, B:161:0x38a7, B:132:0x3770, B:135:0x378f, B:136:0x3797, B:138:0x37a3, B:140:0x37af, B:144:0x37bb, B:146:0x3860, B:141:0x37b5, B:166:0x38bc, B:167:0x38c2, B:171:0x38cd, B:173:0x3924, B:175:0x3932, B:177:0x3940, B:179:0x394e, B:178:0x3947, B:174:0x392b, B:54:0x35ae, B:56:0x35b6, B:58:0x35bf, B:60:0x35c9, B:41:0x355c, B:43:0x3564, B:45:0x356c, B:47:0x3576, B:49:0x357e, B:79:0x364c, B:125:0x3759, B:126:0x375e), top: B:223:0x3535 }] */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x389a  */
+    /* JADX WARN: Removed duplicated region for block: B:161:0x38a7 A[Catch: Exception -> 0x3a64, TryCatch #4 {Exception -> 0x3a64, blocks: (B:38:0x3535, B:40:0x354d, B:51:0x3590, B:53:0x359e, B:61:0x35cb, B:63:0x35cf, B:65:0x35d7, B:66:0x35e9, B:67:0x35f5, B:69:0x35fb, B:71:0x3605, B:73:0x3609, B:75:0x3637, B:77:0x363b, B:147:0x3878, B:149:0x387e, B:150:0x3887, B:152:0x388b, B:154:0x3893, B:156:0x3897, B:158:0x389b, B:159:0x389d, B:161:0x38a7, B:132:0x3770, B:135:0x378f, B:136:0x3797, B:138:0x37a3, B:140:0x37af, B:144:0x37bb, B:146:0x3860, B:141:0x37b5, B:166:0x38bc, B:167:0x38c2, B:171:0x38cd, B:173:0x3924, B:175:0x3932, B:177:0x3940, B:179:0x394e, B:178:0x3947, B:174:0x392b, B:54:0x35ae, B:56:0x35b6, B:58:0x35bf, B:60:0x35c9, B:41:0x355c, B:43:0x3564, B:45:0x356c, B:47:0x3576, B:49:0x357e, B:79:0x364c, B:125:0x3759, B:126:0x375e), top: B:223:0x3535 }] */
+    /* JADX WARN: Removed duplicated region for block: B:232:0x38b1 A[SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r2v832, types: [boolean] */
     /* JADX WARN: Type inference failed for: r2v842 */
     /* JADX WARN: Type inference failed for: r2v845 */
@@ -3386,10 +3387,10 @@ public class Theme {
         selectedAutoNightType = 0;
         autoNightBrighnessThreshold = 0.25f;
         autoNightDayStartTime = 1320;
-        autoNightDayEndTime = 480;
+        autoNightDayEndTime = LiteMode.FLAGS_CHAT;
         autoNightSunsetTime = 1320;
         autoNightLastSunCheckDay = -1;
-        autoNightSunriseTime = 480;
+        autoNightSunriseTime = LiteMode.FLAGS_CHAT;
         String str3 = "";
         autoNightCityName = "";
         autoNightLocationLatitude = 10000.0d;
@@ -3458,7 +3459,6 @@ public class Theme {
         defaultColors.put("dialogShadowLine", 301989888);
         defaultColors.put("dialogEmptyImage", -6314840);
         defaultColors.put("dialogEmptyText", -7565164);
-        defaultColors.put("dialogSwipeRemove", -1743531);
         defaultColors.put("dialogSwipeRemove", -1743531);
         defaultColors.put("dialogReactionMentionBackground", -1026983);
         defaultColors.put("windowBackgroundWhite", -1);
@@ -4861,9 +4861,9 @@ public class Theme {
             autoNightScheduleByLocation = globalMainSettings.getBoolean("autoNightScheduleByLocation", false);
             autoNightBrighnessThreshold = globalMainSettings.getFloat("autoNightBrighnessThreshold", 0.25f);
             autoNightDayStartTime = globalMainSettings.getInt("autoNightDayStartTime", 1320);
-            autoNightDayEndTime = globalMainSettings.getInt("autoNightDayEndTime", 480);
+            autoNightDayEndTime = globalMainSettings.getInt("autoNightDayEndTime", LiteMode.FLAGS_CHAT);
             autoNightSunsetTime = globalMainSettings.getInt("autoNightSunsetTime", 1320);
-            autoNightSunriseTime = globalMainSettings.getInt("autoNightSunriseTime", 480);
+            autoNightSunriseTime = globalMainSettings.getInt("autoNightSunriseTime", LiteMode.FLAGS_CHAT);
             autoNightCityName = globalMainSettings.getString("autoNightCityName", str7);
             long j = globalMainSettings.getLong("autoNightLocationLatitude3", 10000L);
             if (j != 10000) {
@@ -8624,7 +8624,7 @@ public class Theme {
         FileInputStream fileInputStream = null;
         try {
             try {
-                byte[] bArr = new byte[ConnectionsManager.RequestFlagDoNotWaitFloodWait];
+                byte[] bArr = new byte[1024];
                 FileInputStream fileInputStream2 = new FileInputStream(str != null ? getAssetFile(str) : file);
                 int i = -1;
                 int i2 = 0;
@@ -9821,7 +9821,7 @@ public class Theme {
             drawable = drawable2;
         }
         boolean z2 = drawable instanceof MotionBackgroundDrawable;
-        if ((z2 && SharedConfig.getDevicePerformanceClass() != 0 && SharedConfig.getLiteMode().animatedBackgroundEnabled()) ? false : false) {
+        if ((z2 && SharedConfig.getDevicePerformanceClass() != 0 && LiteMode.isEnabled(32)) ? false : false) {
             Bitmap bitmap = ((MotionBackgroundDrawable) drawable).getBitmap();
             if (serviceBitmap != bitmap) {
                 serviceBitmap = bitmap;
@@ -10668,7 +10668,7 @@ public class Theme {
             if (backgroundDrawableSettings.wallpaper == null) {
             }
         }
-        if (!SharedConfig.getLiteMode().animatedEmojiEnabled()) {
+        if (!LiteMode.isEnabled(32)) {
             Drawable drawable = backgroundDrawableSettings.wallpaper;
             if (drawable instanceof MotionBackgroundDrawable) {
                 MotionBackgroundDrawable motionBackgroundDrawable4 = (MotionBackgroundDrawable) drawable;

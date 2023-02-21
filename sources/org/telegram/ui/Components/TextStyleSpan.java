@@ -4,7 +4,7 @@ import android.graphics.Typeface;
 import android.text.TextPaint;
 import android.text.style.MetricAffectingSpan;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.messenger.LiteMode;
 import org.telegram.tgnet.TLRPC$MessageEntity;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
@@ -59,7 +59,7 @@ public class TextStyleSpan extends MetricAffectingSpan {
             } else {
                 textPaint.setFlags(textPaint.getFlags() & (-17));
             }
-            if ((this.flags & 512) != 0) {
+            if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                 textPaint.bgColor = Theme.getColor("chats_archivePullDownBackground");
             }
         }
@@ -103,12 +103,12 @@ public class TextStyleSpan extends MetricAffectingSpan {
     }
 
     public boolean isSpoiler() {
-        return (this.style.flags & 256) > 0;
+        return (this.style.flags & LiteMode.FLAG_CHAT_BLUR) > 0;
     }
 
     public void setSpoilerRevealed(boolean z) {
         if (z) {
-            this.style.flags |= 512;
+            this.style.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
             return;
         }
         this.style.flags &= -513;
@@ -120,7 +120,7 @@ public class TextStyleSpan extends MetricAffectingSpan {
         if (i != 0) {
             textPaint.setTextSize(i);
         }
-        textPaint.setFlags(textPaint.getFlags() | ConnectionsManager.RequestFlagNeedQuickAck);
+        textPaint.setFlags(textPaint.getFlags() | 128);
         this.style.applyStyle(textPaint);
     }
 
@@ -134,7 +134,7 @@ public class TextStyleSpan extends MetricAffectingSpan {
         if (i2 != 0) {
             textPaint.setColor(i2);
         }
-        textPaint.setFlags(textPaint.getFlags() | ConnectionsManager.RequestFlagNeedQuickAck);
+        textPaint.setFlags(textPaint.getFlags() | 128);
         this.style.applyStyle(textPaint);
     }
 }

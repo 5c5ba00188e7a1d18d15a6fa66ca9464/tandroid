@@ -1,6 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public abstract class TLRPC$StickerSet extends TLObject {
     public long access_hash;
@@ -103,7 +104,7 @@ public abstract class TLRPC$StickerSet extends TLObject {
                         this.masks = (readInt32 & 8) != 0;
                         this.animated = (readInt32 & 32) != 0;
                         this.videos = (readInt32 & 64) != 0;
-                        this.emojis = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
+                        this.emojis = (readInt32 & 128) != 0;
                         if ((readInt32 & 1) != 0) {
                             this.installed_date = abstractSerializedData2.readInt32(z2);
                         }
@@ -134,7 +135,7 @@ public abstract class TLRPC$StickerSet extends TLObject {
                         if ((this.flags & 16) != 0) {
                             this.thumb_version = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             this.thumb_document_id = abstractSerializedData2.readInt64(z2);
                         }
                         this.count = abstractSerializedData2.readInt32(z2);
@@ -154,7 +155,7 @@ public abstract class TLRPC$StickerSet extends TLObject {
                         this.flags = i5;
                         int i6 = this.videos ? i5 | 64 : i5 & (-65);
                         this.flags = i6;
-                        int i7 = this.emojis ? i6 | ConnectionsManager.RequestFlagNeedQuickAck : i6 & (-129);
+                        int i7 = this.emojis ? i6 | 128 : i6 & (-129);
                         this.flags = i7;
                         abstractSerializedData2.writeInt32(i7);
                         if ((this.flags & 1) != 0) {
@@ -178,7 +179,7 @@ public abstract class TLRPC$StickerSet extends TLObject {
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt32(this.thumb_version);
                         }
-                        if ((this.flags & 256) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             abstractSerializedData2.writeInt64(this.thumb_document_id);
                         }
                         abstractSerializedData2.writeInt32(this.count);

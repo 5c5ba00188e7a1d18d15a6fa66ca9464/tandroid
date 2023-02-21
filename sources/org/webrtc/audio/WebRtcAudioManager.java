@@ -66,7 +66,10 @@ class WebRtcAudioManager {
 
     private static int getLowLatencyFramesPerBuffer(AudioManager audioManager) {
         String property;
-        return (Build.VERSION.SDK_INT >= 17 && (property = audioManager.getProperty("android.media.property.OUTPUT_FRAMES_PER_BUFFER")) != null) ? Integer.parseInt(property) : DEFAULT_FRAME_PER_BUFFER;
+        if (Build.VERSION.SDK_INT >= 17 && (property = audioManager.getProperty("android.media.property.OUTPUT_FRAMES_PER_BUFFER")) != null) {
+            return Integer.parseInt(property);
+        }
+        return 256;
     }
 
     private static int getMinOutputFrameSize(int i, int i2) {

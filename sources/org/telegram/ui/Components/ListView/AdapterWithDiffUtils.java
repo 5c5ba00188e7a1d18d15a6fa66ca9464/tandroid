@@ -16,7 +16,7 @@ public abstract class AdapterWithDiffUtils extends RecyclerListView.SelectionAda
     }
 
     /* loaded from: classes3.dex */
-    public static class Item {
+    public static abstract class Item {
         public final int viewType;
 
         public Item(int i, boolean z) {

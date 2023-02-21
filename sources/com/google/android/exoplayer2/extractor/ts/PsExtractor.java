@@ -12,6 +12,7 @@ import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
 import java.io.IOException;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class PsExtractor implements Extractor {
     private final PsDurationReader durationReader;
@@ -125,7 +126,7 @@ public final class PsExtractor implements Extractor {
                             this.lastTrackPosition = extractorInput.getPosition();
                         }
                         if (elementaryStreamReader != null) {
-                            elementaryStreamReader.createTracks(this.output, new TsPayloadReader.TrackIdGenerator(i, 256));
+                            elementaryStreamReader.createTracks(this.output, new TsPayloadReader.TrackIdGenerator(i, LiteMode.FLAG_CHAT_BLUR));
                             pesReader = new PesReader(elementaryStreamReader, this.timestampAdjuster);
                             this.psPayloadReaders.put(i, pesReader);
                         }

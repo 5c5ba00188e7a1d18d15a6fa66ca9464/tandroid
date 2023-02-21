@@ -1,4 +1,6 @@
 package org.telegram.tgnet;
+
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_updateShortChatMessage extends TLRPC$Updates {
     public static int constructor = 1299050149;
@@ -21,13 +23,13 @@ public class TLRPC$TL_updateShortChatMessage extends TLRPC$Updates {
         if ((this.flags & 4) != 0) {
             this.fwd_from = TLRPC$MessageFwdHeader.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
-        if ((this.flags & 2048) != 0) {
+        if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
             this.via_bot_id = abstractSerializedData.readInt64(z);
         }
         if ((this.flags & 8) != 0) {
             this.reply_to = TLRPC$TL_messageReplyHeader.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
-        if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+        if ((this.flags & 128) != 0) {
             int readInt322 = abstractSerializedData.readInt32(z);
             if (readInt322 != 481674261) {
                 if (z) {

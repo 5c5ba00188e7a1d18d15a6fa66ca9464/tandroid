@@ -913,7 +913,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             iArr[0] = (int) (lottieMetadata.op - lottieMetadata.ip);
             iArr[1] = (int) lottieMetadata.fr;
         } catch (Exception e) {
-            FileLog.e(e);
+            FileLog.e((Throwable) e, false);
             String absolutePath = file.getAbsolutePath();
             int i = this.width;
             int i2 = this.height;

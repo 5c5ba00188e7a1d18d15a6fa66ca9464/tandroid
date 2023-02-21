@@ -92,6 +92,7 @@ import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
@@ -1115,9 +1116,9 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         startConnectingSound();
         dispatchStateChanged(14);
         AndroidUtilities.runOnUIThread(VoIPService$$ExternalSyntheticLambda61.INSTANCE);
-        Utilities.random.nextBytes(new byte[256]);
+        Utilities.random.nextBytes(new byte[LiteMode.FLAG_CHAT_BLUR]);
         TLRPC$TL_messages_getDhConfig tLRPC$TL_messages_getDhConfig = new TLRPC$TL_messages_getDhConfig();
-        tLRPC$TL_messages_getDhConfig.random_length = 256;
+        tLRPC$TL_messages_getDhConfig.random_length = LiteMode.FLAG_CHAT_BLUR;
         final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
         tLRPC$TL_messages_getDhConfig.version = messagesStorage.getLastSecretVersion();
         this.callReqId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getDhConfig, new RequestDelegate() { // from class: org.telegram.messenger.voip.VoIPService$$ExternalSyntheticLambda89
@@ -1150,14 +1151,14 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                 messagesStorage.setLastSecretVersion(tLRPC$messages_DhConfig.version);
                 messagesStorage.saveSecretParams(messagesStorage.getLastSecretVersion(), messagesStorage.getSecretG(), messagesStorage.getSecretPBytes());
             }
-            final byte[] bArr = new byte[256];
+            final byte[] bArr = new byte[LiteMode.FLAG_CHAT_BLUR];
             for (int i = 0; i < 256; i++) {
                 bArr[i] = (byte) (((byte) (Utilities.random.nextDouble() * 256.0d)) ^ tLRPC$messages_DhConfig.random[i]);
             }
             byte[] byteArray = BigInteger.valueOf(messagesStorage.getSecretG()).modPow(new BigInteger(1, bArr), new BigInteger(1, messagesStorage.getSecretPBytes())).toByteArray();
             if (byteArray.length > 256) {
-                byte[] bArr2 = new byte[256];
-                System.arraycopy(byteArray, 1, bArr2, 0, 256);
+                byte[] bArr2 = new byte[LiteMode.FLAG_CHAT_BLUR];
+                System.arraycopy(byteArray, 1, bArr2, 0, LiteMode.FLAG_CHAT_BLUR);
                 byteArray = bArr2;
             }
             TLRPC$TL_phone_requestCall tLRPC$TL_phone_requestCall = new TLRPC$TL_phone_requestCall();
@@ -1874,11 +1875,11 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                     }
                     byte[] byteArray = bigInteger.modPow(new BigInteger(1, this.a_or_b), bigInteger2).toByteArray();
                     if (byteArray.length > 256) {
-                        bArr = new byte[256];
-                        System.arraycopy(byteArray, byteArray.length - 256, bArr, 0, 256);
+                        bArr = new byte[LiteMode.FLAG_CHAT_BLUR];
+                        System.arraycopy(byteArray, byteArray.length - LiteMode.FLAG_CHAT_BLUR, bArr, 0, LiteMode.FLAG_CHAT_BLUR);
                     } else {
                         if (byteArray.length < 256) {
-                            bArr = new byte[256];
+                            bArr = new byte[LiteMode.FLAG_CHAT_BLUR];
                             System.arraycopy(byteArray, 0, bArr, 256 - byteArray.length, byteArray.length);
                             for (int i = 0; i < 256 - byteArray.length; i++) {
                                 bArr[i] = 0;
@@ -1993,11 +1994,11 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         }
         byte[] byteArray = bigInteger2.modPow(new BigInteger(1, this.a_or_b), bigInteger).toByteArray();
         if (byteArray.length > 256) {
-            bArr = new byte[256];
-            System.arraycopy(byteArray, byteArray.length - 256, bArr, 0, 256);
+            bArr = new byte[LiteMode.FLAG_CHAT_BLUR];
+            System.arraycopy(byteArray, byteArray.length - LiteMode.FLAG_CHAT_BLUR, bArr, 0, LiteMode.FLAG_CHAT_BLUR);
         } else {
             if (byteArray.length < 256) {
-                bArr = new byte[256];
+                bArr = new byte[LiteMode.FLAG_CHAT_BLUR];
                 System.arraycopy(byteArray, 0, bArr, 256 - byteArray.length, byteArray.length);
                 for (int i = 0; i < 256 - byteArray.length; i++) {
                     bArr[i] = 0;
@@ -2787,7 +2788,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Type inference failed for: r0v7, types: [org.telegram.messenger.AccountInstance, java.lang.String] */
-    /* JADX WARN: Type inference failed for: r0v9, types: [int, java.lang.String] */
+    /* JADX WARN: Type inference failed for: r0v9, types: [java.lang.String, int] */
     public /* synthetic */ void lambda$createGroupInstance$45(final int i, final long j, long j2, final int i2, final int i3) {
         StringBuilder sb;
         if (i != 0) {
@@ -4692,7 +4693,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         AndroidUtilities.runOnUIThread(VoIPService$$ExternalSyntheticLambda60.INSTANCE);
         final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
         TLRPC$TL_messages_getDhConfig tLRPC$TL_messages_getDhConfig = new TLRPC$TL_messages_getDhConfig();
-        tLRPC$TL_messages_getDhConfig.random_length = 256;
+        tLRPC$TL_messages_getDhConfig.random_length = LiteMode.FLAG_CHAT_BLUR;
         tLRPC$TL_messages_getDhConfig.version = messagesStorage.getLastSecretVersion();
         ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getDhConfig, new RequestDelegate() { // from class: org.telegram.messenger.voip.VoIPService$$ExternalSyntheticLambda90
             @Override // org.telegram.tgnet.RequestDelegate
@@ -4724,7 +4725,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                 messagesStorage.setLastSecretVersion(tLRPC$messages_DhConfig.version);
                 MessagesStorage.getInstance(this.currentAccount).saveSecretParams(messagesStorage.getLastSecretVersion(), messagesStorage.getSecretG(), messagesStorage.getSecretPBytes());
             }
-            byte[] bArr = new byte[256];
+            byte[] bArr = new byte[LiteMode.FLAG_CHAT_BLUR];
             for (int i = 0; i < 256; i++) {
                 bArr[i] = (byte) (((byte) (Utilities.random.nextDouble() * 256.0d)) ^ tLRPC$messages_DhConfig.random[i]);
             }
@@ -4740,8 +4741,8 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             this.g_a_hash = this.privateCall.g_a_hash;
             byte[] byteArray = modPow.toByteArray();
             if (byteArray.length > 256) {
-                byte[] bArr2 = new byte[256];
-                System.arraycopy(byteArray, 1, bArr2, 0, 256);
+                byte[] bArr2 = new byte[LiteMode.FLAG_CHAT_BLUR];
+                System.arraycopy(byteArray, 1, bArr2, 0, LiteMode.FLAG_CHAT_BLUR);
                 byteArray = bArr2;
             }
             TLRPC$TL_phone_acceptCall tLRPC$TL_phone_acceptCall = new TLRPC$TL_phone_acceptCall();
@@ -6210,14 +6211,14 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         TLRPC$User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
         ComponentName componentName = new ComponentName(this, TelegramConnectionService.class);
         PhoneAccountHandle phoneAccountHandle = new PhoneAccountHandle(componentName, "" + currentUser.id);
-        ((TelecomManager) getSystemService("telecom")).registerPhoneAccount(new PhoneAccount.Builder(phoneAccountHandle, ContactsController.formatName(currentUser.first_name, currentUser.last_name)).setCapabilities(2048).setIcon(Icon.createWithResource(this, R.drawable.ic_launcher_dr)).setHighlightColor(-13851168).addSupportedUriScheme("sip").build());
+        ((TelecomManager) getSystemService("telecom")).registerPhoneAccount(new PhoneAccount.Builder(phoneAccountHandle, ContactsController.formatName(currentUser.first_name, currentUser.last_name)).setCapabilities(LiteMode.FLAG_AUTOPLAY_GIFS).setIcon(Icon.createWithResource(this, R.drawable.ic_launcher_dr)).setHighlightColor(-13851168).addSupportedUriScheme("sip").build());
         return phoneAccountHandle;
     }
 
     /* loaded from: classes.dex */
     public class CallConnection extends Connection {
         public CallConnection() {
-            setConnectionProperties(ConnectionsManager.RequestFlagNeedQuickAck);
+            setConnectionProperties(128);
             setAudioModeIsVoip(true);
         }
 

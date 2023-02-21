@@ -38,12 +38,13 @@ import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.List;
 import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.voip.VoIPService;
 /* loaded from: classes.dex */
 public class MediaCodecVideoRenderer extends MediaCodecRenderer {
-    private static final int[] STANDARD_LONG_EDGE_VIDEO_PX = {1920, 1600, 1440, 1280, 960, 854, 640, 540, 480};
+    private static final int[] STANDARD_LONG_EDGE_VIDEO_PX = {1920, 1600, 1440, 1280, 960, 854, 640, 540, LiteMode.FLAGS_CHAT};
     private static boolean deviceNeedsSetOutputSurfaceWorkaround;
     private static boolean evaluatedDeviceNeedsSetOutputSurfaceWorkaround;
     private final long allowedJoiningTimeMs;
@@ -1962,7 +1963,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                             case 25:
                             case 26:
                             case 27:
-                            case 28:
+                            case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                             case 29:
                             case 30:
                             case 31:

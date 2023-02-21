@@ -11,6 +11,7 @@ import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.ImageLocation;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
@@ -169,7 +170,7 @@ public class DialogsRequestedEmptyCell extends LinearLayout implements Notificat
         if (tLRPC$Document != null) {
             SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document.thumbs, "windowBackgroundGray", 0.2f);
             if (svgThumb != null) {
-                svgThumb.overrideWidthAndHeight(512, 512);
+                svgThumb.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
             }
             this.stickerView.setImage(ImageLocation.getForDocument(tLRPC$Document), "130_130", "tgs", svgThumb, tLRPC$TL_messages_stickerSet);
             this.stickerView.getImageReceiver().setAutoRepeat(2);

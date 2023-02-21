@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
@@ -305,7 +306,7 @@ public class CustomEmojiReactionsWindow {
         this.fromRect.offset((this.location[0] - iArr[0]) - this.containerView.getX(), (this.location[1] - iArr[1]) - this.containerView.getY());
         this.reactionsContainerLayout.setCustomEmojiEnterProgress(this.enterTransitionProgress);
         if (z) {
-            this.cascadeAnimation = SharedConfig.getDevicePerformanceClass() >= 2 && !SharedConfig.getLiteMode().enabled();
+            this.cascadeAnimation = SharedConfig.getDevicePerformanceClass() >= 2 && LiteMode.isEnabled(8);
             this.enterTransitionFinished = false;
         } else {
             this.cascadeAnimation = false;

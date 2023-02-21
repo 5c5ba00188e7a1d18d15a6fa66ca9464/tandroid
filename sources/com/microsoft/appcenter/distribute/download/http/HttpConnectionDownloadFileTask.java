@@ -15,7 +15,6 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import javax.net.ssl.HttpsURLConnection;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 class HttpConnectionDownloadFileTask extends AsyncTask<Void, Void, Void> {
     private final Uri mDownloadUri;
@@ -94,7 +93,7 @@ class HttpConnectionDownloadFileTask extends AsyncTask<Void, Void, Void> {
 
     private long copyStream(InputStream inputStream, OutputStream outputStream, long j) throws IOException {
         long j2;
-        byte[] bArr = new byte[ConnectionsManager.RequestFlagDoNotWaitFloodWait];
+        byte[] bArr = new byte[1024];
         long j3 = 0;
         long j4 = 0;
         long j5 = 0;

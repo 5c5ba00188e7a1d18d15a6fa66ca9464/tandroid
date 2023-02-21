@@ -465,13 +465,13 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             }
             if (i == 4 || i == 1) {
                 try {
-                    SecretMediaViewer.this.parentActivity.getWindow().clearFlags(ConnectionsManager.RequestFlagNeedQuickAck);
+                    SecretMediaViewer.this.parentActivity.getWindow().clearFlags(128);
                 } catch (Exception e) {
                     FileLog.e(e);
                 }
             } else {
                 try {
-                    SecretMediaViewer.this.parentActivity.getWindow().addFlags(ConnectionsManager.RequestFlagNeedQuickAck);
+                    SecretMediaViewer.this.parentActivity.getWindow().addFlags(128);
                 } catch (Exception e2) {
                     FileLog.e(e2);
                 }
@@ -550,7 +550,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         try {
             Activity activity = this.parentActivity;
             if (activity != null) {
-                activity.getWindow().clearFlags(ConnectionsManager.RequestFlagNeedQuickAck);
+                activity.getWindow().clearFlags(128);
             }
         } catch (Exception e) {
             FileLog.e(e);

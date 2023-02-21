@@ -3,7 +3,6 @@ package com.google.android.exoplayer2.text;
 import com.google.android.exoplayer2.decoder.SimpleDecoder;
 import com.google.android.exoplayer2.util.Assertions;
 import java.nio.ByteBuffer;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public abstract class SimpleSubtitleDecoder extends SimpleDecoder<SubtitleInputBuffer, SubtitleOutputBuffer, SubtitleDecoderException> implements SubtitleDecoder {
     private final String name;
@@ -18,7 +17,7 @@ public abstract class SimpleSubtitleDecoder extends SimpleDecoder<SubtitleInputB
     public SimpleSubtitleDecoder(String str) {
         super(new SubtitleInputBuffer[2], new SubtitleOutputBuffer[2]);
         this.name = str;
-        setInitialInputBufferSize(ConnectionsManager.RequestFlagDoNotWaitFloodWait);
+        setInitialInputBufferSize(1024);
     }
 
     @Override // com.google.android.exoplayer2.decoder.Decoder

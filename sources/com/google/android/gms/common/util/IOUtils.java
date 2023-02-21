@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import javax.annotation.Nullable;
-import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 @Deprecated
 /* loaded from: classes.dex */
@@ -55,7 +54,7 @@ public final class IOUtils {
     @Deprecated
     public static byte[] readInputStreamFully(InputStream inputStream, boolean z) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        copyStream(inputStream, byteArrayOutputStream, z, ConnectionsManager.RequestFlagDoNotWaitFloodWait);
+        copyStream(inputStream, byteArrayOutputStream, z, 1024);
         return byteArrayOutputStream.toByteArray();
     }
 }

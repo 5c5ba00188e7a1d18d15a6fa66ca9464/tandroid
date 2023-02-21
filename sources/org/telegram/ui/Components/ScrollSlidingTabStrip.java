@@ -32,9 +32,9 @@ import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLocation;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
-import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
@@ -731,7 +731,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
                     Object tag2 = stickerTabView.getTag(R.id.object_tag);
                     Drawable drawable = tag instanceof Drawable ? (Drawable) tag : null;
                     if (tag2 instanceof TLRPC$Document) {
-                        stickerTabView.imageView.setImage(ImageLocation.getForDocument((TLRPC$Document) tag2), SharedConfig.getLiteMode().enabled() ? "36_36_firstframe" : "36_36_nolimit", (Drawable) null, (Object) null);
+                        stickerTabView.imageView.setImage(ImageLocation.getForDocument((TLRPC$Document) tag2), !LiteMode.isEnabled(1) ? "36_36_firstframe" : "36_36_nolimit", (Drawable) null, (Object) null);
                     } else {
                         stickerTabView.imageView.setImageDrawable(drawable);
                     }
@@ -754,25 +754,26 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
                         stickerTabView.inited = true;
                         SvgHelper.SvgDrawable svgDrawable = stickerTabView.svgThumb;
                         BackupImageView backupImageView = stickerTabView.imageView;
-                        String str = SharedConfig.getLiteMode().enabled() ? "40_40_firstframe" : "40_40";
-                        if (MessageObject.isVideoSticker(tLRPC$Document) && (arrayList = tLRPC$Document.thumbs) != null && arrayList.size() > 0) {
-                            if (SharedConfig.getLiteMode().enabled()) {
-                                backupImageView.setImage(ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document), "40_40", svgDrawable, 0, tag4);
-                            } else if (svgDrawable != null) {
-                                backupImageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str, svgDrawable, 0, tag4);
+                        boolean z = !LiteMode.isEnabled(1);
+                        String str = z ? "40_40_firstframe" : "40_40";
+                        if (!MessageObject.isVideoSticker(tLRPC$Document) || (arrayList = tLRPC$Document.thumbs) == null || arrayList.size() <= 0) {
+                            if (MessageObject.isAnimatedStickerDocument(tLRPC$Document, true)) {
+                                if (svgDrawable != null) {
+                                    backupImageView.setImage(forSticker, str, svgDrawable, 0, tag4);
+                                } else {
+                                    backupImageView.setImage(forSticker, str, forSticker, (String) null, 0, tag4);
+                                }
+                            } else if (forSticker.imageType == 1) {
+                                backupImageView.setImage(forSticker, str, "tgs", svgDrawable, tag4);
                             } else {
-                                backupImageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str, forSticker, (String) null, 0, tag4);
+                                backupImageView.setImage(forSticker, str, "webp", svgDrawable, tag4);
                             }
-                        } else if (MessageObject.isAnimatedStickerDocument(tLRPC$Document, true)) {
-                            if (svgDrawable != null) {
-                                backupImageView.setImage(forSticker, str, svgDrawable, 0, tag4);
-                            } else {
-                                backupImageView.setImage(forSticker, str, forSticker, (String) null, 0, tag4);
-                            }
-                        } else if (forSticker.imageType == 1) {
-                            backupImageView.setImage(forSticker, str, "tgs", svgDrawable, tag4);
+                        } else if (z) {
+                            backupImageView.setImage(ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document), "40_40", svgDrawable, 0, tag4);
+                        } else if (svgDrawable != null) {
+                            backupImageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str, svgDrawable, 0, tag4);
                         } else {
-                            backupImageView.setImage(forSticker, str, "webp", svgDrawable, tag4);
+                            backupImageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str, forSticker, (String) null, 0, tag4);
                         }
                         stickerTabView.textView.setText(tag4 instanceof TLRPC$TL_messages_stickerSet ? ((TLRPC$TL_messages_stickerSet) tag4).set.title : null);
                     }

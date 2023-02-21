@@ -22,6 +22,7 @@ import java.util.Locale;
 import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessagesController;
@@ -405,7 +406,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
             updateSelectedStickerSetIndex();
             TLRPC$ChatFull tLRPC$ChatFull = this.info;
             if (tLRPC$ChatFull.stickerset == null) {
-                tLRPC$ChatFull.flags |= 256;
+                tLRPC$ChatFull.flags |= LiteMode.FLAG_CHAT_BLUR;
             } else {
                 tLRPC$ChatFull.flags &= -257;
             }

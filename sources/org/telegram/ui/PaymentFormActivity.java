@@ -93,6 +93,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
@@ -2011,7 +2012,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 textPriceCell3.setBackgroundColor(getThemedColor("windowBackgroundWhite"));
                 this.totalPrice[0] = getTotalPriceString(this.prices);
                 this.totalCell.setTextAndValue(LocaleController.getString("PaymentTransactionTotal", R.string.PaymentTransactionTotal), this.totalPrice[0], true);
-                if (this.currentStep == 4 && (this.paymentForm.invoice.flags & 256) != 0) {
+                if (this.currentStep == 4 && (this.paymentForm.invoice.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                     FrameLayout frameLayout7 = new FrameLayout(context);
                     frameLayout7.setClipChildren(false);
                     frameLayout7.setBackgroundColor(getThemedColor("windowBackgroundWhite"));
@@ -5082,7 +5083,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             tLRPC$TL_payments_sendPaymentForm.shipping_option_id = tLRPC$TL_shippingOption.id;
             tLRPC$TL_payments_sendPaymentForm.flags |= 2;
         }
-        if ((this.paymentForm.invoice.flags & 256) != 0) {
+        if ((this.paymentForm.invoice.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
             Long l = this.tipAmount;
             tLRPC$TL_payments_sendPaymentForm.tip_amount = l != null ? l.longValue() : 0L;
             tLRPC$TL_payments_sendPaymentForm.flags |= 4;

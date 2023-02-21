@@ -1,6 +1,7 @@
 package com.googlecode.mp4parser.boxes.mp4.objectdescriptors;
 
 import java.nio.ByteBuffer;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class BitWriterBuffer {
     private ByteBuffer buffer;
@@ -18,7 +19,7 @@ public class BitWriterBuffer {
         if (i2 <= i4) {
             int i5 = this.buffer.get(this.initialPos + (i3 / 8));
             if (i5 < 0) {
-                i5 += 256;
+                i5 += LiteMode.FLAG_CHAT_BLUR;
             }
             int i6 = i5 + (i << (i4 - i2));
             ByteBuffer byteBuffer = this.buffer;

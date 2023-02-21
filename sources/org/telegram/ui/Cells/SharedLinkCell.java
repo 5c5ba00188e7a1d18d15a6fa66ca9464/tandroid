@@ -32,6 +32,7 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
@@ -411,7 +412,7 @@ public class SharedLinkCell extends FrameLayout {
                                                         TextStyleSpan.TextStyleRun textStyleRun = new TextStyleSpan.TextStyleRun();
                                                         str8 = str2;
                                                         try {
-                                                            textStyleRun.flags |= 256;
+                                                            textStyleRun.flags |= LiteMode.FLAG_CHAT_BLUR;
                                                             valueOf2.setSpan(new TextStyleSpan(textStyleRun), Math.max(i15, i17), Math.min(i16, i18) + i9, 33);
                                                         } catch (Exception e2) {
                                                             e = e2;

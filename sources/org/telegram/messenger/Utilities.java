@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class Utilities {
     private static final String RANDOM_STRING_CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -111,7 +110,7 @@ public class Utilities {
     static {
         try {
             FileInputStream fileInputStream = new FileInputStream(new File("/dev/urandom"));
-            byte[] bArr = new byte[ConnectionsManager.RequestFlagDoNotWaitFloodWait];
+            byte[] bArr = new byte[1024];
             fileInputStream.read(bArr);
             fileInputStream.close();
             random.setSeed(bArr);
@@ -499,7 +498,7 @@ public class Utilities {
             byte[] digest = MessageDigest.getInstance("MD5").digest(AndroidUtilities.getStringBytes(str));
             StringBuilder sb = new StringBuilder();
             for (byte b : digest) {
-                sb.append(Integer.toHexString((b & 255) | 256).substring(1, 3));
+                sb.append(Integer.toHexString((b & 255) | LiteMode.FLAG_CHAT_BLUR).substring(1, 3));
             }
             return sb.toString();
         } catch (NoSuchAlgorithmException e) {

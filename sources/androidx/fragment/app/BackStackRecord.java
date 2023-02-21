@@ -8,7 +8,6 @@ import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import org.telegram.tgnet.ConnectionsManager;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class BackStackRecord extends FragmentTransaction implements FragmentManagerImpl.OpGenerator {
@@ -54,7 +53,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
     }
 
     public String toString() {
-        StringBuilder sb = new StringBuilder((int) ConnectionsManager.RequestFlagNeedQuickAck);
+        StringBuilder sb = new StringBuilder(128);
         sb.append("BackStackEntry{");
         sb.append(Integer.toHexString(System.identityHashCode(this)));
         if (this.mIndex >= 0) {

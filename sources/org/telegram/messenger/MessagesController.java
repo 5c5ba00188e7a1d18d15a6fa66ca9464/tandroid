@@ -862,7 +862,7 @@ public class MessagesController extends BaseController implements NotificationCe
     private ArrayList<Long> visibleScheduledDialogMainThreadIds;
     public int webFileDatacenterId;
     public String youtubePipType;
-    public static int UPDATE_MASK_ALL = (((((((((2 | 4) | 1) | 8) | 16) | 32) | 64) | ConnectionsManager.RequestFlagNeedQuickAck) | 256) | ConnectionsManager.RequestFlagDoNotWaitFloodWait) | 1048576;
+    public static int UPDATE_MASK_ALL = (((((((((2 | 4) | 1) | 8) | 16) | 32) | 64) | 128) | LiteMode.FLAG_CHAT_BLUR) | 1024) | 1048576;
     public static int DIALOG_FILTER_FLAG_ALL_CHATS = (((1 | 2) | 4) | 8) | 16;
     private static volatile MessagesController[] Instance = new MessagesController[4];
     private static final Object[] lockObjects = new Object[4];
@@ -1881,7 +1881,7 @@ public class MessagesController extends BaseController implements NotificationCe
         this.maxPinnedDialogsCount = this.mainPreferences.getInt("maxPinnedDialogsCount", 5);
         this.maxFolderPinnedDialogsCount = this.mainPreferences.getInt("maxFolderPinnedDialogsCount", 100);
         this.maxMessageLength = this.mainPreferences.getInt("maxMessageLength", 4096);
-        this.maxCaptionLength = this.mainPreferences.getInt("maxCaptionLength", ConnectionsManager.RequestFlagDoNotWaitFloodWait);
+        this.maxCaptionLength = this.mainPreferences.getInt("maxCaptionLength", 1024);
         this.mapProvider = this.mainPreferences.getInt("mapProvider", 0);
         this.availableMapProviders = this.mainPreferences.getInt("availableMapProviders", 3);
         this.mapKey = this.mainPreferences.getString("pk", null);
@@ -1940,7 +1940,7 @@ public class MessagesController extends BaseController implements NotificationCe
         this.dialogFiltersPinnedLimitPremium = this.mainPreferences.getInt("dialogFiltersPinnedLimitPremium", 10);
         this.publicLinksLimitDefault = this.mainPreferences.getInt("publicLinksLimitDefault", 10);
         this.publicLinksLimitPremium = this.mainPreferences.getInt("publicLinksLimitPremium", 20);
-        this.captionLengthLimitDefault = this.mainPreferences.getInt("captionLengthLimitDefault", ConnectionsManager.RequestFlagDoNotWaitFloodWait);
+        this.captionLengthLimitDefault = this.mainPreferences.getInt("captionLengthLimitDefault", 1024);
         this.captionLengthLimitPremium = this.mainPreferences.getInt("captionLengthLimitPremium", 4096);
         this.aboutLengthLimitDefault = this.mainPreferences.getInt("aboutLengthLimitDefault", 70);
         this.aboutLengthLimitPremium = this.mainPreferences.getInt("aboutLengthLimitPremium", 140);
@@ -3871,6 +3871,7 @@ public class MessagesController extends BaseController implements NotificationCe
                             FileLog.e(e2);
                             break;
                         }
+                        break;
                     case 25:
                         tLRPC$TL_jsonObject = tLRPC$TL_jsonObject5;
                         i = size;
@@ -3918,7 +3919,7 @@ public class MessagesController extends BaseController implements NotificationCe
                             break;
                         }
                         break;
-                    case 28:
+                    case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
                         tLRPC$TL_jsonObject = tLRPC$TL_jsonObject5;
                         i = size;
                         TLRPC$JSONValue tLRPC$JSONValue34 = tLRPC$TL_jsonObjectValue.value;
@@ -4114,7 +4115,6 @@ public class MessagesController extends BaseController implements NotificationCe
                         } else {
                             break;
                         }
-                        break;
                     case '&':
                         tLRPC$TL_jsonObject = tLRPC$TL_jsonObject5;
                         i = size;
@@ -6718,7 +6718,7 @@ public class MessagesController extends BaseController implements NotificationCe
         TLRPC$Dialog tLRPC$Dialog = this.dialogs_dict.get(j2);
         if (tLRPC$Dialog != null) {
             TLRPC$ChatFull tLRPC$ChatFull2 = tLRPC$TL_messages_chatFull.full_chat;
-            if ((tLRPC$ChatFull2.flags & 2048) != 0) {
+            if ((tLRPC$ChatFull2.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                 int i3 = tLRPC$Dialog.folder_id;
                 int i4 = tLRPC$ChatFull2.folder_id;
                 if (i3 != i4) {
@@ -6829,7 +6829,7 @@ public class MessagesController extends BaseController implements NotificationCe
         getNotificationCenter().postNotificationName(NotificationCenter.userInfoDidLoad, Long.valueOf(tLRPC$User.id), tLRPC$UserFull);
         TLRPC$Dialog tLRPC$Dialog = this.dialogs_dict.get(tLRPC$User.id);
         if (tLRPC$Dialog != null) {
-            if ((tLRPC$UserFull.flags & 2048) != 0) {
+            if ((tLRPC$UserFull.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                 int i2 = tLRPC$Dialog.folder_id;
                 int i3 = tLRPC$UserFull.folder_id;
                 if (i2 != i3) {
@@ -8107,7 +8107,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
             if (j == 0) {
                 try {
-                    nativeByteBuffer = new NativeByteBuffer((int) ConnectionsManager.RequestFlagDoNotWaitFloodWait);
+                    nativeByteBuffer = new NativeByteBuffer(1024);
                 } catch (Exception e) {
                     e = e;
                 }
@@ -8976,7 +8976,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                         tLRPC$TL_messageService.from_id = tLRPC$TL_peerUser;
                         tLRPC$TL_peerUser.user_id = getUserConfig().getClientUserId();
-                        tLRPC$TL_messageService.flags |= 256;
+                        tLRPC$TL_messageService.flags |= LiteMode.FLAG_CHAT_BLUR;
                         tLRPC$TL_messageService.action = new TLRPC$TL_messageActionHistoryClear();
                         tLRPC$TL_messageService.date = tLRPC$Dialog.last_message_date;
                         tLRPC$TL_messageService.dialog_id = j;
@@ -16159,7 +16159,7 @@ public class MessagesController extends BaseController implements NotificationCe
         this.registeringForPush = true;
         this.lastPushRegisterSendTime = SystemClock.elapsedRealtime();
         if (SharedConfig.pushAuthKey == null) {
-            SharedConfig.pushAuthKey = new byte[256];
+            SharedConfig.pushAuthKey = new byte[LiteMode.FLAG_CHAT_BLUR];
             Utilities.random.nextBytes(SharedConfig.pushAuthKey);
             SharedConfig.saveConfig();
         }
@@ -17915,7 +17915,7 @@ public class MessagesController extends BaseController implements NotificationCe
             return;
         }
         TLRPC$TL_messageService tLRPC$TL_messageService = new TLRPC$TL_messageService();
-        tLRPC$TL_messageService.flags = 256;
+        tLRPC$TL_messageService.flags = LiteMode.FLAG_CHAT_BLUR;
         int newMessageId = getUserConfig().getNewMessageId();
         tLRPC$TL_messageService.id = newMessageId;
         tLRPC$TL_messageService.local_id = newMessageId;
@@ -18062,7 +18062,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         TLRPC$TL_messageService tLRPC$TL_messageService = new TLRPC$TL_messageService();
                         tLRPC$TL_messageService.media_unread = true;
                         tLRPC$TL_messageService.unread = true;
-                        tLRPC$TL_messageService.flags = 256;
+                        tLRPC$TL_messageService.flags = LiteMode.FLAG_CHAT_BLUR;
                         tLRPC$TL_messageService.post = true;
                         int newMessageId = getUserConfig().getNewMessageId();
                         tLRPC$TL_messageService.id = newMessageId;
@@ -18625,7 +18625,7 @@ public class MessagesController extends BaseController implements NotificationCe
                             tLRPC$TL_message.message = tLRPC$Updates.message;
                             tLRPC$TL_message.date = tLRPC$Updates.date;
                             tLRPC$TL_message.via_bot_id = tLRPC$Updates.via_bot_id;
-                            tLRPC$TL_message.flags = tLRPC$Updates.flags | 256;
+                            tLRPC$TL_message.flags = tLRPC$Updates.flags | LiteMode.FLAG_CHAT_BLUR;
                             tLRPC$TL_message.reply_to = tLRPC$Updates.reply_to;
                             tLRPC$TL_message.ttl_period = tLRPC$Updates.ttl_period;
                             tLRPC$TL_message.media = new TLRPC$TL_messageMediaEmpty();
@@ -20636,7 +20636,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                                     tLRPC$TL_message.local_id = newMessageId;
                                                                     getUserConfig().saveConfig(false);
                                                                     tLRPC$TL_message.unread = true;
-                                                                    tLRPC$TL_message.flags = 256;
+                                                                    tLRPC$TL_message.flags = LiteMode.FLAG_CHAT_BLUR;
                                                                     int i22 = tLRPC$TL_updateServiceNotification.inbox_date;
                                                                     if (i22 != 0) {
                                                                         tLRPC$TL_message.date = i22;
@@ -20653,13 +20653,13 @@ public class MessagesController extends BaseController implements NotificationCe
                                                                     TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$TL_updateServiceNotification.media;
                                                                     if (tLRPC$MessageMedia != null) {
                                                                         tLRPC$TL_message.media = tLRPC$MessageMedia;
-                                                                        tLRPC$TL_message.flags |= 512;
+                                                                        tLRPC$TL_message.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
                                                                     }
                                                                     tLRPC$TL_message.message = tLRPC$TL_updateServiceNotification.message;
                                                                     ArrayList<TLRPC$MessageEntity> arrayList64 = tLRPC$TL_updateServiceNotification.entities;
                                                                     if (arrayList64 != null) {
                                                                         tLRPC$TL_message.entities = arrayList64;
-                                                                        tLRPC$TL_message.flags |= ConnectionsManager.RequestFlagNeedQuickAck;
+                                                                        tLRPC$TL_message.flags |= 128;
                                                                     }
                                                                     ArrayList<TLRPC$Message> arrayList65 = arrayList30 == null ? new ArrayList<>() : arrayList30;
                                                                     arrayList65.add(tLRPC$TL_message);
@@ -23382,11 +23382,11 @@ public class MessagesController extends BaseController implements NotificationCe
                     tLRPC$TL_message.message = tLRPC$TL_sponsoredMessage.message;
                     if (!tLRPC$TL_sponsoredMessage.entities.isEmpty()) {
                         tLRPC$TL_message.entities = tLRPC$TL_sponsoredMessage.entities;
-                        tLRPC$TL_message.flags |= ConnectionsManager.RequestFlagNeedQuickAck;
+                        tLRPC$TL_message.flags |= 128;
                     }
                     tLRPC$TL_message.peer_id = getPeer(j);
                     tLRPC$TL_message.from_id = tLRPC$TL_sponsoredMessage.from_id;
-                    tLRPC$TL_message.flags |= 256;
+                    tLRPC$TL_message.flags |= LiteMode.FLAG_CHAT_BLUR;
                     tLRPC$TL_message.date = getConnectionsManager().getCurrentTime();
                     int i5 = i4 - 1;
                     tLRPC$TL_message.id = i4;

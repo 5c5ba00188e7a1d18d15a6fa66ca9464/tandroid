@@ -10,7 +10,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 final class DecodedBitStreamParser {
     private static final char[] ALPHANUMERIC_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:".toCharArray();
@@ -296,7 +295,7 @@ final class DecodedBitStreamParser {
 
     private static int parseECIValue(BitSource bitSource) throws FormatException {
         int readBits = bitSource.readBits(8);
-        if ((readBits & ConnectionsManager.RequestFlagNeedQuickAck) == 0) {
+        if ((readBits & 128) == 0) {
             return readBits & 127;
         }
         if ((readBits & 192) == 128) {

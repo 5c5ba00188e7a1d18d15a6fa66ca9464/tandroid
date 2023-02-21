@@ -54,6 +54,7 @@ import org.telegram.messenger.BillingController;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.GenericProvider;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessagesController;
@@ -1252,7 +1253,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                             i2 = 33;
                             spannableString.setSpan(new TextStyleSpan(textStyleRun), textStyleRun.start, textStyleRun.end, 33);
                             z = true;
-                            if (z && (textStyleRun.flags & 256) != 0) {
+                            if (z && (textStyleRun.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                                 spannableString.setSpan(new TextStyleSpan(textStyleRun), textStyleRun.start, textStyleRun.end, i2);
                             }
                             i5++;

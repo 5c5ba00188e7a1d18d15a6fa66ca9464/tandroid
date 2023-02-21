@@ -13,6 +13,7 @@ import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.io.EOFException;
 import java.io.IOException;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class AdtsExtractor implements Extractor {
     private int averageFrameSize;
@@ -39,7 +40,7 @@ public final class AdtsExtractor implements Extractor {
     public AdtsExtractor(int i) {
         this.flags = i;
         this.reader = new AdtsReader(true);
-        this.packetBuffer = new ParsableByteArray(2048);
+        this.packetBuffer = new ParsableByteArray((int) LiteMode.FLAG_AUTOPLAY_GIFS);
         this.averageFrameSize = -1;
         this.firstFramePosition = -1L;
         ParsableByteArray parsableByteArray = new ParsableByteArray(10);
@@ -111,7 +112,7 @@ public final class AdtsExtractor implements Extractor {
         if (z) {
             calculateAverageFrameSize(extractorInput);
         }
-        int read = extractorInput.read(this.packetBuffer.data, 0, 2048);
+        int read = extractorInput.read(this.packetBuffer.data, 0, LiteMode.FLAG_AUTOPLAY_GIFS);
         boolean z2 = read == -1;
         maybeOutputSeekMap(length, z, z2);
         if (z2) {

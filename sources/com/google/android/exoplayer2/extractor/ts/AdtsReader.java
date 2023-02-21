@@ -13,8 +13,8 @@ import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.Arrays;
 import java.util.Collections;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class AdtsReader implements ElementaryStreamReader {
     private static final byte[] ID3_IDENTIFIER = {73, 68, 51};
@@ -132,7 +132,7 @@ public final class AdtsReader implements ElementaryStreamReader {
     private void setFindingSampleState() {
         this.state = 0;
         this.bytesRead = 0;
-        this.matchState = 256;
+        this.matchState = LiteMode.FLAG_CHAT_BLUR;
     }
 
     private void setReadingId3HeaderState() {
@@ -183,15 +183,15 @@ public final class AdtsReader implements ElementaryStreamReader {
             if (i4 == 329) {
                 this.matchState = 768;
             } else if (i4 == 511) {
-                this.matchState = 512;
+                this.matchState = LiteMode.FLAG_CALLS_ANIMATIONS;
             } else if (i4 == 836) {
-                this.matchState = ConnectionsManager.RequestFlagDoNotWaitFloodWait;
+                this.matchState = 1024;
             } else if (i4 == 1075) {
                 setReadingId3HeaderState();
                 parsableByteArray.setPosition(i);
                 return;
             } else if (i3 != 256) {
-                this.matchState = 256;
+                this.matchState = LiteMode.FLAG_CHAT_BLUR;
                 i--;
             }
             position = i;

@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import org.telegram.messenger.LiteMode;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class FragmentedMp4Extractor implements Extractor {
@@ -695,10 +696,10 @@ public class FragmentedMp4Extractor implements Extractor {
         if (z6) {
             i6 = parsableByteArray.readInt();
         }
-        boolean z7 = (parseFullAtomFlags & 256) != 0;
-        boolean z8 = (parseFullAtomFlags & 512) != 0;
-        boolean z9 = (parseFullAtomFlags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0;
-        boolean z10 = (parseFullAtomFlags & 2048) != 0;
+        boolean z7 = (parseFullAtomFlags & LiteMode.FLAG_CHAT_BLUR) != 0;
+        boolean z8 = (parseFullAtomFlags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
+        boolean z9 = (parseFullAtomFlags & 1024) != 0;
+        boolean z10 = (parseFullAtomFlags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
         long[] jArr2 = track.editListDurations;
         long j2 = 0;
         if (jArr2 != null && jArr2.length == 1 && jArr2[0] == 0) {
@@ -1232,7 +1233,7 @@ public class FragmentedMp4Extractor implements Extractor {
             boolean sampleHasSubsampleEncryptionTable = this.fragment.sampleHasSubsampleEncryptionTable(this.currentSampleIndex);
             boolean z = sampleHasSubsampleEncryptionTable || i2 != 0;
             ParsableByteArray parsableByteArray3 = this.encryptionSignalByte;
-            parsableByteArray3.data[0] = (byte) ((z ? ConnectionsManager.RequestFlagNeedQuickAck : 0) | i3);
+            parsableByteArray3.data[0] = (byte) ((z ? 128 : 0) | i3);
             parsableByteArray3.setPosition(0);
             this.output.sampleData(this.encryptionSignalByte, 1);
             this.output.sampleData(parsableByteArray, i3);

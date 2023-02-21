@@ -21,7 +21,7 @@ import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.LiteMode;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ArticleViewer;
@@ -62,7 +62,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
         this.circlePath = new Path();
         this.mStart = -1L;
         this.mReleaseStart = -1L;
-        this.isLite = SharedConfig.getLiteMode().enabled();
+        this.isLite = !LiteMode.isEnabled(32);
         this.mSpan = s;
         this.mResourcesProvider = resourcesProvider;
         setColor(Theme.getColor("chat_linkSelectBackground", resourcesProvider));
