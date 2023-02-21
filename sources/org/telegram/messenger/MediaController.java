@@ -220,6 +220,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     private ArrayList<MessageObject> voiceMessagesPlaylist;
     private SparseArray<MessageObject> voiceMessagesPlaylistMap;
     private boolean voiceMessagesPlaylistUnread;
+    private long writedFileLenght;
     private int writedFrame;
     AudioManager.OnAudioFocusChangeListener audioRecordFocusChangedListener = new AudioManager.OnAudioFocusChangeListener() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda2
         @Override // android.media.AudioManager.OnAudioFocusChangeListener
@@ -4389,7 +4390,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         tLRPC$TL_document2.mime_type = "audio/ogg";
         tLRPC$TL_document2.file_reference = new byte[0];
         SharedConfig.saveConfig();
-        this.recordingAudioFile = new File(FileLoader.getDirectory(4), FileLoader.getAttachFileName(this.recordingAudio)) { // from class: org.telegram.messenger.MediaController.13
+        File directory = FileLoader.getDirectory(1);
+        this.recordingAudioFile = new File(directory, System.currentTimeMillis() + "_" + FileLoader.getAttachFileName(this.recordingAudio)) { // from class: org.telegram.messenger.MediaController.13
             @Override // java.io.File
             public boolean delete() {
                 if (BuildVars.LOGS_ENABLED) {
@@ -4474,12 +4476,14 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     public /* synthetic */ void lambda$startRecording$25(int i, int i2) {
         this.recordStartRunnable = null;
         NotificationCenter.getInstance(i).postNotificationName(NotificationCenter.recordStartError, Integer.valueOf(i2));
+        NotificationCenter.getInstance(this.recordingCurrentAccount).postNotificationName(NotificationCenter.audioDidSent, Integer.valueOf(this.recordingGuid), null, null);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startRecording$26(int i, int i2) {
         this.recordStartRunnable = null;
         NotificationCenter.getInstance(i).postNotificationName(NotificationCenter.recordStarted, Integer.valueOf(i2), Boolean.TRUE);
+        NotificationCenter.getInstance(this.recordingCurrentAccount).postNotificationName(NotificationCenter.audioDidSent, Integer.valueOf(this.recordingGuid), null, null);
     }
 
     public void generateWaveform(final MessageObject messageObject) {

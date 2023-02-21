@@ -124,6 +124,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     /* loaded from: classes3.dex */
     public class LottieMetadata {
         float fr;
+        float ip;
         float op;
     }
 
@@ -309,7 +310,6 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
 
     public RLottieDrawable(File file, int i, int i2, BitmapsCache.CacheOptions cacheOptions, boolean z, int[] iArr, int i3) {
         char c;
-        boolean z2;
         int[] iArr2;
         int[] iArr3 = new int[3];
         this.metaData = iArr3;
@@ -581,29 +581,29 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             if (this.createdForFirstFrame) {
                 return;
             }
-            this.bitmapsCache = new BitmapsCache(file, this, cacheOptions, i, i2, !z);
             parseLottieMetadata(file, null, iArr3);
+            if (this.shouldLimitFps && iArr3[1] < 60) {
+                this.shouldLimitFps = false;
+            }
+            this.bitmapsCache = new BitmapsCache(file, this, cacheOptions, i, i2, !z);
             iArr2 = iArr3;
             c = 1;
-            z2 = false;
         } else {
             c = 1;
-            z2 = false;
             iArr2 = iArr3;
             this.nativePtr = create(file.getAbsolutePath(), null, i, i2, iArr3, this.precache, iArr, this.shouldLimitFps, i3);
             if (this.nativePtr == 0) {
                 file.delete();
             }
-        }
-        if (this.shouldLimitFps && iArr2[c] < 60) {
-            this.shouldLimitFps = z2;
+            if (this.shouldLimitFps && iArr2[1] < 60) {
+                this.shouldLimitFps = false;
+            }
         }
         this.timeBetweenFrames = Math.max(this.shouldLimitFps ? 33 : 16, (int) (1000.0f / iArr2[c]));
     }
 
     public RLottieDrawable(File file, String str, int i, int i2, BitmapsCache.CacheOptions cacheOptions, boolean z, int[] iArr, int i3) {
         char c;
-        boolean z2;
         int[] iArr2;
         int[] iArr3 = new int[3];
         this.metaData = iArr3;
@@ -873,22 +873,23 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             if (this.createdForFirstFrame) {
                 return;
             }
-            this.bitmapsCache = new BitmapsCache(file, this, cacheOptions, i, i2, !z);
             parseLottieMetadata(file, str, iArr3);
+            if (this.shouldLimitFps && iArr3[1] < 60) {
+                this.shouldLimitFps = false;
+            }
+            this.bitmapsCache = new BitmapsCache(file, this, cacheOptions, i, i2, !z);
             iArr2 = iArr3;
-            z2 = false;
             c = 1;
         } else {
             c = 1;
-            z2 = false;
             iArr2 = iArr3;
             this.nativePtr = create(file.getAbsolutePath(), str, i, i2, iArr3, this.precache, iArr, this.shouldLimitFps, i3);
             if (this.nativePtr == 0) {
                 file.delete();
             }
-        }
-        if (this.shouldLimitFps && iArr2[c] < 60) {
-            this.shouldLimitFps = z2;
+            if (this.shouldLimitFps && iArr2[1] < 60) {
+                this.shouldLimitFps = false;
+            }
         }
         this.timeBetweenFrames = Math.max(this.shouldLimitFps ? 33 : 16, (int) (1000.0f / iArr2[c]));
     }
@@ -909,7 +910,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 } catch (Exception unused) {
                 }
             }
-            iArr[0] = (int) lottieMetadata.op;
+            iArr[0] = (int) (lottieMetadata.op - lottieMetadata.ip);
             iArr[1] = (int) lottieMetadata.fr;
         } catch (Exception e) {
             FileLog.e(e);
@@ -1216,7 +1217,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 return false;
             }
             this.loadingInBackground = true;
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda6
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     RLottieDrawable.this.lambda$setBaseDice$3(readRes);
@@ -1264,7 +1265,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 this.setLastFrame = true;
             }
             this.secondLoadingInBackground = true;
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda7
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
                     RLottieDrawable.this.lambda$setDiceNumber$6(readRes);
@@ -1287,7 +1288,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         }
         final int[] iArr = new int[3];
         this.secondNativePtr = createWithJson(str, "dice", iArr, null);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 RLottieDrawable.this.lambda$setDiceNumber$5(iArr);
@@ -2240,56 +2241,6 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         String json;
 
         private NativePtrArgs() {
-        }
-    }
-
-    public void checkCache(final Runnable runnable) {
-        if (this.bitmapsCache == null) {
-            AndroidUtilities.runOnUIThread(runnable);
-            return;
-        }
-        this.generatingCache = true;
-        if (lottieCacheGenerateQueue == null) {
-            createCacheGenQueue();
-        }
-        if (this.cacheGenerateTask == null) {
-            BitmapsCache.incrementTaskCounter();
-            DispatchQueue dispatchQueue = lottieCacheGenerateQueue;
-            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda4
-                @Override // java.lang.Runnable
-                public final void run() {
-                    RLottieDrawable.this.lambda$checkCache$8(runnable);
-                }
-            };
-            this.cacheGenerateTask = runnable2;
-            dispatchQueue.postRunnable(runnable2);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkCache$8(final Runnable runnable) {
-        try {
-            BitmapsCache bitmapsCache = this.bitmapsCache;
-            if (bitmapsCache != null) {
-                bitmapsCache.createCache();
-            }
-        } catch (Throwable th) {
-            FileLog.e(th);
-        }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda5
-            @Override // java.lang.Runnable
-            public final void run() {
-                RLottieDrawable.this.lambda$checkCache$7(runnable);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkCache$7(Runnable runnable) {
-        runnable.run();
-        if (this.cacheGenerateTask != null) {
-            this.cacheGenerateTask = null;
-            BitmapsCache.decrementTaskCounter();
         }
     }
 }
