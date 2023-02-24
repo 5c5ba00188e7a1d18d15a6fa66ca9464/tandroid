@@ -248,17 +248,21 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
 
         private void loadFromDatabase(final ArrayList<Long> arrayList) {
-            MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Components.AnimatedEmojiDrawable$EmojiDocumentFetcher$$ExternalSyntheticLambda1
+            final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
+            messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Components.AnimatedEmojiDrawable$EmojiDocumentFetcher$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
-                    AnimatedEmojiDrawable.EmojiDocumentFetcher.this.lambda$loadFromDatabase$2(arrayList);
+                    AnimatedEmojiDrawable.EmojiDocumentFetcher.this.lambda$loadFromDatabase$2(messagesStorage, arrayList);
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$loadFromDatabase$2(ArrayList arrayList) {
-            SQLiteDatabase database = MessagesStorage.getInstance(this.currentAccount).getDatabase();
+        public /* synthetic */ void lambda$loadFromDatabase$2(MessagesStorage messagesStorage, ArrayList arrayList) {
+            SQLiteDatabase database = messagesStorage.getDatabase();
+            if (database == null) {
+                return;
+            }
             try {
                 SQLiteCursor queryFinalized = database.queryFinalized(String.format(Locale.US, "SELECT data FROM animated_emoji WHERE document_id IN (%s)", TextUtils.join(",", arrayList)), new Object[0]);
                 final ArrayList arrayList2 = new ArrayList();
@@ -278,7 +282,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                         byteBufferValue.reuse();
                     }
                 }
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.AnimatedEmojiDrawable$EmojiDocumentFetcher$$ExternalSyntheticLambda3
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.AnimatedEmojiDrawable$EmojiDocumentFetcher$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         AnimatedEmojiDrawable.EmojiDocumentFetcher.this.lambda$loadFromDatabase$1(arrayList2, hashSet);
@@ -286,7 +290,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                 });
                 queryFinalized.dispose();
             } catch (SQLiteException e2) {
-                FileLog.e(e2);
+                messagesStorage.checkSQLException(e2);
             }
         }
 
@@ -312,7 +316,7 @@ public class AnimatedEmojiDrawable extends Drawable {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadFromServer$4(final ArrayList arrayList, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.AnimatedEmojiDrawable$EmojiDocumentFetcher$$ExternalSyntheticLambda4
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.AnimatedEmojiDrawable$EmojiDocumentFetcher$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     AnimatedEmojiDrawable.EmojiDocumentFetcher.this.lambda$loadFromServer$3(arrayList, tLObject);
@@ -340,7 +344,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
 
         private void putToStorage(final ArrayList<Object> arrayList) {
-            MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Components.AnimatedEmojiDrawable$EmojiDocumentFetcher$$ExternalSyntheticLambda2
+            MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Components.AnimatedEmojiDrawable$EmojiDocumentFetcher$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     AnimatedEmojiDrawable.EmojiDocumentFetcher.this.lambda$putToStorage$5(arrayList);
@@ -510,13 +514,13 @@ public class AnimatedEmojiDrawable extends Drawable {
     /* JADX WARN: Type inference failed for: r1v17, types: [org.telegram.messenger.ImageReceiver] */
     /* JADX WARN: Type inference failed for: r1v18, types: [org.telegram.messenger.ImageReceiver] */
     /* JADX WARN: Type inference failed for: r1v19, types: [org.telegram.messenger.ImageReceiver] */
-    /* JADX WARN: Type inference failed for: r1v22, types: [org.telegram.messenger.ImageReceiver] */
-    /* JADX WARN: Type inference failed for: r1v24, types: [org.telegram.messenger.ImageReceiver] */
-    /* JADX WARN: Type inference failed for: r22v0, types: [android.graphics.drawable.Drawable] */
-    /* JADX WARN: Type inference failed for: r22v1, types: [android.graphics.drawable.Drawable] */
-    /* JADX WARN: Type inference failed for: r24v0, types: [android.graphics.drawable.Drawable] */
-    /* JADX WARN: Type inference failed for: r24v1, types: [android.graphics.drawable.Drawable] */
-    /* JADX WARN: Type inference failed for: r24v2, types: [android.graphics.drawable.Drawable] */
+    /* JADX WARN: Type inference failed for: r1v21, types: [org.telegram.messenger.ImageReceiver] */
+    /* JADX WARN: Type inference failed for: r1v23, types: [org.telegram.messenger.ImageReceiver] */
+    /* JADX WARN: Type inference failed for: r23v0, types: [android.graphics.drawable.Drawable] */
+    /* JADX WARN: Type inference failed for: r23v1, types: [android.graphics.drawable.Drawable] */
+    /* JADX WARN: Type inference failed for: r25v0, types: [android.graphics.drawable.Drawable] */
+    /* JADX WARN: Type inference failed for: r25v1, types: [android.graphics.drawable.Drawable] */
+    /* JADX WARN: Type inference failed for: r25v2, types: [android.graphics.drawable.Drawable] */
     /* JADX WARN: Type inference failed for: r2v2, types: [org.telegram.messenger.SvgHelper$SvgDrawable] */
     /* JADX WARN: Type inference failed for: r2v3, types: [org.telegram.messenger.SvgHelper$SvgDrawable] */
     private void initDocument(boolean z) {
@@ -556,7 +560,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                     this.imageReceiver.setUniqKeyPrefix(i2 + "_");
                 }
                 this.imageReceiver.setVideoThumbIsSame(true);
-                boolean z2 = (SharedConfig.getDevicePerformanceClass() == 0 && this.cacheType == 5) || (((i = this.cacheType) == 2 || i == 3) && !SharedConfig.playEmojiInKeyboard);
+                boolean z2 = (SharedConfig.getDevicePerformanceClass() == 0 && this.cacheType == 5) || (((i = this.cacheType) == 2 || i == 3) && !LiteMode.isEnabled(4));
                 if (this.cacheType == 13) {
                     z2 = true;
                 }
@@ -620,7 +624,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                     ?? r1 = this.imageReceiver;
                     TLRPC$Document tLRPC$Document = this.document;
                     r1.setImage(null, null, obj2, str2, null, null, obj, tLRPC$Document.size, null, tLRPC$Document, 1);
-                } else if (z2 || ((!LiteMode.isEnabled(4) || !SharedConfig.playEmojiInKeyboard) && this.cacheType != 14)) {
+                } else if (z2 || (!LiteMode.isEnabled(4) && this.cacheType != 14)) {
                     if ("video/webm".equals(this.document.mime_type)) {
                         TLRPC$Document tLRPC$Document2 = this.document;
                         this.imageReceiver.setImage(null, null, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, obj, tLRPC$Document2.size, null, tLRPC$Document2, 1);

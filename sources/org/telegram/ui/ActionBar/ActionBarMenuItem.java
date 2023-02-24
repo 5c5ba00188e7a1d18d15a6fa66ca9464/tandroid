@@ -816,10 +816,8 @@ public class ActionBarMenuItem extends FrameLayout {
                         Drawable mutate = ContextCompat.getDrawable(getContext(), R.drawable.popup_fixed_alert2).mutate();
                         mutate.setColorFilter(new PorterDuffColorFilter(this.popupLayout.getBackgroundColor(), PorterDuff.Mode.MULTIPLY));
                         frameLayout.setBackground(mutate);
-                        frameLayout.addView(view, LayoutHelper.createFrame(-1, -2.0f));
-                    } else {
-                        frameLayout.addView(view, LayoutHelper.createFrame(-1, -2.0f, 0, 0.0f, 0.0f, 0.0f, 4.0f));
                     }
+                    frameLayout.addView(view, LayoutHelper.createFrame(-1, -2.0f));
                     linearLayout.addView(frameLayout, LayoutHelper.createLinear(-1, -2));
                     linearLayout.addView(this.popupLayout, LayoutHelper.createLinear(-2, -2, 0, 0, -AndroidUtilities.dp(4.0f), 0, 0));
                     this.popupLayout.setTopView(frameLayout);

@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
-import javax.annotation.concurrent.GuardedBy;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zabe extends GoogleApiClient implements zabz {
@@ -165,7 +164,6 @@ public final class zabe extends GoogleApiClient implements zabz {
         this.zal = new zabi(this.zan, this, this.zaj, this.zao, this.zat, this.zac, this.zae, this.zaf, this.zag, this.zav, this);
     }
 
-    @GuardedBy("mLock")
     private final void zan() {
         this.zak.zab();
         ((zaca) Preconditions.checkNotNull(this.zal)).zaq();
@@ -345,7 +343,6 @@ public final class zabe extends GoogleApiClient implements zabz {
     }
 
     @Override // com.google.android.gms.common.api.internal.zabz
-    @GuardedBy("mLock")
     public final void zaa(ConnectionResult connectionResult) {
         if (!this.zat.isPlayServicesPossiblyUpdating(this.zan, connectionResult.getErrorCode())) {
             zak();
@@ -358,7 +355,6 @@ public final class zabe extends GoogleApiClient implements zabz {
     }
 
     @Override // com.google.android.gms.common.api.internal.zabz
-    @GuardedBy("mLock")
     public final void zab(Bundle bundle) {
         while (!this.zaa.isEmpty()) {
             execute((BaseImplementation$ApiMethodImpl) this.zaa.remove());
@@ -374,7 +370,6 @@ public final class zabe extends GoogleApiClient implements zabz {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    @GuardedBy("mLock")
     public final boolean zak() {
         if (this.zap) {
             this.zap = false;
@@ -427,7 +422,6 @@ public final class zabe extends GoogleApiClient implements zabz {
     }
 
     @Override // com.google.android.gms.common.api.internal.zabz
-    @GuardedBy("mLock")
     public final void zac(int i, boolean z) {
         if (i == 1) {
             if (!z && !this.zap) {

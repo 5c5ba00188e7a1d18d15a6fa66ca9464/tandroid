@@ -1,7 +1,6 @@
 package com.google.android.exoplayer2.extractor;
 
 import com.google.android.exoplayer2.ParserException;
-import com.google.android.exoplayer2.util.FlacStreamMetadata;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
@@ -24,7 +23,7 @@ public final class FlacFrameReader {
         return checkChannelAssignment((int) (15 & (readUnsignedInt >> 4)), flacStreamMetadata) && checkBitsPerSample((int) ((readUnsignedInt >> 1) & 7), flacStreamMetadata) && !(((readUnsignedInt & 1) > 1L ? 1 : ((readUnsignedInt & 1) == 1L ? 0 : -1)) == 0) && checkAndReadFirstSampleNumber(parsableByteArray, flacStreamMetadata, ((j & 1) > 1L ? 1 : ((j & 1) == 1L ? 0 : -1)) == 0, sampleNumberHolder) && checkAndReadBlockSizeSamples(parsableByteArray, flacStreamMetadata, (int) ((readUnsignedInt >> 12) & 15)) && checkAndReadSampleRate(parsableByteArray, flacStreamMetadata, (int) ((readUnsignedInt >> 8) & 15)) && checkAndReadCrc(parsableByteArray, position);
     }
 
-    public static boolean checkFrameHeaderFromPeek(ExtractorInput extractorInput, FlacStreamMetadata flacStreamMetadata, int i, SampleNumberHolder sampleNumberHolder) throws IOException, InterruptedException {
+    public static boolean checkFrameHeaderFromPeek(ExtractorInput extractorInput, FlacStreamMetadata flacStreamMetadata, int i, SampleNumberHolder sampleNumberHolder) throws IOException {
         long peekPosition = extractorInput.getPeekPosition();
         byte[] bArr = new byte[2];
         extractorInput.peekFully(bArr, 0, 2);
@@ -34,14 +33,14 @@ public final class FlacFrameReader {
             return false;
         }
         ParsableByteArray parsableByteArray = new ParsableByteArray(16);
-        System.arraycopy(bArr, 0, parsableByteArray.data, 0, 2);
-        parsableByteArray.setLimit(ExtractorUtil.peekToLength(extractorInput, parsableByteArray.data, 2, 14));
+        System.arraycopy(bArr, 0, parsableByteArray.getData(), 0, 2);
+        parsableByteArray.setLimit(ExtractorUtil.peekToLength(extractorInput, parsableByteArray.getData(), 2, 14));
         extractorInput.resetPeekPosition();
         extractorInput.advancePeekPosition((int) (peekPosition - extractorInput.getPosition()));
         return checkAndReadFrameHeader(parsableByteArray, flacStreamMetadata, i, sampleNumberHolder);
     }
 
-    public static long getFirstSampleNumber(ExtractorInput extractorInput, FlacStreamMetadata flacStreamMetadata) throws IOException, InterruptedException {
+    public static long getFirstSampleNumber(ExtractorInput extractorInput, FlacStreamMetadata flacStreamMetadata) throws IOException {
         extractorInput.resetPeekPosition();
         extractorInput.advancePeekPosition(1);
         byte[] bArr = new byte[1];
@@ -50,11 +49,11 @@ public final class FlacFrameReader {
         extractorInput.advancePeekPosition(2);
         int i = z ? 7 : 6;
         ParsableByteArray parsableByteArray = new ParsableByteArray(i);
-        parsableByteArray.setLimit(ExtractorUtil.peekToLength(extractorInput, parsableByteArray.data, 0, i));
+        parsableByteArray.setLimit(ExtractorUtil.peekToLength(extractorInput, parsableByteArray.getData(), 0, i));
         extractorInput.resetPeekPosition();
         SampleNumberHolder sampleNumberHolder = new SampleNumberHolder();
         if (!checkAndReadFirstSampleNumber(parsableByteArray, flacStreamMetadata, z, sampleNumberHolder)) {
-            throw new ParserException();
+            throw ParserException.createForMalformedContainer(null, null);
         }
         return sampleNumberHolder.sampleNumber;
     }
@@ -133,6 +132,6 @@ public final class FlacFrameReader {
     }
 
     private static boolean checkAndReadCrc(ParsableByteArray parsableByteArray, int i) {
-        return parsableByteArray.readUnsignedByte() == Util.crc8(parsableByteArray.data, i, parsableByteArray.getPosition() - 1, 0);
+        return parsableByteArray.readUnsignedByte() == Util.crc8(parsableByteArray.getData(), i, parsableByteArray.getPosition() - 1, 0);
     }
 }

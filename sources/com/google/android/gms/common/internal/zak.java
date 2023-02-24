@@ -10,11 +10,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.checkerframework.checker.initialization.qual.NotOnlyInitialized;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zak implements Handler.Callback {
-    @NotOnlyInitialized
     private final zaj zab;
     private final Handler zah;
     private final ArrayList zac = new ArrayList();

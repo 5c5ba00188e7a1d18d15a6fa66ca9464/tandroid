@@ -9,27 +9,31 @@ public final class FixedTrackSelection extends BaseTrackSelection {
     private final Object data;
     private final int reason;
 
-    @Override // com.google.android.exoplayer2.trackselection.TrackSelection
+    @Override // com.google.android.exoplayer2.trackselection.ExoTrackSelection
     public int getSelectedIndex() {
         return 0;
     }
 
-    @Override // com.google.android.exoplayer2.trackselection.TrackSelection
+    @Override // com.google.android.exoplayer2.trackselection.ExoTrackSelection
     public void updateSelectedTrack(long j, long j2, long j3, List<? extends MediaChunk> list, MediaChunkIterator[] mediaChunkIteratorArr) {
     }
 
-    public FixedTrackSelection(TrackGroup trackGroup, int i, int i2, Object obj) {
-        super(trackGroup, i);
-        this.reason = i2;
+    public FixedTrackSelection(TrackGroup trackGroup, int i, int i2) {
+        this(trackGroup, i, i2, 0, null);
+    }
+
+    public FixedTrackSelection(TrackGroup trackGroup, int i, int i2, int i3, Object obj) {
+        super(trackGroup, new int[]{i}, i2);
+        this.reason = i3;
         this.data = obj;
     }
 
-    @Override // com.google.android.exoplayer2.trackselection.TrackSelection
+    @Override // com.google.android.exoplayer2.trackselection.ExoTrackSelection
     public int getSelectionReason() {
         return this.reason;
     }
 
-    @Override // com.google.android.exoplayer2.trackselection.TrackSelection
+    @Override // com.google.android.exoplayer2.trackselection.ExoTrackSelection
     public Object getSelectionData() {
         return this.data;
     }

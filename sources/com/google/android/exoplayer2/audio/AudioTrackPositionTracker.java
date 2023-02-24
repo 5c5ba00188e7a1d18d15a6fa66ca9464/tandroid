@@ -2,7 +2,6 @@ package com.google.android.exoplayer2.audio;
 
 import android.media.AudioTrack;
 import android.os.SystemClock;
-import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.lang.reflect.Method;
@@ -10,6 +9,7 @@ import java.lang.reflect.Method;
 final class AudioTrackPositionTracker {
     private AudioTimestampPoller audioTimestampPoller;
     private AudioTrack audioTrack;
+    private float audioTrackPlaybackSpeed;
     private int bufferSize;
     private long bufferSizeUs;
     private long endPlaybackHeadPosition;
@@ -27,6 +27,7 @@ final class AudioTrackPositionTracker {
     private final Listener listener;
     private boolean needsPassthroughWorkarounds;
     private int nextPlayheadOffsetIndex;
+    private boolean notifiedPositionIncreasing;
     private int outputPcmFrameSize;
     private int outputSampleRate;
     private long passthroughWorkaroundPauseOffset;
@@ -42,6 +43,8 @@ final class AudioTrackPositionTracker {
     /* loaded from: classes.dex */
     public interface Listener {
         void onInvalidLatency(long j);
+
+        void onPositionAdvancing(long j);
 
         void onPositionFramesMismatch(long j, long j2, long j3, long j4);
 
@@ -61,13 +64,13 @@ final class AudioTrackPositionTracker {
         this.playheadOffsets = new long[10];
     }
 
-    public void setAudioTrack(AudioTrack audioTrack, int i, int i2, int i3) {
+    public void setAudioTrack(AudioTrack audioTrack, boolean z, int i, int i2, int i3) {
         this.audioTrack = audioTrack;
         this.outputPcmFrameSize = i2;
         this.bufferSize = i3;
         this.audioTimestampPoller = new AudioTimestampPoller(audioTrack);
         this.outputSampleRate = audioTrack.getSampleRate();
-        this.needsPassthroughWorkarounds = needsPassthroughWorkarounds(i);
+        this.needsPassthroughWorkarounds = z && needsPassthroughWorkarounds(i);
         boolean isEncodingLinearPcm = Util.isEncodingLinearPcm(i);
         this.isOutputPcm = isEncodingLinearPcm;
         this.bufferSizeUs = isEncodingLinearPcm ? framesToDurationUs(i3 / i2) : -9223372036854775807L;
@@ -79,6 +82,15 @@ final class AudioTrackPositionTracker {
         this.forceResetWorkaroundTimeMs = -9223372036854775807L;
         this.lastLatencySampleTimeUs = 0L;
         this.latencyUs = 0L;
+        this.audioTrackPlaybackSpeed = 1.0f;
+    }
+
+    public void setAudioTrackPlaybackSpeed(float f) {
+        this.audioTrackPlaybackSpeed = f;
+        AudioTimestampPoller audioTimestampPoller = this.audioTimestampPoller;
+        if (audioTimestampPoller != null) {
+            audioTimestampPoller.reset();
+        }
     }
 
     public long getCurrentPositionUs(boolean z) {
@@ -90,7 +102,7 @@ final class AudioTrackPositionTracker {
         AudioTimestampPoller audioTimestampPoller = (AudioTimestampPoller) Assertions.checkNotNull(this.audioTimestampPoller);
         boolean hasAdvancingTimestamp = audioTimestampPoller.hasAdvancingTimestamp();
         if (hasAdvancingTimestamp) {
-            j = framesToDurationUs(audioTimestampPoller.getTimestampPositionFrames()) + (nanoTime - audioTimestampPoller.getTimestampSystemTimeUs());
+            j = framesToDurationUs(audioTimestampPoller.getTimestampPositionFrames()) + Util.getMediaDurationForPlayoutDuration(nanoTime - audioTimestampPoller.getTimestampSystemTimeUs(), this.audioTrackPlaybackSpeed);
         } else {
             if (this.playheadOffsetCount == 0) {
                 j = getPlaybackHeadPositionUs();
@@ -107,9 +119,15 @@ final class AudioTrackPositionTracker {
         }
         long j2 = nanoTime - this.previousModeSystemTimeUs;
         if (j2 < 1000000) {
-            long j3 = this.previousModePositionUs + j2;
-            long j4 = (j2 * 1000) / 1000000;
-            j = ((j * j4) + ((1000 - j4) * j3)) / 1000;
+            long j3 = (j2 * 1000) / 1000000;
+            j = ((j * j3) + ((1000 - j3) * (this.previousModePositionUs + Util.getMediaDurationForPlayoutDuration(j2, this.audioTrackPlaybackSpeed)))) / 1000;
+        }
+        if (!this.notifiedPositionIncreasing) {
+            long j4 = this.lastPositionUs;
+            if (j > j4) {
+                this.notifiedPositionIncreasing = true;
+                this.listener.onPositionAdvancing(System.currentTimeMillis() - Util.usToMs(Util.getPlayoutDurationForMediaDuration(Util.usToMs(j - j4), this.audioTrackPlaybackSpeed)));
+            }
         }
         this.lastSystemTimeUs = nanoTime;
         this.lastPositionUs = j;
@@ -126,7 +144,6 @@ final class AudioTrackPositionTracker {
     }
 
     public boolean mayHandleBuffer(long j) {
-        Listener listener;
         int playState = ((AudioTrack) Assertions.checkNotNull(this.audioTrack)).getPlayState();
         if (this.needsPassthroughWorkarounds) {
             if (playState == 2) {
@@ -139,8 +156,8 @@ final class AudioTrackPositionTracker {
         boolean z = this.hasData;
         boolean hasPendingData = hasPendingData(j);
         this.hasData = hasPendingData;
-        if (z && !hasPendingData && playState != 1 && (listener = this.listener) != null) {
-            listener.onUnderrun(this.bufferSize, C.usToMs(this.bufferSizeUs));
+        if (z && !hasPendingData && playState != 1) {
+            this.listener.onUnderrun(this.bufferSize, Util.usToMs(this.bufferSizeUs));
         }
         return true;
     }
@@ -260,6 +277,7 @@ final class AudioTrackPositionTracker {
         this.lastPlayheadSampleTimeUs = 0L;
         this.lastSystemTimeUs = 0L;
         this.previousModeSystemTimeUs = 0L;
+        this.notifiedPositionIncreasing = false;
     }
 
     private boolean forceHasPendingData() {

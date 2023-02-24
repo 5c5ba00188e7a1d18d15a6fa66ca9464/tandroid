@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.audio;
 
 import com.google.android.exoplayer2.util.Util;
+import com.google.common.base.Objects;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 /* loaded from: classes.dex */
@@ -40,6 +41,21 @@ public interface AudioProcessor {
 
         public String toString() {
             return "AudioFormat[sampleRate=" + this.sampleRate + ", channelCount=" + this.channelCount + ", encoding=" + this.encoding + ']';
+        }
+
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj instanceof AudioFormat) {
+                AudioFormat audioFormat = (AudioFormat) obj;
+                return this.sampleRate == audioFormat.sampleRate && this.channelCount == audioFormat.channelCount && this.encoding == audioFormat.encoding;
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            return Objects.hashCode(Integer.valueOf(this.sampleRate), Integer.valueOf(this.channelCount), Integer.valueOf(this.encoding));
         }
     }
 

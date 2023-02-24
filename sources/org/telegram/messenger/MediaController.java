@@ -245,9 +245,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     private VideoPlayer emojiSoundPlayer = null;
     private int emojiSoundPlayerNum = 0;
     private float currentPlaybackSpeed = VOLUME_NORMAL;
-    private boolean currentPlaybackSpeed2xFake = false;
     private float currentMusicPlaybackSpeed = VOLUME_NORMAL;
-    private boolean currentMusicPlaybackSpeed2xFake = false;
     private float fastPlaybackSpeed = VOLUME_NORMAL;
     private float fastMusicPlaybackSpeed = VOLUME_NORMAL;
     private long lastProgress = 0;
@@ -1187,9 +1185,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     public /* synthetic */ void lambda$new$3() {
         try {
             this.currentPlaybackSpeed = MessagesController.getGlobalMainSettings().getFloat("playbackSpeed", VOLUME_NORMAL);
-            this.currentPlaybackSpeed2xFake = MessagesController.getGlobalMainSettings().getBoolean("playbackSpeedFake2x", false);
             this.currentMusicPlaybackSpeed = MessagesController.getGlobalMainSettings().getFloat("musicPlaybackSpeed", VOLUME_NORMAL);
-            this.currentMusicPlaybackSpeed2xFake = MessagesController.getGlobalMainSettings().getBoolean("musicPlaybackSpeedFake2x", false);
             this.fastPlaybackSpeed = MessagesController.getGlobalMainSettings().getFloat("fastPlaybackSpeed", 1.8f);
             this.fastMusicPlaybackSpeed = MessagesController.getGlobalMainSettings().getFloat("fastMusicPlaybackSpeed", 1.8f);
             SensorManager sensorManager = (SensorManager) ApplicationLoader.applicationContext.getSystemService("sensor");
@@ -1986,7 +1982,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 this.countLess = 0;
             } else {
                 boolean z2 = this.proximityTouched;
-                if (z2 && (this.accelerometerSensor == null || this.gravitySensor == null || this.linearSensor == null)) {
+                if (z2 && ((this.accelerometerSensor == null || this.linearSensor == null) && this.gravitySensor == null)) {
                     if (this.playingMessageObject != null && !ApplicationLoader.mainInterfacePaused && ((this.playingMessageObject.isVoice() || this.playingMessageObject.isRoundVideo()) && !this.useFrontSpeaker && !NotificationsController.audioManager.isWiredHeadsetOn())) {
                         if (BuildVars.LOGS_ENABLED) {
                             FileLog.d("start listen by proximity only");
@@ -3045,12 +3041,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     public void setPlaybackSpeed(boolean z, float f) {
-        setPlaybackSpeed(z, f, false);
-    }
-
-    public void setPlaybackSpeed(boolean z, float f, boolean z2) {
         if (z) {
-            this.currentMusicPlaybackSpeed2xFake = z2;
             if (this.currentMusicPlaybackSpeed >= 6.0f && f == VOLUME_NORMAL && this.playingMessageObject != null) {
                 this.audioPlayer.pause();
                 final MessageObject messageObject = this.playingMessageObject;
@@ -3067,7 +3058,6 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 this.fastMusicPlaybackSpeed = f;
             }
         } else {
-            this.currentPlaybackSpeed2xFake = z2;
             this.currentPlaybackSpeed = f;
             if (Math.abs(f - VOLUME_NORMAL) > 0.001f) {
                 this.fastPlaybackSpeed = f;
@@ -3082,7 +3072,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 videoPlayer2.setPlaybackSpeed(f);
             }
         }
-        MessagesController.getGlobalMainSettings().edit().putFloat(z ? "musicPlaybackSpeed" : "playbackSpeed", f).putBoolean(z ? "musicPlaybackSpeedFake2x" : "playbackSpeedFake2x", z2).putFloat(z ? "fastMusicPlaybackSpeed" : "fastPlaybackSpeed", z ? this.fastMusicPlaybackSpeed : this.fastPlaybackSpeed).commit();
+        MessagesController.getGlobalMainSettings().edit().putFloat(z ? "musicPlaybackSpeed" : "playbackSpeed", f).putFloat(z ? "fastMusicPlaybackSpeed" : "fastPlaybackSpeed", z ? this.fastMusicPlaybackSpeed : this.fastPlaybackSpeed).commit();
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.messagePlayingSpeedChanged, new Object[0]);
     }
 
@@ -3098,31 +3088,11 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     public float getPlaybackSpeed(boolean z) {
-        float f = z ? this.currentMusicPlaybackSpeed : this.currentPlaybackSpeed;
-        if (Math.abs(f - 1.8f) < 0.01f) {
-            if (z) {
-                if (this.currentMusicPlaybackSpeed2xFake) {
-                    return 2.0f;
-                }
-            } else if (this.currentPlaybackSpeed2xFake) {
-                return 2.0f;
-            }
-        }
-        return f;
+        return z ? this.currentMusicPlaybackSpeed : this.currentPlaybackSpeed;
     }
 
     public float getFastPlaybackSpeed(boolean z) {
-        float f = z ? this.fastMusicPlaybackSpeed : this.fastPlaybackSpeed;
-        if (Math.abs(f - 1.8f) < 0.01f) {
-            if (z) {
-                if (this.currentPlaybackSpeed2xFake) {
-                    return 2.0f;
-                }
-            } else if (this.currentMusicPlaybackSpeed2xFake) {
-                return 2.0f;
-            }
-        }
-        return f;
+        return z ? this.fastMusicPlaybackSpeed : this.fastPlaybackSpeed;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -3529,8 +3499,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX WARN: Removed duplicated region for block: B:212:0x058e  */
-    /* JADX WARN: Removed duplicated region for block: B:239:0x0635  */
-    /* JADX WARN: Removed duplicated region for block: B:273:0x05d7 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x062d  */
+    /* JADX WARN: Removed duplicated region for block: B:260:0x05cf A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3819,8 +3789,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 if (!SharedConfig.raiseToSpeak) {
                     startRaiseToEarSensors(this.raiseChat);
                 }
-                if (!ApplicationLoader.mainInterfacePaused && (wakeLock = this.proximityWakeLock) != null && !wakeLock.isHeld() && (this.playingMessageObject.isVoice() || this.playingMessageObject.isRoundVideo())) {
-                    this.proximityWakeLock.acquire();
+                if (!ApplicationLoader.mainInterfacePaused && (wakeLock = this.proximityWakeLock) != null && !wakeLock.isHeld() && !this.playingMessageObject.isVoice()) {
+                    this.playingMessageObject.isRoundVideo();
                 }
                 startProgressTimer(this.playingMessageObject);
                 NotificationCenter.getInstance(messageObject.currentAccount).postNotificationName(NotificationCenter.messagePlayingDidStart, messageObject);
@@ -4009,7 +3979,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         if (!SharedConfig.raiseToSpeak) {
         }
         if (!ApplicationLoader.mainInterfacePaused) {
-            this.proximityWakeLock.acquire();
+            this.playingMessageObject.isRoundVideo();
         }
         startProgressTimer(this.playingMessageObject);
         NotificationCenter.getInstance(messageObject.currentAccount).postNotificationName(NotificationCenter.messagePlayingDidStart, messageObject);

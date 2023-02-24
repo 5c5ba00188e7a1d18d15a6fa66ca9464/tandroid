@@ -1,5 +1,6 @@
 package com.google.android.exoplayer2.upstream;
 
+import com.google.android.exoplayer2.upstream.Allocator;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
@@ -10,7 +11,6 @@ public final class DefaultAllocator implements Allocator {
     private int availableCount;
     private final int individualAllocationSize;
     private final byte[] initialAllocationBlock;
-    private final Allocation[] singleAllocationReleaseHolder;
     private int targetBufferSize;
     private final boolean trimOnReset;
 
@@ -30,10 +30,9 @@ public final class DefaultAllocator implements Allocator {
             for (int i3 = 0; i3 < i2; i3++) {
                 this.availableAllocations[i3] = new Allocation(this.initialAllocationBlock, i3 * i);
             }
-        } else {
-            this.initialAllocationBlock = null;
+            return;
         }
-        this.singleAllocationReleaseHolder = new Allocation[1];
+        this.initialAllocationBlock = null;
     }
 
     public synchronized void reset() {
@@ -59,36 +58,39 @@ public final class DefaultAllocator implements Allocator {
             Allocation[] allocationArr = this.availableAllocations;
             int i2 = i - 1;
             this.availableCount = i2;
-            allocation = allocationArr[i2];
-            allocationArr[i2] = null;
+            allocation = (Allocation) Assertions.checkNotNull(allocationArr[i2]);
+            this.availableAllocations[this.availableCount] = null;
         } else {
             allocation = new Allocation(new byte[this.individualAllocationSize], 0);
+            int i3 = this.allocatedCount;
+            Allocation[] allocationArr2 = this.availableAllocations;
+            if (i3 > allocationArr2.length) {
+                this.availableAllocations = (Allocation[]) Arrays.copyOf(allocationArr2, allocationArr2.length * 2);
+            }
         }
         return allocation;
     }
 
     @Override // com.google.android.exoplayer2.upstream.Allocator
     public synchronized void release(Allocation allocation) {
-        Allocation[] allocationArr = this.singleAllocationReleaseHolder;
-        allocationArr[0] = allocation;
-        release(allocationArr);
+        Allocation[] allocationArr = this.availableAllocations;
+        int i = this.availableCount;
+        this.availableCount = i + 1;
+        allocationArr[i] = allocation;
+        this.allocatedCount--;
+        notifyAll();
     }
 
     @Override // com.google.android.exoplayer2.upstream.Allocator
-    public synchronized void release(Allocation[] allocationArr) {
-        int i = this.availableCount;
-        int length = allocationArr.length + i;
-        Allocation[] allocationArr2 = this.availableAllocations;
-        if (length >= allocationArr2.length) {
-            this.availableAllocations = (Allocation[]) Arrays.copyOf(allocationArr2, Math.max(allocationArr2.length * 2, i + allocationArr.length));
+    public synchronized void release(Allocator.AllocationNode allocationNode) {
+        while (allocationNode != null) {
+            Allocation[] allocationArr = this.availableAllocations;
+            int i = this.availableCount;
+            this.availableCount = i + 1;
+            allocationArr[i] = allocationNode.getAllocation();
+            this.allocatedCount--;
+            allocationNode = allocationNode.next();
         }
-        for (Allocation allocation : allocationArr) {
-            Allocation[] allocationArr3 = this.availableAllocations;
-            int i2 = this.availableCount;
-            this.availableCount = i2 + 1;
-            allocationArr3[i2] = allocation;
-        }
-        this.allocatedCount -= allocationArr.length;
         notifyAll();
     }
 
@@ -103,17 +105,15 @@ public final class DefaultAllocator implements Allocator {
         if (this.initialAllocationBlock != null) {
             int i3 = i2 - 1;
             while (i <= i3) {
-                Allocation[] allocationArr = this.availableAllocations;
-                Allocation allocation = allocationArr[i];
-                byte[] bArr = allocation.data;
-                byte[] bArr2 = this.initialAllocationBlock;
-                if (bArr == bArr2) {
+                Allocation allocation = (Allocation) Assertions.checkNotNull(this.availableAllocations[i]);
+                if (allocation.data == this.initialAllocationBlock) {
                     i++;
                 } else {
-                    Allocation allocation2 = allocationArr[i3];
-                    if (allocation2.data != bArr2) {
+                    Allocation allocation2 = (Allocation) Assertions.checkNotNull(this.availableAllocations[i3]);
+                    if (allocation2.data != this.initialAllocationBlock) {
                         i3--;
                     } else {
+                        Allocation[] allocationArr = this.availableAllocations;
                         allocationArr[i] = allocation2;
                         allocationArr[i3] = allocation;
                         i3--;

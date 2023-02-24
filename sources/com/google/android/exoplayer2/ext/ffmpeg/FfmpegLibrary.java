@@ -1,11 +1,17 @@
 package com.google.android.exoplayer2.ext.ffmpeg;
 
 import com.google.android.exoplayer2.ExoPlayerLibraryInfo;
+import com.google.android.exoplayer2.util.LibraryLoader;
 import com.google.android.exoplayer2.util.Log;
 import org.telegram.messenger.MediaController;
 /* loaded from: classes.dex */
 public final class FfmpegLibrary {
+    private static final LibraryLoader LOADER;
     private static final String TAG = "FfmpegLibrary";
+    private static int inputBufferPaddingSize;
+    private static String version;
+
+    private static native int ffmpegGetInputBufferPaddingSize();
 
     private static native String ffmpegGetVersion();
 
@@ -13,24 +19,55 @@ public final class FfmpegLibrary {
 
     static {
         ExoPlayerLibraryInfo.registerModule("goog.exo.ffmpeg");
+        LOADER = new LibraryLoader("ffmpegJNI") { // from class: com.google.android.exoplayer2.ext.ffmpeg.FfmpegLibrary.1
+            @Override // com.google.android.exoplayer2.util.LibraryLoader
+            protected void loadLibrary(String str) {
+                System.loadLibrary(str);
+            }
+        };
+        inputBufferPaddingSize = -1;
     }
 
     private FfmpegLibrary() {
     }
 
+    public static void setLibraries(String... strArr) {
+        LOADER.setLibraries(strArr);
+    }
+
+    public static boolean isAvailable() {
+        return LOADER.isAvailable();
+    }
+
     public static String getVersion() {
-        return ffmpegGetVersion();
+        if (isAvailable()) {
+            if (version == null) {
+                version = ffmpegGetVersion();
+            }
+            return version;
+        }
+        return null;
+    }
+
+    public static int getInputBufferPaddingSize() {
+        if (isAvailable()) {
+            if (inputBufferPaddingSize == -1) {
+                inputBufferPaddingSize = ffmpegGetInputBufferPaddingSize();
+            }
+            return inputBufferPaddingSize;
+        }
+        return -1;
     }
 
     public static boolean supportsFormat(String str) {
-        String codecName = getCodecName(str);
-        if (codecName == null) {
+        String codecName;
+        if (isAvailable() && (codecName = getCodecName(str)) != null) {
+            if (ffmpegHasDecoder(codecName)) {
+                return true;
+            }
+            Log.w(TAG, "No " + codecName + " decoder available. Check the FFmpeg build configuration.");
             return false;
         }
-        if (ffmpegHasDecoder(codecName)) {
-            return true;
-        }
-        Log.w(TAG, "No " + codecName + " decoder available. Check the FFmpeg build configuration.");
         return false;
     }
 

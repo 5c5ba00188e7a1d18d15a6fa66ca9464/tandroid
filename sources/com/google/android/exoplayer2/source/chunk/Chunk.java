@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.source.chunk;
 
 import android.net.Uri;
 import com.google.android.exoplayer2.Format;
+import com.google.android.exoplayer2.source.LoadEventInfo;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.upstream.Loader;
@@ -14,6 +15,7 @@ public abstract class Chunk implements Loader.Loadable {
     protected final StatsDataSource dataSource;
     public final DataSpec dataSpec;
     public final long endTimeUs;
+    public final long loadTaskId = LoadEventInfo.getNewId();
     public final long startTimeUs;
     public final Format trackFormat;
     public final Object trackSelectionData;

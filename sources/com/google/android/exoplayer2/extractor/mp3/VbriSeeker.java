@@ -1,13 +1,14 @@
 package com.google.android.exoplayer2.extractor.mp3;
 
-import com.google.android.exoplayer2.extractor.MpegAudioHeader;
+import com.google.android.exoplayer2.audio.MpegAudioUtil;
 import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.extractor.SeekPoint;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-final class VbriSeeker implements Seeker {
+public final class VbriSeeker implements Seeker {
     private final long dataEndPosition;
     private final long durationUs;
     private final long[] positions;
@@ -18,20 +19,20 @@ final class VbriSeeker implements Seeker {
         return true;
     }
 
-    public static VbriSeeker create(long j, long j2, MpegAudioHeader mpegAudioHeader, ParsableByteArray parsableByteArray) {
+    public static VbriSeeker create(long j, long j2, MpegAudioUtil.Header header, ParsableByteArray parsableByteArray) {
         int readUnsignedByte;
         parsableByteArray.skipBytes(10);
         int readInt = parsableByteArray.readInt();
         if (readInt <= 0) {
             return null;
         }
-        int i = mpegAudioHeader.sampleRate;
+        int i = header.sampleRate;
         long scaleLargeTimestamp = Util.scaleLargeTimestamp(readInt, 1000000 * (i >= 32000 ? 1152 : 576), i);
         int readUnsignedShort = parsableByteArray.readUnsignedShort();
         int readUnsignedShort2 = parsableByteArray.readUnsignedShort();
         int readUnsignedShort3 = parsableByteArray.readUnsignedShort();
         parsableByteArray.skipBytes(2);
-        long j3 = j2 + mpegAudioHeader.frameSize;
+        long j3 = j2 + header.frameSize;
         long[] jArr = new long[readUnsignedShort];
         long[] jArr2 = new long[readUnsignedShort];
         int i2 = 0;
@@ -54,13 +55,15 @@ final class VbriSeeker implements Seeker {
             }
             j4 += readUnsignedByte * i3;
             i2++;
-            j3 = j5;
+            jArr = jArr;
             readUnsignedShort2 = i3;
+            j3 = j5;
         }
+        long[] jArr3 = jArr;
         if (j != -1 && j != j4) {
             Log.w("VbriSeeker", "VBRI data size mismatch: " + j + ", " + j4);
         }
-        return new VbriSeeker(jArr, jArr2, scaleLargeTimestamp, j4);
+        return new VbriSeeker(jArr3, jArr2, scaleLargeTimestamp, j4);
     }
 
     private VbriSeeker(long[] jArr, long[] jArr2, long j, long j2) {

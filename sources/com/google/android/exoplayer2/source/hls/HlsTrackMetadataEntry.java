@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import com.google.android.exoplayer2.Format;
+import com.google.android.exoplayer2.MediaMetadata;
 import com.google.android.exoplayer2.metadata.Metadata;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,6 +41,11 @@ public final class HlsTrackMetadataEntry implements Metadata.Entry {
         return Metadata.Entry.-CC.$default$getWrappedMetadataFormat(this);
     }
 
+    @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
+    public /* synthetic */ void populateMediaMetadata(MediaMetadata.Builder builder) {
+        Metadata.Entry.-CC.$default$populateMediaMetadata(this, builder);
+    }
+
     /* loaded from: classes.dex */
     public static final class VariantInfo implements Parcelable {
         public static final Parcelable.Creator<VariantInfo> CREATOR = new Parcelable.Creator<VariantInfo>() { // from class: com.google.android.exoplayer2.source.hls.HlsTrackMetadataEntry.VariantInfo.1
@@ -54,8 +60,9 @@ public final class HlsTrackMetadataEntry implements Metadata.Entry {
             }
         };
         public final String audioGroupId;
-        public final long bitrate;
+        public final int averageBitrate;
         public final String captionGroupId;
+        public final int peakBitrate;
         public final String subtitleGroupId;
         public final String videoGroupId;
 
@@ -64,8 +71,9 @@ public final class HlsTrackMetadataEntry implements Metadata.Entry {
             return 0;
         }
 
-        public VariantInfo(long j, String str, String str2, String str3, String str4) {
-            this.bitrate = j;
+        public VariantInfo(int i, int i2, String str, String str2, String str3, String str4) {
+            this.averageBitrate = i;
+            this.peakBitrate = i2;
             this.videoGroupId = str;
             this.audioGroupId = str2;
             this.subtitleGroupId = str3;
@@ -73,7 +81,8 @@ public final class HlsTrackMetadataEntry implements Metadata.Entry {
         }
 
         VariantInfo(Parcel parcel) {
-            this.bitrate = parcel.readLong();
+            this.averageBitrate = parcel.readInt();
+            this.peakBitrate = parcel.readInt();
             this.videoGroupId = parcel.readString();
             this.audioGroupId = parcel.readString();
             this.subtitleGroupId = parcel.readString();
@@ -88,12 +97,11 @@ public final class HlsTrackMetadataEntry implements Metadata.Entry {
                 return false;
             }
             VariantInfo variantInfo = (VariantInfo) obj;
-            return this.bitrate == variantInfo.bitrate && TextUtils.equals(this.videoGroupId, variantInfo.videoGroupId) && TextUtils.equals(this.audioGroupId, variantInfo.audioGroupId) && TextUtils.equals(this.subtitleGroupId, variantInfo.subtitleGroupId) && TextUtils.equals(this.captionGroupId, variantInfo.captionGroupId);
+            return this.averageBitrate == variantInfo.averageBitrate && this.peakBitrate == variantInfo.peakBitrate && TextUtils.equals(this.videoGroupId, variantInfo.videoGroupId) && TextUtils.equals(this.audioGroupId, variantInfo.audioGroupId) && TextUtils.equals(this.subtitleGroupId, variantInfo.subtitleGroupId) && TextUtils.equals(this.captionGroupId, variantInfo.captionGroupId);
         }
 
         public int hashCode() {
-            long j = this.bitrate;
-            int i = ((int) (j ^ (j >>> 32))) * 31;
+            int i = ((this.averageBitrate * 31) + this.peakBitrate) * 31;
             String str = this.videoGroupId;
             int hashCode = (i + (str != null ? str.hashCode() : 0)) * 31;
             String str2 = this.audioGroupId;
@@ -106,7 +114,8 @@ public final class HlsTrackMetadataEntry implements Metadata.Entry {
 
         @Override // android.os.Parcelable
         public void writeToParcel(Parcel parcel, int i) {
-            parcel.writeLong(this.bitrate);
+            parcel.writeInt(this.averageBitrate);
+            parcel.writeInt(this.peakBitrate);
             parcel.writeString(this.videoGroupId);
             parcel.writeString(this.audioGroupId);
             parcel.writeString(this.subtitleGroupId);

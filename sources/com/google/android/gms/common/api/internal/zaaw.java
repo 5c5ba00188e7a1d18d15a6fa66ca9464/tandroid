@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Future;
 import java.util.concurrent.locks.Lock;
-import javax.annotation.concurrent.GuardedBy;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zaaw implements zabf {
@@ -57,7 +56,6 @@ public final class zaaw implements zabf {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    @GuardedBy("mLock")
     public final void zaA() {
         this.zam = false;
         this.zaa.zag.zad = Collections.emptySet();
@@ -68,7 +66,6 @@ public final class zaaw implements zabf {
         }
     }
 
-    @GuardedBy("mLock")
     private final void zaB(boolean z) {
         com.google.android.gms.signin.zae zaeVar = this.zak;
         if (zaeVar != null) {
@@ -81,7 +78,6 @@ public final class zaaw implements zabf {
         }
     }
 
-    @GuardedBy("mLock")
     private final void zaC() {
         this.zaa.zai();
         zabj.zaa().execute(new zaak(this));
@@ -99,7 +95,6 @@ public final class zaaw implements zabf {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    @GuardedBy("mLock")
     public final void zaD(ConnectionResult connectionResult) {
         zaz();
         zaB(!connectionResult.hasResolution());
@@ -108,7 +103,6 @@ public final class zaaw implements zabf {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    @GuardedBy("mLock")
     public final void zaE(ConnectionResult connectionResult, Api api, boolean z) {
         int priority = api.zac().getPriority();
         if ((!z || connectionResult.hasResolution() || this.zad.getErrorResolutionIntent(connectionResult.getErrorCode()) != null) && (this.zae == null || priority < this.zaf)) {
@@ -119,7 +113,6 @@ public final class zaaw implements zabf {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    @GuardedBy("mLock")
     public final void zaF() {
         if (this.zah != 0) {
             return;
@@ -145,7 +138,6 @@ public final class zaaw implements zabf {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    @GuardedBy("mLock")
     public final boolean zaG(int i) {
         if (this.zag != i) {
             Log.w("GACConnecting", this.zaa.zag.zaf());
@@ -161,7 +153,6 @@ public final class zaaw implements zabf {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    @GuardedBy("mLock")
     public final boolean zaH() {
         int i = this.zah - 1;
         this.zah = i;
@@ -184,7 +175,6 @@ public final class zaaw implements zabf {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    @GuardedBy("mLock")
     public final boolean zaI(ConnectionResult connectionResult) {
         return this.zal && !connectionResult.hasResolution();
     }
@@ -258,7 +248,6 @@ public final class zaaw implements zabf {
 
     /* JADX WARN: Type inference failed for: r0v13, types: [com.google.android.gms.common.api.Api$Client, com.google.android.gms.signin.zae] */
     @Override // com.google.android.gms.common.api.internal.zabf
-    @GuardedBy("mLock")
     public final void zad() {
         this.zaa.zab.clear();
         this.zam = false;
@@ -306,7 +295,6 @@ public final class zaaw implements zabf {
     }
 
     @Override // com.google.android.gms.common.api.internal.zabf
-    @GuardedBy("mLock")
     public final void zag(Bundle bundle) {
         if (zaG(1)) {
             if (bundle != null) {
@@ -319,7 +307,6 @@ public final class zaaw implements zabf {
     }
 
     @Override // com.google.android.gms.common.api.internal.zabf
-    @GuardedBy("mLock")
     public final void zah(ConnectionResult connectionResult, Api api, boolean z) {
         if (zaG(1)) {
             zaE(connectionResult, api, z);
@@ -330,13 +317,11 @@ public final class zaaw implements zabf {
     }
 
     @Override // com.google.android.gms.common.api.internal.zabf
-    @GuardedBy("mLock")
     public final void zai(int i) {
         zaD(new ConnectionResult(8, null));
     }
 
     @Override // com.google.android.gms.common.api.internal.zabf
-    @GuardedBy("mLock")
     public final boolean zaj() {
         zaz();
         zaB(true);

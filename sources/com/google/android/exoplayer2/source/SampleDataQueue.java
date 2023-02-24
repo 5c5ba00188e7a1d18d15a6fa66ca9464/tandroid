@@ -2,19 +2,20 @@ package com.google.android.exoplayer2.source;
 
 import com.google.android.exoplayer2.decoder.CryptoInfo;
 import com.google.android.exoplayer2.decoder.DecoderInputBuffer;
-import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.source.SampleQueue;
 import com.google.android.exoplayer2.upstream.Allocation;
 import com.google.android.exoplayer2.upstream.Allocator;
+import com.google.android.exoplayer2.upstream.DataReader;
+import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
+import com.google.android.exoplayer2.util.Util;
 import java.io.EOFException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class SampleDataQueue {
+class SampleDataQueue {
     private final int allocationLength;
     private final Allocator allocator;
     private AllocationNode firstAllocationNode;
@@ -36,8 +37,8 @@ public class SampleDataQueue {
 
     public void reset() {
         clearAllocationNodes(this.firstAllocationNode);
-        AllocationNode allocationNode = new AllocationNode(0L, this.allocationLength);
-        this.firstAllocationNode = allocationNode;
+        this.firstAllocationNode.reset(0L, this.allocationLength);
+        AllocationNode allocationNode = this.firstAllocationNode;
         this.readAllocationNode = allocationNode;
         this.writeAllocationNode = allocationNode;
         this.totalBytesWritten = 0L;
@@ -45,6 +46,7 @@ public class SampleDataQueue {
     }
 
     public void discardUpstreamSampleBytes(long j) {
+        Assertions.checkArgument(j <= this.totalBytesWritten);
         this.totalBytesWritten = j;
         if (j != 0) {
             AllocationNode allocationNode = this.firstAllocationNode;
@@ -52,7 +54,7 @@ public class SampleDataQueue {
                 while (this.totalBytesWritten > allocationNode.endPosition) {
                     allocationNode = allocationNode.next;
                 }
-                AllocationNode allocationNode2 = allocationNode.next;
+                AllocationNode allocationNode2 = (AllocationNode) Assertions.checkNotNull(allocationNode.next);
                 clearAllocationNodes(allocationNode2);
                 AllocationNode allocationNode3 = new AllocationNode(allocationNode.endPosition, this.allocationLength);
                 allocationNode.next = allocationNode3;
@@ -79,26 +81,11 @@ public class SampleDataQueue {
     }
 
     public void readToBuffer(DecoderInputBuffer decoderInputBuffer, SampleQueue.SampleExtrasHolder sampleExtrasHolder) {
-        if (decoderInputBuffer.isEncrypted()) {
-            readEncryptionData(decoderInputBuffer, sampleExtrasHolder);
-        }
-        if (decoderInputBuffer.hasSupplementalData()) {
-            this.scratch.reset(4);
-            readData(sampleExtrasHolder.offset, this.scratch.data, 4);
-            int readUnsignedIntToInt = this.scratch.readUnsignedIntToInt();
-            sampleExtrasHolder.offset += 4;
-            sampleExtrasHolder.size -= 4;
-            decoderInputBuffer.ensureSpaceForWrite(readUnsignedIntToInt);
-            readData(sampleExtrasHolder.offset, decoderInputBuffer.data, readUnsignedIntToInt);
-            sampleExtrasHolder.offset += readUnsignedIntToInt;
-            int i = sampleExtrasHolder.size - readUnsignedIntToInt;
-            sampleExtrasHolder.size = i;
-            decoderInputBuffer.resetSupplementalData(i);
-            readData(sampleExtrasHolder.offset, decoderInputBuffer.supplementalData, sampleExtrasHolder.size);
-            return;
-        }
-        decoderInputBuffer.ensureSpaceForWrite(sampleExtrasHolder.size);
-        readData(sampleExtrasHolder.offset, decoderInputBuffer.data, sampleExtrasHolder.size);
+        this.readAllocationNode = readSampleData(this.readAllocationNode, decoderInputBuffer, sampleExtrasHolder, this.scratch);
+    }
+
+    public void peekToBuffer(DecoderInputBuffer decoderInputBuffer, SampleQueue.SampleExtrasHolder sampleExtrasHolder) {
+        readSampleData(this.readAllocationNode, decoderInputBuffer, sampleExtrasHolder, this.scratch);
     }
 
     public void discardDownstreamTo(long j) {
@@ -123,10 +110,10 @@ public class SampleDataQueue {
         return this.totalBytesWritten;
     }
 
-    public int sampleData(ExtractorInput extractorInput, int i, boolean z) throws IOException, InterruptedException {
+    public int sampleData(DataReader dataReader, int i, boolean z) throws IOException {
         int preAppend = preAppend(i);
         AllocationNode allocationNode = this.writeAllocationNode;
-        int read = extractorInput.read(allocationNode.allocation.data, allocationNode.translateOffset(this.totalBytesWritten), preAppend);
+        int read = dataReader.read(allocationNode.allocation.data, allocationNode.translateOffset(this.totalBytesWritten), preAppend);
         if (read != -1) {
             postAppend(read);
             return read;
@@ -147,13 +134,60 @@ public class SampleDataQueue {
         }
     }
 
-    private void readEncryptionData(DecoderInputBuffer decoderInputBuffer, SampleQueue.SampleExtrasHolder sampleExtrasHolder) {
+    private void clearAllocationNodes(AllocationNode allocationNode) {
+        if (allocationNode.allocation == null) {
+            return;
+        }
+        this.allocator.release(allocationNode);
+        allocationNode.clear();
+    }
+
+    private int preAppend(int i) {
+        AllocationNode allocationNode = this.writeAllocationNode;
+        if (allocationNode.allocation == null) {
+            allocationNode.initialize(this.allocator.allocate(), new AllocationNode(this.writeAllocationNode.endPosition, this.allocationLength));
+        }
+        return Math.min(i, (int) (this.writeAllocationNode.endPosition - this.totalBytesWritten));
+    }
+
+    private void postAppend(int i) {
+        long j = this.totalBytesWritten + i;
+        this.totalBytesWritten = j;
+        AllocationNode allocationNode = this.writeAllocationNode;
+        if (j == allocationNode.endPosition) {
+            this.writeAllocationNode = allocationNode.next;
+        }
+    }
+
+    private static AllocationNode readSampleData(AllocationNode allocationNode, DecoderInputBuffer decoderInputBuffer, SampleQueue.SampleExtrasHolder sampleExtrasHolder, ParsableByteArray parsableByteArray) {
+        if (decoderInputBuffer.isEncrypted()) {
+            allocationNode = readEncryptionData(allocationNode, decoderInputBuffer, sampleExtrasHolder, parsableByteArray);
+        }
+        if (decoderInputBuffer.hasSupplementalData()) {
+            parsableByteArray.reset(4);
+            AllocationNode readData = readData(allocationNode, sampleExtrasHolder.offset, parsableByteArray.getData(), 4);
+            int readUnsignedIntToInt = parsableByteArray.readUnsignedIntToInt();
+            sampleExtrasHolder.offset += 4;
+            sampleExtrasHolder.size -= 4;
+            decoderInputBuffer.ensureSpaceForWrite(readUnsignedIntToInt);
+            AllocationNode readData2 = readData(readData, sampleExtrasHolder.offset, decoderInputBuffer.data, readUnsignedIntToInt);
+            sampleExtrasHolder.offset += readUnsignedIntToInt;
+            int i = sampleExtrasHolder.size - readUnsignedIntToInt;
+            sampleExtrasHolder.size = i;
+            decoderInputBuffer.resetSupplementalData(i);
+            return readData(readData2, sampleExtrasHolder.offset, decoderInputBuffer.supplementalData, sampleExtrasHolder.size);
+        }
+        decoderInputBuffer.ensureSpaceForWrite(sampleExtrasHolder.size);
+        return readData(allocationNode, sampleExtrasHolder.offset, decoderInputBuffer.data, sampleExtrasHolder.size);
+    }
+
+    private static AllocationNode readEncryptionData(AllocationNode allocationNode, DecoderInputBuffer decoderInputBuffer, SampleQueue.SampleExtrasHolder sampleExtrasHolder, ParsableByteArray parsableByteArray) {
         int i;
         long j = sampleExtrasHolder.offset;
-        this.scratch.reset(1);
-        readData(j, this.scratch.data, 1);
+        parsableByteArray.reset(1);
+        AllocationNode readData = readData(allocationNode, j, parsableByteArray.getData(), 1);
         long j2 = j + 1;
-        byte b = this.scratch.data[0];
+        byte b = parsableByteArray.getData()[0];
         boolean z = (b & 128) != 0;
         int i2 = b & Byte.MAX_VALUE;
         CryptoInfo cryptoInfo = decoderInputBuffer.cryptoInfo;
@@ -163,13 +197,13 @@ public class SampleDataQueue {
         } else {
             Arrays.fill(bArr, (byte) 0);
         }
-        readData(j2, cryptoInfo.iv, i2);
+        AllocationNode readData2 = readData(readData, j2, cryptoInfo.iv, i2);
         long j3 = j2 + i2;
         if (z) {
-            this.scratch.reset(2);
-            readData(j3, this.scratch.data, 2);
+            parsableByteArray.reset(2);
+            readData2 = readData(readData2, j3, parsableByteArray.getData(), 2);
             j3 += 2;
-            i = this.scratch.readUnsignedShort();
+            i = parsableByteArray.readUnsignedShort();
         } else {
             i = 1;
         }
@@ -185,107 +219,77 @@ public class SampleDataQueue {
         int[] iArr4 = iArr3;
         if (z) {
             int i3 = i * 6;
-            this.scratch.reset(i3);
-            readData(j3, this.scratch.data, i3);
+            parsableByteArray.reset(i3);
+            readData2 = readData(readData2, j3, parsableByteArray.getData(), i3);
             j3 += i3;
-            this.scratch.setPosition(0);
+            parsableByteArray.setPosition(0);
             for (int i4 = 0; i4 < i; i4++) {
-                iArr2[i4] = this.scratch.readUnsignedShort();
-                iArr4[i4] = this.scratch.readUnsignedIntToInt();
+                iArr2[i4] = parsableByteArray.readUnsignedShort();
+                iArr4[i4] = parsableByteArray.readUnsignedIntToInt();
             }
         } else {
             iArr2[0] = 0;
             iArr4[0] = sampleExtrasHolder.size - ((int) (j3 - sampleExtrasHolder.offset));
         }
-        TrackOutput.CryptoData cryptoData = sampleExtrasHolder.cryptoData;
+        TrackOutput.CryptoData cryptoData = (TrackOutput.CryptoData) Util.castNonNull(sampleExtrasHolder.cryptoData);
         cryptoInfo.set(i, iArr2, iArr4, cryptoData.encryptionKey, cryptoInfo.iv, cryptoData.cryptoMode, cryptoData.encryptedBlocks, cryptoData.clearBlocks);
         long j4 = sampleExtrasHolder.offset;
         int i5 = (int) (j3 - j4);
         sampleExtrasHolder.offset = j4 + i5;
         sampleExtrasHolder.size -= i5;
+        return readData2;
     }
 
-    private void readData(long j, ByteBuffer byteBuffer, int i) {
-        advanceReadTo(j);
+    private static AllocationNode readData(AllocationNode allocationNode, long j, ByteBuffer byteBuffer, int i) {
+        AllocationNode nodeContainingPosition = getNodeContainingPosition(allocationNode, j);
         while (i > 0) {
-            int min = Math.min(i, (int) (this.readAllocationNode.endPosition - j));
-            AllocationNode allocationNode = this.readAllocationNode;
-            byteBuffer.put(allocationNode.allocation.data, allocationNode.translateOffset(j), min);
+            int min = Math.min(i, (int) (nodeContainingPosition.endPosition - j));
+            byteBuffer.put(nodeContainingPosition.allocation.data, nodeContainingPosition.translateOffset(j), min);
             i -= min;
             j += min;
-            AllocationNode allocationNode2 = this.readAllocationNode;
-            if (j == allocationNode2.endPosition) {
-                this.readAllocationNode = allocationNode2.next;
+            if (j == nodeContainingPosition.endPosition) {
+                nodeContainingPosition = nodeContainingPosition.next;
             }
         }
+        return nodeContainingPosition;
     }
 
-    private void readData(long j, byte[] bArr, int i) {
-        advanceReadTo(j);
+    private static AllocationNode readData(AllocationNode allocationNode, long j, byte[] bArr, int i) {
+        AllocationNode nodeContainingPosition = getNodeContainingPosition(allocationNode, j);
         int i2 = i;
         while (i2 > 0) {
-            int min = Math.min(i2, (int) (this.readAllocationNode.endPosition - j));
-            AllocationNode allocationNode = this.readAllocationNode;
-            System.arraycopy(allocationNode.allocation.data, allocationNode.translateOffset(j), bArr, i - i2, min);
+            int min = Math.min(i2, (int) (nodeContainingPosition.endPosition - j));
+            System.arraycopy(nodeContainingPosition.allocation.data, nodeContainingPosition.translateOffset(j), bArr, i - i2, min);
             i2 -= min;
             j += min;
-            AllocationNode allocationNode2 = this.readAllocationNode;
-            if (j == allocationNode2.endPosition) {
-                this.readAllocationNode = allocationNode2.next;
+            if (j == nodeContainingPosition.endPosition) {
+                nodeContainingPosition = nodeContainingPosition.next;
             }
         }
+        return nodeContainingPosition;
     }
 
-    private void advanceReadTo(long j) {
-        while (true) {
-            AllocationNode allocationNode = this.readAllocationNode;
-            if (j < allocationNode.endPosition) {
-                return;
-            }
-            this.readAllocationNode = allocationNode.next;
+    private static AllocationNode getNodeContainingPosition(AllocationNode allocationNode, long j) {
+        while (j >= allocationNode.endPosition) {
+            allocationNode = allocationNode.next;
         }
-    }
-
-    private void clearAllocationNodes(AllocationNode allocationNode) {
-        if (allocationNode.wasInitialized) {
-            AllocationNode allocationNode2 = this.writeAllocationNode;
-            int i = (allocationNode2.wasInitialized ? 1 : 0) + (((int) (allocationNode2.startPosition - allocationNode.startPosition)) / this.allocationLength);
-            Allocation[] allocationArr = new Allocation[i];
-            for (int i2 = 0; i2 < i; i2++) {
-                allocationArr[i2] = allocationNode.allocation;
-                allocationNode = allocationNode.clear();
-            }
-            this.allocator.release(allocationArr);
-        }
-    }
-
-    private int preAppend(int i) {
-        AllocationNode allocationNode = this.writeAllocationNode;
-        if (!allocationNode.wasInitialized) {
-            allocationNode.initialize(this.allocator.allocate(), new AllocationNode(this.writeAllocationNode.endPosition, this.allocationLength));
-        }
-        return Math.min(i, (int) (this.writeAllocationNode.endPosition - this.totalBytesWritten));
-    }
-
-    private void postAppend(int i) {
-        long j = this.totalBytesWritten + i;
-        this.totalBytesWritten = j;
-        AllocationNode allocationNode = this.writeAllocationNode;
-        if (j == allocationNode.endPosition) {
-            this.writeAllocationNode = allocationNode.next;
-        }
+        return allocationNode;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static final class AllocationNode {
+    public static final class AllocationNode implements Allocator.AllocationNode {
         public Allocation allocation;
-        public final long endPosition;
+        public long endPosition;
         public AllocationNode next;
-        public final long startPosition;
-        public boolean wasInitialized;
+        public long startPosition;
 
         public AllocationNode(long j, int i) {
+            reset(j, i);
+        }
+
+        public void reset(long j, int i) {
+            Assertions.checkState(this.allocation == null);
             this.startPosition = j;
             this.endPosition = j + i;
         }
@@ -293,7 +297,6 @@ public class SampleDataQueue {
         public void initialize(Allocation allocation, AllocationNode allocationNode) {
             this.allocation = allocation;
             this.next = allocationNode;
-            this.wasInitialized = true;
         }
 
         public int translateOffset(long j) {
@@ -304,6 +307,20 @@ public class SampleDataQueue {
             this.allocation = null;
             AllocationNode allocationNode = this.next;
             this.next = null;
+            return allocationNode;
+        }
+
+        @Override // com.google.android.exoplayer2.upstream.Allocator.AllocationNode
+        public Allocation getAllocation() {
+            return (Allocation) Assertions.checkNotNull(this.allocation);
+        }
+
+        @Override // com.google.android.exoplayer2.upstream.Allocator.AllocationNode
+        public Allocator.AllocationNode next() {
+            AllocationNode allocationNode = this.next;
+            if (allocationNode == null || allocationNode.allocation == null) {
+                return null;
+            }
             return allocationNode;
         }
     }

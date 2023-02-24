@@ -1984,7 +1984,10 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$create$9() {
-        groupCallInstance.show();
+        GroupCallActivity groupCallActivity = groupCallInstance;
+        if (groupCallActivity != null) {
+            groupCallActivity.show();
+        }
     }
 
     private GroupCallActivity(final Context context, final AccountInstance accountInstance, ChatObject.Call call, final TLRPC$Chat tLRPC$Chat, TLRPC$InputPeer tLRPC$InputPeer, boolean z, String str) {

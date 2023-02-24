@@ -928,9 +928,10 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         }
 
         private void playAnimation() {
+            AnimatedEmojiDrawable animatedEmojiDrawable;
             ImageReceiver imageReceiver;
-            ImageView imageView = this.imageView;
-            if (imageView == null || !(imageView.getDrawable() instanceof AnimatedEmojiDrawable) || (imageReceiver = ((AnimatedEmojiDrawable) this.imageView.getDrawable()).getImageReceiver()) == null) {
+            DelayedAnimatedEmojiDrawable delayedAnimatedEmojiDrawable = this.animatedEmoji;
+            if (delayedAnimatedEmojiDrawable == null || (animatedEmojiDrawable = delayedAnimatedEmojiDrawable.drawable) == null || (imageReceiver = animatedEmojiDrawable.getImageReceiver()) == null) {
                 return;
             }
             if (imageReceiver.getAnimation() != null) {
@@ -940,9 +941,10 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         }
 
         private void stopAnimation() {
+            AnimatedEmojiDrawable animatedEmojiDrawable;
             ImageReceiver imageReceiver;
-            ImageView imageView = this.imageView;
-            if (imageView == null || !(imageView.getDrawable() instanceof AnimatedEmojiDrawable) || (imageReceiver = ((AnimatedEmojiDrawable) this.imageView.getDrawable()).getImageReceiver()) == null) {
+            DelayedAnimatedEmojiDrawable delayedAnimatedEmojiDrawable = this.animatedEmoji;
+            if (delayedAnimatedEmojiDrawable == null || (animatedEmojiDrawable = delayedAnimatedEmojiDrawable.drawable) == null || (imageReceiver = animatedEmojiDrawable.getImageReceiver()) == null) {
                 return;
             }
             if (imageReceiver.getLottieAnimation() != null) {

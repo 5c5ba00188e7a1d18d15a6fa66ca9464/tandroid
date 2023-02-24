@@ -1,6 +1,8 @@
 package com.google.android.exoplayer2.upstream;
 
 import android.net.Uri;
+import com.google.android.exoplayer2.source.LoadEventInfo;
+import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.upstream.Loader;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
@@ -12,6 +14,7 @@ import java.util.Map;
 public final class ParsingLoadable<T> implements Loader.Loadable {
     private final StatsDataSource dataSource;
     public final DataSpec dataSpec;
+    public final long loadTaskId;
     private final Parser<? extends T> parser;
     private volatile T result;
     public final int type;
@@ -26,7 +29,7 @@ public final class ParsingLoadable<T> implements Loader.Loadable {
     }
 
     public ParsingLoadable(DataSource dataSource, Uri uri, int i, Parser<? extends T> parser) {
-        this(dataSource, new DataSpec(uri, 1), i, parser);
+        this(dataSource, new DataSpec.Builder().setUri(uri).setFlags(1).build(), i, parser);
     }
 
     public ParsingLoadable(DataSource dataSource, DataSpec dataSpec, int i, Parser<? extends T> parser) {
@@ -34,6 +37,7 @@ public final class ParsingLoadable<T> implements Loader.Loadable {
         this.dataSpec = dataSpec;
         this.type = i;
         this.parser = parser;
+        this.loadTaskId = LoadEventInfo.getNewId();
     }
 
     public final T getResult() {

@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.extractor;
 import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.metadata.id3.CommentFrame;
 import com.google.android.exoplayer2.metadata.id3.InternalFrame;
+import com.google.android.exoplayer2.util.Util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.telegram.messenger.LiteMode;
@@ -47,8 +48,8 @@ public final class GaplessInfoHolder {
         Matcher matcher = GAPLESS_COMMENT_PATTERN.matcher(str);
         if (matcher.find()) {
             try {
-                int parseInt = Integer.parseInt(matcher.group(1), 16);
-                int parseInt2 = Integer.parseInt(matcher.group(2), 16);
+                int parseInt = Integer.parseInt((String) Util.castNonNull(matcher.group(1)), 16);
+                int parseInt2 = Integer.parseInt((String) Util.castNonNull(matcher.group(2)), 16);
                 if (parseInt > 0 || parseInt2 > 0) {
                     this.encoderDelay = parseInt;
                     this.encoderPadding = parseInt2;

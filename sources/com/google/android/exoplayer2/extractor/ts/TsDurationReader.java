@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.extractor.ts;
 
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.PositionHolder;
+import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
 import com.google.android.exoplayer2.util.Util;
@@ -11,17 +12,23 @@ final class TsDurationReader {
     private boolean isDurationRead;
     private boolean isFirstPcrValueRead;
     private boolean isLastPcrValueRead;
+    private final int timestampSearchBytes;
     private final TimestampAdjuster pcrTimestampAdjuster = new TimestampAdjuster(0);
     private long firstPcrValue = -9223372036854775807L;
     private long lastPcrValue = -9223372036854775807L;
     private long durationUs = -9223372036854775807L;
     private final ParsableByteArray packetBuffer = new ParsableByteArray();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public TsDurationReader(int i) {
+        this.timestampSearchBytes = i;
+    }
+
     public boolean isDurationReadFinished() {
         return this.isDurationRead;
     }
 
-    public int readDuration(ExtractorInput extractorInput, PositionHolder positionHolder, int i) throws IOException, InterruptedException {
+    public int readDuration(ExtractorInput extractorInput, PositionHolder positionHolder, int i) throws IOException {
         if (i <= 0) {
             return finishReadDuration(extractorInput);
         }
@@ -38,7 +45,12 @@ final class TsDurationReader {
         if (j == -9223372036854775807L) {
             return finishReadDuration(extractorInput);
         }
-        this.durationUs = this.pcrTimestampAdjuster.adjustTsTimestamp(this.lastPcrValue) - this.pcrTimestampAdjuster.adjustTsTimestamp(j);
+        long adjustTsTimestamp = this.pcrTimestampAdjuster.adjustTsTimestamp(this.lastPcrValue) - this.pcrTimestampAdjuster.adjustTsTimestamp(j);
+        this.durationUs = adjustTsTimestamp;
+        if (adjustTsTimestamp < 0) {
+            Log.w("TsDurationReader", "Invalid duration: " + this.durationUs + ". Using TIME_UNSET instead.");
+            this.durationUs = -9223372036854775807L;
+        }
         return finishReadDuration(extractorInput);
     }
 
@@ -57,8 +69,8 @@ final class TsDurationReader {
         return 0;
     }
 
-    private int readFirstPcrValue(ExtractorInput extractorInput, PositionHolder positionHolder, int i) throws IOException, InterruptedException {
-        int min = (int) Math.min(112800L, extractorInput.getLength());
+    private int readFirstPcrValue(ExtractorInput extractorInput, PositionHolder positionHolder, int i) throws IOException {
+        int min = (int) Math.min(this.timestampSearchBytes, extractorInput.getLength());
         long j = 0;
         if (extractorInput.getPosition() != j) {
             positionHolder.position = j;
@@ -66,7 +78,7 @@ final class TsDurationReader {
         }
         this.packetBuffer.reset(min);
         extractorInput.resetPeekPosition();
-        extractorInput.peekFully(this.packetBuffer.data, 0, min);
+        extractorInput.peekFully(this.packetBuffer.getData(), 0, min);
         this.firstPcrValue = readFirstPcrValueFromBuffer(this.packetBuffer, i);
         this.isFirstPcrValueRead = true;
         return 0;
@@ -75,7 +87,7 @@ final class TsDurationReader {
     private long readFirstPcrValueFromBuffer(ParsableByteArray parsableByteArray, int i) {
         int limit = parsableByteArray.limit();
         for (int position = parsableByteArray.getPosition(); position < limit; position++) {
-            if (parsableByteArray.data[position] == 71) {
+            if (parsableByteArray.getData()[position] == 71) {
                 long readPcrFromPacket = TsUtil.readPcrFromPacket(parsableByteArray, position, i);
                 if (readPcrFromPacket != -9223372036854775807L) {
                     return readPcrFromPacket;
@@ -85,9 +97,9 @@ final class TsDurationReader {
         return -9223372036854775807L;
     }
 
-    private int readLastPcrValue(ExtractorInput extractorInput, PositionHolder positionHolder, int i) throws IOException, InterruptedException {
+    private int readLastPcrValue(ExtractorInput extractorInput, PositionHolder positionHolder, int i) throws IOException {
         long length = extractorInput.getLength();
-        int min = (int) Math.min(112800L, length);
+        int min = (int) Math.min(this.timestampSearchBytes, length);
         long j = length - min;
         if (extractorInput.getPosition() != j) {
             positionHolder.position = j;
@@ -95,7 +107,7 @@ final class TsDurationReader {
         }
         this.packetBuffer.reset(min);
         extractorInput.resetPeekPosition();
-        extractorInput.peekFully(this.packetBuffer.data, 0, min);
+        extractorInput.peekFully(this.packetBuffer.getData(), 0, min);
         this.lastPcrValue = readLastPcrValueFromBuffer(this.packetBuffer, i);
         this.isLastPcrValueRead = true;
         return 0;
@@ -104,17 +116,14 @@ final class TsDurationReader {
     private long readLastPcrValueFromBuffer(ParsableByteArray parsableByteArray, int i) {
         int position = parsableByteArray.getPosition();
         int limit = parsableByteArray.limit();
-        while (true) {
-            limit--;
-            if (limit < position) {
-                return -9223372036854775807L;
-            }
-            if (parsableByteArray.data[limit] == 71) {
-                long readPcrFromPacket = TsUtil.readPcrFromPacket(parsableByteArray, limit, i);
+        for (int i2 = limit - 188; i2 >= position; i2--) {
+            if (TsUtil.isStartOfTsPacket(parsableByteArray.getData(), position, limit, i2)) {
+                long readPcrFromPacket = TsUtil.readPcrFromPacket(parsableByteArray, i2, i);
                 if (readPcrFromPacket != -9223372036854775807L) {
                     return readPcrFromPacket;
                 }
             }
         }
+        return -9223372036854775807L;
     }
 }

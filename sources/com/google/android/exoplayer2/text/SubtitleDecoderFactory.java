@@ -17,7 +17,7 @@ public interface SubtitleDecoderFactory {
         @Override // com.google.android.exoplayer2.text.SubtitleDecoderFactory
         public boolean supportsFormat(Format format) {
             String str = format.sampleMimeType;
-            return "text/vtt".equals(str) || "text/x-ssa".equals(str) || "application/ttml+xml".equals(str) || "application/x-mp4-vtt".equals(str) || "application/x-subrip".equals(str) || "application/x-quicktime-tx3g".equals(str) || "application/cea-608".equals(str) || "application/x-mp4-cea-608".equals(str) || "application/cea-708".equals(str) || "application/dvbsubs".equals(str) || "application/pgs".equals(str);
+            return "text/vtt".equals(str) || "text/x-ssa".equals(str) || "application/ttml+xml".equals(str) || "application/x-mp4-vtt".equals(str) || "application/x-subrip".equals(str) || "application/x-quicktime-tx3g".equals(str) || "application/cea-608".equals(str) || "application/x-mp4-cea-608".equals(str) || "application/cea-708".equals(str) || "application/dvbsubs".equals(str) || "application/pgs".equals(str) || "text/x-exoplayer-cues".equals(str);
         }
 
         @Override // com.google.android.exoplayer2.text.SubtitleDecoderFactory
@@ -68,27 +68,33 @@ public interface SubtitleDecoderFactory {
                             break;
                         }
                         break;
+                    case 1201784583:
+                        if (str.equals("text/x-exoplayer-cues")) {
+                            c = 7;
+                            break;
+                        }
+                        break;
                     case 1566015601:
                         if (str.equals("application/cea-608")) {
-                            c = 7;
+                            c = '\b';
                             break;
                         }
                         break;
                     case 1566016562:
                         if (str.equals("application/cea-708")) {
-                            c = '\b';
+                            c = '\t';
                             break;
                         }
                         break;
                     case 1668750253:
                         if (str.equals("application/x-subrip")) {
-                            c = '\t';
+                            c = '\n';
                             break;
                         }
                         break;
                     case 1693976202:
                         if (str.equals("application/ttml+xml")) {
-                            c = '\n';
+                            c = 11;
                             break;
                         }
                         break;
@@ -107,13 +113,15 @@ public interface SubtitleDecoderFactory {
                     case 5:
                         return new SsaDecoder(format.initializationData);
                     case 6:
-                    case 7:
-                        return new Cea608Decoder(str, format.accessibilityChannel);
                     case '\b':
-                        return new Cea708Decoder(format.accessibilityChannel, format.initializationData);
+                        return new Cea608Decoder(str, format.accessibilityChannel, 16000L);
+                    case 7:
+                        return new ExoplayerCuesDecoder();
                     case '\t':
-                        return new SubripDecoder();
+                        return new Cea708Decoder(format.accessibilityChannel, format.initializationData);
                     case '\n':
+                        return new SubripDecoder();
+                    case 11:
                         return new TtmlDecoder();
                 }
             }

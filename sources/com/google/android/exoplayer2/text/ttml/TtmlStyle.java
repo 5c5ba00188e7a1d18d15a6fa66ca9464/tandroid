@@ -1,7 +1,6 @@
 package com.google.android.exoplayer2.text.ttml;
 
 import android.text.Layout;
-import com.google.android.exoplayer2.util.Assertions;
 /* loaded from: classes.dex */
 final class TtmlStyle {
     private int backgroundColor;
@@ -11,13 +10,18 @@ final class TtmlStyle {
     private boolean hasBackgroundColor;
     private boolean hasFontColor;
     private String id;
-    private TtmlStyle inheritableStyle;
+    private Layout.Alignment multiRowAlign;
     private Layout.Alignment textAlign;
+    private TextEmphasis textEmphasis;
     private int linethrough = -1;
     private int underline = -1;
     private int bold = -1;
     private int italic = -1;
     private int fontSizeUnit = -1;
+    private int rubyType = -1;
+    private int rubyPosition = -1;
+    private int textCombine = -1;
+    private float shearPercentage = Float.MAX_VALUE;
 
     public int getStyle() {
         int i = this.bold;
@@ -32,7 +36,6 @@ final class TtmlStyle {
     }
 
     public TtmlStyle setLinethrough(boolean z) {
-        Assertions.checkState(this.inheritableStyle == null);
         this.linethrough = z ? 1 : 0;
         return this;
     }
@@ -42,19 +45,16 @@ final class TtmlStyle {
     }
 
     public TtmlStyle setUnderline(boolean z) {
-        Assertions.checkState(this.inheritableStyle == null);
         this.underline = z ? 1 : 0;
         return this;
     }
 
     public TtmlStyle setBold(boolean z) {
-        Assertions.checkState(this.inheritableStyle == null);
         this.bold = z ? 1 : 0;
         return this;
     }
 
     public TtmlStyle setItalic(boolean z) {
-        Assertions.checkState(this.inheritableStyle == null);
         this.italic = z ? 1 : 0;
         return this;
     }
@@ -64,7 +64,6 @@ final class TtmlStyle {
     }
 
     public TtmlStyle setFontFamily(String str) {
-        Assertions.checkState(this.inheritableStyle == null);
         this.fontFamily = str;
         return this;
     }
@@ -77,7 +76,6 @@ final class TtmlStyle {
     }
 
     public TtmlStyle setFontColor(int i) {
-        Assertions.checkState(this.inheritableStyle == null);
         this.fontColor = i;
         this.hasFontColor = true;
         return this;
@@ -104,11 +102,24 @@ final class TtmlStyle {
         return this.hasBackgroundColor;
     }
 
+    public TtmlStyle setShearPercentage(float f) {
+        this.shearPercentage = f;
+        return this;
+    }
+
+    public float getShearPercentage() {
+        return this.shearPercentage;
+    }
+
     public TtmlStyle chain(TtmlStyle ttmlStyle) {
         return inherit(ttmlStyle, true);
     }
 
     private TtmlStyle inherit(TtmlStyle ttmlStyle, boolean z) {
+        int i;
+        Layout.Alignment alignment;
+        Layout.Alignment alignment2;
+        String str;
         if (ttmlStyle != null) {
             if (!this.hasFontColor && ttmlStyle.hasFontColor) {
                 setFontColor(ttmlStyle.fontColor);
@@ -119,8 +130,8 @@ final class TtmlStyle {
             if (this.italic == -1) {
                 this.italic = ttmlStyle.italic;
             }
-            if (this.fontFamily == null) {
-                this.fontFamily = ttmlStyle.fontFamily;
+            if (this.fontFamily == null && (str = ttmlStyle.fontFamily) != null) {
+                this.fontFamily = str;
             }
             if (this.linethrough == -1) {
                 this.linethrough = ttmlStyle.linethrough;
@@ -128,15 +139,33 @@ final class TtmlStyle {
             if (this.underline == -1) {
                 this.underline = ttmlStyle.underline;
             }
-            if (this.textAlign == null) {
-                this.textAlign = ttmlStyle.textAlign;
+            if (this.rubyPosition == -1) {
+                this.rubyPosition = ttmlStyle.rubyPosition;
+            }
+            if (this.textAlign == null && (alignment2 = ttmlStyle.textAlign) != null) {
+                this.textAlign = alignment2;
+            }
+            if (this.multiRowAlign == null && (alignment = ttmlStyle.multiRowAlign) != null) {
+                this.multiRowAlign = alignment;
+            }
+            if (this.textCombine == -1) {
+                this.textCombine = ttmlStyle.textCombine;
             }
             if (this.fontSizeUnit == -1) {
                 this.fontSizeUnit = ttmlStyle.fontSizeUnit;
                 this.fontSize = ttmlStyle.fontSize;
             }
+            if (this.textEmphasis == null) {
+                this.textEmphasis = ttmlStyle.textEmphasis;
+            }
+            if (this.shearPercentage == Float.MAX_VALUE) {
+                this.shearPercentage = ttmlStyle.shearPercentage;
+            }
             if (z && !this.hasBackgroundColor && ttmlStyle.hasBackgroundColor) {
                 setBackgroundColor(ttmlStyle.backgroundColor);
+            }
+            if (z && this.rubyType == -1 && (i = ttmlStyle.rubyType) != -1) {
+                this.rubyType = i;
             }
         }
         return this;
@@ -151,12 +180,57 @@ final class TtmlStyle {
         return this.id;
     }
 
+    public TtmlStyle setRubyType(int i) {
+        this.rubyType = i;
+        return this;
+    }
+
+    public int getRubyType() {
+        return this.rubyType;
+    }
+
+    public TtmlStyle setRubyPosition(int i) {
+        this.rubyPosition = i;
+        return this;
+    }
+
+    public int getRubyPosition() {
+        return this.rubyPosition;
+    }
+
     public Layout.Alignment getTextAlign() {
         return this.textAlign;
     }
 
     public TtmlStyle setTextAlign(Layout.Alignment alignment) {
         this.textAlign = alignment;
+        return this;
+    }
+
+    public Layout.Alignment getMultiRowAlign() {
+        return this.multiRowAlign;
+    }
+
+    public TtmlStyle setMultiRowAlign(Layout.Alignment alignment) {
+        this.multiRowAlign = alignment;
+        return this;
+    }
+
+    public boolean getTextCombine() {
+        return this.textCombine == 1;
+    }
+
+    public TtmlStyle setTextCombine(boolean z) {
+        this.textCombine = z ? 1 : 0;
+        return this;
+    }
+
+    public TextEmphasis getTextEmphasis() {
+        return this.textEmphasis;
+    }
+
+    public TtmlStyle setTextEmphasis(TextEmphasis textEmphasis) {
+        this.textEmphasis = textEmphasis;
         return this;
     }
 

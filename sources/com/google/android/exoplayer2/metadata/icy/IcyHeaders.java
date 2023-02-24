@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.metadata.icy;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.exoplayer2.Format;
+import com.google.android.exoplayer2.MediaMetadata;
 import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
@@ -189,6 +190,18 @@ public final class IcyHeaders implements Metadata.Entry {
         this.url = parcel.readString();
         this.isPublic = Util.readBoolean(parcel);
         this.metadataInterval = parcel.readInt();
+    }
+
+    @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
+    public void populateMediaMetadata(MediaMetadata.Builder builder) {
+        String str = this.name;
+        if (str != null) {
+            builder.setStation(str);
+        }
+        String str2 = this.genre;
+        if (str2 != null) {
+            builder.setGenre(str2);
+        }
     }
 
     public boolean equals(Object obj) {

@@ -1,95 +1,13 @@
 package com.google.android.exoplayer2.util;
 
 import android.util.Pair;
-import com.google.android.exoplayer2.ParserException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 /* loaded from: classes.dex */
 public final class CodecSpecificDataUtil {
     private static final byte[] NAL_START_CODE = {0, 0, 0, 1};
-    private static final int[] AUDIO_SPECIFIC_CONFIG_SAMPLING_RATE_TABLE = {96000, 88200, 64000, 48000, 44100, 32000, 24000, 22050, 16000, 12000, 11025, 8000, 7350};
-    private static final int[] AUDIO_SPECIFIC_CONFIG_CHANNEL_COUNT_TABLE = {0, 1, 2, 3, 4, 5, 6, 8, -1, -1, -1, 7, 8, -1, 8, -1};
-
-    public static byte[] buildAacAudioSpecificConfig(int i, int i2, int i3) {
-        return new byte[]{(byte) (((i << 3) & 248) | ((i2 >> 1) & 7)), (byte) (((i2 << 7) & 128) | ((i3 << 3) & 120))};
-    }
-
-    public static Pair<Integer, Integer> parseAacAudioSpecificConfig(byte[] bArr) throws ParserException {
-        return parseAacAudioSpecificConfig(new ParsableBitArray(bArr), false);
-    }
-
-    public static Pair<Integer, Integer> parseAacAudioSpecificConfig(ParsableBitArray parsableBitArray, boolean z) throws ParserException {
-        int aacAudioObjectType = getAacAudioObjectType(parsableBitArray);
-        int aacSamplingFrequency = getAacSamplingFrequency(parsableBitArray);
-        int readBits = parsableBitArray.readBits(4);
-        if (aacAudioObjectType == 5 || aacAudioObjectType == 29) {
-            aacSamplingFrequency = getAacSamplingFrequency(parsableBitArray);
-            aacAudioObjectType = getAacAudioObjectType(parsableBitArray);
-            if (aacAudioObjectType == 22) {
-                readBits = parsableBitArray.readBits(4);
-            }
-        }
-        if (z) {
-            if (aacAudioObjectType != 1 && aacAudioObjectType != 2 && aacAudioObjectType != 3 && aacAudioObjectType != 4 && aacAudioObjectType != 6 && aacAudioObjectType != 7 && aacAudioObjectType != 17) {
-                switch (aacAudioObjectType) {
-                    case 19:
-                    case 20:
-                    case 21:
-                    case 22:
-                    case 23:
-                        break;
-                    default:
-                        throw new ParserException("Unsupported audio object type: " + aacAudioObjectType);
-                }
-            }
-            parseGaSpecificConfig(parsableBitArray, aacAudioObjectType, readBits);
-            switch (aacAudioObjectType) {
-                case 17:
-                case 19:
-                case 20:
-                case 21:
-                case 22:
-                case 23:
-                    int readBits2 = parsableBitArray.readBits(2);
-                    if (readBits2 == 2 || readBits2 == 3) {
-                        throw new ParserException("Unsupported epConfig: " + readBits2);
-                    }
-            }
-        }
-        int i = AUDIO_SPECIFIC_CONFIG_CHANNEL_COUNT_TABLE[readBits];
-        Assertions.checkArgument(i != -1);
-        return Pair.create(Integer.valueOf(aacSamplingFrequency), Integer.valueOf(i));
-    }
-
-    public static byte[] buildAacLcAudioSpecificConfig(int i, int i2) {
-        int i3 = 0;
-        int i4 = 0;
-        int i5 = -1;
-        while (true) {
-            int[] iArr = AUDIO_SPECIFIC_CONFIG_SAMPLING_RATE_TABLE;
-            if (i4 >= iArr.length) {
-                break;
-            }
-            if (i == iArr[i4]) {
-                i5 = i4;
-            }
-            i4++;
-        }
-        int i6 = -1;
-        while (true) {
-            int[] iArr2 = AUDIO_SPECIFIC_CONFIG_CHANNEL_COUNT_TABLE;
-            if (i3 >= iArr2.length) {
-                break;
-            }
-            if (i2 == iArr2[i3]) {
-                i6 = i3;
-            }
-            i3++;
-        }
-        if (i == -1 || i6 == -1) {
-            throw new IllegalArgumentException("Invalid sample rate or number of channels: " + i + ", " + i2);
-        }
-        return buildAacAudioSpecificConfig(2, i5, i6);
-    }
+    private static final String[] HEVC_GENERAL_PROFILE_SPACE_STRINGS = {"", "A", "B", "C"};
 
     public static Pair<Integer, Integer> parseAlacAudioSpecificConfig(byte[] bArr) {
         ParsableByteArray parsableByteArray = new ParsableByteArray(bArr);
@@ -99,8 +17,92 @@ public final class CodecSpecificDataUtil {
         return Pair.create(Integer.valueOf(parsableByteArray.readUnsignedIntToInt()), Integer.valueOf(readUnsignedByte));
     }
 
+    public static List<byte[]> buildCea708InitializationData(boolean z) {
+        return Collections.singletonList(z ? new byte[]{1} : new byte[]{0});
+    }
+
+    public static boolean parseCea708InitializationData(List<byte[]> list) {
+        return list.size() == 1 && list.get(0).length == 1 && list.get(0)[0] == 1;
+    }
+
+    public static Pair<Integer, Integer> getVideoResolutionFromMpeg4VideoConfig(byte[] bArr) {
+        boolean z;
+        ParsableByteArray parsableByteArray = new ParsableByteArray(bArr);
+        int i = 0;
+        int i2 = 0;
+        while (true) {
+            int i3 = i2 + 3;
+            if (i3 >= bArr.length) {
+                z = false;
+                break;
+            } else if (parsableByteArray.readUnsignedInt24() == 1 && (bArr[i3] & 240) == 32) {
+                z = true;
+                break;
+            } else {
+                parsableByteArray.setPosition(parsableByteArray.getPosition() - 2);
+                i2++;
+            }
+        }
+        Assertions.checkArgument(z, "Invalid input: VOL not found.");
+        ParsableBitArray parsableBitArray = new ParsableBitArray(bArr);
+        parsableBitArray.skipBits((i2 + 4) * 8);
+        parsableBitArray.skipBits(1);
+        parsableBitArray.skipBits(8);
+        if (parsableBitArray.readBit()) {
+            parsableBitArray.skipBits(4);
+            parsableBitArray.skipBits(3);
+        }
+        if (parsableBitArray.readBits(4) == 15) {
+            parsableBitArray.skipBits(8);
+            parsableBitArray.skipBits(8);
+        }
+        if (parsableBitArray.readBit()) {
+            parsableBitArray.skipBits(2);
+            parsableBitArray.skipBits(1);
+            if (parsableBitArray.readBit()) {
+                parsableBitArray.skipBits(79);
+            }
+        }
+        Assertions.checkArgument(parsableBitArray.readBits(2) == 0, "Only supports rectangular video object layer shape.");
+        Assertions.checkArgument(parsableBitArray.readBit());
+        int readBits = parsableBitArray.readBits(16);
+        Assertions.checkArgument(parsableBitArray.readBit());
+        if (parsableBitArray.readBit()) {
+            Assertions.checkArgument(readBits > 0);
+            for (int i4 = readBits - 1; i4 > 0; i4 >>= 1) {
+                i++;
+            }
+            parsableBitArray.skipBits(i);
+        }
+        Assertions.checkArgument(parsableBitArray.readBit());
+        int readBits2 = parsableBitArray.readBits(13);
+        Assertions.checkArgument(parsableBitArray.readBit());
+        int readBits3 = parsableBitArray.readBits(13);
+        Assertions.checkArgument(parsableBitArray.readBit());
+        parsableBitArray.skipBits(1);
+        return Pair.create(Integer.valueOf(readBits2), Integer.valueOf(readBits3));
+    }
+
     public static String buildAvcCodecString(int i, int i2, int i3) {
         return String.format("avc1.%02X%02X%02X", Integer.valueOf(i), Integer.valueOf(i2), Integer.valueOf(i3));
+    }
+
+    public static String buildHevcCodecString(int i, boolean z, int i2, int i3, int[] iArr, int i4) {
+        Object[] objArr = new Object[5];
+        objArr[0] = HEVC_GENERAL_PROFILE_SPACE_STRINGS[i];
+        objArr[1] = Integer.valueOf(i2);
+        objArr[2] = Integer.valueOf(i3);
+        objArr[3] = Character.valueOf(z ? 'H' : 'L');
+        objArr[4] = Integer.valueOf(i4);
+        StringBuilder sb = new StringBuilder(Util.formatInvariant("hvc1.%s%d.%X.%c%d", objArr));
+        int length = iArr.length;
+        while (length > 0 && iArr[length - 1] == 0) {
+            length--;
+        }
+        for (int i5 = 0; i5 < length; i5++) {
+            sb.append(String.format(".%02X", Integer.valueOf(iArr[i5])));
+        }
+        return sb.toString();
     }
 
     public static byte[] buildNalUnit(byte[] bArr, int i, int i2) {
@@ -159,43 +161,6 @@ public final class CodecSpecificDataUtil {
                 return false;
             }
             i2++;
-        }
-    }
-
-    private static int getAacAudioObjectType(ParsableBitArray parsableBitArray) {
-        int readBits = parsableBitArray.readBits(5);
-        return readBits == 31 ? parsableBitArray.readBits(6) + 32 : readBits;
-    }
-
-    private static int getAacSamplingFrequency(ParsableBitArray parsableBitArray) {
-        int readBits = parsableBitArray.readBits(4);
-        if (readBits == 15) {
-            return parsableBitArray.readBits(24);
-        }
-        Assertions.checkArgument(readBits < 13);
-        return AUDIO_SPECIFIC_CONFIG_SAMPLING_RATE_TABLE[readBits];
-    }
-
-    private static void parseGaSpecificConfig(ParsableBitArray parsableBitArray, int i, int i2) {
-        parsableBitArray.skipBits(1);
-        if (parsableBitArray.readBit()) {
-            parsableBitArray.skipBits(14);
-        }
-        boolean readBit = parsableBitArray.readBit();
-        if (i2 == 0) {
-            throw new UnsupportedOperationException();
-        }
-        if (i == 6 || i == 20) {
-            parsableBitArray.skipBits(3);
-        }
-        if (readBit) {
-            if (i == 22) {
-                parsableBitArray.skipBits(16);
-            }
-            if (i == 17 || i == 19 || i == 20 || i == 23) {
-                parsableBitArray.skipBits(3);
-            }
-            parsableBitArray.skipBits(1);
         }
     }
 }

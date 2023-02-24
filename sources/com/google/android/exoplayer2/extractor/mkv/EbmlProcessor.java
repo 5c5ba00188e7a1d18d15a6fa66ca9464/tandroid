@@ -5,7 +5,7 @@ import com.google.android.exoplayer2.extractor.ExtractorInput;
 import java.io.IOException;
 /* loaded from: classes.dex */
 public interface EbmlProcessor {
-    void binaryElement(int i, int i2, ExtractorInput extractorInput) throws IOException, InterruptedException;
+    void binaryElement(int i, int i2, ExtractorInput extractorInput) throws IOException;
 
     void endMasterElement(int i) throws ParserException;
 

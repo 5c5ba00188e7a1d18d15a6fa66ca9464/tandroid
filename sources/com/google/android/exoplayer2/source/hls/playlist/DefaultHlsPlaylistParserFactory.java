@@ -9,7 +9,7 @@ public final class DefaultHlsPlaylistParserFactory implements HlsPlaylistParserF
     }
 
     @Override // com.google.android.exoplayer2.source.hls.playlist.HlsPlaylistParserFactory
-    public ParsingLoadable.Parser<HlsPlaylist> createPlaylistParser(HlsMasterPlaylist hlsMasterPlaylist) {
-        return new HlsPlaylistParser(hlsMasterPlaylist);
+    public ParsingLoadable.Parser<HlsPlaylist> createPlaylistParser(HlsMultivariantPlaylist hlsMultivariantPlaylist, HlsMediaPlaylist hlsMediaPlaylist) {
+        return new HlsPlaylistParser(hlsMultivariantPlaylist, hlsMediaPlaylist);
     }
 }

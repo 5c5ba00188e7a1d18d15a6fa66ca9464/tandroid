@@ -4,15 +4,15 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import com.google.android.exoplayer2.audio.AudioCapabilities;
-import com.google.android.exoplayer2.audio.AudioProcessor;
 import com.google.android.exoplayer2.audio.AudioRendererEventListener;
+import com.google.android.exoplayer2.audio.AudioSink;
 import com.google.android.exoplayer2.audio.DefaultAudioSink;
 import com.google.android.exoplayer2.audio.MediaCodecAudioRenderer;
-import com.google.android.exoplayer2.drm.DrmSessionManager;
-import com.google.android.exoplayer2.drm.FrameworkMediaCrypto;
 import com.google.android.exoplayer2.ext.ffmpeg.FfmpegAudioRenderer;
 import com.google.android.exoplayer2.ext.flac.LibflacAudioRenderer;
 import com.google.android.exoplayer2.ext.opus.LibopusAudioRenderer;
+import com.google.android.exoplayer2.mediacodec.DefaultMediaCodecAdapterFactory;
+import com.google.android.exoplayer2.mediacodec.MediaCodecAdapter;
 import com.google.android.exoplayer2.mediacodec.MediaCodecSelector;
 import com.google.android.exoplayer2.metadata.MetadataOutput;
 import com.google.android.exoplayer2.metadata.MetadataRenderer;
@@ -26,16 +26,14 @@ import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class DefaultRenderersFactory implements RenderersFactory {
     private final Context context;
-    private DrmSessionManager<FrameworkMediaCrypto> drmSessionManager;
+    private boolean enableAudioTrackPlaybackParams;
     private boolean enableDecoderFallback;
-    private boolean playClearSamplesWithoutKeys;
+    private boolean enableFloatOutput;
+    private boolean enableOffload;
+    private final DefaultMediaCodecAdapterFactory codecAdapterFactory = new DefaultMediaCodecAdapterFactory();
     private int extensionRendererMode = 0;
     private long allowedVideoJoiningTimeMs = 5000;
     private MediaCodecSelector mediaCodecSelector = MediaCodecSelector.DEFAULT;
-
-    protected AudioProcessor[] buildAudioProcessors() {
-        return new AudioProcessor[0];
-    }
 
     protected void buildMiscellaneousRenderers(Context context, Handler handler, int i, ArrayList<Renderer> arrayList) {
     }
@@ -50,12 +48,13 @@ public class DefaultRenderersFactory implements RenderersFactory {
     }
 
     @Override // com.google.android.exoplayer2.RenderersFactory
-    public Renderer[] createRenderers(Handler handler, VideoRendererEventListener videoRendererEventListener, AudioRendererEventListener audioRendererEventListener, TextOutput textOutput, MetadataOutput metadataOutput, DrmSessionManager<FrameworkMediaCrypto> drmSessionManager) {
-        DrmSessionManager<FrameworkMediaCrypto> drmSessionManager2 = drmSessionManager == null ? this.drmSessionManager : drmSessionManager;
+    public Renderer[] createRenderers(Handler handler, VideoRendererEventListener videoRendererEventListener, AudioRendererEventListener audioRendererEventListener, TextOutput textOutput, MetadataOutput metadataOutput) {
         ArrayList<Renderer> arrayList = new ArrayList<>();
-        DrmSessionManager<FrameworkMediaCrypto> drmSessionManager3 = drmSessionManager2;
-        buildVideoRenderers(this.context, this.extensionRendererMode, this.mediaCodecSelector, drmSessionManager3, this.playClearSamplesWithoutKeys, this.enableDecoderFallback, handler, videoRendererEventListener, this.allowedVideoJoiningTimeMs, arrayList);
-        buildAudioRenderers(this.context, this.extensionRendererMode, this.mediaCodecSelector, drmSessionManager3, this.playClearSamplesWithoutKeys, this.enableDecoderFallback, buildAudioProcessors(), handler, audioRendererEventListener, arrayList);
+        buildVideoRenderers(this.context, this.extensionRendererMode, this.mediaCodecSelector, this.enableDecoderFallback, handler, videoRendererEventListener, this.allowedVideoJoiningTimeMs, arrayList);
+        AudioSink buildAudioSink = buildAudioSink(this.context, this.enableFloatOutput, this.enableAudioTrackPlaybackParams, this.enableOffload);
+        if (buildAudioSink != null) {
+            buildAudioRenderers(this.context, this.extensionRendererMode, this.mediaCodecSelector, this.enableDecoderFallback, buildAudioSink, handler, audioRendererEventListener, arrayList);
+        }
         buildTextRenderers(this.context, textOutput, handler.getLooper(), this.extensionRendererMode, arrayList);
         buildMetadataRenderers(this.context, metadataOutput, handler.getLooper(), this.extensionRendererMode, arrayList);
         buildCameraMotionRenderers(this.context, this.extensionRendererMode, arrayList);
@@ -63,9 +62,9 @@ public class DefaultRenderersFactory implements RenderersFactory {
         return (Renderer[]) arrayList.toArray(new Renderer[0]);
     }
 
-    protected void buildVideoRenderers(Context context, int i, MediaCodecSelector mediaCodecSelector, DrmSessionManager<FrameworkMediaCrypto> drmSessionManager, boolean z, boolean z2, Handler handler, VideoRendererEventListener videoRendererEventListener, long j, ArrayList<Renderer> arrayList) {
+    protected void buildVideoRenderers(Context context, int i, MediaCodecSelector mediaCodecSelector, boolean z, Handler handler, VideoRendererEventListener videoRendererEventListener, long j, ArrayList<Renderer> arrayList) {
         int i2;
-        arrayList.add(new MediaCodecVideoRenderer(context, mediaCodecSelector, j, drmSessionManager, z, z2, handler, videoRendererEventListener, 50));
+        arrayList.add(new MediaCodecVideoRenderer(context, getCodecAdapterFactory(), mediaCodecSelector, j, z, handler, videoRendererEventListener, 50));
         if (i == 0) {
             return;
         }
@@ -99,10 +98,15 @@ public class DefaultRenderersFactory implements RenderersFactory {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void buildAudioRenderers(Context context, int i, MediaCodecSelector mediaCodecSelector, DrmSessionManager<FrameworkMediaCrypto> drmSessionManager, boolean z, boolean z2, AudioProcessor[] audioProcessorArr, Handler handler, AudioRendererEventListener audioRendererEventListener, ArrayList<Renderer> arrayList) {
+    /* JADX WARN: Can't wrap try/catch for region: R(14:5|(1:7)|8|9|10|11|(2:12|13)|14|(5:15|16|17|18|19)|20|21|22|(2:23|24)|(2:26|27)) */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    protected void buildAudioRenderers(Context context, int i, MediaCodecSelector mediaCodecSelector, boolean z, AudioSink audioSink, Handler handler, AudioRendererEventListener audioRendererEventListener, ArrayList<Renderer> arrayList) {
         int i2;
-        arrayList.add(new MediaCodecAudioRenderer(context, mediaCodecSelector, drmSessionManager, z, z2, handler, audioRendererEventListener, new DefaultAudioSink(AudioCapabilities.getCapabilities(context), audioProcessorArr)));
+        int i3;
+        int i4;
+        arrayList.add(new MediaCodecAudioRenderer(context, getCodecAdapterFactory(), mediaCodecSelector, z, handler, audioRendererEventListener, audioSink));
         if (i == 0) {
             return;
         }
@@ -113,46 +117,67 @@ public class DefaultRenderersFactory implements RenderersFactory {
         try {
             try {
                 i2 = size + 1;
-                try {
-                    arrayList.add(size, (Renderer) LibopusAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioProcessor[].class).newInstance(handler, audioRendererEventListener, audioProcessorArr));
-                    Log.i("DefaultRenderersFactory", "Loaded LibopusAudioRenderer.");
-                } catch (ClassNotFoundException unused) {
-                    size = i2;
-                    i2 = size;
-                    try {
-                        int i3 = i2 + 1;
-                        try {
-                            arrayList.add(i2, (Renderer) LibflacAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioProcessor[].class).newInstance(handler, audioRendererEventListener, audioProcessorArr));
-                            Log.i("DefaultRenderersFactory", "Loaded LibflacAudioRenderer.");
-                        } catch (ClassNotFoundException unused2) {
-                            i2 = i3;
-                            i3 = i2;
-                            arrayList.add(i3, (Renderer) FfmpegAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioProcessor[].class).newInstance(handler, audioRendererEventListener, audioProcessorArr));
-                            Log.i("DefaultRenderersFactory", "Loaded FfmpegAudioRenderer.");
-                        }
-                        arrayList.add(i3, (Renderer) FfmpegAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioProcessor[].class).newInstance(handler, audioRendererEventListener, audioProcessorArr));
-                        Log.i("DefaultRenderersFactory", "Loaded FfmpegAudioRenderer.");
-                    } catch (Exception e) {
-                        throw new RuntimeException("Error instantiating FLAC extension", e);
-                    }
-                }
-            } catch (ClassNotFoundException unused3) {
+            } catch (Exception e) {
+                throw new RuntimeException("Error instantiating MIDI extension", e);
             }
+        } catch (ClassNotFoundException unused) {
+        }
+        try {
             try {
-                int i32 = i2 + 1;
-                arrayList.add(i2, (Renderer) LibflacAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioProcessor[].class).newInstance(handler, audioRendererEventListener, audioProcessorArr));
+                arrayList.add(size, (Renderer) Class.forName("com.google.android.exoplayer2.decoder.midi.MidiRenderer").getConstructor(new Class[0]).newInstance(new Object[0]));
+                Log.i("DefaultRenderersFactory", "Loaded MidiRenderer.");
+            } catch (ClassNotFoundException unused2) {
+                size = i2;
+                i2 = size;
+                try {
+                    i3 = i2 + 1;
+                    try {
+                        arrayList.add(i2, (Renderer) LibopusAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioSink.class).newInstance(handler, audioRendererEventListener, audioSink));
+                        Log.i("DefaultRenderersFactory", "Loaded LibopusAudioRenderer.");
+                    } catch (ClassNotFoundException unused3) {
+                        i2 = i3;
+                        i3 = i2;
+                        i4 = i3 + 1;
+                        arrayList.add(i3, (Renderer) LibflacAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioSink.class).newInstance(handler, audioRendererEventListener, audioSink));
+                        Log.i("DefaultRenderersFactory", "Loaded LibflacAudioRenderer.");
+                        arrayList.add(i4, (Renderer) FfmpegAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioSink.class).newInstance(handler, audioRendererEventListener, audioSink));
+                        Log.i("DefaultRenderersFactory", "Loaded FfmpegAudioRenderer.");
+                    }
+                    i4 = i3 + 1;
+                    arrayList.add(i3, (Renderer) LibflacAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioSink.class).newInstance(handler, audioRendererEventListener, audioSink));
+                    Log.i("DefaultRenderersFactory", "Loaded LibflacAudioRenderer.");
+                    arrayList.add(i4, (Renderer) FfmpegAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioSink.class).newInstance(handler, audioRendererEventListener, audioSink));
+                    Log.i("DefaultRenderersFactory", "Loaded FfmpegAudioRenderer.");
+                } catch (Exception e2) {
+                    throw new RuntimeException("Error instantiating Opus extension", e2);
+                }
+            }
+            i4 = i3 + 1;
+            try {
+                arrayList.add(i3, (Renderer) LibflacAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioSink.class).newInstance(handler, audioRendererEventListener, audioSink));
                 Log.i("DefaultRenderersFactory", "Loaded LibflacAudioRenderer.");
             } catch (ClassNotFoundException unused4) {
+                i3 = i4;
+                i4 = i3;
+                arrayList.add(i4, (Renderer) FfmpegAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioSink.class).newInstance(handler, audioRendererEventListener, audioSink));
+                Log.i("DefaultRenderersFactory", "Loaded FfmpegAudioRenderer.");
             }
             try {
-                arrayList.add(i32, (Renderer) FfmpegAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioProcessor[].class).newInstance(handler, audioRendererEventListener, audioProcessorArr));
+                arrayList.add(i4, (Renderer) FfmpegAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioSink.class).newInstance(handler, audioRendererEventListener, audioSink));
                 Log.i("DefaultRenderersFactory", "Loaded FfmpegAudioRenderer.");
             } catch (ClassNotFoundException unused5) {
-            } catch (Exception e2) {
-                throw new RuntimeException("Error instantiating FFmpeg extension", e2);
+                return;
+            } catch (Exception e3) {
+                throw new RuntimeException("Error instantiating FFmpeg extension", e3);
             }
-        } catch (Exception e3) {
-            throw new RuntimeException("Error instantiating Opus extension", e3);
+        } catch (Exception e4) {
+            throw new RuntimeException("Error instantiating FLAC extension", e4);
+        }
+        try {
+            i3 = i2 + 1;
+            arrayList.add(i2, (Renderer) LibopusAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioSink.class).newInstance(handler, audioRendererEventListener, audioSink));
+            Log.i("DefaultRenderersFactory", "Loaded LibopusAudioRenderer.");
+        } catch (ClassNotFoundException unused6) {
         }
     }
 
@@ -166,5 +191,13 @@ public class DefaultRenderersFactory implements RenderersFactory {
 
     protected void buildCameraMotionRenderers(Context context, int i, ArrayList<Renderer> arrayList) {
         arrayList.add(new CameraMotionRenderer());
+    }
+
+    protected AudioSink buildAudioSink(Context context, boolean z, boolean z2, boolean z3) {
+        return new DefaultAudioSink.Builder().setAudioCapabilities(AudioCapabilities.getCapabilities(context)).setEnableFloatOutput(z).setEnableAudioTrackPlaybackParams(z2).setOffloadMode(z3 ? 1 : 0).build();
+    }
+
+    protected MediaCodecAdapter.Factory getCodecAdapterFactory() {
+        return this.codecAdapterFactory;
     }
 }

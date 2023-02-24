@@ -11,16 +11,13 @@ import com.google.android.gms.common.util.PlatformVersion;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicBoolean;
-import javax.annotation.concurrent.GuardedBy;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class BackgroundDetector implements Application.ActivityLifecycleCallbacks, ComponentCallbacks2 {
     private static final BackgroundDetector zza = new BackgroundDetector();
     private final AtomicBoolean zzb = new AtomicBoolean();
     private final AtomicBoolean zzc = new AtomicBoolean();
-    @GuardedBy("sInstance")
     private final ArrayList zzd = new ArrayList();
-    @GuardedBy("sInstance")
     private boolean zze = false;
 
     /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */

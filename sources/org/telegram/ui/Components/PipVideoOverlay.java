@@ -410,7 +410,7 @@ public class PipVideoOverlay {
             springAnimation.cancel();
             this.pipYSpring.cancel();
         }
-        if (z) {
+        if (z || this.contentView == null) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {

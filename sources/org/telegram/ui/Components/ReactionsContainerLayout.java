@@ -37,6 +37,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.ImageLocation;
@@ -657,8 +658,8 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     }
 
     /* JADX WARN: Removed duplicated region for block: B:13:0x0075  */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x047f  */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x04a0  */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x0485  */
+    /* JADX WARN: Removed duplicated region for block: B:147:0x04a6  */
     /* JADX WARN: Removed duplicated region for block: B:16:0x007c  */
     /* JADX WARN: Removed duplicated region for block: B:31:0x00c7  */
     /* JADX WARN: Removed duplicated region for block: B:41:0x00f8  */
@@ -819,7 +820,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                                             if (this.transitionProgress != 1.0f) {
                                                 this.customEmojiReactionsIconView.resetAnimation();
                                             }
-                                            this.customEmojiReactionsIconView.play(i5, SharedConfig.playEmojiInKeyboard || SharedConfig.getDevicePerformanceClass() >= 1);
+                                            this.customEmojiReactionsIconView.play(i5, LiteMode.isEnabled(8) || SharedConfig.getDevicePerformanceClass() >= 1);
                                             i5 += 30;
                                         }
                                         this.lastVisibleViews.add(childAt);
@@ -1129,7 +1130,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                         }
                     }
                 }
-            } else {
+            } else if (BuildVars.DEBUG_VERSION) {
                 throw new RuntimeException("Unknown chat reactions type: " + tLRPC$ChatFull.available_reactions);
             }
         } else {
@@ -1601,7 +1602,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 return;
             }
             SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.activate_animation, "windowBackgroundWhiteGrayIcon", 1.0f);
-            if (!LiteMode.isEnabled(8) || !SharedConfig.playEmojiInKeyboard) {
+            if (!LiteMode.isEnabled(8)) {
                 if (SharedConfig.getDevicePerformanceClass() <= 0) {
                     this.loopImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_firstframe", null, null, this.hasEnterAnimation ? null : svgThumb, 0L, "tgs", this.currentReaction, 0);
                 } else {

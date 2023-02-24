@@ -6,14 +6,14 @@ import java.util.EnumSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.telegram.messenger.LiteMode;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class Logging {
     private static final Logger fallbackLogger = createFallbackLogger();
     private static Loggable loggable;
     private static Severity loggableSeverity;
     private static volatile boolean loggingEnabled;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public enum Severity {
         LS_VERBOSE,
         LS_INFO,
@@ -54,7 +54,7 @@ public class Logging {
     }
 
     @Deprecated
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public enum TraceLevel {
         TRACE_NONE(0),
         TRACE_STATEINFO(1),
@@ -126,7 +126,7 @@ public class Logging {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static /* synthetic */ class 1 {
         static final /* synthetic */ int[] $SwitchMap$org$webrtc$Logging$Severity;
 

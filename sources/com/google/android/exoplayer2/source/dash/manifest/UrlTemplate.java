@@ -74,7 +74,7 @@ public final class UrlTemplate {
                     int indexOf3 = substring.indexOf("%0");
                     if (indexOf3 != -1) {
                         str2 = substring.substring(indexOf3);
-                        if (!str2.endsWith("d") && !str2.endsWith("x")) {
+                        if (!str2.endsWith("d") && !str2.endsWith("x") && !str2.endsWith("X")) {
                             str2 = str2 + "d";
                         }
                         substring = substring.substring(0, indexOf3);

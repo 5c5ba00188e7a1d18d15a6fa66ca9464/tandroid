@@ -678,12 +678,16 @@ public class AvatarConstructorFragment extends BaseFragment {
 
     public void startFrom(AvatarConstructorPreviewCell avatarConstructorPreviewCell) {
         BackgroundGradient backgroundGradient = avatarConstructorPreviewCell.getBackgroundGradient();
-        this.previewView.setGradient(backgroundGradient);
+        PreviewView previewView = this.previewView;
+        if (previewView == null) {
+            return;
+        }
+        previewView.setGradient(backgroundGradient);
         if (avatarConstructorPreviewCell.getAnimatedEmoji() != null) {
             long documentId = avatarConstructorPreviewCell.getAnimatedEmoji().getDocumentId();
-            PreviewView previewView = this.previewView;
-            previewView.documentId = documentId;
-            previewView.backupImageView.setAnimatedEmojiDrawable(new AnimatedEmojiDrawable(14, this.currentAccount, documentId));
+            PreviewView previewView2 = this.previewView;
+            previewView2.documentId = documentId;
+            previewView2.backupImageView.setAnimatedEmojiDrawable(new AnimatedEmojiDrawable(14, this.currentAccount, documentId));
         }
         this.backgroundSelectView.selectGradient(backgroundGradient);
         this.selectAnimatedEmojiDialog.setForUser(avatarConstructorPreviewCell.forUser);

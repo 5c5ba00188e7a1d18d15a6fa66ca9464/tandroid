@@ -908,6 +908,9 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         TextPaint textPaint;
         ChatActionCellDelegate chatActionCellDelegate;
         int dp = i - AndroidUtilities.dp(30.0f);
+        if (dp < 0) {
+            return;
+        }
         this.invalidatePath = true;
         MessageObject messageObject = this.currentMessageObject;
         if (messageObject != null && messageObject.drawServiceWithDefaultTypeface) {

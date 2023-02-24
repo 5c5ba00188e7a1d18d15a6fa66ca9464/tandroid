@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.source.chunk;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DataSpec;
+import com.google.android.exoplayer2.util.Assertions;
 /* loaded from: classes.dex */
 public abstract class BaseMediaChunk extends MediaChunk {
     public final long clippedEndTimeUs;
@@ -22,11 +23,11 @@ public abstract class BaseMediaChunk extends MediaChunk {
     }
 
     public final int getFirstSampleIndex(int i) {
-        return this.firstSampleIndices[i];
+        return ((int[]) Assertions.checkStateNotNull(this.firstSampleIndices))[i];
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
     public final BaseMediaChunkOutput getOutput() {
-        return this.output;
+        return (BaseMediaChunkOutput) Assertions.checkStateNotNull(this.output);
     }
 }

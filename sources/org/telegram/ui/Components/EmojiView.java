@@ -3213,7 +3213,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         private int lastChildCount;
         ArrayList<DrawingInBackgroundLine> lineDrawables;
         ArrayList<DrawingInBackgroundLine> lineDrawablesTmp;
-        private HashMap<Integer, TouchDownInfo> touches;
+        private SparseArray<TouchDownInfo> touches;
         ArrayList<ArrayList<ImageViewEmoji>> unusedArrays;
         ArrayList<DrawingInBackgroundLine> unusedLineDrawables;
         SparseArray<ArrayList<ImageViewEmoji>> viewsGroupedByLines;
@@ -3519,35 +3519,38 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         }
 
         public void clearTouchesFor(View view) {
-            TouchDownInfo remove;
-            HashMap<Integer, TouchDownInfo> hashMap = this.touches;
-            if (hashMap != null) {
-                for (Map.Entry<Integer, TouchDownInfo> entry : hashMap.entrySet()) {
-                    if (entry != null && entry.getValue().view == view && (remove = this.touches.remove(entry.getKey())) != null) {
-                        View view2 = remove.view;
+            if (this.touches != null) {
+                int i = 0;
+                while (i < this.touches.size()) {
+                    TouchDownInfo valueAt = this.touches.valueAt(i);
+                    if (valueAt.view == view) {
+                        this.touches.removeAt(i);
+                        i--;
+                        View view2 = valueAt.view;
                         if (view2 != null && Build.VERSION.SDK_INT >= 21 && (view2.getBackground() instanceof RippleDrawable)) {
-                            remove.view.getBackground().setState(new int[0]);
+                            valueAt.view.getBackground().setState(new int[0]);
                         }
-                        View view3 = remove.view;
+                        View view3 = valueAt.view;
                         if (view3 != null) {
                             view3.setPressed(false);
                         }
                     }
+                    i++;
                 }
             }
         }
 
         public void clearAllTouches() {
-            TouchDownInfo remove;
-            HashMap<Integer, TouchDownInfo> hashMap = this.touches;
-            if (hashMap != null) {
-                for (Map.Entry<Integer, TouchDownInfo> entry : hashMap.entrySet()) {
-                    if (entry != null && entry.getValue().view != null && (remove = this.touches.remove(entry.getKey())) != null) {
-                        View view = remove.view;
+            if (this.touches != null) {
+                while (this.touches.size() > 0) {
+                    TouchDownInfo valueAt = this.touches.valueAt(0);
+                    this.touches.removeAt(0);
+                    if (valueAt != null) {
+                        View view = valueAt.view;
                         if (view != null && Build.VERSION.SDK_INT >= 21 && (view.getBackground() instanceof RippleDrawable)) {
-                            remove.view.getBackground().setState(new int[0]);
+                            valueAt.view.getBackground().setState(new int[0]);
                         }
-                        View view2 = remove.view;
+                        View view2 = valueAt.view;
                         if (view2 != null) {
                             view2.setPressed(false);
                         }
@@ -3738,15 +3741,16 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 int actionIndex = motionEvent.getActionIndex();
                 int pointerId = motionEvent.getPointerId(actionIndex);
                 if (this.touches == null) {
-                    this.touches = new HashMap<>();
+                    this.touches = new SparseArray<>();
                 }
                 float x = motionEvent.getX(actionIndex);
                 float y = motionEvent.getY(actionIndex);
                 View findChildViewUnder = findChildViewUnder(x, y);
                 if (!z) {
-                    TouchDownInfo remove = this.touches.remove(Integer.valueOf(pointerId));
-                    if (findChildViewUnder != null && remove != null && Math.sqrt(Math.pow(x - remove.x, 2.0d) + Math.pow(y - remove.y, 2.0d)) < AndroidUtilities.touchSlop * 3.0f && !z3 && (!EmojiView.this.pickerViewPopup.isShowing() || SystemClock.elapsedRealtime() - remove.time < ViewConfiguration.getLongPressTimeout())) {
-                        View view3 = remove.view;
+                    TouchDownInfo touchDownInfo = this.touches.get(pointerId);
+                    this.touches.remove(pointerId);
+                    if (findChildViewUnder != null && touchDownInfo != null && Math.sqrt(Math.pow(x - touchDownInfo.x, 2.0d) + Math.pow(y - touchDownInfo.y, 2.0d)) < AndroidUtilities.touchSlop * 3.0f && !z3 && (!EmojiView.this.pickerViewPopup.isShowing() || SystemClock.elapsedRealtime() - touchDownInfo.time < ViewConfiguration.getLongPressTimeout())) {
+                        View view3 = touchDownInfo.view;
                         int childAdapterPosition = getChildAdapterPosition(view3);
                         try {
                             if (view3 instanceof ImageViewEmoji) {
@@ -3761,27 +3765,27 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                         } catch (Exception unused) {
                         }
                     }
-                    if (remove != null && (view2 = remove.view) != null && Build.VERSION.SDK_INT >= 21 && (view2.getBackground() instanceof RippleDrawable)) {
-                        remove.view.getBackground().setState(new int[0]);
+                    if (touchDownInfo != null && (view2 = touchDownInfo.view) != null && Build.VERSION.SDK_INT >= 21 && (view2.getBackground() instanceof RippleDrawable)) {
+                        touchDownInfo.view.getBackground().setState(new int[0]);
                     }
-                    if (remove != null && (view = remove.view) != null) {
+                    if (touchDownInfo != null && (view = touchDownInfo.view) != null) {
                         view.setPressed(false);
                     }
                 } else if (findChildViewUnder != null) {
-                    TouchDownInfo touchDownInfo = new TouchDownInfo(this);
-                    touchDownInfo.x = x;
-                    touchDownInfo.y = y;
-                    touchDownInfo.time = SystemClock.elapsedRealtime();
-                    touchDownInfo.view = findChildViewUnder;
+                    TouchDownInfo touchDownInfo2 = new TouchDownInfo(this);
+                    touchDownInfo2.x = x;
+                    touchDownInfo2.y = y;
+                    touchDownInfo2.time = SystemClock.elapsedRealtime();
+                    touchDownInfo2.view = findChildViewUnder;
                     if (Build.VERSION.SDK_INT >= 21 && (findChildViewUnder.getBackground() instanceof RippleDrawable)) {
                         findChildViewUnder.getBackground().setState(new int[]{16842919, 16842910});
                     }
-                    touchDownInfo.view.setPressed(true);
-                    this.touches.put(Integer.valueOf(pointerId), touchDownInfo);
+                    touchDownInfo2.view.setPressed(true);
+                    this.touches.put(pointerId, touchDownInfo2);
                     stopScroll();
                 }
             }
-            return super.dispatchTouchEvent(motionEvent) || !(z3 || this.touches.isEmpty());
+            return super.dispatchTouchEvent(motionEvent) || (!z3 && this.touches.size() > 0);
         }
     }
 

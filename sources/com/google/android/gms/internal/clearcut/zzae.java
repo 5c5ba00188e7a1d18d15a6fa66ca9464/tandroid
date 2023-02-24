@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.UserManager;
 import android.util.Log;
 import androidx.core.content.PermissionChecker;
-import javax.annotation.Nullable;
 /* loaded from: classes.dex */
 public abstract class zzae<T> {
     private static final Object zzdn = new Object();
@@ -127,7 +126,6 @@ public abstract class zzae<T> {
         return false;
     }
 
-    @Nullable
     @TargetApi(24)
     private final T zzl() {
         Uri uri;
@@ -193,7 +191,6 @@ public abstract class zzae<T> {
         return null;
     }
 
-    @Nullable
     private final T zzm() {
         boolean z;
         String str;

@@ -1,7 +1,6 @@
 package com.google.android.exoplayer2.drm;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.media.NotProvisionedException;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -10,13 +9,18 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.util.Pair;
 import com.google.android.exoplayer2.C;
+import com.google.android.exoplayer2.analytics.PlayerId;
+import com.google.android.exoplayer2.decoder.CryptoConfig;
 import com.google.android.exoplayer2.drm.DrmInitData;
 import com.google.android.exoplayer2.drm.DrmSession;
-import com.google.android.exoplayer2.drm.ExoMediaCrypto;
+import com.google.android.exoplayer2.drm.DrmSessionEventListener;
 import com.google.android.exoplayer2.drm.ExoMediaDrm;
+import com.google.android.exoplayer2.source.LoadEventInfo;
+import com.google.android.exoplayer2.source.MediaLoadData;
 import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy;
 import com.google.android.exoplayer2.util.Assertions;
-import com.google.android.exoplayer2.util.EventDispatcher;
+import com.google.android.exoplayer2.util.Consumer;
+import com.google.android.exoplayer2.util.CopyOnWriteMultiset;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
@@ -26,65 +30,64 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import org.checkerframework.checker.nullness.qual.EnsuresNonNullIf;
-import org.checkerframework.checker.nullness.qual.RequiresNonNull;
-import org.telegram.messenger.BuildConfig;
 /* JADX INFO: Access modifiers changed from: package-private */
-@TargetApi(18)
 /* loaded from: classes.dex */
-public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T> {
+public class DefaultDrmSession implements DrmSession {
     final MediaDrmCallback callback;
+    private CryptoConfig cryptoConfig;
     private ExoMediaDrm.KeyRequest currentKeyRequest;
     private ExoMediaDrm.ProvisionRequest currentProvisionRequest;
-    private final EventDispatcher<DefaultDrmSessionEventListener> eventDispatcher;
+    private final CopyOnWriteMultiset<DrmSessionEventListener.EventDispatcher> eventDispatchers;
     private final boolean isPlaceholderSession;
     private final HashMap<String, String> keyRequestParameters;
     private DrmSession.DrmSessionException lastException;
     private final LoadErrorHandlingPolicy loadErrorHandlingPolicy;
-    private T mediaCrypto;
-    private final ExoMediaDrm<T> mediaDrm;
+    private final ExoMediaDrm mediaDrm;
     private final int mode;
     private byte[] offlineLicenseKeySetId;
     private final boolean playClearSamplesWithoutKeys;
-    private final ProvisioningManager<T> provisioningManager;
+    private final PlayerId playerId;
+    private final ProvisioningManager provisioningManager;
     private int referenceCount;
-    private final ReleaseCallback<T> releaseCallback;
-    private DefaultDrmSession<T>.RequestHandler requestHandler;
+    private final ReferenceCountListener referenceCountListener;
+    private RequestHandler requestHandler;
     private HandlerThread requestHandlerThread;
-    final DefaultDrmSession<T>.ResponseHandler responseHandler;
+    final ResponseHandler responseHandler;
     public final List<DrmInitData.SchemeData> schemeDatas;
     private byte[] sessionId;
     private int state;
     final UUID uuid;
 
     /* loaded from: classes.dex */
-    public interface ProvisioningManager<T extends ExoMediaCrypto> {
+    public interface ProvisioningManager {
         void onProvisionCompleted();
 
-        void onProvisionError(Exception exc);
+        void onProvisionError(Exception exc, boolean z);
 
-        void provisionRequired(DefaultDrmSession<T> defaultDrmSession);
+        void provisionRequired(DefaultDrmSession defaultDrmSession);
     }
 
     /* loaded from: classes.dex */
-    public interface ReleaseCallback<T extends ExoMediaCrypto> {
-        void onSessionReleased(DefaultDrmSession<T> defaultDrmSession);
+    public interface ReferenceCountListener {
+        void onReferenceCountDecremented(DefaultDrmSession defaultDrmSession, int i);
+
+        void onReferenceCountIncremented(DefaultDrmSession defaultDrmSession, int i);
     }
 
     /* loaded from: classes.dex */
     public static final class UnexpectedDrmSessionException extends IOException {
         public UnexpectedDrmSessionException(Throwable th) {
-            super("Unexpected " + th.getClass().getSimpleName() + ": " + th.getMessage(), th);
+            super(th);
         }
     }
 
-    public DefaultDrmSession(UUID uuid, ExoMediaDrm<T> exoMediaDrm, ProvisioningManager<T> provisioningManager, ReleaseCallback<T> releaseCallback, List<DrmInitData.SchemeData> list, int i, boolean z, boolean z2, byte[] bArr, HashMap<String, String> hashMap, MediaDrmCallback mediaDrmCallback, Looper looper, EventDispatcher<DefaultDrmSessionEventListener> eventDispatcher, LoadErrorHandlingPolicy loadErrorHandlingPolicy) {
+    public DefaultDrmSession(UUID uuid, ExoMediaDrm exoMediaDrm, ProvisioningManager provisioningManager, ReferenceCountListener referenceCountListener, List<DrmInitData.SchemeData> list, int i, boolean z, boolean z2, byte[] bArr, HashMap<String, String> hashMap, MediaDrmCallback mediaDrmCallback, Looper looper, LoadErrorHandlingPolicy loadErrorHandlingPolicy, PlayerId playerId) {
         if (i == 1 || i == 3) {
             Assertions.checkNotNull(bArr);
         }
         this.uuid = uuid;
         this.provisioningManager = provisioningManager;
-        this.releaseCallback = releaseCallback;
+        this.referenceCountListener = referenceCountListener;
         this.mediaDrm = exoMediaDrm;
         this.mode = i;
         this.playClearSamplesWithoutKeys = z;
@@ -97,8 +100,9 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
         }
         this.keyRequestParameters = hashMap;
         this.callback = mediaDrmCallback;
-        this.eventDispatcher = eventDispatcher;
+        this.eventDispatchers = new CopyOnWriteMultiset<>();
         this.loadErrorHandlingPolicy = loadErrorHandlingPolicy;
+        this.playerId = playerId;
         this.state = 2;
         this.responseHandler = new ResponseHandler(looper);
     }
@@ -117,6 +121,16 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
     public void provision() {
         this.currentProvisionRequest = this.mediaDrm.getProvisionRequest();
         ((RequestHandler) Util.castNonNull(this.requestHandler)).post(0, Assertions.checkNotNull(this.currentProvisionRequest), true);
+    }
+
+    public void onProvisionCompleted() {
+        if (openInternal()) {
+            doLicense(true);
+        }
+    }
+
+    public void onProvisionError(Exception exc, boolean z) {
+        onError(exc, z ? 1 : 3);
     }
 
     @Override // com.google.android.exoplayer2.drm.DrmSession
@@ -138,8 +152,13 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
     }
 
     @Override // com.google.android.exoplayer2.drm.DrmSession
-    public final T getMediaCrypto() {
-        return this.mediaCrypto;
+    public final UUID getSchemeUuid() {
+        return this.uuid;
+    }
+
+    @Override // com.google.android.exoplayer2.drm.DrmSession
+    public final CryptoConfig getCryptoConfig() {
+        return this.cryptoConfig;
     }
 
     @Override // com.google.android.exoplayer2.drm.DrmSession
@@ -152,34 +171,53 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
     }
 
     @Override // com.google.android.exoplayer2.drm.DrmSession
-    public void acquire() {
-        Assertions.checkState(this.referenceCount >= 0);
+    public boolean requiresSecureDecoder(String str) {
+        return this.mediaDrm.requiresSecureDecoder((byte[]) Assertions.checkStateNotNull(this.sessionId), str);
+    }
+
+    @Override // com.google.android.exoplayer2.drm.DrmSession
+    public void acquire(DrmSessionEventListener.EventDispatcher eventDispatcher) {
+        if (this.referenceCount < 0) {
+            Log.e("DefaultDrmSession", "Session reference count less than zero: " + this.referenceCount);
+            this.referenceCount = 0;
+        }
+        if (eventDispatcher != null) {
+            this.eventDispatchers.add(eventDispatcher);
+        }
         int i = this.referenceCount + 1;
         this.referenceCount = i;
         if (i == 1) {
             Assertions.checkState(this.state == 2);
-            HandlerThread handlerThread = new HandlerThread("DrmRequestHandler");
+            HandlerThread handlerThread = new HandlerThread("ExoPlayer:DrmRequestHandler");
             this.requestHandlerThread = handlerThread;
             handlerThread.start();
             this.requestHandler = new RequestHandler(this.requestHandlerThread.getLooper());
-            if (openInternal(true)) {
+            if (openInternal()) {
                 doLicense(true);
             }
+        } else if (eventDispatcher != null && isOpen() && this.eventDispatchers.count(eventDispatcher) == 1) {
+            eventDispatcher.drmSessionAcquired(this.state);
         }
+        this.referenceCountListener.onReferenceCountIncremented(this, this.referenceCount);
     }
 
     @Override // com.google.android.exoplayer2.drm.DrmSession
-    public void release() {
-        int i = this.referenceCount - 1;
-        this.referenceCount = i;
-        if (i == 0) {
+    public void release(DrmSessionEventListener.EventDispatcher eventDispatcher) {
+        int i = this.referenceCount;
+        if (i <= 0) {
+            Log.e("DefaultDrmSession", "release() called on a session that's already fully released.");
+            return;
+        }
+        int i2 = i - 1;
+        this.referenceCount = i2;
+        if (i2 == 0) {
             this.state = 0;
             ((ResponseHandler) Util.castNonNull(this.responseHandler)).removeCallbacksAndMessages(null);
-            ((RequestHandler) Util.castNonNull(this.requestHandler)).removeCallbacksAndMessages(null);
+            ((RequestHandler) Util.castNonNull(this.requestHandler)).release();
             this.requestHandler = null;
             ((HandlerThread) Util.castNonNull(this.requestHandlerThread)).quit();
             this.requestHandlerThread = null;
-            this.mediaCrypto = null;
+            this.cryptoConfig = null;
             this.lastException = null;
             this.currentKeyRequest = null;
             this.currentProvisionRequest = null;
@@ -187,34 +225,40 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
             if (bArr != null) {
                 this.mediaDrm.closeSession(bArr);
                 this.sessionId = null;
-                this.eventDispatcher.dispatch(DefaultDrmSession$$ExternalSyntheticLambda4.INSTANCE);
             }
-            this.releaseCallback.onSessionReleased(this);
         }
+        if (eventDispatcher != null) {
+            this.eventDispatchers.remove(eventDispatcher);
+            if (this.eventDispatchers.count(eventDispatcher) == 0) {
+                eventDispatcher.drmSessionReleased();
+            }
+        }
+        this.referenceCountListener.onReferenceCountDecremented(this, this.referenceCount);
     }
 
-    @EnsuresNonNullIf(expression = {"sessionId"}, result = BuildConfig.DEBUG_VERSION)
-    private boolean openInternal(boolean z) {
+    private boolean openInternal() {
         if (isOpen()) {
             return true;
         }
         try {
             byte[] openSession = this.mediaDrm.openSession();
             this.sessionId = openSession;
-            this.mediaCrypto = this.mediaDrm.createMediaCrypto(openSession);
-            this.eventDispatcher.dispatch(DefaultDrmSession$$ExternalSyntheticLambda3.INSTANCE);
+            this.mediaDrm.setPlayerIdForSession(openSession, this.playerId);
+            this.cryptoConfig = this.mediaDrm.createCryptoConfig(this.sessionId);
             this.state = 3;
+            dispatchEvent(new Consumer() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSession$$ExternalSyntheticLambda0
+                @Override // com.google.android.exoplayer2.util.Consumer
+                public final void accept(Object obj) {
+                    ((DrmSessionEventListener.EventDispatcher) obj).drmSessionAcquired(r1);
+                }
+            });
             Assertions.checkNotNull(this.sessionId);
             return true;
-        } catch (NotProvisionedException e) {
-            if (z) {
-                this.provisioningManager.provisionRequired(this);
-                return false;
-            }
-            onError(e);
+        } catch (NotProvisionedException unused) {
+            this.provisioningManager.provisionRequired(this);
             return false;
-        } catch (Exception e2) {
-            onError(e2);
+        } catch (Exception e) {
+            onError(e, 1);
             return false;
         }
     }
@@ -225,20 +269,19 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
             if (this.state == 2 || isOpen()) {
                 this.currentProvisionRequest = null;
                 if (obj2 instanceof Exception) {
-                    this.provisioningManager.onProvisionError((Exception) obj2);
+                    this.provisioningManager.onProvisionError((Exception) obj2, false);
                     return;
                 }
                 try {
                     this.mediaDrm.provideProvisionResponse((byte[]) obj2);
                     this.provisioningManager.onProvisionCompleted();
                 } catch (Exception e) {
-                    this.provisioningManager.onProvisionError(e);
+                    this.provisioningManager.onProvisionError(e, true);
                 }
             }
         }
     }
 
-    @RequiresNonNull({"sessionId"})
     private void doLicense(boolean z) {
         if (this.isPlaceholderSession) {
             return;
@@ -254,9 +297,7 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
             } else {
                 Assertions.checkNotNull(this.offlineLicenseKeySetId);
                 Assertions.checkNotNull(this.sessionId);
-                if (restoreKeys()) {
-                    postKeyRequest(this.offlineLicenseKeySetId, 3, z);
-                }
+                postKeyRequest(this.offlineLicenseKeySetId, 3, z);
             }
         } else if (this.offlineLicenseKeySetId == null) {
             postKeyRequest(bArr, 1, z);
@@ -264,11 +305,11 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
             long licenseDurationRemainingSec = getLicenseDurationRemainingSec();
             if (this.mode != 0 || licenseDurationRemainingSec > 60) {
                 if (licenseDurationRemainingSec <= 0) {
-                    onError(new KeysExpiredException());
+                    onError(new KeysExpiredException(), 2);
                     return;
                 }
                 this.state = 4;
-                this.eventDispatcher.dispatch(DefaultDrmSession$$ExternalSyntheticLambda2.INSTANCE);
+                dispatchEvent(DefaultDrmSession$$ExternalSyntheticLambda4.INSTANCE);
                 return;
             }
             Log.d("DefaultDrmSession", "Offline license has expired or will expire soon. Remaining seconds: " + licenseDurationRemainingSec);
@@ -276,14 +317,12 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
         }
     }
 
-    @RequiresNonNull({"sessionId", "offlineLicenseKeySetId"})
     private boolean restoreKeys() {
         try {
             this.mediaDrm.restoreKeys(this.sessionId, this.offlineLicenseKeySetId);
             return true;
         } catch (Exception e) {
-            Log.e("DefaultDrmSession", "Error trying to restore keys.", e);
-            onError(e);
+            onError(e, 1);
             return false;
         }
     }
@@ -301,7 +340,7 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
             this.currentKeyRequest = this.mediaDrm.getKeyRequest(bArr, this.schemeDatas, i, this.keyRequestParameters);
             ((RequestHandler) Util.castNonNull(this.requestHandler)).post(1, Assertions.checkNotNull(this.currentKeyRequest), z);
         } catch (Exception e) {
-            onKeysError(e);
+            onKeysError(e, true);
         }
     }
 
@@ -310,14 +349,14 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
         if (obj == this.currentKeyRequest && isOpen()) {
             this.currentKeyRequest = null;
             if (obj2 instanceof Exception) {
-                onKeysError((Exception) obj2);
+                onKeysError((Exception) obj2, false);
                 return;
             }
             try {
                 byte[] bArr = (byte[]) obj2;
                 if (this.mode == 3) {
                     this.mediaDrm.provideKeyResponse((byte[]) Util.castNonNull(this.offlineLicenseKeySetId), bArr);
-                    this.eventDispatcher.dispatch(DefaultDrmSession$$ExternalSyntheticLambda2.INSTANCE);
+                    dispatchEvent(DefaultDrmSession$$ExternalSyntheticLambda3.INSTANCE);
                     return;
                 }
                 byte[] provideKeyResponse = this.mediaDrm.provideKeyResponse(this.sessionId, bArr);
@@ -326,9 +365,9 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
                     this.offlineLicenseKeySetId = provideKeyResponse;
                 }
                 this.state = 4;
-                this.eventDispatcher.dispatch(DefaultDrmSession$$ExternalSyntheticLambda1.INSTANCE);
+                dispatchEvent(DefaultDrmSession$$ExternalSyntheticLambda2.INSTANCE);
             } catch (Exception e) {
-                onKeysError(e);
+                onKeysError(e, true);
             }
         }
     }
@@ -340,20 +379,21 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
         }
     }
 
-    private void onKeysError(Exception exc) {
+    private void onKeysError(Exception exc, boolean z) {
         if (exc instanceof NotProvisionedException) {
             this.provisioningManager.provisionRequired(this);
         } else {
-            onError(exc);
+            onError(exc, z ? 1 : 2);
         }
     }
 
-    private void onError(final Exception exc) {
-        this.lastException = new DrmSession.DrmSessionException(exc);
-        this.eventDispatcher.dispatch(new EventDispatcher.Event() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSession$$ExternalSyntheticLambda0
-            @Override // com.google.android.exoplayer2.util.EventDispatcher.Event
-            public final void sendTo(Object obj) {
-                ((DefaultDrmSessionEventListener) obj).onDrmSessionManagerError(exc);
+    private void onError(final Exception exc, int i) {
+        this.lastException = new DrmSession.DrmSessionException(exc, DrmUtil.getErrorCodeForMediaDrmException(exc, i));
+        Log.e("DefaultDrmSession", "DRM session error", exc);
+        dispatchEvent(new Consumer() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSession$$ExternalSyntheticLambda1
+            @Override // com.google.android.exoplayer2.util.Consumer
+            public final void accept(Object obj) {
+                ((DrmSessionEventListener.EventDispatcher) obj).drmSessionManagerError(exc);
             }
         });
         if (this.state != 4) {
@@ -361,10 +401,15 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
         }
     }
 
-    @EnsuresNonNullIf(expression = {"sessionId"}, result = BuildConfig.DEBUG_VERSION)
     private boolean isOpen() {
         int i = this.state;
         return i == 3 || i == 4;
+    }
+
+    private void dispatchEvent(Consumer<DrmSessionEventListener.EventDispatcher> consumer) {
+        for (DrmSessionEventListener.EventDispatcher eventDispatcher : this.eventDispatchers.elementSet()) {
+            consumer.accept(eventDispatcher);
+        }
     }
 
     @SuppressLint({"HandlerLeak"})
@@ -393,14 +438,18 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
     @SuppressLint({"HandlerLeak"})
     /* loaded from: classes.dex */
     public class RequestHandler extends Handler {
+        private boolean isReleased;
+
         public RequestHandler(Looper looper) {
             super(looper);
         }
 
         void post(int i, Object obj, boolean z) {
-            obtainMessage(i, new RequestTask(z, SystemClock.elapsedRealtime(), obj)).sendToTarget();
+            obtainMessage(i, new RequestTask(LoadEventInfo.getNewId(), z, SystemClock.elapsedRealtime(), obj)).sendToTarget();
         }
 
+        /* JADX WARN: Multi-variable type inference failed */
+        /* JADX WARN: Type inference failed for: r1v0, types: [java.lang.Throwable, java.lang.Exception] */
         @Override // android.os.Handler
         public void handleMessage(Message message) {
             byte[] bArr;
@@ -416,19 +465,26 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
                 } else {
                     throw new RuntimeException();
                 }
-            } catch (Exception e) {
+            } catch (MediaDrmCallbackException e) {
                 boolean maybeRetryRequest = maybeRetryRequest(message, e);
                 bArr = e;
                 if (maybeRetryRequest) {
                     return;
                 }
+            } catch (Exception e2) {
+                Log.w("DefaultDrmSession", "Key/provisioning request produced an unexpected exception. Not retrying.", e2);
+                bArr = e2;
             }
-            DefaultDrmSession.this.responseHandler.obtainMessage(message.what, Pair.create(requestTask.request, bArr)).sendToTarget();
+            DefaultDrmSession.this.loadErrorHandlingPolicy.onLoadTaskConcluded(requestTask.taskId);
+            synchronized (this) {
+                if (!this.isReleased) {
+                    DefaultDrmSession.this.responseHandler.obtainMessage(message.what, Pair.create(requestTask.request, bArr)).sendToTarget();
+                }
+            }
         }
 
-        /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Type inference failed for: r13v3, types: [java.io.IOException] */
-        private boolean maybeRetryRequest(Message message, Exception exc) {
+        private boolean maybeRetryRequest(Message message, MediaDrmCallbackException mediaDrmCallbackException) {
+            IOException unexpectedDrmSessionException;
             RequestTask requestTask = (RequestTask) message.obj;
             if (requestTask.allowRetry) {
                 int i = requestTask.errorCount + 1;
@@ -436,14 +492,31 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
                 if (i > DefaultDrmSession.this.loadErrorHandlingPolicy.getMinimumLoadableRetryCount(3)) {
                     return false;
                 }
-                long retryDelayMsFor = DefaultDrmSession.this.loadErrorHandlingPolicy.getRetryDelayMsFor(3, SystemClock.elapsedRealtime() - requestTask.startTimeMs, exc instanceof IOException ? (IOException) exc : new UnexpectedDrmSessionException(exc), requestTask.errorCount);
+                LoadEventInfo loadEventInfo = new LoadEventInfo(requestTask.taskId, mediaDrmCallbackException.dataSpec, mediaDrmCallbackException.uriAfterRedirects, mediaDrmCallbackException.responseHeaders, SystemClock.elapsedRealtime(), SystemClock.elapsedRealtime() - requestTask.startTimeMs, mediaDrmCallbackException.bytesLoaded);
+                MediaLoadData mediaLoadData = new MediaLoadData(3);
+                if (mediaDrmCallbackException.getCause() instanceof IOException) {
+                    unexpectedDrmSessionException = (IOException) mediaDrmCallbackException.getCause();
+                } else {
+                    unexpectedDrmSessionException = new UnexpectedDrmSessionException(mediaDrmCallbackException.getCause());
+                }
+                long retryDelayMsFor = DefaultDrmSession.this.loadErrorHandlingPolicy.getRetryDelayMsFor(new LoadErrorHandlingPolicy.LoadErrorInfo(loadEventInfo, mediaLoadData, unexpectedDrmSessionException, requestTask.errorCount));
                 if (retryDelayMsFor == -9223372036854775807L) {
                     return false;
                 }
-                sendMessageDelayed(Message.obtain(message), retryDelayMsFor);
-                return true;
+                synchronized (this) {
+                    if (this.isReleased) {
+                        return false;
+                    }
+                    sendMessageDelayed(Message.obtain(message), retryDelayMsFor);
+                    return true;
+                }
             }
             return false;
+        }
+
+        public synchronized void release() {
+            removeCallbacksAndMessages(null);
+            this.isReleased = true;
         }
     }
 
@@ -454,10 +527,12 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
         public int errorCount;
         public final Object request;
         public final long startTimeMs;
+        public final long taskId;
 
-        public RequestTask(boolean z, long j, Object obj) {
+        public RequestTask(long j, boolean z, long j2, Object obj) {
+            this.taskId = j;
             this.allowRetry = z;
-            this.startTimeMs = j;
+            this.startTimeMs = j2;
             this.request = obj;
         }
     }

@@ -143,7 +143,7 @@ public class SsManifest implements FilterableManifest<SsManifest> {
                 arrayList2.add(streamElement.copy((Format[]) arrayList3.toArray(new Format[0])));
                 arrayList3.clear();
             }
-            arrayList3.add(streamElement2.formats[streamKey.trackIndex]);
+            arrayList3.add(streamElement2.formats[streamKey.streamIndex]);
             i++;
             streamElement = streamElement2;
         }

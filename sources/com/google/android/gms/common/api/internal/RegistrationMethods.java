@@ -6,7 +6,6 @@ import com.google.android.gms.common.api.Api.AnyClient;
 import com.google.android.gms.common.api.internal.ListenerHolder;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.tasks.TaskCompletionSource;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public class RegistrationMethods<A extends Api.AnyClient, L> {
@@ -35,25 +34,21 @@ public class RegistrationMethods<A extends Api.AnyClient, L> {
             return new RegistrationMethods<>(new zack(this, this.zad, this.zae, this.zaf, this.zag), new zacl(this, (ListenerHolder.ListenerKey) Preconditions.checkNotNull(this.zad.getListenerKey(), "Key must not be null")), this.zac, null);
         }
 
-        @CanIgnoreReturnValue
         public Builder<A, L> register(RemoteCall<A, TaskCompletionSource<Void>> remoteCall) {
             this.zaa = remoteCall;
             return this;
         }
 
-        @CanIgnoreReturnValue
         public Builder<A, L> setMethodKey(int i) {
             this.zag = i;
             return this;
         }
 
-        @CanIgnoreReturnValue
         public Builder<A, L> unregister(RemoteCall<A, TaskCompletionSource<Boolean>> remoteCall) {
             this.zab = remoteCall;
             return this;
         }
 
-        @CanIgnoreReturnValue
         public Builder<A, L> withHolder(ListenerHolder<L> listenerHolder) {
             this.zad = listenerHolder;
             return this;

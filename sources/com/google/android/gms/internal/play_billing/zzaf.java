@@ -1,18 +1,16 @@
 package com.google.android.gms.internal.play_billing;
 
 import java.util.Arrays;
-import javax.annotation.CheckForNull;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.android.billingclient:billing@@5.1.0 */
 /* loaded from: classes.dex */
 public final class zzaf extends zzx {
     static final zzx zza = new zzaf(null, new Object[0], 0);
     final transient Object[] zzb;
-    @CheckForNull
     private final transient Object zzc;
     private final transient int zzd;
 
-    private zzaf(@CheckForNull Object obj, Object[] objArr, int i) {
+    private zzaf(Object obj, Object[] objArr, int i) {
         this.zzc = obj;
         this.zzb = objArr;
         this.zzd = i;
@@ -223,11 +221,10 @@ public final class zzaf extends zzx {
     /* JADX WARN: Removed duplicated region for block: B:40:0x009e A[RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:41:0x009f A[RETURN] */
     @Override // com.google.android.gms.internal.play_billing.zzx, java.util.Map, j$.util.Map
-    @CheckForNull
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public final Object get(@CheckForNull Object obj) {
+    public final Object get(Object obj) {
         Object obj2;
         Object obj3 = this.zzc;
         Object[] objArr = this.zzb;

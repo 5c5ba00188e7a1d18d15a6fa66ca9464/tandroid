@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.audio.DtsUtil;
 import com.google.android.exoplayer2.extractor.ExtractorOutput;
 import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
+import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 /* loaded from: classes.dex */
 public final class DtsReader implements ElementaryStreamReader {
@@ -16,9 +17,9 @@ public final class DtsReader implements ElementaryStreamReader {
     private long sampleDurationUs;
     private int sampleSize;
     private int syncBytes;
-    private long timeUs;
     private final ParsableByteArray headerScratchBytes = new ParsableByteArray(new byte[18]);
     private int state = 0;
+    private long timeUs = -9223372036854775807L;
 
     @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
     public void packetFinished() {
@@ -33,6 +34,7 @@ public final class DtsReader implements ElementaryStreamReader {
         this.state = 0;
         this.bytesRead = 0;
         this.syncBytes = 0;
+        this.timeUs = -9223372036854775807L;
     }
 
     @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
@@ -44,11 +46,14 @@ public final class DtsReader implements ElementaryStreamReader {
 
     @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
     public void packetStarted(long j, int i) {
-        this.timeUs = j;
+        if (j != -9223372036854775807L) {
+            this.timeUs = j;
+        }
     }
 
     @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
     public void consume(ParsableByteArray parsableByteArray) {
+        Assertions.checkStateNotNull(this.output);
         while (parsableByteArray.bytesLeft() > 0) {
             int i = this.state;
             if (i != 0) {
@@ -60,14 +65,17 @@ public final class DtsReader implements ElementaryStreamReader {
                         this.bytesRead = i2;
                         int i3 = this.sampleSize;
                         if (i2 == i3) {
-                            this.output.sampleMetadata(this.timeUs, 1, i3, 0, null);
-                            this.timeUs += this.sampleDurationUs;
+                            long j = this.timeUs;
+                            if (j != -9223372036854775807L) {
+                                this.output.sampleMetadata(j, 1, i3, 0, null);
+                                this.timeUs += this.sampleDurationUs;
+                            }
                             this.state = 0;
                         }
                     } else {
                         throw new IllegalStateException();
                     }
-                } else if (continueRead(parsableByteArray, this.headerScratchBytes.data, 18)) {
+                } else if (continueRead(parsableByteArray, this.headerScratchBytes.getData(), 18)) {
                     parseHeader();
                     this.headerScratchBytes.setPosition(0);
                     this.output.sampleData(this.headerScratchBytes, 18);
@@ -94,12 +102,12 @@ public final class DtsReader implements ElementaryStreamReader {
             int readUnsignedByte = i | parsableByteArray.readUnsignedByte();
             this.syncBytes = readUnsignedByte;
             if (DtsUtil.isSyncWord(readUnsignedByte)) {
-                byte[] bArr = this.headerScratchBytes.data;
+                byte[] data = this.headerScratchBytes.getData();
                 int i2 = this.syncBytes;
-                bArr[0] = (byte) ((i2 >> 24) & 255);
-                bArr[1] = (byte) ((i2 >> 16) & 255);
-                bArr[2] = (byte) ((i2 >> 8) & 255);
-                bArr[3] = (byte) (i2 & 255);
+                data[0] = (byte) ((i2 >> 24) & 255);
+                data[1] = (byte) ((i2 >> 16) & 255);
+                data[2] = (byte) ((i2 >> 8) & 255);
+                data[3] = (byte) (i2 & 255);
                 this.bytesRead = 4;
                 this.syncBytes = 0;
                 return true;
@@ -109,13 +117,13 @@ public final class DtsReader implements ElementaryStreamReader {
     }
 
     private void parseHeader() {
-        byte[] bArr = this.headerScratchBytes.data;
+        byte[] data = this.headerScratchBytes.getData();
         if (this.format == null) {
-            Format parseDtsFormat = DtsUtil.parseDtsFormat(bArr, this.formatId, this.language, null);
+            Format parseDtsFormat = DtsUtil.parseDtsFormat(data, this.formatId, this.language, null);
             this.format = parseDtsFormat;
             this.output.format(parseDtsFormat);
         }
-        this.sampleSize = DtsUtil.getDtsFrameSize(bArr);
-        this.sampleDurationUs = (int) ((DtsUtil.parseDtsAudioSampleCount(bArr) * 1000000) / this.format.sampleRate);
+        this.sampleSize = DtsUtil.getDtsFrameSize(data);
+        this.sampleDurationUs = (int) ((DtsUtil.parseDtsAudioSampleCount(data) * 1000000) / this.format.sampleRate);
     }
 }

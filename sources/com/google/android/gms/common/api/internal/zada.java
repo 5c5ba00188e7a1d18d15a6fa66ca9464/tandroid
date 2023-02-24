@@ -11,7 +11,6 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.api.TransformedResult;
 import com.google.android.gms.common.internal.Preconditions;
 import java.lang.ref.WeakReference;
-import javax.annotation.concurrent.GuardedBy;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zada<R extends Result> extends TransformedResult<R> implements ResultCallback<R> {
@@ -41,7 +40,6 @@ public final class zada<R extends Result> extends TransformedResult<R> implement
         }
     }
 
-    @GuardedBy("mSyncToken")
     private final boolean zam() {
         return (this.zac == null || ((GoogleApiClient) this.zag.get()) == null) ? false : true;
     }

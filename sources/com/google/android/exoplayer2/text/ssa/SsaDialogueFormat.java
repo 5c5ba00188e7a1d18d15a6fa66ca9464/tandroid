@@ -2,7 +2,7 @@ package com.google.android.exoplayer2.text.ssa;
 
 import android.text.TextUtils;
 import com.google.android.exoplayer2.util.Assertions;
-import com.google.android.exoplayer2.util.Util;
+import com.google.common.base.Ascii;
 /* loaded from: classes.dex */
 final class SsaDialogueFormat {
     public final int endTimeIndex;
@@ -29,32 +29,32 @@ final class SsaDialogueFormat {
         int i3 = -1;
         int i4 = -1;
         for (int i5 = 0; i5 < split.length; i5++) {
-            String lowerInvariant = Util.toLowerInvariant(split[i5].trim());
-            lowerInvariant.hashCode();
-            switch (lowerInvariant.hashCode()) {
+            String lowerCase = Ascii.toLowerCase(split[i5].trim());
+            lowerCase.hashCode();
+            switch (lowerCase.hashCode()) {
                 case 100571:
-                    if (lowerInvariant.equals("end")) {
+                    if (lowerCase.equals("end")) {
                         c = 0;
                         break;
                     }
                     c = 65535;
                     break;
                 case 3556653:
-                    if (lowerInvariant.equals("text")) {
+                    if (lowerCase.equals("text")) {
                         c = 1;
                         break;
                     }
                     c = 65535;
                     break;
                 case 109757538:
-                    if (lowerInvariant.equals("start")) {
+                    if (lowerCase.equals("start")) {
                         c = 2;
                         break;
                     }
                     c = 65535;
                     break;
                 case 109780401:
-                    if (lowerInvariant.equals("style")) {
+                    if (lowerCase.equals("style")) {
                         c = 3;
                         break;
                     }
@@ -79,7 +79,7 @@ final class SsaDialogueFormat {
                     break;
             }
         }
-        if (i == -1 || i2 == -1) {
+        if (i == -1 || i2 == -1 || i4 == -1) {
             return null;
         }
         return new SsaDialogueFormat(i, i2, i3, i4, split.length);

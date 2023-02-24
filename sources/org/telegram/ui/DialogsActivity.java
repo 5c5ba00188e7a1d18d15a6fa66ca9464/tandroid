@@ -7327,6 +7327,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private void updateFilterTabsVisibility(boolean z) {
+        if (this.fragmentView == null) {
+            return;
+        }
         z = (this.isPaused || this.databaseMigrationHint != null) ? false : false;
         if (this.searchIsShowed) {
             ValueAnimator valueAnimator = this.filtersTabAnimator;
@@ -10222,7 +10225,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, final Object... objArr) {
-        ViewPage[] viewPageArr;
         DialogsSearchAdapter dialogsSearchAdapter;
         DialogsSearchAdapter dialogsSearchAdapter2;
         MessagesController.DialogFilter dialogFilter;
@@ -10233,12 +10235,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             int i4 = 0;
             while (true) {
-                ViewPage[] viewPageArr2 = this.viewPages;
-                if (i4 >= viewPageArr2.length) {
+                ViewPage[] viewPageArr = this.viewPages;
+                if (i4 >= viewPageArr.length) {
                     break;
                 }
-                final ViewPage viewPage = viewPageArr2[i4];
-                if (viewPageArr2[0].dialogsType == 7 || this.viewPages[0].dialogsType == 8) {
+                final ViewPage viewPage = viewPageArr[i4];
+                if (viewPageArr[0].dialogsType == 7 || this.viewPages[0].dialogsType == 8) {
                     dialogFilter = getMessagesController().selectedDialogFilter[this.viewPages[0].dialogsType == 8 ? (char) 1 : (char) 0];
                 } else {
                     dialogFilter = null;
@@ -10319,11 +10321,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             int i5 = 0;
             boolean z3 = false;
             while (true) {
-                ViewPage[] viewPageArr3 = this.viewPages;
-                if (i5 >= viewPageArr3.length) {
+                ViewPage[] viewPageArr2 = this.viewPages;
+                if (i5 >= viewPageArr2.length) {
                     break;
                 }
-                if (!viewPageArr3[i5].isDefaultDialogType() || getMessagesController().getAllFoldersDialogsCount() > 10) {
+                if (!viewPageArr2[i5].isDefaultDialogType() || getMessagesController().getAllFoldersDialogsCount() > 10) {
                     z3 = true;
                 } else {
                     this.viewPages[i5].dialogsAdapter.notifyDataSetChanged();
@@ -10339,9 +10341,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             int i6 = 0;
             while (true) {
-                ViewPage[] viewPageArr4 = this.viewPages;
-                if (i6 < viewPageArr4.length) {
-                    if (viewPageArr4[i6].isDefaultDialogType() && AndroidUtilities.isTablet()) {
+                ViewPage[] viewPageArr3 = this.viewPages;
+                if (i6 < viewPageArr3.length) {
+                    if (viewPageArr3[i6].isDefaultDialogType() && AndroidUtilities.isTablet()) {
                         boolean booleanValue = ((Boolean) objArr[2]).booleanValue();
                         long longValue = ((Long) objArr[0]).longValue();
                         int intValue = ((Integer) objArr[1]).intValue();
@@ -10436,10 +10438,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             updateDialogsHint();
         } else if (i == NotificationCenter.forceImportContactsStart) {
             setFloatingProgressVisible(true, true);
-            for (ViewPage viewPage3 : this.viewPages) {
-                viewPage3.dialogsAdapter.setForceShowEmptyCell(false);
-                viewPage3.dialogsAdapter.setForceUpdatingContacts(true);
-                viewPage3.dialogsAdapter.notifyDataSetChanged();
+            ViewPage[] viewPageArr4 = this.viewPages;
+            if (viewPageArr4 != null) {
+                for (ViewPage viewPage3 : viewPageArr4) {
+                    viewPage3.dialogsAdapter.setForceShowEmptyCell(false);
+                    viewPage3.dialogsAdapter.setForceUpdatingContacts(true);
+                    viewPage3.dialogsAdapter.notifyDataSetChanged();
+                }
             }
         } else if (i == NotificationCenter.messagesDeleted) {
             if (!this.searchIsShowed || this.searchViewPager == null) {
@@ -12389,6 +12394,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             this.slideBackTransitionAnimator = ofFloat;
             return ofFloat;
         }
+        int i = ImageReceiver.DEFAULT_CROSSFADE_DURATION;
+        if (getLayoutContainer() != null) {
+            i = (int) (Math.max((int) ((200.0f / getLayoutContainer().getMeasuredWidth()) * f), 80) * 1.2f);
+        }
         ValueAnimator ofFloat2 = ValueAnimator.ofFloat(this.slideFragmentProgress, 1.0f);
         this.slideBackTransitionAnimator = ofFloat2;
         ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda2
@@ -12398,7 +12407,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
         });
         this.slideBackTransitionAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT);
-        this.slideBackTransitionAnimator.setDuration((int) (Math.max((int) ((200.0f / getLayoutContainer().getMeasuredWidth()) * f), 80) * 1.2f));
+        this.slideBackTransitionAnimator.setDuration(i);
         this.slideBackTransitionAnimator.start();
         return this.slideBackTransitionAnimator;
     }

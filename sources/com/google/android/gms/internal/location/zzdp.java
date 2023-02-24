@@ -6,7 +6,6 @@ import java.util.AbstractCollection;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
-import javax.annotation.CheckForNull;
 /* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public abstract class zzdp extends AbstractCollection implements Serializable {
@@ -32,7 +31,7 @@ public abstract class zzdp extends AbstractCollection implements Serializable {
 
     @Override // java.util.AbstractCollection, java.util.Collection
     @Deprecated
-    public final boolean remove(@CheckForNull Object obj) {
+    public final boolean remove(Object obj) {
         throw new UnsupportedOperationException();
     }
 
@@ -78,7 +77,6 @@ public abstract class zzdp extends AbstractCollection implements Serializable {
     public abstract boolean zzf();
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    @CheckForNull
     public Object[] zzg() {
         throw null;
     }

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.CheckForNull;
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public final class zzm {
@@ -13,7 +12,7 @@ public final class zzm {
     private zzm() {
     }
 
-    public static void zza(@CheckForNull InputStream inputStream) {
+    public static void zza(InputStream inputStream) {
         if (inputStream == null) {
             return;
         }

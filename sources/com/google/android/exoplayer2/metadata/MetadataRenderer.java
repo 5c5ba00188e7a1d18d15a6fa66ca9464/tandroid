@@ -12,7 +12,6 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 /* loaded from: classes.dex */
 public final class MetadataRenderer extends BaseRenderer implements Handler.Callback {
@@ -22,11 +21,16 @@ public final class MetadataRenderer extends BaseRenderer implements Handler.Call
     private boolean inputStreamEnded;
     private final MetadataOutput output;
     private final Handler outputHandler;
-    private final Metadata[] pendingMetadata;
-    private int pendingMetadataCount;
-    private int pendingMetadataIndex;
-    private final long[] pendingMetadataTimestamps;
+    private final boolean outputMetadataEarly;
+    private boolean outputStreamEnded;
+    private long outputStreamOffsetUs;
+    private Metadata pendingMetadata;
     private long subsampleOffsetUs;
+
+    @Override // com.google.android.exoplayer2.Renderer, com.google.android.exoplayer2.RendererCapabilities
+    public String getName() {
+        return "MetadataRenderer";
+    }
 
     @Override // com.google.android.exoplayer2.Renderer
     public boolean isReady() {
@@ -38,78 +42,51 @@ public final class MetadataRenderer extends BaseRenderer implements Handler.Call
     }
 
     public MetadataRenderer(MetadataOutput metadataOutput, Looper looper, MetadataDecoderFactory metadataDecoderFactory) {
-        super(4);
+        this(metadataOutput, looper, metadataDecoderFactory, false);
+    }
+
+    public MetadataRenderer(MetadataOutput metadataOutput, Looper looper, MetadataDecoderFactory metadataDecoderFactory, boolean z) {
+        super(5);
         this.output = (MetadataOutput) Assertions.checkNotNull(metadataOutput);
         this.outputHandler = looper == null ? null : Util.createHandler(looper, this);
         this.decoderFactory = (MetadataDecoderFactory) Assertions.checkNotNull(metadataDecoderFactory);
+        this.outputMetadataEarly = z;
         this.buffer = new MetadataInputBuffer();
-        this.pendingMetadata = new Metadata[5];
-        this.pendingMetadataTimestamps = new long[5];
+        this.outputStreamOffsetUs = -9223372036854775807L;
     }
 
     @Override // com.google.android.exoplayer2.RendererCapabilities
     public int supportsFormat(Format format) {
         if (this.decoderFactory.supportsFormat(format)) {
-            return RendererCapabilities.-CC.create(BaseRenderer.supportsFormatDrm(null, format.drmInitData) ? 4 : 2);
+            return RendererCapabilities.-CC.create(format.cryptoType == 0 ? 4 : 2);
         }
         return RendererCapabilities.-CC.create(0);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.BaseRenderer
-    public void onStreamChanged(Format[] formatArr, long j) {
+    public void onStreamChanged(Format[] formatArr, long j, long j2) {
         this.decoder = this.decoderFactory.createDecoder(formatArr[0]);
+        Metadata metadata = this.pendingMetadata;
+        if (metadata != null) {
+            this.pendingMetadata = metadata.copyWithPresentationTimeUs((metadata.presentationTimeUs + this.outputStreamOffsetUs) - j2);
+        }
+        this.outputStreamOffsetUs = j2;
     }
 
     @Override // com.google.android.exoplayer2.BaseRenderer
     protected void onPositionReset(long j, boolean z) {
-        flushPendingMetadata();
+        this.pendingMetadata = null;
         this.inputStreamEnded = false;
+        this.outputStreamEnded = false;
     }
 
     @Override // com.google.android.exoplayer2.Renderer
     public void render(long j, long j2) {
-        if (!this.inputStreamEnded && this.pendingMetadataCount < 5) {
-            this.buffer.clear();
-            FormatHolder formatHolder = getFormatHolder();
-            int readSource = readSource(formatHolder, this.buffer, false);
-            if (readSource == -4) {
-                if (this.buffer.isEndOfStream()) {
-                    this.inputStreamEnded = true;
-                } else if (!this.buffer.isDecodeOnly()) {
-                    MetadataInputBuffer metadataInputBuffer = this.buffer;
-                    metadataInputBuffer.subsampleOffsetUs = this.subsampleOffsetUs;
-                    metadataInputBuffer.flip();
-                    Metadata decode = ((MetadataDecoder) Util.castNonNull(this.decoder)).decode(this.buffer);
-                    if (decode != null) {
-                        ArrayList arrayList = new ArrayList(decode.length());
-                        decodeWrappedMetadata(decode, arrayList);
-                        if (!arrayList.isEmpty()) {
-                            Metadata metadata = new Metadata(arrayList);
-                            int i = this.pendingMetadataIndex;
-                            int i2 = this.pendingMetadataCount;
-                            int i3 = (i + i2) % 5;
-                            this.pendingMetadata[i3] = metadata;
-                            this.pendingMetadataTimestamps[i3] = this.buffer.timeUs;
-                            this.pendingMetadataCount = i2 + 1;
-                        }
-                    }
-                }
-            } else if (readSource == -5) {
-                this.subsampleOffsetUs = ((Format) Assertions.checkNotNull(formatHolder.format)).subsampleOffsetUs;
-            }
-        }
-        if (this.pendingMetadataCount > 0) {
-            long[] jArr = this.pendingMetadataTimestamps;
-            int i4 = this.pendingMetadataIndex;
-            if (jArr[i4] <= j) {
-                invokeRenderer((Metadata) Util.castNonNull(this.pendingMetadata[i4]));
-                Metadata[] metadataArr = this.pendingMetadata;
-                int i5 = this.pendingMetadataIndex;
-                metadataArr[i5] = null;
-                this.pendingMetadataIndex = (i5 + 1) % 5;
-                this.pendingMetadataCount--;
-            }
+        boolean z = true;
+        while (z) {
+            readMetadata();
+            z = outputMetadata(j);
         }
     }
 
@@ -135,28 +112,14 @@ public final class MetadataRenderer extends BaseRenderer implements Handler.Call
 
     @Override // com.google.android.exoplayer2.BaseRenderer
     protected void onDisabled() {
-        flushPendingMetadata();
+        this.pendingMetadata = null;
         this.decoder = null;
+        this.outputStreamOffsetUs = -9223372036854775807L;
     }
 
     @Override // com.google.android.exoplayer2.Renderer
     public boolean isEnded() {
-        return this.inputStreamEnded;
-    }
-
-    private void invokeRenderer(Metadata metadata) {
-        Handler handler = this.outputHandler;
-        if (handler != null) {
-            handler.obtainMessage(0, metadata).sendToTarget();
-        } else {
-            invokeRendererInternal(metadata);
-        }
-    }
-
-    private void flushPendingMetadata() {
-        Arrays.fill(this.pendingMetadata, (Object) null);
-        this.pendingMetadataIndex = 0;
-        this.pendingMetadataCount = 0;
+        return this.outputStreamEnded;
     }
 
     @Override // android.os.Handler.Callback
@@ -168,7 +131,67 @@ public final class MetadataRenderer extends BaseRenderer implements Handler.Call
         throw new IllegalStateException();
     }
 
+    private void readMetadata() {
+        if (this.inputStreamEnded || this.pendingMetadata != null) {
+            return;
+        }
+        this.buffer.clear();
+        FormatHolder formatHolder = getFormatHolder();
+        int readSource = readSource(formatHolder, this.buffer, 0);
+        if (readSource != -4) {
+            if (readSource == -5) {
+                this.subsampleOffsetUs = ((Format) Assertions.checkNotNull(formatHolder.format)).subsampleOffsetUs;
+            }
+        } else if (this.buffer.isEndOfStream()) {
+            this.inputStreamEnded = true;
+        } else {
+            MetadataInputBuffer metadataInputBuffer = this.buffer;
+            metadataInputBuffer.subsampleOffsetUs = this.subsampleOffsetUs;
+            metadataInputBuffer.flip();
+            Metadata decode = ((MetadataDecoder) Util.castNonNull(this.decoder)).decode(this.buffer);
+            if (decode != null) {
+                ArrayList arrayList = new ArrayList(decode.length());
+                decodeWrappedMetadata(decode, arrayList);
+                if (arrayList.isEmpty()) {
+                    return;
+                }
+                this.pendingMetadata = new Metadata(getPresentationTimeUs(this.buffer.timeUs), arrayList);
+            }
+        }
+    }
+
+    private boolean outputMetadata(long j) {
+        boolean z;
+        Metadata metadata = this.pendingMetadata;
+        if (metadata == null || (!this.outputMetadataEarly && metadata.presentationTimeUs > getPresentationTimeUs(j))) {
+            z = false;
+        } else {
+            invokeRenderer(this.pendingMetadata);
+            this.pendingMetadata = null;
+            z = true;
+        }
+        if (this.inputStreamEnded && this.pendingMetadata == null) {
+            this.outputStreamEnded = true;
+        }
+        return z;
+    }
+
+    private void invokeRenderer(Metadata metadata) {
+        Handler handler = this.outputHandler;
+        if (handler != null) {
+            handler.obtainMessage(0, metadata).sendToTarget();
+        } else {
+            invokeRendererInternal(metadata);
+        }
+    }
+
     private void invokeRendererInternal(Metadata metadata) {
         this.output.onMetadata(metadata);
+    }
+
+    private long getPresentationTimeUs(long j) {
+        Assertions.checkState(j != -9223372036854775807L);
+        Assertions.checkState(this.outputStreamOffsetUs != -9223372036854775807L);
+        return j - this.outputStreamOffsetUs;
     }
 }

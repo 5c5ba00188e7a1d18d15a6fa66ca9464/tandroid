@@ -1,20 +1,22 @@
 package com.google.android.exoplayer2.metadata.id3;
 
 import com.google.android.exoplayer2.metadata.Metadata;
-import com.google.android.exoplayer2.metadata.MetadataDecoder;
 import com.google.android.exoplayer2.metadata.MetadataInputBuffer;
-import com.google.android.exoplayer2.util.Assertions;
+import com.google.android.exoplayer2.metadata.SimpleMetadataDecoder;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
-import java.io.UnsupportedEncodingException;
+import com.google.common.base.Ascii;
+import com.google.common.base.Charsets;
+import com.google.common.collect.ImmutableList;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 /* loaded from: classes.dex */
-public final class Id3Decoder implements MetadataDecoder {
+public final class Id3Decoder extends SimpleMetadataDecoder {
     public static final FramePredicate NO_FRAMES_PREDICATE = Id3Decoder$$ExternalSyntheticLambda0.INSTANCE;
     private final FramePredicate framePredicate;
 
@@ -25,10 +27,6 @@ public final class Id3Decoder implements MetadataDecoder {
 
     private static int delimiterLength(int i) {
         return (i == 0 || i == 3) ? 1 : 2;
-    }
-
-    private static String getCharsetName(int i) {
-        return i != 1 ? i != 2 ? i != 3 ? "ISO-8859-1" : "UTF-8" : "UTF-16BE" : "UTF-16";
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -44,9 +42,8 @@ public final class Id3Decoder implements MetadataDecoder {
         this.framePredicate = framePredicate;
     }
 
-    @Override // com.google.android.exoplayer2.metadata.MetadataDecoder
-    public Metadata decode(MetadataInputBuffer metadataInputBuffer) {
-        ByteBuffer byteBuffer = (ByteBuffer) Assertions.checkNotNull(metadataInputBuffer.data);
+    @Override // com.google.android.exoplayer2.metadata.SimpleMetadataDecoder
+    protected Metadata decode(MetadataInputBuffer metadataInputBuffer, ByteBuffer byteBuffer) {
         return decode(byteBuffer.array(), byteBuffer.limit());
     }
 
@@ -291,188 +288,192 @@ public final class Id3Decoder implements MetadataDecoder {
             i5 = removeUnsynchronization(parsableByteArray, i5);
         }
         try {
-            try {
-                if (readUnsignedByte == 84 && readUnsignedByte2 == 88 && readUnsignedByte3 == 88 && (i == 2 || readUnsignedByte4 == 88)) {
-                    decodeBinaryFrame = decodeTxxxFrame(parsableByteArray, i5);
-                } else if (readUnsignedByte == 84) {
-                    decodeBinaryFrame = decodeTextInformationFrame(parsableByteArray, i5, getFrameId(i, readUnsignedByte, readUnsignedByte2, readUnsignedByte3, readUnsignedByte4));
-                } else if (readUnsignedByte == 87 && readUnsignedByte2 == 88 && readUnsignedByte3 == 88 && (i == 2 || readUnsignedByte4 == 88)) {
-                    decodeBinaryFrame = decodeWxxxFrame(parsableByteArray, i5);
-                } else if (readUnsignedByte == 87) {
-                    decodeBinaryFrame = decodeUrlLinkFrame(parsableByteArray, i5, getFrameId(i, readUnsignedByte, readUnsignedByte2, readUnsignedByte3, readUnsignedByte4));
-                } else if (readUnsignedByte == 80 && readUnsignedByte2 == 82 && readUnsignedByte3 == 73 && readUnsignedByte4 == 86) {
-                    decodeBinaryFrame = decodePrivFrame(parsableByteArray, i5);
-                } else if (readUnsignedByte == 71 && readUnsignedByte2 == 69 && readUnsignedByte3 == 79 && (readUnsignedByte4 == 66 || i == 2)) {
-                    decodeBinaryFrame = decodeGeobFrame(parsableByteArray, i5);
-                } else if (i == 2) {
-                    if (readUnsignedByte == 80 && readUnsignedByte2 == 73 && readUnsignedByte3 == 67) {
-                        decodeBinaryFrame = decodeApicFrame(parsableByteArray, i5, i);
-                    }
-                    if (readUnsignedByte != 67 && readUnsignedByte2 == 79 && readUnsignedByte3 == 77 && (readUnsignedByte4 == 77 || i == 2)) {
-                        decodeBinaryFrame = decodeCommentFrame(parsableByteArray, i5);
-                    } else if (readUnsignedByte != 67 && readUnsignedByte2 == 72 && readUnsignedByte3 == 65 && readUnsignedByte4 == 80) {
-                        decodeBinaryFrame = decodeChapterFrame(parsableByteArray, i5, i, z, i2, framePredicate);
-                    } else if (readUnsignedByte != 67 && readUnsignedByte2 == 84 && readUnsignedByte3 == 79 && readUnsignedByte4 == 67) {
-                        decodeBinaryFrame = decodeChapterTOCFrame(parsableByteArray, i5, i, z, i2, framePredicate);
-                    } else if (readUnsignedByte != 77 && readUnsignedByte2 == 76 && readUnsignedByte3 == 76 && readUnsignedByte4 == 84) {
-                        decodeBinaryFrame = decodeMlltFrame(parsableByteArray, i5);
-                    } else {
-                        decodeBinaryFrame = decodeBinaryFrame(parsableByteArray, i5, getFrameId(i, readUnsignedByte, readUnsignedByte2, readUnsignedByte3, readUnsignedByte4));
-                    }
+            if (readUnsignedByte == 84 && readUnsignedByte2 == 88 && readUnsignedByte3 == 88 && (i == 2 || readUnsignedByte4 == 88)) {
+                decodeBinaryFrame = decodeTxxxFrame(parsableByteArray, i5);
+            } else if (readUnsignedByte == 84) {
+                decodeBinaryFrame = decodeTextInformationFrame(parsableByteArray, i5, getFrameId(i, readUnsignedByte, readUnsignedByte2, readUnsignedByte3, readUnsignedByte4));
+            } else if (readUnsignedByte == 87 && readUnsignedByte2 == 88 && readUnsignedByte3 == 88 && (i == 2 || readUnsignedByte4 == 88)) {
+                decodeBinaryFrame = decodeWxxxFrame(parsableByteArray, i5);
+            } else if (readUnsignedByte == 87) {
+                decodeBinaryFrame = decodeUrlLinkFrame(parsableByteArray, i5, getFrameId(i, readUnsignedByte, readUnsignedByte2, readUnsignedByte3, readUnsignedByte4));
+            } else if (readUnsignedByte == 80 && readUnsignedByte2 == 82 && readUnsignedByte3 == 73 && readUnsignedByte4 == 86) {
+                decodeBinaryFrame = decodePrivFrame(parsableByteArray, i5);
+            } else if (readUnsignedByte == 71 && readUnsignedByte2 == 69 && readUnsignedByte3 == 79 && (readUnsignedByte4 == 66 || i == 2)) {
+                decodeBinaryFrame = decodeGeobFrame(parsableByteArray, i5);
+            } else if (i == 2) {
+                if (readUnsignedByte == 80 && readUnsignedByte2 == 73 && readUnsignedByte3 == 67) {
+                    decodeBinaryFrame = decodeApicFrame(parsableByteArray, i5, i);
+                }
+                if (readUnsignedByte != 67 && readUnsignedByte2 == 79 && readUnsignedByte3 == 77 && (readUnsignedByte4 == 77 || i == 2)) {
+                    decodeBinaryFrame = decodeCommentFrame(parsableByteArray, i5);
+                } else if (readUnsignedByte != 67 && readUnsignedByte2 == 72 && readUnsignedByte3 == 65 && readUnsignedByte4 == 80) {
+                    decodeBinaryFrame = decodeChapterFrame(parsableByteArray, i5, i, z, i2, framePredicate);
+                } else if (readUnsignedByte != 67 && readUnsignedByte2 == 84 && readUnsignedByte3 == 79 && readUnsignedByte4 == 67) {
+                    decodeBinaryFrame = decodeChapterTOCFrame(parsableByteArray, i5, i, z, i2, framePredicate);
+                } else if (readUnsignedByte != 77 && readUnsignedByte2 == 76 && readUnsignedByte3 == 76 && readUnsignedByte4 == 84) {
+                    decodeBinaryFrame = decodeMlltFrame(parsableByteArray, i5);
                 } else {
-                    if (readUnsignedByte == 65) {
-                        if (readUnsignedByte2 == 80) {
-                            if (readUnsignedByte3 == 73) {
-                            }
-                        }
-                    }
-                    if (readUnsignedByte != 67) {
-                    }
-                    if (readUnsignedByte != 67) {
-                    }
-                    if (readUnsignedByte != 67) {
-                    }
-                    if (readUnsignedByte != 77) {
-                    }
                     decodeBinaryFrame = decodeBinaryFrame(parsableByteArray, i5, getFrameId(i, readUnsignedByte, readUnsignedByte2, readUnsignedByte3, readUnsignedByte4));
                 }
-                if (decodeBinaryFrame == null) {
-                    Log.w(str, "Failed to decode frame: id=" + getFrameId(i, readUnsignedByte, readUnsignedByte2, readUnsignedByte3, readUnsignedByte4) + ", frameSize=" + i5);
+            } else {
+                if (readUnsignedByte == 65) {
+                    if (readUnsignedByte2 == 80) {
+                        if (readUnsignedByte3 == 73) {
+                        }
+                    }
                 }
-                parsableByteArray.setPosition(i3);
-                return decodeBinaryFrame;
-            } catch (UnsupportedEncodingException unused) {
-                Log.w(str, "Unsupported character encoding");
-                parsableByteArray.setPosition(i3);
-                return null;
+                if (readUnsignedByte != 67) {
+                }
+                if (readUnsignedByte != 67) {
+                }
+                if (readUnsignedByte != 67) {
+                }
+                if (readUnsignedByte != 77) {
+                }
+                decodeBinaryFrame = decodeBinaryFrame(parsableByteArray, i5, getFrameId(i, readUnsignedByte, readUnsignedByte2, readUnsignedByte3, readUnsignedByte4));
             }
+            if (decodeBinaryFrame == null) {
+                Log.w(str, "Failed to decode frame: id=" + getFrameId(i, readUnsignedByte, readUnsignedByte2, readUnsignedByte3, readUnsignedByte4) + ", frameSize=" + i5);
+            }
+            parsableByteArray.setPosition(i3);
+            return decodeBinaryFrame;
         } catch (Throwable th) {
             parsableByteArray.setPosition(i3);
             throw th;
         }
     }
 
-    private static TextInformationFrame decodeTxxxFrame(ParsableByteArray parsableByteArray, int i) throws UnsupportedEncodingException {
+    private static TextInformationFrame decodeTxxxFrame(ParsableByteArray parsableByteArray, int i) {
         if (i < 1) {
             return null;
         }
         int readUnsignedByte = parsableByteArray.readUnsignedByte();
-        String charsetName = getCharsetName(readUnsignedByte);
         int i2 = i - 1;
         byte[] bArr = new byte[i2];
         parsableByteArray.readBytes(bArr, 0, i2);
-        int indexOfEos = indexOfEos(bArr, 0, readUnsignedByte);
-        String str = new String(bArr, 0, indexOfEos, charsetName);
-        int delimiterLength = indexOfEos + delimiterLength(readUnsignedByte);
-        return new TextInformationFrame("TXXX", str, decodeStringIfValid(bArr, delimiterLength, indexOfEos(bArr, delimiterLength, readUnsignedByte), charsetName));
+        int indexOfTerminator = indexOfTerminator(bArr, 0, readUnsignedByte);
+        return new TextInformationFrame("TXXX", new String(bArr, 0, indexOfTerminator, getCharset(readUnsignedByte)), decodeTextInformationFrameValues(bArr, readUnsignedByte, indexOfTerminator + delimiterLength(readUnsignedByte)));
     }
 
-    private static TextInformationFrame decodeTextInformationFrame(ParsableByteArray parsableByteArray, int i, String str) throws UnsupportedEncodingException {
+    private static TextInformationFrame decodeTextInformationFrame(ParsableByteArray parsableByteArray, int i, String str) {
         if (i < 1) {
             return null;
         }
         int readUnsignedByte = parsableByteArray.readUnsignedByte();
-        String charsetName = getCharsetName(readUnsignedByte);
         int i2 = i - 1;
         byte[] bArr = new byte[i2];
         parsableByteArray.readBytes(bArr, 0, i2);
-        return new TextInformationFrame(str, null, new String(bArr, 0, indexOfEos(bArr, 0, readUnsignedByte), charsetName));
+        return new TextInformationFrame(str, null, decodeTextInformationFrameValues(bArr, readUnsignedByte, 0));
     }
 
-    private static UrlLinkFrame decodeWxxxFrame(ParsableByteArray parsableByteArray, int i) throws UnsupportedEncodingException {
+    private static ImmutableList<String> decodeTextInformationFrameValues(byte[] bArr, int i, int i2) {
+        if (i2 >= bArr.length) {
+            return ImmutableList.of("");
+        }
+        ImmutableList.Builder builder = ImmutableList.builder();
+        int indexOfTerminator = indexOfTerminator(bArr, i2, i);
+        while (i2 < indexOfTerminator) {
+            builder.add((ImmutableList.Builder) new String(bArr, i2, indexOfTerminator - i2, getCharset(i)));
+            i2 = delimiterLength(i) + indexOfTerminator;
+            indexOfTerminator = indexOfTerminator(bArr, i2, i);
+        }
+        ImmutableList<String> build = builder.build();
+        return build.isEmpty() ? ImmutableList.of("") : build;
+    }
+
+    private static UrlLinkFrame decodeWxxxFrame(ParsableByteArray parsableByteArray, int i) {
         if (i < 1) {
             return null;
         }
         int readUnsignedByte = parsableByteArray.readUnsignedByte();
-        String charsetName = getCharsetName(readUnsignedByte);
         int i2 = i - 1;
         byte[] bArr = new byte[i2];
         parsableByteArray.readBytes(bArr, 0, i2);
-        int indexOfEos = indexOfEos(bArr, 0, readUnsignedByte);
-        String str = new String(bArr, 0, indexOfEos, charsetName);
-        int delimiterLength = indexOfEos + delimiterLength(readUnsignedByte);
-        return new UrlLinkFrame("WXXX", str, decodeStringIfValid(bArr, delimiterLength, indexOfZeroByte(bArr, delimiterLength), "ISO-8859-1"));
+        int indexOfTerminator = indexOfTerminator(bArr, 0, readUnsignedByte);
+        String str = new String(bArr, 0, indexOfTerminator, getCharset(readUnsignedByte));
+        int delimiterLength = indexOfTerminator + delimiterLength(readUnsignedByte);
+        return new UrlLinkFrame("WXXX", str, decodeStringIfValid(bArr, delimiterLength, indexOfZeroByte(bArr, delimiterLength), Charsets.ISO_8859_1));
     }
 
-    private static UrlLinkFrame decodeUrlLinkFrame(ParsableByteArray parsableByteArray, int i, String str) throws UnsupportedEncodingException {
+    private static UrlLinkFrame decodeUrlLinkFrame(ParsableByteArray parsableByteArray, int i, String str) {
         byte[] bArr = new byte[i];
         parsableByteArray.readBytes(bArr, 0, i);
-        return new UrlLinkFrame(str, null, new String(bArr, 0, indexOfZeroByte(bArr, 0), "ISO-8859-1"));
+        return new UrlLinkFrame(str, null, new String(bArr, 0, indexOfZeroByte(bArr, 0), Charsets.ISO_8859_1));
     }
 
-    private static PrivFrame decodePrivFrame(ParsableByteArray parsableByteArray, int i) throws UnsupportedEncodingException {
+    private static PrivFrame decodePrivFrame(ParsableByteArray parsableByteArray, int i) {
         byte[] bArr = new byte[i];
         parsableByteArray.readBytes(bArr, 0, i);
         int indexOfZeroByte = indexOfZeroByte(bArr, 0);
-        return new PrivFrame(new String(bArr, 0, indexOfZeroByte, "ISO-8859-1"), copyOfRangeIfValid(bArr, indexOfZeroByte + 1, i));
+        return new PrivFrame(new String(bArr, 0, indexOfZeroByte, Charsets.ISO_8859_1), copyOfRangeIfValid(bArr, indexOfZeroByte + 1, i));
     }
 
-    private static GeobFrame decodeGeobFrame(ParsableByteArray parsableByteArray, int i) throws UnsupportedEncodingException {
+    private static GeobFrame decodeGeobFrame(ParsableByteArray parsableByteArray, int i) {
         int readUnsignedByte = parsableByteArray.readUnsignedByte();
-        String charsetName = getCharsetName(readUnsignedByte);
+        Charset charset = getCharset(readUnsignedByte);
         int i2 = i - 1;
         byte[] bArr = new byte[i2];
         parsableByteArray.readBytes(bArr, 0, i2);
         int indexOfZeroByte = indexOfZeroByte(bArr, 0);
-        String str = new String(bArr, 0, indexOfZeroByte, "ISO-8859-1");
+        String str = new String(bArr, 0, indexOfZeroByte, Charsets.ISO_8859_1);
         int i3 = indexOfZeroByte + 1;
-        int indexOfEos = indexOfEos(bArr, i3, readUnsignedByte);
-        String decodeStringIfValid = decodeStringIfValid(bArr, i3, indexOfEos, charsetName);
-        int delimiterLength = indexOfEos + delimiterLength(readUnsignedByte);
-        int indexOfEos2 = indexOfEos(bArr, delimiterLength, readUnsignedByte);
-        return new GeobFrame(str, decodeStringIfValid, decodeStringIfValid(bArr, delimiterLength, indexOfEos2, charsetName), copyOfRangeIfValid(bArr, indexOfEos2 + delimiterLength(readUnsignedByte), i2));
+        int indexOfTerminator = indexOfTerminator(bArr, i3, readUnsignedByte);
+        String decodeStringIfValid = decodeStringIfValid(bArr, i3, indexOfTerminator, charset);
+        int delimiterLength = indexOfTerminator + delimiterLength(readUnsignedByte);
+        int indexOfTerminator2 = indexOfTerminator(bArr, delimiterLength, readUnsignedByte);
+        return new GeobFrame(str, decodeStringIfValid, decodeStringIfValid(bArr, delimiterLength, indexOfTerminator2, charset), copyOfRangeIfValid(bArr, indexOfTerminator2 + delimiterLength(readUnsignedByte), i2));
     }
 
-    private static ApicFrame decodeApicFrame(ParsableByteArray parsableByteArray, int i, int i2) throws UnsupportedEncodingException {
+    private static ApicFrame decodeApicFrame(ParsableByteArray parsableByteArray, int i, int i2) {
         int indexOfZeroByte;
         String str;
         int readUnsignedByte = parsableByteArray.readUnsignedByte();
-        String charsetName = getCharsetName(readUnsignedByte);
+        Charset charset = getCharset(readUnsignedByte);
         int i3 = i - 1;
         byte[] bArr = new byte[i3];
         parsableByteArray.readBytes(bArr, 0, i3);
         if (i2 == 2) {
-            str = "image/" + Util.toLowerInvariant(new String(bArr, 0, 3, "ISO-8859-1"));
+            str = "image/" + Ascii.toLowerCase(new String(bArr, 0, 3, Charsets.ISO_8859_1));
             if ("image/jpg".equals(str)) {
                 str = "image/jpeg";
             }
             indexOfZeroByte = 2;
         } else {
             indexOfZeroByte = indexOfZeroByte(bArr, 0);
-            String lowerInvariant = Util.toLowerInvariant(new String(bArr, 0, indexOfZeroByte, "ISO-8859-1"));
-            if (lowerInvariant.indexOf(47) == -1) {
-                str = "image/" + lowerInvariant;
+            String lowerCase = Ascii.toLowerCase(new String(bArr, 0, indexOfZeroByte, Charsets.ISO_8859_1));
+            if (lowerCase.indexOf(47) == -1) {
+                str = "image/" + lowerCase;
             } else {
-                str = lowerInvariant;
+                str = lowerCase;
             }
         }
         int i4 = indexOfZeroByte + 2;
-        int indexOfEos = indexOfEos(bArr, i4, readUnsignedByte);
-        return new ApicFrame(str, new String(bArr, i4, indexOfEos - i4, charsetName), bArr[indexOfZeroByte + 1] & 255, copyOfRangeIfValid(bArr, indexOfEos + delimiterLength(readUnsignedByte), i3));
+        int indexOfTerminator = indexOfTerminator(bArr, i4, readUnsignedByte);
+        return new ApicFrame(str, new String(bArr, i4, indexOfTerminator - i4, charset), bArr[indexOfZeroByte + 1] & 255, copyOfRangeIfValid(bArr, indexOfTerminator + delimiterLength(readUnsignedByte), i3));
     }
 
-    private static CommentFrame decodeCommentFrame(ParsableByteArray parsableByteArray, int i) throws UnsupportedEncodingException {
+    private static CommentFrame decodeCommentFrame(ParsableByteArray parsableByteArray, int i) {
         if (i < 4) {
             return null;
         }
         int readUnsignedByte = parsableByteArray.readUnsignedByte();
-        String charsetName = getCharsetName(readUnsignedByte);
+        Charset charset = getCharset(readUnsignedByte);
         byte[] bArr = new byte[3];
         parsableByteArray.readBytes(bArr, 0, 3);
         String str = new String(bArr, 0, 3);
         int i2 = i - 4;
         byte[] bArr2 = new byte[i2];
         parsableByteArray.readBytes(bArr2, 0, i2);
-        int indexOfEos = indexOfEos(bArr2, 0, readUnsignedByte);
-        String str2 = new String(bArr2, 0, indexOfEos, charsetName);
-        int delimiterLength = indexOfEos + delimiterLength(readUnsignedByte);
-        return new CommentFrame(str, str2, decodeStringIfValid(bArr2, delimiterLength, indexOfEos(bArr2, delimiterLength, readUnsignedByte), charsetName));
+        int indexOfTerminator = indexOfTerminator(bArr2, 0, readUnsignedByte);
+        String str2 = new String(bArr2, 0, indexOfTerminator, charset);
+        int delimiterLength = indexOfTerminator + delimiterLength(readUnsignedByte);
+        return new CommentFrame(str, str2, decodeStringIfValid(bArr2, delimiterLength, indexOfTerminator(bArr2, delimiterLength, readUnsignedByte), charset));
     }
 
-    private static ChapterFrame decodeChapterFrame(ParsableByteArray parsableByteArray, int i, int i2, boolean z, int i3, FramePredicate framePredicate) throws UnsupportedEncodingException {
+    private static ChapterFrame decodeChapterFrame(ParsableByteArray parsableByteArray, int i, int i2, boolean z, int i3, FramePredicate framePredicate) {
         int position = parsableByteArray.getPosition();
-        int indexOfZeroByte = indexOfZeroByte(parsableByteArray.data, position);
-        String str = new String(parsableByteArray.data, position, indexOfZeroByte - position, "ISO-8859-1");
+        int indexOfZeroByte = indexOfZeroByte(parsableByteArray.getData(), position);
+        String str = new String(parsableByteArray.getData(), position, indexOfZeroByte - position, Charsets.ISO_8859_1);
         parsableByteArray.setPosition(indexOfZeroByte + 1);
         int readInt = parsableByteArray.readInt();
         int readInt2 = parsableByteArray.readInt();
@@ -488,15 +489,13 @@ public final class Id3Decoder implements MetadataDecoder {
                 arrayList.add(decodeFrame);
             }
         }
-        Id3Frame[] id3FrameArr = new Id3Frame[arrayList.size()];
-        arrayList.toArray(id3FrameArr);
-        return new ChapterFrame(str, readInt, readInt2, j, j2, id3FrameArr);
+        return new ChapterFrame(str, readInt, readInt2, j, j2, (Id3Frame[]) arrayList.toArray(new Id3Frame[0]));
     }
 
-    private static ChapterTocFrame decodeChapterTOCFrame(ParsableByteArray parsableByteArray, int i, int i2, boolean z, int i3, FramePredicate framePredicate) throws UnsupportedEncodingException {
+    private static ChapterTocFrame decodeChapterTOCFrame(ParsableByteArray parsableByteArray, int i, int i2, boolean z, int i3, FramePredicate framePredicate) {
         int position = parsableByteArray.getPosition();
-        int indexOfZeroByte = indexOfZeroByte(parsableByteArray.data, position);
-        String str = new String(parsableByteArray.data, position, indexOfZeroByte - position, "ISO-8859-1");
+        int indexOfZeroByte = indexOfZeroByte(parsableByteArray.getData(), position);
+        String str = new String(parsableByteArray.getData(), position, indexOfZeroByte - position, Charsets.ISO_8859_1);
         parsableByteArray.setPosition(indexOfZeroByte + 1);
         int readUnsignedByte = parsableByteArray.readUnsignedByte();
         boolean z2 = (readUnsignedByte & 2) != 0;
@@ -505,8 +504,8 @@ public final class Id3Decoder implements MetadataDecoder {
         String[] strArr = new String[readUnsignedByte2];
         for (int i4 = 0; i4 < readUnsignedByte2; i4++) {
             int position2 = parsableByteArray.getPosition();
-            int indexOfZeroByte2 = indexOfZeroByte(parsableByteArray.data, position2);
-            strArr[i4] = new String(parsableByteArray.data, position2, indexOfZeroByte2 - position2, "ISO-8859-1");
+            int indexOfZeroByte2 = indexOfZeroByte(parsableByteArray.getData(), position2);
+            strArr[i4] = new String(parsableByteArray.getData(), position2, indexOfZeroByte2 - position2, Charsets.ISO_8859_1);
             parsableByteArray.setPosition(indexOfZeroByte2 + 1);
         }
         ArrayList arrayList = new ArrayList();
@@ -517,9 +516,7 @@ public final class Id3Decoder implements MetadataDecoder {
                 arrayList.add(decodeFrame);
             }
         }
-        Id3Frame[] id3FrameArr = new Id3Frame[arrayList.size()];
-        arrayList.toArray(id3FrameArr);
-        return new ChapterTocFrame(str, z2, z3, strArr, id3FrameArr);
+        return new ChapterTocFrame(str, z2, z3, strArr, (Id3Frame[]) arrayList.toArray(new Id3Frame[0]));
     }
 
     private static MlltFrame decodeMlltFrame(ParsableByteArray parsableByteArray, int i) {
@@ -549,7 +546,7 @@ public final class Id3Decoder implements MetadataDecoder {
     }
 
     private static int removeUnsynchronization(ParsableByteArray parsableByteArray, int i) {
-        byte[] bArr = parsableByteArray.data;
+        byte[] data = parsableByteArray.getData();
         int position = parsableByteArray.getPosition();
         int i2 = position;
         while (true) {
@@ -557,25 +554,38 @@ public final class Id3Decoder implements MetadataDecoder {
             if (i3 >= position + i) {
                 return i;
             }
-            if ((bArr[i2] & 255) == 255 && bArr[i3] == 0) {
-                System.arraycopy(bArr, i2 + 2, bArr, i3, (i - (i2 - position)) - 2);
+            if ((data[i2] & 255) == 255 && data[i3] == 0) {
+                System.arraycopy(data, i2 + 2, data, i3, (i - (i2 - position)) - 2);
                 i--;
             }
             i2 = i3;
         }
     }
 
+    private static Charset getCharset(int i) {
+        if (i != 1) {
+            if (i != 2) {
+                if (i == 3) {
+                    return Charsets.UTF_8;
+                }
+                return Charsets.ISO_8859_1;
+            }
+            return Charsets.UTF_16BE;
+        }
+        return Charsets.UTF_16;
+    }
+
     private static String getFrameId(int i, int i2, int i3, int i4, int i5) {
         return i == 2 ? String.format(Locale.US, "%c%c%c", Integer.valueOf(i2), Integer.valueOf(i3), Integer.valueOf(i4)) : String.format(Locale.US, "%c%c%c%c", Integer.valueOf(i2), Integer.valueOf(i3), Integer.valueOf(i4), Integer.valueOf(i5));
     }
 
-    private static int indexOfEos(byte[] bArr, int i, int i2) {
+    private static int indexOfTerminator(byte[] bArr, int i, int i2) {
         int indexOfZeroByte = indexOfZeroByte(bArr, i);
         if (i2 == 0 || i2 == 3) {
             return indexOfZeroByte;
         }
         while (indexOfZeroByte < bArr.length - 1) {
-            if (indexOfZeroByte % 2 == 0 && bArr[indexOfZeroByte + 1] == 0) {
+            if ((indexOfZeroByte - i) % 2 == 0 && bArr[indexOfZeroByte + 1] == 0) {
                 return indexOfZeroByte;
             }
             indexOfZeroByte = indexOfZeroByte(bArr, indexOfZeroByte + 1);
@@ -600,8 +610,8 @@ public final class Id3Decoder implements MetadataDecoder {
         return Arrays.copyOfRange(bArr, i, i2);
     }
 
-    private static String decodeStringIfValid(byte[] bArr, int i, int i2, String str) throws UnsupportedEncodingException {
-        return (i2 <= i || i2 > bArr.length) ? "" : new String(bArr, i, i2 - i, str);
+    private static String decodeStringIfValid(byte[] bArr, int i, int i2, Charset charset) {
+        return (i2 <= i || i2 > bArr.length) ? "" : new String(bArr, i, i2 - i, charset);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

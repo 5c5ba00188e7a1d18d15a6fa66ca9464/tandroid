@@ -29,31 +29,40 @@ public final class TimedValueQueue<V> {
         Arrays.fill(this.values, (Object) null);
     }
 
+    public synchronized int size() {
+        return this.size;
+    }
+
+    public synchronized V pollFirst() {
+        return this.size == 0 ? null : popFirst();
+    }
+
     public synchronized V pollFloor(long j) {
         return poll(j, true);
     }
 
     private V poll(long j, boolean z) {
-        long j2 = Long.MAX_VALUE;
         V v = null;
-        while (true) {
-            int i = this.size;
-            if (i <= 0) {
-                break;
-            }
-            long[] jArr = this.timestamps;
-            int i2 = this.first;
-            long j3 = j - jArr[i2];
+        long j2 = Long.MAX_VALUE;
+        while (this.size > 0) {
+            long j3 = j - this.timestamps[this.first];
             if (j3 < 0 && (z || (-j3) >= j2)) {
                 break;
             }
-            V[] vArr = this.values;
-            v = vArr[i2];
-            vArr[i2] = null;
-            this.first = (i2 + 1) % vArr.length;
-            this.size = i - 1;
+            v = popFirst();
             j2 = j3;
         }
+        return v;
+    }
+
+    private V popFirst() {
+        Assertions.checkState(this.size > 0);
+        V[] vArr = this.values;
+        int i = this.first;
+        V v = vArr[i];
+        vArr[i] = null;
+        this.first = (i + 1) % vArr.length;
+        this.size--;
         return v;
     }
 

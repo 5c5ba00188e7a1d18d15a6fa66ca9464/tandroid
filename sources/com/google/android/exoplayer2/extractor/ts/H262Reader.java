@@ -5,8 +5,10 @@ import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.extractor.ExtractorOutput;
 import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
+import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.NalUnitUtil;
 import com.google.android.exoplayer2.util.ParsableByteArray;
+import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 import java.util.Collections;
 /* loaded from: classes.dex */
@@ -45,21 +47,26 @@ public final class H262Reader implements ElementaryStreamReader {
         if (userDataReader != null) {
             this.userData = new NalUnitTargetBuffer(178, 128);
             this.userDataParsable = new ParsableByteArray();
-            return;
+        } else {
+            this.userData = null;
+            this.userDataParsable = null;
         }
-        this.userData = null;
-        this.userDataParsable = null;
+        this.pesTimeUs = -9223372036854775807L;
+        this.sampleTimeUs = -9223372036854775807L;
     }
 
     @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
     public void seek() {
         NalUnitUtil.clearPrefixFlags(this.prefixFlags);
         this.csdBuffer.reset();
-        if (this.userDataReader != null) {
-            this.userData.reset();
+        NalUnitTargetBuffer nalUnitTargetBuffer = this.userData;
+        if (nalUnitTargetBuffer != null) {
+            nalUnitTargetBuffer.reset();
         }
         this.totalBytesWritten = 0L;
         this.startedFirstSample = false;
+        this.pesTimeUs = -9223372036854775807L;
+        this.sampleTimeUs = -9223372036854775807L;
     }
 
     @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
@@ -78,81 +85,107 @@ public final class H262Reader implements ElementaryStreamReader {
         this.pesTimeUs = j;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:59:0x012c  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0142  */
     @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void consume(ParsableByteArray parsableByteArray) {
         int i;
+        long j;
+        int i2;
+        Assertions.checkStateNotNull(this.output);
         int position = parsableByteArray.getPosition();
         int limit = parsableByteArray.limit();
-        byte[] bArr = parsableByteArray.data;
+        byte[] data = parsableByteArray.getData();
         this.totalBytesWritten += parsableByteArray.bytesLeft();
         this.output.sampleData(parsableByteArray, parsableByteArray.bytesLeft());
         while (true) {
-            int findNalUnit = NalUnitUtil.findNalUnit(bArr, position, limit, this.prefixFlags);
+            int findNalUnit = NalUnitUtil.findNalUnit(data, position, limit, this.prefixFlags);
             if (findNalUnit == limit) {
                 break;
             }
-            int i2 = findNalUnit + 3;
-            int i3 = parsableByteArray.data[i2] & 255;
-            int i4 = findNalUnit - position;
+            int i3 = findNalUnit + 3;
+            int i4 = parsableByteArray.getData()[i3] & 255;
+            int i5 = findNalUnit - position;
             if (!this.hasOutputFormat) {
-                if (i4 > 0) {
-                    this.csdBuffer.onData(bArr, position, findNalUnit);
+                if (i5 > 0) {
+                    this.csdBuffer.onData(data, position, findNalUnit);
                 }
-                if (this.csdBuffer.onStartCode(i3, i4 < 0 ? -i4 : 0)) {
-                    Pair<Format, Long> parseCsdBuffer = parseCsdBuffer(this.csdBuffer, this.formatId);
+                if (this.csdBuffer.onStartCode(i4, i5 < 0 ? -i5 : 0)) {
+                    Pair<Format, Long> parseCsdBuffer = parseCsdBuffer(this.csdBuffer, (String) Assertions.checkNotNull(this.formatId));
                     this.output.format((Format) parseCsdBuffer.first);
                     this.frameDurationUs = ((Long) parseCsdBuffer.second).longValue();
                     this.hasOutputFormat = true;
                 }
             }
-            if (this.userDataReader != null) {
-                if (i4 > 0) {
-                    this.userData.appendToNalUnit(bArr, position, findNalUnit);
-                    i = 0;
+            NalUnitTargetBuffer nalUnitTargetBuffer = this.userData;
+            if (nalUnitTargetBuffer != null) {
+                if (i5 > 0) {
+                    nalUnitTargetBuffer.appendToNalUnit(data, position, findNalUnit);
+                    i2 = 0;
                 } else {
-                    i = -i4;
+                    i2 = -i5;
                 }
-                if (this.userData.endNalUnit(i)) {
-                    NalUnitTargetBuffer nalUnitTargetBuffer = this.userData;
-                    this.userDataParsable.reset(this.userData.nalData, NalUnitUtil.unescapeStream(nalUnitTargetBuffer.nalData, nalUnitTargetBuffer.nalLength));
-                    this.userDataReader.consume(this.sampleTimeUs, this.userDataParsable);
+                if (this.userData.endNalUnit(i2)) {
+                    NalUnitTargetBuffer nalUnitTargetBuffer2 = this.userData;
+                    ((ParsableByteArray) Util.castNonNull(this.userDataParsable)).reset(this.userData.nalData, NalUnitUtil.unescapeStream(nalUnitTargetBuffer2.nalData, nalUnitTargetBuffer2.nalLength));
+                    ((UserDataReader) Util.castNonNull(this.userDataReader)).consume(this.sampleTimeUs, this.userDataParsable);
                 }
-                if (i3 == 178 && parsableByteArray.data[findNalUnit + 2] == 1) {
-                    this.userData.startNalUnit(i3);
+                if (i4 == 178 && parsableByteArray.getData()[findNalUnit + 2] == 1) {
+                    this.userData.startNalUnit(i4);
                 }
             }
-            if (i3 == 0 || i3 == 179) {
-                int i5 = limit - findNalUnit;
-                if (this.startedFirstSample && this.sampleHasPicture && this.hasOutputFormat) {
-                    this.output.sampleMetadata(this.sampleTimeUs, this.sampleIsKeyframe ? 1 : 0, ((int) (this.totalBytesWritten - this.samplePosition)) - i5, i5, null);
-                }
-                boolean z = this.startedFirstSample;
-                if (!z || this.sampleHasPicture) {
-                    this.samplePosition = this.totalBytesWritten - i5;
-                    long j = this.pesTimeUs;
-                    if (j == -9223372036854775807L) {
-                        j = z ? this.sampleTimeUs + this.frameDurationUs : 0L;
+            if (i4 == 0 || i4 == 179) {
+                int i6 = limit - findNalUnit;
+                if (this.sampleHasPicture && this.hasOutputFormat) {
+                    long j2 = this.sampleTimeUs;
+                    if (j2 != -9223372036854775807L) {
+                        i = i4;
+                        this.output.sampleMetadata(j2, this.sampleIsKeyframe ? 1 : 0, ((int) (this.totalBytesWritten - this.samplePosition)) - i6, i6, null);
+                        if (this.startedFirstSample || this.sampleHasPicture) {
+                            this.samplePosition = this.totalBytesWritten - i6;
+                            j = this.pesTimeUs;
+                            if (j == -9223372036854775807L) {
+                                long j3 = this.sampleTimeUs;
+                                j = j3 != -9223372036854775807L ? j3 + this.frameDurationUs : -9223372036854775807L;
+                            }
+                            this.sampleTimeUs = j;
+                            this.sampleIsKeyframe = false;
+                            this.pesTimeUs = -9223372036854775807L;
+                            this.startedFirstSample = true;
+                        }
+                        this.sampleHasPicture = i == 0;
                     }
-                    this.sampleTimeUs = j;
-                    this.sampleIsKeyframe = false;
-                    this.pesTimeUs = -9223372036854775807L;
-                    this.startedFirstSample = true;
                 }
-                this.sampleHasPicture = i3 == 0;
-            } else if (i3 == 184) {
+                i = i4;
+                if (this.startedFirstSample) {
+                }
+                this.samplePosition = this.totalBytesWritten - i6;
+                j = this.pesTimeUs;
+                if (j == -9223372036854775807L) {
+                }
+                this.sampleTimeUs = j;
+                this.sampleIsKeyframe = false;
+                this.pesTimeUs = -9223372036854775807L;
+                this.startedFirstSample = true;
+                this.sampleHasPicture = i == 0;
+            } else if (i4 == 184) {
                 this.sampleIsKeyframe = true;
             }
-            position = i2;
+            position = i3;
         }
         if (!this.hasOutputFormat) {
-            this.csdBuffer.onData(bArr, position, limit);
+            this.csdBuffer.onData(data, position, limit);
         }
-        if (this.userDataReader != null) {
-            this.userData.appendToNalUnit(bArr, position, limit);
+        NalUnitTargetBuffer nalUnitTargetBuffer3 = this.userData;
+        if (nalUnitTargetBuffer3 != null) {
+            nalUnitTargetBuffer3.appendToNalUnit(data, position, limit);
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x006c  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0076  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -174,7 +207,7 @@ public final class H262Reader implements ElementaryStreamReader {
             i = i4 * 9;
         } else if (i6 != 4) {
             f2 = 1.0f;
-            Format createVideoSampleFormat = Format.createVideoSampleFormat(str, "video/mpeg2", null, -1, -1, i4, i5, -1.0f, Collections.singletonList(copyOf), -1, f2, null);
+            Format build = new Format.Builder().setId(str).setSampleMimeType("video/mpeg2").setWidth(i4).setHeight(i5).setPixelWidthHeightRatio(f2).setInitializationData(Collections.singletonList(copyOf)).build();
             long j = 0;
             i2 = (copyOf[7] & 15) - 1;
             if (i2 >= 0) {
@@ -194,18 +227,18 @@ public final class H262Reader implements ElementaryStreamReader {
                     j = (long) (1000000.0d / d);
                 }
             }
-            return Pair.create(createVideoSampleFormat, Long.valueOf(j));
+            return Pair.create(build, Long.valueOf(j));
         } else {
             f = i5 * 121;
             i = i4 * 100;
         }
         f2 = f / i;
-        Format createVideoSampleFormat2 = Format.createVideoSampleFormat(str, "video/mpeg2", null, -1, -1, i4, i5, -1.0f, Collections.singletonList(copyOf), -1, f2, null);
+        Format build2 = new Format.Builder().setId(str).setSampleMimeType("video/mpeg2").setWidth(i4).setHeight(i5).setPixelWidthHeightRatio(f2).setInitializationData(Collections.singletonList(copyOf)).build();
         long j2 = 0;
         i2 = (copyOf[7] & 15) - 1;
         if (i2 >= 0) {
         }
-        return Pair.create(createVideoSampleFormat2, Long.valueOf(j2));
+        return Pair.create(build2, Long.valueOf(j2));
     }
 
     /* JADX INFO: Access modifiers changed from: private */

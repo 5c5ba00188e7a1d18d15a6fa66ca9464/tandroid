@@ -1,23 +1,65 @@
 package com.google.android.exoplayer2;
 
-import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.Timeline;
+import com.google.android.exoplayer2.video.VideoListener;
 /* loaded from: classes.dex */
 public abstract class BasePlayer implements Player {
     protected final Timeline.Window window = new Timeline.Window();
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes.dex */
-    public interface ListenerInvocation {
-        void invokeListener(Player.EventListener eventListener);
+    @Override // com.google.android.exoplayer2.Player
+    public /* synthetic */ void addVideoListener(VideoListener videoListener) {
+        Player.videoListeners.add(videoListener);
     }
 
-    public final boolean isPlaying() {
-        return getPlaybackState() == 3 && getPlayWhenReady() && getPlaybackSuppressionReason() == 0;
+    public abstract void seekTo(int i, long j, int i2, boolean z);
+
+    @Override // com.google.android.exoplayer2.Player
+    public final boolean hasPreviousMediaItem() {
+        return getPreviousMediaItemIndex() != -1;
     }
 
+    @Override // com.google.android.exoplayer2.Player
+    public final boolean hasNextMediaItem() {
+        return getNextMediaItemIndex() != -1;
+    }
+
+    @Override // com.google.android.exoplayer2.Player
     public final void seekTo(long j) {
-        seekTo(getCurrentWindowIndex(), j);
+        seekToCurrentItem(j, 5);
+    }
+
+    public final int getNextMediaItemIndex() {
+        Timeline currentTimeline = getCurrentTimeline();
+        if (currentTimeline.isEmpty()) {
+            return -1;
+        }
+        return currentTimeline.getNextWindowIndex(getCurrentMediaItemIndex(), getRepeatModeForNavigation(), getShuffleModeEnabled());
+    }
+
+    public final int getPreviousMediaItemIndex() {
+        Timeline currentTimeline = getCurrentTimeline();
+        if (currentTimeline.isEmpty()) {
+            return -1;
+        }
+        return currentTimeline.getPreviousWindowIndex(getCurrentMediaItemIndex(), getRepeatModeForNavigation(), getShuffleModeEnabled());
+    }
+
+    @Override // com.google.android.exoplayer2.Player
+    public final boolean isCurrentMediaItemDynamic() {
+        Timeline currentTimeline = getCurrentTimeline();
+        return !currentTimeline.isEmpty() && currentTimeline.getWindow(getCurrentMediaItemIndex(), this.window).isDynamic;
+    }
+
+    @Override // com.google.android.exoplayer2.Player
+    public final boolean isCurrentMediaItemLive() {
+        Timeline currentTimeline = getCurrentTimeline();
+        return !currentTimeline.isEmpty() && currentTimeline.getWindow(getCurrentMediaItemIndex(), this.window).isLive();
+    }
+
+    @Override // com.google.android.exoplayer2.Player
+    public final boolean isCurrentMediaItemSeekable() {
+        Timeline currentTimeline = getCurrentTimeline();
+        return !currentTimeline.isEmpty() && currentTimeline.getWindow(getCurrentMediaItemIndex(), this.window).isSeekable;
     }
 
     public final long getContentDuration() {
@@ -25,37 +67,18 @@ public abstract class BasePlayer implements Player {
         if (currentTimeline.isEmpty()) {
             return -9223372036854775807L;
         }
-        return currentTimeline.getWindow(getCurrentWindowIndex(), this.window).getDurationMs();
+        return currentTimeline.getWindow(getCurrentMediaItemIndex(), this.window).getDurationMs();
     }
 
-    /* loaded from: classes.dex */
-    protected static final class ListenerHolder {
-        public final Player.EventListener listener;
-        private boolean released;
-
-        public ListenerHolder(Player.EventListener eventListener) {
-            this.listener = eventListener;
+    private int getRepeatModeForNavigation() {
+        int repeatMode = getRepeatMode();
+        if (repeatMode == 1) {
+            return 0;
         }
+        return repeatMode;
+    }
 
-        public void invoke(ListenerInvocation listenerInvocation) {
-            if (this.released) {
-                return;
-            }
-            listenerInvocation.invokeListener(this.listener);
-        }
-
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null || ListenerHolder.class != obj.getClass()) {
-                return false;
-            }
-            return this.listener.equals(((ListenerHolder) obj).listener);
-        }
-
-        public int hashCode() {
-            return this.listener.hashCode();
-        }
+    private void seekToCurrentItem(long j, int i) {
+        seekTo(getCurrentMediaItemIndex(), j, i, false);
     }
 }

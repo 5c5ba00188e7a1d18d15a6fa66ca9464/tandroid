@@ -7,15 +7,15 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import org.telegram.messenger.BuildVars;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class ThreadUtils {
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public interface BlockingOperation {
         void run() throws InterruptedException;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class ThreadChecker {
         private Thread thread = Thread.currentThread();
 
@@ -146,7 +146,7 @@ public class ThreadUtils {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class 1CaughtException {
         Exception e;
 
@@ -155,7 +155,7 @@ public class ThreadUtils {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class 1Result {
         public V value;
 

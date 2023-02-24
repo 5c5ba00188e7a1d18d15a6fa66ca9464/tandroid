@@ -24,11 +24,11 @@ public final class PsBinarySearchSeeker extends BinarySearchSeeker {
         }
 
         @Override // com.google.android.exoplayer2.extractor.BinarySearchSeeker.TimestampSeeker
-        public BinarySearchSeeker.TimestampSearchResult searchForTimestamp(ExtractorInput extractorInput, long j) throws IOException, InterruptedException {
+        public BinarySearchSeeker.TimestampSearchResult searchForTimestamp(ExtractorInput extractorInput, long j) throws IOException {
             long position = extractorInput.getPosition();
             int min = (int) Math.min(20000L, extractorInput.getLength() - position);
             this.packetBuffer.reset(min);
-            extractorInput.peekFully(this.packetBuffer.data, 0, min);
+            extractorInput.peekFully(this.packetBuffer.getData(), 0, min);
             return searchForScrValueInBuffer(this.packetBuffer, j, position);
         }
 
@@ -42,7 +42,7 @@ public final class PsBinarySearchSeeker extends BinarySearchSeeker {
             long j3 = -9223372036854775807L;
             int i2 = -1;
             while (parsableByteArray.bytesLeft() >= 4) {
-                if (PsBinarySearchSeeker.peekIntAtPosition(parsableByteArray.data, parsableByteArray.getPosition()) != 442) {
+                if (PsBinarySearchSeeker.peekIntAtPosition(parsableByteArray.getData(), parsableByteArray.getPosition()) != 442) {
                     parsableByteArray.skipBytes(1);
                 } else {
                     parsableByteArray.skipBytes(4);
@@ -86,7 +86,7 @@ public final class PsBinarySearchSeeker extends BinarySearchSeeker {
             }
             parsableByteArray.skipBytes(readUnsignedByte);
             if (parsableByteArray.bytesLeft() >= 4) {
-                if (PsBinarySearchSeeker.peekIntAtPosition(parsableByteArray.data, parsableByteArray.getPosition()) == 443) {
+                if (PsBinarySearchSeeker.peekIntAtPosition(parsableByteArray.getData(), parsableByteArray.getPosition()) == 443) {
                     parsableByteArray.skipBytes(4);
                     int readUnsignedShort = parsableByteArray.readUnsignedShort();
                     if (parsableByteArray.bytesLeft() < readUnsignedShort) {
@@ -95,7 +95,7 @@ public final class PsBinarySearchSeeker extends BinarySearchSeeker {
                     }
                     parsableByteArray.skipBytes(readUnsignedShort);
                 }
-                while (parsableByteArray.bytesLeft() >= 4 && (peekIntAtPosition = PsBinarySearchSeeker.peekIntAtPosition(parsableByteArray.data, parsableByteArray.getPosition())) != 442 && peekIntAtPosition != 441 && (peekIntAtPosition >>> 8) == 1) {
+                while (parsableByteArray.bytesLeft() >= 4 && (peekIntAtPosition = PsBinarySearchSeeker.peekIntAtPosition(parsableByteArray.getData(), parsableByteArray.getPosition())) != 442 && peekIntAtPosition != 441 && (peekIntAtPosition >>> 8) == 1) {
                     parsableByteArray.skipBytes(4);
                     if (parsableByteArray.bytesLeft() < 2) {
                         parsableByteArray.setPosition(limit);

@@ -18,7 +18,6 @@ import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.signin.SignInOptions;
 import com.google.android.gms.signin.zad;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -29,12 +28,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.concurrent.locks.ReentrantLock;
-import javax.annotation.concurrent.GuardedBy;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 @Deprecated
 /* loaded from: classes.dex */
 public abstract class GoogleApiClient {
-    @GuardedBy("sAllClients")
     private static final Set zaa = Collections.newSetFromMap(new WeakHashMap());
 
     /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
@@ -67,7 +64,6 @@ public abstract class GoogleApiClient {
             this.zag = context.getClass().getName();
         }
 
-        @CanIgnoreReturnValue
         public Builder addApi(Api<Object> api) {
             Preconditions.checkNotNull(api, "Api must not be null");
             this.zaj.put(api, null);
@@ -77,14 +73,12 @@ public abstract class GoogleApiClient {
             return this;
         }
 
-        @CanIgnoreReturnValue
         public Builder addConnectionCallbacks(ConnectionCallbacks connectionCallbacks) {
             Preconditions.checkNotNull(connectionCallbacks, "Listener must not be null");
             this.zaq.add(connectionCallbacks);
             return this;
         }
 
-        @CanIgnoreReturnValue
         public Builder addOnConnectionFailedListener(OnConnectionFailedListener onConnectionFailedListener) {
             Preconditions.checkNotNull(onConnectionFailedListener, "Listener must not be null");
             this.zar.add(onConnectionFailedListener);

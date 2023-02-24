@@ -1,6 +1,5 @@
 package com.google.android.exoplayer2.util;
 
-import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.PlaybackParameters;
 /* loaded from: classes.dex */
 public final class StandaloneMediaClock implements MediaClock {
@@ -44,7 +43,7 @@ public final class StandaloneMediaClock implements MediaClock {
             long elapsedRealtime = this.clock.elapsedRealtime() - this.baseElapsedMs;
             PlaybackParameters playbackParameters = this.playbackParameters;
             if (playbackParameters.speed == 1.0f) {
-                mediaTimeUsForPlayoutTimeMs = C.msToUs(elapsedRealtime);
+                mediaTimeUsForPlayoutTimeMs = Util.msToUs(elapsedRealtime);
             } else {
                 mediaTimeUsForPlayoutTimeMs = playbackParameters.getMediaTimeUsForPlayoutTimeMs(elapsedRealtime);
             }

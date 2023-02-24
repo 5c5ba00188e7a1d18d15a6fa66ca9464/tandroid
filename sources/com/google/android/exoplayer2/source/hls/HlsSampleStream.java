@@ -47,12 +47,12 @@ final class HlsSampleStream implements SampleStream {
     }
 
     @Override // com.google.android.exoplayer2.source.SampleStream
-    public int readData(FormatHolder formatHolder, DecoderInputBuffer decoderInputBuffer, boolean z) {
+    public int readData(FormatHolder formatHolder, DecoderInputBuffer decoderInputBuffer, int i) {
         if (this.sampleQueueIndex == -3) {
             decoderInputBuffer.addFlag(4);
             return -4;
         } else if (hasValidSampleQueueIndex()) {
-            return this.sampleStreamWrapper.readData(this.sampleQueueIndex, formatHolder, decoderInputBuffer, z);
+            return this.sampleStreamWrapper.readData(this.sampleQueueIndex, formatHolder, decoderInputBuffer, i);
         } else {
             return -3;
         }

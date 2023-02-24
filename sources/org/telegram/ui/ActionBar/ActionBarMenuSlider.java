@@ -20,6 +20,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.FrameLayout;
 import androidx.core.math.MathUtils;
 import org.telegram.messenger.AndroidUtilities;
@@ -58,6 +59,7 @@ public class ActionBarMenuSlider extends FrameLayout {
     private Theme.ResourcesProvider resourcesProvider;
     private float roundRadiusDp;
     private Paint shadowPaint;
+    private long tapStart;
     private float value;
     private ValueAnimator valueAnimator;
 
@@ -123,7 +125,7 @@ public class ActionBarMenuSlider extends FrameLayout {
             }
         });
         this.valueAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-        this.valueAnimator.setDuration(320L);
+        this.valueAnimator.setDuration(220L);
         this.valueAnimator.start();
     }
 
@@ -346,10 +348,19 @@ public class ActionBarMenuSlider extends FrameLayout {
             this.dragging = true;
             this.fromX = x;
             this.fromValue = this.value;
+            this.tapStart = System.currentTimeMillis();
             return true;
         } else if (action == 2 || action == 1) {
             if (action == 1) {
                 this.dragging = false;
+                if (System.currentTimeMillis() - this.tapStart < ViewConfiguration.getTapTimeout()) {
+                    float paddingLeft = (x - getPaddingLeft()) / ((getWidth() - getPaddingLeft()) - getPaddingRight());
+                    Utilities.Callback2<Float, Boolean> callback2 = this.onValueChange;
+                    if (callback2 != null) {
+                        callback2.run(Float.valueOf(paddingLeft), Boolean.TRUE);
+                    }
+                    return true;
+                }
             }
             updateValue(this.fromValue + ((x - this.fromX) / Math.max(1, (getWidth() - getPaddingLeft()) - getPaddingRight())), !this.dragging);
             return true;

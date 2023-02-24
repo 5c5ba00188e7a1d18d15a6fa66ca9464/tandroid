@@ -1,6 +1,8 @@
 package com.google.android.exoplayer2.util;
 
+import android.graphics.Color;
 import android.text.TextUtils;
+import com.google.common.base.Ascii;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -11,10 +13,6 @@ public final class ColorParser {
     private static final Pattern RGB_PATTERN = Pattern.compile("^rgb\\((\\d{1,3}),(\\d{1,3}),(\\d{1,3})\\)$");
     private static final Pattern RGBA_PATTERN_INT_ALPHA = Pattern.compile("^rgba\\((\\d{1,3}),(\\d{1,3}),(\\d{1,3}),(\\d{1,3})\\)$");
     private static final Pattern RGBA_PATTERN_FLOAT_ALPHA = Pattern.compile("^rgba\\((\\d{1,3}),(\\d{1,3}),(\\d{1,3}),(\\d*\\.?\\d*?)\\)$");
-
-    private static int argb(int i, int i2, int i3, int i4) {
-        return (i << 24) | (i2 << 16) | (i3 << 8) | i4;
-    }
 
     static {
         HashMap hashMap = new HashMap();
@@ -196,27 +194,23 @@ public final class ColorParser {
             Matcher matcher = (z ? RGBA_PATTERN_FLOAT_ALPHA : RGBA_PATTERN_INT_ALPHA).matcher(replace);
             if (matcher.matches()) {
                 if (z) {
-                    parseInt = (int) (Float.parseFloat(matcher.group(4)) * 255.0f);
+                    parseInt = (int) (Float.parseFloat((String) Assertions.checkNotNull(matcher.group(4))) * 255.0f);
                 } else {
-                    parseInt = Integer.parseInt(matcher.group(4), 10);
+                    parseInt = Integer.parseInt((String) Assertions.checkNotNull(matcher.group(4)), 10);
                 }
-                return argb(parseInt, Integer.parseInt(matcher.group(1), 10), Integer.parseInt(matcher.group(2), 10), Integer.parseInt(matcher.group(3), 10));
+                return Color.argb(parseInt, Integer.parseInt((String) Assertions.checkNotNull(matcher.group(1)), 10), Integer.parseInt((String) Assertions.checkNotNull(matcher.group(2)), 10), Integer.parseInt((String) Assertions.checkNotNull(matcher.group(3)), 10));
             }
         } else if (replace.startsWith("rgb")) {
             Matcher matcher2 = RGB_PATTERN.matcher(replace);
             if (matcher2.matches()) {
-                return rgb(Integer.parseInt(matcher2.group(1), 10), Integer.parseInt(matcher2.group(2), 10), Integer.parseInt(matcher2.group(3), 10));
+                return Color.rgb(Integer.parseInt((String) Assertions.checkNotNull(matcher2.group(1)), 10), Integer.parseInt((String) Assertions.checkNotNull(matcher2.group(2)), 10), Integer.parseInt((String) Assertions.checkNotNull(matcher2.group(3)), 10));
             }
         } else {
-            Integer num = COLOR_MAP.get(Util.toLowerInvariant(replace));
+            Integer num = COLOR_MAP.get(Ascii.toLowerCase(replace));
             if (num != null) {
                 return num.intValue();
             }
         }
         throw new IllegalArgumentException();
-    }
-
-    private static int rgb(int i, int i2, int i3) {
-        return argb(255, i, i2, i3);
     }
 }

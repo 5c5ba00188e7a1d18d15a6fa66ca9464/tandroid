@@ -10,27 +10,43 @@ import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 /* loaded from: classes.dex */
 final class WavHeaderReader {
-    public static WavHeader peek(ExtractorInput extractorInput) throws IOException, InterruptedException {
-        byte[] bArr;
-        Assertions.checkNotNull(extractorInput);
-        ParsableByteArray parsableByteArray = new ParsableByteArray(16);
-        if (ChunkHeader.peek(extractorInput, parsableByteArray).id != 1380533830) {
-            return null;
+    public static boolean checkFileType(ExtractorInput extractorInput) throws IOException {
+        ParsableByteArray parsableByteArray = new ParsableByteArray(8);
+        int i = ChunkHeader.peek(extractorInput, parsableByteArray).id;
+        if (i == 1380533830 || i == 1380333108) {
+            extractorInput.peekFully(parsableByteArray.getData(), 0, 4);
+            parsableByteArray.setPosition(0);
+            int readInt = parsableByteArray.readInt();
+            if (readInt != 1463899717) {
+                Log.e("WavHeaderReader", "Unsupported form type: " + readInt);
+                return false;
+            }
+            return true;
         }
-        extractorInput.peekFully(parsableByteArray.data, 0, 4);
-        parsableByteArray.setPosition(0);
-        int readInt = parsableByteArray.readInt();
-        if (readInt != 1463899717) {
-            Log.e("WavHeaderReader", "Unsupported RIFF format: " + readInt);
-            return null;
-        }
+        return false;
+    }
+
+    public static long readRf64SampleDataSize(ExtractorInput extractorInput) throws IOException {
+        ParsableByteArray parsableByteArray = new ParsableByteArray(8);
         ChunkHeader peek = ChunkHeader.peek(extractorInput, parsableByteArray);
-        while (peek.id != 1718449184) {
-            extractorInput.advancePeekPosition((int) peek.size);
-            peek = ChunkHeader.peek(extractorInput, parsableByteArray);
+        if (peek.id != 1685272116) {
+            extractorInput.resetPeekPosition();
+            return -1L;
         }
-        Assertions.checkState(peek.size >= 16);
-        extractorInput.peekFully(parsableByteArray.data, 0, 16);
+        extractorInput.advancePeekPosition(8);
+        parsableByteArray.setPosition(0);
+        extractorInput.peekFully(parsableByteArray.getData(), 0, 8);
+        long readLittleEndianLong = parsableByteArray.readLittleEndianLong();
+        extractorInput.skipFully(((int) peek.size) + 8);
+        return readLittleEndianLong;
+    }
+
+    public static WavFormat readFormat(ExtractorInput extractorInput) throws IOException {
+        byte[] bArr;
+        ParsableByteArray parsableByteArray = new ParsableByteArray(16);
+        ChunkHeader skipToChunk = skipToChunk(1718449184, extractorInput, parsableByteArray);
+        Assertions.checkState(skipToChunk.size >= 16);
+        extractorInput.peekFully(parsableByteArray.getData(), 0, 16);
         parsableByteArray.setPosition(0);
         int readLittleEndianUnsignedShort = parsableByteArray.readLittleEndianUnsignedShort();
         int readLittleEndianUnsignedShort2 = parsableByteArray.readLittleEndianUnsignedShort();
@@ -38,7 +54,7 @@ final class WavHeaderReader {
         int readLittleEndianUnsignedIntToInt2 = parsableByteArray.readLittleEndianUnsignedIntToInt();
         int readLittleEndianUnsignedShort3 = parsableByteArray.readLittleEndianUnsignedShort();
         int readLittleEndianUnsignedShort4 = parsableByteArray.readLittleEndianUnsignedShort();
-        int i = ((int) peek.size) - 16;
+        int i = ((int) skipToChunk.size) - 16;
         if (i > 0) {
             byte[] bArr2 = new byte[i];
             extractorInput.peekFully(bArr2, 0, i);
@@ -46,45 +62,34 @@ final class WavHeaderReader {
         } else {
             bArr = Util.EMPTY_BYTE_ARRAY;
         }
-        return new WavHeader(readLittleEndianUnsignedShort, readLittleEndianUnsignedShort2, readLittleEndianUnsignedIntToInt, readLittleEndianUnsignedIntToInt2, readLittleEndianUnsignedShort3, readLittleEndianUnsignedShort4, bArr);
+        extractorInput.skipFully((int) (extractorInput.getPeekPosition() - extractorInput.getPosition()));
+        return new WavFormat(readLittleEndianUnsignedShort, readLittleEndianUnsignedShort2, readLittleEndianUnsignedIntToInt, readLittleEndianUnsignedIntToInt2, readLittleEndianUnsignedShort3, readLittleEndianUnsignedShort4, bArr);
     }
 
-    public static Pair<Long, Long> skipToData(ExtractorInput extractorInput) throws IOException, InterruptedException {
-        Assertions.checkNotNull(extractorInput);
+    public static Pair<Long, Long> skipToSampleData(ExtractorInput extractorInput) throws IOException {
         extractorInput.resetPeekPosition();
-        ParsableByteArray parsableByteArray = new ParsableByteArray(8);
-        ChunkHeader peek = ChunkHeader.peek(extractorInput, parsableByteArray);
-        while (true) {
-            int i = peek.id;
-            if (i != 1684108385) {
-                if (i != 1380533830 && i != 1718449184) {
-                    Log.w("WavHeaderReader", "Ignoring unknown WAV chunk: " + peek.id);
-                }
-                long j = peek.size + 8;
-                if (peek.id == 1380533830) {
-                    j = 12;
-                }
-                if (j > 2147483647L) {
-                    throw new ParserException("Chunk is too large (~2GB+) to skip; id: " + peek.id);
-                }
-                extractorInput.skipFully((int) j);
-                peek = ChunkHeader.peek(extractorInput, parsableByteArray);
-            } else {
-                extractorInput.skipFully(8);
-                long position = extractorInput.getPosition();
-                long j2 = peek.size + position;
-                long length = extractorInput.getLength();
-                if (length != -1 && j2 > length) {
-                    Log.w("WavHeaderReader", "Data exceeds input length: " + j2 + ", " + length);
-                    j2 = length;
-                }
-                return Pair.create(Long.valueOf(position), Long.valueOf(j2));
-            }
-        }
+        ChunkHeader skipToChunk = skipToChunk(1684108385, extractorInput, new ParsableByteArray(8));
+        extractorInput.skipFully(8);
+        return Pair.create(Long.valueOf(extractorInput.getPosition()), Long.valueOf(skipToChunk.size));
     }
 
+    private static ChunkHeader skipToChunk(int i, ExtractorInput extractorInput, ParsableByteArray parsableByteArray) throws IOException {
+        ChunkHeader peek = ChunkHeader.peek(extractorInput, parsableByteArray);
+        while (peek.id != i) {
+            Log.w("WavHeaderReader", "Ignoring unknown WAV chunk: " + peek.id);
+            long j = peek.size + 8;
+            if (j > 2147483647L) {
+                throw ParserException.createForUnsupportedContainerFeature("Chunk is too large (~2GB+) to skip; id: " + peek.id);
+            }
+            extractorInput.skipFully((int) j);
+            peek = ChunkHeader.peek(extractorInput, parsableByteArray);
+        }
+        return peek;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    private static final class ChunkHeader {
+    public static final class ChunkHeader {
         public final int id;
         public final long size;
 
@@ -93,8 +98,8 @@ final class WavHeaderReader {
             this.size = j;
         }
 
-        public static ChunkHeader peek(ExtractorInput extractorInput, ParsableByteArray parsableByteArray) throws IOException, InterruptedException {
-            extractorInput.peekFully(parsableByteArray.data, 0, 8);
+        public static ChunkHeader peek(ExtractorInput extractorInput, ParsableByteArray parsableByteArray) throws IOException {
+            extractorInput.peekFully(parsableByteArray.getData(), 0, 8);
             parsableByteArray.setPosition(0);
             return new ChunkHeader(parsableByteArray.readInt(), parsableByteArray.readLittleEndianUnsignedInt());
         }

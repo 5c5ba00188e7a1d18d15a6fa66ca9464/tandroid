@@ -83,6 +83,11 @@ public interface Map<K, V> {
             return obj2;
         }
 
+        public static Object $default$putIfAbsent(java.util.Map map, Object obj, Object obj2) {
+            Object obj3 = map.get(obj);
+            return obj3 == null ? map.put(obj, obj2) : obj3;
+        }
+
         public static boolean $default$remove(java.util.Map map, Object obj, Object obj2) {
             Object obj3 = map.get(obj);
             if (a.x(obj3, obj2)) {
@@ -93,6 +98,11 @@ public interface Map<K, V> {
                 return false;
             }
             return false;
+        }
+
+        public static Object $default$replace(java.util.Map map, Object obj, Object obj2) {
+            Object obj3 = map.get(obj);
+            return (obj3 != null || map.containsKey(obj)) ? map.put(obj, obj2) : obj3;
         }
 
         public static boolean $default$replace(java.util.Map map, Object obj, Object obj2, Object obj3) {

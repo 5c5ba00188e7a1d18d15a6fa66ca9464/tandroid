@@ -13,12 +13,10 @@ import com.google.android.gms.common.wrappers.Wrappers;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.util.NoSuchElementException;
 import java.util.concurrent.Executor;
-import javax.annotation.Nullable;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public class ConnectionTracker {
     private static final Object zzb = new Object();
-    @Nullable
     private static volatile ConnectionTracker zzc;
     public ConcurrentHashMap zza = new ConcurrentHashMap();
 
@@ -45,7 +43,7 @@ public class ConnectionTracker {
         }
     }
 
-    private final boolean zzc(Context context, String str, Intent intent, ServiceConnection serviceConnection, int i, boolean z, @Nullable Executor executor) {
+    private final boolean zzc(Context context, String str, Intent intent, ServiceConnection serviceConnection, int i, boolean z, Executor executor) {
         ComponentName component = intent.getComponent();
         if (component != null) {
             String packageName = component.getPackageName();
@@ -96,11 +94,11 @@ public class ConnectionTracker {
         }
     }
 
-    public final boolean zza(Context context, String str, Intent intent, ServiceConnection serviceConnection, int i, @Nullable Executor executor) {
+    public final boolean zza(Context context, String str, Intent intent, ServiceConnection serviceConnection, int i, Executor executor) {
         return zzc(context, str, intent, serviceConnection, i, true, executor);
     }
 
-    private static final boolean zze(Context context, Intent intent, ServiceConnection serviceConnection, int i, @Nullable Executor executor) {
+    private static final boolean zze(Context context, Intent intent, ServiceConnection serviceConnection, int i, Executor executor) {
         return (!PlatformVersion.isAtLeastQ() || executor == null) ? context.bindService(intent, serviceConnection, i) : context.bindService(intent, i, executor, serviceConnection);
     }
 }

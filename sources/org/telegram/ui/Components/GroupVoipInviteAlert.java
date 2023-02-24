@@ -245,19 +245,19 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x002f  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0041 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x003a  */
     /* JADX WARN: Removed duplicated region for block: B:28:0x004c A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:35:0x0057 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0060 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0062 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x006b A[ADDED_TO_REGION] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static /* synthetic */ int lambda$fillContacts$1(MessagesController messagesController, int i, TLObject tLObject, TLObject tLObject2) {
         int i2;
         int i3;
-        TLRPC$User user = messagesController.getUser(Long.valueOf(((TLRPC$TL_contact) tLObject2).user_id));
-        TLRPC$User user2 = messagesController.getUser(Long.valueOf(((TLRPC$TL_contact) tLObject).user_id));
+        TLRPC$User user = tLObject2 instanceof TLRPC$TL_contact ? messagesController.getUser(Long.valueOf(((TLRPC$TL_contact) tLObject2).user_id)) : null;
+        TLRPC$User user2 = tLObject instanceof TLRPC$TL_contact ? messagesController.getUser(Long.valueOf(((TLRPC$TL_contact) tLObject).user_id)) : null;
         if (user != null) {
             if (user.self) {
                 i2 = i + 50000;

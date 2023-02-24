@@ -5,53 +5,44 @@ import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.text.SimpleSubtitleDecoder;
 import com.google.android.exoplayer2.text.Subtitle;
 import com.google.android.exoplayer2.text.SubtitleDecoderException;
-import com.google.android.exoplayer2.text.webvtt.WebvttCue;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.ArrayList;
-import java.util.List;
 /* loaded from: classes.dex */
 public final class WebvttDecoder extends SimpleSubtitleDecoder {
-    private final CssParser cssParser;
-    private final WebvttCueParser cueParser;
-    private final List<WebvttCssStyle> definedStyles;
+    private final WebvttCssParser cssParser;
     private final ParsableByteArray parsableWebvttData;
-    private final WebvttCue.Builder webvttCueBuilder;
 
     public WebvttDecoder() {
         super("WebvttDecoder");
-        this.cueParser = new WebvttCueParser();
         this.parsableWebvttData = new ParsableByteArray();
-        this.webvttCueBuilder = new WebvttCue.Builder();
-        this.cssParser = new CssParser();
-        this.definedStyles = new ArrayList();
+        this.cssParser = new WebvttCssParser();
     }
 
     @Override // com.google.android.exoplayer2.text.SimpleSubtitleDecoder
     protected Subtitle decode(byte[] bArr, int i, boolean z) throws SubtitleDecoderException {
+        WebvttCueInfo parseCue;
         this.parsableWebvttData.reset(bArr, i);
-        this.webvttCueBuilder.reset();
-        this.definedStyles.clear();
+        ArrayList arrayList = new ArrayList();
         try {
             WebvttParserUtil.validateWebvttHeaderLine(this.parsableWebvttData);
             do {
             } while (!TextUtils.isEmpty(this.parsableWebvttData.readLine()));
-            ArrayList arrayList = new ArrayList();
+            ArrayList arrayList2 = new ArrayList();
             while (true) {
                 int nextEvent = getNextEvent(this.parsableWebvttData);
                 if (nextEvent == 0) {
-                    return new WebvttSubtitle(arrayList);
+                    return new WebvttSubtitle(arrayList2);
                 }
                 if (nextEvent == 1) {
                     skipComment(this.parsableWebvttData);
                 } else if (nextEvent == 2) {
-                    if (!arrayList.isEmpty()) {
+                    if (!arrayList2.isEmpty()) {
                         throw new SubtitleDecoderException("A style block was found after the first cue.");
                     }
                     this.parsableWebvttData.readLine();
-                    this.definedStyles.addAll(this.cssParser.parseBlock(this.parsableWebvttData));
-                } else if (nextEvent == 3 && this.cueParser.parseCue(this.parsableWebvttData, this.webvttCueBuilder, this.definedStyles)) {
-                    arrayList.add(this.webvttCueBuilder.build());
-                    this.webvttCueBuilder.reset();
+                    arrayList.addAll(this.cssParser.parseBlock(this.parsableWebvttData));
+                } else if (nextEvent == 3 && (parseCue = WebvttCueParser.parseCue(this.parsableWebvttData, arrayList)) != null) {
+                    arrayList2.add(parseCue);
                 }
             }
         } catch (ParserException e) {

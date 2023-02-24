@@ -1,19 +1,22 @@
 package com.google.android.exoplayer2.drm;
 
+import com.google.android.exoplayer2.C;
+import com.google.android.exoplayer2.decoder.CryptoConfig;
 import com.google.android.exoplayer2.drm.DrmSession;
-import com.google.android.exoplayer2.drm.ExoMediaCrypto;
+import com.google.android.exoplayer2.drm.DrmSessionEventListener;
 import com.google.android.exoplayer2.util.Assertions;
 import java.util.Map;
+import java.util.UUID;
 /* loaded from: classes.dex */
-public final class ErrorStateDrmSession<T extends ExoMediaCrypto> implements DrmSession<T> {
+public final class ErrorStateDrmSession implements DrmSession {
     private final DrmSession.DrmSessionException error;
 
     @Override // com.google.android.exoplayer2.drm.DrmSession
-    public void acquire() {
+    public void acquire(DrmSessionEventListener.EventDispatcher eventDispatcher) {
     }
 
     @Override // com.google.android.exoplayer2.drm.DrmSession
-    public T getMediaCrypto() {
+    public CryptoConfig getCryptoConfig() {
         return null;
     }
 
@@ -33,7 +36,12 @@ public final class ErrorStateDrmSession<T extends ExoMediaCrypto> implements Drm
     }
 
     @Override // com.google.android.exoplayer2.drm.DrmSession
-    public void release() {
+    public void release(DrmSessionEventListener.EventDispatcher eventDispatcher) {
+    }
+
+    @Override // com.google.android.exoplayer2.drm.DrmSession
+    public boolean requiresSecureDecoder(String str) {
+        return false;
     }
 
     public ErrorStateDrmSession(DrmSession.DrmSessionException drmSessionException) {
@@ -43,5 +51,10 @@ public final class ErrorStateDrmSession<T extends ExoMediaCrypto> implements Drm
     @Override // com.google.android.exoplayer2.drm.DrmSession
     public DrmSession.DrmSessionException getError() {
         return this.error;
+    }
+
+    @Override // com.google.android.exoplayer2.drm.DrmSession
+    public final UUID getSchemeUuid() {
+        return C.UUID_NIL;
     }
 }

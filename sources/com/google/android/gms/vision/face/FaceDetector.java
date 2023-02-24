@@ -17,15 +17,12 @@ import com.google.android.gms.vision.face.internal.client.zzf;
 import com.google.android.gms.vision.zzc;
 import java.nio.ByteBuffer;
 import java.util.HashSet;
-import javax.annotation.concurrent.GuardedBy;
 /* compiled from: com.google.android.gms:play-services-vision@@20.1.3 */
 /* loaded from: classes.dex */
 public final class FaceDetector extends Detector<Face> {
     private final zzc zza;
-    @GuardedBy("lock")
     private final zzb zzb;
     private final Object zzc;
-    @GuardedBy("lock")
     private boolean zzd;
 
     @Override // com.google.android.gms.vision.Detector

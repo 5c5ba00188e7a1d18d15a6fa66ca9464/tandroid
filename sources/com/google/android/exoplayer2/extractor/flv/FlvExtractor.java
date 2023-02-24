@@ -3,8 +3,10 @@ package com.google.android.exoplayer2.extractor.flv;
 import com.google.android.exoplayer2.extractor.Extractor;
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.ExtractorOutput;
+import com.google.android.exoplayer2.extractor.IndexSeekMap;
 import com.google.android.exoplayer2.extractor.PositionHolder;
 import com.google.android.exoplayer2.extractor.SeekMap;
+import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.io.IOException;
 /* loaded from: classes.dex */
@@ -30,24 +32,33 @@ public final class FlvExtractor implements Extractor {
     public void release() {
     }
 
+    static {
+        FlvExtractor$$ExternalSyntheticLambda0 flvExtractor$$ExternalSyntheticLambda0 = FlvExtractor$$ExternalSyntheticLambda0.INSTANCE;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Extractor[] lambda$static$0() {
+        return new Extractor[]{new FlvExtractor()};
+    }
+
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public boolean sniff(ExtractorInput extractorInput) throws IOException, InterruptedException {
-        extractorInput.peekFully(this.scratch.data, 0, 3);
+    public boolean sniff(ExtractorInput extractorInput) throws IOException {
+        extractorInput.peekFully(this.scratch.getData(), 0, 3);
         this.scratch.setPosition(0);
         if (this.scratch.readUnsignedInt24() != 4607062) {
             return false;
         }
-        extractorInput.peekFully(this.scratch.data, 0, 2);
+        extractorInput.peekFully(this.scratch.getData(), 0, 2);
         this.scratch.setPosition(0);
         if ((this.scratch.readUnsignedShort() & 250) != 0) {
             return false;
         }
-        extractorInput.peekFully(this.scratch.data, 0, 4);
+        extractorInput.peekFully(this.scratch.getData(), 0, 4);
         this.scratch.setPosition(0);
         int readInt = this.scratch.readInt();
         extractorInput.resetPeekPosition();
         extractorInput.advancePeekPosition(readInt);
-        extractorInput.peekFully(this.scratch.data, 0, 4);
+        extractorInput.peekFully(this.scratch.getData(), 0, 4);
         this.scratch.setPosition(0);
         return this.scratch.readInt() == 0;
     }
@@ -59,13 +70,18 @@ public final class FlvExtractor implements Extractor {
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
     public void seek(long j, long j2) {
-        this.state = 1;
-        this.outputFirstSample = false;
+        if (j == 0) {
+            this.state = 1;
+            this.outputFirstSample = false;
+        } else {
+            this.state = 3;
+        }
         this.bytesToNextTagHeader = 0;
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException, InterruptedException {
+    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
+        Assertions.checkStateNotNull(this.extractorOutput);
         while (true) {
             int i = this.state;
             if (i != 1) {
@@ -88,8 +104,8 @@ public final class FlvExtractor implements Extractor {
         }
     }
 
-    private boolean readFlvHeader(ExtractorInput extractorInput) throws IOException, InterruptedException {
-        if (extractorInput.readFully(this.headerBuffer.data, 0, 9, true)) {
+    private boolean readFlvHeader(ExtractorInput extractorInput) throws IOException {
+        if (extractorInput.readFully(this.headerBuffer.getData(), 0, 9, true)) {
             this.headerBuffer.setPosition(0);
             this.headerBuffer.skipBytes(4);
             int readUnsignedByte = this.headerBuffer.readUnsignedByte();
@@ -109,14 +125,14 @@ public final class FlvExtractor implements Extractor {
         return false;
     }
 
-    private void skipToTagHeader(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    private void skipToTagHeader(ExtractorInput extractorInput) throws IOException {
         extractorInput.skipFully(this.bytesToNextTagHeader);
         this.bytesToNextTagHeader = 0;
         this.state = 3;
     }
 
-    private boolean readTagHeader(ExtractorInput extractorInput) throws IOException, InterruptedException {
-        if (extractorInput.readFully(this.tagHeaderBuffer.data, 0, 11, true)) {
+    private boolean readTagHeader(ExtractorInput extractorInput) throws IOException {
+        if (extractorInput.readFully(this.tagHeaderBuffer.getData(), 0, 11, true)) {
             this.tagHeaderBuffer.setPosition(0);
             this.tagType = this.tagHeaderBuffer.readUnsignedByte();
             this.tagDataSize = this.tagHeaderBuffer.readUnsignedInt24();
@@ -129,12 +145,12 @@ public final class FlvExtractor implements Extractor {
         return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x007b  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x007f  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0087  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x008b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    private boolean readTagData(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    private boolean readTagData(ExtractorInput extractorInput) throws IOException {
         boolean z;
         long currentTimestampUs = getCurrentTimestampUs();
         int i = this.tagType;
@@ -149,7 +165,7 @@ public final class FlvExtractor implements Extractor {
             z2 = this.metadataReader.consume(prepareTagData(extractorInput), currentTimestampUs);
             long durationUs = this.metadataReader.getDurationUs();
             if (durationUs != -9223372036854775807L) {
-                this.extractorOutput.seekMap(new SeekMap.Unseekable(durationUs));
+                this.extractorOutput.seekMap(new IndexSeekMap(this.metadataReader.getKeyFrameTagPositions(), this.metadataReader.getKeyFrameTimesUs(), durationUs));
                 this.outputSeekMap = true;
             }
         } else {
@@ -173,7 +189,7 @@ public final class FlvExtractor implements Extractor {
         return z;
     }
 
-    private ParsableByteArray prepareTagData(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    private ParsableByteArray prepareTagData(ExtractorInput extractorInput) throws IOException {
         if (this.tagDataSize > this.tagData.capacity()) {
             ParsableByteArray parsableByteArray = this.tagData;
             parsableByteArray.reset(new byte[Math.max(parsableByteArray.capacity() * 2, this.tagDataSize)], 0);
@@ -181,7 +197,7 @@ public final class FlvExtractor implements Extractor {
             this.tagData.setPosition(0);
         }
         this.tagData.setLimit(this.tagDataSize);
-        extractorInput.readFully(this.tagData.data, 0, this.tagDataSize);
+        extractorInput.readFully(this.tagData.getData(), 0, this.tagDataSize);
         return this.tagData;
     }
 

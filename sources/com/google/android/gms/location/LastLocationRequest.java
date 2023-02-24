@@ -7,7 +7,6 @@ import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.internal.location.zzd;
 import com.google.android.gms.internal.location.zzdj;
-import org.checkerframework.dataflow.qual.Pure;
 /* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class LastLocationRequest extends AbstractSafeParcelable {
@@ -49,12 +48,10 @@ public final class LastLocationRequest extends AbstractSafeParcelable {
         return false;
     }
 
-    @Pure
     public int getGranularity() {
         return this.zzb;
     }
 
-    @Pure
     public long getMaxUpdateAgeMillis() {
         return this.zza;
     }

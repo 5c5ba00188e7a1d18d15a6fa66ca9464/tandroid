@@ -8,8 +8,8 @@ import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 /* loaded from: classes.dex */
 final class TsBinarySearchSeeker extends BinarySearchSeeker {
-    public TsBinarySearchSeeker(TimestampAdjuster timestampAdjuster, long j, long j2, int i) {
-        super(new BinarySearchSeeker.DefaultSeekTimestampConverter(), new TsPcrSeeker(i, timestampAdjuster), j, 0L, j + 1, 0L, j2, 188L, 940);
+    public TsBinarySearchSeeker(TimestampAdjuster timestampAdjuster, long j, long j2, int i, int i2) {
+        super(new BinarySearchSeeker.DefaultSeekTimestampConverter(), new TsPcrSeeker(i, timestampAdjuster, i2), j, 0L, j + 1, 0L, j2, 188L, 940);
     }
 
     /* loaded from: classes.dex */
@@ -17,18 +17,20 @@ final class TsBinarySearchSeeker extends BinarySearchSeeker {
         private final ParsableByteArray packetBuffer = new ParsableByteArray();
         private final int pcrPid;
         private final TimestampAdjuster pcrTimestampAdjuster;
+        private final int timestampSearchBytes;
 
-        public TsPcrSeeker(int i, TimestampAdjuster timestampAdjuster) {
+        public TsPcrSeeker(int i, TimestampAdjuster timestampAdjuster, int i2) {
             this.pcrPid = i;
             this.pcrTimestampAdjuster = timestampAdjuster;
+            this.timestampSearchBytes = i2;
         }
 
         @Override // com.google.android.exoplayer2.extractor.BinarySearchSeeker.TimestampSeeker
-        public BinarySearchSeeker.TimestampSearchResult searchForTimestamp(ExtractorInput extractorInput, long j) throws IOException, InterruptedException {
+        public BinarySearchSeeker.TimestampSearchResult searchForTimestamp(ExtractorInput extractorInput, long j) throws IOException {
             long position = extractorInput.getPosition();
-            int min = (int) Math.min(112800L, extractorInput.getLength() - position);
+            int min = (int) Math.min(this.timestampSearchBytes, extractorInput.getLength() - position);
             this.packetBuffer.reset(min);
-            extractorInput.peekFully(this.packetBuffer.data, 0, min);
+            extractorInput.peekFully(this.packetBuffer.getData(), 0, min);
             return searchForPcrValueInBuffer(this.packetBuffer, j, position);
         }
 
@@ -39,7 +41,7 @@ final class TsBinarySearchSeeker extends BinarySearchSeeker {
             long j3 = -1;
             long j4 = -1;
             long j5 = -9223372036854775807L;
-            while (parsableByteArray.bytesLeft() >= 188 && (findSyncBytePosition2 = (findSyncBytePosition = TsUtil.findSyncBytePosition(parsableByteArray.data, parsableByteArray.getPosition(), limit)) + 188) <= limit) {
+            while (parsableByteArray.bytesLeft() >= 188 && (findSyncBytePosition2 = (findSyncBytePosition = TsUtil.findSyncBytePosition(parsableByteArray.getData(), parsableByteArray.getPosition(), limit)) + 188) <= limit) {
                 long readPcrFromPacket = TsUtil.readPcrFromPacket(parsableByteArray, findSyncBytePosition, this.pcrPid);
                 if (readPcrFromPacket != -9223372036854775807L) {
                     long adjustTsTimestamp = this.pcrTimestampAdjuster.adjustTsTimestamp(readPcrFromPacket);

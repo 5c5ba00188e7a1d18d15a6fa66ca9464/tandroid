@@ -3,7 +3,6 @@ package com.google.android.gms.common.internal;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
-import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class Preconditions {
@@ -22,7 +21,6 @@ public final class Preconditions {
         }
     }
 
-    @EnsuresNonNull({"#1"})
     public static String checkNotEmpty(String str) {
         if (TextUtils.isEmpty(str)) {
             throw new IllegalArgumentException("Given String is empty or null");
@@ -34,7 +32,6 @@ public final class Preconditions {
         checkNotMainThread("Must not be called on the main application thread");
     }
 
-    @EnsuresNonNull({"#1"})
     public static <T> T checkNotNull(T t) {
         java.util.Objects.requireNonNull(t, "null reference");
         return t;
@@ -64,7 +61,6 @@ public final class Preconditions {
         }
     }
 
-    @EnsuresNonNull({"#1"})
     public static <T> T checkNotNull(T t, Object obj) {
         if (t != null) {
             return t;
@@ -84,7 +80,6 @@ public final class Preconditions {
         }
     }
 
-    @EnsuresNonNull({"#1"})
     public static String checkNotEmpty(String str, Object obj) {
         if (TextUtils.isEmpty(str)) {
             throw new IllegalArgumentException(String.valueOf(obj));

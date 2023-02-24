@@ -2,8 +2,9 @@ package com.google.android.exoplayer2.extractor.ogg;
 
 import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.extractor.ExtractorInput;
+import com.google.android.exoplayer2.extractor.ExtractorUtil;
+import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
-import java.io.EOFException;
 import java.io.IOException;
 /* loaded from: classes.dex */
 final class OggPageHeader {
@@ -25,27 +26,42 @@ final class OggPageHeader {
         this.bodySize = 0;
     }
 
-    public boolean populate(ExtractorInput extractorInput, boolean z) throws IOException, InterruptedException {
-        this.scratch.reset();
+    public boolean skipToNextPage(ExtractorInput extractorInput) throws IOException {
+        return skipToNextPage(extractorInput, -1L);
+    }
+
+    public boolean skipToNextPage(ExtractorInput extractorInput, long j) throws IOException {
+        Assertions.checkArgument(extractorInput.getPosition() == extractorInput.getPeekPosition());
+        this.scratch.reset(4);
+        while (true) {
+            if ((j == -1 || extractorInput.getPosition() + 4 < j) && ExtractorUtil.peekFullyQuietly(extractorInput, this.scratch.getData(), 0, 4, true)) {
+                this.scratch.setPosition(0);
+                if (this.scratch.readUnsignedInt() == 1332176723) {
+                    extractorInput.resetPeekPosition();
+                    return true;
+                }
+                extractorInput.skipFully(1);
+            }
+        }
+        do {
+            if (j != -1 && extractorInput.getPosition() >= j) {
+                break;
+            }
+        } while (extractorInput.skip(1) != -1);
+        return false;
+    }
+
+    public boolean populate(ExtractorInput extractorInput, boolean z) throws IOException {
         reset();
-        if (!(extractorInput.getLength() == -1 || extractorInput.getLength() - extractorInput.getPeekPosition() >= 27) || !extractorInput.peekFully(this.scratch.data, 0, 27, true)) {
-            if (z) {
-                return false;
-            }
-            throw new EOFException();
-        } else if (this.scratch.readUnsignedInt() != 1332176723) {
-            if (z) {
-                return false;
-            }
-            throw new ParserException("expected OggS capture pattern at begin of page");
-        } else {
+        this.scratch.reset(27);
+        if (ExtractorUtil.peekFullyQuietly(extractorInput, this.scratch.getData(), 0, 27, z) && this.scratch.readUnsignedInt() == 1332176723) {
             int readUnsignedByte = this.scratch.readUnsignedByte();
             this.revision = readUnsignedByte;
             if (readUnsignedByte != 0) {
                 if (z) {
                     return false;
                 }
-                throw new ParserException("unsupported bit stream revision");
+                throw ParserException.createForUnsupportedContainerFeature("unsupported bit stream revision");
             }
             this.type = this.scratch.readUnsignedByte();
             this.granulePosition = this.scratch.readLittleEndianLong();
@@ -55,13 +71,16 @@ final class OggPageHeader {
             int readUnsignedByte2 = this.scratch.readUnsignedByte();
             this.pageSegmentCount = readUnsignedByte2;
             this.headerSize = readUnsignedByte2 + 27;
-            this.scratch.reset();
-            extractorInput.peekFully(this.scratch.data, 0, this.pageSegmentCount);
-            for (int i = 0; i < this.pageSegmentCount; i++) {
-                this.laces[i] = this.scratch.readUnsignedByte();
-                this.bodySize += this.laces[i];
+            this.scratch.reset(readUnsignedByte2);
+            if (ExtractorUtil.peekFullyQuietly(extractorInput, this.scratch.getData(), 0, this.pageSegmentCount, z)) {
+                for (int i = 0; i < this.pageSegmentCount; i++) {
+                    this.laces[i] = this.scratch.readUnsignedByte();
+                    this.bodySize += this.laces[i];
+                }
+                return true;
             }
-            return true;
+            return false;
         }
+        return false;
     }
 }

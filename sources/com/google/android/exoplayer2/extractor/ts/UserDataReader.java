@@ -1,15 +1,16 @@
 package com.google.android.exoplayer2.extractor.ts;
 
 import com.google.android.exoplayer2.Format;
+import com.google.android.exoplayer2.extractor.CeaUtil;
 import com.google.android.exoplayer2.extractor.ExtractorOutput;
 import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
-import com.google.android.exoplayer2.text.cea.CeaUtil;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.List;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-final class UserDataReader {
+public final class UserDataReader {
     private final List<Format> closedCaptionFormats;
     private final TrackOutput[] outputs;
 
@@ -26,7 +27,7 @@ final class UserDataReader {
             String str = format.sampleMimeType;
             boolean z = "application/cea-608".equals(str) || "application/cea-708".equals(str);
             Assertions.checkArgument(z, "Invalid closed caption mime type provided: " + str);
-            track.format(Format.createTextSampleFormat(trackIdGenerator.getFormatId(), str, null, -1, format.selectionFlags, format.language, format.accessibilityChannel, null, Long.MAX_VALUE, format.initializationData));
+            track.format(new Format.Builder().setId(trackIdGenerator.getFormatId()).setSampleMimeType(str).setSelectionFlags(format.selectionFlags).setLanguage(format.language).setAccessibilityChannel(format.accessibilityChannel).setInitializationData(format.initializationData).build());
             this.outputs[i] = track;
         }
     }

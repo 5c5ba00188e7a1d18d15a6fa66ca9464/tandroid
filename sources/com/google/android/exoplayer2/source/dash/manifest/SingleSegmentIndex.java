@@ -6,8 +6,18 @@ final class SingleSegmentIndex implements DashSegmentIndex {
     private final RangedUri uri;
 
     @Override // com.google.android.exoplayer2.source.dash.DashSegmentIndex
+    public long getAvailableSegmentCount(long j, long j2) {
+        return 1L;
+    }
+
+    @Override // com.google.android.exoplayer2.source.dash.DashSegmentIndex
     public long getDurationUs(long j, long j2) {
         return j2;
+    }
+
+    @Override // com.google.android.exoplayer2.source.dash.DashSegmentIndex
+    public long getFirstAvailableSegmentNum(long j, long j2) {
+        return 0L;
     }
 
     @Override // com.google.android.exoplayer2.source.dash.DashSegmentIndex
@@ -16,8 +26,13 @@ final class SingleSegmentIndex implements DashSegmentIndex {
     }
 
     @Override // com.google.android.exoplayer2.source.dash.DashSegmentIndex
-    public int getSegmentCount(long j) {
-        return 1;
+    public long getNextSegmentAvailableTimeUs(long j, long j2) {
+        return -9223372036854775807L;
+    }
+
+    @Override // com.google.android.exoplayer2.source.dash.DashSegmentIndex
+    public long getSegmentCount(long j) {
+        return 1L;
     }
 
     @Override // com.google.android.exoplayer2.source.dash.DashSegmentIndex

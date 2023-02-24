@@ -243,7 +243,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         this.measurementsCount = 0;
         this.lastWidth = -1;
         this.lastHeight = -1;
-        this.updateRotationMatrix = new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda1
+        this.updateRotationMatrix = new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 CameraView.this.lambda$new$1();
@@ -464,7 +464,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         CameraGLThread cameraGLThread = this.cameraThread;
         if (cameraGLThread != null) {
             cameraGLThread.shutdown(0);
-            this.cameraThread.postRunnable(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda2
+            this.cameraThread.postRunnable(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     CameraView.this.lambda$onSurfaceTextureDestroyed$0();
@@ -1146,7 +1146,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
 
     /* JADX INFO: Access modifiers changed from: private */
     public void createCamera(final SurfaceTexture surfaceTexture) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda4
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 CameraView.this.lambda$createCamera$4(surfaceTexture);
@@ -1156,7 +1156,8 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createCamera$4(SurfaceTexture surfaceTexture) {
-        if (this.cameraThread == null) {
+        final CameraGLThread cameraGLThread = this.cameraThread;
+        if (cameraGLThread == null) {
             return;
         }
         if (BuildVars.LOGS_ENABLED) {
@@ -1172,17 +1173,17 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         surfaceTexture.setDefaultBufferSize(size.getWidth(), this.previewSize.getHeight());
         CameraSession cameraSession = new CameraSession(this.info, this.previewSize, this.pictureSize, LiteMode.FLAG_CHAT_BLUR, false);
         this.cameraSession = cameraSession;
-        this.cameraThread.setCurrentSession(cameraSession);
+        cameraGLThread.setCurrentSession(cameraSession);
         requestLayout();
-        CameraController.getInstance().open(this.cameraSession, surfaceTexture, new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda3
+        CameraController.getInstance().open(this.cameraSession, surfaceTexture, new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 CameraView.this.lambda$createCamera$2();
             }
-        }, new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda0
+        }, new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
-                CameraView.this.lambda$createCamera$3();
+                CameraView.this.lambda$createCamera$3(cameraGLThread);
             }
         });
     }
@@ -1199,8 +1200,8 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createCamera$3() {
-        this.cameraThread.setCurrentSession(this.cameraSession);
+    public /* synthetic */ void lambda$createCamera$3(CameraGLThread cameraGLThread) {
+        cameraGLThread.setCurrentSession(this.cameraSession);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

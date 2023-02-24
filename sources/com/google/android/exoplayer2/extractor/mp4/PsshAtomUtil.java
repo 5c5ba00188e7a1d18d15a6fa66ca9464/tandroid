@@ -36,12 +36,36 @@ public final class PsshAtomUtil {
         return allocate.array();
     }
 
+    public static boolean isPsshAtom(byte[] bArr) {
+        return parsePsshAtom(bArr) != null;
+    }
+
     public static UUID parseUuid(byte[] bArr) {
         PsshAtom parsePsshAtom = parsePsshAtom(bArr);
         if (parsePsshAtom == null) {
             return null;
         }
         return parsePsshAtom.uuid;
+    }
+
+    public static int parseVersion(byte[] bArr) {
+        PsshAtom parsePsshAtom = parsePsshAtom(bArr);
+        if (parsePsshAtom == null) {
+            return -1;
+        }
+        return parsePsshAtom.version;
+    }
+
+    public static byte[] parseSchemeSpecificData(byte[] bArr, UUID uuid) {
+        PsshAtom parsePsshAtom = parsePsshAtom(bArr);
+        if (parsePsshAtom == null) {
+            return null;
+        }
+        if (!uuid.equals(parsePsshAtom.uuid)) {
+            Log.w("PsshAtomUtil", "UUID mismatch. Expected: " + uuid + ", got: " + parsePsshAtom.uuid + ".");
+            return null;
+        }
+        return parsePsshAtom.schemeData;
     }
 
     private static PsshAtom parsePsshAtom(byte[] bArr) {
@@ -74,10 +98,14 @@ public final class PsshAtomUtil {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class PsshAtom {
+        private final byte[] schemeData;
         private final UUID uuid;
+        private final int version;
 
         public PsshAtom(UUID uuid, int i, byte[] bArr) {
             this.uuid = uuid;
+            this.version = i;
+            this.schemeData = bArr;
         }
     }
 }

@@ -1,6 +1,4 @@
 package com.google.android.gms.internal.play_billing;
-
-import javax.annotation.CheckForNull;
 /* compiled from: com.android.billingclient:billing@@5.1.0 */
 /* loaded from: classes.dex */
 public final class zzm {
@@ -26,7 +24,7 @@ public final class zzm {
         return i;
     }
 
-    public static Object zzc(@CheckForNull Object obj, @CheckForNull Object obj2) {
+    public static Object zzc(Object obj, Object obj2) {
         if (obj != null) {
             return obj;
         }

@@ -8,32 +8,50 @@ import com.google.android.exoplayer2.metadata.id3.CommentFrame;
 import com.google.android.exoplayer2.metadata.id3.Id3Frame;
 import com.google.android.exoplayer2.metadata.id3.InternalFrame;
 import com.google.android.exoplayer2.metadata.id3.TextInformationFrame;
+import com.google.android.exoplayer2.metadata.mp4.MdtaMetadataEntry;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
+import com.google.common.collect.ImmutableList;
 import org.telegram.messenger.TranslateController;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-final class MetadataUtil {
+public final class MetadataUtil {
     static final String[] STANDARD_GENRES = {"Blues", "Classic Rock", "Country", "Dance", "Disco", "Funk", "Grunge", "Hip-Hop", "Jazz", "Metal", "New Age", "Oldies", "Other", "Pop", "R&B", "Rap", "Reggae", "Rock", "Techno", "Industrial", "Alternative", "Ska", "Death Metal", "Pranks", "Soundtrack", "Euro-Techno", "Ambient", "Trip-Hop", "Vocal", "Jazz+Funk", "Fusion", "Trance", "Classical", "Instrumental", "Acid", "House", "Game", "Sound Clip", "Gospel", "Noise", "AlternRock", "Bass", "Soul", "Punk", "Space", "Meditative", "Instrumental Pop", "Instrumental Rock", "Ethnic", "Gothic", "Darkwave", "Techno-Industrial", "Electronic", "Pop-Folk", "Eurodance", "Dream", "Southern Rock", "Comedy", "Cult", "Gangsta", "Top 40", "Christian Rap", "Pop/Funk", "Jungle", "Native American", "Cabaret", "New Wave", "Psychadelic", "Rave", "Showtunes", "Trailer", "Lo-Fi", "Tribal", "Acid Punk", "Acid Jazz", "Polka", "Retro", "Musical", "Rock & Roll", "Hard Rock", "Folk", "Folk-Rock", "National Folk", "Swing", "Fast Fusion", "Bebob", "Latin", "Revival", "Celtic", "Bluegrass", "Avantgarde", "Gothic Rock", "Progressive Rock", "Psychedelic Rock", "Symphonic Rock", "Slow Rock", "Big Band", "Chorus", "Easy Listening", "Acoustic", "Humour", "Speech", "Chanson", "Opera", "Chamber Music", "Sonata", "Symphony", "Booty Bass", "Primus", "Porn Groove", "Satire", "Slow Jam", "Club", "Tango", "Samba", "Folklore", "Ballad", "Power Ballad", "Rhythmic Soul", "Freestyle", "Duet", "Punk Rock", "Drum Solo", "A capella", "Euro-House", "Dance Hall", "Goa", "Drum & Bass", "Club-House", "Hardcore", "Terror", "Indie", "BritPop", "Afro-Punk", "Polsk Punk", "Beat", "Christian Gangsta Rap", "Heavy Metal", "Black Metal", "Crossover", "Contemporary Christian", "Christian Rock", "Merengue", "Salsa", "Thrash Metal", "Anime", "Jpop", "Synthpop", "Abstract", "Art Rock", "Baroque", "Bhangra", "Big beat", "Breakbeat", "Chillout", "Downtempo", "Dub", "EBM", "Eclectic", "Electro", "Electroclash", "Emo", "Experimental", "Garage", "Global", "IDM", "Illbient", "Industro-Goth", "Jam Band", "Krautrock", "Leftfield", "Lounge", "Math Rock", "New Romantic", "Nu-Breakz", "Post-Punk", "Post-Rock", "Psytrance", "Shoegaze", "Space Rock", "Trop Rock", "World Music", "Neoclassical", "Audiobook", "Audio theatre", "Neue Deutsche Welle", "Podcast", "Indie-Rock", "G-Funk", "Dubstep", "Garage Rock", "Psybient"};
 
-    public static Format getFormatWithMetadata(int i, Format format, Metadata metadata, Metadata metadata2, GaplessInfoHolder gaplessInfoHolder) {
-        if (i == 1) {
-            if (gaplessInfoHolder.hasGaplessInfo()) {
-                format = format.copyWithGaplessInfo(gaplessInfoHolder.encoderDelay, gaplessInfoHolder.encoderPadding);
-            }
-            return metadata != null ? format.copyWithMetadata(metadata) : format;
-        } else if (i != 2 || metadata2 == null) {
-            return format;
-        } else {
-            for (int i2 = 0; i2 < metadata2.length(); i2++) {
-                Metadata.Entry entry = metadata2.get(i2);
-                if (entry instanceof MdtaMetadataEntry) {
-                    MdtaMetadataEntry mdtaMetadataEntry = (MdtaMetadataEntry) entry;
-                    if ("com.android.capture.fps".equals(mdtaMetadataEntry.key)) {
-                        format = format.copyWithMetadata(new Metadata(mdtaMetadataEntry));
+    /* JADX WARN: Code restructure failed: missing block: B:4:0x000b, code lost:
+        if (r6 != null) goto L5;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public static void setFormatMetadata(int i, Metadata metadata, Metadata metadata2, Format.Builder builder, Metadata... metadataArr) {
+        Metadata metadata3 = new Metadata(new Metadata.Entry[0]);
+        if (i != 1) {
+            if (i == 2 && metadata2 != null) {
+                for (int i2 = 0; i2 < metadata2.length(); i2++) {
+                    Metadata.Entry entry = metadata2.get(i2);
+                    if (entry instanceof MdtaMetadataEntry) {
+                        MdtaMetadataEntry mdtaMetadataEntry = (MdtaMetadataEntry) entry;
+                        if ("com.android.capture.fps".equals(mdtaMetadataEntry.key)) {
+                            metadata = new Metadata(mdtaMetadataEntry);
+                            break;
+                        }
                     }
                 }
             }
-            return format;
+            metadata = metadata3;
+        }
+        for (Metadata metadata4 : metadataArr) {
+            metadata = metadata.copyWithAppendedEntriesFrom(metadata4);
+        }
+        if (metadata.length() > 0) {
+            builder.setMetadata(metadata);
+        }
+    }
+
+    public static void setFormatGaplessInfo(int i, GaplessInfoHolder gaplessInfoHolder, Format.Builder builder) {
+        if (i == 1 && gaplessInfoHolder.hasGaplessInfo()) {
+            builder.setEncoderDelay(gaplessInfoHolder.encoderDelay).setEncoderPadding(gaplessInfoHolder.encoderPadding);
         }
     }
 
@@ -156,7 +174,7 @@ final class MetadataUtil {
         int readInt = parsableByteArray.readInt();
         if (parsableByteArray.readInt() == 1684108385) {
             parsableByteArray.skipBytes(8);
-            return new TextInformationFrame(str, null, parsableByteArray.readNullTerminatedString(readInt - 16));
+            return new TextInformationFrame(str, null, ImmutableList.of(parsableByteArray.readNullTerminatedString(readInt - 16)));
         }
         Log.w("MetadataUtil", "Failed to parse text attribute: " + Atom.getAtomTypeString(i));
         return null;
@@ -180,7 +198,7 @@ final class MetadataUtil {
         }
         if (parseUint8AttributeValue >= 0) {
             if (z) {
-                return new TextInformationFrame(str, null, Integer.toString(parseUint8AttributeValue));
+                return new TextInformationFrame(str, null, ImmutableList.of(Integer.toString(parseUint8AttributeValue)));
             }
             return new CommentFrame(TranslateController.UNKNOWN_LANGUAGE, str, Integer.toString(parseUint8AttributeValue));
         }
@@ -199,14 +217,14 @@ final class MetadataUtil {
                 if (readUnsignedShort2 > 0) {
                     str2 = str2 + "/" + readUnsignedShort2;
                 }
-                return new TextInformationFrame(str, null, str2);
+                return new TextInformationFrame(str, null, ImmutableList.of(str2));
             }
         }
         Log.w("MetadataUtil", "Failed to parse index/count attribute: " + Atom.getAtomTypeString(i));
         return null;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x001c  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0020  */
     /* JADX WARN: Removed duplicated region for block: B:9:0x0014  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -219,7 +237,7 @@ final class MetadataUtil {
             if (parseUint8AttributeValue <= strArr.length) {
                 str = strArr[parseUint8AttributeValue - 1];
                 if (str == null) {
-                    return new TextInformationFrame("TCON", null, str);
+                    return new TextInformationFrame("TCON", null, ImmutableList.of(str));
                 }
                 Log.w("MetadataUtil", "Failed to parse standard genre code");
                 return null;

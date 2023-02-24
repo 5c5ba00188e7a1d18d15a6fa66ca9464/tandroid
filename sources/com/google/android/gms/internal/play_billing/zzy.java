@@ -1,15 +1,13 @@
 package com.google.android.gms.internal.play_billing;
 
 import java.util.Set;
-import javax.annotation.CheckForNull;
 /* compiled from: com.android.billingclient:billing@@5.1.0 */
 /* loaded from: classes.dex */
 public abstract class zzy extends zzr implements Set {
-    @CheckForNull
     private transient zzu zza;
 
     @Override // java.util.Collection, java.util.Set
-    public final boolean equals(@CheckForNull Object obj) {
+    public final boolean equals(Object obj) {
         if (obj == this || obj == this) {
             return true;
         }

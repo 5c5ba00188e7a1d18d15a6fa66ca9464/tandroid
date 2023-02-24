@@ -65,30 +65,31 @@ final class EventSampleStream implements SampleStream {
     }
 
     @Override // com.google.android.exoplayer2.source.SampleStream
-    public int readData(FormatHolder formatHolder, DecoderInputBuffer decoderInputBuffer, boolean z) {
-        if (z || !this.isFormatSentDownstream) {
+    public int readData(FormatHolder formatHolder, DecoderInputBuffer decoderInputBuffer, int i) {
+        int i2 = this.currentIndex;
+        boolean z = i2 == this.eventTimesUs.length;
+        if (z && !this.eventStreamAppendable) {
+            decoderInputBuffer.setFlags(4);
+            return -4;
+        } else if ((i & 2) != 0 || !this.isFormatSentDownstream) {
             formatHolder.format = this.upstreamFormat;
             this.isFormatSentDownstream = true;
             return -5;
-        }
-        int i = this.currentIndex;
-        if (i == this.eventTimesUs.length) {
-            if (this.eventStreamAppendable) {
-                return -3;
+        } else if (z) {
+            return -3;
+        } else {
+            if ((i & 1) == 0) {
+                this.currentIndex = i2 + 1;
             }
-            decoderInputBuffer.setFlags(4);
-            return -4;
-        }
-        this.currentIndex = i + 1;
-        byte[] encode = this.eventMessageEncoder.encode(this.eventStream.events[i]);
-        if (encode != null) {
-            decoderInputBuffer.ensureSpaceForWrite(encode.length);
-            decoderInputBuffer.data.put(encode);
-            decoderInputBuffer.timeUs = this.eventTimesUs[i];
+            if ((i & 4) == 0) {
+                byte[] encode = this.eventMessageEncoder.encode(this.eventStream.events[i2]);
+                decoderInputBuffer.ensureSpaceForWrite(encode.length);
+                decoderInputBuffer.data.put(encode);
+            }
+            decoderInputBuffer.timeUs = this.eventTimesUs[i2];
             decoderInputBuffer.setFlags(1);
             return -4;
         }
-        return -3;
     }
 
     @Override // com.google.android.exoplayer2.source.SampleStream

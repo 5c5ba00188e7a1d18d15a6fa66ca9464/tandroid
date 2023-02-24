@@ -2,7 +2,7 @@ package com.google.android.exoplayer2.source.dash.manifest;
 
 import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
-public class ProgramInformation {
+public final class ProgramInformation {
     public final String copyright;
     public final String lang;
     public final String moreInformationURL;
@@ -21,11 +21,11 @@ public class ProgramInformation {
         if (this == obj) {
             return true;
         }
-        if (obj == null || ProgramInformation.class != obj.getClass()) {
-            return false;
+        if (obj instanceof ProgramInformation) {
+            ProgramInformation programInformation = (ProgramInformation) obj;
+            return Util.areEqual(this.title, programInformation.title) && Util.areEqual(this.source, programInformation.source) && Util.areEqual(this.copyright, programInformation.copyright) && Util.areEqual(this.moreInformationURL, programInformation.moreInformationURL) && Util.areEqual(this.lang, programInformation.lang);
         }
-        ProgramInformation programInformation = (ProgramInformation) obj;
-        return Util.areEqual(this.title, programInformation.title) && Util.areEqual(this.source, programInformation.source) && Util.areEqual(this.copyright, programInformation.copyright) && Util.areEqual(this.moreInformationURL, programInformation.moreInformationURL) && Util.areEqual(this.lang, programInformation.lang);
+        return false;
     }
 
     public int hashCode() {

@@ -37,14 +37,12 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import javax.annotation.concurrent.GuardedBy;
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public class FirebaseMessaging {
     private static final long MAX_DELAY_SEC = TimeUnit.HOURS.toSeconds(8);
     @SuppressLint({"StaticFieldLeak"})
     private static Store store;
-    @GuardedBy("FirebaseMessaging.class")
     static ScheduledExecutorService syncExecutor;
     @SuppressLint({"FirebaseUnknownNullness"})
     static TransportFactory transportFactory;
@@ -58,7 +56,6 @@ public class FirebaseMessaging {
     private final Application.ActivityLifecycleCallbacks lifecycleCallbacks;
     private final Metadata metadata;
     private final RequestDeduplicator requestDeduplicator;
-    @GuardedBy("this")
     private boolean syncScheduledOrRunning;
     private final Task<TopicsSubscriber> topicsSubscriberTask;
 
@@ -66,11 +63,8 @@ public class FirebaseMessaging {
     /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
     /* loaded from: classes.dex */
     public class AutoInit {
-        @GuardedBy("this")
         private Boolean autoInitEnabled;
-        @GuardedBy("this")
         private EventHandler<DataCollectionDefaultChange> dataCollectionDefaultChangeEventHandler;
-        @GuardedBy("this")
         private boolean initialized;
         private final Subscriber subscriber;
 

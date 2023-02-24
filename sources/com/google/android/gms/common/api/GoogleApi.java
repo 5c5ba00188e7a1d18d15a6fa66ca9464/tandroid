@@ -28,11 +28,9 @@ import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.util.PlatformVersion;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.Set;
-import org.checkerframework.checker.initialization.qual.NotOnlyInitialized;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public abstract class GoogleApi<O extends Api.ApiOptions> {
@@ -44,7 +42,6 @@ public abstract class GoogleApi<O extends Api.ApiOptions> {
     private final ApiKey zaf;
     private final Looper zag;
     private final int zah;
-    @NotOnlyInitialized
     private final GoogleApiClient zai;
     private final StatusExceptionMapper zaj;
 
@@ -71,7 +68,6 @@ public abstract class GoogleApi<O extends Api.ApiOptions> {
                 return new Settings(this.zaa, this.zab);
             }
 
-            @CanIgnoreReturnValue
             public Builder setMapper(StatusExceptionMapper statusExceptionMapper) {
                 Preconditions.checkNotNull(statusExceptionMapper, "StatusExceptionMapper must not be null.");
                 this.zaa = statusExceptionMapper;

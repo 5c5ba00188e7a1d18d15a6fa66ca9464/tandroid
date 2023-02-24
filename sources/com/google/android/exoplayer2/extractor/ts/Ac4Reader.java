@@ -5,12 +5,14 @@ import com.google.android.exoplayer2.audio.Ac4Util;
 import com.google.android.exoplayer2.extractor.ExtractorOutput;
 import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
+import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 /* loaded from: classes.dex */
 public final class Ac4Reader implements ElementaryStreamReader {
     private int bytesRead;
     private Format format;
+    private String formatId;
     private boolean hasCRC;
     private final ParsableBitArray headerScratchBits;
     private final ParsableByteArray headerScratchBytes;
@@ -21,7 +23,6 @@ public final class Ac4Reader implements ElementaryStreamReader {
     private int sampleSize;
     private int state;
     private long timeUs;
-    private String trackFormatId;
 
     @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
     public void packetFinished() {
@@ -39,6 +40,7 @@ public final class Ac4Reader implements ElementaryStreamReader {
         this.bytesRead = 0;
         this.lastByteWasAC = false;
         this.hasCRC = false;
+        this.timeUs = -9223372036854775807L;
         this.language = str;
     }
 
@@ -48,22 +50,26 @@ public final class Ac4Reader implements ElementaryStreamReader {
         this.bytesRead = 0;
         this.lastByteWasAC = false;
         this.hasCRC = false;
+        this.timeUs = -9223372036854775807L;
     }
 
     @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
     public void createTracks(ExtractorOutput extractorOutput, TsPayloadReader.TrackIdGenerator trackIdGenerator) {
         trackIdGenerator.generateNewId();
-        this.trackFormatId = trackIdGenerator.getFormatId();
+        this.formatId = trackIdGenerator.getFormatId();
         this.output = extractorOutput.track(trackIdGenerator.getTrackId(), 1);
     }
 
     @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
     public void packetStarted(long j, int i) {
-        this.timeUs = j;
+        if (j != -9223372036854775807L) {
+            this.timeUs = j;
+        }
     }
 
     @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
     public void consume(ParsableByteArray parsableByteArray) {
+        Assertions.checkStateNotNull(this.output);
         while (parsableByteArray.bytesLeft() > 0) {
             int i = this.state;
             if (i != 0) {
@@ -75,12 +81,15 @@ public final class Ac4Reader implements ElementaryStreamReader {
                         this.bytesRead = i2;
                         int i3 = this.sampleSize;
                         if (i2 == i3) {
-                            this.output.sampleMetadata(this.timeUs, 1, i3, 0, null);
-                            this.timeUs += this.sampleDurationUs;
+                            long j = this.timeUs;
+                            if (j != -9223372036854775807L) {
+                                this.output.sampleMetadata(j, 1, i3, 0, null);
+                                this.timeUs += this.sampleDurationUs;
+                            }
                             this.state = 0;
                         }
                     }
-                } else if (continueRead(parsableByteArray, this.headerScratchBytes.data, 16)) {
+                } else if (continueRead(parsableByteArray, this.headerScratchBytes.getData(), 16)) {
                     parseHeader();
                     this.headerScratchBytes.setPosition(0);
                     this.output.sampleData(this.headerScratchBytes, 16);
@@ -88,9 +97,8 @@ public final class Ac4Reader implements ElementaryStreamReader {
                 }
             } else if (skipToNextSync(parsableByteArray)) {
                 this.state = 1;
-                byte[] bArr = this.headerScratchBytes.data;
-                bArr[0] = -84;
-                bArr[1] = (byte) (this.hasCRC ? 65 : 64);
+                this.headerScratchBytes.getData()[0] = -84;
+                this.headerScratchBytes.getData()[1] = (byte) (this.hasCRC ? 65 : 64);
                 this.bytesRead = 2;
             }
         }
@@ -129,9 +137,9 @@ public final class Ac4Reader implements ElementaryStreamReader {
         Ac4Util.SyncFrameInfo parseAc4SyncframeInfo = Ac4Util.parseAc4SyncframeInfo(this.headerScratchBits);
         Format format = this.format;
         if (format == null || parseAc4SyncframeInfo.channelCount != format.channelCount || parseAc4SyncframeInfo.sampleRate != format.sampleRate || !"audio/ac4".equals(format.sampleMimeType)) {
-            Format createAudioSampleFormat = Format.createAudioSampleFormat(this.trackFormatId, "audio/ac4", null, -1, -1, parseAc4SyncframeInfo.channelCount, parseAc4SyncframeInfo.sampleRate, null, null, 0, this.language);
-            this.format = createAudioSampleFormat;
-            this.output.format(createAudioSampleFormat);
+            Format build = new Format.Builder().setId(this.formatId).setSampleMimeType("audio/ac4").setChannelCount(parseAc4SyncframeInfo.channelCount).setSampleRate(parseAc4SyncframeInfo.sampleRate).setLanguage(this.language).build();
+            this.format = build;
+            this.output.format(build);
         }
         this.sampleSize = parseAc4SyncframeInfo.frameSize;
         this.sampleDurationUs = (parseAc4SyncframeInfo.sampleCount * 1000000) / this.format.sampleRate;

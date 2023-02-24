@@ -4,9 +4,12 @@ import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.extractor.VorbisUtil;
 import com.google.android.exoplayer2.extractor.ogg.StreamReader;
+import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
+import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 /* loaded from: classes.dex */
 final class VorbisReader extends StreamReader {
     private VorbisUtil.CommentHeader commentHeader;
@@ -51,11 +54,10 @@ final class VorbisReader extends StreamReader {
 
     @Override // com.google.android.exoplayer2.extractor.ogg.StreamReader
     protected long preparePayload(ParsableByteArray parsableByteArray) {
-        byte[] bArr = parsableByteArray.data;
-        if ((bArr[0] & 1) == 1) {
+        if ((parsableByteArray.getData()[0] & 1) == 1) {
             return -1L;
         }
-        int decodeBlockSize = decodeBlockSize(bArr[0], this.vorbisSetup);
+        int decodeBlockSize = decodeBlockSize(parsableByteArray.getData()[0], (VorbisSetup) Assertions.checkStateNotNull(this.vorbisSetup));
         long j = this.seenFirstAudioPacket ? (this.previousPacketBlockSize + decodeBlockSize) / 4 : 0;
         appendNumberOfSamples(parsableByteArray, j);
         this.seenFirstAudioPacket = true;
@@ -64,8 +66,9 @@ final class VorbisReader extends StreamReader {
     }
 
     @Override // com.google.android.exoplayer2.extractor.ogg.StreamReader
-    protected boolean readHeaders(ParsableByteArray parsableByteArray, long j, StreamReader.SetupData setupData) throws IOException, InterruptedException {
+    protected boolean readHeaders(ParsableByteArray parsableByteArray, long j, StreamReader.SetupData setupData) throws IOException {
         if (this.vorbisSetup != null) {
+            Assertions.checkNotNull(setupData.format);
             return false;
         }
         VorbisSetup readSetupHeaders = readSetupHeaders(parsableByteArray);
@@ -73,35 +76,42 @@ final class VorbisReader extends StreamReader {
         if (readSetupHeaders == null) {
             return true;
         }
+        VorbisUtil.VorbisIdHeader vorbisIdHeader = readSetupHeaders.idHeader;
         ArrayList arrayList = new ArrayList();
-        arrayList.add(this.vorbisSetup.idHeader.data);
-        arrayList.add(this.vorbisSetup.setupHeaderData);
-        VorbisUtil.VorbisIdHeader vorbisIdHeader = this.vorbisSetup.idHeader;
-        setupData.format = Format.createAudioSampleFormat(null, "audio/vorbis", null, vorbisIdHeader.bitrateNominal, -1, vorbisIdHeader.channels, (int) vorbisIdHeader.sampleRate, arrayList, null, 0, null);
+        arrayList.add(vorbisIdHeader.data);
+        arrayList.add(readSetupHeaders.setupHeaderData);
+        setupData.format = new Format.Builder().setSampleMimeType("audio/vorbis").setAverageBitrate(vorbisIdHeader.bitrateNominal).setPeakBitrate(vorbisIdHeader.bitrateMaximum).setChannelCount(vorbisIdHeader.channels).setSampleRate(vorbisIdHeader.sampleRate).setInitializationData(arrayList).setMetadata(VorbisUtil.parseVorbisComments(ImmutableList.copyOf(readSetupHeaders.commentHeader.comments))).build();
         return true;
     }
 
     VorbisSetup readSetupHeaders(ParsableByteArray parsableByteArray) throws IOException {
-        if (this.vorbisIdHeader == null) {
+        VorbisUtil.VorbisIdHeader vorbisIdHeader = this.vorbisIdHeader;
+        if (vorbisIdHeader == null) {
             this.vorbisIdHeader = VorbisUtil.readVorbisIdentificationHeader(parsableByteArray);
             return null;
-        } else if (this.commentHeader == null) {
+        }
+        VorbisUtil.CommentHeader commentHeader = this.commentHeader;
+        if (commentHeader == null) {
             this.commentHeader = VorbisUtil.readVorbisCommentHeader(parsableByteArray);
             return null;
-        } else {
-            byte[] bArr = new byte[parsableByteArray.limit()];
-            System.arraycopy(parsableByteArray.data, 0, bArr, 0, parsableByteArray.limit());
-            VorbisUtil.Mode[] readVorbisModes = VorbisUtil.readVorbisModes(parsableByteArray, this.vorbisIdHeader.channels);
-            return new VorbisSetup(this.vorbisIdHeader, this.commentHeader, bArr, readVorbisModes, VorbisUtil.iLog(readVorbisModes.length - 1));
         }
+        byte[] bArr = new byte[parsableByteArray.limit()];
+        System.arraycopy(parsableByteArray.getData(), 0, bArr, 0, parsableByteArray.limit());
+        VorbisUtil.Mode[] readVorbisModes = VorbisUtil.readVorbisModes(parsableByteArray, vorbisIdHeader.channels);
+        return new VorbisSetup(vorbisIdHeader, commentHeader, bArr, readVorbisModes, VorbisUtil.iLog(readVorbisModes.length - 1));
     }
 
     static void appendNumberOfSamples(ParsableByteArray parsableByteArray, long j) {
-        parsableByteArray.setLimit(parsableByteArray.limit() + 4);
-        parsableByteArray.data[parsableByteArray.limit() - 4] = (byte) (j & 255);
-        parsableByteArray.data[parsableByteArray.limit() - 3] = (byte) ((j >>> 8) & 255);
-        parsableByteArray.data[parsableByteArray.limit() - 2] = (byte) ((j >>> 16) & 255);
-        parsableByteArray.data[parsableByteArray.limit() - 1] = (byte) ((j >>> 24) & 255);
+        if (parsableByteArray.capacity() < parsableByteArray.limit() + 4) {
+            parsableByteArray.reset(Arrays.copyOf(parsableByteArray.getData(), parsableByteArray.limit() + 4));
+        } else {
+            parsableByteArray.setLimit(parsableByteArray.limit() + 4);
+        }
+        byte[] data = parsableByteArray.getData();
+        data[parsableByteArray.limit() - 4] = (byte) (j & 255);
+        data[parsableByteArray.limit() - 3] = (byte) ((j >>> 8) & 255);
+        data[parsableByteArray.limit() - 2] = (byte) ((j >>> 16) & 255);
+        data[parsableByteArray.limit() - 1] = (byte) ((j >>> 24) & 255);
     }
 
     private static int decodeBlockSize(byte b, VorbisSetup vorbisSetup) {
@@ -114,6 +124,7 @@ final class VorbisReader extends StreamReader {
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static final class VorbisSetup {
+        public final VorbisUtil.CommentHeader commentHeader;
         public final int iLogModes;
         public final VorbisUtil.VorbisIdHeader idHeader;
         public final VorbisUtil.Mode[] modes;
@@ -121,6 +132,7 @@ final class VorbisReader extends StreamReader {
 
         public VorbisSetup(VorbisUtil.VorbisIdHeader vorbisIdHeader, VorbisUtil.CommentHeader commentHeader, byte[] bArr, VorbisUtil.Mode[] modeArr, int i) {
             this.idHeader = vorbisIdHeader;
+            this.commentHeader = commentHeader;
             this.setupHeaderData = bArr;
             this.modes = modeArr;
             this.iLogModes = i;

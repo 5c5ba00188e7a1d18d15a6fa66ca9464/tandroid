@@ -6,11 +6,9 @@ import com.google.android.gms.common.internal.Preconditions;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import javax.annotation.Nullable;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public class ProcessUtils {
-    @Nullable
     private static String zza;
     private static int zzb;
 

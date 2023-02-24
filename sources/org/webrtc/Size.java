@@ -1,5 +1,5 @@
 package org.webrtc;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class Size {
     public int height;
     public int width;

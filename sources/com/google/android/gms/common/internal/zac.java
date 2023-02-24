@@ -12,13 +12,10 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.util.DeviceProperties;
 import com.google.android.gms.common.wrappers.Wrappers;
 import java.util.Locale;
-import javax.annotation.concurrent.GuardedBy;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zac {
-    @GuardedBy("sCache")
     private static final SimpleArrayMap zaa = new SimpleArrayMap();
-    @GuardedBy("sCache")
     private static Locale zab;
 
     public static String zaa(Context context) {

@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.extractor.ts;
 import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.extractor.ExtractorOutput;
 import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
+import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
@@ -42,6 +43,7 @@ public final class PesReader implements TsPayloadReader {
 
     @Override // com.google.android.exoplayer2.extractor.ts.TsPayloadReader
     public final void consume(ParsableByteArray parsableByteArray, int i) throws ParserException {
+        Assertions.checkStateNotNull(this.timestampAdjuster);
         if ((i & 1) != 0) {
             int i2 = this.state;
             if (i2 != 0 && i2 != 1) {
@@ -140,7 +142,12 @@ public final class PesReader implements TsPayloadReader {
         if (readBits2 == 0) {
             this.payloadSize = -1;
         } else {
-            this.payloadSize = ((readBits2 + 6) - 9) - readBits3;
+            int i = ((readBits2 + 6) - 9) - readBits3;
+            this.payloadSize = i;
+            if (i < 0) {
+                Log.w("PesReader", "Found negative packet payload size: " + this.payloadSize);
+                this.payloadSize = -1;
+            }
         }
         return true;
     }

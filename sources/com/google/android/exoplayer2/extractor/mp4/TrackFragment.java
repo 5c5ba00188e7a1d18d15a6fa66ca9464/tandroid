@@ -11,23 +11,23 @@ final class TrackFragment {
     public boolean definesEncryptionData;
     public DefaultSampleValues header;
     public long nextFragmentDecodeTime;
-    public int[] sampleCompositionTimeOffsetUsTable;
+    public boolean nextFragmentDecodeTimeIncludesMoov;
     public int sampleCount;
-    public long[] sampleDecodingTimeUsTable;
-    public ParsableByteArray sampleEncryptionData;
-    public int sampleEncryptionDataLength;
     public boolean sampleEncryptionDataNeedsFill;
-    public boolean[] sampleHasSubsampleEncryptionTable;
-    public boolean[] sampleIsSyncFrameTable;
-    public int[] sampleSizeTable;
     public TrackEncryptionBox trackEncryptionBox;
     public int trunCount;
-    public long[] trunDataPosition;
-    public int[] trunLength;
+    public long[] trunDataPosition = new long[0];
+    public int[] trunLength = new int[0];
+    public int[] sampleSizeTable = new int[0];
+    public long[] samplePresentationTimesUs = new long[0];
+    public boolean[] sampleIsSyncFrameTable = new boolean[0];
+    public boolean[] sampleHasSubsampleEncryptionTable = new boolean[0];
+    public final ParsableByteArray sampleEncryptionData = new ParsableByteArray();
 
     public void reset() {
         this.trunCount = 0;
         this.nextFragmentDecodeTime = 0L;
+        this.nextFragmentDecodeTimeIncludesMoov = false;
         this.definesEncryptionData = false;
         this.sampleEncryptionDataNeedsFill = false;
         this.trackEncryptionBox = null;
@@ -36,46 +36,39 @@ final class TrackFragment {
     public void initTables(int i, int i2) {
         this.trunCount = i;
         this.sampleCount = i2;
-        int[] iArr = this.trunLength;
-        if (iArr == null || iArr.length < i) {
+        if (this.trunLength.length < i) {
             this.trunDataPosition = new long[i];
             this.trunLength = new int[i];
         }
-        int[] iArr2 = this.sampleSizeTable;
-        if (iArr2 == null || iArr2.length < i2) {
+        if (this.sampleSizeTable.length < i2) {
             int i3 = (i2 * 125) / 100;
             this.sampleSizeTable = new int[i3];
-            this.sampleCompositionTimeOffsetUsTable = new int[i3];
-            this.sampleDecodingTimeUsTable = new long[i3];
+            this.samplePresentationTimesUs = new long[i3];
             this.sampleIsSyncFrameTable = new boolean[i3];
             this.sampleHasSubsampleEncryptionTable = new boolean[i3];
         }
     }
 
     public void initEncryptionData(int i) {
-        ParsableByteArray parsableByteArray = this.sampleEncryptionData;
-        if (parsableByteArray == null || parsableByteArray.limit() < i) {
-            this.sampleEncryptionData = new ParsableByteArray(i);
-        }
-        this.sampleEncryptionDataLength = i;
+        this.sampleEncryptionData.reset(i);
         this.definesEncryptionData = true;
         this.sampleEncryptionDataNeedsFill = true;
     }
 
-    public void fillEncryptionData(ExtractorInput extractorInput) throws IOException, InterruptedException {
-        extractorInput.readFully(this.sampleEncryptionData.data, 0, this.sampleEncryptionDataLength);
+    public void fillEncryptionData(ExtractorInput extractorInput) throws IOException {
+        extractorInput.readFully(this.sampleEncryptionData.getData(), 0, this.sampleEncryptionData.limit());
         this.sampleEncryptionData.setPosition(0);
         this.sampleEncryptionDataNeedsFill = false;
     }
 
     public void fillEncryptionData(ParsableByteArray parsableByteArray) {
-        parsableByteArray.readBytes(this.sampleEncryptionData.data, 0, this.sampleEncryptionDataLength);
+        parsableByteArray.readBytes(this.sampleEncryptionData.getData(), 0, this.sampleEncryptionData.limit());
         this.sampleEncryptionData.setPosition(0);
         this.sampleEncryptionDataNeedsFill = false;
     }
 
     public long getSamplePresentationTimeUs(int i) {
-        return this.sampleDecodingTimeUsTable[i] + this.sampleCompositionTimeOffsetUsTable[i];
+        return this.samplePresentationTimesUs[i];
     }
 
     public boolean sampleHasSubsampleEncryptionTable(int i) {

@@ -1,16 +1,17 @@
 package com.google.android.exoplayer2.source;
 
-import android.os.Looper;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.FormatHolder;
 import com.google.android.exoplayer2.decoder.DecoderInputBuffer;
 import com.google.android.exoplayer2.drm.DrmInitData;
 import com.google.android.exoplayer2.drm.DrmSession;
+import com.google.android.exoplayer2.drm.DrmSessionEventListener;
 import com.google.android.exoplayer2.drm.DrmSessionManager;
-import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.upstream.Allocator;
+import com.google.android.exoplayer2.upstream.DataReader;
 import com.google.android.exoplayer2.util.Assertions;
+import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
@@ -18,21 +19,22 @@ import java.io.IOException;
 /* loaded from: classes.dex */
 public class SampleQueue implements TrackOutput {
     private int absoluteFirstIndex;
-    private DrmSession<?> currentDrmSession;
+    private DrmSession currentDrmSession;
     private Format downstreamFormat;
-    private final DrmSessionManager<?> drmSessionManager;
+    private final DrmSessionEventListener.EventDispatcher drmEventDispatcher;
+    private final DrmSessionManager drmSessionManager;
     private boolean isLastSampleQueued;
     private int length;
+    private boolean loggedUnexpectedNonSyncSample;
     private boolean pendingSplice;
-    private boolean pendingUpstreamFormatAdjustment;
-    private final Looper playbackLooper;
     private int readPosition;
     private int relativeFirstIndex;
     private final SampleDataQueue sampleDataQueue;
     private long sampleOffsetUs;
     private Format unadjustedUpstreamFormat;
-    private Format upstreamCommittedFormat;
+    private boolean upstreamAllSamplesAreSyncSamples;
     private Format upstreamFormat;
+    private boolean upstreamFormatAdjustmentRequired;
     private UpstreamFormatChangedListener upstreamFormatChangeListener;
     private int upstreamSourceId;
     private final SampleExtrasHolder extrasHolder = new SampleExtrasHolder();
@@ -43,7 +45,8 @@ public class SampleQueue implements TrackOutput {
     private int[] flags = new int[1000];
     private int[] sizes = new int[1000];
     private TrackOutput.CryptoData[] cryptoDatas = new TrackOutput.CryptoData[1000];
-    private Format[] formats = new Format[1000];
+    private final SpannedData<SharedSampleMetadata> sharedSampleMetadata = new SpannedData<>(SampleQueue$$ExternalSyntheticLambda0.INSTANCE);
+    private long startTimeUs = Long.MIN_VALUE;
     private long largestDiscardedTimestampUs = Long.MIN_VALUE;
     private long largestQueuedTimestampUs = Long.MIN_VALUE;
     private boolean upstreamFormatRequired = true;
@@ -54,10 +57,36 @@ public class SampleQueue implements TrackOutput {
         void onUpstreamFormatChanged(Format format);
     }
 
-    public SampleQueue(Allocator allocator, Looper looper, DrmSessionManager<?> drmSessionManager) {
-        this.sampleDataQueue = new SampleDataQueue(allocator);
-        this.playbackLooper = looper;
+    @Override // com.google.android.exoplayer2.extractor.TrackOutput
+    public /* synthetic */ int sampleData(DataReader dataReader, int i, boolean z) {
+        int sampleData;
+        sampleData = sampleData(dataReader, i, z, 0);
+        return sampleData;
+    }
+
+    @Override // com.google.android.exoplayer2.extractor.TrackOutput
+    public /* synthetic */ void sampleData(ParsableByteArray parsableByteArray, int i) {
+        sampleData(parsableByteArray, i, 0);
+    }
+
+    public static SampleQueue createWithoutDrm(Allocator allocator) {
+        return new SampleQueue(allocator, null, null);
+    }
+
+    public static SampleQueue createWithDrm(Allocator allocator, DrmSessionManager drmSessionManager, DrmSessionEventListener.EventDispatcher eventDispatcher) {
+        return new SampleQueue(allocator, (DrmSessionManager) Assertions.checkNotNull(drmSessionManager), (DrmSessionEventListener.EventDispatcher) Assertions.checkNotNull(eventDispatcher));
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public SampleQueue(Allocator allocator, DrmSessionManager drmSessionManager, DrmSessionEventListener.EventDispatcher eventDispatcher) {
         this.drmSessionManager = drmSessionManager;
+        this.drmEventDispatcher = eventDispatcher;
+        this.sampleDataQueue = new SampleDataQueue(allocator);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$new$0(SharedSampleMetadata sharedSampleMetadata) {
+        sharedSampleMetadata.drmSessionReference.release();
     }
 
     public void release() {
@@ -76,15 +105,20 @@ public class SampleQueue implements TrackOutput {
         this.relativeFirstIndex = 0;
         this.readPosition = 0;
         this.upstreamKeyframeRequired = true;
+        this.startTimeUs = Long.MIN_VALUE;
         this.largestDiscardedTimestampUs = Long.MIN_VALUE;
         this.largestQueuedTimestampUs = Long.MIN_VALUE;
         this.isLastSampleQueued = false;
-        this.upstreamCommittedFormat = null;
+        this.sharedSampleMetadata.clear();
         if (z) {
             this.unadjustedUpstreamFormat = null;
             this.upstreamFormat = null;
             this.upstreamFormatRequired = true;
         }
+    }
+
+    public final void setStartTimeUs(long j) {
+        this.startTimeUs = j;
     }
 
     public final void sourceId(int i) {
@@ -109,7 +143,7 @@ public class SampleQueue implements TrackOutput {
     }
 
     public void maybeThrowError() throws IOException {
-        DrmSession<?> drmSession = this.currentDrmSession;
+        DrmSession drmSession = this.currentDrmSession;
         if (drmSession != null && drmSession.getState() == 1) {
             throw ((DrmSession.DrmSessionException) Assertions.checkNotNull(this.currentDrmSession.getError()));
         }
@@ -135,6 +169,10 @@ public class SampleQueue implements TrackOutput {
         return this.largestQueuedTimestampUs;
     }
 
+    public final synchronized long getLargestReadTimestampUs() {
+        return Math.max(this.largestDiscardedTimestampUs, getLargestTimestamp(this.readPosition));
+    }
+
     public final synchronized boolean isLastSampleQueued() {
         return this.isLastSampleQueued;
     }
@@ -151,26 +189,36 @@ public class SampleQueue implements TrackOutput {
                 z2 = false;
             }
             return z2;
-        }
-        int relativeIndex = getRelativeIndex(this.readPosition);
-        if (this.formats[relativeIndex] != this.downstreamFormat) {
+        } else if (this.sharedSampleMetadata.get(getReadIndex()).format != this.downstreamFormat) {
             return true;
+        } else {
+            return mayReadSample(getRelativeIndex(this.readPosition));
         }
-        return mayReadSample(relativeIndex);
     }
 
-    public int read(FormatHolder formatHolder, DecoderInputBuffer decoderInputBuffer, boolean z, boolean z2, long j) {
-        int readSampleMetadata = readSampleMetadata(formatHolder, decoderInputBuffer, z, z2, j, this.extrasHolder);
-        if (readSampleMetadata == -4 && !decoderInputBuffer.isEndOfStream() && !decoderInputBuffer.isFlagsOnly()) {
-            this.sampleDataQueue.readToBuffer(decoderInputBuffer, this.extrasHolder);
+    public int read(FormatHolder formatHolder, DecoderInputBuffer decoderInputBuffer, int i, boolean z) {
+        int peekSampleMetadata = peekSampleMetadata(formatHolder, decoderInputBuffer, (i & 2) != 0, z, this.extrasHolder);
+        if (peekSampleMetadata == -4 && !decoderInputBuffer.isEndOfStream()) {
+            boolean z2 = (i & 1) != 0;
+            if ((i & 4) == 0) {
+                if (z2) {
+                    this.sampleDataQueue.peekToBuffer(decoderInputBuffer, this.extrasHolder);
+                } else {
+                    this.sampleDataQueue.readToBuffer(decoderInputBuffer, this.extrasHolder);
+                }
+            }
+            if (!z2) {
+                this.readPosition++;
+            }
         }
-        return readSampleMetadata;
+        return peekSampleMetadata;
     }
 
     public final synchronized boolean seekTo(int i) {
         rewind();
         int i2 = this.absoluteFirstIndex;
         if (i >= i2 && i <= this.length + i2) {
+            this.startTimeUs = Long.MIN_VALUE;
             this.readPosition = i - i2;
             return true;
         }
@@ -185,31 +233,44 @@ public class SampleQueue implements TrackOutput {
             if (findSampleBefore == -1) {
                 return false;
             }
+            this.startTimeUs = j;
             this.readPosition += findSampleBefore;
             return true;
         }
         return false;
     }
 
-    public final synchronized int advanceTo(long j) {
+    public final synchronized int getSkipCount(long j, boolean z) {
         int relativeIndex = getRelativeIndex(this.readPosition);
         if (hasNextSample() && j >= this.timesUs[relativeIndex]) {
+            if (j > this.largestQueuedTimestampUs && z) {
+                return this.length - this.readPosition;
+            }
             int findSampleBefore = findSampleBefore(relativeIndex, this.length - this.readPosition, j, true);
             if (findSampleBefore == -1) {
                 return 0;
             }
-            this.readPosition += findSampleBefore;
             return findSampleBefore;
         }
         return 0;
     }
 
-    public final synchronized int advanceToEnd() {
-        int i;
-        int i2 = this.length;
-        i = i2 - this.readPosition;
-        this.readPosition = i2;
-        return i;
+    public final synchronized void skip(int i) {
+        boolean z;
+        if (i >= 0) {
+            try {
+                if (this.readPosition + i <= this.length) {
+                    z = true;
+                    Assertions.checkArgument(z);
+                    this.readPosition += i;
+                }
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+        z = false;
+        Assertions.checkArgument(z);
+        this.readPosition += i;
     }
 
     public final void discardTo(long j, boolean z, boolean z2) {
@@ -238,7 +299,7 @@ public class SampleQueue implements TrackOutput {
     @Override // com.google.android.exoplayer2.extractor.TrackOutput
     public final void format(Format format) {
         Format adjustedUpstreamFormat = getAdjustedUpstreamFormat(format);
-        this.pendingUpstreamFormatAdjustment = false;
+        this.upstreamFormatAdjustmentRequired = false;
         this.unadjustedUpstreamFormat = format;
         boolean upstreamFormat = setUpstreamFormat(adjustedUpstreamFormat);
         UpstreamFormatChangedListener upstreamFormatChangedListener = this.upstreamFormatChangeListener;
@@ -249,43 +310,67 @@ public class SampleQueue implements TrackOutput {
     }
 
     @Override // com.google.android.exoplayer2.extractor.TrackOutput
-    public final int sampleData(ExtractorInput extractorInput, int i, boolean z) throws IOException, InterruptedException {
-        return this.sampleDataQueue.sampleData(extractorInput, i, z);
+    public final int sampleData(DataReader dataReader, int i, boolean z, int i2) throws IOException {
+        return this.sampleDataQueue.sampleData(dataReader, i, z);
     }
 
     @Override // com.google.android.exoplayer2.extractor.TrackOutput
-    public final void sampleData(ParsableByteArray parsableByteArray, int i) {
+    public final void sampleData(ParsableByteArray parsableByteArray, int i, int i2) {
         this.sampleDataQueue.sampleData(parsableByteArray, i);
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0059  */
     @Override // com.google.android.exoplayer2.extractor.TrackOutput
-    public final void sampleMetadata(long j, int i, int i2, int i3, TrackOutput.CryptoData cryptoData) {
-        if (this.pendingUpstreamFormatAdjustment) {
-            format(this.unadjustedUpstreamFormat);
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void sampleMetadata(long j, int i, int i2, int i3, TrackOutput.CryptoData cryptoData) {
+        int i4;
+        if (this.upstreamFormatAdjustmentRequired) {
+            format((Format) Assertions.checkStateNotNull(this.unadjustedUpstreamFormat));
         }
-        long j2 = j + this.sampleOffsetUs;
-        if (this.pendingSplice) {
-            if ((i & 1) == 0 || !attemptSplice(j2)) {
+        int i5 = i & 1;
+        boolean z = i5 != 0;
+        if (this.upstreamKeyframeRequired) {
+            if (!z) {
                 return;
             }
-            this.pendingSplice = false;
+            this.upstreamKeyframeRequired = false;
         }
-        commitSample(j2, i, (this.sampleDataQueue.getTotalBytesWritten() - i2) - i3, i2, cryptoData);
+        long j2 = this.sampleOffsetUs + j;
+        if (this.upstreamAllSamplesAreSyncSamples) {
+            if (j2 < this.startTimeUs) {
+                return;
+            }
+            if (i5 == 0) {
+                if (!this.loggedUnexpectedNonSyncSample) {
+                    Log.w("SampleQueue", "Overriding unexpected non-sync sample for format: " + this.upstreamFormat);
+                    this.loggedUnexpectedNonSyncSample = true;
+                }
+                i4 = i | 1;
+                if (this.pendingSplice) {
+                    if (!z || !attemptSplice(j2)) {
+                        return;
+                    }
+                    this.pendingSplice = false;
+                }
+                commitSample(j2, i4, (this.sampleDataQueue.getTotalBytesWritten() - i2) - i3, i2, cryptoData);
+            }
+        }
+        i4 = i;
+        if (this.pendingSplice) {
+        }
+        commitSample(j2, i4, (this.sampleDataQueue.getTotalBytesWritten() - i2) - i3, i2, cryptoData);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
     public final void invalidateUpstreamFormatAdjustment() {
-        this.pendingUpstreamFormatAdjustment = true;
+        this.upstreamFormatAdjustmentRequired = true;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
     public Format getAdjustedUpstreamFormat(Format format) {
-        long j = this.sampleOffsetUs;
-        if (j != 0) {
-            long j2 = format.subsampleOffsetUs;
-            return j2 != Long.MAX_VALUE ? format.copyWithSubsampleOffsetUs(j2 + j) : format;
-        }
-        return format;
+        return (this.sampleOffsetUs == 0 || format.subsampleOffsetUs == Long.MAX_VALUE) ? format : format.buildUpon().setSubsampleOffsetUs(format.subsampleOffsetUs + this.sampleOffsetUs).build();
     }
 
     private synchronized void rewind() {
@@ -293,22 +378,9 @@ public class SampleQueue implements TrackOutput {
         this.sampleDataQueue.rewind();
     }
 
-    private synchronized int readSampleMetadata(FormatHolder formatHolder, DecoderInputBuffer decoderInputBuffer, boolean z, boolean z2, long j, SampleExtrasHolder sampleExtrasHolder) {
-        boolean hasNextSample;
+    private synchronized int peekSampleMetadata(FormatHolder formatHolder, DecoderInputBuffer decoderInputBuffer, boolean z, boolean z2, SampleExtrasHolder sampleExtrasHolder) {
         decoderInputBuffer.waitingForKeys = false;
-        int i = -1;
-        while (true) {
-            hasNextSample = hasNextSample();
-            if (!hasNextSample) {
-                break;
-            }
-            i = getRelativeIndex(this.readPosition);
-            if (this.timesUs[i] >= j || !MimeTypes.allSamplesAreSyncSamples(this.formats[i].sampleMimeType)) {
-                break;
-            }
-            this.readPosition++;
-        }
-        if (!hasNextSample) {
+        if (!hasNextSample()) {
             if (!z2 && !this.isLastSampleQueued) {
                 Format format = this.upstreamFormat;
                 if (format == null || (!z && format == this.downstreamFormat)) {
@@ -320,44 +392,41 @@ public class SampleQueue implements TrackOutput {
             decoderInputBuffer.setFlags(4);
             return -4;
         }
-        if (!z && this.formats[i] == this.downstreamFormat) {
-            if (!mayReadSample(i)) {
+        Format format2 = this.sharedSampleMetadata.get(getReadIndex()).format;
+        if (!z && format2 == this.downstreamFormat) {
+            int relativeIndex = getRelativeIndex(this.readPosition);
+            if (!mayReadSample(relativeIndex)) {
                 decoderInputBuffer.waitingForKeys = true;
                 return -3;
             }
-            decoderInputBuffer.setFlags(this.flags[i]);
-            long j2 = this.timesUs[i];
-            decoderInputBuffer.timeUs = j2;
-            if (j2 < j) {
+            decoderInputBuffer.setFlags(this.flags[relativeIndex]);
+            long j = this.timesUs[relativeIndex];
+            decoderInputBuffer.timeUs = j;
+            if (j < this.startTimeUs) {
                 decoderInputBuffer.addFlag(Integer.MIN_VALUE);
             }
-            if (decoderInputBuffer.isFlagsOnly()) {
-                return -4;
-            }
-            sampleExtrasHolder.size = this.sizes[i];
-            sampleExtrasHolder.offset = this.offsets[i];
-            sampleExtrasHolder.cryptoData = this.cryptoDatas[i];
-            this.readPosition++;
+            sampleExtrasHolder.size = this.sizes[relativeIndex];
+            sampleExtrasHolder.offset = this.offsets[relativeIndex];
+            sampleExtrasHolder.cryptoData = this.cryptoDatas[relativeIndex];
             return -4;
         }
-        onFormatResult(this.formats[i], formatHolder);
+        onFormatResult(format2, formatHolder);
         return -5;
     }
 
     private synchronized boolean setUpstreamFormat(Format format) {
-        if (format == null) {
-            this.upstreamFormatRequired = true;
-            return false;
-        }
         this.upstreamFormatRequired = false;
         if (Util.areEqual(format, this.upstreamFormat)) {
             return false;
         }
-        if (Util.areEqual(format, this.upstreamCommittedFormat)) {
-            this.upstreamFormat = this.upstreamCommittedFormat;
-            return true;
+        if (!this.sharedSampleMetadata.isEmpty() && this.sharedSampleMetadata.getEndValue().format.equals(format)) {
+            this.upstreamFormat = this.sharedSampleMetadata.getEndValue().format;
+        } else {
+            this.upstreamFormat = format;
         }
-        this.upstreamFormat = format;
+        Format format2 = this.upstreamFormat;
+        this.upstreamAllSamplesAreSyncSamples = MimeTypes.allSamplesAreSyncSamples(format2.sampleMimeType, format2.codecs);
+        this.loggedUnexpectedNonSyncSample = false;
         return true;
     }
 
@@ -398,93 +467,83 @@ public class SampleQueue implements TrackOutput {
     }
 
     private void releaseDrmSessionReferences() {
-        DrmSession<?> drmSession = this.currentDrmSession;
+        DrmSession drmSession = this.currentDrmSession;
         if (drmSession != null) {
-            drmSession.release();
+            drmSession.release(this.drmEventDispatcher);
             this.currentDrmSession = null;
             this.downstreamFormat = null;
         }
     }
 
     private synchronized void commitSample(long j, int i, long j2, int i2, TrackOutput.CryptoData cryptoData) {
-        if (this.upstreamKeyframeRequired) {
-            if ((i & 1) == 0) {
-                return;
-            }
-            this.upstreamKeyframeRequired = false;
+        DrmSessionManager.DrmSessionReference drmSessionReference;
+        int i3 = this.length;
+        if (i3 > 0) {
+            int relativeIndex = getRelativeIndex(i3 - 1);
+            Assertions.checkArgument(this.offsets[relativeIndex] + ((long) this.sizes[relativeIndex]) <= j2);
         }
-        Assertions.checkState(!this.upstreamFormatRequired);
         this.isLastSampleQueued = (536870912 & i) != 0;
         this.largestQueuedTimestampUs = Math.max(this.largestQueuedTimestampUs, j);
-        int relativeIndex = getRelativeIndex(this.length);
-        this.timesUs[relativeIndex] = j;
-        long[] jArr = this.offsets;
-        jArr[relativeIndex] = j2;
-        this.sizes[relativeIndex] = i2;
-        this.flags[relativeIndex] = i;
-        this.cryptoDatas[relativeIndex] = cryptoData;
-        Format[] formatArr = this.formats;
-        Format format = this.upstreamFormat;
-        formatArr[relativeIndex] = format;
-        this.sourceIds[relativeIndex] = this.upstreamSourceId;
-        this.upstreamCommittedFormat = format;
-        int i3 = this.length + 1;
-        this.length = i3;
-        int i4 = this.capacity;
-        if (i3 == i4) {
-            int i5 = i4 + 1000;
-            int[] iArr = new int[i5];
-            long[] jArr2 = new long[i5];
-            long[] jArr3 = new long[i5];
-            int[] iArr2 = new int[i5];
-            int[] iArr3 = new int[i5];
-            TrackOutput.CryptoData[] cryptoDataArr = new TrackOutput.CryptoData[i5];
-            Format[] formatArr2 = new Format[i5];
-            int i6 = this.relativeFirstIndex;
-            int i7 = i4 - i6;
-            System.arraycopy(jArr, i6, jArr2, 0, i7);
-            System.arraycopy(this.timesUs, this.relativeFirstIndex, jArr3, 0, i7);
-            System.arraycopy(this.flags, this.relativeFirstIndex, iArr2, 0, i7);
-            System.arraycopy(this.sizes, this.relativeFirstIndex, iArr3, 0, i7);
-            System.arraycopy(this.cryptoDatas, this.relativeFirstIndex, cryptoDataArr, 0, i7);
-            System.arraycopy(this.formats, this.relativeFirstIndex, formatArr2, 0, i7);
-            System.arraycopy(this.sourceIds, this.relativeFirstIndex, iArr, 0, i7);
-            int i8 = this.relativeFirstIndex;
-            System.arraycopy(this.offsets, 0, jArr2, i7, i8);
-            System.arraycopy(this.timesUs, 0, jArr3, i7, i8);
-            System.arraycopy(this.flags, 0, iArr2, i7, i8);
-            System.arraycopy(this.sizes, 0, iArr3, i7, i8);
-            System.arraycopy(this.cryptoDatas, 0, cryptoDataArr, i7, i8);
-            System.arraycopy(this.formats, 0, formatArr2, i7, i8);
-            System.arraycopy(this.sourceIds, 0, iArr, i7, i8);
-            this.offsets = jArr2;
-            this.timesUs = jArr3;
+        int relativeIndex2 = getRelativeIndex(this.length);
+        this.timesUs[relativeIndex2] = j;
+        this.offsets[relativeIndex2] = j2;
+        this.sizes[relativeIndex2] = i2;
+        this.flags[relativeIndex2] = i;
+        this.cryptoDatas[relativeIndex2] = cryptoData;
+        this.sourceIds[relativeIndex2] = this.upstreamSourceId;
+        if (this.sharedSampleMetadata.isEmpty() || !this.sharedSampleMetadata.getEndValue().format.equals(this.upstreamFormat)) {
+            DrmSessionManager drmSessionManager = this.drmSessionManager;
+            if (drmSessionManager != null) {
+                drmSessionReference = drmSessionManager.preacquireSession(this.drmEventDispatcher, this.upstreamFormat);
+            } else {
+                drmSessionReference = DrmSessionManager.DrmSessionReference.EMPTY;
+            }
+            this.sharedSampleMetadata.appendSpan(getWriteIndex(), new SharedSampleMetadata((Format) Assertions.checkNotNull(this.upstreamFormat), drmSessionReference));
+        }
+        int i4 = this.length + 1;
+        this.length = i4;
+        int i5 = this.capacity;
+        if (i4 == i5) {
+            int i6 = i5 + 1000;
+            int[] iArr = new int[i6];
+            long[] jArr = new long[i6];
+            long[] jArr2 = new long[i6];
+            int[] iArr2 = new int[i6];
+            int[] iArr3 = new int[i6];
+            TrackOutput.CryptoData[] cryptoDataArr = new TrackOutput.CryptoData[i6];
+            int i7 = this.relativeFirstIndex;
+            int i8 = i5 - i7;
+            System.arraycopy(this.offsets, i7, jArr, 0, i8);
+            System.arraycopy(this.timesUs, this.relativeFirstIndex, jArr2, 0, i8);
+            System.arraycopy(this.flags, this.relativeFirstIndex, iArr2, 0, i8);
+            System.arraycopy(this.sizes, this.relativeFirstIndex, iArr3, 0, i8);
+            System.arraycopy(this.cryptoDatas, this.relativeFirstIndex, cryptoDataArr, 0, i8);
+            System.arraycopy(this.sourceIds, this.relativeFirstIndex, iArr, 0, i8);
+            int i9 = this.relativeFirstIndex;
+            System.arraycopy(this.offsets, 0, jArr, i8, i9);
+            System.arraycopy(this.timesUs, 0, jArr2, i8, i9);
+            System.arraycopy(this.flags, 0, iArr2, i8, i9);
+            System.arraycopy(this.sizes, 0, iArr3, i8, i9);
+            System.arraycopy(this.cryptoDatas, 0, cryptoDataArr, i8, i9);
+            System.arraycopy(this.sourceIds, 0, iArr, i8, i9);
+            this.offsets = jArr;
+            this.timesUs = jArr2;
             this.flags = iArr2;
             this.sizes = iArr3;
             this.cryptoDatas = cryptoDataArr;
-            this.formats = formatArr2;
             this.sourceIds = iArr;
             this.relativeFirstIndex = 0;
-            this.capacity = i5;
+            this.capacity = i6;
         }
     }
 
     private synchronized boolean attemptSplice(long j) {
         if (this.length == 0) {
             return j > this.largestDiscardedTimestampUs;
-        } else if (Math.max(this.largestDiscardedTimestampUs, getLargestTimestamp(this.readPosition)) >= j) {
+        } else if (getLargestReadTimestampUs() >= j) {
             return false;
         } else {
-            int i = this.length;
-            int relativeIndex = getRelativeIndex(i - 1);
-            while (i > this.readPosition && this.timesUs[relativeIndex] >= j) {
-                i--;
-                relativeIndex--;
-                if (relativeIndex == -1) {
-                    relativeIndex = this.capacity - 1;
-                }
-            }
-            discardUpstreamSampleMetadata(this.absoluteFirstIndex + i);
+            discardUpstreamSampleMetadata(this.absoluteFirstIndex + countUnreadSamplesBefore(j));
             return true;
         }
     }
@@ -500,6 +559,7 @@ public class SampleQueue implements TrackOutput {
             z = true;
         }
         this.isLastSampleQueued = z;
+        this.sharedSampleMetadata.discardFrom(i);
         int i3 = this.length;
         if (i3 != 0) {
             int relativeIndex = getRelativeIndex(i3 - 1);
@@ -513,45 +573,44 @@ public class SampleQueue implements TrackOutput {
     }
 
     private void onFormatResult(Format format, FormatHolder formatHolder) {
-        DrmSession<?> acquirePlaceholderSession;
-        formatHolder.format = format;
         Format format2 = this.downstreamFormat;
         boolean z = format2 == null;
         DrmInitData drmInitData = z ? null : format2.drmInitData;
         this.downstreamFormat = format;
-        if (this.drmSessionManager == DrmSessionManager.DUMMY) {
+        DrmInitData drmInitData2 = format.drmInitData;
+        DrmSessionManager drmSessionManager = this.drmSessionManager;
+        formatHolder.format = drmSessionManager != null ? format.copyWithCryptoType(drmSessionManager.getCryptoType(format)) : format;
+        formatHolder.drmSession = this.currentDrmSession;
+        if (this.drmSessionManager == null) {
             return;
         }
-        DrmInitData drmInitData2 = format.drmInitData;
-        formatHolder.includesDrmSession = true;
-        formatHolder.drmSession = this.currentDrmSession;
         if (z || !Util.areEqual(drmInitData, drmInitData2)) {
-            DrmSession<?> drmSession = this.currentDrmSession;
-            if (drmInitData2 != null) {
-                acquirePlaceholderSession = this.drmSessionManager.acquireSession(this.playbackLooper, drmInitData2);
-            } else {
-                acquirePlaceholderSession = this.drmSessionManager.acquirePlaceholderSession(this.playbackLooper, MimeTypes.getTrackType(format.sampleMimeType));
-            }
-            this.currentDrmSession = acquirePlaceholderSession;
-            formatHolder.drmSession = acquirePlaceholderSession;
+            DrmSession drmSession = this.currentDrmSession;
+            DrmSession acquireSession = this.drmSessionManager.acquireSession(this.drmEventDispatcher, format);
+            this.currentDrmSession = acquireSession;
+            formatHolder.drmSession = acquireSession;
             if (drmSession != null) {
-                drmSession.release();
+                drmSession.release(this.drmEventDispatcher);
             }
         }
     }
 
     private boolean mayReadSample(int i) {
-        DrmSession<?> drmSession;
-        if (this.drmSessionManager == DrmSessionManager.DUMMY || (drmSession = this.currentDrmSession) == null || drmSession.getState() == 4) {
-            return true;
-        }
-        return (this.flags[i] & 1073741824) == 0 && this.currentDrmSession.playClearSamplesWithoutKeys();
+        DrmSession drmSession = this.currentDrmSession;
+        return drmSession == null || drmSession.getState() == 4 || ((this.flags[i] & 1073741824) == 0 && this.currentDrmSession.playClearSamplesWithoutKeys());
     }
 
     private int findSampleBefore(int i, int i2, long j, boolean z) {
         int i3 = -1;
-        for (int i4 = 0; i4 < i2 && this.timesUs[i] <= j; i4++) {
+        for (int i4 = 0; i4 < i2; i4++) {
+            long[] jArr = this.timesUs;
+            if (jArr[i] > j) {
+                return i3;
+            }
             if (!z || (this.flags[i] & 1) != 0) {
+                if (jArr[i] == j) {
+                    return i4;
+                }
                 i3 = i4;
             }
             i++;
@@ -562,12 +621,25 @@ public class SampleQueue implements TrackOutput {
         return i3;
     }
 
+    private int countUnreadSamplesBefore(long j) {
+        int i = this.length;
+        int relativeIndex = getRelativeIndex(i - 1);
+        while (i > this.readPosition && this.timesUs[relativeIndex] >= j) {
+            i--;
+            relativeIndex--;
+            if (relativeIndex == -1) {
+                relativeIndex = this.capacity - 1;
+            }
+        }
+        return i;
+    }
+
     private long discardSamples(int i) {
         int i2;
         this.largestDiscardedTimestampUs = Math.max(this.largestDiscardedTimestampUs, getLargestTimestamp(i));
-        int i3 = this.length - i;
-        this.length = i3;
-        this.absoluteFirstIndex += i;
+        this.length -= i;
+        int i3 = this.absoluteFirstIndex + i;
+        this.absoluteFirstIndex = i3;
         int i4 = this.relativeFirstIndex + i;
         this.relativeFirstIndex = i4;
         int i5 = this.capacity;
@@ -579,12 +651,13 @@ public class SampleQueue implements TrackOutput {
         if (i6 < 0) {
             this.readPosition = 0;
         }
-        if (i3 == 0) {
+        this.sharedSampleMetadata.discardTo(i3);
+        if (this.length == 0) {
             int i7 = this.relativeFirstIndex;
-            if (i7 != 0) {
-                i5 = i7;
+            if (i7 == 0) {
+                i7 = this.capacity;
             }
-            return this.offsets[i5 - 1] + this.sizes[i2];
+            return this.offsets[i7 - 1] + this.sizes[i2];
         }
         return this.offsets[this.relativeFirstIndex];
     }
@@ -622,6 +695,18 @@ public class SampleQueue implements TrackOutput {
         public int size;
 
         SampleExtrasHolder() {
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static final class SharedSampleMetadata {
+        public final DrmSessionManager.DrmSessionReference drmSessionReference;
+        public final Format format;
+
+        private SharedSampleMetadata(Format format, DrmSessionManager.DrmSessionReference drmSessionReference) {
+            this.format = format;
+            this.drmSessionReference = drmSessionReference;
         }
     }
 }

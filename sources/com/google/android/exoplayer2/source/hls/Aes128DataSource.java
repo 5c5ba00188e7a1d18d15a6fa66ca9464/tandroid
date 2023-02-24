@@ -32,6 +32,7 @@ class Aes128DataSource implements DataSource {
 
     @Override // com.google.android.exoplayer2.upstream.DataSource
     public final void addTransferListener(TransferListener transferListener) {
+        Assertions.checkNotNull(transferListener);
         this.upstream.addTransferListener(transferListener);
     }
 
@@ -53,7 +54,7 @@ class Aes128DataSource implements DataSource {
         }
     }
 
-    @Override // com.google.android.exoplayer2.upstream.DataSource
+    @Override // com.google.android.exoplayer2.upstream.DataReader
     public final int read(byte[] bArr, int i, int i2) throws IOException {
         Assertions.checkNotNull(this.cipherInputStream);
         int read = this.cipherInputStream.read(bArr, i, i2);

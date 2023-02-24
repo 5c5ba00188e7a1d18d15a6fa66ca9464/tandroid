@@ -6,7 +6,9 @@ import com.google.android.exoplayer2.extractor.ExtractorOutput;
 import com.google.android.exoplayer2.extractor.PositionHolder;
 import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.extractor.TrackOutput;
+import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
+import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
@@ -15,19 +17,19 @@ public abstract class StreamReader {
     private ExtractorOutput extractorOutput;
     private boolean formatSet;
     private long lengthOfReadPacket;
-    private final OggPacket oggPacket = new OggPacket();
     private OggSeeker oggSeeker;
     private long payloadStartPosition;
     private int sampleRate;
     private boolean seekMapSet;
-    private SetupData setupData;
     private int state;
     private long targetGranule;
     private TrackOutput trackOutput;
+    private final OggPacket oggPacket = new OggPacket();
+    private SetupData setupData = new SetupData();
 
     protected abstract long preparePayload(ParsableByteArray parsableByteArray);
 
-    protected abstract boolean readHeaders(ParsableByteArray parsableByteArray, long j, SetupData setupData) throws IOException, InterruptedException;
+    protected abstract boolean readHeaders(ParsableByteArray parsableByteArray, long j, SetupData setupData) throws IOException;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
@@ -65,65 +67,75 @@ public abstract class StreamReader {
         if (j == 0) {
             reset(!this.seekMapSet);
         } else if (this.state != 0) {
-            long convertTimeToGranule = convertTimeToGranule(j2);
-            this.targetGranule = convertTimeToGranule;
-            this.oggSeeker.startSeek(convertTimeToGranule);
+            this.targetGranule = convertTimeToGranule(j2);
+            ((OggSeeker) Util.castNonNull(this.oggSeeker)).startSeek(this.targetGranule);
             this.state = 2;
         }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public final int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException, InterruptedException {
+    public final int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
+        assertInitialized();
         int i = this.state;
         if (i != 0) {
-            if (i != 1) {
-                if (i == 2) {
-                    return readPayload(extractorInput, positionHolder);
-                }
+            if (i == 1) {
+                extractorInput.skipFully((int) this.payloadStartPosition);
+                this.state = 2;
+                return 0;
+            } else if (i == 2) {
+                Util.castNonNull(this.oggSeeker);
+                return readPayload(extractorInput, positionHolder);
+            } else if (i == 3) {
+                return -1;
+            } else {
                 throw new IllegalStateException();
             }
-            extractorInput.skipFully((int) this.payloadStartPosition);
+        }
+        return readHeadersAndUpdateState(extractorInput);
+    }
+
+    private void assertInitialized() {
+        Assertions.checkStateNotNull(this.trackOutput);
+        Util.castNonNull(this.extractorOutput);
+    }
+
+    private boolean readHeaders(ExtractorInput extractorInput) throws IOException {
+        while (this.oggPacket.populate(extractorInput)) {
+            this.lengthOfReadPacket = extractorInput.getPosition() - this.payloadStartPosition;
+            if (!readHeaders(this.oggPacket.getPayload(), this.payloadStartPosition, this.setupData)) {
+                return true;
+            }
+            this.payloadStartPosition = extractorInput.getPosition();
+        }
+        this.state = 3;
+        return false;
+    }
+
+    private int readHeadersAndUpdateState(ExtractorInput extractorInput) throws IOException {
+        if (readHeaders(extractorInput)) {
+            Format format = this.setupData.format;
+            this.sampleRate = format.sampleRate;
+            if (!this.formatSet) {
+                this.trackOutput.format(format);
+                this.formatSet = true;
+            }
+            OggSeeker oggSeeker = this.setupData.oggSeeker;
+            if (oggSeeker != null) {
+                this.oggSeeker = oggSeeker;
+            } else if (extractorInput.getLength() == -1) {
+                this.oggSeeker = new UnseekableOggSeeker();
+            } else {
+                OggPageHeader pageHeader = this.oggPacket.getPageHeader();
+                this.oggSeeker = new DefaultOggSeeker(this, this.payloadStartPosition, extractorInput.getLength(), pageHeader.headerSize + pageHeader.bodySize, pageHeader.granulePosition, (pageHeader.type & 4) != 0);
+            }
             this.state = 2;
+            this.oggPacket.trimPayload();
             return 0;
         }
-        return readHeaders(extractorInput);
+        return -1;
     }
 
-    private int readHeaders(ExtractorInput extractorInput) throws IOException, InterruptedException {
-        boolean z = true;
-        while (z) {
-            if (!this.oggPacket.populate(extractorInput)) {
-                this.state = 3;
-                return -1;
-            }
-            this.lengthOfReadPacket = extractorInput.getPosition() - this.payloadStartPosition;
-            z = readHeaders(this.oggPacket.getPayload(), this.payloadStartPosition, this.setupData);
-            if (z) {
-                this.payloadStartPosition = extractorInput.getPosition();
-            }
-        }
-        Format format = this.setupData.format;
-        this.sampleRate = format.sampleRate;
-        if (!this.formatSet) {
-            this.trackOutput.format(format);
-            this.formatSet = true;
-        }
-        OggSeeker oggSeeker = this.setupData.oggSeeker;
-        if (oggSeeker != null) {
-            this.oggSeeker = oggSeeker;
-        } else if (extractorInput.getLength() == -1) {
-            this.oggSeeker = new UnseekableOggSeeker();
-        } else {
-            OggPageHeader pageHeader = this.oggPacket.getPageHeader();
-            this.oggSeeker = new DefaultOggSeeker(this, this.payloadStartPosition, extractorInput.getLength(), pageHeader.headerSize + pageHeader.bodySize, pageHeader.granulePosition, (pageHeader.type & 4) != 0);
-        }
-        this.setupData = null;
-        this.state = 2;
-        this.oggPacket.trimPayload();
-        return 0;
-    }
-
-    private int readPayload(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException, InterruptedException {
+    private int readPayload(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
         long read = this.oggSeeker.read(extractorInput);
         if (read >= 0) {
             positionHolder.position = read;
@@ -133,7 +145,7 @@ public abstract class StreamReader {
             onSeekEnd(-(read + 2));
         }
         if (!this.seekMapSet) {
-            this.extractorOutput.seekMap(this.oggSeeker.createSeekMap());
+            this.extractorOutput.seekMap((SeekMap) Assertions.checkStateNotNull(this.oggSeeker.createSeekMap()));
             this.seekMapSet = true;
         }
         if (this.lengthOfReadPacket > 0 || this.oggPacket.populate(extractorInput)) {

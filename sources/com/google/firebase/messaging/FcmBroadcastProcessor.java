@@ -11,11 +11,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
-import javax.annotation.concurrent.GuardedBy;
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public class FcmBroadcastProcessor {
-    @GuardedBy("lock")
     private static WithinAppServiceConnection fcmServiceConn;
     private static final Object lock = new Object();
     private final Context context;

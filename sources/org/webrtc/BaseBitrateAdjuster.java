@@ -1,5 +1,5 @@
 package org.webrtc;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 class BaseBitrateAdjuster implements BitrateAdjuster {
     protected int targetBitrateBps;
     protected int targetFps;

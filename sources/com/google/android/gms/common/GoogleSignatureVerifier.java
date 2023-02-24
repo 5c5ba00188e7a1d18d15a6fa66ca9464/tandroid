@@ -6,15 +6,11 @@ import android.content.pm.PackageInfo;
 import android.content.pm.Signature;
 import android.util.Log;
 import com.google.android.gms.common.internal.Preconditions;
-import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.RestrictedInheritance;
-import javax.annotation.Nullable;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
-@CheckReturnValue
 @RestrictedInheritance(allowedOnPath = ".*java.*/com/google/android/gms/common/testing/.*", explanation = "Sub classing of GMS Core's APIs are restricted to testing fakes.", link = "go/gmscore-restrictedinheritance")
 /* loaded from: classes.dex */
 public class GoogleSignatureVerifier {
-    @Nullable
     private static GoogleSignatureVerifier zza;
     private final Context zzc;
 
@@ -33,7 +29,6 @@ public class GoogleSignatureVerifier {
         return zza;
     }
 
-    @Nullable
     static final zzj zza(PackageInfo packageInfo, zzj... zzjVarArr) {
         Signature[] signatureArr = packageInfo.signatures;
         if (signatureArr == null) {

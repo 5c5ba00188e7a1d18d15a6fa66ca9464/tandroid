@@ -34,6 +34,7 @@ public final class TsExtractor implements Extractor {
     private boolean pendingSeekToStart;
     private int remainingPmts;
     private final List<TimestampAdjuster> timestampAdjusters;
+    private final int timestampSearchBytes;
     private final SparseBooleanArray trackIds;
     private final SparseBooleanArray trackPids;
     private boolean tracksEnded;
@@ -51,12 +52,34 @@ public final class TsExtractor implements Extractor {
         return i;
     }
 
-    public TsExtractor(int i, int i2) {
-        this(i, new TimestampAdjuster(0L), new DefaultTsPayloadReaderFactory(i2));
+    static {
+        TsExtractor$$ExternalSyntheticLambda0 tsExtractor$$ExternalSyntheticLambda0 = TsExtractor$$ExternalSyntheticLambda0.INSTANCE;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Extractor[] lambda$static$0() {
+        return new Extractor[]{new TsExtractor()};
+    }
+
+    public TsExtractor() {
+        this(0);
+    }
+
+    public TsExtractor(int i) {
+        this(1, i, 112800);
+    }
+
+    public TsExtractor(int i, int i2, int i3) {
+        this(i, new TimestampAdjuster(0L), new DefaultTsPayloadReaderFactory(i2), i3);
     }
 
     public TsExtractor(int i, TimestampAdjuster timestampAdjuster, TsPayloadReader.Factory factory) {
+        this(i, timestampAdjuster, factory, 112800);
+    }
+
+    public TsExtractor(int i, TimestampAdjuster timestampAdjuster, TsPayloadReader.Factory factory, int i2) {
         this.payloadReaderFactory = (TsPayloadReader.Factory) Assertions.checkNotNull(factory);
+        this.timestampSearchBytes = i2;
         this.mode = i;
         if (i == 1 || i == 2) {
             this.timestampAdjusters = Collections.singletonList(timestampAdjuster);
@@ -70,23 +93,24 @@ public final class TsExtractor implements Extractor {
         this.trackPids = new SparseBooleanArray();
         this.tsPayloadReaders = new SparseArray<>();
         this.continuityCounters = new SparseIntArray();
-        this.durationReader = new TsDurationReader();
+        this.durationReader = new TsDurationReader(i2);
+        this.output = ExtractorOutput.PLACEHOLDER;
         this.pcrPid = -1;
         resetPayloadReaders();
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public boolean sniff(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    public boolean sniff(ExtractorInput extractorInput) throws IOException {
         boolean z;
-        byte[] bArr = this.tsPacketBuffer.data;
-        extractorInput.peekFully(bArr, 0, 940);
+        byte[] data = this.tsPacketBuffer.getData();
+        extractorInput.peekFully(data, 0, 940);
         for (int i = 0; i < 188; i++) {
             int i2 = 0;
             while (true) {
                 if (i2 >= 5) {
                     z = true;
                     break;
-                } else if (bArr[(i2 * 188) + i] != 71) {
+                } else if (data[(i2 * 188) + i] != 71) {
                     z = false;
                     break;
                 } else {
@@ -113,15 +137,19 @@ public final class TsExtractor implements Extractor {
         int size = this.timestampAdjusters.size();
         for (int i = 0; i < size; i++) {
             TimestampAdjuster timestampAdjuster = this.timestampAdjusters.get(i);
-            if ((timestampAdjuster.getTimestampOffsetUs() == -9223372036854775807L) || (timestampAdjuster.getTimestampOffsetUs() != 0 && timestampAdjuster.getFirstSampleTimestampUs() != j2)) {
-                timestampAdjuster.reset();
-                timestampAdjuster.setFirstSampleTimestampUs(j2);
+            boolean z = timestampAdjuster.getTimestampOffsetUs() == -9223372036854775807L;
+            if (!z) {
+                long firstSampleTimestampUs = timestampAdjuster.getFirstSampleTimestampUs();
+                z = (firstSampleTimestampUs == -9223372036854775807L || firstSampleTimestampUs == 0 || firstSampleTimestampUs == j2) ? false : true;
+            }
+            if (z) {
+                timestampAdjuster.reset(j2);
             }
         }
         if (j2 != 0 && (tsBinarySearchSeeker = this.tsBinarySearchSeeker) != null) {
             tsBinarySearchSeeker.setSeekTargetUs(j2);
         }
-        this.tsPacketBuffer.reset();
+        this.tsPacketBuffer.reset(0);
         this.continuityCounters.clear();
         for (int i2 = 0; i2 < this.tsPayloadReaders.size(); i2++) {
             this.tsPayloadReaders.valueAt(i2).seek();
@@ -130,7 +158,7 @@ public final class TsExtractor implements Extractor {
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException, InterruptedException {
+    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
         long length = extractorInput.getLength();
         if (this.tracksEnded) {
             if (((length == -1 || this.mode == 2) ? false : true) && !this.durationReader.isDurationReadFinished()) {
@@ -206,7 +234,7 @@ public final class TsExtractor implements Extractor {
         }
         this.hasOutputSeekMap = true;
         if (this.durationReader.getDurationUs() != -9223372036854775807L) {
-            TsBinarySearchSeeker tsBinarySearchSeeker = new TsBinarySearchSeeker(this.durationReader.getPcrTimestampAdjuster(), this.durationReader.getDurationUs(), j, this.pcrPid);
+            TsBinarySearchSeeker tsBinarySearchSeeker = new TsBinarySearchSeeker(this.durationReader.getPcrTimestampAdjuster(), this.durationReader.getDurationUs(), j, this.pcrPid, this.timestampSearchBytes);
             this.tsBinarySearchSeeker = tsBinarySearchSeeker;
             this.output.seekMap(tsBinarySearchSeeker.getSeekMap());
             return;
@@ -214,19 +242,18 @@ public final class TsExtractor implements Extractor {
         this.output.seekMap(new SeekMap.Unseekable(this.durationReader.getDurationUs()));
     }
 
-    private boolean fillBufferWithAtLeastOnePacket(ExtractorInput extractorInput) throws IOException, InterruptedException {
-        ParsableByteArray parsableByteArray = this.tsPacketBuffer;
-        byte[] bArr = parsableByteArray.data;
-        if (9400 - parsableByteArray.getPosition() < 188) {
+    private boolean fillBufferWithAtLeastOnePacket(ExtractorInput extractorInput) throws IOException {
+        byte[] data = this.tsPacketBuffer.getData();
+        if (9400 - this.tsPacketBuffer.getPosition() < 188) {
             int bytesLeft = this.tsPacketBuffer.bytesLeft();
             if (bytesLeft > 0) {
-                System.arraycopy(bArr, this.tsPacketBuffer.getPosition(), bArr, 0, bytesLeft);
+                System.arraycopy(data, this.tsPacketBuffer.getPosition(), data, 0, bytesLeft);
             }
-            this.tsPacketBuffer.reset(bArr, bytesLeft);
+            this.tsPacketBuffer.reset(data, bytesLeft);
         }
         while (this.tsPacketBuffer.bytesLeft() < 188) {
             int limit = this.tsPacketBuffer.limit();
-            int read = extractorInput.read(bArr, limit, 9400 - limit);
+            int read = extractorInput.read(data, limit, 9400 - limit);
             if (read == -1) {
                 return false;
             }
@@ -238,14 +265,14 @@ public final class TsExtractor implements Extractor {
     private int findEndOfFirstTsPacketInBuffer() throws ParserException {
         int position = this.tsPacketBuffer.getPosition();
         int limit = this.tsPacketBuffer.limit();
-        int findSyncBytePosition = TsUtil.findSyncBytePosition(this.tsPacketBuffer.data, position, limit);
+        int findSyncBytePosition = TsUtil.findSyncBytePosition(this.tsPacketBuffer.getData(), position, limit);
         this.tsPacketBuffer.setPosition(findSyncBytePosition);
         int i = findSyncBytePosition + 188;
         if (i > limit) {
             int i2 = this.bytesSinceLastSync + (findSyncBytePosition - position);
             this.bytesSinceLastSync = i2;
             if (this.mode == 2 && i2 > 376) {
-                throw new ParserException("Cannot find sync byte. Most likely not a Transport Stream.");
+                throw ParserException.createForMalformedContainer("Cannot find sync byte. Most likely not a Transport Stream.", null);
             }
         } else {
             this.bytesSinceLastSync = 0;
@@ -294,8 +321,10 @@ public final class TsExtractor implements Extractor {
                         this.patScratch.skipBits(13);
                     } else {
                         int readBits2 = this.patScratch.readBits(13);
-                        TsExtractor.this.tsPayloadReaders.put(readBits2, new SectionReader(new PmtReader(readBits2)));
-                        TsExtractor.access$108(TsExtractor.this);
+                        if (TsExtractor.this.tsPayloadReaders.get(readBits2) == null) {
+                            TsExtractor.this.tsPayloadReaders.put(readBits2, new SectionReader(new PmtReader(readBits2)));
+                            TsExtractor.access$108(TsExtractor.this);
+                        }
                     }
                 }
                 if (TsExtractor.this.mode != 2) {
@@ -351,7 +380,9 @@ public final class TsExtractor implements Extractor {
                 TsPayloadReader.EsInfo esInfo = new TsPayloadReader.EsInfo(21, null, null, Util.EMPTY_BYTE_ARRAY);
                 TsExtractor tsExtractor = TsExtractor.this;
                 tsExtractor.id3Reader = tsExtractor.payloadReaderFactory.createPayloadReader(21, esInfo);
-                TsExtractor.this.id3Reader.init(timestampAdjuster, TsExtractor.this.output, new TsPayloadReader.TrackIdGenerator(readUnsignedShort, 21, 8192));
+                if (TsExtractor.this.id3Reader != null) {
+                    TsExtractor.this.id3Reader.init(timestampAdjuster, TsExtractor.this.output, new TsPayloadReader.TrackIdGenerator(readUnsignedShort, 21, 8192));
+                }
             }
             this.trackIdToReaderScratch.clear();
             this.trackIdToPidScratch.clear();
@@ -364,7 +395,7 @@ public final class TsExtractor implements Extractor {
                 this.pmtScratch.skipBits(i3);
                 int readBits3 = this.pmtScratch.readBits(12);
                 TsPayloadReader.EsInfo readEsInfo = readEsInfo(parsableByteArray, readBits3);
-                if (readBits == 6) {
+                if (readBits == 6 || readBits == 5) {
                     readBits = readEsInfo.streamType;
                 }
                 bytesLeft -= readBits3 + 5;
@@ -405,7 +436,7 @@ public final class TsExtractor implements Extractor {
             }
             TsExtractor.this.tsPayloadReaders.remove(this.pid);
             TsExtractor tsExtractor2 = TsExtractor.this;
-            tsExtractor2.remainingPmts = tsExtractor2.mode != 1 ? TsExtractor.this.remainingPmts - 1 : 0;
+            tsExtractor2.remainingPmts = tsExtractor2.mode == 1 ? 0 : TsExtractor.this.remainingPmts - 1;
             if (TsExtractor.this.remainingPmts == 0) {
                 TsExtractor.this.output.endTracks();
                 TsExtractor.this.tracksEnded = true;
@@ -421,6 +452,9 @@ public final class TsExtractor implements Extractor {
             while (parsableByteArray.getPosition() < i2) {
                 int readUnsignedByte = parsableByteArray.readUnsignedByte();
                 int position2 = parsableByteArray.getPosition() + parsableByteArray.readUnsignedByte();
+                if (position2 > i2) {
+                    break;
+                }
                 if (readUnsignedByte == 5) {
                     long readUnsignedInt = parsableByteArray.readUnsignedInt();
                     if (readUnsignedInt != 1094921523) {
@@ -456,6 +490,8 @@ public final class TsExtractor implements Extractor {
                                     arrayList.add(new TsPayloadReader.DvbSubtitleInfo(trim, readUnsignedByte2, bArr));
                                 }
                                 i3 = 89;
+                            } else if (readUnsignedByte == 111) {
+                                i3 = 257;
                             }
                         }
                         i3 = 135;
@@ -465,7 +501,7 @@ public final class TsExtractor implements Extractor {
                 parsableByteArray.skipBytes(position2 - parsableByteArray.getPosition());
             }
             parsableByteArray.setPosition(i2);
-            return new TsPayloadReader.EsInfo(i3, str, arrayList, Arrays.copyOfRange(parsableByteArray.data, position, i2));
+            return new TsPayloadReader.EsInfo(i3, str, arrayList, Arrays.copyOfRange(parsableByteArray.getData(), position, i2));
         }
     }
 }

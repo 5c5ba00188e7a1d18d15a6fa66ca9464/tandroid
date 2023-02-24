@@ -1,8 +1,8 @@
 package com.google.android.exoplayer2.ext.opus;
 
-import com.google.android.exoplayer2.audio.AudioDecoderException;
+import com.google.android.exoplayer2.decoder.DecoderException;
 /* loaded from: classes.dex */
-public final class OpusDecoderException extends AudioDecoderException {
+public final class OpusDecoderException extends DecoderException {
     /* JADX INFO: Access modifiers changed from: package-private */
     public OpusDecoderException(String str) {
         super(str);

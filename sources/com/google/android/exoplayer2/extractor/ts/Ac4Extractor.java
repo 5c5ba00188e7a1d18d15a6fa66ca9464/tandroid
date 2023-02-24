@@ -19,25 +19,34 @@ public final class Ac4Extractor implements Extractor {
     public void release() {
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x0039, code lost:
+    static {
+        Ac4Extractor$$ExternalSyntheticLambda0 ac4Extractor$$ExternalSyntheticLambda0 = Ac4Extractor$$ExternalSyntheticLambda0.INSTANCE;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Extractor[] lambda$static$0() {
+        return new Extractor[]{new Ac4Extractor()};
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x003d, code lost:
         r9.resetPeekPosition();
         r4 = r4 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0042, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0046, code lost:
         if ((r4 - r3) < 8192) goto L15;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0044, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0048, code lost:
         return false;
      */
     @Override // com.google.android.exoplayer2.extractor.Extractor
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public boolean sniff(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    public boolean sniff(ExtractorInput extractorInput) throws IOException {
         ParsableByteArray parsableByteArray = new ParsableByteArray(10);
         int i = 0;
         while (true) {
-            extractorInput.peekFully(parsableByteArray.data, 0, 10);
+            extractorInput.peekFully(parsableByteArray.getData(), 0, 10);
             parsableByteArray.setPosition(0);
             if (parsableByteArray.readUnsignedInt24() != 4801587) {
                 break;
@@ -53,7 +62,7 @@ public final class Ac4Extractor implements Extractor {
         while (true) {
             int i3 = 0;
             while (true) {
-                extractorInput.peekFully(parsableByteArray.data, 0, 7);
+                extractorInput.peekFully(parsableByteArray.getData(), 0, 7);
                 parsableByteArray.setPosition(0);
                 int readUnsignedShort = parsableByteArray.readUnsignedShort();
                 if (readUnsignedShort != 44096 && readUnsignedShort != 44097) {
@@ -63,7 +72,7 @@ public final class Ac4Extractor implements Extractor {
                 if (i3 >= 4) {
                     return true;
                 }
-                int parseAc4SyncframeSize = Ac4Util.parseAc4SyncframeSize(parsableByteArray.data, readUnsignedShort);
+                int parseAc4SyncframeSize = Ac4Util.parseAc4SyncframeSize(parsableByteArray.getData(), readUnsignedShort);
                 if (parseAc4SyncframeSize == -1) {
                     return false;
                 }
@@ -87,8 +96,8 @@ public final class Ac4Extractor implements Extractor {
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException, InterruptedException {
-        int read = extractorInput.read(this.sampleData.data, 0, 16384);
+    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
+        int read = extractorInput.read(this.sampleData.getData(), 0, 16384);
         if (read == -1) {
             return -1;
         }

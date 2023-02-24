@@ -1,25 +1,23 @@
 package com.google.android.exoplayer2.metadata.icy;
 
 import com.google.android.exoplayer2.metadata.Metadata;
-import com.google.android.exoplayer2.metadata.MetadataDecoder;
 import com.google.android.exoplayer2.metadata.MetadataInputBuffer;
-import com.google.android.exoplayer2.util.Assertions;
-import com.google.android.exoplayer2.util.Util;
+import com.google.android.exoplayer2.metadata.SimpleMetadataDecoder;
+import com.google.common.base.Ascii;
+import com.google.common.base.Charsets;
 import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
-import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 /* loaded from: classes.dex */
-public final class IcyDecoder implements MetadataDecoder {
+public final class IcyDecoder extends SimpleMetadataDecoder {
     private static final Pattern METADATA_ELEMENT = Pattern.compile("(.+?)='(.*?)';", 32);
-    private final CharsetDecoder utf8Decoder = Charset.forName("UTF-8").newDecoder();
-    private final CharsetDecoder iso88591Decoder = Charset.forName("ISO-8859-1").newDecoder();
+    private final CharsetDecoder utf8Decoder = Charsets.UTF_8.newDecoder();
+    private final CharsetDecoder iso88591Decoder = Charsets.ISO_8859_1.newDecoder();
 
-    @Override // com.google.android.exoplayer2.metadata.MetadataDecoder
-    public Metadata decode(MetadataInputBuffer metadataInputBuffer) {
-        ByteBuffer byteBuffer = (ByteBuffer) Assertions.checkNotNull(metadataInputBuffer.data);
+    @Override // com.google.android.exoplayer2.metadata.SimpleMetadataDecoder
+    protected Metadata decode(MetadataInputBuffer metadataInputBuffer, ByteBuffer byteBuffer) {
         String decodeToString = decodeToString(byteBuffer);
         byte[] bArr = new byte[byteBuffer.limit()];
         byteBuffer.get(bArr);
@@ -30,13 +28,16 @@ public final class IcyDecoder implements MetadataDecoder {
         Matcher matcher = METADATA_ELEMENT.matcher(decodeToString);
         String str2 = null;
         for (int i = 0; matcher.find(i); i = matcher.end()) {
-            String lowerInvariant = Util.toLowerInvariant(matcher.group(1));
-            String group = matcher.group(2);
-            lowerInvariant.hashCode();
-            if (lowerInvariant.equals("streamurl")) {
-                str2 = group;
-            } else if (lowerInvariant.equals("streamtitle")) {
-                str = group;
+            String group = matcher.group(1);
+            String group2 = matcher.group(2);
+            if (group != null) {
+                String lowerCase = Ascii.toLowerCase(group);
+                lowerCase.hashCode();
+                if (lowerCase.equals("streamurl")) {
+                    str2 = group2;
+                } else if (lowerCase.equals("streamtitle")) {
+                    str = group2;
+                }
             }
         }
         return new Metadata(new IcyInfo(bArr, str, str2));

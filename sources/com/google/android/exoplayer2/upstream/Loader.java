@@ -15,6 +15,7 @@ import java.util.concurrent.ExecutorService;
 public final class Loader implements LoaderErrorThrower {
     public static final LoadErrorAction DONT_RETRY;
     public static final LoadErrorAction DONT_RETRY_FATAL;
+    public static final LoadErrorAction RETRY = createRetryAction(false, -9223372036854775807L);
     private LoadTask<? extends Loadable> currentTask;
     private final ExecutorService downloadExecutorService;
     private IOException fatalError;
@@ -32,7 +33,7 @@ public final class Loader implements LoaderErrorThrower {
     public interface Loadable {
         void cancelLoad();
 
-        void load() throws IOException, InterruptedException;
+        void load() throws IOException;
     }
 
     /* loaded from: classes.dex */
@@ -48,7 +49,6 @@ public final class Loader implements LoaderErrorThrower {
     }
 
     static {
-        createRetryAction(false, -9223372036854775807L);
         createRetryAction(true, -9223372036854775807L);
         DONT_RETRY = new LoadErrorAction(2, -9223372036854775807L);
         DONT_RETRY_FATAL = new LoadErrorAction(3, -9223372036854775807L);
@@ -71,7 +71,7 @@ public final class Loader implements LoaderErrorThrower {
     }
 
     public Loader(String str) {
-        this.downloadExecutorService = Util.newSingleThreadExecutor(str);
+        this.downloadExecutorService = Util.newSingleThreadExecutor("ExoPlayer:Loader:" + str);
     }
 
     public static LoadErrorAction createRetryAction(boolean z, long j) {
@@ -233,28 +233,22 @@ public final class Loader implements LoaderErrorThrower {
                 }
                 obtainMessage(2, e).sendToTarget();
             } catch (Error e2) {
-                Log.e("LoadTask", "Unexpected error loading stream", e2);
                 if (!this.released) {
+                    Log.e("LoadTask", "Unexpected error loading stream", e2);
                     obtainMessage(3, e2).sendToTarget();
                 }
                 throw e2;
-            } catch (InterruptedException unused) {
-                Assertions.checkState(this.canceled);
-                if (this.released) {
-                    return;
-                }
-                sendEmptyMessage(1);
             } catch (Exception e3) {
-                Log.e("LoadTask", "Unexpected exception loading stream", e3);
                 if (this.released) {
                     return;
                 }
+                Log.e("LoadTask", "Unexpected exception loading stream", e3);
                 obtainMessage(2, new UnexpectedLoaderException(e3)).sendToTarget();
             } catch (OutOfMemoryError e4) {
-                Log.e("LoadTask", "OutOfMemory error loading stream", e4);
                 if (this.released) {
                     return;
                 }
+                Log.e("LoadTask", "OutOfMemory error loading stream", e4);
                 obtainMessage(2, new UnexpectedLoaderException(e4)).sendToTarget();
             }
         }

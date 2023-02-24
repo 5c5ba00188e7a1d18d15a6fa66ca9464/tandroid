@@ -128,6 +128,9 @@ public class CodeFieldContainer extends LinearLayout {
                             return false;
                         }
                         int keyCode = keyEvent.getKeyCode();
+                        if (i6 >= CodeFieldContainer.this.codeField.length) {
+                            return false;
+                        }
                         if (keyEvent.getAction() == 1) {
                             if (keyCode == 67 && CodeFieldContainer.this.codeField[i6].length() == 1) {
                                 CodeFieldContainer.this.codeField[i6].startExitAnimation();
@@ -223,21 +226,26 @@ public class CodeFieldContainer extends LinearLayout {
                                         editable.replace(0, length, obj.substring(i9, i9 + 1));
                                     } else {
                                         i8++;
-                                        CodeFieldContainer.this.codeField[i6 + i9].setText(obj.substring(i9, i9 + 1));
+                                        int i10 = i6;
+                                        int i11 = i10 + i9;
+                                        CodeNumberField[] codeNumberFieldArr2 = CodeFieldContainer.this.codeField;
+                                        if (i11 < codeNumberFieldArr2.length) {
+                                            codeNumberFieldArr2[i10 + i9].setText(obj.substring(i9, i9 + 1));
+                                        }
                                     }
                                 }
                                 CodeFieldContainer.this.ignoreOnTextChange = false;
                             }
-                            int i10 = i8 + 1;
-                            if (i10 >= 0) {
-                                CodeNumberField[] codeNumberFieldArr2 = CodeFieldContainer.this.codeField;
-                                if (i10 < codeNumberFieldArr2.length) {
-                                    codeNumberFieldArr2[i10].setSelection(codeNumberFieldArr2[i10].length());
-                                    CodeFieldContainer.this.codeField[i10].requestFocus();
+                            int i12 = i8 + 1;
+                            if (i12 >= 0) {
+                                CodeNumberField[] codeNumberFieldArr3 = CodeFieldContainer.this.codeField;
+                                if (i12 < codeNumberFieldArr3.length) {
+                                    codeNumberFieldArr3[i12].setSelection(codeNumberFieldArr3[i12].length());
+                                    CodeFieldContainer.this.codeField[i12].requestFocus();
                                 }
                             }
-                            int i11 = i;
-                            if ((i8 == i11 - 1 || (i8 == i11 - 2 && length >= 2)) && CodeFieldContainer.this.getCode().length() == i) {
+                            int i13 = i;
+                            if ((i8 == i13 - 1 || (i8 == i13 - 2 && length >= 2)) && CodeFieldContainer.this.getCode().length() == i) {
                                 CodeFieldContainer.this.processNextPressed();
                             }
                         }

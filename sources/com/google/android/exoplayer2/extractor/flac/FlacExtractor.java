@@ -6,12 +6,12 @@ import com.google.android.exoplayer2.extractor.ExtractorOutput;
 import com.google.android.exoplayer2.extractor.FlacFrameReader;
 import com.google.android.exoplayer2.extractor.FlacMetadataReader;
 import com.google.android.exoplayer2.extractor.FlacSeekTableSeekMap;
+import com.google.android.exoplayer2.extractor.FlacStreamMetadata;
 import com.google.android.exoplayer2.extractor.PositionHolder;
 import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.util.Assertions;
-import com.google.android.exoplayer2.util.FlacStreamMetadata;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
@@ -36,6 +36,15 @@ public final class FlacExtractor implements Extractor {
     public void release() {
     }
 
+    static {
+        FlacExtractor$$ExternalSyntheticLambda0 flacExtractor$$ExternalSyntheticLambda0 = FlacExtractor$$ExternalSyntheticLambda0.INSTANCE;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Extractor[] lambda$static$0() {
+        return new Extractor[]{new FlacExtractor()};
+    }
+
     public FlacExtractor() {
         this(0);
     }
@@ -49,7 +58,7 @@ public final class FlacExtractor implements Extractor {
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public boolean sniff(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    public boolean sniff(ExtractorInput extractorInput) throws IOException {
         FlacMetadataReader.peekId3Metadata(extractorInput, false);
         return FlacMetadataReader.checkAndPeekStreamMarker(extractorInput);
     }
@@ -62,7 +71,7 @@ public final class FlacExtractor implements Extractor {
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException, InterruptedException {
+    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
         int i = this.state;
         if (i == 0) {
             readId3Metadata(extractorInput);
@@ -98,27 +107,27 @@ public final class FlacExtractor implements Extractor {
         }
         this.currentFrameFirstSampleNumber = j2 != 0 ? -1L : 0L;
         this.currentFrameBytesWritten = 0;
-        this.buffer.reset();
+        this.buffer.reset(0);
     }
 
-    private void readId3Metadata(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    private void readId3Metadata(ExtractorInput extractorInput) throws IOException {
         this.id3Metadata = FlacMetadataReader.readId3Metadata(extractorInput, !this.id3MetadataDisabled);
         this.state = 1;
     }
 
-    private void getStreamMarkerAndInfoBlockBytes(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    private void getStreamMarkerAndInfoBlockBytes(ExtractorInput extractorInput) throws IOException {
         byte[] bArr = this.streamMarkerAndInfoBlock;
         extractorInput.peekFully(bArr, 0, bArr.length);
         extractorInput.resetPeekPosition();
         this.state = 2;
     }
 
-    private void readStreamMarker(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    private void readStreamMarker(ExtractorInput extractorInput) throws IOException {
         FlacMetadataReader.readStreamMarker(extractorInput);
         this.state = 3;
     }
 
-    private void readMetadataBlocks(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    private void readMetadataBlocks(ExtractorInput extractorInput) throws IOException {
         FlacMetadataReader.FlacStreamMetadataHolder flacStreamMetadataHolder = new FlacMetadataReader.FlacStreamMetadataHolder(this.flacStreamMetadata);
         boolean z = false;
         while (!z) {
@@ -131,13 +140,13 @@ public final class FlacExtractor implements Extractor {
         this.state = 4;
     }
 
-    private void getFrameStartMarker(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    private void getFrameStartMarker(ExtractorInput extractorInput) throws IOException {
         this.frameStartMarker = FlacMetadataReader.getFrameStartMarker(extractorInput);
         ((ExtractorOutput) Util.castNonNull(this.extractorOutput)).seekMap(getSeekMap(extractorInput.getPosition(), extractorInput.getLength()));
         this.state = 5;
     }
 
-    private int readFrames(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException, InterruptedException {
+    private int readFrames(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
         boolean z;
         Assertions.checkNotNull(this.trackOutput);
         Assertions.checkNotNull(this.flacStreamMetadata);
@@ -151,7 +160,7 @@ public final class FlacExtractor implements Extractor {
         }
         int limit = this.buffer.limit();
         if (limit < 32768) {
-            int read = extractorInput.read(this.buffer.data, limit, 32768 - limit);
+            int read = extractorInput.read(this.buffer.getData(), limit, 32768 - limit);
             z = read == -1;
             if (!z) {
                 this.buffer.setLimit(limit + read);
@@ -180,13 +189,10 @@ public final class FlacExtractor implements Extractor {
             this.currentFrameFirstSampleNumber = findFrame;
         }
         if (this.buffer.bytesLeft() < 16) {
-            ParsableByteArray parsableByteArray2 = this.buffer;
-            byte[] bArr = parsableByteArray2.data;
-            int position3 = parsableByteArray2.getPosition();
-            ParsableByteArray parsableByteArray3 = this.buffer;
-            System.arraycopy(bArr, position3, parsableByteArray3.data, 0, parsableByteArray3.bytesLeft());
-            ParsableByteArray parsableByteArray4 = this.buffer;
-            parsableByteArray4.reset(parsableByteArray4.bytesLeft());
+            int bytesLeft = this.buffer.bytesLeft();
+            System.arraycopy(this.buffer.getData(), this.buffer.getPosition(), this.buffer.getData(), 0, bytesLeft);
+            this.buffer.setPosition(0);
+            this.buffer.setLimit(bytesLeft);
         }
         return 0;
     }

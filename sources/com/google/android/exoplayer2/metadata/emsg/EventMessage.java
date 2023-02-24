@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.metadata.emsg;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.exoplayer2.Format;
+import com.google.android.exoplayer2.MediaMetadata;
 import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
@@ -14,8 +15,8 @@ public final class EventMessage implements Metadata.Entry {
     public final byte[] messageData;
     public final String schemeIdUri;
     public final String value;
-    private static final Format ID3_FORMAT = Format.createSampleFormat(null, "application/id3", Long.MAX_VALUE);
-    private static final Format SCTE35_FORMAT = Format.createSampleFormat(null, "application/x-scte35", Long.MAX_VALUE);
+    private static final Format ID3_FORMAT = new Format.Builder().setSampleMimeType("application/id3").build();
+    private static final Format SCTE35_FORMAT = new Format.Builder().setSampleMimeType("application/x-scte35").build();
     public static final Parcelable.Creator<EventMessage> CREATOR = new Parcelable.Creator<EventMessage>() { // from class: com.google.android.exoplayer2.metadata.emsg.EventMessage.1
         @Override // android.os.Parcelable.Creator
         public EventMessage createFromParcel(Parcel parcel) {
@@ -31,6 +32,11 @@ public final class EventMessage implements Metadata.Entry {
     @Override // android.os.Parcelable
     public int describeContents() {
         return 0;
+    }
+
+    @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
+    public /* synthetic */ void populateMediaMetadata(MediaMetadata.Builder builder) {
+        Metadata.Entry.-CC.$default$populateMediaMetadata(this, builder);
     }
 
     public EventMessage(String str, String str2, long j, long j2, byte[] bArr) {

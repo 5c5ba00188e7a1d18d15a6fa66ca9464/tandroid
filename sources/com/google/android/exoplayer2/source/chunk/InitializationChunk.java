@@ -2,29 +2,25 @@ package com.google.android.exoplayer2.source.chunk;
 
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.extractor.DefaultExtractorInput;
-import com.google.android.exoplayer2.extractor.Extractor;
-import com.google.android.exoplayer2.extractor.PositionHolder;
-import com.google.android.exoplayer2.source.chunk.ChunkExtractorWrapper;
+import com.google.android.exoplayer2.source.chunk.ChunkExtractor;
 import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DataSourceUtil;
 import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.upstream.StatsDataSource;
-import com.google.android.exoplayer2.util.Assertions;
-import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 /* loaded from: classes.dex */
 public final class InitializationChunk extends Chunk {
-    private static final PositionHolder DUMMY_POSITION_HOLDER = new PositionHolder();
-    private final ChunkExtractorWrapper extractorWrapper;
+    private final ChunkExtractor chunkExtractor;
     private volatile boolean loadCanceled;
     private long nextLoadPosition;
-    private ChunkExtractorWrapper.TrackOutputProvider trackOutputProvider;
+    private ChunkExtractor.TrackOutputProvider trackOutputProvider;
 
-    public InitializationChunk(DataSource dataSource, DataSpec dataSpec, Format format, int i, Object obj, ChunkExtractorWrapper chunkExtractorWrapper) {
+    public InitializationChunk(DataSource dataSource, DataSpec dataSpec, Format format, int i, Object obj, ChunkExtractor chunkExtractor) {
         super(dataSource, dataSpec, 2, format, i, obj, -9223372036854775807L, -9223372036854775807L);
-        this.extractorWrapper = chunkExtractorWrapper;
+        this.chunkExtractor = chunkExtractor;
     }
 
-    public void init(ChunkExtractorWrapper.TrackOutputProvider trackOutputProvider) {
+    public void init(ChunkExtractor.TrackOutputProvider trackOutputProvider) {
         this.trackOutputProvider = trackOutputProvider;
     }
 
@@ -34,23 +30,19 @@ public final class InitializationChunk extends Chunk {
     }
 
     @Override // com.google.android.exoplayer2.upstream.Loader.Loadable
-    public void load() throws IOException, InterruptedException {
+    public void load() throws IOException {
         if (this.nextLoadPosition == 0) {
-            this.extractorWrapper.init(this.trackOutputProvider, -9223372036854775807L, -9223372036854775807L);
+            this.chunkExtractor.init(this.trackOutputProvider, -9223372036854775807L, -9223372036854775807L);
         }
         try {
             DataSpec subrange = this.dataSpec.subrange(this.nextLoadPosition);
             StatsDataSource statsDataSource = this.dataSource;
-            DefaultExtractorInput defaultExtractorInput = new DefaultExtractorInput(statsDataSource, subrange.absoluteStreamPosition, statsDataSource.open(subrange));
-            Extractor extractor = this.extractorWrapper.extractor;
-            int i = 0;
-            while (i == 0 && !this.loadCanceled) {
-                i = extractor.read(defaultExtractorInput, DUMMY_POSITION_HOLDER);
+            DefaultExtractorInput defaultExtractorInput = new DefaultExtractorInput(statsDataSource, subrange.position, statsDataSource.open(subrange));
+            while (!this.loadCanceled && this.chunkExtractor.read(defaultExtractorInput)) {
             }
-            Assertions.checkState(i != 1);
-            this.nextLoadPosition = defaultExtractorInput.getPosition() - this.dataSpec.absoluteStreamPosition;
+            this.nextLoadPosition = defaultExtractorInput.getPosition() - this.dataSpec.position;
         } finally {
-            Util.closeQuietly(this.dataSource);
+            DataSourceUtil.closeQuietly(this.dataSource);
         }
     }
 }

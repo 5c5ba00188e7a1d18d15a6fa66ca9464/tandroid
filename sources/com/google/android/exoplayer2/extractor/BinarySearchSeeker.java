@@ -38,7 +38,7 @@ public abstract class BinarySearchSeeker {
 
         void onSeekFinished();
 
-        TimestampSearchResult searchForTimestamp(ExtractorInput extractorInput, long j) throws IOException, InterruptedException;
+        TimestampSearchResult searchForTimestamp(ExtractorInput extractorInput, long j) throws IOException;
     }
 
     protected void onSeekOperationFinished(boolean z, long j) {
@@ -66,10 +66,9 @@ public abstract class BinarySearchSeeker {
         return this.seekOperationParams != null;
     }
 
-    public int handlePendingSeek(ExtractorInput extractorInput, PositionHolder positionHolder) throws InterruptedException, IOException {
-        TimestampSeeker timestampSeeker = (TimestampSeeker) Assertions.checkNotNull(this.timestampSeeker);
+    public int handlePendingSeek(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
         while (true) {
-            SeekOperationParams seekOperationParams = (SeekOperationParams) Assertions.checkNotNull(this.seekOperationParams);
+            SeekOperationParams seekOperationParams = (SeekOperationParams) Assertions.checkStateNotNull(this.seekOperationParams);
             long floorBytePosition = seekOperationParams.getFloorBytePosition();
             long ceilingBytePosition = seekOperationParams.getCeilingBytePosition();
             long nextSearchBytePosition = seekOperationParams.getNextSearchBytePosition();
@@ -80,7 +79,7 @@ public abstract class BinarySearchSeeker {
                 return seekToPosition(extractorInput, nextSearchBytePosition, positionHolder);
             } else {
                 extractorInput.resetPeekPosition();
-                TimestampSearchResult searchForTimestamp = timestampSeeker.searchForTimestamp(extractorInput, seekOperationParams.getTargetTimePosition());
+                TimestampSearchResult searchForTimestamp = this.timestampSeeker.searchForTimestamp(extractorInput, seekOperationParams.getTargetTimePosition());
                 int i = searchForTimestamp.type;
                 if (i == -3) {
                     markSeekOperationFinished(false, nextSearchBytePosition);
@@ -88,12 +87,12 @@ public abstract class BinarySearchSeeker {
                 } else if (i == -2) {
                     seekOperationParams.updateSeekFloor(searchForTimestamp.timestampToUpdate, searchForTimestamp.bytePositionToUpdate);
                 } else if (i != -1) {
-                    if (i == 0) {
-                        markSeekOperationFinished(true, searchForTimestamp.bytePositionToUpdate);
-                        skipInputUntilPosition(extractorInput, searchForTimestamp.bytePositionToUpdate);
-                        return seekToPosition(extractorInput, searchForTimestamp.bytePositionToUpdate, positionHolder);
+                    if (i != 0) {
+                        throw new IllegalStateException("Invalid case");
                     }
-                    throw new IllegalStateException("Invalid case");
+                    skipInputUntilPosition(extractorInput, searchForTimestamp.bytePositionToUpdate);
+                    markSeekOperationFinished(true, searchForTimestamp.bytePositionToUpdate);
+                    return seekToPosition(extractorInput, searchForTimestamp.bytePositionToUpdate, positionHolder);
                 } else {
                     seekOperationParams.updateSeekCeiling(searchForTimestamp.timestampToUpdate, searchForTimestamp.bytePositionToUpdate);
                 }
@@ -111,7 +110,7 @@ public abstract class BinarySearchSeeker {
         onSeekOperationFinished(z, j);
     }
 
-    protected final boolean skipInputUntilPosition(ExtractorInput extractorInput, long j) throws IOException, InterruptedException {
+    protected final boolean skipInputUntilPosition(ExtractorInput extractorInput, long j) throws IOException {
         long position = j - extractorInput.getPosition();
         if (position < 0 || position > MAX_SKIP_BYTES) {
             return false;

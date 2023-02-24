@@ -8,16 +8,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.internal.Preconditions;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import javax.annotation.concurrent.GuardedBy;
 import org.json.JSONException;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public class Storage {
     private static final Lock zaa = new ReentrantLock();
-    @GuardedBy("sLk")
     private static Storage zab;
     private final Lock zac = new ReentrantLock();
-    @GuardedBy("mLk")
     private final SharedPreferences zad;
 
     Storage(Context context) {

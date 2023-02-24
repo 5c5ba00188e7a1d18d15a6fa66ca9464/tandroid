@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.metadata.icy;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.exoplayer2.Format;
+import com.google.android.exoplayer2.MediaMetadata;
 import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.util.Assertions;
 import java.util.Arrays;
@@ -48,6 +49,14 @@ public final class IcyInfo implements Metadata.Entry {
         this.rawMetadata = (byte[]) Assertions.checkNotNull(parcel.createByteArray());
         this.title = parcel.readString();
         this.url = parcel.readString();
+    }
+
+    @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
+    public void populateMediaMetadata(MediaMetadata.Builder builder) {
+        String str = this.title;
+        if (str != null) {
+            builder.setTitle(str);
+        }
     }
 
     public boolean equals(Object obj) {

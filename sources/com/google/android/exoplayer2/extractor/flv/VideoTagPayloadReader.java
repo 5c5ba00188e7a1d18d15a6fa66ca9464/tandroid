@@ -41,23 +41,23 @@ final class VideoTagPayloadReader extends TagPayloadReader {
         long readInt24 = j + (parsableByteArray.readInt24() * 1000);
         if (readUnsignedByte == 0 && !this.hasOutputFormat) {
             ParsableByteArray parsableByteArray2 = new ParsableByteArray(new byte[parsableByteArray.bytesLeft()]);
-            parsableByteArray.readBytes(parsableByteArray2.data, 0, parsableByteArray.bytesLeft());
+            parsableByteArray.readBytes(parsableByteArray2.getData(), 0, parsableByteArray.bytesLeft());
             AvcConfig parse = AvcConfig.parse(parsableByteArray2);
             this.nalUnitLengthFieldLength = parse.nalUnitLengthFieldLength;
-            this.output.format(Format.createVideoSampleFormat(null, MediaController.VIDEO_MIME_TYPE, null, -1, -1, parse.width, parse.height, -1.0f, parse.initializationData, -1, parse.pixelWidthAspectRatio, null));
+            this.output.format(new Format.Builder().setSampleMimeType(MediaController.VIDEO_MIME_TYPE).setCodecs(parse.codecs).setWidth(parse.width).setHeight(parse.height).setPixelWidthHeightRatio(parse.pixelWidthHeightRatio).setInitializationData(parse.initializationData).build());
             this.hasOutputFormat = true;
             return false;
         } else if (readUnsignedByte == 1 && this.hasOutputFormat) {
             int i = this.frameType == 1 ? 1 : 0;
             if (this.hasOutputKeyframe || i != 0) {
-                byte[] bArr = this.nalLength.data;
-                bArr[0] = 0;
-                bArr[1] = 0;
-                bArr[2] = 0;
+                byte[] data = this.nalLength.getData();
+                data[0] = 0;
+                data[1] = 0;
+                data[2] = 0;
                 int i2 = 4 - this.nalUnitLengthFieldLength;
                 int i3 = 0;
                 while (parsableByteArray.bytesLeft() > 0) {
-                    parsableByteArray.readBytes(this.nalLength.data, i2, this.nalUnitLengthFieldLength);
+                    parsableByteArray.readBytes(this.nalLength.getData(), i2, this.nalUnitLengthFieldLength);
                     this.nalLength.setPosition(0);
                     int readUnsignedIntToInt = this.nalLength.readUnsignedIntToInt();
                     this.nalStartCode.setPosition(0);

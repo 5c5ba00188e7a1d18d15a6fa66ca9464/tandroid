@@ -3,10 +3,10 @@ package com.google.android.exoplayer2.source.chunk;
 import com.google.android.exoplayer2.extractor.DummyTrackOutput;
 import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.source.SampleQueue;
-import com.google.android.exoplayer2.source.chunk.ChunkExtractorWrapper;
+import com.google.android.exoplayer2.source.chunk.ChunkExtractor;
 import com.google.android.exoplayer2.util.Log;
 /* loaded from: classes.dex */
-public final class BaseMediaChunkOutput implements ChunkExtractorWrapper.TrackOutputProvider {
+public final class BaseMediaChunkOutput implements ChunkExtractor.TrackOutputProvider {
     private final SampleQueue[] sampleQueues;
     private final int[] trackTypes;
 
@@ -15,7 +15,7 @@ public final class BaseMediaChunkOutput implements ChunkExtractorWrapper.TrackOu
         this.sampleQueues = sampleQueueArr;
     }
 
-    @Override // com.google.android.exoplayer2.source.chunk.ChunkExtractorWrapper.TrackOutputProvider
+    @Override // com.google.android.exoplayer2.source.chunk.ChunkExtractor.TrackOutputProvider
     public TrackOutput track(int i, int i2) {
         int i3 = 0;
         while (true) {
@@ -40,19 +40,14 @@ public final class BaseMediaChunkOutput implements ChunkExtractorWrapper.TrackOu
             if (i >= sampleQueueArr.length) {
                 return iArr;
             }
-            if (sampleQueueArr[i] != null) {
-                iArr[i] = sampleQueueArr[i].getWriteIndex();
-            }
+            iArr[i] = sampleQueueArr[i].getWriteIndex();
             i++;
         }
     }
 
     public void setSampleOffsetUs(long j) {
-        SampleQueue[] sampleQueueArr;
         for (SampleQueue sampleQueue : this.sampleQueues) {
-            if (sampleQueue != null) {
-                sampleQueue.setSampleOffsetUs(j);
-            }
+            sampleQueue.setSampleOffsetUs(j);
         }
     }
 }

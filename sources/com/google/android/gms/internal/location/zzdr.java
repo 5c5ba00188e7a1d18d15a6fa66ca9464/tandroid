@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.location;
 
 import java.util.List;
-import javax.annotation.CheckForNull;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
@@ -52,7 +51,6 @@ public final class zzdr extends zzds {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.location.zzdp
-    @CheckForNull
     public final Object[] zzg() {
         return this.zzc.zzg();
     }

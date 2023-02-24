@@ -193,13 +193,13 @@ public class ViewPagerFixed extends FrameLayout {
                 viewPagerFixed.nextPosition = i2;
                 viewPagerFixed.updateViewForIndex(1);
                 ViewPagerFixed.this.onTabPageSelected(i2);
+                View[] viewArr = ViewPagerFixed.this.viewPages;
+                int measuredWidth = viewArr[0] != null ? viewArr[0].getMeasuredWidth() : 0;
                 if (z2) {
-                    View[] viewArr = ViewPagerFixed.this.viewPages;
-                    viewArr[1].setTranslationX(viewArr[0].getMeasuredWidth());
-                    return;
+                    ViewPagerFixed.this.viewPages[1].setTranslationX(measuredWidth);
+                } else {
+                    ViewPagerFixed.this.viewPages[1].setTranslationX(-measuredWidth);
                 }
-                View[] viewArr2 = ViewPagerFixed.this.viewPages;
-                viewArr2[1].setTranslationX(-viewArr2[0].getMeasuredWidth());
             }
 
             @Override // org.telegram.ui.Components.ViewPagerFixed.TabsView.TabsViewDelegate

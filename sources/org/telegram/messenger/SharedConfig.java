@@ -99,7 +99,6 @@ public class SharedConfig {
     public static boolean pauseMusicOnRecord = false;
     public static TLRPC$TL_help_appUpdate pendingAppUpdate = null;
     public static int pendingAppUpdateBuildVersion = 0;
-    public static boolean playEmojiInKeyboard = false;
     public static boolean playOrderReversed = false;
     public static ArrayList<ProxyInfo> proxyList = null;
     private static boolean proxyListLoaded = false;
@@ -328,14 +327,12 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x017e A[Catch: Exception -> 0x01a0, all -> 0x03fe, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:87:0x012f, outer: #4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0182 A[Catch: Exception -> 0x01a0, all -> 0x03fe, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:87:0x012f, outer: #4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0211  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0214  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0224  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0226  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x02b8  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x02ba  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x017e A[Catch: Exception -> 0x01a0, all -> 0x03ee, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:83:0x012f, outer: #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0182 A[Catch: Exception -> 0x01a0, all -> 0x03ee, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:83:0x012f, outer: #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0212  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0215  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0225  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0227  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -447,7 +444,6 @@ public class SharedConfig {
                             suggestAnimatedEmoji = sharedPreferences2.getBoolean("suggestAnimatedEmoji", true);
                             overrideDevicePerformanceClass = sharedPreferences2.getInt("overrideDevicePerformanceClass", -1);
                             devicePerformanceClass = sharedPreferences2.getInt("devicePerformanceClass", -1);
-                            playEmojiInKeyboard = sharedPreferences2.getBoolean("playEmojiInKeyboard", getDevicePerformanceClass() < 2);
                             sortContactsByName = sharedPreferences2.getBoolean("sortContactsByName", false);
                             sortFilesByName = sharedPreferences2.getBoolean("sortFilesByName", false);
                             noSoundHintShowed = sharedPreferences2.getBoolean("noSoundHintShowed", false);
@@ -532,7 +528,6 @@ public class SharedConfig {
                 suggestAnimatedEmoji = sharedPreferences22.getBoolean("suggestAnimatedEmoji", true);
                 overrideDevicePerformanceClass = sharedPreferences22.getInt("overrideDevicePerformanceClass", -1);
                 devicePerformanceClass = sharedPreferences22.getInt("devicePerformanceClass", -1);
-                playEmojiInKeyboard = sharedPreferences22.getBoolean("playEmojiInKeyboard", getDevicePerformanceClass() < 2);
                 sortContactsByName = sharedPreferences22.getBoolean("sortContactsByName", false);
                 sortFilesByName = sharedPreferences22.getBoolean("sortFilesByName", false);
                 noSoundHintShowed = sharedPreferences22.getBoolean("noSoundHintShowed", false);
@@ -947,13 +942,6 @@ public class SharedConfig {
         suggestAnimatedEmoji = !suggestAnimatedEmoji;
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putBoolean("suggestAnimatedEmoji", suggestAnimatedEmoji);
-        edit.commit();
-    }
-
-    public static void togglePlayEmojiInKeyboard() {
-        playEmojiInKeyboard = !playEmojiInKeyboard;
-        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
-        edit.putBoolean("playEmojiInKeyboard", playEmojiInKeyboard);
         edit.commit();
     }
 

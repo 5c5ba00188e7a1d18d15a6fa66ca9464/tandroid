@@ -1,7 +1,7 @@
 package org.webrtc;
 
 import org.telegram.messenger.MediaController;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 enum VideoCodecMimeType {
     VP8("video/x-vnd.on2.vp8"),
     VP9("video/x-vnd.on2.vp9"),

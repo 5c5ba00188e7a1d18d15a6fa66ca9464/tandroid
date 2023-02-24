@@ -9,35 +9,48 @@ import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.ExtractorOutput;
 import com.google.android.exoplayer2.extractor.PositionHolder;
 import com.google.android.exoplayer2.extractor.TrackOutput;
+import com.google.android.exoplayer2.upstream.DataReader;
 import com.google.android.exoplayer2.util.Assertions;
+import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
-import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 /* loaded from: classes.dex */
 public final class WavExtractor implements Extractor {
     private ExtractorOutput extractorOutput;
     private OutputWriter outputWriter;
     private TrackOutput trackOutput;
+    private int state = 0;
+    private long rf64SampleDataSize = -1;
     private int dataStartPosition = -1;
     private long dataEndPosition = -1;
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    private interface OutputWriter {
+    public interface OutputWriter {
         void init(int i, long j) throws ParserException;
 
         void reset(long j);
 
-        boolean sampleData(ExtractorInput extractorInput, long j) throws IOException, InterruptedException;
+        boolean sampleData(ExtractorInput extractorInput, long j) throws IOException;
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
     public void release() {
     }
 
+    static {
+        WavExtractor$$ExternalSyntheticLambda0 wavExtractor$$ExternalSyntheticLambda0 = WavExtractor$$ExternalSyntheticLambda0.INSTANCE;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Extractor[] lambda$static$0() {
+        return new Extractor[]{new WavExtractor()};
+    }
+
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public boolean sniff(ExtractorInput extractorInput) throws IOException, InterruptedException {
-        return WavHeaderReader.peek(extractorInput) != null;
+    public boolean sniff(ExtractorInput extractorInput) throws IOException {
+        return WavHeaderReader.checkFileType(extractorInput);
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
@@ -49,6 +62,7 @@ public final class WavExtractor implements Extractor {
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
     public void seek(long j, long j2) {
+        this.state = j == 0 ? 0 : 4;
         OutputWriter outputWriter = this.outputWriter;
         if (outputWriter != null) {
             outputWriter.reset(j2);
@@ -56,70 +70,119 @@ public final class WavExtractor implements Extractor {
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException, InterruptedException {
+    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
         assertInitialized();
-        if (this.outputWriter == null) {
-            WavHeader peek = WavHeaderReader.peek(extractorInput);
-            if (peek == null) {
-                throw new ParserException("Unsupported or unrecognized wav header.");
-            }
-            int i = peek.formatType;
-            if (i == 17) {
-                this.outputWriter = new ImaAdPcmOutputWriter(this.extractorOutput, this.trackOutput, peek);
-            } else if (i == 6) {
-                this.outputWriter = new PassthroughOutputWriter(this.extractorOutput, this.trackOutput, peek, "audio/g711-alaw", -1);
-            } else if (i == 7) {
-                this.outputWriter = new PassthroughOutputWriter(this.extractorOutput, this.trackOutput, peek, "audio/g711-mlaw", -1);
-            } else {
-                int pcmEncodingForType = WavUtil.getPcmEncodingForType(i, peek.bitsPerSample);
-                if (pcmEncodingForType == 0) {
-                    throw new ParserException("Unsupported WAV format type: " + peek.formatType);
-                }
-                this.outputWriter = new PassthroughOutputWriter(this.extractorOutput, this.trackOutput, peek, "audio/raw", pcmEncodingForType);
-            }
+        int i = this.state;
+        if (i == 0) {
+            readFileType(extractorInput);
+            return 0;
+        } else if (i == 1) {
+            readRf64SampleDataSize(extractorInput);
+            return 0;
+        } else if (i == 2) {
+            readFormat(extractorInput);
+            return 0;
+        } else if (i == 3) {
+            skipToSampleData(extractorInput);
+            return 0;
+        } else if (i == 4) {
+            return readSampleData(extractorInput);
+        } else {
+            throw new IllegalStateException();
         }
-        if (this.dataStartPosition == -1) {
-            Pair<Long, Long> skipToData = WavHeaderReader.skipToData(extractorInput);
-            this.dataStartPosition = ((Long) skipToData.first).intValue();
-            long longValue = ((Long) skipToData.second).longValue();
-            this.dataEndPosition = longValue;
-            this.outputWriter.init(this.dataStartPosition, longValue);
-        } else if (extractorInput.getPosition() == 0) {
-            extractorInput.skipFully(this.dataStartPosition);
-        }
-        Assertions.checkState(this.dataEndPosition != -1);
-        return this.outputWriter.sampleData(extractorInput, this.dataEndPosition - extractorInput.getPosition()) ? -1 : 0;
     }
 
-    @EnsuresNonNull({"extractorOutput", "trackOutput"})
     private void assertInitialized() {
         Assertions.checkStateNotNull(this.trackOutput);
         Util.castNonNull(this.extractorOutput);
     }
 
+    private void readFileType(ExtractorInput extractorInput) throws IOException {
+        Assertions.checkState(extractorInput.getPosition() == 0);
+        int i = this.dataStartPosition;
+        if (i != -1) {
+            extractorInput.skipFully(i);
+            this.state = 4;
+        } else if (!WavHeaderReader.checkFileType(extractorInput)) {
+            throw ParserException.createForMalformedContainer("Unsupported or unrecognized wav file type.", null);
+        } else {
+            extractorInput.skipFully((int) (extractorInput.getPeekPosition() - extractorInput.getPosition()));
+            this.state = 1;
+        }
+    }
+
+    private void readRf64SampleDataSize(ExtractorInput extractorInput) throws IOException {
+        this.rf64SampleDataSize = WavHeaderReader.readRf64SampleDataSize(extractorInput);
+        this.state = 2;
+    }
+
+    private void readFormat(ExtractorInput extractorInput) throws IOException {
+        WavFormat readFormat = WavHeaderReader.readFormat(extractorInput);
+        int i = readFormat.formatType;
+        if (i == 17) {
+            this.outputWriter = new ImaAdPcmOutputWriter(this.extractorOutput, this.trackOutput, readFormat);
+        } else if (i == 6) {
+            this.outputWriter = new PassthroughOutputWriter(this.extractorOutput, this.trackOutput, readFormat, "audio/g711-alaw", -1);
+        } else if (i == 7) {
+            this.outputWriter = new PassthroughOutputWriter(this.extractorOutput, this.trackOutput, readFormat, "audio/g711-mlaw", -1);
+        } else {
+            int pcmEncodingForType = WavUtil.getPcmEncodingForType(i, readFormat.bitsPerSample);
+            if (pcmEncodingForType == 0) {
+                throw ParserException.createForUnsupportedContainerFeature("Unsupported WAV format type: " + readFormat.formatType);
+            }
+            this.outputWriter = new PassthroughOutputWriter(this.extractorOutput, this.trackOutput, readFormat, "audio/raw", pcmEncodingForType);
+        }
+        this.state = 3;
+    }
+
+    private void skipToSampleData(ExtractorInput extractorInput) throws IOException {
+        Pair<Long, Long> skipToSampleData = WavHeaderReader.skipToSampleData(extractorInput);
+        this.dataStartPosition = ((Long) skipToSampleData.first).intValue();
+        long longValue = ((Long) skipToSampleData.second).longValue();
+        long j = this.rf64SampleDataSize;
+        if (j != -1 && longValue == 4294967295L) {
+            longValue = j;
+        }
+        this.dataEndPosition = this.dataStartPosition + longValue;
+        long length = extractorInput.getLength();
+        if (length != -1 && this.dataEndPosition > length) {
+            Log.w("WavExtractor", "Data exceeds input length: " + this.dataEndPosition + ", " + length);
+            this.dataEndPosition = length;
+        }
+        ((OutputWriter) Assertions.checkNotNull(this.outputWriter)).init(this.dataStartPosition, this.dataEndPosition);
+        this.state = 4;
+    }
+
+    private int readSampleData(ExtractorInput extractorInput) throws IOException {
+        Assertions.checkState(this.dataEndPosition != -1);
+        return ((OutputWriter) Assertions.checkNotNull(this.outputWriter)).sampleData(extractorInput, this.dataEndPosition - extractorInput.getPosition()) ? -1 : 0;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    private static final class PassthroughOutputWriter implements OutputWriter {
+    public static final class PassthroughOutputWriter implements OutputWriter {
         private final ExtractorOutput extractorOutput;
         private final Format format;
-        private final WavHeader header;
         private long outputFrameCount;
         private int pendingOutputBytes;
         private long startTimeUs;
         private final int targetSampleSizeBytes;
         private final TrackOutput trackOutput;
+        private final WavFormat wavFormat;
 
-        public PassthroughOutputWriter(ExtractorOutput extractorOutput, TrackOutput trackOutput, WavHeader wavHeader, String str, int i) throws ParserException {
+        public PassthroughOutputWriter(ExtractorOutput extractorOutput, TrackOutput trackOutput, WavFormat wavFormat, String str, int i) throws ParserException {
             this.extractorOutput = extractorOutput;
             this.trackOutput = trackOutput;
-            this.header = wavHeader;
-            int i2 = (wavHeader.numChannels * wavHeader.bitsPerSample) / 8;
-            if (wavHeader.blockSize != i2) {
-                throw new ParserException("Expected block size: " + i2 + "; got: " + wavHeader.blockSize);
+            this.wavFormat = wavFormat;
+            int i2 = (wavFormat.numChannels * wavFormat.bitsPerSample) / 8;
+            if (wavFormat.blockSize != i2) {
+                throw ParserException.createForMalformedContainer("Expected block size: " + i2 + "; got: " + wavFormat.blockSize, null);
             }
-            int max = Math.max(i2, (wavHeader.frameRateHz * i2) / 10);
+            int i3 = wavFormat.frameRateHz;
+            int i4 = i3 * i2 * 8;
+            int max = Math.max(i2, (i3 * i2) / 10);
             this.targetSampleSizeBytes = max;
-            int i3 = wavHeader.frameRateHz;
-            this.format = Format.createAudioSampleFormat(null, str, null, i2 * i3 * 8, max, wavHeader.numChannels, i3, i, null, null, 0, null);
+            this.format = new Format.Builder().setSampleMimeType(str).setAverageBitrate(i4).setPeakBitrate(i4).setMaxInputSize(max).setChannelCount(wavFormat.numChannels).setSampleRate(wavFormat.frameRateHz).setPcmEncoding(i).build();
         }
 
         @Override // com.google.android.exoplayer2.extractor.wav.WavExtractor.OutputWriter
@@ -131,19 +194,19 @@ public final class WavExtractor implements Extractor {
 
         @Override // com.google.android.exoplayer2.extractor.wav.WavExtractor.OutputWriter
         public void init(int i, long j) {
-            this.extractorOutput.seekMap(new WavSeekMap(this.header, 1, i, j));
+            this.extractorOutput.seekMap(new WavSeekMap(this.wavFormat, 1, i, j));
             this.trackOutput.format(this.format);
         }
 
         @Override // com.google.android.exoplayer2.extractor.wav.WavExtractor.OutputWriter
-        public boolean sampleData(ExtractorInput extractorInput, long j) throws IOException, InterruptedException {
-            WavHeader wavHeader;
+        public boolean sampleData(ExtractorInput extractorInput, long j) throws IOException {
+            WavFormat wavFormat;
             long j2;
             int i;
             int i2;
             long j3 = j;
             while (j3 > 0 && (i = this.pendingOutputBytes) < (i2 = this.targetSampleSizeBytes)) {
-                int sampleData = this.trackOutput.sampleData(extractorInput, (int) Math.min(i2 - i, j3), true);
+                int sampleData = this.trackOutput.sampleData((DataReader) extractorInput, (int) Math.min(i2 - i, j3), true);
                 if (sampleData == -1) {
                     j3 = 0;
                 } else {
@@ -151,10 +214,10 @@ public final class WavExtractor implements Extractor {
                     j3 -= sampleData;
                 }
             }
-            int i3 = this.header.blockSize;
+            int i3 = this.wavFormat.blockSize;
             int i4 = this.pendingOutputBytes / i3;
             if (i4 > 0) {
-                long scaleLargeTimestamp = this.startTimeUs + Util.scaleLargeTimestamp(this.outputFrameCount, 1000000L, wavHeader.frameRateHz);
+                long scaleLargeTimestamp = this.startTimeUs + Util.scaleLargeTimestamp(this.outputFrameCount, 1000000L, wavFormat.frameRateHz);
                 int i5 = i4 * i3;
                 int i6 = this.pendingOutputBytes - i5;
                 this.trackOutput.sampleMetadata(scaleLargeTimestamp, 1, i5, i6, null);
@@ -168,15 +231,15 @@ public final class WavExtractor implements Extractor {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    private static final class ImaAdPcmOutputWriter implements OutputWriter {
+    public static final class ImaAdPcmOutputWriter implements OutputWriter {
         private static final int[] INDEX_TABLE = {-1, -1, -1, -1, 2, 4, 6, 8, -1, -1, -1, -1, 2, 4, 6, 8};
         private static final int[] STEP_TABLE = {7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 19, 21, 23, 25, 28, 31, 34, 37, 41, 45, 50, 55, 60, 66, 73, 80, 88, 97, 107, 118, 130, 143, 157, 173, 190, 209, 230, 253, 279, 307, 337, 371, 408, 449, 494, 544, 598, 658, 724, 796, 876, 963, 1060, 1166, 1282, 1411, 1552, 1707, 1878, 2066, 2272, 2499, 2749, 3024, 3327, 3660, 4026, 4428, 4871, 5358, 5894, 6484, 7132, 7845, 8630, 9493, 10442, 11487, 12635, 13899, 15289, 16818, 18500, 20350, 22385, 24623, 27086, 29794, 32767};
         private final ParsableByteArray decodedData;
         private final ExtractorOutput extractorOutput;
         private final Format format;
         private final int framesPerBlock;
-        private final WavHeader header;
         private final byte[] inputData;
         private long outputFrameCount;
         private int pendingInputBytes;
@@ -184,30 +247,32 @@ public final class WavExtractor implements Extractor {
         private long startTimeUs;
         private final int targetSampleSizeFrames;
         private final TrackOutput trackOutput;
+        private final WavFormat wavFormat;
 
         private static int numOutputFramesToBytes(int i, int i2) {
             return i * 2 * i2;
         }
 
-        public ImaAdPcmOutputWriter(ExtractorOutput extractorOutput, TrackOutput trackOutput, WavHeader wavHeader) throws ParserException {
+        public ImaAdPcmOutputWriter(ExtractorOutput extractorOutput, TrackOutput trackOutput, WavFormat wavFormat) throws ParserException {
             this.extractorOutput = extractorOutput;
             this.trackOutput = trackOutput;
-            this.header = wavHeader;
-            int max = Math.max(1, wavHeader.frameRateHz / 10);
+            this.wavFormat = wavFormat;
+            int max = Math.max(1, wavFormat.frameRateHz / 10);
             this.targetSampleSizeFrames = max;
-            ParsableByteArray parsableByteArray = new ParsableByteArray(wavHeader.extraData);
+            ParsableByteArray parsableByteArray = new ParsableByteArray(wavFormat.extraData);
             parsableByteArray.readLittleEndianUnsignedShort();
             int readLittleEndianUnsignedShort = parsableByteArray.readLittleEndianUnsignedShort();
             this.framesPerBlock = readLittleEndianUnsignedShort;
-            int i = wavHeader.numChannels;
-            int i2 = (((wavHeader.blockSize - (i * 4)) * 8) / (wavHeader.bitsPerSample * i)) + 1;
+            int i = wavFormat.numChannels;
+            int i2 = (((wavFormat.blockSize - (i * 4)) * 8) / (wavFormat.bitsPerSample * i)) + 1;
             if (readLittleEndianUnsignedShort != i2) {
-                throw new ParserException("Expected frames per block: " + i2 + "; got: " + readLittleEndianUnsignedShort);
+                throw ParserException.createForMalformedContainer("Expected frames per block: " + i2 + "; got: " + readLittleEndianUnsignedShort, null);
             }
             int ceilDivide = Util.ceilDivide(max, readLittleEndianUnsignedShort);
-            this.inputData = new byte[wavHeader.blockSize * ceilDivide];
+            this.inputData = new byte[wavFormat.blockSize * ceilDivide];
             this.decodedData = new ParsableByteArray(ceilDivide * numOutputFramesToBytes(readLittleEndianUnsignedShort, i));
-            this.format = Format.createAudioSampleFormat(null, "audio/raw", null, ((wavHeader.frameRateHz * wavHeader.blockSize) * 8) / readLittleEndianUnsignedShort, numOutputFramesToBytes(max, i), wavHeader.numChannels, wavHeader.frameRateHz, 2, null, null, 0, null);
+            int i3 = ((wavFormat.frameRateHz * wavFormat.blockSize) * 8) / readLittleEndianUnsignedShort;
+            this.format = new Format.Builder().setSampleMimeType("audio/raw").setAverageBitrate(i3).setPeakBitrate(i3).setMaxInputSize(numOutputFramesToBytes(max, i)).setChannelCount(wavFormat.numChannels).setSampleRate(wavFormat.frameRateHz).setPcmEncoding(2).build();
         }
 
         @Override // com.google.android.exoplayer2.extractor.wav.WavExtractor.OutputWriter
@@ -220,7 +285,7 @@ public final class WavExtractor implements Extractor {
 
         @Override // com.google.android.exoplayer2.extractor.wav.WavExtractor.OutputWriter
         public void init(int i, long j) {
-            this.extractorOutput.seekMap(new WavSeekMap(this.header, this.framesPerBlock, i, j));
+            this.extractorOutput.seekMap(new WavSeekMap(this.wavFormat, this.framesPerBlock, i, j));
             this.trackOutput.format(this.format);
         }
 
@@ -231,12 +296,12 @@ public final class WavExtractor implements Extractor {
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public boolean sampleData(ExtractorInput extractorInput, long j) throws IOException, InterruptedException {
+        public boolean sampleData(ExtractorInput extractorInput, long j) throws IOException {
             boolean z;
             int i;
             int numOutputBytesToFrames;
             int i2;
-            int ceilDivide = Util.ceilDivide(this.targetSampleSizeFrames - numOutputBytesToFrames(this.pendingOutputBytes), this.framesPerBlock) * this.header.blockSize;
+            int ceilDivide = Util.ceilDivide(this.targetSampleSizeFrames - numOutputBytesToFrames(this.pendingOutputBytes), this.framesPerBlock) * this.wavFormat.blockSize;
             if (j != 0) {
                 z = false;
                 while (!z) {
@@ -248,10 +313,10 @@ public final class WavExtractor implements Extractor {
                         this.pendingInputBytes += read;
                     }
                 }
-                i = this.pendingInputBytes / this.header.blockSize;
+                i = this.pendingInputBytes / this.wavFormat.blockSize;
                 if (i > 0) {
                     decode(this.inputData, i, this.decodedData);
-                    this.pendingInputBytes -= i * this.header.blockSize;
+                    this.pendingInputBytes -= i * this.wavFormat.blockSize;
                     int limit = this.decodedData.limit();
                     this.trackOutput.sampleData(this.decodedData, limit);
                     int i3 = this.pendingOutputBytes + limit;
@@ -270,7 +335,7 @@ public final class WavExtractor implements Extractor {
             z = true;
             while (!z) {
             }
-            i = this.pendingInputBytes / this.header.blockSize;
+            i = this.pendingInputBytes / this.wavFormat.blockSize;
             if (i > 0) {
             }
             if (z) {
@@ -280,7 +345,7 @@ public final class WavExtractor implements Extractor {
         }
 
         private void writeSampleMetadata(int i) {
-            long scaleLargeTimestamp = this.startTimeUs + Util.scaleLargeTimestamp(this.outputFrameCount, 1000000L, this.header.frameRateHz);
+            long scaleLargeTimestamp = this.startTimeUs + Util.scaleLargeTimestamp(this.outputFrameCount, 1000000L, this.wavFormat.frameRateHz);
             int numOutputFramesToBytes = numOutputFramesToBytes(i);
             this.trackOutput.sampleMetadata(scaleLargeTimestamp, 1, numOutputFramesToBytes, this.pendingOutputBytes - numOutputFramesToBytes, null);
             this.outputFrameCount += i;
@@ -289,17 +354,19 @@ public final class WavExtractor implements Extractor {
 
         private void decode(byte[] bArr, int i, ParsableByteArray parsableByteArray) {
             for (int i2 = 0; i2 < i; i2++) {
-                for (int i3 = 0; i3 < this.header.numChannels; i3++) {
-                    decodeBlockForChannel(bArr, i2, i3, parsableByteArray.data);
+                for (int i3 = 0; i3 < this.wavFormat.numChannels; i3++) {
+                    decodeBlockForChannel(bArr, i2, i3, parsableByteArray.getData());
                 }
             }
-            parsableByteArray.reset(numOutputFramesToBytes(this.framesPerBlock * i));
+            int numOutputFramesToBytes = numOutputFramesToBytes(this.framesPerBlock * i);
+            parsableByteArray.setPosition(0);
+            parsableByteArray.setLimit(numOutputFramesToBytes);
         }
 
         private void decodeBlockForChannel(byte[] bArr, int i, int i2, byte[] bArr2) {
-            WavHeader wavHeader = this.header;
-            int i3 = wavHeader.blockSize;
-            int i4 = wavHeader.numChannels;
+            WavFormat wavFormat = this.wavFormat;
+            int i3 = wavFormat.blockSize;
+            int i4 = wavFormat.numChannels;
             int i5 = (i * i3) + (i2 * 4);
             int i6 = (i4 * 4) + i5;
             int i7 = (i3 / i4) - 4;
@@ -328,11 +395,11 @@ public final class WavExtractor implements Extractor {
         }
 
         private int numOutputBytesToFrames(int i) {
-            return i / (this.header.numChannels * 2);
+            return i / (this.wavFormat.numChannels * 2);
         }
 
         private int numOutputFramesToBytes(int i) {
-            return numOutputFramesToBytes(i, this.header.numChannels);
+            return numOutputFramesToBytes(i, this.wavFormat.numChannels);
         }
     }
 }

@@ -5,12 +5,10 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import com.google.android.gms.common.wrappers.Wrappers;
-import javax.annotation.concurrent.GuardedBy;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zzag {
     private static final Object zza = new Object();
-    @GuardedBy("sLock")
     private static boolean zzb;
     private static int zzd;
 

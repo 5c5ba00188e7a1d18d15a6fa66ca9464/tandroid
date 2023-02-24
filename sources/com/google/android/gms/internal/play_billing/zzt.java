@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.play_billing;
 
 import java.util.List;
-import javax.annotation.CheckForNull;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.android.billingclient:billing@@5.1.0 */
 /* loaded from: classes.dex */
@@ -52,7 +51,6 @@ public final class zzt extends zzu {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzr
-    @CheckForNull
     public final Object[] zzg() {
         return this.zzc.zzg();
     }

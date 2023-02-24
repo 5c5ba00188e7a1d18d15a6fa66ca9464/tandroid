@@ -33,62 +33,64 @@ public final class AdtsExtractor implements Extractor {
     public void release() {
     }
 
+    static {
+        AdtsExtractor$$ExternalSyntheticLambda0 adtsExtractor$$ExternalSyntheticLambda0 = AdtsExtractor$$ExternalSyntheticLambda0.INSTANCE;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Extractor[] lambda$static$0() {
+        return new Extractor[]{new AdtsExtractor()};
+    }
+
     public AdtsExtractor() {
         this(0);
     }
 
     public AdtsExtractor(int i) {
-        this.flags = i;
+        this.flags = (i & 2) != 0 ? i | 1 : i;
         this.reader = new AdtsReader(true);
         this.packetBuffer = new ParsableByteArray((int) LiteMode.FLAG_AUTOPLAY_GIFS);
         this.averageFrameSize = -1;
         this.firstFramePosition = -1L;
         ParsableByteArray parsableByteArray = new ParsableByteArray(10);
         this.scratch = parsableByteArray;
-        this.scratchBits = new ParsableBitArray(parsableByteArray.data);
+        this.scratchBits = new ParsableBitArray(parsableByteArray.getData());
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:6:0x0021, code lost:
-        r9.resetPeekPosition();
-        r3 = r3 + 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:7:0x002a, code lost:
-        if ((r3 - r0) < 8192) goto L20;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:8:0x002c, code lost:
-        return false;
-     */
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public boolean sniff(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    public boolean sniff(ExtractorInput extractorInput) throws IOException {
         int peekId3Header = peekId3Header(extractorInput);
         int i = peekId3Header;
-        while (true) {
-            int i2 = 0;
-            int i3 = 0;
-            while (true) {
-                extractorInput.peekFully(this.scratch.data, 0, 2);
-                this.scratch.setPosition(0);
-                if (!AdtsReader.isAdtsSyncWord(this.scratch.readUnsignedShort())) {
-                    break;
-                }
+        int i2 = 0;
+        int i3 = 0;
+        do {
+            extractorInput.peekFully(this.scratch.getData(), 0, 2);
+            this.scratch.setPosition(0);
+            if (AdtsReader.isAdtsSyncWord(this.scratch.readUnsignedShort())) {
                 i2++;
                 if (i2 >= 4 && i3 > 188) {
                     return true;
                 }
-                extractorInput.peekFully(this.scratch.data, 0, 4);
+                extractorInput.peekFully(this.scratch.getData(), 0, 4);
                 this.scratchBits.setPosition(14);
                 int readBits = this.scratchBits.readBits(13);
                 if (readBits <= 6) {
-                    return false;
+                    i++;
+                    extractorInput.resetPeekPosition();
+                    extractorInput.advancePeekPosition(i);
+                } else {
+                    extractorInput.advancePeekPosition(readBits - 6);
+                    i3 += readBits;
                 }
-                extractorInput.advancePeekPosition(readBits - 6);
-                i3 += readBits;
+            } else {
+                i++;
+                extractorInput.resetPeekPosition();
+                extractorInput.advancePeekPosition(i);
             }
-            extractorInput.advancePeekPosition(i);
-        }
+            i2 = 0;
+            i3 = 0;
+        } while (i - peekId3Header < 8192);
+        return false;
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
@@ -106,16 +108,17 @@ public final class AdtsExtractor implements Extractor {
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException, InterruptedException {
+    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
+        Assertions.checkStateNotNull(this.extractorOutput);
         long length = extractorInput.getLength();
-        boolean z = ((this.flags & 1) == 0 || length == -1) ? false : true;
-        if (z) {
+        int i = this.flags;
+        if (((i & 2) == 0 && ((i & 1) == 0 || length == -1)) ? false : true) {
             calculateAverageFrameSize(extractorInput);
         }
-        int read = extractorInput.read(this.packetBuffer.data, 0, LiteMode.FLAG_AUTOPLAY_GIFS);
-        boolean z2 = read == -1;
-        maybeOutputSeekMap(length, z, z2);
-        if (z2) {
+        int read = extractorInput.read(this.packetBuffer.getData(), 0, LiteMode.FLAG_AUTOPLAY_GIFS);
+        boolean z = read == -1;
+        maybeOutputSeekMap(length, z);
+        if (z) {
             return -1;
         }
         this.packetBuffer.setPosition(0);
@@ -128,10 +131,10 @@ public final class AdtsExtractor implements Extractor {
         return 0;
     }
 
-    private int peekId3Header(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    private int peekId3Header(ExtractorInput extractorInput) throws IOException {
         int i = 0;
         while (true) {
-            extractorInput.peekFully(this.scratch.data, 0, 10);
+            extractorInput.peekFully(this.scratch.getData(), 0, 10);
             this.scratch.setPosition(0);
             if (this.scratch.readUnsignedInt24() != 4801587) {
                 break;
@@ -149,24 +152,23 @@ public final class AdtsExtractor implements Extractor {
         return i;
     }
 
-    private void maybeOutputSeekMap(long j, boolean z, boolean z2) {
+    private void maybeOutputSeekMap(long j, boolean z) {
         if (this.hasOutputSeekMap) {
             return;
         }
-        boolean z3 = z && this.averageFrameSize > 0;
-        if (z3 && this.reader.getSampleDurationUs() == -9223372036854775807L && !z2) {
+        boolean z2 = (this.flags & 1) != 0 && this.averageFrameSize > 0;
+        if (z2 && this.reader.getSampleDurationUs() == -9223372036854775807L && !z) {
             return;
         }
-        ExtractorOutput extractorOutput = (ExtractorOutput) Assertions.checkNotNull(this.extractorOutput);
-        if (z3 && this.reader.getSampleDurationUs() != -9223372036854775807L) {
-            extractorOutput.seekMap(getConstantBitrateSeekMap(j));
+        if (z2 && this.reader.getSampleDurationUs() != -9223372036854775807L) {
+            this.extractorOutput.seekMap(getConstantBitrateSeekMap(j, (this.flags & 2) != 0));
         } else {
-            extractorOutput.seekMap(new SeekMap.Unseekable(-9223372036854775807L));
+            this.extractorOutput.seekMap(new SeekMap.Unseekable(-9223372036854775807L));
         }
         this.hasOutputSeekMap = true;
     }
 
-    private void calculateAverageFrameSize(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    private void calculateAverageFrameSize(ExtractorInput extractorInput) throws IOException {
         int readBits;
         if (this.hasCalculatedAverageFrameSize) {
             return;
@@ -181,20 +183,20 @@ public final class AdtsExtractor implements Extractor {
         int i2 = 0;
         do {
             try {
-                if (!extractorInput.peekFully(this.scratch.data, 0, 2, true)) {
+                if (!extractorInput.peekFully(this.scratch.getData(), 0, 2, true)) {
                     break;
                 }
                 this.scratch.setPosition(0);
                 if (!AdtsReader.isAdtsSyncWord(this.scratch.readUnsignedShort())) {
                     break;
-                } else if (!extractorInput.peekFully(this.scratch.data, 0, 4, true)) {
+                } else if (!extractorInput.peekFully(this.scratch.getData(), 0, 4, true)) {
                     break;
                 } else {
                     this.scratchBits.setPosition(14);
                     readBits = this.scratchBits.readBits(13);
                     if (readBits <= 6) {
                         this.hasCalculatedAverageFrameSize = true;
-                        throw new ParserException("Malformed ADTS stream");
+                        throw ParserException.createForMalformedContainer("Malformed ADTS stream", null);
                     }
                     j += readBits;
                     i2++;
@@ -215,8 +217,8 @@ public final class AdtsExtractor implements Extractor {
         this.hasCalculatedAverageFrameSize = true;
     }
 
-    private SeekMap getConstantBitrateSeekMap(long j) {
-        return new ConstantBitrateSeekMap(j, this.firstFramePosition, getBitrateFromFrameSize(this.averageFrameSize, this.reader.getSampleDurationUs()), this.averageFrameSize);
+    private SeekMap getConstantBitrateSeekMap(long j, boolean z) {
+        return new ConstantBitrateSeekMap(j, this.firstFramePosition, getBitrateFromFrameSize(this.averageFrameSize, this.reader.getSampleDurationUs()), this.averageFrameSize, z);
     }
 
     private static int getBitrateFromFrameSize(int i, long j) {

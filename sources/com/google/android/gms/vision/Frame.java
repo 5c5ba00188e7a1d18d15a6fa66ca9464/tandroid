@@ -6,16 +6,12 @@ import android.media.Image;
 import androidx.annotation.RecentlyNonNull;
 import androidx.annotation.RecentlyNullable;
 import java.nio.ByteBuffer;
-import javax.annotation.Nullable;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public class Frame {
     private final Metadata zza;
-    @Nullable
     private ByteBuffer zzb;
-    @Nullable
     private zza zzc;
-    @Nullable
     private Bitmap zzd;
 
     /* JADX INFO: Access modifiers changed from: private */

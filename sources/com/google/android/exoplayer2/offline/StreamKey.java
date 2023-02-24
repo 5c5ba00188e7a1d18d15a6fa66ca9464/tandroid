@@ -17,7 +17,7 @@ public final class StreamKey implements Comparable<StreamKey>, Parcelable {
     };
     public final int groupIndex;
     public final int periodIndex;
-    public final int trackIndex;
+    public final int streamIndex;
 
     @Override // android.os.Parcelable
     public int describeContents() {
@@ -27,17 +27,17 @@ public final class StreamKey implements Comparable<StreamKey>, Parcelable {
     public StreamKey(int i, int i2, int i3) {
         this.periodIndex = i;
         this.groupIndex = i2;
-        this.trackIndex = i3;
+        this.streamIndex = i3;
     }
 
     StreamKey(Parcel parcel) {
         this.periodIndex = parcel.readInt();
         this.groupIndex = parcel.readInt();
-        this.trackIndex = parcel.readInt();
+        this.streamIndex = parcel.readInt();
     }
 
     public String toString() {
-        return this.periodIndex + "." + this.groupIndex + "." + this.trackIndex;
+        return this.periodIndex + "." + this.groupIndex + "." + this.streamIndex;
     }
 
     public boolean equals(Object obj) {
@@ -48,11 +48,11 @@ public final class StreamKey implements Comparable<StreamKey>, Parcelable {
             return false;
         }
         StreamKey streamKey = (StreamKey) obj;
-        return this.periodIndex == streamKey.periodIndex && this.groupIndex == streamKey.groupIndex && this.trackIndex == streamKey.trackIndex;
+        return this.periodIndex == streamKey.periodIndex && this.groupIndex == streamKey.groupIndex && this.streamIndex == streamKey.streamIndex;
     }
 
     public int hashCode() {
-        return (((this.periodIndex * 31) + this.groupIndex) * 31) + this.trackIndex;
+        return (((this.periodIndex * 31) + this.groupIndex) * 31) + this.streamIndex;
     }
 
     @Override // java.lang.Comparable
@@ -60,7 +60,7 @@ public final class StreamKey implements Comparable<StreamKey>, Parcelable {
         int i = this.periodIndex - streamKey.periodIndex;
         if (i == 0) {
             int i2 = this.groupIndex - streamKey.groupIndex;
-            return i2 == 0 ? this.trackIndex - streamKey.trackIndex : i2;
+            return i2 == 0 ? this.streamIndex - streamKey.streamIndex : i2;
         }
         return i;
     }
@@ -69,6 +69,6 @@ public final class StreamKey implements Comparable<StreamKey>, Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(this.periodIndex);
         parcel.writeInt(this.groupIndex);
-        parcel.writeInt(this.trackIndex);
+        parcel.writeInt(this.streamIndex);
     }
 }

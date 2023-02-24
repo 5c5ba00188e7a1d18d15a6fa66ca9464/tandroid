@@ -1,22 +1,19 @@
 package com.google.android.exoplayer2;
 
-import android.os.Looper;
 import com.google.android.exoplayer2.Renderer;
 import com.google.android.exoplayer2.RendererCapabilities;
+import com.google.android.exoplayer2.analytics.PlayerId;
 import com.google.android.exoplayer2.decoder.DecoderInputBuffer;
-import com.google.android.exoplayer2.drm.DrmInitData;
-import com.google.android.exoplayer2.drm.DrmSession;
-import com.google.android.exoplayer2.drm.DrmSessionManager;
-import com.google.android.exoplayer2.drm.ExoMediaCrypto;
 import com.google.android.exoplayer2.source.SampleStream;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.MediaClock;
-import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 /* loaded from: classes.dex */
 public abstract class BaseRenderer implements Renderer, RendererCapabilities {
     private RendererConfiguration configuration;
     private int index;
+    private long lastResetPositionUs;
+    private PlayerId playerId;
     private int state;
     private SampleStream stream;
     private Format[] streamFormats;
@@ -43,7 +40,7 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
 
     protected abstract void onDisabled();
 
-    protected void onEnabled(boolean z) throws ExoPlaybackException {
+    protected void onEnabled(boolean z, boolean z2) throws ExoPlaybackException {
     }
 
     protected abstract void onPositionReset(long j, boolean z) throws ExoPlaybackException;
@@ -54,16 +51,16 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
     protected void onStarted() throws ExoPlaybackException {
     }
 
-    protected void onStopped() throws ExoPlaybackException {
+    protected void onStopped() {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public void onStreamChanged(Format[] formatArr, long j) throws ExoPlaybackException {
+    public void onStreamChanged(Format[] formatArr, long j, long j2) throws ExoPlaybackException {
     }
 
     @Override // com.google.android.exoplayer2.Renderer
-    public /* synthetic */ void setOperatingRate(float f) {
-        Renderer.-CC.$default$setOperatingRate(this, f);
+    public /* synthetic */ void setPlaybackSpeed(float f, float f2) {
+        Renderer.-CC.$default$setPlaybackSpeed(this, f, f2);
     }
 
     @Override // com.google.android.exoplayer2.RendererCapabilities
@@ -81,8 +78,9 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
     }
 
     @Override // com.google.android.exoplayer2.Renderer
-    public final void setIndex(int i) {
+    public final void init(int i, PlayerId playerId) {
         this.index = i;
+        this.playerId = playerId;
     }
 
     @Override // com.google.android.exoplayer2.Renderer
@@ -91,13 +89,13 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
     }
 
     @Override // com.google.android.exoplayer2.Renderer
-    public final void enable(RendererConfiguration rendererConfiguration, Format[] formatArr, SampleStream sampleStream, long j, boolean z, long j2) throws ExoPlaybackException {
+    public final void enable(RendererConfiguration rendererConfiguration, Format[] formatArr, SampleStream sampleStream, long j, boolean z, boolean z2, long j2, long j3) throws ExoPlaybackException {
         Assertions.checkState(this.state == 0);
         this.configuration = rendererConfiguration;
         this.state = 1;
-        onEnabled(z);
-        replaceStream(formatArr, sampleStream, j2);
-        onPositionReset(j, z);
+        onEnabled(z, z2);
+        replaceStream(formatArr, sampleStream, j2, j3);
+        resetPosition(j, z);
     }
 
     @Override // com.google.android.exoplayer2.Renderer
@@ -108,13 +106,15 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
     }
 
     @Override // com.google.android.exoplayer2.Renderer
-    public final void replaceStream(Format[] formatArr, SampleStream sampleStream, long j) throws ExoPlaybackException {
+    public final void replaceStream(Format[] formatArr, SampleStream sampleStream, long j, long j2) throws ExoPlaybackException {
         Assertions.checkState(!this.streamIsFinal);
         this.stream = sampleStream;
-        this.readingPositionUs = j;
+        if (this.readingPositionUs == Long.MIN_VALUE) {
+            this.readingPositionUs = j;
+        }
         this.streamFormats = formatArr;
-        this.streamOffsetUs = j;
-        onStreamChanged(formatArr, j);
+        this.streamOffsetUs = j2;
+        onStreamChanged(formatArr, j, j2);
     }
 
     @Override // com.google.android.exoplayer2.Renderer
@@ -144,18 +144,23 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
 
     @Override // com.google.android.exoplayer2.Renderer
     public final void maybeThrowStreamError() throws IOException {
-        this.stream.maybeThrowError();
+        ((SampleStream) Assertions.checkNotNull(this.stream)).maybeThrowError();
     }
 
     @Override // com.google.android.exoplayer2.Renderer
     public final void resetPosition(long j) throws ExoPlaybackException {
+        resetPosition(j, false);
+    }
+
+    private void resetPosition(long j, boolean z) throws ExoPlaybackException {
         this.streamIsFinal = false;
+        this.lastResetPositionUs = j;
         this.readingPositionUs = j;
-        onPositionReset(j, false);
+        onPositionReset(j, z);
     }
 
     @Override // com.google.android.exoplayer2.Renderer
-    public final void stop() throws ExoPlaybackException {
+    public final void stop() {
         Assertions.checkState(this.state == 2);
         this.state = 1;
         onStopped();
@@ -179,6 +184,10 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
         onReset();
     }
 
+    protected final long getLastResetPositionUs() {
+        return this.lastResetPositionUs;
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
     public final FormatHolder getFormatHolder() {
         this.formatHolder.clear();
@@ -187,30 +196,12 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public final Format[] getStreamFormats() {
-        return this.streamFormats;
+        return (Format[]) Assertions.checkNotNull(this.streamFormats);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
     public final RendererConfiguration getConfiguration() {
-        return this.configuration;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final <T extends ExoMediaCrypto> DrmSession<T> getUpdatedSourceDrmSession(Format format, Format format2, DrmSessionManager<T> drmSessionManager, DrmSession<T> drmSession) throws ExoPlaybackException {
-        DrmSession<T> drmSession2 = null;
-        if (!Util.areEqual(format2.drmInitData, format == null ? null : format.drmInitData)) {
-            if (format2.drmInitData != null) {
-                if (drmSessionManager == null) {
-                    throw createRendererException(new IllegalStateException("Media requires a DrmSessionManager"), format2);
-                }
-                drmSession2 = drmSessionManager.acquireSession((Looper) Assertions.checkNotNull(Looper.myLooper()), format2.drmInitData);
-            }
-            if (drmSession != null) {
-                drmSession.release();
-            }
-            return drmSession2;
-        }
-        return drmSession;
+        return (RendererConfiguration) Assertions.checkNotNull(this.configuration);
     }
 
     protected final int getIndex() {
@@ -218,25 +209,39 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public final ExoPlaybackException createRendererException(Exception exc, Format format) {
-        int i;
-        if (format != null && !this.throwRendererExceptionIsExecuting) {
-            this.throwRendererExceptionIsExecuting = true;
-            try {
-                i = RendererCapabilities.-CC.getFormatSupport(supportsFormat(format));
-            } catch (ExoPlaybackException unused) {
-            } finally {
-                this.throwRendererExceptionIsExecuting = false;
-            }
-            return ExoPlaybackException.createForRenderer(exc, getIndex(), format, i);
-        }
-        i = 4;
-        return ExoPlaybackException.createForRenderer(exc, getIndex(), format, i);
+    public final PlayerId getPlayerId() {
+        return (PlayerId) Assertions.checkNotNull(this.playerId);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public final int readSource(FormatHolder formatHolder, DecoderInputBuffer decoderInputBuffer, boolean z) {
-        int readData = this.stream.readData(formatHolder, decoderInputBuffer, z);
+    public final ExoPlaybackException createRendererException(Throwable th, Format format, int i) {
+        return createRendererException(th, format, false, i);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final ExoPlaybackException createRendererException(Throwable th, Format format, boolean z, int i) {
+        int i2;
+        if (format != null && !this.throwRendererExceptionIsExecuting) {
+            this.throwRendererExceptionIsExecuting = true;
+            try {
+                int formatSupport = RendererCapabilities.-CC.getFormatSupport(supportsFormat(format));
+                this.throwRendererExceptionIsExecuting = false;
+                i2 = formatSupport;
+            } catch (ExoPlaybackException unused) {
+                this.throwRendererExceptionIsExecuting = false;
+            } catch (Throwable th2) {
+                this.throwRendererExceptionIsExecuting = false;
+                throw th2;
+            }
+            return ExoPlaybackException.createForRenderer(th, getName(), getIndex(), format, i2, z, i);
+        }
+        i2 = 4;
+        return ExoPlaybackException.createForRenderer(th, getName(), getIndex(), format, i2, z, i);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final int readSource(FormatHolder formatHolder, DecoderInputBuffer decoderInputBuffer, int i) {
+        int readData = ((SampleStream) Assertions.checkNotNull(this.stream)).readData(formatHolder, decoderInputBuffer, i);
         if (readData == -4) {
             if (decoderInputBuffer.isEndOfStream()) {
                 this.readingPositionUs = Long.MIN_VALUE;
@@ -246,10 +251,9 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
             decoderInputBuffer.timeUs = j;
             this.readingPositionUs = Math.max(this.readingPositionUs, j);
         } else if (readData == -5) {
-            Format format = formatHolder.format;
-            long j2 = format.subsampleOffsetUs;
-            if (j2 != Long.MAX_VALUE) {
-                formatHolder.format = format.copyWithSubsampleOffsetUs(j2 + this.streamOffsetUs);
+            Format format = (Format) Assertions.checkNotNull(formatHolder.format);
+            if (format.subsampleOffsetUs != Long.MAX_VALUE) {
+                formatHolder.format = format.buildUpon().setSubsampleOffsetUs(format.subsampleOffsetUs + this.streamOffsetUs).build();
             }
         }
         return readData;
@@ -257,22 +261,11 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public int skipSource(long j) {
-        return this.stream.skipData(j - this.streamOffsetUs);
+        return ((SampleStream) Assertions.checkNotNull(this.stream)).skipData(j - this.streamOffsetUs);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
     public final boolean isSourceReady() {
-        return hasReadStreamToEnd() ? this.streamIsFinal : this.stream.isReady();
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static boolean supportsFormatDrm(DrmSessionManager<?> drmSessionManager, DrmInitData drmInitData) {
-        if (drmInitData == null) {
-            return true;
-        }
-        if (drmSessionManager == null) {
-            return false;
-        }
-        return drmSessionManager.canAcquireSession(drmInitData);
+        return hasReadStreamToEnd() ? this.streamIsFinal : ((SampleStream) Assertions.checkNotNull(this.stream)).isReady();
     }
 }

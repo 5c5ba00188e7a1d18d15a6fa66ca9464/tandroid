@@ -9,12 +9,17 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.nio.ByteBuffer;
 /* loaded from: classes.dex */
-public class CameraMotionRenderer extends BaseRenderer {
+public final class CameraMotionRenderer extends BaseRenderer {
     private final DecoderInputBuffer buffer;
     private long lastTimestampUs;
     private CameraMotionListener listener;
     private long offsetUs;
     private final ParsableByteArray scratch;
+
+    @Override // com.google.android.exoplayer2.Renderer, com.google.android.exoplayer2.RendererCapabilities
+    public String getName() {
+        return "CameraMotionRenderer";
+    }
 
     @Override // com.google.android.exoplayer2.Renderer
     public boolean isReady() {
@@ -22,7 +27,7 @@ public class CameraMotionRenderer extends BaseRenderer {
     }
 
     public CameraMotionRenderer() {
-        super(5);
+        super(6);
         this.buffer = new DecoderInputBuffer(1);
         this.scratch = new ParsableByteArray();
     }
@@ -37,7 +42,7 @@ public class CameraMotionRenderer extends BaseRenderer {
 
     @Override // com.google.android.exoplayer2.BaseRenderer, com.google.android.exoplayer2.PlayerMessage.Target
     public void handleMessage(int i, Object obj) throws ExoPlaybackException {
-        if (i == 7) {
+        if (i == 8) {
             this.listener = (CameraMotionListener) obj;
         } else {
             super.handleMessage(i, obj);
@@ -46,12 +51,13 @@ public class CameraMotionRenderer extends BaseRenderer {
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.BaseRenderer
-    public void onStreamChanged(Format[] formatArr, long j) throws ExoPlaybackException {
-        this.offsetUs = j;
+    public void onStreamChanged(Format[] formatArr, long j, long j2) {
+        this.offsetUs = j2;
     }
 
     @Override // com.google.android.exoplayer2.BaseRenderer
-    protected void onPositionReset(long j, boolean z) throws ExoPlaybackException {
+    protected void onPositionReset(long j, boolean z) {
+        this.lastTimestampUs = Long.MIN_VALUE;
         resetListener();
     }
 
@@ -61,18 +67,20 @@ public class CameraMotionRenderer extends BaseRenderer {
     }
 
     @Override // com.google.android.exoplayer2.Renderer
-    public void render(long j, long j2) throws ExoPlaybackException {
-        float[] parseMetadata;
+    public void render(long j, long j2) {
         while (!hasReadStreamToEnd() && this.lastTimestampUs < 100000 + j) {
             this.buffer.clear();
-            if (readSource(getFormatHolder(), this.buffer, false) != -4 || this.buffer.isEndOfStream()) {
+            if (readSource(getFormatHolder(), this.buffer, 0) != -4 || this.buffer.isEndOfStream()) {
                 return;
             }
-            this.buffer.flip();
             DecoderInputBuffer decoderInputBuffer = this.buffer;
             this.lastTimestampUs = decoderInputBuffer.timeUs;
-            if (this.listener != null && (parseMetadata = parseMetadata((ByteBuffer) Util.castNonNull(decoderInputBuffer.data))) != null) {
-                ((CameraMotionListener) Util.castNonNull(this.listener)).onCameraMotion(this.lastTimestampUs - this.offsetUs, parseMetadata);
+            if (this.listener != null && !decoderInputBuffer.isDecodeOnly()) {
+                this.buffer.flip();
+                float[] parseMetadata = parseMetadata((ByteBuffer) Util.castNonNull(this.buffer.data));
+                if (parseMetadata != null) {
+                    ((CameraMotionListener) Util.castNonNull(this.listener)).onCameraMotion(this.lastTimestampUs - this.offsetUs, parseMetadata);
+                }
             }
         }
     }
@@ -96,7 +104,6 @@ public class CameraMotionRenderer extends BaseRenderer {
     }
 
     private void resetListener() {
-        this.lastTimestampUs = 0L;
         CameraMotionListener cameraMotionListener = this.listener;
         if (cameraMotionListener != null) {
             cameraMotionListener.onCameraMotionReset();

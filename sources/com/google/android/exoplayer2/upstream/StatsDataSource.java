@@ -35,6 +35,7 @@ public final class StatsDataSource implements DataSource {
 
     @Override // com.google.android.exoplayer2.upstream.DataSource
     public void addTransferListener(TransferListener transferListener) {
+        Assertions.checkNotNull(transferListener);
         this.dataSource.addTransferListener(transferListener);
     }
 
@@ -48,7 +49,7 @@ public final class StatsDataSource implements DataSource {
         return open;
     }
 
-    @Override // com.google.android.exoplayer2.upstream.DataSource
+    @Override // com.google.android.exoplayer2.upstream.DataReader
     public int read(byte[] bArr, int i, int i2) throws IOException {
         int read = this.dataSource.read(bArr, i, i2);
         if (read != -1) {

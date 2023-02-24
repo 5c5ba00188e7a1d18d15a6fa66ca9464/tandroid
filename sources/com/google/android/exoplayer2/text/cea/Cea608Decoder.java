@@ -8,9 +8,14 @@ import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import com.google.android.exoplayer2.text.Cue;
 import com.google.android.exoplayer2.text.Subtitle;
+import com.google.android.exoplayer2.text.SubtitleDecoderException;
 import com.google.android.exoplayer2.text.SubtitleInputBuffer;
+import com.google.android.exoplayer2.text.SubtitleOutputBuffer;
+import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
+import com.google.android.exoplayer2.util.Util;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,6 +28,7 @@ public final class Cea608Decoder extends CeaDecoder {
     private List<Cue> cues;
     private boolean isCaptionValid;
     private boolean isInCaptionService;
+    private long lastCueUpdateUs;
     private List<Cue> lastCues;
     private final int packetLength;
     private byte repeatableControlCc1;
@@ -30,6 +36,7 @@ public final class Cea608Decoder extends CeaDecoder {
     private boolean repeatableControlSet;
     private final int selectedChannel;
     private final int selectedField;
+    private final long validDataChannelTimeoutUs;
     private static final int[] ROW_INDICES = {11, 1, 3, 12, 14, 5, 7, 9};
     private static final int[] COLUMN_INDICES = {0, 4, 8, 12, 16, 20, 24, 28};
     private static final int[] STYLE_COLORS = {-1, -16711936, -16776961, -16711681, -65536, -256, -65281};
@@ -72,7 +79,7 @@ public final class Cea608Decoder extends CeaDecoder {
     }
 
     private static boolean isServiceSwitchCommand(byte b) {
-        return (b & 247) == 20;
+        return (b & 246) == 20;
     }
 
     private static boolean isSpecialNorthAmericanChar(byte b, byte b2) {
@@ -87,11 +94,17 @@ public final class Cea608Decoder extends CeaDecoder {
         return 1 <= b && b <= 15;
     }
 
+    @Override // com.google.android.exoplayer2.decoder.Decoder
+    public String getName() {
+        return "Cea608Decoder";
+    }
+
     @Override // com.google.android.exoplayer2.text.cea.CeaDecoder, com.google.android.exoplayer2.decoder.Decoder
     public void release() {
     }
 
-    public Cea608Decoder(String str, int i) {
+    public Cea608Decoder(String str, int i, long j) {
+        this.validDataChannelTimeoutUs = j > 0 ? j * 1000 : -9223372036854775807L;
         this.packetLength = "application/x-mp4-cea-608".equals(str) ? 2 : 3;
         if (i == 1) {
             this.selectedChannel = 0;
@@ -113,6 +126,7 @@ public final class Cea608Decoder extends CeaDecoder {
         setCaptionMode(0);
         resetCueBuilders();
         this.isInCaptionService = true;
+        this.lastCueUpdateUs = -9223372036854775807L;
     }
 
     @Override // com.google.android.exoplayer2.text.cea.CeaDecoder, com.google.android.exoplayer2.decoder.Decoder
@@ -129,6 +143,23 @@ public final class Cea608Decoder extends CeaDecoder {
         this.repeatableControlCc2 = (byte) 0;
         this.currentChannel = 0;
         this.isInCaptionService = true;
+        this.lastCueUpdateUs = -9223372036854775807L;
+    }
+
+    @Override // com.google.android.exoplayer2.text.cea.CeaDecoder, com.google.android.exoplayer2.decoder.Decoder
+    public SubtitleOutputBuffer dequeueOutputBuffer() throws SubtitleDecoderException {
+        SubtitleOutputBuffer availableOutputBuffer;
+        SubtitleOutputBuffer dequeueOutputBuffer = super.dequeueOutputBuffer();
+        if (dequeueOutputBuffer != null) {
+            return dequeueOutputBuffer;
+        }
+        if (!shouldClearStuckCaptions() || (availableOutputBuffer = getAvailableOutputBuffer()) == null) {
+            return null;
+        }
+        this.cues = Collections.emptyList();
+        this.lastCueUpdateUs = -9223372036854775807L;
+        availableOutputBuffer.setContent(getPositionUs(), createSubtitle(), Long.MAX_VALUE);
+        return availableOutputBuffer;
     }
 
     @Override // com.google.android.exoplayer2.text.cea.CeaDecoder
@@ -140,18 +171,19 @@ public final class Cea608Decoder extends CeaDecoder {
     protected Subtitle createSubtitle() {
         List<Cue> list = this.cues;
         this.lastCues = list;
-        return new CeaSubtitle(list);
+        return new CeaSubtitle((List) Assertions.checkNotNull(list));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:76:0x006a A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x0014 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x006d A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x0018 A[SYNTHETIC] */
     @Override // com.google.android.exoplayer2.text.cea.CeaDecoder
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected void decode(SubtitleInputBuffer subtitleInputBuffer) {
         boolean z;
-        this.ccData.reset(subtitleInputBuffer.data.array(), subtitleInputBuffer.data.limit());
+        ByteBuffer byteBuffer = (ByteBuffer) Assertions.checkNotNull(subtitleInputBuffer.data);
+        this.ccData.reset(byteBuffer.array(), byteBuffer.limit());
         boolean z2 = false;
         while (true) {
             int bytesLeft = this.ccData.bytesLeft();
@@ -159,7 +191,7 @@ public final class Cea608Decoder extends CeaDecoder {
             if (bytesLeft < i) {
                 break;
             }
-            byte readUnsignedByte = i == 2 ? (byte) -4 : (byte) this.ccData.readUnsignedByte();
+            int readUnsignedByte = i == 2 ? -4 : this.ccData.readUnsignedByte();
             int readUnsignedByte2 = this.ccData.readUnsignedByte();
             int readUnsignedByte3 = this.ccData.readUnsignedByte();
             if ((readUnsignedByte & 2) == 0 && (readUnsignedByte & 1) == this.selectedField) {
@@ -219,6 +251,7 @@ public final class Cea608Decoder extends CeaDecoder {
             int i2 = this.captionMode;
             if (i2 == 1 || i2 == 3) {
                 this.cues = getDisplayCues();
+                this.lastCueUpdateUs = getPositionUs();
             }
         }
     }
@@ -345,7 +378,7 @@ public final class Cea608Decoder extends CeaDecoder {
             Cue cue = (Cue) arrayList.get(i3);
             if (cue != null) {
                 if (cue.positionAnchor != i) {
-                    cue = this.cueBuilders.get(i3).build(i);
+                    cue = (Cue) Assertions.checkNotNull(this.cueBuilders.get(i3).build(i));
                 }
                 arrayList2.add(cue);
             }
@@ -434,7 +467,7 @@ public final class Cea608Decoder extends CeaDecoder {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class CueBuilder {
+    public static final class CueBuilder {
         private int captionMode;
         private int captionRowCount;
         private int indent;
@@ -446,7 +479,7 @@ public final class Cea608Decoder extends CeaDecoder {
 
         public CueBuilder(int i, int i2) {
             reset(i);
-            setCaptionRowCount(i2);
+            this.captionRowCount = i2;
         }
 
         public void reset(int i) {
@@ -491,7 +524,9 @@ public final class Cea608Decoder extends CeaDecoder {
         }
 
         public void append(char c) {
-            this.captionStringBuilder.append(c);
+            if (this.captionStringBuilder.length() < 32) {
+                this.captionStringBuilder.append(c);
+            }
         }
 
         public void rollUp() {
@@ -506,42 +541,41 @@ public final class Cea608Decoder extends CeaDecoder {
 
         public Cue build(int i) {
             float f;
-            int i2;
-            int i3;
+            int i2 = this.indent + this.tabOffset;
+            int i3 = 32 - i2;
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
             for (int i4 = 0; i4 < this.rolledUpCaptions.size(); i4++) {
-                spannableStringBuilder.append((CharSequence) this.rolledUpCaptions.get(i4));
+                spannableStringBuilder.append(Util.truncateAscii(this.rolledUpCaptions.get(i4), i3));
                 spannableStringBuilder.append('\n');
             }
-            spannableStringBuilder.append((CharSequence) buildCurrentLine());
+            spannableStringBuilder.append(Util.truncateAscii(buildCurrentLine(), i3));
             if (spannableStringBuilder.length() == 0) {
                 return null;
             }
-            int i5 = this.indent + this.tabOffset;
-            int length = (32 - i5) - spannableStringBuilder.length();
-            int i6 = i5 - length;
+            int length = i3 - spannableStringBuilder.length();
+            int i5 = i2 - length;
             if (i == Integer.MIN_VALUE) {
-                if (this.captionMode != 2 || (Math.abs(i6) >= 3 && length >= 0)) {
-                    i = (this.captionMode != 2 || i6 <= 0) ? 0 : 2;
+                if (this.captionMode != 2 || (Math.abs(i5) >= 3 && length >= 0)) {
+                    i = (this.captionMode != 2 || i5 <= 0) ? 0 : 2;
                 } else {
                     i = 1;
                 }
             }
             if (i != 1) {
                 if (i == 2) {
-                    i5 = 32 - length;
+                    i2 = 32 - length;
                 }
-                f = ((i5 / 32.0f) * 0.8f) + 0.1f;
+                f = ((i2 / 32.0f) * 0.8f) + 0.1f;
             } else {
                 f = 0.5f;
             }
-            if (this.captionMode == 1 || (i2 = this.row) > 7) {
-                i2 = (this.row - 15) - 2;
-                i3 = 2;
-            } else {
-                i3 = 0;
+            int i6 = this.row;
+            if (i6 > 7) {
+                i6 = (i6 - 15) - 2;
+            } else if (this.captionMode == 1) {
+                i6 -= this.captionRowCount - 1;
             }
-            return new Cue(spannableStringBuilder, Layout.Alignment.ALIGN_NORMAL, i2, 1, i3, f, i, -3.4028235E38f);
+            return new Cue.Builder().setText(spannableStringBuilder).setTextAlignment(Layout.Alignment.ALIGN_NORMAL).setLine(i6, 1).setPosition(f).setPositionAnchor(i).build();
         }
 
         private SpannableString buildCurrentLine() {
@@ -627,5 +661,9 @@ public final class Cea608Decoder extends CeaDecoder {
                 this.start = i2;
             }
         }
+    }
+
+    private boolean shouldClearStuckCaptions() {
+        return (this.validDataChannelTimeoutUs == -9223372036854775807L || this.lastCueUpdateUs == -9223372036854775807L || getPositionUs() - this.lastCueUpdateUs < this.validDataChannelTimeoutUs) ? false : true;
     }
 }

@@ -1,10 +1,12 @@
 package com.google.android.exoplayer2.decoder;
 
-import android.annotation.TargetApi;
 import android.media.MediaCodec;
+import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 public final class CryptoInfo {
+    public int clearBlocks;
+    public int encryptedBlocks;
     private final MediaCodec.CryptoInfo frameworkCryptoInfo;
     public byte[] iv;
     public byte[] key;
@@ -27,6 +29,8 @@ public final class CryptoInfo {
         this.key = bArr;
         this.iv = bArr2;
         this.mode = i2;
+        this.encryptedBlocks = i3;
+        this.clearBlocks = i4;
         MediaCodec.CryptoInfo cryptoInfo = this.frameworkCryptoInfo;
         cryptoInfo.numSubSamples = i;
         cryptoInfo.numBytesOfClearData = iArr;
@@ -35,7 +39,7 @@ public final class CryptoInfo {
         cryptoInfo.iv = bArr2;
         cryptoInfo.mode = i2;
         if (Util.SDK_INT >= 24) {
-            this.patternHolder.set(i3, i4);
+            ((PatternHolderV24) Assertions.checkNotNull(this.patternHolder)).set(i3, i4);
         }
     }
 
@@ -43,7 +47,19 @@ public final class CryptoInfo {
         return this.frameworkCryptoInfo;
     }
 
-    @TargetApi(24)
+    public void increaseClearDataFirstSubSampleBy(int i) {
+        if (i == 0) {
+            return;
+        }
+        if (this.numBytesOfClearData == null) {
+            int[] iArr = new int[1];
+            this.numBytesOfClearData = iArr;
+            this.frameworkCryptoInfo.numBytesOfClearData = iArr;
+        }
+        int[] iArr2 = this.numBytesOfClearData;
+        iArr2[0] = iArr2[0] + i;
+    }
+
     /* loaded from: classes.dex */
     private static final class PatternHolderV24 {
         private final MediaCodec.CryptoInfo frameworkCryptoInfo;

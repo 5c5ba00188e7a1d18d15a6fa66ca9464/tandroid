@@ -3815,11 +3815,11 @@ public class ImageLoader {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:118:0x0267 A[Catch: Exception -> 0x027a, TRY_LEAVE, TryCatch #6 {Exception -> 0x027a, blocks: (B:112:0x024a, B:114:0x0258, B:116:0x025e, B:118:0x0267), top: B:152:0x024a, outer: #11 }] */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x029b A[Catch: Exception -> 0x02ae, TRY_LEAVE, TryCatch #0 {Exception -> 0x02ae, blocks: (B:122:0x027e, B:124:0x028c, B:126:0x0292, B:128:0x029b), top: B:140:0x027e, outer: #11 }] */
-    /* JADX WARN: Removed duplicated region for block: B:154:0x0117 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x0105 A[EDGE_INSN: B:166:0x0105->B:56:0x0105 ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x00e3 A[Catch: Exception -> 0x02c1, TryCatch #11 {Exception -> 0x02c1, blocks: (B:11:0x003d, B:13:0x0049, B:15:0x0054, B:17:0x005c, B:19:0x0062, B:21:0x0069, B:24:0x007d, B:25:0x0080, B:42:0x00b1, B:44:0x00c7, B:46:0x00d0, B:48:0x00d8, B:50:0x00e3, B:52:0x00eb, B:54:0x00f7, B:55:0x0102, B:56:0x0105, B:108:0x023f, B:98:0x01fe, B:88:0x01bd, B:78:0x017c, B:110:0x0244, B:131:0x02af, B:121:0x027b, B:135:0x02bd, B:68:0x0148, B:41:0x00ae, B:43:0x00c0, B:132:0x02b3, B:134:0x02b7, B:122:0x027e, B:124:0x028c, B:126:0x0292, B:128:0x029b, B:99:0x0201, B:101:0x0213, B:103:0x021a, B:105:0x0229, B:89:0x01c0, B:91:0x01d2, B:93:0x01d9, B:95:0x01e8, B:79:0x017f, B:81:0x0191, B:83:0x0198, B:85:0x01a7, B:69:0x014b, B:71:0x015b, B:73:0x0161, B:75:0x0168, B:112:0x024a, B:114:0x0258, B:116:0x025e, B:118:0x0267, B:59:0x0117, B:61:0x0127, B:63:0x012d, B:65:0x0134), top: B:162:0x003d, inners: #0, #1, #2, #3, #5, #6, #7 }] */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x026f A[Catch: Exception -> 0x0282, TRY_LEAVE, TryCatch #11 {Exception -> 0x0282, blocks: (B:114:0x0252, B:116:0x0260, B:118:0x0266, B:120:0x026f), top: B:164:0x0252, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x02a3 A[Catch: Exception -> 0x02b6, TRY_LEAVE, TryCatch #3 {Exception -> 0x02b6, blocks: (B:124:0x0286, B:126:0x0294, B:128:0x029a, B:130:0x02a3), top: B:148:0x0286, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x011f A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:168:0x010d A[EDGE_INSN: B:168:0x010d->B:58:0x010d ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x00e3 A[Catch: Exception -> 0x02c9, TryCatch #2 {Exception -> 0x02c9, blocks: (B:11:0x003d, B:13:0x0049, B:15:0x0054, B:17:0x005c, B:19:0x0062, B:21:0x0069, B:24:0x007d, B:25:0x0080, B:42:0x00b1, B:44:0x00c7, B:46:0x00d0, B:48:0x00d8, B:50:0x00e3, B:52:0x00eb, B:54:0x00f3, B:56:0x00ff, B:57:0x010a, B:58:0x010d, B:110:0x0247, B:100:0x0206, B:90:0x01c5, B:80:0x0184, B:112:0x024c, B:133:0x02b7, B:123:0x0283, B:137:0x02c5, B:70:0x0150, B:41:0x00ae, B:43:0x00c0, B:134:0x02bb, B:136:0x02bf, B:61:0x011f, B:63:0x012f, B:65:0x0135, B:67:0x013c, B:124:0x0286, B:126:0x0294, B:128:0x029a, B:130:0x02a3, B:101:0x0209, B:103:0x021b, B:105:0x0222, B:107:0x0231, B:91:0x01c8, B:93:0x01da, B:95:0x01e1, B:97:0x01f0, B:81:0x0187, B:83:0x0199, B:85:0x01a0, B:87:0x01af, B:71:0x0153, B:73:0x0163, B:75:0x0169, B:77:0x0170, B:114:0x0252, B:116:0x0260, B:118:0x0266, B:120:0x026f), top: B:146:0x003d, inners: #0, #3, #4, #5, #7, #8, #11 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3940,7 +3940,7 @@ public class ImageLoader {
                     while (true) {
                         if (i < size) {
                             File file7 = dataDirs2.get(i);
-                            if (file7 != null && file7.getAbsolutePath().startsWith(SharedConfig.storageCacheDir)) {
+                            if (file7 != null && !TextUtils.isEmpty(SharedConfig.storageCacheDir) && file7.getAbsolutePath().startsWith(SharedConfig.storageCacheDir)) {
                                 File file8 = new File(file7, "Telegram");
                                 this.telegramPath = file8;
                                 file8.mkdirs();

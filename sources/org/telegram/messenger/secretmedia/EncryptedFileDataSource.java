@@ -82,7 +82,7 @@ public final class EncryptedFileDataSource extends BaseDataSource {
         }
     }
 
-    @Override // com.google.android.exoplayer2.upstream.DataSource
+    @Override // com.google.android.exoplayer2.upstream.DataReader
     public int read(byte[] bArr, int i, int i2) throws EncryptedFileDataSourceException {
         if (i2 == 0) {
             return 0;

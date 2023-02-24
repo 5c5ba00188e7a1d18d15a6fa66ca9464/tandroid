@@ -2,7 +2,7 @@ package org.webrtc;
 
 import java.util.HashMap;
 import java.util.Map;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class Metrics {
     private static final String TAG = "Metrics";
     public final Map<String, HistogramInfo> map = new HashMap();
@@ -15,7 +15,7 @@ public class Metrics {
     Metrics() {
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class HistogramInfo {
         public final int bucketCount;
         public final int max;

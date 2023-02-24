@@ -1,25 +1,44 @@
 package com.google.android.exoplayer2.decoder;
 
+import com.google.android.exoplayer2.ExoPlayerLibraryInfo;
+import com.google.android.exoplayer2.Format;
 import java.nio.ByteBuffer;
-import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 /* loaded from: classes.dex */
 public class DecoderInputBuffer extends Buffer {
     private final int bufferReplacementMode;
-    public final CryptoInfo cryptoInfo = new CryptoInfo();
+    public final CryptoInfo cryptoInfo;
     public ByteBuffer data;
+    public Format format;
+    private final int paddingSize;
     public ByteBuffer supplementalData;
     public long timeUs;
     public boolean waitingForKeys;
 
-    public static DecoderInputBuffer newFlagsOnlyInstance() {
+    static {
+        ExoPlayerLibraryInfo.registerModule("goog.exo.decoder");
+    }
+
+    /* loaded from: classes.dex */
+    public static final class InsufficientCapacityException extends IllegalStateException {
+        public InsufficientCapacityException(int i, int i2) {
+            super("Buffer too small (" + i + " < " + i2 + ")");
+        }
+    }
+
+    public static DecoderInputBuffer newNoDataInstance() {
         return new DecoderInputBuffer(0);
     }
 
     public DecoderInputBuffer(int i) {
-        this.bufferReplacementMode = i;
+        this(i, 0);
     }
 
-    @EnsuresNonNull({"supplementalData"})
+    public DecoderInputBuffer(int i, int i2) {
+        this.cryptoInfo = new CryptoInfo();
+        this.bufferReplacementMode = i;
+        this.paddingSize = i2;
+    }
+
     public void resetSupplementalData(int i) {
         ByteBuffer byteBuffer = this.supplementalData;
         if (byteBuffer == null || byteBuffer.capacity() < i) {
@@ -29,30 +48,27 @@ public class DecoderInputBuffer extends Buffer {
         }
     }
 
-    @EnsuresNonNull({"data"})
     public void ensureSpaceForWrite(int i) {
+        int i2 = i + this.paddingSize;
         ByteBuffer byteBuffer = this.data;
         if (byteBuffer == null) {
-            this.data = createReplacementByteBuffer(i);
+            this.data = createReplacementByteBuffer(i2);
             return;
         }
         int capacity = byteBuffer.capacity();
-        int position = this.data.position();
-        int i2 = i + position;
-        if (capacity >= i2) {
+        int position = byteBuffer.position();
+        int i3 = i2 + position;
+        if (capacity >= i3) {
+            this.data = byteBuffer;
             return;
         }
-        ByteBuffer createReplacementByteBuffer = createReplacementByteBuffer(i2);
-        createReplacementByteBuffer.order(this.data.order());
+        ByteBuffer createReplacementByteBuffer = createReplacementByteBuffer(i3);
+        createReplacementByteBuffer.order(byteBuffer.order());
         if (position > 0) {
-            this.data.flip();
-            createReplacementByteBuffer.put(this.data);
+            byteBuffer.flip();
+            createReplacementByteBuffer.put(byteBuffer);
         }
         this.data = createReplacementByteBuffer;
-    }
-
-    public final boolean isFlagsOnly() {
-        return this.data == null && this.bufferReplacementMode == 0;
     }
 
     public final boolean isEncrypted() {
@@ -60,10 +76,13 @@ public class DecoderInputBuffer extends Buffer {
     }
 
     public final void flip() {
-        this.data.flip();
-        ByteBuffer byteBuffer = this.supplementalData;
+        ByteBuffer byteBuffer = this.data;
         if (byteBuffer != null) {
             byteBuffer.flip();
+        }
+        ByteBuffer byteBuffer2 = this.supplementalData;
+        if (byteBuffer2 != null) {
+            byteBuffer2.flip();
         }
     }
 
@@ -90,7 +109,6 @@ public class DecoderInputBuffer extends Buffer {
             return ByteBuffer.allocateDirect(i);
         }
         ByteBuffer byteBuffer = this.data;
-        int capacity = byteBuffer == null ? 0 : byteBuffer.capacity();
-        throw new IllegalStateException("Buffer too small (" + capacity + " < " + i + ")");
+        throw new InsufficientCapacityException(byteBuffer == null ? 0 : byteBuffer.capacity(), i);
     }
 }

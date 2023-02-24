@@ -837,7 +837,7 @@ public class CalendarActivity extends BaseFragment {
 
             /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$onLongPress$1(final PeriodDay periodDay, View view) {
-                if (((BaseFragment) CalendarActivity.this).parentLayout.getFragmentStack().size() >= 3) {
+                if (((BaseFragment) CalendarActivity.this).parentLayout != null && ((BaseFragment) CalendarActivity.this).parentLayout.getFragmentStack().size() >= 3) {
                     final BaseFragment baseFragment = ((BaseFragment) CalendarActivity.this).parentLayout.getFragmentStack().get(((BaseFragment) CalendarActivity.this).parentLayout.getFragmentStack().size() - 3);
                     if (baseFragment instanceof ChatActivity) {
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda4

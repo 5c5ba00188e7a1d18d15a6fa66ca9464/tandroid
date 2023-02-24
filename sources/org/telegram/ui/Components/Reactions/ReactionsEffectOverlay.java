@@ -546,14 +546,14 @@ public class ReactionsEffectOverlay {
             this.val$visibleReaction = visibleReaction;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:174:0x0473  */
-        /* JADX WARN: Removed duplicated region for block: B:182:0x04a2  */
-        /* JADX WARN: Removed duplicated region for block: B:183:0x04a5  */
-        /* JADX WARN: Removed duplicated region for block: B:186:0x056b  */
-        /* JADX WARN: Removed duplicated region for block: B:191:0x0578  */
-        /* JADX WARN: Removed duplicated region for block: B:192:0x058c  */
-        /* JADX WARN: Removed duplicated region for block: B:195:0x0596  */
-        /* JADX WARN: Removed duplicated region for block: B:199:0x05a9  */
+        /* JADX WARN: Removed duplicated region for block: B:176:0x047b  */
+        /* JADX WARN: Removed duplicated region for block: B:184:0x04aa  */
+        /* JADX WARN: Removed duplicated region for block: B:185:0x04ad  */
+        /* JADX WARN: Removed duplicated region for block: B:188:0x0573  */
+        /* JADX WARN: Removed duplicated region for block: B:193:0x0580  */
+        /* JADX WARN: Removed duplicated region for block: B:194:0x0594  */
+        /* JADX WARN: Removed duplicated region for block: B:197:0x059e  */
+        /* JADX WARN: Removed duplicated region for block: B:201:0x05b1  */
         @Override // android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -630,7 +630,7 @@ public class ReactionsEffectOverlay {
                     ReactionsEffectOverlay.this.lastDrawnToX = f;
                     ReactionsEffectOverlay.this.lastDrawnToY = f2;
                 }
-                if (this.val$fragment.getParentActivity() == null || this.val$fragment.getFragmentView().getParent() == null || this.val$fragment.getFragmentView().getVisibility() != 0 || this.val$fragment.getFragmentView() == null) {
+                if (this.val$fragment.getParentActivity() == null || this.val$fragment.getFragmentView() == null || this.val$fragment.getFragmentView().getParent() == null || this.val$fragment.getFragmentView().getVisibility() != 0 || this.val$fragment.getFragmentView() == null) {
                     return;
                 }
                 this.val$fragment.getFragmentView().getLocationOnScreen(ReactionsEffectOverlay.this.loc);

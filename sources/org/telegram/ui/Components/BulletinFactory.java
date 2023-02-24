@@ -511,19 +511,21 @@ public final class BulletinFactory {
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(string);
         int indexOf = string.indexOf(42);
         int lastIndexOf = string.lastIndexOf(42);
-        spannableStringBuilder.replace(indexOf, lastIndexOf + 1, (CharSequence) string.substring(indexOf + 1, lastIndexOf));
-        spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Components.BulletinFactory.2
-            @Override // android.text.style.ClickableSpan
-            public void onClick(View view) {
-                BulletinFactory.this.fragment.presentFragment(new PremiumPreviewFragment("settings"));
-            }
+        if (indexOf >= 0) {
+            spannableStringBuilder.replace(indexOf, lastIndexOf + 1, (CharSequence) string.substring(indexOf + 1, lastIndexOf));
+            spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Components.BulletinFactory.2
+                @Override // android.text.style.ClickableSpan
+                public void onClick(View view) {
+                    BulletinFactory.this.fragment.presentFragment(new PremiumPreviewFragment("settings"));
+                }
 
-            @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
-            public void updateDrawState(TextPaint textPaint) {
-                super.updateDrawState(textPaint);
-                textPaint.setUnderlineText(false);
-            }
-        }, indexOf, lastIndexOf - 1, 33);
+                @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
+                public void updateDrawState(TextPaint textPaint) {
+                    super.updateDrawState(textPaint);
+                    textPaint.setUnderlineText(false);
+                }
+            }, indexOf, lastIndexOf - 1, 33);
+        }
         lottieLayout.textView.setText(spannableStringBuilder);
         lottieLayout.textView.setSingleLine(false);
         lottieLayout.textView.setMaxLines(2);

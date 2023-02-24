@@ -6,7 +6,6 @@ import java.util.AbstractCollection;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
-import javax.annotation.CheckForNull;
 /* compiled from: com.android.billingclient:billing@@5.1.0 */
 /* loaded from: classes.dex */
 public abstract class zzr extends AbstractCollection implements Serializable {
@@ -31,11 +30,11 @@ public abstract class zzr extends AbstractCollection implements Serializable {
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
-    public abstract boolean contains(@CheckForNull Object obj);
+    public abstract boolean contains(Object obj);
 
     @Override // java.util.AbstractCollection, java.util.Collection
     @Deprecated
-    public final boolean remove(@CheckForNull Object obj) {
+    public final boolean remove(Object obj) {
         throw new UnsupportedOperationException();
     }
 
@@ -82,7 +81,6 @@ public abstract class zzr extends AbstractCollection implements Serializable {
     public abstract boolean zzf();
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    @CheckForNull
     public Object[] zzg() {
         return null;
     }

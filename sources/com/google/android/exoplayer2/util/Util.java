@@ -1,12 +1,16 @@
 package com.google.android.exoplayer2.util;
 
-import android.annotation.TargetApi;
+import android.annotation.SuppressLint;
 import android.app.UiModeManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.graphics.Point;
+import android.hardware.display.DisplayManager;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
@@ -14,16 +18,22 @@ import android.os.Looper;
 import android.os.Parcel;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.view.Display;
+import android.view.WindowManager;
+import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.ParserException;
-import com.google.android.exoplayer2.SeekParameters;
-import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.Player;
+import com.google.common.base.Ascii;
+import com.google.common.base.Charsets;
 import j$.util.DesugarTimeZone;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.nio.charset.Charset;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.GregorianCalendar;
@@ -38,11 +48,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
-import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.TranslateController;
+import org.telegram.messenger.voip.VoIPController;
 import org.webrtc.MediaStreamTrack;
 /* loaded from: classes.dex */
 public final class Util {
@@ -51,13 +62,14 @@ public final class Util {
     public static final String DEVICE;
     public static final String DEVICE_DEBUG_INFO;
     public static final byte[] EMPTY_BYTE_ARRAY;
+    private static final Pattern ISM_PATH_PATTERN;
     public static final String MANUFACTURER;
     public static final String MODEL;
     public static final int SDK_INT;
     private static final Pattern XS_DATE_TIME_PATTERN;
     private static final Pattern XS_DURATION_PATTERN;
     private static final String[] additionalIsoLanguageReplacements;
-    private static final String[] isoGrandfatheredTagReplacements;
+    private static final String[] isoLegacyTagReplacements;
     private static HashMap<String, String> languageTagReplacementMap;
 
     public static long addWithOverflowDefault(long j, long j2, long j3) {
@@ -65,12 +77,10 @@ public final class Util {
         return ((j ^ j4) & (j2 ^ j4)) < 0 ? j3 : j4;
     }
 
-    @EnsuresNonNull({"#1"})
     public static <T> T castNonNull(T t) {
         return t;
     }
 
-    @EnsuresNonNull({"#1"})
     public static <T> T[] castNonNullTypeArray(T[] tArr) {
         return tArr;
     }
@@ -82,31 +92,70 @@ public final class Util {
         return j == j2 ? 0 : 1;
     }
 
-    public static int getAudioContentTypeForStreamType(int i) {
-        if (i != 0) {
-            return (i == 1 || i == 2 || i == 4 || i == 5 || i == 8) ? 4 : 2;
+    @SuppressLint({"InlinedApi"})
+    public static int getAudioTrackChannelConfig(int i) {
+        if (i != 12) {
+            switch (i) {
+                case 1:
+                    return 4;
+                case 2:
+                    return 12;
+                case 3:
+                    return 28;
+                case 4:
+                    return 204;
+                case 5:
+                    return 220;
+                case 6:
+                    return 252;
+                case 7:
+                    return 1276;
+                case 8:
+                    return 6396;
+                default:
+                    return 0;
+            }
         }
-        return 1;
+        return 743676;
     }
 
-    public static int getAudioUsageForStreamType(int i) {
-        if (i != 0) {
-            if (i != 1) {
-                if (i != 2) {
-                    int i2 = 4;
-                    if (i != 4) {
-                        i2 = 5;
-                        if (i != 5) {
-                            return i != 8 ? 1 : 3;
-                        }
-                    }
-                    return i2;
-                }
-                return 6;
-            }
-            return 13;
+    public static int getErrorCodeForMediaDrmErrorCode(int i) {
+        if (i == 2 || i == 4) {
+            return 6005;
         }
-        return 2;
+        if (i != 10) {
+            if (i != 7) {
+                if (i != 8) {
+                    switch (i) {
+                        case 15:
+                            return 6003;
+                        case 16:
+                        case 18:
+                            return 6005;
+                        case 17:
+                        case 19:
+                        case 20:
+                        case 21:
+                        case 22:
+                            return 6004;
+                        default:
+                            switch (i) {
+                                case 24:
+                                case 25:
+                                case 26:
+                                case 27:
+                                case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
+                                    return 6002;
+                                default:
+                                    return 6006;
+                            }
+                    }
+                }
+                return 6003;
+            }
+            return 6005;
+        }
+        return 6004;
     }
 
     public static int getPcmEncoding(int i) {
@@ -158,6 +207,10 @@ public final class Util {
         return i == 10 || i == 13;
     }
 
+    public static long msToUs(long j) {
+        return (j == -9223372036854775807L || j == Long.MIN_VALUE) ? j : j * 1000;
+    }
+
     public static long subtractWithOverflowDefault(long j, long j2, long j3) {
         long j4 = j - j2;
         return ((j ^ j4) & (j2 ^ j)) < 0 ? j3 : j4;
@@ -181,8 +234,9 @@ public final class Util {
         XS_DATE_TIME_PATTERN = Pattern.compile("(\\d\\d\\d\\d)\\-(\\d\\d)\\-(\\d\\d)[Tt](\\d\\d):(\\d\\d):(\\d\\d)([\\.,](\\d+))?([Zz]|((\\+|\\-)(\\d?\\d):?(\\d\\d)))?");
         XS_DURATION_PATTERN = Pattern.compile("^(-)?P(([0-9]*)Y)?(([0-9]*)M)?(([0-9]*)D)?(T(([0-9]*)H)?(([0-9]*)M)?(([0-9.]*)S)?)?$");
         Pattern.compile("%([A-Fa-f0-9]{2})");
-        additionalIsoLanguageReplacements = new String[]{"alb", "sq", "arm", "hy", "baq", "eu", "bur", "my", "tib", "bo", "chi", "zh", "cze", "cs", "dut", "nl", "ger", "de", "gre", "el", "fre", "fr", "geo", "ka", "ice", "is", "mac", "mk", "mao", "mi", "may", "ms", "per", "fa", "rum", "ro", "scc", "hbs-srp", "slo", "sk", "wel", "cy", "id", "ms-ind", "iw", "he", "heb", "he", "ji", "yi", "in", "ms-ind", "ind", "ms-ind", "nb", "no-nob", "nob", "no-nob", "nn", "no-nno", "nno", "no-nno", "tw", "ak-twi", "twi", "ak-twi", "bs", "hbs-bos", "bos", "hbs-bos", "hr", "hbs-hrv", "hrv", "hbs-hrv", "sr", "hbs-srp", "srp", "hbs-srp", "cmn", "zh-cmn", "hak", "zh-hak", "nan", "zh-nan", "hsn", "zh-hsn"};
-        isoGrandfatheredTagReplacements = new String[]{"i-lux", "lb", "i-hak", "zh-hak", "i-navajo", "nv", "no-bok", "no-nob", "no-nyn", "no-nno", "zh-guoyu", "zh-cmn", "zh-hakka", "zh-hak", "zh-min-nan", "zh-nan", "zh-xiang", "zh-hsn"};
+        ISM_PATH_PATTERN = Pattern.compile("(?:.*\\.)?isml?(?:/(manifest(.*))?)?", 2);
+        additionalIsoLanguageReplacements = new String[]{"alb", "sq", "arm", "hy", "baq", "eu", "bur", "my", "tib", "bo", "chi", "zh", "cze", "cs", "dut", "nl", "ger", "de", "gre", "el", "fre", "fr", "geo", "ka", "ice", "is", "mac", "mk", "mao", "mi", "may", "ms", "per", "fa", "rum", "ro", "scc", "hbs-srp", "slo", "sk", "wel", "cy", "id", "ms-ind", "iw", "he", "heb", "he", "ji", "yi", "arb", "ar-arb", "in", "ms-ind", "ind", "ms-ind", "nb", "no-nob", "nob", "no-nob", "nn", "no-nno", "nno", "no-nno", "tw", "ak-twi", "twi", "ak-twi", "bs", "hbs-bos", "bos", "hbs-bos", "hr", "hbs-hrv", "hrv", "hbs-hrv", "sr", "hbs-srp", "srp", "hbs-srp", "cmn", "zh-cmn", "hak", "zh-hak", "nan", "zh-nan", "hsn", "zh-hsn"};
+        isoLegacyTagReplacements = new String[]{"i-lux", "lb", "i-hak", "zh-hak", "i-navajo", "nv", "no-bok", "no-nob", "no-nyn", "no-nno", "zh-guoyu", "zh-cmn", "zh-hakka", "zh-hak", "zh-min-nan", "zh-nan", "zh-xiang", "zh-hsn"};
         CRC32_BYTES_MSBF = new int[]{0, 79764919, 159529838, 222504665, 319059676, 398814059, 445009330, 507990021, 638119352, 583659535, 797628118, 726387553, 890018660, 835552979, 1015980042, 944750013, 1276238704, 1221641927, 1167319070, 1095957929, 1595256236, 1540665371, 1452775106, 1381403509, 1780037320, 1859660671, 1671105958, 1733955601, 2031960084, 2111593891, 1889500026, 1952343757, -1742489888, -1662866601, -1851683442, -1788833735, -1960329156, -1880695413, -2103051438, -2040207643, -1104454824, -1159051537, -1213636554, -1284997759, -1389417084, -1444007885, -1532160278, -1603531939, -734892656, -789352409, -575645954, -646886583, -952755380, -1007220997, -827056094, -898286187, -231047128, -151282273, -71779514, -8804623, -515967244, -436212925, -390279782, -327299027, 881225847, 809987520, 1023691545, 969234094, 662832811, 591600412, 771767749, 717299826, 311336399, 374308984, 453813921, 533576470, 25881363, 88864420, 134795389, 214552010, 2023205639, 2086057648, 1897238633, 1976864222, 1804852699, 1867694188, 1645340341, 1724971778, 1587496639, 1516133128, 1461550545, 1406951526, 1302016099, 1230646740, 1142491917, 1087903418, -1398421865, -1469785312, -1524105735, -1578704818, -1079922613, -1151291908, -1239184603, -1293773166, -1968362705, -1905510760, -2094067647, -2014441994, -1716953613, -1654112188, -1876203875, -1796572374, -525066777, -462094256, -382327159, -302564546, -206542021, -143559028, -97365931, -17609246, -960696225, -1031934488, -817968335, -872425850, -709327229, -780559564, -600130067, -654598054, 1762451694, 1842216281, 1619975040, 1682949687, 2047383090, 2127137669, 1938468188, 2001449195, 1325665622, 1271206113, 1183200824, 1111960463, 1543535498, 1489069629, 1434599652, 1363369299, 622672798, 568075817, 748617968, 677256519, 907627842, 853037301, 1067152940, 995781531, 51762726, 131386257, 177728840, 240578815, 269590778, 349224269, 429104020, 491947555, -248556018, -168932423, -122852000, -60002089, -500490030, -420856475, -341238852, -278395381, -685261898, -739858943, -559578920, -630940305, -1004286614, -1058877219, -845023740, -916395085, -1119974018, -1174433591, -1262701040, -1333941337, -1371866206, -1426332139, -1481064244, -1552294533, -1690935098, -1611170447, -1833673816, -1770699233, -2009983462, -1930228819, -2119160460, -2056179517, 1569362073, 1498123566, 1409854455, 1355396672, 1317987909, 1246755826, 1192025387, 1137557660, 2072149281, 2135122070, 1912620623, 1992383480, 1753615357, 1816598090, 1627664531, 1707420964, 295390185, 358241886, 404320391, 483945776, 43990325, 106832002, 186451547, 266083308, 932423249, 861060070, 1041341759, 986742920, 613929101, 542559546, 756411363, 701822548, -978770311, -1050133554, -869589737, -924188512, -693284699, -764654318, -550540341, -605129092, -475935807, -413084042, -366743377, -287118056, -257573603, -194731862, -114850189, -35218492, -1984365303, -1921392450, -2143631769, -2063868976, -1698919467, -1635936670, -1824608069, -1744851700, -1347415887, -1418654458, -1506661409, -1561119128, -1129027987, -1200260134, -1254728445, -1309196108};
         CRC8_BYTES_MSBF = new int[]{0, 7, 14, 9, 28, 27, 18, 21, 56, 63, 54, 49, 36, 35, 42, 45, MessagesStorage.LAST_DB_VERSION, 119, 126, 121, 108, 107, 98, FileLoader.MEDIA_DIR_VIDEO_PUBLIC, 72, 79, 70, 65, 84, 83, 90, 93, 224, 231, 238, 233, 252, 251, 242, 245, 216, 223, 214, 209, 196, 195, 202, 205, 144, 151, 158, 153, 140, 139, 130, 133, 168, 175, 166, 161, 180, 179, 186, 189, 199, 192, 201, 206, 219, 220, 213, 210, 255, 248, 241, 246, 227, 228, 237, 234, 183, 176, 185, 190, 171, 172, 165, 162, 143, 136, 129, 134, 147, 148, 157, 154, 39, 32, 41, 46, 59, 60, 53, 50, 31, 24, 17, 22, 3, 4, 13, 10, 87, 80, 89, 94, 75, 76, 69, 66, 111, 104, 97, 102, 115, 116, 125, 122, 137, 142, 135, 128, 149, 146, 155, 156, 177, 182, 191, 184, 173, 170, 163, 164, 249, 254, 247, 240, 229, 226, 235, 236, 193, 198, 207, 200, 221, 218, 211, 212, 105, 110, 103, 96, 117, 114, 123, 124, 81, 86, 95, 88, 77, 74, 67, 68, 25, 30, 23, 16, 5, 2, 11, 12, 33, 38, 47, 40, 61, 58, 51, 52, 78, 73, 64, 71, 82, 85, 92, 91, 118, 113, 120, 127, 106, 109, 100, 99, 62, 57, 48, 55, 34, 37, 44, 43, 6, 1, 8, 15, 26, 29, 20, 19, 174, 169, 160, 167, 178, 181, 188, 187, ImageReceiver.DEFAULT_CROSSFADE_DURATION, 145, 152, 159, 138, 141, 132, 131, 222, 217, 208, 215, 194, 197, 204, 203, 230, 225, 232, 239, 250, 253, 244, 243};
     }
@@ -198,6 +252,13 @@ public final class Util {
                 return byteArrayOutputStream.toByteArray();
             }
         }
+    }
+
+    public static Intent registerReceiverNotExported(Context context, BroadcastReceiver broadcastReceiver, IntentFilter intentFilter) {
+        if (SDK_INT < 33) {
+            return context.registerReceiver(broadcastReceiver, intentFilter);
+        }
+        return context.registerReceiver(broadcastReceiver, intentFilter, 4);
     }
 
     public static boolean isLocalFileUri(Uri uri) {
@@ -253,21 +314,44 @@ public final class Util {
         return tArr3;
     }
 
-    public static Handler createHandler(Handler.Callback callback) {
-        return createHandler(getLooper(), callback);
+    public static Handler createHandlerForCurrentLooper() {
+        return createHandlerForCurrentLooper(null);
+    }
+
+    public static Handler createHandlerForCurrentLooper(Handler.Callback callback) {
+        return createHandler((Looper) Assertions.checkStateNotNull(Looper.myLooper()), callback);
+    }
+
+    public static Handler createHandlerForCurrentOrMainLooper() {
+        return createHandlerForCurrentOrMainLooper(null);
+    }
+
+    public static Handler createHandlerForCurrentOrMainLooper(Handler.Callback callback) {
+        return createHandler(getCurrentOrMainLooper(), callback);
     }
 
     public static Handler createHandler(Looper looper, Handler.Callback callback) {
         return new Handler(looper, callback);
     }
 
-    public static Looper getLooper() {
+    public static boolean postOrRun(Handler handler, Runnable runnable) {
+        if (handler.getLooper().getThread().isAlive()) {
+            if (handler.getLooper() == Looper.myLooper()) {
+                runnable.run();
+                return true;
+            }
+            return handler.post(runnable);
+        }
+        return false;
+    }
+
+    public static Looper getCurrentOrMainLooper() {
         Looper myLooper = Looper.myLooper();
         return myLooper != null ? myLooper : Looper.getMainLooper();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ Thread lambda$newSingleThreadExecutor$0(String str, Runnable runnable) {
+    public static /* synthetic */ Thread lambda$newSingleThreadExecutor$3(String str, Runnable runnable) {
         return new Thread(runnable, str);
     }
 
@@ -275,20 +359,11 @@ public final class Util {
         return Executors.newSingleThreadExecutor(new ThreadFactory() { // from class: com.google.android.exoplayer2.util.Util$$ExternalSyntheticLambda0
             @Override // java.util.concurrent.ThreadFactory
             public final Thread newThread(Runnable runnable) {
-                Thread lambda$newSingleThreadExecutor$0;
-                lambda$newSingleThreadExecutor$0 = Util.lambda$newSingleThreadExecutor$0(str, runnable);
-                return lambda$newSingleThreadExecutor$0;
+                Thread lambda$newSingleThreadExecutor$3;
+                lambda$newSingleThreadExecutor$3 = Util.lambda$newSingleThreadExecutor$3(str, runnable);
+                return lambda$newSingleThreadExecutor$3;
             }
         });
-    }
-
-    public static void closeQuietly(DataSource dataSource) {
-        if (dataSource != null) {
-            try {
-                dataSource.close();
-            } catch (IOException unused) {
-            }
-        }
     }
 
     public static void closeQuietly(Closeable closeable) {
@@ -317,32 +392,32 @@ public final class Util {
             return null;
         }
         String replace = str.replace('_', '-');
-        if (!replace.isEmpty() && !TranslateController.UNKNOWN_LANGUAGE.equals(replace)) {
+        if (!replace.isEmpty() && !replace.equals(TranslateController.UNKNOWN_LANGUAGE)) {
             str = replace;
         }
-        String lowerInvariant = toLowerInvariant(str);
-        String str2 = splitAtFirst(lowerInvariant, "-")[0];
+        String lowerCase = Ascii.toLowerCase(str);
+        String str2 = splitAtFirst(lowerCase, "-")[0];
         if (languageTagReplacementMap == null) {
             languageTagReplacementMap = createIsoLanguageReplacementMap();
         }
         String str3 = languageTagReplacementMap.get(str2);
         if (str3 != null) {
-            lowerInvariant = str3 + lowerInvariant.substring(str2.length());
+            lowerCase = str3 + lowerCase.substring(str2.length());
             str2 = str3;
         }
-        return ("no".equals(str2) || "i".equals(str2) || "zh".equals(str2)) ? maybeReplaceGrandfatheredLanguageTags(lowerInvariant) : lowerInvariant;
+        return ("no".equals(str2) || "i".equals(str2) || "zh".equals(str2)) ? maybeReplaceLegacyLanguageTags(lowerCase) : lowerCase;
     }
 
     public static String fromUtf8Bytes(byte[] bArr) {
-        return new String(bArr, Charset.forName("UTF-8"));
+        return new String(bArr, Charsets.UTF_8);
     }
 
     public static String fromUtf8Bytes(byte[] bArr, int i, int i2) {
-        return new String(bArr, i, i2, Charset.forName("UTF-8"));
+        return new String(bArr, i, i2, Charsets.UTF_8);
     }
 
     public static byte[] getUtf8Bytes(String str) {
-        return str.getBytes(Charset.forName("UTF-8"));
+        return str.getBytes(Charsets.UTF_8);
     }
 
     public static String[] split(String str, String str2) {
@@ -351,14 +426,6 @@ public final class Util {
 
     public static String[] splitAtFirst(String str, String str2) {
         return str.split(str2, 2);
-    }
-
-    public static String toLowerInvariant(String str) {
-        return str == null ? str : str.toLowerCase(Locale.US);
-    }
-
-    public static String toUpperInvariant(String str) {
-        return str == null ? str : str.toUpperCase(Locale.US);
     }
 
     public static String formatInvariant(String str, Object... objArr) {
@@ -394,6 +461,23 @@ public final class Util {
         return -1;
     }
 
+    public static int binarySearchFloor(int[] iArr, int i, boolean z, boolean z2) {
+        int i2;
+        int binarySearch = Arrays.binarySearch(iArr, i);
+        if (binarySearch < 0) {
+            i2 = -(binarySearch + 2);
+        } else {
+            do {
+                binarySearch--;
+                if (binarySearch < 0) {
+                    break;
+                }
+            } while (iArr[binarySearch] == i);
+            i2 = z ? binarySearch + 1 : binarySearch;
+        }
+        return z2 ? Math.max(0, i2) : i2;
+    }
+
     public static int binarySearchFloor(long[] jArr, long j, boolean z, boolean z2) {
         int i;
         int binarySearch = Arrays.binarySearch(jArr, j);
@@ -426,6 +510,27 @@ public final class Util {
             i = z ? binarySearch + 1 : binarySearch;
         }
         return z2 ? Math.max(0, i) : i;
+    }
+
+    public static int binarySearchFloor(LongArray longArray, long j, boolean z, boolean z2) {
+        int i;
+        int size = longArray.size() - 1;
+        int i2 = 0;
+        while (i2 <= size) {
+            int i3 = (i2 + size) >>> 1;
+            if (longArray.get(i3) < j) {
+                i2 = i3 + 1;
+            } else {
+                size = i3 - 1;
+            }
+        }
+        if (z && (i = size + 1) < longArray.size() && longArray.get(i) == j) {
+            return i;
+        }
+        if (z2 && size == -1) {
+            return 0;
+        }
+        return size;
     }
 
     public static int binarySearchCeil(long[] jArr, long j, boolean z, boolean z2) {
@@ -463,6 +568,10 @@ public final class Util {
         return z2 ? Math.min(list.size() - 1, i) : i;
     }
 
+    public static long usToMs(long j) {
+        return (j == -9223372036854775807L || j == Long.MIN_VALUE) ? j : j / 1000;
+    }
+
     public static long parseXsDuration(String str) {
         Matcher matcher = XS_DURATION_PATTERN.matcher(str);
         if (matcher.matches()) {
@@ -487,7 +596,7 @@ public final class Util {
     public static long parseXsDateTime(String str) throws ParserException {
         Matcher matcher = XS_DATE_TIME_PATTERN.matcher(str);
         if (!matcher.matches()) {
-            throw new ParserException("Invalid date/time format: " + str);
+            throw ParserException.createForMalformedContainer("Invalid date/time format: " + str, null);
         }
         int i = 0;
         if (matcher.group(9) != null && !matcher.group(9).equalsIgnoreCase("Z")) {
@@ -605,32 +714,12 @@ public final class Util {
         return Math.round(d / d2);
     }
 
-    public static long resolveSeekPositionUs(long j, SeekParameters seekParameters, long j2, long j3) {
-        if (SeekParameters.EXACT.equals(seekParameters)) {
-            return j;
-        }
-        long subtractWithOverflowDefault = subtractWithOverflowDefault(j, seekParameters.toleranceBeforeUs, Long.MIN_VALUE);
-        long addWithOverflowDefault = addWithOverflowDefault(j, seekParameters.toleranceAfterUs, Long.MAX_VALUE);
-        boolean z = true;
-        boolean z2 = subtractWithOverflowDefault <= j2 && j2 <= addWithOverflowDefault;
-        z = (subtractWithOverflowDefault > j3 || j3 > addWithOverflowDefault) ? false : false;
-        return (z2 && z) ? Math.abs(j2 - j) <= Math.abs(j3 - j) ? j2 : j3 : z2 ? j2 : z ? j3 : subtractWithOverflowDefault;
-    }
-
-    public static int[] toArray(List<Integer> list) {
-        if (list == null) {
-            return null;
-        }
-        int size = list.size();
-        int[] iArr = new int[size];
-        for (int i = 0; i < size; i++) {
-            iArr[i] = list.get(i).intValue();
-        }
-        return iArr;
-    }
-
     public static long toLong(int i, int i2) {
         return toUnsignedLong(i2) | (toUnsignedLong(i) << 32);
+    }
+
+    public static CharSequence truncateAscii(CharSequence charSequence, int i) {
+        return charSequence.length() <= i ? charSequence : charSequence.subSequence(0, i);
     }
 
     public static byte[] getBytesFromHexString(String str) {
@@ -643,6 +732,15 @@ public final class Util {
         return bArr;
     }
 
+    public static String toHexString(byte[] bArr) {
+        StringBuilder sb = new StringBuilder(bArr.length * 2);
+        for (int i = 0; i < bArr.length; i++) {
+            sb.append(Character.forDigit((bArr[i] >> 4) & 15, 16));
+            sb.append(Character.forDigit(bArr[i] & 15, 16));
+        }
+        return sb.toString();
+    }
+
     public static String getCommaDelimitedSimpleClassNames(Object[] objArr) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < objArr.length; i++) {
@@ -652,6 +750,16 @@ public final class Util {
             }
         }
         return sb.toString();
+    }
+
+    public static int getCodecCountOfType(String str, int i) {
+        int i2 = 0;
+        for (String str2 : splitCodecs(str)) {
+            if (i == MimeTypes.getTrackTypeOfCodec(str2)) {
+                i2++;
+            }
+        }
+        return i2;
     }
 
     public static String getCodecsOfType(String str, int i) {
@@ -678,28 +786,8 @@ public final class Util {
         return TextUtils.isEmpty(str) ? new String[0] : split(str.trim(), "(\\s*,\\s*)");
     }
 
-    public static int getAudioTrackChannelConfig(int i) {
-        switch (i) {
-            case 1:
-                return 4;
-            case 2:
-                return 12;
-            case 3:
-                return 28;
-            case 4:
-                return 204;
-            case 5:
-                return 220;
-            case 6:
-                return 252;
-            case 7:
-                return 1276;
-            case 8:
-                int i2 = SDK_INT;
-                return (i2 < 23 && i2 < 21) ? 0 : 6396;
-            default:
-                return 0;
-        }
+    public static Format getPcmFormat(int i, int i2, int i3) {
+        return new Format.Builder().setSampleMimeType("audio/raw").setChannelCount(i2).setSampleRate(i3).setPcmEncoding(i).build();
     }
 
     public static int getPcmFrameSize(int i, int i2) {
@@ -722,6 +810,141 @@ public final class Util {
         return i2 * 2;
     }
 
+    public static int generateAudioSessionIdV21(Context context) {
+        AudioManager audioManager = (AudioManager) context.getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
+        if (audioManager == null) {
+            return -1;
+        }
+        return audioManager.generateAudioSessionId();
+    }
+
+    public static int inferContentType(Uri uri) {
+        int inferContentTypeForExtension;
+        String scheme = uri.getScheme();
+        if (scheme == null || !Ascii.equalsIgnoreCase("rtsp", scheme)) {
+            String lastPathSegment = uri.getLastPathSegment();
+            if (lastPathSegment == null) {
+                return 4;
+            }
+            int lastIndexOf = lastPathSegment.lastIndexOf(46);
+            if (lastIndexOf < 0 || (inferContentTypeForExtension = inferContentTypeForExtension(lastPathSegment.substring(lastIndexOf + 1))) == 4) {
+                Matcher matcher = ISM_PATH_PATTERN.matcher((CharSequence) Assertions.checkNotNull(uri.getPath()));
+                if (matcher.matches()) {
+                    String group = matcher.group(2);
+                    if (group != null) {
+                        if (group.contains("format=mpd-time-csf")) {
+                            return 0;
+                        }
+                        if (group.contains("format=m3u8-aapl")) {
+                            return 2;
+                        }
+                    }
+                    return 1;
+                }
+                return 4;
+            }
+            return inferContentTypeForExtension;
+        }
+        return 3;
+    }
+
+    public static int inferContentTypeForExtension(String str) {
+        String lowerCase = Ascii.toLowerCase(str);
+        lowerCase.hashCode();
+        char c = 65535;
+        switch (lowerCase.hashCode()) {
+            case 104579:
+                if (lowerCase.equals("ism")) {
+                    c = 0;
+                    break;
+                }
+                break;
+            case 108321:
+                if (lowerCase.equals("mpd")) {
+                    c = 1;
+                    break;
+                }
+                break;
+            case 3242057:
+                if (lowerCase.equals("isml")) {
+                    c = 2;
+                    break;
+                }
+                break;
+            case 3299913:
+                if (lowerCase.equals("m3u8")) {
+                    c = 3;
+                    break;
+                }
+                break;
+        }
+        switch (c) {
+            case 0:
+            case 2:
+                return 1;
+            case 1:
+                return 0;
+            case 3:
+                return 2;
+            default:
+                return 4;
+        }
+    }
+
+    public static int inferContentTypeForUriAndMimeType(Uri uri, String str) {
+        if (str == null) {
+            return inferContentType(uri);
+        }
+        char c = 65535;
+        switch (str.hashCode()) {
+            case -979127466:
+                if (str.equals("application/x-mpegURL")) {
+                    c = 0;
+                    break;
+                }
+                break;
+            case -156749520:
+                if (str.equals("application/vnd.ms-sstr+xml")) {
+                    c = 1;
+                    break;
+                }
+                break;
+            case 64194685:
+                if (str.equals("application/dash+xml")) {
+                    c = 2;
+                    break;
+                }
+                break;
+            case 1154777587:
+                if (str.equals("application/x-rtsp")) {
+                    c = 3;
+                    break;
+                }
+                break;
+        }
+        switch (c) {
+            case 0:
+                return 2;
+            case 1:
+                return 1;
+            case 2:
+                return 0;
+            case 3:
+                return 3;
+            default:
+                return 4;
+        }
+    }
+
+    public static Uri fixSmoothStreamingIsmManifestUri(Uri uri) {
+        String path = uri.getPath();
+        if (path == null) {
+            return uri;
+        }
+        Matcher matcher = ISM_PATH_PATTERN.matcher(path);
+        return (matcher.matches() && matcher.group(1) == null) ? Uri.withAppendedPath(uri, "Manifest") : uri;
+    }
+
     public static int crc32(byte[] bArr, int i, int i2, int i3) {
         while (i < i2) {
             i3 = CRC32_BYTES_MSBF[((i3 >>> 24) ^ (bArr[i] & 255)) & 255] ^ (i3 << 8);
@@ -738,33 +961,9 @@ public final class Util {
         return i3;
     }
 
-    public static int getNetworkType(Context context) {
-        ConnectivityManager connectivityManager;
-        int i = 0;
-        if (context == null || (connectivityManager = (ConnectivityManager) context.getSystemService("connectivity")) == null) {
-            return 0;
-        }
-        try {
-            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-            i = 1;
-            if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
-                int type = activeNetworkInfo.getType();
-                if (type != 0) {
-                    if (type == 1) {
-                        return 2;
-                    }
-                    if (type != 4 && type != 5) {
-                        if (type != 6) {
-                            return type != 9 ? 8 : 7;
-                        }
-                        return 5;
-                    }
-                }
-                return getMobileNetworkType(activeNetworkInfo);
-            }
-        } catch (SecurityException unused) {
-        }
-        return i;
+    public static int getBigEndianInt(ByteBuffer byteBuffer, int i) {
+        int i2 = byteBuffer.getInt(i);
+        return byteBuffer.order() == ByteOrder.BIG_ENDIAN ? i2 : Integer.reverseBytes(i2);
     }
 
     public static String getCountryCode(Context context) {
@@ -772,10 +971,10 @@ public final class Util {
         if (context != null && (telephonyManager = (TelephonyManager) context.getSystemService("phone")) != null) {
             String networkCountryIso = telephonyManager.getNetworkCountryIso();
             if (!TextUtils.isEmpty(networkCountryIso)) {
-                return toUpperInvariant(networkCountryIso);
+                return Ascii.toUpperCase(networkCountryIso);
             }
         }
-        return toUpperInvariant(Locale.getDefault().getCountry());
+        return Ascii.toUpperCase(Locale.getDefault().getCountry());
     }
 
     public static String[] getSystemLanguageCodes() {
@@ -786,35 +985,28 @@ public final class Util {
         return systemLocales;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x005e, code lost:
-        return false;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public static boolean inflate(ParsableByteArray parsableByteArray, ParsableByteArray parsableByteArray2, Inflater inflater) {
         if (parsableByteArray.bytesLeft() <= 0) {
             return false;
         }
-        byte[] bArr = parsableByteArray2.data;
-        if (bArr.length < parsableByteArray.bytesLeft()) {
-            bArr = new byte[parsableByteArray.bytesLeft() * 2];
+        if (parsableByteArray2.capacity() < parsableByteArray.bytesLeft()) {
+            parsableByteArray2.ensureCapacity(parsableByteArray.bytesLeft() * 2);
         }
         if (inflater == null) {
             inflater = new Inflater();
         }
-        inflater.setInput(parsableByteArray.data, parsableByteArray.getPosition(), parsableByteArray.bytesLeft());
+        inflater.setInput(parsableByteArray.getData(), parsableByteArray.getPosition(), parsableByteArray.bytesLeft());
         int i = 0;
         while (true) {
             try {
-                i += inflater.inflate(bArr, i, bArr.length - i);
+                i += inflater.inflate(parsableByteArray2.getData(), i, parsableByteArray2.capacity() - i);
                 if (inflater.finished()) {
-                    parsableByteArray2.reset(bArr, i);
+                    parsableByteArray2.setLimit(i);
                     return true;
                 } else if (inflater.needsDictionary() || inflater.needsInput()) {
                     break;
-                } else if (i == bArr.length) {
-                    bArr = Arrays.copyOf(bArr, bArr.length * 2);
+                } else if (i == parsableByteArray2.capacity()) {
+                    parsableByteArray2.ensureCapacity(parsableByteArray2.capacity() * 2);
                 }
             } catch (DataFormatException unused) {
                 return false;
@@ -822,6 +1014,7 @@ public final class Util {
                 inflater.reset();
             }
         }
+        return false;
     }
 
     public static boolean isTv(Context context) {
@@ -829,8 +1022,63 @@ public final class Util {
         return uiModeManager != null && uiModeManager.getCurrentModeType() == 4;
     }
 
+    public static boolean isAutomotive(Context context) {
+        return SDK_INT >= 23 && context.getPackageManager().hasSystemFeature("android.hardware.type.automotive");
+    }
+
+    public static Point getCurrentDisplayModeSize(Context context) {
+        DisplayManager displayManager;
+        Display display = (SDK_INT < 17 || (displayManager = (DisplayManager) context.getSystemService("display")) == null) ? null : displayManager.getDisplay(0);
+        if (display == null) {
+            display = ((WindowManager) Assertions.checkNotNull((WindowManager) context.getSystemService("window"))).getDefaultDisplay();
+        }
+        return getCurrentDisplayModeSize(context, display);
+    }
+
+    public static Point getCurrentDisplayModeSize(Context context, Display display) {
+        String systemProperty;
+        if (display.getDisplayId() == 0 && isTv(context)) {
+            if (SDK_INT < 28) {
+                systemProperty = getSystemProperty("sys.display-size");
+            } else {
+                systemProperty = getSystemProperty("vendor.display-size");
+            }
+            if (!TextUtils.isEmpty(systemProperty)) {
+                try {
+                    String[] split = split(systemProperty.trim(), "x");
+                    if (split.length == 2) {
+                        int parseInt = Integer.parseInt(split[0]);
+                        int parseInt2 = Integer.parseInt(split[1]);
+                        if (parseInt > 0 && parseInt2 > 0) {
+                            return new Point(parseInt, parseInt2);
+                        }
+                    }
+                } catch (NumberFormatException unused) {
+                }
+                Log.e("Util", "Invalid display size: " + systemProperty);
+            }
+            if ("Sony".equals(MANUFACTURER) && MODEL.startsWith("BRAVIA") && context.getPackageManager().hasSystemFeature("com.sony.dtv.hardware.panel.qfhd")) {
+                return new Point(3840, 2160);
+            }
+        }
+        Point point = new Point();
+        int i = SDK_INT;
+        if (i >= 23) {
+            getDisplaySizeV23(display, point);
+        } else if (i >= 17) {
+            getDisplaySizeV17(display, point);
+        } else {
+            getDisplaySizeV16(display, point);
+        }
+        return point;
+    }
+
     public static String getTrackTypeString(int i) {
         switch (i) {
+            case VoIPController.ERROR_PRIVACY /* -2 */:
+                return "none";
+            case VoIPController.ERROR_PEER_OUTDATED /* -1 */:
+                return "unknown";
             case 0:
                 return "default";
             case 1:
@@ -840,11 +1088,11 @@ public final class Util {
             case 3:
                 return "text";
             case 4:
-                return "metadata";
+                return "image";
             case 5:
-                return "camera motion";
+                return "metadata";
             case 6:
-                return "none";
+                return "camera motion";
             default:
                 if (i >= 10000) {
                     return "custom (" + i + ")";
@@ -853,51 +1101,111 @@ public final class Util {
         }
     }
 
+    public static long getNowUnixTimeMs(long j) {
+        if (j == -9223372036854775807L) {
+            return System.currentTimeMillis();
+        }
+        return j + android.os.SystemClock.elapsedRealtime();
+    }
+
+    public static <T> void moveItems(List<T> list, int i, int i2, int i3) {
+        ArrayDeque arrayDeque = new ArrayDeque();
+        for (int i4 = (i2 - i) - 1; i4 >= 0; i4--) {
+            arrayDeque.addFirst(list.remove(i + i4));
+        }
+        list.addAll(Math.min(i3, list.size()), arrayDeque);
+    }
+
+    public static int getErrorCodeFromPlatformDiagnosticsInfo(String str) {
+        String[] split;
+        int length;
+        if (str != null && (length = (split = split(str, "_")).length) >= 2) {
+            String str2 = split[length - 1];
+            boolean z = length >= 3 && "neg".equals(split[length - 2]);
+            try {
+                int parseInt = Integer.parseInt((String) Assertions.checkNotNull(str2));
+                return z ? -parseInt : parseInt;
+            } catch (NumberFormatException unused) {
+                return 0;
+            }
+        }
+        return 0;
+    }
+
+    public static String getFormatSupportString(int i) {
+        if (i != 0) {
+            if (i != 1) {
+                if (i != 2) {
+                    if (i != 3) {
+                        if (i == 4) {
+                            return "YES";
+                        }
+                        throw new IllegalStateException();
+                    }
+                    return "NO_EXCEEDS_CAPABILITIES";
+                }
+                return "NO_UNSUPPORTED_DRM";
+            }
+            return "NO_UNSUPPORTED_TYPE";
+        }
+        return "NO";
+    }
+
+    public static Player.Commands getAvailableCommands(Player player, Player.Commands commands) {
+        boolean isPlayingAd = player.isPlayingAd();
+        boolean isCurrentMediaItemSeekable = player.isCurrentMediaItemSeekable();
+        boolean hasPreviousMediaItem = player.hasPreviousMediaItem();
+        boolean hasNextMediaItem = player.hasNextMediaItem();
+        boolean isCurrentMediaItemLive = player.isCurrentMediaItemLive();
+        boolean isCurrentMediaItemDynamic = player.isCurrentMediaItemDynamic();
+        boolean isEmpty = player.getCurrentTimeline().isEmpty();
+        boolean z = false;
+        Player.Commands.Builder addIf = new Player.Commands.Builder().addAll(commands).addIf(4, !isPlayingAd).addIf(5, isCurrentMediaItemSeekable && !isPlayingAd).addIf(6, hasPreviousMediaItem && !isPlayingAd).addIf(7, !isEmpty && (hasPreviousMediaItem || !isCurrentMediaItemLive || isCurrentMediaItemSeekable) && !isPlayingAd).addIf(8, hasNextMediaItem && !isPlayingAd).addIf(9, !isEmpty && (hasNextMediaItem || (isCurrentMediaItemLive && isCurrentMediaItemDynamic)) && !isPlayingAd).addIf(10, !isPlayingAd).addIf(11, isCurrentMediaItemSeekable && !isPlayingAd);
+        if (isCurrentMediaItemSeekable && !isPlayingAd) {
+            z = true;
+        }
+        return addIf.addIf(12, z).build();
+    }
+
+    public static String intToStringMaxRadix(int i) {
+        return Integer.toString(i, 36);
+    }
+
+    private static String getSystemProperty(String str) {
+        try {
+            Class<?> cls = Class.forName("android.os.SystemProperties");
+            return (String) cls.getMethod("get", String.class).invoke(cls, str);
+        } catch (Exception e) {
+            Log.e("Util", "Failed to read system property " + str, e);
+            return null;
+        }
+    }
+
+    private static void getDisplaySizeV23(Display display, Point point) {
+        Display.Mode mode = display.getMode();
+        point.x = mode.getPhysicalWidth();
+        point.y = mode.getPhysicalHeight();
+    }
+
+    private static void getDisplaySizeV17(Display display, Point point) {
+        display.getRealSize(point);
+    }
+
+    private static void getDisplaySizeV16(Display display, Point point) {
+        display.getSize(point);
+    }
+
     private static String[] getSystemLocales() {
         Configuration configuration = Resources.getSystem().getConfiguration();
         return SDK_INT >= 24 ? getSystemLocalesV24(configuration) : new String[]{getLocaleLanguageTag(configuration.locale)};
     }
 
-    @TargetApi(24)
     private static String[] getSystemLocalesV24(Configuration configuration) {
         return split(configuration.getLocales().toLanguageTags(), ",");
     }
 
-    @TargetApi(21)
     private static String getLocaleLanguageTagV21(Locale locale) {
         return locale.toLanguageTag();
-    }
-
-    private static int getMobileNetworkType(NetworkInfo networkInfo) {
-        switch (networkInfo.getSubtype()) {
-            case 1:
-            case 2:
-                return 3;
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-            case 8:
-            case 9:
-            case 10:
-            case 11:
-            case 12:
-            case 14:
-            case 15:
-            case 17:
-                return 4;
-            case 13:
-                return 5;
-            case 16:
-            case 19:
-            default:
-                return 6;
-            case 18:
-                return 2;
-            case 20:
-                return 9;
-        }
     }
 
     private static HashMap<String, String> createIsoLanguageReplacementMap() {
@@ -923,10 +1231,10 @@ public final class Util {
         }
     }
 
-    private static String maybeReplaceGrandfatheredLanguageTags(String str) {
+    private static String maybeReplaceLegacyLanguageTags(String str) {
         int i = 0;
         while (true) {
-            String[] strArr = isoGrandfatheredTagReplacements;
+            String[] strArr = isoLegacyTagReplacements;
             if (i >= strArr.length) {
                 return str;
             }

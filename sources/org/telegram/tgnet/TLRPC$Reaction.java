@@ -25,14 +25,4 @@ public abstract class TLRPC$Reaction extends TLObject {
         }
         return tLRPC$TL_reactionCustomEmoji;
     }
-
-    public boolean equals(TLRPC$Reaction tLRPC$Reaction) {
-        if (tLRPC$Reaction == null) {
-            return false;
-        }
-        if ((this instanceof TLRPC$TL_reactionEmpty) && (tLRPC$Reaction instanceof TLRPC$TL_reactionEmpty)) {
-            return true;
-        }
-        return ((this instanceof TLRPC$TL_reactionEmoji) && (tLRPC$Reaction instanceof TLRPC$TL_reactionEmoji)) ? ((TLRPC$TL_reactionEmoji) this).emoticon == ((TLRPC$TL_reactionEmoji) tLRPC$Reaction).emoticon : (this instanceof TLRPC$TL_reactionCustomEmoji) && (tLRPC$Reaction instanceof TLRPC$TL_reactionCustomEmoji) && ((TLRPC$TL_reactionCustomEmoji) this).document_id == ((TLRPC$TL_reactionCustomEmoji) tLRPC$Reaction).document_id;
-    }
 }

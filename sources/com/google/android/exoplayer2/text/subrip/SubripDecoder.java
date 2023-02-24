@@ -6,9 +6,12 @@ import android.text.TextUtils;
 import com.google.android.exoplayer2.text.Cue;
 import com.google.android.exoplayer2.text.SimpleSubtitleDecoder;
 import com.google.android.exoplayer2.text.Subtitle;
+import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.LongArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
+import com.google.common.base.Charsets;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,14 +33,16 @@ public final class SubripDecoder extends SimpleSubtitleDecoder {
         ArrayList arrayList = new ArrayList();
         LongArray longArray = new LongArray();
         ParsableByteArray parsableByteArray = new ParsableByteArray(bArr, i);
+        Charset detectUtfCharset = detectUtfCharset(parsableByteArray);
         while (true) {
-            String readLine = parsableByteArray.readLine();
+            String readLine = parsableByteArray.readLine(detectUtfCharset);
+            int i2 = 0;
             if (readLine == null) {
                 break;
             } else if (readLine.length() != 0) {
                 try {
                     Integer.parseInt(readLine);
-                    String readLine2 = parsableByteArray.readLine();
+                    String readLine2 = parsableByteArray.readLine(detectUtfCharset);
                     if (readLine2 == null) {
                         Log.w("SubripDecoder", "Unexpected end");
                         break;
@@ -46,10 +51,9 @@ public final class SubripDecoder extends SimpleSubtitleDecoder {
                     if (matcher.matches()) {
                         longArray.add(parseTimecode(matcher, 1));
                         longArray.add(parseTimecode(matcher, 6));
-                        int i2 = 0;
                         this.textBuilder.setLength(0);
                         this.tags.clear();
-                        for (String readLine3 = parsableByteArray.readLine(); !TextUtils.isEmpty(readLine3); readLine3 = parsableByteArray.readLine()) {
+                        for (String readLine3 = parsableByteArray.readLine(detectUtfCharset); !TextUtils.isEmpty(readLine3); readLine3 = parsableByteArray.readLine(detectUtfCharset)) {
                             if (this.textBuilder.length() > 0) {
                                 this.textBuilder.append("<br>");
                             }
@@ -78,9 +82,12 @@ public final class SubripDecoder extends SimpleSubtitleDecoder {
                 }
             }
         }
-        Cue[] cueArr = new Cue[arrayList.size()];
-        arrayList.toArray(cueArr);
-        return new SubripSubtitle(cueArr, longArray.toArray());
+        return new SubripSubtitle((Cue[]) arrayList.toArray(new Cue[0]), longArray.toArray());
+    }
+
+    private Charset detectUtfCharset(ParsableByteArray parsableByteArray) {
+        Charset readUtfCharsetFromBom = parsableByteArray.readUtfCharsetFromBom();
+        return readUtfCharsetFromBom != null ? readUtfCharsetFromBom : Charsets.UTF_8;
     }
 
     private String processLine(String str, ArrayList<String> arrayList) {
@@ -103,8 +110,9 @@ public final class SubripDecoder extends SimpleSubtitleDecoder {
     private Cue buildCue(Spanned spanned, String str) {
         char c;
         char c2;
+        Cue.Builder text = new Cue.Builder().setText(spanned);
         if (str == null) {
-            return new Cue(spanned);
+            return text.build();
         }
         switch (str.hashCode()) {
             case -685620710:
@@ -174,7 +182,13 @@ public final class SubripDecoder extends SimpleSubtitleDecoder {
                 c = 65535;
                 break;
         }
-        int i = (c == 0 || c == 1 || c == 2) ? 0 : (c == 3 || c == 4 || c == 5) ? 2 : 1;
+        if (c == 0 || c == 1 || c == 2) {
+            text.setPositionAnchor(0);
+        } else if (c == 3 || c == 4 || c == 5) {
+            text.setPositionAnchor(2);
+        } else {
+            text.setPositionAnchor(1);
+        }
         switch (str.hashCode()) {
             case -685620710:
                 if (str.equals("{\\an1}")) {
@@ -243,13 +257,19 @@ public final class SubripDecoder extends SimpleSubtitleDecoder {
                 c2 = 65535;
                 break;
         }
-        int i2 = (c2 == 0 || c2 == 1 || c2 == 2) ? 2 : (c2 == 3 || c2 == 4 || c2 == 5) ? 0 : 1;
-        return new Cue(spanned, null, getFractionalPositionForAnchorType(i2), 0, i2, getFractionalPositionForAnchorType(i), i, -3.4028235E38f);
+        if (c2 == 0 || c2 == 1 || c2 == 2) {
+            text.setLineAnchor(2);
+        } else if (c2 == 3 || c2 == 4 || c2 == 5) {
+            text.setLineAnchor(0);
+        } else {
+            text.setLineAnchor(1);
+        }
+        return text.setPosition(getFractionalPositionForAnchorType(text.getPositionAnchor())).setLine(getFractionalPositionForAnchorType(text.getLineAnchor()), 0).build();
     }
 
     private static long parseTimecode(Matcher matcher, int i) {
         String group = matcher.group(i + 1);
-        long parseLong = (group != null ? Long.parseLong(group) * 60 * 60 * 1000 : 0L) + (Long.parseLong(matcher.group(i + 2)) * 60 * 1000) + (Long.parseLong(matcher.group(i + 3)) * 1000);
+        long parseLong = (group != null ? Long.parseLong(group) * 60 * 60 * 1000 : 0L) + (Long.parseLong((String) Assertions.checkNotNull(matcher.group(i + 2))) * 60 * 1000) + (Long.parseLong((String) Assertions.checkNotNull(matcher.group(i + 3))) * 1000);
         String group2 = matcher.group(i + 4);
         if (group2 != null) {
             parseLong += Long.parseLong(group2);

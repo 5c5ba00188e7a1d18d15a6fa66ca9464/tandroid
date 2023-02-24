@@ -642,6 +642,9 @@ public class ContentPreviewViewer {
                     final Object obj = ContentPreviewViewer.this.parentObject;
                     final String str = ContentPreviewViewer.this.currentQuery;
                     final ContentPreviewViewerDelegate contentPreviewViewerDelegate = ContentPreviewViewer.this.delegate;
+                    if (contentPreviewViewerDelegate == null) {
+                        return;
+                    }
                     AlertsCreator.createScheduleDatePickerDialog(ContentPreviewViewer.this.parentActivity, contentPreviewViewerDelegate.getDialogId(), new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.ContentPreviewViewer$1$1$$ExternalSyntheticLambda0
                         @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
                         public final void didSelectDate(boolean z, int i) {

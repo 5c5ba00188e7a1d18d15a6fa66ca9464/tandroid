@@ -10,5 +10,7 @@ public interface Clock {
 
     long elapsedRealtime();
 
+    void onThreadBlocked();
+
     long uptimeMillis();
 }

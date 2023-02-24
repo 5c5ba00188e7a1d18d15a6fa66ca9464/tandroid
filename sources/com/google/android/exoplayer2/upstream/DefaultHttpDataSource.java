@@ -1,71 +1,89 @@
 package com.google.android.exoplayer2.upstream;
 
 import android.net.Uri;
-import android.text.TextUtils;
+import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.HttpDataSource;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
-import com.google.android.exoplayer2.util.Predicate;
 import com.google.android.exoplayer2.util.Util;
-import java.io.EOFException;
+import com.google.common.base.Predicate;
+import com.google.common.collect.ForwardingMap;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Sets;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.NoRouteToHostException;
-import java.net.ProtocolException;
 import java.net.URL;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Set;
 import java.util.zip.GZIPInputStream;
 /* loaded from: classes.dex */
 public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSource {
-    private static final Pattern CONTENT_RANGE_HEADER = Pattern.compile("^bytes (\\d+)-(\\d+)/(\\d+)$");
-    private static final AtomicReference<byte[]> skipBufferReference = new AtomicReference<>();
     private final boolean allowCrossProtocolRedirects;
     private long bytesRead;
-    private long bytesSkipped;
     private long bytesToRead;
-    private long bytesToSkip;
     private final int connectTimeoutMillis;
     private HttpURLConnection connection;
     private Predicate<String> contentTypePredicate;
     private DataSpec dataSpec;
     private final HttpDataSource.RequestProperties defaultRequestProperties;
     private InputStream inputStream;
+    private final boolean keepPostFor302Redirects;
     private boolean opened;
     private final int readTimeoutMillis;
     private final HttpDataSource.RequestProperties requestProperties;
     private int responseCode;
     private final String userAgent;
 
-    public DefaultHttpDataSource(String str, int i, int i2, boolean z, HttpDataSource.RequestProperties requestProperties) {
-        super(true);
-        this.userAgent = Assertions.checkNotEmpty(str);
-        this.requestProperties = new HttpDataSource.RequestProperties();
-        this.connectTimeoutMillis = i;
-        this.readTimeoutMillis = i2;
-        this.allowCrossProtocolRedirects = z;
-        this.defaultRequestProperties = requestProperties;
+    /* loaded from: classes.dex */
+    public static final class Factory implements DataSource.Factory {
+        private boolean allowCrossProtocolRedirects;
+        private Predicate<String> contentTypePredicate;
+        private boolean keepPostFor302Redirects;
+        private TransferListener transferListener;
+        private String userAgent;
+        private final HttpDataSource.RequestProperties defaultRequestProperties = new HttpDataSource.RequestProperties();
+        private int connectTimeoutMs = 8000;
+        private int readTimeoutMs = 8000;
+
+        public Factory setUserAgent(String str) {
+            this.userAgent = str;
+            return this;
+        }
+
+        @Override // com.google.android.exoplayer2.upstream.DataSource.Factory
+        public DefaultHttpDataSource createDataSource() {
+            DefaultHttpDataSource defaultHttpDataSource = new DefaultHttpDataSource(this.userAgent, this.connectTimeoutMs, this.readTimeoutMs, this.allowCrossProtocolRedirects, this.defaultRequestProperties, this.contentTypePredicate, this.keepPostFor302Redirects);
+            TransferListener transferListener = this.transferListener;
+            if (transferListener != null) {
+                defaultHttpDataSource.addTransferListener(transferListener);
+            }
+            return defaultHttpDataSource;
+        }
     }
 
     @Deprecated
-    public DefaultHttpDataSource(String str, Predicate<String> predicate, int i, int i2, boolean z, HttpDataSource.RequestProperties requestProperties) {
+    public DefaultHttpDataSource(String str, int i, int i2, boolean z, HttpDataSource.RequestProperties requestProperties) {
+        this(str, i, i2, z, requestProperties, null, false);
+    }
+
+    private DefaultHttpDataSource(String str, int i, int i2, boolean z, HttpDataSource.RequestProperties requestProperties, Predicate<String> predicate, boolean z2) {
         super(true);
-        this.userAgent = Assertions.checkNotEmpty(str);
-        this.contentTypePredicate = predicate;
-        this.requestProperties = new HttpDataSource.RequestProperties();
+        this.userAgent = str;
         this.connectTimeoutMillis = i;
         this.readTimeoutMillis = i2;
         this.allowCrossProtocolRedirects = z;
         this.defaultRequestProperties = requestProperties;
+        this.contentTypePredicate = predicate;
+        this.requestProperties = new HttpDataSource.RequestProperties();
+        this.keepPostFor302Redirects = z2;
     }
 
     @Override // com.google.android.exoplayer2.upstream.DataSource
@@ -80,97 +98,124 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
     @Override // com.google.android.exoplayer2.upstream.BaseDataSource, com.google.android.exoplayer2.upstream.DataSource
     public Map<String, List<String>> getResponseHeaders() {
         HttpURLConnection httpURLConnection = this.connection;
-        return httpURLConnection == null ? Collections.emptyMap() : httpURLConnection.getHeaderFields();
+        if (httpURLConnection == null) {
+            return ImmutableMap.of();
+        }
+        return new NullFilteringHeadersMap(httpURLConnection.getHeaderFields());
     }
 
     @Override // com.google.android.exoplayer2.upstream.DataSource
     public long open(DataSpec dataSpec) throws HttpDataSource.HttpDataSourceException {
+        byte[] bArr;
         this.dataSpec = dataSpec;
         long j = 0;
         this.bytesRead = 0L;
-        this.bytesSkipped = 0L;
+        this.bytesToRead = 0L;
         transferInitializing(dataSpec);
         try {
             HttpURLConnection makeConnection = makeConnection(dataSpec);
             this.connection = makeConnection;
-            try {
-                this.responseCode = makeConnection.getResponseCode();
-                String responseMessage = this.connection.getResponseMessage();
-                int i = this.responseCode;
-                if (i < 200 || i > 299) {
-                    Map<String, List<String>> headerFields = this.connection.getHeaderFields();
-                    closeConnectionQuietly();
-                    HttpDataSource.InvalidResponseCodeException invalidResponseCodeException = new HttpDataSource.InvalidResponseCodeException(this.responseCode, responseMessage, headerFields, dataSpec);
-                    if (this.responseCode == 416) {
-                        invalidResponseCodeException.initCause(new DataSourceException(0));
-                    }
-                    throw invalidResponseCodeException;
-                }
-                String contentType = this.connection.getContentType();
-                Predicate<String> predicate = this.contentTypePredicate;
-                if (predicate != null && !predicate.evaluate(contentType)) {
-                    closeConnectionQuietly();
-                    throw new HttpDataSource.InvalidContentTypeException(contentType, dataSpec);
-                }
-                if (this.responseCode == 200) {
-                    long j2 = dataSpec.position;
-                    if (j2 != 0) {
-                        j = j2;
+            this.responseCode = makeConnection.getResponseCode();
+            String responseMessage = makeConnection.getResponseMessage();
+            int i = this.responseCode;
+            if (i < 200 || i > 299) {
+                Map<String, List<String>> headerFields = makeConnection.getHeaderFields();
+                if (this.responseCode == 416) {
+                    if (dataSpec.position == HttpUtil.getDocumentSize(makeConnection.getHeaderField("Content-Range"))) {
+                        this.opened = true;
+                        transferStarted(dataSpec);
+                        long j2 = dataSpec.length;
+                        if (j2 != -1) {
+                            return j2;
+                        }
+                        return 0L;
                     }
                 }
-                this.bytesToSkip = j;
-                boolean isCompressed = isCompressed(this.connection);
-                if (!isCompressed) {
-                    long j3 = dataSpec.length;
-                    if (j3 != -1) {
-                        this.bytesToRead = j3;
-                    } else {
-                        long contentLength = getContentLength(this.connection);
-                        this.bytesToRead = contentLength != -1 ? contentLength - this.bytesToSkip : -1L;
-                    }
-                } else {
-                    this.bytesToRead = dataSpec.length;
-                }
+                InputStream errorStream = makeConnection.getErrorStream();
                 try {
-                    this.inputStream = this.connection.getInputStream();
-                    if (isCompressed) {
-                        this.inputStream = new GZIPInputStream(this.inputStream);
-                    }
-                    this.opened = true;
-                    transferStarted(dataSpec);
+                    bArr = errorStream != null ? Util.toByteArray(errorStream) : Util.EMPTY_BYTE_ARRAY;
+                } catch (IOException unused) {
+                    bArr = Util.EMPTY_BYTE_ARRAY;
+                }
+                byte[] bArr2 = bArr;
+                closeConnectionQuietly();
+                throw new HttpDataSource.InvalidResponseCodeException(this.responseCode, responseMessage, this.responseCode == 416 ? new DataSourceException(2008) : null, headerFields, dataSpec, bArr2);
+            }
+            String contentType = makeConnection.getContentType();
+            Predicate<String> predicate = this.contentTypePredicate;
+            if (predicate != null && !predicate.apply(contentType)) {
+                closeConnectionQuietly();
+                throw new HttpDataSource.InvalidContentTypeException(contentType, dataSpec);
+            }
+            if (this.responseCode == 200) {
+                long j3 = dataSpec.position;
+                if (j3 != 0) {
+                    j = j3;
+                }
+            }
+            boolean isCompressed = isCompressed(makeConnection);
+            if (!isCompressed) {
+                long j4 = dataSpec.length;
+                if (j4 != -1) {
+                    this.bytesToRead = j4;
+                } else {
+                    long contentLength = HttpUtil.getContentLength(makeConnection.getHeaderField("Content-Length"), makeConnection.getHeaderField("Content-Range"));
+                    this.bytesToRead = contentLength != -1 ? contentLength - j : -1L;
+                }
+            } else {
+                this.bytesToRead = dataSpec.length;
+            }
+            try {
+                this.inputStream = makeConnection.getInputStream();
+                if (isCompressed) {
+                    this.inputStream = new GZIPInputStream(this.inputStream);
+                }
+                this.opened = true;
+                transferStarted(dataSpec);
+                try {
+                    skipFully(j, dataSpec);
                     return this.bytesToRead;
                 } catch (IOException e) {
                     closeConnectionQuietly();
-                    throw new HttpDataSource.HttpDataSourceException(e, dataSpec, 1);
+                    if (e instanceof HttpDataSource.HttpDataSourceException) {
+                        throw ((HttpDataSource.HttpDataSourceException) e);
+                    }
+                    throw new HttpDataSource.HttpDataSourceException(e, dataSpec, 2000, 1);
                 }
             } catch (IOException e2) {
                 closeConnectionQuietly();
-                throw new HttpDataSource.HttpDataSourceException("Unable to connect", e2, dataSpec, 1);
+                throw new HttpDataSource.HttpDataSourceException(e2, dataSpec, 2000, 1);
             }
         } catch (IOException e3) {
-            throw new HttpDataSource.HttpDataSourceException("Unable to connect", e3, dataSpec, 1);
+            closeConnectionQuietly();
+            throw HttpDataSource.HttpDataSourceException.createForIOException(e3, dataSpec, 1);
         }
     }
 
-    @Override // com.google.android.exoplayer2.upstream.DataSource
+    @Override // com.google.android.exoplayer2.upstream.DataReader
     public int read(byte[] bArr, int i, int i2) throws HttpDataSource.HttpDataSourceException {
         try {
-            skipInternal();
             return readInternal(bArr, i, i2);
         } catch (IOException e) {
-            throw new HttpDataSource.HttpDataSourceException(e, this.dataSpec, 2);
+            throw HttpDataSource.HttpDataSourceException.createForIOException(e, (DataSpec) Util.castNonNull(this.dataSpec), 2);
         }
     }
 
     @Override // com.google.android.exoplayer2.upstream.DataSource
     public void close() throws HttpDataSource.HttpDataSourceException {
         try {
-            if (this.inputStream != null) {
-                maybeTerminateInputStream(this.connection, bytesRemaining());
+            InputStream inputStream = this.inputStream;
+            if (inputStream != null) {
+                long j = this.bytesToRead;
+                long j2 = -1;
+                if (j != -1) {
+                    j2 = j - this.bytesRead;
+                }
+                maybeTerminateInputStream(this.connection, j2);
                 try {
-                    this.inputStream.close();
+                    inputStream.close();
                 } catch (IOException e) {
-                    throw new HttpDataSource.HttpDataSourceException(e, this.dataSpec, 3);
+                    throw new HttpDataSource.HttpDataSourceException(e, (DataSpec) Util.castNonNull(this.dataSpec), 2000, 3);
                 }
             }
         } finally {
@@ -183,54 +228,59 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
         }
     }
 
-    protected final long bytesRemaining() {
-        long j = this.bytesToRead;
-        return j == -1 ? j : j - this.bytesRead;
-    }
-
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x00ad, code lost:
+        return r0;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private HttpURLConnection makeConnection(DataSpec dataSpec) throws IOException {
-        HttpURLConnection makeConnection;
-        DataSpec dataSpec2 = dataSpec;
-        URL url = new URL(dataSpec2.uri.toString());
-        int i = dataSpec2.httpMethod;
-        byte[] bArr = dataSpec2.httpBody;
-        long j = dataSpec2.position;
-        long j2 = dataSpec2.length;
-        boolean isFlagSet = dataSpec2.isFlagSet(1);
-        if (this.allowCrossProtocolRedirects) {
-            int i2 = 0;
-            while (true) {
-                int i3 = i2 + 1;
-                if (i2 <= 20) {
-                    byte[] bArr2 = bArr;
-                    long j3 = j2;
-                    long j4 = j;
-                    makeConnection = makeConnection(url, i, bArr, j, j2, isFlagSet, false, dataSpec2.httpRequestHeaders);
-                    int responseCode = makeConnection.getResponseCode();
-                    String headerField = makeConnection.getHeaderField("Location");
-                    if ((i == 1 || i == 3) && (responseCode == 300 || responseCode == 301 || responseCode == 302 || responseCode == 303 || responseCode == 307 || responseCode == 308)) {
-                        makeConnection.disconnect();
-                        url = handleRedirect(url, headerField);
-                    } else if (i != 2 || (responseCode != 300 && responseCode != 301 && responseCode != 302 && responseCode != 303)) {
-                        break;
-                    } else {
-                        makeConnection.disconnect();
-                        url = handleRedirect(url, headerField);
-                        bArr2 = null;
-                        i = 1;
-                    }
-                    i2 = i3;
-                    bArr = bArr2;
-                    j2 = j3;
-                    j = j4;
-                    dataSpec2 = dataSpec;
-                } else {
-                    throw new NoRouteToHostException("Too many redirects: " + i3);
-                }
-            }
-            return makeConnection;
+        URL url = new URL(dataSpec.uri.toString());
+        int i = dataSpec.httpMethod;
+        byte[] bArr = dataSpec.httpBody;
+        long j = dataSpec.position;
+        long j2 = dataSpec.length;
+        boolean isFlagSet = dataSpec.isFlagSet(1);
+        if (!this.allowCrossProtocolRedirects && !this.keepPostFor302Redirects) {
+            return makeConnection(url, i, bArr, j, j2, isFlagSet, true, dataSpec.httpRequestHeaders);
         }
-        return makeConnection(url, i, bArr, j, j2, isFlagSet, true, dataSpec2.httpRequestHeaders);
+        URL url2 = url;
+        int i2 = i;
+        byte[] bArr2 = bArr;
+        int i3 = 0;
+        while (true) {
+            int i4 = i3 + 1;
+            if (i3 <= 20) {
+                int i5 = i2;
+                long j3 = j;
+                URL url3 = url2;
+                long j4 = j2;
+                HttpURLConnection makeConnection = makeConnection(url2, i2, bArr2, j, j2, isFlagSet, false, dataSpec.httpRequestHeaders);
+                int responseCode = makeConnection.getResponseCode();
+                String headerField = makeConnection.getHeaderField("Location");
+                if ((i5 == 1 || i5 == 3) && (responseCode == 300 || responseCode == 301 || responseCode == 302 || responseCode == 303 || responseCode == 307 || responseCode == 308)) {
+                    makeConnection.disconnect();
+                    url2 = handleRedirect(url3, headerField, dataSpec);
+                    i2 = i5;
+                } else if (i5 != 2 || (responseCode != 300 && responseCode != 301 && responseCode != 302 && responseCode != 303)) {
+                    break;
+                } else {
+                    makeConnection.disconnect();
+                    if (this.keepPostFor302Redirects && responseCode == 302) {
+                        i2 = i5;
+                    } else {
+                        bArr2 = null;
+                        i2 = 1;
+                    }
+                    url2 = handleRedirect(url3, headerField, dataSpec);
+                }
+                i3 = i4;
+                j = j3;
+                j2 = j4;
+            } else {
+                throw new HttpDataSource.HttpDataSourceException(new NoRouteToHostException("Too many redirects: " + i4), dataSpec, 2001, 1);
+            }
+        }
     }
 
     private HttpURLConnection makeConnection(URL url, int i, byte[] bArr, long j, long j2, boolean z, boolean z2, Map<String, String> map) throws IOException {
@@ -247,14 +297,14 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
         for (Map.Entry entry : hashMap.entrySet()) {
             openConnection.setRequestProperty((String) entry.getKey(), (String) entry.getValue());
         }
-        if (j != 0 || j2 != -1) {
-            String str = "bytes=" + j + "-";
-            if (j2 != -1) {
-                str = str + ((j + j2) - 1);
-            }
-            openConnection.setRequestProperty("Range", str);
+        String buildRangeRequestHeader = HttpUtil.buildRangeRequestHeader(j, j2);
+        if (buildRangeRequestHeader != null) {
+            openConnection.setRequestProperty("Range", buildRangeRequestHeader);
         }
-        openConnection.setRequestProperty("User-Agent", this.userAgent);
+        String str = this.userAgent;
+        if (str != null) {
+            openConnection.setRequestProperty("User-Agent", str);
+        }
         openConnection.setRequestProperty("Accept-Encoding", z ? "gzip" : "identity");
         openConnection.setInstanceFollowRedirects(z2);
         openConnection.setDoOutput(bArr != null);
@@ -275,87 +325,40 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
         return (HttpURLConnection) url.openConnection();
     }
 
-    private static URL handleRedirect(URL url, String str) throws IOException {
+    private URL handleRedirect(URL url, String str, DataSpec dataSpec) throws HttpDataSource.HttpDataSourceException {
         if (str == null) {
-            throw new ProtocolException("Null location redirect");
+            throw new HttpDataSource.HttpDataSourceException("Null location redirect", dataSpec, 2001, 1);
         }
-        URL url2 = new URL(url, str);
-        String protocol = url2.getProtocol();
-        if ("https".equals(protocol) || "http".equals(protocol)) {
-            return url2;
-        }
-        throw new ProtocolException("Unsupported protocol redirect: " + protocol);
-    }
-
-    /* JADX WARN: Removed duplicated region for block: B:10:0x003a  */
-    /* JADX WARN: Removed duplicated region for block: B:26:? A[RETURN, SYNTHETIC] */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    private static long getContentLength(HttpURLConnection httpURLConnection) {
-        long parseLong;
-        String headerField;
-        String headerField2 = httpURLConnection.getHeaderField("Content-Length");
-        if (!TextUtils.isEmpty(headerField2)) {
-            try {
-                parseLong = Long.parseLong(headerField2);
-            } catch (NumberFormatException unused) {
-                Log.e("DefaultHttpDataSource", "Unexpected Content-Length [" + headerField2 + "]");
+        try {
+            URL url2 = new URL(url, str);
+            String protocol = url2.getProtocol();
+            if (!"https".equals(protocol) && !"http".equals(protocol)) {
+                throw new HttpDataSource.HttpDataSourceException("Unsupported protocol redirect: " + protocol, dataSpec, 2001, 1);
+            } else if (this.allowCrossProtocolRedirects || protocol.equals(url.getProtocol())) {
+                return url2;
+            } else {
+                throw new HttpDataSource.HttpDataSourceException("Disallowed cross-protocol redirect (" + url.getProtocol() + " to " + protocol + ")", dataSpec, 2001, 1);
             }
-            headerField = httpURLConnection.getHeaderField("Content-Range");
-            if (TextUtils.isEmpty(headerField)) {
-                Matcher matcher = CONTENT_RANGE_HEADER.matcher(headerField);
-                if (matcher.find()) {
-                    try {
-                        long parseLong2 = (Long.parseLong(matcher.group(2)) - Long.parseLong(matcher.group(1))) + 1;
-                        if (parseLong < 0) {
-                            return parseLong2;
-                        }
-                        if (parseLong != parseLong2) {
-                            Log.w("DefaultHttpDataSource", "Inconsistent headers [" + headerField2 + "] [" + headerField + "]");
-                            return Math.max(parseLong, parseLong2);
-                        }
-                        return parseLong;
-                    } catch (NumberFormatException unused2) {
-                        Log.e("DefaultHttpDataSource", "Unexpected Content-Range [" + headerField + "]");
-                        return parseLong;
-                    }
-                }
-                return parseLong;
-            }
-            return parseLong;
-        }
-        parseLong = -1;
-        headerField = httpURLConnection.getHeaderField("Content-Range");
-        if (TextUtils.isEmpty(headerField)) {
+        } catch (MalformedURLException e) {
+            throw new HttpDataSource.HttpDataSourceException(e, dataSpec, 2001, 1);
         }
     }
 
-    private void skipInternal() throws IOException {
-        if (this.bytesSkipped == this.bytesToSkip) {
+    private void skipFully(long j, DataSpec dataSpec) throws IOException {
+        if (j == 0) {
             return;
         }
-        byte[] andSet = skipBufferReference.getAndSet(null);
-        if (andSet == null) {
-            andSet = new byte[4096];
-        }
-        while (true) {
-            long j = this.bytesSkipped;
-            long j2 = this.bytesToSkip;
-            if (j != j2) {
-                int read = this.inputStream.read(andSet, 0, (int) Math.min(j2 - j, andSet.length));
-                if (Thread.currentThread().isInterrupted()) {
-                    throw new InterruptedIOException();
-                }
-                if (read == -1) {
-                    throw new EOFException();
-                }
-                this.bytesSkipped += read;
-                bytesTransferred(read);
-            } else {
-                skipBufferReference.set(andSet);
-                return;
+        byte[] bArr = new byte[4096];
+        while (j > 0) {
+            int read = ((InputStream) Util.castNonNull(this.inputStream)).read(bArr, 0, (int) Math.min(j, 4096));
+            if (Thread.currentThread().isInterrupted()) {
+                throw new HttpDataSource.HttpDataSourceException(new InterruptedIOException(), dataSpec, 2000, 1);
             }
+            if (read == -1) {
+                throw new HttpDataSource.HttpDataSourceException(dataSpec, 2008, 1);
+            }
+            j -= read;
+            bytesTransferred(read);
         }
     }
 
@@ -371,12 +374,9 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
             }
             i2 = (int) Math.min(i2, j2);
         }
-        int read = this.inputStream.read(bArr, i, i2);
+        int read = ((InputStream) Util.castNonNull(this.inputStream)).read(bArr, i, i2);
         if (read == -1) {
-            if (this.bytesToRead == -1) {
-                return -1;
-            }
-            throw new EOFException();
+            return -1;
         }
         this.bytesRead += read;
         bytesTransferred(read);
@@ -384,8 +384,8 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
     }
 
     private static void maybeTerminateInputStream(HttpURLConnection httpURLConnection, long j) {
-        int i = Util.SDK_INT;
-        if (i == 19 || i == 20) {
+        int i;
+        if (httpURLConnection != null && (i = Util.SDK_INT) >= 19 && i <= 20) {
             try {
                 InputStream inputStream = httpURLConnection.getInputStream();
                 if (j == -1) {
@@ -396,11 +396,12 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
                     return;
                 }
                 String name = inputStream.getClass().getName();
-                if ("com.android.okhttp.internal.http.HttpTransport$ChunkedInputStream".equals(name) || "com.android.okhttp.internal.http.HttpTransport$FixedLengthInputStream".equals(name)) {
-                    Method declaredMethod = inputStream.getClass().getSuperclass().getDeclaredMethod("unexpectedEndOfInput", new Class[0]);
-                    declaredMethod.setAccessible(true);
-                    declaredMethod.invoke(inputStream, new Object[0]);
+                if (!"com.android.okhttp.internal.http.HttpTransport$ChunkedInputStream".equals(name) && !"com.android.okhttp.internal.http.HttpTransport$FixedLengthInputStream".equals(name)) {
+                    return;
                 }
+                Method declaredMethod = ((Class) Assertions.checkNotNull(inputStream.getClass().getSuperclass())).getDeclaredMethod("unexpectedEndOfInput", new Class[0]);
+                declaredMethod.setAccessible(true);
+                declaredMethod.invoke(inputStream, new Object[0]);
             } catch (Exception unused) {
             }
         }
@@ -420,5 +421,82 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
 
     private static boolean isCompressed(HttpURLConnection httpURLConnection) {
         return "gzip".equalsIgnoreCase(httpURLConnection.getHeaderField("Content-Encoding"));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static class NullFilteringHeadersMap extends ForwardingMap<String, List<String>> {
+        private final Map<String, List<String>> headers;
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ boolean lambda$keySet$0(String str) {
+            return str != null;
+        }
+
+        public NullFilteringHeadersMap(Map<String, List<String>> map) {
+            this.headers = map;
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // com.google.common.collect.ForwardingMap, com.google.common.collect.ForwardingObject
+        public Map<String, List<String>> delegate() {
+            return this.headers;
+        }
+
+        @Override // com.google.common.collect.ForwardingMap, java.util.Map
+        public boolean containsKey(Object obj) {
+            return obj != null && super.containsKey(obj);
+        }
+
+        @Override // com.google.common.collect.ForwardingMap, java.util.Map
+        public List<String> get(Object obj) {
+            if (obj == null) {
+                return null;
+            }
+            return (List) super.get(obj);
+        }
+
+        @Override // com.google.common.collect.ForwardingMap, java.util.Map
+        public Set<String> keySet() {
+            return Sets.filter(super.keySet(), DefaultHttpDataSource$NullFilteringHeadersMap$$ExternalSyntheticLambda0.INSTANCE);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ boolean lambda$entrySet$1(Map.Entry entry) {
+            return entry.getKey() != null;
+        }
+
+        @Override // com.google.common.collect.ForwardingMap, java.util.Map
+        public Set<Map.Entry<String, List<String>>> entrySet() {
+            return Sets.filter(super.entrySet(), DefaultHttpDataSource$NullFilteringHeadersMap$$ExternalSyntheticLambda1.INSTANCE);
+        }
+
+        @Override // com.google.common.collect.ForwardingMap, java.util.Map
+        public int size() {
+            return super.size() - (super.containsKey(null) ? 1 : 0);
+        }
+
+        @Override // com.google.common.collect.ForwardingMap, java.util.Map
+        public boolean isEmpty() {
+            if (super.isEmpty()) {
+                return true;
+            }
+            return super.size() == 1 && super.containsKey(null);
+        }
+
+        @Override // java.util.Map
+        public boolean containsValue(Object obj) {
+            return super.standardContainsValue(obj);
+        }
+
+        @Override // java.util.Map
+        public boolean equals(Object obj) {
+            return obj != null && super.standardEquals(obj);
+        }
+
+        @Override // java.util.Map
+        public int hashCode() {
+            return super.standardHashCode();
+        }
     }
 }

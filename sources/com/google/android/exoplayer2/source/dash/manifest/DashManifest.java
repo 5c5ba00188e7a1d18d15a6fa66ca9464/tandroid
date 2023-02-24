@@ -1,9 +1,9 @@
 package com.google.android.exoplayer2.source.dash.manifest;
 
 import android.net.Uri;
-import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.offline.FilterableManifest;
 import com.google.android.exoplayer2.offline.StreamKey;
+import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -19,6 +19,7 @@ public class DashManifest implements FilterableManifest<DashManifest> {
     private final List<Period> periods;
     public final ProgramInformation programInformation;
     public final long publishTimeMs;
+    public final ServiceDescriptionElement serviceDescription;
     public final long suggestedPresentationDelayMs;
     public final long timeShiftBufferDepthMs;
     public final UtcTimingElement utcTiming;
@@ -28,7 +29,7 @@ public class DashManifest implements FilterableManifest<DashManifest> {
         return copy((List<StreamKey>) list);
     }
 
-    public DashManifest(long j, long j2, long j3, boolean z, long j4, long j5, long j6, long j7, ProgramInformation programInformation, UtcTimingElement utcTimingElement, Uri uri, List<Period> list) {
+    public DashManifest(long j, long j2, long j3, boolean z, long j4, long j5, long j6, long j7, ProgramInformation programInformation, UtcTimingElement utcTimingElement, ServiceDescriptionElement serviceDescriptionElement, Uri uri, List<Period> list) {
         this.availabilityStartTimeMs = j;
         this.durationMs = j2;
         this.minBufferTimeMs = j3;
@@ -40,6 +41,7 @@ public class DashManifest implements FilterableManifest<DashManifest> {
         this.programInformation = programInformation;
         this.utcTiming = utcTimingElement;
         this.location = uri;
+        this.serviceDescription = serviceDescriptionElement;
         this.periods = list == null ? Collections.emptyList() : list;
     }
 
@@ -66,7 +68,7 @@ public class DashManifest implements FilterableManifest<DashManifest> {
     }
 
     public final long getPeriodDurationUs(int i) {
-        return C.msToUs(getPeriodDurationMs(i));
+        return Util.msToUs(getPeriodDurationMs(i));
     }
 
     @Override // com.google.android.exoplayer2.offline.FilterableManifest
@@ -93,7 +95,7 @@ public class DashManifest implements FilterableManifest<DashManifest> {
             i++;
         }
         long j2 = this.durationMs;
-        return new DashManifest(this.availabilityStartTimeMs, j2 != -9223372036854775807L ? j2 - j : -9223372036854775807L, this.minBufferTimeMs, this.dynamic, this.minUpdatePeriodMs, this.timeShiftBufferDepthMs, this.suggestedPresentationDelayMs, this.publishTimeMs, this.programInformation, this.utcTiming, this.location, arrayList);
+        return new DashManifest(this.availabilityStartTimeMs, j2 != -9223372036854775807L ? j2 - j : -9223372036854775807L, this.minBufferTimeMs, this.dynamic, this.minUpdatePeriodMs, this.timeShiftBufferDepthMs, this.suggestedPresentationDelayMs, this.publishTimeMs, this.programInformation, this.utcTiming, this.serviceDescription, this.location, arrayList);
     }
 
     private static ArrayList<AdaptationSet> copyAdaptationSets(List<AdaptationSet> list, LinkedList<StreamKey> linkedList) {
@@ -106,7 +108,7 @@ public class DashManifest implements FilterableManifest<DashManifest> {
             List<Representation> list2 = adaptationSet.representations;
             ArrayList arrayList2 = new ArrayList();
             do {
-                arrayList2.add(list2.get(poll.trackIndex));
+                arrayList2.add(list2.get(poll.streamIndex));
                 poll = linkedList.poll();
                 if (poll.periodIndex != i) {
                     break;

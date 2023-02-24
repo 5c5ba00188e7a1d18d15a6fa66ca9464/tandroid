@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.source;
 
 import android.os.Handler;
 import com.google.android.exoplayer2.Timeline;
+import com.google.android.exoplayer2.drm.DrmSessionEventListener;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.MediaSourceEventListener;
 import com.google.android.exoplayer2.upstream.TransferListener;
@@ -11,13 +12,11 @@ import java.io.IOException;
 import java.util.HashMap;
 /* loaded from: classes.dex */
 public abstract class CompositeMediaSource<T> extends BaseMediaSource {
-    private final HashMap<T, MediaSourceAndListener> childSources = new HashMap<>();
+    private final HashMap<T, MediaSourceAndListener<T>> childSources = new HashMap<>();
     private Handler eventHandler;
     private TransferListener mediaTransferListener;
 
-    protected MediaSource.MediaPeriodId getMediaPeriodIdForChildMediaPeriodId(T t, MediaSource.MediaPeriodId mediaPeriodId) {
-        return mediaPeriodId;
-    }
+    protected abstract MediaSource.MediaPeriodId getMediaPeriodIdForChildMediaPeriodId(T t, MediaSource.MediaPeriodId mediaPeriodId);
 
     protected long getMediaTimeForChildMediaTime(T t, long j) {
         return j;
@@ -31,43 +30,41 @@ public abstract class CompositeMediaSource<T> extends BaseMediaSource {
     /* renamed from: onChildSourceInfoRefreshed */
     public abstract void lambda$prepareChildSource$0(T t, MediaSource mediaSource, Timeline timeline);
 
-    protected boolean shouldDispatchCreateOrReleaseEvent(MediaSource.MediaPeriodId mediaPeriodId) {
-        return true;
-    }
-
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.source.BaseMediaSource
     public void prepareSourceInternal(TransferListener transferListener) {
         this.mediaTransferListener = transferListener;
-        this.eventHandler = new Handler();
+        this.eventHandler = Util.createHandlerForCurrentLooper();
     }
 
     @Override // com.google.android.exoplayer2.source.MediaSource
     public void maybeThrowSourceInfoRefreshError() throws IOException {
-        for (MediaSourceAndListener mediaSourceAndListener : this.childSources.values()) {
+        for (MediaSourceAndListener<T> mediaSourceAndListener : this.childSources.values()) {
             mediaSourceAndListener.mediaSource.maybeThrowSourceInfoRefreshError();
         }
     }
 
     @Override // com.google.android.exoplayer2.source.BaseMediaSource
     protected void enableInternal() {
-        for (MediaSourceAndListener mediaSourceAndListener : this.childSources.values()) {
+        for (MediaSourceAndListener<T> mediaSourceAndListener : this.childSources.values()) {
             mediaSourceAndListener.mediaSource.enable(mediaSourceAndListener.caller);
         }
     }
 
     @Override // com.google.android.exoplayer2.source.BaseMediaSource
     protected void disableInternal() {
-        for (MediaSourceAndListener mediaSourceAndListener : this.childSources.values()) {
+        for (MediaSourceAndListener<T> mediaSourceAndListener : this.childSources.values()) {
             mediaSourceAndListener.mediaSource.disable(mediaSourceAndListener.caller);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.source.BaseMediaSource
-    protected void releaseSourceInternal() {
-        for (MediaSourceAndListener mediaSourceAndListener : this.childSources.values()) {
+    public void releaseSourceInternal() {
+        for (MediaSourceAndListener<T> mediaSourceAndListener : this.childSources.values()) {
             mediaSourceAndListener.mediaSource.releaseSource(mediaSourceAndListener.caller);
             mediaSourceAndListener.mediaSource.removeEventListener(mediaSourceAndListener.eventListener);
+            mediaSourceAndListener.mediaSource.removeDrmEventListener(mediaSourceAndListener.eventListener);
         }
         this.childSources.clear();
     }
@@ -82,9 +79,10 @@ public abstract class CompositeMediaSource<T> extends BaseMediaSource {
             }
         };
         ForwardingEventListener forwardingEventListener = new ForwardingEventListener(t);
-        this.childSources.put(t, new MediaSourceAndListener(mediaSource, mediaSourceCaller, forwardingEventListener));
+        this.childSources.put(t, new MediaSourceAndListener<>(mediaSource, mediaSourceCaller, forwardingEventListener));
         mediaSource.addEventListener((Handler) Assertions.checkNotNull(this.eventHandler), forwardingEventListener);
-        mediaSource.prepareSource(mediaSourceCaller, this.mediaTransferListener);
+        mediaSource.addDrmEventListener((Handler) Assertions.checkNotNull(this.eventHandler), forwardingEventListener);
+        mediaSource.prepareSource(mediaSourceCaller, this.mediaTransferListener, getPlayerId());
         if (isEnabled()) {
             return;
         }
@@ -92,88 +90,116 @@ public abstract class CompositeMediaSource<T> extends BaseMediaSource {
     }
 
     /* loaded from: classes.dex */
-    private static final class MediaSourceAndListener {
+    private static final class MediaSourceAndListener<T> {
         public final MediaSource.MediaSourceCaller caller;
-        public final MediaSourceEventListener eventListener;
+        public final CompositeMediaSource<T>.ForwardingEventListener eventListener;
         public final MediaSource mediaSource;
 
-        public MediaSourceAndListener(MediaSource mediaSource, MediaSource.MediaSourceCaller mediaSourceCaller, MediaSourceEventListener mediaSourceEventListener) {
+        public MediaSourceAndListener(MediaSource mediaSource, MediaSource.MediaSourceCaller mediaSourceCaller, CompositeMediaSource<T>.ForwardingEventListener forwardingEventListener) {
             this.mediaSource = mediaSource;
             this.caller = mediaSourceCaller;
-            this.eventListener = mediaSourceEventListener;
+            this.eventListener = forwardingEventListener;
         }
     }
 
     /* loaded from: classes.dex */
-    private final class ForwardingEventListener implements MediaSourceEventListener {
-        private MediaSourceEventListener.EventDispatcher eventDispatcher;
+    private final class ForwardingEventListener implements MediaSourceEventListener, DrmSessionEventListener {
+        private DrmSessionEventListener.EventDispatcher drmEventDispatcher;
         private final T id;
+        private MediaSourceEventListener.EventDispatcher mediaSourceEventDispatcher;
+
+        @Override // com.google.android.exoplayer2.drm.DrmSessionEventListener
+        public /* synthetic */ void onDrmSessionAcquired(int i, MediaSource.MediaPeriodId mediaPeriodId) {
+            DrmSessionEventListener.-CC.$default$onDrmSessionAcquired(this, i, mediaPeriodId);
+        }
 
         public ForwardingEventListener(T t) {
-            this.eventDispatcher = CompositeMediaSource.this.createEventDispatcher(null);
+            this.mediaSourceEventDispatcher = CompositeMediaSource.this.createEventDispatcher(null);
+            this.drmEventDispatcher = CompositeMediaSource.this.createDrmEventDispatcher(null);
             this.id = t;
         }
 
         @Override // com.google.android.exoplayer2.source.MediaSourceEventListener
-        public void onMediaPeriodCreated(int i, MediaSource.MediaPeriodId mediaPeriodId) {
-            if (maybeUpdateEventDispatcher(i, mediaPeriodId) && CompositeMediaSource.this.shouldDispatchCreateOrReleaseEvent((MediaSource.MediaPeriodId) Assertions.checkNotNull(this.eventDispatcher.mediaPeriodId))) {
-                this.eventDispatcher.mediaPeriodCreated();
-            }
-        }
-
-        @Override // com.google.android.exoplayer2.source.MediaSourceEventListener
-        public void onMediaPeriodReleased(int i, MediaSource.MediaPeriodId mediaPeriodId) {
-            if (maybeUpdateEventDispatcher(i, mediaPeriodId) && CompositeMediaSource.this.shouldDispatchCreateOrReleaseEvent((MediaSource.MediaPeriodId) Assertions.checkNotNull(this.eventDispatcher.mediaPeriodId))) {
-                this.eventDispatcher.mediaPeriodReleased();
-            }
-        }
-
-        @Override // com.google.android.exoplayer2.source.MediaSourceEventListener
-        public void onLoadStarted(int i, MediaSource.MediaPeriodId mediaPeriodId, MediaSourceEventListener.LoadEventInfo loadEventInfo, MediaSourceEventListener.MediaLoadData mediaLoadData) {
+        public void onLoadStarted(int i, MediaSource.MediaPeriodId mediaPeriodId, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
             if (maybeUpdateEventDispatcher(i, mediaPeriodId)) {
-                this.eventDispatcher.loadStarted(loadEventInfo, maybeUpdateMediaLoadData(mediaLoadData));
+                this.mediaSourceEventDispatcher.loadStarted(loadEventInfo, maybeUpdateMediaLoadData(mediaLoadData));
             }
         }
 
         @Override // com.google.android.exoplayer2.source.MediaSourceEventListener
-        public void onLoadCompleted(int i, MediaSource.MediaPeriodId mediaPeriodId, MediaSourceEventListener.LoadEventInfo loadEventInfo, MediaSourceEventListener.MediaLoadData mediaLoadData) {
+        public void onLoadCompleted(int i, MediaSource.MediaPeriodId mediaPeriodId, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
             if (maybeUpdateEventDispatcher(i, mediaPeriodId)) {
-                this.eventDispatcher.loadCompleted(loadEventInfo, maybeUpdateMediaLoadData(mediaLoadData));
+                this.mediaSourceEventDispatcher.loadCompleted(loadEventInfo, maybeUpdateMediaLoadData(mediaLoadData));
             }
         }
 
         @Override // com.google.android.exoplayer2.source.MediaSourceEventListener
-        public void onLoadCanceled(int i, MediaSource.MediaPeriodId mediaPeriodId, MediaSourceEventListener.LoadEventInfo loadEventInfo, MediaSourceEventListener.MediaLoadData mediaLoadData) {
+        public void onLoadCanceled(int i, MediaSource.MediaPeriodId mediaPeriodId, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
             if (maybeUpdateEventDispatcher(i, mediaPeriodId)) {
-                this.eventDispatcher.loadCanceled(loadEventInfo, maybeUpdateMediaLoadData(mediaLoadData));
+                this.mediaSourceEventDispatcher.loadCanceled(loadEventInfo, maybeUpdateMediaLoadData(mediaLoadData));
             }
         }
 
         @Override // com.google.android.exoplayer2.source.MediaSourceEventListener
-        public void onLoadError(int i, MediaSource.MediaPeriodId mediaPeriodId, MediaSourceEventListener.LoadEventInfo loadEventInfo, MediaSourceEventListener.MediaLoadData mediaLoadData, IOException iOException, boolean z) {
+        public void onLoadError(int i, MediaSource.MediaPeriodId mediaPeriodId, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData, IOException iOException, boolean z) {
             if (maybeUpdateEventDispatcher(i, mediaPeriodId)) {
-                this.eventDispatcher.loadError(loadEventInfo, maybeUpdateMediaLoadData(mediaLoadData), iOException, z);
+                this.mediaSourceEventDispatcher.loadError(loadEventInfo, maybeUpdateMediaLoadData(mediaLoadData), iOException, z);
             }
         }
 
         @Override // com.google.android.exoplayer2.source.MediaSourceEventListener
-        public void onReadingStarted(int i, MediaSource.MediaPeriodId mediaPeriodId) {
+        public void onUpstreamDiscarded(int i, MediaSource.MediaPeriodId mediaPeriodId, MediaLoadData mediaLoadData) {
             if (maybeUpdateEventDispatcher(i, mediaPeriodId)) {
-                this.eventDispatcher.readingStarted();
+                this.mediaSourceEventDispatcher.upstreamDiscarded(maybeUpdateMediaLoadData(mediaLoadData));
             }
         }
 
         @Override // com.google.android.exoplayer2.source.MediaSourceEventListener
-        public void onUpstreamDiscarded(int i, MediaSource.MediaPeriodId mediaPeriodId, MediaSourceEventListener.MediaLoadData mediaLoadData) {
+        public void onDownstreamFormatChanged(int i, MediaSource.MediaPeriodId mediaPeriodId, MediaLoadData mediaLoadData) {
             if (maybeUpdateEventDispatcher(i, mediaPeriodId)) {
-                this.eventDispatcher.upstreamDiscarded(maybeUpdateMediaLoadData(mediaLoadData));
+                this.mediaSourceEventDispatcher.downstreamFormatChanged(maybeUpdateMediaLoadData(mediaLoadData));
             }
         }
 
-        @Override // com.google.android.exoplayer2.source.MediaSourceEventListener
-        public void onDownstreamFormatChanged(int i, MediaSource.MediaPeriodId mediaPeriodId, MediaSourceEventListener.MediaLoadData mediaLoadData) {
+        @Override // com.google.android.exoplayer2.drm.DrmSessionEventListener
+        public void onDrmSessionAcquired(int i, MediaSource.MediaPeriodId mediaPeriodId, int i2) {
             if (maybeUpdateEventDispatcher(i, mediaPeriodId)) {
-                this.eventDispatcher.downstreamFormatChanged(maybeUpdateMediaLoadData(mediaLoadData));
+                this.drmEventDispatcher.drmSessionAcquired(i2);
+            }
+        }
+
+        @Override // com.google.android.exoplayer2.drm.DrmSessionEventListener
+        public void onDrmKeysLoaded(int i, MediaSource.MediaPeriodId mediaPeriodId) {
+            if (maybeUpdateEventDispatcher(i, mediaPeriodId)) {
+                this.drmEventDispatcher.drmKeysLoaded();
+            }
+        }
+
+        @Override // com.google.android.exoplayer2.drm.DrmSessionEventListener
+        public void onDrmSessionManagerError(int i, MediaSource.MediaPeriodId mediaPeriodId, Exception exc) {
+            if (maybeUpdateEventDispatcher(i, mediaPeriodId)) {
+                this.drmEventDispatcher.drmSessionManagerError(exc);
+            }
+        }
+
+        @Override // com.google.android.exoplayer2.drm.DrmSessionEventListener
+        public void onDrmKeysRestored(int i, MediaSource.MediaPeriodId mediaPeriodId) {
+            if (maybeUpdateEventDispatcher(i, mediaPeriodId)) {
+                this.drmEventDispatcher.drmKeysRestored();
+            }
+        }
+
+        @Override // com.google.android.exoplayer2.drm.DrmSessionEventListener
+        public void onDrmKeysRemoved(int i, MediaSource.MediaPeriodId mediaPeriodId) {
+            if (maybeUpdateEventDispatcher(i, mediaPeriodId)) {
+                this.drmEventDispatcher.drmKeysRemoved();
+            }
+        }
+
+        @Override // com.google.android.exoplayer2.drm.DrmSessionEventListener
+        public void onDrmSessionReleased(int i, MediaSource.MediaPeriodId mediaPeriodId) {
+            if (maybeUpdateEventDispatcher(i, mediaPeriodId)) {
+                this.drmEventDispatcher.drmSessionReleased();
             }
         }
 
@@ -188,18 +214,22 @@ public abstract class CompositeMediaSource<T> extends BaseMediaSource {
                 mediaPeriodId2 = null;
             }
             int windowIndexForChildWindowIndex = CompositeMediaSource.this.getWindowIndexForChildWindowIndex(this.id, i);
-            MediaSourceEventListener.EventDispatcher eventDispatcher = this.eventDispatcher;
-            if (eventDispatcher.windowIndex == windowIndexForChildWindowIndex && Util.areEqual(eventDispatcher.mediaPeriodId, mediaPeriodId2)) {
+            MediaSourceEventListener.EventDispatcher eventDispatcher = this.mediaSourceEventDispatcher;
+            if (eventDispatcher.windowIndex != windowIndexForChildWindowIndex || !Util.areEqual(eventDispatcher.mediaPeriodId, mediaPeriodId2)) {
+                this.mediaSourceEventDispatcher = CompositeMediaSource.this.createEventDispatcher(windowIndexForChildWindowIndex, mediaPeriodId2, 0L);
+            }
+            DrmSessionEventListener.EventDispatcher eventDispatcher2 = this.drmEventDispatcher;
+            if (eventDispatcher2.windowIndex == windowIndexForChildWindowIndex && Util.areEqual(eventDispatcher2.mediaPeriodId, mediaPeriodId2)) {
                 return true;
             }
-            this.eventDispatcher = CompositeMediaSource.this.createEventDispatcher(windowIndexForChildWindowIndex, mediaPeriodId2, 0L);
+            this.drmEventDispatcher = CompositeMediaSource.this.createDrmEventDispatcher(windowIndexForChildWindowIndex, mediaPeriodId2);
             return true;
         }
 
-        private MediaSourceEventListener.MediaLoadData maybeUpdateMediaLoadData(MediaSourceEventListener.MediaLoadData mediaLoadData) {
+        private MediaLoadData maybeUpdateMediaLoadData(MediaLoadData mediaLoadData) {
             long mediaTimeForChildMediaTime = CompositeMediaSource.this.getMediaTimeForChildMediaTime(this.id, mediaLoadData.mediaStartTimeMs);
             long mediaTimeForChildMediaTime2 = CompositeMediaSource.this.getMediaTimeForChildMediaTime(this.id, mediaLoadData.mediaEndTimeMs);
-            return (mediaTimeForChildMediaTime == mediaLoadData.mediaStartTimeMs && mediaTimeForChildMediaTime2 == mediaLoadData.mediaEndTimeMs) ? mediaLoadData : new MediaSourceEventListener.MediaLoadData(mediaLoadData.dataType, mediaLoadData.trackType, mediaLoadData.trackFormat, mediaLoadData.trackSelectionReason, mediaLoadData.trackSelectionData, mediaTimeForChildMediaTime, mediaTimeForChildMediaTime2);
+            return (mediaTimeForChildMediaTime == mediaLoadData.mediaStartTimeMs && mediaTimeForChildMediaTime2 == mediaLoadData.mediaEndTimeMs) ? mediaLoadData : new MediaLoadData(mediaLoadData.dataType, mediaLoadData.trackType, mediaLoadData.trackFormat, mediaLoadData.trackSelectionReason, mediaLoadData.trackSelectionData, mediaTimeForChildMediaTime, mediaTimeForChildMediaTime2);
         }
     }
 }

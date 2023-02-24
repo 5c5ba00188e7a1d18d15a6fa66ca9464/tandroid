@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.source.chunk;
 
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DataSourceUtil;
 import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
@@ -15,7 +16,16 @@ public abstract class DataChunk extends Chunk {
 
     public DataChunk(DataSource dataSource, DataSpec dataSpec, int i, Format format, int i2, Object obj, byte[] bArr) {
         super(dataSource, dataSpec, i, format, i2, obj, -9223372036854775807L, -9223372036854775807L);
-        this.data = bArr;
+        DataChunk dataChunk;
+        byte[] bArr2;
+        if (bArr == null) {
+            bArr2 = Util.EMPTY_BYTE_ARRAY;
+            dataChunk = this;
+        } else {
+            dataChunk = this;
+            bArr2 = bArr;
+        }
+        dataChunk.data = bArr2;
     }
 
     public byte[] getDataHolder() {
@@ -28,7 +38,7 @@ public abstract class DataChunk extends Chunk {
     }
 
     @Override // com.google.android.exoplayer2.upstream.Loader.Loadable
-    public final void load() throws IOException, InterruptedException {
+    public final void load() throws IOException {
         try {
             this.dataSource.open(this.dataSpec);
             int i = 0;
@@ -44,15 +54,13 @@ public abstract class DataChunk extends Chunk {
                 consume(this.data, i2);
             }
         } finally {
-            Util.closeQuietly(this.dataSource);
+            DataSourceUtil.closeQuietly(this.dataSource);
         }
     }
 
     private void maybeExpandData(int i) {
         byte[] bArr = this.data;
-        if (bArr == null) {
-            this.data = new byte[16384];
-        } else if (bArr.length < i + 16384) {
+        if (bArr.length < i + 16384) {
             this.data = Arrays.copyOf(bArr, bArr.length + 16384);
         }
     }

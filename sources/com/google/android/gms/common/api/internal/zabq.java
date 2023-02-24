@@ -31,12 +31,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
-import org.checkerframework.checker.initialization.qual.NotOnlyInitialized;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zabq implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, zau {
     final /* synthetic */ GoogleApiManager zaa;
-    @NotOnlyInitialized
     private final Api.Client zac;
     private final ApiKey zad;
     private final zaad zae;

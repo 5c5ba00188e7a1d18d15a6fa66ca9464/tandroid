@@ -14,7 +14,7 @@ abstract class TagPayloadReader {
     /* loaded from: classes.dex */
     public static final class UnsupportedFormatException extends ParserException {
         public UnsupportedFormatException(String str) {
-            super(str);
+            super(str, null, false, 1);
         }
     }
 

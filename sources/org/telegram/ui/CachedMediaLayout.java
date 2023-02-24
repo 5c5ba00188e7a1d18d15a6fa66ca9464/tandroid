@@ -1026,7 +1026,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0039  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x0039 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1055,7 +1055,10 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                     mediaMetadataRetriever = mediaMetadataRetriever3;
                     FileLog.e(e);
                     if (mediaMetadataRetriever != null) {
-                        mediaMetadataRetriever.release();
+                        try {
+                            mediaMetadataRetriever.release();
+                        } catch (Throwable unused) {
+                        }
                     }
                     str2 = "";
                     str3 = str;
@@ -1069,7 +1072,10 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                 }
                 try {
                     String extractMetadata2 = mediaMetadataRetriever2.extractMetadata(2);
-                    mediaMetadataRetriever2.release();
+                    try {
+                        mediaMetadataRetriever2.release();
+                    } catch (Throwable unused2) {
+                    }
                     str2 = extractMetadata2;
                     str3 = extractMetadata;
                     mediaMetadataRetriever3 = extractMetadata;
@@ -1094,7 +1100,10 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                 th = th2;
                 mediaMetadataRetriever3 = mediaMetadataRetriever2;
                 if (mediaMetadataRetriever3 != null) {
-                    mediaMetadataRetriever3.release();
+                    try {
+                        mediaMetadataRetriever3.release();
+                    } catch (Throwable unused3) {
+                    }
                 }
                 throw th;
             }

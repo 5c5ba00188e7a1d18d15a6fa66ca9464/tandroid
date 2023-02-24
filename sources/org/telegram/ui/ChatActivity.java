@@ -1139,7 +1139,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void access$43100(ChatActivity chatActivity) {
+    public static /* synthetic */ void access$43200(ChatActivity chatActivity) {
         chatActivity.resetProgressDialogLoading();
     }
 
@@ -6877,7 +6877,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
             }, 150L);
             this.headerItem.toggleSubMenu();
-            BulletinFactory.createMuteBulletin(this, false, this.themeDelegate).show();
+            if (getParentActivity() != null) {
+                BulletinFactory.createMuteBulletin(this, false, this.themeDelegate).show();
+                return;
+            }
             return;
         }
         this.muteItem.openSwipeBack();
@@ -10744,7 +10747,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     public void checkInstantCameraView() {
-        if (this.instantCameraView != null) {
+        if (this.instantCameraView != null || getContext() == null) {
             return;
         }
         InstantCameraView instantCameraView = new InstantCameraView(getContext(), this, this.themeDelegate);
@@ -11999,7 +12002,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         this.blurredView.animate().alpha(1.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChatActivity.58
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
-                super.onAnimationEnd(animator);
+                if (((BaseFragment) ChatActivity.this).fragmentView == null || ChatActivity.this.chatListView == null) {
+                    return;
+                }
                 ChatActivity.this.chatListView.invalidate();
                 ((BaseFragment) ChatActivity.this).fragmentView.invalidate();
             }
@@ -13812,7 +13817,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private void cancelPreload(MessageObject messageObject) {
         TLRPC$Document document = messageObject.getDocument();
         TLRPC$PhotoSize closestPhotoSizeWithSize = document == null ? FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, AndroidUtilities.getPhotoSize()) : null;
-        if (document == null && closestPhotoSizeWithSize == null) {
+        if ((document == null && closestPhotoSizeWithSize == null) || messageObject.putInDownloadsStore || DownloadController.getInstance(this.currentAccount).isDownloading(messageObject.messageOwner.id)) {
             return;
         }
         if (document != null) {
@@ -16989,10 +16994,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 ((DialogsActivity) lastFragment).setPanTranslationOffset(f);
                             }
                         }
-                        if (ChatActivity.this.voiceHintTextView == null || ChatActivity.this.voiceHintTextView.getVisibility() != 0) {
-                            return;
+                        if (ChatActivity.this.voiceHintTextView != null && ChatActivity.this.voiceHintTextView.getVisibility() == 0) {
+                            ChatActivity.this.voiceHintTextView.showForView(ChatActivity.this.chatActivityEnterView.getAudioVideoButtonContainer(), false);
                         }
-                        ChatActivity.this.voiceHintTextView.showForView(ChatActivity.this.chatActivityEnterView.getAudioVideoButtonContainer(), false);
+                        if (ChatActivity.this.fragmentContextView != null) {
+                            ChatActivity.this.fragmentContextView.onPanTranslationUpdate(f);
+                        }
                     }
                 }
 
@@ -19980,7 +19987,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int r54, int r55, java.lang.Object... r56) {
         /*
-            Method dump skipped, instructions count: 15253
+            Method dump skipped, instructions count: 15237
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.ui.ChatActivity.didReceivedNotification(int, int, java.lang.Object[]):void");
@@ -23616,7 +23623,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     if (ChatActivity.this.pinnedMessageViewAnimator == null || !ChatActivity.this.pinnedMessageViewAnimator.equals(animator)) {
                         return;
                     }
-                    ChatActivity.this.pinnedMessageView.setVisibility(8);
+                    if (ChatActivity.this.pinnedMessageView != null) {
+                        ChatActivity.this.pinnedMessageView.setVisibility(8);
+                    }
                     ChatActivity.this.pinnedMessageViewAnimator = null;
                 }
 
@@ -26683,22 +26692,22 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Code restructure failed: missing block: B:367:0x0713, code lost:
-        if (org.telegram.messenger.Emoji.fullyConsistsOfEmojis(r3) != false) goto L1303;
+        if (org.telegram.messenger.Emoji.fullyConsistsOfEmojis(r3) != false) goto L1305;
      */
     /* JADX WARN: Code restructure failed: missing block: B:611:0x0c88, code lost:
-        if (r0.edit_messages != false) goto L1012;
+        if (r0.edit_messages != false) goto L1014;
      */
     /* JADX WARN: Code restructure failed: missing block: B:929:0x1693, code lost:
-        if (r2.isEmpty() == false) goto L727;
+        if (r2.isEmpty() == false) goto L729;
      */
     /* JADX WARN: Code restructure failed: missing block: B:942:0x16b8, code lost:
-        if ((r0.available_reactions instanceof org.telegram.tgnet.TLRPC$TL_chatReactionsNone) == false) goto L740;
+        if ((r0.available_reactions instanceof org.telegram.tgnet.TLRPC$TL_chatReactionsNone) == false) goto L742;
      */
     /* JADX WARN: Code restructure failed: missing block: B:945:0x16c2, code lost:
-        if (org.telegram.messenger.ChatObject.isChannel(r14.currentChat) == false) goto L740;
+        if (org.telegram.messenger.ChatObject.isChannel(r14.currentChat) == false) goto L742;
      */
     /* JADX WARN: Code restructure failed: missing block: B:947:0x16c6, code lost:
-        if (r14.currentUser != null) goto L740;
+        if (r14.currentUser != null) goto L742;
      */
     /* JADX WARN: Code restructure failed: missing block: B:949:0x16cc, code lost:
         if (r2.isEmpty() != false) goto L349;
@@ -26712,16 +26721,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:1020:0x184a  */
     /* JADX WARN: Removed duplicated region for block: B:1023:0x1865  */
     /* JADX WARN: Removed duplicated region for block: B:1046:0x19f2  */
-    /* JADX WARN: Removed duplicated region for block: B:1179:0x20e4  */
-    /* JADX WARN: Removed duplicated region for block: B:1180:0x20e9  */
-    /* JADX WARN: Removed duplicated region for block: B:1183:0x20f0  */
-    /* JADX WARN: Removed duplicated region for block: B:1184:0x20f5  */
-    /* JADX WARN: Removed duplicated region for block: B:1187:0x2108  */
-    /* JADX WARN: Removed duplicated region for block: B:1211:0x21e5  */
-    /* JADX WARN: Removed duplicated region for block: B:1302:0x245a  */
-    /* JADX WARN: Removed duplicated region for block: B:1303:0x245e  */
-    /* JADX WARN: Removed duplicated region for block: B:1306:0x2479  */
-    /* JADX WARN: Removed duplicated region for block: B:1309:0x2480  */
+    /* JADX WARN: Removed duplicated region for block: B:1181:0x20e6  */
+    /* JADX WARN: Removed duplicated region for block: B:1182:0x20eb  */
+    /* JADX WARN: Removed duplicated region for block: B:1185:0x20f2  */
+    /* JADX WARN: Removed duplicated region for block: B:1186:0x20f7  */
+    /* JADX WARN: Removed duplicated region for block: B:1189:0x210a  */
+    /* JADX WARN: Removed duplicated region for block: B:1213:0x21e7  */
+    /* JADX WARN: Removed duplicated region for block: B:1304:0x245c  */
+    /* JADX WARN: Removed duplicated region for block: B:1305:0x2460  */
+    /* JADX WARN: Removed duplicated region for block: B:1308:0x247b  */
+    /* JADX WARN: Removed duplicated region for block: B:1311:0x2482  */
     /* JADX WARN: Removed duplicated region for block: B:167:0x02f3  */
     /* JADX WARN: Removed duplicated region for block: B:177:0x0317  */
     /* JADX WARN: Removed duplicated region for block: B:178:0x0319  */
@@ -26843,6 +26852,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         final AtomicReference atomicReference4;
         final int i8;
         MessageObject messageObject10;
+        MessageObject messageObject11;
         TLRPC$Message tLRPC$Message5;
         int i9;
         int i10;
@@ -26861,13 +26871,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         ArrayList<MessageObject> arrayList9;
         BlurredFrameLayout blurredFrameLayout;
         TLRPC$Chat tLRPC$Chat7;
-        MessageObject messageObject11;
+        MessageObject messageObject12;
         int size;
         int i11;
         TLRPC$MessageAction tLRPC$MessageAction;
         TLRPC$UserFull tLRPC$UserFull;
         ArrayList<MessageObject> arrayList10;
-        MessageObject messageObject12;
+        MessageObject messageObject13;
         final ChatActivity chatActivity = this;
         if (chatActivity.actionBar.isActionModeShowed() || chatActivity.reportType >= 0) {
             return false;
@@ -26875,9 +26885,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         boolean z18 = view instanceof ChatMessageCell;
         if (z18) {
             ChatMessageCell chatMessageCell = (ChatMessageCell) view;
-            MessageObject messageObject13 = chatMessageCell.getMessageObject();
+            MessageObject messageObject14 = chatMessageCell.getMessageObject();
             messageObject2 = chatMessageCell.getPrimaryMessageObject();
-            messageObject = messageObject13;
+            messageObject = messageObject14;
         } else {
             messageObject = view instanceof ChatActionCell ? ((ChatActionCell) view).getMessageObject() : null;
             messageObject2 = messageObject;
@@ -26898,7 +26908,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     Toast.makeText(getParentActivity(), LocaleController.getString("MessageNotFound", R.string.MessageNotFound), 0).show();
                 }
                 return true;
-            } else if ((tLRPC$MessageAction2 instanceof TLRPC$TL_messageActionPaymentSent) && (messageObject12 = messageObject.replyMessageObject) != null && messageObject12.isInvoice()) {
+            } else if ((tLRPC$MessageAction2 instanceof TLRPC$TL_messageActionPaymentSent) && (messageObject13 = messageObject.replyMessageObject) != null && messageObject13.isInvoice()) {
                 TLRPC$TL_payments_getPaymentReceipt tLRPC$TL_payments_getPaymentReceipt = new TLRPC$TL_payments_getPaymentReceipt();
                 tLRPC$TL_payments_getPaymentReceipt.msg_id = messageObject.getId();
                 tLRPC$TL_payments_getPaymentReceipt.peer = getMessagesController().getInputPeer(messageObject.messageOwner.peer_id);
@@ -26983,17 +26993,17 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 size = validGroupedMessage.messages.size();
                 int i13 = 0;
                 for (i11 = 0; i11 < size; i11++) {
-                    MessageObject messageObject14 = validGroupedMessage.messages.get(i11);
-                    if (i11 == 0 || !TextUtils.isEmpty(messageObject14.caption)) {
-                        chatActivity.selectedObjectToEditCaption = messageObject14;
-                        if (!TextUtils.isEmpty(messageObject14.caption)) {
+                    MessageObject messageObject15 = validGroupedMessage.messages.get(i11);
+                    if (i11 == 0 || !TextUtils.isEmpty(messageObject15.caption)) {
+                        chatActivity.selectedObjectToEditCaption = messageObject15;
+                        if (!TextUtils.isEmpty(messageObject15.caption)) {
                             i13++;
                         }
                     }
                 }
                 z5 = i13 >= 2;
             }
-            boolean z24 = chatActivity.chatMode == 1 && !(((arrayList9 = chatActivity.threadMessageObjects) != null && arrayList9.contains(messageObject)) || messageObject.isSponsored() || ((messageType == 1 && messageObject.getDialogId() == chatActivity.mergeDialogId) || (messageObject.messageOwner.action instanceof TLRPC$TL_messageActionSecureValuesSent) || ((chatActivity.currentEncryptedChat == null && messageObject.getId() < 0) || (((blurredFrameLayout = chatActivity.bottomOverlayChat) != null && blurredFrameLayout.getVisibility() == 0 && (!chatActivity.bottomOverlayChatWaitsReply || (messageObject11 = chatActivity.selectedObject) == null || (MessageObject.getTopicId(messageObject11.messageOwner, ChatObject.isForum(chatActivity.currentChat)) == 0 && !chatActivity.selectedObject.wasJustSent))) || ((tLRPC$Chat7 = chatActivity.currentChat) != null && ((ChatObject.isNotInChat(tLRPC$Chat7) && !isThreadChat()) || ((ChatObject.isChannel(chatActivity.currentChat) && !ChatObject.canPost(chatActivity.currentChat) && !chatActivity.currentChat.megagroup) || !ChatObject.canSendMessages(chatActivity.currentChat))))))));
+            boolean z24 = chatActivity.chatMode == 1 && !(((arrayList9 = chatActivity.threadMessageObjects) != null && arrayList9.contains(messageObject)) || messageObject.isSponsored() || ((messageType == 1 && messageObject.getDialogId() == chatActivity.mergeDialogId) || (messageObject.messageOwner.action instanceof TLRPC$TL_messageActionSecureValuesSent) || ((chatActivity.currentEncryptedChat == null && messageObject.getId() < 0) || (((blurredFrameLayout = chatActivity.bottomOverlayChat) != null && blurredFrameLayout.getVisibility() == 0 && (!chatActivity.bottomOverlayChatWaitsReply || (messageObject12 = chatActivity.selectedObject) == null || (MessageObject.getTopicId(messageObject12.messageOwner, ChatObject.isForum(chatActivity.currentChat)) == 0 && !chatActivity.selectedObject.wasJustSent))) || ((tLRPC$Chat7 = chatActivity.currentChat) != null && ((ChatObject.isNotInChat(tLRPC$Chat7) && !isThreadChat()) || ((ChatObject.isChannel(chatActivity.currentChat) && !ChatObject.canPost(chatActivity.currentChat) && !chatActivity.currentChat.megagroup) || !ChatObject.canSendMessages(chatActivity.currentChat))))))));
             if (!z20 || messageType < 2 || messageType == 20) {
                 if (getParentActivity() != null) {
                     return false;
@@ -27118,16 +27128,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         }
                         if (charSequence != null) {
                         }
-                        MessageObject messageObject15 = chatActivity.selectedObject;
-                        charSequence = (!messageObject15.translated || messageObject15.isRestrictedMessage) ? null : null;
+                        MessageObject messageObject16 = chatActivity.selectedObject;
+                        charSequence = (!messageObject16.translated || messageObject16.isRestrictedMessage) ? null : null;
                         if (messageObject.isSponsored() && !getMessagesController().premiumLocked) {
                             arrayList12.add(LocaleController.getString("HideAd", R.string.HideAd));
                             arrayList13.add(31);
                             arrayList11.add(Integer.valueOf(R.drawable.msg_block2));
                         }
                         if (messageType != -1) {
-                            MessageObject messageObject16 = chatActivity.selectedObject;
-                            if ((messageObject16.type == 0 || messageObject16.isAnimatedEmoji() || chatActivity.selectedObject.isAnimatedEmojiStickers() || chatActivity.getMessageCaption(chatActivity.selectedObject, chatActivity.selectedObjectGroup) != null) && !z22) {
+                            MessageObject messageObject17 = chatActivity.selectedObject;
+                            if ((messageObject17.type == 0 || messageObject17.isAnimatedEmoji() || chatActivity.selectedObject.isAnimatedEmojiStickers() || chatActivity.getMessageCaption(chatActivity.selectedObject, chatActivity.selectedObjectGroup) != null) && !z22) {
                                 arrayList12.add(LocaleController.getString("Copy", R.string.Copy));
                                 arrayList13.add(3);
                                 arrayList11.add(Integer.valueOf(R.drawable.msg_copy));
@@ -27154,8 +27164,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     arrayList13.add(27);
                                     arrayList11.add(Integer.valueOf(R.drawable.msg_viewreplies));
                                 }
-                                MessageObject messageObject17 = chatActivity.selectedObject;
-                                if (messageObject17 != null && (tLRPC$Message4 = messageObject17.messageOwner) != null && tLRPC$Message4.action == null && (tLRPC$Chat5 = chatActivity.currentChat) != null && tLRPC$Chat5.forum && !chatActivity.isTopic && tLRPC$Message4 != null && (tLRPC$TL_messageReplyHeader3 = tLRPC$Message4.reply_to) != null && tLRPC$TL_messageReplyHeader3.forum_topic) {
+                                MessageObject messageObject18 = chatActivity.selectedObject;
+                                if (messageObject18 != null && (tLRPC$Message4 = messageObject18.messageOwner) != null && tLRPC$Message4.action == null && (tLRPC$Chat5 = chatActivity.currentChat) != null && tLRPC$Chat5.forum && !chatActivity.isTopic && tLRPC$Message4 != null && (tLRPC$TL_messageReplyHeader3 = tLRPC$Message4.reply_to) != null && tLRPC$TL_messageReplyHeader3.forum_topic) {
                                     arrayList12.add(LocaleController.getString("ViewInTopic", R.string.ViewInTopic));
                                     arrayList13.add(32);
                                     arrayList11.add(Integer.valueOf(R.drawable.msg_viewintopic));
@@ -27169,8 +27179,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     arrayList13.add(13);
                                     arrayList11.add(Integer.valueOf(R.drawable.msg_pin));
                                 }
-                                MessageObject messageObject18 = chatActivity.selectedObject;
-                                if (messageObject18 != null && messageObject18.contentType == 0 && charSequence != null && charSequence.length() > 0 && !chatActivity.selectedObject.isAnimatedEmoji() && !chatActivity.selectedObject.isDice()) {
+                                MessageObject messageObject19 = chatActivity.selectedObject;
+                                if (messageObject19 != null && messageObject19.contentType == 0 && charSequence != null && charSequence.length() > 0 && !chatActivity.selectedObject.isAnimatedEmoji() && !chatActivity.selectedObject.isDice()) {
                                     arrayList12.add(LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
                                     arrayList13.add(29);
                                     arrayList11.add(Integer.valueOf(R.drawable.msg_translate));
@@ -27180,8 +27190,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     arrayList13.add(12);
                                     arrayList11.add(Integer.valueOf(R.drawable.msg_edit));
                                 }
-                                MessageObject messageObject19 = chatActivity.selectedObject;
-                                if (messageObject19.contentType == 0 && !messageObject19.isMediaEmptyWebpage() && chatActivity.selectedObject.getId() > 0 && !chatActivity.selectedObject.isOut() && (chatActivity.currentChat != null || ((tLRPC$User2 = chatActivity.currentUser) != null && tLRPC$User2.bot))) {
+                                MessageObject messageObject20 = chatActivity.selectedObject;
+                                if (messageObject20.contentType == 0 && !messageObject20.isMediaEmptyWebpage() && chatActivity.selectedObject.getId() > 0 && !chatActivity.selectedObject.isOut() && (chatActivity.currentChat != null || ((tLRPC$User2 = chatActivity.currentUser) != null && tLRPC$User2.bot))) {
                                     arrayList12.add(LocaleController.getString("ReportChat", R.string.ReportChat));
                                     arrayList13.add(23);
                                     arrayList11.add(Integer.valueOf(R.drawable.msg_report));
@@ -27243,8 +27253,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     arrayList13.add(8);
                                     arrayList11.add(Integer.valueOf(R.drawable.msg_reply));
                                 }
-                                MessageObject messageObject20 = chatActivity.selectedObject;
-                                if ((messageObject20.type == 0 || messageObject20.isDice() || chatActivity.selectedObject.isAnimatedEmoji() || chatActivity.selectedObject.isAnimatedEmojiStickers() || chatActivity.getMessageCaption(chatActivity.selectedObject, chatActivity.selectedObjectGroup) != null) && !z22) {
+                                MessageObject messageObject21 = chatActivity.selectedObject;
+                                if ((messageObject21.type == 0 || messageObject21.isDice() || chatActivity.selectedObject.isAnimatedEmoji() || chatActivity.selectedObject.isAnimatedEmojiStickers() || chatActivity.getMessageCaption(chatActivity.selectedObject, chatActivity.selectedObjectGroup) != null) && !z22) {
                                     arrayList12.add(LocaleController.getString("Copy", R.string.Copy));
                                     arrayList13.add(3);
                                     arrayList11.add(Integer.valueOf(R.drawable.msg_copy));
@@ -27268,8 +27278,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         arrayList11.add(Integer.valueOf(R.drawable.msg_link));
                                     }
                                 }
-                                MessageObject messageObject21 = chatActivity.selectedObject;
-                                if (messageObject21 != null && (tLRPC$Message2 = messageObject21.messageOwner) != null && tLRPC$Message2.action == null && (tLRPC$Chat3 = chatActivity.currentChat) != null && tLRPC$Chat3.forum && !chatActivity.isTopic && tLRPC$Message2 != null && (tLRPC$TL_messageReplyHeader2 = tLRPC$Message2.reply_to) != null && tLRPC$TL_messageReplyHeader2.forum_topic) {
+                                MessageObject messageObject22 = chatActivity.selectedObject;
+                                if (messageObject22 != null && (tLRPC$Message2 = messageObject22.messageOwner) != null && tLRPC$Message2.action == null && (tLRPC$Chat3 = chatActivity.currentChat) != null && tLRPC$Chat3.forum && !chatActivity.isTopic && tLRPC$Message2 != null && (tLRPC$TL_messageReplyHeader2 = tLRPC$Message2.reply_to) != null && tLRPC$TL_messageReplyHeader2.forum_topic) {
                                     arrayList12.add(LocaleController.getString("ViewInTopic", R.string.ViewInTopic));
                                     arrayList13.add(32);
                                     arrayList11.add(Integer.valueOf(R.drawable.msg_viewintopic));
@@ -27458,8 +27468,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     arrayList13.add(13);
                                     arrayList11.add(Integer.valueOf(R.drawable.msg_pin));
                                 }
-                                MessageObject messageObject22 = chatActivity.selectedObject;
-                                if (messageObject22 != null && messageObject22.contentType == 0 && charSequence != null && charSequence.length() > 0 && !chatActivity.selectedObject.isAnimatedEmoji() && !chatActivity.selectedObject.isDice()) {
+                                MessageObject messageObject23 = chatActivity.selectedObject;
+                                if (messageObject23 != null && messageObject23.contentType == 0 && charSequence != null && charSequence.length() > 0 && !chatActivity.selectedObject.isAnimatedEmoji() && !chatActivity.selectedObject.isDice()) {
                                     arrayList12.add(LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
                                     arrayList13.add(29);
                                     arrayList11.add(Integer.valueOf(R.drawable.msg_translate));
@@ -27475,8 +27485,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     arrayList11.add(Integer.valueOf(R.drawable.msg_calendar2));
                                 }
                                 if (chatActivity.chatMode != 1) {
-                                    MessageObject messageObject23 = chatActivity.selectedObject;
-                                    if (messageObject23.contentType == 0 && messageObject23.getId() > 0 && !chatActivity.selectedObject.isOut() && (chatActivity.currentChat != null || ((tLRPC$User = chatActivity.currentUser) != null && tLRPC$User.bot))) {
+                                    MessageObject messageObject24 = chatActivity.selectedObject;
+                                    if (messageObject24.contentType == 0 && messageObject24.getId() > 0 && !chatActivity.selectedObject.isOut() && (chatActivity.currentChat != null || ((tLRPC$User = chatActivity.currentUser) != null && tLRPC$User.bot))) {
                                         if (UserObject.isReplyUser(chatActivity.currentUser)) {
                                             arrayList12.add(LocaleController.getString("BlockContact", R.string.BlockContact));
                                             arrayList13.add(23);
@@ -27705,7 +27715,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                         atomicBoolean2 = atomicBoolean4;
                                                         rect = rect4;
                                                         arrayList3 = arrayList12;
-                                                        MessageObject messageObject24 = messageObject;
+                                                        MessageObject messageObject25 = messageObject;
                                                         linearLayout = containerLinerLayout;
                                                         arrayList4 = arrayList13;
                                                         arrayList5 = arrayList11;
@@ -27718,10 +27728,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                         FrameLayout frameLayout2 = new FrameLayout(chatActivity.contentView.getContext());
                                                         frameLayout2.setBackgroundColor(chatActivity.getThemedColor("actionBarDefaultSubmenuSeparator"));
                                                         linearLayout.addView(frameLayout2, LayoutHelper.createLinear(-1, 8));
-                                                        messageObject7 = messageObject24;
+                                                        messageObject7 = messageObject25;
                                                         actionBarPopupWindowLayout8 = actionBarPopupWindowLayout9;
                                                         iArr3 = iArr6;
-                                                        onHeightChangedListener = new ReactedUsersListView(chatActivity.contentView.getContext(), chatActivity.themeDelegate, chatActivity.currentAccount, messageObject24, null, false).setSeenUsers(reactedHeaderView2.getSeenUsers()).setOnCustomEmojiSelectedListener(new ReactedUsersListView.OnCustomEmojiSelectedListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda267
+                                                        onHeightChangedListener = new ReactedUsersListView(chatActivity.contentView.getContext(), chatActivity.themeDelegate, chatActivity.currentAccount, messageObject25, null, false).setSeenUsers(reactedHeaderView2.getSeenUsers()).setOnCustomEmojiSelectedListener(new ReactedUsersListView.OnCustomEmojiSelectedListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda267
                                                             @Override // org.telegram.ui.Components.ReactedUsersListView.OnCustomEmojiSelectedListener
                                                             public final void showCustomEmojiAlert(ReactedUsersListView reactedUsersListView, ArrayList arrayList15) {
                                                                 ChatActivity.this.lambda$createMenu$170(reactedUsersListView, arrayList15);
@@ -27874,8 +27884,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         } else {
                                             z15 = z14;
                                         }
-                                        MessageObject messageObject25 = chatActivity.selectedObject;
-                                        boolean z28 = (messageObject25 == null || !messageObject25.isVoice() || chatActivity.selectedObject.messageOwner == null || !getUserConfig().isPremium() || TextUtils.isEmpty(chatActivity.selectedObject.messageOwner.voiceTranscription) || (tLRPC$Message5 = chatActivity.selectedObject.messageOwner) == null || tLRPC$Message5.voiceTranscriptionRated || tLRPC$Message5.voiceTranscriptionId == j || !tLRPC$Message5.voiceTranscriptionOpen) ? false : true;
+                                        MessageObject messageObject26 = chatActivity.selectedObject;
+                                        boolean z28 = (messageObject26 == null || !messageObject26.isVoice() || chatActivity.selectedObject.messageOwner == null || !getUserConfig().isPremium() || TextUtils.isEmpty(chatActivity.selectedObject.messageOwner.voiceTranscription) || (tLRPC$Message5 = chatActivity.selectedObject.messageOwner) == null || tLRPC$Message5.voiceTranscriptionRated || tLRPC$Message5.voiceTranscriptionId == j || !tLRPC$Message5.voiceTranscriptionOpen) ? false : true;
                                         if (!z28 && messageObject7.probablyRingtone() && chatActivity.currentEncryptedChat == null) {
                                             ActionBarMenuSubItem actionBarMenuSubItem4 = new ActionBarMenuSubItem((Context) getParentActivity(), true, false, (Theme.ResourcesProvider) chatActivity.themeDelegate);
                                             actionBarMenuSubItem4.setMinimumWidth(AndroidUtilities.dp(200.0f));
@@ -27953,12 +27963,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         }
                                         final boolean isContextTranslateEnabled = MessagesController.getInstance(chatActivity.currentAccount).getTranslateController().isContextTranslateEnabled();
                                         int size3 = arrayList3.size();
-                                        MessageObject messageObject26 = chatActivity.selectedObject;
-                                        chatActivity.scrimPopupWindowItems = new ActionBarMenuSubItem[size3 + ((messageObject26 == null || !messageObject26.isSponsored()) ? 0 : 1)];
+                                        MessageObject messageObject27 = chatActivity.selectedObject;
+                                        chatActivity.scrimPopupWindowItems = new ActionBarMenuSubItem[size3 + ((messageObject27 == null || !messageObject27.isSponsored()) ? 0 : 1)];
                                         int size4 = arrayList3.size();
                                         final int i26 = 0;
                                         while (i26 < size4) {
-                                            if (i26 == 0 && (messageObject10 = chatActivity.selectedObject) != null && messageObject10.isSponsored()) {
+                                            if (i26 == 0 && (messageObject11 = chatActivity.selectedObject) != null && messageObject11.isSponsored()) {
                                                 ActionBarMenuSubItem actionBarMenuSubItem5 = new ActionBarMenuSubItem((Context) getParentActivity(), true, true, (Theme.ResourcesProvider) chatActivity.themeDelegate);
                                                 actionBarMenuSubItem5.setTextAndIcon(LocaleController.getString("SponsoredMessageInfo", R.string.SponsoredMessageInfo), R.drawable.msg_info);
                                                 actionBarMenuSubItem5.setItemHeight(56);
@@ -27993,7 +28003,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                             actionBarMenuSubItem6.setTextAndIcon((CharSequence) arrayList15.get(i26), ((Integer) arrayList16.get(i26)).intValue());
                                             final ArrayList arrayList17 = arrayList4;
                                             Integer num = (Integer) arrayList17.get(i26);
-                                            if (num.intValue() == 1 && chatActivity.selectedObject.messageOwner.ttl_period != 0) {
+                                            if (num.intValue() == 1 && (messageObject10 = chatActivity.selectedObject) != null && messageObject10.messageOwner.ttl_period != 0) {
                                                 chatActivity.menuDeleteItem = actionBarMenuSubItem6;
                                                 chatActivity.updateDeleteItemRunnable.run();
                                                 actionBarMenuSubItem6.setSubtextColor(chatActivity.getThemedColor("windowBackgroundWhiteGrayText6"));
@@ -28017,8 +28027,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                         return lambda$createMenu$186;
                                                     }
                                                 };
-                                                MessageObject messageObject27 = chatActivity.selectedObject;
-                                                TLRPC$InputPeer inputPeer = (messageObject27 == null || !(messageObject27.isPoll() || chatActivity.selectedObject.isVoiceTranscriptionOpen() || chatActivity.selectedObject.isSponsored())) ? getMessagesController().getInputPeer(chatActivity.dialog_id) : r20;
+                                                MessageObject messageObject28 = chatActivity.selectedObject;
+                                                TLRPC$InputPeer inputPeer = (messageObject28 == null || !(messageObject28.isPoll() || chatActivity.selectedObject.isVoiceTranscriptionOpen() || chatActivity.selectedObject.isSponsored())) ? getMessagesController().getInputPeer(chatActivity.dialog_id) : r20;
                                                 if (LanguageDetector.hasSupport()) {
                                                     final String[] strArr = {r20};
                                                     actionBarMenuSubItem6.setVisibility(8);
@@ -28179,11 +28189,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         final ReactionsContainerLayout reactionsContainerLayout3 = new ReactionsContainerLayout(this, this.contentView.getContext(), this.currentAccount, getResourceProvider());
                                         if (z26) {
                                             reactionsContainerLayout3.setPadding(AndroidUtilities.dp(4.0f) + (LocaleController.isRTL ? 0 : 24), AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f) + (LocaleController.isRTL ? 24 : 0), AndroidUtilities.dp(22));
-                                            final MessageObject messageObject28 = messageObject5;
+                                            final MessageObject messageObject29 = messageObject5;
                                             reactionsContainerLayout3.setDelegate(new ReactionsContainerLayout.ReactionsContainerDelegate() { // from class: org.telegram.ui.ChatActivity.114
                                                 @Override // org.telegram.ui.Components.ReactionsContainerLayout.ReactionsContainerDelegate
                                                 public void onReactionClicked(View view3, ReactionsLayoutInBubble.VisibleReaction visibleReaction, boolean z31, boolean z32) {
-                                                    ChatActivity.this.selectReaction(messageObject28, reactionsContainerLayout3, view3, 0.0f, 0.0f, visibleReaction, false, z31, z32);
+                                                    ChatActivity.this.selectReaction(messageObject29, reactionsContainerLayout3, view3, 0.0f, 0.0f, visibleReaction, false, z31, z32);
                                                 }
                                             });
                                             chatScrimPopupContainerLayout.addView(reactionsContainerLayout3, LayoutHelper.createLinear(-1, 74, 5, 0, 50, 0, -20));
@@ -28481,8 +28491,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 arrayList13.add(8);
                                 arrayList11.add(Integer.valueOf(R.drawable.msg_reply));
                             }
-                            MessageObject messageObject29 = chatActivity.selectedObject;
-                            if ((messageObject29.type == 0 || messageObject29.isAnimatedEmoji() || chatActivity.selectedObject.isAnimatedEmojiStickers() || chatActivity.getMessageCaption(chatActivity.selectedObject, chatActivity.selectedObjectGroup) != null) && !z22) {
+                            MessageObject messageObject30 = chatActivity.selectedObject;
+                            if ((messageObject30.type == 0 || messageObject30.isAnimatedEmoji() || chatActivity.selectedObject.isAnimatedEmojiStickers() || chatActivity.getMessageCaption(chatActivity.selectedObject, chatActivity.selectedObjectGroup) != null) && !z22) {
                                 arrayList12.add(LocaleController.getString("Copy", R.string.Copy));
                                 arrayList13.add(3);
                                 arrayList11.add(Integer.valueOf(R.drawable.msg_copy));
@@ -28496,8 +28506,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 arrayList13.add(27);
                                 arrayList11.add(Integer.valueOf(R.drawable.msg_viewreplies));
                             }
-                            MessageObject messageObject30 = chatActivity.selectedObject;
-                            if (messageObject30 != null && (tLRPC$Message = messageObject30.messageOwner) != null && tLRPC$Message.action == null && (tLRPC$Chat = chatActivity.currentChat) != null && tLRPC$Chat.forum && !chatActivity.isTopic && tLRPC$Message != null && (tLRPC$TL_messageReplyHeader = tLRPC$Message.reply_to) != null && tLRPC$TL_messageReplyHeader.forum_topic) {
+                            MessageObject messageObject31 = chatActivity.selectedObject;
+                            if (messageObject31 != null && (tLRPC$Message = messageObject31.messageOwner) != null && tLRPC$Message.action == null && (tLRPC$Chat = chatActivity.currentChat) != null && tLRPC$Chat.forum && !chatActivity.isTopic && tLRPC$Message != null && (tLRPC$TL_messageReplyHeader = tLRPC$Message.reply_to) != null && tLRPC$TL_messageReplyHeader.forum_topic) {
                                 arrayList12.add(LocaleController.getString("ViewInTopic", R.string.ViewInTopic));
                                 arrayList13.add(32);
                                 arrayList11.add(Integer.valueOf(R.drawable.msg_viewintopic));
@@ -28592,8 +28602,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         }
                     }
                     charSequence = null;
-                    MessageObject messageObject152 = chatActivity.selectedObject;
-                    if (messageObject152.translated) {
+                    MessageObject messageObject162 = chatActivity.selectedObject;
+                    if (messageObject162.translated) {
                     }
                     if (messageObject.isSponsored()) {
                         arrayList12.add(LocaleController.getString("HideAd", R.string.HideAd));
@@ -29387,7 +29397,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         int i;
         int i2;
         String str;
-        if (isInScheduleMode()) {
+        if (isInScheduleMode() || messageObject == null) {
             return;
         }
         ReactionsEffectOverlay.removeCurrent(false);
@@ -32778,15 +32788,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             return chatActivityAdapter.botInfoRow;
         }
 
-        static /* synthetic */ int access$39800(ChatActivityAdapter chatActivityAdapter) {
+        static /* synthetic */ int access$39900(ChatActivityAdapter chatActivityAdapter) {
             return chatActivityAdapter.loadingDownRow;
         }
 
-        static /* synthetic */ int access$39900(ChatActivityAdapter chatActivityAdapter) {
+        static /* synthetic */ int access$40000(ChatActivityAdapter chatActivityAdapter) {
             return chatActivityAdapter.loadingUpRow;
         }
 
-        static /* synthetic */ void access$40000(ChatActivityAdapter chatActivityAdapter) {
+        static /* synthetic */ void access$40100(ChatActivityAdapter chatActivityAdapter) {
             chatActivityAdapter.updateRowsInternal();
         }
 
@@ -33749,7 +33759,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 animatorSet2.playTogether(ofFloat, animatorSet);
                 animatorSet2.setStartDelay(120L);
                 animatorSet2.setDuration(180L);
-                ChatActivity.this.instantCameraView.setIsMessageTransition(true);
+                if (ChatActivity.this.instantCameraView != null) {
+                    ChatActivity.this.instantCameraView.setIsMessageTransition(true);
+                }
                 animatorSet2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChatActivity.ChatActivityAdapter.3.1
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
@@ -33773,9 +33785,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         animatorSet3.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChatActivity.ChatActivityAdapter.3.1.2
                             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                             public void onAnimationEnd(Animator animator2) {
-                                ChatActivity.this.instantCameraView.setIsMessageTransition(false);
-                                ChatActivity.this.instantCameraView.hideCamera(true);
-                                ChatActivity.this.instantCameraView.setVisibility(4);
+                                if (ChatActivity.this.instantCameraView != null) {
+                                    ChatActivity.this.instantCameraView.setIsMessageTransition(false);
+                                    ChatActivity.this.instantCameraView.hideCamera(true);
+                                    ChatActivity.this.instantCameraView.setVisibility(4);
+                                }
                             }
                         });
                         animatorSet3.start();
@@ -35522,7 +35536,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$ChatMessageCellDelegate$5$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatActivity.access$43100(ChatActivity.this);
+                        ChatActivity.access$43200(ChatActivity.this);
                     }
                 }, 250L);
             }
@@ -35865,37 +35879,37 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         public ChatScrollCallback() {
         }
 
-        static /* synthetic */ MessageObject access$30202(ChatScrollCallback chatScrollCallback, MessageObject messageObject) {
+        static /* synthetic */ MessageObject access$30302(ChatScrollCallback chatScrollCallback, MessageObject messageObject) {
             chatScrollCallback.scrollTo = messageObject;
             return messageObject;
         }
 
-        static /* synthetic */ boolean access$30302(ChatScrollCallback chatScrollCallback, boolean z) {
+        static /* synthetic */ boolean access$30402(ChatScrollCallback chatScrollCallback, boolean z) {
             chatScrollCallback.lastBottom = z;
             return z;
         }
 
-        static /* synthetic */ int access$30402(ChatScrollCallback chatScrollCallback, int i) {
+        static /* synthetic */ int access$30502(ChatScrollCallback chatScrollCallback, int i) {
             chatScrollCallback.lastItemOffset = i;
             return i;
         }
 
-        static /* synthetic */ int access$30502(ChatScrollCallback chatScrollCallback, int i) {
+        static /* synthetic */ int access$30602(ChatScrollCallback chatScrollCallback, int i) {
             chatScrollCallback.lastPadding = i;
             return i;
         }
 
-        static /* synthetic */ int access$30602(ChatScrollCallback chatScrollCallback, int i) {
+        static /* synthetic */ int access$30702(ChatScrollCallback chatScrollCallback, int i) {
             chatScrollCallback.position = i;
             return i;
         }
 
-        static /* synthetic */ int access$30702(ChatScrollCallback chatScrollCallback, int i) {
+        static /* synthetic */ int access$30802(ChatScrollCallback chatScrollCallback, int i) {
             chatScrollCallback.offset = i;
             return i;
         }
 
-        static /* synthetic */ boolean access$30802(ChatScrollCallback chatScrollCallback, boolean z) {
+        static /* synthetic */ boolean access$30902(ChatScrollCallback chatScrollCallback, boolean z) {
             chatScrollCallback.bottom = z;
             return z;
         }
@@ -37044,7 +37058,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             return getColor(str);
         }
 
-        static /* synthetic */ EmojiThemes access$40100(ThemeDelegate themeDelegate) {
+        static /* synthetic */ EmojiThemes access$40200(ThemeDelegate themeDelegate) {
             return themeDelegate.chatTheme;
         }
 

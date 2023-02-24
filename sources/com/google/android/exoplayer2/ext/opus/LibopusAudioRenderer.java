@@ -1,46 +1,54 @@
 package com.google.android.exoplayer2.ext.opus;
 
 import android.os.Handler;
-import com.google.android.exoplayer2.BaseRenderer;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.Renderer;
 import com.google.android.exoplayer2.audio.AudioProcessor;
 import com.google.android.exoplayer2.audio.AudioRendererEventListener;
-import com.google.android.exoplayer2.audio.SimpleDecoderAudioRenderer;
-import com.google.android.exoplayer2.drm.DrmSessionManager;
-import com.google.android.exoplayer2.drm.ExoMediaCrypto;
+import com.google.android.exoplayer2.audio.AudioSink;
+import com.google.android.exoplayer2.audio.DecoderAudioRenderer;
+import com.google.android.exoplayer2.decoder.CryptoConfig;
+import com.google.android.exoplayer2.util.TraceUtil;
+import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
-public class LibopusAudioRenderer extends SimpleDecoderAudioRenderer {
+public class LibopusAudioRenderer extends DecoderAudioRenderer<OpusDecoder> {
     private static final int DEFAULT_INPUT_BUFFER_SIZE = 5760;
     private static final int NUM_BUFFERS = 16;
-    private int channelCount;
-    private int sampleRate;
+    private static final String TAG = "LibopusAudioRenderer";
+
+    protected boolean experimentalGetDiscardPaddingEnabled() {
+        return false;
+    }
+
+    @Override // com.google.android.exoplayer2.Renderer, com.google.android.exoplayer2.RendererCapabilities
+    public String getName() {
+        return TAG;
+    }
 
     @Override // com.google.android.exoplayer2.BaseRenderer, com.google.android.exoplayer2.Renderer
-    public /* bridge */ /* synthetic */ void setOperatingRate(float f) throws ExoPlaybackException {
-        Renderer.-CC.$default$setOperatingRate(this, f);
+    public /* bridge */ /* synthetic */ void setPlaybackSpeed(float f, float f2) throws ExoPlaybackException {
+        Renderer.-CC.$default$setPlaybackSpeed(this, f, f2);
     }
 
     public LibopusAudioRenderer() {
-        this(null, null, new AudioProcessor[0]);
+        this((Handler) null, (AudioRendererEventListener) null, new AudioProcessor[0]);
     }
 
     public LibopusAudioRenderer(Handler handler, AudioRendererEventListener audioRendererEventListener, AudioProcessor... audioProcessorArr) {
         super(handler, audioRendererEventListener, audioProcessorArr);
     }
 
-    @Deprecated
-    public LibopusAudioRenderer(Handler handler, AudioRendererEventListener audioRendererEventListener, DrmSessionManager<ExoMediaCrypto> drmSessionManager, boolean z, AudioProcessor... audioProcessorArr) {
-        super(handler, audioRendererEventListener, null, drmSessionManager, z, audioProcessorArr);
+    public LibopusAudioRenderer(Handler handler, AudioRendererEventListener audioRendererEventListener, AudioSink audioSink) {
+        super(handler, audioRendererEventListener, audioSink);
     }
 
-    @Override // com.google.android.exoplayer2.audio.SimpleDecoderAudioRenderer
-    protected int supportsFormatInternal(DrmSessionManager<ExoMediaCrypto> drmSessionManager, Format format) {
-        boolean z = format.drmInitData == null || OpusLibrary.matchesExpectedExoMediaCryptoType(format.exoMediaCryptoType) || (format.exoMediaCryptoType == null && BaseRenderer.supportsFormatDrm(drmSessionManager, format.drmInitData));
-        if ("audio/opus".equalsIgnoreCase(format.sampleMimeType)) {
-            if (supportsOutput(format.channelCount, 2)) {
-                return !z ? 2 : 4;
+    @Override // com.google.android.exoplayer2.audio.DecoderAudioRenderer
+    protected int supportsFormatInternal(Format format) {
+        boolean supportsCryptoType = OpusLibrary.supportsCryptoType(format.cryptoType);
+        if (OpusLibrary.isAvailable() && "audio/opus".equalsIgnoreCase(format.sampleMimeType)) {
+            if (sinkSupportsFormat(Util.getPcmFormat(2, format.channelCount, format.sampleRate))) {
+                return !supportsCryptoType ? 2 : 4;
             }
             return 1;
         }
@@ -48,17 +56,20 @@ public class LibopusAudioRenderer extends SimpleDecoderAudioRenderer {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    @Override // com.google.android.exoplayer2.audio.SimpleDecoderAudioRenderer
-    public OpusDecoder createDecoder(Format format, ExoMediaCrypto exoMediaCrypto) throws OpusDecoderException {
+    @Override // com.google.android.exoplayer2.audio.DecoderAudioRenderer
+    public final OpusDecoder createDecoder(Format format, CryptoConfig cryptoConfig) throws OpusDecoderException {
+        TraceUtil.beginSection("createOpusDecoder");
+        boolean z = getSinkFormatSupport(Util.getPcmFormat(4, format.channelCount, format.sampleRate)) == 2;
         int i = format.maxInputSize;
-        OpusDecoder opusDecoder = new OpusDecoder(16, 16, i != -1 ? i : DEFAULT_INPUT_BUFFER_SIZE, format.initializationData, exoMediaCrypto);
-        this.channelCount = opusDecoder.getChannelCount();
-        this.sampleRate = opusDecoder.getSampleRate();
+        OpusDecoder opusDecoder = new OpusDecoder(16, 16, i != -1 ? i : DEFAULT_INPUT_BUFFER_SIZE, format.initializationData, cryptoConfig, z);
+        opusDecoder.experimentalSetDiscardPaddingEnabled(experimentalGetDiscardPaddingEnabled());
+        TraceUtil.endSection();
         return opusDecoder;
     }
 
-    @Override // com.google.android.exoplayer2.audio.SimpleDecoderAudioRenderer
-    protected Format getOutputFormat() {
-        return Format.createAudioSampleFormat(null, "audio/raw", null, -1, -1, this.channelCount, this.sampleRate, 2, null, null, 0, null);
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // com.google.android.exoplayer2.audio.DecoderAudioRenderer
+    public final Format getOutputFormat(OpusDecoder opusDecoder) {
+        return Util.getPcmFormat(opusDecoder.outputFloat ? 4 : 2, opusDecoder.channelCount, 48000);
     }
 }

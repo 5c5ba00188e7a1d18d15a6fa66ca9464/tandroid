@@ -1,6 +1,6 @@
 package com.google.android.exoplayer2.util;
 /* loaded from: classes.dex */
-public final class ConditionVariable {
+public class ConditionVariable {
     private final Clock clock;
     private boolean isOpen;
 
@@ -31,6 +31,20 @@ public final class ConditionVariable {
     public synchronized void block() throws InterruptedException {
         while (!this.isOpen) {
             wait();
+        }
+    }
+
+    public synchronized void blockUninterruptible() {
+        boolean z = false;
+        while (!this.isOpen) {
+            try {
+                wait();
+            } catch (InterruptedException unused) {
+                z = true;
+            }
+        }
+        if (z) {
+            Thread.currentThread().interrupt();
         }
     }
 

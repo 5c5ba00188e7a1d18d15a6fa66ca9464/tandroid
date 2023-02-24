@@ -760,7 +760,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 }
                 PhotoViewer.this.pipVideoOverlayAnimateFlag = true;
                 PhotoViewer.this.changedTextureView.setVisibility(4);
-                PhotoViewer.this.aspectRatioFrameLayout.removeView(PhotoViewer.this.videoTextureView);
+                if (PhotoViewer.this.aspectRatioFrameLayout != null) {
+                    PhotoViewer.this.aspectRatioFrameLayout.removeView(PhotoViewer.this.videoTextureView);
+                    return;
+                }
                 return;
             }
             PipVideoOverlay.dismiss();
@@ -5572,19 +5575,18 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
         @Override // android.view.ViewGroup, android.view.View
         protected void dispatchDraw(Canvas canvas) {
+            UndoView undoView;
             super.dispatchDraw(canvas);
-            if (PhotoViewer.this.parentChatActivity != null) {
-                UndoView undoView = PhotoViewer.this.parentChatActivity.getUndoView();
-                if (undoView.getVisibility() == 0) {
-                    canvas.save();
-                    View view = (View) undoView.getParent();
-                    canvas.clipRect(view.getX(), view.getY(), view.getX() + view.getWidth(), view.getY() + view.getHeight());
-                    canvas.translate(undoView.getX(), undoView.getY());
-                    undoView.draw(canvas);
-                    canvas.restore();
-                    invalidate();
-                }
+            if (PhotoViewer.this.parentChatActivity == null || (undoView = PhotoViewer.this.parentChatActivity.getUndoView()) == null || undoView.getVisibility() != 0) {
+                return;
             }
+            canvas.save();
+            View view = (View) undoView.getParent();
+            canvas.clipRect(view.getX(), view.getY(), view.getX() + view.getWidth(), view.getY() + view.getHeight());
+            canvas.translate(undoView.getX(), undoView.getY());
+            undoView.draw(canvas);
+            canvas.restore();
+            invalidate();
         }
     }
 
@@ -8050,7 +8052,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             this.links = new LinkSpanDrawable.LinkCollector(this);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:30:0x00f9  */
+        /* JADX WARN: Removed duplicated region for block: B:33:0x0100  */
+        /* JADX WARN: Removed duplicated region for block: B:40:0x0122  */
+        /* JADX WARN: Removed duplicated region for block: B:47:0x0134 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:50:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
         @Override // android.widget.TextView, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -8058,6 +8063,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         public boolean onTouchEvent(MotionEvent motionEvent) {
             ClickableSpan clickableSpan;
             boolean z;
+            if (getLayout() == null) {
+                return false;
+            }
             if (motionEvent.getAction() == 0 || (this.pressedLink != null && motionEvent.getAction() == 1)) {
                 int y = (int) (motionEvent.getY() - getPaddingTop());
                 int lineForVertical = getLayout().getLineForVertical(y);
@@ -8097,9 +8105,13 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                 this.pressedLink = null;
                                 z = true;
                             }
+                            return !PhotoViewer.this.bottomTouchEnabled && (!z || super.onTouchEvent(motionEvent));
                         }
                         z = false;
                         if (motionEvent.getAction() == 1) {
+                        }
+                        if (PhotoViewer.this.bottomTouchEnabled) {
+                            return false;
                         }
                     }
                 }
@@ -8107,14 +8119,19 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 z = false;
                 if (motionEvent.getAction() == 1) {
                 }
+                if (PhotoViewer.this.bottomTouchEnabled) {
+                }
             } else if (motionEvent.getAction() == 3) {
                 this.links.clear();
                 this.pressedLink = null;
                 z = true;
+                if (PhotoViewer.this.bottomTouchEnabled) {
+                }
             } else {
                 z = false;
+                if (PhotoViewer.this.bottomTouchEnabled) {
+                }
             }
-            return PhotoViewer.this.bottomTouchEnabled && (z || super.onTouchEvent(motionEvent));
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -8375,9 +8392,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             dismissInternal();
         }
         ChatActivity chatActivity = this.parentChatActivity;
-        if (chatActivity != null) {
-            chatActivity.getFragmentView().invalidate();
+        if (chatActivity == null || chatActivity.getFragmentView() == null) {
+            return;
         }
+        this.parentChatActivity.getFragmentView().invalidate();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -17208,6 +17226,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 Rect rect = new Rect();
 
                 @Override // org.telegram.ui.Components.PhotoViewerWebView
+                protected void processTouch(MotionEvent motionEvent) {
+                }
+
+                @Override // org.telegram.ui.Components.PhotoViewerWebView
                 protected void drawBlackBackground(Canvas canvas, int i2, int i3) {
                     Bitmap bitmap = PhotoViewer.this.centerImage.getBitmap();
                     if (bitmap != null) {
@@ -17219,11 +17241,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         this.rect.set(i5, i4, width + i5, height + i4);
                         canvas.drawBitmap(bitmap, (Rect) null, this.rect, (Paint) null);
                     }
-                }
-
-                @Override // org.telegram.ui.Components.PhotoViewerWebView
-                protected void processTouch(MotionEvent motionEvent) {
-                    PhotoViewer.this.gestureDetector.onTouchEvent(motionEvent);
                 }
             };
             this.photoViewerWebView = photoViewerWebView;

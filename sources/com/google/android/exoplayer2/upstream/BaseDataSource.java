@@ -1,5 +1,6 @@
 package com.google.android.exoplayer2.upstream;
 
+import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,6 +26,7 @@ public abstract class BaseDataSource implements DataSource {
 
     @Override // com.google.android.exoplayer2.upstream.DataSource
     public final void addTransferListener(TransferListener transferListener) {
+        Assertions.checkNotNull(transferListener);
         if (this.listeners.contains(transferListener)) {
             return;
         }

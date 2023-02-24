@@ -34,7 +34,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
-import javax.annotation.concurrent.GuardedBy;
 /* loaded from: classes.dex */
 public class FirebaseApp {
     private final Context applicationContext;
@@ -44,7 +43,6 @@ public class FirebaseApp {
     private final FirebaseOptions options;
     private static final Object LOCK = new Object();
     private static final Executor UI_EXECUTOR = new UiExecutor();
-    @GuardedBy("LOCK")
     static final Map<String, FirebaseApp> INSTANCES = new ArrayMap();
     private final AtomicBoolean automaticResourceManagementEnabled = new AtomicBoolean(false);
     private final AtomicBoolean deleted = new AtomicBoolean();

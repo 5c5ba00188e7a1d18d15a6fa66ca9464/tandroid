@@ -2,131 +2,160 @@ package com.google.android.exoplayer2.source.hls;
 
 import android.net.Uri;
 import com.google.android.exoplayer2.Format;
+import com.google.android.exoplayer2.analytics.PlayerId;
 import com.google.android.exoplayer2.drm.DrmInitData;
 import com.google.android.exoplayer2.extractor.DefaultExtractorInput;
-import com.google.android.exoplayer2.extractor.Extractor;
 import com.google.android.exoplayer2.extractor.ExtractorInput;
-import com.google.android.exoplayer2.extractor.PositionHolder;
 import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.metadata.id3.Id3Decoder;
 import com.google.android.exoplayer2.metadata.id3.PrivFrame;
 import com.google.android.exoplayer2.source.chunk.MediaChunk;
-import com.google.android.exoplayer2.source.hls.HlsExtractorFactory;
+import com.google.android.exoplayer2.source.hls.HlsChunkSource;
 import com.google.android.exoplayer2.source.hls.playlist.HlsMediaPlaylist;
 import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DataSourceUtil;
 import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
 import com.google.android.exoplayer2.util.UriUtil;
-import com.google.android.exoplayer2.util.Util;
+import com.google.common.base.Ascii;
+import com.google.common.collect.ImmutableList;
 import java.io.EOFException;
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
-import org.checkerframework.checker.nullness.qual.RequiresNonNull;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class HlsMediaChunk extends MediaChunk {
-    private static final PositionHolder DUMMY_POSITION_HOLDER = new PositionHolder();
     private static final AtomicInteger uidSource = new AtomicInteger();
     public final int discontinuitySequenceNumber;
     private final DrmInitData drmInitData;
-    private Extractor extractor;
+    private HlsMediaChunkExtractor extractor;
     private final HlsExtractorFactory extractorFactory;
+    private boolean extractorInvalidated;
     private final boolean hasGapTag;
     private final Id3Decoder id3Decoder;
     private boolean initDataLoadRequired;
     private final DataSource initDataSource;
     private final DataSpec initDataSpec;
     private final boolean initSegmentEncrypted;
-    private boolean isExtractorReusable;
     private final boolean isMasterTimestampSource;
+    private boolean isPublished;
     private volatile boolean loadCanceled;
     private boolean loadCompleted;
     private final boolean mediaSegmentEncrypted;
     private final List<Format> muxedCaptionFormats;
     private int nextLoadPosition;
     private HlsSampleStreamWrapper output;
+    public final int partIndex;
+    private final PlayerId playerId;
     public final Uri playlistUrl;
-    private final Extractor previousExtractor;
+    private final HlsMediaChunkExtractor previousExtractor;
+    private ImmutableList<Integer> sampleQueueFirstSampleIndices;
     private final ParsableByteArray scratchId3Data;
-    private final boolean shouldSpliceIn;
+    public final boolean shouldSpliceIn;
     private final TimestampAdjuster timestampAdjuster;
     public final int uid;
 
-    public static HlsMediaChunk createInstance(HlsExtractorFactory hlsExtractorFactory, DataSource dataSource, Format format, long j, HlsMediaPlaylist hlsMediaPlaylist, int i, Uri uri, List<Format> list, int i2, Object obj, boolean z, TimestampAdjusterProvider timestampAdjusterProvider, HlsMediaChunk hlsMediaChunk, byte[] bArr, byte[] bArr2) {
-        DataSpec dataSpec;
-        boolean z2;
+    public static HlsMediaChunk createInstance(HlsExtractorFactory hlsExtractorFactory, DataSource dataSource, Format format, long j, HlsMediaPlaylist hlsMediaPlaylist, HlsChunkSource.SegmentBaseHolder segmentBaseHolder, Uri uri, List<Format> list, int i, Object obj, boolean z, TimestampAdjusterProvider timestampAdjusterProvider, HlsMediaChunk hlsMediaChunk, byte[] bArr, byte[] bArr2, boolean z2, PlayerId playerId) {
+        boolean z3;
         DataSource dataSource2;
+        DataSpec dataSpec;
+        boolean z4;
         Id3Decoder id3Decoder;
         ParsableByteArray parsableByteArray;
-        Extractor extractor;
-        boolean z3;
-        HlsMediaPlaylist.Segment segment = hlsMediaPlaylist.segments.get(i);
-        DataSpec dataSpec2 = new DataSpec(UriUtil.resolveToUri(hlsMediaPlaylist.baseUri, segment.url), segment.byterangeOffset, segment.byterangeLength, null);
-        boolean z4 = bArr != null;
-        DataSource buildDataSource = buildDataSource(dataSource, bArr, z4 ? getEncryptionIvArray((String) Assertions.checkNotNull(segment.encryptionIV)) : null);
-        HlsMediaPlaylist.Segment segment2 = segment.initializationSegment;
-        if (segment2 != null) {
-            boolean z5 = bArr2 != null;
-            byte[] encryptionIvArray = z5 ? getEncryptionIvArray((String) Assertions.checkNotNull(segment2.encryptionIV)) : null;
-            DataSpec dataSpec3 = new DataSpec(UriUtil.resolveToUri(hlsMediaPlaylist.baseUri, segment2.url), segment2.byterangeOffset, segment2.byterangeLength, null);
-            z2 = z5;
+        HlsMediaChunkExtractor hlsMediaChunkExtractor;
+        HlsMediaPlaylist.SegmentBase segmentBase = segmentBaseHolder.segmentBase;
+        DataSpec build = new DataSpec.Builder().setUri(UriUtil.resolveToUri(hlsMediaPlaylist.baseUri, segmentBase.url)).setPosition(segmentBase.byteRangeOffset).setLength(segmentBase.byteRangeLength).setFlags(segmentBaseHolder.isPreload ? 8 : 0).build();
+        boolean z5 = bArr != null;
+        DataSource buildDataSource = buildDataSource(dataSource, bArr, z5 ? getEncryptionIvArray((String) Assertions.checkNotNull(segmentBase.encryptionIV)) : null);
+        HlsMediaPlaylist.Segment segment = segmentBase.initializationSegment;
+        if (segment != null) {
+            boolean z6 = bArr2 != null;
+            byte[] encryptionIvArray = z6 ? getEncryptionIvArray((String) Assertions.checkNotNull(segment.encryptionIV)) : null;
+            z3 = z5;
+            dataSpec = new DataSpec(UriUtil.resolveToUri(hlsMediaPlaylist.baseUri, segment.url), segment.byteRangeOffset, segment.byteRangeLength);
             dataSource2 = buildDataSource(dataSource, bArr2, encryptionIvArray);
-            dataSpec = dataSpec3;
+            z4 = z6;
         } else {
-            dataSpec = null;
-            z2 = false;
+            z3 = z5;
             dataSource2 = null;
+            dataSpec = null;
+            z4 = false;
         }
-        long j2 = j + segment.relativeStartTimeUs;
-        long j3 = j2 + segment.durationUs;
-        int i3 = hlsMediaPlaylist.discontinuitySequence + segment.relativeDiscontinuitySequence;
+        long j2 = j + segmentBase.relativeStartTimeUs;
+        long j3 = j2 + segmentBase.durationUs;
+        int i2 = hlsMediaPlaylist.discontinuitySequence + segmentBase.relativeDiscontinuitySequence;
         if (hlsMediaChunk != null) {
+            DataSpec dataSpec2 = hlsMediaChunk.initDataSpec;
+            boolean z7 = dataSpec == dataSpec2 || (dataSpec != null && dataSpec2 != null && dataSpec.uri.equals(dataSpec2.uri) && dataSpec.position == hlsMediaChunk.initDataSpec.position);
+            boolean z8 = uri.equals(hlsMediaChunk.playlistUrl) && hlsMediaChunk.loadCompleted;
             Id3Decoder id3Decoder2 = hlsMediaChunk.id3Decoder;
-            ParsableByteArray parsableByteArray2 = hlsMediaChunk.scratchId3Data;
-            boolean z6 = (uri.equals(hlsMediaChunk.playlistUrl) && hlsMediaChunk.loadCompleted) ? false : true;
             id3Decoder = id3Decoder2;
-            parsableByteArray = parsableByteArray2;
-            extractor = (hlsMediaChunk.isExtractorReusable && hlsMediaChunk.discontinuitySequenceNumber == i3 && !z6) ? hlsMediaChunk.extractor : null;
-            z3 = z6;
+            parsableByteArray = hlsMediaChunk.scratchId3Data;
+            hlsMediaChunkExtractor = (z7 && z8 && !hlsMediaChunk.extractorInvalidated && hlsMediaChunk.discontinuitySequenceNumber == i2) ? hlsMediaChunk.extractor : null;
         } else {
             id3Decoder = new Id3Decoder();
             parsableByteArray = new ParsableByteArray(10);
-            extractor = null;
-            z3 = false;
+            hlsMediaChunkExtractor = null;
         }
-        return new HlsMediaChunk(hlsExtractorFactory, buildDataSource, dataSpec2, format, z4, dataSource2, dataSpec, z2, uri, list, i2, obj, j2, j3, hlsMediaPlaylist.mediaSequence + i, i3, segment.hasGapTag, z, timestampAdjusterProvider.getAdjuster(i3), segment.drmInitData, extractor, id3Decoder, parsableByteArray, z3);
+        return new HlsMediaChunk(hlsExtractorFactory, buildDataSource, build, format, z3, dataSource2, dataSpec, z4, uri, list, i, obj, j2, j3, segmentBaseHolder.mediaSequence, segmentBaseHolder.partIndex, !segmentBaseHolder.isPreload, i2, segmentBase.hasGapTag, z, timestampAdjusterProvider.getAdjuster(i2), segmentBase.drmInitData, hlsMediaChunkExtractor, id3Decoder, parsableByteArray, z2, playerId);
     }
 
-    private HlsMediaChunk(HlsExtractorFactory hlsExtractorFactory, DataSource dataSource, DataSpec dataSpec, Format format, boolean z, DataSource dataSource2, DataSpec dataSpec2, boolean z2, Uri uri, List<Format> list, int i, Object obj, long j, long j2, long j3, int i2, boolean z3, boolean z4, TimestampAdjuster timestampAdjuster, DrmInitData drmInitData, Extractor extractor, Id3Decoder id3Decoder, ParsableByteArray parsableByteArray, boolean z5) {
+    public static boolean shouldSpliceIn(HlsMediaChunk hlsMediaChunk, Uri uri, HlsMediaPlaylist hlsMediaPlaylist, HlsChunkSource.SegmentBaseHolder segmentBaseHolder, long j) {
+        if (hlsMediaChunk == null) {
+            return false;
+        }
+        if (uri.equals(hlsMediaChunk.playlistUrl) && hlsMediaChunk.loadCompleted) {
+            return false;
+        }
+        return !isIndependent(segmentBaseHolder, hlsMediaPlaylist) || j + segmentBaseHolder.segmentBase.relativeStartTimeUs < hlsMediaChunk.endTimeUs;
+    }
+
+    private HlsMediaChunk(HlsExtractorFactory hlsExtractorFactory, DataSource dataSource, DataSpec dataSpec, Format format, boolean z, DataSource dataSource2, DataSpec dataSpec2, boolean z2, Uri uri, List<Format> list, int i, Object obj, long j, long j2, long j3, int i2, boolean z3, int i3, boolean z4, boolean z5, TimestampAdjuster timestampAdjuster, DrmInitData drmInitData, HlsMediaChunkExtractor hlsMediaChunkExtractor, Id3Decoder id3Decoder, ParsableByteArray parsableByteArray, boolean z6, PlayerId playerId) {
         super(dataSource, dataSpec, format, i, obj, j, j2, j3);
         this.mediaSegmentEncrypted = z;
-        this.discontinuitySequenceNumber = i2;
+        this.partIndex = i2;
+        this.isPublished = z3;
+        this.discontinuitySequenceNumber = i3;
         this.initDataSpec = dataSpec2;
         this.initDataSource = dataSource2;
         this.initDataLoadRequired = dataSpec2 != null;
         this.initSegmentEncrypted = z2;
         this.playlistUrl = uri;
-        this.isMasterTimestampSource = z4;
+        this.isMasterTimestampSource = z5;
         this.timestampAdjuster = timestampAdjuster;
-        this.hasGapTag = z3;
+        this.hasGapTag = z4;
         this.extractorFactory = hlsExtractorFactory;
         this.muxedCaptionFormats = list;
         this.drmInitData = drmInitData;
-        this.previousExtractor = extractor;
+        this.previousExtractor = hlsMediaChunkExtractor;
         this.id3Decoder = id3Decoder;
         this.scratchId3Data = parsableByteArray;
-        this.shouldSpliceIn = z5;
+        this.shouldSpliceIn = z6;
+        this.playerId = playerId;
+        this.sampleQueueFirstSampleIndices = ImmutableList.of();
         this.uid = uidSource.getAndIncrement();
     }
 
-    public void init(HlsSampleStreamWrapper hlsSampleStreamWrapper) {
+    public void init(HlsSampleStreamWrapper hlsSampleStreamWrapper, ImmutableList<Integer> immutableList) {
         this.output = hlsSampleStreamWrapper;
-        hlsSampleStreamWrapper.init(this.uid, this.shouldSpliceIn);
+        this.sampleQueueFirstSampleIndices = immutableList;
+    }
+
+    public int getFirstSampleIndex(int i) {
+        Assertions.checkState(!this.shouldSpliceIn);
+        if (i >= this.sampleQueueFirstSampleIndices.size()) {
+            return 0;
+        }
+        return this.sampleQueueFirstSampleIndices.get(i).intValue();
+    }
+
+    public void invalidateExtractor() {
+        this.extractorInvalidated = true;
     }
 
     @Override // com.google.android.exoplayer2.source.chunk.MediaChunk
@@ -140,12 +169,11 @@ public final class HlsMediaChunk extends MediaChunk {
     }
 
     @Override // com.google.android.exoplayer2.upstream.Loader.Loadable
-    public void load() throws IOException, InterruptedException {
-        Extractor extractor;
+    public void load() throws IOException {
+        HlsMediaChunkExtractor hlsMediaChunkExtractor;
         Assertions.checkNotNull(this.output);
-        if (this.extractor == null && (extractor = this.previousExtractor) != null) {
-            this.extractor = extractor;
-            this.isExtractorReusable = true;
+        if (this.extractor == null && (hlsMediaChunkExtractor = this.previousExtractor) != null && hlsMediaChunkExtractor.isReusable()) {
+            this.extractor = this.previousExtractor;
             this.initDataLoadRequired = false;
         }
         maybeLoadInitData();
@@ -155,70 +183,92 @@ public final class HlsMediaChunk extends MediaChunk {
         if (!this.hasGapTag) {
             loadMedia();
         }
-        this.loadCompleted = true;
+        this.loadCompleted = !this.loadCanceled;
     }
 
-    @RequiresNonNull({"output"})
-    private void maybeLoadInitData() throws IOException, InterruptedException {
+    public boolean isPublished() {
+        return this.isPublished;
+    }
+
+    public void publish() {
+        this.isPublished = true;
+    }
+
+    private void maybeLoadInitData() throws IOException {
         if (this.initDataLoadRequired) {
             Assertions.checkNotNull(this.initDataSource);
             Assertions.checkNotNull(this.initDataSpec);
-            feedDataToExtractor(this.initDataSource, this.initDataSpec, this.initSegmentEncrypted);
+            feedDataToExtractor(this.initDataSource, this.initDataSpec, this.initSegmentEncrypted, false);
             this.nextLoadPosition = 0;
             this.initDataLoadRequired = false;
         }
     }
 
-    @RequiresNonNull({"output"})
-    private void loadMedia() throws IOException, InterruptedException {
-        if (!this.isMasterTimestampSource) {
-            this.timestampAdjuster.waitUntilInitialized();
-        } else if (this.timestampAdjuster.getFirstSampleTimestampUs() == Long.MAX_VALUE) {
-            this.timestampAdjuster.setFirstSampleTimestampUs(this.startTimeUs);
-        }
-        feedDataToExtractor(this.dataSource, this.dataSpec, this.mediaSegmentEncrypted);
+    private void loadMedia() throws IOException {
+        feedDataToExtractor(this.dataSource, this.dataSpec, this.mediaSegmentEncrypted, true);
     }
 
-    @RequiresNonNull({"output"})
-    private void feedDataToExtractor(DataSource dataSource, DataSpec dataSpec, boolean z) throws IOException, InterruptedException {
+    private void feedDataToExtractor(DataSource dataSource, DataSpec dataSpec, boolean z, boolean z2) throws IOException {
         DataSpec subrange;
-        boolean z2;
-        int i = 0;
+        long position;
+        long j;
         if (z) {
-            z2 = this.nextLoadPosition != 0;
+            r0 = this.nextLoadPosition != 0;
             subrange = dataSpec;
         } else {
             subrange = dataSpec.subrange(this.nextLoadPosition);
-            z2 = false;
         }
         try {
-            DefaultExtractorInput prepareExtraction = prepareExtraction(dataSource, subrange);
-            if (z2) {
+            DefaultExtractorInput prepareExtraction = prepareExtraction(dataSource, subrange, z2);
+            if (r0) {
                 prepareExtraction.skipFully(this.nextLoadPosition);
             }
-            while (i == 0 && !this.loadCanceled) {
-                i = this.extractor.read(prepareExtraction, DUMMY_POSITION_HOLDER);
-            }
-            this.nextLoadPosition = (int) (prepareExtraction.getPosition() - dataSpec.absoluteStreamPosition);
+            do {
+                try {
+                    if (this.loadCanceled) {
+                        break;
+                    }
+                } catch (EOFException e) {
+                    if ((this.trackFormat.roleFlags & 16384) != 0) {
+                        this.extractor.onTruncatedSegmentParsed();
+                        position = prepareExtraction.getPosition();
+                        j = dataSpec.position;
+                    } else {
+                        throw e;
+                    }
+                }
+            } while (this.extractor.read(prepareExtraction));
+            position = prepareExtraction.getPosition();
+            j = dataSpec.position;
+            this.nextLoadPosition = (int) (position - j);
         } finally {
-            Util.closeQuietly(dataSource);
+            DataSourceUtil.closeQuietly(dataSource);
         }
     }
 
-    @EnsuresNonNull({"extractor"})
-    @RequiresNonNull({"output"})
-    private DefaultExtractorInput prepareExtraction(DataSource dataSource, DataSpec dataSpec) throws IOException, InterruptedException {
-        DefaultExtractorInput defaultExtractorInput;
+    private DefaultExtractorInput prepareExtraction(DataSource dataSource, DataSpec dataSpec, boolean z) throws IOException {
+        HlsMediaChunkExtractor createExtractor;
         long j;
-        DefaultExtractorInput defaultExtractorInput2 = new DefaultExtractorInput(dataSource, dataSpec.absoluteStreamPosition, dataSource.open(dataSpec));
+        long open = dataSource.open(dataSpec);
+        if (z) {
+            try {
+                this.timestampAdjuster.sharedInitializeOrWait(this.isMasterTimestampSource, this.startTimeUs);
+            } catch (InterruptedException unused) {
+                throw new InterruptedIOException();
+            }
+        }
+        DefaultExtractorInput defaultExtractorInput = new DefaultExtractorInput(dataSource, dataSpec.position, open);
         if (this.extractor == null) {
-            long peekId3PrivTimestamp = peekId3PrivTimestamp(defaultExtractorInput2);
-            defaultExtractorInput2.resetPeekPosition();
-            defaultExtractorInput = defaultExtractorInput2;
-            HlsExtractorFactory.Result createExtractor = this.extractorFactory.createExtractor(this.previousExtractor, dataSpec.uri, this.trackFormat, this.muxedCaptionFormats, this.timestampAdjuster, dataSource.getResponseHeaders(), defaultExtractorInput2);
-            this.extractor = createExtractor.extractor;
-            this.isExtractorReusable = createExtractor.isReusable;
-            if (createExtractor.isPackedAudioExtractor) {
+            long peekId3PrivTimestamp = peekId3PrivTimestamp(defaultExtractorInput);
+            defaultExtractorInput.resetPeekPosition();
+            HlsMediaChunkExtractor hlsMediaChunkExtractor = this.previousExtractor;
+            if (hlsMediaChunkExtractor != null) {
+                createExtractor = hlsMediaChunkExtractor.recreate();
+            } else {
+                createExtractor = this.extractorFactory.createExtractor(dataSpec.uri, this.trackFormat, this.muxedCaptionFormats, this.timestampAdjuster, dataSource.getResponseHeaders(), defaultExtractorInput, this.playerId);
+            }
+            this.extractor = createExtractor;
+            if (createExtractor.isPackedAudioExtractor()) {
                 HlsSampleStreamWrapper hlsSampleStreamWrapper = this.output;
                 if (peekId3PrivTimestamp != -9223372036854775807L) {
                     j = this.timestampAdjuster.adjustTsTimestamp(peekId3PrivTimestamp);
@@ -231,18 +281,16 @@ public final class HlsMediaChunk extends MediaChunk {
             }
             this.output.onNewExtractor();
             this.extractor.init(this.output);
-        } else {
-            defaultExtractorInput = defaultExtractorInput2;
         }
         this.output.setDrmInitData(this.drmInitData);
         return defaultExtractorInput;
     }
 
-    private long peekId3PrivTimestamp(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    private long peekId3PrivTimestamp(ExtractorInput extractorInput) throws IOException {
         extractorInput.resetPeekPosition();
         try {
-            extractorInput.peekFully(this.scratchId3Data.data, 0, 10);
             this.scratchId3Data.reset(10);
+            extractorInput.peekFully(this.scratchId3Data.getData(), 0, 10);
         } catch (EOFException unused) {
         }
         if (this.scratchId3Data.readUnsignedInt24() != 4801587) {
@@ -252,13 +300,12 @@ public final class HlsMediaChunk extends MediaChunk {
         int readSynchSafeInt = this.scratchId3Data.readSynchSafeInt();
         int i = readSynchSafeInt + 10;
         if (i > this.scratchId3Data.capacity()) {
-            ParsableByteArray parsableByteArray = this.scratchId3Data;
-            byte[] bArr = parsableByteArray.data;
-            parsableByteArray.reset(i);
-            System.arraycopy(bArr, 0, this.scratchId3Data.data, 0, 10);
+            byte[] data = this.scratchId3Data.getData();
+            this.scratchId3Data.reset(i);
+            System.arraycopy(data, 0, this.scratchId3Data.getData(), 0, 10);
         }
-        extractorInput.peekFully(this.scratchId3Data.data, 10, readSynchSafeInt);
-        Metadata decode = this.id3Decoder.decode(this.scratchId3Data.data, readSynchSafeInt);
+        extractorInput.peekFully(this.scratchId3Data.getData(), 10, readSynchSafeInt);
+        Metadata decode = this.id3Decoder.decode(this.scratchId3Data.getData(), readSynchSafeInt);
         if (decode == null) {
             return -9223372036854775807L;
         }
@@ -268,8 +315,9 @@ public final class HlsMediaChunk extends MediaChunk {
             if (entry instanceof PrivFrame) {
                 PrivFrame privFrame = (PrivFrame) entry;
                 if ("com.apple.streaming.transportStreamTimestamp".equals(privFrame.owner)) {
-                    System.arraycopy(privFrame.privateData, 0, this.scratchId3Data.data, 0, 8);
-                    this.scratchId3Data.reset(8);
+                    System.arraycopy(privFrame.privateData, 0, this.scratchId3Data.getData(), 0, 8);
+                    this.scratchId3Data.setPosition(0);
+                    this.scratchId3Data.setLimit(8);
                     return this.scratchId3Data.readLong() & 8589934591L;
                 }
             }
@@ -278,7 +326,7 @@ public final class HlsMediaChunk extends MediaChunk {
     }
 
     private static byte[] getEncryptionIvArray(String str) {
-        if (Util.toLowerInvariant(str).startsWith("0x")) {
+        if (Ascii.toLowerCase(str).startsWith("0x")) {
             str = str.substring(2);
         }
         byte[] byteArray = new BigInteger(str, 16).toByteArray();
@@ -294,5 +342,13 @@ public final class HlsMediaChunk extends MediaChunk {
             return new Aes128DataSource(dataSource, bArr, bArr2);
         }
         return dataSource;
+    }
+
+    private static boolean isIndependent(HlsChunkSource.SegmentBaseHolder segmentBaseHolder, HlsMediaPlaylist hlsMediaPlaylist) {
+        HlsMediaPlaylist.SegmentBase segmentBase = segmentBaseHolder.segmentBase;
+        if (segmentBase instanceof HlsMediaPlaylist.Part) {
+            return ((HlsMediaPlaylist.Part) segmentBase).isIndependent || (segmentBaseHolder.partIndex == 0 && hlsMediaPlaylist.hasIndependentSegments);
+        }
+        return hlsMediaPlaylist.hasIndependentSegments;
     }
 }

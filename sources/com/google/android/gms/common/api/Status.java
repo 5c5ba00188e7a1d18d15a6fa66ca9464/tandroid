@@ -11,8 +11,6 @@ import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.CheckReturnValue;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class Status extends AbstractSafeParcelable implements Result, ReflectedParcelable {
@@ -66,7 +64,6 @@ public final class Status extends AbstractSafeParcelable implements Result, Refl
     }
 
     @Override // com.google.android.gms.common.api.Result
-    @CanIgnoreReturnValue
     public Status getStatus() {
         return this;
     }
@@ -87,7 +84,6 @@ public final class Status extends AbstractSafeParcelable implements Result, Refl
         return Objects.hashCode(Integer.valueOf(this.zzb), Integer.valueOf(this.zzc), this.zzd, this.zze, this.zzf);
     }
 
-    @CheckReturnValue
     public boolean isSuccess() {
         return this.zzc <= 0;
     }

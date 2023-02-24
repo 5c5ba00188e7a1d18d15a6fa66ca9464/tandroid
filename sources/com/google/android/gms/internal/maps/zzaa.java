@@ -4,7 +4,6 @@ import android.os.IInterface;
 import android.os.RemoteException;
 import com.google.android.gms.dynamic.IObjectWrapper;
 import com.google.android.gms.maps.model.LatLng;
-import javax.annotation.Nullable;
 /* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public interface zzaa extends IInterface {
@@ -18,7 +17,7 @@ public interface zzaa extends IInterface {
 
     void zzn() throws RemoteException;
 
-    void zzs(@Nullable IObjectWrapper iObjectWrapper) throws RemoteException;
+    void zzs(IObjectWrapper iObjectWrapper) throws RemoteException;
 
     void zzu(LatLng latLng) throws RemoteException;
 

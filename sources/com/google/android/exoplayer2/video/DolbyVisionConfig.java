@@ -20,7 +20,13 @@ public final class DolbyVisionConfig {
         } else {
             str = "avc3";
         }
-        return new DolbyVisionConfig(i, readUnsignedByte2, str + ".0" + i + ".0" + readUnsignedByte2);
+        StringBuilder sb = new StringBuilder();
+        sb.append(str);
+        sb.append(".0");
+        sb.append(i);
+        sb.append(readUnsignedByte2 >= 10 ? "." : ".0");
+        sb.append(readUnsignedByte2);
+        return new DolbyVisionConfig(i, readUnsignedByte2, sb.toString());
     }
 
     private DolbyVisionConfig(int i, int i2, String str) {

@@ -118,11 +118,7 @@ final class DvbParser {
                 this.fillRegionPaint.setColor(i2);
                 this.canvas.drawRect(i5, i6, regionComposition.width + i5, regionComposition.height + i6, this.fillRegionPaint);
             }
-            Bitmap createBitmap2 = Bitmap.createBitmap(this.bitmap, i5, i6, regionComposition.width, regionComposition.height);
-            int i9 = displayDefinition.width;
-            float f = i5 / i9;
-            int i10 = displayDefinition.height;
-            arrayList.add(new Cue(createBitmap2, f, 0, i6 / i10, 0, regionComposition.width / i9, regionComposition.height / i10));
+            arrayList.add(new Cue.Builder().setBitmap(Bitmap.createBitmap(this.bitmap, i5, i6, regionComposition.width, regionComposition.height)).setPosition(i5 / displayDefinition.width).setPositionAnchor(0).setLine(i6 / displayDefinition.height, 0).setLineAnchor(0).setSize(regionComposition.width / displayDefinition.width).setBitmapHeight(regionComposition.height / displayDefinition.height).build());
             this.canvas.drawColor(0, PorterDuff.Mode.CLEAR);
             this.canvas.restore();
         }
@@ -353,7 +349,7 @@ final class DvbParser {
         int readBits2 = parsableBitArray.readBits(2);
         boolean readBit = parsableBitArray.readBit();
         parsableBitArray.skipBits(1);
-        byte[] bArr2 = null;
+        byte[] bArr2 = Util.EMPTY_BYTE_ARRAY;
         if (readBits2 == 1) {
             parsableBitArray.skipBits(parsableBitArray.readBits(8) * 16);
         } else if (readBits2 == 0) {

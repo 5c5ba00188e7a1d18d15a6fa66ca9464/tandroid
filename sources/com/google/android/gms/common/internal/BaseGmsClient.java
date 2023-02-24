@@ -26,7 +26,6 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.annotation.concurrent.GuardedBy;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public abstract class BaseGmsClient<T extends IInterface> {
@@ -42,11 +41,8 @@ public abstract class BaseGmsClient<T extends IInterface> {
     private long zzj;
     private final Context zzl;
     private final GmsClientSupervisor zzn;
-    @GuardedBy("mServiceBrokerLock")
     private IGmsServiceBroker zzr;
-    @GuardedBy("mLock")
     private IInterface zzs;
-    @GuardedBy("mLock")
     private zze zzu;
     private final BaseConnectionCallbacks zzw;
     private final BaseOnConnectionFailedListener zzx;
@@ -56,7 +52,6 @@ public abstract class BaseGmsClient<T extends IInterface> {
     private final Object zzp = new Object();
     private final Object zzq = new Object();
     private final ArrayList zzt = new ArrayList();
-    @GuardedBy("mLock")
     private int zzv = 1;
     private ConnectionResult zzB = null;
     private boolean zzC = false;

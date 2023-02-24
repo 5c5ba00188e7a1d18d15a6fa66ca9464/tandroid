@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2;
 
 import com.google.android.exoplayer2.PlayerMessage;
+import com.google.android.exoplayer2.analytics.PlayerId;
 import com.google.android.exoplayer2.source.SampleStream;
 import com.google.android.exoplayer2.util.MediaClock;
 import java.io.IOException;
@@ -9,17 +10,26 @@ public interface Renderer extends PlayerMessage.Target {
 
     /* loaded from: classes.dex */
     public final /* synthetic */ class -CC {
-        public static void $default$setOperatingRate(Renderer renderer, float f) throws ExoPlaybackException {
+        public static void $default$setPlaybackSpeed(Renderer renderer, float f, float f2) throws ExoPlaybackException {
         }
+    }
+
+    /* loaded from: classes.dex */
+    public interface WakeupListener {
+        void onSleep();
+
+        void onWakeup();
     }
 
     void disable();
 
-    void enable(RendererConfiguration rendererConfiguration, Format[] formatArr, SampleStream sampleStream, long j, boolean z, long j2) throws ExoPlaybackException;
+    void enable(RendererConfiguration rendererConfiguration, Format[] formatArr, SampleStream sampleStream, long j, boolean z, boolean z2, long j2, long j3) throws ExoPlaybackException;
 
     RendererCapabilities getCapabilities();
 
     MediaClock getMediaClock();
+
+    String getName();
 
     long getReadingPositionUs();
 
@@ -31,6 +41,8 @@ public interface Renderer extends PlayerMessage.Target {
 
     boolean hasReadStreamToEnd();
 
+    void init(int i, PlayerId playerId);
+
     boolean isCurrentStreamFinal();
 
     boolean isEnded();
@@ -41,7 +53,7 @@ public interface Renderer extends PlayerMessage.Target {
 
     void render(long j, long j2) throws ExoPlaybackException;
 
-    void replaceStream(Format[] formatArr, SampleStream sampleStream, long j) throws ExoPlaybackException;
+    void replaceStream(Format[] formatArr, SampleStream sampleStream, long j, long j2) throws ExoPlaybackException;
 
     void reset();
 
@@ -49,11 +61,9 @@ public interface Renderer extends PlayerMessage.Target {
 
     void setCurrentStreamFinal();
 
-    void setIndex(int i);
-
-    void setOperatingRate(float f) throws ExoPlaybackException;
+    void setPlaybackSpeed(float f, float f2) throws ExoPlaybackException;
 
     void start() throws ExoPlaybackException;
 
-    void stop() throws ExoPlaybackException;
+    void stop();
 }

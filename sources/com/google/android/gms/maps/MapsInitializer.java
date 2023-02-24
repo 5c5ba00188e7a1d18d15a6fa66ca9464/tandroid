@@ -10,14 +10,11 @@ import com.google.android.gms.maps.internal.zzcb;
 import com.google.android.gms.maps.internal.zzf;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.RuntimeRemoteException;
-import javax.annotation.concurrent.GuardedBy;
 /* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class MapsInitializer {
     private static final String zza = "MapsInitializer";
-    @GuardedBy("MapsInitializer.class")
     private static boolean zzb = false;
-    @GuardedBy("MapsInitializer.class")
     private static Renderer zzc = Renderer.LEGACY;
 
     /* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */

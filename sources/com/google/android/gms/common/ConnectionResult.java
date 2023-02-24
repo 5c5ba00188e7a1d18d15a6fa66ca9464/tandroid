@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
+import org.telegram.messenger.voip.VoIPController;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class ConnectionResult extends AbstractSafeParcelable {
@@ -33,7 +34,7 @@ public final class ConnectionResult extends AbstractSafeParcelable {
         if (i != 99) {
             if (i != 1500) {
                 switch (i) {
-                    case -1:
+                    case VoIPController.ERROR_PEER_OUTDATED /* -1 */:
                         return "UNKNOWN";
                     case 0:
                         return "SUCCESS";

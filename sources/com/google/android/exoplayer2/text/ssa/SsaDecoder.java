@@ -2,6 +2,12 @@ package com.google.android.exoplayer2.text.ssa;
 
 import android.graphics.PointF;
 import android.text.Layout;
+import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StrikethroughSpan;
+import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import com.google.android.exoplayer2.text.Cue;
 import com.google.android.exoplayer2.text.SimpleSubtitleDecoder;
 import com.google.android.exoplayer2.text.Subtitle;
@@ -10,12 +16,14 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
+import com.google.common.base.Ascii;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.telegram.messenger.voip.VoIPController;
 /* loaded from: classes.dex */
 public final class SsaDecoder extends SimpleSubtitleDecoder {
     private static final Pattern SSA_TIMECODE_PATTERN = Pattern.compile("(?:(\\d+):)?(\\d+):(\\d+)[:.](\\d+)");
@@ -92,11 +100,11 @@ public final class SsaDecoder extends SimpleSubtitleDecoder {
             }
             String[] split = readLine.split(":");
             if (split.length == 2) {
-                String lowerInvariant = Util.toLowerInvariant(split[0].trim());
-                lowerInvariant.hashCode();
-                if (lowerInvariant.equals("playresx")) {
+                String lowerCase = Ascii.toLowerCase(split[0].trim());
+                lowerCase.hashCode();
+                if (lowerCase.equals("playresx")) {
                     this.screenWidth = Float.parseFloat(split[1].trim());
-                } else if (lowerInvariant.equals("playresy")) {
+                } else if (lowerCase.equals("playresy")) {
                     try {
                         this.screenHeight = Float.parseFloat(split[1].trim());
                     } catch (NumberFormatException unused) {
@@ -169,7 +177,7 @@ public final class SsaDecoder extends SimpleSubtitleDecoder {
         Map<String, SsaStyle> map = this.styles;
         SsaStyle ssaStyle = (map == null || (i = ssaDialogueFormat.styleIndex) == -1) ? null : map.get(split[i].trim());
         String str2 = split[ssaDialogueFormat.textIndex];
-        Cue createCue = createCue(SsaStyle.Overrides.stripStyleOverrides(str2).replaceAll("\\\\N", "\n").replaceAll("\\\\n", "\n"), ssaStyle, SsaStyle.Overrides.parseFromDialogue(str2), this.screenWidth, this.screenHeight);
+        Cue createCue = createCue(SsaStyle.Overrides.stripStyleOverrides(str2).replace("\\N", "\n").replace("\\n", "\n").replace("\\h", " "), ssaStyle, SsaStyle.Overrides.parseFromDialogue(str2), this.screenWidth, this.screenHeight);
         int addCuePlacerholderByTime = addCuePlacerholderByTime(parseTimecodeUs2, list2, list);
         for (int addCuePlacerholderByTime2 = addCuePlacerholderByTime(parseTimecodeUs, list2, list); addCuePlacerholderByTime2 < addCuePlacerholderByTime; addCuePlacerholderByTime2++) {
             list.get(addCuePlacerholderByTime2).add(createCue);
@@ -185,28 +193,53 @@ public final class SsaDecoder extends SimpleSubtitleDecoder {
     }
 
     private static Cue createCue(String str, SsaStyle ssaStyle, SsaStyle.Overrides overrides, float f, float f2) {
-        float computeDefaultLineOrPosition;
-        float computeDefaultLineOrPosition2;
+        SpannableString spannableString = new SpannableString(str);
+        Cue.Builder text = new Cue.Builder().setText(spannableString);
+        if (ssaStyle != null) {
+            if (ssaStyle.primaryColor != null) {
+                spannableString.setSpan(new ForegroundColorSpan(ssaStyle.primaryColor.intValue()), 0, spannableString.length(), 33);
+            }
+            if (ssaStyle.borderStyle == 3 && ssaStyle.outlineColor != null) {
+                spannableString.setSpan(new BackgroundColorSpan(ssaStyle.outlineColor.intValue()), 0, spannableString.length(), 33);
+            }
+            float f3 = ssaStyle.fontSize;
+            if (f3 != -3.4028235E38f && f2 != -3.4028235E38f) {
+                text.setTextSize(f3 / f2, 1);
+            }
+            boolean z = ssaStyle.bold;
+            if (z && ssaStyle.italic) {
+                spannableString.setSpan(new StyleSpan(3), 0, spannableString.length(), 33);
+            } else if (z) {
+                spannableString.setSpan(new StyleSpan(1), 0, spannableString.length(), 33);
+            } else if (ssaStyle.italic) {
+                spannableString.setSpan(new StyleSpan(2), 0, spannableString.length(), 33);
+            }
+            if (ssaStyle.underline) {
+                spannableString.setSpan(new UnderlineSpan(), 0, spannableString.length(), 33);
+            }
+            if (ssaStyle.strikeout) {
+                spannableString.setSpan(new StrikethroughSpan(), 0, spannableString.length(), 33);
+            }
+        }
         int i = overrides.alignment;
         if (i == -1) {
             i = ssaStyle != null ? ssaStyle.alignment : -1;
         }
-        int positionAnchor = toPositionAnchor(i);
-        int lineAnchor = toLineAnchor(i);
+        text.setTextAlignment(toTextAlignment(i)).setPositionAnchor(toPositionAnchor(i)).setLineAnchor(toLineAnchor(i));
         PointF pointF = overrides.position;
         if (pointF != null && f2 != -3.4028235E38f && f != -3.4028235E38f) {
-            computeDefaultLineOrPosition2 = pointF.y / f2;
-            computeDefaultLineOrPosition = pointF.x / f;
+            text.setPosition(pointF.x / f);
+            text.setLine(overrides.position.y / f2, 0);
         } else {
-            computeDefaultLineOrPosition = computeDefaultLineOrPosition(positionAnchor);
-            computeDefaultLineOrPosition2 = computeDefaultLineOrPosition(lineAnchor);
+            text.setPosition(computeDefaultLineOrPosition(text.getPositionAnchor()));
+            text.setLine(computeDefaultLineOrPosition(text.getLineAnchor()), 0);
         }
-        return new Cue(str, toTextAlignment(i), computeDefaultLineOrPosition2, 0, lineAnchor, computeDefaultLineOrPosition, positionAnchor, -3.4028235E38f);
+        return text.build();
     }
 
     private static Layout.Alignment toTextAlignment(int i) {
         switch (i) {
-            case -1:
+            case VoIPController.ERROR_PEER_OUTDATED /* -1 */:
                 return null;
             case 0:
             default:
@@ -229,7 +262,7 @@ public final class SsaDecoder extends SimpleSubtitleDecoder {
 
     private static int toLineAnchor(int i) {
         switch (i) {
-            case -1:
+            case VoIPController.ERROR_PEER_OUTDATED /* -1 */:
                 return Integer.MIN_VALUE;
             case 0:
             default:
@@ -252,7 +285,7 @@ public final class SsaDecoder extends SimpleSubtitleDecoder {
 
     private static int toPositionAnchor(int i) {
         switch (i) {
-            case -1:
+            case VoIPController.ERROR_PEER_OUTDATED /* -1 */:
                 return Integer.MIN_VALUE;
             case 0:
             default:

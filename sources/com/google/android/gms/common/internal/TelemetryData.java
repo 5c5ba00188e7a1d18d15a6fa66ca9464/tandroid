@@ -6,16 +6,14 @@ import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Nullable;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public class TelemetryData extends AbstractSafeParcelable {
     public static final Parcelable.Creator<TelemetryData> CREATOR = new zaab();
     private final int zaa;
-    @Nullable
     private List zab;
 
-    public TelemetryData(int i, @Nullable List list) {
+    public TelemetryData(int i, List list) {
         this.zaa = i;
         this.zab = list;
     }

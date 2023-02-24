@@ -751,7 +751,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public View createView(final Context context) {
+    public View createView(Context context) {
         int i;
         this.searching = false;
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
@@ -975,7 +975,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public final void onItemClick(View view, int i4, float f, float f2) {
-                ChatUsersActivity.this.lambda$createView$5(context, view, i4, f, f2);
+                ChatUsersActivity.this.lambda$createView$5(view, i4, f, f2);
             }
         });
         this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda22
@@ -1014,14 +1014,14 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:317:0x0665 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:318:0x0666  */
+    /* JADX WARN: Removed duplicated region for block: B:317:0x0663 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:318:0x0664  */
     /* JADX WARN: Type inference failed for: r19v1 */
     /* JADX WARN: Type inference failed for: r29v0, types: [org.telegram.ui.ActionBar.BaseFragment, org.telegram.ui.ChatUsersActivity] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$createView$5(Context context, View view, int i, float f, float f2) {
+    public /* synthetic */ void lambda$createView$5(View view, int i, float f, float f2) {
         long j;
         final TLObject tLObject;
         TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights;
@@ -1164,7 +1164,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     groupCreateActivity.setInfo(this.info);
                     LongSparseArray<TLObject> longSparseArray = this.contactsMap;
                     groupCreateActivity.setIgnoreUsers((longSparseArray == null || longSparseArray.size() == 0) ? this.participantsMap : this.contactsMap);
-                    groupCreateActivity.setDelegate(new 9(context));
+                    groupCreateActivity.setDelegate(new 9(groupCreateActivity));
                     presentFragment(groupCreateActivity);
                     return;
                 } else {
@@ -1614,10 +1614,10 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public class 9 implements GroupCreateActivity.ContactsAddActivityDelegate {
-        final /* synthetic */ Context val$context;
+        final /* synthetic */ GroupCreateActivity val$fragment;
 
-        9(Context context) {
-            this.val$context = context;
+        9(GroupCreateActivity groupCreateActivity) {
+            this.val$fragment = groupCreateActivity;
         }
 
         @Override // org.telegram.ui.GroupCreateActivity.ContactsAddActivityDelegate
@@ -1625,11 +1625,11 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             final int size = arrayList.size();
             final ArrayList arrayList2 = new ArrayList();
             final int[] iArr = {0};
-            final Context context = this.val$context;
+            final GroupCreateActivity groupCreateActivity = this.val$fragment;
             final Runnable runnable = new Runnable() { // from class: org.telegram.ui.ChatUsersActivity$9$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChatUsersActivity.9.lambda$didSelectUsers$0(arrayList2, size, context);
+                    ChatUsersActivity.9.lambda$didSelectUsers$0(arrayList2, size, groupCreateActivity);
                 }
             };
             for (int i2 = 0; i2 < size; i2++) {
@@ -1652,7 +1652,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public static /* synthetic */ void lambda$didSelectUsers$0(ArrayList arrayList, int i, Context context) {
+        public static /* synthetic */ void lambda$didSelectUsers$0(ArrayList arrayList, int i, GroupCreateActivity groupCreateActivity) {
             String string;
             CharSequence string2;
             if (arrayList.size() == 1) {
@@ -1672,7 +1672,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 string = LocaleController.getString("InviteToGroupErrorTitleSomeUsers", R.string.InviteToGroupErrorTitleSomeUsers);
                 string2 = LocaleController.getString("InviteToGroupErrorMessageMultipleSome", R.string.InviteToGroupErrorMessageMultipleSome);
             }
-            new AlertDialog.Builder(context).setTitle(string).setMessage(string2).setPositiveButton(LocaleController.getString("OK", R.string.OK), null).show();
+            new AlertDialog.Builder(groupCreateActivity.getContext()).setTitle(string).setMessage(string2).setPositiveButton(LocaleController.getString("OK", R.string.OK), null).show();
         }
 
         /* JADX INFO: Access modifiers changed from: private */

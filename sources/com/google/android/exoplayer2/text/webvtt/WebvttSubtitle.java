@@ -1,32 +1,28 @@
 package com.google.android.exoplayer2.text.webvtt;
 
-import android.text.SpannableStringBuilder;
 import com.google.android.exoplayer2.text.Cue;
 import com.google.android.exoplayer2.text.Subtitle;
-import com.google.android.exoplayer2.text.webvtt.WebvttCue;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 /* loaded from: classes.dex */
 final class WebvttSubtitle implements Subtitle {
+    private final List<WebvttCueInfo> cueInfos;
     private final long[] cueTimesUs;
-    private final List<WebvttCue> cues;
-    private final int numCues;
     private final long[] sortedCueTimesUs;
 
-    public WebvttSubtitle(List<WebvttCue> list) {
-        this.cues = list;
-        int size = list.size();
-        this.numCues = size;
-        this.cueTimesUs = new long[size * 2];
-        for (int i = 0; i < this.numCues; i++) {
-            WebvttCue webvttCue = list.get(i);
+    public WebvttSubtitle(List<WebvttCueInfo> list) {
+        this.cueInfos = Collections.unmodifiableList(new ArrayList(list));
+        this.cueTimesUs = new long[list.size() * 2];
+        for (int i = 0; i < list.size(); i++) {
+            WebvttCueInfo webvttCueInfo = list.get(i);
             int i2 = i * 2;
             long[] jArr = this.cueTimesUs;
-            jArr[i2] = webvttCue.startTime;
-            jArr[i2 + 1] = webvttCue.endTime;
+            jArr[i2] = webvttCueInfo.startTimeUs;
+            jArr[i2 + 1] = webvttCueInfo.endTimeUs;
         }
         long[] jArr2 = this.cueTimesUs;
         long[] copyOf = Arrays.copyOf(jArr2, jArr2.length);
@@ -58,30 +54,29 @@ final class WebvttSubtitle implements Subtitle {
     @Override // com.google.android.exoplayer2.text.Subtitle
     public List<Cue> getCues(long j) {
         ArrayList arrayList = new ArrayList();
-        SpannableStringBuilder spannableStringBuilder = null;
-        WebvttCue webvttCue = null;
-        for (int i = 0; i < this.numCues; i++) {
+        ArrayList arrayList2 = new ArrayList();
+        for (int i = 0; i < this.cueInfos.size(); i++) {
             long[] jArr = this.cueTimesUs;
             int i2 = i * 2;
             if (jArr[i2] <= j && j < jArr[i2 + 1]) {
-                WebvttCue webvttCue2 = this.cues.get(i);
-                if (!webvttCue2.isNormalCue()) {
-                    arrayList.add(webvttCue2);
-                } else if (webvttCue == null) {
-                    webvttCue = webvttCue2;
-                } else if (spannableStringBuilder == null) {
-                    spannableStringBuilder = new SpannableStringBuilder();
-                    spannableStringBuilder.append((CharSequence) Assertions.checkNotNull(webvttCue.text)).append((CharSequence) "\n").append((CharSequence) Assertions.checkNotNull(webvttCue2.text));
+                WebvttCueInfo webvttCueInfo = this.cueInfos.get(i);
+                Cue cue = webvttCueInfo.cue;
+                if (cue.line == -3.4028235E38f) {
+                    arrayList2.add(webvttCueInfo);
                 } else {
-                    spannableStringBuilder.append((CharSequence) "\n").append((CharSequence) Assertions.checkNotNull(webvttCue2.text));
+                    arrayList.add(cue);
                 }
             }
         }
-        if (spannableStringBuilder != null) {
-            arrayList.add(new WebvttCue.Builder().setText(spannableStringBuilder).build());
-        } else if (webvttCue != null) {
-            arrayList.add(webvttCue);
+        Collections.sort(arrayList2, WebvttSubtitle$$ExternalSyntheticLambda0.INSTANCE);
+        for (int i3 = 0; i3 < arrayList2.size(); i3++) {
+            arrayList.add(((WebvttCueInfo) arrayList2.get(i3)).cue.buildUpon().setLine((-1) - i3, 1).build());
         }
         return arrayList;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ int lambda$getCues$0(WebvttCueInfo webvttCueInfo, WebvttCueInfo webvttCueInfo2) {
+        return Long.compare(webvttCueInfo.startTimeUs, webvttCueInfo2.startTimeUs);
     }
 }

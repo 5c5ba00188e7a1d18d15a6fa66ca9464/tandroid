@@ -2,10 +2,8 @@ package com.google.android.gms.common;
 
 import android.content.Context;
 import android.util.Log;
-import com.google.errorprone.annotations.CheckReturnValue;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
-@CheckReturnValue
 /* loaded from: classes.dex */
 public final class zzn {
     static final zzl zzc;

@@ -1,87 +1,98 @@
 package com.google.android.exoplayer2;
 
-import com.google.android.exoplayer2.Timeline;
+import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.TrackSelectorResult;
+import com.google.common.collect.ImmutableList;
+import java.util.List;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-final class PlaybackInfo {
-    private static final MediaSource.MediaPeriodId DUMMY_MEDIA_PERIOD_ID = new MediaSource.MediaPeriodId(new Object());
+public final class PlaybackInfo {
+    private static final MediaSource.MediaPeriodId PLACEHOLDER_MEDIA_PERIOD_ID = new MediaSource.MediaPeriodId(new Object());
     public volatile long bufferedPositionUs;
-    public final long contentPositionUs;
+    public final long discontinuityStartPositionUs;
     public final boolean isLoading;
     public final MediaSource.MediaPeriodId loadingMediaPeriodId;
     public final MediaSource.MediaPeriodId periodId;
+    public final boolean playWhenReady;
     public final ExoPlaybackException playbackError;
+    public final PlaybackParameters playbackParameters;
     public final int playbackState;
+    public final int playbackSuppressionReason;
     public volatile long positionUs;
-    public final long startPositionUs;
+    public final long requestedContentPositionUs;
+    public final boolean sleepingForOffload;
+    public final List<Metadata> staticMetadata;
     public final Timeline timeline;
     public volatile long totalBufferedDurationUs;
     public final TrackGroupArray trackGroups;
     public final TrackSelectorResult trackSelectorResult;
 
-    public static PlaybackInfo createDummy(long j, TrackSelectorResult trackSelectorResult) {
+    public static PlaybackInfo createDummy(TrackSelectorResult trackSelectorResult) {
         Timeline timeline = Timeline.EMPTY;
-        MediaSource.MediaPeriodId mediaPeriodId = DUMMY_MEDIA_PERIOD_ID;
-        return new PlaybackInfo(timeline, mediaPeriodId, j, -9223372036854775807L, 1, null, false, TrackGroupArray.EMPTY, trackSelectorResult, mediaPeriodId, j, 0L, j);
+        MediaSource.MediaPeriodId mediaPeriodId = PLACEHOLDER_MEDIA_PERIOD_ID;
+        return new PlaybackInfo(timeline, mediaPeriodId, -9223372036854775807L, 0L, 1, null, false, TrackGroupArray.EMPTY, trackSelectorResult, ImmutableList.of(), mediaPeriodId, false, 0, PlaybackParameters.DEFAULT, 0L, 0L, 0L, false);
     }
 
-    public PlaybackInfo(Timeline timeline, MediaSource.MediaPeriodId mediaPeriodId, long j, long j2, int i, ExoPlaybackException exoPlaybackException, boolean z, TrackGroupArray trackGroupArray, TrackSelectorResult trackSelectorResult, MediaSource.MediaPeriodId mediaPeriodId2, long j3, long j4, long j5) {
+    public PlaybackInfo(Timeline timeline, MediaSource.MediaPeriodId mediaPeriodId, long j, long j2, int i, ExoPlaybackException exoPlaybackException, boolean z, TrackGroupArray trackGroupArray, TrackSelectorResult trackSelectorResult, List<Metadata> list, MediaSource.MediaPeriodId mediaPeriodId2, boolean z2, int i2, PlaybackParameters playbackParameters, long j3, long j4, long j5, boolean z3) {
         this.timeline = timeline;
         this.periodId = mediaPeriodId;
-        this.startPositionUs = j;
-        this.contentPositionUs = j2;
+        this.requestedContentPositionUs = j;
+        this.discontinuityStartPositionUs = j2;
         this.playbackState = i;
         this.playbackError = exoPlaybackException;
         this.isLoading = z;
         this.trackGroups = trackGroupArray;
         this.trackSelectorResult = trackSelectorResult;
+        this.staticMetadata = list;
         this.loadingMediaPeriodId = mediaPeriodId2;
+        this.playWhenReady = z2;
+        this.playbackSuppressionReason = i2;
+        this.playbackParameters = playbackParameters;
         this.bufferedPositionUs = j3;
         this.totalBufferedDurationUs = j4;
         this.positionUs = j5;
+        this.sleepingForOffload = z3;
     }
 
-    public MediaSource.MediaPeriodId getDummyFirstMediaPeriodId(boolean z, Timeline.Window window, Timeline.Period period) {
-        if (this.timeline.isEmpty()) {
-            return DUMMY_MEDIA_PERIOD_ID;
-        }
-        int firstWindowIndex = this.timeline.getFirstWindowIndex(z);
-        int i = this.timeline.getWindow(firstWindowIndex, window).firstPeriodIndex;
-        int indexOfPeriod = this.timeline.getIndexOfPeriod(this.periodId.periodUid);
-        long j = -1;
-        if (indexOfPeriod != -1 && firstWindowIndex == this.timeline.getPeriod(indexOfPeriod, period).windowIndex) {
-            j = this.periodId.windowSequenceNumber;
-        }
-        return new MediaSource.MediaPeriodId(this.timeline.getUidOfPeriod(i), j);
+    public static MediaSource.MediaPeriodId getDummyPeriodForEmptyTimeline() {
+        return PLACEHOLDER_MEDIA_PERIOD_ID;
     }
 
-    public PlaybackInfo copyWithNewPosition(MediaSource.MediaPeriodId mediaPeriodId, long j, long j2, long j3) {
-        return new PlaybackInfo(this.timeline, mediaPeriodId, j, mediaPeriodId.isAd() ? j2 : -9223372036854775807L, this.playbackState, this.playbackError, this.isLoading, this.trackGroups, this.trackSelectorResult, this.loadingMediaPeriodId, this.bufferedPositionUs, j3, j);
+    public PlaybackInfo copyWithNewPosition(MediaSource.MediaPeriodId mediaPeriodId, long j, long j2, long j3, long j4, TrackGroupArray trackGroupArray, TrackSelectorResult trackSelectorResult, List<Metadata> list) {
+        return new PlaybackInfo(this.timeline, mediaPeriodId, j2, j3, this.playbackState, this.playbackError, this.isLoading, trackGroupArray, trackSelectorResult, list, this.loadingMediaPeriodId, this.playWhenReady, this.playbackSuppressionReason, this.playbackParameters, this.bufferedPositionUs, j4, j, this.sleepingForOffload);
     }
 
     public PlaybackInfo copyWithTimeline(Timeline timeline) {
-        return new PlaybackInfo(timeline, this.periodId, this.startPositionUs, this.contentPositionUs, this.playbackState, this.playbackError, this.isLoading, this.trackGroups, this.trackSelectorResult, this.loadingMediaPeriodId, this.bufferedPositionUs, this.totalBufferedDurationUs, this.positionUs);
+        return new PlaybackInfo(timeline, this.periodId, this.requestedContentPositionUs, this.discontinuityStartPositionUs, this.playbackState, this.playbackError, this.isLoading, this.trackGroups, this.trackSelectorResult, this.staticMetadata, this.loadingMediaPeriodId, this.playWhenReady, this.playbackSuppressionReason, this.playbackParameters, this.bufferedPositionUs, this.totalBufferedDurationUs, this.positionUs, this.sleepingForOffload);
     }
 
     public PlaybackInfo copyWithPlaybackState(int i) {
-        return new PlaybackInfo(this.timeline, this.periodId, this.startPositionUs, this.contentPositionUs, i, this.playbackError, this.isLoading, this.trackGroups, this.trackSelectorResult, this.loadingMediaPeriodId, this.bufferedPositionUs, this.totalBufferedDurationUs, this.positionUs);
+        return new PlaybackInfo(this.timeline, this.periodId, this.requestedContentPositionUs, this.discontinuityStartPositionUs, i, this.playbackError, this.isLoading, this.trackGroups, this.trackSelectorResult, this.staticMetadata, this.loadingMediaPeriodId, this.playWhenReady, this.playbackSuppressionReason, this.playbackParameters, this.bufferedPositionUs, this.totalBufferedDurationUs, this.positionUs, this.sleepingForOffload);
     }
 
     public PlaybackInfo copyWithPlaybackError(ExoPlaybackException exoPlaybackException) {
-        return new PlaybackInfo(this.timeline, this.periodId, this.startPositionUs, this.contentPositionUs, this.playbackState, exoPlaybackException, this.isLoading, this.trackGroups, this.trackSelectorResult, this.loadingMediaPeriodId, this.bufferedPositionUs, this.totalBufferedDurationUs, this.positionUs);
+        return new PlaybackInfo(this.timeline, this.periodId, this.requestedContentPositionUs, this.discontinuityStartPositionUs, this.playbackState, exoPlaybackException, this.isLoading, this.trackGroups, this.trackSelectorResult, this.staticMetadata, this.loadingMediaPeriodId, this.playWhenReady, this.playbackSuppressionReason, this.playbackParameters, this.bufferedPositionUs, this.totalBufferedDurationUs, this.positionUs, this.sleepingForOffload);
     }
 
     public PlaybackInfo copyWithIsLoading(boolean z) {
-        return new PlaybackInfo(this.timeline, this.periodId, this.startPositionUs, this.contentPositionUs, this.playbackState, this.playbackError, z, this.trackGroups, this.trackSelectorResult, this.loadingMediaPeriodId, this.bufferedPositionUs, this.totalBufferedDurationUs, this.positionUs);
-    }
-
-    public PlaybackInfo copyWithTrackInfo(TrackGroupArray trackGroupArray, TrackSelectorResult trackSelectorResult) {
-        return new PlaybackInfo(this.timeline, this.periodId, this.startPositionUs, this.contentPositionUs, this.playbackState, this.playbackError, this.isLoading, trackGroupArray, trackSelectorResult, this.loadingMediaPeriodId, this.bufferedPositionUs, this.totalBufferedDurationUs, this.positionUs);
+        return new PlaybackInfo(this.timeline, this.periodId, this.requestedContentPositionUs, this.discontinuityStartPositionUs, this.playbackState, this.playbackError, z, this.trackGroups, this.trackSelectorResult, this.staticMetadata, this.loadingMediaPeriodId, this.playWhenReady, this.playbackSuppressionReason, this.playbackParameters, this.bufferedPositionUs, this.totalBufferedDurationUs, this.positionUs, this.sleepingForOffload);
     }
 
     public PlaybackInfo copyWithLoadingMediaPeriodId(MediaSource.MediaPeriodId mediaPeriodId) {
-        return new PlaybackInfo(this.timeline, this.periodId, this.startPositionUs, this.contentPositionUs, this.playbackState, this.playbackError, this.isLoading, this.trackGroups, this.trackSelectorResult, mediaPeriodId, this.bufferedPositionUs, this.totalBufferedDurationUs, this.positionUs);
+        return new PlaybackInfo(this.timeline, this.periodId, this.requestedContentPositionUs, this.discontinuityStartPositionUs, this.playbackState, this.playbackError, this.isLoading, this.trackGroups, this.trackSelectorResult, this.staticMetadata, mediaPeriodId, this.playWhenReady, this.playbackSuppressionReason, this.playbackParameters, this.bufferedPositionUs, this.totalBufferedDurationUs, this.positionUs, this.sleepingForOffload);
+    }
+
+    public PlaybackInfo copyWithPlayWhenReady(boolean z, int i) {
+        return new PlaybackInfo(this.timeline, this.periodId, this.requestedContentPositionUs, this.discontinuityStartPositionUs, this.playbackState, this.playbackError, this.isLoading, this.trackGroups, this.trackSelectorResult, this.staticMetadata, this.loadingMediaPeriodId, z, i, this.playbackParameters, this.bufferedPositionUs, this.totalBufferedDurationUs, this.positionUs, this.sleepingForOffload);
+    }
+
+    public PlaybackInfo copyWithPlaybackParameters(PlaybackParameters playbackParameters) {
+        return new PlaybackInfo(this.timeline, this.periodId, this.requestedContentPositionUs, this.discontinuityStartPositionUs, this.playbackState, this.playbackError, this.isLoading, this.trackGroups, this.trackSelectorResult, this.staticMetadata, this.loadingMediaPeriodId, this.playWhenReady, this.playbackSuppressionReason, playbackParameters, this.bufferedPositionUs, this.totalBufferedDurationUs, this.positionUs, this.sleepingForOffload);
+    }
+
+    public PlaybackInfo copyWithSleepingForOffload(boolean z) {
+        return new PlaybackInfo(this.timeline, this.periodId, this.requestedContentPositionUs, this.discontinuityStartPositionUs, this.playbackState, this.playbackError, this.isLoading, this.trackGroups, this.trackSelectorResult, this.staticMetadata, this.loadingMediaPeriodId, this.playWhenReady, this.playbackSuppressionReason, this.playbackParameters, this.bufferedPositionUs, this.totalBufferedDurationUs, this.positionUs, z);
     }
 }

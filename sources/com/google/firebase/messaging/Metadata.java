@@ -9,19 +9,14 @@ import android.util.Log;
 import com.google.android.gms.common.util.PlatformVersion;
 import com.google.firebase.FirebaseApp;
 import java.util.List;
-import javax.annotation.concurrent.GuardedBy;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public class Metadata {
-    @GuardedBy("this")
     private String appVersionCode;
-    @GuardedBy("this")
     private String appVersionName;
     private final Context context;
-    @GuardedBy("this")
     private int gmsVersionCode;
-    @GuardedBy("this")
     private int iidImplementation = 0;
 
     /* JADX INFO: Access modifiers changed from: package-private */

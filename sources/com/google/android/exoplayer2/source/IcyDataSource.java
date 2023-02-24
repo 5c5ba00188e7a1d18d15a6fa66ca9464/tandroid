@@ -33,15 +33,16 @@ final class IcyDataSource implements DataSource {
 
     @Override // com.google.android.exoplayer2.upstream.DataSource
     public void addTransferListener(TransferListener transferListener) {
+        Assertions.checkNotNull(transferListener);
         this.upstream.addTransferListener(transferListener);
     }
 
     @Override // com.google.android.exoplayer2.upstream.DataSource
-    public long open(DataSpec dataSpec) throws IOException {
+    public long open(DataSpec dataSpec) {
         throw new UnsupportedOperationException();
     }
 
-    @Override // com.google.android.exoplayer2.upstream.DataSource
+    @Override // com.google.android.exoplayer2.upstream.DataReader
     public int read(byte[] bArr, int i, int i2) throws IOException {
         if (this.bytesUntilMetadata == 0) {
             if (!readMetadata()) {
@@ -67,7 +68,7 @@ final class IcyDataSource implements DataSource {
     }
 
     @Override // com.google.android.exoplayer2.upstream.DataSource
-    public void close() throws IOException {
+    public void close() {
         throw new UnsupportedOperationException();
     }
 

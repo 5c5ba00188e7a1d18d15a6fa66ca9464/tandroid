@@ -2,12 +2,14 @@ package com.google.android.exoplayer2.extractor.ts;
 
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.PositionHolder;
+import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-final class PsDurationReader {
+public final class PsDurationReader {
     private boolean isDurationRead;
     private boolean isFirstScrValueRead;
     private boolean isLastScrValueRead;
@@ -25,7 +27,7 @@ final class PsDurationReader {
         return this.scrTimestampAdjuster;
     }
 
-    public int readDuration(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException, InterruptedException {
+    public int readDuration(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
         if (!this.isLastScrValueRead) {
             return readLastScrValue(extractorInput, positionHolder);
         }
@@ -39,7 +41,12 @@ final class PsDurationReader {
         if (j == -9223372036854775807L) {
             return finishReadDuration(extractorInput);
         }
-        this.durationUs = this.scrTimestampAdjuster.adjustTsTimestamp(this.lastScrValue) - this.scrTimestampAdjuster.adjustTsTimestamp(j);
+        long adjustTsTimestamp = this.scrTimestampAdjuster.adjustTsTimestamp(this.lastScrValue) - this.scrTimestampAdjuster.adjustTsTimestamp(j);
+        this.durationUs = adjustTsTimestamp;
+        if (adjustTsTimestamp < 0) {
+            Log.w("PsDurationReader", "Invalid duration: " + this.durationUs + ". Using TIME_UNSET instead.");
+            this.durationUs = -9223372036854775807L;
+        }
         return finishReadDuration(extractorInput);
     }
 
@@ -68,7 +75,7 @@ final class PsDurationReader {
         return 0;
     }
 
-    private int readFirstScrValue(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException, InterruptedException {
+    private int readFirstScrValue(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
         int min = (int) Math.min(20000L, extractorInput.getLength());
         long j = 0;
         if (extractorInput.getPosition() != j) {
@@ -77,7 +84,7 @@ final class PsDurationReader {
         }
         this.packetBuffer.reset(min);
         extractorInput.resetPeekPosition();
-        extractorInput.peekFully(this.packetBuffer.data, 0, min);
+        extractorInput.peekFully(this.packetBuffer.getData(), 0, min);
         this.firstScrValue = readFirstScrValueFromBuffer(this.packetBuffer);
         this.isFirstScrValueRead = true;
         return 0;
@@ -86,7 +93,7 @@ final class PsDurationReader {
     private long readFirstScrValueFromBuffer(ParsableByteArray parsableByteArray) {
         int limit = parsableByteArray.limit();
         for (int position = parsableByteArray.getPosition(); position < limit - 3; position++) {
-            if (peekIntAtPosition(parsableByteArray.data, position) == 442) {
+            if (peekIntAtPosition(parsableByteArray.getData(), position) == 442) {
                 parsableByteArray.setPosition(position + 4);
                 long readScrValueFromPack = readScrValueFromPack(parsableByteArray);
                 if (readScrValueFromPack != -9223372036854775807L) {
@@ -97,7 +104,7 @@ final class PsDurationReader {
         return -9223372036854775807L;
     }
 
-    private int readLastScrValue(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException, InterruptedException {
+    private int readLastScrValue(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
         long length = extractorInput.getLength();
         int min = (int) Math.min(20000L, length);
         long j = length - min;
@@ -107,7 +114,7 @@ final class PsDurationReader {
         }
         this.packetBuffer.reset(min);
         extractorInput.resetPeekPosition();
-        extractorInput.peekFully(this.packetBuffer.data, 0, min);
+        extractorInput.peekFully(this.packetBuffer.getData(), 0, min);
         this.lastScrValue = readLastScrValueFromBuffer(this.packetBuffer);
         this.isLastScrValueRead = true;
         return 0;
@@ -116,7 +123,7 @@ final class PsDurationReader {
     private long readLastScrValueFromBuffer(ParsableByteArray parsableByteArray) {
         int position = parsableByteArray.getPosition();
         for (int limit = parsableByteArray.limit() - 4; limit >= position; limit--) {
-            if (peekIntAtPosition(parsableByteArray.data, limit) == 442) {
+            if (peekIntAtPosition(parsableByteArray.getData(), limit) == 442) {
                 parsableByteArray.setPosition(limit + 4);
                 long readScrValueFromPack = readScrValueFromPack(parsableByteArray);
                 if (readScrValueFromPack != -9223372036854775807L) {

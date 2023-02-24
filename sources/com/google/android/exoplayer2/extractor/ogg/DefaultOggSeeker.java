@@ -1,19 +1,19 @@
 package com.google.android.exoplayer2.extractor.ogg;
 
 import com.google.android.exoplayer2.extractor.ExtractorInput;
+import com.google.android.exoplayer2.extractor.ExtractorUtil;
 import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.extractor.SeekPoint;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.io.EOFException;
 import java.io.IOException;
-import org.telegram.messenger.LiteMode;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class DefaultOggSeeker implements OggSeeker {
     private long end;
     private long endGranule;
-    private final OggPageHeader pageHeader = new OggPageHeader();
+    private final OggPageHeader pageHeader;
     private final long payloadEndPosition;
     private final long payloadStartPosition;
     private long positionBeforeSeekToEnd;
@@ -32,13 +32,14 @@ public final class DefaultOggSeeker implements OggSeeker {
         if (j3 == j2 - j || z) {
             this.totalGranules = j4;
             this.state = 4;
-            return;
+        } else {
+            this.state = 0;
         }
-        this.state = 0;
+        this.pageHeader = new OggPageHeader();
     }
 
     @Override // com.google.android.exoplayer2.extractor.ogg.OggSeeker
-    public long read(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    public long read(ExtractorInput extractorInput) throws IOException {
         int i = this.state;
         if (i == 0) {
             long position = extractorInput.getPosition();
@@ -88,12 +89,12 @@ public final class DefaultOggSeeker implements OggSeeker {
         this.endGranule = this.totalGranules;
     }
 
-    private long getNextSeekPosition(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    private long getNextSeekPosition(ExtractorInput extractorInput) throws IOException {
         if (this.start == this.end) {
             return -1L;
         }
         long position = extractorInput.getPosition();
-        if (!skipToNextPage(extractorInput, this.end)) {
+        if (!this.pageHeader.skipToNextPage(extractorInput, this.end)) {
             long j = this.start;
             if (j != position) {
                 return j;
@@ -129,16 +130,15 @@ public final class DefaultOggSeeker implements OggSeeker {
         return -1L;
     }
 
-    private void skipToPageOfTargetGranule(ExtractorInput extractorInput) throws IOException, InterruptedException {
-        this.pageHeader.populate(extractorInput, false);
+    private void skipToPageOfTargetGranule(ExtractorInput extractorInput) throws IOException {
         while (true) {
+            this.pageHeader.skipToNextPage(extractorInput);
+            this.pageHeader.populate(extractorInput, false);
             OggPageHeader oggPageHeader = this.pageHeader;
             if (oggPageHeader.granulePosition <= this.targetGranule) {
                 extractorInput.skipFully(oggPageHeader.headerSize + oggPageHeader.bodySize);
                 this.start = extractorInput.getPosition();
-                OggPageHeader oggPageHeader2 = this.pageHeader;
-                this.startGranule = oggPageHeader2.granulePosition;
-                oggPageHeader2.populate(extractorInput, false);
+                this.startGranule = this.pageHeader.granulePosition;
             } else {
                 extractorInput.resetPeekPosition();
                 return;
@@ -146,46 +146,27 @@ public final class DefaultOggSeeker implements OggSeeker {
         }
     }
 
-    void skipToNextPage(ExtractorInput extractorInput) throws IOException, InterruptedException {
-        if (!skipToNextPage(extractorInput, this.payloadEndPosition)) {
+    long readGranuleOfLastPage(ExtractorInput extractorInput) throws IOException {
+        this.pageHeader.reset();
+        if (!this.pageHeader.skipToNextPage(extractorInput)) {
             throw new EOFException();
         }
-    }
-
-    private boolean skipToNextPage(ExtractorInput extractorInput, long j) throws IOException, InterruptedException {
-        int i;
-        long min = Math.min(j + 3, this.payloadEndPosition);
-        int i2 = LiteMode.FLAG_AUTOPLAY_GIFS;
-        byte[] bArr = new byte[LiteMode.FLAG_AUTOPLAY_GIFS];
+        this.pageHeader.populate(extractorInput, false);
+        OggPageHeader oggPageHeader = this.pageHeader;
+        extractorInput.skipFully(oggPageHeader.headerSize + oggPageHeader.bodySize);
+        long j = this.pageHeader.granulePosition;
         while (true) {
-            int i3 = 0;
-            if (extractorInput.getPosition() + i2 > min && (i2 = (int) (min - extractorInput.getPosition())) < 4) {
-                return false;
+            OggPageHeader oggPageHeader2 = this.pageHeader;
+            if ((oggPageHeader2.type & 4) == 4 || !oggPageHeader2.skipToNextPage(extractorInput) || extractorInput.getPosition() >= this.payloadEndPosition || !this.pageHeader.populate(extractorInput, true)) {
+                break;
             }
-            extractorInput.peekFully(bArr, 0, i2, false);
-            while (true) {
-                i = i2 - 3;
-                if (i3 < i) {
-                    if (bArr[i3] == 79 && bArr[i3 + 1] == 103 && bArr[i3 + 2] == 103 && bArr[i3 + 3] == 83) {
-                        extractorInput.skipFully(i3);
-                        return true;
-                    }
-                    i3++;
-                }
+            OggPageHeader oggPageHeader3 = this.pageHeader;
+            if (!ExtractorUtil.skipFullyQuietly(extractorInput, oggPageHeader3.headerSize + oggPageHeader3.bodySize)) {
+                break;
             }
-            extractorInput.skipFully(i);
+            j = this.pageHeader.granulePosition;
         }
-    }
-
-    long readGranuleOfLastPage(ExtractorInput extractorInput) throws IOException, InterruptedException {
-        skipToNextPage(extractorInput);
-        this.pageHeader.reset();
-        while ((this.pageHeader.type & 4) != 4 && extractorInput.getPosition() < this.payloadEndPosition) {
-            this.pageHeader.populate(extractorInput, false);
-            OggPageHeader oggPageHeader = this.pageHeader;
-            extractorInput.skipFully(oggPageHeader.headerSize + oggPageHeader.bodySize);
-        }
-        return this.pageHeader.granulePosition;
+        return j;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

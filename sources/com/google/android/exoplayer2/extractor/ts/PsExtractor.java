@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.extractor.ExtractorOutput;
 import com.google.android.exoplayer2.extractor.PositionHolder;
 import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
+import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
@@ -31,6 +32,15 @@ public final class PsExtractor implements Extractor {
     public void release() {
     }
 
+    static {
+        PsExtractor$$ExternalSyntheticLambda0 psExtractor$$ExternalSyntheticLambda0 = PsExtractor$$ExternalSyntheticLambda0.INSTANCE;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Extractor[] lambda$static$0() {
+        return new Extractor[]{new PsExtractor()};
+    }
+
     public PsExtractor() {
         this(new TimestampAdjuster(0L));
     }
@@ -43,7 +53,7 @@ public final class PsExtractor implements Extractor {
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public boolean sniff(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    public boolean sniff(ExtractorInput extractorInput) throws IOException {
         byte[] bArr = new byte[14];
         extractorInput.peekFully(bArr, 0, 14);
         if (442 == (((bArr[0] & 255) << 24) | ((bArr[1] & 255) << 16) | ((bArr[2] & 255) << 8) | (bArr[3] & 255)) && (bArr[4] & 196) == 68 && (bArr[6] & 4) == 4 && (bArr[8] & 4) == 4 && (bArr[9] & 1) == 1 && (bArr[12] & 3) == 3) {
@@ -61,9 +71,14 @@ public final class PsExtractor implements Extractor {
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
     public void seek(long j, long j2) {
-        if ((this.timestampAdjuster.getTimestampOffsetUs() == -9223372036854775807L) || (this.timestampAdjuster.getFirstSampleTimestampUs() != 0 && this.timestampAdjuster.getFirstSampleTimestampUs() != j2)) {
-            this.timestampAdjuster.reset();
-            this.timestampAdjuster.setFirstSampleTimestampUs(j2);
+        boolean z = true;
+        boolean z2 = this.timestampAdjuster.getTimestampOffsetUs() == -9223372036854775807L;
+        if (!z2) {
+            long firstSampleTimestampUs = this.timestampAdjuster.getFirstSampleTimestampUs();
+            z2 = (firstSampleTimestampUs == -9223372036854775807L || firstSampleTimestampUs == 0 || firstSampleTimestampUs == j2) ? false : false;
+        }
+        if (z2) {
+            this.timestampAdjuster.reset(j2);
         }
         PsBinarySearchSeeker psBinarySearchSeeker = this.psBinarySearchSeeker;
         if (psBinarySearchSeeker != null) {
@@ -75,7 +90,8 @@ public final class PsExtractor implements Extractor {
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException, InterruptedException {
+    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
+        Assertions.checkStateNotNull(this.output);
         long length = extractorInput.getLength();
         if ((length != -1) && !this.durationReader.isDurationReadFinished()) {
             return this.durationReader.readDuration(extractorInput, positionHolder);
@@ -87,19 +103,19 @@ public final class PsExtractor implements Extractor {
         }
         extractorInput.resetPeekPosition();
         long peekPosition = length != -1 ? length - extractorInput.getPeekPosition() : -1L;
-        if ((peekPosition == -1 || peekPosition >= 4) && extractorInput.peekFully(this.psPacketBuffer.data, 0, 4, true)) {
+        if ((peekPosition == -1 || peekPosition >= 4) && extractorInput.peekFully(this.psPacketBuffer.getData(), 0, 4, true)) {
             this.psPacketBuffer.setPosition(0);
             int readInt = this.psPacketBuffer.readInt();
             if (readInt == 441) {
                 return -1;
             }
             if (readInt == 442) {
-                extractorInput.peekFully(this.psPacketBuffer.data, 0, 10);
+                extractorInput.peekFully(this.psPacketBuffer.getData(), 0, 10);
                 this.psPacketBuffer.setPosition(9);
                 extractorInput.skipFully((this.psPacketBuffer.readUnsignedByte() & 7) + 14);
                 return 0;
             } else if (readInt == 443) {
-                extractorInput.peekFully(this.psPacketBuffer.data, 0, 2);
+                extractorInput.peekFully(this.psPacketBuffer.getData(), 0, 2);
                 this.psPacketBuffer.setPosition(0);
                 extractorInput.skipFully(this.psPacketBuffer.readUnsignedShort() + 6);
                 return 0;
@@ -136,14 +152,14 @@ public final class PsExtractor implements Extractor {
                         this.output.endTracks();
                     }
                 }
-                extractorInput.peekFully(this.psPacketBuffer.data, 0, 2);
+                extractorInput.peekFully(this.psPacketBuffer.getData(), 0, 2);
                 this.psPacketBuffer.setPosition(0);
                 int readUnsignedShort = this.psPacketBuffer.readUnsignedShort() + 6;
                 if (pesReader == null) {
                     extractorInput.skipFully(readUnsignedShort);
                 } else {
                     this.psPacketBuffer.reset(readUnsignedShort);
-                    extractorInput.readFully(this.psPacketBuffer.data, 0, readUnsignedShort);
+                    extractorInput.readFully(this.psPacketBuffer.getData(), 0, readUnsignedShort);
                     this.psPacketBuffer.setPosition(6);
                     pesReader.consume(this.psPacketBuffer);
                     ParsableByteArray parsableByteArray = this.psPacketBuffer;

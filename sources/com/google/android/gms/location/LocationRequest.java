@@ -13,7 +13,6 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.common.util.WorkSourceUtil;
 import com.google.android.gms.internal.location.zzd;
 import com.google.android.gms.internal.location.zzdj;
-import org.checkerframework.dataflow.qual.Pure;
 import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
@@ -59,47 +58,38 @@ public final class LocationRequest extends AbstractSafeParcelable implements Ref
         return false;
     }
 
-    @Pure
     public long getDurationMillis() {
         return this.zze;
     }
 
-    @Pure
     public int getGranularity() {
         return this.zzj;
     }
 
-    @Pure
     public long getIntervalMillis() {
         return this.zzb;
     }
 
-    @Pure
     public long getMaxUpdateAgeMillis() {
         return this.zzi;
     }
 
-    @Pure
     public long getMaxUpdateDelayMillis() {
         return this.zzd;
     }
 
-    @Pure
     public int getMaxUpdates() {
         return this.zzf;
     }
 
-    @Pure
     public float getMinUpdateDistanceMeters() {
         return this.zzg;
     }
 
-    @Pure
     public long getMinUpdateIntervalMillis() {
         return this.zzc;
     }
 
-    @Pure
     public int getPriority() {
         return this.zza;
     }
@@ -108,13 +98,11 @@ public final class LocationRequest extends AbstractSafeParcelable implements Ref
         return Objects.hashCode(Integer.valueOf(this.zza), Long.valueOf(this.zzb), Long.valueOf(this.zzc), this.zzn);
     }
 
-    @Pure
     public boolean isBatched() {
         long j = this.zzd;
         return j > 0 && (j >> 1) >= this.zzb;
     }
 
-    @Pure
     public boolean isPassive() {
         return this.zza == 105;
     }
@@ -240,28 +228,23 @@ public final class LocationRequest extends AbstractSafeParcelable implements Ref
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
-    @Pure
     public final int zza() {
         return this.zzk;
     }
 
-    @Pure
     public final WorkSource zzb() {
         return this.zzn;
     }
 
-    @Pure
     public final zzd zzc() {
         return this.zzo;
     }
 
     @Deprecated
-    @Pure
     public final String zzd() {
         return this.zzl;
     }
 
-    @Pure
     public final boolean zze() {
         return this.zzm;
     }

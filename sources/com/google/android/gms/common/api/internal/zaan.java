@@ -2,7 +2,6 @@ package com.google.android.gms.common.api.internal;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.internal.BaseGmsClient;
-import javax.annotation.concurrent.GuardedBy;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 final class zaan extends zabg {
@@ -16,7 +15,6 @@ final class zaan extends zabg {
     }
 
     @Override // com.google.android.gms.common.api.internal.zabg
-    @GuardedBy("mLock")
     public final void zaa() {
         this.zaa.onReportServiceBinding(new ConnectionResult(16, null));
     }

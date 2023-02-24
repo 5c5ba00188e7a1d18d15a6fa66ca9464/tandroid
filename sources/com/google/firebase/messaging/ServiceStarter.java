@@ -8,12 +8,10 @@ import android.content.pm.ServiceInfo;
 import android.util.Log;
 import java.util.ArrayDeque;
 import java.util.Queue;
-import javax.annotation.concurrent.GuardedBy;
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public class ServiceStarter {
     private static ServiceStarter instance;
-    @GuardedBy("this")
     private String firebaseMessagingServiceClassName = null;
     private Boolean hasWakeLockPermission = null;
     private Boolean hasAccessNetworkStatePermission = null;

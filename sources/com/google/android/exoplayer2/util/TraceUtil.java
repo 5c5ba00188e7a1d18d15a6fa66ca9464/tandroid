@@ -1,6 +1,5 @@
 package com.google.android.exoplayer2.util;
 
-import android.annotation.TargetApi;
 import android.os.Trace;
 /* loaded from: classes.dex */
 public final class TraceUtil {
@@ -16,12 +15,10 @@ public final class TraceUtil {
         }
     }
 
-    @TargetApi(18)
     private static void beginSectionV18(String str) {
         Trace.beginSection(str);
     }
 
-    @TargetApi(18)
     private static void endSectionV18() {
         Trace.endSection();
     }

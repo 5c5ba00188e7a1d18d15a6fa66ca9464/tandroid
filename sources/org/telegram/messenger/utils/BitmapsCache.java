@@ -454,7 +454,7 @@ public class BitmapsCache {
             return;
         }
         Bitmap.CompressFormat compressFormat = Bitmap.CompressFormat.WEBP;
-        if (Build.VERSION.SDK_INT <= 26) {
+        if (Build.VERSION.SDK_INT <= 28) {
             compressFormat = Bitmap.CompressFormat.PNG;
         }
         bitmapArr[i].compress(compressFormat, this.compressQuality, byteArrayOutputStreamArr[i]);

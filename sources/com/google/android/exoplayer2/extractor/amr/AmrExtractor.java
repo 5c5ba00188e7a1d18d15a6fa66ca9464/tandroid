@@ -9,6 +9,8 @@ import com.google.android.exoplayer2.extractor.ExtractorOutput;
 import com.google.android.exoplayer2.extractor.PositionHolder;
 import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.extractor.TrackOutput;
+import com.google.android.exoplayer2.upstream.DataReader;
+import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.io.EOFException;
 import java.io.IOException;
@@ -16,42 +18,57 @@ import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class AmrExtractor implements Extractor {
     private static final int MAX_FRAME_SIZE_BYTES;
+    private static final byte[] amrSignatureNb;
+    private static final byte[] amrSignatureWb;
+    private static final int[] frameSizeBytesByTypeNb;
     private static final int[] frameSizeBytesByTypeWb;
     private int currentSampleBytesRemaining;
     private int currentSampleSize;
     private long currentSampleTimeUs;
     private ExtractorOutput extractorOutput;
     private long firstSamplePosition;
+    private int firstSampleSize;
     private final int flags;
     private boolean hasOutputFormat;
     private boolean hasOutputSeekMap;
     private boolean isWideBand;
     private int numSamplesWithSameSize;
+    private final byte[] scratch;
     private SeekMap seekMap;
     private long timeOffsetUs;
     private TrackOutput trackOutput;
-    private static final int[] frameSizeBytesByTypeNb = {13, 14, 16, 18, 20, 21, 27, 32, 6, 7, 6, 6, 1, 1, 1, 1};
-    private static final byte[] amrSignatureNb = Util.getUtf8Bytes("#!AMR\n");
-    private static final byte[] amrSignatureWb = Util.getUtf8Bytes("#!AMR-WB\n");
-    private final byte[] scratch = new byte[1];
-    private int firstSampleSize = -1;
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
     public void release() {
     }
 
     static {
+        AmrExtractor$$ExternalSyntheticLambda0 amrExtractor$$ExternalSyntheticLambda0 = AmrExtractor$$ExternalSyntheticLambda0.INSTANCE;
+        frameSizeBytesByTypeNb = new int[]{13, 14, 16, 18, 20, 21, 27, 32, 6, 7, 6, 6, 1, 1, 1, 1};
         int[] iArr = {18, 24, 33, 37, 41, 47, 51, 59, 61, 6, 1, 1, 1, 1, 1, 1};
         frameSizeBytesByTypeWb = iArr;
+        amrSignatureNb = Util.getUtf8Bytes("#!AMR\n");
+        amrSignatureWb = Util.getUtf8Bytes("#!AMR-WB\n");
         MAX_FRAME_SIZE_BYTES = iArr[8];
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Extractor[] lambda$static$0() {
+        return new Extractor[]{new AmrExtractor()};
+    }
+
+    public AmrExtractor() {
+        this(0);
+    }
+
     public AmrExtractor(int i) {
-        this.flags = i;
+        this.flags = (i & 2) != 0 ? i | 1 : i;
+        this.scratch = new byte[1];
+        this.firstSampleSize = -1;
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public boolean sniff(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    public boolean sniff(ExtractorInput extractorInput) throws IOException {
         return readAmrHeader(extractorInput);
     }
 
@@ -63,9 +80,10 @@ public final class AmrExtractor implements Extractor {
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
-    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException, InterruptedException {
+    public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
+        assertInitialized();
         if (extractorInput.getPosition() == 0 && !readAmrHeader(extractorInput)) {
-            throw new ParserException("Could not find AMR header.");
+            throw ParserException.createForMalformedContainer("Could not find AMR header.", null);
         }
         maybeOutputFormat();
         int readSample = readSample(extractorInput);
@@ -88,7 +106,7 @@ public final class AmrExtractor implements Extractor {
         this.timeOffsetUs = 0L;
     }
 
-    private boolean readAmrHeader(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    private boolean readAmrHeader(ExtractorInput extractorInput) throws IOException {
         byte[] bArr = amrSignatureNb;
         if (peekAmrSignature(extractorInput, bArr)) {
             this.isWideBand = false;
@@ -104,7 +122,7 @@ public final class AmrExtractor implements Extractor {
         return false;
     }
 
-    private boolean peekAmrSignature(ExtractorInput extractorInput, byte[] bArr) throws IOException, InterruptedException {
+    private static boolean peekAmrSignature(ExtractorInput extractorInput, byte[] bArr) throws IOException {
         extractorInput.resetPeekPosition();
         byte[] bArr2 = new byte[bArr.length];
         extractorInput.peekFully(bArr2, 0, bArr.length);
@@ -117,10 +135,10 @@ public final class AmrExtractor implements Extractor {
         }
         this.hasOutputFormat = true;
         boolean z = this.isWideBand;
-        this.trackOutput.format(Format.createAudioSampleFormat(null, z ? "audio/amr-wb" : "audio/3gpp", null, -1, MAX_FRAME_SIZE_BYTES, 1, z ? 16000 : 8000, -1, null, null, 0, null));
+        this.trackOutput.format(new Format.Builder().setSampleMimeType(z ? "audio/amr-wb" : "audio/3gpp").setMaxInputSize(MAX_FRAME_SIZE_BYTES).setChannelCount(1).setSampleRate(z ? 16000 : 8000).build());
     }
 
-    private int readSample(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    private int readSample(ExtractorInput extractorInput) throws IOException {
         if (this.currentSampleBytesRemaining == 0) {
             try {
                 int peekNextSampleSize = peekNextSampleSize(extractorInput);
@@ -137,7 +155,7 @@ public final class AmrExtractor implements Extractor {
                 return -1;
             }
         }
-        int sampleData = this.trackOutput.sampleData(extractorInput, this.currentSampleBytesRemaining, true);
+        int sampleData = this.trackOutput.sampleData((DataReader) extractorInput, this.currentSampleBytesRemaining, true);
         if (sampleData == -1) {
             return -1;
         }
@@ -151,12 +169,12 @@ public final class AmrExtractor implements Extractor {
         return 0;
     }
 
-    private int peekNextSampleSize(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    private int peekNextSampleSize(ExtractorInput extractorInput) throws IOException {
         extractorInput.resetPeekPosition();
         extractorInput.peekFully(this.scratch, 0, 1);
         byte b = this.scratch[0];
         if ((b & 131) > 0) {
-            throw new ParserException("Invalid padding bits for frame header " + ((int) b));
+            throw ParserException.createForMalformedContainer("Invalid padding bits for frame header " + ((int) b), null);
         }
         return getFrameSizeInBytes((b >> 3) & 15);
     }
@@ -170,7 +188,7 @@ public final class AmrExtractor implements Extractor {
         sb.append(this.isWideBand ? "WB" : "NB");
         sb.append(" frame type ");
         sb.append(i);
-        throw new ParserException(sb.toString());
+        throw ParserException.createForMalformedContainer(sb.toString(), null);
     }
 
     private boolean isValidFrameType(int i) {
@@ -190,21 +208,27 @@ public final class AmrExtractor implements Extractor {
         if (this.hasOutputSeekMap) {
             return;
         }
-        if ((this.flags & 1) == 0 || j == -1 || ((i2 = this.firstSampleSize) != -1 && i2 != this.currentSampleSize)) {
+        int i3 = this.flags;
+        if ((i3 & 1) == 0 || j == -1 || ((i2 = this.firstSampleSize) != -1 && i2 != this.currentSampleSize)) {
             SeekMap.Unseekable unseekable = new SeekMap.Unseekable(-9223372036854775807L);
             this.seekMap = unseekable;
             this.extractorOutput.seekMap(unseekable);
             this.hasOutputSeekMap = true;
         } else if (this.numSamplesWithSameSize >= 20 || i == -1) {
-            SeekMap constantBitrateSeekMap = getConstantBitrateSeekMap(j);
+            SeekMap constantBitrateSeekMap = getConstantBitrateSeekMap(j, (i3 & 2) != 0);
             this.seekMap = constantBitrateSeekMap;
             this.extractorOutput.seekMap(constantBitrateSeekMap);
             this.hasOutputSeekMap = true;
         }
     }
 
-    private SeekMap getConstantBitrateSeekMap(long j) {
-        return new ConstantBitrateSeekMap(j, this.firstSamplePosition, getBitrateFromFrameSize(this.firstSampleSize, 20000L), this.firstSampleSize);
+    private SeekMap getConstantBitrateSeekMap(long j, boolean z) {
+        return new ConstantBitrateSeekMap(j, this.firstSamplePosition, getBitrateFromFrameSize(this.firstSampleSize, 20000L), this.firstSampleSize, z);
+    }
+
+    private void assertInitialized() {
+        Assertions.checkStateNotNull(this.trackOutput);
+        Util.castNonNull(this.extractorOutput);
     }
 
     private static int getBitrateFromFrameSize(int i, long j) {

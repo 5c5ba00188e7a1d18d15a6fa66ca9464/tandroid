@@ -17,7 +17,7 @@ public interface HlsPlaylistTracker {
     public interface PlaylistEventListener {
         void onPlaylistChanged();
 
-        boolean onPlaylistError(Uri uri, long j);
+        boolean onPlaylistError(Uri uri, LoadErrorHandlingPolicy.LoadErrorInfo loadErrorInfo, boolean z);
     }
 
     /* loaded from: classes.dex */
@@ -27,9 +27,11 @@ public interface HlsPlaylistTracker {
 
     void addListener(PlaylistEventListener playlistEventListener);
 
+    boolean excludeMediaPlaylist(Uri uri, long j);
+
     long getInitialStartTimeUs();
 
-    HlsMasterPlaylist getMasterPlaylist();
+    HlsMultivariantPlaylist getMultivariantPlaylist();
 
     HlsMediaPlaylist getPlaylistSnapshot(Uri uri, boolean z);
 

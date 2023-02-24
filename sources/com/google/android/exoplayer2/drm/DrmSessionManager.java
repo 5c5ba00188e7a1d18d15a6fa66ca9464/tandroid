@@ -1,24 +1,16 @@
 package com.google.android.exoplayer2.drm;
 
 import android.os.Looper;
+import com.google.android.exoplayer2.Format;
+import com.google.android.exoplayer2.analytics.PlayerId;
 import com.google.android.exoplayer2.drm.DrmSession;
-import com.google.android.exoplayer2.drm.ExoMediaCrypto;
+import com.google.android.exoplayer2.drm.DrmSessionEventListener;
 /* loaded from: classes.dex */
-public interface DrmSessionManager<T extends ExoMediaCrypto> {
-    public static final DrmSessionManager<ExoMediaCrypto> DUMMY = new DrmSessionManager<ExoMediaCrypto>() { // from class: com.google.android.exoplayer2.drm.DrmSessionManager.1
+public interface DrmSessionManager {
+    public static final DrmSessionManager DRM_UNSUPPORTED = new DrmSessionManager() { // from class: com.google.android.exoplayer2.drm.DrmSessionManager.1
         @Override // com.google.android.exoplayer2.drm.DrmSessionManager
-        public /* synthetic */ DrmSession<ExoMediaCrypto> acquirePlaceholderSession(Looper looper, int i) {
-            return -CC.$default$acquirePlaceholderSession(this, looper, i);
-        }
-
-        @Override // com.google.android.exoplayer2.drm.DrmSessionManager
-        public boolean canAcquireSession(DrmInitData drmInitData) {
-            return false;
-        }
-
-        @Override // com.google.android.exoplayer2.drm.DrmSessionManager
-        public Class<ExoMediaCrypto> getExoMediaCryptoType(DrmInitData drmInitData) {
-            return null;
+        public /* synthetic */ DrmSessionReference preacquireSession(DrmSessionEventListener.EventDispatcher eventDispatcher, Format format) {
+            return DrmSessionReference.EMPTY;
         }
 
         @Override // com.google.android.exoplayer2.drm.DrmSessionManager
@@ -32,41 +24,58 @@ public interface DrmSessionManager<T extends ExoMediaCrypto> {
         }
 
         @Override // com.google.android.exoplayer2.drm.DrmSessionManager
-        public DrmSession<ExoMediaCrypto> acquireSession(Looper looper, DrmInitData drmInitData) {
-            return new ErrorStateDrmSession(new DrmSession.DrmSessionException(new UnsupportedDrmException(1)));
+        public void setPlayer(Looper looper, PlayerId playerId) {
+        }
+
+        @Override // com.google.android.exoplayer2.drm.DrmSessionManager
+        public DrmSession acquireSession(DrmSessionEventListener.EventDispatcher eventDispatcher, Format format) {
+            if (format.drmInitData == null) {
+                return null;
+            }
+            return new ErrorStateDrmSession(new DrmSession.DrmSessionException(new UnsupportedDrmException(1), 6001));
+        }
+
+        @Override // com.google.android.exoplayer2.drm.DrmSessionManager
+        public int getCryptoType(Format format) {
+            return format.drmInitData != null ? 1 : 0;
         }
     };
 
-    DrmSession<T> acquirePlaceholderSession(Looper looper, int i);
+    /* loaded from: classes.dex */
+    public interface DrmSessionReference {
+        public static final DrmSessionReference EMPTY = DrmSessionManager$DrmSessionReference$$ExternalSyntheticLambda0.INSTANCE;
 
-    DrmSession<T> acquireSession(Looper looper, DrmInitData drmInitData);
+        /* loaded from: classes.dex */
+        public final /* synthetic */ class -CC {
+            static {
+                DrmSessionReference drmSessionReference = DrmSessionReference.EMPTY;
+            }
 
-    boolean canAcquireSession(DrmInitData drmInitData);
+            public static /* synthetic */ void lambda$static$0() {
+            }
+        }
 
-    Class<? extends ExoMediaCrypto> getExoMediaCryptoType(DrmInitData drmInitData);
+        void release();
+    }
+
+    DrmSession acquireSession(DrmSessionEventListener.EventDispatcher eventDispatcher, Format format);
+
+    int getCryptoType(Format format);
+
+    DrmSessionReference preacquireSession(DrmSessionEventListener.EventDispatcher eventDispatcher, Format format);
 
     void prepare();
 
     void release();
 
+    void setPlayer(Looper looper, PlayerId playerId);
+
     /* loaded from: classes.dex */
     public final /* synthetic */ class -CC {
-        public static DrmSession $default$acquirePlaceholderSession(DrmSessionManager drmSessionManager, Looper looper, int i) {
-            return null;
-        }
-
         public static void $default$prepare(DrmSessionManager drmSessionManager) {
         }
 
         public static void $default$release(DrmSessionManager drmSessionManager) {
-        }
-
-        static {
-            DrmSessionManager<ExoMediaCrypto> drmSessionManager = DrmSessionManager.DUMMY;
-        }
-
-        public static <T extends ExoMediaCrypto> DrmSessionManager<T> getDummyDrmSessionManager() {
-            return (DrmSessionManager<T>) DrmSessionManager.DUMMY;
         }
     }
 }

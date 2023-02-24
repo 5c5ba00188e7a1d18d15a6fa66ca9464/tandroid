@@ -12,33 +12,44 @@ import com.google.android.exoplayer2.text.Cue;
 import com.google.android.exoplayer2.text.Subtitle;
 import com.google.android.exoplayer2.text.SubtitleInputBuffer;
 import com.google.android.exoplayer2.util.Assertions;
+import com.google.android.exoplayer2.util.CodecSpecificDataUtil;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import org.telegram.messenger.ImageReceiver;
 /* loaded from: classes.dex */
 public final class Cea708Decoder extends CeaDecoder {
-    private final CueBuilder[] cueBuilders;
+    private final CueInfoBuilder[] cueInfoBuilders;
     private List<Cue> cues;
-    private CueBuilder currentCueBuilder;
+    private CueInfoBuilder currentCueInfoBuilder;
     private DtvCcPacket currentDtvCcPacket;
     private int currentWindow;
     private List<Cue> lastCues;
     private final int selectedServiceNumber;
     private final ParsableByteArray ccData = new ParsableByteArray();
-    private final ParsableBitArray serviceBlockPacket = new ParsableBitArray();
+    private final ParsableBitArray captionChannelPacketData = new ParsableBitArray();
+    private int previousSequenceNumber = -1;
+
+    @Override // com.google.android.exoplayer2.decoder.Decoder
+    public String getName() {
+        return "Cea708Decoder";
+    }
 
     public Cea708Decoder(int i, List<byte[]> list) {
         this.selectedServiceNumber = i == -1 ? 1 : i;
-        this.cueBuilders = new CueBuilder[8];
-        for (int i2 = 0; i2 < 8; i2++) {
-            this.cueBuilders[i2] = new CueBuilder();
+        if (list != null) {
+            CodecSpecificDataUtil.parseCea708InitializationData(list);
         }
-        this.currentCueBuilder = this.cueBuilders[0];
-        resetCueBuilders();
+        this.cueInfoBuilders = new CueInfoBuilder[8];
+        for (int i2 = 0; i2 < 8; i2++) {
+            this.cueInfoBuilders[i2] = new CueInfoBuilder();
+        }
+        this.currentCueInfoBuilder = this.cueInfoBuilders[0];
     }
 
     @Override // com.google.android.exoplayer2.text.cea.CeaDecoder, com.google.android.exoplayer2.decoder.Decoder
@@ -47,7 +58,7 @@ public final class Cea708Decoder extends CeaDecoder {
         this.cues = null;
         this.lastCues = null;
         this.currentWindow = 0;
-        this.currentCueBuilder = this.cueBuilders[0];
+        this.currentCueInfoBuilder = this.cueInfoBuilders[0];
         resetCueBuilders();
         this.currentDtvCcPacket = null;
     }
@@ -61,12 +72,13 @@ public final class Cea708Decoder extends CeaDecoder {
     protected Subtitle createSubtitle() {
         List<Cue> list = this.cues;
         this.lastCues = list;
-        return new CeaSubtitle(list);
+        return new CeaSubtitle((List) Assertions.checkNotNull(list));
     }
 
     @Override // com.google.android.exoplayer2.text.cea.CeaDecoder
     protected void decode(SubtitleInputBuffer subtitleInputBuffer) {
-        this.ccData.reset(subtitleInputBuffer.data.array(), subtitleInputBuffer.data.limit());
+        ByteBuffer byteBuffer = (ByteBuffer) Assertions.checkNotNull(subtitleInputBuffer.data);
+        this.ccData.reset(byteBuffer.array(), byteBuffer.limit());
         while (this.ccData.bytesLeft() >= 3) {
             int readUnsignedByte = this.ccData.readUnsignedByte() & 7;
             int i = readUnsignedByte & 3;
@@ -78,16 +90,22 @@ public final class Cea708Decoder extends CeaDecoder {
                     if (i == 3) {
                         finalizeCurrentPacket();
                         int i2 = (readUnsignedByte2 & 192) >> 6;
-                        int i3 = readUnsignedByte2 & 63;
-                        if (i3 == 0) {
-                            i3 = 64;
+                        int i3 = this.previousSequenceNumber;
+                        if (i3 != -1 && i2 != (i3 + 1) % 4) {
+                            resetCueBuilders();
+                            Log.w("Cea708Decoder", "Sequence number discontinuity. previous=" + this.previousSequenceNumber + " current=" + i2);
                         }
-                        DtvCcPacket dtvCcPacket = new DtvCcPacket(i2, i3);
+                        this.previousSequenceNumber = i2;
+                        int i4 = readUnsignedByte2 & 63;
+                        if (i4 == 0) {
+                            i4 = 64;
+                        }
+                        DtvCcPacket dtvCcPacket = new DtvCcPacket(i2, i4);
                         this.currentDtvCcPacket = dtvCcPacket;
                         byte[] bArr = dtvCcPacket.packetData;
-                        int i4 = dtvCcPacket.currentIndex;
-                        dtvCcPacket.currentIndex = i4 + 1;
-                        bArr[i4] = readUnsignedByte3;
+                        int i5 = dtvCcPacket.currentIndex;
+                        dtvCcPacket.currentIndex = i5 + 1;
+                        bArr[i5] = readUnsignedByte3;
                     } else {
                         Assertions.checkArgument(i == 2);
                         DtvCcPacket dtvCcPacket2 = this.currentDtvCcPacket;
@@ -95,12 +113,12 @@ public final class Cea708Decoder extends CeaDecoder {
                             Log.e("Cea708Decoder", "Encountered DTVCC_PACKET_DATA before DTVCC_PACKET_START");
                         } else {
                             byte[] bArr2 = dtvCcPacket2.packetData;
-                            int i5 = dtvCcPacket2.currentIndex;
-                            int i6 = i5 + 1;
-                            dtvCcPacket2.currentIndex = i6;
-                            bArr2[i5] = readUnsignedByte2;
-                            dtvCcPacket2.currentIndex = i6 + 1;
-                            bArr2[i6] = readUnsignedByte3;
+                            int i6 = dtvCcPacket2.currentIndex;
+                            int i7 = i6 + 1;
+                            dtvCcPacket2.currentIndex = i7;
+                            bArr2[i6] = readUnsignedByte2;
+                            dtvCcPacket2.currentIndex = i7 + 1;
+                            bArr2[i7] = readUnsignedByte3;
                         }
                     }
                     DtvCcPacket dtvCcPacket3 = this.currentDtvCcPacket;
@@ -122,64 +140,71 @@ public final class Cea708Decoder extends CeaDecoder {
 
     private void processCurrentPacket() {
         DtvCcPacket dtvCcPacket = this.currentDtvCcPacket;
-        int i = dtvCcPacket.currentIndex;
-        if (i != (dtvCcPacket.packetSize * 2) - 1) {
-            Log.w("Cea708Decoder", "DtvCcPacket ended prematurely; size is " + ((this.currentDtvCcPacket.packetSize * 2) - 1) + ", but current index is " + this.currentDtvCcPacket.currentIndex + " (sequence number " + this.currentDtvCcPacket.sequenceNumber + "); ignoring packet");
-            return;
+        if (dtvCcPacket.currentIndex != (dtvCcPacket.packetSize * 2) - 1) {
+            Log.d("Cea708Decoder", "DtvCcPacket ended prematurely; size is " + ((this.currentDtvCcPacket.packetSize * 2) - 1) + ", but current index is " + this.currentDtvCcPacket.currentIndex + " (sequence number " + this.currentDtvCcPacket.sequenceNumber + ");");
         }
-        this.serviceBlockPacket.reset(dtvCcPacket.packetData, i);
-        int readBits = this.serviceBlockPacket.readBits(3);
-        int readBits2 = this.serviceBlockPacket.readBits(5);
-        if (readBits == 7) {
-            this.serviceBlockPacket.skipBits(2);
-            readBits = this.serviceBlockPacket.readBits(6);
-            if (readBits < 7) {
-                Log.w("Cea708Decoder", "Invalid extended service number: " + readBits);
+        boolean z = false;
+        ParsableBitArray parsableBitArray = this.captionChannelPacketData;
+        DtvCcPacket dtvCcPacket2 = this.currentDtvCcPacket;
+        parsableBitArray.reset(dtvCcPacket2.packetData, dtvCcPacket2.currentIndex);
+        while (true) {
+            if (this.captionChannelPacketData.bitsLeft() <= 0) {
+                break;
             }
-        }
-        if (readBits2 == 0) {
-            if (readBits != 0) {
-                Log.w("Cea708Decoder", "serviceNumber is non-zero (" + readBits + ") when blockSize is 0");
+            int readBits = this.captionChannelPacketData.readBits(3);
+            int readBits2 = this.captionChannelPacketData.readBits(5);
+            if (readBits == 7) {
+                this.captionChannelPacketData.skipBits(2);
+                readBits = this.captionChannelPacketData.readBits(6);
+                if (readBits < 7) {
+                    Log.w("Cea708Decoder", "Invalid extended service number: " + readBits);
+                }
             }
-        } else if (readBits != this.selectedServiceNumber) {
-        } else {
-            boolean z = false;
-            while (this.serviceBlockPacket.bitsLeft() > 0) {
-                int readBits3 = this.serviceBlockPacket.readBits(8);
-                if (readBits3 == 16) {
-                    int readBits4 = this.serviceBlockPacket.readBits(8);
-                    if (readBits4 <= 31) {
-                        handleC2Command(readBits4);
-                    } else {
-                        if (readBits4 <= 127) {
-                            handleG2Character(readBits4);
-                        } else if (readBits4 <= 159) {
-                            handleC3Command(readBits4);
-                        } else if (readBits4 <= 255) {
-                            handleG3Character(readBits4);
+            if (readBits2 == 0) {
+                if (readBits != 0) {
+                    Log.w("Cea708Decoder", "serviceNumber is non-zero (" + readBits + ") when blockSize is 0");
+                }
+            } else if (readBits != this.selectedServiceNumber) {
+                this.captionChannelPacketData.skipBytes(readBits2);
+            } else {
+                int position = this.captionChannelPacketData.getPosition() + (readBits2 * 8);
+                while (this.captionChannelPacketData.getPosition() < position) {
+                    int readBits3 = this.captionChannelPacketData.readBits(8);
+                    if (readBits3 == 16) {
+                        int readBits4 = this.captionChannelPacketData.readBits(8);
+                        if (readBits4 <= 31) {
+                            handleC2Command(readBits4);
                         } else {
-                            Log.w("Cea708Decoder", "Invalid extended command: " + readBits4);
+                            if (readBits4 <= 127) {
+                                handleG2Character(readBits4);
+                            } else if (readBits4 <= 159) {
+                                handleC3Command(readBits4);
+                            } else if (readBits4 <= 255) {
+                                handleG3Character(readBits4);
+                            } else {
+                                Log.w("Cea708Decoder", "Invalid extended command: " + readBits4);
+                            }
+                            z = true;
+                        }
+                    } else if (readBits3 <= 31) {
+                        handleC0Command(readBits3);
+                    } else {
+                        if (readBits3 <= 127) {
+                            handleG0Character(readBits3);
+                        } else if (readBits3 <= 159) {
+                            handleC1Command(readBits3);
+                        } else if (readBits3 <= 255) {
+                            handleG1Character(readBits3);
+                        } else {
+                            Log.w("Cea708Decoder", "Invalid base command: " + readBits3);
                         }
                         z = true;
                     }
-                } else if (readBits3 <= 31) {
-                    handleC0Command(readBits3);
-                } else {
-                    if (readBits3 <= 127) {
-                        handleG0Character(readBits3);
-                    } else if (readBits3 <= 159) {
-                        handleC1Command(readBits3);
-                    } else if (readBits3 <= 255) {
-                        handleG1Character(readBits3);
-                    } else {
-                        Log.w("Cea708Decoder", "Invalid base command: " + readBits3);
-                    }
-                    z = true;
                 }
             }
-            if (z) {
-                this.cues = getDisplayCues();
-            }
+        }
+        if (z) {
+            this.cues = getDisplayCues();
         }
     }
 
@@ -188,25 +213,25 @@ public final class Cea708Decoder extends CeaDecoder {
             if (i == 3) {
                 this.cues = getDisplayCues();
             } else if (i == 8) {
-                this.currentCueBuilder.backspace();
+                this.currentCueInfoBuilder.backspace();
             } else {
                 switch (i) {
                     case 12:
                         resetCueBuilders();
                         return;
                     case 13:
-                        this.currentCueBuilder.append('\n');
+                        this.currentCueInfoBuilder.append('\n');
                         return;
                     case 14:
                         return;
                     default:
                         if (i >= 17 && i <= 23) {
                             Log.w("Cea708Decoder", "Currently unsupported COMMAND_EXT1 Command: " + i);
-                            this.serviceBlockPacket.skipBits(8);
+                            this.captionChannelPacketData.skipBits(8);
                             return;
                         } else if (i >= 24 && i <= 31) {
                             Log.w("Cea708Decoder", "Currently unsupported COMMAND_P16 Command: " + i);
-                            this.serviceBlockPacket.skipBits(16);
+                            this.captionChannelPacketData.skipBits(16);
                             return;
                         } else {
                             Log.w("Cea708Decoder", "Invalid C0 command: " + i);
@@ -218,7 +243,7 @@ public final class Cea708Decoder extends CeaDecoder {
     }
 
     private void handleC1Command(int i) {
-        CueBuilder cueBuilder;
+        CueInfoBuilder cueInfoBuilder;
         int i2 = 1;
         switch (i) {
             case 128:
@@ -232,50 +257,50 @@ public final class Cea708Decoder extends CeaDecoder {
                 int i3 = i - 128;
                 if (this.currentWindow != i3) {
                     this.currentWindow = i3;
-                    this.currentCueBuilder = this.cueBuilders[i3];
+                    this.currentCueInfoBuilder = this.cueInfoBuilders[i3];
                     return;
                 }
                 return;
             case 136:
                 while (i2 <= 8) {
-                    if (this.serviceBlockPacket.readBit()) {
-                        this.cueBuilders[8 - i2].clear();
+                    if (this.captionChannelPacketData.readBit()) {
+                        this.cueInfoBuilders[8 - i2].clear();
                     }
                     i2++;
                 }
                 return;
             case 137:
                 for (int i4 = 1; i4 <= 8; i4++) {
-                    if (this.serviceBlockPacket.readBit()) {
-                        this.cueBuilders[8 - i4].setVisibility(true);
+                    if (this.captionChannelPacketData.readBit()) {
+                        this.cueInfoBuilders[8 - i4].setVisibility(true);
                     }
                 }
                 return;
             case 138:
                 while (i2 <= 8) {
-                    if (this.serviceBlockPacket.readBit()) {
-                        this.cueBuilders[8 - i2].setVisibility(false);
+                    if (this.captionChannelPacketData.readBit()) {
+                        this.cueInfoBuilders[8 - i2].setVisibility(false);
                     }
                     i2++;
                 }
                 return;
             case 139:
                 for (int i5 = 1; i5 <= 8; i5++) {
-                    if (this.serviceBlockPacket.readBit()) {
-                        this.cueBuilders[8 - i5].setVisibility(!cueBuilder.isVisible());
+                    if (this.captionChannelPacketData.readBit()) {
+                        this.cueInfoBuilders[8 - i5].setVisibility(!cueInfoBuilder.isVisible());
                     }
                 }
                 return;
             case 140:
                 while (i2 <= 8) {
-                    if (this.serviceBlockPacket.readBit()) {
-                        this.cueBuilders[8 - i2].reset();
+                    if (this.captionChannelPacketData.readBit()) {
+                        this.cueInfoBuilders[8 - i2].reset();
                     }
                     i2++;
                 }
                 return;
             case 141:
-                this.serviceBlockPacket.skipBits(8);
+                this.captionChannelPacketData.skipBits(8);
                 return;
             case 142:
                 return;
@@ -283,24 +308,24 @@ public final class Cea708Decoder extends CeaDecoder {
                 resetCueBuilders();
                 return;
             case 144:
-                if (!this.currentCueBuilder.isDefined()) {
-                    this.serviceBlockPacket.skipBits(16);
+                if (!this.currentCueInfoBuilder.isDefined()) {
+                    this.captionChannelPacketData.skipBits(16);
                     return;
                 } else {
                     handleSetPenAttributes();
                     return;
                 }
             case 145:
-                if (!this.currentCueBuilder.isDefined()) {
-                    this.serviceBlockPacket.skipBits(24);
+                if (!this.currentCueInfoBuilder.isDefined()) {
+                    this.captionChannelPacketData.skipBits(24);
                     return;
                 } else {
                     handleSetPenColor();
                     return;
                 }
             case 146:
-                if (!this.currentCueBuilder.isDefined()) {
-                    this.serviceBlockPacket.skipBits(16);
+                if (!this.currentCueInfoBuilder.isDefined()) {
+                    this.captionChannelPacketData.skipBits(16);
                     return;
                 } else {
                     handleSetPenLocation();
@@ -314,8 +339,8 @@ public final class Cea708Decoder extends CeaDecoder {
                 Log.w("Cea708Decoder", "Invalid C1 command: " + i);
                 return;
             case 151:
-                if (!this.currentCueBuilder.isDefined()) {
-                    this.serviceBlockPacket.skipBits(32);
+                if (!this.currentCueInfoBuilder.isDefined()) {
+                    this.captionChannelPacketData.skipBits(32);
                     return;
                 } else {
                     handleSetWindowAttributes();
@@ -333,7 +358,7 @@ public final class Cea708Decoder extends CeaDecoder {
                 handleDefineWindow(i6);
                 if (this.currentWindow != i6) {
                     this.currentWindow = i6;
-                    this.currentCueBuilder = this.cueBuilders[i6];
+                    this.currentCueInfoBuilder = this.cueInfoBuilders[i6];
                     return;
                 }
                 return;
@@ -345,107 +370,107 @@ public final class Cea708Decoder extends CeaDecoder {
             return;
         }
         if (i <= 15) {
-            this.serviceBlockPacket.skipBits(8);
+            this.captionChannelPacketData.skipBits(8);
         } else if (i <= 23) {
-            this.serviceBlockPacket.skipBits(16);
+            this.captionChannelPacketData.skipBits(16);
         } else if (i <= 31) {
-            this.serviceBlockPacket.skipBits(24);
+            this.captionChannelPacketData.skipBits(24);
         }
     }
 
     private void handleC3Command(int i) {
         if (i <= 135) {
-            this.serviceBlockPacket.skipBits(32);
+            this.captionChannelPacketData.skipBits(32);
         } else if (i <= 143) {
-            this.serviceBlockPacket.skipBits(40);
+            this.captionChannelPacketData.skipBits(40);
         } else if (i <= 159) {
-            this.serviceBlockPacket.skipBits(2);
-            this.serviceBlockPacket.skipBits(this.serviceBlockPacket.readBits(6) * 8);
+            this.captionChannelPacketData.skipBits(2);
+            this.captionChannelPacketData.skipBits(this.captionChannelPacketData.readBits(6) * 8);
         }
     }
 
     private void handleG0Character(int i) {
         if (i == 127) {
-            this.currentCueBuilder.append((char) 9835);
+            this.currentCueInfoBuilder.append((char) 9835);
         } else {
-            this.currentCueBuilder.append((char) (i & 255));
+            this.currentCueInfoBuilder.append((char) (i & 255));
         }
     }
 
     private void handleG1Character(int i) {
-        this.currentCueBuilder.append((char) (i & 255));
+        this.currentCueInfoBuilder.append((char) (i & 255));
     }
 
     private void handleG2Character(int i) {
         if (i == 32) {
-            this.currentCueBuilder.append(' ');
+            this.currentCueInfoBuilder.append(' ');
         } else if (i == 33) {
-            this.currentCueBuilder.append((char) 160);
+            this.currentCueInfoBuilder.append((char) 160);
         } else if (i == 37) {
-            this.currentCueBuilder.append((char) 8230);
+            this.currentCueInfoBuilder.append((char) 8230);
         } else if (i == 42) {
-            this.currentCueBuilder.append((char) 352);
+            this.currentCueInfoBuilder.append((char) 352);
         } else if (i == 44) {
-            this.currentCueBuilder.append((char) 338);
+            this.currentCueInfoBuilder.append((char) 338);
         } else if (i == 63) {
-            this.currentCueBuilder.append((char) 376);
+            this.currentCueInfoBuilder.append((char) 376);
         } else if (i == 57) {
-            this.currentCueBuilder.append((char) 8482);
+            this.currentCueInfoBuilder.append((char) 8482);
         } else if (i == 58) {
-            this.currentCueBuilder.append((char) 353);
+            this.currentCueInfoBuilder.append((char) 353);
         } else if (i == 60) {
-            this.currentCueBuilder.append((char) 339);
+            this.currentCueInfoBuilder.append((char) 339);
         } else if (i != 61) {
             switch (i) {
                 case 48:
-                    this.currentCueBuilder.append((char) 9608);
+                    this.currentCueInfoBuilder.append((char) 9608);
                     return;
                 case 49:
-                    this.currentCueBuilder.append((char) 8216);
+                    this.currentCueInfoBuilder.append((char) 8216);
                     return;
                 case 50:
-                    this.currentCueBuilder.append((char) 8217);
+                    this.currentCueInfoBuilder.append((char) 8217);
                     return;
                 case 51:
-                    this.currentCueBuilder.append((char) 8220);
+                    this.currentCueInfoBuilder.append((char) 8220);
                     return;
                 case 52:
-                    this.currentCueBuilder.append((char) 8221);
+                    this.currentCueInfoBuilder.append((char) 8221);
                     return;
                 case 53:
-                    this.currentCueBuilder.append((char) 8226);
+                    this.currentCueInfoBuilder.append((char) 8226);
                     return;
                 default:
                     switch (i) {
                         case 118:
-                            this.currentCueBuilder.append((char) 8539);
+                            this.currentCueInfoBuilder.append((char) 8539);
                             return;
                         case 119:
-                            this.currentCueBuilder.append((char) 8540);
+                            this.currentCueInfoBuilder.append((char) 8540);
                             return;
                         case 120:
-                            this.currentCueBuilder.append((char) 8541);
+                            this.currentCueInfoBuilder.append((char) 8541);
                             return;
                         case 121:
-                            this.currentCueBuilder.append((char) 8542);
+                            this.currentCueInfoBuilder.append((char) 8542);
                             return;
                         case 122:
-                            this.currentCueBuilder.append((char) 9474);
+                            this.currentCueInfoBuilder.append((char) 9474);
                             return;
                         case 123:
-                            this.currentCueBuilder.append((char) 9488);
+                            this.currentCueInfoBuilder.append((char) 9488);
                             return;
                         case 124:
-                            this.currentCueBuilder.append((char) 9492);
+                            this.currentCueInfoBuilder.append((char) 9492);
                             return;
                         case 125:
-                            this.currentCueBuilder.append((char) 9472);
+                            this.currentCueInfoBuilder.append((char) 9472);
                             return;
                         case 126:
-                            this.currentCueBuilder.append((char) 9496);
+                            this.currentCueInfoBuilder.append((char) 9496);
                             return;
                         case 127:
-                            this.currentCueBuilder.append((char) 9484);
+                            this.currentCueInfoBuilder.append((char) 9484);
                             return;
                         default:
                             Log.w("Cea708Decoder", "Invalid G2 character: " + i);
@@ -453,84 +478,89 @@ public final class Cea708Decoder extends CeaDecoder {
                     }
             }
         } else {
-            this.currentCueBuilder.append((char) 8480);
+            this.currentCueInfoBuilder.append((char) 8480);
         }
     }
 
     private void handleG3Character(int i) {
         if (i == 160) {
-            this.currentCueBuilder.append((char) 13252);
+            this.currentCueInfoBuilder.append((char) 13252);
             return;
         }
         Log.w("Cea708Decoder", "Invalid G3 character: " + i);
-        this.currentCueBuilder.append('_');
+        this.currentCueInfoBuilder.append('_');
     }
 
     private void handleSetPenAttributes() {
-        this.currentCueBuilder.setPenAttributes(this.serviceBlockPacket.readBits(4), this.serviceBlockPacket.readBits(2), this.serviceBlockPacket.readBits(2), this.serviceBlockPacket.readBit(), this.serviceBlockPacket.readBit(), this.serviceBlockPacket.readBits(3), this.serviceBlockPacket.readBits(3));
+        this.currentCueInfoBuilder.setPenAttributes(this.captionChannelPacketData.readBits(4), this.captionChannelPacketData.readBits(2), this.captionChannelPacketData.readBits(2), this.captionChannelPacketData.readBit(), this.captionChannelPacketData.readBit(), this.captionChannelPacketData.readBits(3), this.captionChannelPacketData.readBits(3));
     }
 
     private void handleSetPenColor() {
-        int argbColorFromCeaColor = CueBuilder.getArgbColorFromCeaColor(this.serviceBlockPacket.readBits(2), this.serviceBlockPacket.readBits(2), this.serviceBlockPacket.readBits(2), this.serviceBlockPacket.readBits(2));
-        int argbColorFromCeaColor2 = CueBuilder.getArgbColorFromCeaColor(this.serviceBlockPacket.readBits(2), this.serviceBlockPacket.readBits(2), this.serviceBlockPacket.readBits(2), this.serviceBlockPacket.readBits(2));
-        this.serviceBlockPacket.skipBits(2);
-        this.currentCueBuilder.setPenColor(argbColorFromCeaColor, argbColorFromCeaColor2, CueBuilder.getArgbColorFromCeaColor(this.serviceBlockPacket.readBits(2), this.serviceBlockPacket.readBits(2), this.serviceBlockPacket.readBits(2)));
+        int argbColorFromCeaColor = CueInfoBuilder.getArgbColorFromCeaColor(this.captionChannelPacketData.readBits(2), this.captionChannelPacketData.readBits(2), this.captionChannelPacketData.readBits(2), this.captionChannelPacketData.readBits(2));
+        int argbColorFromCeaColor2 = CueInfoBuilder.getArgbColorFromCeaColor(this.captionChannelPacketData.readBits(2), this.captionChannelPacketData.readBits(2), this.captionChannelPacketData.readBits(2), this.captionChannelPacketData.readBits(2));
+        this.captionChannelPacketData.skipBits(2);
+        this.currentCueInfoBuilder.setPenColor(argbColorFromCeaColor, argbColorFromCeaColor2, CueInfoBuilder.getArgbColorFromCeaColor(this.captionChannelPacketData.readBits(2), this.captionChannelPacketData.readBits(2), this.captionChannelPacketData.readBits(2)));
     }
 
     private void handleSetPenLocation() {
-        this.serviceBlockPacket.skipBits(4);
-        int readBits = this.serviceBlockPacket.readBits(4);
-        this.serviceBlockPacket.skipBits(2);
-        this.currentCueBuilder.setPenLocation(readBits, this.serviceBlockPacket.readBits(6));
+        this.captionChannelPacketData.skipBits(4);
+        int readBits = this.captionChannelPacketData.readBits(4);
+        this.captionChannelPacketData.skipBits(2);
+        this.currentCueInfoBuilder.setPenLocation(readBits, this.captionChannelPacketData.readBits(6));
     }
 
     private void handleSetWindowAttributes() {
-        int argbColorFromCeaColor = CueBuilder.getArgbColorFromCeaColor(this.serviceBlockPacket.readBits(2), this.serviceBlockPacket.readBits(2), this.serviceBlockPacket.readBits(2), this.serviceBlockPacket.readBits(2));
-        int readBits = this.serviceBlockPacket.readBits(2);
-        int argbColorFromCeaColor2 = CueBuilder.getArgbColorFromCeaColor(this.serviceBlockPacket.readBits(2), this.serviceBlockPacket.readBits(2), this.serviceBlockPacket.readBits(2));
-        if (this.serviceBlockPacket.readBit()) {
+        int argbColorFromCeaColor = CueInfoBuilder.getArgbColorFromCeaColor(this.captionChannelPacketData.readBits(2), this.captionChannelPacketData.readBits(2), this.captionChannelPacketData.readBits(2), this.captionChannelPacketData.readBits(2));
+        int readBits = this.captionChannelPacketData.readBits(2);
+        int argbColorFromCeaColor2 = CueInfoBuilder.getArgbColorFromCeaColor(this.captionChannelPacketData.readBits(2), this.captionChannelPacketData.readBits(2), this.captionChannelPacketData.readBits(2));
+        if (this.captionChannelPacketData.readBit()) {
             readBits |= 4;
         }
-        boolean readBit = this.serviceBlockPacket.readBit();
-        int readBits2 = this.serviceBlockPacket.readBits(2);
-        int readBits3 = this.serviceBlockPacket.readBits(2);
-        int readBits4 = this.serviceBlockPacket.readBits(2);
-        this.serviceBlockPacket.skipBits(8);
-        this.currentCueBuilder.setWindowAttributes(argbColorFromCeaColor, argbColorFromCeaColor2, readBit, readBits, readBits2, readBits3, readBits4);
+        boolean readBit = this.captionChannelPacketData.readBit();
+        int readBits2 = this.captionChannelPacketData.readBits(2);
+        int readBits3 = this.captionChannelPacketData.readBits(2);
+        int readBits4 = this.captionChannelPacketData.readBits(2);
+        this.captionChannelPacketData.skipBits(8);
+        this.currentCueInfoBuilder.setWindowAttributes(argbColorFromCeaColor, argbColorFromCeaColor2, readBit, readBits, readBits2, readBits3, readBits4);
     }
 
     private void handleDefineWindow(int i) {
-        CueBuilder cueBuilder = this.cueBuilders[i];
-        this.serviceBlockPacket.skipBits(2);
-        boolean readBit = this.serviceBlockPacket.readBit();
-        boolean readBit2 = this.serviceBlockPacket.readBit();
-        boolean readBit3 = this.serviceBlockPacket.readBit();
-        int readBits = this.serviceBlockPacket.readBits(3);
-        boolean readBit4 = this.serviceBlockPacket.readBit();
-        int readBits2 = this.serviceBlockPacket.readBits(7);
-        int readBits3 = this.serviceBlockPacket.readBits(8);
-        int readBits4 = this.serviceBlockPacket.readBits(4);
-        int readBits5 = this.serviceBlockPacket.readBits(4);
-        this.serviceBlockPacket.skipBits(2);
-        int readBits6 = this.serviceBlockPacket.readBits(6);
-        this.serviceBlockPacket.skipBits(2);
-        cueBuilder.defineWindow(readBit, readBit2, readBit3, readBits, readBit4, readBits2, readBits3, readBits5, readBits6, readBits4, this.serviceBlockPacket.readBits(3), this.serviceBlockPacket.readBits(3));
+        CueInfoBuilder cueInfoBuilder = this.cueInfoBuilders[i];
+        this.captionChannelPacketData.skipBits(2);
+        boolean readBit = this.captionChannelPacketData.readBit();
+        boolean readBit2 = this.captionChannelPacketData.readBit();
+        boolean readBit3 = this.captionChannelPacketData.readBit();
+        int readBits = this.captionChannelPacketData.readBits(3);
+        boolean readBit4 = this.captionChannelPacketData.readBit();
+        int readBits2 = this.captionChannelPacketData.readBits(7);
+        int readBits3 = this.captionChannelPacketData.readBits(8);
+        int readBits4 = this.captionChannelPacketData.readBits(4);
+        int readBits5 = this.captionChannelPacketData.readBits(4);
+        this.captionChannelPacketData.skipBits(2);
+        int readBits6 = this.captionChannelPacketData.readBits(6);
+        this.captionChannelPacketData.skipBits(2);
+        cueInfoBuilder.defineWindow(readBit, readBit2, readBit3, readBits, readBit4, readBits2, readBits3, readBits5, readBits6, readBits4, this.captionChannelPacketData.readBits(3), this.captionChannelPacketData.readBits(3));
     }
 
     private List<Cue> getDisplayCues() {
+        Cea708CueInfo build;
         ArrayList arrayList = new ArrayList();
         for (int i = 0; i < 8; i++) {
-            if (!this.cueBuilders[i].isEmpty() && this.cueBuilders[i].isVisible()) {
-                arrayList.add(this.cueBuilders[i].build());
+            if (!this.cueInfoBuilders[i].isEmpty() && this.cueInfoBuilders[i].isVisible() && (build = this.cueInfoBuilders[i].build()) != null) {
+                arrayList.add(build);
             }
         }
-        Collections.sort(arrayList);
-        return Collections.unmodifiableList(arrayList);
+        Collections.sort(arrayList, Cea708CueInfo.LEAST_IMPORTANT_FIRST);
+        ArrayList arrayList2 = new ArrayList(arrayList.size());
+        for (int i2 = 0; i2 < arrayList.size(); i2++) {
+            arrayList2.add(((Cea708CueInfo) arrayList.get(i2)).cue);
+        }
+        return Collections.unmodifiableList(arrayList2);
     }
 
     private void resetCueBuilders() {
         for (int i = 0; i < 8; i++) {
-            this.cueBuilders[i].reset();
+            this.cueInfoBuilders[i].reset();
         }
     }
 
@@ -551,7 +581,7 @@ public final class Cea708Decoder extends CeaDecoder {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static final class CueBuilder {
+    public static final class CueInfoBuilder {
         public static final int COLOR_SOLID_BLACK;
         public static final int COLOR_SOLID_WHITE = getArgbColorFromCeaColor(2, 2, 2, 0);
         public static final int COLOR_TRANSPARENT;
@@ -601,7 +631,7 @@ public final class Cea708Decoder extends CeaDecoder {
             PEN_STYLE_BACKGROUND = new int[]{argbColorFromCeaColor, argbColorFromCeaColor, argbColorFromCeaColor, argbColorFromCeaColor, argbColorFromCeaColor, argbColorFromCeaColor2, argbColorFromCeaColor2};
         }
 
-        public CueBuilder() {
+        public CueInfoBuilder() {
             reset();
         }
 
@@ -797,7 +827,7 @@ public final class Cea708Decoder extends CeaDecoder {
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public Cea708Cue build() {
+        public Cea708CueInfo build() {
             Layout.Alignment alignment;
             float f;
             float f2;
@@ -833,17 +863,17 @@ public final class Cea708Decoder extends CeaDecoder {
                 float f3 = (f * 0.9f) + 0.05f;
                 float f4 = (f2 * 0.9f) + 0.05f;
                 i = this.anchorId;
-                if (i % 3 != 0) {
+                if (i / 3 != 0) {
                     i2 = 0;
                 } else {
-                    i2 = i % 3 == 1 ? 1 : 2;
+                    i2 = i / 3 == 1 ? 1 : 2;
                 }
-                if (i / 3 != 0) {
+                if (i % 3 != 0) {
                     i3 = 0;
                 } else {
-                    i3 = i / 3 == 1 ? 1 : 2;
+                    i3 = i % 3 == 1 ? 1 : 2;
                 }
-                return new Cea708Cue(spannableStringBuilder, alignment2, f4, 0, i2, f3, i3, -3.4028235E38f, this.windowFillColor != COLOR_SOLID_BLACK, this.windowFillColor, this.priority);
+                return new Cea708CueInfo(spannableStringBuilder, alignment2, f4, 0, i2, f3, i3, -3.4028235E38f, this.windowFillColor != COLOR_SOLID_BLACK, this.windowFillColor, this.priority);
             }
             alignment = Layout.Alignment.ALIGN_NORMAL;
             Layout.Alignment alignment22 = alignment;
@@ -852,11 +882,11 @@ public final class Cea708Decoder extends CeaDecoder {
             float f32 = (f * 0.9f) + 0.05f;
             float f42 = (f2 * 0.9f) + 0.05f;
             i = this.anchorId;
-            if (i % 3 != 0) {
-            }
             if (i / 3 != 0) {
             }
-            return new Cea708Cue(spannableStringBuilder, alignment22, f42, 0, i2, f32, i3, -3.4028235E38f, this.windowFillColor != COLOR_SOLID_BLACK, this.windowFillColor, this.priority);
+            if (i % 3 != 0) {
+            }
+            return new Cea708CueInfo(spannableStringBuilder, alignment22, f42, 0, i2, f32, i3, -3.4028235E38f, this.windowFillColor != COLOR_SOLID_BLACK, this.windowFillColor, this.priority);
         }
 
         public static int getArgbColorFromCeaColor(int i, int i2, int i3) {
@@ -887,6 +917,28 @@ public final class Cea708Decoder extends CeaDecoder {
             }
             i5 = 255;
             return Color.argb(i5, i <= 1 ? 255 : 0, i2 <= 1 ? 255 : 0, i3 > 1 ? 255 : 0);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static final class Cea708CueInfo {
+        private static final Comparator<Cea708CueInfo> LEAST_IMPORTANT_FIRST = Cea708Decoder$Cea708CueInfo$$ExternalSyntheticLambda0.INSTANCE;
+        public final Cue cue;
+        public final int priority;
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ int lambda$static$0(Cea708CueInfo cea708CueInfo, Cea708CueInfo cea708CueInfo2) {
+            return Integer.compare(cea708CueInfo2.priority, cea708CueInfo.priority);
+        }
+
+        public Cea708CueInfo(CharSequence charSequence, Layout.Alignment alignment, float f, int i, int i2, float f2, int i3, float f3, boolean z, int i4, int i5) {
+            Cue.Builder size = new Cue.Builder().setText(charSequence).setTextAlignment(alignment).setLine(f, i).setLineAnchor(i2).setPosition(f2).setPositionAnchor(i3).setSize(f3);
+            if (z) {
+                size.setWindowColor(i4);
+            }
+            this.cue = size.build();
+            this.priority = i5;
         }
     }
 }

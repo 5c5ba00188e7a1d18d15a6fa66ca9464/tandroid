@@ -27,7 +27,7 @@ public final class Ac4Util {
 
     public static Format parseAc4AnnexEFormat(ParsableByteArray parsableByteArray, String str, String str2, DrmInitData drmInitData) {
         parsableByteArray.skipBytes(1);
-        return Format.createAudioSampleFormat(str, "audio/ac4", null, -1, -1, 2, ((parsableByteArray.readUnsignedByte() & 32) >> 5) == 1 ? 48000 : 44100, null, drmInitData, 0, str2);
+        return new Format.Builder().setId(str).setSampleMimeType("audio/ac4").setChannelCount(2).setSampleRate(((parsableByteArray.readUnsignedByte() & 32) >> 5) == 1 ? 48000 : 44100).setDrmInitData(drmInitData).setLanguage(str2).build();
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:38:0x0086, code lost:
@@ -132,14 +132,14 @@ public final class Ac4Util {
 
     public static void getAc4SampleHeader(int i, ParsableByteArray parsableByteArray) {
         parsableByteArray.reset(7);
-        byte[] bArr = parsableByteArray.data;
-        bArr[0] = -84;
-        bArr[1] = 64;
-        bArr[2] = -1;
-        bArr[3] = -1;
-        bArr[4] = (byte) ((i >> 16) & 255);
-        bArr[5] = (byte) ((i >> 8) & 255);
-        bArr[6] = (byte) (i & 255);
+        byte[] data = parsableByteArray.getData();
+        data[0] = -84;
+        data[1] = 64;
+        data[2] = -1;
+        data[3] = -1;
+        data[4] = (byte) ((i >> 16) & 255);
+        data[5] = (byte) ((i >> 8) & 255);
+        data[6] = (byte) (i & 255);
     }
 
     private static int readVariableBits(ParsableBitArray parsableBitArray, int i) {

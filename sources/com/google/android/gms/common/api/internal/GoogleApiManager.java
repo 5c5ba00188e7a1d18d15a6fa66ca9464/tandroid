@@ -31,22 +31,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.annotation.concurrent.GuardedBy;
-import org.checkerframework.checker.initialization.qual.NotOnlyInitialized;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public class GoogleApiManager implements Handler.Callback {
     public static final Status zaa = new Status(4, "Sign-out occurred while this API call was in progress.");
     private static final Status zab = new Status(4, "The user must be signed in to make this API call.");
     private static final Object zac = new Object();
-    @GuardedBy("lock")
     private static GoogleApiManager zad;
     private TelemetryData zai;
     private TelemetryLoggingClient zaj;
     private final Context zak;
     private final GoogleApiAvailability zal;
     private final com.google.android.gms.common.internal.zal zam;
-    @NotOnlyInitialized
     private final Handler zat;
     private volatile boolean zau;
     private long zae = 5000;
@@ -56,9 +52,7 @@ public class GoogleApiManager implements Handler.Callback {
     private final AtomicInteger zan = new AtomicInteger(1);
     private final AtomicInteger zao = new AtomicInteger(0);
     private final Map zap = new ConcurrentHashMap(5, 0.75f, 1);
-    @GuardedBy("lock")
     private zaae zaq = null;
-    @GuardedBy("lock")
     private final Set zar = new ArraySet();
     private final Set zas = new ArraySet();
 

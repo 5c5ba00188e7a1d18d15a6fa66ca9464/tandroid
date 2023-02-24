@@ -2684,7 +2684,16 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             }
             return onItemLongClick(((SharedDocumentCell) view).getMessage(), view, 0);
         } else {
-            return onMemberClick(!this.chatUsersAdapter.sortedUsers.isEmpty() ? this.chatUsersAdapter.chatInfo.participants.participants.get(((Integer) this.chatUsersAdapter.sortedUsers.get(i)).intValue()) : this.chatUsersAdapter.chatInfo.participants.participants.get(i), true);
+            if (!this.chatUsersAdapter.sortedUsers.isEmpty()) {
+                if (i >= this.chatUsersAdapter.sortedUsers.size()) {
+                    return false;
+                }
+                i = ((Integer) this.chatUsersAdapter.sortedUsers.get(i)).intValue();
+            }
+            if (i < 0 || i >= this.chatUsersAdapter.chatInfo.participants.participants.size()) {
+                return false;
+            }
+            return onMemberClick(this.chatUsersAdapter.chatInfo.participants.participants.get(i), true);
         }
     }
 

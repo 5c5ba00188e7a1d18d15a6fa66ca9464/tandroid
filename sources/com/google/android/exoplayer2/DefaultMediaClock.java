@@ -1,24 +1,25 @@
 package com.google.android.exoplayer2;
 
+import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Clock;
 import com.google.android.exoplayer2.util.MediaClock;
 import com.google.android.exoplayer2.util.StandaloneMediaClock;
 /* loaded from: classes.dex */
 final class DefaultMediaClock implements MediaClock {
     private boolean isUsingStandaloneClock = true;
-    private final PlaybackParameterListener listener;
+    private final PlaybackParametersListener listener;
     private MediaClock rendererClock;
     private Renderer rendererClockSource;
     private final StandaloneMediaClock standaloneClock;
     private boolean standaloneClockIsStarted;
 
     /* loaded from: classes.dex */
-    public interface PlaybackParameterListener {
+    public interface PlaybackParametersListener {
         void onPlaybackParametersChanged(PlaybackParameters playbackParameters);
     }
 
-    public DefaultMediaClock(PlaybackParameterListener playbackParameterListener, Clock clock) {
-        this.listener = playbackParameterListener;
+    public DefaultMediaClock(PlaybackParametersListener playbackParametersListener, Clock clock) {
+        this.listener = playbackParametersListener;
         this.standaloneClock = new StandaloneMediaClock(clock);
     }
 
@@ -65,7 +66,10 @@ final class DefaultMediaClock implements MediaClock {
 
     @Override // com.google.android.exoplayer2.util.MediaClock
     public long getPositionUs() {
-        return this.isUsingStandaloneClock ? this.standaloneClock.getPositionUs() : this.rendererClock.getPositionUs();
+        if (this.isUsingStandaloneClock) {
+            return this.standaloneClock.getPositionUs();
+        }
+        return ((MediaClock) Assertions.checkNotNull(this.rendererClock)).getPositionUs();
     }
 
     @Override // com.google.android.exoplayer2.util.MediaClock
@@ -96,7 +100,8 @@ final class DefaultMediaClock implements MediaClock {
             }
             return;
         }
-        long positionUs = this.rendererClock.getPositionUs();
+        MediaClock mediaClock = (MediaClock) Assertions.checkNotNull(this.rendererClock);
+        long positionUs = mediaClock.getPositionUs();
         if (this.isUsingStandaloneClock) {
             if (positionUs < this.standaloneClock.getPositionUs()) {
                 this.standaloneClock.stop();
@@ -108,7 +113,7 @@ final class DefaultMediaClock implements MediaClock {
             }
         }
         this.standaloneClock.resetPosition(positionUs);
-        PlaybackParameters playbackParameters = this.rendererClock.getPlaybackParameters();
+        PlaybackParameters playbackParameters = mediaClock.getPlaybackParameters();
         if (playbackParameters.equals(this.standaloneClock.getPlaybackParameters())) {
             return;
         }

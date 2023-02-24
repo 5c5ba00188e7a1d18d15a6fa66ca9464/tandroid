@@ -2,11 +2,10 @@ package com.google.android.gms.internal.location;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.CheckForNull;
 /* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class zzdn {
-    public static String zza(@CheckForNull String str, @CheckForNull Object... objArr) {
+    public static String zza(String str, Object... objArr) {
         int length;
         int length2;
         int indexOf;

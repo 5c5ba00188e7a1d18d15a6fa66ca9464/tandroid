@@ -691,7 +691,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
         TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant;
         TLRPC$TL_groupCallParticipantVideo tLRPC$TL_groupCallParticipantVideo;
         TLRPC$TL_groupCallParticipantVideo tLRPC$TL_groupCallParticipantVideo2;
-        boolean z = true;
+        boolean z = false;
         if (VoIPService.getSharedInstance() != null && VoIPService.getSharedInstance().groupCall != null && !VoIPService.getSharedInstance().groupCall.visibleVideoParticipants.isEmpty()) {
             TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant2 = VoIPService.getSharedInstance().groupCall.visibleVideoParticipants.get(0).participant;
             TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant3 = this.boundParticipant;
@@ -721,11 +721,13 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
                 this.boundParticipant = tLRPC$TL_groupCallParticipant2;
             }
         } else if (this.boundParticipant != null) {
-            VoIPService.getSharedInstance().removeRemoteSink(this.boundParticipant, false);
+            if (VoIPService.getSharedInstance() != null) {
+                VoIPService.getSharedInstance().removeRemoteSink(this.boundParticipant, false);
+            }
             this.boundParticipant = null;
         }
-        if (this.firstFrameRendered && (tLRPC$TL_groupCallParticipant = this.boundParticipant) != null && (((tLRPC$TL_groupCallParticipantVideo = tLRPC$TL_groupCallParticipant.video) != null || tLRPC$TL_groupCallParticipant.presentation != null) && ((tLRPC$TL_groupCallParticipantVideo == null || !tLRPC$TL_groupCallParticipantVideo.paused) && ((tLRPC$TL_groupCallParticipantVideo2 = tLRPC$TL_groupCallParticipant.presentation) == null || !tLRPC$TL_groupCallParticipantVideo2.paused)))) {
-            z = false;
+        if (!this.firstFrameRendered || (tLRPC$TL_groupCallParticipant = this.boundParticipant) == null || (((tLRPC$TL_groupCallParticipantVideo = tLRPC$TL_groupCallParticipant.video) == null && tLRPC$TL_groupCallParticipant.presentation == null) || ((tLRPC$TL_groupCallParticipantVideo != null && tLRPC$TL_groupCallParticipantVideo.paused) || ((tLRPC$TL_groupCallParticipantVideo2 = tLRPC$TL_groupCallParticipant.presentation) != null && tLRPC$TL_groupCallParticipantVideo2.paused)))) {
+            z = true;
         }
         if (this.placeholderShown != z) {
             this.flickerView.animate().cancel();

@@ -1,31 +1,52 @@
 package com.google.android.exoplayer2.video;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.os.Bundle;
+import com.google.android.exoplayer2.Bundleable;
 import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 /* loaded from: classes.dex */
-public final class ColorInfo implements Parcelable {
-    public static final Parcelable.Creator<ColorInfo> CREATOR = new Parcelable.Creator<ColorInfo>() { // from class: com.google.android.exoplayer2.video.ColorInfo.1
-        @Override // android.os.Parcelable.Creator
-        public ColorInfo createFromParcel(Parcel parcel) {
-            return new ColorInfo(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public ColorInfo[] newArray(int i) {
-            return new ColorInfo[i];
-        }
-    };
+public final class ColorInfo implements Bundleable {
+    public static final Bundleable.Creator<ColorInfo> CREATOR;
+    private static final String FIELD_COLOR_RANGE;
+    private static final String FIELD_COLOR_SPACE;
+    private static final String FIELD_COLOR_TRANSFER;
+    private static final String FIELD_HDR_STATIC_INFO;
     public final int colorRange;
     public final int colorSpace;
     public final int colorTransfer;
     private int hashCode;
     public final byte[] hdrStaticInfo;
 
-    @Override // android.os.Parcelable
-    public int describeContents() {
-        return 0;
+    public static int isoColorPrimariesToColorSpace(int i) {
+        if (i != 1) {
+            if (i != 9) {
+                return (i == 4 || i == 5 || i == 6 || i == 7) ? 2 : -1;
+            }
+            return 6;
+        }
+        return 1;
+    }
+
+    public static int isoTransferCharacteristicsToColorTransfer(int i) {
+        if (i != 1) {
+            if (i != 16) {
+                if (i != 18) {
+                    return (i == 6 || i == 7) ? 3 : -1;
+                }
+                return 7;
+            }
+            return 6;
+        }
+        return 3;
+    }
+
+    static {
+        new ColorInfo(1, 2, 3, null);
+        FIELD_COLOR_SPACE = Util.intToStringMaxRadix(0);
+        FIELD_COLOR_RANGE = Util.intToStringMaxRadix(1);
+        FIELD_COLOR_TRANSFER = Util.intToStringMaxRadix(2);
+        FIELD_HDR_STATIC_INFO = Util.intToStringMaxRadix(3);
+        CREATOR = ColorInfo$$ExternalSyntheticLambda0.INSTANCE;
     }
 
     public ColorInfo(int i, int i2, int i3, byte[] bArr) {
@@ -33,13 +54,6 @@ public final class ColorInfo implements Parcelable {
         this.colorRange = i2;
         this.colorTransfer = i3;
         this.hdrStaticInfo = bArr;
-    }
-
-    ColorInfo(Parcel parcel) {
-        this.colorSpace = parcel.readInt();
-        this.colorRange = parcel.readInt();
-        this.colorTransfer = parcel.readInt();
-        this.hdrStaticInfo = Util.readBoolean(parcel) ? parcel.createByteArray() : null;
     }
 
     public boolean equals(Object obj) {
@@ -74,15 +88,18 @@ public final class ColorInfo implements Parcelable {
         return this.hashCode;
     }
 
-    @Override // android.os.Parcelable
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(this.colorSpace);
-        parcel.writeInt(this.colorRange);
-        parcel.writeInt(this.colorTransfer);
-        Util.writeBoolean(parcel, this.hdrStaticInfo != null);
-        byte[] bArr = this.hdrStaticInfo;
-        if (bArr != null) {
-            parcel.writeByteArray(bArr);
-        }
+    @Override // com.google.android.exoplayer2.Bundleable
+    public Bundle toBundle() {
+        Bundle bundle = new Bundle();
+        bundle.putInt(FIELD_COLOR_SPACE, this.colorSpace);
+        bundle.putInt(FIELD_COLOR_RANGE, this.colorRange);
+        bundle.putInt(FIELD_COLOR_TRANSFER, this.colorTransfer);
+        bundle.putByteArray(FIELD_HDR_STATIC_INFO, this.hdrStaticInfo);
+        return bundle;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ ColorInfo lambda$static$0(Bundle bundle) {
+        return new ColorInfo(bundle.getInt(FIELD_COLOR_SPACE, -1), bundle.getInt(FIELD_COLOR_RANGE, -1), bundle.getInt(FIELD_COLOR_TRANSFER, -1), bundle.getByteArray(FIELD_HDR_STATIC_INFO));
     }
 }

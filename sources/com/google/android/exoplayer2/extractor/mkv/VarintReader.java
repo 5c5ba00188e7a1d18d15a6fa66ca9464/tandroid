@@ -14,7 +14,7 @@ final class VarintReader {
         this.length = 0;
     }
 
-    public long readUnsignedVarint(ExtractorInput extractorInput, boolean z, boolean z2, int i) throws IOException, InterruptedException {
+    public long readUnsignedVarint(ExtractorInput extractorInput, boolean z, boolean z2, int i) throws IOException {
         if (this.state == 0) {
             if (!extractorInput.readFully(this.scratch, 0, 1, z)) {
                 return -1L;

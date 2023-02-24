@@ -16,7 +16,7 @@ public final class AudioFocusManager {
     private AudioAttributes audioAttributes;
     private AudioFocusRequest audioFocusRequest;
     private final AudioManager audioManager;
-    private int focusGain;
+    private int focusGainToRequest;
     private final AudioFocusListener focusListener;
     private PlayerControl playerControl;
     private boolean rebuildAudioFocusRequest;
@@ -31,7 +31,7 @@ public final class AudioFocusManager {
     }
 
     public AudioFocusManager(Context context, Handler handler, PlayerControl playerControl) {
-        this.audioManager = (AudioManager) context.getApplicationContext().getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
+        this.audioManager = (AudioManager) Assertions.checkNotNull((AudioManager) context.getApplicationContext().getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND));
         this.playerControl = playerControl;
         this.focusListener = new AudioFocusListener(handler);
     }
@@ -46,7 +46,7 @@ public final class AudioFocusManager {
         }
         this.audioAttributes = audioAttributes;
         int convertAudioAttributesToFocusGain = convertAudioAttributesToFocusGain(audioAttributes);
-        this.focusGain = convertAudioAttributesToFocusGain;
+        this.focusGainToRequest = convertAudioAttributesToFocusGain;
         boolean z = true;
         if (convertAudioAttributesToFocusGain != 1 && convertAudioAttributesToFocusGain != 0) {
             z = false;
@@ -55,8 +55,8 @@ public final class AudioFocusManager {
     }
 
     public int updateAudioFocus(boolean z, int i) {
-        if (shouldAbandonAudioFocus(i)) {
-            abandonAudioFocus();
+        if (shouldAbandonAudioFocusIfHeld(i)) {
+            abandonAudioFocusIfHeld();
             return z ? 1 : -1;
         } else if (z) {
             return requestAudioFocus();
@@ -67,11 +67,11 @@ public final class AudioFocusManager {
 
     public void release() {
         this.playerControl = null;
-        abandonAudioFocus();
+        abandonAudioFocusIfHeld();
     }
 
-    private boolean shouldAbandonAudioFocus(int i) {
-        return i == 1 || this.focusGain != 1;
+    private boolean shouldAbandonAudioFocusIfHeld(int i) {
+        return i == 1 || this.focusGainToRequest != 1;
     }
 
     private int requestAudioFocus() {
@@ -86,7 +86,7 @@ public final class AudioFocusManager {
         return -1;
     }
 
-    private void abandonAudioFocus() {
+    private void abandonAudioFocusIfHeld() {
         if (this.audioFocusState == 0) {
             return;
         }
@@ -99,7 +99,7 @@ public final class AudioFocusManager {
     }
 
     private int requestAudioFocusDefault() {
-        return this.audioManager.requestAudioFocus(this.focusListener, Util.getStreamTypeForAudioUsage(((AudioAttributes) Assertions.checkNotNull(this.audioAttributes)).usage), this.focusGain);
+        return this.audioManager.requestAudioFocus(this.focusListener, Util.getStreamTypeForAudioUsage(((AudioAttributes) Assertions.checkNotNull(this.audioAttributes)).usage), this.focusGainToRequest);
     }
 
     private int requestAudioFocusV26() {
@@ -107,11 +107,11 @@ public final class AudioFocusManager {
         AudioFocusRequest audioFocusRequest = this.audioFocusRequest;
         if (audioFocusRequest == null || this.rebuildAudioFocusRequest) {
             if (audioFocusRequest == null) {
-                builder = new AudioFocusRequest.Builder(this.focusGain);
+                builder = new AudioFocusRequest.Builder(this.focusGainToRequest);
             } else {
                 builder = new AudioFocusRequest.Builder(this.audioFocusRequest);
             }
-            this.audioFocusRequest = builder.setAudioAttributes(((AudioAttributes) Assertions.checkNotNull(this.audioAttributes)).getAudioAttributesV21()).setWillPauseWhenDucked(willPauseWhenDucked()).setOnAudioFocusChangeListener(this.focusListener).build();
+            this.audioFocusRequest = builder.setAudioAttributes(((AudioAttributes) Assertions.checkNotNull(this.audioAttributes)).getAudioAttributesV21().audioAttributes).setWillPauseWhenDucked(willPauseWhenDucked()).setOnAudioFocusChangeListener(this.focusListener).build();
             this.rebuildAudioFocusRequest = false;
         }
         return this.audioManager.requestAudioFocus(this.audioFocusRequest);
@@ -201,7 +201,7 @@ public final class AudioFocusManager {
             setAudioFocusState(3);
         } else if (i == -1) {
             executePlayerCommand(-1);
-            abandonAudioFocus();
+            abandonAudioFocusIfHeld();
         } else if (i == 1) {
             setAudioFocusState(1);
             executePlayerCommand(1);

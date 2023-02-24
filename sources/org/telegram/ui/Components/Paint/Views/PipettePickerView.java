@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.core.util.Consumer;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.Utilities;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 /* loaded from: classes.dex */
 public class PipettePickerView extends View {
@@ -166,7 +167,8 @@ public class PipettePickerView extends View {
         float height = this.positionY * getHeight();
         int round = Math.round(this.positionX * this.bitmap.getWidth());
         int round2 = Math.round(this.positionY * this.bitmap.getHeight());
-        int pixel = this.bitmap.getPixel(round, round2);
+        Bitmap bitmap = this.bitmap;
+        int pixel = bitmap.getPixel(Utilities.clamp(round, bitmap.getWidth(), 0), Utilities.clamp(round2, this.bitmap.getHeight(), 0));
         this.mColor = pixel;
         this.colorPaint.setColor(pixel);
         float f = this.appearProgress;

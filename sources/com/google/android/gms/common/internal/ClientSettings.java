@@ -6,17 +6,14 @@ import androidx.collection.ArraySet;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.signin.SignInOptions;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.Nullable;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class ClientSettings {
-    @Nullable
     private final Account zaa;
     private final Set zab;
     private final Set zac;
@@ -29,7 +26,6 @@ public final class ClientSettings {
     /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
     /* loaded from: classes.dex */
     public static final class Builder {
-        @Nullable
         private Account zaa;
         private ArraySet zab;
         private String zac;
@@ -40,13 +36,11 @@ public final class ClientSettings {
             return new ClientSettings(this.zaa, this.zab, null, 0, null, this.zac, this.zad, this.zae, false);
         }
 
-        @CanIgnoreReturnValue
         public Builder setRealClientPackageName(String str) {
             this.zac = str;
             return this;
         }
 
-        @CanIgnoreReturnValue
         public final Builder zaa(Collection collection) {
             if (this.zab == null) {
                 this.zab = new ArraySet();
@@ -55,13 +49,11 @@ public final class ClientSettings {
             return this;
         }
 
-        @CanIgnoreReturnValue
-        public final Builder zab(@Nullable Account account) {
+        public final Builder zab(Account account) {
             this.zaa = account;
             return this;
         }
 
-        @CanIgnoreReturnValue
         public final Builder zac(String str) {
             this.zad = str;
             return this;
@@ -128,7 +120,7 @@ public final class ClientSettings {
         this.zaj = num;
     }
 
-    public ClientSettings(@Nullable Account account, Set set, Map map, int i, @Nullable View view, String str, String str2, @Nullable SignInOptions signInOptions, boolean z) {
+    public ClientSettings(Account account, Set set, Map map, int i, View view, String str, String str2, SignInOptions signInOptions, boolean z) {
         this.zaa = account;
         Set emptySet = set == null ? Collections.emptySet() : Collections.unmodifiableSet(set);
         this.zab = emptySet;

@@ -2,16 +2,17 @@ package com.google.android.exoplayer2.ext.flac;
 
 import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.decoder.DecoderInputBuffer;
+import com.google.android.exoplayer2.decoder.DecoderOutputBuffer;
 import com.google.android.exoplayer2.decoder.SimpleDecoder;
-import com.google.android.exoplayer2.decoder.SimpleOutputBuffer;
+import com.google.android.exoplayer2.decoder.SimpleDecoderOutputBuffer;
 import com.google.android.exoplayer2.ext.flac.FlacDecoderJni;
-import com.google.android.exoplayer2.util.FlacStreamMetadata;
+import com.google.android.exoplayer2.extractor.FlacStreamMetadata;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.List;
 /* loaded from: classes.dex */
-final class FlacDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutputBuffer, FlacDecoderException> {
+public final class FlacDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleDecoderOutputBuffer, FlacDecoderException> {
     private final FlacDecoderJni decoderJni;
     private final FlacStreamMetadata streamMetadata;
 
@@ -21,7 +22,7 @@ final class FlacDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutputBu
     }
 
     public FlacDecoder(int i, int i2, int i3, List<byte[]> list) throws FlacDecoderException {
-        super(new DecoderInputBuffer[i], new SimpleOutputBuffer[i2]);
+        super(new DecoderInputBuffer[i], new SimpleDecoderOutputBuffer[i2]);
         if (list.size() != 1) {
             throw new FlacDecoderException("Initialization data must be of length 1");
         }
@@ -35,11 +36,7 @@ final class FlacDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutputBu
         } catch (ParserException e) {
             throw new FlacDecoderException("Failed to decode StreamInfo", e);
         } catch (IOException e2) {
-            e = e2;
-            throw new IllegalStateException(e);
-        } catch (InterruptedException e3) {
-            e = e3;
-            throw new IllegalStateException(e);
+            throw new IllegalStateException(e2);
         }
     }
 
@@ -50,8 +47,13 @@ final class FlacDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutputBu
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.decoder.SimpleDecoder
-    public SimpleOutputBuffer createOutputBuffer() {
-        return new SimpleOutputBuffer(this);
+    public SimpleDecoderOutputBuffer createOutputBuffer() {
+        return new SimpleDecoderOutputBuffer(new DecoderOutputBuffer.Owner() { // from class: com.google.android.exoplayer2.ext.flac.FlacDecoder$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.decoder.DecoderOutputBuffer.Owner
+            public final void releaseOutputBuffer(DecoderOutputBuffer decoderOutputBuffer) {
+                FlacDecoder.this.releaseOutputBuffer((SimpleDecoderOutputBuffer) decoderOutputBuffer);
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -62,22 +64,18 @@ final class FlacDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutputBu
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.decoder.SimpleDecoder
-    public FlacDecoderException decode(DecoderInputBuffer decoderInputBuffer, SimpleOutputBuffer simpleOutputBuffer, boolean z) {
+    public FlacDecoderException decode(DecoderInputBuffer decoderInputBuffer, SimpleDecoderOutputBuffer simpleDecoderOutputBuffer, boolean z) {
         if (z) {
             this.decoderJni.flush();
         }
         this.decoderJni.setData((ByteBuffer) Util.castNonNull(decoderInputBuffer.data));
         try {
-            this.decoderJni.decodeSample(simpleOutputBuffer.init(decoderInputBuffer.timeUs, this.streamMetadata.getMaxDecodedFrameSize()));
+            this.decoderJni.decodeSample(simpleDecoderOutputBuffer.init(decoderInputBuffer.timeUs, this.streamMetadata.getMaxDecodedFrameSize()));
             return null;
         } catch (FlacDecoderJni.FlacFrameDecodeException e) {
             return new FlacDecoderException("Frame decoding failed", e);
         } catch (IOException e2) {
-            e = e2;
-            throw new IllegalStateException(e);
-        } catch (InterruptedException e3) {
-            e = e3;
-            throw new IllegalStateException(e);
+            throw new IllegalStateException(e2);
         }
     }
 

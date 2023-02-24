@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.metadata.id3;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.google.android.exoplayer2.MediaMetadata;
 import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 /* loaded from: classes.dex */
@@ -36,6 +37,11 @@ public final class ApicFrame extends Id3Frame {
         this.description = parcel.readString();
         this.pictureType = parcel.readInt();
         this.pictureData = (byte[]) Util.castNonNull(parcel.createByteArray());
+    }
+
+    @Override // com.google.android.exoplayer2.metadata.id3.Id3Frame, com.google.android.exoplayer2.metadata.Metadata.Entry
+    public void populateMediaMetadata(MediaMetadata.Builder builder) {
+        builder.maybeSetArtworkData(this.pictureData, this.pictureType);
     }
 
     public boolean equals(Object obj) {

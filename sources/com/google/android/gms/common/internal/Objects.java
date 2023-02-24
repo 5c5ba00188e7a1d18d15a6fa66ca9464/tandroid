@@ -1,7 +1,6 @@
 package com.google.android.gms.common.internal;
 
 import android.os.Bundle;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +21,6 @@ public final class Objects {
             this.zza = new ArrayList();
         }
 
-        @CanIgnoreReturnValue
         public ToStringHelper add(String str, Object obj) {
             List list = this.zza;
             Preconditions.checkNotNull(str);

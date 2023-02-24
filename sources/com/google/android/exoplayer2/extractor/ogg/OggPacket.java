@@ -1,12 +1,14 @@
 package com.google.android.exoplayer2.extractor.ogg;
 
 import com.google.android.exoplayer2.extractor.ExtractorInput;
+import com.google.android.exoplayer2.extractor.ExtractorUtil;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.io.IOException;
 import java.util.Arrays;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-final class OggPacket {
+public final class OggPacket {
     private boolean populated;
     private int segmentCount;
     private final OggPageHeader pageHeader = new OggPageHeader();
@@ -15,21 +17,21 @@ final class OggPacket {
 
     public void reset() {
         this.pageHeader.reset();
-        this.packetArray.reset();
+        this.packetArray.reset(0);
         this.currentSegmentIndex = -1;
         this.populated = false;
     }
 
-    public boolean populate(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    public boolean populate(ExtractorInput extractorInput) throws IOException {
         int i;
         Assertions.checkState(extractorInput != null);
         if (this.populated) {
             this.populated = false;
-            this.packetArray.reset();
+            this.packetArray.reset(0);
         }
         while (!this.populated) {
             if (this.currentSegmentIndex < 0) {
-                if (!this.pageHeader.populate(extractorInput, true)) {
+                if (!this.pageHeader.skipToNextPage(extractorInput) || !this.pageHeader.populate(extractorInput, true)) {
                     return false;
                 }
                 OggPageHeader oggPageHeader = this.pageHeader;
@@ -40,20 +42,21 @@ final class OggPacket {
                 } else {
                     i = 0;
                 }
-                extractorInput.skipFully(i2);
+                if (!ExtractorUtil.skipFullyQuietly(extractorInput, i2)) {
+                    return false;
+                }
                 this.currentSegmentIndex = i;
             }
             int calculatePacketSize = calculatePacketSize(this.currentSegmentIndex);
             int i3 = this.currentSegmentIndex + this.segmentCount;
             if (calculatePacketSize > 0) {
-                if (this.packetArray.capacity() < this.packetArray.limit() + calculatePacketSize) {
-                    ParsableByteArray parsableByteArray = this.packetArray;
-                    parsableByteArray.data = Arrays.copyOf(parsableByteArray.data, parsableByteArray.limit() + calculatePacketSize);
+                ParsableByteArray parsableByteArray = this.packetArray;
+                parsableByteArray.ensureCapacity(parsableByteArray.limit() + calculatePacketSize);
+                if (!ExtractorUtil.readFullyQuietly(extractorInput, this.packetArray.getData(), this.packetArray.limit(), calculatePacketSize)) {
+                    return false;
                 }
                 ParsableByteArray parsableByteArray2 = this.packetArray;
-                extractorInput.readFully(parsableByteArray2.data, parsableByteArray2.limit(), calculatePacketSize);
-                ParsableByteArray parsableByteArray3 = this.packetArray;
-                parsableByteArray3.setLimit(parsableByteArray3.limit() + calculatePacketSize);
+                parsableByteArray2.setLimit(parsableByteArray2.limit() + calculatePacketSize);
                 this.populated = this.pageHeader.laces[i3 + (-1)] != 255;
             }
             if (i3 == this.pageHeader.pageSegmentCount) {
@@ -73,12 +76,11 @@ final class OggPacket {
     }
 
     public void trimPayload() {
-        ParsableByteArray parsableByteArray = this.packetArray;
-        byte[] bArr = parsableByteArray.data;
-        if (bArr.length == 65025) {
+        if (this.packetArray.getData().length == 65025) {
             return;
         }
-        parsableByteArray.data = Arrays.copyOf(bArr, Math.max(65025, parsableByteArray.limit()));
+        ParsableByteArray parsableByteArray = this.packetArray;
+        parsableByteArray.reset(Arrays.copyOf(parsableByteArray.getData(), Math.max(65025, this.packetArray.limit())), this.packetArray.limit());
     }
 
     private int calculatePacketSize(int i) {

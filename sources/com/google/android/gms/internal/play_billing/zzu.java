@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
-import javax.annotation.CheckForNull;
 /* compiled from: com.android.billingclient:billing@@5.1.0 */
 /* loaded from: classes.dex */
 public abstract class zzu extends zzr implements List, RandomAccess {
@@ -59,12 +58,12 @@ public abstract class zzu extends zzr implements List, RandomAccess {
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzr, java.util.AbstractCollection, java.util.Collection, java.util.Set
-    public final boolean contains(@CheckForNull Object obj) {
+    public final boolean contains(Object obj) {
         return indexOf(obj) >= 0;
     }
 
     @Override // java.util.Collection, java.util.List
-    public final boolean equals(@CheckForNull Object obj) {
+    public final boolean equals(Object obj) {
         if (obj == this) {
             return true;
         }
@@ -110,7 +109,7 @@ public abstract class zzu extends zzr implements List, RandomAccess {
     }
 
     @Override // java.util.List
-    public final int indexOf(@CheckForNull Object obj) {
+    public final int indexOf(Object obj) {
         if (obj == null) {
             return -1;
         }
@@ -129,7 +128,7 @@ public abstract class zzu extends zzr implements List, RandomAccess {
     }
 
     @Override // java.util.List
-    public final int lastIndexOf(@CheckForNull Object obj) {
+    public final int lastIndexOf(Object obj) {
         if (obj == null) {
             return -1;
         }

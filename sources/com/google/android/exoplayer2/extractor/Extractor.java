@@ -5,11 +5,11 @@ import java.io.IOException;
 public interface Extractor {
     void init(ExtractorOutput extractorOutput);
 
-    int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException, InterruptedException;
+    int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException;
 
     void release();
 
     void seek(long j, long j2);
 
-    boolean sniff(ExtractorInput extractorInput) throws IOException, InterruptedException;
+    boolean sniff(ExtractorInput extractorInput) throws IOException;
 }

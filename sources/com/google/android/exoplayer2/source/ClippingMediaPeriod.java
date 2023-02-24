@@ -4,8 +4,9 @@ import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.FormatHolder;
 import com.google.android.exoplayer2.SeekParameters;
 import com.google.android.exoplayer2.decoder.DecoderInputBuffer;
+import com.google.android.exoplayer2.source.ClippingMediaSource;
 import com.google.android.exoplayer2.source.MediaPeriod;
-import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.ExoTrackSelection;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.Util;
@@ -13,6 +14,7 @@ import java.io.IOException;
 /* loaded from: classes.dex */
 public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
     private MediaPeriod.Callback callback;
+    private ClippingMediaSource.IllegalClippingException clippingError;
     long endUs;
     public final MediaPeriod mediaPeriod;
     private long pendingInitialDiscontinuityPositionUs;
@@ -26,6 +28,15 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
         this.endUs = j2;
     }
 
+    public void updateClipping(long j, long j2) {
+        this.startUs = j;
+        this.endUs = j2;
+    }
+
+    public void setClippingError(ClippingMediaSource.IllegalClippingException illegalClippingException) {
+        this.clippingError = illegalClippingException;
+    }
+
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     public void prepare(MediaPeriod.Callback callback, long j) {
         this.callback = callback;
@@ -34,6 +45,10 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     public void maybeThrowPrepareError() throws IOException {
+        ClippingMediaSource.IllegalClippingException illegalClippingException = this.clippingError;
+        if (illegalClippingException != null) {
+            throw illegalClippingException;
+        }
         this.mediaPeriod.maybeThrowPrepareError();
     }
 
@@ -51,7 +66,7 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public long selectTracks(TrackSelection[] trackSelectionArr, boolean[] zArr, SampleStream[] sampleStreamArr, boolean[] zArr2, long j) {
+    public long selectTracks(ExoTrackSelection[] exoTrackSelectionArr, boolean[] zArr, SampleStream[] sampleStreamArr, boolean[] zArr2, long j) {
         long j2;
         boolean z;
         this.sampleStreams = new ClippingSampleStream[sampleStreamArr.length];
@@ -70,10 +85,10 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
             sampleStreamArr2[i] = sampleStream;
             i++;
         }
-        long selectTracks = this.mediaPeriod.selectTracks(trackSelectionArr, zArr, sampleStreamArr2, zArr2, j);
+        long selectTracks = this.mediaPeriod.selectTracks(exoTrackSelectionArr, zArr, sampleStreamArr2, zArr2, j);
         if (isPendingInitialDiscontinuity()) {
             long j3 = this.startUs;
-            if (j == j3 && shouldKeepInitialDiscontinuity(j3, trackSelectionArr)) {
+            if (j == j3 && shouldKeepInitialDiscontinuity(j3, exoTrackSelectionArr)) {
                 j2 = selectTracks;
                 this.pendingInitialDiscontinuityPositionUs = j2;
                 if (selectTracks != j) {
@@ -223,6 +238,9 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod.Callback
     public void onPrepared(MediaPeriod mediaPeriod) {
+        if (this.clippingError != null) {
+            return;
+        }
         ((MediaPeriod.Callback) Assertions.checkNotNull(this.callback)).onPrepared(this);
     }
 
@@ -243,11 +261,14 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
         return (constrainValue == seekParameters.toleranceBeforeUs && constrainValue2 == seekParameters.toleranceAfterUs) ? seekParameters : new SeekParameters(constrainValue, constrainValue2);
     }
 
-    private static boolean shouldKeepInitialDiscontinuity(long j, TrackSelection[] trackSelectionArr) {
+    private static boolean shouldKeepInitialDiscontinuity(long j, ExoTrackSelection[] exoTrackSelectionArr) {
         if (j != 0) {
-            for (TrackSelection trackSelection : trackSelectionArr) {
-                if (trackSelection != null && !MimeTypes.isAudio(trackSelection.getSelectedFormat().sampleMimeType)) {
-                    return true;
+            for (ExoTrackSelection exoTrackSelection : exoTrackSelectionArr) {
+                if (exoTrackSelection != null) {
+                    Format selectedFormat = exoTrackSelection.getSelectedFormat();
+                    if (!MimeTypes.allSamplesAreSyncSamples(selectedFormat.sampleMimeType, selectedFormat.codecs)) {
+                        return true;
+                    }
                 }
             }
         }
@@ -278,7 +299,7 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
         }
 
         @Override // com.google.android.exoplayer2.source.SampleStream
-        public int readData(FormatHolder formatHolder, DecoderInputBuffer decoderInputBuffer, boolean z) {
+        public int readData(FormatHolder formatHolder, DecoderInputBuffer decoderInputBuffer, int i) {
             if (ClippingMediaPeriod.this.isPendingInitialDiscontinuity()) {
                 return -3;
             }
@@ -286,16 +307,16 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
                 decoderInputBuffer.setFlags(4);
                 return -4;
             }
-            int readData = this.childStream.readData(formatHolder, decoderInputBuffer, z);
+            int readData = this.childStream.readData(formatHolder, decoderInputBuffer, i);
             if (readData == -5) {
                 Format format = (Format) Assertions.checkNotNull(formatHolder.format);
-                int i = format.encoderDelay;
-                if (i != 0 || format.encoderPadding != 0) {
+                int i2 = format.encoderDelay;
+                if (i2 != 0 || format.encoderPadding != 0) {
                     ClippingMediaPeriod clippingMediaPeriod = ClippingMediaPeriod.this;
                     if (clippingMediaPeriod.startUs != 0) {
-                        i = 0;
+                        i2 = 0;
                     }
-                    formatHolder.format = format.copyWithGaplessInfo(i, clippingMediaPeriod.endUs == Long.MIN_VALUE ? format.encoderPadding : 0);
+                    formatHolder.format = format.buildUpon().setEncoderDelay(i2).setEncoderPadding(clippingMediaPeriod.endUs == Long.MIN_VALUE ? format.encoderPadding : 0).build();
                 }
                 return -5;
             }

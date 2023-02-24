@@ -9,7 +9,7 @@ public final class TimestampAdjusterProvider {
     public TimestampAdjuster getAdjuster(int i) {
         TimestampAdjuster timestampAdjuster = this.timestampAdjusters.get(i);
         if (timestampAdjuster == null) {
-            TimestampAdjuster timestampAdjuster2 = new TimestampAdjuster(Long.MAX_VALUE);
+            TimestampAdjuster timestampAdjuster2 = new TimestampAdjuster(9223372036854775806L);
             this.timestampAdjusters.put(i, timestampAdjuster2);
             return timestampAdjuster2;
         }

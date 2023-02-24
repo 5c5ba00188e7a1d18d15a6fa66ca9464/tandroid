@@ -1,5 +1,5 @@
 package org.webrtc;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class BuiltinAudioEncoderFactoryFactory implements AudioEncoderFactoryFactory {
     private static native long nativeCreateBuiltinAudioEncoderFactory();
 

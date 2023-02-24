@@ -1,12 +1,12 @@
 package com.google.android.exoplayer2.decoder;
 
+import com.google.android.exoplayer2.decoder.DecoderException;
 import com.google.android.exoplayer2.decoder.DecoderInputBuffer;
-import com.google.android.exoplayer2.decoder.OutputBuffer;
+import com.google.android.exoplayer2.decoder.DecoderOutputBuffer;
 import com.google.android.exoplayer2.util.Assertions;
-import java.lang.Exception;
 import java.util.ArrayDeque;
 /* loaded from: classes.dex */
-public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends OutputBuffer, E extends Exception> implements Decoder<I, O, E> {
+public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends DecoderOutputBuffer, E extends DecoderException> implements Decoder<I, O, E> {
     private int availableInputBufferCount;
     private final I[] availableInputBuffers;
     private int availableOutputBufferCount;
@@ -31,7 +31,7 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Outp
 
     /* JADX WARN: Multi-variable type inference failed */
     @Override // com.google.android.exoplayer2.decoder.Decoder
-    public /* bridge */ /* synthetic */ void queueInputBuffer(Object obj) throws Exception {
+    public /* bridge */ /* synthetic */ void queueInputBuffer(Object obj) throws DecoderException {
         queueInputBuffer((SimpleDecoder<I, O, E>) ((DecoderInputBuffer) obj));
     }
 
@@ -47,7 +47,7 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Outp
         for (int i2 = 0; i2 < this.availableOutputBufferCount; i2++) {
             this.availableOutputBuffers[i2] = createOutputBuffer();
         }
-        Thread thread = new Thread() { // from class: com.google.android.exoplayer2.decoder.SimpleDecoder.1
+        Thread thread = new Thread("ExoPlayer:SimpleDecoder") { // from class: com.google.android.exoplayer2.decoder.SimpleDecoder.1
             @Override // java.lang.Thread, java.lang.Runnable
             public void run() {
                 SimpleDecoder.this.run();
@@ -66,7 +66,7 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Outp
     }
 
     @Override // com.google.android.exoplayer2.decoder.Decoder
-    public final I dequeueInputBuffer() throws Exception {
+    public final I dequeueInputBuffer() throws DecoderException {
         I i;
         synchronized (this.lock) {
             maybeThrowException();
@@ -85,7 +85,7 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Outp
         return i;
     }
 
-    public final void queueInputBuffer(I i) throws Exception {
+    public final void queueInputBuffer(I i) throws DecoderException {
         synchronized (this.lock) {
             maybeThrowException();
             Assertions.checkArgument(i == this.dequeuedInputBuffer);
@@ -96,7 +96,7 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Outp
     }
 
     @Override // com.google.android.exoplayer2.decoder.Decoder
-    public final O dequeueOutputBuffer() throws Exception {
+    public final O dequeueOutputBuffer() throws DecoderException {
         synchronized (this.lock) {
             maybeThrowException();
             if (this.queuedOutputBuffers.isEmpty()) {
@@ -130,7 +130,6 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Outp
             while (!this.queuedOutputBuffers.isEmpty()) {
                 this.queuedOutputBuffers.removeFirst().release();
             }
-            this.exception = null;
         }
     }
 
@@ -147,7 +146,7 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Outp
         }
     }
 
-    private void maybeThrowException() throws Exception {
+    private void maybeThrowException() throws DecoderException {
         E e = this.exception;
         if (e != null) {
             throw e;
@@ -191,6 +190,9 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Outp
             } else {
                 if (removeFirst.isDecodeOnly()) {
                     o.addFlag(Integer.MIN_VALUE);
+                }
+                if (removeFirst.isFirstSample()) {
+                    o.addFlag(134217728);
                 }
                 try {
                     createUnexpectedDecodeException = decode(removeFirst, o, z);

@@ -348,6 +348,9 @@ public class ChatNotificationsPopupWrapper {
         this.popupWindow.setInputMethodMode(2);
         this.popupWindow.getContentView().setFocusableInTouchMode(true);
         while (view != baseFragment.getFragmentView()) {
+            if (view.getParent() == null) {
+                return;
+            }
             f += view.getX();
             f2 += view.getY();
             view = (View) view.getParent();

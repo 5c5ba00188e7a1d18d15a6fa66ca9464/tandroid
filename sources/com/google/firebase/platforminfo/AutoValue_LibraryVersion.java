@@ -1,7 +1,6 @@
 package com.google.firebase.platforminfo;
 
 import java.util.Objects;
-import javax.annotation.Nonnull;
 /* loaded from: classes.dex */
 final class AutoValue_LibraryVersion extends LibraryVersion {
     private final String libraryName;
@@ -16,13 +15,11 @@ final class AutoValue_LibraryVersion extends LibraryVersion {
     }
 
     @Override // com.google.firebase.platforminfo.LibraryVersion
-    @Nonnull
     public String getLibraryName() {
         return this.libraryName;
     }
 
     @Override // com.google.firebase.platforminfo.LibraryVersion
-    @Nonnull
     public String getVersion() {
         return this.version;
     }

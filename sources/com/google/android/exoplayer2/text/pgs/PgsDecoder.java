@@ -49,8 +49,7 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
             this.inflater = new Inflater();
         }
         if (Util.inflate(parsableByteArray, this.inflatedBuffer, this.inflater)) {
-            ParsableByteArray parsableByteArray2 = this.inflatedBuffer;
-            parsableByteArray.reset(parsableByteArray2.data, parsableByteArray2.limit());
+            parsableByteArray.reset(this.inflatedBuffer.getData(), this.inflatedBuffer.limit());
         }
     }
 
@@ -152,7 +151,7 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
                 return;
             }
             int min = Math.min(i2, limit - position);
-            parsableByteArray.readBytes(this.bitmapData.data, position, min);
+            parsableByteArray.readBytes(this.bitmapData.getData(), position, min);
             this.bitmapData.setPosition(position + min);
         }
 
@@ -191,11 +190,7 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
                 }
                 i3 = i;
             }
-            Bitmap createBitmap = Bitmap.createBitmap(iArr, this.bitmapWidth, this.bitmapHeight, Bitmap.Config.ARGB_8888);
-            int i4 = this.planeWidth;
-            float f = this.bitmapX / i4;
-            int i5 = this.planeHeight;
-            return new Cue(createBitmap, f, 0, this.bitmapY / i5, 0, this.bitmapWidth / i4, this.bitmapHeight / i5);
+            return new Cue.Builder().setBitmap(Bitmap.createBitmap(iArr, this.bitmapWidth, this.bitmapHeight, Bitmap.Config.ARGB_8888)).setPosition(this.bitmapX / this.planeWidth).setPositionAnchor(0).setLine(this.bitmapY / this.planeHeight, 0).setLineAnchor(0).setSize(this.bitmapWidth / this.planeWidth).setBitmapHeight(this.bitmapHeight / this.planeHeight).build();
         }
 
         public void reset() {

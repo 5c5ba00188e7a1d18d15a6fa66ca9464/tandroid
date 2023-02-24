@@ -1,14 +1,15 @@
 package com.google.android.exoplayer2.extractor.mp3;
 
-import com.google.android.exoplayer2.extractor.MpegAudioHeader;
+import com.google.android.exoplayer2.audio.MpegAudioUtil;
 import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.extractor.SeekPoint;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-final class XingSeeker implements Seeker {
+public final class XingSeeker implements Seeker {
     private final long dataEndPosition;
     private final long dataSize;
     private final long dataStartPosition;
@@ -16,17 +17,17 @@ final class XingSeeker implements Seeker {
     private final long[] tableOfContents;
     private final int xingFrameSize;
 
-    public static XingSeeker create(long j, long j2, MpegAudioHeader mpegAudioHeader, ParsableByteArray parsableByteArray) {
+    public static XingSeeker create(long j, long j2, MpegAudioUtil.Header header, ParsableByteArray parsableByteArray) {
         int readUnsignedIntToInt;
-        int i = mpegAudioHeader.samplesPerFrame;
-        int i2 = mpegAudioHeader.sampleRate;
+        int i = header.samplesPerFrame;
+        int i2 = header.sampleRate;
         int readInt = parsableByteArray.readInt();
         if ((readInt & 1) != 1 || (readUnsignedIntToInt = parsableByteArray.readUnsignedIntToInt()) == 0) {
             return null;
         }
         long scaleLargeTimestamp = Util.scaleLargeTimestamp(readUnsignedIntToInt, i * 1000000, i2);
         if ((readInt & 6) != 6) {
-            return new XingSeeker(j2, mpegAudioHeader.frameSize, scaleLargeTimestamp);
+            return new XingSeeker(j2, header.frameSize, scaleLargeTimestamp);
         }
         long readUnsignedInt = parsableByteArray.readUnsignedInt();
         long[] jArr = new long[100];
@@ -39,7 +40,7 @@ final class XingSeeker implements Seeker {
                 Log.w("XingSeeker", "XING data size mismatch: " + j + ", " + j3);
             }
         }
-        return new XingSeeker(j2, mpegAudioHeader.frameSize, scaleLargeTimestamp, readUnsignedInt, jArr);
+        return new XingSeeker(j2, header.frameSize, scaleLargeTimestamp, readUnsignedInt, jArr);
     }
 
     private XingSeeker(long j, int i, long j2) {
@@ -78,7 +79,7 @@ final class XingSeeker implements Seeker {
                 d4 = 256.0d;
             } else {
                 int i = (int) d3;
-                double d5 = ((long[]) Assertions.checkNotNull(this.tableOfContents))[i];
+                double d5 = ((long[]) Assertions.checkStateNotNull(this.tableOfContents))[i];
                 double d6 = i == 99 ? 256.0d : jArr[i + 1];
                 double d7 = i;
                 Double.isNaN(d7);
@@ -99,7 +100,7 @@ final class XingSeeker implements Seeker {
         if (!isSeekable() || j2 <= this.xingFrameSize) {
             return 0L;
         }
-        long[] jArr = (long[]) Assertions.checkNotNull(this.tableOfContents);
+        long[] jArr = (long[]) Assertions.checkStateNotNull(this.tableOfContents);
         double d2 = j2;
         Double.isNaN(d2);
         double d3 = this.dataSize;

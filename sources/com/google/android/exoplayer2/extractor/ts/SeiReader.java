@@ -1,10 +1,10 @@
 package com.google.android.exoplayer2.extractor.ts;
 
 import com.google.android.exoplayer2.Format;
+import com.google.android.exoplayer2.extractor.CeaUtil;
 import com.google.android.exoplayer2.extractor.ExtractorOutput;
 import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
-import com.google.android.exoplayer2.text.cea.CeaUtil;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.List;
@@ -30,7 +30,7 @@ public final class SeiReader {
             if (str2 == null) {
                 str2 = trackIdGenerator.getFormatId();
             }
-            track.format(Format.createTextSampleFormat(str2, str, null, -1, format.selectionFlags, format.language, format.accessibilityChannel, null, Long.MAX_VALUE, format.initializationData));
+            track.format(new Format.Builder().setId(str2).setSampleMimeType(str).setSelectionFlags(format.selectionFlags).setLanguage(format.language).setAccessibilityChannel(format.accessibilityChannel).setInitializationData(format.initializationData).build());
             this.outputs[i] = track;
         }
     }

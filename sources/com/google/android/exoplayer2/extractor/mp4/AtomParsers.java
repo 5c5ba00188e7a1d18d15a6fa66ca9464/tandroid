@@ -3,13 +3,18 @@ package com.google.android.exoplayer2.extractor.mp4;
 import android.util.Pair;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.ParserException;
+import com.google.android.exoplayer2.audio.AacUtil;
 import com.google.android.exoplayer2.audio.Ac3Util;
 import com.google.android.exoplayer2.audio.Ac4Util;
+import com.google.android.exoplayer2.audio.OpusUtil;
 import com.google.android.exoplayer2.drm.DrmInitData;
+import com.google.android.exoplayer2.extractor.ExtractorUtil;
 import com.google.android.exoplayer2.extractor.GaplessInfoHolder;
 import com.google.android.exoplayer2.extractor.mp4.Atom;
 import com.google.android.exoplayer2.extractor.mp4.FixedSampleSizeRechunker;
 import com.google.android.exoplayer2.metadata.Metadata;
+import com.google.android.exoplayer2.metadata.mp4.MdtaMetadataEntry;
+import com.google.android.exoplayer2.metadata.mp4.SmtaMetadataEntry;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.CodecSpecificDataUtil;
 import com.google.android.exoplayer2.util.Log;
@@ -17,11 +22,16 @@ import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.AvcConfig;
+import com.google.android.exoplayer2.video.ColorInfo;
 import com.google.android.exoplayer2.video.DolbyVisionConfig;
 import com.google.android.exoplayer2.video.HevcConfig;
+import com.google.common.base.Function;
+import com.google.common.collect.ImmutableList;
+import com.google.common.primitives.Ints;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import org.telegram.messenger.MediaController;
 /* JADX INFO: Access modifiers changed from: package-private */
@@ -29,11 +39,12 @@ import org.telegram.messenger.MediaController;
 public final class AtomParsers {
     private static final byte[] opusMagic = Util.getUtf8Bytes("OpusHead");
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    private interface SampleSizeBox {
-        int getSampleCount();
+    public interface SampleSizeBox {
+        int getFixedSampleSize();
 
-        boolean isFixedSampleSize();
+        int getSampleCount();
 
         int readNextSampleSize();
     }
@@ -48,517 +59,40 @@ public final class AtomParsers {
         if (i == 1952807028 || i == 1935832172 || i == 1937072756 || i == 1668047728) {
             return 3;
         }
-        return i == 1835365473 ? 4 : -1;
+        return i == 1835365473 ? 5 : -1;
     }
 
-    public static Track parseTrak(Atom.ContainerAtom containerAtom, Atom.LeafAtom leafAtom, long j, DrmInitData drmInitData, boolean z, boolean z2) throws ParserException {
-        Atom.LeafAtom leafAtom2;
-        long j2;
-        long[] jArr;
-        long[] jArr2;
-        Atom.ContainerAtom containerAtomOfType = containerAtom.getContainerAtomOfType(1835297121);
-        int trackTypeForHdlr = getTrackTypeForHdlr(parseHdlr(containerAtomOfType.getLeafAtomOfType(1751411826).data));
-        if (trackTypeForHdlr == -1) {
-            return null;
+    public static List<TrackSampleTable> parseTraks(Atom.ContainerAtom containerAtom, GaplessInfoHolder gaplessInfoHolder, long j, DrmInitData drmInitData, boolean z, boolean z2, Function<Track, Track> function) throws ParserException {
+        Track apply;
+        ArrayList arrayList = new ArrayList();
+        for (int i = 0; i < containerAtom.containerChildren.size(); i++) {
+            Atom.ContainerAtom containerAtom2 = containerAtom.containerChildren.get(i);
+            if (containerAtom2.type == 1953653099 && (apply = function.apply(parseTrak(containerAtom2, (Atom.LeafAtom) Assertions.checkNotNull(containerAtom.getLeafAtomOfType(1836476516)), j, drmInitData, z, z2))) != null) {
+                arrayList.add(parseStbl(apply, (Atom.ContainerAtom) Assertions.checkNotNull(((Atom.ContainerAtom) Assertions.checkNotNull(((Atom.ContainerAtom) Assertions.checkNotNull(containerAtom2.getContainerAtomOfType(1835297121))).getContainerAtomOfType(1835626086))).getContainerAtomOfType(1937007212)), gaplessInfoHolder));
+            }
         }
-        TkhdData parseTkhd = parseTkhd(containerAtom.getLeafAtomOfType(1953196132).data);
-        if (j == -9223372036854775807L) {
-            leafAtom2 = leafAtom;
-            j2 = parseTkhd.duration;
-        } else {
-            leafAtom2 = leafAtom;
-            j2 = j;
-        }
-        long parseMvhd = parseMvhd(leafAtom2.data);
-        long scaleLargeTimestamp = j2 != -9223372036854775807L ? Util.scaleLargeTimestamp(j2, 1000000L, parseMvhd) : -9223372036854775807L;
-        Atom.ContainerAtom containerAtomOfType2 = containerAtomOfType.getContainerAtomOfType(1835626086).getContainerAtomOfType(1937007212);
-        Pair<Long, String> parseMdhd = parseMdhd(containerAtomOfType.getLeafAtomOfType(1835296868).data);
-        StsdData parseStsd = parseStsd(containerAtomOfType2.getLeafAtomOfType(1937011556).data, parseTkhd.id, parseTkhd.rotationDegrees, (String) parseMdhd.second, drmInitData, z2);
-        if (z) {
-            jArr = null;
-            jArr2 = null;
-        } else {
-            Pair<long[], long[]> parseEdts = parseEdts(containerAtom.getContainerAtomOfType(1701082227));
-            jArr2 = (long[]) parseEdts.second;
-            jArr = (long[]) parseEdts.first;
-        }
-        if (parseStsd.format == null) {
-            return null;
-        }
-        return new Track(parseTkhd.id, trackTypeForHdlr, ((Long) parseMdhd.first).longValue(), parseMvhd, scaleLargeTimestamp, parseStsd.format, parseStsd.requiredSampleTransformation, parseStsd.trackEncryptionBoxes, parseStsd.nalUnitLengthFieldLength, jArr, jArr2);
+        return arrayList;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:142:0x0381  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x0383  */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x0393  */
-    /* JADX WARN: Removed duplicated region for block: B:165:0x040a  */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x040f  */
-    /* JADX WARN: Removed duplicated region for block: B:169:0x0412  */
-    /* JADX WARN: Removed duplicated region for block: B:171:0x0415  */
-    /* JADX WARN: Removed duplicated region for block: B:172:0x0418  */
-    /* JADX WARN: Removed duplicated region for block: B:174:0x041c  */
-    /* JADX WARN: Removed duplicated region for block: B:176:0x0420  */
-    /* JADX WARN: Removed duplicated region for block: B:177:0x0423  */
-    /* JADX WARN: Removed duplicated region for block: B:181:0x042e  */
-    /* JADX WARN: Removed duplicated region for block: B:210:0x03fe A[EDGE_INSN: B:210:0x03fe->B:162:0x03fe ?: BREAK  , SYNTHETIC] */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public static TrackSampleTable parseStbl(Track track, Atom.ContainerAtom containerAtom, GaplessInfoHolder gaplessInfoHolder) throws ParserException {
-        SampleSizeBox stz2SampleSizeBox;
-        boolean z;
-        int i;
-        int i2;
-        int i3;
-        boolean z2;
-        Track track2;
-        long j;
-        int i4;
-        int[] iArr;
-        long[] jArr;
-        int i5;
-        int[] iArr2;
-        long[] jArr2;
-        int i6;
-        long[] jArr3;
-        boolean z3;
-        int i7;
-        long[] jArr4;
-        int i8;
-        boolean z4;
-        long[] jArr5;
-        int[] iArr3;
-        int i9;
-        boolean z5;
-        int i10;
-        int i11;
-        int i12;
-        boolean z6;
-        int i13;
-        int i14;
-        int i15;
-        Atom.LeafAtom leafAtomOfType = containerAtom.getLeafAtomOfType(1937011578);
-        if (leafAtomOfType != null) {
-            stz2SampleSizeBox = new StszSampleSizeBox(leafAtomOfType);
-        } else {
-            Atom.LeafAtom leafAtomOfType2 = containerAtom.getLeafAtomOfType(1937013298);
-            if (leafAtomOfType2 == null) {
-                throw new ParserException("Track has no sample table size information");
-            }
-            stz2SampleSizeBox = new Stz2SampleSizeBox(leafAtomOfType2);
-        }
-        int sampleCount = stz2SampleSizeBox.getSampleCount();
-        if (sampleCount == 0) {
-            return new TrackSampleTable(track, new long[0], new int[0], 0, new long[0], new int[0], -9223372036854775807L);
-        }
-        Atom.LeafAtom leafAtomOfType3 = containerAtom.getLeafAtomOfType(1937007471);
-        if (leafAtomOfType3 == null) {
-            leafAtomOfType3 = containerAtom.getLeafAtomOfType(1668232756);
-            z = true;
-        } else {
-            z = false;
-        }
-        ParsableByteArray parsableByteArray = leafAtomOfType3.data;
-        ParsableByteArray parsableByteArray2 = containerAtom.getLeafAtomOfType(1937011555).data;
-        ParsableByteArray parsableByteArray3 = containerAtom.getLeafAtomOfType(1937011827).data;
-        Atom.LeafAtom leafAtomOfType4 = containerAtom.getLeafAtomOfType(1937011571);
-        ParsableByteArray parsableByteArray4 = null;
-        ParsableByteArray parsableByteArray5 = leafAtomOfType4 != null ? leafAtomOfType4.data : null;
-        Atom.LeafAtom leafAtomOfType5 = containerAtom.getLeafAtomOfType(1668576371);
-        ParsableByteArray parsableByteArray6 = leafAtomOfType5 != null ? leafAtomOfType5.data : null;
-        ChunkIterator chunkIterator = new ChunkIterator(parsableByteArray2, parsableByteArray, z);
-        parsableByteArray3.setPosition(12);
-        int readUnsignedIntToInt = parsableByteArray3.readUnsignedIntToInt() - 1;
-        int readUnsignedIntToInt2 = parsableByteArray3.readUnsignedIntToInt();
-        int readUnsignedIntToInt3 = parsableByteArray3.readUnsignedIntToInt();
-        if (parsableByteArray6 != null) {
-            parsableByteArray6.setPosition(12);
-            i = parsableByteArray6.readUnsignedIntToInt();
-        } else {
-            i = 0;
-        }
-        int i16 = -1;
-        if (parsableByteArray5 != null) {
-            parsableByteArray5.setPosition(12);
-            i2 = parsableByteArray5.readUnsignedIntToInt();
-            if (i2 > 0) {
-                i16 = parsableByteArray5.readUnsignedIntToInt() - 1;
-                parsableByteArray4 = parsableByteArray5;
-            }
-        } else {
-            parsableByteArray4 = parsableByteArray5;
-            i2 = 0;
-        }
-        if (stz2SampleSizeBox.isFixedSampleSize() && "audio/raw".equals(track.format.sampleMimeType) && readUnsignedIntToInt == 0 && i == 0 && i2 == 0) {
-            i3 = readUnsignedIntToInt;
-            z2 = true;
-        } else {
-            i3 = readUnsignedIntToInt;
-            z2 = false;
-        }
-        if (!z2) {
-            long[] jArr6 = new long[sampleCount];
-            int[] iArr4 = new int[sampleCount];
-            long[] jArr7 = new long[sampleCount];
-            int[] iArr5 = new int[sampleCount];
-            int i17 = i16;
-            int i18 = 0;
-            int i19 = 0;
-            int i20 = 0;
-            int i21 = 0;
-            int i22 = 0;
-            long j2 = 0;
-            long j3 = 0;
-            int i23 = i;
-            int i24 = readUnsignedIntToInt3;
-            int i25 = readUnsignedIntToInt2;
-            while (true) {
-                if (i18 >= sampleCount) {
-                    i10 = i25;
-                    i11 = i20;
-                    i12 = i21;
-                    break;
-                }
-                long j4 = j3;
-                int i26 = i21;
-                boolean z7 = true;
-                while (i26 == 0) {
-                    z7 = chunkIterator.moveNext();
-                    if (!z7) {
-                        break;
-                    }
-                    int i27 = i25;
-                    long j5 = chunkIterator.offset;
-                    i26 = chunkIterator.numSamples;
-                    j4 = j5;
-                    i25 = i27;
-                    i24 = i24;
-                    sampleCount = sampleCount;
-                }
-                int i28 = sampleCount;
-                i10 = i25;
-                int i29 = i24;
-                if (!z7) {
-                    Log.w("AtomParsers", "Unexpected end of chunk data");
-                    jArr6 = Arrays.copyOf(jArr6, i18);
-                    iArr4 = Arrays.copyOf(iArr4, i18);
-                    jArr7 = Arrays.copyOf(jArr7, i18);
-                    iArr5 = Arrays.copyOf(iArr5, i18);
-                    sampleCount = i18;
-                    i11 = i20;
-                    i12 = i26;
-                    break;
-                }
-                if (parsableByteArray6 != null) {
-                    while (i22 == 0 && i23 > 0) {
-                        i22 = parsableByteArray6.readUnsignedIntToInt();
-                        i20 = parsableByteArray6.readInt();
-                        i23--;
-                    }
-                    i22--;
-                }
-                int i30 = i20;
-                jArr6[i18] = j4;
-                iArr4[i18] = stz2SampleSizeBox.readNextSampleSize();
-                if (iArr4[i18] > i19) {
-                    i19 = iArr4[i18];
-                }
-                jArr7[i18] = j2 + i30;
-                iArr5[i18] = parsableByteArray4 == null ? 1 : 0;
-                if (i18 == i17) {
-                    iArr5[i18] = 1;
-                    i2--;
-                    if (i2 > 0) {
-                        i17 = parsableByteArray4.readUnsignedIntToInt() - 1;
-                    }
-                }
-                int i31 = i17;
-                j2 += i29;
-                int i32 = i10 - 1;
-                if (i32 != 0 || i3 <= 0) {
-                    i14 = i29;
-                    i15 = i3;
-                } else {
-                    i32 = parsableByteArray3.readUnsignedIntToInt();
-                    i14 = parsableByteArray3.readInt();
-                    i15 = i3 - 1;
-                }
-                int i33 = i32;
-                i21 = i26 - 1;
-                i18++;
-                j3 = j4 + iArr4[i18];
-                i17 = i31;
-                i24 = i14;
-                sampleCount = i28;
-                i20 = i30;
-                int i34 = i15;
-                i25 = i33;
-                i3 = i34;
-            }
-            long j6 = j2 + i11;
-            while (true) {
-                if (i23 <= 0) {
-                    z6 = true;
-                    break;
-                } else if (parsableByteArray6.readUnsignedIntToInt() != 0) {
-                    z6 = false;
-                    break;
-                } else {
-                    parsableByteArray6.readInt();
-                    i23--;
-                }
-            }
-            if (i2 == 0 && i10 == 0 && i12 == 0 && i3 == 0) {
-                i13 = i22;
-                if (i13 == 0 && z6) {
-                    track2 = track;
-                    i4 = sampleCount;
-                    jArr2 = jArr6;
-                    jArr = jArr7;
-                    iArr = iArr5;
-                    i5 = i19;
-                    iArr2 = iArr4;
-                    j = j6;
-                }
-            } else {
-                i13 = i22;
-            }
-            StringBuilder sb = new StringBuilder();
-            sb.append("Inconsistent stbl box for track ");
-            track2 = track;
-            sb.append(track2.id);
-            sb.append(": remainingSynchronizationSamples ");
-            sb.append(i2);
-            sb.append(", remainingSamplesAtTimestampDelta ");
-            sb.append(i10);
-            sb.append(", remainingSamplesInChunk ");
-            sb.append(i12);
-            sb.append(", remainingTimestampDeltaChanges ");
-            sb.append(i3);
-            sb.append(", remainingSamplesAtTimestampOffset ");
-            sb.append(i13);
-            sb.append(!z6 ? ", ctts invalid" : "");
-            Log.w("AtomParsers", sb.toString());
-            i4 = sampleCount;
-            jArr2 = jArr6;
-            jArr = jArr7;
-            iArr = iArr5;
-            i5 = i19;
-            iArr2 = iArr4;
-            j = j6;
-        } else {
-            track2 = track;
-            int i35 = chunkIterator.length;
-            long[] jArr8 = new long[i35];
-            int[] iArr6 = new int[i35];
-            while (chunkIterator.moveNext()) {
-                int i36 = chunkIterator.index;
-                jArr8[i36] = chunkIterator.offset;
-                iArr6[i36] = chunkIterator.numSamples;
-            }
-            Format format = track2.format;
-            FixedSampleSizeRechunker.Results rechunk = FixedSampleSizeRechunker.rechunk(Util.getPcmFrameSize(format.pcmEncoding, format.channelCount), jArr8, iArr6, readUnsignedIntToInt3);
-            long[] jArr9 = rechunk.offsets;
-            int[] iArr7 = rechunk.sizes;
-            int i37 = rechunk.maximumSize;
-            long[] jArr10 = rechunk.timestamps;
-            int[] iArr8 = rechunk.flags;
-            j = rechunk.duration;
-            i4 = sampleCount;
-            iArr = iArr8;
-            jArr = jArr10;
-            i5 = i37;
-            iArr2 = iArr7;
-            jArr2 = jArr9;
-        }
-        long scaleLargeTimestamp = Util.scaleLargeTimestamp(j, 1000000L, track2.timescale);
-        long[] jArr11 = track2.editListDurations;
-        if (jArr11 == null) {
-            Util.scaleLargeTimestampsInPlace(jArr, 1000000L, track2.timescale);
-            return new TrackSampleTable(track, jArr2, iArr2, i5, jArr, iArr, scaleLargeTimestamp);
-        }
-        if (jArr11.length == 1 && track2.type == 1 && jArr.length >= 2) {
-            long j7 = track2.editListMediaTimes[0];
-            long scaleLargeTimestamp2 = Util.scaleLargeTimestamp(jArr11[0], track2.timescale, track2.movieTimescale) + j7;
-            if (canApplyEditWithGaplessInfo(jArr, j, j7, scaleLargeTimestamp2)) {
-                long j8 = j - scaleLargeTimestamp2;
-                long scaleLargeTimestamp3 = Util.scaleLargeTimestamp(j7 - jArr[0], track2.format.sampleRate, track2.timescale);
-                i6 = i4;
-                long scaleLargeTimestamp4 = Util.scaleLargeTimestamp(j8, track2.format.sampleRate, track2.timescale);
-                if ((scaleLargeTimestamp3 != 0 || scaleLargeTimestamp4 != 0) && scaleLargeTimestamp3 <= 2147483647L && scaleLargeTimestamp4 <= 2147483647L) {
-                    gaplessInfoHolder.encoderDelay = (int) scaleLargeTimestamp3;
-                    gaplessInfoHolder.encoderPadding = (int) scaleLargeTimestamp4;
-                    Util.scaleLargeTimestampsInPlace(jArr, 1000000L, track2.timescale);
-                    return new TrackSampleTable(track, jArr2, iArr2, i5, jArr, iArr, Util.scaleLargeTimestamp(track2.editListDurations[0], 1000000L, track2.movieTimescale));
-                }
-                jArr3 = track2.editListDurations;
-                if (jArr3.length != 1 && jArr3[0] == 0) {
-                    long j9 = track2.editListMediaTimes[0];
-                    for (int i38 = 0; i38 < jArr.length; i38++) {
-                        jArr[i38] = Util.scaleLargeTimestamp(jArr[i38] - j9, 1000000L, track2.timescale);
-                    }
-                    return new TrackSampleTable(track, jArr2, iArr2, i5, jArr, iArr, Util.scaleLargeTimestamp(j - j9, 1000000L, track2.timescale));
-                }
-                boolean z8 = track2.type != 1;
-                int[] iArr9 = new int[jArr3.length];
-                int[] iArr10 = new int[jArr3.length];
-                z3 = false;
-                int i39 = 0;
-                i7 = 0;
-                int i40 = 0;
-                while (true) {
-                    jArr4 = track2.editListDurations;
-                    if (i7 < jArr4.length) {
-                        break;
-                    }
-                    int[] iArr11 = iArr2;
-                    int i41 = i5;
-                    long j10 = track2.editListMediaTimes[i7];
-                    if (j10 != -1) {
-                        i9 = i6;
-                        boolean z9 = z3;
-                        int i42 = i39;
-                        long scaleLargeTimestamp5 = Util.scaleLargeTimestamp(jArr4[i7], track2.timescale, track2.movieTimescale);
-                        iArr9[i7] = Util.binarySearchFloor(jArr, j10, true, true);
-                        iArr10[i7] = Util.binarySearchCeil(jArr, j10 + scaleLargeTimestamp5, z8, false);
-                        while (iArr9[i7] < iArr10[i7] && (iArr[iArr9[i7]] & 1) == 0) {
-                            iArr9[i7] = iArr9[i7] + 1;
-                        }
-                        i39 = i42 + (iArr10[i7] - iArr9[i7]);
-                        z5 = z9 | (i40 != iArr9[i7]);
-                        i40 = iArr10[i7];
-                    } else {
-                        i9 = i6;
-                        z5 = z3;
-                    }
-                    i7++;
-                    z3 = z5;
-                    i6 = i9;
-                    i5 = i41;
-                    iArr2 = iArr11;
-                }
-                int[] iArr12 = iArr2;
-                int i43 = i5;
-                boolean z10 = z3;
-                i8 = 0;
-                z4 = z10 | (i39 != i6);
-                long[] jArr12 = !z4 ? new long[i39] : jArr2;
-                int[] iArr13 = !z4 ? new int[i39] : iArr12;
-                if (z4) {
-                    i43 = 0;
-                }
-                int[] iArr14 = !z4 ? new int[i39] : iArr;
-                long[] jArr13 = new long[i39];
-                int i44 = 0;
-                long j11 = 0;
-                while (i8 < track2.editListDurations.length) {
-                    long j12 = track2.editListMediaTimes[i8];
-                    int i45 = iArr9[i8];
-                    int[] iArr15 = iArr9;
-                    int i46 = iArr10[i8];
-                    int[] iArr16 = iArr10;
-                    if (z4) {
-                        int i47 = i46 - i45;
-                        System.arraycopy(jArr2, i45, jArr12, i44, i47);
-                        jArr5 = jArr2;
-                        iArr3 = iArr12;
-                        System.arraycopy(iArr3, i45, iArr13, i44, i47);
-                        System.arraycopy(iArr, i45, iArr14, i44, i47);
-                    } else {
-                        jArr5 = jArr2;
-                        iArr3 = iArr12;
-                    }
-                    int i48 = i43;
-                    while (i45 < i46) {
-                        int[] iArr17 = iArr;
-                        int i49 = i46;
-                        long j13 = j11;
-                        int[] iArr18 = iArr3;
-                        long[] jArr14 = jArr12;
-                        jArr13[i44] = Util.scaleLargeTimestamp(j11, 1000000L, track2.movieTimescale) + Util.scaleLargeTimestamp(Math.max(0L, jArr[i45] - j12), 1000000L, track2.timescale);
-                        if (z4 && iArr13[i44] > i48) {
-                            i48 = iArr18[i45];
-                        }
-                        i44++;
-                        i45++;
-                        iArr = iArr17;
-                        i46 = i49;
-                        iArr3 = iArr18;
-                        j11 = j13;
-                        jArr12 = jArr14;
-                    }
-                    j11 += track2.editListDurations[i8];
-                    i8++;
-                    iArr = iArr;
-                    i43 = i48;
-                    iArr12 = iArr3;
-                    iArr9 = iArr15;
-                    iArr10 = iArr16;
-                    jArr2 = jArr5;
-                    jArr12 = jArr12;
-                }
-                return new TrackSampleTable(track, jArr12, iArr13, i43, jArr13, iArr14, Util.scaleLargeTimestamp(j11, 1000000L, track2.movieTimescale));
-            }
-        }
-        i6 = i4;
-        jArr3 = track2.editListDurations;
-        if (jArr3.length != 1) {
-        }
-        if (track2.type != 1) {
-        }
-        int[] iArr92 = new int[jArr3.length];
-        int[] iArr102 = new int[jArr3.length];
-        z3 = false;
-        int i392 = 0;
-        i7 = 0;
-        int i402 = 0;
-        while (true) {
-            jArr4 = track2.editListDurations;
-            if (i7 < jArr4.length) {
-            }
-            i7++;
-            z3 = z5;
-            i6 = i9;
-            i5 = i41;
-            iArr2 = iArr11;
-        }
-        int[] iArr122 = iArr2;
-        int i432 = i5;
-        boolean z102 = z3;
-        i8 = 0;
-        z4 = z102 | (i392 != i6);
-        if (!z4) {
-        }
-        if (!z4) {
-        }
-        if (z4) {
-        }
-        if (!z4) {
-        }
-        long[] jArr132 = new long[i392];
-        int i442 = 0;
-        long j112 = 0;
-        while (i8 < track2.editListDurations.length) {
-        }
-        return new TrackSampleTable(track, jArr12, iArr13, i432, jArr132, iArr14, Util.scaleLargeTimestamp(j112, 1000000L, track2.movieTimescale));
-    }
-
-    public static Metadata parseUdta(Atom.LeafAtom leafAtom, boolean z) {
-        if (z) {
-            return null;
-        }
+    public static Pair<Metadata, Metadata> parseUdta(Atom.LeafAtom leafAtom) {
         ParsableByteArray parsableByteArray = leafAtom.data;
         parsableByteArray.setPosition(8);
+        Metadata metadata = null;
+        Metadata metadata2 = null;
         while (parsableByteArray.bytesLeft() >= 8) {
             int position = parsableByteArray.getPosition();
             int readInt = parsableByteArray.readInt();
-            if (parsableByteArray.readInt() == 1835365473) {
+            int readInt2 = parsableByteArray.readInt();
+            if (readInt2 == 1835365473) {
                 parsableByteArray.setPosition(position);
-                return parseUdtaMeta(parsableByteArray, position + readInt);
+                metadata = parseUdtaMeta(parsableByteArray, position + readInt);
+            } else if (readInt2 == 1936553057) {
+                parsableByteArray.setPosition(position);
+                metadata2 = parseSmta(parsableByteArray, position + readInt);
             }
             parsableByteArray.setPosition(position + readInt);
         }
-        return null;
+        return Pair.create(metadata, metadata2);
     }
 
     public static Metadata parseMdtaFromMeta(Atom.ContainerAtom containerAtom) {
@@ -600,8 +134,559 @@ public final class AtomParsers {
         return new Metadata(arrayList);
     }
 
+    public static void maybeSkipRemainingMetaAtomHeaderBytes(ParsableByteArray parsableByteArray) {
+        int position = parsableByteArray.getPosition();
+        parsableByteArray.skipBytes(4);
+        if (parsableByteArray.readInt() != 1751411826) {
+            position += 4;
+        }
+        parsableByteArray.setPosition(position);
+    }
+
+    private static Track parseTrak(Atom.ContainerAtom containerAtom, Atom.LeafAtom leafAtom, long j, DrmInitData drmInitData, boolean z, boolean z2) throws ParserException {
+        Atom.LeafAtom leafAtom2;
+        long j2;
+        long[] jArr;
+        long[] jArr2;
+        Atom.ContainerAtom containerAtomOfType;
+        Pair<long[], long[]> parseEdts;
+        Atom.ContainerAtom containerAtom2 = (Atom.ContainerAtom) Assertions.checkNotNull(containerAtom.getContainerAtomOfType(1835297121));
+        int trackTypeForHdlr = getTrackTypeForHdlr(parseHdlr(((Atom.LeafAtom) Assertions.checkNotNull(containerAtom2.getLeafAtomOfType(1751411826))).data));
+        if (trackTypeForHdlr == -1) {
+            return null;
+        }
+        TkhdData parseTkhd = parseTkhd(((Atom.LeafAtom) Assertions.checkNotNull(containerAtom.getLeafAtomOfType(1953196132))).data);
+        if (j == -9223372036854775807L) {
+            leafAtom2 = leafAtom;
+            j2 = parseTkhd.duration;
+        } else {
+            leafAtom2 = leafAtom;
+            j2 = j;
+        }
+        long parseMvhd = parseMvhd(leafAtom2.data);
+        long scaleLargeTimestamp = j2 != -9223372036854775807L ? Util.scaleLargeTimestamp(j2, 1000000L, parseMvhd) : -9223372036854775807L;
+        Pair<Long, String> parseMdhd = parseMdhd(((Atom.LeafAtom) Assertions.checkNotNull(containerAtom2.getLeafAtomOfType(1835296868))).data);
+        Atom.LeafAtom leafAtomOfType = ((Atom.ContainerAtom) Assertions.checkNotNull(((Atom.ContainerAtom) Assertions.checkNotNull(containerAtom2.getContainerAtomOfType(1835626086))).getContainerAtomOfType(1937007212))).getLeafAtomOfType(1937011556);
+        if (leafAtomOfType == null) {
+            throw ParserException.createForMalformedContainer("Malformed sample table (stbl) missing sample description (stsd)", null);
+        }
+        StsdData parseStsd = parseStsd(leafAtomOfType.data, parseTkhd.id, parseTkhd.rotationDegrees, (String) parseMdhd.second, drmInitData, z2);
+        if (z || (containerAtomOfType = containerAtom.getContainerAtomOfType(1701082227)) == null || (parseEdts = parseEdts(containerAtomOfType)) == null) {
+            jArr = null;
+            jArr2 = null;
+        } else {
+            jArr2 = (long[]) parseEdts.second;
+            jArr = (long[]) parseEdts.first;
+        }
+        if (parseStsd.format == null) {
+            return null;
+        }
+        return new Track(parseTkhd.id, trackTypeForHdlr, ((Long) parseMdhd.first).longValue(), parseMvhd, scaleLargeTimestamp, parseStsd.format, parseStsd.requiredSampleTransformation, parseStsd.trackEncryptionBoxes, parseStsd.nalUnitLengthFieldLength, jArr, jArr2);
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:116:0x02b1  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x02c1  */
+    /* JADX WARN: Removed duplicated region for block: B:150:0x03b2  */
+    /* JADX WARN: Removed duplicated region for block: B:151:0x03b4  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x03cc  */
+    /* JADX WARN: Removed duplicated region for block: B:173:0x043c  */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x0441  */
+    /* JADX WARN: Removed duplicated region for block: B:177:0x0444  */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x0447  */
+    /* JADX WARN: Removed duplicated region for block: B:180:0x044a  */
+    /* JADX WARN: Removed duplicated region for block: B:182:0x044d  */
+    /* JADX WARN: Removed duplicated region for block: B:183:0x044f  */
+    /* JADX WARN: Removed duplicated region for block: B:185:0x0453  */
+    /* JADX WARN: Removed duplicated region for block: B:186:0x0456  */
+    /* JADX WARN: Removed duplicated region for block: B:190:0x0465  */
+    /* JADX WARN: Removed duplicated region for block: B:212:0x0431 A[EDGE_INSN: B:212:0x0431->B:170:0x0431 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x00ff  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0131  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    private static TrackSampleTable parseStbl(Track track, Atom.ContainerAtom containerAtom, GaplessInfoHolder gaplessInfoHolder) throws ParserException {
+        SampleSizeBox stz2SampleSizeBox;
+        boolean z;
+        int i;
+        int i2;
+        int i3;
+        int fixedSampleSize;
+        int i4;
+        boolean z2;
+        int i5;
+        int i6;
+        int i7;
+        int i8;
+        boolean z3;
+        int i9;
+        Track track2;
+        int i10;
+        long[] jArr;
+        int[] iArr;
+        int i11;
+        long j;
+        long[] jArr2;
+        int[] iArr2;
+        int i12;
+        int i13;
+        long[] jArr3;
+        int i14;
+        int i15;
+        long[] jArr4;
+        int i16;
+        boolean z4;
+        int i17;
+        long[] jArr5;
+        int i18;
+        long[] jArr6;
+        int[] iArr3;
+        int i19;
+        int i20;
+        boolean z5;
+        Atom.LeafAtom leafAtomOfType = containerAtom.getLeafAtomOfType(1937011578);
+        if (leafAtomOfType != null) {
+            stz2SampleSizeBox = new StszSampleSizeBox(leafAtomOfType, track.format);
+        } else {
+            Atom.LeafAtom leafAtomOfType2 = containerAtom.getLeafAtomOfType(1937013298);
+            if (leafAtomOfType2 == null) {
+                throw ParserException.createForMalformedContainer("Track has no sample table size information", null);
+            }
+            stz2SampleSizeBox = new Stz2SampleSizeBox(leafAtomOfType2);
+        }
+        int sampleCount = stz2SampleSizeBox.getSampleCount();
+        if (sampleCount == 0) {
+            return new TrackSampleTable(track, new long[0], new int[0], 0, new long[0], new int[0], 0L);
+        }
+        Atom.LeafAtom leafAtomOfType3 = containerAtom.getLeafAtomOfType(1937007471);
+        if (leafAtomOfType3 == null) {
+            leafAtomOfType3 = (Atom.LeafAtom) Assertions.checkNotNull(containerAtom.getLeafAtomOfType(1668232756));
+            z = true;
+        } else {
+            z = false;
+        }
+        ParsableByteArray parsableByteArray = leafAtomOfType3.data;
+        ParsableByteArray parsableByteArray2 = ((Atom.LeafAtom) Assertions.checkNotNull(containerAtom.getLeafAtomOfType(1937011555))).data;
+        ParsableByteArray parsableByteArray3 = ((Atom.LeafAtom) Assertions.checkNotNull(containerAtom.getLeafAtomOfType(1937011827))).data;
+        Atom.LeafAtom leafAtomOfType4 = containerAtom.getLeafAtomOfType(1937011571);
+        ParsableByteArray parsableByteArray4 = leafAtomOfType4 != null ? leafAtomOfType4.data : null;
+        Atom.LeafAtom leafAtomOfType5 = containerAtom.getLeafAtomOfType(1668576371);
+        ParsableByteArray parsableByteArray5 = leafAtomOfType5 != null ? leafAtomOfType5.data : null;
+        ChunkIterator chunkIterator = new ChunkIterator(parsableByteArray2, parsableByteArray, z);
+        parsableByteArray3.setPosition(12);
+        int readUnsignedIntToInt = parsableByteArray3.readUnsignedIntToInt() - 1;
+        int readUnsignedIntToInt2 = parsableByteArray3.readUnsignedIntToInt();
+        int readUnsignedIntToInt3 = parsableByteArray3.readUnsignedIntToInt();
+        if (parsableByteArray5 != null) {
+            parsableByteArray5.setPosition(12);
+            i = parsableByteArray5.readUnsignedIntToInt();
+        } else {
+            i = 0;
+        }
+        if (parsableByteArray4 != null) {
+            parsableByteArray4.setPosition(12);
+            i2 = parsableByteArray4.readUnsignedIntToInt();
+            if (i2 > 0) {
+                i3 = parsableByteArray4.readUnsignedIntToInt() - 1;
+                fixedSampleSize = stz2SampleSizeBox.getFixedSampleSize();
+                String str = track.format.sampleMimeType;
+                if (fixedSampleSize == -1 && (("audio/raw".equals(str) || "audio/g711-mlaw".equals(str) || "audio/g711-alaw".equals(str)) && readUnsignedIntToInt == 0 && i == 0 && i2 == 0)) {
+                    i4 = i2;
+                    z2 = true;
+                } else {
+                    i4 = i2;
+                    z2 = false;
+                }
+                if (!z2) {
+                    int i21 = chunkIterator.length;
+                    long[] jArr7 = new long[i21];
+                    int[] iArr4 = new int[i21];
+                    while (chunkIterator.moveNext()) {
+                        int i22 = chunkIterator.index;
+                        jArr7[i22] = chunkIterator.offset;
+                        iArr4[i22] = chunkIterator.numSamples;
+                    }
+                    FixedSampleSizeRechunker.Results rechunk = FixedSampleSizeRechunker.rechunk(fixedSampleSize, jArr7, iArr4, readUnsignedIntToInt3);
+                    long[] jArr8 = rechunk.offsets;
+                    int[] iArr5 = rechunk.sizes;
+                    int i23 = rechunk.maximumSize;
+                    long[] jArr9 = rechunk.timestamps;
+                    int[] iArr6 = rechunk.flags;
+                    long j2 = rechunk.duration;
+                    track2 = track;
+                    i10 = sampleCount;
+                    jArr = jArr8;
+                    iArr = iArr5;
+                    i11 = i23;
+                    iArr2 = iArr6;
+                    j = j2;
+                    jArr2 = jArr9;
+                } else {
+                    long[] jArr10 = new long[sampleCount];
+                    int[] iArr7 = new int[sampleCount];
+                    long[] jArr11 = new long[sampleCount];
+                    int[] iArr8 = new int[sampleCount];
+                    int i24 = i3;
+                    int i25 = 0;
+                    int i26 = 0;
+                    int i27 = 0;
+                    int i28 = 0;
+                    int i29 = 0;
+                    long j3 = 0;
+                    long j4 = 0;
+                    int i30 = i;
+                    int i31 = readUnsignedIntToInt3;
+                    int i32 = readUnsignedIntToInt2;
+                    int i33 = readUnsignedIntToInt;
+                    int i34 = i4;
+                    while (true) {
+                        i5 = i33;
+                        if (i25 >= sampleCount) {
+                            i6 = i32;
+                            i7 = i27;
+                            i8 = i28;
+                            break;
+                        }
+                        long j5 = j4;
+                        int i35 = i28;
+                        boolean z6 = true;
+                        while (i35 == 0) {
+                            z6 = chunkIterator.moveNext();
+                            if (!z6) {
+                                break;
+                            }
+                            int i36 = i32;
+                            long j6 = chunkIterator.offset;
+                            i35 = chunkIterator.numSamples;
+                            j5 = j6;
+                            i32 = i36;
+                            i31 = i31;
+                            sampleCount = sampleCount;
+                        }
+                        int i37 = sampleCount;
+                        i6 = i32;
+                        int i38 = i31;
+                        if (!z6) {
+                            Log.w("AtomParsers", "Unexpected end of chunk data");
+                            jArr10 = Arrays.copyOf(jArr10, i25);
+                            iArr7 = Arrays.copyOf(iArr7, i25);
+                            jArr11 = Arrays.copyOf(jArr11, i25);
+                            iArr8 = Arrays.copyOf(iArr8, i25);
+                            sampleCount = i25;
+                            i7 = i27;
+                            i8 = i35;
+                            break;
+                        }
+                        if (parsableByteArray5 != null) {
+                            while (i29 == 0 && i30 > 0) {
+                                i29 = parsableByteArray5.readUnsignedIntToInt();
+                                i27 = parsableByteArray5.readInt();
+                                i30--;
+                            }
+                            i29--;
+                        }
+                        int i39 = i27;
+                        jArr10[i25] = j5;
+                        iArr7[i25] = stz2SampleSizeBox.readNextSampleSize();
+                        if (iArr7[i25] > i26) {
+                            i26 = iArr7[i25];
+                        }
+                        jArr11[i25] = j3 + i39;
+                        iArr8[i25] = parsableByteArray4 == null ? 1 : 0;
+                        if (i25 == i24) {
+                            iArr8[i25] = 1;
+                            i34--;
+                            if (i34 > 0) {
+                                i24 = ((ParsableByteArray) Assertions.checkNotNull(parsableByteArray4)).readUnsignedIntToInt() - 1;
+                            }
+                        }
+                        int i40 = i24;
+                        j3 += i38;
+                        int i41 = i6 - 1;
+                        if (i41 != 0 || i5 <= 0) {
+                            i12 = i38;
+                            i13 = i5;
+                        } else {
+                            i41 = parsableByteArray3.readUnsignedIntToInt();
+                            i12 = parsableByteArray3.readInt();
+                            i13 = i5 - 1;
+                        }
+                        int i42 = i41;
+                        i28 = i35 - 1;
+                        i25++;
+                        j4 = j5 + iArr7[i25];
+                        i24 = i40;
+                        i31 = i12;
+                        sampleCount = i37;
+                        i27 = i39;
+                        i33 = i13;
+                        i32 = i42;
+                    }
+                    long j7 = j3 + i7;
+                    if (parsableByteArray5 != null) {
+                        while (i30 > 0) {
+                            if (parsableByteArray5.readUnsignedIntToInt() != 0) {
+                                z3 = false;
+                                break;
+                            }
+                            parsableByteArray5.readInt();
+                            i30--;
+                        }
+                    }
+                    z3 = true;
+                    if (i34 == 0 && i6 == 0 && i8 == 0 && i5 == 0) {
+                        i9 = i29;
+                        if (i9 == 0 && z3) {
+                            track2 = track;
+                            i10 = sampleCount;
+                            jArr = jArr10;
+                            iArr = iArr7;
+                            i11 = i26;
+                            j = j7;
+                            jArr2 = jArr11;
+                            iArr2 = iArr8;
+                        }
+                    } else {
+                        i9 = i29;
+                    }
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("Inconsistent stbl box for track ");
+                    track2 = track;
+                    sb.append(track2.id);
+                    sb.append(": remainingSynchronizationSamples ");
+                    sb.append(i34);
+                    sb.append(", remainingSamplesAtTimestampDelta ");
+                    sb.append(i6);
+                    sb.append(", remainingSamplesInChunk ");
+                    sb.append(i8);
+                    sb.append(", remainingTimestampDeltaChanges ");
+                    sb.append(i5);
+                    sb.append(", remainingSamplesAtTimestampOffset ");
+                    sb.append(i9);
+                    sb.append(!z3 ? ", ctts invalid" : "");
+                    Log.w("AtomParsers", sb.toString());
+                    i10 = sampleCount;
+                    jArr = jArr10;
+                    iArr = iArr7;
+                    i11 = i26;
+                    j = j7;
+                    jArr2 = jArr11;
+                    iArr2 = iArr8;
+                }
+                long scaleLargeTimestamp = Util.scaleLargeTimestamp(j, 1000000L, track2.timescale);
+                jArr3 = track2.editListDurations;
+                if (jArr3 != null) {
+                    Util.scaleLargeTimestampsInPlace(jArr2, 1000000L, track2.timescale);
+                    return new TrackSampleTable(track, jArr, iArr, i11, jArr2, iArr2, scaleLargeTimestamp);
+                }
+                if (jArr3.length == 1 && track2.type == 1 && jArr2.length >= 2) {
+                    long j8 = ((long[]) Assertions.checkNotNull(track2.editListMediaTimes))[0];
+                    long scaleLargeTimestamp2 = j8 + Util.scaleLargeTimestamp(track2.editListDurations[0], track2.timescale, track2.movieTimescale);
+                    i14 = i10;
+                    if (canApplyEditWithGaplessInfo(jArr2, j, j8, scaleLargeTimestamp2)) {
+                        long scaleLargeTimestamp3 = Util.scaleLargeTimestamp(j8 - jArr2[0], track2.format.sampleRate, track2.timescale);
+                        i15 = i11;
+                        long scaleLargeTimestamp4 = Util.scaleLargeTimestamp(j - scaleLargeTimestamp2, track2.format.sampleRate, track2.timescale);
+                        if ((scaleLargeTimestamp3 != 0 || scaleLargeTimestamp4 != 0) && scaleLargeTimestamp3 <= 2147483647L && scaleLargeTimestamp4 <= 2147483647L) {
+                            gaplessInfoHolder.encoderDelay = (int) scaleLargeTimestamp3;
+                            gaplessInfoHolder.encoderPadding = (int) scaleLargeTimestamp4;
+                            Util.scaleLargeTimestampsInPlace(jArr2, 1000000L, track2.timescale);
+                            return new TrackSampleTable(track, jArr, iArr, i15, jArr2, iArr2, Util.scaleLargeTimestamp(track2.editListDurations[0], 1000000L, track2.movieTimescale));
+                        }
+                        jArr4 = track2.editListDurations;
+                        if (jArr4.length != 1 && jArr4[0] == 0) {
+                            long j9 = ((long[]) Assertions.checkNotNull(track2.editListMediaTimes))[0];
+                            for (int i43 = 0; i43 < jArr2.length; i43++) {
+                                jArr2[i43] = Util.scaleLargeTimestamp(jArr2[i43] - j9, 1000000L, track2.timescale);
+                            }
+                            return new TrackSampleTable(track, jArr, iArr, i15, jArr2, iArr2, Util.scaleLargeTimestamp(j - j9, 1000000L, track2.timescale));
+                        }
+                        boolean z7 = track2.type != 1;
+                        int[] iArr9 = new int[jArr4.length];
+                        int[] iArr10 = new int[jArr4.length];
+                        long[] jArr12 = (long[]) Assertions.checkNotNull(track2.editListMediaTimes);
+                        i16 = 0;
+                        z4 = false;
+                        int i44 = 0;
+                        i17 = 0;
+                        while (true) {
+                            jArr5 = track2.editListDurations;
+                            if (i16 < jArr5.length) {
+                                break;
+                            }
+                            long[] jArr13 = jArr;
+                            int[] iArr11 = iArr;
+                            long j10 = jArr12[i16];
+                            if (j10 != -1) {
+                                int i45 = i17;
+                                boolean z8 = z4;
+                                int i46 = i44;
+                                long scaleLargeTimestamp5 = Util.scaleLargeTimestamp(jArr5[i16], track2.timescale, track2.movieTimescale);
+                                iArr9[i16] = Util.binarySearchFloor(jArr2, j10, true, true);
+                                iArr10[i16] = Util.binarySearchCeil(jArr2, j10 + scaleLargeTimestamp5, z7, false);
+                                while (iArr9[i16] < iArr10[i16] && (iArr2[iArr9[i16]] & 1) == 0) {
+                                    iArr9[i16] = iArr9[i16] + 1;
+                                }
+                                i44 = i46 + (iArr10[i16] - iArr9[i16]);
+                                z5 = z8 | (i45 != iArr9[i16]);
+                                i20 = iArr10[i16];
+                            } else {
+                                i20 = i17;
+                                z5 = z4;
+                            }
+                            i16++;
+                            z4 = z5;
+                            i17 = i20;
+                            jArr = jArr13;
+                            iArr = iArr11;
+                        }
+                        long[] jArr14 = jArr;
+                        int[] iArr12 = iArr;
+                        boolean z9 = z4;
+                        i18 = 0;
+                        boolean z10 = z9 | (i44 != i14);
+                        long[] jArr15 = !z10 ? new long[i44] : jArr14;
+                        int[] iArr13 = !z10 ? new int[i44] : iArr12;
+                        int i47 = !z10 ? 0 : i15;
+                        int[] iArr14 = !z10 ? new int[i44] : iArr2;
+                        long[] jArr16 = new long[i44];
+                        int i48 = i47;
+                        int[] iArr15 = iArr12;
+                        long j11 = 0;
+                        int i49 = 0;
+                        while (i18 < track2.editListDurations.length) {
+                            long j12 = track2.editListMediaTimes[i18];
+                            int i50 = iArr9[i18];
+                            int[] iArr16 = iArr9;
+                            int i51 = iArr10[i18];
+                            int[] iArr17 = iArr10;
+                            if (z10) {
+                                int i52 = i51 - i50;
+                                System.arraycopy(jArr14, i50, jArr15, i49, i52);
+                                jArr6 = jArr14;
+                                iArr3 = iArr15;
+                                System.arraycopy(iArr3, i50, iArr13, i49, i52);
+                                System.arraycopy(iArr2, i50, iArr14, i49, i52);
+                            } else {
+                                jArr6 = jArr14;
+                                iArr3 = iArr15;
+                            }
+                            int i53 = i48;
+                            while (i50 < i51) {
+                                int i54 = i53;
+                                int i55 = i51;
+                                long[] jArr17 = jArr2;
+                                int[] iArr18 = iArr2;
+                                int[] iArr19 = iArr14;
+                                long j13 = j11;
+                                jArr16[i49] = Util.scaleLargeTimestamp(j11, 1000000L, track2.movieTimescale) + Util.scaleLargeTimestamp(Math.max(0L, jArr2[i50] - j12), 1000000L, track2.timescale);
+                                if (z10) {
+                                    i19 = i54;
+                                    if (iArr13[i49] > i19) {
+                                        i53 = iArr3[i50];
+                                        i49++;
+                                        i50++;
+                                        i51 = i55;
+                                        j11 = j13;
+                                        jArr2 = jArr17;
+                                        iArr2 = iArr18;
+                                        iArr14 = iArr19;
+                                    }
+                                } else {
+                                    i19 = i54;
+                                }
+                                i53 = i19;
+                                i49++;
+                                i50++;
+                                i51 = i55;
+                                j11 = j13;
+                                jArr2 = jArr17;
+                                iArr2 = iArr18;
+                                iArr14 = iArr19;
+                            }
+                            i18++;
+                            i48 = i53;
+                            iArr15 = iArr3;
+                            j11 += track2.editListDurations[i18];
+                            iArr9 = iArr16;
+                            jArr2 = jArr2;
+                            iArr2 = iArr2;
+                            iArr10 = iArr17;
+                            jArr14 = jArr6;
+                            iArr14 = iArr14;
+                        }
+                        return new TrackSampleTable(track, jArr15, iArr13, i48, jArr16, iArr14, Util.scaleLargeTimestamp(j11, 1000000L, track2.movieTimescale));
+                    }
+                } else {
+                    i14 = i10;
+                }
+                i15 = i11;
+                jArr4 = track2.editListDurations;
+                if (jArr4.length != 1) {
+                }
+                if (track2.type != 1) {
+                }
+                int[] iArr92 = new int[jArr4.length];
+                int[] iArr102 = new int[jArr4.length];
+                long[] jArr122 = (long[]) Assertions.checkNotNull(track2.editListMediaTimes);
+                i16 = 0;
+                z4 = false;
+                int i442 = 0;
+                i17 = 0;
+                while (true) {
+                    jArr5 = track2.editListDurations;
+                    if (i16 < jArr5.length) {
+                    }
+                    i16++;
+                    z4 = z5;
+                    i17 = i20;
+                    jArr = jArr13;
+                    iArr = iArr11;
+                }
+                long[] jArr142 = jArr;
+                int[] iArr122 = iArr;
+                boolean z92 = z4;
+                i18 = 0;
+                boolean z102 = z92 | (i442 != i14);
+                if (!z102) {
+                }
+                if (!z102) {
+                }
+                if (!z102) {
+                }
+                if (!z102) {
+                }
+                long[] jArr162 = new long[i442];
+                int i482 = i47;
+                int[] iArr152 = iArr122;
+                long j112 = 0;
+                int i492 = 0;
+                while (i18 < track2.editListDurations.length) {
+                }
+                return new TrackSampleTable(track, jArr15, iArr13, i482, jArr162, iArr14, Util.scaleLargeTimestamp(j112, 1000000L, track2.movieTimescale));
+            }
+            parsableByteArray4 = null;
+        } else {
+            i2 = 0;
+        }
+        i3 = -1;
+        fixedSampleSize = stz2SampleSizeBox.getFixedSampleSize();
+        String str2 = track.format.sampleMimeType;
+        if (fixedSampleSize == -1) {
+        }
+        i4 = i2;
+        z2 = false;
+        if (!z2) {
+        }
+        long scaleLargeTimestamp6 = Util.scaleLargeTimestamp(j, 1000000L, track2.timescale);
+        jArr3 = track2.editListDurations;
+        if (jArr3 != null) {
+        }
+    }
+
     private static Metadata parseUdtaMeta(ParsableByteArray parsableByteArray, int i) {
-        parsableByteArray.skipBytes(12);
+        parsableByteArray.skipBytes(8);
+        maybeSkipRemainingMetaAtomHeaderBytes(parsableByteArray);
         while (parsableByteArray.getPosition() < i) {
             int position = parsableByteArray.getPosition();
             int readInt = parsableByteArray.readInt();
@@ -629,6 +714,29 @@ public final class AtomParsers {
         return new Metadata(arrayList);
     }
 
+    private static Metadata parseSmta(ParsableByteArray parsableByteArray, int i) {
+        parsableByteArray.skipBytes(12);
+        while (parsableByteArray.getPosition() < i) {
+            int position = parsableByteArray.getPosition();
+            int readInt = parsableByteArray.readInt();
+            if (parsableByteArray.readInt() == 1935766900) {
+                if (readInt < 14) {
+                    return null;
+                }
+                parsableByteArray.skipBytes(5);
+                int readUnsignedByte = parsableByteArray.readUnsignedByte();
+                if (readUnsignedByte == 12 || readUnsignedByte == 13) {
+                    float f = readUnsignedByte == 12 ? 240.0f : 120.0f;
+                    parsableByteArray.skipBytes(1);
+                    return new Metadata(new SmtaMetadataEntry(f, parsableByteArray.readUnsignedByte()));
+                }
+                return null;
+            }
+            parsableByteArray.setPosition(position + readInt);
+        }
+        return null;
+    }
+
     private static long parseMvhd(ParsableByteArray parsableByteArray) {
         parsableByteArray.setPosition(8);
         parsableByteArray.skipBytes(Atom.parseFullAtomVersion(parsableByteArray.readInt()) != 0 ? 16 : 8);
@@ -650,7 +758,7 @@ public final class AtomParsers {
             if (i3 >= i) {
                 z = true;
                 break;
-            } else if (parsableByteArray.data[position + i3] != -1) {
+            } else if (parsableByteArray.getData()[position + i3] != -1) {
                 z = false;
                 break;
             } else {
@@ -698,39 +806,47 @@ public final class AtomParsers {
     }
 
     private static StsdData parseStsd(ParsableByteArray parsableByteArray, int i, int i2, String str, DrmInitData drmInitData, boolean z) throws ParserException {
+        int i3;
         parsableByteArray.setPosition(12);
         int readInt = parsableByteArray.readInt();
         StsdData stsdData = new StsdData(readInt);
-        for (int i3 = 0; i3 < readInt; i3++) {
+        for (int i4 = 0; i4 < readInt; i4++) {
             int position = parsableByteArray.getPosition();
             int readInt2 = parsableByteArray.readInt();
-            Assertions.checkArgument(readInt2 > 0, "childAtomSize should be positive");
+            ExtractorUtil.checkContainerInput(readInt2 > 0, "childAtomSize must be positive");
             int readInt3 = parsableByteArray.readInt();
-            if (readInt3 == 1635148593 || readInt3 == 1635148595 || readInt3 == 1701733238 || readInt3 == 1836070006 || readInt3 == 1752589105 || readInt3 == 1751479857 || readInt3 == 1932670515 || readInt3 == 1987063864 || readInt3 == 1987063865 || readInt3 == 1635135537 || readInt3 == 1685479798 || readInt3 == 1685479729 || readInt3 == 1685481573 || readInt3 == 1685481521) {
-                parseVideoSampleEntry(parsableByteArray, readInt3, position, readInt2, i, i2, drmInitData, stsdData, i3);
-            } else if (readInt3 == 1836069985 || readInt3 == 1701733217 || readInt3 == 1633889587 || readInt3 == 1700998451 || readInt3 == 1633889588 || readInt3 == 1685353315 || readInt3 == 1685353317 || readInt3 == 1685353320 || readInt3 == 1685353324 || readInt3 == 1935764850 || readInt3 == 1935767394 || readInt3 == 1819304813 || readInt3 == 1936684916 || readInt3 == 1953984371 || readInt3 == 778924083 || readInt3 == 1634492771 || readInt3 == 1634492791 || readInt3 == 1970037111 || readInt3 == 1332770163 || readInt3 == 1716281667) {
-                parseAudioSampleEntry(parsableByteArray, readInt3, position, readInt2, i, str, z, drmInitData, stsdData, i3);
-            } else if (readInt3 == 1414810956 || readInt3 == 1954034535 || readInt3 == 2004251764 || readInt3 == 1937010800 || readInt3 == 1664495672) {
-                parseTextSampleEntry(parsableByteArray, readInt3, position, readInt2, i, str, stsdData);
-            } else if (readInt3 == 1667329389) {
-                stsdData.format = Format.createSampleFormat(Integer.toString(i), "application/x-camera-motion", null, -1, null);
+            if (readInt3 == 1635148593 || readInt3 == 1635148595 || readInt3 == 1701733238 || readInt3 == 1831958048 || readInt3 == 1836070006 || readInt3 == 1752589105 || readInt3 == 1751479857 || readInt3 == 1932670515 || readInt3 == 1211250227 || readInt3 == 1987063864 || readInt3 == 1987063865 || readInt3 == 1635135537 || readInt3 == 1685479798 || readInt3 == 1685479729 || readInt3 == 1685481573 || readInt3 == 1685481521) {
+                i3 = position;
+                parseVideoSampleEntry(parsableByteArray, readInt3, i3, readInt2, i, i2, drmInitData, stsdData, i4);
+            } else if (readInt3 == 1836069985 || readInt3 == 1701733217 || readInt3 == 1633889587 || readInt3 == 1700998451 || readInt3 == 1633889588 || readInt3 == 1835823201 || readInt3 == 1685353315 || readInt3 == 1685353317 || readInt3 == 1685353320 || readInt3 == 1685353324 || readInt3 == 1685353336 || readInt3 == 1935764850 || readInt3 == 1935767394 || readInt3 == 1819304813 || readInt3 == 1936684916 || readInt3 == 1953984371 || readInt3 == 778924082 || readInt3 == 778924083 || readInt3 == 1835557169 || readInt3 == 1835560241 || readInt3 == 1634492771 || readInt3 == 1634492791 || readInt3 == 1970037111 || readInt3 == 1332770163 || readInt3 == 1716281667) {
+                i3 = position;
+                parseAudioSampleEntry(parsableByteArray, readInt3, position, readInt2, i, str, z, drmInitData, stsdData, i4);
+            } else {
+                if (readInt3 == 1414810956 || readInt3 == 1954034535 || readInt3 == 2004251764 || readInt3 == 1937010800 || readInt3 == 1664495672) {
+                    parseTextSampleEntry(parsableByteArray, readInt3, position, readInt2, i, str, stsdData);
+                } else if (readInt3 == 1835365492) {
+                    parseMetaDataSampleEntry(parsableByteArray, readInt3, position, i, stsdData);
+                } else if (readInt3 == 1667329389) {
+                    stsdData.format = new Format.Builder().setId(i).setSampleMimeType("application/x-camera-motion").build();
+                }
+                i3 = position;
             }
-            parsableByteArray.setPosition(position + readInt2);
+            parsableByteArray.setPosition(i3 + readInt2);
         }
         return stsdData;
     }
 
-    private static void parseTextSampleEntry(ParsableByteArray parsableByteArray, int i, int i2, int i3, int i4, String str, StsdData stsdData) throws ParserException {
+    private static void parseTextSampleEntry(ParsableByteArray parsableByteArray, int i, int i2, int i3, int i4, String str, StsdData stsdData) {
         parsableByteArray.setPosition(i2 + 8 + 8);
         String str2 = "application/ttml+xml";
-        List list = null;
+        ImmutableList immutableList = null;
         long j = Long.MAX_VALUE;
         if (i != 1414810956) {
             if (i == 1954034535) {
                 int i5 = (i3 - 8) - 8;
                 byte[] bArr = new byte[i5];
                 parsableByteArray.readBytes(bArr, 0, i5);
-                list = Collections.singletonList(bArr);
+                immutableList = ImmutableList.of(bArr);
                 str2 = "application/x-quicktime-tx3g";
             } else if (i == 2004251764) {
                 str2 = "application/x-mp4-vtt";
@@ -743,116 +859,309 @@ public final class AtomParsers {
                 throw new IllegalStateException();
             }
         }
-        stsdData.format = Format.createTextSampleFormat(Integer.toString(i4), str2, null, -1, 0, str, -1, null, j, list);
+        stsdData.format = new Format.Builder().setId(i4).setSampleMimeType(str2).setLanguage(str).setSubsampleOffsetUs(j).setInitializationData(immutableList).build();
     }
 
     private static void parseVideoSampleEntry(ParsableByteArray parsableByteArray, int i, int i2, int i3, int i4, int i5, DrmInitData drmInitData, StsdData stsdData, int i6) throws ParserException {
-        int i7 = i2;
-        DrmInitData drmInitData2 = drmInitData;
-        parsableByteArray.setPosition(i7 + 8 + 8);
+        DrmInitData drmInitData2;
+        int i7;
+        int i8;
+        byte[] bArr;
+        float f;
+        List<byte[]> list;
+        String str;
+        int i9 = i2;
+        int i10 = i3;
+        DrmInitData drmInitData3 = drmInitData;
+        StsdData stsdData2 = stsdData;
+        parsableByteArray.setPosition(i9 + 8 + 8);
         parsableByteArray.skipBytes(16);
         int readUnsignedShort = parsableByteArray.readUnsignedShort();
         int readUnsignedShort2 = parsableByteArray.readUnsignedShort();
         parsableByteArray.skipBytes(50);
         int position = parsableByteArray.getPosition();
-        int i8 = i;
-        if (i8 == 1701733238) {
-            Pair<Integer, TrackEncryptionBox> parseSampleEntryEncryptionData = parseSampleEntryEncryptionData(parsableByteArray, i7, i3);
+        int i11 = i;
+        if (i11 == 1701733238) {
+            Pair<Integer, TrackEncryptionBox> parseSampleEntryEncryptionData = parseSampleEntryEncryptionData(parsableByteArray, i9, i10);
             if (parseSampleEntryEncryptionData != null) {
-                i8 = ((Integer) parseSampleEntryEncryptionData.first).intValue();
-                drmInitData2 = drmInitData2 == null ? null : drmInitData2.copyWithSchemeType(((TrackEncryptionBox) parseSampleEntryEncryptionData.second).schemeType);
-                stsdData.trackEncryptionBoxes[i6] = (TrackEncryptionBox) parseSampleEntryEncryptionData.second;
+                i11 = ((Integer) parseSampleEntryEncryptionData.first).intValue();
+                drmInitData3 = drmInitData3 == null ? null : drmInitData3.copyWithSchemeType(((TrackEncryptionBox) parseSampleEntryEncryptionData.second).schemeType);
+                stsdData2.trackEncryptionBoxes[i6] = (TrackEncryptionBox) parseSampleEntryEncryptionData.second;
             }
             parsableByteArray.setPosition(position);
         }
-        DrmInitData drmInitData3 = drmInitData2;
-        String str = null;
-        String str2 = null;
-        List<byte[]> list = null;
-        byte[] bArr = null;
+        String str2 = "video/3gpp";
+        String str3 = i11 == 1831958048 ? "video/mpeg" : i11 == 1211250227 ? "video/3gpp" : null;
+        float f2 = 1.0f;
+        byte[] bArr2 = null;
+        String str4 = null;
+        List<byte[]> list2 = null;
+        int i12 = -1;
+        int i13 = -1;
+        int i14 = -1;
+        int i15 = -1;
+        ByteBuffer byteBuffer = null;
+        EsdsData esdsData = null;
         boolean z = false;
-        float f = 1.0f;
-        int i9 = -1;
-        while (position - i7 < i3) {
-            parsableByteArray.setPosition(position);
-            int position2 = parsableByteArray.getPosition();
-            int readInt = parsableByteArray.readInt();
-            if (readInt == 0 && parsableByteArray.getPosition() - i7 == i3) {
+        while (true) {
+            if (position - i9 >= i10) {
+                drmInitData2 = drmInitData3;
                 break;
             }
-            Assertions.checkArgument(readInt > 0, "childAtomSize should be positive");
+            parsableByteArray.setPosition(position);
+            int position2 = parsableByteArray.getPosition();
+            String str5 = str2;
+            int readInt = parsableByteArray.readInt();
+            if (readInt == 0) {
+                drmInitData2 = drmInitData3;
+                if (parsableByteArray.getPosition() - i9 == i10) {
+                    break;
+                }
+            } else {
+                drmInitData2 = drmInitData3;
+            }
+            ExtractorUtil.checkContainerInput(readInt > 0, "childAtomSize must be positive");
             int readInt2 = parsableByteArray.readInt();
             if (readInt2 == 1635148611) {
-                Assertions.checkState(str == null);
+                ExtractorUtil.checkContainerInput(str3 == null, null);
                 parsableByteArray.setPosition(position2 + 8);
                 AvcConfig parse = AvcConfig.parse(parsableByteArray);
-                list = parse.initializationData;
-                stsdData.nalUnitLengthFieldLength = parse.nalUnitLengthFieldLength;
+                list2 = parse.initializationData;
+                stsdData2.nalUnitLengthFieldLength = parse.nalUnitLengthFieldLength;
                 if (!z) {
-                    f = parse.pixelWidthAspectRatio;
+                    f2 = parse.pixelWidthHeightRatio;
                 }
+                str4 = parse.codecs;
                 str = MediaController.VIDEO_MIME_TYPE;
             } else if (readInt2 == 1752589123) {
-                Assertions.checkState(str == null);
+                ExtractorUtil.checkContainerInput(str3 == null, null);
                 parsableByteArray.setPosition(position2 + 8);
                 HevcConfig parse2 = HevcConfig.parse(parsableByteArray);
-                list = parse2.initializationData;
-                stsdData.nalUnitLengthFieldLength = parse2.nalUnitLengthFieldLength;
-                str = "video/hevc";
-            } else if (readInt2 == 1685480259 || readInt2 == 1685485123) {
-                DolbyVisionConfig parse3 = DolbyVisionConfig.parse(parsableByteArray);
-                if (parse3 != null) {
-                    str2 = parse3.codecs;
-                    str = "video/dolby-vision";
+                list2 = parse2.initializationData;
+                stsdData2.nalUnitLengthFieldLength = parse2.nalUnitLengthFieldLength;
+                if (!z) {
+                    f2 = parse2.pixelWidthHeightRatio;
                 }
-            } else if (readInt2 == 1987076931) {
-                Assertions.checkState(str == null);
-                str = i8 == 1987063864 ? "video/x-vnd.on2.vp8" : "video/x-vnd.on2.vp9";
-            } else if (readInt2 == 1635135811) {
-                Assertions.checkState(str == null);
-                str = "video/av01";
-            } else if (readInt2 == 1681012275) {
-                Assertions.checkState(str == null);
-                str = "video/3gpp";
-            } else if (readInt2 == 1702061171) {
-                Assertions.checkState(str == null);
-                Pair<String, byte[]> parseEsdsFromParent = parseEsdsFromParent(parsableByteArray, position2);
-                str = (String) parseEsdsFromParent.first;
-                list = Collections.singletonList((byte[]) parseEsdsFromParent.second);
-            } else if (readInt2 == 1885434736) {
-                f = parsePaspFromParent(parsableByteArray, position2);
-                z = true;
-            } else if (readInt2 == 1937126244) {
-                bArr = parseProjFromParent(parsableByteArray, position2, readInt);
-            } else if (readInt2 == 1936995172) {
-                int readUnsignedByte = parsableByteArray.readUnsignedByte();
-                parsableByteArray.skipBytes(3);
-                if (readUnsignedByte == 0) {
-                    int readUnsignedByte2 = parsableByteArray.readUnsignedByte();
-                    if (readUnsignedByte2 == 0) {
-                        i9 = 0;
-                    } else if (readUnsignedByte2 == 1) {
-                        i9 = 1;
-                    } else if (readUnsignedByte2 == 2) {
-                        i9 = 2;
-                    } else if (readUnsignedByte2 == 3) {
-                        i9 = 3;
+                str4 = parse2.codecs;
+                str = "video/hevc";
+            } else {
+                if (readInt2 == 1685480259 || readInt2 == 1685485123) {
+                    i7 = readUnsignedShort2;
+                    i8 = i11;
+                    bArr = bArr2;
+                    f = f2;
+                    list = list2;
+                    DolbyVisionConfig parse3 = DolbyVisionConfig.parse(parsableByteArray);
+                    if (parse3 != null) {
+                        str4 = parse3.codecs;
+                        str3 = "video/dolby-vision";
+                    }
+                } else if (readInt2 == 1987076931) {
+                    ExtractorUtil.checkContainerInput(str3 == null, null);
+                    str = i11 == 1987063864 ? "video/x-vnd.on2.vp8" : "video/x-vnd.on2.vp9";
+                } else if (readInt2 == 1635135811) {
+                    ExtractorUtil.checkContainerInput(str3 == null, null);
+                    str = "video/av01";
+                } else if (readInt2 == 1668050025) {
+                    ByteBuffer allocateHdrStaticInfo = byteBuffer == null ? allocateHdrStaticInfo() : byteBuffer;
+                    allocateHdrStaticInfo.position(21);
+                    allocateHdrStaticInfo.putShort(parsableByteArray.readShort());
+                    allocateHdrStaticInfo.putShort(parsableByteArray.readShort());
+                    byteBuffer = allocateHdrStaticInfo;
+                    i7 = readUnsignedShort2;
+                    i8 = i11;
+                    position += readInt;
+                    i9 = i2;
+                    i10 = i3;
+                    stsdData2 = stsdData;
+                    str2 = str5;
+                    drmInitData3 = drmInitData2;
+                    i11 = i8;
+                    readUnsignedShort2 = i7;
+                } else if (readInt2 == 1835295606) {
+                    ByteBuffer allocateHdrStaticInfo2 = byteBuffer == null ? allocateHdrStaticInfo() : byteBuffer;
+                    short readShort = parsableByteArray.readShort();
+                    short readShort2 = parsableByteArray.readShort();
+                    short readShort3 = parsableByteArray.readShort();
+                    i8 = i11;
+                    short readShort4 = parsableByteArray.readShort();
+                    short readShort5 = parsableByteArray.readShort();
+                    List<byte[]> list3 = list2;
+                    short readShort6 = parsableByteArray.readShort();
+                    byte[] bArr3 = bArr2;
+                    short readShort7 = parsableByteArray.readShort();
+                    float f3 = f2;
+                    short readShort8 = parsableByteArray.readShort();
+                    long readUnsignedInt = parsableByteArray.readUnsignedInt();
+                    long readUnsignedInt2 = parsableByteArray.readUnsignedInt();
+                    i7 = readUnsignedShort2;
+                    allocateHdrStaticInfo2.position(1);
+                    allocateHdrStaticInfo2.putShort(readShort5);
+                    allocateHdrStaticInfo2.putShort(readShort6);
+                    allocateHdrStaticInfo2.putShort(readShort);
+                    allocateHdrStaticInfo2.putShort(readShort2);
+                    allocateHdrStaticInfo2.putShort(readShort3);
+                    allocateHdrStaticInfo2.putShort(readShort4);
+                    allocateHdrStaticInfo2.putShort(readShort7);
+                    allocateHdrStaticInfo2.putShort(readShort8);
+                    allocateHdrStaticInfo2.putShort((short) (readUnsignedInt / 10000));
+                    allocateHdrStaticInfo2.putShort((short) (readUnsignedInt2 / 10000));
+                    byteBuffer = allocateHdrStaticInfo2;
+                    list2 = list3;
+                    bArr2 = bArr3;
+                    f2 = f3;
+                    position += readInt;
+                    i9 = i2;
+                    i10 = i3;
+                    stsdData2 = stsdData;
+                    str2 = str5;
+                    drmInitData3 = drmInitData2;
+                    i11 = i8;
+                    readUnsignedShort2 = i7;
+                } else {
+                    i7 = readUnsignedShort2;
+                    i8 = i11;
+                    bArr = bArr2;
+                    f = f2;
+                    list = list2;
+                    if (readInt2 == 1681012275) {
+                        ExtractorUtil.checkContainerInput(str3 == null, null);
+                        str3 = str5;
+                    } else if (readInt2 == 1702061171) {
+                        ExtractorUtil.checkContainerInput(str3 == null, null);
+                        esdsData = parseEsdsFromParent(parsableByteArray, position2);
+                        String str6 = esdsData.mimeType;
+                        byte[] bArr4 = esdsData.initializationData;
+                        list2 = bArr4 != null ? ImmutableList.of(bArr4) : list;
+                        str3 = str6;
+                        bArr2 = bArr;
+                        f2 = f;
+                        position += readInt;
+                        i9 = i2;
+                        i10 = i3;
+                        stsdData2 = stsdData;
+                        str2 = str5;
+                        drmInitData3 = drmInitData2;
+                        i11 = i8;
+                        readUnsignedShort2 = i7;
+                    } else if (readInt2 == 1885434736) {
+                        f2 = parsePaspFromParent(parsableByteArray, position2);
+                        list2 = list;
+                        bArr2 = bArr;
+                        z = true;
+                        position += readInt;
+                        i9 = i2;
+                        i10 = i3;
+                        stsdData2 = stsdData;
+                        str2 = str5;
+                        drmInitData3 = drmInitData2;
+                        i11 = i8;
+                        readUnsignedShort2 = i7;
+                    } else if (readInt2 == 1937126244) {
+                        bArr2 = parseProjFromParent(parsableByteArray, position2, readInt);
+                        list2 = list;
+                        f2 = f;
+                        position += readInt;
+                        i9 = i2;
+                        i10 = i3;
+                        stsdData2 = stsdData;
+                        str2 = str5;
+                        drmInitData3 = drmInitData2;
+                        i11 = i8;
+                        readUnsignedShort2 = i7;
+                    } else if (readInt2 == 1936995172) {
+                        int readUnsignedByte = parsableByteArray.readUnsignedByte();
+                        parsableByteArray.skipBytes(3);
+                        if (readUnsignedByte == 0) {
+                            int readUnsignedByte2 = parsableByteArray.readUnsignedByte();
+                            if (readUnsignedByte2 == 0) {
+                                i12 = 0;
+                            } else if (readUnsignedByte2 == 1) {
+                                i12 = 1;
+                            } else if (readUnsignedByte2 == 2) {
+                                i12 = 2;
+                            } else if (readUnsignedByte2 == 3) {
+                                i12 = 3;
+                            }
+                        }
+                    } else if (readInt2 == 1668246642) {
+                        int readInt3 = parsableByteArray.readInt();
+                        if (readInt3 == 1852009592 || readInt3 == 1852009571) {
+                            int readUnsignedShort3 = parsableByteArray.readUnsignedShort();
+                            int readUnsignedShort4 = parsableByteArray.readUnsignedShort();
+                            parsableByteArray.skipBytes(2);
+                            boolean z2 = readInt == 19 && (parsableByteArray.readUnsignedByte() & 128) != 0;
+                            i13 = ColorInfo.isoColorPrimariesToColorSpace(readUnsignedShort3);
+                            i14 = z2 ? 1 : 2;
+                            i15 = ColorInfo.isoTransferCharacteristicsToColorTransfer(readUnsignedShort4);
+                        } else {
+                            Log.w("AtomParsers", "Unsupported color type: " + Atom.getAtomTypeString(readInt3));
+                        }
                     }
                 }
+                list2 = list;
+                bArr2 = bArr;
+                f2 = f;
+                position += readInt;
+                i9 = i2;
+                i10 = i3;
+                stsdData2 = stsdData;
+                str2 = str5;
+                drmInitData3 = drmInitData2;
+                i11 = i8;
+                readUnsignedShort2 = i7;
             }
+            str3 = str;
+            i7 = readUnsignedShort2;
+            i8 = i11;
             position += readInt;
-            i7 = i2;
+            i9 = i2;
+            i10 = i3;
+            stsdData2 = stsdData;
+            str2 = str5;
+            drmInitData3 = drmInitData2;
+            i11 = i8;
+            readUnsignedShort2 = i7;
         }
-        if (str == null) {
+        int i16 = readUnsignedShort2;
+        byte[] bArr5 = bArr2;
+        float f4 = f2;
+        List<byte[]> list4 = list2;
+        if (str3 == null) {
             return;
         }
-        stsdData.format = Format.createVideoSampleFormat(Integer.toString(i4), str, str2, -1, -1, readUnsignedShort, readUnsignedShort2, -1.0f, list, i5, f, bArr, i9, null, drmInitData3);
+        Format.Builder drmInitData4 = new Format.Builder().setId(i4).setSampleMimeType(str3).setCodecs(str4).setWidth(readUnsignedShort).setHeight(i16).setPixelWidthHeightRatio(f4).setRotationDegrees(i5).setProjectionData(bArr5).setStereoMode(i12).setInitializationData(list4).setDrmInitData(drmInitData2);
+        int i17 = i13;
+        int i18 = i14;
+        int i19 = i15;
+        if (i17 != -1 || i18 != -1 || i19 != -1 || byteBuffer != null) {
+            drmInitData4.setColorInfo(new ColorInfo(i17, i18, i19, byteBuffer != null ? byteBuffer.array() : null));
+        }
+        if (esdsData != null) {
+            drmInitData4.setAverageBitrate(Ints.saturatedCast(esdsData.bitrate)).setPeakBitrate(Ints.saturatedCast(esdsData.peakBitrate));
+        }
+        stsdData.format = drmInitData4.build();
+    }
+
+    private static ByteBuffer allocateHdrStaticInfo() {
+        return ByteBuffer.allocate(25).order(ByteOrder.LITTLE_ENDIAN);
+    }
+
+    private static void parseMetaDataSampleEntry(ParsableByteArray parsableByteArray, int i, int i2, int i3, StsdData stsdData) {
+        parsableByteArray.setPosition(i2 + 8 + 8);
+        if (i == 1835365492) {
+            parsableByteArray.readNullTerminatedString();
+            String readNullTerminatedString = parsableByteArray.readNullTerminatedString();
+            if (readNullTerminatedString != null) {
+                stsdData.format = new Format.Builder().setId(i3).setSampleMimeType(readNullTerminatedString).build();
+            }
+        }
     }
 
     private static Pair<long[], long[]> parseEdts(Atom.ContainerAtom containerAtom) {
-        Atom.LeafAtom leafAtomOfType;
-        if (containerAtom == null || (leafAtomOfType = containerAtom.getLeafAtomOfType(1701606260)) == null) {
-            return Pair.create(null, null);
+        Atom.LeafAtom leafAtomOfType = containerAtom.getLeafAtomOfType(1701606260);
+        if (leafAtomOfType == null) {
+            return null;
         }
         ParsableByteArray parsableByteArray = leafAtomOfType.data;
         parsableByteArray.setPosition(8);
@@ -876,22 +1185,20 @@ public final class AtomParsers {
         return parsableByteArray.readUnsignedIntToInt() / parsableByteArray.readUnsignedIntToInt();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:85:0x0136  */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x0166  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private static void parseAudioSampleEntry(ParsableByteArray parsableByteArray, int i, int i2, int i3, int i4, String str, boolean z, DrmInitData drmInitData, StsdData stsdData, int i5) throws ParserException {
         int i6;
+        int readInt;
         int i7;
         int i8;
         int i9;
-        int i10;
-        int i11;
-        int i12;
-        DrmInitData drmInitData2;
-        int i13 = i2;
-        DrmInitData drmInitData3 = drmInitData;
-        parsableByteArray.setPosition(i13 + 8 + 8);
+        int i10 = i2;
+        int i11 = i3;
+        DrmInitData drmInitData2 = drmInitData;
+        parsableByteArray.setPosition(i10 + 8 + 8);
         if (z) {
             i6 = parsableByteArray.readUnsignedShort();
             parsableByteArray.skipBytes(6);
@@ -903,6 +1210,8 @@ public final class AtomParsers {
             int readUnsignedShort = parsableByteArray.readUnsignedShort();
             parsableByteArray.skipBytes(6);
             int readUnsignedFixedPoint1616 = parsableByteArray.readUnsignedFixedPoint1616();
+            parsableByteArray.setPosition(parsableByteArray.getPosition() - 4);
+            readInt = parsableByteArray.readInt();
             if (i6 == 1) {
                 parsableByteArray.skipBytes(16);
             }
@@ -915,157 +1224,189 @@ public final class AtomParsers {
             i7 = (int) Math.round(parsableByteArray.readDouble());
             i8 = parsableByteArray.readUnsignedIntToInt();
             parsableByteArray.skipBytes(20);
+            readInt = 0;
         }
         int position = parsableByteArray.getPosition();
-        int i14 = i;
-        if (i14 == 1701733217) {
-            Pair<Integer, TrackEncryptionBox> parseSampleEntryEncryptionData = parseSampleEntryEncryptionData(parsableByteArray, i13, i3);
+        int i12 = i;
+        if (i12 == 1701733217) {
+            Pair<Integer, TrackEncryptionBox> parseSampleEntryEncryptionData = parseSampleEntryEncryptionData(parsableByteArray, i10, i11);
             if (parseSampleEntryEncryptionData != null) {
-                i14 = ((Integer) parseSampleEntryEncryptionData.first).intValue();
-                drmInitData3 = drmInitData3 == null ? null : drmInitData3.copyWithSchemeType(((TrackEncryptionBox) parseSampleEntryEncryptionData.second).schemeType);
+                i12 = ((Integer) parseSampleEntryEncryptionData.first).intValue();
+                drmInitData2 = drmInitData2 == null ? null : drmInitData2.copyWithSchemeType(((TrackEncryptionBox) parseSampleEntryEncryptionData.second).schemeType);
                 stsdData.trackEncryptionBoxes[i5] = (TrackEncryptionBox) parseSampleEntryEncryptionData.second;
             }
             parsableByteArray.setPosition(position);
         }
-        DrmInitData drmInitData4 = drmInitData3;
         String str2 = "audio/raw";
-        if (i14 == 1633889587) {
+        if (i12 == 1633889587) {
             str2 = "audio/ac3";
-        } else if (i14 == 1700998451) {
+        } else if (i12 == 1700998451) {
             str2 = "audio/eac3";
-        } else if (i14 == 1633889588) {
+        } else if (i12 == 1633889588) {
             str2 = "audio/ac4";
-        } else if (i14 == 1685353315) {
+        } else if (i12 == 1685353315) {
             str2 = "audio/vnd.dts";
-        } else if (i14 == 1685353320 || i14 == 1685353324) {
+        } else if (i12 == 1685353320 || i12 == 1685353324) {
             str2 = "audio/vnd.dts.hd";
-        } else if (i14 == 1685353317) {
+        } else if (i12 == 1685353317) {
             str2 = "audio/vnd.dts.hd;profile=lbr";
-        } else if (i14 == 1935764850) {
+        } else if (i12 == 1685353336) {
+            str2 = "audio/vnd.dts.uhd;profile=p2";
+        } else if (i12 == 1935764850) {
             str2 = "audio/3gpp";
-        } else if (i14 != 1935767394) {
-            if (i14 == 1819304813 || i14 == 1936684916) {
+        } else if (i12 != 1935767394) {
+            if (i12 == 1819304813 || i12 == 1936684916) {
                 i9 = 2;
-            } else if (i14 == 1953984371) {
+            } else if (i12 == 1953984371) {
                 i9 = 268435456;
+            } else if (i12 == 778924082 || i12 == 778924083) {
+                str2 = "audio/mpeg";
+            } else if (i12 == 1835557169) {
+                str2 = "audio/mha1";
+            } else if (i12 == 1835560241) {
+                str2 = "audio/mhm1";
+            } else if (i12 == 1634492771) {
+                str2 = "audio/alac";
+            } else if (i12 == 1634492791) {
+                str2 = "audio/g711-alaw";
+            } else if (i12 == 1970037111) {
+                str2 = "audio/g711-mlaw";
+            } else if (i12 == 1332770163) {
+                str2 = "audio/opus";
+            } else if (i12 == 1716281667) {
+                str2 = "audio/flac";
+            } else if (i12 == 1835823201) {
+                str2 = "audio/true-hd";
             } else {
-                str2 = i14 == 778924083 ? "audio/mpeg" : i14 == 1634492771 ? "audio/alac" : i14 == 1634492791 ? "audio/g711-alaw" : i14 == 1970037111 ? "audio/g711-mlaw" : i14 == 1332770163 ? "audio/opus" : i14 == 1716281667 ? "audio/flac" : null;
+                i9 = -1;
+                str2 = null;
             }
-            int i15 = i8;
-            int i16 = i7;
-            i10 = position;
             String str3 = str2;
-            byte[] bArr = null;
-            while (i10 - i13 < i3) {
-                parsableByteArray.setPosition(i10);
-                int readInt = parsableByteArray.readInt();
-                Assertions.checkArgument(readInt > 0, "childAtomSize should be positive");
+            EsdsData esdsData = null;
+            String str4 = null;
+            List<byte[]> list = null;
+            while (position - i10 < i11) {
+                parsableByteArray.setPosition(position);
                 int readInt2 = parsableByteArray.readInt();
-                if (readInt2 == 1702061171 || (z && readInt2 == 2002876005)) {
-                    i11 = readInt;
-                    i12 = i10;
-                    drmInitData2 = drmInitData4;
-                    int findEsdsPosition = readInt2 == 1702061171 ? i12 : findEsdsPosition(parsableByteArray, i12, i11);
-                    if (findEsdsPosition != -1) {
-                        Pair<String, byte[]> parseEsdsFromParent = parseEsdsFromParent(parsableByteArray, findEsdsPosition);
-                        String str4 = (String) parseEsdsFromParent.first;
-                        bArr = (byte[]) parseEsdsFromParent.second;
-                        if (MediaController.AUIDO_MIME_TYPE.equals(str4)) {
-                            Pair<Integer, Integer> parseAacAudioSpecificConfig = CodecSpecificDataUtil.parseAacAudioSpecificConfig(bArr);
-                            i16 = ((Integer) parseAacAudioSpecificConfig.first).intValue();
-                            i15 = ((Integer) parseAacAudioSpecificConfig.second).intValue();
-                        }
-                        str3 = str4;
-                    }
-                } else {
-                    if (readInt2 == 1684103987) {
-                        parsableByteArray.setPosition(i10 + 8);
-                        stsdData.format = Ac3Util.parseAc3AnnexFFormat(parsableByteArray, Integer.toString(i4), str, drmInitData4);
-                    } else if (readInt2 == 1684366131) {
-                        parsableByteArray.setPosition(i10 + 8);
-                        stsdData.format = Ac3Util.parseEAc3AnnexFFormat(parsableByteArray, Integer.toString(i4), str, drmInitData4);
-                    } else if (readInt2 == 1684103988) {
-                        parsableByteArray.setPosition(i10 + 8);
-                        stsdData.format = Ac4Util.parseAc4AnnexEFormat(parsableByteArray, Integer.toString(i4), str, drmInitData4);
-                    } else if (readInt2 == 1684305011) {
-                        drmInitData2 = drmInitData4;
-                        stsdData.format = Format.createAudioSampleFormat(Integer.toString(i4), str3, null, -1, -1, i15, i16, null, drmInitData2, 0, str);
-                        i11 = readInt;
-                        i12 = i10;
-                    } else {
-                        int i17 = i10;
-                        drmInitData2 = drmInitData4;
-                        if (readInt2 == 1682927731) {
-                            i11 = readInt;
-                            int i18 = i11 - 8;
-                            byte[] bArr2 = opusMagic;
-                            byte[] bArr3 = new byte[bArr2.length + i18];
-                            System.arraycopy(bArr2, 0, bArr3, 0, bArr2.length);
-                            i12 = i17;
-                            parsableByteArray.setPosition(i12 + 8);
-                            parsableByteArray.readBytes(bArr3, bArr2.length, i18);
-                            bArr = bArr3;
-                        } else {
-                            i11 = readInt;
-                            i12 = i17;
-                            if (readInt2 == 1684425825) {
-                                int i19 = i11 - 12;
-                                byte[] bArr4 = new byte[i19 + 4];
-                                bArr4[0] = 102;
-                                bArr4[1] = 76;
-                                bArr4[2] = 97;
-                                bArr4[3] = 67;
-                                parsableByteArray.setPosition(i12 + 12);
-                                parsableByteArray.readBytes(bArr4, 4, i19);
-                                bArr = bArr4;
-                            } else if (readInt2 == 1634492771) {
-                                int i20 = i11 - 12;
-                                byte[] bArr5 = new byte[i20];
-                                parsableByteArray.setPosition(i12 + 12);
-                                parsableByteArray.readBytes(bArr5, 0, i20);
-                                Pair<Integer, Integer> parseAlacAudioSpecificConfig = CodecSpecificDataUtil.parseAlacAudioSpecificConfig(bArr5);
-                                i16 = ((Integer) parseAlacAudioSpecificConfig.first).intValue();
-                                i15 = ((Integer) parseAlacAudioSpecificConfig.second).intValue();
-                                bArr = bArr5;
+                ExtractorUtil.checkContainerInput(readInt2 > 0, "childAtomSize must be positive");
+                int readInt3 = parsableByteArray.readInt();
+                if (readInt3 == 1835557187) {
+                    int i13 = readInt2 - 13;
+                    byte[] bArr = new byte[i13];
+                    parsableByteArray.setPosition(position + 13);
+                    parsableByteArray.readBytes(bArr, 0, i13);
+                    list = ImmutableList.of(bArr);
+                } else if (readInt3 == 1702061171 || (z && readInt3 == 2002876005)) {
+                    int findBoxPosition = readInt3 == 1702061171 ? position : findBoxPosition(parsableByteArray, 1702061171, position, readInt2);
+                    if (findBoxPosition != -1) {
+                        esdsData = parseEsdsFromParent(parsableByteArray, findBoxPosition);
+                        str3 = esdsData.mimeType;
+                        byte[] bArr2 = esdsData.initializationData;
+                        if (bArr2 != null) {
+                            if (MediaController.AUIDO_MIME_TYPE.equals(str3)) {
+                                AacUtil.Config parseAudioSpecificConfig = AacUtil.parseAudioSpecificConfig(bArr2);
+                                i7 = parseAudioSpecificConfig.sampleRateHz;
+                                i8 = parseAudioSpecificConfig.channelCount;
+                                str4 = parseAudioSpecificConfig.codecs;
                             }
+                            list = ImmutableList.of(bArr2);
                         }
                     }
-                    i11 = readInt;
-                    i12 = i10;
-                    drmInitData2 = drmInitData4;
+                    position += readInt2;
+                    i10 = i2;
+                    i11 = i3;
+                } else {
+                    if (readInt3 == 1684103987) {
+                        parsableByteArray.setPosition(position + 8);
+                        stsdData.format = Ac3Util.parseAc3AnnexFFormat(parsableByteArray, Integer.toString(i4), str, drmInitData2);
+                    } else if (readInt3 == 1684366131) {
+                        parsableByteArray.setPosition(position + 8);
+                        stsdData.format = Ac3Util.parseEAc3AnnexFFormat(parsableByteArray, Integer.toString(i4), str, drmInitData2);
+                    } else if (readInt3 == 1684103988) {
+                        parsableByteArray.setPosition(position + 8);
+                        stsdData.format = Ac4Util.parseAc4AnnexEFormat(parsableByteArray, Integer.toString(i4), str, drmInitData2);
+                    } else if (readInt3 == 1684892784) {
+                        if (readInt <= 0) {
+                            throw ParserException.createForMalformedContainer("Invalid sample rate for Dolby TrueHD MLP stream: " + readInt, null);
+                        }
+                        i7 = readInt;
+                        i8 = 2;
+                    } else if (readInt3 == 1684305011) {
+                        stsdData.format = new Format.Builder().setId(i4).setSampleMimeType(str3).setChannelCount(i8).setSampleRate(i7).setDrmInitData(drmInitData2).setLanguage(str).build();
+                    } else if (readInt3 == 1682927731) {
+                        int i14 = readInt2 - 8;
+                        byte[] bArr3 = opusMagic;
+                        byte[] copyOf = Arrays.copyOf(bArr3, bArr3.length + i14);
+                        parsableByteArray.setPosition(position + 8);
+                        parsableByteArray.readBytes(copyOf, bArr3.length, i14);
+                        list = OpusUtil.buildInitializationData(copyOf);
+                    } else if (readInt3 == 1684425825) {
+                        int i15 = readInt2 - 12;
+                        byte[] bArr4 = new byte[i15 + 4];
+                        bArr4[0] = 102;
+                        bArr4[1] = 76;
+                        bArr4[2] = 97;
+                        bArr4[3] = 67;
+                        parsableByteArray.setPosition(position + 12);
+                        parsableByteArray.readBytes(bArr4, 4, i15);
+                        list = ImmutableList.of(bArr4);
+                        position += readInt2;
+                        i10 = i2;
+                        i11 = i3;
+                    } else {
+                        if (readInt3 == 1634492771) {
+                            int i16 = readInt2 - 12;
+                            byte[] bArr5 = new byte[i16];
+                            parsableByteArray.setPosition(position + 12);
+                            parsableByteArray.readBytes(bArr5, 0, i16);
+                            Pair<Integer, Integer> parseAlacAudioSpecificConfig = CodecSpecificDataUtil.parseAlacAudioSpecificConfig(bArr5);
+                            i7 = ((Integer) parseAlacAudioSpecificConfig.first).intValue();
+                            int intValue = ((Integer) parseAlacAudioSpecificConfig.second).intValue();
+                            list = ImmutableList.of(bArr5);
+                            i8 = intValue;
+                        }
+                        position += readInt2;
+                        i10 = i2;
+                        i11 = i3;
+                    }
+                    position += readInt2;
+                    i10 = i2;
+                    i11 = i3;
                 }
-                i10 = i12 + i11;
-                i13 = i2;
-                drmInitData4 = drmInitData2;
+                position += readInt2;
+                i10 = i2;
+                i11 = i3;
             }
-            DrmInitData drmInitData5 = drmInitData4;
             if (stsdData.format == null || str3 == null) {
             }
-            stsdData.format = Format.createAudioSampleFormat(Integer.toString(i4), str3, null, -1, -1, i15, i16, i9, bArr == null ? null : Collections.singletonList(bArr), drmInitData5, 0, str);
+            Format.Builder language = new Format.Builder().setId(i4).setSampleMimeType(str3).setCodecs(str4).setChannelCount(i8).setSampleRate(i7).setPcmEncoding(i9).setInitializationData(list).setDrmInitData(drmInitData2).setLanguage(str);
+            if (esdsData != null) {
+                language.setAverageBitrate(Ints.saturatedCast(esdsData.bitrate)).setPeakBitrate(Ints.saturatedCast(esdsData.peakBitrate));
+            }
+            stsdData.format = language.build();
             return;
         } else {
             str2 = "audio/amr-wb";
         }
         i9 = -1;
-        int i152 = i8;
-        int i162 = i7;
-        i10 = position;
         String str32 = str2;
-        byte[] bArr6 = null;
-        while (i10 - i13 < i3) {
+        EsdsData esdsData2 = null;
+        String str42 = null;
+        List<byte[]> list2 = null;
+        while (position - i10 < i11) {
         }
-        DrmInitData drmInitData52 = drmInitData4;
         if (stsdData.format == null) {
         }
     }
 
-    private static int findEsdsPosition(ParsableByteArray parsableByteArray, int i, int i2) {
+    private static int findBoxPosition(ParsableByteArray parsableByteArray, int i, int i2, int i3) throws ParserException {
         int position = parsableByteArray.getPosition();
-        while (position - i < i2) {
+        ExtractorUtil.checkContainerInput(position >= i2, null);
+        while (position - i2 < i3) {
             parsableByteArray.setPosition(position);
             int readInt = parsableByteArray.readInt();
-            Assertions.checkArgument(readInt > 0, "childAtomSize should be positive");
-            if (parsableByteArray.readInt() == 1702061171) {
+            ExtractorUtil.checkContainerInput(readInt > 0, "childAtomSize must be positive");
+            if (parsableByteArray.readInt() == i) {
                 return position;
             }
             position += readInt;
@@ -1073,7 +1414,7 @@ public final class AtomParsers {
         return -1;
     }
 
-    private static Pair<String, byte[]> parseEsdsFromParent(ParsableByteArray parsableByteArray, int i) {
+    private static EsdsData parseEsdsFromParent(ParsableByteArray parsableByteArray, int i) {
         parsableByteArray.setPosition(i + 8 + 4);
         parsableByteArray.skipBytes(1);
         parseExpandableClassSize(parsableByteArray);
@@ -1083,7 +1424,7 @@ public final class AtomParsers {
             parsableByteArray.skipBytes(2);
         }
         if ((readUnsignedByte & 64) != 0) {
-            parsableByteArray.skipBytes(parsableByteArray.readUnsignedShort());
+            parsableByteArray.skipBytes(parsableByteArray.readUnsignedByte());
         }
         if ((readUnsignedByte & 32) != 0) {
             parsableByteArray.skipBytes(2);
@@ -1092,23 +1433,25 @@ public final class AtomParsers {
         parseExpandableClassSize(parsableByteArray);
         String mimeTypeFromMp4ObjectType = MimeTypes.getMimeTypeFromMp4ObjectType(parsableByteArray.readUnsignedByte());
         if ("audio/mpeg".equals(mimeTypeFromMp4ObjectType) || "audio/vnd.dts".equals(mimeTypeFromMp4ObjectType) || "audio/vnd.dts.hd".equals(mimeTypeFromMp4ObjectType)) {
-            return Pair.create(mimeTypeFromMp4ObjectType, null);
+            return new EsdsData(mimeTypeFromMp4ObjectType, null, -1L, -1L);
         }
-        parsableByteArray.skipBytes(12);
+        parsableByteArray.skipBytes(4);
+        long readUnsignedInt = parsableByteArray.readUnsignedInt();
+        long readUnsignedInt2 = parsableByteArray.readUnsignedInt();
         parsableByteArray.skipBytes(1);
         int parseExpandableClassSize = parseExpandableClassSize(parsableByteArray);
         byte[] bArr = new byte[parseExpandableClassSize];
         parsableByteArray.readBytes(bArr, 0, parseExpandableClassSize);
-        return Pair.create(mimeTypeFromMp4ObjectType, bArr);
+        return new EsdsData(mimeTypeFromMp4ObjectType, bArr, readUnsignedInt2 > 0 ? readUnsignedInt2 : -1L, readUnsignedInt > 0 ? readUnsignedInt : -1L);
     }
 
-    private static Pair<Integer, TrackEncryptionBox> parseSampleEntryEncryptionData(ParsableByteArray parsableByteArray, int i, int i2) {
+    private static Pair<Integer, TrackEncryptionBox> parseSampleEntryEncryptionData(ParsableByteArray parsableByteArray, int i, int i2) throws ParserException {
         Pair<Integer, TrackEncryptionBox> parseCommonEncryptionSinfFromParent;
         int position = parsableByteArray.getPosition();
         while (position - i < i2) {
             parsableByteArray.setPosition(position);
             int readInt = parsableByteArray.readInt();
-            Assertions.checkArgument(readInt > 0, "childAtomSize should be positive");
+            ExtractorUtil.checkContainerInput(readInt > 0, "childAtomSize must be positive");
             if (parsableByteArray.readInt() == 1936289382 && (parseCommonEncryptionSinfFromParent = parseCommonEncryptionSinfFromParent(parsableByteArray, position, readInt)) != null) {
                 return parseCommonEncryptionSinfFromParent;
             }
@@ -1117,7 +1460,7 @@ public final class AtomParsers {
         return null;
     }
 
-    static Pair<Integer, TrackEncryptionBox> parseCommonEncryptionSinfFromParent(ParsableByteArray parsableByteArray, int i, int i2) {
+    static Pair<Integer, TrackEncryptionBox> parseCommonEncryptionSinfFromParent(ParsableByteArray parsableByteArray, int i, int i2) throws ParserException {
         int i3 = i + 8;
         String str = null;
         Integer num = null;
@@ -1139,11 +1482,11 @@ public final class AtomParsers {
             i3 += readInt;
         }
         if ("cenc".equals(str) || "cbc1".equals(str) || "cens".equals(str) || "cbcs".equals(str)) {
-            Assertions.checkArgument(num != null, "frma atom is mandatory");
-            Assertions.checkArgument(i4 != -1, "schi atom is mandatory");
+            ExtractorUtil.checkContainerInput(num != null, "frma atom is mandatory");
+            ExtractorUtil.checkContainerInput(i4 != -1, "schi atom is mandatory");
             TrackEncryptionBox parseSchiFromParent = parseSchiFromParent(parsableByteArray, i4, i5, str);
-            Assertions.checkArgument(parseSchiFromParent != null, "tenc atom is mandatory");
-            return Pair.create(num, parseSchiFromParent);
+            ExtractorUtil.checkContainerInput(parseSchiFromParent != null, "tenc atom is mandatory");
+            return Pair.create(num, (TrackEncryptionBox) Util.castNonNull(parseSchiFromParent));
         }
         return null;
     }
@@ -1192,7 +1535,7 @@ public final class AtomParsers {
             parsableByteArray.setPosition(i3);
             int readInt = parsableByteArray.readInt();
             if (parsableByteArray.readInt() == 1886547818) {
-                return Arrays.copyOfRange(parsableByteArray.data, i3, readInt + i3);
+                return Arrays.copyOfRange(parsableByteArray.getData(), i3, readInt + i3);
             }
             i3 += readInt;
         }
@@ -1214,8 +1557,9 @@ public final class AtomParsers {
         return jArr[0] <= j2 && j2 < jArr[Util.constrainValue(4, 0, length)] && jArr[Util.constrainValue(jArr.length - 4, 0, length)] < j3 && j3 <= j;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    private static final class ChunkIterator {
+    public static final class ChunkIterator {
         private final ParsableByteArray chunkOffsets;
         private final boolean chunkOffsetsAreLongs;
         public int index;
@@ -1226,7 +1570,7 @@ public final class AtomParsers {
         private int remainingSamplesPerChunkChanges;
         private final ParsableByteArray stsc;
 
-        public ChunkIterator(ParsableByteArray parsableByteArray, ParsableByteArray parsableByteArray2, boolean z) {
+        public ChunkIterator(ParsableByteArray parsableByteArray, ParsableByteArray parsableByteArray2, boolean z) throws ParserException {
             this.stsc = parsableByteArray;
             this.chunkOffsets = parsableByteArray2;
             this.chunkOffsetsAreLongs = z;
@@ -1234,17 +1578,23 @@ public final class AtomParsers {
             this.length = parsableByteArray2.readUnsignedIntToInt();
             parsableByteArray.setPosition(12);
             this.remainingSamplesPerChunkChanges = parsableByteArray.readUnsignedIntToInt();
-            Assertions.checkState(parsableByteArray.readInt() == 1, "first_chunk must be 1");
+            ExtractorUtil.checkContainerInput(parsableByteArray.readInt() == 1, "first_chunk must be 1");
             this.index = -1;
         }
 
         public boolean moveNext() {
+            long readUnsignedInt;
             int i = this.index + 1;
             this.index = i;
             if (i == this.length) {
                 return false;
             }
-            this.offset = this.chunkOffsetsAreLongs ? this.chunkOffsets.readUnsignedLongToLong() : this.chunkOffsets.readUnsignedInt();
+            if (this.chunkOffsetsAreLongs) {
+                readUnsignedInt = this.chunkOffsets.readUnsignedLongToLong();
+            } else {
+                readUnsignedInt = this.chunkOffsets.readUnsignedInt();
+            }
+            this.offset = readUnsignedInt;
             if (this.index == this.nextSamplesPerChunkChangeIndex) {
                 this.numSamples = this.stsc.readUnsignedIntToInt();
                 this.stsc.skipBytes(4);
@@ -1283,17 +1633,42 @@ public final class AtomParsers {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    static final class StszSampleSizeBox implements SampleSizeBox {
+    public static final class EsdsData {
+        private final long bitrate;
+        private final byte[] initializationData;
+        private final String mimeType;
+        private final long peakBitrate;
+
+        public EsdsData(String str, byte[] bArr, long j, long j2) {
+            this.mimeType = str;
+            this.initializationData = bArr;
+            this.bitrate = j;
+            this.peakBitrate = j2;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static final class StszSampleSizeBox implements SampleSizeBox {
         private final ParsableByteArray data;
         private final int fixedSampleSize;
         private final int sampleCount;
 
-        public StszSampleSizeBox(Atom.LeafAtom leafAtom) {
+        public StszSampleSizeBox(Atom.LeafAtom leafAtom, Format format) {
             ParsableByteArray parsableByteArray = leafAtom.data;
             this.data = parsableByteArray;
             parsableByteArray.setPosition(12);
-            this.fixedSampleSize = parsableByteArray.readUnsignedIntToInt();
+            int readUnsignedIntToInt = parsableByteArray.readUnsignedIntToInt();
+            if ("audio/raw".equals(format.sampleMimeType)) {
+                int pcmFrameSize = Util.getPcmFrameSize(format.pcmEncoding, format.channelCount);
+                if (readUnsignedIntToInt == 0 || readUnsignedIntToInt % pcmFrameSize != 0) {
+                    Log.w("AtomParsers", "Audio sample size mismatch. stsd sample size: " + pcmFrameSize + ", stsz sample size: " + readUnsignedIntToInt);
+                    readUnsignedIntToInt = pcmFrameSize;
+                }
+            }
+            this.fixedSampleSize = readUnsignedIntToInt == 0 ? -1 : readUnsignedIntToInt;
             this.sampleCount = parsableByteArray.readUnsignedIntToInt();
         }
 
@@ -1303,19 +1678,20 @@ public final class AtomParsers {
         }
 
         @Override // com.google.android.exoplayer2.extractor.mp4.AtomParsers.SampleSizeBox
-        public int readNextSampleSize() {
-            int i = this.fixedSampleSize;
-            return i == 0 ? this.data.readUnsignedIntToInt() : i;
+        public int getFixedSampleSize() {
+            return this.fixedSampleSize;
         }
 
         @Override // com.google.android.exoplayer2.extractor.mp4.AtomParsers.SampleSizeBox
-        public boolean isFixedSampleSize() {
-            return this.fixedSampleSize != 0;
+        public int readNextSampleSize() {
+            int i = this.fixedSampleSize;
+            return i == -1 ? this.data.readUnsignedIntToInt() : i;
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    static final class Stz2SampleSizeBox implements SampleSizeBox {
+    public static final class Stz2SampleSizeBox implements SampleSizeBox {
         private int currentByte;
         private final ParsableByteArray data;
         private final int fieldSize;
@@ -1323,8 +1699,8 @@ public final class AtomParsers {
         private int sampleIndex;
 
         @Override // com.google.android.exoplayer2.extractor.mp4.AtomParsers.SampleSizeBox
-        public boolean isFixedSampleSize() {
-            return false;
+        public int getFixedSampleSize() {
+            return -1;
         }
 
         public Stz2SampleSizeBox(Atom.LeafAtom leafAtom) {

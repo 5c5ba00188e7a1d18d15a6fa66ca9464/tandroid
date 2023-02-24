@@ -19,18 +19,14 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import javax.annotation.concurrent.GuardedBy;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-cloud-messaging@@16.0.0 */
 /* loaded from: classes.dex */
 public final class zzf implements ServiceConnection {
-    @GuardedBy("this")
     int zza;
     final Messenger zzb;
     zzo zzc;
-    @GuardedBy("this")
     final Queue<zzq<?>> zzd;
-    @GuardedBy("this")
     final SparseArray<zzq<?>> zze;
     final /* synthetic */ zze zzf;
 

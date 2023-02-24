@@ -1,10 +1,11 @@
 package com.google.android.exoplayer2.text.webvtt;
 
+import android.graphics.Color;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
+import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
-import android.text.style.AlignmentSpan;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
@@ -12,7 +13,10 @@ import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.UnderlineSpan;
-import com.google.android.exoplayer2.text.webvtt.WebvttCue;
+import com.google.android.exoplayer2.text.Cue;
+import com.google.android.exoplayer2.text.span.HorizontalTextInVerticalContextSpan;
+import com.google.android.exoplayer2.text.span.RubySpan;
+import com.google.android.exoplayer2.text.span.SpanUtil;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
@@ -20,62 +24,81 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 /* loaded from: classes.dex */
 public final class WebvttCueParser {
     public static final Pattern CUE_HEADER_PATTERN = Pattern.compile("^(\\S+)\\s+-->\\s+(\\S+)(.*)?$");
     private static final Pattern CUE_SETTING_PATTERN = Pattern.compile("(\\S+?):(\\S+)");
-    private final StringBuilder textBuilder = new StringBuilder();
+    private static final Map<String, Integer> DEFAULT_BACKGROUND_COLORS;
+    private static final Map<String, Integer> DEFAULT_TEXT_COLORS;
 
-    public boolean parseCue(ParsableByteArray parsableByteArray, WebvttCue.Builder builder, List<WebvttCssStyle> list) {
+    static {
+        HashMap hashMap = new HashMap();
+        hashMap.put("white", Integer.valueOf(Color.rgb(255, 255, 255)));
+        hashMap.put("lime", Integer.valueOf(Color.rgb(0, 255, 0)));
+        hashMap.put("cyan", Integer.valueOf(Color.rgb(0, 255, 255)));
+        hashMap.put("red", Integer.valueOf(Color.rgb(255, 0, 0)));
+        hashMap.put("yellow", Integer.valueOf(Color.rgb(255, 255, 0)));
+        hashMap.put("magenta", Integer.valueOf(Color.rgb(255, 0, 255)));
+        hashMap.put("blue", Integer.valueOf(Color.rgb(0, 0, 255)));
+        hashMap.put("black", Integer.valueOf(Color.rgb(0, 0, 0)));
+        DEFAULT_TEXT_COLORS = Collections.unmodifiableMap(hashMap);
+        HashMap hashMap2 = new HashMap();
+        hashMap2.put("bg_white", Integer.valueOf(Color.rgb(255, 255, 255)));
+        hashMap2.put("bg_lime", Integer.valueOf(Color.rgb(0, 255, 0)));
+        hashMap2.put("bg_cyan", Integer.valueOf(Color.rgb(0, 255, 255)));
+        hashMap2.put("bg_red", Integer.valueOf(Color.rgb(255, 0, 0)));
+        hashMap2.put("bg_yellow", Integer.valueOf(Color.rgb(255, 255, 0)));
+        hashMap2.put("bg_magenta", Integer.valueOf(Color.rgb(255, 0, 255)));
+        hashMap2.put("bg_blue", Integer.valueOf(Color.rgb(0, 0, 255)));
+        hashMap2.put("bg_black", Integer.valueOf(Color.rgb(0, 0, 0)));
+        DEFAULT_BACKGROUND_COLORS = Collections.unmodifiableMap(hashMap2);
+    }
+
+    public static WebvttCueInfo parseCue(ParsableByteArray parsableByteArray, List<WebvttCssStyle> list) {
         String readLine = parsableByteArray.readLine();
         if (readLine == null) {
-            return false;
+            return null;
         }
         Pattern pattern = CUE_HEADER_PATTERN;
         Matcher matcher = pattern.matcher(readLine);
         if (matcher.matches()) {
-            return parseCue(null, matcher, parsableByteArray, builder, this.textBuilder, list);
+            return parseCue(null, matcher, parsableByteArray, list);
         }
         String readLine2 = parsableByteArray.readLine();
         if (readLine2 == null) {
-            return false;
+            return null;
         }
         Matcher matcher2 = pattern.matcher(readLine2);
         if (matcher2.matches()) {
-            return parseCue(readLine.trim(), matcher2, parsableByteArray, builder, this.textBuilder, list);
+            return parseCue(readLine.trim(), matcher2, parsableByteArray, list);
         }
-        return false;
+        return null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static void parseCueSettingsList(String str, WebvttCue.Builder builder) {
-        Matcher matcher = CUE_SETTING_PATTERN.matcher(str);
-        while (matcher.find()) {
-            String group = matcher.group(1);
-            String group2 = matcher.group(2);
-            try {
-                if ("line".equals(group)) {
-                    parseLineAttribute(group2, builder);
-                } else if ("align".equals(group)) {
-                    builder.setTextAlignment(parseTextAlignment(group2));
-                } else if ("position".equals(group)) {
-                    parsePositionAttribute(group2, builder);
-                } else if ("size".equals(group)) {
-                    builder.setWidth(WebvttParserUtil.parsePercentage(group2));
-                } else {
-                    Log.w("WebvttCueParser", "Unknown cue setting " + group + ":" + group2);
-                }
-            } catch (NumberFormatException unused) {
-                Log.w("WebvttCueParser", "Skipping bad cue setting: " + matcher.group());
-            }
-        }
+    public static Cue.Builder parseCueSettingsList(String str) {
+        WebvttCueInfoBuilder webvttCueInfoBuilder = new WebvttCueInfoBuilder();
+        parseCueSettingsList(str, webvttCueInfoBuilder);
+        return webvttCueInfoBuilder.toCueBuilder();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static void parseCueText(String str, String str2, WebvttCue.Builder builder, List<WebvttCssStyle> list) {
+    public static Cue newCueForText(CharSequence charSequence) {
+        WebvttCueInfoBuilder webvttCueInfoBuilder = new WebvttCueInfoBuilder();
+        webvttCueInfoBuilder.text = charSequence;
+        return webvttCueInfoBuilder.toCueBuilder().build();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static SpannedString parseCueText(String str, String str2, List<WebvttCssStyle> list) {
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
         ArrayDeque arrayDeque = new ArrayDeque();
         ArrayList arrayList = new ArrayList();
@@ -118,7 +141,12 @@ public final class WebvttCueParser {
                             if (z) {
                                 while (!arrayDeque.isEmpty()) {
                                     StartTag startTag = (StartTag) arrayDeque.pop();
-                                    applySpansForTag(str, startTag, spannableStringBuilder, list, arrayList);
+                                    applySpansForTag(str, startTag, arrayList, spannableStringBuilder, list);
+                                    if (!arrayDeque.isEmpty()) {
+                                        arrayList.add(new Element(startTag, spannableStringBuilder.length()));
+                                    } else {
+                                        arrayList.clear();
+                                    }
                                     if (startTag.name.equals(tagName)) {
                                         break;
                                     }
@@ -136,17 +164,19 @@ public final class WebvttCueParser {
             }
         }
         while (!arrayDeque.isEmpty()) {
-            applySpansForTag(str, (StartTag) arrayDeque.pop(), spannableStringBuilder, list, arrayList);
+            applySpansForTag(str, (StartTag) arrayDeque.pop(), arrayList, spannableStringBuilder, list);
         }
-        applySpansForTag(str, StartTag.buildWholeCueVirtualTag(), spannableStringBuilder, list, arrayList);
-        builder.setText(spannableStringBuilder);
+        applySpansForTag(str, StartTag.buildWholeCueVirtualTag(), Collections.emptyList(), spannableStringBuilder, list);
+        return SpannedString.valueOf(spannableStringBuilder);
     }
 
-    private static boolean parseCue(String str, Matcher matcher, ParsableByteArray parsableByteArray, WebvttCue.Builder builder, StringBuilder sb, List<WebvttCssStyle> list) {
+    private static WebvttCueInfo parseCue(String str, Matcher matcher, ParsableByteArray parsableByteArray, List<WebvttCssStyle> list) {
+        WebvttCueInfoBuilder webvttCueInfoBuilder = new WebvttCueInfoBuilder();
         try {
-            builder.setStartTime(WebvttParserUtil.parseTimestampUs(matcher.group(1))).setEndTime(WebvttParserUtil.parseTimestampUs(matcher.group(2)));
-            parseCueSettingsList(matcher.group(3), builder);
-            sb.setLength(0);
+            webvttCueInfoBuilder.startTimeUs = WebvttParserUtil.parseTimestampUs((String) Assertions.checkNotNull(matcher.group(1)));
+            webvttCueInfoBuilder.endTimeUs = WebvttParserUtil.parseTimestampUs((String) Assertions.checkNotNull(matcher.group(2)));
+            parseCueSettingsList((String) Assertions.checkNotNull(matcher.group(3)), webvttCueInfoBuilder);
+            StringBuilder sb = new StringBuilder();
             String readLine = parsableByteArray.readLine();
             while (!TextUtils.isEmpty(readLine)) {
                 if (sb.length() > 0) {
@@ -155,41 +185,55 @@ public final class WebvttCueParser {
                 sb.append(readLine.trim());
                 readLine = parsableByteArray.readLine();
             }
-            parseCueText(str, sb.toString(), builder, list);
-            return true;
+            webvttCueInfoBuilder.text = parseCueText(str, sb.toString(), list);
+            return webvttCueInfoBuilder.build();
         } catch (NumberFormatException unused) {
             Log.w("WebvttCueParser", "Skipping cue with bad header: " + matcher.group());
-            return false;
+            return null;
         }
     }
 
-    private static void parseLineAttribute(String str, WebvttCue.Builder builder) {
+    private static void parseCueSettingsList(String str, WebvttCueInfoBuilder webvttCueInfoBuilder) {
+        Matcher matcher = CUE_SETTING_PATTERN.matcher(str);
+        while (matcher.find()) {
+            String str2 = (String) Assertions.checkNotNull(matcher.group(1));
+            String str3 = (String) Assertions.checkNotNull(matcher.group(2));
+            try {
+                if ("line".equals(str2)) {
+                    parseLineAttribute(str3, webvttCueInfoBuilder);
+                } else if ("align".equals(str2)) {
+                    webvttCueInfoBuilder.textAlignment = parseTextAlignment(str3);
+                } else if ("position".equals(str2)) {
+                    parsePositionAttribute(str3, webvttCueInfoBuilder);
+                } else if ("size".equals(str2)) {
+                    webvttCueInfoBuilder.size = WebvttParserUtil.parsePercentage(str3);
+                } else if ("vertical".equals(str2)) {
+                    webvttCueInfoBuilder.verticalType = parseVerticalAttribute(str3);
+                } else {
+                    Log.w("WebvttCueParser", "Unknown cue setting " + str2 + ":" + str3);
+                }
+            } catch (NumberFormatException unused) {
+                Log.w("WebvttCueParser", "Skipping bad cue setting: " + matcher.group());
+            }
+        }
+    }
+
+    private static void parseLineAttribute(String str, WebvttCueInfoBuilder webvttCueInfoBuilder) {
         int indexOf = str.indexOf(44);
         if (indexOf != -1) {
-            builder.setLineAnchor(parsePositionAnchor(str.substring(indexOf + 1)));
+            webvttCueInfoBuilder.lineAnchor = parseLineAnchor(str.substring(indexOf + 1));
             str = str.substring(0, indexOf);
         }
         if (str.endsWith("%")) {
-            builder.setLine(WebvttParserUtil.parsePercentage(str)).setLineType(0);
+            webvttCueInfoBuilder.line = WebvttParserUtil.parsePercentage(str);
+            webvttCueInfoBuilder.lineType = 0;
             return;
         }
-        int parseInt = Integer.parseInt(str);
-        if (parseInt < 0) {
-            parseInt--;
-        }
-        builder.setLine(parseInt).setLineType(1);
+        webvttCueInfoBuilder.line = Integer.parseInt(str);
+        webvttCueInfoBuilder.lineType = 1;
     }
 
-    private static void parsePositionAttribute(String str, WebvttCue.Builder builder) {
-        int indexOf = str.indexOf(44);
-        if (indexOf != -1) {
-            builder.setPositionAnchor(parsePositionAnchor(str.substring(indexOf + 1)));
-            str = str.substring(0, indexOf);
-        }
-        builder.setPosition(WebvttParserUtil.parsePercentage(str));
-    }
-
-    private static int parsePositionAnchor(String str) {
+    private static int parseLineAnchor(String str) {
         str.hashCode();
         char c = 65535;
         switch (str.hashCode()) {
@@ -230,6 +274,84 @@ public final class WebvttCueParser {
                 Log.w("WebvttCueParser", "Invalid anchor value: " + str);
                 return Integer.MIN_VALUE;
         }
+    }
+
+    private static void parsePositionAttribute(String str, WebvttCueInfoBuilder webvttCueInfoBuilder) {
+        int indexOf = str.indexOf(44);
+        if (indexOf != -1) {
+            webvttCueInfoBuilder.positionAnchor = parsePositionAnchor(str.substring(indexOf + 1));
+            str = str.substring(0, indexOf);
+        }
+        webvttCueInfoBuilder.position = WebvttParserUtil.parsePercentage(str);
+    }
+
+    private static int parsePositionAnchor(String str) {
+        str.hashCode();
+        char c = 65535;
+        switch (str.hashCode()) {
+            case -1842484672:
+                if (str.equals("line-left")) {
+                    c = 0;
+                    break;
+                }
+                break;
+            case -1364013995:
+                if (str.equals("center")) {
+                    c = 1;
+                    break;
+                }
+                break;
+            case -1276788989:
+                if (str.equals("line-right")) {
+                    c = 2;
+                    break;
+                }
+                break;
+            case -1074341483:
+                if (str.equals("middle")) {
+                    c = 3;
+                    break;
+                }
+                break;
+            case 100571:
+                if (str.equals("end")) {
+                    c = 4;
+                    break;
+                }
+                break;
+            case 109757538:
+                if (str.equals("start")) {
+                    c = 5;
+                    break;
+                }
+                break;
+        }
+        switch (c) {
+            case 0:
+            case 5:
+                return 0;
+            case 1:
+            case 3:
+                return 1;
+            case 2:
+            case 4:
+                return 2;
+            default:
+                Log.w("WebvttCueParser", "Invalid anchor value: " + str);
+                return Integer.MIN_VALUE;
+        }
+    }
+
+    private static int parseVerticalAttribute(String str) {
+        str.hashCode();
+        if (str.equals("lr")) {
+            return 2;
+        }
+        if (str.equals("rl")) {
+            return 1;
+        }
+        Log.w("WebvttCueParser", "Invalid 'vertical' value: " + str);
+        return Integer.MIN_VALUE;
     }
 
     private static int parseTextAlignment(String str) {
@@ -378,9 +500,21 @@ public final class WebvttCueParser {
                     break;
                 }
                 break;
+            case 3650:
+                if (str.equals("rt")) {
+                    c = 5;
+                    break;
+                }
+                break;
             case 3314158:
                 if (str.equals("lang")) {
-                    c = 5;
+                    c = 6;
+                    break;
+                }
+                break;
+            case 3511770:
+                if (str.equals("ruby")) {
+                    c = 7;
                     break;
                 }
                 break;
@@ -392,13 +526,15 @@ public final class WebvttCueParser {
             case 3:
             case 4:
             case 5:
+            case 6:
+            case 7:
                 return true;
             default:
                 return false;
         }
     }
 
-    private static void applySpansForTag(String str, StartTag startTag, SpannableStringBuilder spannableStringBuilder, List<WebvttCssStyle> list, List<StyleMatch> list2) {
+    private static void applySpansForTag(String str, StartTag startTag, List<Element> list, SpannableStringBuilder spannableStringBuilder, List<WebvttCssStyle> list2) {
         int i = startTag.position;
         int length = spannableStringBuilder.length();
         String str2 = startTag.name;
@@ -447,15 +583,23 @@ public final class WebvttCueParser {
                     break;
                 }
                 break;
+            case 3511770:
+                if (str2.equals("ruby")) {
+                    c = 7;
+                    break;
+                }
+                break;
         }
         switch (c) {
             case 0:
-            case 2:
             case 5:
             case 6:
                 break;
             case 1:
                 spannableStringBuilder.setSpan(new StyleSpan(1), i, length, 33);
+                break;
+            case 2:
+                applyDefaultColors(spannableStringBuilder, startTag.classes, i, length);
                 break;
             case 3:
                 spannableStringBuilder.setSpan(new StyleSpan(2), i, length, 33);
@@ -463,14 +607,75 @@ public final class WebvttCueParser {
             case 4:
                 spannableStringBuilder.setSpan(new UnderlineSpan(), i, length, 33);
                 break;
+            case 7:
+                applyRubySpans(spannableStringBuilder, str, startTag, list, list2);
+                break;
             default:
                 return;
         }
-        list2.clear();
-        getApplicableStyles(list, str, startTag, list2);
-        int size = list2.size();
-        for (int i2 = 0; i2 < size; i2++) {
-            applyStyleToText(spannableStringBuilder, list2.get(i2).style, i, length);
+        List<StyleMatch> applicableStyles = getApplicableStyles(list2, str, startTag);
+        for (int i2 = 0; i2 < applicableStyles.size(); i2++) {
+            applyStyleToText(spannableStringBuilder, applicableStyles.get(i2).style, i, length);
+        }
+    }
+
+    private static void applyRubySpans(SpannableStringBuilder spannableStringBuilder, String str, StartTag startTag, List<Element> list, List<WebvttCssStyle> list2) {
+        int rubyPosition = getRubyPosition(list2, str, startTag);
+        ArrayList arrayList = new ArrayList(list.size());
+        arrayList.addAll(list);
+        Collections.sort(arrayList, Element.BY_START_POSITION_ASC);
+        int i = startTag.position;
+        int i2 = 0;
+        for (int i3 = 0; i3 < arrayList.size(); i3++) {
+            if ("rt".equals(((Element) arrayList.get(i3)).startTag.name)) {
+                Element element = (Element) arrayList.get(i3);
+                int firstKnownRubyPosition = firstKnownRubyPosition(getRubyPosition(list2, str, element.startTag), rubyPosition, 1);
+                int i4 = element.startTag.position - i2;
+                int i5 = element.endPosition - i2;
+                CharSequence subSequence = spannableStringBuilder.subSequence(i4, i5);
+                spannableStringBuilder.delete(i4, i5);
+                spannableStringBuilder.setSpan(new RubySpan(subSequence.toString(), firstKnownRubyPosition), i, i4, 33);
+                i2 += subSequence.length();
+                i = i4;
+            }
+        }
+    }
+
+    private static int getRubyPosition(List<WebvttCssStyle> list, String str, StartTag startTag) {
+        List<StyleMatch> applicableStyles = getApplicableStyles(list, str, startTag);
+        for (int i = 0; i < applicableStyles.size(); i++) {
+            WebvttCssStyle webvttCssStyle = applicableStyles.get(i).style;
+            if (webvttCssStyle.getRubyPosition() != -1) {
+                return webvttCssStyle.getRubyPosition();
+            }
+        }
+        return -1;
+    }
+
+    private static int firstKnownRubyPosition(int i, int i2, int i3) {
+        if (i != -1) {
+            return i;
+        }
+        if (i2 != -1) {
+            return i2;
+        }
+        if (i3 != -1) {
+            return i3;
+        }
+        throw new IllegalArgumentException();
+    }
+
+    private static void applyDefaultColors(SpannableStringBuilder spannableStringBuilder, Set<String> set, int i, int i2) {
+        for (String str : set) {
+            Map<String, Integer> map = DEFAULT_TEXT_COLORS;
+            if (map.containsKey(str)) {
+                spannableStringBuilder.setSpan(new ForegroundColorSpan(map.get(str).intValue()), i, i2, 33);
+            } else {
+                Map<String, Integer> map2 = DEFAULT_BACKGROUND_COLORS;
+                if (map2.containsKey(str)) {
+                    spannableStringBuilder.setSpan(new BackgroundColorSpan(map2.get(str).intValue()), i, i2, 33);
+                }
+            }
         }
     }
 
@@ -479,7 +684,7 @@ public final class WebvttCueParser {
             return;
         }
         if (webvttCssStyle.getStyle() != -1) {
-            spannableStringBuilder.setSpan(new StyleSpan(webvttCssStyle.getStyle()), i, i2, 33);
+            SpanUtil.addOrReplaceSpan(spannableStringBuilder, new StyleSpan(webvttCssStyle.getStyle()), i, i2, 33);
         }
         if (webvttCssStyle.isLinethrough()) {
             spannableStringBuilder.setSpan(new StrikethroughSpan(), i, i2, 33);
@@ -488,26 +693,24 @@ public final class WebvttCueParser {
             spannableStringBuilder.setSpan(new UnderlineSpan(), i, i2, 33);
         }
         if (webvttCssStyle.hasFontColor()) {
-            spannableStringBuilder.setSpan(new ForegroundColorSpan(webvttCssStyle.getFontColor()), i, i2, 33);
+            SpanUtil.addOrReplaceSpan(spannableStringBuilder, new ForegroundColorSpan(webvttCssStyle.getFontColor()), i, i2, 33);
         }
         if (webvttCssStyle.hasBackgroundColor()) {
-            spannableStringBuilder.setSpan(new BackgroundColorSpan(webvttCssStyle.getBackgroundColor()), i, i2, 33);
+            SpanUtil.addOrReplaceSpan(spannableStringBuilder, new BackgroundColorSpan(webvttCssStyle.getBackgroundColor()), i, i2, 33);
         }
         if (webvttCssStyle.getFontFamily() != null) {
-            spannableStringBuilder.setSpan(new TypefaceSpan(webvttCssStyle.getFontFamily()), i, i2, 33);
-        }
-        Layout.Alignment textAlign = webvttCssStyle.getTextAlign();
-        if (textAlign != null) {
-            spannableStringBuilder.setSpan(new AlignmentSpan.Standard(textAlign), i, i2, 33);
+            SpanUtil.addOrReplaceSpan(spannableStringBuilder, new TypefaceSpan(webvttCssStyle.getFontFamily()), i, i2, 33);
         }
         int fontSizeUnit = webvttCssStyle.getFontSizeUnit();
         if (fontSizeUnit == 1) {
-            spannableStringBuilder.setSpan(new AbsoluteSizeSpan((int) webvttCssStyle.getFontSize(), true), i, i2, 33);
+            SpanUtil.addOrReplaceSpan(spannableStringBuilder, new AbsoluteSizeSpan((int) webvttCssStyle.getFontSize(), true), i, i2, 33);
         } else if (fontSizeUnit == 2) {
-            spannableStringBuilder.setSpan(new RelativeSizeSpan(webvttCssStyle.getFontSize()), i, i2, 33);
-        } else if (fontSizeUnit != 3) {
-        } else {
-            spannableStringBuilder.setSpan(new RelativeSizeSpan(webvttCssStyle.getFontSize() / 100.0f), i, i2, 33);
+            SpanUtil.addOrReplaceSpan(spannableStringBuilder, new RelativeSizeSpan(webvttCssStyle.getFontSize()), i, i2, 33);
+        } else if (fontSizeUnit == 3) {
+            SpanUtil.addOrReplaceSpan(spannableStringBuilder, new RelativeSizeSpan(webvttCssStyle.getFontSize() / 100.0f), i, i2, 33);
+        }
+        if (webvttCssStyle.getCombineUpright()) {
+            spannableStringBuilder.setSpan(new HorizontalTextInVerticalContextSpan(), i, i2, 33);
         }
     }
 
@@ -517,16 +720,112 @@ public final class WebvttCueParser {
         return Util.splitAtFirst(trim, "[ \\.]")[0];
     }
 
-    private static void getApplicableStyles(List<WebvttCssStyle> list, String str, StartTag startTag, List<StyleMatch> list2) {
-        int size = list.size();
-        for (int i = 0; i < size; i++) {
+    private static List<StyleMatch> getApplicableStyles(List<WebvttCssStyle> list, String str, StartTag startTag) {
+        ArrayList arrayList = new ArrayList();
+        for (int i = 0; i < list.size(); i++) {
             WebvttCssStyle webvttCssStyle = list.get(i);
             int specificityScore = webvttCssStyle.getSpecificityScore(str, startTag.name, startTag.classes, startTag.voice);
             if (specificityScore > 0) {
-                list2.add(new StyleMatch(specificityScore, webvttCssStyle));
+                arrayList.add(new StyleMatch(specificityScore, webvttCssStyle));
             }
         }
-        Collections.sort(list2);
+        Collections.sort(arrayList);
+        return arrayList;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static final class WebvttCueInfoBuilder {
+        public CharSequence text;
+        public long startTimeUs = 0;
+        public long endTimeUs = 0;
+        public int textAlignment = 2;
+        public float line = -3.4028235E38f;
+        public int lineType = 1;
+        public int lineAnchor = 0;
+        public float position = -3.4028235E38f;
+        public int positionAnchor = Integer.MIN_VALUE;
+        public float size = 1.0f;
+        public int verticalType = Integer.MIN_VALUE;
+
+        private static float computeLine(float f, int i) {
+            if (f == -3.4028235E38f || i != 0 || (f >= 0.0f && f <= 1.0f)) {
+                return f != -3.4028235E38f ? f : i == 0 ? 1.0f : -3.4028235E38f;
+            }
+            return 1.0f;
+        }
+
+        private static float derivePosition(int i) {
+            if (i != 4) {
+                return i != 5 ? 0.5f : 1.0f;
+            }
+            return 0.0f;
+        }
+
+        private static int derivePositionAnchor(int i) {
+            if (i != 1) {
+                if (i != 3) {
+                    if (i != 4) {
+                        return i != 5 ? 1 : 2;
+                    }
+                    return 0;
+                }
+                return 2;
+            }
+            return 0;
+        }
+
+        public WebvttCueInfo build() {
+            return new WebvttCueInfo(toCueBuilder().build(), this.startTimeUs, this.endTimeUs);
+        }
+
+        public Cue.Builder toCueBuilder() {
+            float f = this.position;
+            if (f == -3.4028235E38f) {
+                f = derivePosition(this.textAlignment);
+            }
+            int i = this.positionAnchor;
+            if (i == Integer.MIN_VALUE) {
+                i = derivePositionAnchor(this.textAlignment);
+            }
+            Cue.Builder verticalType = new Cue.Builder().setTextAlignment(convertTextAlignment(this.textAlignment)).setLine(computeLine(this.line, this.lineType), this.lineType).setLineAnchor(this.lineAnchor).setPosition(f).setPositionAnchor(i).setSize(Math.min(this.size, deriveMaxSize(i, f))).setVerticalType(this.verticalType);
+            CharSequence charSequence = this.text;
+            if (charSequence != null) {
+                verticalType.setText(charSequence);
+            }
+            return verticalType;
+        }
+
+        private static Layout.Alignment convertTextAlignment(int i) {
+            if (i != 1) {
+                if (i == 2) {
+                    return Layout.Alignment.ALIGN_CENTER;
+                }
+                if (i != 3) {
+                    if (i != 4) {
+                        if (i != 5) {
+                            Log.w("WebvttCueParser", "Unknown textAlignment: " + i);
+                            return null;
+                        }
+                    }
+                }
+                return Layout.Alignment.ALIGN_OPPOSITE;
+            }
+            return Layout.Alignment.ALIGN_NORMAL;
+        }
+
+        private static float deriveMaxSize(int i, float f) {
+            if (i != 0) {
+                if (i == 1) {
+                    return f <= 0.5f ? f * 2.0f : (1.0f - f) * 2.0f;
+                } else if (i == 2) {
+                    return f;
+                } else {
+                    throw new IllegalStateException(String.valueOf(i));
+                }
+            }
+            return 1.0f - f;
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -542,29 +841,27 @@ public final class WebvttCueParser {
 
         @Override // java.lang.Comparable
         public int compareTo(StyleMatch styleMatch) {
-            return this.score - styleMatch.score;
+            return Integer.compare(this.score, styleMatch.score);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class StartTag {
-        private static final String[] NO_CLASSES = new String[0];
-        public final String[] classes;
+        public final Set<String> classes;
         public final String name;
         public final int position;
         public final String voice;
 
-        private StartTag(String str, int i, String str2, String[] strArr) {
+        private StartTag(String str, int i, String str2, Set<String> set) {
             this.position = i;
             this.name = str;
             this.voice = str2;
-            this.classes = strArr;
+            this.classes = set;
         }
 
         public static StartTag buildStartTag(String str, int i) {
             String str2;
-            String[] strArr;
             String trim = str.trim();
             Assertions.checkArgument(!trim.isEmpty());
             int indexOf = trim.indexOf(" ");
@@ -577,16 +874,33 @@ public final class WebvttCueParser {
             }
             String[] split = Util.split(trim, "\\.");
             String str3 = split[0];
-            if (split.length > 1) {
-                strArr = (String[]) Util.nullSafeArrayCopyOfRange(split, 1, split.length);
-            } else {
-                strArr = NO_CLASSES;
+            HashSet hashSet = new HashSet();
+            for (int i2 = 1; i2 < split.length; i2++) {
+                hashSet.add(split[i2]);
             }
-            return new StartTag(str3, i, str2, strArr);
+            return new StartTag(str3, i, str2, hashSet);
         }
 
         public static StartTag buildWholeCueVirtualTag() {
-            return new StartTag("", 0, "", new String[0]);
+            return new StartTag("", 0, "", Collections.emptySet());
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static class Element {
+        private static final Comparator<Element> BY_START_POSITION_ASC = WebvttCueParser$Element$$ExternalSyntheticLambda0.INSTANCE;
+        private final int endPosition;
+        private final StartTag startTag;
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ int lambda$static$0(Element element, Element element2) {
+            return Integer.compare(element.startTag.position, element2.startTag.position);
+        }
+
+        private Element(StartTag startTag, int i) {
+            this.startTag = startTag;
+            this.endPosition = i;
         }
     }
 }

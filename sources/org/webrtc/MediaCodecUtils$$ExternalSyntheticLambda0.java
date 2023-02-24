@@ -2,7 +2,7 @@ package org.webrtc;
 
 import android.media.MediaCodecInfo;
 import java.util.Comparator;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class MediaCodecUtils$$ExternalSyntheticLambda0 implements Comparator {
     public static final /* synthetic */ MediaCodecUtils$$ExternalSyntheticLambda0 INSTANCE = new MediaCodecUtils$$ExternalSyntheticLambda0();
 

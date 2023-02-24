@@ -1552,8 +1552,14 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     }
 
     public void setSinks(VideoSink videoSink, boolean z, VideoSink videoSink2) {
-        this.localSink[z ? 1 : 0].setTarget(videoSink);
-        this.remoteSink[z ? 1 : 0].setTarget(videoSink2);
+        ProxyVideoSink proxyVideoSink = this.localSink[z ? 1 : 0];
+        ProxyVideoSink proxyVideoSink2 = this.remoteSink[z ? 1 : 0];
+        if (proxyVideoSink != null) {
+            proxyVideoSink.setTarget(videoSink);
+        }
+        if (proxyVideoSink2 != null) {
+            proxyVideoSink2.setTarget(videoSink2);
+        }
     }
 
     public void setLocalSink(VideoSink videoSink, boolean z) {

@@ -11,6 +11,10 @@ public abstract class Buffer {
         return getFlag(Integer.MIN_VALUE);
     }
 
+    public final boolean isFirstSample() {
+        return getFlag(134217728);
+    }
+
     public final boolean isEndOfStream() {
         return getFlag(4);
     }

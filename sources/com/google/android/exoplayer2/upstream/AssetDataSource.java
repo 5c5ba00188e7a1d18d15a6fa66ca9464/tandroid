@@ -5,7 +5,7 @@ import android.content.res.AssetManager;
 import android.net.Uri;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
-import java.io.EOFException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 /* loaded from: classes.dex */
@@ -17,9 +17,9 @@ public final class AssetDataSource extends BaseDataSource {
     private Uri uri;
 
     /* loaded from: classes.dex */
-    public static final class AssetDataSourceException extends IOException {
-        public AssetDataSourceException(IOException iOException) {
-            super(iOException);
+    public static final class AssetDataSourceException extends DataSourceException {
+        public AssetDataSourceException(Throwable th, int i) {
+            super(th, i);
         }
     }
 
@@ -43,7 +43,7 @@ public final class AssetDataSource extends BaseDataSource {
             InputStream open = this.assetManager.open(str, 1);
             this.inputStream = open;
             if (open.skip(dataSpec.position) < dataSpec.position) {
-                throw new EOFException();
+                throw new AssetDataSourceException(null, 2008);
             }
             long j = dataSpec.length;
             if (j != -1) {
@@ -58,12 +58,14 @@ public final class AssetDataSource extends BaseDataSource {
             this.opened = true;
             transferStarted(dataSpec);
             return this.bytesRemaining;
-        } catch (IOException e) {
-            throw new AssetDataSourceException(e);
+        } catch (AssetDataSourceException e) {
+            throw e;
+        } catch (IOException e2) {
+            throw new AssetDataSourceException(e2, e2 instanceof FileNotFoundException ? 2005 : 2000);
         }
     }
 
-    @Override // com.google.android.exoplayer2.upstream.DataSource
+    @Override // com.google.android.exoplayer2.upstream.DataReader
     public int read(byte[] bArr, int i, int i2) throws AssetDataSourceException {
         if (i2 == 0) {
             return 0;
@@ -76,15 +78,12 @@ public final class AssetDataSource extends BaseDataSource {
             try {
                 i2 = (int) Math.min(j, i2);
             } catch (IOException e) {
-                throw new AssetDataSourceException(e);
+                throw new AssetDataSourceException(e, 2000);
             }
         }
         int read = ((InputStream) Util.castNonNull(this.inputStream)).read(bArr, i, i2);
         if (read == -1) {
-            if (this.bytesRemaining == -1) {
-                return -1;
-            }
-            throw new AssetDataSourceException(new EOFException());
+            return -1;
         }
         long j2 = this.bytesRemaining;
         if (j2 != -1) {
@@ -109,7 +108,7 @@ public final class AssetDataSource extends BaseDataSource {
                     inputStream.close();
                 }
             } catch (IOException e) {
-                throw new AssetDataSourceException(e);
+                throw new AssetDataSourceException(e, 2000);
             }
         } finally {
             this.inputStream = null;

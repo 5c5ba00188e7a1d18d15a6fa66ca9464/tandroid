@@ -1,7 +1,6 @@
 package com.google.android.gms.tasks;
 
 import java.util.concurrent.ExecutionException;
-import javax.annotation.concurrent.GuardedBy;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-tasks@@18.0.2 */
 /* loaded from: classes.dex */
@@ -9,15 +8,10 @@ public final class zzaf<T> implements zzae<T> {
     private final Object zza = new Object();
     private final int zzb;
     private final zzw zzc;
-    @GuardedBy("mLock")
     private int zzd;
-    @GuardedBy("mLock")
     private int zze;
-    @GuardedBy("mLock")
     private int zzf;
-    @GuardedBy("mLock")
     private Exception zzg;
-    @GuardedBy("mLock")
     private boolean zzh;
 
     public zzaf(int i, zzw zzwVar) {
@@ -25,7 +19,6 @@ public final class zzaf<T> implements zzae<T> {
         this.zzc = zzwVar;
     }
 
-    @GuardedBy("mLock")
     private final void zza() {
         if (this.zzd + this.zze + this.zzf == this.zzb) {
             if (this.zzg == null) {

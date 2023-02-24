@@ -2,7 +2,7 @@ package org.webrtc;
 
 import org.webrtc.VideoEncoder;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class VideoEncoderWrapper {
     /* JADX INFO: Access modifiers changed from: private */
     public static native void nativeOnEncodedFrame(long j, EncodedImage encodedImage);

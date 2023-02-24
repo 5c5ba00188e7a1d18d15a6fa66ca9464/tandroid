@@ -117,6 +117,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
     private CellFlickerDrawable joinButtonFlicker;
     private int lastLocationSharingCount;
     private MessageObject lastMessageObject;
+    private long lastPlaybackClick;
     private String lastString;
     private LinearGradient linearGradient;
     private Matrix matrix;
@@ -134,6 +135,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
     private FrameLayout silentButton;
     private ImageView silentButtonImage;
     float speakerAmplitude;
+    private HintView speedHintView;
     private SpeedIconDrawable speedIcon;
     private ActionBarMenuItem.Item[] speedItems;
     private ActionBarMenuSlider speedSlider;
@@ -863,7 +865,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         SpeedIconDrawable speedIconDrawable = new SpeedIconDrawable(true);
         this.speedIcon = speedIconDrawable;
         this.playbackSpeedButton.setIcon(speedIconDrawable);
-        final float[] fArr = {1.0f, 1.5f, 1.8f};
+        final float[] fArr = {1.0f, 1.5f, 2.0f};
         ActionBarMenuSlider actionBarMenuSlider = new ActionBarMenuSlider(getContext(), this.resourcesProvider);
         this.speedSlider = actionBarMenuSlider;
         actionBarMenuSlider.setOnValueChange(new Utilities.Callback2() { // from class: org.telegram.ui.Components.FragmentContextView$$ExternalSyntheticLambda12
@@ -906,7 +908,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 return lambda$createPlaybackSpeedButton$12;
             }
         });
-        updatePlaybackButton(true, false);
+        updatePlaybackButton(false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -918,10 +920,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             }
             float playbackSpeed = MediaController.getInstance().getPlaybackSpeed(this.isMusic);
             float f = fArr[i];
-            if (i == 5) {
-                f = 1.8f;
-            }
-            MediaController.getInstance().setPlaybackSpeed(this.isMusic, f, i == 5);
+            MediaController.getInstance().setPlaybackSpeed(this.isMusic, f);
             if (playbackSpeed != f) {
                 playbackSpeedChanged(playbackSpeed, f);
             }
@@ -930,8 +929,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createPlaybackSpeedButton$10(Float f, Boolean bool) {
-        MediaController.getInstance().setPlaybackSpeed(this.isMusic, (f.floatValue() * 2.7f) + 0.3f);
-        updatePlaybackButton(bool.booleanValue(), true);
+        MediaController.getInstance().setPlaybackSpeed(this.isMusic, (f.floatValue() * 2.2f) + 0.3f);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -950,33 +948,78 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         }
         int i2 = i + 1;
         float f = fArr[i2 < fArr.length ? i2 : 0];
-        MediaController.getInstance().setPlaybackSpeed(this.isMusic, f, equals(f, 1.8f));
+        MediaController.getInstance().setPlaybackSpeed(this.isMusic, f);
         playbackSpeedChanged(playbackSpeed, f);
+        long currentTimeMillis = System.currentTimeMillis();
+        if (currentTimeMillis - this.lastPlaybackClick > 400) {
+            int i3 = MessagesController.getGlobalNotificationsSettings().getInt("speedhint", 2) - 1;
+            int i4 = i3 >= -10 ? i3 : 2;
+            MessagesController.getGlobalNotificationsSettings().edit().putInt("speedhint", i4).apply();
+            if (i4 >= 0) {
+                showSpeedHint();
+            }
+        }
+        this.lastPlaybackClick = currentTimeMillis;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createPlaybackSpeedButton$12(View view) {
-        this.speedSlider.setValue((MediaController.getInstance().getPlaybackSpeed(this.isMusic) - 0.3f) / 2.7f, false);
+        this.speedSlider.setValue((MediaController.getInstance().getPlaybackSpeed(this.isMusic) - 0.3f) / 2.2f, false);
         this.speedSlider.invalidateBlur(this.fragment instanceof ChatActivity);
+        this.playbackSpeedButton.redrawPopup(Theme.getColor("actionBarDefaultSubmenuBackground"));
+        this.playbackSpeedButton.updateColor();
         this.playbackSpeedButton.toggleSubMenu(this.speedSlider, null);
         return true;
     }
 
-    private void updatePlaybackButton(boolean z, boolean z2) {
+    private void showSpeedHint() {
+        BaseFragment baseFragment = this.fragment;
+        if (baseFragment == null || !(baseFragment.getFragmentView() instanceof ViewGroup)) {
+            return;
+        }
+        HintView hintView = new HintView(this, getContext(), 5, true) { // from class: org.telegram.ui.Components.FragmentContextView.8
+            @Override // android.view.View
+            public void setVisibility(int i) {
+                super.setVisibility(i);
+                if (i != 0) {
+                    try {
+                        ((ViewGroup) getParent()).removeView(this);
+                    } catch (Exception unused) {
+                    }
+                }
+            }
+        };
+        this.speedHintView = hintView;
+        hintView.setExtraTranslationY(AndroidUtilities.dp(86.0f));
+        this.speedHintView.setText(LocaleController.getString("SpeedHint"));
+        ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(-2, -2);
+        marginLayoutParams.rightMargin = AndroidUtilities.dp(3.0f);
+        ((ViewGroup) this.fragment.getFragmentView()).addView(this.speedHintView, marginLayoutParams);
+        this.speedHintView.showForView(this.playbackSpeedButton, true);
+    }
+
+    public void onPanTranslationUpdate(float f) {
+        HintView hintView = this.speedHintView;
+        if (hintView != null) {
+            hintView.setExtraTranslationY(AndroidUtilities.dp(86.0f) + f);
+        }
+    }
+
+    private void updatePlaybackButton(boolean z) {
         if (this.speedIcon == null) {
             return;
         }
         float playbackSpeed = MediaController.getInstance().getPlaybackSpeed(this.isMusic);
-        this.speedIcon.setValue(playbackSpeed, z2);
+        this.speedIcon.setValue(playbackSpeed, z);
         updateColors();
         for (int i = 0; i < this.speedItems.length; i++) {
-            if (z && equals(playbackSpeed, speeds[i])) {
+            if (equals(playbackSpeed, speeds[i])) {
                 this.speedItems[i].setColors(getThemedColor("featuredStickers_addButtonPressed"), getThemedColor("featuredStickers_addButtonPressed"));
             } else {
                 this.speedItems[i].setColors(getThemedColor("actionBarDefaultSubmenuItem"), getThemedColor("actionBarDefaultSubmenuItem"));
             }
         }
-        this.speedSlider.setValue((playbackSpeed - 0.3f) / 2.7f, z && z2);
+        this.speedSlider.setValue((playbackSpeed - 0.3f) / 2.2f, z);
         if (this.speedSliderText != null) {
             String str = String.format("%s", Float.valueOf(Math.round(playbackSpeed * 10.0f) / 10.0f)) + "x";
             if (TextUtils.equals(str, this.speedSliderText.getText())) {
@@ -997,7 +1040,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         if (actionBarMenuItem == null || Build.VERSION.SDK_INT < 21) {
             return;
         }
-        actionBarMenuItem.setBackgroundDrawable(Theme.createSelectorDrawable(themedColor & 436207615, 1, AndroidUtilities.dp(14.0f)));
+        actionBarMenuItem.setBackground(Theme.createSelectorDrawable(themedColor & 436207615, 1, AndroidUtilities.dp(14.0f)));
     }
 
     public void setAdditionalContextView(FragmentContextView fragmentContextView) {
@@ -1392,7 +1435,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 } else {
                     checkCall(true);
                     checkPlayer(true);
-                    updatePlaybackButton(true, false);
+                    updatePlaybackButton(false);
                 }
             }
         }
@@ -1488,7 +1531,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 }
                 checkImport(false);
             } else if (i == NotificationCenter.messagePlayingSpeedChanged) {
-                updatePlaybackButton(true, true);
+                updatePlaybackButton(true);
             } else if (i == NotificationCenter.webRtcMicAmplitudeEvent) {
                 if (VoIPService.getSharedInstance() == null || VoIPService.getSharedInstance().isMicMute()) {
                     this.micAmplitude = 0.0f;
@@ -1556,7 +1599,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 this.animatorSet = animatorSet2;
                 animatorSet2.playTogether(ObjectAnimator.ofFloat(this, "topPadding", 0.0f));
                 this.animatorSet.setDuration(200L);
-                this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.8
+                this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.9
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
                         if (FragmentContextView.this.animatorSet == null || !FragmentContextView.this.animatorSet.equals(animator)) {
@@ -1588,7 +1631,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 this.animatorSet = animatorSet4;
                 animatorSet4.playTogether(ObjectAnimator.ofFloat(this, "topPadding", AndroidUtilities.dp2(getStyleHeight())));
                 this.animatorSet.setDuration(200L);
-                this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.9
+                this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.10
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
                         if (FragmentContextView.this.animatorSet == null || !FragmentContextView.this.animatorSet.equals(animator)) {
@@ -1765,7 +1808,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 if (fragmentContextViewDelegate != null) {
                     fragmentContextViewDelegate.onAnimation(true, false);
                 }
-                this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.10
+                this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.11
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
                         NotificationCenter.getInstance(FragmentContextView.this.account).onAnimationFinish(FragmentContextView.this.animationIndex);
@@ -1835,7 +1878,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 }
                 this.animatorSet.playTogether(ObjectAnimator.ofFloat(this, "topPadding", AndroidUtilities.dp2(getStyleHeight())));
                 this.animatorSet.setDuration(200L);
-                this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.11
+                this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.12
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
                         NotificationCenter.getInstance(FragmentContextView.this.account).onAnimationFinish(FragmentContextView.this.animationIndex);
@@ -1894,7 +1937,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 }
                 i3++;
             }
-            updatePlaybackButton(true, false);
+            updatePlaybackButton(false);
         } else {
             this.isMusic = true;
             if (this.playbackSpeedButton != null) {
@@ -1902,7 +1945,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                     this.playbackSpeedButton.setAlpha(1.0f);
                     this.playbackSpeedButton.setEnabled(true);
                     this.titleTextView.setPadding(0, 0, AndroidUtilities.dp(44.0f), 0);
-                    updatePlaybackButton(true, false);
+                    updatePlaybackButton(false);
                 } else {
                     this.playbackSpeedButton.setAlpha(0.0f);
                     this.playbackSpeedButton.setEnabled(false);
@@ -1964,7 +2007,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                     animatorSet2.playTogether(ObjectAnimator.ofFloat(this, "topPadding", 0.0f));
                     this.animatorSet.setDuration(220L);
                     this.animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                    this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.12
+                    this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.13
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
                             NotificationCenter.getInstance(i2).onAnimationFinish(FragmentContextView.this.animationIndex);
@@ -2029,7 +2072,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                         }
                         this.animatorSet.playTogether(ObjectAnimator.ofFloat(this, "topPadding", AndroidUtilities.dp2(getStyleHeight())));
                         this.animatorSet.setDuration(200L);
-                        this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.13
+                        this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.14
                             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                             public void onAnimationEnd(Animator animator) {
                                 NotificationCenter.getInstance(FragmentContextView.this.account).onAnimationFinish(FragmentContextView.this.animationIndex);
@@ -2127,7 +2170,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                             animatorSet2.playTogether(ObjectAnimator.ofFloat(this, "topPadding", 0.0f));
                             this.animatorSet.setDuration(220L);
                             this.animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                            this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.14
+                            this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.15
                                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                                 public void onAnimationEnd(Animator animator) {
                                     NotificationCenter.getInstance(i4).onAnimationFinish(FragmentContextView.this.animationIndex);
@@ -2185,7 +2228,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                     animatorSet4.playTogether(ObjectAnimator.ofFloat(this, "topPadding", 0.0f));
                     this.animatorSet.setDuration(220L);
                     this.animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                    this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.15
+                    this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.16
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
                             NotificationCenter.getInstance(i6).onAnimationFinish(FragmentContextView.this.animationIndex);
@@ -2280,7 +2323,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                         this.animatorSet.playTogether(ObjectAnimator.ofFloat(this, "topPadding", AndroidUtilities.dp2(getStyleHeight())));
                         this.animatorSet.setDuration(220L);
                         this.animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                        this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.16
+                        this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.17
                             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                             public void onAnimationEnd(Animator animator) {
                                 NotificationCenter.getInstance(i8).onAnimationFinish(FragmentContextView.this.animationIndex);

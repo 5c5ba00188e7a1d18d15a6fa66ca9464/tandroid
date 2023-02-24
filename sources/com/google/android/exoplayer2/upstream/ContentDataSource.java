@@ -4,8 +4,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.net.Uri;
+import android.os.Bundle;
 import com.google.android.exoplayer2.util.Util;
-import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -20,9 +20,9 @@ public final class ContentDataSource extends BaseDataSource {
     private Uri uri;
 
     /* loaded from: classes.dex */
-    public static class ContentDataSourceException extends IOException {
-        public ContentDataSourceException(IOException iOException) {
-            super(iOException);
+    public static class ContentDataSourceException extends DataSourceException {
+        public ContentDataSourceException(IOException iOException, int i) {
+            super(iOException, i);
         }
     }
 
@@ -33,48 +33,72 @@ public final class ContentDataSource extends BaseDataSource {
 
     @Override // com.google.android.exoplayer2.upstream.DataSource
     public long open(DataSpec dataSpec) throws ContentDataSourceException {
+        AssetFileDescriptor openAssetFileDescriptor;
         try {
             Uri uri = dataSpec.uri;
             this.uri = uri;
             transferInitializing(dataSpec);
-            AssetFileDescriptor openAssetFileDescriptor = this.resolver.openAssetFileDescriptor(uri, "r");
+            if ("content".equals(dataSpec.uri.getScheme())) {
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("android.provider.extra.ACCEPT_ORIGINAL_MEDIA_FORMAT", true);
+                openAssetFileDescriptor = this.resolver.openTypedAssetFileDescriptor(uri, "*/*", bundle);
+            } else {
+                openAssetFileDescriptor = this.resolver.openAssetFileDescriptor(uri, "r");
+            }
             this.assetFileDescriptor = openAssetFileDescriptor;
             if (openAssetFileDescriptor == null) {
-                throw new FileNotFoundException("Could not open file descriptor for: " + uri);
+                throw new ContentDataSourceException(new IOException("Could not open file descriptor for: " + uri), 2000);
             }
+            long length = openAssetFileDescriptor.getLength();
             FileInputStream fileInputStream = new FileInputStream(openAssetFileDescriptor.getFileDescriptor());
             this.inputStream = fileInputStream;
+            if (length != -1 && dataSpec.position > length) {
+                throw new ContentDataSourceException(null, 2008);
+            }
             long startOffset = openAssetFileDescriptor.getStartOffset();
             long skip = fileInputStream.skip(dataSpec.position + startOffset) - startOffset;
             if (skip != dataSpec.position) {
-                throw new EOFException();
+                throw new ContentDataSourceException(null, 2008);
             }
-            long j = dataSpec.length;
-            long j2 = -1;
-            if (j != -1) {
-                this.bytesRemaining = j;
-            } else {
-                long length = openAssetFileDescriptor.getLength();
-                if (length == -1) {
-                    FileChannel channel = fileInputStream.getChannel();
-                    long size = channel.size();
-                    if (size != 0) {
-                        j2 = size - channel.position();
-                    }
-                    this.bytesRemaining = j2;
+            if (length == -1) {
+                FileChannel channel = fileInputStream.getChannel();
+                long size = channel.size();
+                if (size == 0) {
+                    this.bytesRemaining = -1L;
                 } else {
-                    this.bytesRemaining = length - skip;
+                    long position = size - channel.position();
+                    this.bytesRemaining = position;
+                    if (position < 0) {
+                        throw new ContentDataSourceException(null, 2008);
+                    }
                 }
+            } else {
+                long j = length - skip;
+                this.bytesRemaining = j;
+                if (j < 0) {
+                    throw new ContentDataSourceException(null, 2008);
+                }
+            }
+            long j2 = dataSpec.length;
+            if (j2 != -1) {
+                long j3 = this.bytesRemaining;
+                if (j3 != -1) {
+                    j2 = Math.min(j3, j2);
+                }
+                this.bytesRemaining = j2;
             }
             this.opened = true;
             transferStarted(dataSpec);
-            return this.bytesRemaining;
-        } catch (IOException e) {
-            throw new ContentDataSourceException(e);
+            long j4 = dataSpec.length;
+            return j4 != -1 ? j4 : this.bytesRemaining;
+        } catch (ContentDataSourceException e) {
+            throw e;
+        } catch (IOException e2) {
+            throw new ContentDataSourceException(e2, e2 instanceof FileNotFoundException ? 2005 : 2000);
         }
     }
 
-    @Override // com.google.android.exoplayer2.upstream.DataSource
+    @Override // com.google.android.exoplayer2.upstream.DataReader
     public int read(byte[] bArr, int i, int i2) throws ContentDataSourceException {
         if (i2 == 0) {
             return 0;
@@ -87,15 +111,12 @@ public final class ContentDataSource extends BaseDataSource {
             try {
                 i2 = (int) Math.min(j, i2);
             } catch (IOException e) {
-                throw new ContentDataSourceException(e);
+                throw new ContentDataSourceException(e, 2000);
             }
         }
         int read = ((FileInputStream) Util.castNonNull(this.inputStream)).read(bArr, i, i2);
         if (read == -1) {
-            if (this.bytesRemaining == -1) {
-                return -1;
-            }
-            throw new ContentDataSourceException(new EOFException());
+            return -1;
         }
         long j2 = this.bytesRemaining;
         if (j2 != -1) {
@@ -134,10 +155,10 @@ public final class ContentDataSource extends BaseDataSource {
                         }
                     }
                 } catch (IOException e) {
-                    throw new ContentDataSourceException(e);
+                    throw new ContentDataSourceException(e, 2000);
                 }
             } catch (IOException e2) {
-                throw new ContentDataSourceException(e2);
+                throw new ContentDataSourceException(e2, 2000);
             }
         } catch (Throwable th) {
             this.inputStream = null;
@@ -154,7 +175,7 @@ public final class ContentDataSource extends BaseDataSource {
                     }
                     throw th;
                 } catch (IOException e3) {
-                    throw new ContentDataSourceException(e3);
+                    throw new ContentDataSourceException(e3, 2000);
                 }
             } finally {
                 this.assetFileDescriptor = null;

@@ -1,61 +1,42 @@
 package com.google.android.exoplayer2.source;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import java.util.Arrays;
+import android.os.Bundle;
+import com.google.android.exoplayer2.Bundleable;
+import com.google.android.exoplayer2.util.BundleableUtil;
+import com.google.android.exoplayer2.util.Log;
+import com.google.android.exoplayer2.util.Util;
+import com.google.common.collect.ImmutableList;
+import java.util.ArrayList;
 /* loaded from: classes.dex */
-public final class TrackGroupArray implements Parcelable {
+public final class TrackGroupArray implements Bundleable {
     private int hashCode;
     public final int length;
-    private final TrackGroup[] trackGroups;
+    private final ImmutableList<TrackGroup> trackGroups;
     public static final TrackGroupArray EMPTY = new TrackGroupArray(new TrackGroup[0]);
-    public static final Parcelable.Creator<TrackGroupArray> CREATOR = new Parcelable.Creator<TrackGroupArray>() { // from class: com.google.android.exoplayer2.source.TrackGroupArray.1
-        @Override // android.os.Parcelable.Creator
-        public TrackGroupArray createFromParcel(Parcel parcel) {
-            return new TrackGroupArray(parcel);
-        }
-
-        @Override // android.os.Parcelable.Creator
-        public TrackGroupArray[] newArray(int i) {
-            return new TrackGroupArray[i];
-        }
-    };
-
-    @Override // android.os.Parcelable
-    public int describeContents() {
-        return 0;
-    }
+    private static final String FIELD_TRACK_GROUPS = Util.intToStringMaxRadix(0);
+    public static final Bundleable.Creator<TrackGroupArray> CREATOR = TrackGroupArray$$ExternalSyntheticLambda0.INSTANCE;
 
     public TrackGroupArray(TrackGroup... trackGroupArr) {
-        this.trackGroups = trackGroupArr;
+        this.trackGroups = ImmutableList.copyOf(trackGroupArr);
         this.length = trackGroupArr.length;
-    }
-
-    TrackGroupArray(Parcel parcel) {
-        int readInt = parcel.readInt();
-        this.length = readInt;
-        this.trackGroups = new TrackGroup[readInt];
-        for (int i = 0; i < this.length; i++) {
-            this.trackGroups[i] = (TrackGroup) parcel.readParcelable(TrackGroup.class.getClassLoader());
-        }
+        verifyCorrectness();
     }
 
     public TrackGroup get(int i) {
-        return this.trackGroups[i];
+        return this.trackGroups.get(i);
     }
 
     public int indexOf(TrackGroup trackGroup) {
-        for (int i = 0; i < this.length; i++) {
-            if (this.trackGroups[i] == trackGroup) {
-                return i;
-            }
+        int indexOf = this.trackGroups.indexOf(trackGroup);
+        if (indexOf >= 0) {
+            return indexOf;
         }
         return -1;
     }
 
     public int hashCode() {
         if (this.hashCode == 0) {
-            this.hashCode = Arrays.hashCode(this.trackGroups);
+            this.hashCode = this.trackGroups.hashCode();
         }
         return this.hashCode;
     }
@@ -68,14 +49,35 @@ public final class TrackGroupArray implements Parcelable {
             return false;
         }
         TrackGroupArray trackGroupArray = (TrackGroupArray) obj;
-        return this.length == trackGroupArray.length && Arrays.equals(this.trackGroups, trackGroupArray.trackGroups);
+        return this.length == trackGroupArray.length && this.trackGroups.equals(trackGroupArray.trackGroups);
     }
 
-    @Override // android.os.Parcelable
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(this.length);
-        for (int i2 = 0; i2 < this.length; i2++) {
-            parcel.writeParcelable(this.trackGroups[i2], 0);
+    @Override // com.google.android.exoplayer2.Bundleable
+    public Bundle toBundle() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(FIELD_TRACK_GROUPS, BundleableUtil.toBundleArrayList(this.trackGroups));
+        return bundle;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ TrackGroupArray lambda$static$0(Bundle bundle) {
+        ArrayList parcelableArrayList = bundle.getParcelableArrayList(FIELD_TRACK_GROUPS);
+        if (parcelableArrayList == null) {
+            return new TrackGroupArray(new TrackGroup[0]);
+        }
+        return new TrackGroupArray((TrackGroup[]) BundleableUtil.fromBundleList(TrackGroup.CREATOR, parcelableArrayList).toArray(new TrackGroup[0]));
+    }
+
+    private void verifyCorrectness() {
+        int i = 0;
+        while (i < this.trackGroups.size()) {
+            int i2 = i + 1;
+            for (int i3 = i2; i3 < this.trackGroups.size(); i3++) {
+                if (this.trackGroups.get(i).equals(this.trackGroups.get(i3))) {
+                    Log.e("TrackGroupArray", "", new IllegalArgumentException("Multiple identical TrackGroups added to one TrackGroupArray."));
+                }
+            }
+            i = i2;
         }
     }
 }

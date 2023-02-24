@@ -2,9 +2,9 @@ package com.google.android.exoplayer2.ext.flac;
 
 import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.extractor.ExtractorInput;
+import com.google.android.exoplayer2.extractor.FlacStreamMetadata;
 import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.extractor.SeekPoint;
-import com.google.android.exoplayer2.util.FlacStreamMetadata;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -18,11 +18,11 @@ public final class FlacDecoderJni {
     private final long nativeDecoderContext;
     private byte[] tempBuffer;
 
-    private native FlacStreamMetadata flacDecodeMetadata(long j) throws IOException, InterruptedException;
+    private native FlacStreamMetadata flacDecodeMetadata(long j) throws IOException;
 
-    private native int flacDecodeToArray(long j, byte[] bArr) throws IOException, InterruptedException;
+    private native int flacDecodeToArray(long j, byte[] bArr) throws IOException;
 
-    private native int flacDecodeToBuffer(long j, ByteBuffer byteBuffer) throws IOException, InterruptedException;
+    private native int flacDecodeToBuffer(long j, ByteBuffer byteBuffer) throws IOException;
 
     private native void flacFlush(long j);
 
@@ -57,6 +57,9 @@ public final class FlacDecoderJni {
     }
 
     public FlacDecoderJni() throws FlacDecoderException {
+        if (!FlacLibrary.isAvailable()) {
+            throw new FlacDecoderException("Failed to load decoder native libraries.");
+        }
         long flacInit = flacInit();
         this.nativeDecoderContext = flacInit;
         if (flacInit == 0) {
@@ -94,7 +97,7 @@ public final class FlacDecoderJni {
         this.extractorInput = null;
     }
 
-    public int read(ByteBuffer byteBuffer) throws IOException, InterruptedException {
+    public int read(ByteBuffer byteBuffer) throws IOException {
         int remaining = byteBuffer.remaining();
         ByteBuffer byteBuffer2 = this.byteBufferData;
         if (byteBuffer2 != null) {
@@ -121,15 +124,15 @@ public final class FlacDecoderJni {
         return -1;
     }
 
-    public FlacStreamMetadata decodeStreamMetadata() throws IOException, InterruptedException {
+    public FlacStreamMetadata decodeStreamMetadata() throws IOException {
         FlacStreamMetadata flacDecodeMetadata = flacDecodeMetadata(this.nativeDecoderContext);
         if (flacDecodeMetadata != null) {
             return flacDecodeMetadata;
         }
-        throw new ParserException("Failed to decode stream metadata");
+        throw ParserException.createForMalformedContainer("Failed to decode stream metadata", null);
     }
 
-    public void decodeSampleWithBacktrackPosition(ByteBuffer byteBuffer, long j) throws InterruptedException, IOException, FlacFrameDecodeException {
+    public void decodeSampleWithBacktrackPosition(ByteBuffer byteBuffer, long j) throws IOException, FlacFrameDecodeException {
         try {
             decodeSample(byteBuffer);
         } catch (IOException e) {
@@ -144,7 +147,7 @@ public final class FlacDecoderJni {
         }
     }
 
-    public void decodeSample(ByteBuffer byteBuffer) throws IOException, InterruptedException, FlacFrameDecodeException {
+    public void decodeSample(ByteBuffer byteBuffer) throws IOException, FlacFrameDecodeException {
         int flacDecodeToArray;
         byteBuffer.clear();
         if (byteBuffer.isDirect()) {
@@ -207,7 +210,7 @@ public final class FlacDecoderJni {
         flacRelease(this.nativeDecoderContext);
     }
 
-    private int readFromExtractorInput(ExtractorInput extractorInput, byte[] bArr, int i, int i2) throws IOException, InterruptedException {
+    private int readFromExtractorInput(ExtractorInput extractorInput, byte[] bArr, int i, int i2) throws IOException {
         int read = extractorInput.read(bArr, i, i2);
         if (read == -1) {
             this.endOfExtractorInput = true;

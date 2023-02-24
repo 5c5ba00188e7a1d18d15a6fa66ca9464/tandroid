@@ -25,7 +25,6 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.annotation.concurrent.GuardedBy;
 /* compiled from: com.google.android.gms:play-services-cloud-messaging@@16.0.0 */
 /* loaded from: classes.dex */
 public class Rpc {
@@ -37,7 +36,6 @@ public class Rpc {
     private final ScheduledExecutorService zzg;
     private Messenger zzi;
     private zza zzj;
-    @GuardedBy("responseCallbacks")
     private final SimpleArrayMap<String, TaskCompletionSource<Bundle>> zzd = new SimpleArrayMap<>();
     private Messenger zzh = new Messenger(new zzy(this, Looper.getMainLooper()));
 

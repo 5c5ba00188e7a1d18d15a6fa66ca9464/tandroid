@@ -4874,7 +4874,7 @@ public class AlertsCreator {
     }
 
     public static void showSendMediaAlert(int i, BaseFragment baseFragment, Theme.ResourcesProvider resourcesProvider) {
-        if (i == 0) {
+        if (i == 0 || baseFragment == null || baseFragment.getParentActivity() == null) {
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(baseFragment.getParentActivity(), resourcesProvider);

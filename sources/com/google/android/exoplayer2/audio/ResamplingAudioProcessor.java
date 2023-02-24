@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.audio;
 
 import com.google.android.exoplayer2.audio.AudioProcessor;
+import com.google.android.exoplayer2.util.Util;
 import java.nio.ByteBuffer;
 /* loaded from: classes.dex */
 final class ResamplingAudioProcessor extends BaseAudioProcessor {
@@ -17,8 +18,8 @@ final class ResamplingAudioProcessor extends BaseAudioProcessor {
     }
 
     /* JADX WARN: Removed duplicated region for block: B:16:0x0039  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x00a8 A[LOOP:4: B:30:0x00a8->B:31:0x00aa, LOOP_START, PHI: r0 
-      PHI: (r0v1 int) = (r0v0 int), (r0v2 int) binds: [B:15:0x0037, B:31:0x00aa] A[DONT_GENERATE, DONT_INLINE]] */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x00b0 A[LOOP:4: B:30:0x00b0->B:31:0x00b2, LOOP_START, PHI: r0 
+      PHI: (r0v1 int) = (r0v0 int), (r0v2 int) binds: [B:15:0x0037, B:31:0x00b2] A[DONT_GENERATE, DONT_INLINE]] */
     @Override // com.google.android.exoplayer2.audio.AudioProcessor
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -48,9 +49,9 @@ final class ResamplingAudioProcessor extends BaseAudioProcessor {
                     }
                 } else if (i == 4) {
                     while (position < limit) {
-                        short s = (short) (byteBuffer.getFloat(position) * 32767.0f);
-                        replaceOutputBuffer.put((byte) (s & 255));
-                        replaceOutputBuffer.put((byte) ((s >> 8) & 255));
+                        short constrainValue = (short) (Util.constrainValue(byteBuffer.getFloat(position), -1.0f, 1.0f) * 32767.0f);
+                        replaceOutputBuffer.put((byte) (constrainValue & 255));
+                        replaceOutputBuffer.put((byte) ((constrainValue >> 8) & 255));
                         position += 4;
                     }
                 } else if (i == 268435456) {

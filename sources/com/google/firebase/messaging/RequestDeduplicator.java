@@ -6,13 +6,11 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import java.util.Map;
 import java.util.concurrent.Executor;
-import javax.annotation.concurrent.GuardedBy;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public class RequestDeduplicator {
     private final Executor executor;
-    @GuardedBy("this")
     private final Map<String, Task<String>> getTokenRequests = new ArrayMap();
 
     /* JADX INFO: Access modifiers changed from: package-private */

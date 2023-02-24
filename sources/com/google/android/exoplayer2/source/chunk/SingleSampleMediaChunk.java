@@ -3,9 +3,10 @@ package com.google.android.exoplayer2.source.chunk;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.extractor.DefaultExtractorInput;
 import com.google.android.exoplayer2.extractor.TrackOutput;
+import com.google.android.exoplayer2.upstream.DataReader;
 import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DataSourceUtil;
 import com.google.android.exoplayer2.upstream.DataSpec;
-import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
@@ -31,7 +32,7 @@ public final class SingleSampleMediaChunk extends BaseMediaChunk {
     }
 
     @Override // com.google.android.exoplayer2.upstream.Loader.Loadable
-    public void load() throws IOException, InterruptedException {
+    public void load() throws IOException {
         BaseMediaChunkOutput output = getOutput();
         output.setSampleOffsetUs(0L);
         TrackOutput track = output.track(0, this.trackType);
@@ -42,14 +43,14 @@ public final class SingleSampleMediaChunk extends BaseMediaChunk {
                 open += this.nextLoadPosition;
             }
             DefaultExtractorInput defaultExtractorInput = new DefaultExtractorInput(this.dataSource, this.nextLoadPosition, open);
-            for (int i = 0; i != -1; i = track.sampleData(defaultExtractorInput, ConnectionsManager.DEFAULT_DATACENTER_ID, true)) {
+            for (int i = 0; i != -1; i = track.sampleData((DataReader) defaultExtractorInput, ConnectionsManager.DEFAULT_DATACENTER_ID, true)) {
                 this.nextLoadPosition += i;
             }
             track.sampleMetadata(this.startTimeUs, 1, (int) this.nextLoadPosition, 0, null);
-            Util.closeQuietly(this.dataSource);
+            DataSourceUtil.closeQuietly(this.dataSource);
             this.loadCompleted = true;
         } catch (Throwable th) {
-            Util.closeQuietly(this.dataSource);
+            DataSourceUtil.closeQuietly(this.dataSource);
             throw th;
         }
     }

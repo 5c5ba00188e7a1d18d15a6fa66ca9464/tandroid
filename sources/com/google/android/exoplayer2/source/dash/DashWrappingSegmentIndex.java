@@ -8,8 +8,18 @@ public final class DashWrappingSegmentIndex implements DashSegmentIndex {
     private final long timeOffsetUs;
 
     @Override // com.google.android.exoplayer2.source.dash.DashSegmentIndex
+    public long getFirstAvailableSegmentNum(long j, long j2) {
+        return 0L;
+    }
+
+    @Override // com.google.android.exoplayer2.source.dash.DashSegmentIndex
     public long getFirstSegmentNum() {
         return 0L;
+    }
+
+    @Override // com.google.android.exoplayer2.source.dash.DashSegmentIndex
+    public long getNextSegmentAvailableTimeUs(long j, long j2) {
+        return -9223372036854775807L;
     }
 
     @Override // com.google.android.exoplayer2.source.dash.DashSegmentIndex
@@ -23,7 +33,12 @@ public final class DashWrappingSegmentIndex implements DashSegmentIndex {
     }
 
     @Override // com.google.android.exoplayer2.source.dash.DashSegmentIndex
-    public int getSegmentCount(long j) {
+    public long getSegmentCount(long j) {
+        return this.chunkIndex.length;
+    }
+
+    @Override // com.google.android.exoplayer2.source.dash.DashSegmentIndex
+    public long getAvailableSegmentCount(long j, long j2) {
         return this.chunkIndex.length;
     }
 

@@ -4,7 +4,7 @@ import com.google.android.exoplayer2.ext.flac.FlacBinarySearchSeeker$$ExternalSy
 import com.google.android.exoplayer2.extractor.BinarySearchSeeker;
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.FlacFrameReader;
-import com.google.android.exoplayer2.util.FlacStreamMetadata;
+import com.google.android.exoplayer2.extractor.FlacStreamMetadata;
 import java.io.IOException;
 import java.util.Objects;
 /* loaded from: classes.dex */
@@ -33,7 +33,7 @@ final class FlacBinarySearchSeeker extends BinarySearchSeeker {
         }
 
         @Override // com.google.android.exoplayer2.extractor.BinarySearchSeeker.TimestampSeeker
-        public BinarySearchSeeker.TimestampSearchResult searchForTimestamp(ExtractorInput extractorInput, long j) throws IOException, InterruptedException {
+        public BinarySearchSeeker.TimestampSearchResult searchForTimestamp(ExtractorInput extractorInput, long j) throws IOException {
             long position = extractorInput.getPosition();
             long findNextFrame = findNextFrame(extractorInput);
             long peekPosition = extractorInput.getPeekPosition();
@@ -49,7 +49,7 @@ final class FlacBinarySearchSeeker extends BinarySearchSeeker {
             return BinarySearchSeeker.TimestampSearchResult.targetFoundResult(peekPosition);
         }
 
-        private long findNextFrame(ExtractorInput extractorInput) throws IOException, InterruptedException {
+        private long findNextFrame(ExtractorInput extractorInput) throws IOException {
             while (extractorInput.getPeekPosition() < extractorInput.getLength() - 6 && !FlacFrameReader.checkFrameHeaderFromPeek(extractorInput, this.flacStreamMetadata, this.frameStartMarker, this.sampleNumberHolder)) {
                 extractorInput.advancePeekPosition(1);
             }

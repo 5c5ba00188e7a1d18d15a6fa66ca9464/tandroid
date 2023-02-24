@@ -28,10 +28,11 @@ final class DefaultEbmlReader implements EbmlReader {
     }
 
     @Override // com.google.android.exoplayer2.extractor.mkv.EbmlReader
-    public boolean read(ExtractorInput extractorInput) throws IOException, InterruptedException {
-        Assertions.checkNotNull(this.processor);
+    public boolean read(ExtractorInput extractorInput) throws IOException {
+        Assertions.checkStateNotNull(this.processor);
         while (true) {
-            if (this.masterElementsStack.isEmpty() || extractorInput.getPosition() < this.masterElementsStack.peek().elementEndPosition) {
+            MasterElement peek = this.masterElementsStack.peek();
+            if (peek == null || extractorInput.getPosition() < peek.elementEndPosition) {
                 if (this.elementState == 0) {
                     long readUnsignedVarint = this.varintReader.readUnsignedVarint(extractorInput, true, false, 4);
                     if (readUnsignedVarint == -2) {
@@ -58,7 +59,7 @@ final class DefaultEbmlReader implements EbmlReader {
                     } else if (elementType == 2) {
                         long j = this.elementContentSize;
                         if (j > 8) {
-                            throw new ParserException("Invalid integer size: " + this.elementContentSize);
+                            throw ParserException.createForMalformedContainer("Invalid integer size: " + this.elementContentSize, null);
                         }
                         this.processor.integerElement(this.elementId, readInteger(extractorInput, (int) j));
                         this.elementState = 0;
@@ -66,7 +67,7 @@ final class DefaultEbmlReader implements EbmlReader {
                     } else if (elementType == 3) {
                         long j2 = this.elementContentSize;
                         if (j2 > 2147483647L) {
-                            throw new ParserException("String element size: " + this.elementContentSize);
+                            throw ParserException.createForMalformedContainer("String element size: " + this.elementContentSize, null);
                         }
                         this.processor.stringElement(this.elementId, readString(extractorInput, (int) j2));
                         this.elementState = 0;
@@ -78,13 +79,13 @@ final class DefaultEbmlReader implements EbmlReader {
                     } else if (elementType == 5) {
                         long j3 = this.elementContentSize;
                         if (j3 != 4 && j3 != 8) {
-                            throw new ParserException("Invalid float size: " + this.elementContentSize);
+                            throw ParserException.createForMalformedContainer("Invalid float size: " + this.elementContentSize, null);
                         }
                         this.processor.floatElement(this.elementId, readFloat(extractorInput, (int) j3));
                         this.elementState = 0;
                         return true;
                     } else {
-                        throw new ParserException("Invalid element type " + elementType);
+                        throw ParserException.createForMalformedContainer("Invalid element type " + elementType, null);
                     }
                 }
                 extractorInput.skipFully((int) this.elementContentSize);
@@ -96,7 +97,7 @@ final class DefaultEbmlReader implements EbmlReader {
         }
     }
 
-    private long maybeResyncToNextLevel1Element(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    private long maybeResyncToNextLevel1Element(ExtractorInput extractorInput) throws IOException {
         extractorInput.resetPeekPosition();
         while (true) {
             extractorInput.peekFully(this.scratch, 0, 4);
@@ -112,7 +113,7 @@ final class DefaultEbmlReader implements EbmlReader {
         }
     }
 
-    private long readInteger(ExtractorInput extractorInput, int i) throws IOException, InterruptedException {
+    private long readInteger(ExtractorInput extractorInput, int i) throws IOException {
         extractorInput.readFully(this.scratch, 0, i);
         long j = 0;
         for (int i2 = 0; i2 < i; i2++) {
@@ -121,7 +122,7 @@ final class DefaultEbmlReader implements EbmlReader {
         return j;
     }
 
-    private double readFloat(ExtractorInput extractorInput, int i) throws IOException, InterruptedException {
+    private double readFloat(ExtractorInput extractorInput, int i) throws IOException {
         long readInteger = readInteger(extractorInput, i);
         if (i == 4) {
             return Float.intBitsToFloat((int) readInteger);
@@ -129,7 +130,7 @@ final class DefaultEbmlReader implements EbmlReader {
         return Double.longBitsToDouble(readInteger);
     }
 
-    private String readString(ExtractorInput extractorInput, int i) throws IOException, InterruptedException {
+    private static String readString(ExtractorInput extractorInput, int i) throws IOException {
         if (i == 0) {
             return "";
         }

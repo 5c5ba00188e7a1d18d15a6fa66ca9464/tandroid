@@ -3,4 +3,8 @@ package com.google.android.exoplayer2.drm;
 public final class UnsupportedDrmException extends Exception {
     public UnsupportedDrmException(int i) {
     }
+
+    public UnsupportedDrmException(int i, Exception exc) {
+        super(exc);
+    }
 }

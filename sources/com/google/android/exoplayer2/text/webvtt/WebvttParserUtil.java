@@ -15,7 +15,7 @@ public final class WebvttParserUtil {
             return;
         }
         parsableByteArray.setPosition(position);
-        throw new ParserException("Expected WEBVTT. Got " + parsableByteArray.readLine());
+        throw ParserException.createForMalformedContainer("Expected WEBVTT. Got " + parsableByteArray.readLine(), null);
     }
 
     public static boolean isWebvttHeaderLine(ParsableByteArray parsableByteArray) {

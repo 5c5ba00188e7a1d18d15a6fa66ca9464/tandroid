@@ -3,8 +3,11 @@ package com.google.android.exoplayer2.metadata.flac;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.exoplayer2.Format;
+import com.google.android.exoplayer2.MediaMetadata;
 import com.google.android.exoplayer2.metadata.Metadata;
+import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
+import com.google.common.base.Charsets;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class PictureFrame implements Metadata.Entry {
@@ -65,6 +68,11 @@ public final class PictureFrame implements Metadata.Entry {
         this.pictureData = (byte[]) Util.castNonNull(parcel.createByteArray());
     }
 
+    @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
+    public void populateMediaMetadata(MediaMetadata.Builder builder) {
+        builder.maybeSetArtworkData(this.pictureData, this.pictureType);
+    }
+
     public String toString() {
         return "Picture: mimeType=" + this.mimeType + ", description=" + this.description;
     }
@@ -94,5 +102,19 @@ public final class PictureFrame implements Metadata.Entry {
         parcel.writeInt(this.depth);
         parcel.writeInt(this.colors);
         parcel.writeByteArray(this.pictureData);
+    }
+
+    public static PictureFrame fromPictureBlock(ParsableByteArray parsableByteArray) {
+        int readInt = parsableByteArray.readInt();
+        String readString = parsableByteArray.readString(parsableByteArray.readInt(), Charsets.US_ASCII);
+        String readString2 = parsableByteArray.readString(parsableByteArray.readInt());
+        int readInt2 = parsableByteArray.readInt();
+        int readInt3 = parsableByteArray.readInt();
+        int readInt4 = parsableByteArray.readInt();
+        int readInt5 = parsableByteArray.readInt();
+        int readInt6 = parsableByteArray.readInt();
+        byte[] bArr = new byte[readInt6];
+        parsableByteArray.readBytes(bArr, 0, readInt6);
+        return new PictureFrame(readInt, readString, readString2, readInt2, readInt3, readInt4, readInt5, bArr);
     }
 }

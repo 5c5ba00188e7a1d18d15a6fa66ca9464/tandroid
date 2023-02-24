@@ -5,7 +5,8 @@ import android.util.SparseArray;
 import android.util.SparseIntArray;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.SeekParameters;
-import com.google.android.exoplayer2.drm.DrmInitData;
+import com.google.android.exoplayer2.analytics.PlayerId;
+import com.google.android.exoplayer2.drm.DrmSessionEventListener;
 import com.google.android.exoplayer2.drm.DrmSessionManager;
 import com.google.android.exoplayer2.source.CompositeSequenceableLoaderFactory;
 import com.google.android.exoplayer2.source.EmptySampleStream;
@@ -24,15 +25,17 @@ import com.google.android.exoplayer2.source.dash.manifest.Descriptor;
 import com.google.android.exoplayer2.source.dash.manifest.EventStream;
 import com.google.android.exoplayer2.source.dash.manifest.Period;
 import com.google.android.exoplayer2.source.dash.manifest.Representation;
-import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.ExoTrackSelection;
 import com.google.android.exoplayer2.upstream.Allocator;
 import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy;
 import com.google.android.exoplayer2.upstream.LoaderErrorThrower;
 import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Util;
+import com.google.common.primitives.Ints;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -42,22 +45,25 @@ import java.util.regex.Pattern;
 /* loaded from: classes.dex */
 public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Callback<ChunkSampleStream<DashChunkSource>>, ChunkSampleStream.ReleaseCallback<DashChunkSource> {
     private static final Pattern CEA608_SERVICE_DESCRIPTOR_REGEX = Pattern.compile("CC([1-4])=(.+)");
+    private static final Pattern CEA708_SERVICE_DESCRIPTOR_REGEX = Pattern.compile("([1-4])=lang:(\\w+)(,.+)?");
     private final Allocator allocator;
+    private final BaseUrlExclusionList baseUrlExclusionList;
     private MediaPeriod.Callback callback;
     private final DashChunkSource.Factory chunkSourceFactory;
     private SequenceableLoader compositeSequenceableLoader;
     private final CompositeSequenceableLoaderFactory compositeSequenceableLoaderFactory;
-    private final DrmSessionManager<?> drmSessionManager;
+    private final DrmSessionEventListener.EventDispatcher drmEventDispatcher;
+    private final DrmSessionManager drmSessionManager;
     private final long elapsedRealtimeOffsetMs;
-    private final MediaSourceEventListener.EventDispatcher eventDispatcher;
     private List<EventStream> eventStreams;
     final int id;
     private final LoadErrorHandlingPolicy loadErrorHandlingPolicy;
     private DashManifest manifest;
     private final LoaderErrorThrower manifestLoaderErrorThrower;
-    private boolean notifiedReadingStarted;
+    private final MediaSourceEventListener.EventDispatcher mediaSourceEventDispatcher;
     private int periodIndex;
     private final PlayerEmsgHandler playerEmsgHandler;
+    private final PlayerId playerId;
     private final TrackGroupInfo[] trackGroupInfos;
     private final TrackGroupArray trackGroups;
     private final TransferListener transferListener;
@@ -65,19 +71,27 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
     private EventSampleStream[] eventSampleStreams = new EventSampleStream[0];
     private final IdentityHashMap<ChunkSampleStream<DashChunkSource>, PlayerEmsgHandler.PlayerTrackEmsgHandler> trackEmsgHandlerBySampleStream = new IdentityHashMap<>();
 
-    public DashMediaPeriod(int i, DashManifest dashManifest, int i2, DashChunkSource.Factory factory, TransferListener transferListener, DrmSessionManager<?> drmSessionManager, LoadErrorHandlingPolicy loadErrorHandlingPolicy, MediaSourceEventListener.EventDispatcher eventDispatcher, long j, LoaderErrorThrower loaderErrorThrower, Allocator allocator, CompositeSequenceableLoaderFactory compositeSequenceableLoaderFactory, PlayerEmsgHandler.PlayerEmsgCallback playerEmsgCallback) {
+    @Override // com.google.android.exoplayer2.source.MediaPeriod
+    public long readDiscontinuity() {
+        return -9223372036854775807L;
+    }
+
+    public DashMediaPeriod(int i, DashManifest dashManifest, BaseUrlExclusionList baseUrlExclusionList, int i2, DashChunkSource.Factory factory, TransferListener transferListener, DrmSessionManager drmSessionManager, DrmSessionEventListener.EventDispatcher eventDispatcher, LoadErrorHandlingPolicy loadErrorHandlingPolicy, MediaSourceEventListener.EventDispatcher eventDispatcher2, long j, LoaderErrorThrower loaderErrorThrower, Allocator allocator, CompositeSequenceableLoaderFactory compositeSequenceableLoaderFactory, PlayerEmsgHandler.PlayerEmsgCallback playerEmsgCallback, PlayerId playerId) {
         this.id = i;
         this.manifest = dashManifest;
+        this.baseUrlExclusionList = baseUrlExclusionList;
         this.periodIndex = i2;
         this.chunkSourceFactory = factory;
         this.transferListener = transferListener;
         this.drmSessionManager = drmSessionManager;
+        this.drmEventDispatcher = eventDispatcher;
         this.loadErrorHandlingPolicy = loadErrorHandlingPolicy;
-        this.eventDispatcher = eventDispatcher;
+        this.mediaSourceEventDispatcher = eventDispatcher2;
         this.elapsedRealtimeOffsetMs = j;
         this.manifestLoaderErrorThrower = loaderErrorThrower;
         this.allocator = allocator;
         this.compositeSequenceableLoaderFactory = compositeSequenceableLoaderFactory;
+        this.playerId = playerId;
         this.playerEmsgHandler = new PlayerEmsgHandler(dashManifest, playerEmsgCallback, allocator);
         this.compositeSequenceableLoader = compositeSequenceableLoaderFactory.createCompositeSequenceableLoader(this.sampleStreams);
         Period period = dashManifest.getPeriod(i2);
@@ -86,7 +100,6 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         Pair<TrackGroupArray, TrackGroupInfo[]> buildTrackGroups = buildTrackGroups(drmSessionManager, period.adaptationSets, list);
         this.trackGroups = (TrackGroupArray) buildTrackGroups.first;
         this.trackGroupInfos = (TrackGroupInfo[]) buildTrackGroups.second;
-        eventDispatcher.mediaPeriodCreated();
     }
 
     public void updateManifest(DashManifest dashManifest, int i) {
@@ -122,7 +135,6 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
             chunkSampleStream.release(this);
         }
         this.callback = null;
-        this.eventDispatcher.mediaPeriodReleased();
     }
 
     @Override // com.google.android.exoplayer2.source.chunk.ChunkSampleStream.ReleaseCallback
@@ -150,11 +162,11 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
     }
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod
-    public long selectTracks(TrackSelection[] trackSelectionArr, boolean[] zArr, SampleStream[] sampleStreamArr, boolean[] zArr2, long j) {
-        int[] streamIndexToTrackGroupIndex = getStreamIndexToTrackGroupIndex(trackSelectionArr);
-        releaseDisabledStreams(trackSelectionArr, zArr, sampleStreamArr);
-        releaseOrphanEmbeddedStreams(trackSelectionArr, sampleStreamArr, streamIndexToTrackGroupIndex);
-        selectNewStreams(trackSelectionArr, sampleStreamArr, zArr2, j, streamIndexToTrackGroupIndex);
+    public long selectTracks(ExoTrackSelection[] exoTrackSelectionArr, boolean[] zArr, SampleStream[] sampleStreamArr, boolean[] zArr2, long j) {
+        int[] streamIndexToTrackGroupIndex = getStreamIndexToTrackGroupIndex(exoTrackSelectionArr);
+        releaseDisabledStreams(exoTrackSelectionArr, zArr, sampleStreamArr);
+        releaseOrphanEmbeddedStreams(exoTrackSelectionArr, sampleStreamArr, streamIndexToTrackGroupIndex);
+        selectNewStreams(exoTrackSelectionArr, sampleStreamArr, zArr2, j, streamIndexToTrackGroupIndex);
         ArrayList arrayList = new ArrayList();
         ArrayList arrayList2 = new ArrayList();
         for (SampleStream sampleStream : sampleStreamArr) {
@@ -201,16 +213,6 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         return this.compositeSequenceableLoader.getNextLoadPositionUs();
     }
 
-    @Override // com.google.android.exoplayer2.source.MediaPeriod
-    public long readDiscontinuity() {
-        if (this.notifiedReadingStarted) {
-            return -9223372036854775807L;
-        }
-        this.eventDispatcher.readingStarted();
-        this.notifiedReadingStarted = true;
-        return -9223372036854775807L;
-    }
-
     @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
     public long getBufferedPositionUs() {
         return this.compositeSequenceableLoader.getBufferedPositionUs();
@@ -243,11 +245,11 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         this.callback.onContinueLoadingRequested(this);
     }
 
-    private int[] getStreamIndexToTrackGroupIndex(TrackSelection[] trackSelectionArr) {
-        int[] iArr = new int[trackSelectionArr.length];
-        for (int i = 0; i < trackSelectionArr.length; i++) {
-            if (trackSelectionArr[i] != null) {
-                iArr[i] = this.trackGroups.indexOf(trackSelectionArr[i].getTrackGroup());
+    private int[] getStreamIndexToTrackGroupIndex(ExoTrackSelection[] exoTrackSelectionArr) {
+        int[] iArr = new int[exoTrackSelectionArr.length];
+        for (int i = 0; i < exoTrackSelectionArr.length; i++) {
+            if (exoTrackSelectionArr[i] != null) {
+                iArr[i] = this.trackGroups.indexOf(exoTrackSelectionArr[i].getTrackGroup());
             } else {
                 iArr[i] = -1;
             }
@@ -255,9 +257,9 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         return iArr;
     }
 
-    private void releaseDisabledStreams(TrackSelection[] trackSelectionArr, boolean[] zArr, SampleStream[] sampleStreamArr) {
-        for (int i = 0; i < trackSelectionArr.length; i++) {
-            if (trackSelectionArr[i] == null || !zArr[i]) {
+    private void releaseDisabledStreams(ExoTrackSelection[] exoTrackSelectionArr, boolean[] zArr, SampleStream[] sampleStreamArr) {
+        for (int i = 0; i < exoTrackSelectionArr.length; i++) {
+            if (exoTrackSelectionArr[i] == null || !zArr[i]) {
                 if (sampleStreamArr[i] instanceof ChunkSampleStream) {
                     ((ChunkSampleStream) sampleStreamArr[i]).release(this);
                 } else if (sampleStreamArr[i] instanceof ChunkSampleStream.EmbeddedSampleStream) {
@@ -268,9 +270,9 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         }
     }
 
-    private void releaseOrphanEmbeddedStreams(TrackSelection[] trackSelectionArr, SampleStream[] sampleStreamArr, int[] iArr) {
+    private void releaseOrphanEmbeddedStreams(ExoTrackSelection[] exoTrackSelectionArr, SampleStream[] sampleStreamArr, int[] iArr) {
         boolean z;
-        for (int i = 0; i < trackSelectionArr.length; i++) {
+        for (int i = 0; i < exoTrackSelectionArr.length; i++) {
             if ((sampleStreamArr[i] instanceof EmptySampleStream) || (sampleStreamArr[i] instanceof ChunkSampleStream.EmbeddedSampleStream)) {
                 int primaryStreamIndex = getPrimaryStreamIndex(i, iArr);
                 if (primaryStreamIndex == -1) {
@@ -288,26 +290,26 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         }
     }
 
-    private void selectNewStreams(TrackSelection[] trackSelectionArr, SampleStream[] sampleStreamArr, boolean[] zArr, long j, int[] iArr) {
-        for (int i = 0; i < trackSelectionArr.length; i++) {
-            TrackSelection trackSelection = trackSelectionArr[i];
-            if (trackSelection != null) {
+    private void selectNewStreams(ExoTrackSelection[] exoTrackSelectionArr, SampleStream[] sampleStreamArr, boolean[] zArr, long j, int[] iArr) {
+        for (int i = 0; i < exoTrackSelectionArr.length; i++) {
+            ExoTrackSelection exoTrackSelection = exoTrackSelectionArr[i];
+            if (exoTrackSelection != null) {
                 if (sampleStreamArr[i] == null) {
                     zArr[i] = true;
                     TrackGroupInfo trackGroupInfo = this.trackGroupInfos[iArr[i]];
                     int i2 = trackGroupInfo.trackGroupCategory;
                     if (i2 == 0) {
-                        sampleStreamArr[i] = buildSampleStream(trackGroupInfo, trackSelection, j);
+                        sampleStreamArr[i] = buildSampleStream(trackGroupInfo, exoTrackSelection, j);
                     } else if (i2 == 2) {
-                        sampleStreamArr[i] = new EventSampleStream(this.eventStreams.get(trackGroupInfo.eventStreamGroupIndex), trackSelection.getTrackGroup().getFormat(0), this.manifest.dynamic);
+                        sampleStreamArr[i] = new EventSampleStream(this.eventStreams.get(trackGroupInfo.eventStreamGroupIndex), exoTrackSelection.getTrackGroup().getFormat(0), this.manifest.dynamic);
                     }
                 } else if (sampleStreamArr[i] instanceof ChunkSampleStream) {
-                    ((DashChunkSource) ((ChunkSampleStream) sampleStreamArr[i]).getChunkSource()).updateTrackSelection(trackSelection);
+                    ((DashChunkSource) ((ChunkSampleStream) sampleStreamArr[i]).getChunkSource()).updateTrackSelection(exoTrackSelection);
                 }
             }
         }
-        for (int i3 = 0; i3 < trackSelectionArr.length; i3++) {
-            if (sampleStreamArr[i3] == null && trackSelectionArr[i3] != null) {
+        for (int i3 = 0; i3 < exoTrackSelectionArr.length; i3++) {
+            if (sampleStreamArr[i3] == null && exoTrackSelectionArr[i3] != null) {
                 TrackGroupInfo trackGroupInfo2 = this.trackGroupInfos[iArr[i3]];
                 if (trackGroupInfo2.trackGroupCategory == 1) {
                     int primaryStreamIndex = getPrimaryStreamIndex(i3, iArr);
@@ -336,7 +338,7 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         return -1;
     }
 
-    private static Pair<TrackGroupArray, TrackGroupInfo[]> buildTrackGroups(DrmSessionManager<?> drmSessionManager, List<AdaptationSet> list, List<EventStream> list2) {
+    private static Pair<TrackGroupArray, TrackGroupInfo[]> buildTrackGroups(DrmSessionManager drmSessionManager, List<AdaptationSet> list, List<EventStream> list2) {
         int[][] groupedAdaptationSetIndices = getGroupedAdaptationSetIndices(list);
         int length = groupedAdaptationSetIndices.length;
         boolean[] zArr = new boolean[length];
@@ -390,7 +392,7 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         int size2 = arrayList.size();
         int[][] iArr = new int[size2];
         for (int i5 = 0; i5 < size2; i5++) {
-            iArr[i5] = Util.toArray((List) arrayList.get(i5));
+            iArr[i5] = Ints.toArray((Collection) arrayList.get(i5));
             Arrays.sort(iArr[i5]);
         }
         return iArr;
@@ -403,7 +405,7 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
                 zArr[i3] = true;
                 i2++;
             }
-            formatArr[i3] = getCea608TrackFormats(list, iArr[i3]);
+            formatArr[i3] = getClosedCaptionTrackFormats(list, iArr[i3]);
             if (formatArr[i3].length != 0) {
                 i2++;
             }
@@ -411,7 +413,7 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         return i2;
     }
 
-    private static int buildPrimaryAndEmbeddedTrackGroupInfos(DrmSessionManager<?> drmSessionManager, List<AdaptationSet> list, int[][] iArr, int i, boolean[] zArr, Format[][] formatArr, TrackGroup[] trackGroupArr, TrackGroupInfo[] trackGroupInfoArr) {
+    private static int buildPrimaryAndEmbeddedTrackGroupInfos(DrmSessionManager drmSessionManager, List<AdaptationSet> list, int[][] iArr, int i, boolean[] zArr, Format[][] formatArr, TrackGroup[] trackGroupArr, TrackGroupInfo[] trackGroupInfoArr) {
         int i2;
         int i3;
         int i4 = 0;
@@ -426,19 +428,17 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
             Format[] formatArr2 = new Format[size];
             for (int i7 = 0; i7 < size; i7++) {
                 Format format = ((Representation) arrayList.get(i7)).format;
-                DrmInitData drmInitData = format.drmInitData;
-                if (drmInitData != null) {
-                    format = format.copyWithExoMediaCryptoType(drmSessionManager.getExoMediaCryptoType(drmInitData));
-                }
-                formatArr2[i7] = format;
+                formatArr2[i7] = format.copyWithCryptoType(drmSessionManager.getCryptoType(format));
             }
             AdaptationSet adaptationSet = list.get(iArr2[0]);
-            int i8 = i5 + 1;
+            int i8 = adaptationSet.id;
+            String num = i8 != -1 ? Integer.toString(i8) : "unset:" + i4;
+            int i9 = i5 + 1;
             if (zArr[i4]) {
-                i2 = i8 + 1;
+                i2 = i9 + 1;
             } else {
-                i2 = i8;
-                i8 = -1;
+                i2 = i9;
+                i9 = -1;
             }
             if (formatArr[i4].length != 0) {
                 i3 = i2 + 1;
@@ -446,15 +446,16 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
                 i3 = i2;
                 i2 = -1;
             }
-            trackGroupArr[i5] = new TrackGroup(formatArr2);
-            trackGroupInfoArr[i5] = TrackGroupInfo.primaryTrack(adaptationSet.type, iArr2, i5, i8, i2);
-            if (i8 != -1) {
-                trackGroupArr[i8] = new TrackGroup(Format.createSampleFormat(adaptationSet.id + ":emsg", "application/x-emsg", null, -1, null));
-                trackGroupInfoArr[i8] = TrackGroupInfo.embeddedEmsgTrack(iArr2, i5);
+            trackGroupArr[i5] = new TrackGroup(num, formatArr2);
+            trackGroupInfoArr[i5] = TrackGroupInfo.primaryTrack(adaptationSet.type, iArr2, i5, i9, i2);
+            if (i9 != -1) {
+                String str = num + ":emsg";
+                trackGroupArr[i9] = new TrackGroup(str, new Format.Builder().setId(str).setSampleMimeType("application/x-emsg").build());
+                trackGroupInfoArr[i9] = TrackGroupInfo.embeddedEmsgTrack(iArr2, i5);
             }
             if (i2 != -1) {
-                trackGroupArr[i2] = new TrackGroup(formatArr[i4]);
-                trackGroupInfoArr[i2] = TrackGroupInfo.embeddedCea608Track(iArr2, i5);
+                trackGroupArr[i2] = new TrackGroup(num + ":cc", formatArr[i4]);
+                trackGroupInfoArr[i2] = TrackGroupInfo.embeddedClosedCaptionTrack(iArr2, i5);
             }
             i4++;
             i5 = i3;
@@ -465,14 +466,16 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
     private static void buildManifestEventTrackGroupInfos(List<EventStream> list, TrackGroup[] trackGroupArr, TrackGroupInfo[] trackGroupInfoArr, int i) {
         int i2 = 0;
         while (i2 < list.size()) {
-            trackGroupArr[i] = new TrackGroup(Format.createSampleFormat(list.get(i2).id(), "application/x-emsg", null, -1, null));
+            EventStream eventStream = list.get(i2);
+            Format build = new Format.Builder().setId(eventStream.id()).setSampleMimeType("application/x-emsg").build();
+            trackGroupArr[i] = new TrackGroup(eventStream.id() + ":" + i2, build);
             trackGroupInfoArr[i] = TrackGroupInfo.mpdEventTrack(i2);
             i2++;
             i++;
         }
     }
 
-    private ChunkSampleStream<DashChunkSource> buildSampleStream(TrackGroupInfo trackGroupInfo, TrackSelection trackSelection, long j) {
+    private ChunkSampleStream<DashChunkSource> buildSampleStream(TrackGroupInfo trackGroupInfo, ExoTrackSelection exoTrackSelection, long j) {
         TrackGroup trackGroup;
         int i;
         TrackGroup trackGroup2;
@@ -487,7 +490,7 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
             trackGroup = null;
             i = 0;
         }
-        int i4 = trackGroupInfo.embeddedCea608TrackGroupIndex;
+        int i4 = trackGroupInfo.embeddedClosedCaptionTrackGroupIndex;
         boolean z2 = i4 != -1;
         if (z2) {
             trackGroup2 = this.trackGroups.get(i4);
@@ -499,7 +502,7 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         int[] iArr = new int[i];
         if (z) {
             formatArr[0] = trackGroup.getFormat(0);
-            iArr[0] = 4;
+            iArr[0] = 5;
             i2 = 1;
         } else {
             i2 = 0;
@@ -517,7 +520,7 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
             playerTrackEmsgHandler = this.playerEmsgHandler.newPlayerTrackEmsgHandler();
         }
         PlayerEmsgHandler.PlayerTrackEmsgHandler playerTrackEmsgHandler2 = playerTrackEmsgHandler;
-        ChunkSampleStream<DashChunkSource> chunkSampleStream = new ChunkSampleStream<>(trackGroupInfo.trackType, iArr, formatArr, this.chunkSourceFactory.createDashChunkSource(this.manifestLoaderErrorThrower, this.manifest, this.periodIndex, trackGroupInfo.adaptationSetIndices, trackSelection, trackGroupInfo.trackType, this.elapsedRealtimeOffsetMs, z, arrayList, playerTrackEmsgHandler2, this.transferListener), this, this.allocator, j, this.drmSessionManager, this.loadErrorHandlingPolicy, this.eventDispatcher);
+        ChunkSampleStream<DashChunkSource> chunkSampleStream = new ChunkSampleStream<>(trackGroupInfo.trackType, iArr, formatArr, this.chunkSourceFactory.createDashChunkSource(this.manifestLoaderErrorThrower, this.manifest, this.baseUrlExclusionList, this.periodIndex, trackGroupInfo.adaptationSetIndices, exoTrackSelection, trackGroupInfo.trackType, this.elapsedRealtimeOffsetMs, z, arrayList, playerTrackEmsgHandler2, this.transferListener, this.playerId), this, this.allocator, j, this.drmSessionManager, this.drmEventDispatcher, this.loadErrorHandlingPolicy, this.mediaSourceEventDispatcher);
         synchronized (this) {
             this.trackEmsgHandlerBySampleStream.put(chunkSampleStream, playerTrackEmsgHandler2);
         }
@@ -554,49 +557,39 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         return false;
     }
 
-    private static Format[] getCea608TrackFormats(List<AdaptationSet> list, int[] iArr) {
+    private static Format[] getClosedCaptionTrackFormats(List<AdaptationSet> list, int[] iArr) {
         for (int i : iArr) {
             AdaptationSet adaptationSet = list.get(i);
             List<Descriptor> list2 = list.get(i).accessibilityDescriptors;
             for (int i2 = 0; i2 < list2.size(); i2++) {
                 Descriptor descriptor = list2.get(i2);
                 if ("urn:scte:dash:cc:cea-608:2015".equals(descriptor.schemeIdUri)) {
-                    String str = descriptor.value;
-                    if (str == null) {
-                        return new Format[]{buildCea608TrackFormat(adaptationSet.id)};
-                    }
-                    String[] split = Util.split(str, ";");
-                    Format[] formatArr = new Format[split.length];
-                    for (int i3 = 0; i3 < split.length; i3++) {
-                        Matcher matcher = CEA608_SERVICE_DESCRIPTOR_REGEX.matcher(split[i3]);
-                        if (!matcher.matches()) {
-                            return new Format[]{buildCea608TrackFormat(adaptationSet.id)};
-                        }
-                        formatArr[i3] = buildCea608TrackFormat(adaptationSet.id, matcher.group(2), Integer.parseInt(matcher.group(1)));
-                    }
-                    return formatArr;
+                    return parseClosedCaptionDescriptor(descriptor, CEA608_SERVICE_DESCRIPTOR_REGEX, new Format.Builder().setSampleMimeType("application/cea-608").setId(adaptationSet.id + ":cea608").build());
+                } else if ("urn:scte:dash:cc:cea-708:2015".equals(descriptor.schemeIdUri)) {
+                    return parseClosedCaptionDescriptor(descriptor, CEA708_SERVICE_DESCRIPTOR_REGEX, new Format.Builder().setSampleMimeType("application/cea-708").setId(adaptationSet.id + ":cea708").build());
                 }
             }
         }
         return new Format[0];
     }
 
-    private static Format buildCea608TrackFormat(int i) {
-        return buildCea608TrackFormat(i, null, -1);
-    }
-
-    private static Format buildCea608TrackFormat(int i, String str, int i2) {
-        String str2;
-        StringBuilder sb = new StringBuilder();
-        sb.append(i);
-        sb.append(":cea608");
-        if (i2 != -1) {
-            str2 = ":" + i2;
-        } else {
-            str2 = "";
+    private static Format[] parseClosedCaptionDescriptor(Descriptor descriptor, Pattern pattern, Format format) {
+        String str = descriptor.value;
+        if (str == null) {
+            return new Format[]{format};
         }
-        sb.append(str2);
-        return Format.createTextSampleFormat(sb.toString(), "application/cea-608", null, -1, 0, str, i2, null, Long.MAX_VALUE, null);
+        String[] split = Util.split(str, ";");
+        Format[] formatArr = new Format[split.length];
+        for (int i = 0; i < split.length; i++) {
+            Matcher matcher = pattern.matcher(split[i]);
+            if (!matcher.matches()) {
+                return new Format[]{format};
+            }
+            int parseInt = Integer.parseInt(matcher.group(1));
+            Format.Builder buildUpon = format.buildUpon();
+            formatArr[i] = buildUpon.setId(format.id + ":" + parseInt).setAccessibilityChannel(parseInt).setLanguage(matcher.group(2)).build();
+        }
+        return formatArr;
     }
 
     private static ChunkSampleStream<DashChunkSource>[] newSampleStreamArray(int i) {
@@ -607,7 +600,7 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
     /* loaded from: classes.dex */
     public static final class TrackGroupInfo {
         public final int[] adaptationSetIndices;
-        public final int embeddedCea608TrackGroupIndex;
+        public final int embeddedClosedCaptionTrackGroupIndex;
         public final int embeddedEventMessageTrackGroupIndex;
         public final int eventStreamGroupIndex;
         public final int primaryTrackGroupIndex;
@@ -619,15 +612,15 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         }
 
         public static TrackGroupInfo embeddedEmsgTrack(int[] iArr, int i) {
-            return new TrackGroupInfo(4, 1, iArr, i, -1, -1, -1);
+            return new TrackGroupInfo(5, 1, iArr, i, -1, -1, -1);
         }
 
-        public static TrackGroupInfo embeddedCea608Track(int[] iArr, int i) {
+        public static TrackGroupInfo embeddedClosedCaptionTrack(int[] iArr, int i) {
             return new TrackGroupInfo(3, 1, iArr, i, -1, -1, -1);
         }
 
         public static TrackGroupInfo mpdEventTrack(int i) {
-            return new TrackGroupInfo(4, 2, new int[0], -1, -1, -1, i);
+            return new TrackGroupInfo(5, 2, new int[0], -1, -1, -1, i);
         }
 
         private TrackGroupInfo(int i, int i2, int[] iArr, int i3, int i4, int i5, int i6) {
@@ -636,7 +629,7 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
             this.trackGroupCategory = i2;
             this.primaryTrackGroupIndex = i3;
             this.embeddedEventMessageTrackGroupIndex = i4;
-            this.embeddedCea608TrackGroupIndex = i5;
+            this.embeddedClosedCaptionTrackGroupIndex = i5;
             this.eventStreamGroupIndex = i6;
         }
     }

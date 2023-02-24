@@ -7,7 +7,7 @@ import java.io.IOException;
 interface OggSeeker {
     SeekMap createSeekMap();
 
-    long read(ExtractorInput extractorInput) throws IOException, InterruptedException;
+    long read(ExtractorInput extractorInput) throws IOException;
 
     void startSeek(long j);
 }

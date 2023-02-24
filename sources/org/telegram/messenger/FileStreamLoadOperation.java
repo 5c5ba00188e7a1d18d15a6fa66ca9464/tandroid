@@ -96,7 +96,7 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
         return this.bytesRemaining;
     }
 
-    @Override // com.google.android.exoplayer2.upstream.DataSource
+    @Override // com.google.android.exoplayer2.upstream.DataReader
     public int read(byte[] bArr, int i, int i2) throws IOException {
         if (i2 == 0) {
             return 0;

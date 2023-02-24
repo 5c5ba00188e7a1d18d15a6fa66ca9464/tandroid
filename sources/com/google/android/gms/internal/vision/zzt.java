@@ -6,8 +6,6 @@ import android.os.RemoteException;
 import android.util.Log;
 import com.google.android.gms.dynamite.DynamiteModule;
 import com.google.android.gms.vision.L;
-import javax.annotation.concurrent.GuardedBy;
-import org.checkerframework.checker.nullness.qual.RequiresNonNull;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public abstract class zzt<T> {
@@ -15,7 +13,6 @@ public abstract class zzt<T> {
     private final String zzc;
     private final String zzd;
     private final String zze;
-    @GuardedBy("lock")
     private T zzh;
     private final Object zzb = new Object();
     private boolean zzf = false;
@@ -51,7 +48,6 @@ public abstract class zzt<T> {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    @RequiresNonNull({"context", "thickFeatureName", "featureName"})
     public final T zzd() {
         synchronized (this.zzb) {
             T t = this.zzh;

@@ -54,6 +54,10 @@ public final class UriUtil {
         }
     }
 
+    public static boolean isAbsolute(String str) {
+        return (str == null || getUriIndices(str)[0] == -1) ? false : true;
+    }
+
     private static String removeDotSegments(StringBuilder sb, int i, int i2) {
         int i3;
         int i4;

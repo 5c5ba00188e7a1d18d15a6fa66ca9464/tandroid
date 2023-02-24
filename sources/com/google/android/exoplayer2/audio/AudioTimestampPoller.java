@@ -23,6 +23,7 @@ final class AudioTimestampPoller {
         updateState(3);
     }
 
+    @TargetApi(19)
     public boolean maybePollTimestamp(long j) {
         AudioTimestampV19 audioTimestampV19 = this.audioTimestamp;
         if (audioTimestampV19 == null || j - this.lastTimestampSampleTimeUs < this.sampleIntervalUs) {
@@ -83,6 +84,7 @@ final class AudioTimestampPoller {
         }
     }
 
+    @TargetApi(19)
     public long getTimestampSystemTimeUs() {
         AudioTimestampV19 audioTimestampV19 = this.audioTimestamp;
         if (audioTimestampV19 != null) {
@@ -91,6 +93,7 @@ final class AudioTimestampPoller {
         return -9223372036854775807L;
     }
 
+    @TargetApi(19)
     public long getTimestampPositionFrames() {
         AudioTimestampV19 audioTimestampV19 = this.audioTimestamp;
         if (audioTimestampV19 != null) {
@@ -118,7 +121,6 @@ final class AudioTimestampPoller {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    @TargetApi(19)
     /* loaded from: classes.dex */
     public static final class AudioTimestampV19 {
         private final AudioTimestamp audioTimestamp = new AudioTimestamp();

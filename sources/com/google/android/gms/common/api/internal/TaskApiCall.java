@@ -6,7 +6,6 @@ import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.Api.AnyClient;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.tasks.TaskCompletionSource;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public abstract class TaskApiCall<A extends Api.AnyClient, ResultT> {
@@ -30,25 +29,21 @@ public abstract class TaskApiCall<A extends Api.AnyClient, ResultT> {
             return new zacv(this, this.zac, this.zab, this.zad);
         }
 
-        @CanIgnoreReturnValue
         public Builder<A, ResultT> run(RemoteCall<A, TaskCompletionSource<ResultT>> remoteCall) {
             this.zaa = remoteCall;
             return this;
         }
 
-        @CanIgnoreReturnValue
         public Builder<A, ResultT> setAutoResolveMissingFeatures(boolean z) {
             this.zab = z;
             return this;
         }
 
-        @CanIgnoreReturnValue
         public Builder<A, ResultT> setFeatures(Feature... featureArr) {
             this.zac = featureArr;
             return this;
         }
 
-        @CanIgnoreReturnValue
         public Builder<A, ResultT> setMethodKey(int i) {
             this.zad = i;
             return this;

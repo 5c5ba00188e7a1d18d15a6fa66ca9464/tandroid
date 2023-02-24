@@ -1,11 +1,13 @@
 package com.google.android.exoplayer2.source.chunk;
 
-import android.os.Looper;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.FormatHolder;
 import com.google.android.exoplayer2.SeekParameters;
 import com.google.android.exoplayer2.decoder.DecoderInputBuffer;
+import com.google.android.exoplayer2.drm.DrmSessionEventListener;
 import com.google.android.exoplayer2.drm.DrmSessionManager;
+import com.google.android.exoplayer2.source.LoadEventInfo;
+import com.google.android.exoplayer2.source.MediaLoadData;
 import com.google.android.exoplayer2.source.MediaSourceEventListener;
 import com.google.android.exoplayer2.source.SampleQueue;
 import com.google.android.exoplayer2.source.SampleStream;
@@ -24,18 +26,21 @@ import java.util.List;
 /* loaded from: classes.dex */
 public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, SequenceableLoader, Loader.Callback<Chunk>, Loader.ReleaseCallback {
     private final SequenceableLoader.Callback<ChunkSampleStream<T>> callback;
+    private BaseMediaChunk canceledMediaChunk;
     private final BaseMediaChunkOutput chunkOutput;
     private final T chunkSource;
-    long decodeOnlyUntilPositionUs;
     private final SampleQueue[] embeddedSampleQueues;
     private final Format[] embeddedTrackFormats;
     private final int[] embeddedTrackTypes;
     private final boolean[] embeddedTracksSelected;
-    private final MediaSourceEventListener.EventDispatcher eventDispatcher;
     private long lastSeekPositionUs;
     private final LoadErrorHandlingPolicy loadErrorHandlingPolicy;
+    private final Loader loader;
+    private Chunk loadingChunk;
     boolean loadingFinished;
     private final ArrayList<BaseMediaChunk> mediaChunks;
+    private final MediaSourceEventListener.EventDispatcher mediaSourceEventDispatcher;
+    private final ChunkHolder nextChunkHolder;
     private int nextNotifyPrimaryFormatMediaChunkIndex;
     private long pendingResetPositionUs;
     private Format primaryDownstreamTrackFormat;
@@ -43,42 +48,43 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
     public final int primaryTrackType;
     private final List<BaseMediaChunk> readOnlyMediaChunks;
     private ReleaseCallback<T> releaseCallback;
-    private final Loader loader = new Loader("Loader:ChunkSampleStream");
-    private final ChunkHolder nextChunkHolder = new ChunkHolder();
 
     /* loaded from: classes.dex */
     public interface ReleaseCallback<T extends ChunkSource> {
         void onSampleStreamReleased(ChunkSampleStream<T> chunkSampleStream);
     }
 
-    public ChunkSampleStream(int i, int[] iArr, Format[] formatArr, T t, SequenceableLoader.Callback<ChunkSampleStream<T>> callback, Allocator allocator, long j, DrmSessionManager<?> drmSessionManager, LoadErrorHandlingPolicy loadErrorHandlingPolicy, MediaSourceEventListener.EventDispatcher eventDispatcher) {
+    public ChunkSampleStream(int i, int[] iArr, Format[] formatArr, T t, SequenceableLoader.Callback<ChunkSampleStream<T>> callback, Allocator allocator, long j, DrmSessionManager drmSessionManager, DrmSessionEventListener.EventDispatcher eventDispatcher, LoadErrorHandlingPolicy loadErrorHandlingPolicy, MediaSourceEventListener.EventDispatcher eventDispatcher2) {
         this.primaryTrackType = i;
+        int i2 = 0;
+        iArr = iArr == null ? new int[0] : iArr;
         this.embeddedTrackTypes = iArr;
-        this.embeddedTrackFormats = formatArr;
+        this.embeddedTrackFormats = formatArr == null ? new Format[0] : formatArr;
         this.chunkSource = t;
         this.callback = callback;
-        this.eventDispatcher = eventDispatcher;
+        this.mediaSourceEventDispatcher = eventDispatcher2;
         this.loadErrorHandlingPolicy = loadErrorHandlingPolicy;
+        this.loader = new Loader("ChunkSampleStream");
+        this.nextChunkHolder = new ChunkHolder();
         ArrayList<BaseMediaChunk> arrayList = new ArrayList<>();
         this.mediaChunks = arrayList;
         this.readOnlyMediaChunks = Collections.unmodifiableList(arrayList);
-        int i2 = 0;
-        int length = iArr == null ? 0 : iArr.length;
+        int length = iArr.length;
         this.embeddedSampleQueues = new SampleQueue[length];
         this.embeddedTracksSelected = new boolean[length];
         int i3 = length + 1;
         int[] iArr2 = new int[i3];
         SampleQueue[] sampleQueueArr = new SampleQueue[i3];
-        SampleQueue sampleQueue = new SampleQueue(allocator, (Looper) Assertions.checkNotNull(Looper.myLooper()), drmSessionManager);
-        this.primarySampleQueue = sampleQueue;
+        SampleQueue createWithDrm = SampleQueue.createWithDrm(allocator, drmSessionManager, eventDispatcher);
+        this.primarySampleQueue = createWithDrm;
         iArr2[0] = i;
-        sampleQueueArr[0] = sampleQueue;
+        sampleQueueArr[0] = createWithDrm;
         while (i2 < length) {
-            SampleQueue sampleQueue2 = new SampleQueue(allocator, (Looper) Assertions.checkNotNull(Looper.myLooper()), DrmSessionManager.-CC.getDummyDrmSessionManager());
-            this.embeddedSampleQueues[i2] = sampleQueue2;
+            SampleQueue createWithoutDrm = SampleQueue.createWithoutDrm(allocator);
+            this.embeddedSampleQueues[i2] = createWithoutDrm;
             int i4 = i2 + 1;
-            sampleQueueArr[i4] = sampleQueue2;
-            iArr2[i4] = iArr[i2];
+            sampleQueueArr[i4] = createWithoutDrm;
+            iArr2[i4] = this.embeddedTrackTypes[i2];
             i2 = i4;
         }
         this.chunkOutput = new BaseMediaChunkOutput(iArr2, sampleQueueArr);
@@ -179,10 +185,8 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
         }
         if (baseMediaChunk != null) {
             seekTo = this.primarySampleQueue.seekTo(baseMediaChunk.getFirstSampleIndex(0));
-            this.decodeOnlyUntilPositionUs = 0L;
         } else {
             seekTo = this.primarySampleQueue.seekTo(j, j < getNextLoadPositionUs());
-            this.decodeOnlyUntilPositionUs = this.lastSeekPositionUs;
         }
         if (seekTo) {
             this.nextNotifyPrimaryFormatMediaChunkIndex = primarySampleIndexToMediaChunkIndex(this.primarySampleQueue.getReadIndex(), 0);
@@ -199,17 +203,18 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
         this.mediaChunks.clear();
         this.nextNotifyPrimaryFormatMediaChunkIndex = 0;
         if (this.loader.isLoading()) {
+            this.primarySampleQueue.discardToEnd();
+            SampleQueue[] sampleQueueArr2 = this.embeddedSampleQueues;
+            int length2 = sampleQueueArr2.length;
+            while (i < length2) {
+                sampleQueueArr2[i].discardToEnd();
+                i++;
+            }
             this.loader.cancelLoading();
             return;
         }
         this.loader.clearFatalError();
-        this.primarySampleQueue.reset();
-        SampleQueue[] sampleQueueArr2 = this.embeddedSampleQueues;
-        int length2 = sampleQueueArr2.length;
-        while (i < length2) {
-            sampleQueueArr2[i].reset();
-            i++;
-        }
+        resetSampleQueues();
     }
 
     public void release() {
@@ -231,6 +236,7 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
         for (SampleQueue sampleQueue : this.embeddedSampleQueues) {
             sampleQueue.release();
         }
+        this.chunkSource.release();
         ReleaseCallback<T> releaseCallback = this.releaseCallback;
         if (releaseCallback != null) {
             releaseCallback.onSampleStreamReleased(this);
@@ -253,86 +259,115 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
     }
 
     @Override // com.google.android.exoplayer2.source.SampleStream
-    public int readData(FormatHolder formatHolder, DecoderInputBuffer decoderInputBuffer, boolean z) {
+    public int readData(FormatHolder formatHolder, DecoderInputBuffer decoderInputBuffer, int i) {
         if (isPendingReset()) {
             return -3;
         }
-        maybeNotifyPrimaryTrackFormatChanged();
-        return this.primarySampleQueue.read(formatHolder, decoderInputBuffer, z, this.loadingFinished, this.decodeOnlyUntilPositionUs);
+        BaseMediaChunk baseMediaChunk = this.canceledMediaChunk;
+        if (baseMediaChunk == null || baseMediaChunk.getFirstSampleIndex(0) > this.primarySampleQueue.getReadIndex()) {
+            maybeNotifyPrimaryTrackFormatChanged();
+            return this.primarySampleQueue.read(formatHolder, decoderInputBuffer, i, this.loadingFinished);
+        }
+        return -3;
     }
 
     @Override // com.google.android.exoplayer2.source.SampleStream
     public int skipData(long j) {
-        int advanceTo;
         if (isPendingReset()) {
             return 0;
         }
-        if (this.loadingFinished && j > this.primarySampleQueue.getLargestQueuedTimestampUs()) {
-            advanceTo = this.primarySampleQueue.advanceToEnd();
-        } else {
-            advanceTo = this.primarySampleQueue.advanceTo(j);
+        int skipCount = this.primarySampleQueue.getSkipCount(j, this.loadingFinished);
+        BaseMediaChunk baseMediaChunk = this.canceledMediaChunk;
+        if (baseMediaChunk != null) {
+            skipCount = Math.min(skipCount, baseMediaChunk.getFirstSampleIndex(0) - this.primarySampleQueue.getReadIndex());
         }
+        this.primarySampleQueue.skip(skipCount);
         maybeNotifyPrimaryTrackFormatChanged();
-        return advanceTo;
+        return skipCount;
     }
 
     @Override // com.google.android.exoplayer2.upstream.Loader.Callback
     public void onLoadCompleted(Chunk chunk, long j, long j2) {
+        this.loadingChunk = null;
         this.chunkSource.onChunkLoadCompleted(chunk);
-        this.eventDispatcher.loadCompleted(chunk.dataSpec, chunk.getUri(), chunk.getResponseHeaders(), chunk.type, this.primaryTrackType, chunk.trackFormat, chunk.trackSelectionReason, chunk.trackSelectionData, chunk.startTimeUs, chunk.endTimeUs, j, j2, chunk.bytesLoaded());
+        LoadEventInfo loadEventInfo = new LoadEventInfo(chunk.loadTaskId, chunk.dataSpec, chunk.getUri(), chunk.getResponseHeaders(), j, j2, chunk.bytesLoaded());
+        this.loadErrorHandlingPolicy.onLoadTaskConcluded(chunk.loadTaskId);
+        this.mediaSourceEventDispatcher.loadCompleted(loadEventInfo, chunk.type, this.primaryTrackType, chunk.trackFormat, chunk.trackSelectionReason, chunk.trackSelectionData, chunk.startTimeUs, chunk.endTimeUs);
         this.callback.onContinueLoadingRequested(this);
     }
 
     @Override // com.google.android.exoplayer2.upstream.Loader.Callback
     public void onLoadCanceled(Chunk chunk, long j, long j2, boolean z) {
-        this.eventDispatcher.loadCanceled(chunk.dataSpec, chunk.getUri(), chunk.getResponseHeaders(), chunk.type, this.primaryTrackType, chunk.trackFormat, chunk.trackSelectionReason, chunk.trackSelectionData, chunk.startTimeUs, chunk.endTimeUs, j, j2, chunk.bytesLoaded());
+        this.loadingChunk = null;
+        this.canceledMediaChunk = null;
+        LoadEventInfo loadEventInfo = new LoadEventInfo(chunk.loadTaskId, chunk.dataSpec, chunk.getUri(), chunk.getResponseHeaders(), j, j2, chunk.bytesLoaded());
+        this.loadErrorHandlingPolicy.onLoadTaskConcluded(chunk.loadTaskId);
+        this.mediaSourceEventDispatcher.loadCanceled(loadEventInfo, chunk.type, this.primaryTrackType, chunk.trackFormat, chunk.trackSelectionReason, chunk.trackSelectionData, chunk.startTimeUs, chunk.endTimeUs);
         if (z) {
             return;
         }
-        this.primarySampleQueue.reset();
-        for (SampleQueue sampleQueue : this.embeddedSampleQueues) {
-            sampleQueue.reset();
+        if (isPendingReset()) {
+            resetSampleQueues();
+        } else if (isMediaChunk(chunk)) {
+            discardUpstreamMediaChunksFromIndex(this.mediaChunks.size() - 1);
+            if (this.mediaChunks.isEmpty()) {
+                this.pendingResetPositionUs = this.lastSeekPositionUs;
+            }
         }
         this.callback.onContinueLoadingRequested(this);
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00a9  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x00f1  */
     @Override // com.google.android.exoplayer2.upstream.Loader.Callback
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public Loader.LoadErrorAction onLoadError(Chunk chunk, long j, long j2, IOException iOException, int i) {
         Loader.LoadErrorAction loadErrorAction;
+        boolean z;
         long bytesLoaded = chunk.bytesLoaded();
         boolean isMediaChunk = isMediaChunk(chunk);
         int size = this.mediaChunks.size() - 1;
-        boolean z = (bytesLoaded != 0 && isMediaChunk && haveReadFromMediaChunk(size)) ? false : true;
-        Loader.LoadErrorAction loadErrorAction2 = null;
-        if (this.chunkSource.onChunkLoadError(chunk, z, iOException, z ? this.loadErrorHandlingPolicy.getBlacklistDurationMsFor(chunk.type, j2, iOException, i) : -9223372036854775807L)) {
-            if (z) {
-                loadErrorAction2 = Loader.DONT_RETRY;
+        boolean z2 = (bytesLoaded != 0 && isMediaChunk && haveReadFromMediaChunk(size)) ? false : true;
+        LoadEventInfo loadEventInfo = new LoadEventInfo(chunk.loadTaskId, chunk.dataSpec, chunk.getUri(), chunk.getResponseHeaders(), j, j2, bytesLoaded);
+        LoadErrorHandlingPolicy.LoadErrorInfo loadErrorInfo = new LoadErrorHandlingPolicy.LoadErrorInfo(loadEventInfo, new MediaLoadData(chunk.type, this.primaryTrackType, chunk.trackFormat, chunk.trackSelectionReason, chunk.trackSelectionData, Util.usToMs(chunk.startTimeUs), Util.usToMs(chunk.endTimeUs)), iOException, i);
+        if (this.chunkSource.onChunkLoadError(chunk, z2, loadErrorInfo, this.loadErrorHandlingPolicy)) {
+            if (z2) {
+                loadErrorAction = Loader.DONT_RETRY;
                 if (isMediaChunk) {
                     Assertions.checkState(discardUpstreamMediaChunksFromIndex(size) == chunk);
                     if (this.mediaChunks.isEmpty()) {
                         this.pendingResetPositionUs = this.lastSeekPositionUs;
                     }
                 }
-            } else {
-                Log.w("ChunkSampleStream", "Ignoring attempt to cancel non-cancelable load.");
+                if (loadErrorAction == null) {
+                    long retryDelayMsFor = this.loadErrorHandlingPolicy.getRetryDelayMsFor(loadErrorInfo);
+                    if (retryDelayMsFor != -9223372036854775807L) {
+                        loadErrorAction = Loader.createRetryAction(false, retryDelayMsFor);
+                    } else {
+                        loadErrorAction = Loader.DONT_RETRY_FATAL;
+                    }
+                }
+                z = !loadErrorAction.isRetry();
+                this.mediaSourceEventDispatcher.loadError(loadEventInfo, chunk.type, this.primaryTrackType, chunk.trackFormat, chunk.trackSelectionReason, chunk.trackSelectionData, chunk.startTimeUs, chunk.endTimeUs, iOException, z);
+                if (z) {
+                    this.loadingChunk = null;
+                    this.loadErrorHandlingPolicy.onLoadTaskConcluded(chunk.loadTaskId);
+                    this.callback.onContinueLoadingRequested(this);
+                }
+                return loadErrorAction;
             }
+            Log.w("ChunkSampleStream", "Ignoring attempt to cancel non-cancelable load.");
         }
-        if (loadErrorAction2 == null) {
-            long retryDelayMsFor = this.loadErrorHandlingPolicy.getRetryDelayMsFor(chunk.type, j2, iOException, i);
-            if (retryDelayMsFor != -9223372036854775807L) {
-                loadErrorAction = Loader.createRetryAction(false, retryDelayMsFor);
-            } else {
-                loadErrorAction = Loader.DONT_RETRY_FATAL;
-            }
-            loadErrorAction2 = loadErrorAction;
+        loadErrorAction = null;
+        if (loadErrorAction == null) {
         }
-        Loader.LoadErrorAction loadErrorAction3 = loadErrorAction2;
-        boolean z2 = !loadErrorAction3.isRetry();
-        this.eventDispatcher.loadError(chunk.dataSpec, chunk.getUri(), chunk.getResponseHeaders(), chunk.type, this.primaryTrackType, chunk.trackFormat, chunk.trackSelectionReason, chunk.trackSelectionData, chunk.startTimeUs, chunk.endTimeUs, j, j2, bytesLoaded, iOException, z2);
-        if (z2) {
-            this.callback.onContinueLoadingRequested(this);
+        z = !loadErrorAction.isRetry();
+        this.mediaSourceEventDispatcher.loadError(loadEventInfo, chunk.type, this.primaryTrackType, chunk.trackFormat, chunk.trackSelectionReason, chunk.trackSelectionData, chunk.startTimeUs, chunk.endTimeUs, iOException, z);
+        if (z) {
         }
-        return loadErrorAction3;
+        return loadErrorAction;
     }
 
     @Override // com.google.android.exoplayer2.source.SequenceableLoader
@@ -362,15 +397,18 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
         } else if (chunk == null) {
             return false;
         } else {
+            this.loadingChunk = chunk;
             if (isMediaChunk(chunk)) {
                 BaseMediaChunk baseMediaChunk = (BaseMediaChunk) chunk;
                 if (isPendingReset) {
                     long j3 = baseMediaChunk.startTimeUs;
                     long j4 = this.pendingResetPositionUs;
-                    if (j3 == j4) {
-                        j4 = 0;
+                    if (j3 != j4) {
+                        this.primarySampleQueue.setStartTimeUs(j4);
+                        for (SampleQueue sampleQueue : this.embeddedSampleQueues) {
+                            sampleQueue.setStartTimeUs(this.pendingResetPositionUs);
+                        }
                     }
-                    this.decodeOnlyUntilPositionUs = j4;
                     this.pendingResetPositionUs = -9223372036854775807L;
                 }
                 baseMediaChunk.init(this.chunkOutput);
@@ -378,7 +416,7 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
             } else if (chunk instanceof InitializationChunk) {
                 ((InitializationChunk) chunk).init(this.chunkOutput);
             }
-            this.eventDispatcher.loadStarted(chunk.dataSpec, chunk.type, this.primaryTrackType, chunk.trackFormat, chunk.trackSelectionReason, chunk.trackSelectionData, chunk.startTimeUs, chunk.endTimeUs, this.loader.startLoading(chunk, this, this.loadErrorHandlingPolicy.getMinimumLoadableRetryCount(chunk.type)));
+            this.mediaSourceEventDispatcher.loadStarted(new LoadEventInfo(chunk.loadTaskId, chunk.dataSpec, this.loader.startLoading(chunk, this, this.loadErrorHandlingPolicy.getMinimumLoadableRetryCount(chunk.type))), chunk.type, this.primaryTrackType, chunk.trackFormat, chunk.trackSelectionReason, chunk.trackSelectionData, chunk.startTimeUs, chunk.endTimeUs);
             return true;
         }
     }
@@ -401,35 +439,61 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
 
     @Override // com.google.android.exoplayer2.source.SequenceableLoader
     public void reevaluateBuffer(long j) {
-        int size;
-        int preferredQueueSize;
-        if (this.loader.isLoading() || this.loader.hasFatalError() || isPendingReset() || (size = this.mediaChunks.size()) <= (preferredQueueSize = this.chunkSource.getPreferredQueueSize(j, this.readOnlyMediaChunks))) {
+        if (this.loader.hasFatalError() || isPendingReset()) {
             return;
         }
+        if (this.loader.isLoading()) {
+            Chunk chunk = (Chunk) Assertions.checkNotNull(this.loadingChunk);
+            if (!(isMediaChunk(chunk) && haveReadFromMediaChunk(this.mediaChunks.size() - 1)) && this.chunkSource.shouldCancelLoad(j, chunk, this.readOnlyMediaChunks)) {
+                this.loader.cancelLoading();
+                if (isMediaChunk(chunk)) {
+                    this.canceledMediaChunk = (BaseMediaChunk) chunk;
+                    return;
+                }
+                return;
+            }
+            return;
+        }
+        int preferredQueueSize = this.chunkSource.getPreferredQueueSize(j, this.readOnlyMediaChunks);
+        if (preferredQueueSize < this.mediaChunks.size()) {
+            discardUpstream(preferredQueueSize);
+        }
+    }
+
+    private void discardUpstream(int i) {
+        Assertions.checkState(!this.loader.isLoading());
+        int size = this.mediaChunks.size();
         while (true) {
-            if (preferredQueueSize >= size) {
-                preferredQueueSize = size;
+            if (i >= size) {
+                i = -1;
                 break;
-            } else if (!haveReadFromMediaChunk(preferredQueueSize)) {
+            } else if (!haveReadFromMediaChunk(i)) {
                 break;
             } else {
-                preferredQueueSize++;
+                i++;
             }
         }
-        if (preferredQueueSize == size) {
+        if (i == -1) {
             return;
         }
-        long j2 = getLastMediaChunk().endTimeUs;
-        BaseMediaChunk discardUpstreamMediaChunksFromIndex = discardUpstreamMediaChunksFromIndex(preferredQueueSize);
+        long j = getLastMediaChunk().endTimeUs;
+        BaseMediaChunk discardUpstreamMediaChunksFromIndex = discardUpstreamMediaChunksFromIndex(i);
         if (this.mediaChunks.isEmpty()) {
             this.pendingResetPositionUs = this.lastSeekPositionUs;
         }
         this.loadingFinished = false;
-        this.eventDispatcher.upstreamDiscarded(this.primaryTrackType, discardUpstreamMediaChunksFromIndex.startTimeUs, j2);
+        this.mediaSourceEventDispatcher.upstreamDiscarded(this.primaryTrackType, discardUpstreamMediaChunksFromIndex.startTimeUs, j);
     }
 
     private boolean isMediaChunk(Chunk chunk) {
         return chunk instanceof BaseMediaChunk;
+    }
+
+    private void resetSampleQueues() {
+        this.primarySampleQueue.reset();
+        for (SampleQueue sampleQueue : this.embeddedSampleQueues) {
+            sampleQueue.reset();
+        }
     }
 
     private boolean haveReadFromMediaChunk(int i) {
@@ -478,7 +542,7 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
         BaseMediaChunk baseMediaChunk = this.mediaChunks.get(i);
         Format format = baseMediaChunk.trackFormat;
         if (!format.equals(this.primaryDownstreamTrackFormat)) {
-            this.eventDispatcher.downstreamFormatChanged(this.primaryTrackType, format, baseMediaChunk.trackSelectionReason, baseMediaChunk.trackSelectionData, baseMediaChunk.startTimeUs);
+            this.mediaSourceEventDispatcher.downstreamFormatChanged(this.primaryTrackType, format, baseMediaChunk.trackSelectionReason, baseMediaChunk.trackSelectionData, baseMediaChunk.startTimeUs);
         }
         this.primaryDownstreamTrackFormat = format;
     }
@@ -524,7 +588,7 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
         private final SampleQueue sampleQueue;
 
         @Override // com.google.android.exoplayer2.source.SampleStream
-        public void maybeThrowError() throws IOException {
+        public void maybeThrowError() {
         }
 
         public EmbeddedSampleStream(ChunkSampleStream<T> chunkSampleStream, SampleQueue sampleQueue, int i) {
@@ -543,22 +607,27 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
             if (ChunkSampleStream.this.isPendingReset()) {
                 return 0;
             }
-            maybeNotifyDownstreamFormat();
-            if (ChunkSampleStream.this.loadingFinished && j > this.sampleQueue.getLargestQueuedTimestampUs()) {
-                return this.sampleQueue.advanceToEnd();
+            int skipCount = this.sampleQueue.getSkipCount(j, ChunkSampleStream.this.loadingFinished);
+            if (ChunkSampleStream.this.canceledMediaChunk != null) {
+                skipCount = Math.min(skipCount, ChunkSampleStream.this.canceledMediaChunk.getFirstSampleIndex(this.index + 1) - this.sampleQueue.getReadIndex());
             }
-            return this.sampleQueue.advanceTo(j);
+            this.sampleQueue.skip(skipCount);
+            if (skipCount > 0) {
+                maybeNotifyDownstreamFormat();
+            }
+            return skipCount;
         }
 
         @Override // com.google.android.exoplayer2.source.SampleStream
-        public int readData(FormatHolder formatHolder, DecoderInputBuffer decoderInputBuffer, boolean z) {
+        public int readData(FormatHolder formatHolder, DecoderInputBuffer decoderInputBuffer, int i) {
             if (ChunkSampleStream.this.isPendingReset()) {
                 return -3;
             }
-            maybeNotifyDownstreamFormat();
-            SampleQueue sampleQueue = this.sampleQueue;
-            ChunkSampleStream chunkSampleStream = ChunkSampleStream.this;
-            return sampleQueue.read(formatHolder, decoderInputBuffer, z, chunkSampleStream.loadingFinished, chunkSampleStream.decodeOnlyUntilPositionUs);
+            if (ChunkSampleStream.this.canceledMediaChunk == null || ChunkSampleStream.this.canceledMediaChunk.getFirstSampleIndex(this.index + 1) > this.sampleQueue.getReadIndex()) {
+                maybeNotifyDownstreamFormat();
+                return this.sampleQueue.read(formatHolder, decoderInputBuffer, i, ChunkSampleStream.this.loadingFinished);
+            }
+            return -3;
         }
 
         public void release() {
@@ -570,7 +639,7 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
             if (this.notifiedDownstreamFormat) {
                 return;
             }
-            ChunkSampleStream.this.eventDispatcher.downstreamFormatChanged(ChunkSampleStream.this.embeddedTrackTypes[this.index], ChunkSampleStream.this.embeddedTrackFormats[this.index], 0, null, ChunkSampleStream.this.lastSeekPositionUs);
+            ChunkSampleStream.this.mediaSourceEventDispatcher.downstreamFormatChanged(ChunkSampleStream.this.embeddedTrackTypes[this.index], ChunkSampleStream.this.embeddedTrackFormats[this.index], 0, null, ChunkSampleStream.this.lastSeekPositionUs);
             this.notifiedDownstreamFormat = true;
         }
     }

@@ -34,19 +34,18 @@ public abstract class SimpleSubtitleDecoder extends SimpleDecoder<SubtitleInputB
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.decoder.SimpleDecoder
     public final SubtitleOutputBuffer createOutputBuffer() {
-        return new SimpleSubtitleOutputBuffer(this);
+        return new SubtitleOutputBuffer() { // from class: com.google.android.exoplayer2.text.SimpleSubtitleDecoder.1
+            @Override // com.google.android.exoplayer2.decoder.DecoderOutputBuffer
+            public void release() {
+                SimpleSubtitleDecoder.this.releaseOutputBuffer(this);
+            }
+        };
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.decoder.SimpleDecoder
     public final SubtitleDecoderException createUnexpectedDecodeException(Throwable th) {
         return new SubtitleDecoderException("Unexpected decode error", th);
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // com.google.android.exoplayer2.decoder.SimpleDecoder
-    public final void releaseOutputBuffer(SubtitleOutputBuffer subtitleOutputBuffer) {
-        super.releaseOutputBuffer((SimpleSubtitleDecoder) subtitleOutputBuffer);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

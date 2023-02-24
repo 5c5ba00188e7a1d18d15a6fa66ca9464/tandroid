@@ -6,17 +6,13 @@ import android.util.Log;
 import com.google.android.gms.common.util.concurrent.NamedThreadFactory;
 import com.google.android.gms.tasks.Task;
 import java.util.concurrent.ScheduledExecutorService;
-import javax.annotation.concurrent.GuardedBy;
 /* compiled from: com.google.android.gms:play-services-cloud-messaging@@16.0.0 */
 /* loaded from: classes.dex */
 public final class zze {
-    @GuardedBy("MessengerIpcClient.class")
     private static zze zza;
     private final Context zzb;
     private final ScheduledExecutorService zzc;
-    @GuardedBy("this")
     private zzf zzd = new zzf(this);
-    @GuardedBy("this")
     private int zze = 1;
 
     public static synchronized zze zza(Context context) {

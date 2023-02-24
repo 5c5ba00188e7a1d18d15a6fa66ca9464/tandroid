@@ -1,4 +1,6 @@
 package com.google.android.exoplayer2.util;
+
+import java.nio.charset.Charset;
 /* loaded from: classes.dex */
 public final class ParsableBitArray {
     private int bitOffset;
@@ -24,7 +26,7 @@ public final class ParsableBitArray {
     }
 
     public void reset(ParsableByteArray parsableByteArray) {
-        reset(parsableByteArray.data, parsableByteArray.limit());
+        reset(parsableByteArray.getData(), parsableByteArray.limit());
         setPosition(parsableByteArray.getPosition() * 8);
     }
 
@@ -180,6 +182,12 @@ public final class ParsableBitArray {
         Assertions.checkState(this.bitOffset == 0);
         this.byteOffset += i;
         assertValidOffset();
+    }
+
+    public String readBytesAsString(int i, Charset charset) {
+        byte[] bArr = new byte[i];
+        readBytes(bArr, 0, i);
+        return new String(bArr, charset);
     }
 
     public void putInt(int i, int i2) {

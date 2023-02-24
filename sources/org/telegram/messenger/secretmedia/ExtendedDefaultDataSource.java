@@ -44,7 +44,7 @@ public final class ExtendedDefaultDataSource implements DataSource {
     }
 
     public ExtendedDefaultDataSource(Context context, String str, int i, int i2, boolean z) {
-        this(context, new DefaultHttpDataSource(str, null, i, i2, z, null));
+        this(context, new DefaultHttpDataSource(str, i, i2, z, null));
     }
 
     public ExtendedDefaultDataSource(Context context, DataSource dataSource) {
@@ -115,7 +115,7 @@ public final class ExtendedDefaultDataSource implements DataSource {
         return this.dataSource.open(dataSpec);
     }
 
-    @Override // com.google.android.exoplayer2.upstream.DataSource
+    @Override // com.google.android.exoplayer2.upstream.DataReader
     public int read(byte[] bArr, int i, int i2) throws IOException {
         return ((DataSource) Assertions.checkNotNull(this.dataSource)).read(bArr, i, i2);
     }

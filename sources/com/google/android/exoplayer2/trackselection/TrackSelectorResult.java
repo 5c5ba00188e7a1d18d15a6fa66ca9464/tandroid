@@ -1,17 +1,20 @@
 package com.google.android.exoplayer2.trackselection;
 
 import com.google.android.exoplayer2.RendererConfiguration;
+import com.google.android.exoplayer2.Tracks;
 import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 public final class TrackSelectorResult {
     public final Object info;
     public final int length;
     public final RendererConfiguration[] rendererConfigurations;
-    public final TrackSelectionArray selections;
+    public final ExoTrackSelection[] selections;
+    public final Tracks tracks;
 
-    public TrackSelectorResult(RendererConfiguration[] rendererConfigurationArr, TrackSelection[] trackSelectionArr, Object obj) {
+    public TrackSelectorResult(RendererConfiguration[] rendererConfigurationArr, ExoTrackSelection[] exoTrackSelectionArr, Tracks tracks, Object obj) {
         this.rendererConfigurations = rendererConfigurationArr;
-        this.selections = new TrackSelectionArray(trackSelectionArr);
+        this.selections = (ExoTrackSelection[]) exoTrackSelectionArr.clone();
+        this.tracks = tracks;
         this.info = obj;
         this.length = rendererConfigurationArr.length;
     }
@@ -33,6 +36,6 @@ public final class TrackSelectorResult {
     }
 
     public boolean isEquivalent(TrackSelectorResult trackSelectorResult, int i) {
-        return trackSelectorResult != null && Util.areEqual(this.rendererConfigurations[i], trackSelectorResult.rendererConfigurations[i]) && Util.areEqual(this.selections.get(i), trackSelectorResult.selections.get(i));
+        return trackSelectorResult != null && Util.areEqual(this.rendererConfigurations[i], trackSelectorResult.rendererConfigurations[i]) && Util.areEqual(this.selections[i], trackSelectorResult.selections[i]);
     }
 }

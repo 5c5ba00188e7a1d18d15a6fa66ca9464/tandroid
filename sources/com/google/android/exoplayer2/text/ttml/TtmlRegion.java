@@ -9,13 +9,14 @@ final class TtmlRegion {
     public final float position;
     public final float textSize;
     public final int textSizeType;
+    public final int verticalType;
     public final float width;
 
     public TtmlRegion(String str) {
-        this(str, -3.4028235E38f, -3.4028235E38f, Integer.MIN_VALUE, Integer.MIN_VALUE, -3.4028235E38f, -3.4028235E38f, Integer.MIN_VALUE, -3.4028235E38f);
+        this(str, -3.4028235E38f, -3.4028235E38f, Integer.MIN_VALUE, Integer.MIN_VALUE, -3.4028235E38f, -3.4028235E38f, Integer.MIN_VALUE, -3.4028235E38f, Integer.MIN_VALUE);
     }
 
-    public TtmlRegion(String str, float f, float f2, int i, int i2, float f3, float f4, int i3, float f5) {
+    public TtmlRegion(String str, float f, float f2, int i, int i2, float f3, float f4, int i3, float f5, int i4) {
         this.id = str;
         this.position = f;
         this.line = f2;
@@ -25,5 +26,6 @@ final class TtmlRegion {
         this.height = f4;
         this.textSizeType = i3;
         this.textSize = f5;
+        this.verticalType = i4;
     }
 }

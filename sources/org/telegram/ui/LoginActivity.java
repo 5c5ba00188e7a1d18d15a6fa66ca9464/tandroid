@@ -7646,8 +7646,11 @@ public class LoginActivity extends BaseFragment {
             AndroidUtilities.cancelRunOnUIThread(this.resendCodeTimeout);
             CodeFieldContainer codeFieldContainer = this.codeFieldContainer;
             codeFieldContainer.isFocusSuppressed = true;
-            for (CodeNumberField codeNumberField : codeFieldContainer.codeField) {
-                codeNumberField.animateFocusedProgress(0.0f);
+            CodeNumberField[] codeNumberFieldArr = codeFieldContainer.codeField;
+            if (codeNumberFieldArr != null) {
+                for (CodeNumberField codeNumberField : codeNumberFieldArr) {
+                    codeNumberField.animateFocusedProgress(0.0f);
+                }
             }
             final String code = this.codeFieldContainer.getCode();
             if (code.length() == 0 && this.googleAccount == null) {
@@ -7691,8 +7694,11 @@ public class LoginActivity extends BaseFragment {
             }
             CodeFieldContainer codeFieldContainer2 = this.codeFieldContainer;
             codeFieldContainer2.isFocusSuppressed = true;
-            for (CodeNumberField codeNumberField2 : codeFieldContainer2.codeField) {
-                codeNumberField2.animateFocusedProgress(0.0f);
+            CodeNumberField[] codeNumberFieldArr2 = codeFieldContainer2.codeField;
+            if (codeNumberFieldArr2 != null) {
+                for (CodeNumberField codeNumberField2 : codeNumberFieldArr2) {
+                    codeNumberField2.animateFocusedProgress(0.0f);
+                }
             }
             ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(tLRPC$TL_auth_signIn, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivityEmailCodeView$$ExternalSyntheticLambda20
                 @Override // org.telegram.tgnet.RequestDelegate

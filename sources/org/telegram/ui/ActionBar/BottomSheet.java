@@ -1038,17 +1038,18 @@ public class BottomSheet extends Dialog {
 
     /* JADX INFO: Access modifiers changed from: private */
     public int getAdditionalMandatoryOffsets() {
-        if (this.calcMandatoryInsets) {
-            Insets systemGestureInsets = this.lastInsets.getSystemGestureInsets();
-            if (this.keyboardVisible || !this.drawNavigationBar || systemGestureInsets == null) {
-                return 0;
-            }
-            if (systemGestureInsets.left == 0 && systemGestureInsets.right == 0) {
-                return 0;
-            }
-            return systemGestureInsets.bottom;
+        WindowInsets windowInsets;
+        if (!this.calcMandatoryInsets || (windowInsets = this.lastInsets) == null) {
+            return 0;
         }
-        return 0;
+        Insets systemGestureInsets = windowInsets.getSystemGestureInsets();
+        if (this.keyboardVisible || !this.drawNavigationBar || systemGestureInsets == null) {
+            return 0;
+        }
+        if (systemGestureInsets.left == 0 && systemGestureInsets.right == 0) {
+            return 0;
+        }
+        return systemGestureInsets.bottom;
     }
 
     public void setCalcMandatoryInsets(boolean z) {

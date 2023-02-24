@@ -1,5 +1,5 @@
 package org.webrtc;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public interface Predicate<T> {
     Predicate<T> and(Predicate<? super T> predicate);
 
@@ -9,7 +9,7 @@ public interface Predicate<T> {
 
     boolean test(T t);
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public final /* synthetic */ class -CC {
         public static Predicate $default$or(final Predicate _this, final Predicate predicate) {
             return new Predicate<T>() { // from class: org.webrtc.Predicate.1

@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.source.chunk;
 
 import com.google.android.exoplayer2.SeekParameters;
+import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy;
 import java.io.IOException;
 import java.util.List;
 /* loaded from: classes.dex */
@@ -15,5 +16,9 @@ public interface ChunkSource {
 
     void onChunkLoadCompleted(Chunk chunk);
 
-    boolean onChunkLoadError(Chunk chunk, boolean z, Exception exc, long j);
+    boolean onChunkLoadError(Chunk chunk, boolean z, LoadErrorHandlingPolicy.LoadErrorInfo loadErrorInfo, LoadErrorHandlingPolicy loadErrorHandlingPolicy);
+
+    void release();
+
+    boolean shouldCancelLoad(long j, Chunk chunk, List<? extends MediaChunk> list);
 }

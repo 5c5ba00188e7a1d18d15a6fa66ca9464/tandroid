@@ -6,7 +6,7 @@ import java.io.IOException;
 interface EbmlReader {
     void init(EbmlProcessor ebmlProcessor);
 
-    boolean read(ExtractorInput extractorInput) throws IOException, InterruptedException;
+    boolean read(ExtractorInput extractorInput) throws IOException;
 
     void reset();
 }

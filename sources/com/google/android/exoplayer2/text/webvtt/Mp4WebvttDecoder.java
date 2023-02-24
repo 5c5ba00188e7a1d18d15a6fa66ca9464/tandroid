@@ -4,20 +4,17 @@ import com.google.android.exoplayer2.text.Cue;
 import com.google.android.exoplayer2.text.SimpleSubtitleDecoder;
 import com.google.android.exoplayer2.text.Subtitle;
 import com.google.android.exoplayer2.text.SubtitleDecoderException;
-import com.google.android.exoplayer2.text.webvtt.WebvttCue;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayList;
 import java.util.Collections;
 /* loaded from: classes.dex */
 public final class Mp4WebvttDecoder extends SimpleSubtitleDecoder {
-    private final WebvttCue.Builder builder;
     private final ParsableByteArray sampleData;
 
     public Mp4WebvttDecoder() {
         super("Mp4WebvttDecoder");
         this.sampleData = new ParsableByteArray();
-        this.builder = new WebvttCue.Builder();
     }
 
     @Override // com.google.android.exoplayer2.text.SimpleSubtitleDecoder
@@ -30,7 +27,7 @@ public final class Mp4WebvttDecoder extends SimpleSubtitleDecoder {
             }
             int readInt = this.sampleData.readInt();
             if (this.sampleData.readInt() == 1987343459) {
-                arrayList.add(parseVttCueBox(this.sampleData, this.builder, readInt - 8));
+                arrayList.add(parseVttCueBox(this.sampleData, readInt - 8));
             } else {
                 this.sampleData.skipBytes(readInt - 8);
             }
@@ -38,8 +35,9 @@ public final class Mp4WebvttDecoder extends SimpleSubtitleDecoder {
         return new Mp4WebvttSubtitle(arrayList);
     }
 
-    private static Cue parseVttCueBox(ParsableByteArray parsableByteArray, WebvttCue.Builder builder, int i) throws SubtitleDecoderException {
-        builder.reset();
+    private static Cue parseVttCueBox(ParsableByteArray parsableByteArray, int i) throws SubtitleDecoderException {
+        CharSequence charSequence = null;
+        Cue.Builder builder = null;
         while (i > 0) {
             if (i < 8) {
                 throw new SubtitleDecoderException("Incomplete vtt cue box header found.");
@@ -47,15 +45,21 @@ public final class Mp4WebvttDecoder extends SimpleSubtitleDecoder {
             int readInt = parsableByteArray.readInt();
             int readInt2 = parsableByteArray.readInt();
             int i2 = readInt - 8;
-            String fromUtf8Bytes = Util.fromUtf8Bytes(parsableByteArray.data, parsableByteArray.getPosition(), i2);
+            String fromUtf8Bytes = Util.fromUtf8Bytes(parsableByteArray.getData(), parsableByteArray.getPosition(), i2);
             parsableByteArray.skipBytes(i2);
             i = (i - 8) - i2;
             if (readInt2 == 1937011815) {
-                WebvttCueParser.parseCueSettingsList(fromUtf8Bytes, builder);
+                builder = WebvttCueParser.parseCueSettingsList(fromUtf8Bytes);
             } else if (readInt2 == 1885436268) {
-                WebvttCueParser.parseCueText(null, fromUtf8Bytes.trim(), builder, Collections.emptyList());
+                charSequence = WebvttCueParser.parseCueText(null, fromUtf8Bytes.trim(), Collections.emptyList());
             }
         }
-        return builder.build();
+        if (charSequence == null) {
+            charSequence = "";
+        }
+        if (builder != null) {
+            return builder.setText(charSequence).build();
+        }
+        return WebvttCueParser.newCueForText(charSequence);
     }
 }

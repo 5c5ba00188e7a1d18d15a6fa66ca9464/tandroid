@@ -15,6 +15,16 @@ public abstract class ForwardingTimeline extends Timeline {
     }
 
     @Override // com.google.android.exoplayer2.Timeline
+    public int getNextWindowIndex(int i, int i2, boolean z) {
+        return this.timeline.getNextWindowIndex(i, i2, z);
+    }
+
+    @Override // com.google.android.exoplayer2.Timeline
+    public int getPreviousWindowIndex(int i, int i2, boolean z) {
+        return this.timeline.getPreviousWindowIndex(i, i2, z);
+    }
+
+    @Override // com.google.android.exoplayer2.Timeline
     public int getLastWindowIndex(boolean z) {
         return this.timeline.getLastWindowIndex(z);
     }

@@ -5,11 +5,9 @@ import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.appindexing.internal.zzt;
 import java.lang.ref.WeakReference;
-import javax.annotation.concurrent.GuardedBy;
 /* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
 /* loaded from: classes.dex */
 public abstract class FirebaseUserActions {
-    @GuardedBy("FirebaseUserActions.class")
     private static WeakReference<FirebaseUserActions> zza;
 
     public static synchronized FirebaseUserActions getInstance(Context context) {

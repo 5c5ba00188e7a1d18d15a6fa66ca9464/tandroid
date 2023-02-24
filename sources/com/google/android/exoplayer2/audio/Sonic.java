@@ -45,6 +45,10 @@ final class Sonic {
         this.pitchBuffer = new short[i5 * i2];
     }
 
+    public int getPendingInputBytes() {
+        return this.inputFrameCount * this.channelCount * 2;
+    }
+
     public void queueInput(ShortBuffer shortBuffer) {
         int remaining = shortBuffer.remaining();
         int i = this.channelCount;

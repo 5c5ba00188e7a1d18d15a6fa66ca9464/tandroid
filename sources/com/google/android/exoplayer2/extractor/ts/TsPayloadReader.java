@@ -78,6 +78,7 @@ public interface TsPayloadReader {
             this.firstTrackId = i2;
             this.trackIdIncrement = i3;
             this.trackId = Integer.MIN_VALUE;
+            this.formatId = "";
         }
 
         public void generateNewId() {

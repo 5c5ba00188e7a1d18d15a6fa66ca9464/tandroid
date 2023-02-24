@@ -1,11 +1,10 @@
 package com.google.android.exoplayer2.extractor.flv;
 
-import android.util.Pair;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.ParserException;
+import com.google.android.exoplayer2.audio.AacUtil;
 import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.extractor.flv.TagPayloadReader;
-import com.google.android.exoplayer2.util.CodecSpecificDataUtil;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.Collections;
 import org.telegram.messenger.MediaController;
@@ -27,10 +26,10 @@ final class AudioTagPayloadReader extends TagPayloadReader {
             int i = (readUnsignedByte >> 4) & 15;
             this.audioFormat = i;
             if (i == 2) {
-                this.output.format(Format.createAudioSampleFormat(null, "audio/mpeg", null, -1, -1, 1, AUDIO_SAMPLING_RATE_TABLE[(readUnsignedByte >> 2) & 3], null, null, 0, null));
+                this.output.format(new Format.Builder().setSampleMimeType("audio/mpeg").setChannelCount(1).setSampleRate(AUDIO_SAMPLING_RATE_TABLE[(readUnsignedByte >> 2) & 3]).build());
                 this.hasOutputFormat = true;
             } else if (i == 7 || i == 8) {
-                this.output.format(Format.createAudioSampleFormat(null, i == 7 ? "audio/g711-alaw" : "audio/g711-mlaw", null, -1, -1, 1, 8000, -1, null, null, 0, null));
+                this.output.format(new Format.Builder().setSampleMimeType(i == 7 ? "audio/g711-alaw" : "audio/g711-mlaw").setChannelCount(1).setSampleRate(8000).build());
                 this.hasOutputFormat = true;
             } else if (i != 10) {
                 throw new TagPayloadReader.UnsupportedFormatException("Audio format not supported: " + this.audioFormat);
@@ -55,8 +54,8 @@ final class AudioTagPayloadReader extends TagPayloadReader {
             int bytesLeft2 = parsableByteArray.bytesLeft();
             byte[] bArr = new byte[bytesLeft2];
             parsableByteArray.readBytes(bArr, 0, bytesLeft2);
-            Pair<Integer, Integer> parseAacAudioSpecificConfig = CodecSpecificDataUtil.parseAacAudioSpecificConfig(bArr);
-            this.output.format(Format.createAudioSampleFormat(null, MediaController.AUIDO_MIME_TYPE, null, -1, -1, ((Integer) parseAacAudioSpecificConfig.second).intValue(), ((Integer) parseAacAudioSpecificConfig.first).intValue(), Collections.singletonList(bArr), null, 0, null));
+            AacUtil.Config parseAudioSpecificConfig = AacUtil.parseAudioSpecificConfig(bArr);
+            this.output.format(new Format.Builder().setSampleMimeType(MediaController.AUIDO_MIME_TYPE).setCodecs(parseAudioSpecificConfig.codecs).setChannelCount(parseAudioSpecificConfig.channelCount).setSampleRate(parseAudioSpecificConfig.sampleRateHz).setInitializationData(Collections.singletonList(bArr)).build());
             this.hasOutputFormat = true;
             return false;
         } else if (this.audioFormat != 10 || readUnsignedByte == 1) {

@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.concurrent.locks.Lock;
-import javax.annotation.concurrent.GuardedBy;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
@@ -38,7 +37,6 @@ public final class zaaa implements zaca {
     private ConnectionResult zaj = null;
     private ConnectionResult zak = null;
     private boolean zal = false;
-    @GuardedBy("mLock")
     private int zan = 0;
 
     private zaaa(Context context, zabe zabeVar, Lock lock, Looper looper, GoogleApiAvailabilityLight googleApiAvailabilityLight, Map map, Map map2, ClientSettings clientSettings, Api.AbstractClientBuilder abstractClientBuilder, Api.Client client, ArrayList arrayList, ArrayList arrayList2, Map map3, Map map4) {
@@ -59,7 +57,6 @@ public final class zaaa implements zaca {
         this.zaf = Collections.unmodifiableMap(arrayMap);
     }
 
-    @GuardedBy("mLock")
     private final void zaB() {
         for (SignInConnectionListener signInConnectionListener : this.zag) {
             signInConnectionListener.onComplete();
@@ -67,7 +64,6 @@ public final class zaaa implements zaca {
         this.zag.clear();
     }
 
-    @GuardedBy("mLock")
     private final boolean zaC() {
         ConnectionResult connectionResult = this.zak;
         return connectionResult != null && connectionResult.getErrorCode() == 4;
@@ -195,7 +191,6 @@ public final class zaaa implements zaca {
     }
 
     @Override // com.google.android.gms.common.api.internal.zaca
-    @GuardedBy("mLock")
     public final BaseImplementation$ApiMethodImpl zae(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl) {
         if (zaD(baseImplementation$ApiMethodImpl)) {
             if (zaC()) {
@@ -210,7 +205,6 @@ public final class zaaa implements zaca {
     }
 
     @Override // com.google.android.gms.common.api.internal.zaca
-    @GuardedBy("mLock")
     public final BaseImplementation$ApiMethodImpl zaf(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl) {
         if (zaD(baseImplementation$ApiMethodImpl)) {
             if (zaC()) {
@@ -223,7 +217,6 @@ public final class zaaa implements zaca {
     }
 
     @Override // com.google.android.gms.common.api.internal.zaca
-    @GuardedBy("mLock")
     public final void zaq() {
         this.zan = 2;
         this.zal = false;
@@ -234,7 +227,6 @@ public final class zaaa implements zaca {
     }
 
     @Override // com.google.android.gms.common.api.internal.zaca
-    @GuardedBy("mLock")
     public final void zar() {
         this.zak = null;
         this.zaj = null;
@@ -253,7 +245,6 @@ public final class zaaa implements zaca {
     }
 
     @Override // com.google.android.gms.common.api.internal.zaca
-    @GuardedBy("mLock")
     public final void zat() {
         this.zad.zat();
         this.zae.zat();
@@ -327,7 +318,6 @@ public final class zaaa implements zaca {
         }
     }
 
-    @GuardedBy("mLock")
     private final void zaA(ConnectionResult connectionResult) {
         int i = this.zan;
         if (i != 1) {

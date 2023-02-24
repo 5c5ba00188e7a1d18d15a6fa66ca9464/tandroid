@@ -1,8 +1,8 @@
 package com.google.android.exoplayer2.extractor;
 
+import com.google.android.exoplayer2.extractor.FlacStreamMetadata;
 import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.util.Assertions;
-import com.google.android.exoplayer2.util.FlacStreamMetadata;
 import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 public final class FlacSeekTableSeekMap implements SeekMap {
@@ -26,7 +26,7 @@ public final class FlacSeekTableSeekMap implements SeekMap {
 
     @Override // com.google.android.exoplayer2.extractor.SeekMap
     public SeekMap.SeekPoints getSeekPoints(long j) {
-        Assertions.checkNotNull(this.flacStreamMetadata.seekTable);
+        Assertions.checkStateNotNull(this.flacStreamMetadata.seekTable);
         FlacStreamMetadata flacStreamMetadata = this.flacStreamMetadata;
         FlacStreamMetadata.SeekTable seekTable = flacStreamMetadata.seekTable;
         long[] jArr = seekTable.pointSampleNumbers;

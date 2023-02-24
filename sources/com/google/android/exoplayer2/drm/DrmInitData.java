@@ -177,7 +177,7 @@ public final class DrmInitData implements Comparator<SchemeData>, Parcelable {
         private int hashCode;
         public final String licenseServerUrl;
         public final String mimeType;
-        private final UUID uuid;
+        public final UUID uuid;
 
         @Override // android.os.Parcelable
         public int describeContents() {

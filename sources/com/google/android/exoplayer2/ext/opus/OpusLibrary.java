@@ -1,11 +1,11 @@
 package com.google.android.exoplayer2.ext.opus;
 
 import com.google.android.exoplayer2.ExoPlayerLibraryInfo;
-import com.google.android.exoplayer2.drm.ExoMediaCrypto;
-import com.google.android.exoplayer2.util.Util;
+import com.google.android.exoplayer2.util.LibraryLoader;
 /* loaded from: classes.dex */
 public final class OpusLibrary {
-    private static Class<? extends ExoMediaCrypto> exoMediaCryptoType;
+    private static final LibraryLoader LOADER;
+    private static int cryptoType;
 
     public static native String opusGetVersion();
 
@@ -13,20 +13,38 @@ public final class OpusLibrary {
 
     static {
         ExoPlayerLibraryInfo.registerModule("goog.exo.opus");
+        LOADER = new LibraryLoader("opusV2JNI") { // from class: com.google.android.exoplayer2.ext.opus.OpusLibrary.1
+            @Override // com.google.android.exoplayer2.util.LibraryLoader
+            protected void loadLibrary(String str) {
+                System.loadLibrary(str);
+            }
+        };
+        cryptoType = 1;
     }
 
     private OpusLibrary() {
     }
 
-    public static void setLibraries(Class<? extends ExoMediaCrypto> cls, String... strArr) {
-        exoMediaCryptoType = cls;
+    public static void setLibraries(int i, String... strArr) {
+        cryptoType = i;
+        LOADER.setLibraries(strArr);
+    }
+
+    public static boolean isAvailable() {
+        return LOADER.isAvailable();
     }
 
     public static String getVersion() {
-        return opusGetVersion();
+        if (isAvailable()) {
+            return opusGetVersion();
+        }
+        return null;
     }
 
-    public static boolean matchesExpectedExoMediaCryptoType(Class<? extends ExoMediaCrypto> cls) {
-        return Util.areEqual(exoMediaCryptoType, cls);
+    public static boolean supportsCryptoType(int i) {
+        if (i != 0) {
+            return i != 1 && i == cryptoType;
+        }
+        return true;
     }
 }

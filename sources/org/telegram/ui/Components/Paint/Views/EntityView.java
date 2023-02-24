@@ -541,7 +541,7 @@ public class EntityView extends FrameLayout {
         this.selectionView.animate().alpha(0.0f).scaleX(0.9f).scaleY(0.9f).setDuration(150L).setInterpolator(CubicBezierInterpolator.DEFAULT).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Paint.Views.EntityView.6
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
-                ((ViewGroup) EntityView.this.selectionView.getParent()).removeView(EntityView.this.selectionView);
+                AndroidUtilities.removeFromParent(EntityView.this.selectionView);
                 EntityView.this.selectionView = null;
             }
         }).start();
@@ -599,7 +599,7 @@ public class EntityView extends FrameLayout {
         /* JADX WARN: Code restructure failed: missing block: B:11:0x002c, code lost:
             if (r1 != 6) goto L11;
          */
-        /* JADX WARN: Removed duplicated region for block: B:43:0x0143  */
+        /* JADX WARN: Removed duplicated region for block: B:46:0x0149  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -635,7 +635,9 @@ public class EntityView extends FrameLayout {
                                 if (this.currentHandle == 1) {
                                     f5 *= -1.0f;
                                 }
-                                EntityView.this.scale(((f5 * 2.0f) / getMeasuredWidth()) + 1.0f);
+                                if (getMeasuredWidth() != 0) {
+                                    EntityView.this.scale(((f5 * 2.0f) / getMeasuredWidth()) + 1.0f);
+                                }
                                 int[] centerLocation = EntityView.this.delegate.getCenterLocation(EntityView.this);
                                 float f6 = 0.0f;
                                 int i2 = this.currentHandle;

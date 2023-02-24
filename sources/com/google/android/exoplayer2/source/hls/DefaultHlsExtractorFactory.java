@@ -1,8 +1,10 @@
 package com.google.android.exoplayer2.source.hls;
 
+import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.text.TextUtils;
 import com.google.android.exoplayer2.Format;
+import com.google.android.exoplayer2.analytics.PlayerId;
 import com.google.android.exoplayer2.extractor.Extractor;
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.mp3.Mp3Extractor;
@@ -13,19 +15,28 @@ import com.google.android.exoplayer2.extractor.ts.AdtsExtractor;
 import com.google.android.exoplayer2.extractor.ts.DefaultTsPayloadReaderFactory;
 import com.google.android.exoplayer2.extractor.ts.TsExtractor;
 import com.google.android.exoplayer2.metadata.Metadata;
-import com.google.android.exoplayer2.source.hls.HlsExtractorFactory;
+import com.google.android.exoplayer2.util.Assertions;
+import com.google.android.exoplayer2.util.FileTypes;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
+import com.google.common.primitives.Ints;
 import java.io.EOFException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.telegram.messenger.MediaController;
 /* loaded from: classes.dex */
 public final class DefaultHlsExtractorFactory implements HlsExtractorFactory {
+    private static final int[] DEFAULT_EXTRACTOR_ORDER = {8, 13, 11, 2, 0, 1, 7};
     private final boolean exposeCea608WhenMissingDeclarations;
     private final int payloadReaderFactoryFlags;
+
+    @Override // com.google.android.exoplayer2.source.hls.HlsExtractorFactory
+    public /* bridge */ /* synthetic */ HlsMediaChunkExtractor createExtractor(Uri uri, Format format, List list, TimestampAdjuster timestampAdjuster, Map map, ExtractorInput extractorInput, PlayerId playerId) throws IOException {
+        return createExtractor(uri, format, (List<Format>) list, timestampAdjuster, (Map<String, List<String>>) map, extractorInput, playerId);
+    }
 
     public DefaultHlsExtractorFactory() {
         this(0, true);
@@ -37,89 +48,64 @@ public final class DefaultHlsExtractorFactory implements HlsExtractorFactory {
     }
 
     @Override // com.google.android.exoplayer2.source.hls.HlsExtractorFactory
-    public HlsExtractorFactory.Result createExtractor(Extractor extractor, Uri uri, Format format, List<Format> list, TimestampAdjuster timestampAdjuster, Map<String, List<String>> map, ExtractorInput extractorInput) throws InterruptedException, IOException {
-        if (extractor != null) {
-            if (isReusable(extractor)) {
-                return buildResult(extractor);
-            }
-            if (buildResultForSameExtractorType(extractor, format, timestampAdjuster) == null) {
-                throw new IllegalArgumentException("Unexpected previousExtractor type: " + extractor.getClass().getSimpleName());
-            }
+    public BundledHlsMediaChunkExtractor createExtractor(Uri uri, Format format, List<Format> list, TimestampAdjuster timestampAdjuster, Map<String, List<String>> map, ExtractorInput extractorInput, PlayerId playerId) throws IOException {
+        int inferFileTypeFromMimeType = FileTypes.inferFileTypeFromMimeType(format.sampleMimeType);
+        int inferFileTypeFromResponseHeaders = FileTypes.inferFileTypeFromResponseHeaders(map);
+        int inferFileTypeFromUri = FileTypes.inferFileTypeFromUri(uri);
+        int[] iArr = DEFAULT_EXTRACTOR_ORDER;
+        ArrayList arrayList = new ArrayList(iArr.length);
+        addFileTypeIfValidAndNotPresent(inferFileTypeFromMimeType, arrayList);
+        addFileTypeIfValidAndNotPresent(inferFileTypeFromResponseHeaders, arrayList);
+        addFileTypeIfValidAndNotPresent(inferFileTypeFromUri, arrayList);
+        for (int i : iArr) {
+            addFileTypeIfValidAndNotPresent(i, arrayList);
         }
-        Extractor createExtractorByFileExtension = createExtractorByFileExtension(uri, format, list, timestampAdjuster);
+        Extractor extractor = null;
         extractorInput.resetPeekPosition();
-        if (sniffQuietly(createExtractorByFileExtension, extractorInput)) {
-            return buildResult(createExtractorByFileExtension);
-        }
-        if (!(createExtractorByFileExtension instanceof WebvttExtractor)) {
-            WebvttExtractor webvttExtractor = new WebvttExtractor(format.language, timestampAdjuster);
-            if (sniffQuietly(webvttExtractor, extractorInput)) {
-                return buildResult(webvttExtractor);
+        for (int i2 = 0; i2 < arrayList.size(); i2++) {
+            int intValue = ((Integer) arrayList.get(i2)).intValue();
+            Extractor extractor2 = (Extractor) Assertions.checkNotNull(createExtractorByFileType(intValue, format, list, timestampAdjuster));
+            if (sniffQuietly(extractor2, extractorInput)) {
+                return new BundledHlsMediaChunkExtractor(extractor2, format, timestampAdjuster);
+            }
+            if (extractor == null && (intValue == inferFileTypeFromMimeType || intValue == inferFileTypeFromResponseHeaders || intValue == inferFileTypeFromUri || intValue == 11)) {
+                extractor = extractor2;
             }
         }
-        if (!(createExtractorByFileExtension instanceof AdtsExtractor)) {
-            AdtsExtractor adtsExtractor = new AdtsExtractor();
-            if (sniffQuietly(adtsExtractor, extractorInput)) {
-                return buildResult(adtsExtractor);
-            }
-        }
-        if (!(createExtractorByFileExtension instanceof Ac3Extractor)) {
-            Ac3Extractor ac3Extractor = new Ac3Extractor();
-            if (sniffQuietly(ac3Extractor, extractorInput)) {
-                return buildResult(ac3Extractor);
-            }
-        }
-        if (!(createExtractorByFileExtension instanceof Ac4Extractor)) {
-            Ac4Extractor ac4Extractor = new Ac4Extractor();
-            if (sniffQuietly(ac4Extractor, extractorInput)) {
-                return buildResult(ac4Extractor);
-            }
-        }
-        if (!(createExtractorByFileExtension instanceof Mp3Extractor)) {
-            Mp3Extractor mp3Extractor = new Mp3Extractor(0, 0L);
-            if (sniffQuietly(mp3Extractor, extractorInput)) {
-                return buildResult(mp3Extractor);
-            }
-        }
-        if (!(createExtractorByFileExtension instanceof FragmentedMp4Extractor)) {
-            FragmentedMp4Extractor createFragmentedMp4Extractor = createFragmentedMp4Extractor(timestampAdjuster, format, list);
-            if (sniffQuietly(createFragmentedMp4Extractor, extractorInput)) {
-                return buildResult(createFragmentedMp4Extractor);
-            }
-        }
-        if (!(createExtractorByFileExtension instanceof TsExtractor)) {
-            TsExtractor createTsExtractor = createTsExtractor(this.payloadReaderFactoryFlags, this.exposeCea608WhenMissingDeclarations, format, list, timestampAdjuster);
-            if (sniffQuietly(createTsExtractor, extractorInput)) {
-                return buildResult(createTsExtractor);
-            }
-        }
-        return buildResult(createExtractorByFileExtension);
+        return new BundledHlsMediaChunkExtractor((Extractor) Assertions.checkNotNull(extractor), format, timestampAdjuster);
     }
 
-    private Extractor createExtractorByFileExtension(Uri uri, Format format, List<Format> list, TimestampAdjuster timestampAdjuster) {
-        String lastPathSegment = uri.getLastPathSegment();
-        if (lastPathSegment == null) {
-            lastPathSegment = "";
+    private static void addFileTypeIfValidAndNotPresent(int i, List<Integer> list) {
+        if (Ints.indexOf(DEFAULT_EXTRACTOR_ORDER, i) == -1 || list.contains(Integer.valueOf(i))) {
+            return;
         }
-        if ("text/vtt".equals(format.sampleMimeType) || lastPathSegment.endsWith(".webvtt") || lastPathSegment.endsWith(".vtt")) {
-            return new WebvttExtractor(format.language, timestampAdjuster);
-        }
-        if (lastPathSegment.endsWith(".aac")) {
-            return new AdtsExtractor();
-        }
-        if (lastPathSegment.endsWith(".ac3") || lastPathSegment.endsWith(".ec3")) {
-            return new Ac3Extractor();
-        }
-        if (lastPathSegment.endsWith(".ac4")) {
+        list.add(Integer.valueOf(i));
+    }
+
+    @SuppressLint({"SwitchIntDef"})
+    private Extractor createExtractorByFileType(int i, Format format, List<Format> list, TimestampAdjuster timestampAdjuster) {
+        if (i != 0) {
+            if (i != 1) {
+                if (i != 2) {
+                    if (i != 7) {
+                        if (i != 8) {
+                            if (i != 11) {
+                                if (i != 13) {
+                                    return null;
+                                }
+                                return new WebvttExtractor(format.language, timestampAdjuster);
+                            }
+                            return createTsExtractor(this.payloadReaderFactoryFlags, this.exposeCea608WhenMissingDeclarations, format, list, timestampAdjuster);
+                        }
+                        return createFragmentedMp4Extractor(timestampAdjuster, format, list);
+                    }
+                    return new Mp3Extractor(0, 0L);
+                }
+                return new AdtsExtractor();
+            }
             return new Ac4Extractor();
         }
-        if (lastPathSegment.endsWith(".mp3")) {
-            return new Mp3Extractor(0, 0L);
-        }
-        if (lastPathSegment.endsWith(".mp4") || lastPathSegment.startsWith(".m4", lastPathSegment.length() - 4) || lastPathSegment.startsWith(".mp4", lastPathSegment.length() - 5) || lastPathSegment.startsWith(".cmf", lastPathSegment.length() - 5)) {
-            return createFragmentedMp4Extractor(timestampAdjuster, format, list);
-        }
-        return createTsExtractor(this.payloadReaderFactoryFlags, this.exposeCea608WhenMissingDeclarations, format, list, timestampAdjuster);
+        return new Ac3Extractor();
     }
 
     private static TsExtractor createTsExtractor(int i, boolean z, Format format, List<Format> list, TimestampAdjuster timestampAdjuster) {
@@ -127,16 +113,16 @@ public final class DefaultHlsExtractorFactory implements HlsExtractorFactory {
         if (list != null) {
             i2 |= 32;
         } else if (z) {
-            list = Collections.singletonList(Format.createTextSampleFormat(null, "application/cea-608", 0, null));
+            list = Collections.singletonList(new Format.Builder().setSampleMimeType("application/cea-608").build());
         } else {
             list = Collections.emptyList();
         }
         String str = format.codecs;
         if (!TextUtils.isEmpty(str)) {
-            if (!MediaController.AUIDO_MIME_TYPE.equals(MimeTypes.getAudioMediaMimeType(str))) {
+            if (!MimeTypes.containsCodecsCorrespondingToMimeType(str, MediaController.AUIDO_MIME_TYPE)) {
                 i2 |= 2;
             }
-            if (!MediaController.VIDEO_MIME_TYPE.equals(MimeTypes.getVideoMediaMimeType(str))) {
+            if (!MimeTypes.containsCodecsCorrespondingToMimeType(str, MediaController.VIDEO_MIME_TYPE)) {
                 i2 |= 4;
             }
         }
@@ -165,30 +151,7 @@ public final class DefaultHlsExtractorFactory implements HlsExtractorFactory {
         return false;
     }
 
-    private static HlsExtractorFactory.Result buildResultForSameExtractorType(Extractor extractor, Format format, TimestampAdjuster timestampAdjuster) {
-        if (extractor instanceof WebvttExtractor) {
-            return buildResult(new WebvttExtractor(format.language, timestampAdjuster));
-        }
-        if (extractor instanceof AdtsExtractor) {
-            return buildResult(new AdtsExtractor());
-        }
-        if (extractor instanceof Ac3Extractor) {
-            return buildResult(new Ac3Extractor());
-        }
-        if (extractor instanceof Ac4Extractor) {
-            return buildResult(new Ac4Extractor());
-        }
-        if (extractor instanceof Mp3Extractor) {
-            return buildResult(new Mp3Extractor());
-        }
-        return null;
-    }
-
-    private static HlsExtractorFactory.Result buildResult(Extractor extractor) {
-        return new HlsExtractorFactory.Result(extractor, (extractor instanceof AdtsExtractor) || (extractor instanceof Ac3Extractor) || (extractor instanceof Ac4Extractor) || (extractor instanceof Mp3Extractor), isReusable(extractor));
-    }
-
-    private static boolean sniffQuietly(Extractor extractor, ExtractorInput extractorInput) throws InterruptedException, IOException {
+    private static boolean sniffQuietly(Extractor extractor, ExtractorInput extractorInput) throws IOException {
         try {
             boolean sniff = extractor.sniff(extractorInput);
             extractorInput.resetPeekPosition();
@@ -200,9 +163,5 @@ public final class DefaultHlsExtractorFactory implements HlsExtractorFactory {
             extractorInput.resetPeekPosition();
             throw th;
         }
-    }
-
-    private static boolean isReusable(Extractor extractor) {
-        return (extractor instanceof TsExtractor) || (extractor instanceof FragmentedMp4Extractor);
     }
 }

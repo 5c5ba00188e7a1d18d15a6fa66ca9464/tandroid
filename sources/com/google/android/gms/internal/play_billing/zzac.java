@@ -2,7 +2,6 @@ package com.google.android.gms.internal.play_billing;
 
 import java.util.Iterator;
 import java.util.Map;
-import javax.annotation.CheckForNull;
 /* compiled from: com.android.billingclient:billing@@5.1.0 */
 /* loaded from: classes.dex */
 final class zzac extends zzy {
@@ -18,7 +17,7 @@ final class zzac extends zzy {
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzr, java.util.AbstractCollection, java.util.Collection, java.util.Set
-    public final boolean contains(@CheckForNull Object obj) {
+    public final boolean contains(Object obj) {
         if (obj instanceof Map.Entry) {
             Map.Entry entry = (Map.Entry) obj;
             Object key = entry.getKey();

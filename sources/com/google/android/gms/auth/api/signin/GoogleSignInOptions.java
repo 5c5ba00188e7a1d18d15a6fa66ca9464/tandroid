@@ -12,7 +12,6 @@ import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -270,19 +269,16 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
             return new GoogleSignInOptions(new ArrayList(this.zaa), this.zaf, this.zad, this.zab, this.zac, this.zae, this.zag, this.zah, this.zai);
         }
 
-        @CanIgnoreReturnValue
         public Builder requestEmail() {
             this.zaa.add(GoogleSignInOptions.zab);
             return this;
         }
 
-        @CanIgnoreReturnValue
         public Builder requestId() {
             this.zaa.add(GoogleSignInOptions.zac);
             return this;
         }
 
-        @CanIgnoreReturnValue
         public Builder requestIdToken(String str) {
             this.zad = true;
             zaa(str);
@@ -290,20 +286,17 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
             return this;
         }
 
-        @CanIgnoreReturnValue
         public Builder requestProfile() {
             this.zaa.add(GoogleSignInOptions.zaa);
             return this;
         }
 
-        @CanIgnoreReturnValue
         public Builder requestScopes(Scope scope, Scope... scopeArr) {
             this.zaa.add(scope);
             this.zaa.addAll(Arrays.asList(scopeArr));
             return this;
         }
 
-        @CanIgnoreReturnValue
         public Builder setLogSessionId(String str) {
             this.zai = str;
             return this;

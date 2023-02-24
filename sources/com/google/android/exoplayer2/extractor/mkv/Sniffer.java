@@ -8,20 +8,20 @@ final class Sniffer {
     private int peekLength;
     private final ParsableByteArray scratch = new ParsableByteArray(8);
 
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x009c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x00a2, code lost:
         return false;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public boolean sniff(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    public boolean sniff(ExtractorInput extractorInput) throws IOException {
         long length = extractorInput.getLength();
         long j = 1024;
         if (length != -1 && length <= 1024) {
             j = length;
         }
         int i = (int) j;
-        extractorInput.peekFully(this.scratch.data, 0, 4);
+        extractorInput.peekFully(this.scratch.getData(), 0, 4);
         long readUnsignedInt = this.scratch.readUnsignedInt();
         this.peekLength = 4;
         while (readUnsignedInt != 440786851) {
@@ -30,8 +30,8 @@ final class Sniffer {
             if (i2 == i) {
                 return false;
             }
-            extractorInput.peekFully(this.scratch.data, 0, 1);
-            readUnsignedInt = ((readUnsignedInt << 8) & (-256)) | (this.scratch.data[0] & 255);
+            extractorInput.peekFully(this.scratch.getData(), 0, 1);
+            readUnsignedInt = ((readUnsignedInt << 8) & (-256)) | (this.scratch.getData()[0] & 255);
         }
         long readUint = readUint(extractorInput);
         long j2 = this.peekLength;
@@ -61,10 +61,10 @@ final class Sniffer {
         }
     }
 
-    private long readUint(ExtractorInput extractorInput) throws IOException, InterruptedException {
+    private long readUint(ExtractorInput extractorInput) throws IOException {
         int i = 0;
-        extractorInput.peekFully(this.scratch.data, 0, 1);
-        int i2 = this.scratch.data[0] & 255;
+        extractorInput.peekFully(this.scratch.getData(), 0, 1);
+        int i2 = this.scratch.getData()[0] & 255;
         if (i2 == 0) {
             return Long.MIN_VALUE;
         }
@@ -75,10 +75,10 @@ final class Sniffer {
             i4++;
         }
         int i5 = i2 & (i3 ^ (-1));
-        extractorInput.peekFully(this.scratch.data, 1, i4);
+        extractorInput.peekFully(this.scratch.getData(), 1, i4);
         while (i < i4) {
             i++;
-            i5 = (this.scratch.data[i] & 255) + (i5 << 8);
+            i5 = (this.scratch.getData()[i] & 255) + (i5 << 8);
         }
         this.peekLength += i4 + 1;
         return i5;

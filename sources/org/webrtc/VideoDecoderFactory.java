@@ -1,5 +1,5 @@
 package org.webrtc;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public interface VideoDecoderFactory {
     @Deprecated
     VideoDecoder createDecoder(String str);
@@ -10,7 +10,7 @@ public interface VideoDecoderFactory {
     @CalledByNative
     VideoCodecInfo[] getSupportedCodecs();
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public final /* synthetic */ class -CC {
         @CalledByNative
         public static VideoCodecInfo[] $default$getSupportedCodecs(VideoDecoderFactory videoDecoderFactory) {

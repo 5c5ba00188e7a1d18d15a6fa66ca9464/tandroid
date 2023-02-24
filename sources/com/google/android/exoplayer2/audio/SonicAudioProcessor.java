@@ -37,33 +37,29 @@ public final class SonicAudioProcessor implements AudioProcessor {
         this.pendingOutputSampleRate = -1;
     }
 
-    public float setSpeed(float f) {
-        float constrainValue = Util.constrainValue(f, 0.1f, 8.0f);
-        if (this.speed != constrainValue) {
-            this.speed = constrainValue;
+    public void setSpeed(float f) {
+        if (this.speed != f) {
+            this.speed = f;
             this.pendingSonicRecreation = true;
         }
-        return constrainValue;
     }
 
-    public float setPitch(float f) {
-        float constrainValue = Util.constrainValue(f, 0.1f, 8.0f);
-        if (this.pitch != constrainValue) {
-            this.pitch = constrainValue;
+    public void setPitch(float f) {
+        if (this.pitch != f) {
+            this.pitch = f;
             this.pendingSonicRecreation = true;
         }
-        return constrainValue;
     }
 
-    public long scaleDurationForSpeedup(long j) {
-        long j2 = this.outputBytes;
-        if (j2 >= 1024) {
+    public long getMediaDuration(long j) {
+        if (this.outputBytes >= 1024) {
+            long pendingInputBytes = this.inputBytes - ((Sonic) Assertions.checkNotNull(this.sonic)).getPendingInputBytes();
             int i = this.outputAudioFormat.sampleRate;
             int i2 = this.inputAudioFormat.sampleRate;
             if (i == i2) {
-                return Util.scaleLargeTimestamp(j, this.inputBytes, j2);
+                return Util.scaleLargeTimestamp(j, pendingInputBytes, this.outputBytes);
             }
-            return Util.scaleLargeTimestamp(j, this.inputBytes * i, j2 * i2);
+            return Util.scaleLargeTimestamp(j, pendingInputBytes * i, this.outputBytes * i2);
         }
         double d = this.speed;
         double d2 = j;
@@ -90,33 +86,17 @@ public final class SonicAudioProcessor implements AudioProcessor {
 
     @Override // com.google.android.exoplayer2.audio.AudioProcessor
     public boolean isActive() {
-        return this.pendingOutputAudioFormat.sampleRate != -1 && (Math.abs(this.speed - 1.0f) >= 0.01f || Math.abs(this.pitch - 1.0f) >= 0.01f || this.pendingOutputAudioFormat.sampleRate != this.pendingInputAudioFormat.sampleRate);
+        return this.pendingOutputAudioFormat.sampleRate != -1 && (Math.abs(this.speed - 1.0f) >= 1.0E-4f || Math.abs(this.pitch - 1.0f) >= 1.0E-4f || this.pendingOutputAudioFormat.sampleRate != this.pendingInputAudioFormat.sampleRate);
     }
 
     @Override // com.google.android.exoplayer2.audio.AudioProcessor
     public void queueInput(ByteBuffer byteBuffer) {
-        Sonic sonic = (Sonic) Assertions.checkNotNull(this.sonic);
         if (byteBuffer.hasRemaining()) {
             ShortBuffer asShortBuffer = byteBuffer.asShortBuffer();
             int remaining = byteBuffer.remaining();
             this.inputBytes += remaining;
-            sonic.queueInput(asShortBuffer);
+            ((Sonic) Assertions.checkNotNull(this.sonic)).queueInput(asShortBuffer);
             byteBuffer.position(byteBuffer.position() + remaining);
-        }
-        int outputSize = sonic.getOutputSize();
-        if (outputSize > 0) {
-            if (this.buffer.capacity() < outputSize) {
-                ByteBuffer order = ByteBuffer.allocateDirect(outputSize).order(ByteOrder.nativeOrder());
-                this.buffer = order;
-                this.shortBuffer = order.asShortBuffer();
-            } else {
-                this.buffer.clear();
-                this.shortBuffer.clear();
-            }
-            sonic.getOutput(this.shortBuffer);
-            this.outputBytes += outputSize;
-            this.buffer.limit(outputSize);
-            this.outputBuffer = this.buffer;
         }
     }
 
@@ -131,6 +111,22 @@ public final class SonicAudioProcessor implements AudioProcessor {
 
     @Override // com.google.android.exoplayer2.audio.AudioProcessor
     public ByteBuffer getOutput() {
+        int outputSize;
+        Sonic sonic = this.sonic;
+        if (sonic != null && (outputSize = sonic.getOutputSize()) > 0) {
+            if (this.buffer.capacity() < outputSize) {
+                ByteBuffer order = ByteBuffer.allocateDirect(outputSize).order(ByteOrder.nativeOrder());
+                this.buffer = order;
+                this.shortBuffer = order.asShortBuffer();
+            } else {
+                this.buffer.clear();
+                this.shortBuffer.clear();
+            }
+            sonic.getOutput(this.shortBuffer);
+            this.outputBytes += outputSize;
+            this.buffer.limit(outputSize);
+            this.outputBuffer = this.buffer;
+        }
         ByteBuffer byteBuffer = this.outputBuffer;
         this.outputBuffer = AudioProcessor.EMPTY_BUFFER;
         return byteBuffer;

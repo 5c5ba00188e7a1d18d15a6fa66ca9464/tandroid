@@ -3,7 +3,9 @@ package com.google.android.exoplayer2.metadata;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.exoplayer2.Format;
+import com.google.android.exoplayer2.MediaMetadata;
 import com.google.android.exoplayer2.util.Util;
+import com.google.common.primitives.Longs;
 import java.util.Arrays;
 import java.util.List;
 /* loaded from: classes.dex */
@@ -20,6 +22,7 @@ public final class Metadata implements Parcelable {
         }
     };
     private final Entry[] entries;
+    public final long presentationTimeUs;
 
     /* loaded from: classes.dex */
     public interface Entry extends Parcelable {
@@ -33,11 +36,16 @@ public final class Metadata implements Parcelable {
             public static Format $default$getWrappedMetadataFormat(Entry entry) {
                 return null;
             }
+
+            public static void $default$populateMediaMetadata(Entry entry, MediaMetadata.Builder builder) {
+            }
         }
 
         byte[] getWrappedMetadataBytes();
 
         Format getWrappedMetadataFormat();
+
+        void populateMediaMetadata(MediaMetadata.Builder builder);
     }
 
     @Override // android.os.Parcelable
@@ -46,13 +54,20 @@ public final class Metadata implements Parcelable {
     }
 
     public Metadata(Entry... entryArr) {
+        this(-9223372036854775807L, entryArr);
+    }
+
+    public Metadata(long j, Entry... entryArr) {
+        this.presentationTimeUs = j;
         this.entries = entryArr;
     }
 
     public Metadata(List<? extends Entry> list) {
-        Entry[] entryArr = new Entry[list.size()];
-        this.entries = entryArr;
-        list.toArray(entryArr);
+        this((Entry[]) list.toArray(new Entry[0]));
+    }
+
+    public Metadata(long j, List<? extends Entry> list) {
+        this(j, (Entry[]) list.toArray(new Entry[0]));
     }
 
     Metadata(Parcel parcel) {
@@ -60,11 +75,13 @@ public final class Metadata implements Parcelable {
         int i = 0;
         while (true) {
             Entry[] entryArr = this.entries;
-            if (i >= entryArr.length) {
+            if (i < entryArr.length) {
+                entryArr[i] = (Entry) parcel.readParcelable(Entry.class.getClassLoader());
+                i++;
+            } else {
+                this.presentationTimeUs = parcel.readLong();
                 return;
             }
-            entryArr[i] = (Entry) parcel.readParcelable(Entry.class.getClassLoader());
-            i++;
         }
     }
 
@@ -81,7 +98,11 @@ public final class Metadata implements Parcelable {
     }
 
     public Metadata copyWithAppendedEntries(Entry... entryArr) {
-        return entryArr.length == 0 ? this : new Metadata((Entry[]) Util.nullSafeArrayConcatenation(this.entries, entryArr));
+        return entryArr.length == 0 ? this : new Metadata(this.presentationTimeUs, (Entry[]) Util.nullSafeArrayConcatenation(this.entries, entryArr));
+    }
+
+    public Metadata copyWithPresentationTimeUs(long j) {
+        return this.presentationTimeUs == j ? this : new Metadata(j, this.entries);
     }
 
     public boolean equals(Object obj) {
@@ -91,15 +112,26 @@ public final class Metadata implements Parcelable {
         if (obj == null || Metadata.class != obj.getClass()) {
             return false;
         }
-        return Arrays.equals(this.entries, ((Metadata) obj).entries);
+        Metadata metadata = (Metadata) obj;
+        return Arrays.equals(this.entries, metadata.entries) && this.presentationTimeUs == metadata.presentationTimeUs;
     }
 
     public int hashCode() {
-        return Arrays.hashCode(this.entries);
+        return (Arrays.hashCode(this.entries) * 31) + Longs.hashCode(this.presentationTimeUs);
     }
 
     public String toString() {
-        return "entries=" + Arrays.toString(this.entries);
+        String str;
+        StringBuilder sb = new StringBuilder();
+        sb.append("entries=");
+        sb.append(Arrays.toString(this.entries));
+        if (this.presentationTimeUs == -9223372036854775807L) {
+            str = "";
+        } else {
+            str = ", presentationTimeUs=" + this.presentationTimeUs;
+        }
+        sb.append(str);
+        return sb.toString();
     }
 
     @Override // android.os.Parcelable
@@ -108,5 +140,6 @@ public final class Metadata implements Parcelable {
         for (Entry entry : this.entries) {
             parcel.writeParcelable(entry, 0);
         }
+        parcel.writeLong(this.presentationTimeUs);
     }
 }

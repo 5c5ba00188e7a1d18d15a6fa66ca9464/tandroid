@@ -1,13 +1,19 @@
 package com.google.android.exoplayer2.util;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.opengl.EGL14;
 import android.opengl.GLES20;
 import android.opengl.GLU;
 /* loaded from: classes.dex */
 public final class GlUtil {
-    @TargetApi(24)
+
+    /* loaded from: classes.dex */
+    public static final class GlException extends Exception {
+        public GlException(String str) {
+            super(str);
+        }
+    }
+
     public static boolean isProtectedContentExtensionSupported(Context context) {
         String eglQueryString;
         int i = Util.SDK_INT;
@@ -20,19 +26,34 @@ public final class GlUtil {
         return false;
     }
 
-    @TargetApi(17)
     public static boolean isSurfacelessContextExtensionSupported() {
         String eglQueryString;
         return Util.SDK_INT >= 17 && (eglQueryString = EGL14.eglQueryString(EGL14.eglGetDisplay(0), 12373)) != null && eglQueryString.contains("EGL_KHR_surfaceless_context");
     }
 
-    public static void checkGlError() {
+    public static void checkGlError() throws GlException {
+        StringBuilder sb = new StringBuilder();
+        boolean z = false;
         while (true) {
             int glGetError = GLES20.glGetError();
             if (glGetError == 0) {
-                return;
+                break;
             }
-            Log.e("GlUtil", "glError " + GLU.gluErrorString(glGetError));
+            if (z) {
+                sb.append('\n');
+            }
+            sb.append("glError: ");
+            sb.append(GLU.gluErrorString(glGetError));
+            z = true;
+        }
+        if (z) {
+            throw new GlException(sb.toString());
+        }
+    }
+
+    public static void checkGlException(boolean z, String str) throws GlException {
+        if (!z) {
+            throw new GlException(str);
         }
     }
 }

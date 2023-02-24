@@ -2,13 +2,28 @@ package com.google.android.exoplayer2.extractor;
 
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.extractor.TrackOutput;
+import com.google.android.exoplayer2.upstream.DataReader;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.io.EOFException;
 import java.io.IOException;
 /* loaded from: classes.dex */
 public final class DummyTrackOutput implements TrackOutput {
+    private final byte[] readBuffer = new byte[4096];
+
     @Override // com.google.android.exoplayer2.extractor.TrackOutput
     public void format(Format format) {
+    }
+
+    @Override // com.google.android.exoplayer2.extractor.TrackOutput
+    public /* synthetic */ int sampleData(DataReader dataReader, int i, boolean z) {
+        int sampleData;
+        sampleData = sampleData(dataReader, i, z, 0);
+        return sampleData;
+    }
+
+    @Override // com.google.android.exoplayer2.extractor.TrackOutput
+    public /* synthetic */ void sampleData(ParsableByteArray parsableByteArray, int i) {
+        sampleData(parsableByteArray, i, 0);
     }
 
     @Override // com.google.android.exoplayer2.extractor.TrackOutput
@@ -16,19 +31,19 @@ public final class DummyTrackOutput implements TrackOutput {
     }
 
     @Override // com.google.android.exoplayer2.extractor.TrackOutput
-    public int sampleData(ExtractorInput extractorInput, int i, boolean z) throws IOException, InterruptedException {
-        int skip = extractorInput.skip(i);
-        if (skip == -1) {
+    public int sampleData(DataReader dataReader, int i, boolean z, int i2) throws IOException {
+        int read = dataReader.read(this.readBuffer, 0, Math.min(this.readBuffer.length, i));
+        if (read == -1) {
             if (z) {
                 return -1;
             }
             throw new EOFException();
         }
-        return skip;
+        return read;
     }
 
     @Override // com.google.android.exoplayer2.extractor.TrackOutput
-    public void sampleData(ParsableByteArray parsableByteArray, int i) {
+    public void sampleData(ParsableByteArray parsableByteArray, int i, int i2) {
         parsableByteArray.skipBytes(i);
     }
 }

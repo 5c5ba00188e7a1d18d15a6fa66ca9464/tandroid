@@ -1,10 +1,10 @@
 package com.google.android.exoplayer2.text;
 
-import com.google.android.exoplayer2.decoder.OutputBuffer;
+import com.google.android.exoplayer2.decoder.DecoderOutputBuffer;
 import com.google.android.exoplayer2.util.Assertions;
 import java.util.List;
 /* loaded from: classes.dex */
-public abstract class SubtitleOutputBuffer extends OutputBuffer implements Subtitle {
+public abstract class SubtitleOutputBuffer extends DecoderOutputBuffer implements Subtitle {
     private long subsampleOffsetUs;
     private Subtitle subtitle;
 

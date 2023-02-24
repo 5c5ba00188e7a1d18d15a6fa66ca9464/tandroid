@@ -21,24 +21,16 @@ import com.google.android.gms.dynamic.ObjectWrapper;
 import dalvik.system.DelegateLastClassLoader;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import javax.annotation.concurrent.GuardedBy;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class DynamiteModule {
     public static final VersionPolicy PREFER_HIGHEST_OR_REMOTE_VERSION;
-    @GuardedBy("DynamiteModule.class")
     private static Boolean zzb = null;
-    @GuardedBy("DynamiteModule.class")
     private static String zzc = null;
-    @GuardedBy("DynamiteModule.class")
     private static boolean zzd = false;
-    @GuardedBy("DynamiteModule.class")
     private static int zze = -1;
-    @GuardedBy("DynamiteModule.class")
     private static Boolean zzf;
-    @GuardedBy("DynamiteModule.class")
     private static zzq zzk;
-    @GuardedBy("DynamiteModule.class")
     private static zzr zzl;
     private final Context zzj;
     private static final ThreadLocal zzg = new ThreadLocal();
@@ -50,7 +42,6 @@ public final class DynamiteModule {
     @DynamiteApi
     /* loaded from: classes.dex */
     public static class DynamiteLoaderClassLoader {
-        @GuardedBy("DynamiteLoaderClassLoader.class")
         public static ClassLoader sClassLoader;
     }
 
@@ -447,11 +438,11 @@ public final class DynamiteModule {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x009f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x00a0, code lost:
         r10.close();
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x00c9  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x00ca  */
     /* JADX WARN: Type inference failed for: r0v0 */
     /* JADX WARN: Type inference failed for: r0v1, types: [android.database.Cursor] */
     /* JADX WARN: Type inference failed for: r0v2 */
@@ -529,7 +520,6 @@ public final class DynamiteModule {
         return new DynamiteModule(context.getApplicationContext());
     }
 
-    @GuardedBy("DynamiteModule.class")
     private static void zzd(ClassLoader classLoader) throws LoadingException {
         zzr zzrVar;
         try {
@@ -559,7 +549,6 @@ public final class DynamiteModule {
         return true;
     }
 
-    @GuardedBy("DynamiteModule.class")
     private static boolean zzf(Context context) {
         ApplicationInfo applicationInfo;
         Boolean bool = Boolean.TRUE;

@@ -4134,7 +4134,6 @@
     <string name="PinnedPoll">Pinned poll</string>
     <string name="PlacesInThisArea">Places in this area</string>
     <string name="PlainTextRestrictedHint">Text not allowed</string>
-    <string name="PlayEmojiInKeyboard">Emoji Panel Animations</string>
     <string name="PlayFile">Play File</string>
     <string name="PleaseDownload">Please download media first</string>
     <string name="PleaseEnterCurrentPassword">Enter your password</string>
@@ -5135,6 +5134,7 @@
     <string name="SpeakingWithVolume">%1$d%% speaking</string>
     <string name="Speed">Speed</string>
     <string name="SpeedFast">Fast</string>
+    <string name="SpeedHint">Long tap for more speed values.</string>
     <string name="SpeedMedium">Medium</string>
     <string name="SpeedNormal">Normal</string>
     <string name="SpeedSlow">Slow</string>

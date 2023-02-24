@@ -1,15 +1,17 @@
 package com.google.android.exoplayer2.extractor;
 
-import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.ExoPlayerLibraryInfo;
+import com.google.android.exoplayer2.upstream.DataReader;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.io.EOFException;
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.util.Arrays;
 import org.telegram.messenger.CharacterCompat;
 /* loaded from: classes.dex */
 public final class DefaultExtractorInput implements ExtractorInput {
-    private final DataSource dataSource;
+    private final DataReader dataReader;
     private int peekBufferLength;
     private int peekBufferPosition;
     private long position;
@@ -17,71 +19,75 @@ public final class DefaultExtractorInput implements ExtractorInput {
     private byte[] peekBuffer = new byte[CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT];
     private final byte[] scratchSpace = new byte[4096];
 
-    public DefaultExtractorInput(DataSource dataSource, long j, long j2) {
-        this.dataSource = dataSource;
+    static {
+        ExoPlayerLibraryInfo.registerModule("goog.exo.extractor");
+    }
+
+    public DefaultExtractorInput(DataReader dataReader, long j, long j2) {
+        this.dataReader = dataReader;
         this.position = j;
         this.streamLength = j2;
     }
 
-    @Override // com.google.android.exoplayer2.extractor.ExtractorInput
-    public int read(byte[] bArr, int i, int i2) throws IOException, InterruptedException {
+    @Override // com.google.android.exoplayer2.extractor.ExtractorInput, com.google.android.exoplayer2.upstream.DataReader
+    public int read(byte[] bArr, int i, int i2) throws IOException {
         int readFromPeekBuffer = readFromPeekBuffer(bArr, i, i2);
         if (readFromPeekBuffer == 0) {
-            readFromPeekBuffer = readFromDataSource(bArr, i, i2, 0, true);
+            readFromPeekBuffer = readFromUpstream(bArr, i, i2, 0, true);
         }
         commitBytesRead(readFromPeekBuffer);
         return readFromPeekBuffer;
     }
 
     @Override // com.google.android.exoplayer2.extractor.ExtractorInput
-    public boolean readFully(byte[] bArr, int i, int i2, boolean z) throws IOException, InterruptedException {
+    public boolean readFully(byte[] bArr, int i, int i2, boolean z) throws IOException {
         int readFromPeekBuffer = readFromPeekBuffer(bArr, i, i2);
         while (readFromPeekBuffer < i2 && readFromPeekBuffer != -1) {
-            readFromPeekBuffer = readFromDataSource(bArr, i, i2, readFromPeekBuffer, z);
+            readFromPeekBuffer = readFromUpstream(bArr, i, i2, readFromPeekBuffer, z);
         }
         commitBytesRead(readFromPeekBuffer);
         return readFromPeekBuffer != -1;
     }
 
     @Override // com.google.android.exoplayer2.extractor.ExtractorInput
-    public void readFully(byte[] bArr, int i, int i2) throws IOException, InterruptedException {
+    public void readFully(byte[] bArr, int i, int i2) throws IOException {
         readFully(bArr, i, i2, false);
     }
 
     @Override // com.google.android.exoplayer2.extractor.ExtractorInput
-    public int skip(int i) throws IOException, InterruptedException {
+    public int skip(int i) throws IOException {
         int skipFromPeekBuffer = skipFromPeekBuffer(i);
         if (skipFromPeekBuffer == 0) {
             byte[] bArr = this.scratchSpace;
-            skipFromPeekBuffer = readFromDataSource(bArr, 0, Math.min(i, bArr.length), 0, true);
+            skipFromPeekBuffer = readFromUpstream(bArr, 0, Math.min(i, bArr.length), 0, true);
         }
         commitBytesRead(skipFromPeekBuffer);
         return skipFromPeekBuffer;
     }
 
-    public boolean skipFully(int i, boolean z) throws IOException, InterruptedException {
+    public boolean skipFully(int i, boolean z) throws IOException {
         int skipFromPeekBuffer = skipFromPeekBuffer(i);
         while (skipFromPeekBuffer < i && skipFromPeekBuffer != -1) {
-            skipFromPeekBuffer = readFromDataSource(this.scratchSpace, -skipFromPeekBuffer, Math.min(i, this.scratchSpace.length + skipFromPeekBuffer), skipFromPeekBuffer, z);
+            skipFromPeekBuffer = readFromUpstream(this.scratchSpace, -skipFromPeekBuffer, Math.min(i, this.scratchSpace.length + skipFromPeekBuffer), skipFromPeekBuffer, z);
         }
         commitBytesRead(skipFromPeekBuffer);
         return skipFromPeekBuffer != -1;
     }
 
     @Override // com.google.android.exoplayer2.extractor.ExtractorInput
-    public void skipFully(int i) throws IOException, InterruptedException {
+    public void skipFully(int i) throws IOException {
         skipFully(i, false);
     }
 
     @Override // com.google.android.exoplayer2.extractor.ExtractorInput
-    public int peek(byte[] bArr, int i, int i2) throws IOException, InterruptedException {
+    public int peek(byte[] bArr, int i, int i2) throws IOException {
         int min;
         ensureSpaceForPeek(i2);
         int i3 = this.peekBufferLength;
         int i4 = this.peekBufferPosition;
         int i5 = i3 - i4;
         if (i5 == 0) {
-            min = readFromDataSource(this.peekBuffer, i4, i2, 0, true);
+            min = readFromUpstream(this.peekBuffer, i4, i2, 0, true);
             if (min == -1) {
                 return -1;
             }
@@ -95,7 +101,7 @@ public final class DefaultExtractorInput implements ExtractorInput {
     }
 
     @Override // com.google.android.exoplayer2.extractor.ExtractorInput
-    public boolean peekFully(byte[] bArr, int i, int i2, boolean z) throws IOException, InterruptedException {
+    public boolean peekFully(byte[] bArr, int i, int i2, boolean z) throws IOException {
         if (advancePeekPosition(i2, z)) {
             System.arraycopy(this.peekBuffer, this.peekBufferPosition - i2, bArr, i, i2);
             return true;
@@ -104,16 +110,16 @@ public final class DefaultExtractorInput implements ExtractorInput {
     }
 
     @Override // com.google.android.exoplayer2.extractor.ExtractorInput
-    public void peekFully(byte[] bArr, int i, int i2) throws IOException, InterruptedException {
+    public void peekFully(byte[] bArr, int i, int i2) throws IOException {
         peekFully(bArr, i, i2, false);
     }
 
     @Override // com.google.android.exoplayer2.extractor.ExtractorInput
-    public boolean advancePeekPosition(int i, boolean z) throws IOException, InterruptedException {
+    public boolean advancePeekPosition(int i, boolean z) throws IOException {
         ensureSpaceForPeek(i);
         int i2 = this.peekBufferLength - this.peekBufferPosition;
         while (i2 < i) {
-            i2 = readFromDataSource(this.peekBuffer, this.peekBufferPosition, i, i2, z);
+            i2 = readFromUpstream(this.peekBuffer, this.peekBufferPosition, i, i2, z);
             if (i2 == -1) {
                 return false;
             }
@@ -124,7 +130,7 @@ public final class DefaultExtractorInput implements ExtractorInput {
     }
 
     @Override // com.google.android.exoplayer2.extractor.ExtractorInput
-    public void advancePeekPosition(int i) throws IOException, InterruptedException {
+    public void advancePeekPosition(int i) throws IOException {
         advancePeekPosition(i, false);
     }
 
@@ -190,11 +196,11 @@ public final class DefaultExtractorInput implements ExtractorInput {
         this.peekBuffer = bArr2;
     }
 
-    private int readFromDataSource(byte[] bArr, int i, int i2, int i3, boolean z) throws InterruptedException, IOException {
+    private int readFromUpstream(byte[] bArr, int i, int i2, int i3, boolean z) throws IOException {
         if (Thread.interrupted()) {
-            throw new InterruptedException();
+            throw new InterruptedIOException();
         }
-        int read = this.dataSource.read(bArr, i + i3, i2 - i3);
+        int read = this.dataReader.read(bArr, i + i3, i2 - i3);
         if (read == -1) {
             if (i3 == 0 && z) {
                 return -1;

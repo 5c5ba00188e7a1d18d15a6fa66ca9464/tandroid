@@ -5,7 +5,6 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import javax.annotation.Nullable;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 @Deprecated
 /* loaded from: classes.dex */
@@ -15,7 +14,7 @@ public final class IOUtils {
         return readInputStreamFully(inputStream, true);
     }
 
-    public static void closeQuietly(@Nullable Closeable closeable) {
+    public static void closeQuietly(Closeable closeable) {
         if (closeable != null) {
             try {
                 closeable.close();

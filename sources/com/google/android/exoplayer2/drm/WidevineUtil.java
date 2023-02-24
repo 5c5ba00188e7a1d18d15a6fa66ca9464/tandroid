@@ -4,7 +4,7 @@ import android.util.Pair;
 import java.util.Map;
 /* loaded from: classes.dex */
 public final class WidevineUtil {
-    public static Pair<Long, Long> getLicenseDurationRemainingSec(DrmSession<?> drmSession) {
+    public static Pair<Long, Long> getLicenseDurationRemainingSec(DrmSession drmSession) {
         Map<String, String> queryKeyStatus = drmSession.queryKeyStatus();
         if (queryKeyStatus == null) {
             return null;

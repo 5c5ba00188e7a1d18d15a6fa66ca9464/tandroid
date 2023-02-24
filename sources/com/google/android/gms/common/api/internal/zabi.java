@@ -15,8 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
-import javax.annotation.concurrent.GuardedBy;
-import org.checkerframework.checker.initialization.qual.NotOnlyInitialized;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zabi implements zaca, zau {
@@ -33,7 +31,6 @@ public final class zabi implements zaca, zau {
     private final Context zak;
     private final GoogleApiAvailabilityLight zal;
     private final zabh zam;
-    @NotOnlyInitialized
     private volatile zabf zan;
 
     public zabi(Context context, zabe zabeVar, Lock lock, Looper looper, GoogleApiAvailabilityLight googleApiAvailabilityLight, Map map, ClientSettings clientSettings, Map map2, Api.AbstractClientBuilder abstractClientBuilder, ArrayList arrayList, zabz zabzVar) {
@@ -86,7 +83,6 @@ public final class zabi implements zaca, zau {
     }
 
     @Override // com.google.android.gms.common.api.internal.zaca
-    @GuardedBy("mLock")
     public final BaseImplementation$ApiMethodImpl zae(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl) {
         baseImplementation$ApiMethodImpl.zak();
         this.zan.zaa(baseImplementation$ApiMethodImpl);
@@ -94,7 +90,6 @@ public final class zabi implements zaca, zau {
     }
 
     @Override // com.google.android.gms.common.api.internal.zaca
-    @GuardedBy("mLock")
     public final BaseImplementation$ApiMethodImpl zaf(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl) {
         baseImplementation$ApiMethodImpl.zak();
         return this.zan.zab(baseImplementation$ApiMethodImpl);
@@ -148,13 +143,11 @@ public final class zabi implements zaca, zau {
     }
 
     @Override // com.google.android.gms.common.api.internal.zaca
-    @GuardedBy("mLock")
     public final void zaq() {
         this.zan.zae();
     }
 
     @Override // com.google.android.gms.common.api.internal.zaca
-    @GuardedBy("mLock")
     public final void zar() {
         if (this.zan.zaj()) {
             this.zab.clear();
@@ -172,7 +165,6 @@ public final class zabi implements zaca, zau {
     }
 
     @Override // com.google.android.gms.common.api.internal.zaca
-    @GuardedBy("mLock")
     public final void zat() {
         if (this.zan instanceof zaaj) {
             ((zaaj) this.zan).zaf();

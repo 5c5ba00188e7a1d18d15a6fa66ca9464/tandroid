@@ -4466,7 +4466,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
         /* renamed from: openPhotoViewerForEdit */
         public void lambda$editPhoto$4(final ArrayList<Object> arrayList, final File file) {
-            if (ChatActivityEnterView.this.parentFragment.getParentActivity() == null) {
+            if (ChatActivityEnterView.this.parentFragment == null || ChatActivityEnterView.this.parentFragment.getParentActivity() == null) {
                 return;
             }
             final MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) arrayList.get(0);

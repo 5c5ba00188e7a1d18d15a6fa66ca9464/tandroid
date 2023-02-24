@@ -1,11 +1,14 @@
 package com.google.android.exoplayer2.text.cea;
 
+import com.google.android.exoplayer2.decoder.DecoderOutputBuffer;
 import com.google.android.exoplayer2.text.Subtitle;
 import com.google.android.exoplayer2.text.SubtitleDecoder;
 import com.google.android.exoplayer2.text.SubtitleDecoderException;
 import com.google.android.exoplayer2.text.SubtitleInputBuffer;
 import com.google.android.exoplayer2.text.SubtitleOutputBuffer;
+import com.google.android.exoplayer2.text.cea.CeaDecoder;
 import com.google.android.exoplayer2.util.Assertions;
+import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayDeque;
 import java.util.PriorityQueue;
 /* JADX INFO: Access modifiers changed from: package-private */
@@ -34,7 +37,12 @@ public abstract class CeaDecoder implements SubtitleDecoder {
         }
         this.availableOutputBuffers = new ArrayDeque<>();
         for (int i2 = 0; i2 < 2; i2++) {
-            this.availableOutputBuffers.add(new CeaOutputBuffer());
+            this.availableOutputBuffers.add(new CeaOutputBuffer(new DecoderOutputBuffer.Owner() { // from class: com.google.android.exoplayer2.text.cea.CeaDecoder$$ExternalSyntheticLambda0
+                @Override // com.google.android.exoplayer2.decoder.DecoderOutputBuffer.Owner
+                public final void releaseOutputBuffer(DecoderOutputBuffer decoderOutputBuffer) {
+                    CeaDecoder.this.releaseOutputBuffer((CeaDecoder.CeaOutputBuffer) decoderOutputBuffer);
+                }
+            }));
         }
         this.queuedInputBuffers = new PriorityQueue<>();
     }
@@ -58,14 +66,14 @@ public abstract class CeaDecoder implements SubtitleDecoder {
     @Override // com.google.android.exoplayer2.decoder.Decoder
     public void queueInputBuffer(SubtitleInputBuffer subtitleInputBuffer) throws SubtitleDecoderException {
         Assertions.checkArgument(subtitleInputBuffer == this.dequeuedInputBuffer);
-        if (subtitleInputBuffer.isDecodeOnly()) {
-            releaseInputBuffer(this.dequeuedInputBuffer);
+        CeaInputBuffer ceaInputBuffer = (CeaInputBuffer) subtitleInputBuffer;
+        if (ceaInputBuffer.isDecodeOnly()) {
+            releaseInputBuffer(ceaInputBuffer);
         } else {
-            CeaInputBuffer ceaInputBuffer = this.dequeuedInputBuffer;
             long j = this.queuedInputBufferCount;
             this.queuedInputBufferCount = 1 + j;
             ceaInputBuffer.queuedInputBufferCount = j;
-            this.queuedInputBuffers.add(this.dequeuedInputBuffer);
+            this.queuedInputBuffers.add(ceaInputBuffer);
         }
         this.dequeuedInputBuffer = null;
     }
@@ -75,25 +83,23 @@ public abstract class CeaDecoder implements SubtitleDecoder {
         if (this.availableOutputBuffers.isEmpty()) {
             return null;
         }
-        while (!this.queuedInputBuffers.isEmpty() && this.queuedInputBuffers.peek().timeUs <= this.playbackPositionUs) {
-            CeaInputBuffer poll = this.queuedInputBuffers.poll();
-            if (poll.isEndOfStream()) {
-                SubtitleOutputBuffer pollFirst = this.availableOutputBuffers.pollFirst();
-                pollFirst.addFlag(4);
-                releaseInputBuffer(poll);
-                return pollFirst;
+        while (!this.queuedInputBuffers.isEmpty() && ((CeaInputBuffer) Util.castNonNull(this.queuedInputBuffers.peek())).timeUs <= this.playbackPositionUs) {
+            CeaInputBuffer ceaInputBuffer = (CeaInputBuffer) Util.castNonNull(this.queuedInputBuffers.poll());
+            if (ceaInputBuffer.isEndOfStream()) {
+                SubtitleOutputBuffer subtitleOutputBuffer = (SubtitleOutputBuffer) Util.castNonNull(this.availableOutputBuffers.pollFirst());
+                subtitleOutputBuffer.addFlag(4);
+                releaseInputBuffer(ceaInputBuffer);
+                return subtitleOutputBuffer;
             }
-            decode(poll);
+            decode(ceaInputBuffer);
             if (isNewSubtitleDataAvailable()) {
                 Subtitle createSubtitle = createSubtitle();
-                if (!poll.isDecodeOnly()) {
-                    SubtitleOutputBuffer pollFirst2 = this.availableOutputBuffers.pollFirst();
-                    pollFirst2.setContent(poll.timeUs, createSubtitle, Long.MAX_VALUE);
-                    releaseInputBuffer(poll);
-                    return pollFirst2;
-                }
+                SubtitleOutputBuffer subtitleOutputBuffer2 = (SubtitleOutputBuffer) Util.castNonNull(this.availableOutputBuffers.pollFirst());
+                subtitleOutputBuffer2.setContent(ceaInputBuffer.timeUs, createSubtitle, Long.MAX_VALUE);
+                releaseInputBuffer(ceaInputBuffer);
+                return subtitleOutputBuffer2;
             }
-            releaseInputBuffer(poll);
+            releaseInputBuffer(ceaInputBuffer);
         }
         return null;
     }
@@ -103,7 +109,8 @@ public abstract class CeaDecoder implements SubtitleDecoder {
         this.availableInputBuffers.add(ceaInputBuffer);
     }
 
-    protected void releaseOutputBuffer(SubtitleOutputBuffer subtitleOutputBuffer) {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void releaseOutputBuffer(SubtitleOutputBuffer subtitleOutputBuffer) {
         subtitleOutputBuffer.clear();
         this.availableOutputBuffers.add(subtitleOutputBuffer);
     }
@@ -113,13 +120,23 @@ public abstract class CeaDecoder implements SubtitleDecoder {
         this.queuedInputBufferCount = 0L;
         this.playbackPositionUs = 0L;
         while (!this.queuedInputBuffers.isEmpty()) {
-            releaseInputBuffer(this.queuedInputBuffers.poll());
+            releaseInputBuffer((CeaInputBuffer) Util.castNonNull(this.queuedInputBuffers.poll()));
         }
         CeaInputBuffer ceaInputBuffer = this.dequeuedInputBuffer;
         if (ceaInputBuffer != null) {
             releaseInputBuffer(ceaInputBuffer);
             this.dequeuedInputBuffer = null;
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final SubtitleOutputBuffer getAvailableOutputBuffer() {
+        return this.availableOutputBuffers.pollFirst();
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final long getPositionUs() {
+        return this.playbackPositionUs;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -146,14 +163,18 @@ public abstract class CeaDecoder implements SubtitleDecoder {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    private final class CeaOutputBuffer extends SubtitleOutputBuffer {
-        private CeaOutputBuffer() {
+    public static final class CeaOutputBuffer extends SubtitleOutputBuffer {
+        private DecoderOutputBuffer.Owner<CeaOutputBuffer> owner;
+
+        public CeaOutputBuffer(DecoderOutputBuffer.Owner<CeaOutputBuffer> owner) {
+            this.owner = owner;
         }
 
-        @Override // com.google.android.exoplayer2.decoder.OutputBuffer
+        @Override // com.google.android.exoplayer2.decoder.DecoderOutputBuffer
         public final void release() {
-            CeaDecoder.this.releaseOutputBuffer(this);
+            this.owner.releaseOutputBuffer(this);
         }
     }
 }

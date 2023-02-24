@@ -7,7 +7,6 @@ import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.internal.BaseGmsClient;
 import java.util.ArrayList;
 import java.util.Map;
-import javax.annotation.concurrent.GuardedBy;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
@@ -23,7 +22,6 @@ public final class zaao extends zaav {
     }
 
     @Override // com.google.android.gms.common.api.internal.zaav
-    @GuardedBy("mLock")
     public final void zaa() {
         GoogleApiAvailabilityLight googleApiAvailabilityLight;
         Context context;

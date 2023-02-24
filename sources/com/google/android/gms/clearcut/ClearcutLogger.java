@@ -17,7 +17,6 @@ import com.google.android.gms.internal.clearcut.zzp;
 import com.google.android.gms.internal.clearcut.zzr;
 import java.util.ArrayList;
 import java.util.TimeZone;
-import javax.annotation.Nullable;
 /* loaded from: classes.dex */
 public final class ClearcutLogger {
     @Deprecated
@@ -140,7 +139,7 @@ public final class ClearcutLogger {
         }
     }
 
-    public ClearcutLogger(Context context, String str, @Nullable String str2) {
+    public ClearcutLogger(Context context, String str, String str2) {
         this(context, -1, str, str2, null, false, com.google.android.gms.internal.clearcut.zze.zzb(context), DefaultClock.getInstance(), null, new zzp(context));
     }
 
@@ -175,7 +174,7 @@ public final class ClearcutLogger {
         return iArr;
     }
 
-    public final LogEventBuilder newEvent(@Nullable byte[] bArr) {
+    public final LogEventBuilder newEvent(byte[] bArr) {
         return new LogEventBuilder(this, bArr, (com.google.android.gms.clearcut.zza) null);
     }
 }

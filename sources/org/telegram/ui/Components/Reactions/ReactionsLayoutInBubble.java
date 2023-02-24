@@ -113,7 +113,6 @@ public class ReactionsLayoutInBubble {
     }
 
     public void setMessage(MessageObject messageObject, boolean z, Theme.ResourcesProvider resourcesProvider) {
-        ReactionButton reactionButton;
         TLRPC$User user;
         this.resourcesProvider = resourcesProvider;
         this.isSmall = z;
@@ -135,20 +134,8 @@ public class ReactionsLayoutInBubble {
                         break;
                     }
                     TLRPC$ReactionCount tLRPC$ReactionCount = messageObject.messageOwner.reactions.results.get(i3);
-                    int i4 = 0;
-                    while (true) {
-                        if (i4 >= arrayList.size()) {
-                            reactionButton = null;
-                            break;
-                        }
-                        reactionButton = (ReactionButton) arrayList.get(i4);
-                        if (reactionButton.reaction.equals(tLRPC$ReactionCount.reaction)) {
-                            break;
-                        }
-                        i4++;
-                    }
-                    ReactionButton reactionButton2 = new ReactionButton(reactionButton, tLRPC$ReactionCount, z);
-                    this.reactionButtons.add(reactionButton2);
+                    ReactionButton reactionButton = new ReactionButton(null, tLRPC$ReactionCount, z);
+                    this.reactionButtons.add(reactionButton);
                     if (!z && messageObject.messageOwner.reactions.recent_reactions != null) {
                         if (messageObject.getDialogId() > 0) {
                             ArrayList<TLRPC$User> arrayList2 = new ArrayList<>();
@@ -168,15 +155,15 @@ public class ReactionsLayoutInBubble {
                             } else if (user2 != null) {
                                 arrayList2.add(user2);
                             }
-                            reactionButton2.setUsers(arrayList2);
+                            reactionButton.setUsers(arrayList2);
                             if (!arrayList2.isEmpty()) {
-                                reactionButton2.count = 0;
-                                reactionButton2.counterDrawable.setCount(0, false);
+                                reactionButton.count = 0;
+                                reactionButton.counterDrawable.setCount(0, false);
                             }
                         } else if (tLRPC$ReactionCount.count <= 3 && i <= 3) {
                             ArrayList<TLRPC$User> arrayList3 = null;
-                            for (int i5 = 0; i5 < messageObject.messageOwner.reactions.recent_reactions.size(); i5++) {
-                                TLRPC$MessagePeerReaction tLRPC$MessagePeerReaction = messageObject.messageOwner.reactions.recent_reactions.get(i5);
+                            for (int i4 = 0; i4 < messageObject.messageOwner.reactions.recent_reactions.size(); i4++) {
+                                TLRPC$MessagePeerReaction tLRPC$MessagePeerReaction = messageObject.messageOwner.reactions.recent_reactions.get(i4);
                                 if (VisibleReaction.fromTLReaction(tLRPC$MessagePeerReaction.reaction).equals(VisibleReaction.fromTLReaction(tLRPC$ReactionCount.reaction)) && MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(MessageObject.getPeerId(tLRPC$MessagePeerReaction.peer_id))) != null && (user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(MessageObject.getPeerId(tLRPC$MessagePeerReaction.peer_id)))) != null) {
                                     if (arrayList3 == null) {
                                         arrayList3 = new ArrayList<>();
@@ -184,10 +171,10 @@ public class ReactionsLayoutInBubble {
                                     arrayList3.add(user);
                                 }
                             }
-                            reactionButton2.setUsers(arrayList3);
+                            reactionButton.setUsers(arrayList3);
                             if (arrayList3 != null && !arrayList3.isEmpty()) {
-                                reactionButton2.count = 0;
-                                reactionButton2.counterDrawable.setCount(0, false);
+                                reactionButton.count = 0;
+                                reactionButton.counterDrawable.setCount(0, false);
                             }
                         }
                     }
@@ -204,7 +191,7 @@ public class ReactionsLayoutInBubble {
                         break;
                     }
                     if (this.attached) {
-                        reactionButton2.attach();
+                        reactionButton.attach();
                     }
                     i3++;
                 }
@@ -213,17 +200,17 @@ public class ReactionsLayoutInBubble {
                 ButtonsComparator buttonsComparator = comparator;
                 buttonsComparator.currentAccount = this.currentAccount;
                 Collections.sort(this.reactionButtons, buttonsComparator);
-                for (int i6 = 0; i6 < this.reactionButtons.size(); i6++) {
-                    TLRPC$ReactionCount tLRPC$ReactionCount2 = this.reactionButtons.get(i6).reactionCount;
-                    int i7 = pointer;
-                    pointer = i7 + 1;
-                    tLRPC$ReactionCount2.lastDrawnPosition = i7;
+                for (int i5 = 0; i5 < this.reactionButtons.size(); i5++) {
+                    TLRPC$ReactionCount tLRPC$ReactionCount2 = this.reactionButtons.get(i5).reactionCount;
+                    int i6 = pointer;
+                    pointer = i6 + 1;
+                    tLRPC$ReactionCount2.lastDrawnPosition = i6;
                 }
             }
             this.hasUnreadReactions = MessageObject.hasUnreadReactions(messageObject.messageOwner);
         }
-        for (int i8 = 0; i8 < arrayList.size(); i8++) {
-            ((ReactionButton) arrayList.get(i8)).detach();
+        for (int i7 = 0; i7 < arrayList.size(); i7++) {
+            ((ReactionButton) arrayList.get(i7)).detach();
         }
         this.isEmpty = this.reactionButtons.isEmpty();
     }

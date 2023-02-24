@@ -3,17 +3,17 @@ package org.webrtc;
 import android.graphics.Matrix;
 import org.webrtc.VideoFrame;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public interface CameraSession {
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public interface CreateSessionCallback {
         void onDone(CameraSession cameraSession);
 
         void onFailure(FailureType failureType, String str);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public interface Events {
         void onCameraClosed(CameraSession cameraSession);
 
@@ -26,7 +26,7 @@ public interface CameraSession {
         void onFrameCaptured(CameraSession cameraSession, VideoFrame videoFrame);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public enum FailureType {
         ERROR,
         DISCONNECTED
@@ -34,7 +34,7 @@ public interface CameraSession {
 
     void stop();
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public final /* synthetic */ class -CC {
         public static VideoFrame.TextureBuffer createTextureBufferWithModifiedTransformMatrix(TextureBufferImpl textureBufferImpl, boolean z, int i) {
             Matrix matrix = new Matrix();

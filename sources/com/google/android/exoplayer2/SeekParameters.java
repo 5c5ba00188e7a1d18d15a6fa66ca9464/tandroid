@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2;
 
 import com.google.android.exoplayer2.util.Assertions;
+import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 public final class SeekParameters {
     public static final SeekParameters DEFAULT;
@@ -22,6 +23,19 @@ public final class SeekParameters {
         Assertions.checkArgument(j2 >= 0);
         this.toleranceBeforeUs = j;
         this.toleranceAfterUs = j2;
+    }
+
+    public long resolveSeekPositionUs(long j, long j2, long j3) {
+        long j4 = this.toleranceBeforeUs;
+        if (j4 == 0 && this.toleranceAfterUs == 0) {
+            return j;
+        }
+        long subtractWithOverflowDefault = Util.subtractWithOverflowDefault(j, j4, Long.MIN_VALUE);
+        long addWithOverflowDefault = Util.addWithOverflowDefault(j, this.toleranceAfterUs, Long.MAX_VALUE);
+        boolean z = true;
+        boolean z2 = subtractWithOverflowDefault <= j2 && j2 <= addWithOverflowDefault;
+        z = (subtractWithOverflowDefault > j3 || j3 > addWithOverflowDefault) ? false : false;
+        return (z2 && z) ? Math.abs(j2 - j) <= Math.abs(j3 - j) ? j2 : j3 : z2 ? j2 : z ? j3 : subtractWithOverflowDefault;
     }
 
     public boolean equals(Object obj) {

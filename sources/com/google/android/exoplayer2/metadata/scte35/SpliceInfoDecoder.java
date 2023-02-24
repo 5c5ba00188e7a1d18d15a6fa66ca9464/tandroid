@@ -1,22 +1,20 @@
 package com.google.android.exoplayer2.metadata.scte35;
 
 import com.google.android.exoplayer2.metadata.Metadata;
-import com.google.android.exoplayer2.metadata.MetadataDecoder;
 import com.google.android.exoplayer2.metadata.MetadataInputBuffer;
-import com.google.android.exoplayer2.util.Assertions;
+import com.google.android.exoplayer2.metadata.SimpleMetadataDecoder;
 import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
 import java.nio.ByteBuffer;
 /* loaded from: classes.dex */
-public final class SpliceInfoDecoder implements MetadataDecoder {
+public final class SpliceInfoDecoder extends SimpleMetadataDecoder {
     private final ParsableByteArray sectionData = new ParsableByteArray();
     private final ParsableBitArray sectionHeader = new ParsableBitArray();
     private TimestampAdjuster timestampAdjuster;
 
-    @Override // com.google.android.exoplayer2.metadata.MetadataDecoder
-    public Metadata decode(MetadataInputBuffer metadataInputBuffer) {
-        ByteBuffer byteBuffer = (ByteBuffer) Assertions.checkNotNull(metadataInputBuffer.data);
+    @Override // com.google.android.exoplayer2.metadata.SimpleMetadataDecoder
+    protected Metadata decode(MetadataInputBuffer metadataInputBuffer, ByteBuffer byteBuffer) {
         TimestampAdjuster timestampAdjuster = this.timestampAdjuster;
         if (timestampAdjuster == null || metadataInputBuffer.subsampleOffsetUs != timestampAdjuster.getTimestampOffsetUs()) {
             TimestampAdjuster timestampAdjuster2 = new TimestampAdjuster(metadataInputBuffer.timeUs);

@@ -3,10 +3,10 @@ package com.google.android.exoplayer2.extractor.ts;
 import android.util.SparseArray;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
-import com.google.android.exoplayer2.text.cea.Cea708InitializationData;
+import com.google.android.exoplayer2.util.CodecSpecificDataUtil;
 import com.google.android.exoplayer2.util.ParsableByteArray;
+import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 /* loaded from: classes.dex */
 public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Factory {
@@ -14,7 +14,7 @@ public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Fact
     private final int flags;
 
     public DefaultTsPayloadReaderFactory(int i) {
-        this(i, Collections.singletonList(Format.createTextSampleFormat(null, "application/cea-608", 0, null)));
+        this(i, ImmutableList.of());
     }
 
     public DefaultTsPayloadReaderFactory(int i, List<Format> list) {
@@ -33,17 +33,7 @@ public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Fact
             if (i == 3 || i == 4) {
                 return new PesReader(new MpegAudioReader(esInfo.language));
             }
-            if (i == 15) {
-                if (isSet(2)) {
-                    return null;
-                }
-                return new PesReader(new AdtsReader(false, esInfo.language));
-            } else if (i == 17) {
-                if (isSet(2)) {
-                    return null;
-                }
-                return new PesReader(new LatmReader(esInfo.language));
-            } else if (i != 21) {
+            if (i != 21) {
                 if (i == 27) {
                     if (isSet(4)) {
                         return null;
@@ -53,21 +43,46 @@ public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Fact
                     if (i != 89) {
                         if (i != 138) {
                             if (i != 172) {
-                                if (i != 129) {
-                                    if (i != 130) {
-                                        if (i == 134) {
-                                            if (isSet(16)) {
-                                                return null;
+                                if (i != 257) {
+                                    if (i != 134) {
+                                        if (i != 135) {
+                                            switch (i) {
+                                                case 15:
+                                                    if (isSet(2)) {
+                                                        return null;
+                                                    }
+                                                    return new PesReader(new AdtsReader(false, esInfo.language));
+                                                case 16:
+                                                    return new PesReader(new H263Reader(buildUserDataReader(esInfo)));
+                                                case 17:
+                                                    if (isSet(2)) {
+                                                        return null;
+                                                    }
+                                                    return new PesReader(new LatmReader(esInfo.language));
+                                                default:
+                                                    switch (i) {
+                                                        case 128:
+                                                            break;
+                                                        case 129:
+                                                            break;
+                                                        case 130:
+                                                            if (!isSet(64)) {
+                                                                return null;
+                                                            }
+                                                            break;
+                                                        default:
+                                                            return null;
+                                                    }
                                             }
-                                            return new SectionReader(new SpliceInfoSectionReader());
-                                        } else if (i != 135) {
-                                            return null;
                                         }
-                                    } else if (!isSet(64)) {
+                                        return new PesReader(new Ac3Reader(esInfo.language));
+                                    } else if (isSet(16)) {
                                         return null;
+                                    } else {
+                                        return new SectionReader(new PassthroughSectionPayloadReader("application/x-scte35"));
                                     }
                                 }
-                                return new PesReader(new Ac3Reader(esInfo.language));
+                                return new SectionReader(new PassthroughSectionPayloadReader("application/vnd.dvb.ait"));
                             }
                             return new PesReader(new Ac4Reader(esInfo.language));
                         }
@@ -77,9 +92,8 @@ public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Fact
                 } else {
                     return new PesReader(new H265Reader(buildSeiReader(esInfo)));
                 }
-            } else {
-                return new PesReader(new Id3Reader());
             }
+            return new PesReader(new Id3Reader());
         }
         return new PesReader(new H262Reader(buildUserDataReader(esInfo)));
     }
@@ -95,17 +109,16 @@ public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Fact
     private List<Format> getClosedCaptionFormats(TsPayloadReader.EsInfo esInfo) {
         String str;
         int i;
-        List<byte[]> list;
         if (isSet(32)) {
             return this.closedCaptionFormats;
         }
         ParsableByteArray parsableByteArray = new ParsableByteArray(esInfo.descriptorBytes);
-        List<Format> list2 = this.closedCaptionFormats;
+        List<Format> list = this.closedCaptionFormats;
         while (parsableByteArray.bytesLeft() > 0) {
             int readUnsignedByte = parsableByteArray.readUnsignedByte();
             int position = parsableByteArray.getPosition() + parsableByteArray.readUnsignedByte();
             if (readUnsignedByte == 134) {
-                list2 = new ArrayList<>();
+                list = new ArrayList<>();
                 int readUnsignedByte2 = parsableByteArray.readUnsignedByte() & 31;
                 for (int i2 = 0; i2 < readUnsignedByte2; i2++) {
                     String readString = parsableByteArray.readString(3);
@@ -120,17 +133,16 @@ public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Fact
                     }
                     byte readUnsignedByte4 = (byte) parsableByteArray.readUnsignedByte();
                     parsableByteArray.skipBytes(1);
+                    List<byte[]> list2 = null;
                     if (z) {
-                        list = Cea708InitializationData.buildData((readUnsignedByte4 & 64) != 0);
-                    } else {
-                        list = null;
+                        list2 = CodecSpecificDataUtil.buildCea708InitializationData((readUnsignedByte4 & 64) != 0);
                     }
-                    list2.add(Format.createTextSampleFormat(null, str, null, -1, 0, readString, i, null, Long.MAX_VALUE, list));
+                    list.add(new Format.Builder().setSampleMimeType(str).setLanguage(readString).setAccessibilityChannel(i).setInitializationData(list2).build());
                 }
             }
             parsableByteArray.setPosition(position);
         }
-        return list2;
+        return list;
     }
 
     private boolean isSet(int i) {

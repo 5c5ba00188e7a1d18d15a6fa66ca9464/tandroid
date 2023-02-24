@@ -5,6 +5,10 @@ import android.os.Looper;
 /* loaded from: classes.dex */
 public class SystemClock implements Clock {
     @Override // com.google.android.exoplayer2.util.Clock
+    public void onThreadBlocked() {
+    }
+
+    @Override // com.google.android.exoplayer2.util.Clock
     public long elapsedRealtime() {
         return android.os.SystemClock.elapsedRealtime();
     }

@@ -4,34 +4,27 @@ import android.app.Activity;
 import com.google.android.gms.common.internal.Preconditions;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Executor;
-import javax.annotation.concurrent.GuardedBy;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-tasks@@18.0.2 */
 /* loaded from: classes.dex */
 public final class zzw<TResult> extends Task<TResult> {
     private final Object zza = new Object();
     private final zzr zzb = new zzr();
-    @GuardedBy("mLock")
     private boolean zzc;
     private volatile boolean zzd;
-    @GuardedBy("mLock")
     private Object zze;
-    @GuardedBy("mLock")
     private Exception zzf;
 
-    @GuardedBy("mLock")
     private final void zzf() {
         Preconditions.checkState(this.zzc, "Task is not yet complete");
     }
 
-    @GuardedBy("mLock")
     private final void zzg() {
         if (this.zzd) {
             throw new CancellationException("Task is already canceled.");
         }
     }
 
-    @GuardedBy("mLock")
     private final void zzh() {
         if (this.zzc) {
             throw DuplicateTaskCompletionException.of(this);

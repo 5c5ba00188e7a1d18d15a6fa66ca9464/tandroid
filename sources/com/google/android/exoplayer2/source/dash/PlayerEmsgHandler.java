@@ -5,9 +5,8 @@ import android.os.Message;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.FormatHolder;
 import com.google.android.exoplayer2.ParserException;
-import com.google.android.exoplayer2.drm.DrmSessionManager;
-import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.TrackOutput;
+import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.metadata.MetadataInputBuffer;
 import com.google.android.exoplayer2.metadata.emsg.EventMessage;
 import com.google.android.exoplayer2.metadata.emsg.EventMessageDecoder;
@@ -15,6 +14,7 @@ import com.google.android.exoplayer2.source.SampleQueue;
 import com.google.android.exoplayer2.source.chunk.Chunk;
 import com.google.android.exoplayer2.source.dash.manifest.DashManifest;
 import com.google.android.exoplayer2.upstream.Allocator;
+import com.google.android.exoplayer2.upstream.DataReader;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
@@ -24,16 +24,15 @@ import java.util.TreeMap;
 /* loaded from: classes.dex */
 public final class PlayerEmsgHandler implements Handler.Callback {
     private final Allocator allocator;
+    private boolean chunkLoadedCompletedSinceLastManifestRefreshRequest;
     private long expiredManifestPublishTimeUs;
     private boolean isWaitingForManifestRefresh;
     private DashManifest manifest;
     private final PlayerEmsgCallback playerEmsgCallback;
     private boolean released;
     private final TreeMap<Long, Long> manifestPublishTimeToExpiryTimeUs = new TreeMap<>();
-    private final Handler handler = Util.createHandler(this);
+    private final Handler handler = Util.createHandlerForCurrentLooper(this);
     private final EventMessageDecoder decoder = new EventMessageDecoder();
-    private long lastLoadedChunkEndTimeUs = -9223372036854775807L;
-    private long lastLoadedChunkEndTimeBeforeRefreshUs = -9223372036854775807L;
 
     /* loaded from: classes.dex */
     public interface PlayerEmsgCallback {
@@ -53,6 +52,28 @@ public final class PlayerEmsgHandler implements Handler.Callback {
         this.expiredManifestPublishTimeUs = -9223372036854775807L;
         this.manifest = dashManifest;
         removePreviouslyExpiredManifestPublishTimeValues();
+    }
+
+    public PlayerTrackEmsgHandler newPlayerTrackEmsgHandler() {
+        return new PlayerTrackEmsgHandler(this.allocator);
+    }
+
+    public void release() {
+        this.released = true;
+        this.handler.removeCallbacksAndMessages(null);
+    }
+
+    @Override // android.os.Handler.Callback
+    public boolean handleMessage(Message message) {
+        if (this.released) {
+            return true;
+        }
+        if (message.what != 1) {
+            return false;
+        }
+        ManifestExpiryEventInfo manifestExpiryEventInfo = (ManifestExpiryEventInfo) message.obj;
+        handleManifestExpiredMessage(manifestExpiryEventInfo.eventTimeUs, manifestExpiryEventInfo.manifestPublishTimeMsInEmsg);
+        return true;
     }
 
     boolean maybeRefreshManifestBeforeLoadingNextChunk(long j) {
@@ -76,52 +97,22 @@ public final class PlayerEmsgHandler implements Handler.Callback {
         return false;
     }
 
-    boolean maybeRefreshManifestOnLoadingError(Chunk chunk) {
+    void onChunkLoadCompleted(Chunk chunk) {
+        this.chunkLoadedCompletedSinceLastManifestRefreshRequest = true;
+    }
+
+    boolean onChunkLoadError(boolean z) {
         if (this.manifest.dynamic) {
             if (this.isWaitingForManifestRefresh) {
                 return true;
             }
-            long j = this.lastLoadedChunkEndTimeUs;
-            if (j != -9223372036854775807L && j < chunk.startTimeUs) {
+            if (z) {
                 maybeNotifyDashManifestRefreshNeeded();
                 return true;
             }
             return false;
         }
         return false;
-    }
-
-    void onChunkLoadCompleted(Chunk chunk) {
-        long j = this.lastLoadedChunkEndTimeUs;
-        if (j != -9223372036854775807L || chunk.endTimeUs > j) {
-            this.lastLoadedChunkEndTimeUs = chunk.endTimeUs;
-        }
-    }
-
-    public static boolean isPlayerEmsgEvent(String str, String str2) {
-        return "urn:mpeg:dash:event:2012".equals(str) && ("1".equals(str2) || "2".equals(str2) || "3".equals(str2));
-    }
-
-    public PlayerTrackEmsgHandler newPlayerTrackEmsgHandler() {
-        return new PlayerTrackEmsgHandler(this.allocator);
-    }
-
-    public void release() {
-        this.released = true;
-        this.handler.removeCallbacksAndMessages(null);
-    }
-
-    @Override // android.os.Handler.Callback
-    public boolean handleMessage(Message message) {
-        if (this.released) {
-            return true;
-        }
-        if (message.what != 1) {
-            return false;
-        }
-        ManifestExpiryEventInfo manifestExpiryEventInfo = (ManifestExpiryEventInfo) message.obj;
-        handleManifestExpiredMessage(manifestExpiryEventInfo.eventTimeUs, manifestExpiryEventInfo.manifestPublishTimeMsInEmsg);
-        return true;
     }
 
     private void handleManifestExpiredMessage(long j, long j2) {
@@ -151,10 +142,9 @@ public final class PlayerEmsgHandler implements Handler.Callback {
     }
 
     private void maybeNotifyDashManifestRefreshNeeded() {
-        long j = this.lastLoadedChunkEndTimeBeforeRefreshUs;
-        if (j == -9223372036854775807L || j != this.lastLoadedChunkEndTimeUs) {
+        if (this.chunkLoadedCompletedSinceLastManifestRefreshRequest) {
             this.isWaitingForManifestRefresh = true;
-            this.lastLoadedChunkEndTimeBeforeRefreshUs = this.lastLoadedChunkEndTimeUs;
+            this.chunkLoadedCompletedSinceLastManifestRefreshRequest = false;
             this.playerEmsgCallback.onDashManifestRefreshRequested();
         }
     }
@@ -168,14 +158,32 @@ public final class PlayerEmsgHandler implements Handler.Callback {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public static boolean isPlayerEmsgEvent(String str, String str2) {
+        return "urn:mpeg:dash:event:2012".equals(str) && ("1".equals(str2) || "2".equals(str2) || "3".equals(str2));
+    }
+
     /* loaded from: classes.dex */
     public final class PlayerTrackEmsgHandler implements TrackOutput {
         private final SampleQueue sampleQueue;
         private final FormatHolder formatHolder = new FormatHolder();
         private final MetadataInputBuffer buffer = new MetadataInputBuffer();
+        private long maxLoadedChunkEndTimeUs = -9223372036854775807L;
+
+        @Override // com.google.android.exoplayer2.extractor.TrackOutput
+        public /* synthetic */ int sampleData(DataReader dataReader, int i, boolean z) {
+            int sampleData;
+            sampleData = sampleData(dataReader, i, z, 0);
+            return sampleData;
+        }
+
+        @Override // com.google.android.exoplayer2.extractor.TrackOutput
+        public /* synthetic */ void sampleData(ParsableByteArray parsableByteArray, int i) {
+            sampleData(parsableByteArray, i, 0);
+        }
 
         PlayerTrackEmsgHandler(Allocator allocator) {
-            this.sampleQueue = new SampleQueue(allocator, PlayerEmsgHandler.this.handler.getLooper(), DrmSessionManager.-CC.getDummyDrmSessionManager());
+            this.sampleQueue = SampleQueue.createWithoutDrm(allocator);
         }
 
         @Override // com.google.android.exoplayer2.extractor.TrackOutput
@@ -184,12 +192,12 @@ public final class PlayerEmsgHandler implements Handler.Callback {
         }
 
         @Override // com.google.android.exoplayer2.extractor.TrackOutput
-        public int sampleData(ExtractorInput extractorInput, int i, boolean z) throws IOException, InterruptedException {
-            return this.sampleQueue.sampleData(extractorInput, i, z);
+        public int sampleData(DataReader dataReader, int i, boolean z, int i2) throws IOException {
+            return this.sampleQueue.sampleData(dataReader, i, z);
         }
 
         @Override // com.google.android.exoplayer2.extractor.TrackOutput
-        public void sampleData(ParsableByteArray parsableByteArray, int i) {
+        public void sampleData(ParsableByteArray parsableByteArray, int i, int i2) {
             this.sampleQueue.sampleData(parsableByteArray, i);
         }
 
@@ -204,11 +212,16 @@ public final class PlayerEmsgHandler implements Handler.Callback {
         }
 
         public void onChunkLoadCompleted(Chunk chunk) {
+            long j = this.maxLoadedChunkEndTimeUs;
+            if (j == -9223372036854775807L || chunk.endTimeUs > j) {
+                this.maxLoadedChunkEndTimeUs = chunk.endTimeUs;
+            }
             PlayerEmsgHandler.this.onChunkLoadCompleted(chunk);
         }
 
-        public boolean maybeRefreshManifestOnLoadingError(Chunk chunk) {
-            return PlayerEmsgHandler.this.maybeRefreshManifestOnLoadingError(chunk);
+        public boolean onChunkLoadError(Chunk chunk) {
+            long j = this.maxLoadedChunkEndTimeUs;
+            return PlayerEmsgHandler.this.onChunkLoadError(j != -9223372036854775807L && j < chunk.startTimeUs);
         }
 
         public void release() {
@@ -220,9 +233,12 @@ public final class PlayerEmsgHandler implements Handler.Callback {
                 MetadataInputBuffer dequeueSample = dequeueSample();
                 if (dequeueSample != null) {
                     long j = dequeueSample.timeUs;
-                    EventMessage eventMessage = (EventMessage) PlayerEmsgHandler.this.decoder.decode(dequeueSample).get(0);
-                    if (PlayerEmsgHandler.isPlayerEmsgEvent(eventMessage.schemeIdUri, eventMessage.value)) {
-                        parsePlayerEmsgEvent(j, eventMessage);
+                    Metadata decode = PlayerEmsgHandler.this.decoder.decode(dequeueSample);
+                    if (decode != null) {
+                        EventMessage eventMessage = (EventMessage) decode.get(0);
+                        if (PlayerEmsgHandler.isPlayerEmsgEvent(eventMessage.schemeIdUri, eventMessage.value)) {
+                            parsePlayerEmsgEvent(j, eventMessage);
+                        }
                     }
                 }
             }
@@ -231,7 +247,7 @@ public final class PlayerEmsgHandler implements Handler.Callback {
 
         private MetadataInputBuffer dequeueSample() {
             this.buffer.clear();
-            if (this.sampleQueue.read(this.formatHolder, this.buffer, false, false, 0L) == -4) {
+            if (this.sampleQueue.read(this.formatHolder, this.buffer, 0, false) == -4) {
                 this.buffer.flip();
                 return this.buffer;
             }

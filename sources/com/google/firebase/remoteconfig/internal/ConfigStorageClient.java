@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.Nullable;
 import org.json.JSONException;
 import org.json.JSONObject;
 /* loaded from: classes.dex */
@@ -28,7 +27,6 @@ public class ConfigStorageClient {
         return null;
     }
 
-    @Nullable
     public synchronized ConfigContainer read() throws IOException {
         FileInputStream fileInputStream;
         Throwable th;

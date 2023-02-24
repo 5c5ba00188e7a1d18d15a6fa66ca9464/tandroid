@@ -32,6 +32,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
+import org.telegram.messenger.voip.VoIPController;
 /* loaded from: classes.dex */
 public class IconCompat extends CustomVersionedParcelable {
     static final PorterDuff.Mode DEFAULT_TINT_MODE = PorterDuff.Mode.SRC_IN;
@@ -202,7 +203,7 @@ public class IconCompat extends CustomVersionedParcelable {
     public Icon toIcon(Context context) {
         Icon createWithBitmap;
         switch (this.mType) {
-            case -1:
+            case VoIPController.ERROR_PEER_OUTDATED /* -1 */:
                 return (Icon) this.mObj1;
             case 0:
             default:
@@ -364,7 +365,7 @@ public class IconCompat extends CustomVersionedParcelable {
     public Bundle toBundle() {
         Bundle bundle = new Bundle();
         switch (this.mType) {
-            case -1:
+            case VoIPController.ERROR_PEER_OUTDATED /* -1 */:
                 bundle.putParcelable("obj", (Parcelable) this.mObj1);
                 break;
             case 0:
@@ -448,7 +449,7 @@ public class IconCompat extends CustomVersionedParcelable {
     public void onPreParceling(boolean isStream) {
         this.mTintModeStr = this.mTintMode.name();
         switch (this.mType) {
-            case -1:
+            case VoIPController.ERROR_PEER_OUTDATED /* -1 */:
                 if (isStream) {
                     throw new IllegalArgumentException("Can't serialize Icon created with IconCompat#createFromIcon");
                 }
@@ -483,7 +484,7 @@ public class IconCompat extends CustomVersionedParcelable {
     public void onPostParceling() {
         this.mTintMode = PorterDuff.Mode.valueOf(this.mTintModeStr);
         switch (this.mType) {
-            case -1:
+            case VoIPController.ERROR_PEER_OUTDATED /* -1 */:
                 Parcelable parcelable = this.mParcelable;
                 if (parcelable != null) {
                     this.mObj1 = parcelable;
