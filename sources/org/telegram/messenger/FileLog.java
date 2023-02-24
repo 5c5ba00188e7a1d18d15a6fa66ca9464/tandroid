@@ -171,7 +171,7 @@ public class FileLog {
     }
 
     public void init() {
-        File externalFilesDir;
+        File logsDir;
         if (this.initied) {
             return;
         }
@@ -179,17 +179,15 @@ public class FileLog {
         this.dateFormat = fastDateFormat;
         String format = fastDateFormat.format(System.currentTimeMillis());
         try {
-            externalFilesDir = ApplicationLoader.applicationContext.getExternalFilesDir(null);
+            logsDir = AndroidUtilities.getLogsDir();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (externalFilesDir == null) {
+        if (logsDir == null) {
             return;
         }
-        File file = new File(externalFilesDir.getAbsolutePath() + "/logs");
-        file.mkdirs();
-        this.currentFile = new File(file, format + ".txt");
-        this.tlRequestsFile = new File(file, format + "_mtproto.txt");
+        this.currentFile = new File(logsDir, format + ".txt");
+        this.tlRequestsFile = new File(logsDir, format + "_mtproto.txt");
         try {
             this.logQueue = new DispatchQueue("logQueue");
             this.currentFile.createNewFile();
@@ -214,14 +212,12 @@ public class FileLog {
     public static String getNetworkLogPath() {
         if (BuildVars.LOGS_ENABLED) {
             try {
-                File externalFilesDir = ApplicationLoader.applicationContext.getExternalFilesDir(null);
-                if (externalFilesDir == null) {
+                File logsDir = AndroidUtilities.getLogsDir();
+                if (logsDir == null) {
                     return "";
                 }
-                File file = new File(externalFilesDir.getAbsolutePath() + "/logs");
-                file.mkdirs();
                 FileLog fileLog = getInstance();
-                fileLog.networkFile = new File(file, getInstance().dateFormat.format(System.currentTimeMillis()) + "_net.txt");
+                fileLog.networkFile = new File(logsDir, getInstance().dateFormat.format(System.currentTimeMillis()) + "_net.txt");
                 return getInstance().networkFile.getAbsolutePath();
             } catch (Throwable th) {
                 th.printStackTrace();
@@ -234,14 +230,12 @@ public class FileLog {
     public static String getTonlibLogPath() {
         if (BuildVars.LOGS_ENABLED) {
             try {
-                File externalFilesDir = ApplicationLoader.applicationContext.getExternalFilesDir(null);
-                if (externalFilesDir == null) {
+                File logsDir = AndroidUtilities.getLogsDir();
+                if (logsDir == null) {
                     return "";
                 }
-                File file = new File(externalFilesDir.getAbsolutePath() + "/logs");
-                file.mkdirs();
                 FileLog fileLog = getInstance();
-                fileLog.tonlibFile = new File(file, getInstance().dateFormat.format(System.currentTimeMillis()) + "_tonlib.txt");
+                fileLog.tonlibFile = new File(logsDir, getInstance().dateFormat.format(System.currentTimeMillis()) + "_tonlib.txt");
                 return getInstance().tonlibFile.getAbsolutePath();
             } catch (Throwable th) {
                 th.printStackTrace();
@@ -464,17 +458,15 @@ public class FileLog {
     }
 
     public static void cleanupLogs() {
-        File externalFilesDir;
+        File[] listFiles;
         ensureInitied();
-        if (ApplicationLoader.applicationContext.getExternalFilesDir(null) == null) {
+        File logsDir = AndroidUtilities.getLogsDir();
+        if (logsDir == null || (listFiles = logsDir.listFiles()) == null) {
             return;
         }
-        File[] listFiles = new File(externalFilesDir.getAbsolutePath() + "/logs").listFiles();
-        if (listFiles != null) {
-            for (File file : listFiles) {
-                if ((getInstance().currentFile == null || !file.getAbsolutePath().equals(getInstance().currentFile.getAbsolutePath())) && ((getInstance().networkFile == null || !file.getAbsolutePath().equals(getInstance().networkFile.getAbsolutePath())) && (getInstance().tonlibFile == null || !file.getAbsolutePath().equals(getInstance().tonlibFile.getAbsolutePath())))) {
-                    file.delete();
-                }
+        for (File file : listFiles) {
+            if ((getInstance().currentFile == null || !file.getAbsolutePath().equals(getInstance().currentFile.getAbsolutePath())) && ((getInstance().networkFile == null || !file.getAbsolutePath().equals(getInstance().networkFile.getAbsolutePath())) && (getInstance().tonlibFile == null || !file.getAbsolutePath().equals(getInstance().tonlibFile.getAbsolutePath())))) {
+                file.delete();
             }
         }
     }

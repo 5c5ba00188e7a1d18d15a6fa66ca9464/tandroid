@@ -10750,36 +10750,38 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     public static /* synthetic */ void lambda$sendLogs$47(boolean z, final AlertDialog alertDialog, final Activity activity) {
         ZipOutputStream zipOutputStream;
         try {
-            BufferedInputStream bufferedInputStream = null;
-            File externalFilesDir = ApplicationLoader.applicationContext.getExternalFilesDir(null);
-            File file = new File(externalFilesDir.getAbsolutePath() + "/logs");
-            final File file2 = new File(file, "logs.zip");
-            if (file2.exists()) {
-                file2.delete();
+            File logsDir = AndroidUtilities.getLogsDir();
+            if (logsDir == null) {
+                return;
+            }
+            final File file = new File(logsDir, "logs.zip");
+            if (file.exists()) {
+                file.delete();
             }
             ArrayList arrayList = new ArrayList();
-            for (File file3 : file.listFiles()) {
-                arrayList.add(file3);
+            for (File file2 : logsDir.listFiles()) {
+                arrayList.add(file2);
             }
-            File file4 = new File(ApplicationLoader.getFilesDirFixed(), "malformed_database/");
-            if (file4.exists() && file4.isDirectory()) {
-                for (File file5 : file4.listFiles()) {
-                    arrayList.add(file5);
+            File file3 = new File(ApplicationLoader.getFilesDirFixed(), "malformed_database/");
+            if (file3.exists() && file3.isDirectory()) {
+                for (File file4 : file3.listFiles()) {
+                    arrayList.add(file4);
                 }
             }
+            final boolean[] zArr = new boolean[1];
+            long currentTimeMillis = System.currentTimeMillis();
+            BufferedInputStream bufferedInputStream = null;
             try {
-                final boolean[] zArr = new boolean[1];
-                long currentTimeMillis = System.currentTimeMillis();
+                zipOutputStream = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
                 try {
-                    zipOutputStream = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(file2)));
                     try {
                         byte[] bArr = new byte[CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT];
                         for (int i = 0; i < arrayList.size(); i++) {
-                            File file6 = (File) arrayList.get(i);
-                            if ((file6.getName().contains("cache4") || ((!z && !file6.getName().contains("_mtproto")) || currentTimeMillis - file6.lastModified() <= 86400000)) && file6.exists()) {
-                                BufferedInputStream bufferedInputStream2 = new BufferedInputStream(new FileInputStream(file6), CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT);
+                            File file5 = (File) arrayList.get(i);
+                            if ((file5.getName().contains("cache4") || ((!z && !file5.getName().contains("_mtproto")) || currentTimeMillis - file5.lastModified() <= 86400000)) && file5.exists()) {
+                                BufferedInputStream bufferedInputStream2 = new BufferedInputStream(new FileInputStream(file5), CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT);
                                 try {
-                                    zipOutputStream.putNextEntry(new ZipEntry(file6.getName()));
+                                    zipOutputStream.putNextEntry(new ZipEntry(file5.getName()));
                                     while (true) {
                                         int read = bufferedInputStream2.read(bArr, 0, CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT);
                                         if (read == -1) {
@@ -10801,7 +10803,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda23
                                         @Override // java.lang.Runnable
                                         public final void run() {
-                                            ProfileActivity.lambda$sendLogs$46(AlertDialog.this, zArr, activity, file2);
+                                            ProfileActivity.lambda$sendLogs$46(AlertDialog.this, zArr, activity, file);
                                         }
                                     });
                                 } catch (Throwable th) {
@@ -10821,23 +10823,23 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     } catch (Exception e2) {
                         e = e2;
                     }
-                } catch (Exception e3) {
-                    e = e3;
-                    zipOutputStream = null;
                 } catch (Throwable th2) {
                     th = th2;
-                    zipOutputStream = null;
                 }
-                zipOutputStream.close();
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda23
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        ProfileActivity.lambda$sendLogs$46(AlertDialog.this, zArr, activity, file2);
-                    }
-                });
+            } catch (Exception e3) {
+                e = e3;
+                zipOutputStream = null;
             } catch (Throwable th3) {
                 th = th3;
+                zipOutputStream = null;
             }
+            zipOutputStream.close();
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda23
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ProfileActivity.lambda$sendLogs$46(AlertDialog.this, zArr, activity, file);
+                }
+            });
         } catch (Exception e4) {
             e4.printStackTrace();
         }

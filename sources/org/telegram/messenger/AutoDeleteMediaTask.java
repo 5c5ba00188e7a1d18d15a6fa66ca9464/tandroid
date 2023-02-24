@@ -232,7 +232,7 @@ public class AutoDeleteMediaTask {
                 if (BuildVars.LOGS_ENABLED) {
                     return;
                 }
-                FileLog.d("checkKeepMedia task end time " + (System.currentTimeMillis() - currentTimeMillis) + "auto deleted info: files " + i3 + " size " + AndroidUtilities.formatFileSize(j) + "   deleted by size limit info: files " + i4 + " size " + AndroidUtilities.formatFileSize(j2) + " unknownTimeFiles " + i5);
+                FileLog.d("checkKeepMedia task end time " + (System.currentTimeMillis() - currentTimeMillis) + " auto deleted info: files " + i3 + " size " + AndroidUtilities.formatFileSize(j) + "   deleted by size limit info: files " + i4 + " size " + AndroidUtilities.formatFileSize(j2) + " unknownTimeFiles " + i5);
                 return;
             }
         }

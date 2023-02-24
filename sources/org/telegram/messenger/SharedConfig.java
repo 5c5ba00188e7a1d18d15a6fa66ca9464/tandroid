@@ -876,13 +876,17 @@ public class SharedConfig {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$checkLogsToDelete$0(int i) {
+        File logsDir;
         long j = i - 864000;
         try {
-            File externalFilesDir = ApplicationLoader.applicationContext.getExternalFilesDir(null);
-            Utilities.clearDir(new File(externalFilesDir.getAbsolutePath() + "/logs").getAbsolutePath(), 0, j, false);
+            logsDir = AndroidUtilities.getLogsDir();
         } catch (Throwable th) {
             FileLog.e(th);
         }
+        if (logsDir == null) {
+            return;
+        }
+        Utilities.clearDir(logsDir.getAbsolutePath(), 0, j, false);
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putInt("lastLogsCheckTime", lastLogsCheckTime);
         edit.commit();

@@ -1,8 +1,8 @@
 package org.telegram.messenger;
 
 import android.content.SharedPreferences;
-import android.os.Build;
-import android.os.PowerManager;
+import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.AnimatedEmojiDrawable;
 /* loaded from: classes.dex */
 public class LiteMode {
     public static final int FLAGS_ANIMATED_EMOJI = 28;
@@ -33,15 +33,11 @@ public class LiteMode {
     }
 
     public static int getValue(boolean z) {
-        PowerManager powerManager;
         if (!loaded) {
             loadPreference();
             loaded = true;
         }
-        if (z || !powerSaverEnabled || Build.VERSION.SDK_INT < 21 || (powerManager = (PowerManager) ApplicationLoader.applicationContext.getSystemService("power")) == null || !powerManager.isPowerSaveMode()) {
-            return value;
-        }
-        return 0;
+        return value;
     }
 
     public static boolean isEnabled(int i) {
@@ -67,6 +63,13 @@ public class LiteMode {
     }
 
     public static void setAllFlags(int i) {
+        int value2 = (getValue() ^ (-1)) & i;
+        if ((value2 & 28) > 0) {
+            AnimatedEmojiDrawable.updateAll();
+        }
+        if ((value2 & 32) > 0) {
+            Theme.reloadWallpaper();
+        }
         value = i;
         savePreference();
     }

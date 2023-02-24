@@ -1043,14 +1043,6 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 ThemeActivity.this.lambda$createView$7(context, view, i3, f, f2);
             }
         });
-        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda13
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
-            public final boolean onItemClick(View view, int i3) {
-                boolean lambda$createView$8;
-                lambda$createView$8 = ThemeActivity.this.lambda$createView$8(view, i3);
-                return lambda$createView$8;
-            }
-        });
         return this.fragmentView;
     }
 
@@ -1316,7 +1308,10 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                         ((TextCheckCell) view).setChecked(SharedConfig.chatBlurEnabled());
                     }
                 } else if (i == this.lightModeRow) {
-                    presentFragment(new LiteModeSettingsActivity());
+                    LiteMode.setAllFlags(LiteMode.getValue() == 0 ? LiteMode.PRESET_HIGH : 0);
+                    if (view instanceof TextCheckCell) {
+                        ((TextCheckCell) view).setChecked(LiteMode.getValue() == 0);
+                    }
                 } else if (i == this.nightThemeRow) {
                     if ((LocaleController.isRTL && f <= AndroidUtilities.dp(76.0f)) || (!LocaleController.isRTL && f >= view.getMeasuredWidth() - AndroidUtilities.dp(76.0f))) {
                         NotificationsCheckCell notificationsCheckCell = (NotificationsCheckCell) view;
@@ -1477,15 +1472,6 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$createView$8(View view, int i) {
-        if (i == this.lightModeRow && BuildVars.DEBUG_VERSION) {
-            presentFragment(new LiteModeSettingsActivity());
-            return true;
-        }
-        return false;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
     public void editTheme() {
         Theme.ThemeInfo currentTheme = Theme.getCurrentTheme();
         presentFragment(new ThemePreviewActivity(currentTheme, false, 1, currentTheme.getAccent(false).id >= 100, this.currentType == 1));
@@ -1503,14 +1489,14 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         builder.setPositiveButton(LocaleController.getString("CreateTheme", R.string.CreateTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda2
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
-                ThemeActivity.this.lambda$createNewTheme$9(dialogInterface, i);
+                ThemeActivity.this.lambda$createNewTheme$8(dialogInterface, i);
             }
         });
         showDialog(builder.create());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createNewTheme$9(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createNewTheme$8(DialogInterface dialogInterface, int i) {
         AlertsCreator.createThemeCreateDialog(this, 0, null, null);
     }
 
@@ -1574,7 +1560,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     builder.setPositiveButton(LocaleController.getString("ConnectingToProxyEnable", R.string.ConnectingToProxyEnable), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda1
                         @Override // android.content.DialogInterface.OnClickListener
                         public final void onClick(DialogInterface dialogInterface, int i) {
-                            ThemeActivity.this.lambda$updateSunTime$10(dialogInterface, i);
+                            ThemeActivity.this.lambda$updateSunTime$9(dialogInterface, i);
                         }
                     });
                     builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -1614,7 +1600,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
-                ThemeActivity.this.lambda$updateSunTime$12();
+                ThemeActivity.this.lambda$updateSunTime$11();
             }
         });
         RecyclerListView.Holder holder = (RecyclerListView.Holder) this.listView.findViewHolderForAdapterPosition(this.scheduleLocationInfoRow);
@@ -1630,7 +1616,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateSunTime$10(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$updateSunTime$9(DialogInterface dialogInterface, int i) {
         if (getParentActivity() == null) {
             return;
         }
@@ -1641,7 +1627,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateSunTime$12() {
+    public /* synthetic */ void lambda$updateSunTime$11() {
         final String str = null;
         try {
             List<Address> fromLocation = new Geocoder(ApplicationLoader.applicationContext, Locale.getDefault()).getFromLocation(Theme.autoNightLocationLatitude, Theme.autoNightLocationLongitude, 1);
@@ -1653,13 +1639,13 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
-                ThemeActivity.this.lambda$updateSunTime$11(str);
+                ThemeActivity.this.lambda$updateSunTime$10(str);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateSunTime$11(String str) {
+    public /* synthetic */ void lambda$updateSunTime$10(String str) {
         RecyclerListView.Holder holder;
         Theme.autoNightCityName = str;
         if (str == null) {
@@ -2450,7 +2436,6 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             String string;
             String string2;
             String string3;
-            String str;
             switch (viewHolder.getItemViewType()) {
                 case 1:
                     TextSettingsCell textSettingsCell = (TextSettingsCell) viewHolder.itemView;
@@ -2619,10 +2604,14 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                                     if (i != ThemeActivity.this.pauseOnRecordRow) {
                                         if (i != ThemeActivity.this.customTabsRow) {
                                             if (i != ThemeActivity.this.directShareRow) {
-                                                if (i == ThemeActivity.this.chatBlurRow) {
-                                                    textCheckCell.setTextAndCheck(LocaleController.getString("BlurInChat", R.string.BlurInChat), SharedConfig.chatBlurEnabled(), true);
+                                                if (i != ThemeActivity.this.chatBlurRow) {
+                                                    if (i == ThemeActivity.this.lightModeRow) {
+                                                        textCheckCell.setTextAndCheck(LocaleController.getString("LightMode", R.string.LightMode), LiteMode.getValue() == 0, true);
+                                                        return;
+                                                    }
                                                     return;
                                                 }
+                                                textCheckCell.setTextAndCheck(LocaleController.getString("BlurInChat", R.string.BlurInChat), SharedConfig.chatBlurEnabled(), true);
                                                 return;
                                             }
                                             textCheckCell.setTextAndValueAndCheck(LocaleController.getString("DirectShare", R.string.DirectShare), LocaleController.getString("DirectShareInfo", R.string.DirectShareInfo), SharedConfig.directShare, false, true);
@@ -2697,23 +2686,11 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     TextCell textCell = (TextCell) viewHolder.itemView;
                     if (i != ThemeActivity.this.backgroundRow) {
                         if (i != ThemeActivity.this.editThemeRow) {
-                            if (i != ThemeActivity.this.createNewThemeRow) {
-                                if (i == ThemeActivity.this.lightModeRow) {
-                                    textCell.setColors("windowBackgroundWhiteBlueText4", "windowBackgroundWhiteBlackText");
-                                    if (LiteMode.getValue() == 4095) {
-                                        str = "High";
-                                    } else if (LiteMode.getValue() == 3666) {
-                                        str = "Medium";
-                                    } else {
-                                        str = LiteMode.getValue() == 0 ? "Low" : "Custom";
-                                    }
-                                    textCell.setTextAndValue(LocaleController.getString("PowerUsage", R.string.PowerUsage), str, true, false);
-                                    return;
-                                }
+                            if (i == ThemeActivity.this.createNewThemeRow) {
+                                textCell.setColors("windowBackgroundWhiteBlueText4", "windowBackgroundWhiteBlueText4");
+                                textCell.setTextAndIcon(LocaleController.getString("CreateNewTheme", R.string.CreateNewTheme), R.drawable.msg_colors, false);
                                 return;
                             }
-                            textCell.setColors("windowBackgroundWhiteBlueText4", "windowBackgroundWhiteBlueText4");
-                            textCell.setTextAndIcon(LocaleController.getString("CreateNewTheme", R.string.CreateNewTheme), R.drawable.msg_colors, false);
                             return;
                         }
                         textCell.setColors("windowBackgroundWhiteBlueText4", "windowBackgroundWhiteBlueText4");
@@ -2770,7 +2747,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             if (i == ThemeActivity.this.automaticBrightnessRow) {
                 return 6;
             }
-            if (i == ThemeActivity.this.scheduleLocationRow || i == ThemeActivity.this.enableAnimationsRow || i == ThemeActivity.this.sendByEnterRow || i == ThemeActivity.this.raiseToSpeakRow || i == ThemeActivity.this.pauseOnRecordRow || i == ThemeActivity.this.customTabsRow || i == ThemeActivity.this.directShareRow || i == ThemeActivity.this.chatBlurRow) {
+            if (i == ThemeActivity.this.scheduleLocationRow || i == ThemeActivity.this.enableAnimationsRow || i == ThemeActivity.this.sendByEnterRow || i == ThemeActivity.this.raiseToSpeakRow || i == ThemeActivity.this.pauseOnRecordRow || i == ThemeActivity.this.customTabsRow || i == ThemeActivity.this.directShareRow || i == ThemeActivity.this.chatBlurRow || i == ThemeActivity.this.lightModeRow) {
                 return 7;
             }
             if (i == ThemeActivity.this.textSizeRow) {
@@ -2791,7 +2768,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             if (i == ThemeActivity.this.bubbleRadiusRow) {
                 return 13;
             }
-            if (i == ThemeActivity.this.backgroundRow || i == ThemeActivity.this.editThemeRow || i == ThemeActivity.this.createNewThemeRow || i == ThemeActivity.this.lightModeRow) {
+            if (i == ThemeActivity.this.backgroundRow || i == ThemeActivity.this.editThemeRow || i == ThemeActivity.this.createNewThemeRow) {
                 return 14;
             }
             if (i == ThemeActivity.this.swipeGestureRow) {
@@ -2896,7 +2873,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         arrayList.addAll(SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda11
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
-                ThemeActivity.this.lambda$getThemeDescriptions$13();
+                ThemeActivity.this.lambda$getThemeDescriptions$12();
             }
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
@@ -2908,7 +2885,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getThemeDescriptions$13() {
+    public /* synthetic */ void lambda$getThemeDescriptions$12() {
         for (int i = 0; i < this.listView.getChildCount(); i++) {
             View childAt = this.listView.getChildAt(i);
             if (childAt instanceof AppIconsSelectorCell) {

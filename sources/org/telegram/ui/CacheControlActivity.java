@@ -255,7 +255,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 int size = rootDirs.size();
                 for (int i = 0; i < size; i++) {
                     File file2 = rootDirs.get(i);
-                    if (file2.getAbsolutePath().startsWith(SharedConfig.storageCacheDir)) {
+                    if (file2.getAbsolutePath().startsWith(SharedConfig.storageCacheDir) && file2.canWrite()) {
                         file = file2;
                         break;
                     }
@@ -374,7 +374,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 int size = rootDirs.size();
                 for (int i = 0; i < size; i++) {
                     File file2 = rootDirs.get(i);
-                    if (file2.getAbsolutePath().startsWith(SharedConfig.storageCacheDir)) {
+                    if (file2.getAbsolutePath().startsWith(SharedConfig.storageCacheDir) && file2.canWrite()) {
                         file = file2;
                         break;
                     }

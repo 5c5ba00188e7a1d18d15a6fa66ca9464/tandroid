@@ -7,6 +7,8 @@ public class AnimatedFileDrawableStream implements FileLoadOperationStream {
     private volatile boolean canceled;
     private CountDownLatch countDownLatch;
     private int currentAccount;
+    private int debugCanceledCount;
+    private boolean debugReportSend;
     private TLRPC$Document document;
     private String finishedFilePath;
     private boolean finishedLoadingFile;
@@ -37,75 +39,74 @@ public class AnimatedFileDrawableStream implements FileLoadOperationStream {
         return this.finishedFilePath;
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x0081 A[Catch: all -> 0x00ab, TRY_ENTER, TryCatch #2 {Exception -> 0x00b6, blocks: (B:15:0x0025, B:17:0x002a, B:19:0x0030, B:22:0x0042, B:23:0x0044, B:30:0x004f, B:32:0x0057, B:34:0x005d, B:39:0x007e, B:40:0x0080, B:48:0x0092, B:50:0x0096, B:51:0x00a1, B:38:0x0064, B:41:0x0081, B:43:0x0085, B:44:0x0088, B:46:0x008a, B:47:0x0091, B:24:0x0045, B:26:0x0049, B:27:0x004c, B:29:0x004e), top: B:74:0x0025 }] */
-    /* JADX WARN: Type inference failed for: r13v3 */
-    /* JADX WARN: Type inference failed for: r13v4, types: [boolean, int] */
-    /* JADX WARN: Type inference failed for: r13v5 */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public int read(int i, int i2) {
-        ?? r13;
+        long j;
+        long[] downloadedLengthFromOffset;
+        long j2;
         synchronized (this.sync) {
             if (this.canceled) {
+                int i3 = this.debugCanceledCount + 1;
+                this.debugCanceledCount = i3;
+                if (!this.debugReportSend && i3 > 100) {
+                    this.debugReportSend = true;
+                    if (BuildVars.DEBUG_PRIVATE_VERSION) {
+                        throw new RuntimeException("infinity stream reading!!!");
+                    }
+                    FileLog.e(new RuntimeException("infinity stream reading!!!"));
+                }
                 return 0;
-            }
-            if (i2 == 0) {
+            } else if (i2 == 0) {
                 return 0;
-            }
-            long j = 0;
-            for (long j2 = 0; j == j2; j2 = 0) {
-                try {
-                    long j3 = i;
-                    long[] downloadedLengthFromOffset = this.loadOperation.getDownloadedLengthFromOffset(j3, i2);
-                    long j4 = downloadedLengthFromOffset[0];
+            } else {
+                long j3 = 0;
+                while (j3 == 0) {
                     try {
-                        if (!this.finishedLoadingFile && downloadedLengthFromOffset[1] != j2) {
+                        j = i;
+                        downloadedLengthFromOffset = this.loadOperation.getDownloadedLengthFromOffset(j, i2);
+                        j2 = downloadedLengthFromOffset[0];
+                    } catch (Exception e) {
+                        e = e;
+                    }
+                    try {
+                        if (!this.finishedLoadingFile && downloadedLengthFromOffset[1] != 0) {
                             this.finishedLoadingFile = true;
                             this.finishedFilePath = this.loadOperation.getCacheFileFinal().getAbsolutePath();
                         }
-                        if (j4 == j2) {
+                        if (j2 == 0) {
                             synchronized (this.sync) {
                                 if (this.canceled) {
                                     cancelLoadingInternal();
                                     return 0;
                                 }
-                                if (!this.loadOperation.isPaused() && this.lastOffset == j3 && !this.preview) {
-                                    r13 = 1;
-                                    synchronized (this.sync) {
-                                        if (this.canceled) {
-                                            cancelLoadingInternal();
-                                            return 0;
-                                        }
-                                        this.countDownLatch = new CountDownLatch(r13);
-                                    }
-                                    if (!this.preview) {
-                                        FileLoader.getInstance(this.currentAccount).setLoadingVideo(this.document, false, r13);
-                                    }
-                                    this.waitingForLoad = r13;
-                                    this.countDownLatch.await();
-                                    this.waitingForLoad = false;
+                                if (this.loadOperation.isPaused() || this.lastOffset != j || this.preview) {
+                                    FileLoader.getInstance(this.currentAccount).loadStreamFile(this, this.document, this.location, this.parentObject, j, this.preview, this.loadingPriority);
                                 }
-                                r13 = 1;
-                                FileLoader.getInstance(this.currentAccount).loadStreamFile(this, this.document, this.location, this.parentObject, j3, this.preview, this.loadingPriority);
                                 synchronized (this.sync) {
+                                    if (this.canceled) {
+                                        cancelLoadingInternal();
+                                        return 0;
+                                    }
+                                    this.countDownLatch = new CountDownLatch(1);
                                 }
+                                if (!this.preview) {
+                                    FileLoader.getInstance(this.currentAccount).setLoadingVideo(this.document, false, true);
+                                }
+                                this.waitingForLoad = true;
+                                this.countDownLatch.await();
+                                this.waitingForLoad = false;
                             }
                         }
-                        j = j4;
-                    } catch (Exception e) {
-                        e = e;
-                        j = j4;
+                        j3 = j2;
+                    } catch (Exception e2) {
+                        e = e2;
+                        j3 = j2;
                         FileLog.e((Throwable) e, false);
-                        return (int) j;
+                        return (int) j3;
                     }
-                } catch (Exception e2) {
-                    e = e2;
                 }
+                this.lastOffset = i + j3;
+                return (int) j3;
             }
-            this.lastOffset = i + j;
-            return (int) j;
         }
     }
 

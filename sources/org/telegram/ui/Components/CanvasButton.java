@@ -22,6 +22,7 @@ public class CanvasButton {
     private static final int[] pressedState = {16842910, 16842919};
     boolean buttonPressed;
     private Runnable delegate;
+    Path drawingPath;
     private boolean longPressEnabled;
     Runnable longPressRunnable;
     Paint maskPaint;
@@ -31,7 +32,6 @@ public class CanvasButton {
     boolean rounded;
     RippleDrawable selectorDrawable;
     int usingRectCount;
-    Path drawingPath = new Path();
     ArrayList<RectF> drawingRects = new ArrayList<>();
     Paint paint = new Paint(1);
     Runnable longPressRunnableInner = new Runnable() { // from class: org.telegram.ui.Components.CanvasButton.1
@@ -120,7 +120,12 @@ public class CanvasButton {
             return;
         }
         if (!this.pathCreated) {
-            this.drawingPath.rewind();
+            Path path = this.drawingPath;
+            if (path == null) {
+                this.drawingPath = new Path();
+            } else {
+                path.rewind();
+            }
             int i3 = 0;
             int i4 = 0;
             int i5 = 0;
@@ -162,7 +167,10 @@ public class CanvasButton {
             this.pathCreated = true;
         }
         paint.setPathEffect(this.pathEffect);
-        canvas.drawPath(this.drawingPath, paint);
+        Path path2 = this.drawingPath;
+        if (path2 != null) {
+            canvas.drawPath(path2, paint);
+        }
     }
 
     public boolean checkTouchEvent(MotionEvent motionEvent) {
