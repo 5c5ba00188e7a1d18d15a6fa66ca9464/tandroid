@@ -22,7 +22,7 @@ public class LiteMode {
     public static final int FLAG_CHAT_SPOILER = 128;
     public static final int PRESET_HIGH = 4095;
     public static final int PRESET_LOW = 0;
-    public static final int PRESET_MEDIUM = 3666;
+    public static final int PRESET_MEDIUM = 4095;
     public static final int PRESET_POWER_SAVER = 0;
     private static boolean loaded;
     private static boolean powerSaverEnabled;
@@ -79,7 +79,8 @@ public class LiteMode {
         if (SharedConfig.getDevicePerformanceClass() == 0) {
             i = 0;
         } else {
-            i = SharedConfig.getDevicePerformanceClass() == 1 ? PRESET_MEDIUM : PRESET_HIGH;
+            SharedConfig.getDevicePerformanceClass();
+            i = 4095;
         }
         SharedPreferences globalMainSettings = MessagesController.getGlobalMainSettings();
         if (!globalMainSettings.contains("lite_mode")) {

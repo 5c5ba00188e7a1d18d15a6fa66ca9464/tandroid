@@ -1308,7 +1308,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                         ((TextCheckCell) view).setChecked(SharedConfig.chatBlurEnabled());
                     }
                 } else if (i == this.lightModeRow) {
-                    LiteMode.setAllFlags(LiteMode.getValue() == 0 ? LiteMode.PRESET_HIGH : 0);
+                    LiteMode.setAllFlags(LiteMode.getValue() == 0 ? 4095 : 0);
                     if (view instanceof TextCheckCell) {
                         ((TextCheckCell) view).setChecked(LiteMode.getValue() == 0);
                     }
