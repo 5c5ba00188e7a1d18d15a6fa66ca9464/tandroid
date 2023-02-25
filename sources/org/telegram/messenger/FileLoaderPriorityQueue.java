@@ -2,6 +2,7 @@ package org.telegram.messenger;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class FileLoaderPriorityQueue {
     private final int maxActiveOperationsCount;
@@ -77,13 +78,10 @@ public class FileLoaderPriorityQueue {
         if (fileLoadOperation == null) {
             return;
         }
-        this.allOperations.remove(fileLoadOperation);
-    }
-
-    private FileLoadOperation remove() {
-        if (this.allOperations.isEmpty()) {
-            return null;
+        ConnectionsManager connectionsManager = ConnectionsManager.getInstance(fileLoadOperation.currentAccount);
+        if (connectionsManager != null && connectionsManager.getConnectionState() == 2) {
+            fileLoadOperation.cancel();
         }
-        return this.allOperations.remove(0);
+        this.allOperations.remove(fileLoadOperation);
     }
 }

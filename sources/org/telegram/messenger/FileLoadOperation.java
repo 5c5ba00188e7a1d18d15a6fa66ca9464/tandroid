@@ -72,7 +72,7 @@ public class FileLoadOperation {
     private byte[] cdnIv;
     private byte[] cdnKey;
     private byte[] cdnToken;
-    private int currentAccount;
+    public int currentAccount;
     private int currentDownloadChunkSize;
     private int currentMaxDownloadRequests;
     private int currentType;
@@ -1753,14 +1753,7 @@ public class FileLoadOperation {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$cancel$8(boolean z) {
         if (this.state != 3 && this.state != 2) {
-            if (this.requestInfos != null) {
-                for (int i = 0; i < this.requestInfos.size(); i++) {
-                    RequestInfo requestInfo = this.requestInfos.get(i);
-                    if (requestInfo.requestToken != 0) {
-                        ConnectionsManager.getInstance(this.currentAccount).cancelRequest(requestInfo.requestToken, true);
-                    }
-                }
-            }
+            cancelRequests();
             onFail(false, 1);
         }
         if (z) {
@@ -1813,6 +1806,17 @@ public class FileLoadOperation {
                     this.cacheFilePreload.deleteOnExit();
                 } catch (Exception e5) {
                     FileLog.e(e5);
+                }
+            }
+        }
+    }
+
+    private void cancelRequests() {
+        if (this.requestInfos != null) {
+            for (int i = 0; i < this.requestInfos.size(); i++) {
+                RequestInfo requestInfo = this.requestInfos.get(i);
+                if (requestInfo.requestToken != 0) {
+                    ConnectionsManager.getInstance(this.currentAccount).cancelRequest(requestInfo.requestToken, false);
                 }
             }
         }
@@ -2854,7 +2858,7 @@ public class FileLoadOperation {
                 TLRPC$InputFileLocation tLRPC$InputFileLocation = this.location;
                 if (!(tLRPC$InputFileLocation instanceof TLRPC$TL_inputPeerPhotoFileLocation) || ((TLRPC$TL_inputPeerPhotoFileLocation) tLRPC$InputFileLocation).photo_id != j3) {
                     requestInfo.forceSmallChunk = this.forceSmallChunk;
-                    requestInfo.requestToken = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_upload_getFile, new RequestDelegate() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda18
+                    requestInfo.requestToken = ConnectionsManager.getInstance(this.currentAccount).sendRequestSync(tLRPC$TL_upload_getFile, new RequestDelegate() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda18
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             FileLoadOperation.this.lambda$startDownloadRequest$17(requestInfo, tLRPC$TL_upload_getFile, tLObject, tLRPC$TL_error);
