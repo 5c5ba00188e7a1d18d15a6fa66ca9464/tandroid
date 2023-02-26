@@ -8,11 +8,9 @@ import j$.util.concurrent.ConcurrentHashMap;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.concurrent.CountDownLatch;
@@ -28,7 +26,6 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.utils.BitmapsCache;
-import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.Components.RLottieDrawable;
 /* loaded from: classes.dex */
 public class BitmapsCache {
@@ -228,7 +225,7 @@ public class BitmapsCache {
         RandomAccessFile randomAccessFile;
         RandomAccessFile randomAccessFile2;
         final Bitmap[] bitmapArr;
-        ByteArrayOutputStream[] byteArrayOutputStreamArr;
+        ImmutableByteArrayOutputStream[] immutableByteArrayOutputStreamArr;
         CountDownLatch[] countDownLatchArr;
         ArrayList arrayList;
         AtomicBoolean atomicBoolean;
@@ -262,7 +259,7 @@ public class BitmapsCache {
                         }
                         sharedTools.allocate(this.h, this.w);
                         bitmapArr = sharedTools.bitmap;
-                        byteArrayOutputStreamArr = sharedTools.byteArrayOutputStream;
+                        immutableByteArrayOutputStreamArr = sharedTools.byteArrayOutputStream;
                         countDownLatchArr = new CountDownLatch[N];
                         arrayList = new ArrayList();
                         randomAccessFile2.writeBoolean(false);
@@ -281,7 +278,7 @@ public class BitmapsCache {
                             atomicBoolean = r13;
                             arrayList = r19;
                             countDownLatchArr = r20;
-                            byteArrayOutputStreamArr = r21;
+                            immutableByteArrayOutputStreamArr = r21;
                             randomAccessFile2 = r22;
                             i3 = 0;
                             j = 0;
@@ -332,7 +329,7 @@ public class BitmapsCache {
                 }
                 sharedTools.allocate(this.h, this.w);
                 bitmapArr = sharedTools.bitmap;
-                byteArrayOutputStreamArr = sharedTools.byteArrayOutputStream;
+                immutableByteArrayOutputStreamArr = sharedTools.byteArrayOutputStream;
                 countDownLatchArr = new CountDownLatch[N];
                 arrayList = new ArrayList();
                 randomAccessFile2.writeBoolean(false);
@@ -358,16 +355,16 @@ public class BitmapsCache {
                         AtomicBoolean atomicBoolean4 = atomicBoolean;
                         final int i5 = i;
                         final ArrayList arrayList2 = arrayList;
-                        final ByteArrayOutputStream[] byteArrayOutputStreamArr2 = byteArrayOutputStreamArr;
+                        final ImmutableByteArrayOutputStream[] immutableByteArrayOutputStreamArr2 = immutableByteArrayOutputStreamArr;
                         final CountDownLatch[] countDownLatchArr3 = countDownLatchArr;
                         final int i6 = i42;
-                        ByteArrayOutputStream[] byteArrayOutputStreamArr3 = byteArrayOutputStreamArr;
+                        ImmutableByteArrayOutputStream[] immutableByteArrayOutputStreamArr3 = immutableByteArrayOutputStreamArr;
                         final RandomAccessFile randomAccessFile4 = randomAccessFile2;
                         RandomAccessFile randomAccessFile5 = randomAccessFile2;
                         bitmapCompressExecutor.execute(new Runnable() { // from class: org.telegram.messenger.utils.BitmapsCache$$ExternalSyntheticLambda0
                             @Override // java.lang.Runnable
                             public final void run() {
-                                BitmapsCache.this.lambda$createCache$1(atomicBoolean3, bitmapArr, i5, byteArrayOutputStreamArr2, i6, randomAccessFile4, arrayList2, countDownLatchArr3);
+                                BitmapsCache.this.lambda$createCache$1(atomicBoolean3, bitmapArr, i5, immutableByteArrayOutputStreamArr2, i6, randomAccessFile4, arrayList2, countDownLatchArr3);
                             }
                         });
                         int i7 = i + 1;
@@ -376,7 +373,7 @@ public class BitmapsCache {
                         atomicBoolean = atomicBoolean4;
                         arrayList = arrayList2;
                         countDownLatchArr = countDownLatchArr3;
-                        byteArrayOutputStreamArr = byteArrayOutputStreamArr3;
+                        immutableByteArrayOutputStreamArr = immutableByteArrayOutputStreamArr3;
                         randomAccessFile2 = randomAccessFile5;
                         i3 = 0;
                         j = 0;
@@ -392,15 +389,15 @@ public class BitmapsCache {
                         }
                         int length = (int) randomAccessFile2.length();
                         Collections.sort(arrayList, Comparator$-CC.comparingInt(BitmapsCache$$ExternalSyntheticLambda2.INSTANCE));
-                        byteArrayOutputStreamArr[i3].reset();
+                        immutableByteArrayOutputStreamArr[i3].reset();
                         int size = arrayList.size();
-                        byteArrayOutputStreamArr[i3].writeInt(size);
+                        immutableByteArrayOutputStreamArr[i3].writeInt(size);
                         for (int i9 = 0; i9 < arrayList.size(); i9++) {
-                            byteArrayOutputStreamArr[i3].writeInt(((FrameOffset) arrayList.get(i9)).frameOffset);
-                            byteArrayOutputStreamArr[i3].writeInt(((FrameOffset) arrayList.get(i9)).frameSize);
+                            immutableByteArrayOutputStreamArr[i3].writeInt(((FrameOffset) arrayList.get(i9)).frameOffset);
+                            immutableByteArrayOutputStreamArr[i3].writeInt(((FrameOffset) arrayList.get(i9)).frameSize);
                         }
-                        randomAccessFile2.write(byteArrayOutputStreamArr[i3].buf, i3, (size * 8) + 4);
-                        byteArrayOutputStreamArr[i3].reset();
+                        randomAccessFile2.write(immutableByteArrayOutputStreamArr[i3].buf, i3, (size * 8) + 4);
+                        immutableByteArrayOutputStreamArr[i3].reset();
                         randomAccessFile2.seek(j);
                         randomAccessFile2.writeBoolean(true);
                         randomAccessFile2.writeInt(length);
@@ -449,7 +446,7 @@ public class BitmapsCache {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createCache$1(AtomicBoolean atomicBoolean, Bitmap[] bitmapArr, int i, ByteArrayOutputStream[] byteArrayOutputStreamArr, int i2, RandomAccessFile randomAccessFile, ArrayList arrayList, CountDownLatch[] countDownLatchArr) {
+    public /* synthetic */ void lambda$createCache$1(AtomicBoolean atomicBoolean, Bitmap[] bitmapArr, int i, ImmutableByteArrayOutputStream[] immutableByteArrayOutputStreamArr, int i2, RandomAccessFile randomAccessFile, ArrayList arrayList, CountDownLatch[] countDownLatchArr) {
         if (this.cancelled.get() || atomicBoolean.get()) {
             return;
         }
@@ -457,16 +454,16 @@ public class BitmapsCache {
         if (Build.VERSION.SDK_INT <= 28) {
             compressFormat = Bitmap.CompressFormat.PNG;
         }
-        bitmapArr[i].compress(compressFormat, this.compressQuality, byteArrayOutputStreamArr[i]);
-        int i3 = byteArrayOutputStreamArr[i].count;
+        bitmapArr[i].compress(compressFormat, this.compressQuality, immutableByteArrayOutputStreamArr[i]);
+        int i3 = immutableByteArrayOutputStreamArr[i].count;
         try {
             synchronized (this.mutex) {
                 FrameOffset frameOffset = new FrameOffset(i2);
                 frameOffset.frameOffset = (int) randomAccessFile.length();
                 arrayList.add(frameOffset);
-                randomAccessFile.write(byteArrayOutputStreamArr[i].buf, 0, i3);
+                randomAccessFile.write(immutableByteArrayOutputStreamArr[i].buf, 0, i3);
                 frameOffset.frameSize = i3;
-                byteArrayOutputStreamArr[i].reset();
+                immutableByteArrayOutputStreamArr[i].reset();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -657,88 +654,15 @@ public class BitmapsCache {
         }
     }
 
-    /* loaded from: classes.dex */
-    public static class ByteArrayOutputStream extends OutputStream {
-        protected byte[] buf;
-        protected int count;
-
-        public ByteArrayOutputStream(int i) {
-            this.buf = new byte[i];
-        }
-
-        private void ensureCapacity(int i) {
-            if (i - this.buf.length > 0) {
-                grow(i);
-            }
-        }
-
-        private void grow(int i) {
-            int length = this.buf.length << 1;
-            if (length - i < 0) {
-                length = i;
-            }
-            if (length - 2147483639 > 0) {
-                length = hugeCapacity(i);
-            }
-            this.buf = Arrays.copyOf(this.buf, length);
-        }
-
-        private static int hugeCapacity(int i) {
-            if (i >= 0) {
-                if (i > 2147483639) {
-                    return ConnectionsManager.DEFAULT_DATACENTER_ID;
-                }
-                return 2147483639;
-            }
-            throw new OutOfMemoryError();
-        }
-
-        @Override // java.io.OutputStream
-        public synchronized void write(int i) {
-            ensureCapacity(this.count + 1);
-            byte[] bArr = this.buf;
-            int i2 = this.count;
-            bArr[i2] = (byte) i;
-            this.count = i2 + 1;
-        }
-
-        public void writeInt(int i) {
-            ensureCapacity(this.count + 4);
-            byte[] bArr = this.buf;
-            int i2 = this.count;
-            bArr[i2] = (byte) (i >>> 24);
-            bArr[i2 + 1] = (byte) (i >>> 16);
-            bArr[i2 + 2] = (byte) (i >>> 8);
-            bArr[i2 + 3] = (byte) i;
-            this.count = i2 + 4;
-        }
-
-        @Override // java.io.OutputStream
-        public synchronized void write(byte[] bArr, int i, int i2) {
-            if (i >= 0) {
-                if (i <= bArr.length && i2 >= 0 && (i + i2) - bArr.length <= 0) {
-                    ensureCapacity(this.count + i2);
-                    System.arraycopy(bArr, i, this.buf, this.count, i2);
-                    this.count += i2;
-                }
-            }
-            throw new IndexOutOfBoundsException();
-        }
-
-        public synchronized void reset() {
-            this.count = 0;
-        }
-    }
-
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class CacheGeneratorSharedTools {
         private Bitmap[] bitmap;
-        ByteArrayOutputStream[] byteArrayOutputStream;
+        ImmutableByteArrayOutputStream[] byteArrayOutputStream;
         private int lastSize;
 
         private CacheGeneratorSharedTools() {
-            this.byteArrayOutputStream = new ByteArrayOutputStream[BitmapsCache.N];
+            this.byteArrayOutputStream = new ImmutableByteArrayOutputStream[BitmapsCache.N];
             this.bitmap = new Bitmap[BitmapsCache.N];
         }
 
@@ -760,9 +684,9 @@ public class BitmapsCache {
                     }
                     this.bitmap[i4] = Bitmap.createBitmap(i2, i, Bitmap.Config.ARGB_8888);
                 }
-                ByteArrayOutputStream[] byteArrayOutputStreamArr = this.byteArrayOutputStream;
-                if (byteArrayOutputStreamArr[i4] == null) {
-                    byteArrayOutputStreamArr[i4] = new ByteArrayOutputStream(i2 * i * 2);
+                ImmutableByteArrayOutputStream[] immutableByteArrayOutputStreamArr = this.byteArrayOutputStream;
+                if (immutableByteArrayOutputStreamArr[i4] == null) {
+                    immutableByteArrayOutputStreamArr[i4] = new ImmutableByteArrayOutputStream(i2 * i * 2);
                 }
             }
         }

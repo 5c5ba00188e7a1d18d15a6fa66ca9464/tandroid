@@ -5,6 +5,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 /* loaded from: classes.dex */
 public class LiteMode {
+    public static final int ENABLED = 1023;
     public static final int FLAGS_ANIMATED_EMOJI = 28;
     public static final int FLAGS_ANIMATED_STICKERS = 3;
     public static final int FLAGS_CHAT = 480;
@@ -76,6 +77,7 @@ public class LiteMode {
 
     public static void loadPreference() {
         int i;
+        int i2 = 4095;
         if (SharedConfig.getDevicePerformanceClass() == 0) {
             i = 0;
         } else {
@@ -84,14 +86,23 @@ public class LiteMode {
         }
         SharedPreferences globalMainSettings = MessagesController.getGlobalMainSettings();
         if (!globalMainSettings.contains("lite_mode")) {
+            if (globalMainSettings.contains("light_mode")) {
+                if ((globalMainSettings.getInt("light_mode", SharedConfig.getDevicePerformanceClass() == 0 ? 1 : 0) & 1) > 0) {
+                    i2 = 0;
+                }
+            } else {
+                i2 = i;
+            }
             if (globalMainSettings.contains("loopStickers")) {
-                i = globalMainSettings.getBoolean("loopStickers", true) ? i | 2 : i & (-3);
+                i2 = globalMainSettings.getBoolean("loopStickers", true) ? i2 | 2 : i2 & (-3);
             }
             if (globalMainSettings.contains("autoplay_video")) {
-                i = (globalMainSettings.getBoolean("autoplay_video", true) || globalMainSettings.getBoolean("autoplay_video_liteforce", false)) ? i | 1024 : i & (-1025);
+                i2 = (globalMainSettings.getBoolean("autoplay_video", true) || globalMainSettings.getBoolean("autoplay_video_liteforce", false)) ? i2 | 1024 : i2 & (-1025);
             }
             if (globalMainSettings.contains("autoplay_gif")) {
-                i = globalMainSettings.getBoolean("autoplay_gif", true) ? i | FLAG_AUTOPLAY_GIFS : i & (-2049);
+                i = globalMainSettings.getBoolean("autoplay_gif", true) ? i2 | FLAG_AUTOPLAY_GIFS : i2 & (-2049);
+            } else {
+                i = i2;
             }
             if (globalMainSettings.contains("chatBlur")) {
                 i = globalMainSettings.getBoolean("chatBlur", true) ? i | FLAG_CHAT_BLUR : i & (-257);

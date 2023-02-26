@@ -1622,6 +1622,9 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
 
         @Override // org.telegram.ui.GroupCreateActivity.ContactsAddActivityDelegate
         public void didSelectUsers(ArrayList<TLRPC$User> arrayList, int i) {
+            if (this.val$fragment.getParentActivity() == null) {
+                return;
+            }
             final int size = arrayList.size();
             final ArrayList arrayList2 = new ArrayList();
             final int[] iArr = {0};
@@ -1672,7 +1675,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 string = LocaleController.getString("InviteToGroupErrorTitleSomeUsers", R.string.InviteToGroupErrorTitleSomeUsers);
                 string2 = LocaleController.getString("InviteToGroupErrorMessageMultipleSome", R.string.InviteToGroupErrorMessageMultipleSome);
             }
-            new AlertDialog.Builder(groupCreateActivity.getContext()).setTitle(string).setMessage(string2).setPositiveButton(LocaleController.getString("OK", R.string.OK), null).show();
+            new AlertDialog.Builder(groupCreateActivity.getParentActivity()).setTitle(string).setMessage(string2).setPositiveButton(LocaleController.getString("OK", R.string.OK), null).show();
         }
 
         /* JADX INFO: Access modifiers changed from: private */

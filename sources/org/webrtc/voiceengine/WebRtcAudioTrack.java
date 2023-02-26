@@ -8,6 +8,7 @@ import android.media.AudioTrack;
 import android.os.Build;
 import android.os.Process;
 import java.nio.ByteBuffer;
+import org.telegram.messenger.FileLog;
 import org.webrtc.ContextUtils;
 import org.webrtc.Logging;
 import org.webrtc.MediaStreamTrack;
@@ -246,20 +247,31 @@ public class WebRtcAudioTrack {
     }
 
     private boolean stopPlayout() {
-        this.threadChecker.checkIsOnValidThread();
-        Logging.d(TAG, "stopPlayout");
-        assertTrue(this.audioThread != null);
-        logUnderrunCount();
-        this.audioThread.stopThread();
-        Logging.d(TAG, "Stopping the AudioTrackThread...");
-        this.audioThread.interrupt();
-        if (!ThreadUtils.joinUninterruptibly(this.audioThread, AUDIO_TRACK_THREAD_JOIN_TIMEOUT_MS)) {
-            Logging.e(TAG, "Join of AudioTrackThread timed out.");
-            WebRtcAudioUtils.logAudioState(TAG);
+        try {
+            this.threadChecker.checkIsOnValidThread();
+            Logging.d(TAG, "stopPlayout");
+            assertTrue(this.audioThread != null);
+            logUnderrunCount();
+            this.audioThread.stopThread();
+            Logging.d(TAG, "Stopping the AudioTrackThread...");
+            this.audioThread.interrupt();
+            if (!ThreadUtils.joinUninterruptibly(this.audioThread, AUDIO_TRACK_THREAD_JOIN_TIMEOUT_MS)) {
+                Logging.e(TAG, "Join of AudioTrackThread timed out.");
+                WebRtcAudioUtils.logAudioState(TAG);
+            }
+            Logging.d(TAG, "AudioTrackThread has now been stopped.");
+        } finally {
+            try {
+                releaseAudioResources();
+                return true;
+            } finally {
+            }
         }
-        Logging.d(TAG, "AudioTrackThread has now been stopped.");
-        this.audioThread = null;
-        releaseAudioResources();
+        try {
+            releaseAudioResources();
+        } catch (Throwable th) {
+            FileLog.e(th);
+        }
         return true;
     }
 

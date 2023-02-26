@@ -399,7 +399,7 @@ public class MessageObject {
     public boolean isDownloadingFile;
     public boolean isMediaSpoilersRevealed;
     public boolean isMediaSpoilersRevealedInSharedMedia;
-    Boolean isOutOwnerCached;
+    public Boolean isOutOwnerCached;
     public boolean isReactionPush;
     public boolean isRestrictedMessage;
     private int isRoundVideoCached;
@@ -1739,10 +1739,10 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:194:0x04d7 A[LOOP:0: B:170:0x048a->B:194:0x04d7, LOOP_END] */
     /* JADX WARN: Removed duplicated region for block: B:473:0x0cd0  */
     /* JADX WARN: Removed duplicated region for block: B:821:0x1670  */
-    /* JADX WARN: Removed duplicated region for block: B:824:0x16be  */
-    /* JADX WARN: Removed duplicated region for block: B:826:0x16c1  */
-    /* JADX WARN: Removed duplicated region for block: B:838:0x1743  */
-    /* JADX WARN: Removed duplicated region for block: B:842:0x174a  */
+    /* JADX WARN: Removed duplicated region for block: B:824:0x16c1  */
+    /* JADX WARN: Removed duplicated region for block: B:826:0x16c4  */
+    /* JADX WARN: Removed duplicated region for block: B:838:0x1746  */
+    /* JADX WARN: Removed duplicated region for block: B:842:0x174d  */
     /* JADX WARN: Removed duplicated region for block: B:868:0x04f0 A[EDGE_INSN: B:868:0x04f0->B:196:0x04f0 ?: BREAK  , SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:877:? A[RETURN, SYNTHETIC] */
     /*
@@ -2590,6 +2590,7 @@ public class MessageObject {
                                     tLRPC$Message6.peer_id.channel_id = tLRPC$Chat.id;
                                     tLRPC$Message6.unread = false;
                                     MediaController mediaController = MediaController.getInstance();
+                                    this.isOutOwnerCached = null;
                                     tLRPC$Message = tLRPC$Message instanceof TLRPC$TL_messageEmpty ? null : tLRPC$Message;
                                     if (tLRPC$Message == null) {
                                         tLRPC$Message.out = false;
@@ -2990,6 +2991,7 @@ public class MessageObject {
                                 tLRPC$Message62.peer_id.channel_id = tLRPC$Chat.id;
                                 tLRPC$Message62.unread = false;
                                 MediaController mediaController2 = MediaController.getInstance();
+                                this.isOutOwnerCached = null;
                                 if (tLRPC$Message instanceof TLRPC$TL_messageEmpty) {
                                 }
                                 if (tLRPC$Message == null) {
@@ -3018,6 +3020,7 @@ public class MessageObject {
                         tLRPC$Message622.peer_id.channel_id = tLRPC$Chat.id;
                         tLRPC$Message622.unread = false;
                         MediaController mediaController22 = MediaController.getInstance();
+                        this.isOutOwnerCached = null;
                         if (tLRPC$Message instanceof TLRPC$TL_messageEmpty) {
                         }
                         if (tLRPC$Message == null) {
@@ -3046,6 +3049,7 @@ public class MessageObject {
                     tLRPC$Message6222.peer_id.channel_id = tLRPC$Chat.id;
                     tLRPC$Message6222.unread = false;
                     MediaController mediaController222 = MediaController.getInstance();
+                    this.isOutOwnerCached = null;
                     if (tLRPC$Message instanceof TLRPC$TL_messageEmpty) {
                     }
                     if (tLRPC$Message == null) {
@@ -3076,6 +3080,7 @@ public class MessageObject {
             tLRPC$Message62222.peer_id.channel_id = tLRPC$Chat.id;
             tLRPC$Message62222.unread = false;
             MediaController mediaController2222 = MediaController.getInstance();
+            this.isOutOwnerCached = null;
             if (tLRPC$Message instanceof TLRPC$TL_messageEmpty) {
             }
             if (tLRPC$Message == null) {
@@ -3104,6 +3109,7 @@ public class MessageObject {
         tLRPC$Message622222.peer_id.channel_id = tLRPC$Chat.id;
         tLRPC$Message622222.unread = false;
         MediaController mediaController22222 = MediaController.getInstance();
+        this.isOutOwnerCached = null;
         if (tLRPC$Message instanceof TLRPC$TL_messageEmpty) {
         }
         if (tLRPC$Message == null) {

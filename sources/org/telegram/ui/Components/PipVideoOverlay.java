@@ -435,10 +435,11 @@ public class PipVideoOverlay {
     /* JADX INFO: Access modifiers changed from: private */
     public void onDismissedInternal() {
         try {
-            if (this.controlsView.getParent() != null) {
+            ViewGroup viewGroup = this.contentView;
+            if (viewGroup != null && viewGroup.getParent() != null) {
                 this.windowManager.removeViewImmediate(this.contentView);
             }
-        } catch (IllegalArgumentException unused) {
+        } catch (Exception unused) {
         }
         PhotoViewerWebView photoViewerWebView = this.photoViewerWebView;
         if (photoViewerWebView != null) {

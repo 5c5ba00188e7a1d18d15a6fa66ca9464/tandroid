@@ -13,6 +13,7 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipException;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.FilePathDatabase;
+import org.telegram.messenger.utils.ImmutableByteArrayOutputStream;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.RequestDelegate;
@@ -48,8 +49,7 @@ import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.Storage.CacheModel;
 /* loaded from: classes.dex */
 public class FileLoadOperation {
-    public static volatile DispatchQueue filesQueue = new DispatchQueue("writeFileQueue");
-    private static final Object lockObject = new Object();
+    public static ImmutableByteArrayOutputStream filesQueueByteBuffer = null;
     private static final int preloadMaxBytes = 2097152;
     private static final int stateCanceled = 4;
     private static final int stateDownloading = 1;
@@ -156,6 +156,8 @@ public class FileLoadOperation {
     private boolean ungzip;
     private WebFile webFile;
     private TLRPC$InputWebFileLocation webLocation;
+    public static volatile DispatchQueue filesQueue = new DispatchQueue("writeFileQueue");
+    private static final Object lockObject = new Object();
 
     /* loaded from: classes.dex */
     public interface FileLoadOperationDelegate {
@@ -730,19 +732,30 @@ public class FileLoadOperation {
                 FileLog.e(e);
             }
         }
+        if (this.filePartsStream == null) {
+            return;
+        }
+        int size = arrayList.size();
+        int i = (size * 16) + 4;
+        ImmutableByteArrayOutputStream immutableByteArrayOutputStream = filesQueueByteBuffer;
+        if (immutableByteArrayOutputStream == null) {
+            filesQueueByteBuffer = new ImmutableByteArrayOutputStream(i);
+        } else {
+            immutableByteArrayOutputStream.reset();
+        }
+        filesQueueByteBuffer.writeInt(size);
+        for (int i2 = 0; i2 < size; i2++) {
+            Range range = (Range) arrayList.get(i2);
+            filesQueueByteBuffer.writeLong(range.start);
+            filesQueueByteBuffer.writeLong(range.end);
+        }
         synchronized (this) {
             RandomAccessFile randomAccessFile = this.filePartsStream;
             if (randomAccessFile == null) {
                 return;
             }
             randomAccessFile.seek(0L);
-            int size = arrayList.size();
-            this.filePartsStream.writeInt(size);
-            for (int i = 0; i < size; i++) {
-                Range range = (Range) arrayList.get(i);
-                this.filePartsStream.writeLong(range.start);
-                this.filePartsStream.writeLong(range.end);
-            }
+            this.filePartsStream.write(filesQueueByteBuffer.buf, 0, i);
             this.totalTime += System.currentTimeMillis() - currentTimeMillis;
         }
     }
@@ -929,7 +942,7 @@ public class FileLoadOperation {
     /* JADX WARN: Removed duplicated region for block: B:329:0x088b  */
     /* JADX WARN: Removed duplicated region for block: B:368:0x0619 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r2v64 */
-    /* JADX WARN: Type inference failed for: r2v67, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v67, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v69 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

@@ -1006,7 +1006,7 @@ public class SharedConfig {
     }
 
     public static void toggleAutoplayVideo() {
-        LiteMode.toggleFlag(1024, !isAutoplayVideo());
+        LiteMode.toggleFlag(1024);
     }
 
     public static boolean isSecretMapPreviewSet() {

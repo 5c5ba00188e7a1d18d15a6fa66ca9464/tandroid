@@ -573,7 +573,6 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         this.needDrawFlickerStub = true;
         if (initCamera()) {
             MediaController.getInstance().lambda$startAudioAgain$7(MediaController.getInstance().getPlayingMessageObject());
-            FileLoader.getDirectory(3).mkdirs();
             File directory = FileLoader.getDirectory(3);
             this.cameraFile = new File(this, directory, System.currentTimeMillis() + "_" + SharedConfig.getLastLocalId() + ".mp4") { // from class: org.telegram.ui.Components.InstantCameraView.8
                 @Override // java.io.File

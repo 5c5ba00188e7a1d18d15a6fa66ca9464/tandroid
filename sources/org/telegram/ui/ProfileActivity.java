@@ -1191,13 +1191,32 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         @Override // androidx.core.view.NestedScrollingParent3
         public void onNestedScroll(View view, int i, int i2, int i3, int i4, int i5, int[] iArr) {
-            if (view == ProfileActivity.this.listView && ProfileActivity.this.sharedMediaLayoutAttached) {
-                RecyclerListView currentListView = ProfileActivity.this.sharedMediaLayout.getCurrentListView();
-                if (ProfileActivity.this.sharedMediaLayout.getTop() == 0) {
-                    iArr[1] = i4;
-                    currentListView.scrollBy(0, i4);
+            try {
+                if (view == ProfileActivity.this.listView && ProfileActivity.this.sharedMediaLayoutAttached) {
+                    RecyclerListView currentListView = ProfileActivity.this.sharedMediaLayout.getCurrentListView();
+                    if (ProfileActivity.this.sharedMediaLayout.getTop() == 0) {
+                        iArr[1] = i4;
+                        currentListView.scrollBy(0, i4);
+                    }
                 }
+            } catch (Throwable th) {
+                FileLog.e(th);
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$NestedFrameLayout$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ProfileActivity.NestedFrameLayout.this.lambda$onNestedScroll$0();
+                    }
+                });
             }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onNestedScroll$0() {
+            RecyclerListView currentListView = ProfileActivity.this.sharedMediaLayout.getCurrentListView();
+            if (currentListView == null || currentListView.getAdapter() == null) {
+                return;
+            }
+            currentListView.getAdapter().notifyDataSetChanged();
         }
 
         @Override // android.view.ViewGroup, android.view.ViewParent, androidx.core.view.NestedScrollingParent
@@ -6080,13 +6099,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             } catch (Exception e) {
                 FileLog.e(e);
             }
-        } else if (i != 1) {
-            if (i == 2 || i == 3) {
-                boolean z = i == 3;
-                TLRPC$UserFull tLRPC$UserFull = this.userInfo;
-                VoIPHelper.startCall(tLRPC$User, z, tLRPC$UserFull != null && tLRPC$UserFull.video_calls_available, getParentActivity(), this.userInfo, getAccountInstance());
-            }
-        } else {
+        } else if (i == 1) {
             try {
                 ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", "+" + tLRPC$User.phone));
                 if (AndroidUtilities.shouldShowClipboardToast()) {
@@ -6095,6 +6108,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             } catch (Exception e2) {
                 FileLog.e(e2);
             }
+        } else if ((i == 2 || i == 3) && getParentActivity() != null) {
+            boolean z = i == 3;
+            TLRPC$UserFull tLRPC$UserFull = this.userInfo;
+            VoIPHelper.startCall(tLRPC$User, z, tLRPC$UserFull != null && tLRPC$UserFull.video_calls_available, getParentActivity(), this.userInfo, getAccountInstance());
         }
     }
 

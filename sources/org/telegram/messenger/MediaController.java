@@ -4452,14 +4452,12 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     public /* synthetic */ void lambda$startRecording$25(int i, int i2) {
         this.recordStartRunnable = null;
         NotificationCenter.getInstance(i).postNotificationName(NotificationCenter.recordStartError, Integer.valueOf(i2));
-        NotificationCenter.getInstance(this.recordingCurrentAccount).postNotificationName(NotificationCenter.audioDidSent, Integer.valueOf(this.recordingGuid), null, null);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startRecording$26(int i, int i2) {
         this.recordStartRunnable = null;
         NotificationCenter.getInstance(i).postNotificationName(NotificationCenter.recordStarted, Integer.valueOf(i2), Boolean.TRUE);
-        NotificationCenter.getInstance(this.recordingCurrentAccount).postNotificationName(NotificationCenter.audioDidSent, Integer.valueOf(this.recordingGuid), null, null);
     }
 
     public void generateWaveform(final MessageObject messageObject) {
