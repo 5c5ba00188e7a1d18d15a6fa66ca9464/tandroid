@@ -1939,10 +1939,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             if (this.raisedToBack == 6 || this.accelerometerVertical) {
                 this.lastAccelerometerDetected = System.currentTimeMillis();
             }
-            if (this.proximityTouched && ((this.raisedToBack == 6 || this.accelerometerVertical || System.currentTimeMillis() - this.lastAccelerometerDetected < 60) && !NotificationsController.audioManager.isWiredHeadsetOn())) {
-                if (BuildVars.LOGS_ENABLED) {
-                    FileLog.d("sensor values reached");
-                }
+            if (this.proximityTouched && ((this.raisedToBack == 6 || this.accelerometerVertical || System.currentTimeMillis() - this.lastAccelerometerDetected < 60) && !NotificationsController.audioManager.isWiredHeadsetOn() && !VoIPService.isAnyKindOfCallActive())) {
                 if (this.playingMessageObject == null && this.recordStartRunnable == null && this.recordingAudio == null && !PhotoViewer.getInstance().isVisible() && ApplicationLoader.isScreenOn && !this.inputFieldHasText && this.allowStartRecord && this.raiseChat != null && !this.callInProgress) {
                     if (!this.raiseToEarRecord) {
                         if (BuildVars.LOGS_ENABLED) {
@@ -1980,41 +1977,38 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 this.raisedToTop = 0;
                 this.raisedToTopSign = 0;
                 this.countLess = 0;
-            } else {
-                boolean z2 = this.proximityTouched;
-                if (z2 && ((this.accelerometerSensor == null || this.linearSensor == null) && this.gravitySensor == null)) {
-                    if (this.playingMessageObject != null && !ApplicationLoader.mainInterfacePaused && ((this.playingMessageObject.isVoice() || this.playingMessageObject.isRoundVideo()) && !this.useFrontSpeaker && !NotificationsController.audioManager.isWiredHeadsetOn())) {
-                        if (BuildVars.LOGS_ENABLED) {
-                            FileLog.d("start listen by proximity only");
-                        }
-                        if (this.proximityHasDifferentValues && (wakeLock3 = this.proximityWakeLock) != null && !wakeLock3.isHeld()) {
-                            this.proximityWakeLock.acquire();
-                        }
-                        setUseFrontSpeaker(true);
-                        startAudioAgain(false);
-                        this.ignoreOnPause = true;
+            } else if (this.proximityTouched && ((this.accelerometerSensor == null || this.linearSensor == null) && this.gravitySensor == null && !VoIPService.isAnyKindOfCallActive())) {
+                if (this.playingMessageObject != null && !ApplicationLoader.mainInterfacePaused && ((this.playingMessageObject.isVoice() || this.playingMessageObject.isRoundVideo()) && !this.useFrontSpeaker && !NotificationsController.audioManager.isWiredHeadsetOn())) {
+                    if (BuildVars.LOGS_ENABLED) {
+                        FileLog.d("start listen by proximity only");
                     }
-                } else if (!z2) {
-                    if (this.raiseToEarRecord) {
-                        if (BuildVars.LOGS_ENABLED) {
-                            FileLog.d("stop record");
-                        }
-                        stopRecording(2, false, 0);
-                        this.raiseToEarRecord = false;
-                        this.ignoreOnPause = false;
-                        if (this.proximityHasDifferentValues && (wakeLock2 = this.proximityWakeLock) != null && wakeLock2.isHeld()) {
-                            this.proximityWakeLock.release();
-                        }
-                    } else if (this.useFrontSpeaker) {
-                        if (BuildVars.LOGS_ENABLED) {
-                            FileLog.d("stop listen");
-                        }
-                        this.useFrontSpeaker = false;
-                        startAudioAgain(true);
-                        this.ignoreOnPause = false;
-                        if (this.proximityHasDifferentValues && (wakeLock = this.proximityWakeLock) != null && wakeLock.isHeld()) {
-                            this.proximityWakeLock.release();
-                        }
+                    if (this.proximityHasDifferentValues && (wakeLock3 = this.proximityWakeLock) != null && !wakeLock3.isHeld()) {
+                        this.proximityWakeLock.acquire();
+                    }
+                    setUseFrontSpeaker(true);
+                    startAudioAgain(false);
+                    this.ignoreOnPause = true;
+                }
+            } else if (!this.proximityTouched) {
+                if (this.raiseToEarRecord) {
+                    if (BuildVars.LOGS_ENABLED) {
+                        FileLog.d("stop record");
+                    }
+                    stopRecording(2, false, 0);
+                    this.raiseToEarRecord = false;
+                    this.ignoreOnPause = false;
+                    if (this.proximityHasDifferentValues && (wakeLock2 = this.proximityWakeLock) != null && wakeLock2.isHeld()) {
+                        this.proximityWakeLock.release();
+                    }
+                } else if (this.useFrontSpeaker) {
+                    if (BuildVars.LOGS_ENABLED) {
+                        FileLog.d("stop listen");
+                    }
+                    this.useFrontSpeaker = false;
+                    startAudioAgain(true);
+                    this.ignoreOnPause = false;
+                    if (this.proximityHasDifferentValues && (wakeLock = this.proximityWakeLock) != null && wakeLock.isHeld()) {
+                        this.proximityWakeLock.release();
                     }
                 }
             }

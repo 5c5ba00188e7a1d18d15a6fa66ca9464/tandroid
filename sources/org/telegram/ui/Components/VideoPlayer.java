@@ -1165,11 +1165,11 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     public void setStreamType(int i) {
         ExoPlayer exoPlayer = this.player;
         if (exoPlayer != null) {
-            exoPlayer.setAudioAttributes(new AudioAttributes.Builder().setContentType(i).build(), false);
+            exoPlayer.setAudioAttributes(new AudioAttributes.Builder().setUsage(i == 0 ? 2 : 1).build(), false);
         }
         ExoPlayer exoPlayer2 = this.audioPlayer;
         if (exoPlayer2 != null) {
-            exoPlayer2.setAudioAttributes(new AudioAttributes.Builder().setContentType(i).build(), false);
+            exoPlayer2.setAudioAttributes(new AudioAttributes.Builder().setUsage(i != 0 ? 1 : 2).build(), true);
         }
     }
 

@@ -377,28 +377,28 @@ public class LoginActivity extends BaseFragment {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:118:0x0421, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:118:0x0423, code lost:
         if (r2 != 4) goto L94;
      */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x041c A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x042a  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x0453  */
-    /* JADX WARN: Removed duplicated region for block: B:135:0x0448 A[EDGE_INSN: B:135:0x0448->B:127:0x0448 ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x020b  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x020d  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x021a  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x027f  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x028e  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0293  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0299  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x029e  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0365  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x0368  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x036c  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x036f  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x03ae  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x03b6  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x03d1  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x041e A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x042c  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x0455  */
+    /* JADX WARN: Removed duplicated region for block: B:135:0x044a A[EDGE_INSN: B:135:0x044a->B:127:0x044a ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x020d  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x020f  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x021c  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0281  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0290  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0295  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x029b  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x02a0  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0367  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x036a  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x036e  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0371  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x03b0  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x03b8  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x03d3  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -541,7 +541,7 @@ public class LoginActivity extends BaseFragment {
             this.slideViewsContainer.addView(this.views[i4], LayoutHelper.createFrame(-1, -1.0f, 17, AndroidUtilities.isTablet() ? 26.0f : 18.0f, 30.0f, AndroidUtilities.isTablet() ? 26.0f : 18.0f, 0.0f));
             i4++;
         }
-        Bundle loadCurrentState = this.activityMode == 0 ? loadCurrentState(this.newAccount) : null;
+        Bundle loadCurrentState = this.activityMode == 0 ? loadCurrentState(this.newAccount, this.currentAccount) : null;
         if (loadCurrentState != null) {
             this.currentViewNum = loadCurrentState.getInt("currentViewNum", 0);
             this.syncContacts = loadCurrentState.getInt("syncContacts", 1) == 1;
@@ -1003,13 +1003,14 @@ public class LoginActivity extends BaseFragment {
         loginActivityRegisterView.imageUpdater.openGallery();
     }
 
-    public static Bundle loadCurrentState(boolean z) {
-        if (z) {
-            return null;
-        }
+    public static Bundle loadCurrentState(boolean z, int i) {
         try {
             Bundle bundle = new Bundle();
-            for (Map.Entry<String, ?> entry : ApplicationLoader.applicationContext.getSharedPreferences("logininfo2", 0).getAll().entrySet()) {
+            Context context = ApplicationLoader.applicationContext;
+            StringBuilder sb = new StringBuilder();
+            sb.append("logininfo2");
+            sb.append(z ? "_" + i : "");
+            for (Map.Entry<String, ?> entry : context.getSharedPreferences(sb.toString(), 0).getAll().entrySet()) {
                 String key = entry.getKey();
                 Object value = entry.getValue();
                 String[] split = key.split("_\\|_");
@@ -1044,7 +1045,17 @@ public class LoginActivity extends BaseFragment {
     }
 
     private void clearCurrentState() {
-        SharedPreferences.Editor edit = ApplicationLoader.applicationContext.getSharedPreferences("logininfo2", 0).edit();
+        String str;
+        Context context = ApplicationLoader.applicationContext;
+        StringBuilder sb = new StringBuilder();
+        sb.append("logininfo2");
+        if (this.newAccount) {
+            str = "_" + this.currentAccount;
+        } else {
+            str = "";
+        }
+        sb.append(str);
+        SharedPreferences.Editor edit = context.getSharedPreferences(sb.toString(), 0).edit();
         edit.clear();
         edit.commit();
     }
@@ -1763,7 +1774,11 @@ public class LoginActivity extends BaseFragment {
                     slideView.saveStateParams(bundle2);
                 }
             }
-            SharedPreferences.Editor edit = ApplicationLoader.applicationContext.getSharedPreferences("logininfo2", 0).edit();
+            Context context = ApplicationLoader.applicationContext;
+            StringBuilder sb = new StringBuilder();
+            sb.append("logininfo2");
+            sb.append(this.newAccount ? "_" + this.currentAccount : "");
+            SharedPreferences.Editor edit = context.getSharedPreferences(sb.toString(), 0).edit();
             edit.clear();
             putBundleToEditor(bundle2, edit, null);
             edit.commit();
@@ -3867,7 +3882,7 @@ public class LoginActivity extends BaseFragment {
             return i;
         }
 
-        static /* synthetic */ int access$9826(LoginActivitySmsView loginActivitySmsView, double d) {
+        static /* synthetic */ int access$9926(LoginActivitySmsView loginActivitySmsView, double d) {
             double d2 = loginActivitySmsView.time;
             Double.isNaN(d2);
             int i = (int) (d2 - d);
@@ -4354,45 +4369,44 @@ public class LoginActivity extends BaseFragment {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$4(View view) {
-            if (LoginActivity.this.isRequestingFirebaseSms || this.isResendingCode) {
-                return;
-            }
-            this.isResendingCode = true;
-            this.timeText.invalidate();
-            this.timeText.setTextColor(Theme.getColor("windowBackgroundWhiteValueText"));
-            int i = this.nextType;
-            if (i != 4 && i != 2 && i != 11 && i != 15) {
-                if (i == 3) {
-                    AndroidUtilities.setWaitingForSms(false);
-                    NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.didReceiveSmsCode);
-                    this.waitingForEvent = false;
-                    destroyCodeTimer();
-                    resendCode();
+            if (this.time <= 0 || this.timeTimer == null) {
+                this.isResendingCode = true;
+                this.timeText.invalidate();
+                this.timeText.setTextColor(Theme.getColor("windowBackgroundWhiteValueText"));
+                int i = this.nextType;
+                if (i != 4 && i != 2 && i != 11 && i != 15) {
+                    if (i == 3) {
+                        AndroidUtilities.setWaitingForSms(false);
+                        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.didReceiveSmsCode);
+                        this.waitingForEvent = false;
+                        destroyCodeTimer();
+                        resendCode();
+                        return;
+                    }
                     return;
                 }
-                return;
-            }
-            this.timeText.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
-            int i2 = this.nextType;
-            if (i2 == 4 || i2 == 11) {
-                this.timeText.setText(LocaleController.getString("Calling", R.string.Calling));
-            } else {
-                this.timeText.setText(LocaleController.getString("SendingSms", R.string.SendingSms));
-            }
-            final Bundle bundle = new Bundle();
-            bundle.putString("phone", this.phone);
-            bundle.putString("ephone", this.emailPhone);
-            bundle.putString("phoneFormated", this.requestPhone);
-            createCodeTimer();
-            TLRPC$TL_auth_resendCode tLRPC$TL_auth_resendCode = new TLRPC$TL_auth_resendCode();
-            tLRPC$TL_auth_resendCode.phone_number = this.requestPhone;
-            tLRPC$TL_auth_resendCode.phone_code_hash = this.phoneHash;
-            ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(tLRPC$TL_auth_resendCode, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda37
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    LoginActivity.LoginActivitySmsView.this.lambda$new$3(bundle, tLObject, tLRPC$TL_error);
+                this.timeText.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
+                int i2 = this.nextType;
+                if (i2 == 4 || i2 == 11) {
+                    this.timeText.setText(LocaleController.getString("Calling", R.string.Calling));
+                } else {
+                    this.timeText.setText(LocaleController.getString("SendingSms", R.string.SendingSms));
                 }
-            }, 10);
+                final Bundle bundle = new Bundle();
+                bundle.putString("phone", this.phone);
+                bundle.putString("ephone", this.emailPhone);
+                bundle.putString("phoneFormated", this.requestPhone);
+                createCodeTimer();
+                TLRPC$TL_auth_resendCode tLRPC$TL_auth_resendCode = new TLRPC$TL_auth_resendCode();
+                tLRPC$TL_auth_resendCode.phone_number = this.requestPhone;
+                tLRPC$TL_auth_resendCode.phone_code_hash = this.phoneHash;
+                ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(tLRPC$TL_auth_resendCode, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda37
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                        LoginActivity.LoginActivitySmsView.this.lambda$new$3(bundle, tLObject, tLRPC$TL_error);
+                    }
+                }, 10);
+            }
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -4733,8 +4747,8 @@ public class LoginActivity extends BaseFragment {
             return LocaleController.getString("YourCode", R.string.YourCode);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:100:0x0300  */
-        /* JADX WARN: Removed duplicated region for block: B:101:0x0309  */
+        /* JADX WARN: Removed duplicated region for block: B:103:0x0316  */
+        /* JADX WARN: Removed duplicated region for block: B:104:0x031f  */
         @Override // org.telegram.ui.Components.SlideView
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -4838,9 +4852,11 @@ public class LoginActivity extends BaseFragment {
             if (i6 == 1) {
                 setProblemTextVisible(true);
                 this.timeText.setVisibility(8);
+                this.problemText.setVisibility(0);
             } else if (i6 == 3 && ((i2 = this.nextType) == 4 || i2 == 2)) {
                 setProblemTextVisible(false);
                 this.timeText.setVisibility(0);
+                this.problemText.setVisibility(8);
                 int i7 = this.nextType;
                 if (i7 == 4 || i7 == 11) {
                     this.timeText.setText(LocaleController.formatString("CallAvailableIn", R.string.CallAvailableIn, 1, 0));
@@ -4861,7 +4877,8 @@ public class LoginActivity extends BaseFragment {
             } else if (i6 == 2 && ((i = this.nextType) == 4 || i == 3)) {
                 this.timeText.setText(LocaleController.formatString("CallAvailableIn", R.string.CallAvailableIn, 2, 0));
                 setProblemTextVisible(this.time < 1000);
-                this.timeText.setVisibility(this.time >= 1000 ? 0 : 8);
+                this.timeText.setVisibility(this.time < 1000 ? 8 : 0);
+                this.problemText.setVisibility(this.time < 1000 ? 0 : 8);
                 SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
                 String string2 = sharedPreferences.getString("sms_hash", null);
                 if (!TextUtils.isEmpty(string2) && (string = sharedPreferences.getString("sms_hash_code", null)) != null) {
@@ -4881,10 +4898,12 @@ public class LoginActivity extends BaseFragment {
             } else if (i6 == 4 && this.nextType == 2) {
                 this.timeText.setText(LocaleController.formatString("SmsAvailableIn", R.string.SmsAvailableIn, 2, 0));
                 setProblemTextVisible(this.time < 1000);
-                this.timeText.setVisibility(this.time >= 1000 ? 0 : 8);
+                this.timeText.setVisibility(this.time < 1000 ? 8 : 0);
+                this.problemText.setVisibility(this.time < 1000 ? 0 : 8);
                 createTimer();
             } else {
                 this.timeText.setVisibility(8);
+                this.problemText.setVisibility(0);
                 setProblemTextVisible(false);
                 createCodeTimer();
             }
@@ -4961,6 +4980,7 @@ public class LoginActivity extends BaseFragment {
                 if (LoginActivitySmsView.this.codeTime <= 1000) {
                     LoginActivitySmsView.this.setProblemTextVisible(true);
                     LoginActivitySmsView.this.timeText.setVisibility(8);
+                    LoginActivitySmsView.this.problemText.setVisibility(0);
                     LoginActivitySmsView.this.destroyCodeTimer();
                 }
             }
@@ -5017,7 +5037,7 @@ public class LoginActivity extends BaseFragment {
                 double d = LoginActivitySmsView.this.lastCurrentTime;
                 Double.isNaN(currentTimeMillis);
                 LoginActivitySmsView.this.lastCurrentTime = currentTimeMillis;
-                LoginActivitySmsView.access$9826(LoginActivitySmsView.this, currentTimeMillis - d);
+                LoginActivitySmsView.access$9926(LoginActivitySmsView.this, currentTimeMillis - d);
                 if (LoginActivitySmsView.this.time >= 1000) {
                     int i = (LoginActivitySmsView.this.time / 1000) / 60;
                     int i2 = (LoginActivitySmsView.this.time / 1000) - (i * 60);
@@ -7572,6 +7592,10 @@ public class LoginActivity extends BaseFragment {
             this.signInWithGoogleView.setVisibility(i2);
             LoginActivity.this.showKeyboard(this.codeFieldContainer.codeField[0]);
             this.codeFieldContainer.requestFocus();
+            if (z || !bundle.containsKey("nextType")) {
+                return;
+            }
+            AndroidUtilities.runOnUIThread(this.resendCodeTimeout, bundle.getInt("timeout"));
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -7987,11 +8011,11 @@ public class LoginActivity extends BaseFragment {
             this.inboxImageView.getAnimatedDrawable().setCurrentFrame(0, false);
             this.inboxImageView.playAnimation();
             CodeFieldContainer codeFieldContainer = this.codeFieldContainer;
-            if (codeFieldContainer != null && codeFieldContainer.codeField != null) {
-                codeFieldContainer.setText("");
-                this.codeFieldContainer.codeField[0].requestFocus();
+            if (codeFieldContainer == null || codeFieldContainer.codeField == null) {
+                return;
             }
-            AndroidUtilities.runOnUIThread(this.resendCodeTimeout, 60000L);
+            codeFieldContainer.setText("");
+            this.codeFieldContainer.codeField[0].requestFocus();
         }
 
         @Override // org.telegram.ui.Components.SlideView

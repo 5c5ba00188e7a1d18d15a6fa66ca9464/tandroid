@@ -44,8 +44,8 @@ public final class AudioAttributes implements Bundleable {
         private int allowedCapturePolicy = 1;
         private int spatializationBehavior = 0;
 
-        public Builder setContentType(int i) {
-            this.contentType = i;
+        public Builder setUsage(int i) {
+            this.usage = i;
             return this;
         }
 
