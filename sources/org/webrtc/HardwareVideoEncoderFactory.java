@@ -100,17 +100,26 @@ public class HardwareVideoEncoderFactory implements VideoEncoderFactory {
     private MediaCodecInfo findCodecForType(VideoCodecMimeType videoCodecMimeType) {
         ArrayList<MediaCodecInfo> sortedCodecsList = MediaCodecUtils.getSortedCodecsList();
         int size = sortedCodecsList.size();
+        MediaCodecInfo mediaCodecInfo = null;
         for (int i = 0; i < size; i++) {
-            MediaCodecInfo mediaCodecInfo = sortedCodecsList.get(i);
-            if (mediaCodecInfo != null && mediaCodecInfo.isEncoder() && isSupportedCodec(mediaCodecInfo, videoCodecMimeType)) {
-                return mediaCodecInfo;
+            MediaCodecInfo mediaCodecInfo2 = sortedCodecsList.get(i);
+            if (mediaCodecInfo2 != null && mediaCodecInfo2.isEncoder()) {
+                if (isSupportedCodec(mediaCodecInfo2, videoCodecMimeType, true)) {
+                    return mediaCodecInfo2;
+                }
+                if (isSupportedCodec(mediaCodecInfo2, videoCodecMimeType, false)) {
+                    mediaCodecInfo = mediaCodecInfo2;
+                }
             }
         }
-        return null;
+        return mediaCodecInfo;
     }
 
-    private boolean isSupportedCodec(MediaCodecInfo mediaCodecInfo, VideoCodecMimeType videoCodecMimeType) {
-        return MediaCodecUtils.codecSupportsType(mediaCodecInfo, videoCodecMimeType) && MediaCodecUtils.selectColorFormat(MediaCodecUtils.ENCODER_COLOR_FORMATS, mediaCodecInfo.getCapabilitiesForType(videoCodecMimeType.mimeType())) != null && isHardwareSupportedInCurrentSdk(mediaCodecInfo, videoCodecMimeType) && isMediaCodecAllowed(mediaCodecInfo);
+    private boolean isSupportedCodec(MediaCodecInfo mediaCodecInfo, VideoCodecMimeType videoCodecMimeType, boolean z) {
+        if (MediaCodecUtils.codecSupportsType(mediaCodecInfo, videoCodecMimeType) && MediaCodecUtils.selectColorFormat(MediaCodecUtils.ENCODER_COLOR_FORMATS, mediaCodecInfo.getCapabilitiesForType(videoCodecMimeType.mimeType())) != null) {
+            return (!z || isHardwareSupportedInCurrentSdk(mediaCodecInfo, videoCodecMimeType)) && isMediaCodecAllowed(mediaCodecInfo);
+        }
+        return false;
     }
 
     private boolean isHardwareSupportedInCurrentSdk(MediaCodecInfo mediaCodecInfo, VideoCodecMimeType videoCodecMimeType) {

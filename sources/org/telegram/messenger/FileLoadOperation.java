@@ -942,7 +942,7 @@ public class FileLoadOperation {
     /* JADX WARN: Removed duplicated region for block: B:329:0x088b  */
     /* JADX WARN: Removed duplicated region for block: B:368:0x0619 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r2v64 */
-    /* JADX WARN: Type inference failed for: r2v67, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v67, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v69 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
