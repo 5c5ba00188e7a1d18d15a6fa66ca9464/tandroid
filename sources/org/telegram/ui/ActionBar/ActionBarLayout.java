@@ -1713,6 +1713,9 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 viewGroup.removeView(view);
             }
         }
+        if (!baseFragment.hasOwnBackground && view.getBackground() == null) {
+            view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+        }
         this.containerView.addView(view, LayoutHelper.createFrame(-1, -1.0f));
         ActionBar actionBar = baseFragment.actionBar;
         if (actionBar == null || !actionBar.shouldAddToContainer()) {

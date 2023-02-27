@@ -640,15 +640,20 @@ public class AndroidUtilities {
                 file.mkdirs();
                 return file;
             }
-        } catch (Exception e) {
-            ApplicationLoader.appCenterLog(e);
+        } catch (Exception unused) {
         }
         try {
-            File file2 = new File(ApplicationLoader.applicationContext.getCacheDir() + "/logs");
-            file2.mkdirs();
-            return file2;
-        } catch (Exception e2) {
-            ApplicationLoader.appCenterLog(e2);
+            try {
+                File file2 = new File(ApplicationLoader.applicationContext.getCacheDir() + "/logs");
+                file2.mkdirs();
+                return file2;
+            } catch (Exception unused2) {
+                File file3 = new File(ApplicationLoader.applicationContext.getFilesDir() + "/logs");
+                file3.mkdirs();
+                return file3;
+            }
+        } catch (Exception unused3) {
+            ApplicationLoader.appCenterLog(new RuntimeException("can't create logs directory"));
             return null;
         }
     }
@@ -2041,7 +2046,13 @@ public class AndroidUtilities {
         try {
             File filesDir = ApplicationLoader.applicationContext.getFilesDir();
             if (filesDir != null) {
-                return filesDir;
+                File file = new File(filesDir, "cache/");
+                file.mkdirs();
+                if (filesDir.exists() || filesDir.mkdirs()) {
+                    if (filesDir.canWrite()) {
+                        return file;
+                    }
+                }
             }
         } catch (Exception unused) {
         }

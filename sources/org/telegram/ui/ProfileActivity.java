@@ -1212,11 +1212,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onNestedScroll$0() {
-            RecyclerListView currentListView = ProfileActivity.this.sharedMediaLayout.getCurrentListView();
-            if (currentListView == null || currentListView.getAdapter() == null) {
-                return;
+            try {
+                RecyclerListView currentListView = ProfileActivity.this.sharedMediaLayout.getCurrentListView();
+                if (currentListView == null || currentListView.getAdapter() == null) {
+                    return;
+                }
+                currentListView.getAdapter().notifyDataSetChanged();
+            } catch (Throwable unused) {
             }
-            currentListView.getAdapter().notifyDataSetChanged();
         }
 
         @Override // android.view.ViewGroup, android.view.ViewParent, androidx.core.view.NestedScrollingParent

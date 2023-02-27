@@ -1019,5 +1019,9 @@ public class ReactionsLayoutInBubble {
             VisibleReaction visibleReaction = (VisibleReaction) obj;
             return this.documentId == visibleReaction.documentId && Objects.equals(this.emojicon, visibleReaction.emojicon);
         }
+
+        public int hashCode() {
+            return Objects.hash(this.emojicon, Long.valueOf(this.documentId));
+        }
     }
 }

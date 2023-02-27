@@ -1137,6 +1137,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             this.allReactionsAvailable = true;
             fillRecentReactionsList(arrayList);
         }
+        filterReactions(arrayList);
         setVisibleReactionsList(arrayList);
         TLRPC$TL_messageReactions tLRPC$TL_messageReactions = messageObject.messageOwner.reactions;
         if (tLRPC$TL_messageReactions == null || tLRPC$TL_messageReactions.results == null) {
@@ -1146,6 +1147,19 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             if (messageObject.messageOwner.reactions.results.get(i).chosen) {
                 this.selectedReactions.add(ReactionsLayoutInBubble.VisibleReaction.fromTLReaction(messageObject.messageOwner.reactions.results.get(i).reaction));
             }
+        }
+    }
+
+    private void filterReactions(List<ReactionsLayoutInBubble.VisibleReaction> list) {
+        HashSet hashSet = new HashSet();
+        int i = 0;
+        while (i < list.size()) {
+            if (hashSet.contains(list.get(i))) {
+                i--;
+                list.remove(i);
+            }
+            hashSet.add(list.get(i));
+            i++;
         }
     }
 
