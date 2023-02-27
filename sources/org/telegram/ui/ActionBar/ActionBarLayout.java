@@ -1671,7 +1671,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         INavigationLayout.INavigationLayoutDelegate iNavigationLayoutDelegate = this.delegate;
         if ((iNavigationLayoutDelegate == null || iNavigationLayoutDelegate.needAddFragmentToStack(baseFragment, this)) && baseFragment.onFragmentCreate() && !this.fragmentsStack.contains(baseFragment)) {
             baseFragment.setParentLayout(this);
-            if (i == -1) {
+            if (i == -1 || i == -2) {
                 if (!this.fragmentsStack.isEmpty()) {
                     List<BaseFragment> list = this.fragmentsStack;
                     BaseFragment baseFragment2 = list.get(list.size() - 1);
@@ -1687,11 +1687,13 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                     }
                 }
                 this.fragmentsStack.add(baseFragment);
-                attachView(baseFragment);
-                baseFragment.onResume();
-                baseFragment.onTransitionAnimationEnd(false, true);
-                baseFragment.onTransitionAnimationEnd(true, true);
-                baseFragment.onBecomeFullyVisible();
+                if (i != -2) {
+                    attachView(baseFragment);
+                    baseFragment.onResume();
+                    baseFragment.onTransitionAnimationEnd(false, true);
+                    baseFragment.onTransitionAnimationEnd(true, true);
+                    baseFragment.onBecomeFullyVisible();
+                }
                 onFragmentStackChanged("addFragmentToStack " + i);
             } else {
                 this.fragmentsStack.add(i, baseFragment);
