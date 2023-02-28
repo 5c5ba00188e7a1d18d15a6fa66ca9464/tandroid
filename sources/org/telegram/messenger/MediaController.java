@@ -2378,7 +2378,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     public boolean seekToProgress(MessageObject messageObject, float f) {
-        if ((this.audioPlayer != null || this.videoPlayer != null) && messageObject != null && this.playingMessageObject != null && isSamePlayingMessage(messageObject)) {
+        MessageObject messageObject2 = this.playingMessageObject;
+        if ((this.audioPlayer != null || this.videoPlayer != null) && messageObject != null && messageObject2 != null && isSamePlayingMessage(messageObject)) {
             try {
                 VideoPlayer videoPlayer = this.audioPlayer;
                 if (videoPlayer != null) {
@@ -2386,7 +2387,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     if (duration == -9223372036854775807L) {
                         this.seekToProgressPending = f;
                     } else {
-                        this.playingMessageObject.audioProgress = f;
+                        messageObject2.audioProgress = f;
                         long j = (int) (((float) duration) * f);
                         this.audioPlayer.seekTo(j);
                         this.lastProgress = j;
@@ -2397,7 +2398,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         videoPlayer2.seekTo(((float) videoPlayer2.getDuration()) * f);
                     }
                 }
-                NotificationCenter.getInstance(messageObject.currentAccount).postNotificationName(NotificationCenter.messagePlayingDidSeek, Integer.valueOf(this.playingMessageObject.getId()), Float.valueOf(f));
+                NotificationCenter.getInstance(messageObject.currentAccount).postNotificationName(NotificationCenter.messagePlayingDidSeek, Integer.valueOf(messageObject2.getId()), Float.valueOf(f));
                 return true;
             } catch (Exception e) {
                 FileLog.e(e);

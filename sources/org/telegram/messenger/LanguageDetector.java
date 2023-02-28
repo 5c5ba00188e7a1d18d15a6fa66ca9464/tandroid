@@ -38,7 +38,7 @@ public class LanguageDetector {
                 if (exceptionCallback != null) {
                     exceptionCallback.run(e);
                 }
-                FileLog.e(e);
+                FileLog.e((Throwable) e, false);
                 return;
             } catch (Exception e2) {
                 if (exceptionCallback != null) {
@@ -50,7 +50,7 @@ public class LanguageDetector {
                 if (exceptionCallback != null) {
                     exceptionCallback.run(null);
                 }
-                FileLog.e(th);
+                FileLog.e(th, false);
                 return;
             }
         }

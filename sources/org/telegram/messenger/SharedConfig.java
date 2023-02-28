@@ -1526,4 +1526,8 @@ public class SharedConfig {
     public static boolean deviceIsHigh() {
         return getDevicePerformanceClass() >= 2;
     }
+
+    public static boolean deviceIsAverage() {
+        return getDevicePerformanceClass() <= 1;
+    }
 }

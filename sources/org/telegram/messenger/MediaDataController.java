@@ -7472,7 +7472,7 @@ public class MediaDataController extends BaseController {
     /* JADX WARN: Type inference failed for: r3v1, types: [java.lang.Object[]] */
     /* JADX WARN: Type inference failed for: r4v1 */
     /* JADX WARN: Type inference failed for: r4v11 */
-    /* JADX WARN: Type inference failed for: r4v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r4v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v1, types: [java.lang.String] */
     /* JADX WARN: Type inference failed for: r7v13, types: [java.lang.StringBuilder] */
     /* JADX WARN: Type inference failed for: r7v2 */
@@ -7987,7 +7987,7 @@ public class MediaDataController extends BaseController {
     /* JADX WARN: Type inference failed for: r13v18 */
     /* JADX WARN: Type inference failed for: r13v6 */
     /* JADX WARN: Type inference failed for: r13v7 */
-    /* JADX WARN: Type inference failed for: r13v8, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v8, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v9 */
     /* JADX WARN: Type inference failed for: r19v0, types: [org.telegram.messenger.MediaDataController, org.telegram.messenger.BaseController] */
     public /* synthetic */ void lambda$loadReplyMessagesForMessages$164(final LongSparseArray longSparseArray, LongSparseArray longSparseArray2, final boolean z, final long j, final Runnable runnable) {
