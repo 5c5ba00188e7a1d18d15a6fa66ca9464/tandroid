@@ -1977,12 +1977,10 @@ public class AndroidUtilities {
                         arrayList = new ArrayList<>();
                     }
                     File file = new File(absolutePath.substring(0, indexOf));
-                    if (file.canWrite()) {
-                        for (int i2 = 0; i2 < arrayList.size(); i2++) {
-                            arrayList.get(i2).getPath().equals(file.getPath());
-                        }
-                        arrayList.add(file);
+                    for (int i2 = 0; i2 < arrayList.size(); i2++) {
+                        arrayList.get(i2).getPath().equals(file.getPath());
                     }
+                    arrayList.add(file);
                 }
             }
         }
@@ -2013,7 +2011,7 @@ public class AndroidUtilities {
                     if (!TextUtils.isEmpty(SharedConfig.storageCacheDir)) {
                         while (true) {
                             if (i < externalCacheDirs.length) {
-                                if (externalCacheDirs[i] != null && externalCacheDirs[i].getAbsolutePath().startsWith(SharedConfig.storageCacheDir) && externalCacheDirs[i].canWrite()) {
+                                if (externalCacheDirs[i] != null && externalCacheDirs[i].getAbsolutePath().startsWith(SharedConfig.storageCacheDir)) {
                                     externalCacheDir = externalCacheDirs[i];
                                     break;
                                 }

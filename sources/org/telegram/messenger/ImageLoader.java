@@ -3815,17 +3815,17 @@ public class ImageLoader {
         }
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:47:0x00cb, code lost:
+        if (r2.mkdirs() != false) goto L29;
+     */
     /* JADX WARN: Code restructure failed: missing block: B:49:0x00d1, code lost:
-        if (r2.mkdirs() != false) goto L33;
+        if (r2.canWrite() == false) goto L138;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:51:0x00d7, code lost:
-        if (r2.canWrite() == false) goto L145;
-     */
-    /* JADX WARN: Removed duplicated region for block: B:132:0x0296 A[Catch: Exception -> 0x02a9, TRY_LEAVE, TryCatch #7 {Exception -> 0x02a9, blocks: (B:126:0x0279, B:128:0x0287, B:130:0x028d, B:132:0x0296), top: B:168:0x0279, outer: #0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x02ca A[Catch: Exception -> 0x02dd, TRY_LEAVE, TryCatch #1 {Exception -> 0x02dd, blocks: (B:136:0x02ad, B:138:0x02bb, B:140:0x02c1, B:142:0x02ca), top: B:156:0x02ad, outer: #0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:170:0x0146 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:182:0x0134 A[EDGE_INSN: B:182:0x0134->B:70:0x0134 ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0104 A[Catch: Exception -> 0x02f0, TryCatch #0 {Exception -> 0x02f0, blocks: (B:11:0x003d, B:13:0x0049, B:15:0x0056, B:17:0x005c, B:19:0x0063, B:21:0x0075, B:24:0x007d, B:25:0x0080, B:42:0x00b1, B:54:0x00e6, B:56:0x00f1, B:58:0x00f9, B:60:0x0104, B:62:0x010c, B:64:0x0114, B:66:0x0120, B:68:0x0126, B:69:0x0131, B:70:0x0134, B:122:0x026e, B:112:0x022d, B:102:0x01ec, B:92:0x01ab, B:124:0x0273, B:145:0x02de, B:135:0x02aa, B:149:0x02ec, B:82:0x0177, B:41:0x00ae, B:43:0x00c0, B:45:0x00c6, B:50:0x00d3, B:53:0x00df, B:52:0x00d9, B:48:0x00cd, B:146:0x02e2, B:148:0x02e6, B:136:0x02ad, B:138:0x02bb, B:140:0x02c1, B:142:0x02ca, B:113:0x0230, B:115:0x0242, B:117:0x0249, B:119:0x0258, B:103:0x01ef, B:105:0x0201, B:107:0x0208, B:109:0x0217, B:93:0x01ae, B:95:0x01c0, B:97:0x01c7, B:99:0x01d6, B:83:0x017a, B:85:0x018a, B:87:0x0190, B:89:0x0197, B:126:0x0279, B:128:0x0287, B:130:0x028d, B:132:0x0296, B:73:0x0146, B:75:0x0156, B:77:0x015c, B:79:0x0163), top: B:154:0x003d, inners: #1, #2, #3, #5, #6, #7, #8 }] */
+    /* JADX WARN: Removed duplicated region for block: B:128:0x028a A[Catch: Exception -> 0x029d, TRY_LEAVE, TryCatch #4 {Exception -> 0x029d, blocks: (B:122:0x026d, B:124:0x027b, B:126:0x0281, B:128:0x028a), top: B:158:0x026d, outer: #8 }] */
+    /* JADX WARN: Removed duplicated region for block: B:138:0x02be A[Catch: Exception -> 0x02d1, TRY_LEAVE, TryCatch #10 {Exception -> 0x02d1, blocks: (B:132:0x02a1, B:134:0x02af, B:136:0x02b5, B:138:0x02be), top: B:170:0x02a1, outer: #8 }] */
+    /* JADX WARN: Removed duplicated region for block: B:162:0x013a A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:177:0x0128 A[EDGE_INSN: B:177:0x0128->B:66:0x0128 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x00fe A[Catch: Exception -> 0x02e4, TryCatch #8 {Exception -> 0x02e4, blocks: (B:11:0x003d, B:13:0x0049, B:15:0x0056, B:17:0x005c, B:19:0x0063, B:22:0x0077, B:23:0x007a, B:40:0x00ab, B:52:0x00e0, B:54:0x00eb, B:56:0x00f3, B:58:0x00fe, B:60:0x0106, B:62:0x010e, B:64:0x011a, B:65:0x0125, B:66:0x0128, B:118:0x0262, B:108:0x0221, B:98:0x01e0, B:88:0x019f, B:120:0x0267, B:141:0x02d2, B:131:0x029e, B:145:0x02e0, B:78:0x016b, B:39:0x00a8, B:41:0x00ba, B:43:0x00c0, B:48:0x00cd, B:51:0x00d9, B:50:0x00d3, B:46:0x00c7, B:142:0x02d6, B:144:0x02da, B:99:0x01e3, B:101:0x01f5, B:103:0x01fc, B:105:0x020b, B:89:0x01a2, B:91:0x01b4, B:93:0x01bb, B:95:0x01ca, B:79:0x016e, B:81:0x017e, B:83:0x0184, B:85:0x018b, B:122:0x026d, B:124:0x027b, B:126:0x0281, B:128:0x028a, B:69:0x013a, B:71:0x014a, B:73:0x0150, B:75:0x0157, B:132:0x02a1, B:134:0x02af, B:136:0x02b5, B:138:0x02be, B:109:0x0224, B:111:0x0236, B:113:0x023d, B:115:0x024c), top: B:166:0x003d, inners: #0, #1, #3, #4, #6, #10, #11 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3861,7 +3861,7 @@ public class ImageLoader {
                             break;
                         }
                         File file4 = rootDirs.get(i2);
-                        if (file4.getAbsolutePath().startsWith(SharedConfig.storageCacheDir) && file4.canWrite()) {
+                        if (file4.getAbsolutePath().startsWith(SharedConfig.storageCacheDir)) {
                             externalStorageDirectory = file4;
                             break;
                         }
@@ -3951,7 +3951,7 @@ public class ImageLoader {
                     while (true) {
                         if (i < size) {
                             File file7 = dataDirs2.get(i);
-                            if (file7 != null && !TextUtils.isEmpty(SharedConfig.storageCacheDir) && file7.getAbsolutePath().startsWith(SharedConfig.storageCacheDir) && file7.canWrite()) {
+                            if (file7 != null && !TextUtils.isEmpty(SharedConfig.storageCacheDir) && file7.getAbsolutePath().startsWith(SharedConfig.storageCacheDir)) {
                                 File file8 = new File(file7, "Telegram");
                                 this.telegramPath = file8;
                                 file8.mkdirs();
