@@ -6092,7 +6092,7 @@ public class Theme {
     /* JADX WARN: Code restructure failed: missing block: B:20:0x003e, code lost:
         r0 = org.telegram.messenger.MessagesController.getGlobalMainSettings().edit();
         r0.putString("theme", r7.getKey());
-        r0.apply();
+        r0.commit();
      */
     /* JADX WARN: Removed duplicated region for block: B:89:0x01d1 A[Catch: Exception -> 0x01e8, TryCatch #2 {Exception -> 0x01e8, blocks: (B:8:0x000d, B:11:0x0014, B:16:0x001d, B:17:0x002b, B:85:0x01c5, B:87:0x01c9, B:89:0x01d1, B:90:0x01e2, B:20:0x003e, B:21:0x0050, B:23:0x0057, B:25:0x006b, B:27:0x0077, B:29:0x007d, B:31:0x0087, B:37:0x00c3, B:83:0x01bf, B:24:0x005e, B:38:0x00c5, B:40:0x00db, B:42:0x00e7, B:45:0x00eb, B:47:0x00ee, B:49:0x00f8, B:53:0x0107, B:50:0x00fb, B:52:0x0105, B:54:0x010a, B:55:0x011b, B:57:0x0127, B:59:0x013f, B:61:0x0149, B:62:0x0155, B:64:0x015d, B:66:0x0167, B:67:0x0174, B:69:0x017c, B:71:0x0186, B:72:0x0193, B:74:0x019f), top: B:106:0x000d }] */
     /*
@@ -6115,7 +6115,7 @@ public class Theme {
             if (!z3 && z) {
                 SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
                 edit.remove("theme");
-                edit.apply();
+                edit.commit();
             }
             currentColorsNoAccent.clear();
             themedWallpaperFileOffset = 0;
