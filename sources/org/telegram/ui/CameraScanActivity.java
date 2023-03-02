@@ -523,7 +523,7 @@ public class CameraScanActivity extends BaseFragment {
             this.actionBar.setTitleColor(-1);
             this.actionBar.setItemsColor(-1, false);
             this.actionBar.setItemsBackgroundColor(587202559, false);
-            viewGroup.setBackgroundColor(Theme.getColor("wallet_blackBackground"));
+            viewGroup.setBackgroundColor(-16777216);
             viewGroup.addView(this.actionBar);
         }
         int i = this.currentType;

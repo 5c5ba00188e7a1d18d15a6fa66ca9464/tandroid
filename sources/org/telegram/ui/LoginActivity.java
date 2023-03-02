@@ -9258,7 +9258,7 @@ public class LoginActivity extends BaseFragment {
             this.firstNameField.setImeOptions(268435461);
             this.firstNameField.setTextSize(1, 17.0f);
             this.firstNameField.setMaxLines(1);
-            this.firstNameField.setInputType(8192);
+            this.firstNameField.setInputType(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
             this.firstNameField.setOnFocusChangeListener(new View.OnFocusChangeListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityRegisterView$$ExternalSyntheticLambda9
                 @Override // android.view.View.OnFocusChangeListener
                 public final void onFocusChange(View view2, boolean z) {
@@ -9287,7 +9287,7 @@ public class LoginActivity extends BaseFragment {
             this.lastNameField.setImeOptions(268435462);
             this.lastNameField.setTextSize(1, 17.0f);
             this.lastNameField.setMaxLines(1);
-            this.lastNameField.setInputType(8192);
+            this.lastNameField.setInputType(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
             this.lastNameField.setOnFocusChangeListener(new View.OnFocusChangeListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityRegisterView$$ExternalSyntheticLambda8
                 @Override // android.view.View.OnFocusChangeListener
                 public final void onFocusChange(View view2, boolean z) {

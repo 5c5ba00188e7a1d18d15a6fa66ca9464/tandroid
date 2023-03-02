@@ -1059,9 +1059,9 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 arrayList = arrayList2;
             }
             if (Build.MANUFACTURER.equalsIgnoreCase("Xiaomi")) {
-                return CameraController.chooseOptimalSize(arrayList, 640, LiteMode.FLAGS_CHAT, this.aspectRatio);
+                return CameraController.chooseOptimalSize(arrayList, 640, 480, this.aspectRatio);
             }
-            return CameraController.chooseOptimalSize(arrayList, LiteMode.FLAGS_CHAT, 270, this.aspectRatio);
+            return CameraController.chooseOptimalSize(arrayList, 480, 270, this.aspectRatio);
         }
         Collections.sort(arrayList2, InstantCameraView$$ExternalSyntheticLambda6.INSTANCE);
         return arrayList2.get(0);

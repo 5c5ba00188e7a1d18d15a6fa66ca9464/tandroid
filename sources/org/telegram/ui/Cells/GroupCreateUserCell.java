@@ -364,11 +364,11 @@ public class GroupCreateUserCell extends FrameLayout {
             layoutParams3.width = dp2;
             CheckBox2 checkBox22 = this.checkBox;
             if (checkBox22 != null) {
-                ((FrameLayout.LayoutParams) checkBox22.getLayoutParams()).topMargin = AndroidUtilities.dp(33.0f) + this.padding;
+                ((FrameLayout.LayoutParams) checkBox22.getLayoutParams()).topMargin = AndroidUtilities.dp(29.0f) + this.padding;
                 if (LocaleController.isRTL) {
                     ((FrameLayout.LayoutParams) this.checkBox.getLayoutParams()).rightMargin = AndroidUtilities.dp(39.0f) + this.padding;
                 } else {
-                    ((FrameLayout.LayoutParams) this.checkBox.getLayoutParams()).leftMargin = AndroidUtilities.dp(40.0f) + this.padding;
+                    ((FrameLayout.LayoutParams) this.checkBox.getLayoutParams()).leftMargin = AndroidUtilities.dp(45.0f) + this.padding;
                 }
             }
             Object obj2 = this.currentObject;

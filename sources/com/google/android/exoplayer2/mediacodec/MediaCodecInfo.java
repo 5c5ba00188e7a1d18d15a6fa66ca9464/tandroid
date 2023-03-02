@@ -159,13 +159,13 @@ public final class MediaCodecInfo {
             }
         } else {
             if (format.channelCount != format2.channelCount) {
-                i |= 4096;
+                i |= LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
             }
             if (format.sampleRate != format2.sampleRate) {
-                i |= 8192;
+                i |= LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
             }
             if (format.pcmEncoding != format2.pcmEncoding) {
-                i |= 16384;
+                i |= LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
             }
             if (i == 0 && MediaController.AUIDO_MIME_TYPE.equals(this.mimeType)) {
                 Pair<Integer, Integer> codecProfileAndLevel = MediaCodecUtil.getCodecProfileAndLevel(format);

@@ -6294,7 +6294,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     case 27:
                         textView = new BlockDetailsBottomCell(this.context);
                         break;
-                    case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
+                    case 28:
                         textView = new BlockRelatedArticlesShadowCell(this.context);
                         break;
                     default:

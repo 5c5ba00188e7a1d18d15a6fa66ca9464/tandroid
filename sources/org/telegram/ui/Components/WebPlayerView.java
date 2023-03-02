@@ -59,6 +59,7 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC$Photo;
@@ -528,7 +529,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             }
             if (inputStream != null) {
                 try {
-                    byte[] bArr = new byte[32768];
+                    byte[] bArr = new byte[LiteMode.FLAG_CHAT_SCALE];
                     sb = null;
                     while (true) {
                         try {

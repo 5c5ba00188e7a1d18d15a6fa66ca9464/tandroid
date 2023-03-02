@@ -1011,7 +1011,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                     }
                 });
             }
-            if (resentSearchAvailable()) {
+            if (resentSearchAvailable() && !(obj instanceof TLRPC$EncryptedChat)) {
                 DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate = this.delegate;
                 boolean z = dialogsSearchAdapterDelegate != null && dialogsSearchAdapterDelegate.getSearchForumDialogId() == j;
                 for (int i3 = 0; !z && i3 < size; i3++) {

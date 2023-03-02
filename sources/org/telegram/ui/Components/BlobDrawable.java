@@ -28,21 +28,33 @@ public class BlobDrawable {
     private float[] angleNext;
     private float animateAmplitudeDiff;
     private float animateToAmplitude;
+    public float cubicBezierK;
+    private final int liteFlag;
+    private final Matrix m;
     public float maxRadius;
     public float minRadius;
+    public Paint paint;
+    private Path path;
+    private float[] pointEnd;
+    private float[] pointStart;
     private float[] progress;
     private float[] radius;
     private float[] radiusNext;
+    final Random random;
     private float[] speed;
-    private Path path = new Path();
-    public Paint paint = new Paint(1);
-    private float[] pointStart = new float[4];
-    private float[] pointEnd = new float[4];
-    final Random random = new Random();
-    public float cubicBezierK = 1.0f;
-    private final Matrix m = new Matrix();
 
     public BlobDrawable(int i) {
+        this(i, LiteMode.FLAG_CALLS_ANIMATIONS);
+    }
+
+    public BlobDrawable(int i, int i2) {
+        this.path = new Path();
+        this.paint = new Paint(1);
+        this.pointStart = new float[4];
+        this.pointEnd = new float[4];
+        this.random = new Random();
+        this.cubicBezierK = 1.0f;
+        this.m = new Matrix();
         float f = i;
         this.N = f;
         double d = f * 2.0f;
@@ -54,11 +66,12 @@ public class BlobDrawable {
         this.angleNext = new float[i];
         this.progress = new float[i];
         this.speed = new float[i];
-        for (int i2 = 0; i2 < this.N; i2++) {
-            generateBlob(this.radius, this.angle, i2);
-            generateBlob(this.radiusNext, this.angleNext, i2);
-            this.progress[i2] = 0.0f;
+        for (int i3 = 0; i3 < this.N; i3++) {
+            generateBlob(this.radius, this.angle, i3);
+            generateBlob(this.radiusNext, this.angleNext, i3);
+            this.progress[i3] = 0.0f;
         }
+        this.liteFlag = i2;
     }
 
     private void generateBlob(float[] fArr, float[] fArr2, int i) {
@@ -73,7 +86,7 @@ public class BlobDrawable {
     }
 
     public void update(float f, float f2) {
-        if (LiteMode.isEnabled(LiteMode.FLAG_CALLS_ANIMATIONS)) {
+        if (LiteMode.isEnabled(this.liteFlag)) {
             for (int i = 0; i < this.N; i++) {
                 float[] fArr = this.progress;
                 float f3 = fArr[i];
@@ -94,7 +107,7 @@ public class BlobDrawable {
     }
 
     public void draw(float f, float f2, Canvas canvas, Paint paint) {
-        if (!LiteMode.isEnabled(LiteMode.FLAG_CALLS_ANIMATIONS)) {
+        if (!LiteMode.isEnabled(this.liteFlag)) {
             return;
         }
         this.path.reset();
@@ -167,7 +180,7 @@ public class BlobDrawable {
 
     public void setValue(float f, boolean z) {
         this.animateToAmplitude = f;
-        if (LiteMode.isEnabled(LiteMode.FLAG_CALLS_ANIMATIONS)) {
+        if (LiteMode.isEnabled(this.liteFlag)) {
             if (z) {
                 float f2 = this.animateToAmplitude;
                 float f3 = this.amplitude;

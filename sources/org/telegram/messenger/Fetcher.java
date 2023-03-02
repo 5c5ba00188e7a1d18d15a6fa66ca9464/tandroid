@@ -10,7 +10,7 @@ public abstract class Fetcher<Args, R> {
     private HashMap<Pair<Integer, Args>, R> cachedResults;
     private HashMap<Pair<Integer, Args>, Long> lastRequestedRemotely;
     private HashMap<Pair<Integer, Args>, ArrayList<Utilities.Callback<R>>> loadingCallbacks;
-    private long requestRemotelyTimeout = 240000;
+    private final long requestRemotelyTimeout = 240000;
 
     protected void getRemote(int i, Args args, long j, Utilities.Callback3<Boolean, R, Long> callback3) {
     }
@@ -99,7 +99,7 @@ public abstract class Fetcher<Args, R> {
     private boolean shouldRequest(Pair<Integer, Args> pair) {
         HashMap<Pair<Integer, Args>, Long> hashMap = this.lastRequestedRemotely;
         Long l = hashMap != null ? hashMap.get(pair) : null;
-        return l == null || System.currentTimeMillis() - l.longValue() >= this.requestRemotelyTimeout;
+        return l == null || System.currentTimeMillis() - l.longValue() >= 240000;
     }
 
     private boolean isLoading(Pair<Integer, Args> pair) {

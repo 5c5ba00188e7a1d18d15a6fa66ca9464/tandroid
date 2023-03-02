@@ -89,7 +89,7 @@ public class AutoDeletePopupWrapper {
             }
         });
         if (i != 1) {
-            addItem2.setColors(Theme.getColor("dialogTextRed2"), Theme.getColor("dialogTextRed2"));
+            addItem2.setColors(Theme.getColor("dialogTextRed"), Theme.getColor("dialogTextRed"));
         }
         if (i != 1) {
             FrameLayout frameLayout = new FrameLayout(context);

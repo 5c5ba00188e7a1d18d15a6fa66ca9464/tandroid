@@ -224,8 +224,9 @@ public class Bulletin {
         }
     }
 
-    public void setDuration(int i) {
+    public Bulletin setDuration(int i) {
         this.duration = i;
+        return this;
     }
 
     public Bulletin show() {
@@ -1333,6 +1334,7 @@ public class Bulletin {
     /* loaded from: classes3.dex */
     public static class TwoLineLayout extends ButtonLayout {
         public final BackupImageView imageView;
+        private final LinearLayout linearLayout;
         public final TextView subtitleTextView;
         public final TextView titleTextView;
 
@@ -1343,6 +1345,7 @@ public class Bulletin {
             this.imageView = backupImageView;
             addView(backupImageView, LayoutHelper.createFrameRelatively(29.0f, 29.0f, 8388627, 12.0f, 12.0f, 12.0f, 12.0f));
             LinearLayout linearLayout = new LinearLayout(context);
+            this.linearLayout = linearLayout;
             linearLayout.setOrientation(1);
             addView(linearLayout, LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 8388627, 54.0f, 8.0f, 12.0f, 8.0f));
             TextView textView = new TextView(context);
@@ -1372,6 +1375,7 @@ public class Bulletin {
     /* loaded from: classes3.dex */
     public static class TwoLineLottieLayout extends ButtonLayout {
         public final RLottieImageView imageView;
+        private final LinearLayout linearLayout;
         public final LinkSpanDrawable.LinksTextView subtitleTextView;
         private final int textColor;
         public final LinkSpanDrawable.LinksTextView titleTextView;
@@ -1387,6 +1391,7 @@ public class Bulletin {
             int themedColor = getThemedColor("undo_infoColor");
             int themedColor2 = getThemedColor("undo_cancelColor");
             LinearLayout linearLayout = new LinearLayout(context);
+            this.linearLayout = linearLayout;
             linearLayout.setOrientation(1);
             addView(linearLayout, LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 8388627, 52.0f, 8.0f, 8.0f, 8.0f));
             LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context);

@@ -1,4 +1,6 @@
 package j$.util.stream;
+
+import org.telegram.messenger.LiteMode;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public abstract class x2 {
@@ -17,7 +19,7 @@ public abstract class x2 {
 
     public static A1 e(y2 y2Var, j$.util.u uVar, boolean z, j$.util.function.m mVar) {
         long q0 = y2Var.q0(uVar);
-        if (q0 < 0 || !uVar.hasCharacteristics(16384)) {
+        if (q0 < 0 || !uVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
             A1 a1 = (A1) new H1(y2Var, mVar, uVar).invoke();
             return z ? l(a1, mVar) : a1;
         } else if (q0 < 2147483639) {
@@ -31,7 +33,7 @@ public abstract class x2 {
 
     public static u1 f(y2 y2Var, j$.util.u uVar, boolean z) {
         long q0 = y2Var.q0(uVar);
-        if (q0 < 0 || !uVar.hasCharacteristics(16384)) {
+        if (q0 < 0 || !uVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
             u1 u1Var = (u1) new H1(y2Var, uVar, 0).invoke();
             return z ? m(u1Var) : u1Var;
         } else if (q0 < 2147483639) {
@@ -45,7 +47,7 @@ public abstract class x2 {
 
     public static w1 g(y2 y2Var, j$.util.u uVar, boolean z) {
         long q0 = y2Var.q0(uVar);
-        if (q0 < 0 || !uVar.hasCharacteristics(16384)) {
+        if (q0 < 0 || !uVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
             w1 w1Var = (w1) new H1(y2Var, uVar, 1).invoke();
             return z ? n(w1Var) : w1Var;
         } else if (q0 < 2147483639) {
@@ -59,7 +61,7 @@ public abstract class x2 {
 
     public static y1 h(y2 y2Var, j$.util.u uVar, boolean z) {
         long q0 = y2Var.q0(uVar);
-        if (q0 < 0 || !uVar.hasCharacteristics(16384)) {
+        if (q0 < 0 || !uVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
             y1 y1Var = (y1) new H1(y2Var, uVar, 2).invoke();
             return z ? o(y1Var) : y1Var;
         } else if (q0 < 2147483639) {

@@ -292,7 +292,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             showDialog(create);
             TextView textView = (TextView) create.getButton(-1);
             if (textView != null) {
-                textView.setTextColor(Theme.getColor("dialogTextRed2"));
+                textView.setTextColor(Theme.getColor("dialogTextRed"));
             }
         } else if (((i < this.otherSessionsStartRow || i >= this.otherSessionsEndRow) && ((i < this.passwordSessionsStartRow || i >= this.passwordSessionsEndRow) && i != this.currentSessionRow)) || getParentActivity() == null) {
         } else {
@@ -351,7 +351,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             showDialog(create2);
             TextView textView2 = (TextView) create2.getButton(-1);
             if (textView2 != null) {
-                textView2.setTextColor(Theme.getColor("dialogTextRed2"));
+                textView2.setTextColor(Theme.getColor("dialogTextRed"));
             }
         }
     }

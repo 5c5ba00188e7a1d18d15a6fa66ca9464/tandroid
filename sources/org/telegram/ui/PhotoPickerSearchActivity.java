@@ -25,10 +25,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.R;
-import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -231,7 +230,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                 int size2 = View.MeasureSpec.getSize(i2);
                 setMeasuredDimension(size, size2);
                 measureChildWithMargins(((BaseFragment) PhotoPickerSearchActivity.this).actionBar, i, 0, i2, 0);
-                if ((SharedConfig.smoothKeyboard ? 0 : measureKeyboardHeight()) <= AndroidUtilities.dp(20.0f)) {
+                if (AndroidUtilities.dp(20.0f) >= 0) {
                     if (!AndroidUtilities.isInMultiwindow) {
                         size2 -= PhotoPickerSearchActivity.this.commentTextView.getEmojiPadding();
                         i2 = View.MeasureSpec.makeMeasureSpec(size2, 1073741824);
@@ -271,11 +270,11 @@ public class PhotoPickerSearchActivity extends BaseFragment {
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
-            /* JADX WARN: Removed duplicated region for block: B:32:0x0083  */
-            /* JADX WARN: Removed duplicated region for block: B:39:0x009d  */
-            /* JADX WARN: Removed duplicated region for block: B:43:0x00b2  */
-            /* JADX WARN: Removed duplicated region for block: B:47:0x00c4  */
-            /* JADX WARN: Removed duplicated region for block: B:48:0x00cd  */
+            /* JADX WARN: Removed duplicated region for block: B:28:0x007a  */
+            /* JADX WARN: Removed duplicated region for block: B:35:0x0094  */
+            /* JADX WARN: Removed duplicated region for block: B:39:0x00a9  */
+            /* JADX WARN: Removed duplicated region for block: B:43:0x00bb  */
+            /* JADX WARN: Removed duplicated region for block: B:44:0x00c4  */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -290,8 +289,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                 int measuredHeight;
                 int measuredHeight2;
                 int childCount = getChildCount();
-                int measureKeyboardHeight = SharedConfig.smoothKeyboard ? 0 : measureKeyboardHeight();
-                int emojiPadding = (measureKeyboardHeight > AndroidUtilities.dp(20.0f) || AndroidUtilities.isInMultiwindow || AndroidUtilities.isTablet()) ? 0 : PhotoPickerSearchActivity.this.commentTextView.getEmojiPadding();
+                int emojiPadding = (AndroidUtilities.dp(20.0f) < 0 || AndroidUtilities.isInMultiwindow || AndroidUtilities.isTablet()) ? 0 : PhotoPickerSearchActivity.this.commentTextView.getEmojiPadding();
                 setBottomClip(emojiPadding);
                 for (int i11 = 0; i11 < childCount; i11++) {
                     View childAt = getChildAt(i11);
@@ -304,7 +302,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                             i12 = 51;
                         }
                         int i13 = i12 & 7;
-                        int i14 = i12 & MessagesStorage.LAST_DB_VERSION;
+                        int i14 = i12 & 112;
                         int i15 = i13 & 7;
                         if (i15 == 1) {
                             i5 = (((i3 - i) - measuredWidth) / 2) + layoutParams.leftMargin;
@@ -328,7 +326,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                                         measuredHeight = getMeasuredHeight();
                                         measuredHeight2 = childAt.getMeasuredHeight();
                                     } else {
-                                        measuredHeight = getMeasuredHeight() + measureKeyboardHeight;
+                                        measuredHeight = getMeasuredHeight() + 0;
                                         measuredHeight2 = childAt.getMeasuredHeight();
                                     }
                                     i10 = measuredHeight - measuredHeight2;
@@ -645,7 +643,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
         int color = Theme.getColor("dialogBackground");
         if (Build.VERSION.SDK_INT >= 23 && AndroidUtilities.computePerceivedBrightness(color) >= 0.721f) {
             View view2 = this.fragmentView;
-            view2.setSystemUiVisibility(view2.getSystemUiVisibility() | 8192);
+            view2.setSystemUiVisibility(view2.getSystemUiVisibility() | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
         }
         return this.fragmentView;
     }
@@ -656,7 +654,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
         ActionBarMenuItem actionBarMenuItem = this.searchItem;
         if (actionBarMenuItem != null) {
             actionBarMenuItem.openSearch(true);
-            getParentActivity().getWindow().setSoftInputMode(SharedConfig.smoothKeyboard ? 32 : 16);
+            getParentActivity().getWindow().setSoftInputMode(32);
         }
         PhotoPickerActivity photoPickerActivity = this.imagesSearch;
         if (photoPickerActivity != null) {

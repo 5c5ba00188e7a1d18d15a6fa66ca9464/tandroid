@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class TsExtractor implements Extractor {
     private int bytesSinceLastSync;
@@ -381,7 +382,7 @@ public final class TsExtractor implements Extractor {
                 TsExtractor tsExtractor = TsExtractor.this;
                 tsExtractor.id3Reader = tsExtractor.payloadReaderFactory.createPayloadReader(21, esInfo);
                 if (TsExtractor.this.id3Reader != null) {
-                    TsExtractor.this.id3Reader.init(timestampAdjuster, TsExtractor.this.output, new TsPayloadReader.TrackIdGenerator(readUnsignedShort, 21, 8192));
+                    TsExtractor.this.id3Reader.init(timestampAdjuster, TsExtractor.this.output, new TsPayloadReader.TrackIdGenerator(readUnsignedShort, 21, LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM));
                 }
             }
             this.trackIdToReaderScratch.clear();
@@ -402,7 +403,7 @@ public final class TsExtractor implements Extractor {
                 int i4 = TsExtractor.this.mode == 2 ? readBits : readBits2;
                 if (!TsExtractor.this.trackIds.get(i4)) {
                     TsPayloadReader createPayloadReader = (TsExtractor.this.mode == 2 && readBits == 21) ? TsExtractor.this.id3Reader : TsExtractor.this.payloadReaderFactory.createPayloadReader(readBits, readEsInfo);
-                    if (TsExtractor.this.mode != 2 || readBits2 < this.trackIdToPidScratch.get(i4, 8192)) {
+                    if (TsExtractor.this.mode != 2 || readBits2 < this.trackIdToPidScratch.get(i4, LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM)) {
                         this.trackIdToPidScratch.put(i4, readBits2);
                         this.trackIdToReaderScratch.put(i4, createPayloadReader);
                     }
@@ -420,7 +421,7 @@ public final class TsExtractor implements Extractor {
                 TsPayloadReader valueAt2 = this.trackIdToReaderScratch.valueAt(i5);
                 if (valueAt2 != null) {
                     if (valueAt2 != TsExtractor.this.id3Reader) {
-                        valueAt2.init(timestampAdjuster, TsExtractor.this.output, new TsPayloadReader.TrackIdGenerator(readUnsignedShort, keyAt, 8192));
+                        valueAt2.init(timestampAdjuster, TsExtractor.this.output, new TsPayloadReader.TrackIdGenerator(readUnsignedShort, keyAt, LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM));
                     }
                     TsExtractor.this.tsPayloadReaders.put(valueAt, valueAt2);
                 }

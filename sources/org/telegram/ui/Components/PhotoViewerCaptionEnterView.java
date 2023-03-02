@@ -33,12 +33,12 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
-import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$InputStickerSet;
@@ -240,7 +240,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         this.messageEditText.setImeOptions(268435456);
         this.messageEditText.setLinkTextColor(-8994063);
         EditTextCaption editTextCaption2 = this.messageEditText;
-        editTextCaption2.setInputType(editTextCaption2.getInputType() | 16384);
+        editTextCaption2.setInputType(editTextCaption2.getInputType() | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
         this.messageEditText.setMaxLines(4);
         this.messageEditText.setHorizontallyScrolling(false);
         this.messageEditText.setTextSize(1, 18.0f);
@@ -1180,7 +1180,6 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
     }
 
     private void showPopup(int i, boolean z) {
-        EmojiView emojiView;
         if (i == 1) {
             createEmojiView();
             this.emojiView.setVisibility(0);
@@ -1214,7 +1213,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
             this.emojiIconDrawable.setIcon(R.drawable.input_smile, true);
         }
         if (this.sizeNotifierLayout != null) {
-            if (z && SharedConfig.smoothKeyboard && i == 0 && this.emojiView != null) {
+            if (z && i == 0 && this.emojiView != null) {
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(this.emojiPadding, 0.0f);
                 final float f = this.emojiPadding;
                 this.popupAnimating = true;
@@ -1242,13 +1241,11 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
                 ofFloat.setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator);
                 ofFloat.start();
             } else if (i == 0) {
-                EmojiView emojiView2 = this.emojiView;
-                if (emojiView2 != null) {
-                    emojiView2.setVisibility(8);
+                EmojiView emojiView = this.emojiView;
+                if (emojiView != null) {
+                    emojiView.setVisibility(8);
                 }
                 this.emojiPadding = 0;
-            } else if (!SharedConfig.smoothKeyboard && (emojiView = this.emojiView) != null) {
-                emojiView.setVisibility(8);
             }
             this.sizeNotifierLayout.requestLayout();
             onWindowSizeChanged();

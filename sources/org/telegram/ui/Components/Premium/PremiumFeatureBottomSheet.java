@@ -38,6 +38,7 @@ import org.telegram.ui.Components.BottomPagesView;
 import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.Premium.PremiumGradient;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.PremiumPreviewFragment;
@@ -119,6 +120,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
             i3 = 0;
         }
         final PremiumPreviewFragment.PremiumFeatureData premiumFeatureData = this.premiumFeatures.get(i3);
+        setApplyTopPadding(false);
         setApplyBottomPadding(false);
         this.useBackgroundTopPadding = false;
         final PremiumGradient.PremiumGradientTools premiumGradientTools = new PremiumGradient.PremiumGradientTools("premiumGradientBottomSheet1", "premiumGradientBottomSheet2", "premiumGradientBottomSheet3", null);
@@ -219,85 +221,8 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         this.viewPager.setCurrentItem(i3);
         frameLayout.addView(this.viewPager, LayoutHelper.createFrame(-1, 100.0f, 0, 0.0f, 18.0f, 0.0f, 0.0f));
         frameLayout.addView(this.closeLayout, LayoutHelper.createFrame(52, 52.0f, 53, 0.0f, 24.0f, 0.0f, 0.0f));
-        final BottomPagesView bottomPagesView = new BottomPagesView(getContext(), this.viewPager, this.premiumFeatures.size());
-        this.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() { // from class: org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet.5
-            float progress;
-            int selectedPosition;
-            int toPosition;
-
-            @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-            public void onPageScrollStateChanged(int i4) {
-            }
-
-            @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-            public void onPageScrolled(int i4, float f, int i5) {
-                bottomPagesView.setPageOffset(i4, f);
-                this.selectedPosition = i4;
-                this.toPosition = i5 > 0 ? i4 + 1 : i4 - 1;
-                this.progress = f;
-                checkPage();
-            }
-
-            @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-            public void onPageSelected(int i4) {
-                checkPage();
-            }
-
-            private void checkPage() {
-                float measuredWidth;
-                int i4 = 0;
-                while (true) {
-                    float f = 0.0f;
-                    if (i4 >= PremiumFeatureBottomSheet.this.viewPager.getChildCount()) {
-                        break;
-                    }
-                    ViewPage viewPage = (ViewPage) PremiumFeatureBottomSheet.this.viewPager.getChildAt(i4);
-                    if (!PremiumFeatureBottomSheet.this.enterAnimationIsRunning || !(viewPage.topView instanceof PremiumAppIconsPreviewView)) {
-                        int i5 = viewPage.position;
-                        if (i5 == this.selectedPosition) {
-                            PagerHeaderView pagerHeaderView = viewPage.topHeader;
-                            measuredWidth = (-viewPage.getMeasuredWidth()) * this.progress;
-                            pagerHeaderView.setOffset(measuredWidth);
-                        } else if (i5 == this.toPosition) {
-                            PagerHeaderView pagerHeaderView2 = viewPage.topHeader;
-                            measuredWidth = ((-viewPage.getMeasuredWidth()) * this.progress) + viewPage.getMeasuredWidth();
-                            pagerHeaderView2.setOffset(measuredWidth);
-                        } else {
-                            viewPage.topHeader.setOffset(viewPage.getMeasuredWidth());
-                        }
-                        f = measuredWidth;
-                    }
-                    if (viewPage.topView instanceof PremiumAppIconsPreviewView) {
-                        viewPage.setTranslationX(-f);
-                        viewPage.title.setTranslationX(f);
-                        viewPage.description.setTranslationX(f);
-                    }
-                    i4++;
-                }
-                PremiumFeatureBottomSheet premiumFeatureBottomSheet = PremiumFeatureBottomSheet.this;
-                premiumFeatureBottomSheet.containerViewsProgress = this.progress;
-                int i6 = this.toPosition;
-                int i7 = this.selectedPosition;
-                premiumFeatureBottomSheet.containerViewsForward = i6 > i7;
-                if (i7 >= 0 && i7 < premiumFeatureBottomSheet.premiumFeatures.size() && PremiumFeatureBottomSheet.this.premiumFeatures.get(this.selectedPosition).type == 0) {
-                    PremiumFeatureBottomSheet.this.progressToFullscreenView = 1.0f - this.progress;
-                } else {
-                    int i8 = this.toPosition;
-                    if (i8 >= 0 && i8 < PremiumFeatureBottomSheet.this.premiumFeatures.size() && PremiumFeatureBottomSheet.this.premiumFeatures.get(this.toPosition).type == 0) {
-                        PremiumFeatureBottomSheet.this.progressToFullscreenView = this.progress;
-                    } else {
-                        PremiumFeatureBottomSheet.this.progressToFullscreenView = 0.0f;
-                    }
-                }
-                PremiumFeatureBottomSheet premiumFeatureBottomSheet2 = PremiumFeatureBottomSheet.this;
-                int i9 = (int) ((1.0f - premiumFeatureBottomSheet2.progressToFullscreenView) * 255.0f);
-                if (i9 != premiumFeatureBottomSheet2.gradientAlpha) {
-                    PremiumFeatureBottomSheet.this.gradientAlpha = i9;
-                    PremiumFeatureBottomSheet.this.content.invalidate();
-                    PremiumFeatureBottomSheet.this.checkTopOffset();
-                }
-            }
-        });
+        BottomPagesView bottomPagesView = new BottomPagesView(getContext(), this.viewPager, this.premiumFeatures.size());
+        this.viewPager.addOnPageChangeListener(new 5(bottomPagesView));
         LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.addView(frameLayout);
         linearLayout.setOrientation(1);
@@ -359,7 +284,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
             protected void dispatchDraw(Canvas canvas) {
                 Drawable drawable = ((BottomSheet) PremiumFeatureBottomSheet.this).shadowDrawable;
                 PremiumFeatureBottomSheet premiumFeatureBottomSheet = PremiumFeatureBottomSheet.this;
-                drawable.setBounds(0, (premiumFeatureBottomSheet.topCurrentOffset - ((BottomSheet) premiumFeatureBottomSheet).backgroundPaddingTop) + AndroidUtilities.dp(2.0f), getMeasuredWidth(), getMeasuredHeight());
+                drawable.setBounds(0, ((premiumFeatureBottomSheet.topCurrentOffset + ((BottomSheet) premiumFeatureBottomSheet).backgroundPaddingTop) - AndroidUtilities.dp(2.0f)) + 1, getMeasuredWidth(), getMeasuredHeight());
                 ((BottomSheet) PremiumFeatureBottomSheet.this).shadowDrawable.draw(canvas);
                 super.dispatchDraw(canvas);
                 ActionBar actionBar = PremiumFeatureBottomSheet.this.actionBar;
@@ -403,6 +328,102 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         dismiss();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public class 5 implements ViewPager.OnPageChangeListener {
+        float progress;
+        int selectedPosition;
+        int toPosition;
+        final /* synthetic */ BottomPagesView val$bottomPages;
+
+        @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
+        public void onPageScrollStateChanged(int i) {
+        }
+
+        5(BottomPagesView bottomPagesView) {
+            this.val$bottomPages = bottomPagesView;
+        }
+
+        @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
+        public void onPageScrolled(int i, float f, int i2) {
+            this.val$bottomPages.setPageOffset(i, f);
+            this.selectedPosition = i;
+            this.toPosition = i2 > 0 ? i + 1 : i - 1;
+            this.progress = f;
+            checkPage();
+        }
+
+        @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
+        public void onPageSelected(int i) {
+            checkPage();
+        }
+
+        private void checkPage() {
+            float measuredWidth;
+            int i = 0;
+            while (true) {
+                float f = 0.0f;
+                if (i >= PremiumFeatureBottomSheet.this.viewPager.getChildCount()) {
+                    break;
+                }
+                ViewPage viewPage = (ViewPage) PremiumFeatureBottomSheet.this.viewPager.getChildAt(i);
+                if (!PremiumFeatureBottomSheet.this.enterAnimationIsRunning || !(viewPage.topView instanceof PremiumAppIconsPreviewView)) {
+                    int i2 = viewPage.position;
+                    if (i2 == this.selectedPosition) {
+                        PagerHeaderView pagerHeaderView = viewPage.topHeader;
+                        measuredWidth = (-viewPage.getMeasuredWidth()) * this.progress;
+                        pagerHeaderView.setOffset(measuredWidth);
+                    } else if (i2 == this.toPosition) {
+                        PagerHeaderView pagerHeaderView2 = viewPage.topHeader;
+                        measuredWidth = ((-viewPage.getMeasuredWidth()) * this.progress) + viewPage.getMeasuredWidth();
+                        pagerHeaderView2.setOffset(measuredWidth);
+                    } else {
+                        viewPage.topHeader.setOffset(viewPage.getMeasuredWidth());
+                    }
+                    f = measuredWidth;
+                }
+                if (viewPage.topView instanceof PremiumAppIconsPreviewView) {
+                    viewPage.setTranslationX(-f);
+                    viewPage.title.setTranslationX(f);
+                    viewPage.description.setTranslationX(f);
+                }
+                i++;
+            }
+            PremiumFeatureBottomSheet premiumFeatureBottomSheet = PremiumFeatureBottomSheet.this;
+            premiumFeatureBottomSheet.containerViewsProgress = this.progress;
+            int i3 = this.toPosition;
+            int i4 = this.selectedPosition;
+            premiumFeatureBottomSheet.containerViewsForward = i3 > i4;
+            if (i4 >= 0 && i4 < premiumFeatureBottomSheet.premiumFeatures.size() && PremiumFeatureBottomSheet.this.premiumFeatures.get(this.selectedPosition).type == 0) {
+                PremiumFeatureBottomSheet.this.progressToFullscreenView = 1.0f - this.progress;
+            } else {
+                int i5 = this.toPosition;
+                if (i5 >= 0 && i5 < PremiumFeatureBottomSheet.this.premiumFeatures.size() && PremiumFeatureBottomSheet.this.premiumFeatures.get(this.toPosition).type == 0) {
+                    PremiumFeatureBottomSheet.this.progressToFullscreenView = this.progress;
+                } else {
+                    PremiumFeatureBottomSheet.this.progressToFullscreenView = 0.0f;
+                }
+            }
+            PremiumFeatureBottomSheet premiumFeatureBottomSheet2 = PremiumFeatureBottomSheet.this;
+            int i6 = (int) ((1.0f - premiumFeatureBottomSheet2.progressToFullscreenView) * 255.0f);
+            if (i6 != premiumFeatureBottomSheet2.gradientAlpha) {
+                PremiumFeatureBottomSheet.this.gradientAlpha = i6;
+                PremiumFeatureBottomSheet.this.content.invalidate();
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet$5$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        PremiumFeatureBottomSheet.5.this.lambda$checkPage$0();
+                    }
+                });
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$checkPage$0() {
+            PremiumFeatureBottomSheet.this.checkTopOffset();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

@@ -35,11 +35,11 @@ import org.telegram.messenger.DownloadController;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.NotificationsController;
 import org.telegram.messenger.R;
@@ -220,7 +220,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                             i13 = 51;
                         }
                         int i14 = i13 & 7;
-                        int i15 = i13 & MessagesStorage.LAST_DB_VERSION;
+                        int i15 = i13 & 112;
                         int i16 = i14 & 7;
                         if (i16 == 1) {
                             i6 = (((i4 - i2) - measuredWidth) / 2) + layoutParams.leftMargin;
@@ -1431,7 +1431,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         }
         intent.putExtra("currentAccount", this.currentMessageObject.currentAccount);
         intent.setAction("com.tmessages.openchat" + Math.random() + ConnectionsManager.DEFAULT_DATACENTER_ID);
-        intent.setFlags(32768);
+        intent.setFlags(LiteMode.FLAG_CHAT_SCALE);
         startActivity(intent);
         onFinish();
         finish();

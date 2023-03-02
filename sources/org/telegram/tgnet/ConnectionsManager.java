@@ -47,6 +47,7 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.EmuDetector;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.KeepAliveJob;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
@@ -286,7 +287,7 @@ public class ConnectionsManager extends BaseController {
             sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig" + this.currentAccount, 0);
         }
         this.forceTryIpV6 = sharedPreferences.getBoolean("forceTryIpV6", false);
-        init(BuildVars.BUILD_VERSION, 152, BuildVars.APP_ID, str9, str10, str2, str4, str8, file2, FileLog.getNetworkLogPath(), regId, certificateSHA256Fingerprint, rawOffset, getUserConfig().getClientUserId(), isPushConnectionEnabled);
+        init(BuildVars.BUILD_VERSION, 154, BuildVars.APP_ID, str9, str10, str2, str4, str8, file2, FileLog.getNetworkLogPath(), regId, certificateSHA256Fingerprint, rawOffset, getUserConfig().getClientUserId(), isPushConnectionEnabled);
     }
 
     private String getRegId() {
@@ -1060,7 +1061,7 @@ public class ConnectionsManager extends BaseController {
                 try {
                     byteArrayOutputStream = new ByteArrayOutputStream();
                     try {
-                        byte[] bArr = new byte[32768];
+                        byte[] bArr = new byte[LiteMode.FLAG_CHAT_SCALE];
                         while (true) {
                             int read = inputStream.read(bArr);
                             if (read <= 0) {
@@ -1214,7 +1215,7 @@ public class ConnectionsManager extends BaseController {
                     this.responseDate = (int) (openConnection.getDate() / 1000);
                     ByteArrayOutputStream byteArrayOutputStream2 = new ByteArrayOutputStream();
                     try {
-                        byte[] bArr = new byte[32768];
+                        byte[] bArr = new byte[LiteMode.FLAG_CHAT_SCALE];
                         while (!isCancelled() && (read = inputStream.read(bArr)) > 0) {
                             byteArrayOutputStream2.write(bArr, 0, read);
                         }
@@ -1367,7 +1368,7 @@ public class ConnectionsManager extends BaseController {
                 inputStream = null;
             }
             try {
-                byte[] bArr = new byte[32768];
+                byte[] bArr = new byte[LiteMode.FLAG_CHAT_SCALE];
                 while (!isCancelled() && (read = inputStream2.read(bArr)) > 0) {
                     byteArrayOutputStream2.write(bArr, 0, read);
                 }
@@ -1515,7 +1516,7 @@ public class ConnectionsManager extends BaseController {
                     this.responseDate = (int) (openConnection.getDate() / 1000);
                     ByteArrayOutputStream byteArrayOutputStream2 = new ByteArrayOutputStream();
                     try {
-                        byte[] bArr = new byte[32768];
+                        byte[] bArr = new byte[LiteMode.FLAG_CHAT_SCALE];
                         while (!isCancelled() && (read = inputStream2.read(bArr)) > 0) {
                             byteArrayOutputStream2.write(bArr, 0, read);
                         }

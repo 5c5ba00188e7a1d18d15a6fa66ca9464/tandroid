@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 class HlsChunkSource {
     private final DataSource encryptionDataSource;
@@ -87,7 +88,7 @@ class HlsChunkSource {
         this.trackGroup = new TrackGroup(formatArr);
         ArrayList arrayList = new ArrayList();
         for (int i = 0; i < uriArr.length; i++) {
-            if ((formatArr[i].roleFlags & 16384) == 0) {
+            if ((formatArr[i].roleFlags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) == 0) {
                 arrayList.add(Integer.valueOf(i));
             }
         }

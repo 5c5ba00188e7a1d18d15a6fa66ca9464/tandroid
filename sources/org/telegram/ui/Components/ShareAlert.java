@@ -67,6 +67,7 @@ import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
@@ -788,7 +789,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 }
                 boolean z4 = dp2 >= size2;
                 this.fullHeight = z4;
-                this.topOffset = (z4 || !SharedConfig.smoothKeyboard) ? 0 : size2 - dp2;
+                this.topOffset = z4 ? 0 : size2 - dp2;
                 this.ignoreLayout = true;
                 ShareAlert.this.checkCurrentList(false);
                 this.ignoreLayout = false;
@@ -800,14 +801,13 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 int size2 = View.MeasureSpec.getSize(i3);
                 int size3 = View.MeasureSpec.getSize(i4);
                 int i5 = size2 - (((BottomSheet) ShareAlert.this).backgroundPaddingLeft * 2);
-                int measureKeyboardHeight = SharedConfig.smoothKeyboard ? 0 : measureKeyboardHeight();
-                if (!ShareAlert.this.commentTextView.isWaitingForKeyboardOpen() && measureKeyboardHeight <= AndroidUtilities.dp(20.0f) && !ShareAlert.this.commentTextView.isPopupShowing() && !ShareAlert.this.commentTextView.isAnimatePopupClosing()) {
+                if (!ShareAlert.this.commentTextView.isWaitingForKeyboardOpen() && AndroidUtilities.dp(20.0f) >= 0 && !ShareAlert.this.commentTextView.isPopupShowing() && !ShareAlert.this.commentTextView.isAnimatePopupClosing()) {
                     this.ignoreLayout = true;
                     ShareAlert.this.commentTextView.hideEmojiView();
                     this.ignoreLayout = false;
                 }
                 this.ignoreLayout = true;
-                if (measureKeyboardHeight > AndroidUtilities.dp(20.0f)) {
+                if (AndroidUtilities.dp(20.0f) < 0) {
                     ShareAlert.this.commentTextView.hideEmojiView();
                     if (ShareAlert.this.pickerBottomLayout != null) {
                         ShareAlert.this.pickerBottomLayout.setVisibility(8);
@@ -817,7 +817,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                     }
                 } else {
                     if (!AndroidUtilities.isInMultiwindow) {
-                        size3 -= (SharedConfig.smoothKeyboard && ((BottomSheet) ShareAlert.this).keyboardVisible) ? 0 : ShareAlert.this.commentTextView.getEmojiPadding();
+                        size3 -= ((BottomSheet) ShareAlert.this).keyboardVisible ? 0 : ShareAlert.this.commentTextView.getEmojiPadding();
                         i4 = View.MeasureSpec.makeMeasureSpec(size3, 1073741824);
                     }
                     int i6 = ShareAlert.this.commentTextView.isPopupShowing() ? 8 : 0;
@@ -850,11 +850,11 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 }
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:100:0x00c5  */
-            /* JADX WARN: Removed duplicated region for block: B:104:0x00d7  */
-            /* JADX WARN: Removed duplicated region for block: B:105:0x00e0  */
-            /* JADX WARN: Removed duplicated region for block: B:89:0x0090  */
-            /* JADX WARN: Removed duplicated region for block: B:96:0x00ad  */
+            /* JADX WARN: Removed duplicated region for block: B:100:0x00d3  */
+            /* JADX WARN: Removed duplicated region for block: B:101:0x00dc  */
+            /* JADX WARN: Removed duplicated region for block: B:85:0x008c  */
+            /* JADX WARN: Removed duplicated region for block: B:92:0x00a9  */
+            /* JADX WARN: Removed duplicated region for block: B:96:0x00c1  */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -870,7 +870,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 int measuredHeight2;
                 int childCount = getChildCount();
                 int measureKeyboardHeight = measureKeyboardHeight();
-                int emojiPadding = ((SharedConfig.smoothKeyboard && ((BottomSheet) ShareAlert.this).keyboardVisible) || measureKeyboardHeight > AndroidUtilities.dp(20.0f) || AndroidUtilities.isInMultiwindow || AndroidUtilities.isTablet()) ? 0 : ShareAlert.this.commentTextView.getEmojiPadding();
+                int emojiPadding = (((BottomSheet) ShareAlert.this).keyboardVisible || measureKeyboardHeight > AndroidUtilities.dp(20.0f) || AndroidUtilities.isInMultiwindow || AndroidUtilities.isTablet()) ? 0 : ShareAlert.this.commentTextView.getEmojiPadding();
                 setBottomClip(emojiPadding);
                 for (int i13 = 0; i13 < childCount; i13++) {
                     View childAt = getChildAt(i13);
@@ -883,7 +883,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                             i14 = 51;
                         }
                         int i15 = i14 & 7;
-                        int i16 = i14 & MessagesStorage.LAST_DB_VERSION;
+                        int i16 = i14 & 112;
                         int i17 = i15 & 7;
                         if (i17 == 1) {
                             i7 = (((i5 - i3) - measuredWidth) / 2) + layoutParams.leftMargin;
@@ -1020,8 +1020,8 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                             if (Build.VERSION.SDK_INT >= 23) {
                                 int systemUiVisibility = getSystemUiVisibility();
                                 boolean z4 = this.lightStatusBar && ((float) i3) > ((float) AndroidUtilities.statusBarHeight) * 0.5f;
-                                if (z4 != ((systemUiVisibility & 8192) > 0)) {
-                                    setSystemUiVisibility(z4 ? systemUiVisibility | 8192 : systemUiVisibility & (-8193));
+                                if (z4 != ((systemUiVisibility & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) > 0)) {
+                                    setSystemUiVisibility(z4 ? systemUiVisibility | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM : systemUiVisibility & (-8193));
                                 }
                             }
                             canvas.restore();

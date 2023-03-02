@@ -31,7 +31,7 @@ public class TLRPC$TL_messages_editMessage extends TLObject {
         if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
             abstractSerializedData.writeString(this.message);
         }
-        if ((this.flags & 16384) != 0) {
+        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
             this.media.serializeToStream(abstractSerializedData);
         }
         if ((this.flags & 4) != 0) {
@@ -45,7 +45,7 @@ public class TLRPC$TL_messages_editMessage extends TLObject {
                 this.entities.get(i2).serializeToStream(abstractSerializedData);
             }
         }
-        if ((this.flags & 32768) != 0) {
+        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
             abstractSerializedData.writeInt32(this.schedule_date);
         }
     }

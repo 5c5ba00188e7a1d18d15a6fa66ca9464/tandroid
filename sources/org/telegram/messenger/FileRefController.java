@@ -240,11 +240,11 @@ public class FileRefController extends BaseController {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:111:0x0369, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:111:0x036a, code lost:
         if ("update".equals(r1) != false) goto L35;
      */
-    /* JADX WARN: Removed duplicated region for block: B:116:0x0376  */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x038c  */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x0377  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x038d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1088,12 +1088,12 @@ public class FileRefController extends BaseController {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:274:0x058b  */
-    /* JADX WARN: Removed duplicated region for block: B:281:0x05a0  */
-    /* JADX WARN: Removed duplicated region for block: B:296:0x0146 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x008a A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x008b  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x0157 A[LOOP:2: B:60:0x00d7->B:87:0x0157, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:274:0x058c  */
+    /* JADX WARN: Removed duplicated region for block: B:281:0x05a1  */
+    /* JADX WARN: Removed duplicated region for block: B:296:0x0147 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x008b A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x008c  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x0158 A[LOOP:2: B:60:0x00d8->B:87:0x0158, LOOP_END] */
     /* JADX WARN: Type inference failed for: r13v0 */
     /* JADX WARN: Type inference failed for: r13v12 */
     /*

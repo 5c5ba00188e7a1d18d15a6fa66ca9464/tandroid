@@ -10,7 +10,6 @@ import com.google.common.base.Strings;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.telegram.messenger.FileLoader;
-import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes.dex */
 final class SessionDescriptionParser {
     private static final Pattern SDP_LINE_PATTERN = Pattern.compile("([a-z])=\\s?(.+)");
@@ -85,7 +84,7 @@ final class SessionDescriptionParser {
                             break;
                         }
                         break;
-                    case MessagesStorage.LAST_DB_VERSION /* 112 */:
+                    case 112:
                         if (str3.equals("p")) {
                             c = 6;
                             break;

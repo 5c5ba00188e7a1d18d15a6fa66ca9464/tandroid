@@ -24,7 +24,7 @@ import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class VideoTimelineView extends View {
     private static final Object sync = new Object();
-    private Paint backgroundGrayPaint;
+    private final Paint backgroundGrayPaint;
     private AsyncTask<Integer, Integer, Bitmap> currentTask;
     private VideoTimelineViewDelegate delegate;
     private int frameHeight;
@@ -38,8 +38,7 @@ public class VideoTimelineView extends View {
     private float maxProgressDiff;
     private MediaMetadataRetriever mediaMetadataRetriever;
     private float minProgressDiff;
-    private Paint paint;
-    private Paint paint2;
+    private final Paint paint2;
     private float pressDx;
     private boolean pressedLeft;
     private boolean pressedRight;
@@ -50,7 +49,6 @@ public class VideoTimelineView extends View {
     private Bitmap roundCornerBitmap;
     private int roundCornersSize;
     Paint thumbPaint;
-    Paint thumbRipplePaint;
     private TimeHintView timeHintView;
     private long videoLength;
 
@@ -73,19 +71,15 @@ public class VideoTimelineView extends View {
     public VideoTimelineView(Context context) {
         super(context);
         this.progressRight = 1.0f;
+        Paint paint = new Paint();
+        this.paint2 = paint;
+        this.backgroundGrayPaint = new Paint();
         this.frames = new ArrayList<>();
         this.maxProgressDiff = 1.0f;
         this.minProgressDiff = 0.0f;
         this.keyframes = new ArrayList<>();
         this.thumbPaint = new Paint(1);
-        this.thumbRipplePaint = new Paint(1);
-        Paint paint = new Paint(1);
-        this.paint = paint;
-        paint.setColor(-1);
-        Paint paint2 = new Paint();
-        this.paint2 = paint2;
-        paint2.setColor(2130706432);
-        this.backgroundGrayPaint = new Paint();
+        paint.setColor(2130706432);
         this.thumbPaint.setColor(-1);
         this.thumbPaint.setStrokeWidth(AndroidUtilities.dpf2(2.0f));
         this.thumbPaint.setStyle(Paint.Style.STROKE);
@@ -95,7 +89,6 @@ public class VideoTimelineView extends View {
 
     public void updateColors() {
         this.backgroundGrayPaint.setColor(Theme.getColor("windowBackgroundGray"));
-        this.thumbRipplePaint.setColor(Theme.getColor("key_chat_recordedVoiceHighlight"));
         this.roundCornersSize = 0;
         TimeHintView timeHintView = this.timeHintView;
         if (timeHintView != null) {
@@ -263,11 +256,6 @@ public class VideoTimelineView extends View {
             }
         }
         return false;
-    }
-
-    public void setColor(int i) {
-        this.paint.setColor(i);
-        invalidate();
     }
 
     public void setVideoPath(String str) {

@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.extractor.mp4;
 
 import com.google.android.exoplayer2.util.Util;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 final class FixedSampleSizeRechunker {
 
@@ -24,7 +25,7 @@ final class FixedSampleSizeRechunker {
     }
 
     public static Results rechunk(int i, long[] jArr, int[] iArr, long j) {
-        int i2 = 8192 / i;
+        int i2 = LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM / i;
         int i3 = 0;
         for (int i4 : iArr) {
             i3 += Util.ceilDivide(i4, i2);

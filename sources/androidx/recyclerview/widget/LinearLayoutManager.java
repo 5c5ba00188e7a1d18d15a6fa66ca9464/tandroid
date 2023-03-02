@@ -10,6 +10,7 @@ import android.view.accessibility.AccessibilityEvent;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
+import org.telegram.messenger.LiteMode;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class LinearLayoutManager extends RecyclerView.LayoutManager implements ItemTouchHelper.ViewDropHandler, RecyclerView.SmoothScroller.ScrollVectorProvider {
@@ -1195,7 +1196,7 @@ public class LinearLayoutManager extends RecyclerView.LayoutManager implements I
         }
         if (this.mOrientationHelper.getDecoratedStart(getChildAt(i)) < this.mOrientationHelper.getStartAfterPadding()) {
             i3 = 16644;
-            i4 = 16388;
+            i4 = LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD;
         } else {
             i3 = 4161;
             i4 = 4097;

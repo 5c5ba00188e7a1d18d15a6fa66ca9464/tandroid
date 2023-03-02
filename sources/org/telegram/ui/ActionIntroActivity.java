@@ -58,7 +58,6 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
     private TextView descriptionText;
     private TextView descriptionText2;
     private TextView[] desctiptionLines = new TextView[6];
-    private Drawable drawable1;
     private Drawable drawable2;
     private boolean flickerButton;
     private RLottieImageView imageView;
@@ -999,7 +998,6 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
         arrayList.add(new ThemeDescription(this.desctiptionLines[3], ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "windowBackgroundWhiteBlackText"));
         arrayList.add(new ThemeDescription(this.desctiptionLines[4], ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "windowBackgroundWhiteBlackText"));
         arrayList.add(new ThemeDescription(this.desctiptionLines[5], ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "windowBackgroundWhiteBlackText"));
-        arrayList.add(new ThemeDescription(null, ThemeDescription.FLAG_TEXTCOLOR, null, null, new Drawable[]{this.drawable1}, null, "changephoneinfo_image"));
         arrayList.add(new ThemeDescription(null, ThemeDescription.FLAG_TEXTCOLOR, null, null, new Drawable[]{this.drawable2}, null, "changephoneinfo_image2"));
         return arrayList;
     }

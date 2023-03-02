@@ -36,10 +36,8 @@ import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
-import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Adapters.FiltersView;
@@ -711,44 +709,6 @@ public class ActionBar extends FrameLayout {
         return this.actionMode;
     }
 
-    public void onDrawCrossfadeBackground(Canvas canvas) {
-        if (this.blurredBackground && this.actionBarColor != 0) {
-            this.rectTmp.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
-            this.blurScrimPaint.setColor(this.actionBarColor);
-            this.contentView.drawBlurRect(canvas, getY(), this.rectTmp, this.blurScrimPaint, true);
-            return;
-        }
-        Drawable background = getBackground();
-        if (background != null) {
-            background.setBounds(0, 0, getWidth(), getHeight());
-            background.draw(canvas);
-        }
-    }
-
-    public void onDrawCrossfadeContent(Canvas canvas, boolean z, boolean z2, float f) {
-        for (int i = 0; i < getChildCount(); i++) {
-            View childAt = getChildAt(i);
-            if ((!z2 || childAt != this.backButtonImageView) && childAt.getVisibility() == 0 && (childAt instanceof ActionBarMenu)) {
-                canvas.save();
-                canvas.translate(childAt.getX(), childAt.getY());
-                childAt.draw(canvas);
-                canvas.restore();
-            }
-        }
-        canvas.save();
-        canvas.translate(z ? getWidth() * f * 0.5f : (-getWidth()) * 0.4f * (1.0f - f), 0.0f);
-        for (int i2 = 0; i2 < getChildCount(); i2++) {
-            View childAt2 = getChildAt(i2);
-            if ((!z2 || childAt2 != this.backButtonImageView) && childAt2.getVisibility() == 0 && !(childAt2 instanceof ActionBarMenu)) {
-                canvas.save();
-                canvas.translate(childAt2.getX(), childAt2.getY());
-                childAt2.draw(canvas);
-                canvas.restore();
-            }
-        }
-        canvas.restore();
-    }
-
     public void showActionMode() {
         showActionMode(true, null, null, null, null, null, 0);
     }
@@ -758,9 +718,6 @@ public class ActionBar extends FrameLayout {
     }
 
     public void showActionMode(boolean z, View view, View view2, View[] viewArr, final boolean[] zArr, View view3, int i) {
-        View view4;
-        View view5;
-        View view6;
         ActionBarMenu actionBarMenu = this.actionMode;
         if (actionBarMenu == null || this.actionModeVisible) {
             return;
@@ -786,15 +743,10 @@ public class ActionBar extends FrameLayout {
             this.actionModeExtraView = view;
             this.actionModeShowingView = view2;
             this.actionModeHidingViews = viewArr;
-            if (this.occupyStatusBar && (view6 = this.actionModeTop) != null && !SharedConfig.noStatusBar) {
-                arrayList.add(ObjectAnimator.ofFloat(view6, View.ALPHA, 0.0f, 1.0f));
-            }
-            if (SharedConfig.noStatusBar) {
-                if (ColorUtils.calculateLuminance(this.actionModeColor) < 0.699999988079071d) {
-                    AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), false);
-                } else {
-                    AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), true);
-                }
+            if (ColorUtils.calculateLuminance(this.actionModeColor) < 0.699999988079071d) {
+                AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), false);
+            } else {
+                AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), true);
             }
             AnimatorSet animatorSet = this.actionModeAnimation;
             if (animatorSet != null) {
@@ -818,10 +770,9 @@ public class ActionBar extends FrameLayout {
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationStart(Animator animator) {
                     ActionBar.this.actionMode.setVisibility(0);
-                    if (!ActionBar.this.occupyStatusBar || ActionBar.this.actionModeTop == null || SharedConfig.noStatusBar) {
-                        return;
+                    if (ActionBar.this.occupyStatusBar) {
+                        View unused = ActionBar.this.actionModeTop;
                     }
-                    ActionBar.this.actionModeTop.setVisibility(0);
                 }
 
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -888,20 +839,12 @@ public class ActionBar extends FrameLayout {
         this.actionModeExtraView = view;
         this.actionModeShowingView = view2;
         this.actionModeHidingViews = viewArr;
-        if (this.occupyStatusBar && (view5 = this.actionModeTop) != null && !SharedConfig.noStatusBar) {
-            view5.setAlpha(1.0f);
-        }
-        if (SharedConfig.noStatusBar) {
-            if (ColorUtils.calculateLuminance(this.actionModeColor) < 0.699999988079071d) {
-                AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), false);
-            } else {
-                AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), true);
-            }
+        if (ColorUtils.calculateLuminance(this.actionModeColor) < 0.699999988079071d) {
+            AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), false);
+        } else {
+            AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), true);
         }
         this.actionMode.setVisibility(0);
-        if (this.occupyStatusBar && (view4 = this.actionModeTop) != null && !SharedConfig.noStatusBar) {
-            view4.setVisibility(0);
-        }
         SimpleTextView[] simpleTextViewArr = this.titleTextView;
         if (simpleTextViewArr[0] != null) {
             simpleTextViewArr[0].setVisibility(4);
@@ -945,7 +888,6 @@ public class ActionBar extends FrameLayout {
     }
 
     public void hideActionMode() {
-        View view;
         ActionBarMenu actionBarMenu = this.actionMode;
         if (actionBarMenu == null || !this.actionModeVisible) {
             return;
@@ -968,27 +910,22 @@ public class ActionBar extends FrameLayout {
                 i++;
             }
         }
-        View view2 = this.actionModeTranslationView;
-        if (view2 != null) {
-            arrayList.add(ObjectAnimator.ofFloat(view2, View.TRANSLATION_Y, 0.0f));
+        View view = this.actionModeTranslationView;
+        if (view != null) {
+            arrayList.add(ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, 0.0f));
             this.actionModeTranslationView = null;
         }
-        View view3 = this.actionModeShowingView;
-        if (view3 != null) {
-            arrayList.add(ObjectAnimator.ofFloat(view3, View.ALPHA, 0.0f));
+        View view2 = this.actionModeShowingView;
+        if (view2 != null) {
+            arrayList.add(ObjectAnimator.ofFloat(view2, View.ALPHA, 0.0f));
         }
-        if (this.occupyStatusBar && (view = this.actionModeTop) != null && !SharedConfig.noStatusBar) {
-            arrayList.add(ObjectAnimator.ofFloat(view, View.ALPHA, 0.0f));
-        }
-        if (SharedConfig.noStatusBar) {
-            int i2 = this.actionBarColor;
-            if (i2 == 0) {
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needCheckSystemBarColors, new Object[0]);
-            } else if (ColorUtils.calculateLuminance(i2) < 0.699999988079071d) {
-                AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), false);
-            } else {
-                AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), true);
-            }
+        int i2 = this.actionBarColor;
+        if (i2 == 0) {
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needCheckSystemBarColors, new Object[0]);
+        } else if (ColorUtils.calculateLuminance(i2) < 0.699999988079071d) {
+            AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), false);
+        } else {
+            AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), true);
         }
         AnimatorSet animatorSet = this.actionModeAnimation;
         if (animatorSet != null) {
@@ -1016,8 +953,8 @@ public class ActionBar extends FrameLayout {
                 }
                 ActionBar.this.actionModeAnimation = null;
                 ActionBar.this.actionMode.setVisibility(4);
-                if (ActionBar.this.occupyStatusBar && ActionBar.this.actionModeTop != null && !SharedConfig.noStatusBar) {
-                    ActionBar.this.actionModeTop.setVisibility(4);
+                if (ActionBar.this.occupyStatusBar) {
+                    View unused = ActionBar.this.actionModeTop;
                 }
                 if (ActionBar.this.actionModeExtraView != null) {
                     ActionBar.this.actionModeExtraView.setVisibility(4);
@@ -1566,7 +1503,7 @@ public class ActionBar extends FrameLayout {
                         i19 = 51;
                     }
                     int i20 = i19 & 7;
-                    int i21 = i19 & MessagesStorage.LAST_DB_VERSION;
+                    int i21 = i19 & 112;
                     int i22 = i20 & 7;
                     if (i22 == 1) {
                         i5 = (((i3 - i) - measuredWidth) / 2) + layoutParams.leftMargin;
@@ -1923,7 +1860,7 @@ public class ActionBar extends FrameLayout {
         super.onAttachedToWindow();
         this.attached = true;
         this.ellipsizeSpanAnimator.onAttachedToWindow();
-        if (SharedConfig.noStatusBar && this.actionModeVisible) {
+        if (this.actionModeVisible) {
             if (ColorUtils.calculateLuminance(this.actionModeColor) < 0.699999988079071d) {
                 AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), false);
             } else {
@@ -1941,7 +1878,7 @@ public class ActionBar extends FrameLayout {
         super.onDetachedFromWindow();
         this.attached = false;
         this.ellipsizeSpanAnimator.onDetachedFromWindow();
-        if (SharedConfig.noStatusBar && this.actionModeVisible) {
+        if (this.actionModeVisible) {
             int i = this.actionBarColor;
             if (i == 0) {
                 NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needCheckSystemBarColors, new Object[0]);

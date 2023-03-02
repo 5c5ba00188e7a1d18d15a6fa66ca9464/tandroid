@@ -34,6 +34,7 @@ import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
+import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
@@ -177,8 +178,9 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:80:0x01e2, code lost:
-        if (r0 == r40.currentPhotoObject) goto L39;
+        if (r0 == r39.currentPhotoObject) goto L39;
      */
+    /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:106:0x0240  */
     /* JADX WARN: Removed duplicated region for block: B:119:0x026f  */
     /* JADX WARN: Removed duplicated region for block: B:120:0x028d  */
@@ -191,25 +193,27 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
     /* JADX WARN: Removed duplicated region for block: B:147:0x02f1  */
     /* JADX WARN: Removed duplicated region for block: B:152:0x0306 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:156:0x0311  */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x031d  */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x0378  */
-    /* JADX WARN: Removed duplicated region for block: B:169:0x0386  */
-    /* JADX WARN: Removed duplicated region for block: B:170:0x0388  */
-    /* JADX WARN: Removed duplicated region for block: B:173:0x0390  */
-    /* JADX WARN: Removed duplicated region for block: B:185:0x0430  */
-    /* JADX WARN: Removed duplicated region for block: B:204:0x053d  */
-    /* JADX WARN: Removed duplicated region for block: B:208:0x057c  */
-    /* JADX WARN: Removed duplicated region for block: B:233:0x0649  */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x0130 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:248:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:162:0x031f  */
+    /* JADX WARN: Removed duplicated region for block: B:170:0x039f  */
+    /* JADX WARN: Removed duplicated region for block: B:173:0x03ad  */
+    /* JADX WARN: Removed duplicated region for block: B:174:0x03af  */
+    /* JADX WARN: Removed duplicated region for block: B:177:0x03b7  */
+    /* JADX WARN: Removed duplicated region for block: B:197:0x0485  */
+    /* JADX WARN: Removed duplicated region for block: B:215:0x058e  */
+    /* JADX WARN: Removed duplicated region for block: B:216:0x0599  */
+    /* JADX WARN: Removed duplicated region for block: B:220:0x05ad  */
+    /* JADX WARN: Removed duplicated region for block: B:224:0x05ec  */
+    /* JADX WARN: Removed duplicated region for block: B:250:0x06bc  */
+    /* JADX WARN: Removed duplicated region for block: B:254:0x0130 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:265:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:54:0x0172  */
     /* JADX WARN: Removed duplicated region for block: B:59:0x0180  */
     /* JADX WARN: Removed duplicated region for block: B:75:0x01ca  */
     /* JADX WARN: Removed duplicated region for block: B:85:0x01ec  */
     /* JADX WARN: Type inference failed for: r3v2, types: [boolean, int] */
-    /* JADX WARN: Type inference failed for: r3v28 */
-    /* JADX WARN: Type inference failed for: r3v29 */
     /* JADX WARN: Type inference failed for: r3v30 */
+    /* JADX WARN: Type inference failed for: r3v31 */
+    /* JADX WARN: Type inference failed for: r3v32 */
     @Override // android.widget.FrameLayout, android.view.View
     @SuppressLint({"DrawAllocation"})
     /*
@@ -233,20 +237,21 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         TLRPC$PhotoSize tLRPC$PhotoSize;
         String str3;
         String str4;
+        String str5;
         float f2;
         int dp;
         CheckBox2 checkBox2;
         TLRPC$TL_webDocument tLRPC$TL_webDocument;
         WebFile webFile2;
         TLRPC$BotInlineMessage tLRPC$BotInlineMessage;
-        String str5;
-        TLRPC$BotInlineResult tLRPC$BotInlineResult2;
         String str6;
+        TLRPC$BotInlineResult tLRPC$BotInlineResult2;
+        String str7;
         char c;
         boolean z2;
         char c2;
         boolean z3;
-        String str7;
+        String str8;
         CharSequence ellipsize;
         int i5 = 0;
         this.drawLinkImageView = false;
@@ -275,14 +280,14 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                 } else {
                     if (tLRPC$BotInlineResult2.title != null) {
                         try {
-                            this.titleLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji(this.inlineResult.title.replace('\n', ' '), Theme.chat_contextResult_titleTextPaint.getFontMetricsInt(), AndroidUtilities.dp(15.0f), false), Theme.chat_contextResult_titleTextPaint, Math.min((int) Math.ceil(Theme.chat_contextResult_titleTextPaint.measureText(str6)), dp2), TextUtils.TruncateAt.END), Theme.chat_contextResult_titleTextPaint, dp2 + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                            this.titleLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji(this.inlineResult.title.replace('\n', ' '), Theme.chat_contextResult_titleTextPaint.getFontMetricsInt(), AndroidUtilities.dp(15.0f), false), Theme.chat_contextResult_titleTextPaint, Math.min((int) Math.ceil(Theme.chat_contextResult_titleTextPaint.measureText(str7)), dp2), TextUtils.TruncateAt.END), Theme.chat_contextResult_titleTextPaint, dp2 + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                         } catch (Exception e) {
                             FileLog.e(e);
                         }
                         this.letterDrawable.setTitle(this.inlineResult.title);
                     }
-                    String str8 = this.inlineResult.description;
-                    if (str8 != null) {
+                    String str9 = this.inlineResult.description;
+                    if (str9 != null) {
                         try {
                             c = '\n';
                             c2 = ' ';
@@ -296,7 +301,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                             c2 = ' ';
                         }
                         try {
-                            StaticLayout generateStaticLayout = ChatMessageCell.generateStaticLayout(Emoji.replaceEmoji(str8, Theme.chat_contextResult_descriptionTextPaint.getFontMetricsInt(), AndroidUtilities.dp(13.0f), false), Theme.chat_contextResult_descriptionTextPaint, dp2, dp2, 0, 3);
+                            StaticLayout generateStaticLayout = ChatMessageCell.generateStaticLayout(Emoji.replaceEmoji(str9, Theme.chat_contextResult_descriptionTextPaint.getFontMetricsInt(), AndroidUtilities.dp(13.0f), false), Theme.chat_contextResult_descriptionTextPaint, dp2, dp2, 0, 3);
                             this.descriptionLayout = generateStaticLayout;
                             if (generateStaticLayout.getLineCount() > 0) {
                                 int i6 = this.descriptionY;
@@ -317,7 +322,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                     }
                     if (this.inlineResult.url == null) {
                         try {
-                            ellipsize = TextUtils.ellipsize(this.inlineResult.url.replace(c, c2), Theme.chat_contextResult_descriptionTextPaint, Math.min((int) Math.ceil(Theme.chat_contextResult_descriptionTextPaint.measureText(str7)), dp2), TextUtils.TruncateAt.MIDDLE);
+                            ellipsize = TextUtils.ellipsize(this.inlineResult.url.replace(c, c2), Theme.chat_contextResult_descriptionTextPaint, Math.min((int) Math.ceil(Theme.chat_contextResult_descriptionTextPaint.measureText(str8)), dp2), TextUtils.TruncateAt.MIDDLE);
                             f = 1.0f;
                             arrayList3 = arrayList;
                         } catch (Exception e4) {
@@ -360,6 +365,8 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                             this.linkImageView.setAspectFit(this.documentAttachType == 6);
                             if (this.documentAttachType == 2) {
                             }
+                            if (SharedConfig.isAutoplayGifs()) {
+                            }
                             this.drawLinkImageView = r3;
                             if (this.mediaWebpage) {
                             }
@@ -377,8 +384,8 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                                 closestPhotoSizeWithSize = null;
                                 tLRPC$BotInlineResult = this.inlineResult;
                                 if (tLRPC$BotInlineResult != null) {
-                                    if ((tLRPC$BotInlineResult.content instanceof TLRPC$TL_webDocument) && (str5 = tLRPC$BotInlineResult.type) != null) {
-                                        if (str5.startsWith("gif")) {
+                                    if ((tLRPC$BotInlineResult.content instanceof TLRPC$TL_webDocument) && (str6 = tLRPC$BotInlineResult.type) != null) {
+                                        if (str6.startsWith("gif")) {
                                             TLRPC$WebDocument tLRPC$WebDocument = this.inlineResult.thumb;
                                             if ((tLRPC$WebDocument instanceof TLRPC$TL_webDocument) && "video/mp4".equals(tLRPC$WebDocument.mime_type)) {
                                                 tLRPC$TL_webDocument = (TLRPC$TL_webDocument) this.inlineResult.thumb;
@@ -488,15 +495,21 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                                             objArr[0] = Integer.valueOf((int) (dp3 / AndroidUtilities.density));
                                             objArr[r3] = 80;
                                             str4 = String.format(locale, "%d_%d_b", objArr);
-                                            str3 = str4;
+                                            if (SharedConfig.isAutoplayGifs()) {
+                                                str3 = str4;
+                                            } else {
+                                                str5 = str4 + "_firstframe";
+                                                str4 = str4 + "_firstframe";
+                                            }
                                         } else {
                                             Locale locale2 = Locale.US;
                                             Object[] objArr2 = new Object[2];
                                             objArr2[0] = Integer.valueOf((int) (dp3 / AndroidUtilities.density));
                                             objArr2[r3] = 80;
                                             str4 = String.format(locale2, "%d_%d", objArr2);
-                                            str3 = str4 + "_b";
+                                            str5 = str4 + "_b";
                                         }
+                                        str3 = str5;
                                     } else {
                                         str3 = "52_52_b";
                                         str4 = "52_52";
@@ -507,13 +520,22 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                                         if (tLRPC$Document2 != null) {
                                             TLRPC$VideoSize documentVideoThumb = MessageObject.getDocumentVideoThumb(tLRPC$Document2);
                                             if (documentVideoThumb != null) {
-                                                this.linkImageView.setImage(ImageLocation.getForDocument(documentVideoThumb, this.documentAttach), "100_100", ImageLocation.getForDocument(this.currentPhotoObject, this.documentAttach), str4, -1L, str, this.parentObject, 1);
+                                                ImageReceiver imageReceiver = this.linkImageView;
+                                                ImageLocation forDocument = ImageLocation.getForDocument(documentVideoThumb, this.documentAttach);
+                                                StringBuilder sb = new StringBuilder();
+                                                sb.append("100_100");
+                                                sb.append(SharedConfig.isAutoplayGifs() ? "" : "_firstframe");
+                                                imageReceiver.setImage(forDocument, sb.toString(), ImageLocation.getForDocument(this.currentPhotoObject, this.documentAttach), str4, -1L, str, this.parentObject, 1);
                                             } else {
-                                                ImageLocation forDocument = ImageLocation.getForDocument(this.documentAttach);
+                                                ImageLocation forDocument2 = ImageLocation.getForDocument(this.documentAttach);
                                                 if (this.isForceGif) {
-                                                    forDocument.imageType = 2;
+                                                    forDocument2.imageType = 2;
                                                 }
-                                                this.linkImageView.setImage(forDocument, "100_100", ImageLocation.getForDocument(this.currentPhotoObject, this.documentAttach), str4, this.documentAttach.size, str, this.parentObject, 0);
+                                                ImageReceiver imageReceiver2 = this.linkImageView;
+                                                StringBuilder sb2 = new StringBuilder();
+                                                sb2.append("100_100");
+                                                sb2.append(SharedConfig.isAutoplayGifs() ? "" : "_firstframe");
+                                                imageReceiver2.setImage(forDocument2, sb2.toString(), ImageLocation.getForDocument(this.currentPhotoObject, this.documentAttach), str4, this.documentAttach.size, str, this.parentObject, 0);
                                             }
                                         } else if (webFile != null) {
                                             this.linkImageView.setImage(ImageLocation.getForWebFile(webFile), "100_100", ImageLocation.getForPhoto(this.currentPhotoObject, this.photoAttach), str4, -1L, str, this.parentObject, 1);
@@ -540,6 +562,13 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                                         this.linkImageView.setImage(ImageLocation.getForWebFile(webFile), str4, ImageLocation.getForPhoto(closestPhotoSizeWithSize, this.photoAttach), str3, -1L, str, this.parentObject, 1);
                                     } else {
                                         this.linkImageView.setImage(ImageLocation.getForPath(str2), str4, ImageLocation.getForPhoto(closestPhotoSizeWithSize, this.photoAttach), str3, -1L, str, this.parentObject, 1);
+                                    }
+                                    if (SharedConfig.isAutoplayGifs()) {
+                                        this.linkImageView.setAllowStartAnimation(r3);
+                                        this.linkImageView.startAnimation();
+                                    } else {
+                                        this.linkImageView.setAllowStartAnimation(false);
+                                        this.linkImageView.stopAnimation();
                                     }
                                     this.drawLinkImageView = r3;
                                 }
@@ -632,6 +661,8 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                         this.linkImageView.setAspectFit(this.documentAttachType == 6);
                         if (this.documentAttachType == 2) {
                         }
+                        if (SharedConfig.isAutoplayGifs()) {
+                        }
                         this.drawLinkImageView = r3;
                         if (this.mediaWebpage) {
                         }
@@ -672,6 +703,8 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                 }
                 this.linkImageView.setAspectFit(this.documentAttachType == 6);
                 if (this.documentAttachType == 2) {
+                }
+                if (SharedConfig.isAutoplayGifs()) {
                 }
                 this.drawLinkImageView = r3;
                 if (this.mediaWebpage) {
@@ -715,6 +748,8 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         }
         this.linkImageView.setAspectFit(this.documentAttachType == 6);
         if (this.documentAttachType == 2) {
+        }
+        if (SharedConfig.isAutoplayGifs()) {
         }
         this.drawLinkImageView = r3;
         if (this.mediaWebpage) {

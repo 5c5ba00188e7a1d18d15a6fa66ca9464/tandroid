@@ -983,32 +983,31 @@ public class NotificationsController extends BaseController {
         int size = longSparseArray.size();
         boolean z = false;
         for (int i = 0; i < size; i++) {
-            if (this.pushDialogs.indexOfKey(longSparseArray.keyAt(i)) >= 0) {
-                ArrayList arrayList = (ArrayList) longSparseArray.valueAt(i);
-                int size2 = arrayList.size();
-                for (int i2 = 0; i2 < size2; i2++) {
-                    MessageObject messageObject = (MessageObject) arrayList.get(i2);
-                    long j = messageObject.messageOwner.peer_id.channel_id;
-                    SparseArray<MessageObject> sparseArray = this.pushMessagesDict.get(j != 0 ? -j : 0L);
-                    if (sparseArray == null) {
-                        break;
+            longSparseArray.keyAt(i);
+            ArrayList arrayList = (ArrayList) longSparseArray.valueAt(i);
+            int size2 = arrayList.size();
+            for (int i2 = 0; i2 < size2; i2++) {
+                MessageObject messageObject = (MessageObject) arrayList.get(i2);
+                long j = messageObject.messageOwner.peer_id.channel_id;
+                SparseArray<MessageObject> sparseArray = this.pushMessagesDict.get(j != 0 ? -j : 0L);
+                if (sparseArray == null) {
+                    break;
+                }
+                MessageObject messageObject2 = sparseArray.get(messageObject.getId());
+                if (messageObject2 != null && messageObject2.isReactionPush) {
+                    messageObject2 = null;
+                }
+                if (messageObject2 != null) {
+                    sparseArray.put(messageObject.getId(), messageObject);
+                    int indexOf = this.pushMessages.indexOf(messageObject2);
+                    if (indexOf >= 0) {
+                        this.pushMessages.set(indexOf, messageObject);
                     }
-                    MessageObject messageObject2 = sparseArray.get(messageObject.getId());
-                    if (messageObject2 != null && messageObject2.isReactionPush) {
-                        messageObject2 = null;
+                    int indexOf2 = this.delayedPushMessages.indexOf(messageObject2);
+                    if (indexOf2 >= 0) {
+                        this.delayedPushMessages.set(indexOf2, messageObject);
                     }
-                    if (messageObject2 != null) {
-                        sparseArray.put(messageObject.getId(), messageObject);
-                        int indexOf = this.pushMessages.indexOf(messageObject2);
-                        if (indexOf >= 0) {
-                            this.pushMessages.set(indexOf, messageObject);
-                        }
-                        int indexOf2 = this.delayedPushMessages.indexOf(messageObject2);
-                        if (indexOf2 >= 0) {
-                            this.delayedPushMessages.set(indexOf2, messageObject);
-                        }
-                        z = true;
-                    }
+                    z = true;
                 }
             }
         }
@@ -9060,7 +9059,7 @@ public class NotificationsController extends BaseController {
         imageDecoder.setPostProcessor(NotificationsController$$ExternalSyntheticLambda1.INSTANCE);
     }
 
-    @TargetApi(LiteMode.FLAGS_ANIMATED_EMOJI)
+    @TargetApi(28)
     private void loadRoundAvatar(File file, Person.Builder builder) {
         if (file != null) {
             try {

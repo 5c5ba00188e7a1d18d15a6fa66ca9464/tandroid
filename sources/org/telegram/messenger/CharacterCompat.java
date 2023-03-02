@@ -10,6 +10,6 @@ public class CharacterCompat {
     }
 
     public static char lowSurrogate(int i) {
-        return (char) ((i & LiteMode.ENABLED) + 56320);
+        return (char) ((i & 1023) + 56320);
     }
 }

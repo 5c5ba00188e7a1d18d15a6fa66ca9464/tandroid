@@ -241,7 +241,7 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
                     } else if (next.startsWith("#EXT-X-STREAM-INF") || startsWith) {
                         boolean contains = z3 | next.contains("CLOSED-CAPTIONS=NONE");
                         if (startsWith) {
-                            i = 16384;
+                            i = LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
                             z = contains;
                         } else {
                             z = contains;
@@ -1095,12 +1095,12 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
         String[] split = Util.split(parseOptionalStringAttr, ",");
         int i = Util.contains(split, "public.accessibility.describes-video") ? LiteMode.FLAG_CALLS_ANIMATIONS : 0;
         if (Util.contains(split, "public.accessibility.transcribes-spoken-dialog")) {
-            i |= 4096;
+            i |= LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
         }
         if (Util.contains(split, "public.accessibility.describes-music-and-sound")) {
             i |= 1024;
         }
-        return Util.contains(split, "public.easy-to-read") ? i | 8192 : i;
+        return Util.contains(split, "public.easy-to-read") ? i | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM : i;
     }
 
     private static DrmInitData.SchemeData parseDrmSchemeData(String str, String str2, Map<String, String> map) throws ParserException {

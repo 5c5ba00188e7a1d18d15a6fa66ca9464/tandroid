@@ -71,7 +71,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
                         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.signatures = (readInt32 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
-                        this.min = (readInt32 & 4096) != 0;
+                        this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
                         this.scam = (524288 & readInt32) != 0;
                         this.has_link = (1048576 & readInt32) != 0;
                         this.has_geo = (2097152 & readInt32) != 0;
@@ -85,7 +85,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.join_request = (536870912 & readInt32) != 0;
                         this.forum = (readInt32 & 1073741824) != 0;
                         this.id = abstractSerializedData2.readInt64(z3);
-                        if ((this.flags & 8192) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
                             this.access_hash = abstractSerializedData2.readInt64(z3);
                         }
                         this.title = abstractSerializedData2.readString(z3);
@@ -111,10 +111,10 @@ public abstract class TLRPC$Chat extends TLObject {
                                 this.restriction_reason.add(TLdeserialize);
                             }
                         }
-                        if ((this.flags & 16384) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
                             this.admin_rights = TLRPC$TL_chatAdminRights.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.banned_rights = TLRPC$TL_chatBannedRights.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
                         }
                         if ((this.flags & 262144) != 0) {
@@ -142,7 +142,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i7;
                         int i8 = this.signatures ? i7 | LiteMode.FLAG_AUTOPLAY_GIFS : i7 & (-2049);
                         this.flags = i8;
-                        int i9 = this.min ? i8 | 4096 : i8 & (-4097);
+                        int i9 = this.min ? i8 | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : i8 & (-4097);
                         this.flags = i9;
                         int i10 = this.scam ? i9 | 524288 : i9 & (-524289);
                         this.flags = i10;
@@ -170,7 +170,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i21;
                         abstractSerializedData2.writeInt32(i21);
                         abstractSerializedData2.writeInt64(this.id);
-                        if ((this.flags & 8192) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
                             abstractSerializedData2.writeInt64(this.access_hash);
                         }
                         abstractSerializedData2.writeString(this.title);
@@ -187,10 +187,10 @@ public abstract class TLRPC$Chat extends TLObject {
                                 this.restriction_reason.get(i22).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & 16384) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
                             this.admin_rights.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.banned_rights.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 262144) != 0) {
@@ -268,9 +268,9 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
                         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.signatures = (readInt32 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
-                        this.min = (readInt32 & 4096) != 0;
+                        this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
                         this.id = abstractSerializedData2.readInt32(z3);
-                        if ((this.flags & 8192) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
                             this.access_hash = abstractSerializedData2.readInt64(z3);
                         }
                         this.title = abstractSerializedData2.readString(z3);
@@ -306,11 +306,11 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i9;
                         int i10 = this.signatures ? i9 | LiteMode.FLAG_AUTOPLAY_GIFS : i9 & (-2049);
                         this.flags = i10;
-                        int i11 = this.min ? i10 | 4096 : i10 & (-4097);
+                        int i11 = this.min ? i10 | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : i10 & (-4097);
                         this.flags = i11;
                         abstractSerializedData2.writeInt32(i11);
                         abstractSerializedData2.writeInt32((int) this.id);
-                        if ((this.flags & 8192) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
                             abstractSerializedData2.writeInt64(this.access_hash);
                         }
                         abstractSerializedData2.writeString(this.title);
@@ -341,9 +341,9 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
                         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.signatures = (readInt32 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
-                        this.min = (readInt32 & 4096) != 0;
+                        this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
                         this.id = abstractSerializedData2.readInt32(z3);
-                        if ((this.flags & 8192) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
                             this.access_hash = abstractSerializedData2.readInt64(z3);
                         }
                         this.title = abstractSerializedData2.readString(z3);
@@ -356,12 +356,12 @@ public abstract class TLRPC$Chat extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             abstractSerializedData2.readString(z3);
                         }
-                        if ((this.flags & 16384) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
                             TLRPC$TL_channelAdminRights_layer92 TLdeserialize = TLRPC$TL_channelAdminRights_layer92.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
                             this.admin_rights_layer92 = TLdeserialize;
                             this.admin_rights = TLRPC$Chat.mergeAdminRights(TLdeserialize);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             TLRPC$TL_channelBannedRights_layer92 TLdeserialize2 = TLRPC$TL_channelBannedRights_layer92.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
                             this.banned_rights_layer92 = TLdeserialize2;
                             this.banned_rights = TLRPC$Chat.mergeBannedRights(TLdeserialize2);
@@ -388,11 +388,11 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i7;
                         int i8 = this.signatures ? i7 | LiteMode.FLAG_AUTOPLAY_GIFS : i7 & (-2049);
                         this.flags = i8;
-                        int i9 = this.min ? i8 | 4096 : i8 & (-4097);
+                        int i9 = this.min ? i8 | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : i8 & (-4097);
                         this.flags = i9;
                         abstractSerializedData2.writeInt32(i9);
                         abstractSerializedData2.writeInt32((int) this.id);
-                        if ((this.flags & 8192) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
                             abstractSerializedData2.writeInt64(this.access_hash);
                         }
                         abstractSerializedData2.writeString(this.title);
@@ -405,10 +405,10 @@ public abstract class TLRPC$Chat extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             abstractSerializedData2.writeString("");
                         }
-                        if ((this.flags & 16384) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
                             this.admin_rights_layer92.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.banned_rights_layer92.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 131072) != 0) {
@@ -432,7 +432,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
                         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.signatures = (readInt32 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
-                        this.min = (readInt32 & 4096) != 0;
+                        this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
                         this.scam = (524288 & readInt32) != 0;
                         this.has_link = (1048576 & readInt32) != 0;
                         this.has_geo = (2097152 & readInt32) != 0;
@@ -442,7 +442,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.fake = (33554432 & readInt32) != 0;
                         this.gigagroup = (readInt32 & ConnectionsManager.FileTypeFile) != 0;
                         this.id = abstractSerializedData2.readInt32(z3);
-                        if ((this.flags & 8192) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
                             this.access_hash = abstractSerializedData2.readInt64(z3);
                         }
                         this.title = abstractSerializedData2.readString(z3);
@@ -469,10 +469,10 @@ public abstract class TLRPC$Chat extends TLObject {
                                 this.restriction_reason.add(TLdeserialize);
                             }
                         }
-                        if ((this.flags & 16384) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
                             this.admin_rights = TLRPC$TL_chatAdminRights.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.banned_rights = TLRPC$TL_chatBannedRights.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
                         }
                         if ((this.flags & 262144) != 0) {
@@ -500,7 +500,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i7;
                         int i8 = this.signatures ? i7 | LiteMode.FLAG_AUTOPLAY_GIFS : i7 & (-2049);
                         this.flags = i8;
-                        int i9 = this.min ? i8 | 4096 : i8 & (-4097);
+                        int i9 = this.min ? i8 | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : i8 & (-4097);
                         this.flags = i9;
                         int i10 = this.scam ? i9 | 524288 : i9 & (-524289);
                         this.flags = i10;
@@ -520,7 +520,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i17;
                         abstractSerializedData2.writeInt32(i17);
                         abstractSerializedData2.writeInt32((int) this.id);
-                        if ((this.flags & 8192) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
                             abstractSerializedData2.writeInt64(this.access_hash);
                         }
                         abstractSerializedData2.writeString(this.title);
@@ -538,10 +538,10 @@ public abstract class TLRPC$Chat extends TLObject {
                                 this.restriction_reason.get(i18).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & 16384) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
                             this.admin_rights.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.banned_rights.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 262144) != 0) {
@@ -653,9 +653,9 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
                         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.signatures = (readInt32 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
-                        this.min = (readInt32 & 4096) != 0;
+                        this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
                         this.id = abstractSerializedData2.readInt32(z3);
-                        if ((this.flags & 8192) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
                             this.access_hash = abstractSerializedData2.readInt64(z3);
                         }
                         this.title = abstractSerializedData2.readString(z3);
@@ -668,12 +668,12 @@ public abstract class TLRPC$Chat extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             abstractSerializedData2.readString(z3);
                         }
-                        if ((this.flags & 16384) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
                             TLRPC$TL_channelAdminRights_layer92 TLdeserialize = TLRPC$TL_channelAdminRights_layer92.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
                             this.admin_rights_layer92 = TLdeserialize;
                             this.admin_rights = TLRPC$Chat.mergeAdminRights(TLdeserialize);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             TLRPC$TL_channelBannedRights_layer92 TLdeserialize2 = TLRPC$TL_channelBannedRights_layer92.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
                             this.banned_rights_layer92 = TLdeserialize2;
                             this.banned_rights = TLRPC$Chat.mergeBannedRights(TLdeserialize2);
@@ -699,11 +699,11 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i8;
                         int i9 = this.signatures ? i8 | LiteMode.FLAG_AUTOPLAY_GIFS : i8 & (-2049);
                         this.flags = i9;
-                        int i10 = this.min ? i9 | 4096 : i9 & (-4097);
+                        int i10 = this.min ? i9 | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : i9 & (-4097);
                         this.flags = i10;
                         abstractSerializedData2.writeInt32(i10);
                         abstractSerializedData2.writeInt32((int) this.id);
-                        if ((this.flags & 8192) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
                             abstractSerializedData2.writeInt64(this.access_hash);
                         }
                         abstractSerializedData2.writeString(this.title);
@@ -716,10 +716,10 @@ public abstract class TLRPC$Chat extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             abstractSerializedData2.writeString("");
                         }
-                        if ((this.flags & 16384) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
                             this.admin_rights_layer92.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.banned_rights_layer92.serializeToStream(abstractSerializedData2);
                         }
                     }
@@ -809,7 +809,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         if ((this.flags & 64) != 0) {
                             this.migrated_to = TLRPC$InputChannel.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
                         }
-                        if ((this.flags & 16384) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
                             this.admin_rights = TLRPC$TL_chatAdminRights.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
                         }
                         if ((this.flags & 262144) != 0) {
@@ -842,7 +842,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         if ((this.flags & 64) != 0) {
                             this.migrated_to.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & 16384) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
                             this.admin_rights.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 262144) != 0) {
@@ -869,9 +869,9 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
                         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.signatures = (readInt32 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
-                        this.min = (readInt32 & 4096) != 0;
+                        this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
                         this.id = abstractSerializedData2.readInt32(z3);
-                        if ((this.flags & 8192) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
                             this.access_hash = abstractSerializedData2.readInt64(z3);
                         }
                         this.title = abstractSerializedData2.readString(z3);
@@ -884,12 +884,12 @@ public abstract class TLRPC$Chat extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             abstractSerializedData2.readString(z3);
                         }
-                        if ((this.flags & 16384) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
                             TLRPC$TL_channelAdminRights_layer92 TLdeserialize = TLRPC$TL_channelAdminRights_layer92.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
                             this.admin_rights_layer92 = TLdeserialize;
                             this.admin_rights = TLRPC$Chat.mergeAdminRights(TLdeserialize);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             TLRPC$TL_channelBannedRights_layer92 TLdeserialize2 = TLRPC$TL_channelBannedRights_layer92.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
                             this.banned_rights_layer92 = TLdeserialize2;
                             this.banned_rights = TLRPC$Chat.mergeBannedRights(TLdeserialize2);
@@ -916,11 +916,11 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i7;
                         int i8 = this.signatures ? i7 | LiteMode.FLAG_AUTOPLAY_GIFS : i7 & (-2049);
                         this.flags = i8;
-                        int i9 = this.min ? i8 | 4096 : i8 & (-4097);
+                        int i9 = this.min ? i8 | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : i8 & (-4097);
                         this.flags = i9;
                         abstractSerializedData2.writeInt32(i9);
                         abstractSerializedData2.writeInt32((int) this.id);
-                        if ((this.flags & 8192) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
                             abstractSerializedData2.writeInt64(this.access_hash);
                         }
                         abstractSerializedData2.writeString(this.title);
@@ -933,10 +933,10 @@ public abstract class TLRPC$Chat extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             abstractSerializedData2.writeString("");
                         }
-                        if ((this.flags & 16384) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
                             this.admin_rights_layer92.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.banned_rights_layer92.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 131072) != 0) {
@@ -1028,13 +1028,13 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
                         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.signatures = (readInt32 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
-                        this.min = (readInt32 & 4096) != 0;
+                        this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
                         this.scam = (524288 & readInt32) != 0;
                         this.has_link = (1048576 & readInt32) != 0;
                         this.has_geo = (2097152 & readInt32) != 0;
                         this.slowmode_enabled = (readInt32 & 4194304) != 0;
                         this.id = abstractSerializedData2.readInt32(z3);
-                        if ((this.flags & 8192) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
                             this.access_hash = abstractSerializedData2.readInt64(z3);
                         }
                         this.title = abstractSerializedData2.readString(z3);
@@ -1047,10 +1047,10 @@ public abstract class TLRPC$Chat extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             abstractSerializedData2.readString(z3);
                         }
-                        if ((this.flags & 16384) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
                             this.admin_rights = TLRPC$TL_chatAdminRights.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.banned_rights = TLRPC$TL_chatBannedRights.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
                         }
                         if ((this.flags & 262144) != 0) {
@@ -1078,7 +1078,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i7;
                         int i8 = this.signatures ? i7 | LiteMode.FLAG_AUTOPLAY_GIFS : i7 & (-2049);
                         this.flags = i8;
-                        int i9 = this.min ? i8 | 4096 : i8 & (-4097);
+                        int i9 = this.min ? i8 | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : i8 & (-4097);
                         this.flags = i9;
                         int i10 = this.scam ? i9 | 524288 : i9 & (-524289);
                         this.flags = i10;
@@ -1090,7 +1090,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i13;
                         abstractSerializedData2.writeInt32(i13);
                         abstractSerializedData2.writeInt32((int) this.id);
-                        if ((this.flags & 8192) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
                             abstractSerializedData2.writeInt64(this.access_hash);
                         }
                         abstractSerializedData2.writeString(this.title);
@@ -1103,10 +1103,10 @@ public abstract class TLRPC$Chat extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
                             abstractSerializedData2.writeString("");
                         }
-                        if ((this.flags & 16384) != 0) {
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
                             this.admin_rights.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.banned_rights.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 262144) != 0) {

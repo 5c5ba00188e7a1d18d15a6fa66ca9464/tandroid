@@ -658,8 +658,8 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     }
 
     /* JADX WARN: Removed duplicated region for block: B:13:0x0075  */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x0485  */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x04a6  */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x0483  */
+    /* JADX WARN: Removed duplicated region for block: B:147:0x04a4  */
     /* JADX WARN: Removed duplicated region for block: B:16:0x007c  */
     /* JADX WARN: Removed duplicated region for block: B:31:0x00c7  */
     /* JADX WARN: Removed duplicated region for block: B:41:0x00f8  */
@@ -820,7 +820,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                                             if (this.transitionProgress != 1.0f) {
                                                 this.customEmojiReactionsIconView.resetAnimation();
                                             }
-                                            this.customEmojiReactionsIconView.play(i5, LiteMode.isEnabled(8) || SharedConfig.getDevicePerformanceClass() >= 1);
+                                            this.customEmojiReactionsIconView.play(i5, LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS) || SharedConfig.getDevicePerformanceClass() >= 1);
                                             i5 += 30;
                                         }
                                         this.lastVisibleViews.add(childAt);
@@ -1298,7 +1298,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         create.show();
         TextView textView = (TextView) create.getButton(-1);
         if (textView != null) {
-            textView.setTextColor(Theme.getColor("dialogTextRed2"));
+            textView.setTextColor(Theme.getColor("dialogTextRed"));
         }
     }
 
@@ -1557,7 +1557,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             resetAnimation();
             this.currentReaction = visibleReaction;
             this.selected = ReactionsContainerLayout.this.selectedReactions.contains(visibleReaction);
-            this.hasEnterAnimation = this.currentReaction.emojicon != null && (ReactionsContainerLayout.this.showCustomEmojiReaction() || ReactionsContainerLayout.this.allReactionsIsDefault) && LiteMode.isEnabled(8);
+            this.hasEnterAnimation = this.currentReaction.emojicon != null && (ReactionsContainerLayout.this.showCustomEmojiReaction() || ReactionsContainerLayout.this.allReactionsIsDefault) && LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS);
             if (this.currentReaction.emojicon != null) {
                 updateImage(visibleReaction);
                 this.pressedBackupImageView.setAnimatedEmojiDrawable(null);
@@ -1616,7 +1616,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 return;
             }
             SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.activate_animation, "windowBackgroundWhiteGrayIcon", 1.0f);
-            if (!LiteMode.isEnabled(8)) {
+            if (!LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS)) {
                 if (SharedConfig.getDevicePerformanceClass() <= 0) {
                     this.loopImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_firstframe", null, null, this.hasEnterAnimation ? null : svgThumb, 0L, "tgs", this.currentReaction, 0);
                 } else {
@@ -1817,6 +1817,14 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             setVisibility(0);
             startEnterAnimation(false);
         }
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    public boolean dispatchTouchEvent(MotionEvent motionEvent) {
+        if (getAlpha() < 0.5f) {
+            return false;
+        }
+        return super.dispatchTouchEvent(motionEvent);
     }
 
     @Override // android.view.View

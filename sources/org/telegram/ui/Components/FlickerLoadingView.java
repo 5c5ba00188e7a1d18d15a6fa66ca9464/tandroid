@@ -746,7 +746,7 @@ public class FlickerLoadingView extends View {
                 return AndroidUtilities.dp(107.0f);
             case 16:
             case 23:
-                return AndroidUtilities.dp(48.0f);
+                return AndroidUtilities.dp(50.0f);
             case 19:
                 return AndroidUtilities.dp(58.0f);
             case 21:

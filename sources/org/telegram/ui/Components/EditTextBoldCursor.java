@@ -41,7 +41,6 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.R;
 import org.telegram.messenger.XiaomiUtilities;
 import org.telegram.tgnet.ConnectionsManager;
@@ -822,7 +821,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                 if (this.allowDrawCursor && z2) {
                     canvas.save();
                     if (getVerticalOffsetMethod != null) {
-                        if ((getGravity() & MessagesStorage.LAST_DB_VERSION) != 48) {
+                        if ((getGravity() & 112) != 48) {
                             totalPaddingTop = ((Integer) getVerticalOffsetMethod.invoke(this, Boolean.TRUE)).intValue();
                             canvas.translate(getPaddingLeft(), getExtendedPaddingTop() + totalPaddingTop);
                             Layout layout = getLayout();
@@ -877,7 +876,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                         this.gradientDrawable.draw(canvas);
                         canvas.restore();
                     } else {
-                        if ((getGravity() & MessagesStorage.LAST_DB_VERSION) != 48) {
+                        if ((getGravity() & 112) != 48) {
                             totalPaddingTop = getTotalPaddingTop() - getExtendedPaddingTop();
                             canvas.translate(getPaddingLeft(), getExtendedPaddingTop() + totalPaddingTop);
                             Layout layout22 = getLayout();
@@ -940,7 +939,7 @@ public class EditTextBoldCursor extends EditTextEffects {
             try {
                 canvas.save();
                 if (getVerticalOffsetMethod != null) {
-                    if ((getGravity() & MessagesStorage.LAST_DB_VERSION) != 48) {
+                    if ((getGravity() & 112) != 48) {
                         totalPaddingTop2 = ((Integer) getVerticalOffsetMethod.invoke(this, Boolean.TRUE)).intValue();
                         canvas.translate(getPaddingLeft(), getExtendedPaddingTop() + totalPaddingTop2);
                         Layout layout3 = getLayout();
@@ -997,7 +996,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                     canvas.restore();
                     this.cursorDrawn = false;
                 } else {
-                    if ((getGravity() & MessagesStorage.LAST_DB_VERSION) != 48) {
+                    if ((getGravity() & 112) != 48) {
                         totalPaddingTop2 = getTotalPaddingTop() - getExtendedPaddingTop();
                         canvas.translate(getPaddingLeft(), getExtendedPaddingTop() + totalPaddingTop2);
                         Layout layout322 = getLayout();

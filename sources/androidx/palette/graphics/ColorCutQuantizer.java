@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
+import org.telegram.messenger.LiteMode;
 import org.telegram.tgnet.ConnectionsManager;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
@@ -44,7 +45,7 @@ public final class ColorCutQuantizer {
     /* JADX INFO: Access modifiers changed from: package-private */
     public ColorCutQuantizer(int[] iArr, int i, Palette.Filter[] filterArr) {
         this.mFilters = filterArr;
-        int[] iArr2 = new int[32768];
+        int[] iArr2 = new int[LiteMode.FLAG_CHAT_SCALE];
         this.mHistogram = iArr2;
         for (int i2 = 0; i2 < iArr.length; i2++) {
             int quantizeFromRgb888 = quantizeFromRgb888(iArr[i2]);

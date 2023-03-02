@@ -51,10 +51,6 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.voip.VoIPHelper;
 /* loaded from: classes3.dex */
 public class DataSettingsActivity extends BaseFragment {
-    private int autoplayGifsRow;
-    private int autoplayHeaderRow;
-    private int autoplaySectionRow;
-    private int autoplayVideoRow;
     private int callsSection2Row;
     private int callsSectionRow;
     private int clearDraftsRow;
@@ -94,6 +90,10 @@ public class DataSettingsActivity extends BaseFragment {
     private int usageSectionRow;
     private int useLessDataForCallsRow;
     private int wifiRow;
+    private int autoplayHeaderRow = -1;
+    private int autoplayGifsRow = -1;
+    private int autoplayVideoRow = -1;
+    private int autoplaySectionRow = -1;
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onFragmentCreate() {
@@ -157,63 +157,51 @@ public class DataSettingsActivity extends BaseFragment {
         this.saveToGalleryDividerRow = i15;
         int i17 = i16 + 1;
         this.rowCount = i17;
-        this.autoplayHeaderRow = i16;
+        this.streamSectionRow = i16;
         int i18 = i17 + 1;
         this.rowCount = i18;
-        this.autoplayGifsRow = i17;
-        int i19 = i18 + 1;
-        this.rowCount = i19;
-        this.autoplayVideoRow = i18;
-        int i20 = i19 + 1;
-        this.rowCount = i20;
-        this.autoplaySectionRow = i19;
-        int i21 = i20 + 1;
-        this.rowCount = i21;
-        this.streamSectionRow = i20;
-        int i22 = i21 + 1;
-        this.rowCount = i22;
-        this.enableStreamRow = i21;
+        this.enableStreamRow = i17;
         if (BuildVars.DEBUG_VERSION) {
-            int i23 = i22 + 1;
-            this.rowCount = i23;
-            this.enableMkvRow = i22;
-            this.rowCount = i23 + 1;
-            this.enableAllStreamRow = i23;
+            int i19 = i18 + 1;
+            this.rowCount = i19;
+            this.enableMkvRow = i18;
+            this.rowCount = i19 + 1;
+            this.enableAllStreamRow = i19;
         } else {
             this.enableAllStreamRow = -1;
             this.enableMkvRow = -1;
         }
-        int i24 = this.rowCount;
+        int i20 = this.rowCount;
+        int i21 = i20 + 1;
+        this.rowCount = i21;
+        this.enableAllStreamInfoRow = i20;
+        this.enableCacheStreamRow = -1;
+        int i22 = i21 + 1;
+        this.rowCount = i22;
+        this.callsSectionRow = i21;
+        int i23 = i22 + 1;
+        this.rowCount = i23;
+        this.useLessDataForCallsRow = i22;
+        int i24 = i23 + 1;
+        this.rowCount = i24;
+        this.quickRepliesRow = i23;
         int i25 = i24 + 1;
         this.rowCount = i25;
-        this.enableAllStreamInfoRow = i24;
-        this.enableCacheStreamRow = -1;
+        this.callsSection2Row = i24;
         int i26 = i25 + 1;
         this.rowCount = i26;
-        this.callsSectionRow = i25;
+        this.proxySectionRow = i25;
         int i27 = i26 + 1;
         this.rowCount = i27;
-        this.useLessDataForCallsRow = i26;
+        this.proxyRow = i26;
         int i28 = i27 + 1;
         this.rowCount = i28;
-        this.quickRepliesRow = i27;
+        this.proxySection2Row = i27;
         int i29 = i28 + 1;
         this.rowCount = i29;
-        this.callsSection2Row = i28;
-        int i30 = i29 + 1;
-        this.rowCount = i30;
-        this.proxySectionRow = i29;
-        int i31 = i30 + 1;
-        this.rowCount = i31;
-        this.proxyRow = i30;
-        int i32 = i31 + 1;
-        this.rowCount = i32;
-        this.proxySection2Row = i31;
-        int i33 = i32 + 1;
-        this.rowCount = i33;
-        this.clearDraftsRow = i32;
-        this.rowCount = i33 + 1;
-        this.clearDraftsSectionRow = i33;
+        this.clearDraftsRow = i28;
+        this.rowCount = i29 + 1;
+        this.clearDraftsSectionRow = i29;
         return true;
     }
 
@@ -430,7 +418,7 @@ public class DataSettingsActivity extends BaseFragment {
             showDialog(create);
             TextView textView = (TextView) create.getButton(-1);
             if (textView != null) {
-                textView.setTextColor(Theme.getColor("dialogTextRed2"));
+                textView.setTextColor(Theme.getColor("dialogTextRed"));
             }
         } else if (i == this.storageUsageRow) {
             presentFragment(new CacheControlActivity());
@@ -546,7 +534,7 @@ public class DataSettingsActivity extends BaseFragment {
             showDialog(create2);
             TextView textView2 = (TextView) create2.getButton(-1);
             if (textView2 != null) {
-                textView2.setTextColor(Theme.getColor("dialogTextRed2"));
+                textView2.setTextColor(Theme.getColor("dialogTextRed"));
             }
         }
     }

@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.Locale;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.Theme;
@@ -908,7 +909,7 @@ public class NumberPicker extends LinearLayout {
                 String[] strArr = this.mDisplayedValues;
                 String formatNumber = strArr == null ? formatNumber(this.mValue) : strArr[this.mValue - this.mMinValue];
                 AccessibilityEvent obtain = AccessibilityEvent.obtain();
-                obtain.setEventType(16384);
+                obtain.setEventType(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
                 obtain.getText().add(formatNumber);
                 accessibilityManager.sendAccessibilityEvent(obtain);
             }

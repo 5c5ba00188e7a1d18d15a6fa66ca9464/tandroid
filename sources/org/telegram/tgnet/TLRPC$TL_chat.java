@@ -1,4 +1,6 @@
 package org.telegram.tgnet;
+
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_chat extends TLRPC$Chat {
     public static int constructor = 1103884886;
@@ -27,7 +29,7 @@ public class TLRPC$TL_chat extends TLRPC$Chat {
         if ((this.flags & 64) != 0) {
             this.migrated_to = TLRPC$InputChannel.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
-        if ((this.flags & 16384) != 0) {
+        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
             this.admin_rights = TLRPC$TL_chatAdminRights.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
         if ((this.flags & 262144) != 0) {
@@ -62,7 +64,7 @@ public class TLRPC$TL_chat extends TLRPC$Chat {
         if ((this.flags & 64) != 0) {
             this.migrated_to.serializeToStream(abstractSerializedData);
         }
-        if ((this.flags & 16384) != 0) {
+        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
             this.admin_rights.serializeToStream(abstractSerializedData);
         }
         if ((this.flags & 262144) != 0) {

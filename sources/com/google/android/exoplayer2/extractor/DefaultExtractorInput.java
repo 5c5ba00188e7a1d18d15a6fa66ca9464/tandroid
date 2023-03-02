@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.util.Arrays;
 import org.telegram.messenger.CharacterCompat;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class DefaultExtractorInput implements ExtractorInput {
     private final DataReader dataReader;
@@ -17,7 +18,7 @@ public final class DefaultExtractorInput implements ExtractorInput {
     private long position;
     private final long streamLength;
     private byte[] peekBuffer = new byte[CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT];
-    private final byte[] scratchSpace = new byte[4096];
+    private final byte[] scratchSpace = new byte[LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM];
 
     static {
         ExoPlayerLibraryInfo.registerModule("goog.exo.extractor");

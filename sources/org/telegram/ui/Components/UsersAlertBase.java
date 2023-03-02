@@ -137,11 +137,6 @@ public class UsersAlertBase extends BottomSheet {
         this.emptyView.setColors(this.keyNameText, this.keyLastSeenText, this.keyInviteMembersBackground, this.keySearchBackground);
         this.containerView.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 62.0f, 0.0f, 0.0f));
         RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.Components.UsersAlertBase.1
-            @Override // org.telegram.ui.Components.RecyclerListView
-            protected boolean allowSelectChildAtPosition(float f, float f2) {
-                return UsersAlertBase.this.isAllowSelectChildAtPosition(f, f2);
-            }
-
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.View
             public void setTranslationY(float f) {
                 super.setTranslationY(f);
@@ -208,10 +203,6 @@ public class UsersAlertBase extends BottomSheet {
         return new ContainerView(context);
     }
 
-    protected boolean isAllowSelectChildAtPosition(float f, float f2) {
-        return f2 >= ((float) (AndroidUtilities.dp(58.0f) + (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0)));
-    }
-
     /* JADX INFO: Access modifiers changed from: protected */
     /* loaded from: classes3.dex */
     public class SearchField extends FrameLayout {
@@ -259,7 +250,7 @@ public class UsersAlertBase extends BottomSheet {
                 @Override // org.telegram.ui.Components.EditTextEffects, android.view.View
                 public boolean dispatchTouchEvent(MotionEvent motionEvent) {
                     MotionEvent obtain = MotionEvent.obtain(motionEvent);
-                    obtain.setLocation(obtain.getRawX(), obtain.getRawY() - ((BottomSheet) UsersAlertBase.this).containerView.getTranslationY());
+                    obtain.setLocation(obtain.getRawX(), obtain.getRawY() - UsersAlertBase.this.listView.getMeasuredHeight());
                     if (obtain.getAction() == 1) {
                         obtain.setAction(3);
                     }

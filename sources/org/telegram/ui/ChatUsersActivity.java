@@ -20,6 +20,7 @@ import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import androidx.collection.LongSparseArray;
+import androidx.core.util.Consumer;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -1616,6 +1617,10 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     public class 9 implements GroupCreateActivity.ContactsAddActivityDelegate {
         final /* synthetic */ GroupCreateActivity val$fragment;
 
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ void lambda$didSelectUsers$1(TLRPC$User tLRPC$User) {
+        }
+
         9(GroupCreateActivity groupCreateActivity) {
             this.val$fragment = groupCreateActivity;
         }
@@ -1625,67 +1630,18 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             if (this.val$fragment.getParentActivity() == null) {
                 return;
             }
-            final int size = arrayList.size();
-            final ArrayList arrayList2 = new ArrayList();
-            final int[] iArr = {0};
-            final GroupCreateActivity groupCreateActivity = this.val$fragment;
-            final Runnable runnable = new Runnable() { // from class: org.telegram.ui.ChatUsersActivity$9$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChatUsersActivity.9.lambda$didSelectUsers$0(arrayList2, size, groupCreateActivity);
+            ChatUsersActivity.this.getMessagesController().addUsersToChat(ChatUsersActivity.this.currentChat, ChatUsersActivity.this, arrayList, i, new Consumer() { // from class: org.telegram.ui.ChatUsersActivity$9$$ExternalSyntheticLambda0
+                @Override // androidx.core.util.Consumer
+                public final void accept(Object obj) {
+                    ChatUsersActivity.9.this.lambda$didSelectUsers$0((TLRPC$User) obj);
                 }
-            };
-            for (int i2 = 0; i2 < size; i2++) {
-                final TLRPC$User tLRPC$User = arrayList.get(i2);
-                ChatUsersActivity.this.getMessagesController().addUserToChat(ChatUsersActivity.this.chatId, tLRPC$User, i, null, ChatUsersActivity.this, false, new Runnable() { // from class: org.telegram.ui.ChatUsersActivity$9$$ExternalSyntheticLambda1
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        ChatUsersActivity.9.this.lambda$didSelectUsers$1(iArr, size, arrayList2, runnable, tLRPC$User);
-                    }
-                }, new MessagesController.ErrorDelegate() { // from class: org.telegram.ui.ChatUsersActivity$9$$ExternalSyntheticLambda2
-                    @Override // org.telegram.messenger.MessagesController.ErrorDelegate
-                    public final boolean run(TLRPC$TL_error tLRPC$TL_error) {
-                        boolean lambda$didSelectUsers$2;
-                        lambda$didSelectUsers$2 = ChatUsersActivity.9.lambda$didSelectUsers$2(iArr, arrayList2, tLRPC$User, size, runnable, tLRPC$TL_error);
-                        return lambda$didSelectUsers$2;
-                    }
-                });
-                ChatUsersActivity.this.getMessagesController().putUser(tLRPC$User, false);
-            }
+            }, ChatUsersActivity$9$$ExternalSyntheticLambda1.INSTANCE, null);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public static /* synthetic */ void lambda$didSelectUsers$0(ArrayList arrayList, int i, GroupCreateActivity groupCreateActivity) {
-            String string;
-            CharSequence string2;
-            if (arrayList.size() == 1) {
-                if (i > 1) {
-                    string = LocaleController.getString("InviteToGroupErrorTitleAUser", R.string.InviteToGroupErrorTitleAUser);
-                } else {
-                    string = LocaleController.getString("InviteToGroupErrorTitleThisUser", R.string.InviteToGroupErrorTitleThisUser);
-                }
-                string2 = AndroidUtilities.replaceTags(LocaleController.formatString("InviteToGroupErrorMessageSingle", R.string.InviteToGroupErrorMessageSingle, UserObject.getFirstName((TLRPC$User) arrayList.get(0))));
-            } else if (arrayList.size() == 2) {
-                string = LocaleController.getString("InviteToGroupErrorTitleSomeUsers", R.string.InviteToGroupErrorTitleSomeUsers);
-                string2 = AndroidUtilities.replaceTags(LocaleController.formatString("InviteToGroupErrorMessageDouble", R.string.InviteToGroupErrorMessageDouble, UserObject.getFirstName((TLRPC$User) arrayList.get(0)), UserObject.getFirstName((TLRPC$User) arrayList.get(1))));
-            } else if (arrayList.size() == i) {
-                string = LocaleController.getString("InviteToGroupErrorTitleTheseUsers", R.string.InviteToGroupErrorTitleTheseUsers);
-                string2 = LocaleController.getString("InviteToGroupErrorMessageMultipleAll", R.string.InviteToGroupErrorMessageMultipleAll);
-            } else {
-                string = LocaleController.getString("InviteToGroupErrorTitleSomeUsers", R.string.InviteToGroupErrorTitleSomeUsers);
-                string2 = LocaleController.getString("InviteToGroupErrorMessageMultipleSome", R.string.InviteToGroupErrorMessageMultipleSome);
-            }
-            new AlertDialog.Builder(groupCreateActivity.getParentActivity()).setTitle(string).setMessage(string2).setPositiveButton(LocaleController.getString("OK", R.string.OK), null).show();
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$didSelectUsers$1(int[] iArr, int i, ArrayList arrayList, Runnable runnable, TLRPC$User tLRPC$User) {
-            iArr[0] = iArr[0] + 1;
-            if (iArr[0] >= i && arrayList.size() > 0) {
-                runnable.run();
-            }
+        public /* synthetic */ void lambda$didSelectUsers$0(TLRPC$User tLRPC$User) {
             DiffCallback saveState = ChatUsersActivity.this.saveState();
-            ArrayList arrayList2 = (ChatUsersActivity.this.contactsMap == null || ChatUsersActivity.this.contactsMap.size() == 0) ? ChatUsersActivity.this.participants : ChatUsersActivity.this.contacts;
+            ArrayList arrayList = (ChatUsersActivity.this.contactsMap == null || ChatUsersActivity.this.contactsMap.size() == 0) ? ChatUsersActivity.this.participants : ChatUsersActivity.this.contacts;
             LongSparseArray longSparseArray = (ChatUsersActivity.this.contactsMap == null || ChatUsersActivity.this.contactsMap.size() == 0) ? ChatUsersActivity.this.participantsMap : ChatUsersActivity.this.contactsMap;
             if (longSparseArray.get(tLRPC$User.id) == null) {
                 if (ChatObject.isChannel(ChatUsersActivity.this.currentChat)) {
@@ -1695,34 +1651,21 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     tLRPC$TL_channelParticipant.peer = tLRPC$TL_peerUser;
                     tLRPC$TL_peerUser.user_id = tLRPC$User.id;
                     tLRPC$TL_channelParticipant.date = ChatUsersActivity.this.getConnectionsManager().getCurrentTime();
-                    arrayList2.add(0, tLRPC$TL_channelParticipant);
+                    arrayList.add(0, tLRPC$TL_channelParticipant);
                     longSparseArray.put(tLRPC$User.id, tLRPC$TL_channelParticipant);
                 } else {
                     TLRPC$TL_chatParticipant tLRPC$TL_chatParticipant = new TLRPC$TL_chatParticipant();
                     tLRPC$TL_chatParticipant.user_id = tLRPC$User.id;
                     tLRPC$TL_chatParticipant.inviter_id = ChatUsersActivity.this.getUserConfig().getClientUserId();
-                    arrayList2.add(0, tLRPC$TL_chatParticipant);
+                    arrayList.add(0, tLRPC$TL_chatParticipant);
                     longSparseArray.put(tLRPC$User.id, tLRPC$TL_chatParticipant);
                 }
             }
-            if (arrayList2 == ChatUsersActivity.this.participants) {
+            if (arrayList == ChatUsersActivity.this.participants) {
                 ChatUsersActivity chatUsersActivity = ChatUsersActivity.this;
                 chatUsersActivity.sortAdmins(chatUsersActivity.participants);
             }
             ChatUsersActivity.this.updateListAnimated(saveState);
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public static /* synthetic */ boolean lambda$didSelectUsers$2(int[] iArr, ArrayList arrayList, TLRPC$User tLRPC$User, int i, Runnable runnable, TLRPC$TL_error tLRPC$TL_error) {
-            iArr[0] = iArr[0] + 1;
-            boolean z = tLRPC$TL_error != null && "USER_PRIVACY_RESTRICTED".equals(tLRPC$TL_error.text);
-            if (z) {
-                arrayList.add(tLRPC$User);
-            }
-            if (iArr[0] >= i && arrayList.size() > 0) {
-                runnable.run();
-            }
-            return !z;
         }
 
         @Override // org.telegram.ui.GroupCreateActivity.ContactsAddActivityDelegate
@@ -2422,7 +2365,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             AlertDialog create = builder.create();
             showDialog(create);
             if (z4) {
-                create.setItemColor(arrayList6.size() - 1, Theme.getColor("dialogTextRed2"), Theme.getColor("dialogRedIcon"));
+                create.setItemColor(arrayList6.size() - 1, Theme.getColor("dialogTextRed"), Theme.getColor("dialogRedIcon"));
             }
             return true;
         }
@@ -2480,7 +2423,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             AlertDialog create2 = builder2.create();
             showDialog(create2);
             if (this.type == 1) {
-                create2.setItemColor(charSequenceArr.length - 1, Theme.getColor("dialogTextRed2"), Theme.getColor("dialogRedIcon"));
+                create2.setItemColor(charSequenceArr.length - 1, Theme.getColor("dialogTextRed"), Theme.getColor("dialogRedIcon"));
                 return true;
             }
             return true;

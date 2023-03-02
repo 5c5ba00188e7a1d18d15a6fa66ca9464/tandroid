@@ -1571,7 +1571,7 @@ public class MatroskaExtractor implements Extractor {
             case 25:
             case 26:
             case 27:
-            case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
+            case 28:
             case 29:
             case 30:
             case 31:
@@ -1994,21 +1994,21 @@ public class MatroskaExtractor implements Extractor {
                     str4 = "audio/vorbis";
                     str = null;
                     i2 = -1;
-                    i3 = 8192;
+                    i3 = LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
                     break;
                 case 5:
                     str4 = "audio/mpeg-L2";
                     singletonList = null;
                     str = null;
                     i2 = -1;
-                    i3 = 4096;
+                    i3 = LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
                     break;
                 case 6:
                     str4 = "audio/mpeg";
                     singletonList = null;
                     str = null;
                     i2 = -1;
-                    i3 = 4096;
+                    i3 = LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
                     break;
                 case 7:
                     Pair<String, List<byte[]>> parseFourCcPrivate = parseFourCcPrivate(new ParsableByteArray(getCodecPrivate(this.codecId)));
@@ -2188,7 +2188,7 @@ public class MatroskaExtractor implements Extractor {
                     i2 = -1;
                     i3 = -1;
                     break;
-                case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
+                case 28:
                     str4 = "application/x-subrip";
                     singletonList = null;
                     str = null;

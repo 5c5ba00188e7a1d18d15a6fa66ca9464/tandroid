@@ -270,7 +270,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         create.setOnHideListener(onDismissListener);
         this.parentFragment.showDialog(create);
         if (z) {
-            create.setItemColor(arrayList.size() - 1, Theme.getColor("dialogTextRed2"), Theme.getColor("dialogRedIcon"));
+            create.setItemColor(arrayList.size() - 1, Theme.getColor("dialogTextRed"), Theme.getColor("dialogRedIcon"));
         }
     }
 
@@ -752,7 +752,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
             }
             PhotoCropActivity photoCropActivity = new PhotoCropActivity(bundle);
             photoCropActivity.setDelegate(this);
-            launchActivity.lambda$runLinkRequest$72(photoCropActivity);
+            launchActivity.lambda$runLinkRequest$78(photoCropActivity);
         } catch (Exception e) {
             FileLog.e(e);
             processBitmap(ImageLoader.loadBitmap(str, uri, 800.0f, 800.0f, true), null);

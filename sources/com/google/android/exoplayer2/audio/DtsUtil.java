@@ -6,12 +6,11 @@ import com.google.android.exoplayer2.util.ParsableBitArray;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.telegram.messenger.LiteMode;
-import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes.dex */
 public final class DtsUtil {
     private static final int[] CHANNELS_BY_AMODE = {1, 2, 2, 2, 2, 3, 3, 4, 4, 5, 6, 6, 6, 7, 8, 8};
     private static final int[] SAMPLE_RATE_BY_SFREQ = {-1, 8000, 16000, 32000, -1, -1, 11025, 22050, 44100, -1, -1, 12000, 24000, 48000, -1, -1};
-    private static final int[] TWICE_BITRATE_KBPS_BY_RATE = {64, MessagesStorage.LAST_DB_VERSION, 128, 192, 224, LiteMode.FLAG_CHAT_BLUR, 384, 448, LiteMode.FLAG_CALLS_ANIMATIONS, 640, 768, 896, 1024, 1152, 1280, 1536, 1920, LiteMode.FLAG_AUTOPLAY_GIFS, 2304, 2560, 2688, 2816, 2823, 2944, 3072, 3840, 4096, 6144, 7680};
+    private static final int[] TWICE_BITRATE_KBPS_BY_RATE = {64, 112, 128, 192, 224, LiteMode.FLAG_CHAT_BLUR, 384, 448, LiteMode.FLAG_CALLS_ANIMATIONS, 640, 768, 896, 1024, 1152, 1280, 1536, 1920, LiteMode.FLAG_AUTOPLAY_GIFS, 2304, 2560, 2688, 2816, 2823, 2944, 3072, 3840, LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM, 6144, 7680};
 
     public static boolean isSyncWord(int i) {
         return i == 2147385345 || i == -25230976 || i == 536864768 || i == -14745368;

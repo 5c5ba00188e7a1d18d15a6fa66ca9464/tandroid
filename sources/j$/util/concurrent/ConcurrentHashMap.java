@@ -34,6 +34,7 @@ import java.util.concurrent.locks.LockSupport;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.IntFunction;
 import java.util.stream.Stream;
+import org.telegram.messenger.LiteMode;
 import org.telegram.tgnet.ConnectionsManager;
 import sun.misc.Unsafe;
 /* loaded from: classes2.dex */
@@ -1998,7 +1999,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     }
 
     static final int j(int i2) {
-        return Integer.numberOfLeadingZeros(i2) | 32768;
+        return Integer.numberOfLeadingZeros(i2) | LiteMode.FLAG_CHAT_SCALE;
     }
 
     static final void k(l[] lVarArr, int i2, l lVar) {

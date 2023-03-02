@@ -192,16 +192,24 @@ public class OverlayActionBarLayoutDialog extends Dialog implements INavigationL
     }
 
     /* loaded from: classes3.dex */
-    private static final class EmptyFragment extends BaseFragment {
+    private final class EmptyFragment extends BaseFragment {
         private EmptyFragment() {
         }
 
         @Override // org.telegram.ui.ActionBar.BaseFragment
         public View createView(Context context) {
+            this.hasOwnBackground = true;
             this.actionBar.setAddToContainer(false);
             View view = new View(context);
             view.setBackgroundColor(0);
             return view;
+        }
+
+        @Override // org.telegram.ui.ActionBar.BaseFragment
+        public void onTransitionAnimationEnd(boolean z, boolean z2) {
+            if (z && z2) {
+                OverlayActionBarLayoutDialog.this.dismiss();
+            }
         }
     }
 }

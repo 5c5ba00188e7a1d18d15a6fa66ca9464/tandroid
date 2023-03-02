@@ -542,7 +542,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             showDialog(create);
             TextView textView = (TextView) create.getButton(-1);
             if (textView != null) {
-                textView.setTextColor(Theme.getColor("dialogTextRed2"));
+                textView.setTextColor(Theme.getColor("dialogTextRed"));
             }
         }
     }
@@ -634,7 +634,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                 ProxyListActivity.this.showDialog(create);
                 TextView textView = (TextView) create.getButton(-1);
                 if (textView != null) {
-                    textView.setTextColor(Theme.getColor("dialogTextRed2"));
+                    textView.setTextColor(Theme.getColor("dialogTextRed"));
                 }
             } else if (i == 1) {
                 StringBuilder sb = new StringBuilder();

@@ -506,6 +506,10 @@ public class GroupCallUserCell extends FrameLayout {
         if (animatorSet != null) {
             animatorSet.cancel();
         }
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.rightDrawable;
+        if (swapAnimatedEmojiDrawable != null) {
+            swapAnimatedEmojiDrawable.detach();
+        }
     }
 
     public boolean isSelfUser() {
@@ -636,6 +640,10 @@ public class GroupCallUserCell extends FrameLayout {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         applyParticipantChanges(false);
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.rightDrawable;
+        if (swapAnimatedEmojiDrawable != null) {
+            swapAnimatedEmojiDrawable.attach();
+        }
     }
 
     public TLRPC$TL_groupCallParticipant getParticipant() {

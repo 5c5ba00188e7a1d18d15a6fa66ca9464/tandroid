@@ -41,7 +41,7 @@ public class DrawerLayoutContainer extends FrameLayout {
     private int behindKeyboardColor;
     private AnimatorSet currentAnimation;
     private boolean drawCurrentPreviewFragmentAbove;
-    private ViewGroup drawerLayout;
+    private FrameLayout drawerLayout;
     private boolean drawerOpened;
     private float drawerPosition;
     private boolean firstLayout;
@@ -160,9 +160,9 @@ public class DrawerLayoutContainer extends FrameLayout {
         marginLayoutParams.bottomMargin = windowInsets.getSystemWindowInsetBottom();
     }
 
-    public void setDrawerLayout(ViewGroup viewGroup) {
-        this.drawerLayout = viewGroup;
-        addView(viewGroup);
+    public void setDrawerLayout(FrameLayout frameLayout) {
+        this.drawerLayout = frameLayout;
+        addView(frameLayout);
         this.drawerLayout.setVisibility(4);
         if (Build.VERSION.SDK_INT >= 21) {
             this.drawerLayout.setFitsSystemWindows(true);
@@ -175,12 +175,12 @@ public class DrawerLayoutContainer extends FrameLayout {
 
     @Keep
     public void setDrawerPosition(float f) {
-        ViewGroup viewGroup = this.drawerLayout;
-        if (viewGroup == null) {
+        FrameLayout frameLayout = this.drawerLayout;
+        if (frameLayout == null) {
             return;
         }
         this.drawerPosition = f;
-        if (f > viewGroup.getMeasuredWidth()) {
+        if (f > frameLayout.getMeasuredWidth()) {
             this.drawerPosition = this.drawerLayout.getMeasuredWidth();
         } else if (this.drawerPosition < 0.0f) {
             this.drawerPosition = 0.0f;
@@ -293,7 +293,7 @@ public class DrawerLayoutContainer extends FrameLayout {
         return this.scrimOpacity;
     }
 
-    public View getDrawerLayout() {
+    public FrameLayout getDrawerLayout() {
         return this.drawerLayout;
     }
 
@@ -307,6 +307,10 @@ public class DrawerLayoutContainer extends FrameLayout {
             iNavigationLayout.presentFragment(baseFragment);
         }
         closeDrawer(false);
+    }
+
+    public INavigationLayout getParentActionBarLayout() {
+        return this.parentActionBarLayout;
     }
 
     public void closeDrawer() {

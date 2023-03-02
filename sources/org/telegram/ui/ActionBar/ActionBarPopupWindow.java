@@ -110,7 +110,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         Rect rect;
         private final Theme.ResourcesProvider resourcesProvider;
         private ScrollView scrollView;
-        private boolean shownFromBottom;
+        public boolean shownFromBottom;
         private boolean startAnimationPending;
         public int subtractBackgroundHeight;
         public boolean swipeBackGravityRight;
@@ -807,10 +807,14 @@ public class ActionBarPopupWindow extends PopupWindow {
     }
 
     public void dimBehind() {
+        dimBehind(0.2f);
+    }
+
+    public void dimBehind(float f) {
         View rootView = getContentView().getRootView();
         WindowManager.LayoutParams layoutParams = (WindowManager.LayoutParams) rootView.getLayoutParams();
         layoutParams.flags |= 2;
-        layoutParams.dimAmount = 0.2f;
+        layoutParams.dimAmount = f;
         ((WindowManager) getContentView().getContext().getSystemService("window")).updateViewLayout(rootView, layoutParams);
     }
 
@@ -1095,18 +1099,20 @@ public class ActionBarPopupWindow extends PopupWindow {
 
     /* loaded from: classes3.dex */
     public static class GapView extends FrameLayout {
-        Theme.ResourcesProvider resourcesProvider;
         Drawable shadowDrawable;
 
         public GapView(Context context, Theme.ResourcesProvider resourcesProvider) {
             this(context, resourcesProvider, "actionBarDefaultSubmenuSeparator");
         }
 
-        public GapView(Context context, Theme.ResourcesProvider resourcesProvider, String str) {
+        public GapView(Context context, int i, int i2) {
             super(context);
-            this.resourcesProvider = resourcesProvider;
-            this.shadowDrawable = Theme.getThemedDrawable(getContext(), R.drawable.greydivider, "windowBackgroundGrayShadow", resourcesProvider);
-            setBackgroundColor(Theme.getColor(str, resourcesProvider));
+            this.shadowDrawable = Theme.getThemedDrawable(getContext(), R.drawable.greydivider, i2);
+            setBackgroundColor(i);
+        }
+
+        public GapView(Context context, Theme.ResourcesProvider resourcesProvider, String str) {
+            this(context, Theme.getColor(str, resourcesProvider), Theme.getColor("windowBackgroundGrayShadow", resourcesProvider));
         }
 
         public void setColor(int i) {

@@ -14,8 +14,8 @@ public class TLRPC$TL_message extends TLRPC$Message {
         this.out = (readInt32 & 2) != 0;
         this.mentioned = (readInt32 & 16) != 0;
         this.media_unread = (readInt32 & 32) != 0;
-        this.silent = (readInt32 & 8192) != 0;
-        this.post = (readInt32 & 16384) != 0;
+        this.silent = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0;
+        this.post = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
         this.from_scheduled = (262144 & readInt32) != 0;
         this.legacy = (524288 & readInt32) != 0;
         this.edit_hide = (2097152 & readInt32) != 0;
@@ -77,7 +77,7 @@ public class TLRPC$TL_message extends TLRPC$Message {
         if ((this.flags & 8388608) != 0) {
             this.replies = TLRPC$MessageReplies.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
-        if ((this.flags & 32768) != 0) {
+        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
             this.edit_date = abstractSerializedData.readInt32(z);
         }
         if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
@@ -120,9 +120,9 @@ public class TLRPC$TL_message extends TLRPC$Message {
         this.flags = i2;
         int i3 = this.media_unread ? i2 | 32 : i2 & (-33);
         this.flags = i3;
-        int i4 = this.silent ? i3 | 8192 : i3 & (-8193);
+        int i4 = this.silent ? i3 | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM : i3 & (-8193);
         this.flags = i4;
-        int i5 = this.post ? i4 | 16384 : i4 & (-16385);
+        int i5 = this.post ? i4 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i4 & (-16385);
         this.flags = i5;
         int i6 = this.from_scheduled ? i5 | 262144 : i5 & (-262145);
         this.flags = i6;
@@ -176,7 +176,7 @@ public class TLRPC$TL_message extends TLRPC$Message {
         if ((this.flags & 8388608) != 0) {
             this.replies.serializeToStream(abstractSerializedData);
         }
-        if ((this.flags & 32768) != 0) {
+        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
             abstractSerializedData.writeInt32(this.edit_date);
         }
         if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {

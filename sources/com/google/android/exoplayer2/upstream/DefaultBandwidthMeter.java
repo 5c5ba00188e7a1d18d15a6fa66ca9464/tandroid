@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageReceiver;
-import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.voip.VoIPService;
 /* loaded from: classes.dex */
@@ -1677,7 +1676,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             case 4:
             case 16:
             case 25:
-            case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
+            case 28:
             case '8':
             case 'D':
                 return new int[]{0, 2, 0, 0, 2, 2};
@@ -1832,7 +1831,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             case 'G':
                 return new int[]{0, 1, 1, 2, 1, 2};
             case 'H':
-            case MessagesStorage.LAST_DB_VERSION /* 112 */:
+            case 'p':
             case 's':
             case 'w':
             case 200:
@@ -1904,7 +1903,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 return new int[]{2, 1, 1, 2, 2, 2};
             case 'm':
                 return new int[]{1, 0, 4, 2, 2, 2};
-            case 'q':
+            case MessagesStorage.LAST_DB_VERSION /* 113 */:
                 return new int[]{0, 2, 2, 4, 4, 4};
             case 'r':
                 return new int[]{1, 0, 1, 0, 0, 2};

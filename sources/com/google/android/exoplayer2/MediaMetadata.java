@@ -8,7 +8,6 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.common.base.Objects;
 import java.util.Arrays;
 import java.util.List;
-import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class MediaMetadata implements Bundleable {
     public final CharSequence albumArtist;
@@ -112,7 +111,7 @@ public final class MediaMetadata implements Bundleable {
             case 20:
             case 26:
             case 27:
-            case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
+            case 28:
             case 29:
             case 30:
             default:

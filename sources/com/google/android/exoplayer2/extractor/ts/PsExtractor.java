@@ -47,7 +47,7 @@ public final class PsExtractor implements Extractor {
 
     public PsExtractor(TimestampAdjuster timestampAdjuster) {
         this.timestampAdjuster = timestampAdjuster;
-        this.psPacketBuffer = new ParsableByteArray(4096);
+        this.psPacketBuffer = new ParsableByteArray((int) LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM);
         this.psPayloadReaders = new SparseArray<>();
         this.durationReader = new PsDurationReader();
     }

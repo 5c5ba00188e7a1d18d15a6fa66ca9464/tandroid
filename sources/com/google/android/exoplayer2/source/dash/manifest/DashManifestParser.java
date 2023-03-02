@@ -1489,7 +1489,7 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         int i = 0;
         for (int i2 = 0; i2 < list.size(); i2++) {
             if (Ascii.equalsIgnoreCase("http://dashif.org/guidelines/trickmode", list.get(i2).schemeIdUri)) {
-                i |= 16384;
+                i |= LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
             }
         }
         return i;

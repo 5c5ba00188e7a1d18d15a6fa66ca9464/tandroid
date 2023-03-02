@@ -628,13 +628,13 @@ public final class Format implements Bundleable {
             if ((format.roleFlags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
                 arrayList2.add("enhanced-intelligibility");
             }
-            if ((format.roleFlags & 4096) != 0) {
+            if ((format.roleFlags & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0) {
                 arrayList2.add("transcribes-dialog");
             }
-            if ((format.roleFlags & 8192) != 0) {
+            if ((format.roleFlags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
                 arrayList2.add("easy-read");
             }
-            if ((format.roleFlags & 16384) != 0) {
+            if ((format.roleFlags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
                 arrayList2.add("trick-play");
             }
             sb.append(", roleFlags=[");

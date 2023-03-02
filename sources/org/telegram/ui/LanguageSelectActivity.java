@@ -416,7 +416,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                 showDialog(create);
                 TextView textView = (TextView) create.getButton(-1);
                 if (textView != null) {
-                    textView.setTextColor(Theme.getColor("dialogTextRed2"));
+                    textView.setTextColor(Theme.getColor("dialogTextRed"));
                 }
                 return true;
             }

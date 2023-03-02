@@ -27,6 +27,7 @@ import java.io.InterruptedIOException;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.telegram.messenger.LiteMode;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class HlsMediaChunk extends MediaChunk {
@@ -229,7 +230,7 @@ public final class HlsMediaChunk extends MediaChunk {
                         break;
                     }
                 } catch (EOFException e) {
-                    if ((this.trackFormat.roleFlags & 16384) != 0) {
+                    if ((this.trackFormat.roleFlags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
                         this.extractor.onTruncatedSegmentParsed();
                         position = prepareExtraction.getPosition();
                         j = dataSpec.position;

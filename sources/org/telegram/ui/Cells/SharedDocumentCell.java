@@ -269,7 +269,6 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
 
     public void setTextAndValueAndTypeAndThumb(String str, String str2, String str3, String str4, int i, boolean z) {
         String str5;
-        String str6;
         this.nameTextView.setText(str);
         this.dateTextView.setText(str2);
         if (str3 != null) {
@@ -292,18 +291,15 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
                 }
             } else {
                 CombinedDrawable createCircleDrawableWithIcon = Theme.createCircleDrawableWithIcon(AndroidUtilities.dp(42.0f), i);
+                String str6 = "chat_attachIcon";
                 if (i == R.drawable.files_storage) {
                     str5 = "chat_attachLocationBackground";
-                    str6 = "chat_attachLocationIcon";
                 } else if (i == R.drawable.files_gallery) {
                     str5 = "chat_attachContactBackground";
-                    str6 = "chat_attachContactIcon";
                 } else if (i == R.drawable.files_music) {
                     str5 = "chat_attachAudioBackground";
-                    str6 = "chat_attachAudioIcon";
                 } else if (i == R.drawable.files_internal) {
                     str5 = "chat_attachGalleryBackground";
-                    str6 = "chat_attachGalleryIcon";
                 } else {
                     str5 = "files_folderIconBackground";
                     str6 = "files_folderIcon";

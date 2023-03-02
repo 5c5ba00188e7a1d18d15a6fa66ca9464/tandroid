@@ -3882,7 +3882,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             }
         };
         this.avatarsViewPager = profileGalleryView2;
-        profileGalleryView2.setImagesLayerNum(8192);
+        profileGalleryView2.setImagesLayerNum(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
         profileGalleryView2.setInvalidateWithParent(true);
         avatarPreviewPagerIndicator.setProfileGalleryView(profileGalleryView2);
         FrameLayout frameLayout2 = new FrameLayout(context) { // from class: org.telegram.ui.GroupCallActivity.29
@@ -4688,7 +4688,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 if (chatFull != null) {
                     chatFull.groupcall_default_join_as = GroupCallActivity.this.selfPeer;
                     if (chatFull instanceof TLRPC$TL_chatFull) {
-                        chatFull.flags |= 32768;
+                        chatFull.flags |= LiteMode.FLAG_CHAT_SCALE;
                     } else {
                         chatFull.flags |= ConnectionsManager.FileTypeFile;
                     }
@@ -4763,7 +4763,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             if (groupCallInvitedCell.hasAvatarSet()) {
                 bundle.putBoolean("expandPhoto", true);
             }
-            this.parentActivity.lambda$runLinkRequest$72(new ProfileActivity(bundle));
+            this.parentActivity.lambda$runLinkRequest$78(new ProfileActivity(bundle));
             dismiss();
         } else if (i == this.listAdapter.addMemberRow) {
             if (ChatObject.isChannel(this.currentChat)) {
@@ -8408,7 +8408,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             } else {
                 bundle.putLong("chat_id", -j);
             }
-            this.parentActivity.lambda$runLinkRequest$72(new ChatActivity(bundle));
+            this.parentActivity.lambda$runLinkRequest$78(new ChatActivity(bundle));
             dismiss();
         } else if (i == 8) {
             this.parentActivity.switchToAccount(this.currentAccount, true);
@@ -8423,7 +8423,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             } else {
                 bundle2.putLong("chat_id", -j);
             }
-            this.parentActivity.lambda$runLinkRequest$72(new ChatActivity(bundle2));
+            this.parentActivity.lambda$runLinkRequest$78(new ChatActivity(bundle2));
             dismiss();
         } else if (i == 7) {
             sharedInstance.editCallMember(tLObject, Boolean.TRUE, null, null, Boolean.FALSE, null);

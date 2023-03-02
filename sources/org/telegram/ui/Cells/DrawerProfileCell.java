@@ -19,7 +19,6 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.telegram.PhoneFormat.PhoneFormat;
@@ -122,7 +121,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
             }
         };
         this.nameTextView = simpleTextView;
-        simpleTextView.setRightDrawableOnClick(new View.OnClickListener() { // from class: org.telegram.ui.Cells.DrawerProfileCell$$ExternalSyntheticLambda1
+        simpleTextView.setRightDrawableOnClick(new View.OnClickListener() { // from class: org.telegram.ui.Cells.DrawerProfileCell$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 DrawerProfileCell.this.lambda$new$0(view);
@@ -193,18 +192,18 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         if (!z && sunDrawable.getCustomEndFrame() != sunDrawable.getCurrentFrame()) {
             this.darkThemeView.playAnimation();
         }
-        this.darkThemeView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.DrawerProfileCell$$ExternalSyntheticLambda0
+        this.darkThemeView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.DrawerProfileCell$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                DrawerProfileCell.this.lambda$new$1(view);
+                DrawerProfileCell.this.lambda$new$2(drawerLayoutContainer, view);
             }
         });
         this.darkThemeView.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.Cells.DrawerProfileCell$$ExternalSyntheticLambda2
             @Override // android.view.View.OnLongClickListener
             public final boolean onLongClick(View view) {
-                boolean lambda$new$2;
-                lambda$new$2 = DrawerProfileCell.lambda$new$2(DrawerLayoutContainer.this, view);
-                return lambda$new$2;
+                boolean lambda$new$3;
+                lambda$new$3 = DrawerProfileCell.lambda$new$3(DrawerLayoutContainer.this, view);
+                return lambda$new$3;
             }
         });
         addView(this.darkThemeView, LayoutHelper.createFrame(48, 48.0f, 85, 0.0f, 0.0f, 6.0f, 90.0f));
@@ -233,11 +232,12 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Removed duplicated region for block: B:28:0x006f  */
     /* JADX WARN: Removed duplicated region for block: B:29:0x007b  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x008d  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x008e  */
+    /* JADX WARN: Removed duplicated region for block: B:38:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$new$1(View view) {
+    public /* synthetic */ void lambda$new$2(final DrawerLayoutContainer drawerLayoutContainer, View view) {
         boolean equals;
         Theme.ThemeInfo theme;
         if (switchingTheme) {
@@ -265,26 +265,36 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
                 sunDrawable.setCustomEndFrame(0);
             }
             this.darkThemeView.playAnimation();
-            if (Theme.selectedAutoNightType != 0) {
-                Toast.makeText(getContext(), LocaleController.getString("AutoNightModeOff", R.string.AutoNightModeOff), 0).show();
-                Theme.selectedAutoNightType = 0;
-                Theme.saveAutoNightThemeConfig();
-                Theme.cancelAutoNightThemeCallbacks();
-            }
             switchTheme(theme, equals);
+            if (drawerLayoutContainer == null) {
+                Theme.turnOffAutoNight(drawerLayoutContainer.getParent() instanceof FrameLayout ? (FrameLayout) drawerLayoutContainer.getParent() : null, new Runnable() { // from class: org.telegram.ui.Cells.DrawerProfileCell$$ExternalSyntheticLambda3
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        DrawerProfileCell.lambda$new$1(DrawerLayoutContainer.this);
+                    }
+                });
+                return;
+            }
+            return;
         }
         str = string;
         equals = str.equals(activeTheme.getKey());
         if (!equals) {
         }
         this.darkThemeView.playAnimation();
-        if (Theme.selectedAutoNightType != 0) {
-        }
         switchTheme(theme, equals);
+        if (drawerLayoutContainer == null) {
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$new$2(DrawerLayoutContainer drawerLayoutContainer, View view) {
+    public static /* synthetic */ void lambda$new$1(DrawerLayoutContainer drawerLayoutContainer) {
+        drawerLayoutContainer.closeDrawer(false);
+        drawerLayoutContainer.presentFragment(new ThemeActivity(1));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ boolean lambda$new$3(DrawerLayoutContainer drawerLayoutContainer, View view) {
         if (drawerLayoutContainer != null) {
             drawerLayoutContainer.presentFragment(new ThemeActivity(0));
             return true;

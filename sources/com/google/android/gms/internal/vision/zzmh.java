@@ -1,6 +1,4 @@
 package com.google.android.gms.internal.vision;
-
-import org.telegram.messenger.LiteMode;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 final class zzmh extends zzme {
@@ -204,7 +202,7 @@ final class zzmh extends zzme {
                     }
                 } else {
                     int i14 = i8 + 1;
-                    bArr[i8] = (byte) ((charAt2 >>> '\f') | LiteMode.FLAGS_CHAT);
+                    bArr[i8] = (byte) ((charAt2 >>> '\f') | 480);
                     int i15 = i14 + 1;
                     bArr[i14] = (byte) (((charAt2 >>> 6) & 63) | 128);
                     i3 = i15 + 1;

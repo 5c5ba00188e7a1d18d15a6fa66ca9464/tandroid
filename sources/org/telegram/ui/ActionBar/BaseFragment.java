@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -95,9 +94,6 @@ public abstract class BaseFragment {
         return true;
     }
 
-    public void drawOverlay(Canvas canvas, View view) {
-    }
-
     public boolean extendActionMode(Menu menu) {
         return false;
     }
@@ -172,9 +168,6 @@ public abstract class BaseFragment {
     public void onSlideProgress(boolean z, float f) {
     }
 
-    public void onSlideProgressFront(boolean z, float f) {
-    }
-
     public void onTransitionAnimationEnd(boolean z, boolean z2) {
     }
 
@@ -221,10 +214,6 @@ public abstract class BaseFragment {
         this.currentAccount = i;
     }
 
-    public boolean hasOwnBackground() {
-        return this.hasOwnBackground;
-    }
-
     public boolean getFragmentBeginToShow() {
         return this.fragmentBeginToShow;
     }
@@ -235,10 +224,6 @@ public abstract class BaseFragment {
 
     public View getFragmentView() {
         return this.fragmentView;
-    }
-
-    public void setFragmentView(View view) {
-        this.fragmentView = view;
     }
 
     public Bundle getArguments() {
@@ -263,14 +248,6 @@ public abstract class BaseFragment {
 
     public boolean isInPreviewMode() {
         return this.inPreviewMode;
-    }
-
-    public INavigationLayout.BackButtonState getBackButtonState() {
-        ActionBar actionBar = this.actionBar;
-        if (actionBar != null) {
-            return actionBar.getBackButtonState();
-        }
-        return null;
     }
 
     public void setInPreviewMode(boolean z) {
@@ -485,17 +462,6 @@ public abstract class BaseFragment {
         }
     }
 
-    public void setPaused(boolean z) {
-        if (this.isPaused == z) {
-            return;
-        }
-        if (z) {
-            onPause();
-        } else {
-            onResume();
-        }
-    }
-
     public BaseFragment getFragmentForAlert(int i) {
         INavigationLayout iNavigationLayout = this.parentLayout;
         return (iNavigationLayout == null || iNavigationLayout.getFragmentStack().size() <= i + 1) ? this : this.parentLayout.getFragmentStack().get((this.parentLayout.getFragmentStack().size() - 2) - i);
@@ -545,6 +511,11 @@ public abstract class BaseFragment {
     public boolean presentFragment(BaseFragment baseFragment, boolean z, boolean z2) {
         INavigationLayout iNavigationLayout;
         return allowPresentFragment() && (iNavigationLayout = this.parentLayout) != null && iNavigationLayout.presentFragment(baseFragment, z, z2, true, false, null);
+    }
+
+    public boolean presentFragment(INavigationLayout.NavigationParams navigationParams) {
+        INavigationLayout iNavigationLayout;
+        return allowPresentFragment() && (iNavigationLayout = this.parentLayout) != null && iNavigationLayout.presentFragment(navigationParams);
     }
 
     public Activity getParentActivity() {

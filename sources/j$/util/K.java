@@ -3,6 +3,7 @@ package j$.util;
 import j$.util.function.Consumer;
 import java.util.Comparator;
 import java.util.Objects;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes2.dex */
 final class K implements v {
     private final long[] a;
@@ -14,7 +15,7 @@ final class K implements v {
         this.a = jArr;
         this.b = i;
         this.c = i2;
-        this.d = i3 | 64 | 16384;
+        this.d = i3 | 64 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
     }
 
     @Override // j$.util.v, j$.util.u

@@ -36,9 +36,9 @@ public class TLRPC$TL_messages_forwardMessages extends TLObject {
         this.flags = i3;
         int i4 = this.drop_author ? i3 | LiteMode.FLAG_AUTOPLAY_GIFS : i3 & (-2049);
         this.flags = i4;
-        int i5 = this.drop_media_captions ? i4 | 4096 : i4 & (-4097);
+        int i5 = this.drop_media_captions ? i4 | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : i4 & (-4097);
         this.flags = i5;
-        int i6 = this.noforwards ? i5 | 16384 : i5 & (-16385);
+        int i6 = this.noforwards ? i5 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i5 & (-16385);
         this.flags = i6;
         abstractSerializedData.writeInt32(i6);
         this.from_peer.serializeToStream(abstractSerializedData);
@@ -61,7 +61,7 @@ public class TLRPC$TL_messages_forwardMessages extends TLObject {
         if ((this.flags & 1024) != 0) {
             abstractSerializedData.writeInt32(this.schedule_date);
         }
-        if ((this.flags & 8192) != 0) {
+        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
             this.send_as.serializeToStream(abstractSerializedData);
         }
     }

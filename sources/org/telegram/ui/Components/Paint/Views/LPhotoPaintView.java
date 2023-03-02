@@ -1811,13 +1811,12 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         frameLayout.setPadding(frameLayout.getPaddingLeft(), AndroidUtilities.dp(12.0f) + AndroidUtilities.statusBarHeight, this.topLayout.getPaddingRight(), this.topLayout.getPaddingBottom());
         measureChild(this.topLayout, i, i2);
         this.ignoreLayout = false;
-        int measureKeyboardHeight = SharedConfig.smoothKeyboard ? 0 : measureKeyboardHeight();
-        if (!this.waitingForKeyboardOpen && measureKeyboardHeight <= AndroidUtilities.dp(20.0f) && !this.emojiViewVisible && !this.isAnimatePopupClosing) {
+        if (!this.waitingForKeyboardOpen && AndroidUtilities.dp(20.0f) >= 0 && !this.emojiViewVisible && !this.isAnimatePopupClosing) {
             this.ignoreLayout = true;
             hideEmojiView();
             this.ignoreLayout = false;
         }
-        if (measureKeyboardHeight > AndroidUtilities.dp(20.0f)) {
+        if (AndroidUtilities.dp(20.0f) < 0) {
             hideEmojiView();
         }
         EmojiView emojiView = this.emojiView;
@@ -3507,7 +3506,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                 emojiButton.setState(ChatActivityEnterViewAnimatedIconView.State.KEYBOARD, true);
             }
             onWindowSizeChanged();
-            if (!z2 && SharedConfig.smoothKeyboard) {
+            if (!z2) {
                 if (this.keyboardVisible) {
                     this.translateBottomPanelAfterResize = true;
                     PaintWeightChooserView paintWeightChooserView = this.weightChooserView;
@@ -3577,12 +3576,12 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     private void hideEmojiPopup(boolean z) {
-        EmojiView emojiView;
         if (this.emojiViewVisible) {
             showEmojiPopup(0);
         }
         if (z) {
-            if (SharedConfig.smoothKeyboard && (emojiView = this.emojiView) != null && emojiView.getVisibility() == 0 && !this.waitingForKeyboardOpen) {
+            EmojiView emojiView = this.emojiView;
+            if (emojiView != null && emojiView.getVisibility() == 0 && !this.waitingForKeyboardOpen) {
                 final int measuredHeight = this.emojiView.getMeasuredHeight();
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, measuredHeight);
                 final boolean z2 = this.bottomPanelIgnoreOnce;

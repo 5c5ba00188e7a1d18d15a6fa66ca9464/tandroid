@@ -18,6 +18,7 @@ import com.google.android.gms.common.util.PlatformVersion;
 import com.google.android.gms.common.util.zza;
 import com.google.android.gms.common.wrappers.Wrappers;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.telegram.messenger.LiteMode;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public class GooglePlayServicesUtilLight {
@@ -131,7 +132,7 @@ public class GooglePlayServicesUtilLight {
             }
         }
         try {
-            applicationInfo = context.getPackageManager().getApplicationInfo(str, 8192);
+            applicationInfo = context.getPackageManager().getApplicationInfo(str, LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
         } catch (PackageManager.NameNotFoundException unused2) {
         }
         if (equals) {

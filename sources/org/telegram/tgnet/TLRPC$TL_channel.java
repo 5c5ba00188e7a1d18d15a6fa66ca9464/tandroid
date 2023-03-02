@@ -20,7 +20,7 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
         this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
         this.signatures = (readInt32 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
-        this.min = (readInt32 & 4096) != 0;
+        this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
         this.scam = (524288 & readInt32) != 0;
         this.has_link = (1048576 & readInt32) != 0;
         this.has_geo = (2097152 & readInt32) != 0;
@@ -35,7 +35,7 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
         this.forum = (readInt32 & 1073741824) != 0;
         this.flags2 = abstractSerializedData.readInt32(z);
         this.id = abstractSerializedData.readInt64(z);
-        if ((this.flags & 8192) != 0) {
+        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
             this.access_hash = abstractSerializedData.readInt64(z);
         }
         this.title = abstractSerializedData.readString(z);
@@ -61,10 +61,10 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
                 this.restriction_reason.add(TLdeserialize);
             }
         }
-        if ((this.flags & 16384) != 0) {
+        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
             this.admin_rights = TLRPC$TL_chatAdminRights.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
-        if ((this.flags & 32768) != 0) {
+        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
             this.banned_rights = TLRPC$TL_chatBannedRights.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
         if ((this.flags & 262144) != 0) {
@@ -109,7 +109,7 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
         this.flags = i6;
         int i7 = this.signatures ? i6 | LiteMode.FLAG_AUTOPLAY_GIFS : i6 & (-2049);
         this.flags = i7;
-        int i8 = this.min ? i7 | 4096 : i7 & (-4097);
+        int i8 = this.min ? i7 | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : i7 & (-4097);
         this.flags = i8;
         int i9 = this.scam ? i8 | 524288 : i8 & (-524289);
         this.flags = i9;
@@ -138,7 +138,7 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
         abstractSerializedData.writeInt32(i20);
         abstractSerializedData.writeInt32(this.flags2);
         abstractSerializedData.writeInt64(this.id);
-        if ((this.flags & 8192) != 0) {
+        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
             abstractSerializedData.writeInt64(this.access_hash);
         }
         abstractSerializedData.writeString(this.title);
@@ -155,10 +155,10 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
                 this.restriction_reason.get(i21).serializeToStream(abstractSerializedData);
             }
         }
-        if ((this.flags & 16384) != 0) {
+        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
             this.admin_rights.serializeToStream(abstractSerializedData);
         }
-        if ((this.flags & 32768) != 0) {
+        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
             this.banned_rights.serializeToStream(abstractSerializedData);
         }
         if ((this.flags & 262144) != 0) {

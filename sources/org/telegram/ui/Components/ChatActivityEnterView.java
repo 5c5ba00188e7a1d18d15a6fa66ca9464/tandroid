@@ -263,7 +263,6 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     private int codePointCount;
     private int commonInputType;
     private float composeShadowAlpha;
-    private boolean configAnimationsEnabled;
     private int currentAccount;
     private int currentLimit;
     private int currentPopupContentType;
@@ -829,8 +828,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         public RecordCircle(Context context) {
             super(context);
             ChatActivityEnterView.this = r5;
-            this.tinyWaveDrawable = new BlobDrawable(11);
-            this.bigWaveDrawable = new BlobDrawable(12);
+            this.tinyWaveDrawable = new BlobDrawable(11, LiteMode.FLAGS_CHAT);
+            this.bigWaveDrawable = new BlobDrawable(12, LiteMode.FLAGS_CHAT);
             this.tooltipPaint = new TextPaint(1);
             this.circleRadius = AndroidUtilities.dpf2(41.0f);
             this.circleRadiusAmplitude = AndroidUtilities.dp(30.0f);
@@ -1017,24 +1016,24 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             this.slideDelta = (int) ((-measuredWidth) * (1.0f - this.slideToCancelProgress));
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:410:0x0577  */
-        /* JADX WARN: Removed duplicated region for block: B:415:0x05db  */
-        /* JADX WARN: Removed duplicated region for block: B:418:0x0654  */
-        /* JADX WARN: Removed duplicated region for block: B:422:0x0667  */
-        /* JADX WARN: Removed duplicated region for block: B:427:0x0677  */
-        /* JADX WARN: Removed duplicated region for block: B:436:0x0690  */
-        /* JADX WARN: Removed duplicated region for block: B:441:0x06ae  */
-        /* JADX WARN: Removed duplicated region for block: B:446:0x06db  */
-        /* JADX WARN: Removed duplicated region for block: B:447:0x0802  */
-        /* JADX WARN: Removed duplicated region for block: B:451:0x082d  */
-        /* JADX WARN: Removed duplicated region for block: B:452:0x0832  */
-        /* JADX WARN: Removed duplicated region for block: B:461:0x0846  */
-        /* JADX WARN: Removed duplicated region for block: B:471:0x086a  */
-        /* JADX WARN: Removed duplicated region for block: B:477:0x0897  */
-        /* JADX WARN: Removed duplicated region for block: B:480:0x0992  */
-        /* JADX WARN: Removed duplicated region for block: B:483:0x09a1  */
-        /* JADX WARN: Removed duplicated region for block: B:489:0x0a77  */
-        /* JADX WARN: Removed duplicated region for block: B:494:0x0ab3  */
+        /* JADX WARN: Removed duplicated region for block: B:410:0x057a  */
+        /* JADX WARN: Removed duplicated region for block: B:415:0x05de  */
+        /* JADX WARN: Removed duplicated region for block: B:418:0x0655  */
+        /* JADX WARN: Removed duplicated region for block: B:422:0x0668  */
+        /* JADX WARN: Removed duplicated region for block: B:427:0x0678  */
+        /* JADX WARN: Removed duplicated region for block: B:436:0x0691  */
+        /* JADX WARN: Removed duplicated region for block: B:441:0x06af  */
+        /* JADX WARN: Removed duplicated region for block: B:446:0x06dc  */
+        /* JADX WARN: Removed duplicated region for block: B:447:0x0807  */
+        /* JADX WARN: Removed duplicated region for block: B:451:0x0832  */
+        /* JADX WARN: Removed duplicated region for block: B:452:0x0837  */
+        /* JADX WARN: Removed duplicated region for block: B:461:0x084b  */
+        /* JADX WARN: Removed duplicated region for block: B:471:0x086f  */
+        /* JADX WARN: Removed duplicated region for block: B:477:0x089e  */
+        /* JADX WARN: Removed duplicated region for block: B:480:0x0999  */
+        /* JADX WARN: Removed duplicated region for block: B:483:0x09a8  */
+        /* JADX WARN: Removed duplicated region for block: B:489:0x0a7e  */
+        /* JADX WARN: Removed duplicated region for block: B:494:0x0aba  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1141,7 +1140,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     float interpolation3 = cubicBezierInterpolator2.getInterpolation(f30);
                     float interpolation4 = cubicBezierInterpolator2.getInterpolation(f29);
                     float dp4 = (f26 + (AndroidUtilities.dp(16.0f) * interpolation3)) * (1.0f - interpolation4);
-                    if (ChatActivityEnterView.this.configAnimationsEnabled) {
+                    if (LiteMode.isEnabled(LiteMode.FLAGS_CHAT)) {
                         float f31 = this.exitTransition;
                         if (f31 > 0.6f) {
                             f4 = Math.max(0.0f, 1.0f - ((f31 - 0.6f) / 0.4f));
@@ -1217,7 +1216,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     this.idleProgress = 0.0f;
                 }
             }
-            if (ChatActivityEnterView.this.configAnimationsEnabled) {
+            if (LiteMode.isEnabled(LiteMode.FLAGS_CHAT)) {
                 this.tinyWaveDrawable.minRadius = AndroidUtilities.dp(47.0f);
                 this.tinyWaveDrawable.maxRadius = AndroidUtilities.dp(47.0f) + (AndroidUtilities.dp(15.0f) * BlobDrawable.FORM_SMALL_MAX);
                 this.bigWaveDrawable.minRadius = AndroidUtilities.dp(50.0f);
@@ -1232,7 +1231,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             this.lastUpdateTime = System.currentTimeMillis();
             float f40 = this.slideToCancelProgress;
             float f41 = f40 > 0.7f ? 1.0f : f40 / 0.7f;
-            if (ChatActivityEnterView.this.configAnimationsEnabled && f5 != 1.0f && f6 < 0.4f && f41 > 0.0f && !this.canceledByGesture) {
+            if (LiteMode.isEnabled(LiteMode.FLAGS_CHAT) && f5 != 1.0f && f6 < 0.4f && f41 > 0.0f && !this.canceledByGesture) {
                 if (this.showWaves) {
                     float f42 = this.wavesEnterAnimation;
                     if (f42 != 1.0f) {
@@ -2192,7 +2191,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         this.backgroundColor = getThemedColor("chat_messagePanelBackground");
         this.drawBlur = false;
         this.isChat = z;
-        this.smoothKeyboard = z && SharedConfig.smoothKeyboard && !AndroidUtilities.isInMultiwindow && (chatActivity == null || !chatActivity.isInBubbleMode());
+        this.smoothKeyboard = z && !AndroidUtilities.isInMultiwindow && (chatActivity == null || !chatActivity.isInBubbleMode());
         Paint paint = new Paint(1);
         this.dotPaint = paint;
         paint.setColor(getThemedColor("chat_emojiPanelNewTrending"));
@@ -2222,9 +2221,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
         this.sizeNotifierLayout = sizeNotifierFrameLayout;
         sizeNotifierFrameLayout.setDelegate(this);
-        SharedPreferences globalMainSettings = MessagesController.getGlobalMainSettings();
-        this.sendByEnter = globalMainSettings.getBoolean("send_by_enter", false);
-        this.configAnimationsEnabled = globalMainSettings.getBoolean("view_animations", true);
+        this.sendByEnter = MessagesController.getGlobalMainSettings().getBoolean("send_by_enter", false);
         FrameLayout frameLayout = new FrameLayout(activity) { // from class: org.telegram.ui.Components.ChatActivityEnterView.9
             {
                 ChatActivityEnterView.this = this;
@@ -3203,8 +3200,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         });
         VideoTimelineView videoTimelineView = new VideoTimelineView(getContext());
         this.videoTimelineView = videoTimelineView;
-        videoTimelineView.setColor(getThemedColor("chat_messagePanelVideoFrame"));
-        this.videoTimelineView.setRoundFrames(true);
+        videoTimelineView.setRoundFrames(true);
         this.videoTimelineView.setDelegate(new VideoTimelineView.VideoTimelineViewDelegate() { // from class: org.telegram.ui.Components.ChatActivityEnterView.18
             {
                 ChatActivityEnterView.this = this;
@@ -3379,7 +3375,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             if (chatFull == null) {
                 return;
             }
-            final ViewGroup overlayContainerView = this.parentFragment.getParentLayout().getOverlayContainerView();
+            final FrameLayout overlayContainerView = this.parentFragment.getParentLayout().getOverlayContainerView();
             SenderSelectPopup senderSelectPopup2 = new SenderSelectPopup(getContext(), this.parentFragment, messagesController, chatFull, this.delegate.getSendAsPeers(), new SenderSelectPopup.OnSelectCallback() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda61
                 @Override // org.telegram.ui.Components.SenderSelectPopup.OnSelectCallback
                 public final void onPeerSelected(RecyclerView recyclerView, SenderSelectPopup.SenderView senderView, TLRPC$Peer tLRPC$Peer) {
@@ -3858,7 +3854,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
     public void forceSmoothKeyboard(boolean z) {
         ChatActivity chatActivity;
-        this.smoothKeyboard = z && SharedConfig.smoothKeyboard && !AndroidUtilities.isInMultiwindow && ((chatActivity = this.parentFragment) == null || !chatActivity.isInBubbleMode());
+        this.smoothKeyboard = z && !AndroidUtilities.isInMultiwindow && ((chatActivity = this.parentFragment) == null || !chatActivity.isInBubbleMode());
     }
 
     private void startLockTransition() {
@@ -4589,7 +4585,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         this.messageEditText.setIncludeFontPadding(false);
         this.messageEditText.setImeOptions(i);
         EditTextCaption editTextCaption = this.messageEditText;
-        int inputType = editTextCaption.getInputType() | 16384 | 131072;
+        int inputType = editTextCaption.getInputType() | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM | 131072;
         this.commonInputType = inputType;
         editTextCaption.setInputType(inputType);
         updateFieldHint(false);
@@ -6289,7 +6285,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         if (baseFragment != null) {
             new PremiumFeatureBottomSheet(baseFragment, 11, false).show();
         } else if (baseFragment.getContext() instanceof LaunchActivity) {
-            ((LaunchActivity) baseFragment.getContext()).lambda$runLinkRequest$72(new PremiumPreviewFragment(null));
+            ((LaunchActivity) baseFragment.getContext()).lambda$runLinkRequest$78(new PremiumPreviewFragment(null));
         }
     }
 
@@ -10190,12 +10186,6 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     }
                 }
                 this.botKeyboardViewVisible = false;
-            }
-            SizeNotifierFrameLayout sizeNotifierFrameLayout3 = this.sizeNotifierLayout;
-            if (sizeNotifierFrameLayout3 != null && !SharedConfig.smoothKeyboard && i == 0) {
-                this.emojiPadding = 0;
-                sizeNotifierFrameLayout3.requestLayout();
-                onWindowSizeChanged();
             }
             updateBotButton(true);
         }

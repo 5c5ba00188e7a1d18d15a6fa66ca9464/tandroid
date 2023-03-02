@@ -68,8 +68,8 @@ public class Logging {
         TRACE_TIMER(LiteMode.FLAG_CALLS_ANIMATIONS),
         TRACE_STREAM(1024),
         TRACE_DEBUG(LiteMode.FLAG_AUTOPLAY_GIFS),
-        TRACE_INFO(4096),
-        TRACE_TERSEINFO(8192),
+        TRACE_INFO(LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM),
+        TRACE_TERSEINFO(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM),
         TRACE_ALL(65535);
         
         public final int level;

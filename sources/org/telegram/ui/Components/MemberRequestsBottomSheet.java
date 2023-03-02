@@ -84,11 +84,6 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
         return this.delegate.isNeedRestoreList;
     }
 
-    @Override // org.telegram.ui.Components.UsersAlertBase
-    protected boolean isAllowSelectChildAtPosition(float f, float f2) {
-        return f2 >= ((float) (this.scrollOffsetY + this.frameLayout.getMeasuredHeight()));
-    }
-
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.UsersAlertBase
     public void setTranslationY(int i) {

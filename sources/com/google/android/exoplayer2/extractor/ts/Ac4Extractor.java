@@ -9,10 +9,11 @@ import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.io.IOException;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class Ac4Extractor implements Extractor {
     private final Ac4Reader reader = new Ac4Reader();
-    private final ParsableByteArray sampleData = new ParsableByteArray(16384);
+    private final ParsableByteArray sampleData = new ParsableByteArray((int) LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
     private boolean startedPacket;
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
@@ -97,7 +98,7 @@ public final class Ac4Extractor implements Extractor {
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
     public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
-        int read = extractorInput.read(this.sampleData.getData(), 0, 16384);
+        int read = extractorInput.read(this.sampleData.getData(), 0, LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
         if (read == -1) {
             return -1;
         }

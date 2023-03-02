@@ -421,7 +421,11 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         this.allSpans.clear();
         this.selectedContacts.clear();
         this.currentDeletingSpan = null;
-        this.doneButtonVisible = this.chatType == 2;
+        if (this.chatType == 2) {
+            this.doneButtonVisible = true;
+        } else {
+            this.doneButtonVisible = !this.addToGroup;
+        }
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
         int i2 = this.chatType;
@@ -774,7 +778,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                 GroupCreateActivity.this.lambda$createView$4(view);
             }
         });
-        if (this.chatType != 2) {
+        if (!this.doneButtonVisible) {
             this.floatingButton.setVisibility(4);
             this.floatingButton.setScaleX(0.0f);
             this.floatingButton.setScaleY(0.0f);
@@ -1042,126 +1046,126 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
 
     /* JADX INFO: Access modifiers changed from: private */
     public boolean onDonePressed(boolean z) {
-        if (this.selectedContacts.size() != 0 || this.chatType == 2) {
-            if (z && this.addToGroup) {
-                if (getParentActivity() == null) {
-                    return false;
-                }
-                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setTitle(LocaleController.formatPluralString("AddManyMembersAlertTitle", this.selectedContacts.size(), new Object[0]));
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < this.selectedContacts.size(); i++) {
-                    TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.selectedContacts.keyAt(i)));
-                    if (user != null) {
-                        if (sb.length() > 0) {
-                            sb.append(", ");
-                        }
-                        sb.append("**");
-                        sb.append(ContactsController.formatName(user.first_name, user.last_name));
-                        sb.append("**");
-                    }
-                }
-                MessagesController messagesController = getMessagesController();
-                long j = this.chatId;
-                if (j == 0) {
-                    j = this.channelId;
-                }
-                TLRPC$Chat chat = messagesController.getChat(Long.valueOf(j));
-                if (this.selectedContacts.size() > 5) {
-                    int size = this.selectedContacts.size();
-                    Object[] objArr = new Object[1];
-                    objArr[0] = chat == null ? "" : chat.title;
-                    SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(AndroidUtilities.replaceTags(LocaleController.formatPluralString("AddManyMembersAlertNamesText", size, objArr)));
-                    String format = String.format("%d", Integer.valueOf(this.selectedContacts.size()));
-                    int indexOf = TextUtils.indexOf(spannableStringBuilder, format);
-                    if (indexOf >= 0) {
-                        spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), indexOf, format.length() + indexOf, 33);
-                    }
-                    builder.setMessage(spannableStringBuilder);
-                } else {
-                    int i2 = R.string.AddMembersAlertNamesText;
-                    Object[] objArr2 = new Object[2];
-                    objArr2[0] = sb;
-                    objArr2[1] = chat == null ? "" : chat.title;
-                    builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("AddMembersAlertNamesText", i2, objArr2)));
-                }
-                final CheckBoxCell[] checkBoxCellArr = new CheckBoxCell[1];
-                if (!ChatObject.isChannel(chat)) {
-                    LinearLayout linearLayout = new LinearLayout(getParentActivity());
-                    linearLayout.setOrientation(1);
-                    checkBoxCellArr[0] = new CheckBoxCell(getParentActivity(), 1);
-                    checkBoxCellArr[0].setBackgroundDrawable(Theme.getSelectorDrawable(false));
-                    checkBoxCellArr[0].setMultiline(true);
-                    if (this.selectedContacts.size() == 1) {
-                        checkBoxCellArr[0].setText(AndroidUtilities.replaceTags(LocaleController.formatString("AddOneMemberForwardMessages", R.string.AddOneMemberForwardMessages, UserObject.getFirstName(getMessagesController().getUser(Long.valueOf(this.selectedContacts.keyAt(0)))))), "", true, false);
-                    } else {
-                        checkBoxCellArr[0].setText(LocaleController.getString("AddMembersForwardMessages", R.string.AddMembersForwardMessages), "", true, false);
-                    }
-                    checkBoxCellArr[0].setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(8.0f), 0, LocaleController.isRTL ? AndroidUtilities.dp(8.0f) : AndroidUtilities.dp(16.0f), 0);
-                    linearLayout.addView(checkBoxCellArr[0], LayoutHelper.createLinear(-1, -2));
-                    checkBoxCellArr[0].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda4
-                        @Override // android.view.View.OnClickListener
-                        public final void onClick(View view) {
-                            GroupCreateActivity.lambda$onDonePressed$5(checkBoxCellArr, view);
-                        }
-                    });
-                    builder.setView(linearLayout);
-                }
-                builder.setPositiveButton(LocaleController.getString("Add", R.string.Add), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda1
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i3) {
-                        GroupCreateActivity.this.lambda$onDonePressed$6(checkBoxCellArr, dialogInterface, i3);
-                    }
-                });
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                showDialog(builder.create());
-            } else if (this.chatType == 2) {
-                ArrayList<TLRPC$InputUser> arrayList = new ArrayList<>();
-                for (int i3 = 0; i3 < this.selectedContacts.size(); i3++) {
-                    TLRPC$InputUser inputUser = getMessagesController().getInputUser(getMessagesController().getUser(Long.valueOf(this.selectedContacts.keyAt(i3))));
-                    if (inputUser != null) {
-                        arrayList.add(inputUser);
-                    }
-                }
-                getMessagesController().addUsersToChannel(this.chatId, arrayList, null);
-                getNotificationCenter().postNotificationName(NotificationCenter.closeChats, new Object[0]);
-                Bundle bundle = new Bundle();
-                bundle.putLong("chat_id", this.chatId);
-                bundle.putBoolean("just_created_chat", true);
-                presentFragment(new ChatActivity(bundle), true);
-            } else if (!this.doneButtonVisible || this.selectedContacts.size() == 0) {
+        if (this.selectedContacts.size() == 0 && this.chatType != 2 && this.addToGroup) {
+            return false;
+        }
+        if (z && this.addToGroup) {
+            if (getParentActivity() == null) {
                 return false;
-            } else {
-                if (this.addToGroup) {
-                    onAddToGroupDone(0);
-                } else {
-                    ArrayList<Long> arrayList2 = new ArrayList<>();
-                    for (int i4 = 0; i4 < this.selectedContacts.size(); i4++) {
-                        arrayList2.add(Long.valueOf(this.selectedContacts.keyAt(i4)));
+            }
+            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+            builder.setTitle(LocaleController.formatPluralString("AddManyMembersAlertTitle", this.selectedContacts.size(), new Object[0]));
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < this.selectedContacts.size(); i++) {
+                TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.selectedContacts.keyAt(i)));
+                if (user != null) {
+                    if (sb.length() > 0) {
+                        sb.append(", ");
                     }
-                    if (this.isAlwaysShare || this.isNeverShare) {
-                        GroupCreateActivityDelegate groupCreateActivityDelegate = this.delegate;
-                        if (groupCreateActivityDelegate != null) {
-                            groupCreateActivityDelegate.didSelectUsers(arrayList2);
-                        }
-                        finishFragment();
-                    } else {
-                        Bundle bundle2 = new Bundle();
-                        int size2 = arrayList2.size();
-                        long[] jArr = new long[size2];
-                        for (int i5 = 0; i5 < size2; i5++) {
-                            jArr[i5] = arrayList2.get(i5).longValue();
-                        }
-                        bundle2.putLongArray("result", jArr);
-                        bundle2.putInt("chatType", this.chatType);
-                        bundle2.putBoolean("forImport", this.forImport);
-                        presentFragment(new GroupCreateFinalActivity(bundle2));
-                    }
+                    sb.append("**");
+                    sb.append(ContactsController.formatName(user.first_name, user.last_name));
+                    sb.append("**");
                 }
             }
-            return true;
+            MessagesController messagesController = getMessagesController();
+            long j = this.chatId;
+            if (j == 0) {
+                j = this.channelId;
+            }
+            TLRPC$Chat chat = messagesController.getChat(Long.valueOf(j));
+            if (this.selectedContacts.size() > 5) {
+                int size = this.selectedContacts.size();
+                Object[] objArr = new Object[1];
+                objArr[0] = chat == null ? "" : chat.title;
+                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(AndroidUtilities.replaceTags(LocaleController.formatPluralString("AddManyMembersAlertNamesText", size, objArr)));
+                String format = String.format("%d", Integer.valueOf(this.selectedContacts.size()));
+                int indexOf = TextUtils.indexOf(spannableStringBuilder, format);
+                if (indexOf >= 0) {
+                    spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), indexOf, format.length() + indexOf, 33);
+                }
+                builder.setMessage(spannableStringBuilder);
+            } else {
+                int i2 = R.string.AddMembersAlertNamesText;
+                Object[] objArr2 = new Object[2];
+                objArr2[0] = sb;
+                objArr2[1] = chat == null ? "" : chat.title;
+                builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("AddMembersAlertNamesText", i2, objArr2)));
+            }
+            final CheckBoxCell[] checkBoxCellArr = new CheckBoxCell[1];
+            if (!ChatObject.isChannel(chat)) {
+                LinearLayout linearLayout = new LinearLayout(getParentActivity());
+                linearLayout.setOrientation(1);
+                checkBoxCellArr[0] = new CheckBoxCell(getParentActivity(), 1);
+                checkBoxCellArr[0].setBackgroundDrawable(Theme.getSelectorDrawable(false));
+                checkBoxCellArr[0].setMultiline(true);
+                if (this.selectedContacts.size() == 1) {
+                    checkBoxCellArr[0].setText(AndroidUtilities.replaceTags(LocaleController.formatString("AddOneMemberForwardMessages", R.string.AddOneMemberForwardMessages, UserObject.getFirstName(getMessagesController().getUser(Long.valueOf(this.selectedContacts.keyAt(0)))))), "", true, false);
+                } else {
+                    checkBoxCellArr[0].setText(LocaleController.getString("AddMembersForwardMessages", R.string.AddMembersForwardMessages), "", true, false);
+                }
+                checkBoxCellArr[0].setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(8.0f), 0, LocaleController.isRTL ? AndroidUtilities.dp(8.0f) : AndroidUtilities.dp(16.0f), 0);
+                linearLayout.addView(checkBoxCellArr[0], LayoutHelper.createLinear(-1, -2));
+                checkBoxCellArr[0].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda4
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view) {
+                        GroupCreateActivity.lambda$onDonePressed$5(checkBoxCellArr, view);
+                    }
+                });
+                builder.setView(linearLayout);
+            }
+            builder.setPositiveButton(LocaleController.getString("Add", R.string.Add), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda1
+                @Override // android.content.DialogInterface.OnClickListener
+                public final void onClick(DialogInterface dialogInterface, int i3) {
+                    GroupCreateActivity.this.lambda$onDonePressed$6(checkBoxCellArr, dialogInterface, i3);
+                }
+            });
+            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            showDialog(builder.create());
+        } else if (this.chatType == 2) {
+            ArrayList<TLRPC$InputUser> arrayList = new ArrayList<>();
+            for (int i3 = 0; i3 < this.selectedContacts.size(); i3++) {
+                TLRPC$InputUser inputUser = getMessagesController().getInputUser(getMessagesController().getUser(Long.valueOf(this.selectedContacts.keyAt(i3))));
+                if (inputUser != null) {
+                    arrayList.add(inputUser);
+                }
+            }
+            getMessagesController().addUsersToChannel(this.chatId, arrayList, null);
+            getNotificationCenter().postNotificationName(NotificationCenter.closeChats, new Object[0]);
+            Bundle bundle = new Bundle();
+            bundle.putLong("chat_id", this.chatId);
+            bundle.putBoolean("just_created_chat", true);
+            presentFragment(new ChatActivity(bundle), true);
+        } else if (!this.doneButtonVisible) {
+            return false;
+        } else {
+            if (this.addToGroup) {
+                onAddToGroupDone(0);
+            } else {
+                ArrayList<Long> arrayList2 = new ArrayList<>();
+                for (int i4 = 0; i4 < this.selectedContacts.size(); i4++) {
+                    arrayList2.add(Long.valueOf(this.selectedContacts.keyAt(i4)));
+                }
+                if (this.isAlwaysShare || this.isNeverShare) {
+                    GroupCreateActivityDelegate groupCreateActivityDelegate = this.delegate;
+                    if (groupCreateActivityDelegate != null) {
+                        groupCreateActivityDelegate.didSelectUsers(arrayList2);
+                    }
+                    finishFragment();
+                } else {
+                    Bundle bundle2 = new Bundle();
+                    int size2 = arrayList2.size();
+                    long[] jArr = new long[size2];
+                    for (int i5 = 0; i5 < size2; i5++) {
+                        jArr[i5] = arrayList2.get(i5).longValue();
+                    }
+                    bundle2.putLongArray("result", jArr);
+                    bundle2.putInt("chatType", this.chatType);
+                    bundle2.putBoolean("forImport", this.forImport);
+                    presentFragment(new GroupCreateFinalActivity(bundle2));
+                }
+            }
         }
-        return false;
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1201,37 +1205,38 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                 this.actionBar.setSubtitle(String.format(LocaleController.getPluralString("MembersCountSelected", this.selectedContacts.size()), Integer.valueOf(this.selectedContacts.size()), Integer.valueOf(this.maxCount)));
             }
         }
-        if (this.chatType != 2) {
-            if (this.doneButtonVisible && this.allSpans.isEmpty()) {
-                AnimatorSet animatorSet = this.currentDoneButtonAnimation;
-                if (animatorSet != null) {
-                    animatorSet.cancel();
-                }
-                AnimatorSet animatorSet2 = new AnimatorSet();
-                this.currentDoneButtonAnimation = animatorSet2;
-                animatorSet2.playTogether(ObjectAnimator.ofFloat(this.floatingButton, View.SCALE_X, 0.0f), ObjectAnimator.ofFloat(this.floatingButton, View.SCALE_Y, 0.0f), ObjectAnimator.ofFloat(this.floatingButton, View.ALPHA, 0.0f));
-                this.currentDoneButtonAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.GroupCreateActivity.11
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        GroupCreateActivity.this.floatingButton.setVisibility(4);
-                    }
-                });
-                this.currentDoneButtonAnimation.setDuration(180L);
-                this.currentDoneButtonAnimation.start();
-                this.doneButtonVisible = false;
-            } else if (this.doneButtonVisible || this.allSpans.isEmpty()) {
-            } else {
-                AnimatorSet animatorSet3 = this.currentDoneButtonAnimation;
-                if (animatorSet3 != null) {
-                    animatorSet3.cancel();
-                }
-                this.currentDoneButtonAnimation = new AnimatorSet();
-                this.floatingButton.setVisibility(0);
-                this.currentDoneButtonAnimation.playTogether(ObjectAnimator.ofFloat(this.floatingButton, View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(this.floatingButton, View.SCALE_Y, 1.0f), ObjectAnimator.ofFloat(this.floatingButton, View.ALPHA, 1.0f));
-                this.currentDoneButtonAnimation.setDuration(180L);
-                this.currentDoneButtonAnimation.start();
-                this.doneButtonVisible = true;
+        if (this.chatType == 2 || !this.addToGroup) {
+            return;
+        }
+        if (this.doneButtonVisible && this.allSpans.isEmpty()) {
+            AnimatorSet animatorSet = this.currentDoneButtonAnimation;
+            if (animatorSet != null) {
+                animatorSet.cancel();
             }
+            AnimatorSet animatorSet2 = new AnimatorSet();
+            this.currentDoneButtonAnimation = animatorSet2;
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(this.floatingButton, View.SCALE_X, 0.0f), ObjectAnimator.ofFloat(this.floatingButton, View.SCALE_Y, 0.0f), ObjectAnimator.ofFloat(this.floatingButton, View.ALPHA, 0.0f));
+            this.currentDoneButtonAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.GroupCreateActivity.11
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    GroupCreateActivity.this.floatingButton.setVisibility(4);
+                }
+            });
+            this.currentDoneButtonAnimation.setDuration(180L);
+            this.currentDoneButtonAnimation.start();
+            this.doneButtonVisible = false;
+        } else if (this.doneButtonVisible || this.allSpans.isEmpty()) {
+        } else {
+            AnimatorSet animatorSet3 = this.currentDoneButtonAnimation;
+            if (animatorSet3 != null) {
+                animatorSet3.cancel();
+            }
+            this.currentDoneButtonAnimation = new AnimatorSet();
+            this.floatingButton.setVisibility(0);
+            this.currentDoneButtonAnimation.playTogether(ObjectAnimator.ofFloat(this.floatingButton, View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(this.floatingButton, View.SCALE_Y, 1.0f), ObjectAnimator.ofFloat(this.floatingButton, View.ALPHA, 1.0f));
+            this.currentDoneButtonAnimation.setDuration(180L);
+            this.currentDoneButtonAnimation.start();
+            this.doneButtonVisible = true;
         }
     }
 

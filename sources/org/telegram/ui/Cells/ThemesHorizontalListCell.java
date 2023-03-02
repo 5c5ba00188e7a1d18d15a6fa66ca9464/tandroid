@@ -69,14 +69,12 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
     private ArrayList<Theme.ThemeInfo> customThemes;
     private ArrayList<Theme.ThemeInfo> defaultThemes;
     private boolean drawDivider;
+    private BaseFragment fragment;
     private LinearLayoutManager horizontalLayoutManager;
     private HashMap<String, Theme.ThemeInfo> loadingThemes;
     private HashMap<Theme.ThemeInfo, String> loadingWallpapers;
     private int prevCount;
     private Theme.ThemeInfo prevThemeInfo;
-
-    protected void presentFragment(BaseFragment baseFragment) {
-    }
 
     protected void showOptionsForTheme(Theme.ThemeInfo themeInfo) {
     }
@@ -827,13 +825,14 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
         }
     }
 
-    public ThemesHorizontalListCell(Context context, int i, ArrayList<Theme.ThemeInfo> arrayList, ArrayList<Theme.ThemeInfo> arrayList2) {
+    public ThemesHorizontalListCell(Context context, BaseFragment baseFragment, int i, ArrayList<Theme.ThemeInfo> arrayList, ArrayList<Theme.ThemeInfo> arrayList2) {
         super(context);
         this.loadingThemes = new HashMap<>();
         this.loadingWallpapers = new HashMap<>();
         this.customThemes = arrayList2;
         this.defaultThemes = arrayList;
         this.currentType = i;
+        this.fragment = baseFragment;
         if (i == 2) {
             setBackgroundColor(Theme.getColor("dialogBackground"));
         } else {
@@ -895,7 +894,11 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
                 return;
             }
             if (tLRPC$TL_theme.document == null) {
-                presentFragment(new ThemeSetUrlActivity(themeInfo, null, true));
+                BaseFragment baseFragment = this.fragment;
+                if (baseFragment != null) {
+                    baseFragment.presentFragment(new ThemeSetUrlActivity(themeInfo, null, true));
+                    return;
+                }
                 return;
             }
         }
@@ -924,6 +927,7 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
             }
         }
         EmojiThemes.saveCustomTheme(themeInfo, themeInfo.currentAccentId);
+        Theme.turnOffAutoNight(this.fragment);
     }
 
     public void setDrawDivider(boolean z) {

@@ -416,13 +416,14 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                 setMeasuredDimension(size, size2);
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             /* JADX WARN: Removed duplicated region for block: B:23:0x006f  */
             /* JADX WARN: Removed duplicated region for block: B:38:0x00cf  */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+            public void onLayout(boolean z, int i2, int i3, int i4, int i5) {
                 int i6;
                 int i7;
                 int i8;
@@ -445,7 +446,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                             i13 = 0;
                         }
                         int absoluteGravity = Gravity.getAbsoluteGravity(i13, Build.VERSION.SDK_INT >= 17 ? getLayoutDirection() : 0);
-                        int i14 = i13 & MessagesStorage.LAST_DB_VERSION;
+                        int i14 = i13 & 112;
                         int i15 = absoluteGravity & 7;
                         if (i15 == 1) {
                             i6 = (((paddingRight - paddingLeft) - measuredWidth) / 2) + paddingLeft + layoutParams.leftMargin;
@@ -482,8 +483,9 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                 }
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
-            protected void drawList(Canvas canvas, boolean z) {
+            public void drawList(Canvas canvas, boolean z) {
                 for (int i2 = 0; i2 < TopicsFragment.this.recyclerListView.getChildCount(); i2++) {
                     View childAt = TopicsFragment.this.recyclerListView.getChildAt(i2);
                     if (childAt.getY() < AndroidUtilities.dp(100.0f) && childAt.getVisibility() == 0) {
@@ -495,8 +497,9 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                 }
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-            protected void dispatchDraw(Canvas canvas) {
+            public void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 if (TopicsFragment.this.isInPreviewMode()) {
                     this.actionBarPaint.setColor(TopicsFragment.this.getThemedColor("windowBackgroundWhite"));
@@ -1280,6 +1283,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             DialogsActivity dialogsActivity = this.dialogsActivity;
             if (dialogsActivity != null) {
                 dialogsActivity.didSelectResult(-this.chatId, tLRPC$TL_forumTopic.id, true, false, this);
+                this.dialogsActivity.removeSelfFromStack();
             }
         } else if (this.selectedTopics.size() > 0) {
             toggleSelection(view);
@@ -1987,7 +1991,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         create.show();
         TextView textView = (TextView) create.getButton(-1);
         if (textView != null) {
-            textView.setTextColor(Theme.getColor("dialogTextRed2"));
+            textView.setTextColor(Theme.getColor("dialogTextRed"));
         }
     }
 
@@ -4234,25 +4238,8 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         }
     }
 
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void drawOverlay(Canvas canvas, View view) {
-        canvas.save();
-        canvas.translate(this.contentView.getX(), this.contentView.getY());
-        FragmentContextView fragmentContextView = this.fragmentContextView;
-        if (fragmentContextView != null && fragmentContextView.isCallStyle()) {
-            canvas.save();
-            canvas.translate(this.fragmentContextView.getX(), this.topView.getY() + this.fragmentContextView.getY());
-            this.fragmentContextView.setDrawOverlay(true);
-            this.fragmentContextView.draw(canvas);
-            this.fragmentContextView.setDrawOverlay(false);
-            canvas.restore();
-            view.invalidate();
-        }
-        canvas.restore();
-    }
-
     private void prepareBlurBitmap() {
-        if (this.blurredView == null || this.parentLayout == null || SharedConfig.useLNavigation) {
+        if (this.blurredView == null || this.parentLayout == null) {
             return;
         }
         int measuredWidth = (int) (this.fragmentView.getMeasuredWidth() / 6.0f);

@@ -2296,9 +2296,9 @@ public class ExifInterface {
                 int skip = (int) this.mDataInputStream.skip(i3);
                 if (skip <= 0) {
                     if (this.mSkipBuffer == null) {
-                        this.mSkipBuffer = new byte[8192];
+                        this.mSkipBuffer = new byte[LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM];
                     }
-                    skip = this.mDataInputStream.read(this.mSkipBuffer, 0, Math.min(8192, i3));
+                    skip = this.mDataInputStream.read(this.mSkipBuffer, 0, Math.min((int) LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM, i3));
                     if (skip == -1) {
                         throw new EOFException("Reached EOF while skipping " + i + " bytes.");
                     }

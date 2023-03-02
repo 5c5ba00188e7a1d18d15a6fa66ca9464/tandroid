@@ -1028,7 +1028,7 @@ public class FilterShaders {
                 this.hsvBuffer = ByteBuffer.allocateDirect(i);
             }
             if (this.cdtBuffer == null) {
-                this.cdtBuffer = ByteBuffer.allocateDirect(16384);
+                this.cdtBuffer = ByteBuffer.allocateDirect(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
             }
             if (this.calcBuffer == null) {
                 this.calcBuffer = ByteBuffer.allocateDirect(32896);

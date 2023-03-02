@@ -741,7 +741,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
             showDialog(create);
             TextView textView = (TextView) create.getButton(-1);
             if (textView != null) {
-                textView.setTextColor(Theme.getColor("dialogTextRed2"));
+                textView.setTextColor(Theme.getColor("dialogTextRed"));
             }
         }
     }
@@ -996,7 +996,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                     showDialog(create);
                     TextView textView = (TextView) create.getButton(-1);
                     if (textView != null) {
-                        textView.setTextColor(Theme.getColor("dialogTextRed2"));
+                        textView.setTextColor(Theme.getColor("dialogTextRed"));
                         return;
                     }
                     return;
@@ -1869,7 +1869,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 TwoStepVerificationActivity.this.lambda$showSetForcePasswordAlert$37(dialogInterface, i);
             }
         });
-        ((TextView) builder.show().getButton(-2)).setTextColor(Theme.getColor("dialogTextRed2"));
+        ((TextView) builder.show().getButton(-2)).setTextColor(Theme.getColor("dialogTextRed"));
     }
 
     /* JADX INFO: Access modifiers changed from: private */

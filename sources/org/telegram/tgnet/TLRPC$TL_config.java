@@ -1,10 +1,12 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
+import org.telegram.messenger.CharacterCompat;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_config extends TLObject {
-    public static int constructor = 589653676;
+    public static int constructor = -870702050;
+    public String autologin_token;
     public String autoupdate_url_prefix;
     public int base_lang_pack_version;
     public boolean blocked_mode;
@@ -25,7 +27,6 @@ public class TLRPC$TL_config extends TLObject {
     public boolean force_try_ipv6;
     public int forwarded_count_max;
     public String gif_search_username;
-    public boolean ignore_phone_entities;
     public String img_search_username;
     public int lang_pack_version;
     public String me_url_prefix;
@@ -37,10 +38,6 @@ public class TLRPC$TL_config extends TLObject {
     public int offline_idle_timeout_ms;
     public int online_cloud_timeout_ms;
     public int online_update_period_ms;
-    public boolean pfs_enabled;
-    public boolean phonecalls_enabled;
-    public int pinned_dialogs_count_max;
-    public int pinned_infolder_count_max;
     public boolean preload_featured_stickers;
     public int push_chat_limit;
     public int push_chat_period_ms;
@@ -49,9 +46,7 @@ public class TLRPC$TL_config extends TLObject {
     public boolean revoke_pm_inbox;
     public int revoke_pm_time_limit;
     public int revoke_time_limit;
-    public int saved_gifs_limit;
     public String static_maps_provider;
-    public int stickers_faved_limit;
     public int stickers_recent_limit;
     public String suggested_lang_code;
     public boolean test_mode;
@@ -76,14 +71,11 @@ public class TLRPC$TL_config extends TLObject {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        this.phonecalls_enabled = (readInt32 & 2) != 0;
         this.default_p2p_contacts = (readInt32 & 8) != 0;
         this.preload_featured_stickers = (readInt32 & 16) != 0;
-        this.ignore_phone_entities = (readInt32 & 32) != 0;
         this.revoke_pm_inbox = (readInt32 & 64) != 0;
         this.blocked_mode = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
-        this.pfs_enabled = (readInt32 & 8192) != 0;
-        this.force_try_ipv6 = (readInt32 & 16384) != 0;
+        this.force_try_ipv6 = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
         this.date = abstractSerializedData.readInt32(z);
         this.expires = abstractSerializedData.readInt32(z);
         this.test_mode = abstractSerializedData.readBool(z);
@@ -115,19 +107,15 @@ public class TLRPC$TL_config extends TLObject {
         this.notify_default_delay_ms = abstractSerializedData.readInt32(z);
         this.push_chat_period_ms = abstractSerializedData.readInt32(z);
         this.push_chat_limit = abstractSerializedData.readInt32(z);
-        this.saved_gifs_limit = abstractSerializedData.readInt32(z);
         this.edit_time_limit = abstractSerializedData.readInt32(z);
         this.revoke_time_limit = abstractSerializedData.readInt32(z);
         this.revoke_pm_time_limit = abstractSerializedData.readInt32(z);
         this.rating_e_decay = abstractSerializedData.readInt32(z);
         this.stickers_recent_limit = abstractSerializedData.readInt32(z);
-        this.stickers_faved_limit = abstractSerializedData.readInt32(z);
         this.channels_read_media_period = abstractSerializedData.readInt32(z);
         if ((this.flags & 1) != 0) {
             this.tmp_sessions = abstractSerializedData.readInt32(z);
         }
-        this.pinned_dialogs_count_max = abstractSerializedData.readInt32(z);
-        this.pinned_infolder_count_max = abstractSerializedData.readInt32(z);
         this.call_receive_timeout_ms = abstractSerializedData.readInt32(z);
         this.call_ring_timeout_ms = abstractSerializedData.readInt32(z);
         this.call_connect_timeout_ms = abstractSerializedData.readInt32(z);
@@ -145,7 +133,7 @@ public class TLRPC$TL_config extends TLObject {
         if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
             this.img_search_username = abstractSerializedData.readString(z);
         }
-        if ((this.flags & 4096) != 0) {
+        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0) {
             this.static_maps_provider = abstractSerializedData.readString(z);
         }
         this.caption_length_max = abstractSerializedData.readInt32(z);
@@ -160,31 +148,28 @@ public class TLRPC$TL_config extends TLObject {
         if ((this.flags & 4) != 0) {
             this.base_lang_pack_version = abstractSerializedData.readInt32(z);
         }
-        if ((this.flags & 32768) != 0) {
+        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
             this.reactions_default = TLRPC$Reaction.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+        }
+        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+            this.autologin_token = abstractSerializedData.readString(z);
         }
     }
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
         abstractSerializedData.writeInt32(constructor);
-        int i = this.phonecalls_enabled ? this.flags | 2 : this.flags & (-3);
+        int i = this.default_p2p_contacts ? this.flags | 8 : this.flags & (-9);
         this.flags = i;
-        int i2 = this.default_p2p_contacts ? i | 8 : i & (-9);
+        int i2 = this.preload_featured_stickers ? i | 16 : i & (-17);
         this.flags = i2;
-        int i3 = this.preload_featured_stickers ? i2 | 16 : i2 & (-17);
+        int i3 = this.revoke_pm_inbox ? i2 | 64 : i2 & (-65);
         this.flags = i3;
-        int i4 = this.ignore_phone_entities ? i3 | 32 : i3 & (-33);
+        int i4 = this.blocked_mode ? i3 | LiteMode.FLAG_CHAT_BLUR : i3 & (-257);
         this.flags = i4;
-        int i5 = this.revoke_pm_inbox ? i4 | 64 : i4 & (-65);
+        int i5 = this.force_try_ipv6 ? i4 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i4 & (-16385);
         this.flags = i5;
-        int i6 = this.blocked_mode ? i5 | LiteMode.FLAG_CHAT_BLUR : i5 & (-257);
-        this.flags = i6;
-        int i7 = this.pfs_enabled ? i6 | 8192 : i6 & (-8193);
-        this.flags = i7;
-        int i8 = this.force_try_ipv6 ? i7 | 16384 : i7 & (-16385);
-        this.flags = i8;
-        abstractSerializedData.writeInt32(i8);
+        abstractSerializedData.writeInt32(i5);
         abstractSerializedData.writeInt32(this.date);
         abstractSerializedData.writeInt32(this.expires);
         abstractSerializedData.writeBool(this.test_mode);
@@ -192,8 +177,8 @@ public class TLRPC$TL_config extends TLObject {
         abstractSerializedData.writeInt32(481674261);
         int size = this.dc_options.size();
         abstractSerializedData.writeInt32(size);
-        for (int i9 = 0; i9 < size; i9++) {
-            this.dc_options.get(i9).serializeToStream(abstractSerializedData);
+        for (int i6 = 0; i6 < size; i6++) {
+            this.dc_options.get(i6).serializeToStream(abstractSerializedData);
         }
         abstractSerializedData.writeString(this.dc_txt_domain_name);
         abstractSerializedData.writeInt32(this.chat_size_max);
@@ -207,19 +192,15 @@ public class TLRPC$TL_config extends TLObject {
         abstractSerializedData.writeInt32(this.notify_default_delay_ms);
         abstractSerializedData.writeInt32(this.push_chat_period_ms);
         abstractSerializedData.writeInt32(this.push_chat_limit);
-        abstractSerializedData.writeInt32(this.saved_gifs_limit);
         abstractSerializedData.writeInt32(this.edit_time_limit);
         abstractSerializedData.writeInt32(this.revoke_time_limit);
         abstractSerializedData.writeInt32(this.revoke_pm_time_limit);
         abstractSerializedData.writeInt32(this.rating_e_decay);
         abstractSerializedData.writeInt32(this.stickers_recent_limit);
-        abstractSerializedData.writeInt32(this.stickers_faved_limit);
         abstractSerializedData.writeInt32(this.channels_read_media_period);
         if ((this.flags & 1) != 0) {
             abstractSerializedData.writeInt32(this.tmp_sessions);
         }
-        abstractSerializedData.writeInt32(this.pinned_dialogs_count_max);
-        abstractSerializedData.writeInt32(this.pinned_infolder_count_max);
         abstractSerializedData.writeInt32(this.call_receive_timeout_ms);
         abstractSerializedData.writeInt32(this.call_ring_timeout_ms);
         abstractSerializedData.writeInt32(this.call_connect_timeout_ms);
@@ -237,7 +218,7 @@ public class TLRPC$TL_config extends TLObject {
         if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
             abstractSerializedData.writeString(this.img_search_username);
         }
-        if ((this.flags & 4096) != 0) {
+        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0) {
             abstractSerializedData.writeString(this.static_maps_provider);
         }
         abstractSerializedData.writeInt32(this.caption_length_max);
@@ -252,8 +233,11 @@ public class TLRPC$TL_config extends TLObject {
         if ((this.flags & 4) != 0) {
             abstractSerializedData.writeInt32(this.base_lang_pack_version);
         }
-        if ((this.flags & 32768) != 0) {
+        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
             this.reactions_default.serializeToStream(abstractSerializedData);
+        }
+        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+            abstractSerializedData.writeString(this.autologin_token);
         }
     }
 }

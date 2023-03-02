@@ -54,6 +54,7 @@ import org.telegram.ui.Components.Premium.PremiumLockIconView;
 import org.telegram.ui.SelectAnimatedEmojiDialog;
 /* loaded from: classes3.dex */
 public class AnimatedEmojiDrawable extends Drawable {
+    private static boolean LOG_MEMORY_LEAK = false;
     public static int attachedCount;
     public static ArrayList<AnimatedEmojiDrawable> attachedDrawable;
     private static HashMap<Long, Integer> dominantColors;
@@ -71,7 +72,6 @@ public class AnimatedEmojiDrawable extends Drawable {
     public int rawDrawIndex;
     public int sizedp;
     private ArrayList<View> views;
-    private boolean LOG_MEMORY_LEAK = false;
     private float alpha = 1.0f;
     private Boolean canOverrideColorCached = null;
     private Boolean isDefaultStatusEmojiCached = null;
@@ -560,7 +560,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                     this.imageReceiver.setUniqKeyPrefix(i2 + "_");
                 }
                 this.imageReceiver.setVideoThumbIsSame(true);
-                boolean z2 = (SharedConfig.getDevicePerformanceClass() == 0 && this.cacheType == 5) || (((i = this.cacheType) == 2 || i == 3) && !LiteMode.isEnabled(4));
+                boolean z2 = (SharedConfig.getDevicePerformanceClass() == 0 && this.cacheType == 5) || (((i = this.cacheType) == 2 || i == 3) && !LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD));
                 if (this.cacheType == 13) {
                     z2 = true;
                 }
@@ -624,7 +624,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                     ?? r1 = this.imageReceiver;
                     TLRPC$Document tLRPC$Document = this.document;
                     r1.setImage(null, null, obj2, str2, null, null, obj, tLRPC$Document.size, null, tLRPC$Document, 1);
-                } else if (z2 || (!LiteMode.isEnabled(4) && this.cacheType != 14)) {
+                } else if (z2 || (!LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD) && this.cacheType != 14)) {
                     if ("video/webm".equals(this.document.mime_type)) {
                         TLRPC$Document tLRPC$Document2 = this.document;
                         this.imageReceiver.setImage(null, null, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, obj, tLRPC$Document2.size, null, tLRPC$Document2, 1);
@@ -809,7 +809,7 @@ public class AnimatedEmojiDrawable extends Drawable {
             } else {
                 this.imageReceiver.onDetachedFromWindow();
             }
-            if (this.LOG_MEMORY_LEAK) {
+            if (LOG_MEMORY_LEAK) {
                 if (attachedDrawable == null) {
                     attachedDrawable = new ArrayList<>();
                 }
@@ -1318,6 +1318,7 @@ public class AnimatedEmojiDrawable extends Drawable {
             if (view2 != null) {
                 view2.invalidate();
             }
+            invalidateSelf();
         }
 
         public void setSecondParent(View view) {

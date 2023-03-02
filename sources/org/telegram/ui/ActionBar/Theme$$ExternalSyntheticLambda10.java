@@ -11,8 +11,8 @@ public final /* synthetic */ class Theme$$ExternalSyntheticLambda10 implements C
 
     @Override // java.util.Comparator
     public final int compare(Object obj, Object obj2) {
-        int lambda$sortThemes$1;
-        lambda$sortThemes$1 = Theme.lambda$sortThemes$1((Theme.ThemeInfo) obj, (Theme.ThemeInfo) obj2);
-        return lambda$sortThemes$1;
+        int lambda$sortAccents$0;
+        lambda$sortAccents$0 = Theme.lambda$sortAccents$0((Theme.ThemeAccent) obj, (Theme.ThemeAccent) obj2);
+        return lambda$sortAccents$0;
     }
 }

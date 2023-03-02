@@ -4,6 +4,7 @@ import j$.util.function.Consumer;
 import j$.util.u;
 import java.util.Comparator;
 import java.util.Objects;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes2.dex */
 final class I implements u.a {
     private final int[] a;
@@ -15,7 +16,7 @@ final class I implements u.a {
         this.a = iArr;
         this.b = i;
         this.c = i2;
-        this.d = i3 | 64 | 16384;
+        this.d = i3 | 64 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
     }
 
     @Override // j$.util.u.a, j$.util.u

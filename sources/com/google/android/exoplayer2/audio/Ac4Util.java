@@ -8,7 +8,7 @@ import java.nio.ByteBuffer;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class Ac4Util {
-    private static final int[] SAMPLE_COUNT = {2002, 2000, 1920, 1601, 1600, 1001, 1000, 960, 800, 800, LiteMode.FLAGS_CHAT, 400, 400, LiteMode.FLAG_AUTOPLAY_GIFS};
+    private static final int[] SAMPLE_COUNT = {2002, 2000, 1920, 1601, 1600, 1001, 1000, 960, 800, 800, 480, 400, 400, LiteMode.FLAG_AUTOPLAY_GIFS};
 
     /* loaded from: classes.dex */
     public static final class SyncFrameInfo {

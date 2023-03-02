@@ -31,6 +31,7 @@ import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DownloadController;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
@@ -366,7 +367,7 @@ public class VoIPHelper {
                         tLRPC$TL_peerChannel.channel_id = tLRPC$InputPeer.channel_id;
                     }
                     if (chatFull instanceof TLRPC$TL_chatFull) {
-                        chatFull.flags |= 32768;
+                        chatFull.flags |= LiteMode.FLAG_CHAT_SCALE;
                     } else {
                         chatFull.flags |= ConnectionsManager.FileTypeFile;
                     }
@@ -614,7 +615,7 @@ public class VoIPHelper {
         editTextBoldCursor.setTextColor(Theme.getColor("dialogTextBlack"));
         editTextBoldCursor.setHintTextColor(Theme.getColor("dialogTextHint"));
         editTextBoldCursor.setBackground(null);
-        editTextBoldCursor.setLineColors(Theme.getColor("dialogInputField"), Theme.getColor("dialogInputFieldActivated"), Theme.getColor("dialogTextRed2"));
+        editTextBoldCursor.setLineColors(Theme.getColor("dialogInputField"), Theme.getColor("dialogInputFieldActivated"), Theme.getColor("dialogTextRed"));
         editTextBoldCursor.setPadding(0, AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f));
         editTextBoldCursor.setTextSize(1, 18.0f);
         editTextBoldCursor.setVisibility(8);

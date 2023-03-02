@@ -673,8 +673,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             return drawChild2;
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-        protected void dispatchDraw(Canvas canvas) {
+        public void dispatchDraw(Canvas canvas) {
             int y;
             float f;
             Paint paint;
@@ -871,7 +872,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 } else {
                     this.inputFieldHeight = 0;
                 }
-                if (SharedConfig.smoothKeyboard && DialogsActivity.this.commentView.isPopupShowing()) {
+                if (DialogsActivity.this.commentView.isPopupShowing()) {
                     ((BaseFragment) DialogsActivity.this).fragmentView.setTranslationY(0.0f);
                     for (int i3 = 0; i3 < DialogsActivity.this.viewPages.length; i3++) {
                         if (DialogsActivity.this.viewPages[i3] != null) {
@@ -967,6 +968,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         /* JADX WARN: Removed duplicated region for block: B:38:0x00a2  */
         /* JADX WARN: Removed duplicated region for block: B:45:0x00bd  */
         /* JADX WARN: Removed duplicated region for block: B:49:0x00d2  */
@@ -975,7 +977,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        public void onLayout(boolean z, int i, int i2, int i3, int i4) {
             int i5;
             int i6;
             int i7;
@@ -1002,7 +1004,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         i12 = 51;
                     }
                     int i13 = i12 & 7;
-                    int i14 = i12 & MessagesStorage.LAST_DB_VERSION;
+                    int i14 = i12 & 112;
                     int i15 = i13 & 7;
                     if (i15 == 1) {
                         i5 = (((i3 - i) - measuredWidth) / 2) + layoutParams.leftMargin;
@@ -1329,8 +1331,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             DialogsActivity.this.showDialog(new LimitReachedBottomSheet(DialogsActivity.this, getContext(), 3, ((BaseFragment) DialogsActivity.this).currentAccount));
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
-        protected void drawList(Canvas canvas, boolean z) {
+        public void drawList(Canvas canvas, boolean z) {
             if (DialogsActivity.this.searchIsShowed) {
                 if (DialogsActivity.this.searchViewPager == null || DialogsActivity.this.searchViewPager.getVisibility() != 0) {
                     return;
@@ -1347,9 +1350,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                             canvas.translate(DialogsActivity.this.viewPages[i].getX(), DialogsActivity.this.viewPages[i].getY() + DialogsActivity.this.viewPages[i].listView.getY() + childAt.getY());
                             if (childAt instanceof DialogCell) {
                                 DialogCell dialogCell = (DialogCell) childAt;
-                                dialogCell.drawingForBlur = true;
-                                dialogCell.draw(canvas);
-                                dialogCell.drawingForBlur = false;
+                                if (!dialogCell.isFolderCell() || !SharedConfig.archiveHidden) {
+                                    dialogCell.drawingForBlur = true;
+                                    dialogCell.draw(canvas);
+                                    dialogCell.drawingForBlur = false;
+                                }
                             } else {
                                 childAt.draw(canvas);
                             }
@@ -1360,16 +1365,18 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-        protected void onAttachedToWindow() {
+        public void onAttachedToWindow() {
             super.onAttachedToWindow();
             if (DialogsActivity.this.statusDrawable != null) {
                 DialogsActivity.this.statusDrawable.attach();
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-        protected void onDetachedFromWindow() {
+        public void onDetachedFromWindow() {
             super.onDetachedFromWindow();
             if (DialogsActivity.this.statusDrawable != null) {
                 DialogsActivity.this.statusDrawable.detach();
@@ -4511,7 +4518,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             DialogsActivity.this.showDialog(create);
             TextView textView = (TextView) create.getButton(-1);
             if (textView != null) {
-                textView.setTextColor(Theme.getColor("dialogTextRed2"));
+                textView.setTextColor(Theme.getColor("dialogTextRed"));
             }
         }
 
@@ -5139,7 +5146,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             DialogsActivity.this.showDialog(create);
             TextView textView = (TextView) create.getButton(-1);
             if (textView != null) {
-                textView.setTextColor(Theme.getColor("dialogTextRed2"));
+                textView.setTextColor(Theme.getColor("dialogTextRed"));
             }
         }
 
@@ -5175,7 +5182,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             DialogsActivity.this.showDialog(create);
             TextView textView = (TextView) create.getButton(-1);
             if (textView != null) {
-                textView.setTextColor(Theme.getColor("dialogTextRed2"));
+                textView.setTextColor(Theme.getColor("dialogTextRed"));
             }
         }
 
@@ -6889,37 +6896,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onBecomeFullyVisible() {
-        super.onBecomeFullyVisible();
-        if (SharedConfig.useLNavigation) {
-            if (this.viewPages != null) {
-                int i = 0;
-                while (true) {
-                    ViewPage[] viewPageArr = this.viewPages;
-                    if (i >= viewPageArr.length) {
-                        break;
-                    }
-                    if (viewPageArr[i].dialogsType == 0 && this.viewPages[i].archivePullViewState == 2 && this.viewPages[i].layoutManager.findFirstVisibleItemPosition() == 0 && hasHiddenArchive()) {
-                        this.viewPages[i].layoutManager.scrollToPositionWithOffset(1, (int) this.actionBar.getTranslationY());
-                    }
-                    if (i == 0) {
-                        this.viewPages[i].dialogsAdapter.resume();
-                    } else {
-                        this.viewPages[i].dialogsAdapter.pause();
-                    }
-                    i++;
-                }
-            }
-            if (this.searchIsShowed) {
-                AndroidUtilities.requestAdjustResize(getParentActivity(), this.classGuid);
-            }
-            updateVisibleRows(0, false);
-            updateProxyButton(false, true);
-            checkSuggestClearDatabase();
-        }
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
     public void setInPreviewMode(boolean z) {
         super.setInPreviewMode(z);
         if (z || this.avatarContainer == null) {
@@ -7052,7 +7028,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (!z && (filterTabsView = this.filterTabsView) != null && this.canShowFilterTabsView) {
             filterTabsView.setVisibility(0);
         }
-        boolean z6 = SharedConfig.getDevicePerformanceClass() == 0 || !LiteMode.isEnabled(32);
+        boolean z6 = SharedConfig.getDevicePerformanceClass() == 0 || !LiteMode.isEnabled(LiteMode.FLAG_CHAT_SCALE);
         if (z4) {
             if (!z) {
                 this.viewPages[0].listView.setVisibility(0);
@@ -7425,7 +7401,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (dialogsHintCell != null) {
             dialogsHintCell.setAlpha(1.0f - f);
         }
-        if (SharedConfig.getDevicePerformanceClass() != 0 && LiteMode.isEnabled(32)) {
+        if (SharedConfig.getDevicePerformanceClass() != 0 && LiteMode.isEnabled(LiteMode.FLAG_CHAT_SCALE)) {
             z2 = false;
         }
         if (z) {
@@ -8036,7 +8012,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     showDialog(create);
                     TextView textView = (TextView) create.getButton(-1);
                     if (textView != null) {
-                        textView.setTextColor(Theme.getColor("dialogTextRed2"));
+                        textView.setTextColor(Theme.getColor("dialogTextRed"));
                     }
                     return true;
                 }
@@ -8143,7 +8119,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX WARN: Type inference failed for: r1v29 */
     /* JADX WARN: Type inference failed for: r1v30, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r1v83 */
+    /* JADX WARN: Type inference failed for: r1v91 */
     public boolean showChatPreview(final DialogCell dialogCell) {
         long j;
         TLRPC$Chat chat;
@@ -8277,9 +8253,15 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (z4 && dialogFilter != null) {
                 i4 = 100 - dialogFilter.alwaysShow.size();
             } else if (this.folderId != 0 || dialogFilter != null) {
-                i4 = getMessagesController().maxFolderPinnedDialogsCount;
+                if (getUserConfig().isPremium()) {
+                    i4 = getMessagesController().maxFolderPinnedDialogsCountPremium;
+                } else {
+                    i4 = getMessagesController().maxFolderPinnedDialogsCountDefault;
+                }
+            } else if (getUserConfig().isPremium()) {
+                i4 = getMessagesController().maxPinnedDialogsCountPremium;
             } else {
-                i4 = getMessagesController().maxPinnedDialogsCount;
+                i4 = getMessagesController().maxPinnedDialogsCountDefault;
             }
             if (i2 + i8 > i4 || (i3 + i7) - i > i4) {
                 z2 = false;
@@ -8735,8 +8717,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:227:0x048a  */
-    /* JADX WARN: Removed duplicated region for block: B:244:0x04e4  */
+    /* JADX WARN: Removed duplicated region for block: B:230:0x049d  */
+    /* JADX WARN: Removed duplicated region for block: B:247:0x04f7  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8849,7 +8831,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (z7) {
                 i4 = 100 - dialogFilter.alwaysShow.size();
             } else if (this.folderId != 0 || dialogFilter != null) {
-                i4 = getMessagesController().maxFolderPinnedDialogsCount;
+                if (UserConfig.getInstance(this.currentAccount).isPremium()) {
+                    i4 = getMessagesController().maxFolderPinnedDialogsCountPremium;
+                } else {
+                    i4 = getMessagesController().maxFolderPinnedDialogsCountDefault;
+                }
             } else {
                 i4 = getUserConfig().isPremium() ? getMessagesController().dialogFiltersPinnedLimitPremium : getMessagesController().dialogFiltersPinnedLimitDefault;
             }
@@ -8890,7 +8876,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             showDialog(create);
             TextView textView = (TextView) create.getButton(-1);
             if (textView != null) {
-                textView.setTextColor(Theme.getColor("dialogTextRed2"));
+                textView.setTextColor(Theme.getColor("dialogTextRed"));
                 return;
             }
             return;
@@ -12013,7 +11999,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         arrayList.add(new ThemeDescription(this.sideMenu, 0, new Class[]{DrawerProfileCell.class}, null, null, null, "chats_menuName"));
         arrayList.add(new ThemeDescription(this.sideMenu, 0, new Class[]{DrawerProfileCell.class}, null, null, null, "chats_menuPhone"));
         arrayList.add(new ThemeDescription(this.sideMenu, 0, new Class[]{DrawerProfileCell.class}, null, null, null, "chats_menuPhoneCats"));
-        arrayList.add(new ThemeDescription(this.sideMenu, 0, new Class[]{DrawerProfileCell.class}, null, null, null, "chats_menuCloudBackgroundCats"));
         arrayList.add(new ThemeDescription(this.sideMenu, 0, new Class[]{DrawerProfileCell.class}, null, null, null, "chat_serviceBackground"));
         arrayList.add(new ThemeDescription(this.sideMenu, 0, new Class[]{DrawerProfileCell.class}, null, null, null, "chats_menuTopShadow"));
         arrayList.add(new ThemeDescription(this.sideMenu, 0, new Class[]{DrawerProfileCell.class}, null, null, null, "chats_menuTopShadowCats"));
@@ -12081,10 +12066,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogLinkSelection"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogTextBlue"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogTextBlue2"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogTextBlue3"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogTextBlue4"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogTextRed"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogTextRed2"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogTextGray"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogTextGray2"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogTextGray3"));
@@ -12100,14 +12083,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogCheckboxSquareDisabled"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogRadioBackground"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogRadioBackgroundChecked"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogProgressCircle"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogButton"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogButtonSelector"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogScrollGlow"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogRoundCheckBox"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogRoundCheckBoxCheck"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogBadgeBackground"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogBadgeText"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogLineProgress"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogLineProgressBackground"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogGrayLine"));
@@ -12122,10 +12102,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogShadowLine"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "key_sheet_scrollUp"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "key_sheet_other"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "player_actionBar"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "player_actionBarSelector"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "player_actionBarTitle"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "player_actionBarTop"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "player_actionBarSubtitle"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "player_actionBarItems"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "player_background"));
@@ -12142,7 +12120,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             arrayList.add(new ThemeDescription(this.commentView, ThemeDescription.FLAG_CURSORCOLOR, new Class[]{ChatActivityEnterView.class}, new String[]{"messageEditText"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "chat_messagePanelCursor"));
             arrayList.add(new ThemeDescription(this.commentView, ThemeDescription.FLAG_HINTTEXTCOLOR, new Class[]{ChatActivityEnterView.class}, new String[]{"messageEditText"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "chat_messagePanelHint"));
         }
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "actionBarTipBackground"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "windowBackgroundWhiteBlackText"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "player_time"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "chat_messagePanelCursor"));
@@ -12431,7 +12408,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private void setFragmentIsSliding(boolean z) {
-        if (SharedConfig.getDevicePerformanceClass() <= 1 || !LiteMode.isEnabled(32)) {
+        if (SharedConfig.getDevicePerformanceClass() <= 1 || !LiteMode.isEnabled(LiteMode.FLAG_CHAT_SCALE)) {
             return;
         }
         if (z) {
@@ -12490,16 +12467,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onSlideProgress(boolean z, float f) {
-        if (SharedConfig.getDevicePerformanceClass() > 0 && LiteMode.isEnabled(32) && this.isSlideBackTransition && this.slideBackTransitionAnimator == null) {
+        if (SharedConfig.getDevicePerformanceClass() > 0 && this.isSlideBackTransition && this.slideBackTransitionAnimator == null) {
             setSlideTransitionProgress(f);
         }
     }
 
     private void setSlideTransitionProgress(float f) {
-        if (SharedConfig.getDevicePerformanceClass() <= 0 || !LiteMode.isEnabled(32)) {
+        if (SharedConfig.getDevicePerformanceClass() <= 0) {
             return;
         }
-        this.slideFragmentLite = SharedConfig.getDevicePerformanceClass() <= 1;
+        this.slideFragmentLite = SharedConfig.getDevicePerformanceClass() <= 1 || !LiteMode.isEnabled(LiteMode.FLAG_CHAT_SCALE);
         this.slideFragmentProgress = f;
         View view = this.fragmentView;
         if (view != null) {
@@ -12539,11 +12516,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
         this.rightSlidingDialogContainer.getFragmentView().setPivotX(this.isDrawerTransition ? this.rightSlidingDialogContainer.getMeasuredWidth() : 0.0f);
         this.rightSlidingDialogContainer.getFragmentView().setPivotY(0.0f);
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public INavigationLayout.BackButtonState getBackButtonState() {
-        return (isArchive() || this.rightSlidingDialogContainer.isOpenned) ? INavigationLayout.BackButtonState.BACK : INavigationLayout.BackButtonState.MENU;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

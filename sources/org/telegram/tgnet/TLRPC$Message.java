@@ -104,8 +104,8 @@ public class TLRPC$Message extends TLObject {
                         this.out = (readInt32 & 2) != 0;
                         this.mentioned = (readInt32 & 16) != 0;
                         this.media_unread = (readInt32 & 32) != 0;
-                        this.silent = (readInt32 & 8192) != 0;
-                        this.post = (readInt32 & 16384) != 0;
+                        this.silent = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0;
+                        this.post = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
                         this.from_scheduled = (262144 & readInt32) != 0;
                         this.legacy = (524288 & readInt32) != 0;
                         this.edit_hide = (2097152 & readInt32) != 0;
@@ -166,7 +166,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 8388608) != 0) {
                             this.replies = TLRPC$MessageReplies.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.edit_date = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
@@ -206,9 +206,9 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i3;
                         int i4 = this.media_unread ? i3 | 32 : i3 & (-33);
                         this.flags = i4;
-                        int i5 = this.silent ? i4 | 8192 : i4 & (-8193);
+                        int i5 = this.silent ? i4 | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM : i4 & (-8193);
                         this.flags = i5;
-                        int i6 = this.post ? i5 | 16384 : i5 & (-16385);
+                        int i6 = this.post ? i5 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i5 & (-16385);
                         this.flags = i6;
                         int i7 = this.from_scheduled ? i6 | 262144 : i6 & (-262145);
                         this.flags = i7;
@@ -260,7 +260,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 8388608) != 0) {
                             this.replies.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             abstractSerializedData2.writeInt32(this.edit_date);
                         }
                         if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
@@ -298,8 +298,8 @@ public class TLRPC$Message extends TLObject {
                         this.out = (readInt32 & 2) != 0;
                         this.mentioned = (readInt32 & 16) != 0;
                         this.media_unread = (readInt32 & 32) != 0;
-                        this.silent = (readInt32 & 8192) != 0;
-                        this.post = (readInt32 & 16384) != 0;
+                        this.silent = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0;
+                        this.post = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
@@ -353,7 +353,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 1024) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.edit_date = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
@@ -370,9 +370,9 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i3;
                         int i4 = this.media_unread ? i3 | 32 : i3 & (-33);
                         this.flags = i4;
-                        int i5 = this.silent ? i4 | 8192 : i4 & (-8193);
+                        int i5 = this.silent ? i4 | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM : i4 & (-8193);
                         this.flags = i5;
-                        int i6 = this.post ? i5 | 16384 : i5 & (-16385);
+                        int i6 = this.post ? i5 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i5 & (-16385);
                         this.flags = i6;
                         abstractSerializedData2.writeInt32(i6);
                         abstractSerializedData2.writeInt32(this.id);
@@ -408,7 +408,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             abstractSerializedData2.writeInt32(this.edit_date);
                         }
                         if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
@@ -429,8 +429,8 @@ public class TLRPC$Message extends TLObject {
                         this.out = (readInt32 & 2) != 0;
                         this.mentioned = (readInt32 & 16) != 0;
                         this.media_unread = (readInt32 & 32) != 0;
-                        this.silent = (readInt32 & 8192) != 0;
-                        this.post = (readInt32 & 16384) != 0;
+                        this.silent = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0;
+                        this.post = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
                         this.from_scheduled = (262144 & readInt32) != 0;
                         this.legacy = (524288 & readInt32) != 0;
                         this.edit_hide = (readInt32 & 2097152) != 0;
@@ -487,7 +487,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 1024) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.edit_date = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
@@ -527,9 +527,9 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i3;
                         int i4 = this.media_unread ? i3 | 32 : i3 & (-33);
                         this.flags = i4;
-                        int i5 = this.silent ? i4 | 8192 : i4 & (-8193);
+                        int i5 = this.silent ? i4 | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM : i4 & (-8193);
                         this.flags = i5;
-                        int i6 = this.post ? i5 | 16384 : i5 & (-16385);
+                        int i6 = this.post ? i5 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i5 & (-16385);
                         this.flags = i6;
                         int i7 = this.from_scheduled ? i6 | 262144 : i6 & (-262145);
                         this.flags = i7;
@@ -571,7 +571,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             abstractSerializedData2.writeInt32(this.edit_date);
                         }
                         if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
@@ -607,8 +607,8 @@ public class TLRPC$Message extends TLObject {
                         this.out = (readInt32 & 2) != 0;
                         this.mentioned = (readInt32 & 16) != 0;
                         this.media_unread = (readInt32 & 32) != 0;
-                        this.silent = (readInt32 & 8192) != 0;
-                        this.post = (readInt32 & 16384) != 0;
+                        this.silent = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0;
+                        this.post = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
                         this.legacy = (readInt32 & 524288) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
@@ -637,9 +637,9 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i4;
                         int i5 = this.media_unread ? i4 | 32 : i4 & (-33);
                         this.flags = i5;
-                        int i6 = this.silent ? i5 | 8192 : i5 & (-8193);
+                        int i6 = this.silent ? i5 | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM : i5 & (-8193);
                         this.flags = i6;
-                        int i7 = this.post ? i6 | 16384 : i6 & (-16385);
+                        int i7 = this.post ? i6 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i6 & (-16385);
                         this.flags = i7;
                         int i8 = this.legacy ? i7 | 524288 : i7 & (-524289);
                         this.flags = i8;
@@ -773,8 +773,8 @@ public class TLRPC$Message extends TLObject {
                         this.out = (readInt32 & 2) != 0;
                         this.mentioned = (readInt32 & 16) != 0;
                         this.media_unread = (readInt32 & 32) != 0;
-                        this.silent = (readInt32 & 8192) != 0;
-                        this.post = (readInt32 & 16384) != 0;
+                        this.silent = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0;
+                        this.post = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
                         this.from_scheduled = (262144 & readInt32) != 0;
                         this.legacy = (524288 & readInt32) != 0;
                         this.edit_hide = (2097152 & readInt32) != 0;
@@ -834,7 +834,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 8388608) != 0) {
                             this.replies = TLRPC$MessageReplies.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.edit_date = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
@@ -874,9 +874,9 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i3;
                         int i4 = this.media_unread ? i3 | 32 : i3 & (-33);
                         this.flags = i4;
-                        int i5 = this.silent ? i4 | 8192 : i4 & (-8193);
+                        int i5 = this.silent ? i4 | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM : i4 & (-8193);
                         this.flags = i5;
-                        int i6 = this.post ? i5 | 16384 : i5 & (-16385);
+                        int i6 = this.post ? i5 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i5 & (-16385);
                         this.flags = i6;
                         int i7 = this.from_scheduled ? i6 | 262144 : i6 & (-262145);
                         this.flags = i7;
@@ -926,7 +926,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 8388608) != 0) {
                             this.replies.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             abstractSerializedData2.writeInt32(this.edit_date);
                         }
                         if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
@@ -962,8 +962,8 @@ public class TLRPC$Message extends TLObject {
                         this.out = (readInt32 & 2) != 0;
                         this.mentioned = (readInt32 & 16) != 0;
                         this.media_unread = (readInt32 & 32) != 0;
-                        this.silent = (readInt32 & 8192) != 0;
-                        this.post = (readInt32 & 16384) != 0;
+                        this.silent = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0;
+                        this.post = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
@@ -990,9 +990,9 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i4;
                         int i5 = this.media_unread ? i4 | 32 : i4 & (-33);
                         this.flags = i5;
-                        int i6 = this.silent ? i5 | 8192 : i5 & (-8193);
+                        int i6 = this.silent ? i5 | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM : i5 & (-8193);
                         this.flags = i6;
-                        int i7 = this.post ? i6 | 16384 : i6 & (-16385);
+                        int i7 = this.post ? i6 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i6 & (-16385);
                         this.flags = i7;
                         abstractSerializedData2.writeInt32(i7);
                         abstractSerializedData2.writeInt32(this.id);
@@ -1017,8 +1017,8 @@ public class TLRPC$Message extends TLObject {
                         this.out = (readInt32 & 2) != 0;
                         this.mentioned = (readInt32 & 16) != 0;
                         this.media_unread = (readInt32 & 32) != 0;
-                        this.silent = (readInt32 & 8192) != 0;
-                        this.post = (readInt32 & 16384) != 0;
+                        this.silent = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0;
+                        this.post = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
                         this.with_my_score = (readInt32 & 1073741824) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
@@ -1076,7 +1076,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 1024) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.edit_date = abstractSerializedData2.readInt32(z2);
                         }
                     }
@@ -1092,9 +1092,9 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i4;
                         int i5 = this.media_unread ? i4 | 32 : i4 & (-33);
                         this.flags = i5;
-                        int i6 = this.silent ? i5 | 8192 : i5 & (-8193);
+                        int i6 = this.silent ? i5 | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM : i5 & (-8193);
                         this.flags = i6;
-                        int i7 = this.post ? i6 | 16384 : i6 & (-16385);
+                        int i7 = this.post ? i6 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i6 & (-16385);
                         this.flags = i7;
                         int i8 = this.with_my_score ? i7 | 1073741824 : i7 & (-1073741825);
                         this.flags = i8;
@@ -1132,7 +1132,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             abstractSerializedData2.writeInt32(this.edit_date);
                         }
                         writeAttachPath(abstractSerializedData2);
@@ -1455,8 +1455,8 @@ public class TLRPC$Message extends TLObject {
                         this.out = (readInt32 & 2) != 0;
                         this.mentioned = (readInt32 & 16) != 0;
                         this.media_unread = (readInt32 & 32) != 0;
-                        this.silent = (readInt32 & 8192) != 0;
-                        this.post = (readInt32 & 16384) != 0;
+                        this.silent = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0;
+                        this.post = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
                         this.from_scheduled = (262144 & readInt32) != 0;
                         this.legacy = (524288 & readInt32) != 0;
                         this.edit_hide = (readInt32 & 2097152) != 0;
@@ -1516,7 +1516,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 1024) != 0) {
                             this.forwards = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.edit_date = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
@@ -1553,9 +1553,9 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i3;
                         int i4 = this.media_unread ? i3 | 32 : i3 & (-33);
                         this.flags = i4;
-                        int i5 = this.silent ? i4 | 8192 : i4 & (-8193);
+                        int i5 = this.silent ? i4 | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM : i4 & (-8193);
                         this.flags = i5;
-                        int i6 = this.post ? i5 | 16384 : i5 & (-16385);
+                        int i6 = this.post ? i5 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i5 & (-16385);
                         this.flags = i6;
                         int i7 = this.from_scheduled ? i6 | 262144 : i6 & (-262145);
                         this.flags = i7;
@@ -1600,7 +1600,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.forwards);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             abstractSerializedData2.writeInt32(this.edit_date);
                         }
                         if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
@@ -1680,8 +1680,8 @@ public class TLRPC$Message extends TLObject {
                         this.out = (readInt32 & 2) != 0;
                         this.mentioned = (readInt32 & 16) != 0;
                         this.media_unread = (readInt32 & 32) != 0;
-                        this.silent = (readInt32 & 8192) != 0;
-                        this.post = (readInt32 & 16384) != 0;
+                        this.silent = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0;
+                        this.post = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
                         this.from_scheduled = (262144 & readInt32) != 0;
                         this.legacy = (524288 & readInt32) != 0;
                         this.edit_hide = (readInt32 & 2097152) != 0;
@@ -1738,7 +1738,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 1024) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.edit_date = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
@@ -1764,9 +1764,9 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i3;
                         int i4 = this.media_unread ? i3 | 32 : i3 & (-33);
                         this.flags = i4;
-                        int i5 = this.silent ? i4 | 8192 : i4 & (-8193);
+                        int i5 = this.silent ? i4 | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM : i4 & (-8193);
                         this.flags = i5;
-                        int i6 = this.post ? i5 | 16384 : i5 & (-16385);
+                        int i6 = this.post ? i5 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i5 & (-16385);
                         this.flags = i6;
                         int i7 = this.from_scheduled ? i6 | 262144 : i6 & (-262145);
                         this.flags = i7;
@@ -1808,7 +1808,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             abstractSerializedData2.writeInt32(this.edit_date);
                         }
                         if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
@@ -1919,8 +1919,8 @@ public class TLRPC$Message extends TLObject {
                         this.out = (readInt32 & 2) != 0;
                         this.mentioned = (readInt32 & 16) != 0;
                         this.media_unread = (readInt32 & 32) != 0;
-                        this.silent = (readInt32 & 8192) != 0;
-                        this.post = (readInt32 & 16384) != 0;
+                        this.silent = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0;
+                        this.post = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
                         this.legacy = (readInt32 & 524288) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
@@ -1943,9 +1943,9 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i3;
                         int i4 = this.media_unread ? i3 | 32 : i3 & (-33);
                         this.flags = i4;
-                        int i5 = this.silent ? i4 | 8192 : i4 & (-8193);
+                        int i5 = this.silent ? i4 | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM : i4 & (-8193);
                         this.flags = i5;
-                        int i6 = this.post ? i5 | 16384 : i5 & (-16385);
+                        int i6 = this.post ? i5 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i5 & (-16385);
                         this.flags = i6;
                         int i7 = this.legacy ? i6 | 524288 : i6 & (-524289);
                         this.flags = i7;
@@ -2087,8 +2087,8 @@ public class TLRPC$Message extends TLObject {
                         this.out = (readInt32 & 2) != 0;
                         this.mentioned = (readInt32 & 16) != 0;
                         this.media_unread = (readInt32 & 32) != 0;
-                        this.silent = (readInt32 & 8192) != 0;
-                        this.post = (readInt32 & 16384) != 0;
+                        this.silent = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0;
+                        this.post = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
                         this.from_scheduled = (262144 & readInt32) != 0;
                         this.legacy = (readInt32 & 524288) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
@@ -2144,7 +2144,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 1024) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.edit_date = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
@@ -2164,9 +2164,9 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i3;
                         int i4 = this.media_unread ? i3 | 32 : i3 & (-33);
                         this.flags = i4;
-                        int i5 = this.silent ? i4 | 8192 : i4 & (-8193);
+                        int i5 = this.silent ? i4 | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM : i4 & (-8193);
                         this.flags = i5;
-                        int i6 = this.post ? i5 | 16384 : i5 & (-16385);
+                        int i6 = this.post ? i5 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i5 & (-16385);
                         this.flags = i6;
                         int i7 = this.from_scheduled ? i6 | 262144 : i6 & (-262145);
                         this.flags = i7;
@@ -2206,7 +2206,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             abstractSerializedData2.writeInt32(this.edit_date);
                         }
                         if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
@@ -2230,8 +2230,8 @@ public class TLRPC$Message extends TLObject {
                         this.out = (readInt32 & 2) != 0;
                         this.mentioned = (readInt32 & 16) != 0;
                         this.media_unread = (readInt32 & 32) != 0;
-                        this.silent = (readInt32 & 8192) != 0;
-                        this.post = (readInt32 & 16384) != 0;
+                        this.silent = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0;
+                        this.post = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
                         this.from_scheduled = (262144 & readInt32) != 0;
                         this.legacy = (524288 & readInt32) != 0;
                         this.edit_hide = (readInt32 & 2097152) != 0;
@@ -2288,7 +2288,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 1024) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.edit_date = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
@@ -2325,9 +2325,9 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i3;
                         int i4 = this.media_unread ? i3 | 32 : i3 & (-33);
                         this.flags = i4;
-                        int i5 = this.silent ? i4 | 8192 : i4 & (-8193);
+                        int i5 = this.silent ? i4 | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM : i4 & (-8193);
                         this.flags = i5;
-                        int i6 = this.post ? i5 | 16384 : i5 & (-16385);
+                        int i6 = this.post ? i5 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i5 & (-16385);
                         this.flags = i6;
                         int i7 = this.from_scheduled ? i6 | 262144 : i6 & (-262145);
                         this.flags = i7;
@@ -2369,7 +2369,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 1024) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             abstractSerializedData2.writeInt32(this.edit_date);
                         }
                         if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
@@ -2459,8 +2459,8 @@ public class TLRPC$Message extends TLObject {
                         this.out = (readInt32 & 2) != 0;
                         this.mentioned = (readInt32 & 16) != 0;
                         this.media_unread = (readInt32 & 32) != 0;
-                        this.silent = (readInt32 & 8192) != 0;
-                        this.post = (readInt32 & 16384) != 0;
+                        this.silent = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0;
+                        this.post = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
                         this.from_scheduled = (262144 & readInt32) != 0;
                         this.legacy = (524288 & readInt32) != 0;
                         this.edit_hide = (2097152 & readInt32) != 0;
@@ -2520,7 +2520,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 8388608) != 0) {
                             this.replies = TLRPC$MessageReplies.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.edit_date = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
@@ -2557,9 +2557,9 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i3;
                         int i4 = this.media_unread ? i3 | 32 : i3 & (-33);
                         this.flags = i4;
-                        int i5 = this.silent ? i4 | 8192 : i4 & (-8193);
+                        int i5 = this.silent ? i4 | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM : i4 & (-8193);
                         this.flags = i5;
-                        int i6 = this.post ? i5 | 16384 : i5 & (-16385);
+                        int i6 = this.post ? i5 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i5 & (-16385);
                         this.flags = i6;
                         int i7 = this.from_scheduled ? i6 | 262144 : i6 & (-262145);
                         this.flags = i7;
@@ -2609,7 +2609,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & 8388608) != 0) {
                             this.replies.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & 32768) != 0) {
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             abstractSerializedData2.writeInt32(this.edit_date);
                         }
                         if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
@@ -2899,8 +2899,8 @@ public class TLRPC$Message extends TLObject {
             if (this.params == null) {
                 this.params = new HashMap<>();
             }
-            this.layer = 152;
-            this.params.put("legacy_layer", "152");
+            this.layer = 154;
+            this.params.put("legacy_layer", "154");
         }
         if ((this.id < 0 || this.send_state == 3 || this.legacy) && (hashMap2 = this.params) != null && hashMap2.size() > 0) {
             for (Map.Entry<String, String> entry2 : this.params.entrySet()) {

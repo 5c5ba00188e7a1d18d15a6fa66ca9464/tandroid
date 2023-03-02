@@ -59,10 +59,18 @@ public class SpeedIconDrawable extends Drawable {
         this.outlinePaint = null;
     }
 
-    public void setValue(float f, boolean z) {
+    public static String formatNumber(float f) {
+        Math.abs(f - 0.25f);
         float round = Math.round(f * 10.0f) / 10.0f;
         long j = round;
-        String str = (round == ((float) j) ? String.format("%d", Long.valueOf(j)) : String.format("%s", Float.valueOf(round))) + "X";
+        if (round == ((float) j)) {
+            return "" + j;
+        }
+        return "" + round;
+    }
+
+    public void setValue(float f, boolean z) {
+        String str = formatNumber(f) + "X";
         if (z && TextUtils.equals(this.textDrawable.getText(), str)) {
             return;
         }

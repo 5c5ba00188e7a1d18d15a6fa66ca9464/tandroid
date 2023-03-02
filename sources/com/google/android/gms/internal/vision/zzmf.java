@@ -1,6 +1,4 @@
 package com.google.android.gms.internal.vision;
-
-import org.telegram.messenger.LiteMode;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 final class zzmf {
@@ -51,6 +49,6 @@ final class zzmf {
         }
         int i2 = ((b & 7) << 18) | ((b2 & 63) << 12) | ((b3 & 63) << 6) | (b4 & 63);
         cArr[i] = (char) ((i2 >>> 10) + 55232);
-        cArr[i + 1] = (char) ((i2 & LiteMode.ENABLED) + 56320);
+        cArr[i + 1] = (char) ((i2 & 1023) + 56320);
     }
 }

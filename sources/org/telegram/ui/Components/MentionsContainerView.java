@@ -135,7 +135,7 @@ public class MentionsContainerView extends BlurredFrameLayout {
                 TLRPC$PhotoSize closestPhotoSizeWithSize;
                 if (i2 != 0) {
                     int i3 = i2 - 1;
-                    if (MentionsContainerView.this.adapter.getBotContextSwitch() != null) {
+                    if (MentionsContainerView.this.adapter.getBotContextSwitch() != null || MentionsContainerView.this.adapter.getBotWebViewSwitch() != null) {
                         i3++;
                     }
                     Size size = this.size;
@@ -202,7 +202,7 @@ public class MentionsContainerView extends BlurredFrameLayout {
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ExtendedGridLayoutManager
             public int getFlowItemCount() {
-                if (MentionsContainerView.this.adapter.getBotContextSwitch() != null) {
+                if (MentionsContainerView.this.adapter.getBotContextSwitch() != null || MentionsContainerView.this.adapter.getBotWebViewSwitch() != null) {
                     return getItemCount() - 2;
                 }
                 return super.getFlowItemCount() - 1;
@@ -223,7 +223,7 @@ public class MentionsContainerView extends BlurredFrameLayout {
                 if (item instanceof TLRPC$Document) {
                     return 20;
                 }
-                if (MentionsContainerView.this.adapter.getBotContextSwitch() != null) {
+                if (MentionsContainerView.this.adapter.getBotContextSwitch() != null || MentionsContainerView.this.adapter.getBotWebViewSwitch() != null) {
                     i3--;
                 }
                 return MentionsContainerView.this.gridLayoutManager.getSpanSizeForItem(i3);
@@ -347,7 +347,7 @@ public class MentionsContainerView extends BlurredFrameLayout {
         float min;
         PaddedListAdapter paddedListAdapter2;
         boolean isReversed = isReversed();
-        this.containerPadding = AndroidUtilities.dp(((this.adapter.isStickers() || this.adapter.isBotContext()) && this.adapter.isMediaLayout() && this.adapter.getBotContextSwitch() == null ? 2 : 0) + 2);
+        this.containerPadding = AndroidUtilities.dp(((this.adapter.isStickers() || this.adapter.isBotContext()) && this.adapter.isMediaLayout() && this.adapter.getBotContextSwitch() == null && this.adapter.getBotWebViewSwitch() == null ? 2 : 0) + 2);
         float dp = AndroidUtilities.dp(4.0f);
         if (isReversed) {
             float min2 = Math.min(Math.max(0.0f, (this.paddedAdapter.paddingViewAttached ? paddedListAdapter2.paddingView.getTop() : getHeight()) + this.listView.getTranslationY()) + this.containerPadding, (1.0f - this.hideT) * getHeight());
@@ -622,7 +622,7 @@ public class MentionsContainerView extends BlurredFrameLayout {
                     if (MentionsContainerView.this.adapter.isStickers()) {
                         return;
                     }
-                    if (MentionsContainerView.this.adapter.getBotContextSwitch() == null) {
+                    if (MentionsContainerView.this.adapter.getBotContextSwitch() == null && MentionsContainerView.this.adapter.getBotWebViewSwitch() == null) {
                         rect.top = AndroidUtilities.dp(2.0f);
                     } else if (i == 0) {
                         return;

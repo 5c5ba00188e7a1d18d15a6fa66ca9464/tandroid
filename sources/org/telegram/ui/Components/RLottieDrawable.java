@@ -30,6 +30,7 @@ import org.telegram.messenger.DispatchQueuePool;
 import org.telegram.messenger.DispatchQueuePoolBackground;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.utils.BitmapsCache;
@@ -1601,7 +1602,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         try {
             byte[] bArr2 = bufferLocal.get();
             if (bArr2 == null) {
-                bArr2 = new byte[4096];
+                bArr2 = new byte[LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM];
                 bufferLocal.set(bArr2);
             }
             int i2 = 0;

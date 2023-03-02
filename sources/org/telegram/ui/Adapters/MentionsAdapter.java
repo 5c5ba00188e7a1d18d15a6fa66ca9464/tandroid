@@ -58,6 +58,7 @@ import org.telegram.tgnet.TLRPC$TL_document;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeSticker;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_inlineBotSwitchPM;
+import org.telegram.tgnet.TLRPC$TL_inlineBotWebView;
 import org.telegram.tgnet.TLRPC$TL_inputGeoPoint;
 import org.telegram.tgnet.TLRPC$TL_inputPeerEmpty;
 import org.telegram.tgnet.TLRPC$TL_messages_botResults;
@@ -120,6 +121,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     private Runnable searchGlobalRunnable;
     private ArrayList<TLRPC$BotInlineResult> searchResultBotContext;
     private TLRPC$TL_inlineBotSwitchPM searchResultBotContextSwitch;
+    private TLRPC$TL_inlineBotWebView searchResultBotWebViewSwitch;
     private ArrayList<String> searchResultCommands;
     private ArrayList<String> searchResultCommandsHelp;
     private ArrayList<TLRPC$User> searchResultCommandsUsers;
@@ -235,6 +237,10 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
         }
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.fileLoaded);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.fileLoadFailed);
+    }
+
+    public TLRPC$User getFoundContextBot() {
+        return this.foundContextBot;
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
@@ -554,6 +560,10 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
 
     public TLRPC$TL_inlineBotSwitchPM getBotContextSwitch() {
         return this.searchResultBotContextSwitch;
+    }
+
+    public TLRPC$TL_inlineBotWebView getBotWebViewSwitch() {
+        return this.searchResultBotWebViewSwitch;
     }
 
     public long getContextBotId() {
@@ -940,6 +950,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     public /* synthetic */ void lambda$searchForContextBotResults$5(String str, boolean z, TLObject tLObject, TLRPC$User tLRPC$User, String str2, MessagesStorage messagesStorage, String str3) {
         boolean z2;
         if (str.equals(this.searchingContextQuery)) {
+            int i = 0;
             this.contextQueryReqid = 0;
             if (z && tLObject == null) {
                 searchForContextBotResults(false, tLRPC$User, str, str2);
@@ -958,15 +969,18 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                 if (this.searchResultBotContextSwitch == null) {
                     this.searchResultBotContextSwitch = tLRPC$TL_messages_botResults.switch_pm;
                 }
-                int i = 0;
-                while (i < tLRPC$TL_messages_botResults.results.size()) {
-                    TLRPC$BotInlineResult tLRPC$BotInlineResult = tLRPC$TL_messages_botResults.results.get(i);
+                if (this.searchResultBotWebViewSwitch == null) {
+                    this.searchResultBotWebViewSwitch = tLRPC$TL_messages_botResults.switch_webview;
+                }
+                int i2 = 0;
+                while (i2 < tLRPC$TL_messages_botResults.results.size()) {
+                    TLRPC$BotInlineResult tLRPC$BotInlineResult = tLRPC$TL_messages_botResults.results.get(i2);
                     if (!(tLRPC$BotInlineResult.document instanceof TLRPC$TL_document) && !(tLRPC$BotInlineResult.photo instanceof TLRPC$TL_photo) && !"game".equals(tLRPC$BotInlineResult.type) && tLRPC$BotInlineResult.content == null && (tLRPC$BotInlineResult.send_message instanceof TLRPC$TL_botInlineMessageMediaAuto)) {
-                        tLRPC$TL_messages_botResults.results.remove(i);
-                        i--;
+                        tLRPC$TL_messages_botResults.results.remove(i2);
+                        i2--;
                     }
                     tLRPC$BotInlineResult.query_id = tLRPC$TL_messages_botResults.query_id;
-                    i++;
+                    i2++;
                 }
                 if (this.searchResultBotContext == null || str2.length() == 0) {
                     this.searchResultBotContext = tLRPC$TL_messages_botResults.results;
@@ -992,11 +1006,11 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                 this.searchResultSuggestions = null;
                 this.searchResultCommandsHelp = null;
                 this.searchResultCommandsUsers = null;
-                this.delegate.needChangePanelVisibility((this.searchResultBotContext.isEmpty() && this.searchResultBotContextSwitch == null) ? false : true);
+                this.delegate.needChangePanelVisibility((this.searchResultBotContext.isEmpty() && this.searchResultBotContextSwitch == null && this.searchResultBotWebViewSwitch == null) ? false : true);
                 if (z2) {
-                    int i2 = this.searchResultBotContextSwitch != null ? 1 : 0;
-                    notifyItemChanged(((this.searchResultBotContext.size() - tLRPC$TL_messages_botResults.results.size()) + i2) - 1);
-                    notifyItemRangeInserted((this.searchResultBotContext.size() - tLRPC$TL_messages_botResults.results.size()) + i2, tLRPC$TL_messages_botResults.results.size());
+                    i = (this.searchResultBotContextSwitch == null && this.searchResultBotWebViewSwitch == null) ? 1 : 1;
+                    notifyItemChanged(((this.searchResultBotContext.size() - tLRPC$TL_messages_botResults.results.size()) + i) - 1);
+                    notifyItemRangeInserted((this.searchResultBotContext.size() - tLRPC$TL_messages_botResults.results.size()) + i, tLRPC$TL_messages_botResults.results.size());
                     return;
                 }
                 notifyDataSetChanged();
@@ -1744,6 +1758,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     }
 
     public int getItemCountInternal() {
+        int i = 1;
         if (this.foundContextBot == null || this.inlineMediaEnabled) {
             ArrayList<StickerResult> arrayList = this.stickers;
             if (arrayList != null) {
@@ -1751,7 +1766,11 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
             }
             ArrayList<TLRPC$BotInlineResult> arrayList2 = this.searchResultBotContext;
             if (arrayList2 != null) {
-                return arrayList2.size() + (this.searchResultBotContextSwitch == null ? 0 : 1);
+                int size = arrayList2.size();
+                if (this.searchResultBotContextSwitch == null && this.searchResultBotWebViewSwitch == null) {
+                    i = 0;
+                }
+                return size + i;
             }
             ArrayList<TLObject> arrayList3 = this.searchResultUsernames;
             if (arrayList3 != null) {
@@ -1781,7 +1800,10 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
         }
         if (this.foundContextBot == null || this.inlineMediaEnabled) {
             if (this.searchResultBotContext != null) {
-                return (i != 0 || this.searchResultBotContextSwitch == null) ? 1 : 2;
+                if (i == 0) {
+                    return (this.searchResultBotContextSwitch == null && this.searchResultBotWebViewSwitch == null) ? 1 : 2;
+                }
+                return 1;
             }
             return 0;
         }
@@ -1793,7 +1815,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     }
 
     public int getItemPosition(int i) {
-        return (this.searchResultBotContext == null || this.searchResultBotContextSwitch == null) ? i : i - 1;
+        return this.searchResultBotContext != null ? (this.searchResultBotContextSwitch == null && this.searchResultBotWebViewSwitch == null) ? i : i - 1 : i;
     }
 
     public Object getItemParent(int i) {
@@ -1814,17 +1836,25 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
         }
         ArrayList<TLRPC$BotInlineResult> arrayList2 = this.searchResultBotContext;
         if (arrayList2 != null) {
-            TLRPC$TL_inlineBotSwitchPM tLRPC$TL_inlineBotSwitchPM = this.searchResultBotContextSwitch;
-            if (tLRPC$TL_inlineBotSwitchPM != null) {
-                if (i == 0) {
-                    return tLRPC$TL_inlineBotSwitchPM;
+            TLRPC$TL_inlineBotWebView tLRPC$TL_inlineBotWebView = this.searchResultBotWebViewSwitch;
+            if (tLRPC$TL_inlineBotWebView == null) {
+                TLRPC$TL_inlineBotSwitchPM tLRPC$TL_inlineBotSwitchPM = this.searchResultBotContextSwitch;
+                if (tLRPC$TL_inlineBotSwitchPM != null) {
+                    if (i == 0) {
+                        return tLRPC$TL_inlineBotSwitchPM;
+                    }
                 }
-                i--;
+                if (i >= 0 || i >= arrayList2.size()) {
+                    return null;
+                }
+                return this.searchResultBotContext.get(i);
+            } else if (i == 0) {
+                return tLRPC$TL_inlineBotWebView;
             }
-            if (i < 0 || i >= arrayList2.size()) {
-                return null;
+            i--;
+            if (i >= 0) {
             }
-            return this.searchResultBotContext.get(i);
+            return null;
         }
         ArrayList<TLObject> arrayList3 = this.searchResultUsernames;
         if (arrayList3 != null) {
@@ -1950,18 +1980,17 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                 }
             }
         } else if (this.searchResultBotContext != null) {
-            boolean z = this.searchResultBotContextSwitch != null;
-            if (viewHolder.getItemViewType() == 2) {
+            boolean z = (this.searchResultBotContextSwitch == null && this.searchResultBotWebViewSwitch == null) ? false : true;
+            if (viewHolder.getItemViewType() != 2) {
                 if (z) {
-                    ((BotSwitchCell) viewHolder.itemView).setText(this.searchResultBotContextSwitch.text);
-                    return;
+                    i--;
                 }
-                return;
+                ((ContextLinkCell) viewHolder.itemView).setLink(this.searchResultBotContext.get(i), this.foundContextBot, this.contextMedia, i != this.searchResultBotContext.size() - 1, z && i == 0, "gif".equals(this.searchingContextUsername));
+            } else if (z) {
+                BotSwitchCell botSwitchCell = (BotSwitchCell) viewHolder.itemView;
+                TLRPC$TL_inlineBotSwitchPM tLRPC$TL_inlineBotSwitchPM = this.searchResultBotContextSwitch;
+                botSwitchCell.setText(tLRPC$TL_inlineBotSwitchPM != null ? tLRPC$TL_inlineBotSwitchPM.text : this.searchResultBotWebViewSwitch.text);
             }
-            if (z) {
-                i--;
-            }
-            ((ContextLinkCell) viewHolder.itemView).setLink(this.searchResultBotContext.get(i), this.foundContextBot, this.contextMedia, i != this.searchResultBotContext.size() - 1, z && i == 0, "gif".equals(this.searchingContextUsername));
         } else {
             ArrayList<TLObject> arrayList = this.searchResultUsernames;
             if (arrayList != null) {

@@ -62,7 +62,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
         this.circlePath = new Path();
         this.mStart = -1L;
         this.mReleaseStart = -1L;
-        this.isLite = !LiteMode.isEnabled(32);
+        this.isLite = !LiteMode.isEnabled(LiteMode.FLAGS_CHAT);
         this.mSpan = s;
         this.mResourcesProvider = resourcesProvider;
         setColor(Theme.getColor("chat_linkSelectBackground", resourcesProvider));

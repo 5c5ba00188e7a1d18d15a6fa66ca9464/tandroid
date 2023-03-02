@@ -14,6 +14,7 @@ public class LongPressListenerWithMovingGesture implements View.OnTouchListener 
     private View selectedMenuView;
     boolean subItemClicked;
     ActionBarPopupWindow submenu;
+    boolean tapConfirmed;
     View view;
 
     public void onLongPress() {
@@ -78,8 +79,8 @@ public class LongPressListenerWithMovingGesture implements View.OnTouchListener 
                 View view = LongPressListenerWithMovingGesture.this.view;
                 if (view != null) {
                     view.callOnClick();
-                    return false;
                 }
+                LongPressListenerWithMovingGesture.this.tapConfirmed = true;
                 return false;
             }
 
@@ -100,6 +101,9 @@ public class LongPressListenerWithMovingGesture implements View.OnTouchListener 
     public boolean onTouch(View view, MotionEvent motionEvent) {
         View view2;
         this.view = view;
+        if (motionEvent.getAction() == 0) {
+            this.tapConfirmed = false;
+        }
         this.gestureDetector2.onTouchEvent(motionEvent);
         if (this.submenu != null && !this.subItemClicked && motionEvent.getAction() == 2) {
             this.view.getLocationOnScreen(this.location);
@@ -137,7 +141,7 @@ public class LongPressListenerWithMovingGesture implements View.OnTouchListener 
                 }
             }
         }
-        if (motionEvent.getAction() == 1 && !this.subItemClicked) {
+        if (motionEvent.getAction() == 1 && !this.subItemClicked && !this.tapConfirmed) {
             View view3 = this.selectedMenuView;
             if (view3 != null) {
                 view3.callOnClick();

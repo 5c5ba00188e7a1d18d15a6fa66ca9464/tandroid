@@ -36,11 +36,9 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SendMessagesHelper;
-import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.TLRPC$BotInlineResult;
@@ -194,7 +192,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
                 int size = View.MeasureSpec.getSize(i);
                 int size2 = View.MeasureSpec.getSize(i2);
                 setMeasuredDimension(size, size2);
-                if ((SharedConfig.smoothKeyboard ? 0 : measureKeyboardHeight()) <= AndroidUtilities.dp(20.0f)) {
+                if (AndroidUtilities.dp(20.0f) >= 0) {
                     if (!AndroidUtilities.isInMultiwindow) {
                         size2 -= PhotoAlbumPickerActivity.this.commentTextView.getEmojiPadding();
                         i2 = View.MeasureSpec.makeMeasureSpec(size2, 1073741824);
@@ -226,11 +224,11 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
-            /* JADX WARN: Removed duplicated region for block: B:39:0x00a5  */
-            /* JADX WARN: Removed duplicated region for block: B:46:0x00bf  */
-            /* JADX WARN: Removed duplicated region for block: B:50:0x00d4  */
-            /* JADX WARN: Removed duplicated region for block: B:54:0x00e6  */
-            /* JADX WARN: Removed duplicated region for block: B:55:0x00ef  */
+            /* JADX WARN: Removed duplicated region for block: B:35:0x009c  */
+            /* JADX WARN: Removed duplicated region for block: B:42:0x00b6  */
+            /* JADX WARN: Removed duplicated region for block: B:46:0x00cb  */
+            /* JADX WARN: Removed duplicated region for block: B:50:0x00dd  */
+            /* JADX WARN: Removed duplicated region for block: B:51:0x00e6  */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -252,8 +250,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
                     }
                 }
                 int childCount = getChildCount();
-                int measureKeyboardHeight = SharedConfig.smoothKeyboard ? 0 : measureKeyboardHeight();
-                int emojiPadding = (measureKeyboardHeight > AndroidUtilities.dp(20.0f) || AndroidUtilities.isInMultiwindow || AndroidUtilities.isTablet()) ? 0 : PhotoAlbumPickerActivity.this.commentTextView.getEmojiPadding();
+                int emojiPadding = (AndroidUtilities.dp(20.0f) < 0 || AndroidUtilities.isInMultiwindow || AndroidUtilities.isTablet()) ? 0 : PhotoAlbumPickerActivity.this.commentTextView.getEmojiPadding();
                 setBottomClip(emojiPadding);
                 for (int i12 = 0; i12 < childCount; i12++) {
                     View childAt = getChildAt(i12);
@@ -266,7 +263,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
                             i13 = 51;
                         }
                         int i14 = i13 & 7;
-                        int i15 = i13 & MessagesStorage.LAST_DB_VERSION;
+                        int i15 = i13 & 112;
                         int i16 = i14 & 7;
                         if (i16 == 1) {
                             i5 = ((i11 - measuredWidth) / 2) + layoutParams.leftMargin;
@@ -290,7 +287,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
                                         measuredHeight = getMeasuredHeight();
                                         measuredHeight2 = childAt.getMeasuredHeight();
                                     } else {
-                                        measuredHeight = getMeasuredHeight() + measureKeyboardHeight;
+                                        measuredHeight = getMeasuredHeight() + 0;
                                         measuredHeight2 = childAt.getMeasuredHeight();
                                     }
                                     i10 = measuredHeight - measuredHeight2;

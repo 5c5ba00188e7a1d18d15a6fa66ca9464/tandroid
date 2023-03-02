@@ -271,6 +271,13 @@ public class LimitPreviewView extends LinearLayout {
                 this.limitIcon.setText(spannableStringBuilder);
             }
             this.premiumCount.setText("4 GB");
+        } else if (i == 11) {
+            if (this.limitIcon != null) {
+                SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder();
+                spannableStringBuilder2.append((CharSequence) "d").setSpan(new ColoredImageSpan(this.icon), 0, 1, 0);
+                this.limitIcon.setText(spannableStringBuilder2);
+            }
+            this.premiumCount.setText("");
         }
     }
 
@@ -366,7 +373,7 @@ public class LimitPreviewView extends LinearLayout {
                 RectF rectF = AndroidUtilities.rectTmp;
                 rectF.set(0.0f, AndroidUtilities.dp(3.0f), getMeasuredWidth(), measuredHeight - AndroidUtilities.dp(3.0f));
                 float f = measuredHeight / 2.0f;
-                canvas.drawRoundRect(rectF, f, f, PremiumGradient.getInstance().getMainGradientPaint());
+                canvas.drawRoundRect(rectF, f, f, PremiumGradient.getInstance().getPremiumLocakedPaint());
             } else {
                 if (this.invalidatePath) {
                     this.invalidatePath = false;

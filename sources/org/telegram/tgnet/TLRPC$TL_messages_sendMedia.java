@@ -36,9 +36,9 @@ public class TLRPC$TL_messages_sendMedia extends TLObject {
         this.flags = i2;
         int i3 = this.clear_draft ? i2 | 128 : i2 & (-129);
         this.flags = i3;
-        int i4 = this.noforwards ? i3 | 16384 : i3 & (-16385);
+        int i4 = this.noforwards ? i3 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i3 & (-16385);
         this.flags = i4;
-        int i5 = this.update_stickersets_order ? i4 | 32768 : i4 & (-32769);
+        int i5 = this.update_stickersets_order ? i4 | LiteMode.FLAG_CHAT_SCALE : i4 & (-32769);
         this.flags = i5;
         abstractSerializedData.writeInt32(i5);
         this.peer.serializeToStream(abstractSerializedData);
@@ -65,7 +65,7 @@ public class TLRPC$TL_messages_sendMedia extends TLObject {
         if ((this.flags & 1024) != 0) {
             abstractSerializedData.writeInt32(this.schedule_date);
         }
-        if ((this.flags & 8192) != 0) {
+        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
             this.send_as.serializeToStream(abstractSerializedData);
         }
     }

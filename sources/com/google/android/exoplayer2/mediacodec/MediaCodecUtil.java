@@ -79,13 +79,13 @@ public final class MediaCodecUtil {
             case 11:
                 return LiteMode.FLAG_AUTOPLAY_GIFS;
             case 12:
-                return 4096;
+                return LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
             case 13:
-                return 8192;
+                return LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
             case 14:
-                return 16384;
+                return LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
             case 15:
-                return 32768;
+                return LiteMode.FLAG_CHAT_SCALE;
             case 16:
                 return CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT;
             case 17:
@@ -138,15 +138,15 @@ public final class MediaCodecUtil {
                                     case 40:
                                         return LiteMode.FLAG_AUTOPLAY_GIFS;
                                     case 41:
-                                        return 4096;
+                                        return LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
                                     case 42:
-                                        return 8192;
+                                        return LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
                                     default:
                                         switch (i) {
                                             case 50:
-                                                return 16384;
+                                                return LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
                                             case 51:
-                                                return 32768;
+                                                return LiteMode.FLAG_CHAT_SCALE;
                                             case 52:
                                                 return CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT;
                                             default:
@@ -177,13 +177,13 @@ public final class MediaCodecUtil {
             case 1024:
                 return 1310720;
             case LiteMode.FLAG_AUTOPLAY_GIFS /* 2048 */:
-            case 4096:
+            case LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM /* 4096 */:
                 return 2097152;
-            case 8192:
+            case LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM /* 8192 */:
                 return 2228224;
-            case 16384:
+            case LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM /* 16384 */:
                 return 5652480;
-            case 32768:
+            case LiteMode.FLAG_CHAT_SCALE /* 32768 */:
             case CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT /* 65536 */:
                 return 9437184;
             case 131072:
@@ -270,9 +270,9 @@ public final class MediaCodecUtil {
                                                     case 60:
                                                         return LiteMode.FLAG_AUTOPLAY_GIFS;
                                                     case 61:
-                                                        return 4096;
+                                                        return LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
                                                     case 62:
-                                                        return 8192;
+                                                        return LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
                                                     default:
                                                         return -1;
                                                 }
@@ -932,7 +932,7 @@ public final class MediaCodecUtil {
                 return null;
             } else {
                 if (parseInt3 != 8) {
-                    i2 = (colorInfo == null || !(colorInfo.hdrStaticInfo != null || (i = colorInfo.colorTransfer) == 7 || i == 6)) ? 2 : 4096;
+                    i2 = (colorInfo == null || !(colorInfo.hdrStaticInfo != null || (i = colorInfo.colorTransfer) == 7 || i == 6)) ? 2 : LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
                 }
                 int av1LevelNumberToConst = av1LevelNumberToConst(parseInt2);
                 if (av1LevelNumberToConst == -1) {
@@ -1271,9 +1271,9 @@ public final class MediaCodecUtil {
             case '\n':
                 return Integer.valueOf((int) LiteMode.FLAG_AUTOPLAY_GIFS);
             case 11:
-                return 8192;
+                return Integer.valueOf((int) LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
             case '\f':
-                return 32768;
+                return Integer.valueOf((int) LiteMode.FLAG_CHAT_SCALE);
             case '\r':
                 return 131072;
             case 14:
@@ -1287,9 +1287,9 @@ public final class MediaCodecUtil {
             case 18:
                 return 1024;
             case 19:
-                return 4096;
+                return Integer.valueOf((int) LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM);
             case 20:
-                return 16384;
+                return Integer.valueOf((int) LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
             case 21:
                 return Integer.valueOf((int) CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT);
             case 22:
@@ -1509,7 +1509,7 @@ public final class MediaCodecUtil {
             case 11:
                 return Integer.valueOf((int) LiteMode.FLAG_AUTOPLAY_GIFS);
             case '\f':
-                return 4096;
+                return Integer.valueOf((int) LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM);
             default:
                 return null;
         }

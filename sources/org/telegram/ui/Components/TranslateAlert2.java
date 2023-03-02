@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
@@ -512,9 +513,9 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
             linksTextView.setTextIsSelectable(!z);
         }
         if (z) {
-            getWindow().addFlags(8192);
+            getWindow().addFlags(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
         } else {
-            getWindow().clearFlags(8192);
+            getWindow().clearFlags(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
         }
     }
 

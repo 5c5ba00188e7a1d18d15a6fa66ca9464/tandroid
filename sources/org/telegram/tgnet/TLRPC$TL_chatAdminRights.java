@@ -44,8 +44,8 @@ public class TLRPC$TL_chatAdminRights extends TLObject {
         this.add_admins = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
         this.anonymous = (readInt32 & 1024) != 0;
         this.manage_call = (readInt32 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
-        this.other = (readInt32 & 4096) != 0;
-        this.manage_topics = (readInt32 & 8192) != 0;
+        this.other = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
+        this.manage_topics = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0;
     }
 
     @Override // org.telegram.tgnet.TLObject
@@ -71,9 +71,9 @@ public class TLRPC$TL_chatAdminRights extends TLObject {
         this.flags = i9;
         int i10 = this.manage_call ? i9 | LiteMode.FLAG_AUTOPLAY_GIFS : i9 & (-2049);
         this.flags = i10;
-        int i11 = this.other ? i10 | 4096 : i10 & (-4097);
+        int i11 = this.other ? i10 | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : i10 & (-4097);
         this.flags = i11;
-        int i12 = this.manage_topics ? i11 | 8192 : i11 & (-8193);
+        int i12 = this.manage_topics ? i11 | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM : i11 & (-8193);
         this.flags = i12;
         abstractSerializedData.writeInt32(i12);
     }

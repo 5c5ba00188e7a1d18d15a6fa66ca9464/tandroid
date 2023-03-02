@@ -23,12 +23,12 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
-import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$InputStickerSet;
@@ -158,7 +158,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         editTextCaption.setTextSize(1, 18.0f);
         this.editText.setImeOptions(268435456);
         EditTextCaption editTextCaption2 = this.editText;
-        editTextCaption2.setInputType(editTextCaption2.getInputType() | 16384);
+        editTextCaption2.setInputType(editTextCaption2.getInputType() | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
         this.editText.setMaxLines(4);
         EditTextCaption editTextCaption3 = this.editText;
         editTextCaption3.setFocusable(editTextCaption3.isEnabled());
@@ -357,12 +357,12 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
     }
 
     public void hidePopup(boolean z) {
-        EmojiView emojiView;
         if (isPopupShowing()) {
             showPopup(0);
         }
         if (z) {
-            if (SharedConfig.smoothKeyboard && (emojiView = this.emojiView) != null && emojiView.getVisibility() == 0 && !this.waitingForKeyboardOpen) {
+            EmojiView emojiView = this.emojiView;
+            if (emojiView != null && emojiView.getVisibility() == 0 && !this.waitingForKeyboardOpen) {
                 final int measuredHeight = this.emojiView.getMeasuredHeight();
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, measuredHeight);
                 ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.EditTextEmoji$$ExternalSyntheticLambda1
@@ -465,7 +465,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
                 this.emojiIconDrawable.setIcon(R.drawable.input_keyboard, true);
                 onWindowSizeChanged();
             }
-            if (this.keyboardVisible || z || !SharedConfig.smoothKeyboard) {
+            if (this.keyboardVisible || z) {
                 return;
             }
             ValueAnimator ofFloat = ValueAnimator.ofFloat(this.emojiPadding, 0.0f);

@@ -548,9 +548,9 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             try {
                 int i = this.currentStep;
                 if ((i == 2 || i == 6) && !this.paymentForm.invoice.test) {
-                    getParentActivity().getWindow().setFlags(8192, 8192);
+                    getParentActivity().getWindow().setFlags(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM, LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
                 } else if (SharedConfig.passcodeHash.length() == 0 || SharedConfig.allowScreenCapture) {
-                    getParentActivity().getWindow().clearFlags(8192);
+                    getParentActivity().getWindow().clearFlags(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
                 }
             } catch (Throwable th) {
                 FileLog.e(th);
@@ -3254,7 +3254,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         showDialog(create);
         TextView textView = (TextView) create.getButton(-1);
         if (textView != null) {
-            textView.setTextColor(getThemedColor("dialogTextRed2"));
+            textView.setTextColor(getThemedColor("dialogTextRed"));
         }
     }
 
@@ -3865,7 +3865,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         try {
             int i = this.currentStep;
             if ((i == 2 || i == 6) && Build.VERSION.SDK_INT >= 23 && (SharedConfig.passcodeHash.length() == 0 || SharedConfig.allowScreenCapture)) {
-                getParentActivity().getWindow().clearFlags(8192);
+                getParentActivity().getWindow().clearFlags(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
             }
         } catch (Throwable th) {
             FileLog.e(th);

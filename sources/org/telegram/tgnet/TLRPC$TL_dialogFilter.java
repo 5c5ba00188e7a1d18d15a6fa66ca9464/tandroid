@@ -15,8 +15,8 @@ public class TLRPC$TL_dialogFilter extends TLRPC$DialogFilter {
         this.broadcasts = (readInt32 & 8) != 0;
         this.bots = (readInt32 & 16) != 0;
         this.exclude_muted = (readInt32 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
-        this.exclude_read = (readInt32 & 4096) != 0;
-        this.exclude_archived = (readInt32 & 8192) != 0;
+        this.exclude_read = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
+        this.exclude_archived = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0;
         this.id = abstractSerializedData.readInt32(z);
         this.title = abstractSerializedData.readString(z);
         if ((this.flags & ConnectionsManager.FileTypeVideo) != 0) {
@@ -84,9 +84,9 @@ public class TLRPC$TL_dialogFilter extends TLRPC$DialogFilter {
         this.flags = i5;
         int i6 = this.exclude_muted ? i5 | LiteMode.FLAG_AUTOPLAY_GIFS : i5 & (-2049);
         this.flags = i6;
-        int i7 = this.exclude_read ? i6 | 4096 : i6 & (-4097);
+        int i7 = this.exclude_read ? i6 | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : i6 & (-4097);
         this.flags = i7;
-        int i8 = this.exclude_archived ? i7 | 8192 : i7 & (-8193);
+        int i8 = this.exclude_archived ? i7 | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM : i7 & (-8193);
         this.flags = i8;
         abstractSerializedData.writeInt32(i8);
         abstractSerializedData.writeInt32(this.id);

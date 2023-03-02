@@ -4,6 +4,7 @@ public class TLRPC$TL_messages_requestSimpleWebView extends TLObject {
     public static int constructor = 698084494;
     public TLRPC$InputUser bot;
     public int flags;
+    public boolean from_switch_webview;
     public String platform;
     public TLRPC$TL_dataJSON theme_params;
     public String url;
@@ -16,7 +17,9 @@ public class TLRPC$TL_messages_requestSimpleWebView extends TLObject {
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
         abstractSerializedData.writeInt32(constructor);
-        abstractSerializedData.writeInt32(this.flags);
+        int i = this.from_switch_webview ? this.flags | 2 : this.flags & (-3);
+        this.flags = i;
+        abstractSerializedData.writeInt32(i);
         this.bot.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeString(this.url);
         if ((this.flags & 1) != 0) {

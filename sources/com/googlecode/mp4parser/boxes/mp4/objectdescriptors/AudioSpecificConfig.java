@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import org.telegram.messenger.LiteMode;
 @Descriptor(objectTypeIndication = 64, tags = {5})
 /* loaded from: classes.dex */
 public class AudioSpecificConfig extends BaseDescriptor {
@@ -189,7 +188,7 @@ public class AudioSpecificConfig extends BaseDescriptor {
             case 27:
                 parseParametricSpecificConfig(this.samplingFrequencyIndex, this.channelConfiguration, i2, bitReaderBuffer);
                 break;
-            case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
+            case 28:
                 throw new UnsupportedOperationException("can't parse SSCSpecificConfig yet");
             case 30:
                 this.sacPayloadEmbedding = bitReaderBuffer.readBits(1);

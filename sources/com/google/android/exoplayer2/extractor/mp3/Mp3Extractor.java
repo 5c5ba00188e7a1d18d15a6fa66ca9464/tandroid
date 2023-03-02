@@ -22,6 +22,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.io.EOFException;
 import java.io.IOException;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class Mp3Extractor implements Extractor {
     private static final Id3Decoder.FramePredicate REQUIRED_ID3_FRAME_PREDICATE;
@@ -149,7 +150,7 @@ public final class Mp3Extractor implements Extractor {
             Seeker computeSeeker = computeSeeker(extractorInput);
             this.seeker = computeSeeker;
             this.extractorOutput.seekMap(computeSeeker);
-            this.currentTrackOutput.format(new Format.Builder().setSampleMimeType(this.synchronizedHeader.mimeType).setMaxInputSize(4096).setChannelCount(this.synchronizedHeader.channels).setSampleRate(this.synchronizedHeader.sampleRate).setEncoderDelay(this.gaplessInfoHolder.encoderDelay).setEncoderPadding(this.gaplessInfoHolder.encoderPadding).setMetadata((this.flags & 8) != 0 ? null : this.metadata).build());
+            this.currentTrackOutput.format(new Format.Builder().setSampleMimeType(this.synchronizedHeader.mimeType).setMaxInputSize(LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM).setChannelCount(this.synchronizedHeader.channels).setSampleRate(this.synchronizedHeader.sampleRate).setEncoderDelay(this.gaplessInfoHolder.encoderDelay).setEncoderPadding(this.gaplessInfoHolder.encoderPadding).setMetadata((this.flags & 8) != 0 ? null : this.metadata).build());
             this.firstSamplePosition = extractorInput.getPosition();
         } else if (this.firstSamplePosition != 0) {
             long position = extractorInput.getPosition();
@@ -234,7 +235,7 @@ public final class Mp3Extractor implements Extractor {
         int i;
         int i2;
         int frameSize;
-        int i3 = z ? 32768 : 131072;
+        int i3 = z ? LiteMode.FLAG_CHAT_SCALE : 131072;
         extractorInput.resetPeekPosition();
         if (extractorInput.getPosition() == 0) {
             Metadata peekId3Data = this.id3Peeker.peekId3Data(extractorInput, (this.flags & 8) == 0 ? null : REQUIRED_ID3_FRAME_PREDICATE);

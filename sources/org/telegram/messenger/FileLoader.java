@@ -2080,7 +2080,7 @@ public class FileLoader extends BaseController {
 
     public static boolean copyFile(InputStream inputStream, File file, int i) throws IOException {
         FileOutputStream fileOutputStream = new FileOutputStream(file);
-        byte[] bArr = new byte[4096];
+        byte[] bArr = new byte[LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM];
         int i2 = 0;
         while (true) {
             int read = inputStream.read(bArr);

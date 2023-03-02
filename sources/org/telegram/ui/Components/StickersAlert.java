@@ -1834,7 +1834,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         if (baseFragment != null) {
             new PremiumFeatureBottomSheet(baseFragment, 11, false).show();
         } else if (getContext() instanceof LaunchActivity) {
-            ((LaunchActivity) getContext()).lambda$runLinkRequest$72(new PremiumPreviewFragment(null));
+            ((LaunchActivity) getContext()).lambda$runLinkRequest$78(new PremiumPreviewFragment(null));
         }
     }
 
@@ -1958,7 +1958,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         frameLayout.addView(textView2, LayoutHelper.createFrame(-2, 36, 51));
         final EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context);
         editTextBoldCursor.setBackground(null);
-        editTextBoldCursor.setLineColors(Theme.getColor("dialogInputField"), Theme.getColor("dialogInputFieldActivated"), Theme.getColor("dialogTextRed2"));
+        editTextBoldCursor.setLineColors(Theme.getColor("dialogInputField"), Theme.getColor("dialogInputFieldActivated"), Theme.getColor("dialogTextRed"));
         editTextBoldCursor.setTextSize(1, 16.0f);
         editTextBoldCursor.setTextColor(getThemedColor("dialogTextBlack"));
         editTextBoldCursor.setMaxLines(1);

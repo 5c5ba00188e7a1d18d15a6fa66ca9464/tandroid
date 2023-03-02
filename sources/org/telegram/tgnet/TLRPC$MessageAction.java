@@ -238,7 +238,21 @@ public abstract class TLRPC$MessageAction extends TLObject {
                 };
                 break;
             case -1410748418:
-                tLRPC$MessageAction = new TLRPC$TL_messageActionBotAllowed();
+                tLRPC$MessageAction = new TLRPC$MessageAction() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionBotAllowed_layer153
+                    public static int constructor = -1410748418;
+                    public String domain;
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                        this.domain = abstractSerializedData2.readString(z2);
+                    }
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeString(this.domain);
+                    }
+                };
                 break;
             case -1336546578:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionChannelMigrateFrom() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionChannelMigrateFrom_layer131
@@ -339,6 +353,9 @@ public abstract class TLRPC$MessageAction extends TLObject {
                 break;
             case -1064024032:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionTopicEdit();
+                break;
+            case -988359047:
+                tLRPC$MessageAction = new TLRPC$TL_messageActionBotAllowed();
                 break;
             case -648257196:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionSecureValuesSent();

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.INavigationLayout;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class NavigationExt {
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface FragmentConsumer {
         boolean consume(BaseFragment baseFragment);
     }

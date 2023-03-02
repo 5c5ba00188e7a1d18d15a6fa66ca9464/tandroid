@@ -29,7 +29,6 @@ import java.util.Stack;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.MessagesStorage;
 import org.telegram.ui.Cells.DialogCell;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
@@ -477,7 +476,7 @@ public class SimpleTextView extends View {
             size = Math.min(size, paddingLeft + i5);
         }
         setMeasuredDimension(size, size2);
-        if ((this.gravity & MessagesStorage.LAST_DB_VERSION) == 16) {
+        if ((this.gravity & 112) == 16) {
             this.offsetY = getPaddingTop() + ((((getMeasuredHeight() - getPaddingTop()) - getPaddingBottom()) - this.textHeight) / 2);
         } else {
             this.offsetY = getPaddingTop();
@@ -552,6 +551,11 @@ public class SimpleTextView extends View {
             return;
         }
         invalidate();
+    }
+
+    @Override // android.view.View
+    protected boolean verifyDrawable(Drawable drawable) {
+        return drawable == this.rightDrawable || drawable == this.leftDrawable || super.verifyDrawable(drawable);
     }
 
     public void replaceTextWithDrawable(Drawable drawable, String str) {
@@ -649,7 +653,7 @@ public class SimpleTextView extends View {
     private boolean recreateLayoutMaybe() {
         if (this.wasLayout && getMeasuredHeight() != 0 && !this.buildFullLayout) {
             boolean createLayout = createLayout(((getMaxTextWidth() - getPaddingLeft()) - getPaddingRight()) - this.minusWidth);
-            if ((this.gravity & MessagesStorage.LAST_DB_VERSION) == 16) {
+            if ((this.gravity & 112) == 16) {
                 this.offsetY = (getMeasuredHeight() - this.textHeight) / 2;
             } else {
                 this.offsetY = getPaddingTop();
@@ -759,7 +763,7 @@ public class SimpleTextView extends View {
             if ((i8 & 7) == 1) {
                 i7 += this.offsetX;
             }
-            if ((i8 & MessagesStorage.LAST_DB_VERSION) == 16) {
+            if ((i8 & 112) == 16) {
                 paddingTop5 = (getMeasuredHeight() - this.leftDrawable.getIntrinsicHeight()) / 2;
                 i6 = this.leftDrawableTopPadding;
             } else {
@@ -783,7 +787,7 @@ public class SimpleTextView extends View {
             if ((i12 & 7) == 1) {
                 i11 += this.offsetX;
             }
-            if ((i12 & MessagesStorage.LAST_DB_VERSION) == 16) {
+            if ((i12 & 112) == 16) {
                 intrinsicHeight = ((getMeasuredHeight() - this.replacedDrawable.getIntrinsicHeight()) / 2) + this.leftDrawableTopPadding;
             } else {
                 intrinsicHeight = this.leftDrawableTopPadding + ((this.textHeight - drawable4.getIntrinsicHeight()) / 2);
@@ -808,7 +812,7 @@ public class SimpleTextView extends View {
             }
             int intrinsicWidth = (int) (drawable.getIntrinsicWidth() * this.rightDrawableScale);
             int intrinsicHeight2 = (int) (this.rightDrawable.getIntrinsicHeight() * this.rightDrawableScale);
-            if ((this.gravity & MessagesStorage.LAST_DB_VERSION) == 16) {
+            if ((this.gravity & 112) == 16) {
                 paddingTop4 = (getMeasuredHeight() - intrinsicHeight2) / 2;
                 i5 = this.rightDrawableTopPadding;
             } else {
@@ -827,7 +831,7 @@ public class SimpleTextView extends View {
         if (f2 != 0.0f) {
             if (this.leftDrawable != null) {
                 int i18 = ((int) (-f2)) + dp;
-                if ((this.gravity & MessagesStorage.LAST_DB_VERSION) == 16) {
+                if ((this.gravity & 112) == 16) {
                     paddingTop3 = (getMeasuredHeight() - this.leftDrawable.getIntrinsicHeight()) / 2;
                     i4 = this.leftDrawableTopPadding;
                 } else {
@@ -843,7 +847,7 @@ public class SimpleTextView extends View {
                 int intrinsicWidth2 = (int) (drawable2.getIntrinsicWidth() * this.rightDrawableScale);
                 int intrinsicHeight3 = (int) (this.rightDrawable.getIntrinsicHeight() * this.rightDrawableScale);
                 int i20 = this.textWidth + i14 + this.drawablePadding + ((int) (-this.scrollingOffset)) + dp;
-                if ((this.gravity & MessagesStorage.LAST_DB_VERSION) == 16) {
+                if ((this.gravity & 112) == 16) {
                     paddingTop2 = (getMeasuredHeight() - intrinsicHeight3) / 2;
                     i3 = this.rightDrawableTopPadding;
                 } else {
@@ -953,7 +957,7 @@ public class SimpleTextView extends View {
         int min = Math.min(i25 + (f6 == 0.0f ? -dp : (int) (-f6)) + dp, ((getMaxTextWidth() - this.paddingRight) + this.drawablePadding) - AndroidUtilities.dp(4.0f));
         int intrinsicWidth3 = (int) (this.rightDrawable.getIntrinsicWidth() * this.rightDrawableScale);
         int intrinsicHeight4 = (int) (this.rightDrawable.getIntrinsicHeight() * this.rightDrawableScale);
-        if ((this.gravity & MessagesStorage.LAST_DB_VERSION) == 16) {
+        if ((this.gravity & 112) == 16) {
             paddingTop = (getMeasuredHeight() - intrinsicHeight4) / 2;
             i2 = this.rightDrawableTopPadding;
         } else {

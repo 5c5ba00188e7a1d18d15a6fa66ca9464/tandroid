@@ -1653,7 +1653,7 @@ public class LocaleController {
             case 25:
             case 26:
             case 27:
-            case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
+            case 28:
             case 29:
                 d = abs;
                 str2 = " %.0f";
@@ -1920,7 +1920,7 @@ public class LocaleController {
             case 25:
             case 26:
             case 27:
-            case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
+            case 28:
                 return 1;
             case 3:
                 return 10000;
@@ -2152,7 +2152,7 @@ public class LocaleController {
             case 25:
             case 26:
             case 27:
-            case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
+            case 28:
             case 29:
                 d = abs;
                 str2 = " %.0f";
@@ -2335,6 +2335,22 @@ public class LocaleController {
             int i3 = calendar.get(6);
             int i4 = calendar.get(1);
             return (i3 == i && i2 == i4) ? z ? formatString("TodayAtFormatted", R.string.TodayAtFormatted, getInstance().formatterDay.format(new Date(j2))) : formatString("TodayAtFormattedWithToday", R.string.TodayAtFormattedWithToday, getInstance().formatterDay.format(new Date(j2))) : (i3 + 1 == i && i2 == i4) ? formatString("YesterdayAtFormatted", R.string.YesterdayAtFormatted, getInstance().formatterDay.format(new Date(j2))) : Math.abs(System.currentTimeMillis() - j2) < 31536000000L ? formatString("formatDateAtTime", R.string.formatDateAtTime, getInstance().formatterDayMonth.format(new Date(j2)), getInstance().formatterDay.format(new Date(j2))) : formatString("formatDateAtTime", R.string.formatDateAtTime, getInstance().formatterYear.format(new Date(j2)), getInstance().formatterDay.format(new Date(j2)));
+        } catch (Exception e) {
+            FileLog.e(e);
+            return "LOC_ERR";
+        }
+    }
+
+    public static String formatSeenDate(long j) {
+        long j2 = j * 1000;
+        try {
+            Calendar calendar = Calendar.getInstance();
+            int i = calendar.get(6);
+            int i2 = calendar.get(1);
+            calendar.setTimeInMillis(j2);
+            int i3 = calendar.get(6);
+            int i4 = calendar.get(1);
+            return (i3 == i && i2 == i4) ? formatString("TodayAtFormattedWithToday", R.string.TodayAtFormattedWithToday, getInstance().formatterDay.format(new Date(j2))) : (i3 + 1 == i && i2 == i4) ? formatString("YesterdayAtFormatted", R.string.YesterdayAtFormatted, getInstance().formatterDay.format(new Date(j2))) : Math.abs(System.currentTimeMillis() - j2) < 31536000000L ? formatString("UserRead", R.string.UserRead, formatString("formatDateAtTime", R.string.formatDateAtTime, getInstance().formatterDayMonth.format(new Date(j2)), getInstance().formatterDay.format(new Date(j2)))) : formatString("UserRead", R.string.UserRead, formatString("formatDateAtTime", R.string.formatDateAtTime, getInstance().formatterYear.format(new Date(j2)), getInstance().formatterDay.format(new Date(j2))));
         } catch (Exception e) {
             FileLog.e(e);
             return "LOC_ERR";

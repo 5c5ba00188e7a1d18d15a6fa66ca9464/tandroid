@@ -6,6 +6,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -37,6 +38,7 @@ import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_messages_chatFull;
 import org.telegram.tgnet.TLRPC$TL_messages_getFullChat;
 import org.telegram.tgnet.TLRPC$TL_messages_getMessageReadParticipants;
+import org.telegram.tgnet.TLRPC$TL_readParticipantDate;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$Vector;
 import org.telegram.ui.ActionBar.SimpleTextView;
@@ -44,6 +46,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.AvatarsImageView;
 import org.telegram.ui.Components.BackupImageView;
+import org.telegram.ui.Components.CheckDrawable;
 import org.telegram.ui.Components.FlickerLoadingView;
 import org.telegram.ui.Components.HideViewAfterAnimation;
 import org.telegram.ui.Components.LayoutHelper;
@@ -52,10 +55,12 @@ import org.telegram.ui.Components.RecyclerListView;
 public class MessageSeenView extends FrameLayout {
     AvatarsImageView avatarsImageView;
     int currentAccount;
+    ArrayList<Integer> dates;
     FlickerLoadingView flickerLoadingView;
     ImageView iconView;
     boolean ignoreLayout;
     boolean isVoice;
+    private RecyclerListView listView;
     ArrayList<Long> peerIds;
     SimpleTextView titleView;
     public ArrayList<TLRPC$User> users;
@@ -63,6 +68,7 @@ public class MessageSeenView extends FrameLayout {
     public MessageSeenView(Context context, final int i, MessageObject messageObject, final TLRPC$Chat tLRPC$Chat) {
         super(context);
         this.peerIds = new ArrayList<>();
+        this.dates = new ArrayList<>();
         this.users = new ArrayList<>();
         this.currentAccount = i;
         this.isVoice = messageObject.isRoundVideo() || messageObject.isVoice();
@@ -127,19 +133,30 @@ public class MessageSeenView extends FrameLayout {
             int size = tLRPC$Vector.objects.size();
             for (int i2 = 0; i2 < size; i2++) {
                 Object obj = tLRPC$Vector.objects.get(i2);
-                if (obj instanceof Long) {
+                if (obj instanceof TLRPC$TL_readParticipantDate) {
+                    TLRPC$TL_readParticipantDate tLRPC$TL_readParticipantDate = (TLRPC$TL_readParticipantDate) obj;
+                    int i3 = tLRPC$TL_readParticipantDate.date;
+                    Long valueOf = Long.valueOf(tLRPC$TL_readParticipantDate.user_id);
+                    if (j != valueOf.longValue()) {
+                        MessagesController.getInstance(i).getUser(valueOf);
+                        arrayList2.add(new Pair(valueOf, Integer.valueOf(i3)));
+                        arrayList.add(valueOf);
+                    }
+                } else if (obj instanceof Long) {
                     Long l = (Long) obj;
                     if (j != l.longValue()) {
                         MessagesController.getInstance(i).getUser(l);
-                        arrayList2.add(l);
+                        arrayList2.add(new Pair(l, 0));
                         arrayList.add(l);
                     }
                 }
             }
             if (arrayList.isEmpty()) {
-                for (int i3 = 0; i3 < arrayList2.size(); i3++) {
-                    this.peerIds.add((Long) arrayList2.get(i3));
-                    this.users.add((TLRPC$User) hashMap.get(arrayList2.get(i3)));
+                for (int i4 = 0; i4 < arrayList2.size(); i4++) {
+                    Pair pair = (Pair) arrayList2.get(i4);
+                    this.peerIds.add((Long) pair.first);
+                    this.dates.add((Integer) pair.second);
+                    this.users.add((TLRPC$User) hashMap.get(pair.first));
                 }
                 updateView();
                 return;
@@ -191,8 +208,10 @@ public class MessageSeenView extends FrameLayout {
                 hashMap.put(Long.valueOf(tLRPC$User.id), tLRPC$User);
             }
             for (int i3 = 0; i3 < arrayList.size(); i3++) {
-                this.peerIds.add((Long) arrayList.get(i3));
-                this.users.add((TLRPC$User) hashMap.get(arrayList.get(i3)));
+                Pair pair = (Pair) arrayList.get(i3);
+                this.peerIds.add((Long) pair.first);
+                this.dates.add((Integer) pair.second);
+                this.users.add((TLRPC$User) hashMap.get(pair.first));
             }
         }
         updateView();
@@ -218,8 +237,10 @@ public class MessageSeenView extends FrameLayout {
                 hashMap.put(Long.valueOf(tLRPC$User.id), tLRPC$User);
             }
             for (int i3 = 0; i3 < arrayList.size(); i3++) {
-                this.peerIds.add((Long) arrayList.get(i3));
-                this.users.add((TLRPC$User) hashMap.get(arrayList.get(i3)));
+                Pair pair = (Pair) arrayList.get(i3);
+                this.peerIds.add((Long) pair.first);
+                this.dates.add((Integer) pair.second);
+                this.users.add((TLRPC$User) hashMap.get(pair.first));
             }
         }
         updateView();
@@ -284,35 +305,40 @@ public class MessageSeenView extends FrameLayout {
         this.titleView.animate().alpha(1.0f).setDuration(220L).start();
         this.avatarsImageView.animate().alpha(1.0f).setDuration(220L).start();
         this.flickerLoadingView.animate().alpha(0.0f).setDuration(220L).setListener(new HideViewAfterAnimation(this.flickerLoadingView)).start();
+        RecyclerListView recyclerListView = this.listView;
+        if (recyclerListView != null) {
+            recyclerListView.getAdapter();
+        }
     }
 
     public RecyclerListView createListView() {
-        RecyclerListView recyclerListView = new RecyclerListView(this, getContext()) { // from class: org.telegram.ui.MessageSeenView.1
+        RecyclerListView recyclerListView = this.listView;
+        if (recyclerListView != null) {
+            return recyclerListView;
+        }
+        RecyclerListView recyclerListView2 = new RecyclerListView(this, getContext()) { // from class: org.telegram.ui.MessageSeenView.1
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
             public void onMeasure(int i, int i2) {
                 int size = View.MeasureSpec.getSize(i2);
-                int dp = AndroidUtilities.dp(8.0f) + (AndroidUtilities.dp(44.0f) * getAdapter().getItemCount());
+                int dp = AndroidUtilities.dp(4.0f) + (AndroidUtilities.dp(50.0f) * getAdapter().getItemCount());
                 if (dp <= size) {
                     size = dp;
                 }
                 super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(size, 1073741824));
             }
         };
-        recyclerListView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerListView.addItemDecoration(new RecyclerView.ItemDecoration() { // from class: org.telegram.ui.MessageSeenView.2
+        this.listView = recyclerListView2;
+        recyclerListView2.setLayoutManager(new LinearLayoutManager(getContext()));
+        this.listView.addItemDecoration(new RecyclerView.ItemDecoration() { // from class: org.telegram.ui.MessageSeenView.2
             @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
             public void getItemOffsets(Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
-                int childAdapterPosition = recyclerView.getChildAdapterPosition(view);
-                if (childAdapterPosition == 0) {
-                    rect.top = AndroidUtilities.dp(4.0f);
-                }
-                if (childAdapterPosition == MessageSeenView.this.users.size() - 1) {
+                if (recyclerView.getChildAdapterPosition(view) == MessageSeenView.this.users.size() - 1) {
                     rect.bottom = AndroidUtilities.dp(4.0f);
                 }
             }
         });
-        recyclerListView.setAdapter(new RecyclerListView.SelectionAdapter() { // from class: org.telegram.ui.MessageSeenView.3
+        this.listView.setAdapter(new RecyclerListView.SelectionAdapter() { // from class: org.telegram.ui.MessageSeenView.3
             @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
             public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
                 return true;
@@ -321,13 +347,13 @@ public class MessageSeenView extends FrameLayout {
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
                 UserCell userCell = new UserCell(viewGroup.getContext());
-                userCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                userCell.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(50.0f)));
                 return new RecyclerListView.Holder(userCell);
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-                ((UserCell) viewHolder.itemView).setUser(MessageSeenView.this.users.get(i));
+                ((UserCell) viewHolder.itemView).setUser(MessageSeenView.this.users.get(i), MessageSeenView.this.dates.get(i).intValue());
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -335,7 +361,7 @@ public class MessageSeenView extends FrameLayout {
                 return MessageSeenView.this.users.size();
             }
         });
-        return recyclerListView;
+        return this.listView;
     }
 
     /* loaded from: classes3.dex */
@@ -343,35 +369,52 @@ public class MessageSeenView extends FrameLayout {
         AvatarDrawable avatarDrawable;
         BackupImageView avatarImageView;
         TextView nameView;
+        TextView readView;
 
         public UserCell(Context context) {
             super(context);
             this.avatarDrawable = new AvatarDrawable();
             BackupImageView backupImageView = new BackupImageView(context);
             this.avatarImageView = backupImageView;
-            addView(backupImageView, LayoutHelper.createFrame(32, 32.0f, 16, 13.0f, 0.0f, 0.0f, 0.0f));
-            this.avatarImageView.setRoundRadius(AndroidUtilities.dp(16.0f));
+            backupImageView.setRoundRadius(AndroidUtilities.dp(18.0f));
+            addView(this.avatarImageView, LayoutHelper.createFrame(34, 34.0f, 16, 10.0f, 0.0f, 0.0f, 0.0f));
             TextView textView = new TextView(context);
             this.nameView = textView;
             textView.setTextSize(1, 16.0f);
             this.nameView.setLines(1);
             this.nameView.setEllipsize(TextUtils.TruncateAt.END);
             this.nameView.setImportantForAccessibility(2);
-            addView(this.nameView, LayoutHelper.createFrame(-2, -2.0f, 19, 59.0f, 0.0f, 13.0f, 0.0f));
             this.nameView.setTextColor(Theme.getColor("actionBarDefaultSubmenuItem"));
+            addView(this.nameView, LayoutHelper.createFrame(-2, -2.0f, 51, 55.0f, 5.33f, 13.0f, 0.0f));
+            TextView textView2 = new TextView(context);
+            this.readView = textView2;
+            textView2.setTextSize(1, 13.0f);
+            this.readView.setLines(1);
+            this.readView.setEllipsize(TextUtils.TruncateAt.END);
+            this.readView.setImportantForAccessibility(2);
+            this.readView.setTextColor(Theme.getColor("actionBarDefaultSubmenuItemIcon"));
+            addView(this.readView, LayoutHelper.createFrame(-2, -2.0f, 51, 55.0f, 18.0f, 13.0f, 0.0f));
         }
 
         @Override // android.widget.FrameLayout, android.view.View
         protected void onMeasure(int i, int i2) {
-            super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(44.0f), 1073741824));
+            super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(50.0f), 1073741824));
         }
 
-        public void setUser(TLRPC$User tLRPC$User) {
+        public void setUser(TLRPC$User tLRPC$User, int i) {
             if (tLRPC$User != null) {
                 this.avatarDrawable.setInfo(tLRPC$User);
                 this.avatarImageView.setImage(ImageLocation.getForUser(tLRPC$User, 1), "50_50", this.avatarDrawable, tLRPC$User);
                 this.nameView.setText(ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name));
             }
+            if (i <= 0) {
+                this.readView.setVisibility(8);
+                this.nameView.setTranslationY(AndroidUtilities.dp(9.0f));
+                return;
+            }
+            this.readView.setText(TextUtils.concat(CheckDrawable.getSpanned(getContext()), LocaleController.formatSeenDate(i)));
+            this.readView.setVisibility(0);
+            this.nameView.setTranslationY(0.0f);
         }
 
         @Override // android.view.View

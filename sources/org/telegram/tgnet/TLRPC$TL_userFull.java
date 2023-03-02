@@ -14,8 +14,8 @@ public class TLRPC$TL_userFull extends TLRPC$UserFull {
         this.phone_calls_available = (readInt32 & 16) != 0;
         this.phone_calls_private = (readInt32 & 32) != 0;
         this.can_pin_message = (readInt32 & 128) != 0;
-        this.has_scheduled = (readInt32 & 4096) != 0;
-        this.video_calls_available = (readInt32 & 8192) != 0;
+        this.has_scheduled = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
+        this.video_calls_available = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0;
         this.voice_messages_forbidden = (1048576 & readInt32) != 0;
         this.translations_disabled = (readInt32 & 8388608) != 0;
         this.id = abstractSerializedData.readInt64(z);
@@ -43,10 +43,10 @@ public class TLRPC$TL_userFull extends TLRPC$UserFull {
         if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
             this.folder_id = abstractSerializedData.readInt32(z);
         }
-        if ((this.flags & 16384) != 0) {
+        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
             this.ttl_period = abstractSerializedData.readInt32(z);
         }
-        if ((this.flags & 32768) != 0) {
+        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
             this.theme_emoticon = abstractSerializedData.readString(z);
         }
         if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
@@ -88,9 +88,9 @@ public class TLRPC$TL_userFull extends TLRPC$UserFull {
         this.flags = i3;
         int i4 = this.can_pin_message ? i3 | 128 : i3 & (-129);
         this.flags = i4;
-        int i5 = this.has_scheduled ? i4 | 4096 : i4 & (-4097);
+        int i5 = this.has_scheduled ? i4 | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : i4 & (-4097);
         this.flags = i5;
-        int i6 = this.video_calls_available ? i5 | 8192 : i5 & (-8193);
+        int i6 = this.video_calls_available ? i5 | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM : i5 & (-8193);
         this.flags = i6;
         int i7 = this.voice_messages_forbidden ? i6 | 1048576 : i6 & (-1048577);
         this.flags = i7;
@@ -122,10 +122,10 @@ public class TLRPC$TL_userFull extends TLRPC$UserFull {
         if ((this.flags & LiteMode.FLAG_AUTOPLAY_GIFS) != 0) {
             abstractSerializedData.writeInt32(this.folder_id);
         }
-        if ((this.flags & 16384) != 0) {
+        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
             abstractSerializedData.writeInt32(this.ttl_period);
         }
-        if ((this.flags & 32768) != 0) {
+        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
             abstractSerializedData.writeString(this.theme_emoticon);
         }
         if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {

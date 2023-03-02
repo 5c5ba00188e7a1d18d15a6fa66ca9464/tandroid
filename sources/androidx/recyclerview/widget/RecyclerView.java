@@ -2497,9 +2497,9 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
                 ViewHolder childViewHolderInt2 = getChildViewHolderInt(this.mChildHelper.getChildAt(i2));
                 if (!childViewHolderInt2.shouldIgnore() && !this.mViewInfoStore.isInPreLayout(childViewHolderInt2)) {
                     int buildAdapterChangeFlagsForAnimations = ItemAnimator.buildAdapterChangeFlagsForAnimations(childViewHolderInt2);
-                    boolean hasAnyOfTheFlags = childViewHolderInt2.hasAnyOfTheFlags(8192);
+                    boolean hasAnyOfTheFlags = childViewHolderInt2.hasAnyOfTheFlags(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
                     if (!hasAnyOfTheFlags) {
-                        buildAdapterChangeFlagsForAnimations |= 4096;
+                        buildAdapterChangeFlagsForAnimations |= LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
                     }
                     ItemAnimator.ItemHolderInfo recordPreLayoutInformation = this.mItemAnimator.recordPreLayoutInformation(this.mState, childViewHolderInt2, buildAdapterChangeFlagsForAnimations, childViewHolderInt2.getUnmodifiedPayloads());
                     if (hasAnyOfTheFlags) {
@@ -2629,7 +2629,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
     }
 
     void recordAnimationInfoIfBouncedHiddenView(ViewHolder viewHolder, ItemAnimator.ItemHolderInfo itemHolderInfo) {
-        viewHolder.setFlags(0, 8192);
+        viewHolder.setFlags(0, LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
         if (this.mState.mTrackOldChangeHolders && viewHolder.isUpdated() && !viewHolder.isRemoved() && !viewHolder.shouldIgnore()) {
             this.mViewInfoStore.addToOldChangeHolders(getChangedHolderKey(viewHolder), viewHolder);
         }
@@ -3858,11 +3858,12 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
                                 this.mRecyclerPool.factorInCreateTime(itemViewType, RecyclerView.this.getNanoTime() - nanoTime);
                                 viewHolder2 = createViewHolder;
                                 z3 = z2;
-                                if (z3 && !RecyclerView.this.mState.isPreLayout() && viewHolder2.hasAnyOfTheFlags(8192)) {
-                                    viewHolder2.setFlags(0, 8192);
+                                if (z3 && !RecyclerView.this.mState.isPreLayout() && viewHolder2.hasAnyOfTheFlags(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM)) {
+                                    viewHolder2.setFlags(0, LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
                                     if (RecyclerView.this.mState.mRunSimpleAnimations) {
+                                        int buildAdapterChangeFlagsForAnimations = ItemAnimator.buildAdapterChangeFlagsForAnimations(viewHolder2) | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
                                         RecyclerView recyclerView2 = RecyclerView.this;
-                                        RecyclerView.this.recordAnimationInfoIfBouncedHiddenView(viewHolder2, recyclerView2.mItemAnimator.recordPreLayoutInformation(recyclerView2.mState, viewHolder2, ItemAnimator.buildAdapterChangeFlagsForAnimations(viewHolder2) | 4096, viewHolder2.getUnmodifiedPayloads()));
+                                        RecyclerView.this.recordAnimationInfoIfBouncedHiddenView(viewHolder2, recyclerView2.mItemAnimator.recordPreLayoutInformation(recyclerView2.mState, viewHolder2, buildAdapterChangeFlagsForAnimations, viewHolder2.getUnmodifiedPayloads()));
                                     }
                                 }
                                 if (!RecyclerView.this.mState.isPreLayout() && viewHolder2.isBound()) {
@@ -3897,7 +3898,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
                     viewHolder2 = viewHolder;
                     z3 = z2;
                     if (z3) {
-                        viewHolder2.setFlags(0, 8192);
+                        viewHolder2.setFlags(0, LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
                         if (RecyclerView.this.mState.mRunSimpleAnimations) {
                         }
                     }
@@ -3948,7 +3949,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
                 }
                 AccessibilityDelegateCompat accessibilityDelegate = ViewCompat.getAccessibilityDelegate(view);
                 if (accessibilityDelegate == null || accessibilityDelegate.getClass().equals(AccessibilityDelegateCompat.class)) {
-                    viewHolder.addFlags(16384);
+                    viewHolder.addFlags(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
                     ViewCompat.setAccessibilityDelegate(view, RecyclerView.this.mAccessibilityDelegate.getItemDelegate());
                 }
             }
@@ -4074,8 +4075,8 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         /* JADX INFO: Access modifiers changed from: package-private */
         public void addViewHolderToRecycledViewPool(ViewHolder viewHolder, boolean z) {
             RecyclerView.clearNestedRecyclerViewIfNotNested(viewHolder);
-            if (viewHolder.hasAnyOfTheFlags(16384)) {
-                viewHolder.setFlags(0, 16384);
+            if (viewHolder.hasAnyOfTheFlags(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
+                viewHolder.setFlags(0, LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
                 ViewCompat.setAccessibilityDelegate(viewHolder.itemView, null);
             }
             if (z) {
@@ -5496,11 +5497,11 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
 
         public void onInitializeAccessibilityNodeInfo(Recycler recycler, State state, AccessibilityNodeInfoCompat accessibilityNodeInfoCompat) {
             if (this.mRecyclerView.canScrollVertically(-1) || this.mRecyclerView.canScrollHorizontally(-1)) {
-                accessibilityNodeInfoCompat.addAction(8192);
+                accessibilityNodeInfoCompat.addAction(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
                 accessibilityNodeInfoCompat.setScrollable(true);
             }
             if (this.mRecyclerView.canScrollVertically(1) || this.mRecyclerView.canScrollHorizontally(1)) {
-                accessibilityNodeInfoCompat.addAction(4096);
+                accessibilityNodeInfoCompat.addAction(LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM);
                 accessibilityNodeInfoCompat.setScrollable(true);
             }
             accessibilityNodeInfoCompat.setCollectionInfo(AccessibilityNodeInfoCompat.CollectionInfoCompat.obtain(getRowCountForAccessibility(recycler, state), getColumnCountForAccessibility(recycler, state), isLayoutHierarchical(recycler, state), getSelectionModeForAccessibility(recycler, state)));

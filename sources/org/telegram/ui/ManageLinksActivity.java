@@ -1301,7 +1301,7 @@ public class ManageLinksActivity extends BaseFragment {
                     if (z) {
                         return;
                     }
-                    create.setItemColor(arrayList.size() - 1, Theme.getColor("dialogTextRed2"), Theme.getColor("dialogRedIcon"));
+                    create.setItemColor(arrayList.size() - 1, Theme.getColor("dialogTextRed"), Theme.getColor("dialogRedIcon"));
                     return;
                 }
             }

@@ -456,10 +456,12 @@ public class MessageObject {
     public TLRPC$Peer sendAsPeer;
     public boolean settingAvatar;
     public boolean shouldRemoveVideoEditedInfo;
+    public String sponsoredAdditionalInfo;
     public int sponsoredChannelPost;
     public TLRPC$ChatInvite sponsoredChatInvite;
     public String sponsoredChatInviteHash;
     public byte[] sponsoredId;
+    public String sponsoredInfo;
     public boolean sponsoredRecommended;
     public boolean sponsoredShowPeerPhoto;
     public int stableId;
@@ -3993,11 +3995,11 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:243:0x066f  */
     /* JADX WARN: Removed duplicated region for block: B:259:0x06bb  */
     /* JADX WARN: Removed duplicated region for block: B:260:0x06c7  */
-    /* JADX WARN: Removed duplicated region for block: B:323:0x085d  */
-    /* JADX WARN: Removed duplicated region for block: B:331:0x08c1  */
-    /* JADX WARN: Removed duplicated region for block: B:595:0x104d  */
-    /* JADX WARN: Removed duplicated region for block: B:699:0x12d9  */
-    /* JADX WARN: Removed duplicated region for block: B:719:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:327:0x0860  */
+    /* JADX WARN: Removed duplicated region for block: B:335:0x08c4  */
+    /* JADX WARN: Removed duplicated region for block: B:600:0x105c  */
+    /* JADX WARN: Removed duplicated region for block: B:704:0x12e8  */
+    /* JADX WARN: Removed duplicated region for block: B:724:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4319,7 +4321,8 @@ public class MessageObject {
                                     } else {
                                         this.messageText = LocaleController.formatString("MessageLifetimeRemoved", R.string.MessageLifetimeRemoved, UserObject.getFirstName(tLRPC$User));
                                     }
-                                } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionAttachMenuBotAllowed) {
+                                } else if ((tLRPC$MessageAction instanceof TLRPC$TL_messageActionAttachMenuBotAllowed) || ((tLRPC$MessageAction instanceof TLRPC$TL_messageActionBotAllowed) && ((TLRPC$TL_messageActionBotAllowed) tLRPC$MessageAction).attach_menu)) {
+                                    str = str2;
                                     this.messageText = LocaleController.getString(R.string.ActionAttachMenuBotAllowed);
                                 } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionRequestedPeer) {
                                     TLRPC$Peer tLRPC$Peer6 = ((TLRPC$TL_messageActionRequestedPeer) tLRPC$MessageAction).peer;
@@ -7610,7 +7613,7 @@ public class MessageObject {
     }
 
     public static boolean canAutoplayAnimatedSticker(TLRPC$Document tLRPC$Document) {
-        return (isAnimatedStickerDocument(tLRPC$Document, true) || isVideoStickerDocument(tLRPC$Document)) && SharedConfig.getDevicePerformanceClass() != 0 && LiteMode.isEnabled(2);
+        return (isAnimatedStickerDocument(tLRPC$Document, true) || isVideoStickerDocument(tLRPC$Document)) && SharedConfig.getDevicePerformanceClass() != 0 && LiteMode.isEnabled(1);
     }
 
     public static boolean isMaskDocument(TLRPC$Document tLRPC$Document) {

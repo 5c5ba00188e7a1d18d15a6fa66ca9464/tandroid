@@ -56,7 +56,6 @@ import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationBadge;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
-import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.VideoEditedInfo;
@@ -958,82 +957,58 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             PhotoPickerActivity.this.listAdapter.notifyDataSetChanged();
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:30:0x008c  */
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
         private void onMeasureInternal(int i, int i2) {
-            int i3;
-            int i4;
-            int childCount;
-            int i5;
             EditTextEmoji editTextEmoji;
-            EditTextEmoji editTextEmoji2;
             int size = View.MeasureSpec.getSize(i);
             int size2 = View.MeasureSpec.getSize(i2);
             setMeasuredDimension(size, size2);
             int measureKeyboardHeight = measureKeyboardHeight();
-            if ((SharedConfig.smoothKeyboard ? 0 : measureKeyboardHeight) <= AndroidUtilities.dp(20.0f) && !AndroidUtilities.isInMultiwindow) {
+            if (AndroidUtilities.dp(20.0f) >= 0 && !AndroidUtilities.isInMultiwindow) {
                 PhotoPickerActivity photoPickerActivity = PhotoPickerActivity.this;
                 if (photoPickerActivity.commentTextView != null && photoPickerActivity.frameLayout2.getParent() == this) {
-                    int emojiPadding = size2 - PhotoPickerActivity.this.commentTextView.getEmojiPadding();
-                    i4 = emojiPadding;
-                    i3 = View.MeasureSpec.makeMeasureSpec(emojiPadding, 1073741824);
-                    if (measureKeyboardHeight > AndroidUtilities.dp(20.0f) && (editTextEmoji2 = PhotoPickerActivity.this.commentTextView) != null) {
-                        this.ignoreLayout = true;
-                        editTextEmoji2.hideEmojiView();
-                        this.ignoreLayout = false;
-                    }
-                    if (SharedConfig.smoothKeyboard && (editTextEmoji = PhotoPickerActivity.this.commentTextView) != null && editTextEmoji.isPopupShowing()) {
-                        ((BaseFragment) PhotoPickerActivity.this).fragmentView.setTranslationY(0.0f);
-                        PhotoPickerActivity.this.listView.setTranslationY(0.0f);
-                        PhotoPickerActivity.this.emptyView.setTranslationY(0.0f);
-                    }
-                    childCount = getChildCount();
-                    for (i5 = 0; i5 < childCount; i5++) {
-                        View childAt = getChildAt(i5);
-                        if (childAt != null && childAt.getVisibility() != 8) {
-                            EditTextEmoji editTextEmoji3 = PhotoPickerActivity.this.commentTextView;
-                            if (editTextEmoji3 != null && editTextEmoji3.isPopupView(childAt)) {
-                                if (AndroidUtilities.isInMultiwindow || AndroidUtilities.isTablet()) {
-                                    if (AndroidUtilities.isTablet()) {
-                                        childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(Math.min(AndroidUtilities.dp(AndroidUtilities.isTablet() ? 200.0f : 320.0f), (i4 - AndroidUtilities.statusBarHeight) + getPaddingTop()), 1073741824));
-                                    } else {
-                                        childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec((i4 - AndroidUtilities.statusBarHeight) + getPaddingTop(), 1073741824));
-                                    }
-                                } else {
-                                    childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(childAt.getLayoutParams().height, 1073741824));
-                                }
-                            } else {
-                                measureChildWithMargins(childAt, i, 0, i3, 0);
-                            }
-                        }
-                    }
+                    size2 -= PhotoPickerActivity.this.commentTextView.getEmojiPadding();
+                    i2 = View.MeasureSpec.makeMeasureSpec(size2, 1073741824);
                 }
             }
-            i3 = i2;
-            i4 = size2;
-            if (measureKeyboardHeight > AndroidUtilities.dp(20.0f)) {
+            if (measureKeyboardHeight > AndroidUtilities.dp(20.0f) && (editTextEmoji = PhotoPickerActivity.this.commentTextView) != null) {
                 this.ignoreLayout = true;
-                editTextEmoji2.hideEmojiView();
+                editTextEmoji.hideEmojiView();
                 this.ignoreLayout = false;
             }
-            if (SharedConfig.smoothKeyboard) {
+            EditTextEmoji editTextEmoji2 = PhotoPickerActivity.this.commentTextView;
+            if (editTextEmoji2 != null && editTextEmoji2.isPopupShowing()) {
                 ((BaseFragment) PhotoPickerActivity.this).fragmentView.setTranslationY(0.0f);
                 PhotoPickerActivity.this.listView.setTranslationY(0.0f);
                 PhotoPickerActivity.this.emptyView.setTranslationY(0.0f);
             }
-            childCount = getChildCount();
-            while (i5 < childCount) {
+            int childCount = getChildCount();
+            for (int i3 = 0; i3 < childCount; i3++) {
+                View childAt = getChildAt(i3);
+                if (childAt != null && childAt.getVisibility() != 8) {
+                    EditTextEmoji editTextEmoji3 = PhotoPickerActivity.this.commentTextView;
+                    if (editTextEmoji3 != null && editTextEmoji3.isPopupView(childAt)) {
+                        if (AndroidUtilities.isInMultiwindow || AndroidUtilities.isTablet()) {
+                            if (AndroidUtilities.isTablet()) {
+                                childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(Math.min(AndroidUtilities.dp(AndroidUtilities.isTablet() ? 200.0f : 320.0f), (size2 - AndroidUtilities.statusBarHeight) + getPaddingTop()), 1073741824));
+                            } else {
+                                childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec((size2 - AndroidUtilities.statusBarHeight) + getPaddingTop(), 1073741824));
+                            }
+                        } else {
+                            childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(childAt.getLayoutParams().height, 1073741824));
+                        }
+                    } else {
+                        measureChildWithMargins(childAt, i, 0, i2, 0);
+                    }
+                }
             }
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Removed duplicated region for block: B:46:0x00c2  */
-        /* JADX WARN: Removed duplicated region for block: B:53:0x00dc  */
-        /* JADX WARN: Removed duplicated region for block: B:57:0x00ef  */
-        /* JADX WARN: Removed duplicated region for block: B:61:0x00fb  */
-        /* JADX WARN: Removed duplicated region for block: B:62:0x0104  */
+        /* JADX WARN: Removed duplicated region for block: B:42:0x00b9  */
+        /* JADX WARN: Removed duplicated region for block: B:49:0x00d3  */
+        /* JADX WARN: Removed duplicated region for block: B:53:0x00e6  */
+        /* JADX WARN: Removed duplicated region for block: B:57:0x00f2  */
+        /* JADX WARN: Removed duplicated region for block: B:58:0x00fb  */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1059,9 +1034,8 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 }
             }
             int childCount = getChildCount();
-            int measureKeyboardHeight = SharedConfig.smoothKeyboard ? 0 : measureKeyboardHeight();
             PhotoPickerActivity photoPickerActivity = PhotoPickerActivity.this;
-            int emojiPadding = (photoPickerActivity.commentTextView == null || photoPickerActivity.frameLayout2.getParent() != this || measureKeyboardHeight > AndroidUtilities.dp(20.0f) || AndroidUtilities.isInMultiwindow || AndroidUtilities.isTablet()) ? 0 : PhotoPickerActivity.this.commentTextView.getEmojiPadding();
+            int emojiPadding = (photoPickerActivity.commentTextView == null || photoPickerActivity.frameLayout2.getParent() != this || AndroidUtilities.dp(20.0f) < 0 || AndroidUtilities.isInMultiwindow || AndroidUtilities.isTablet()) ? 0 : PhotoPickerActivity.this.commentTextView.getEmojiPadding();
             setBottomClip(emojiPadding);
             for (int i12 = 0; i12 < childCount; i12++) {
                 View childAt = getChildAt(i12);
@@ -1074,7 +1048,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                         i13 = 51;
                     }
                     int i14 = i13 & 7;
-                    int i15 = i13 & MessagesStorage.LAST_DB_VERSION;
+                    int i15 = i13 & 112;
                     int i16 = i14 & 7;
                     if (i16 == 1) {
                         i5 = ((i11 - measuredWidth) / 2) + layoutParams.leftMargin;
@@ -1102,7 +1076,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                                     measuredHeight = getMeasuredHeight();
                                     measuredHeight2 = childAt.getMeasuredHeight();
                                 } else {
-                                    measuredHeight = getMeasuredHeight() + measureKeyboardHeight;
+                                    measuredHeight = getMeasuredHeight() + 0;
                                     measuredHeight2 = childAt.getMeasuredHeight();
                                 }
                                 i10 = measuredHeight - measuredHeight2;
@@ -1171,7 +1145,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 showDialog(create);
                 TextView textView = (TextView) create.getButton(-1);
                 if (textView != null) {
-                    textView.setTextColor(Theme.getColor("dialogTextRed2"));
+                    textView.setTextColor(Theme.getColor("dialogTextRed"));
                     return;
                 }
                 return;
@@ -1409,7 +1383,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 this.initialSearchString = null;
                 processSearch(this.searchItem.getSearchField());
             }
-            getParentActivity().getWindow().setSoftInputMode(SharedConfig.smoothKeyboard ? 32 : 16);
+            getParentActivity().getWindow().setSoftInputMode(32);
         }
     }
 

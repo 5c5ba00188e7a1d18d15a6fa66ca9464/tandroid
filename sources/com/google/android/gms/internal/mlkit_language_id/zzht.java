@@ -1,6 +1,4 @@
 package com.google.android.gms.internal.mlkit_language_id;
-
-import org.telegram.messenger.LiteMode;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 final class zzht extends zzho {
@@ -189,7 +187,7 @@ final class zzht extends zzho {
                     }
                 } else {
                     long j10 = j4 + j;
-                    zzhn.zza(bArr, j4, (byte) ((charAt3 >>> '\f') | LiteMode.FLAGS_CHAT));
+                    zzhn.zza(bArr, j4, (byte) ((charAt3 >>> '\f') | 480));
                     long j11 = j10 + j;
                     zzhn.zza(bArr, j10, (byte) (((charAt3 >>> 6) & 63) | 128));
                     zzhn.zza(bArr, j11, (byte) ((charAt3 & '?') | 128));

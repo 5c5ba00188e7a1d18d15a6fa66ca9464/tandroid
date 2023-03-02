@@ -69,7 +69,6 @@ public class SharedConfig {
     public static int fontSize = 0;
     public static boolean fontSizeIsDefault = false;
     public static boolean forceDisableTabletMode = false;
-    public static boolean forceRtmpStream = false;
     public static boolean forwardingOptionsHintShown = false;
     public static boolean hasCameraCache = false;
     public static boolean hasEmailLogin = false;
@@ -88,7 +87,7 @@ public class SharedConfig {
     public static int mediaColumnsCount = 0;
     public static int messageSeenHintCount = 0;
     public static boolean noSoundHintShowed = false;
-    public static boolean noStatusBar = false;
+    public static final boolean noStatusBar = true;
     public static boolean noiseSupression = false;
     private static int overrideDevicePerformanceClass = 0;
     public static String passcodeHash = "";
@@ -123,7 +122,6 @@ public class SharedConfig {
     public static boolean searchMessagesAsListUsed = false;
     public static boolean showNotificationsForAllAccounts = false;
     public static boolean shuffleMusic = false;
-    public static boolean smoothKeyboard = false;
     public static boolean sortContactsByName = false;
     public static boolean sortFilesByName = false;
     public static boolean stickersReorderingHintUsed = false;
@@ -136,7 +134,6 @@ public class SharedConfig {
     public static int textSelectionHintShows = 0;
     public static boolean translateChats = false;
     public static boolean useFingerprint = true;
-    public static boolean useLNavigation;
     public static boolean useSystemEmoji;
     public static boolean useThreeLinesLayout;
     public static byte[] passcodeSalt = new byte[0];
@@ -179,9 +176,7 @@ public class SharedConfig {
         streamAllVideo = false;
         streamMkv = false;
         saveStreamMedia = true;
-        smoothKeyboard = true;
         pauseMusicOnRecord = false;
-        noStatusBar = true;
         showNotificationsForAllAccounts = true;
         fontSize = 16;
         bubbleRadius = 17;
@@ -308,7 +303,6 @@ public class SharedConfig {
                 edit.apply();
                 SharedPreferences.Editor edit2 = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0).edit();
                 edit2.putBoolean("hasEmailLogin", hasEmailLogin);
-                edit2.putBoolean("useLNavigation", useLNavigation);
                 edit2.putBoolean("floatingDebugActive", isFloatingDebugActive);
                 edit2.putBoolean("record_via_sco", recordViaSco);
                 edit2.apply();
@@ -327,12 +321,12 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x017e A[Catch: Exception -> 0x01a0, all -> 0x03ee, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:83:0x012f, outer: #4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0182 A[Catch: Exception -> 0x01a0, all -> 0x03ee, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:83:0x012f, outer: #4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0212  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0215  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0225  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0227  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x017e A[Catch: Exception -> 0x01a0, all -> 0x03cd, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:83:0x012f, outer: #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0182 A[Catch: Exception -> 0x01a0, all -> 0x03cd, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:83:0x012f, outer: #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0213  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0216  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0226  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0228  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -435,7 +429,6 @@ public class SharedConfig {
                             useSystemEmoji = sharedPreferences2.getBoolean("useSystemEmoji", false);
                             streamMedia = sharedPreferences2.getBoolean("streamMedia", true);
                             saveStreamMedia = sharedPreferences2.getBoolean("saveStreamMedia", true);
-                            smoothKeyboard = sharedPreferences2.getBoolean("smoothKeyboard2", true);
                             pauseMusicOnRecord = sharedPreferences2.getBoolean("pauseMusicOnRecord", false);
                             forceDisableTabletMode = sharedPreferences2.getBoolean("forceDisableTabletMode", false);
                             streamAllVideo = sharedPreferences2.getBoolean("streamAllVideo", BuildVars.DEBUG_VERSION);
@@ -452,8 +445,6 @@ public class SharedConfig {
                             archiveHidden = sharedPreferences2.getBoolean("archiveHidden", false);
                             distanceSystemType = sharedPreferences2.getInt("distanceSystemType", 0);
                             keepMedia = sharedPreferences2.getInt("keep_media", CacheByChatsController.KEEP_MEDIA_ONE_MONTH);
-                            noStatusBar = sharedPreferences2.getBoolean("noStatusBar", true);
-                            forceRtmpStream = sharedPreferences2.getBoolean("forceRtmpStream", false);
                             debugWebView = sharedPreferences2.getBoolean("debugWebView", false);
                             lastKeepMediaCheckTime = sharedPreferences2.getInt("lastKeepMediaCheckTime", 0);
                             lastLogsCheckTime = sharedPreferences2.getInt("lastLogsCheckTime", 0);
@@ -474,7 +465,6 @@ public class SharedConfig {
                             fastScrollHintCount = sharedPreferences2.getInt("fastScrollHintCount", 3);
                             dontAskManageStorage = sharedPreferences2.getBoolean("dontAskManageStorage", false);
                             hasEmailLogin = sharedPreferences2.getBoolean("hasEmailLogin", false);
-                            useLNavigation = sharedPreferences2.getBoolean("useLNavigation", false);
                             isFloatingDebugActive = sharedPreferences2.getBoolean("floatingDebugActive", false);
                             updateStickersOrderOnSend = sharedPreferences2.getBoolean("updateStickersOrderOnSend", true);
                             showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
@@ -519,7 +509,6 @@ public class SharedConfig {
                 useSystemEmoji = sharedPreferences22.getBoolean("useSystemEmoji", false);
                 streamMedia = sharedPreferences22.getBoolean("streamMedia", true);
                 saveStreamMedia = sharedPreferences22.getBoolean("saveStreamMedia", true);
-                smoothKeyboard = sharedPreferences22.getBoolean("smoothKeyboard2", true);
                 pauseMusicOnRecord = sharedPreferences22.getBoolean("pauseMusicOnRecord", false);
                 forceDisableTabletMode = sharedPreferences22.getBoolean("forceDisableTabletMode", false);
                 streamAllVideo = sharedPreferences22.getBoolean("streamAllVideo", BuildVars.DEBUG_VERSION);
@@ -536,8 +525,6 @@ public class SharedConfig {
                 archiveHidden = sharedPreferences22.getBoolean("archiveHidden", false);
                 distanceSystemType = sharedPreferences22.getInt("distanceSystemType", 0);
                 keepMedia = sharedPreferences22.getInt("keep_media", CacheByChatsController.KEEP_MEDIA_ONE_MONTH);
-                noStatusBar = sharedPreferences22.getBoolean("noStatusBar", true);
-                forceRtmpStream = sharedPreferences22.getBoolean("forceRtmpStream", false);
                 debugWebView = sharedPreferences22.getBoolean("debugWebView", false);
                 lastKeepMediaCheckTime = sharedPreferences22.getInt("lastKeepMediaCheckTime", 0);
                 lastLogsCheckTime = sharedPreferences22.getInt("lastLogsCheckTime", 0);
@@ -558,7 +545,6 @@ public class SharedConfig {
                 fastScrollHintCount = sharedPreferences22.getInt("fastScrollHintCount", 3);
                 dontAskManageStorage = sharedPreferences22.getBoolean("dontAskManageStorage", false);
                 hasEmailLogin = sharedPreferences22.getBoolean("hasEmailLogin", false);
-                useLNavigation = sharedPreferences22.getBoolean("useLNavigation", false);
                 isFloatingDebugActive = sharedPreferences22.getBoolean("floatingDebugActive", false);
                 updateStickersOrderOnSend = sharedPreferences22.getBoolean("updateStickersOrderOnSend", true);
                 showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
@@ -906,13 +892,6 @@ public class SharedConfig {
         edit.commit();
     }
 
-    public static void toggleForceRTMPStream() {
-        forceRtmpStream = !forceRtmpStream;
-        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
-        edit.putBoolean("forceRtmpStream", forceRtmpStream);
-        edit.apply();
-    }
-
     public static void toggleDebugWebView() {
         boolean z = !debugWebView;
         debugWebView = z;
@@ -922,13 +901,6 @@ public class SharedConfig {
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putBoolean("debugWebView", debugWebView);
         edit.apply();
-    }
-
-    public static void toggleNoStatusBar() {
-        noStatusBar = !noStatusBar;
-        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
-        edit.putBoolean("noStatusBar", noStatusBar);
-        edit.commit();
     }
 
     public static void toggleLoopStickers() {
@@ -1092,13 +1064,6 @@ public class SharedConfig {
         saveStreamMedia = !saveStreamMedia;
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putBoolean("saveStreamMedia", saveStreamMedia);
-        edit.commit();
-    }
-
-    public static void toggleSmoothKeyboard() {
-        smoothKeyboard = !smoothKeyboard;
-        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
-        edit.putBoolean("smoothKeyboard2", smoothKeyboard);
         edit.commit();
     }
 

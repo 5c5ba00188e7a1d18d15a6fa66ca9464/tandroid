@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class PersistedInstallation {
     private final File dataFile;
@@ -41,11 +42,11 @@ public class PersistedInstallation {
 
     private JSONObject readJSONFromFile() {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        byte[] bArr = new byte[16384];
+        byte[] bArr = new byte[LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM];
         try {
             FileInputStream fileInputStream = new FileInputStream(this.dataFile);
             while (true) {
-                int read = fileInputStream.read(bArr, 0, 16384);
+                int read = fileInputStream.read(bArr, 0, LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
                 if (read >= 0) {
                     byteArrayOutputStream.write(bArr, 0, read);
                 } else {

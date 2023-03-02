@@ -363,7 +363,7 @@ public class ImageLoader {
                 }
                 if (inputStream2 != null) {
                     try {
-                        byte[] bArr = new byte[32768];
+                        byte[] bArr = new byte[LiteMode.FLAG_CHAT_SCALE];
                         int i = 0;
                         while (true) {
                             if (isCancelled()) {
@@ -462,7 +462,7 @@ public class ImageLoader {
                     try {
                         ByteArrayOutputStream byteArrayOutputStream2 = new ByteArrayOutputStream();
                         try {
-                            byte[] bArr = new byte[32768];
+                            byte[] bArr = new byte[LiteMode.FLAG_CHAT_SCALE];
                             while (!isCancelled() && (read = inputStream2.read(bArr)) > 0) {
                                 byteArrayOutputStream2.write(bArr, 0, read);
                             }
@@ -879,7 +879,7 @@ public class ImageLoader {
                         }
                         if (inputStream2 != null) {
                             try {
-                                byte[] bArr = new byte[8192];
+                                byte[] bArr = new byte[LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM];
                                 int i2 = 0;
                                 while (true) {
                                     if (isCancelled()) {

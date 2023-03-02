@@ -77,7 +77,7 @@ public final class FlacDecoderJni {
         this.extractorInput = extractorInput;
         this.endOfExtractorInput = false;
         if (this.tempBuffer == null) {
-            this.tempBuffer = new byte[TEMP_BUFFER_SIZE];
+            this.tempBuffer = new byte[8192];
         }
     }
 
@@ -112,7 +112,7 @@ public final class FlacDecoderJni {
         ExtractorInput extractorInput = this.extractorInput;
         if (extractorInput != null) {
             byte[] bArr = (byte[]) Util.castNonNull(this.tempBuffer);
-            int min2 = Math.min(remaining, (int) TEMP_BUFFER_SIZE);
+            int min2 = Math.min(remaining, 8192);
             int readFromExtractorInput = readFromExtractorInput(extractorInput, bArr, 0, min2);
             if (readFromExtractorInput < 4) {
                 readFromExtractorInput += readFromExtractorInput(extractorInput, bArr, readFromExtractorInput, min2 - readFromExtractorInput);

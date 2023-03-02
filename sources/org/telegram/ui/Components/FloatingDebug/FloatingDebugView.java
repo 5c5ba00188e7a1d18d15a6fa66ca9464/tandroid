@@ -292,7 +292,7 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
                 return FloatingDebugView.this.debugItems.size();
             }
         });
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda8
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda7
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 FloatingDebugView.this.lambda$new$1(view, i);
@@ -505,20 +505,14 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
         ArrayList arrayList = new ArrayList();
         arrayList.add(new FloatingDebugController.DebugItem(LocaleController.getString(R.string.DebugGeneral)));
         if (Build.VERSION.SDK_INT >= 19) {
-            arrayList.add(new FloatingDebugController.DebugItem(LocaleController.getString(SharedConfig.debugWebView ? R.string.DebugMenuDisableWebViewDebug : R.string.DebugMenuEnableWebViewDebug), new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda6
+            arrayList.add(new FloatingDebugController.DebugItem(LocaleController.getString(SharedConfig.debugWebView ? R.string.DebugMenuDisableWebViewDebug : R.string.DebugMenuEnableWebViewDebug), new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
                     FloatingDebugView.this.lambda$getBuiltInDebugItems$4();
                 }
             }));
         }
-        arrayList.add(new FloatingDebugController.DebugItem(LocaleController.getString(SharedConfig.useLNavigation ? R.string.AltNavigationDisable : R.string.AltNavigationEnable), new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda5
-            @Override // java.lang.Runnable
-            public final void run() {
-                FloatingDebugView.this.lambda$getBuiltInDebugItems$5();
-            }
-        }));
-        arrayList.add(new FloatingDebugController.DebugItem(Theme.isCurrentThemeDark() ? "Switch to day theme" : "Switch to dark theme", FloatingDebugView$$ExternalSyntheticLambda7.INSTANCE));
+        arrayList.add(new FloatingDebugController.DebugItem(Theme.isCurrentThemeDark() ? "Switch to day theme" : "Switch to dark theme", FloatingDebugView$$ExternalSyntheticLambda6.INSTANCE));
         return arrayList;
     }
 
@@ -529,21 +523,12 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getBuiltInDebugItems$5() {
-        SharedConfig.useLNavigation = !SharedConfig.useLNavigation;
-        SharedConfig.saveConfig();
-        if (getContext() instanceof Activity) {
-            ((Activity) getContext()).recreate();
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Removed duplicated region for block: B:25:0x0063  */
     /* JADX WARN: Removed duplicated region for block: B:26:0x0068  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static /* synthetic */ void lambda$getBuiltInDebugItems$7() {
+    public static /* synthetic */ void lambda$getBuiltInDebugItems$6() {
         final Theme.ThemeInfo theme;
         SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0);
         String str = "Blue";
@@ -565,7 +550,7 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
-                    FloatingDebugView.lambda$getBuiltInDebugItems$6(Theme.ThemeInfo.this);
+                    FloatingDebugView.lambda$getBuiltInDebugItems$5(Theme.ThemeInfo.this);
                 }
             }, 200L);
         }
@@ -575,13 +560,13 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
-                FloatingDebugView.lambda$getBuiltInDebugItems$6(Theme.ThemeInfo.this);
+                FloatingDebugView.lambda$getBuiltInDebugItems$5(Theme.ThemeInfo.this);
             }
         }, 200L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$getBuiltInDebugItems$6(Theme.ThemeInfo themeInfo) {
+    public static /* synthetic */ void lambda$getBuiltInDebugItems$5(Theme.ThemeInfo themeInfo) {
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, themeInfo, Boolean.TRUE, null, -1);
     }
 
@@ -612,13 +597,13 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
         new SpringAnimation(new FloatValueHolder(0.0f)).setSpring(new SpringForce(1000.0f).setStiffness(750.0f).setDampingRatio(0.75f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda1
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
             public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
-                FloatingDebugView.this.lambda$showFab$8(dynamicAnimation, f, f2);
+                FloatingDebugView.this.lambda$showFab$7(dynamicAnimation, f, f2);
             }
         }).start();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showFab$8(DynamicAnimation dynamicAnimation, float f, float f2) {
+    public /* synthetic */ void lambda$showFab$7(DynamicAnimation dynamicAnimation, float f, float f2) {
         float f3 = f / 1000.0f;
         this.floatingButtonContainer.setPivotX(AndroidUtilities.dp(28.0f));
         this.floatingButtonContainer.setPivotY(AndroidUtilities.dp(28.0f));

@@ -80,7 +80,7 @@ public class NativeLoader {
                     }
                     InputStream inputStream2 = zipFile.getInputStream(entry);
                     FileOutputStream fileOutputStream = new FileOutputStream(file2);
-                    byte[] bArr = new byte[4096];
+                    byte[] bArr = new byte[LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM];
                     while (true) {
                         int read = inputStream2.read(bArr);
                         if (read <= 0) {
@@ -243,5 +243,9 @@ public class NativeLoader {
                 }
             }
         }
+    }
+
+    public static boolean loaded() {
+        return nativeLoaded;
     }
 }

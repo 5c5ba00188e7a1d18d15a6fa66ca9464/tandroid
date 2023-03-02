@@ -556,7 +556,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 DownloadController.getInstance(((BaseFragment) PassportActivity.this).currentAccount).addLoadingFileObserver(this.currentSecureDocument.path, this);
                 this.buttonState = 1;
                 Float fileProgress = ImageLoader.getInstance().getFileProgress(this.currentSecureDocument.path);
-                this.radialProgress.setBackground(Theme.chat_photoStatesDrawables[5][0], true, z);
+                this.radialProgress.setBackground(getResources().getDrawable(R.drawable.circle), true, z);
                 this.radialProgress.setProgress(fileProgress != null ? fileProgress.floatValue() : 0.0f, false);
                 invalidate();
             } else if (exists) {
@@ -568,7 +568,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 DownloadController.getInstance(((BaseFragment) PassportActivity.this).currentAccount).addLoadingFileObserver(attachFileName, this);
                 this.buttonState = 1;
                 Float fileProgress2 = ImageLoader.getInstance().getFileProgress(attachFileName);
-                this.radialProgress.setBackground(Theme.chat_photoStatesDrawables[5][0], true, z);
+                this.radialProgress.setBackground(getResources().getDrawable(R.drawable.circle), true, z);
                 this.radialProgress.setProgress(fileProgress2 != null ? fileProgress2.floatValue() : 0.0f, z);
                 invalidate();
             }
@@ -3440,7 +3440,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         showDialog(create);
         TextView textView = (TextView) create.getButton(-1);
         if (textView != null) {
-            textView.setTextColor(Theme.getColor("dialogTextRed2"));
+            textView.setTextColor(Theme.getColor("dialogTextRed"));
         }
     }
 

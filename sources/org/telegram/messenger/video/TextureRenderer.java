@@ -722,7 +722,7 @@ public class TextureRenderer {
                         editTextOutline.setHorizontallyScrolling(false);
                         editTextOutline.setImeOptions(268435456);
                         editTextOutline.setFocusableInTouchMode(true);
-                        editTextOutline.setInputType(editTextOutline.getInputType() | 16384);
+                        editTextOutline.setInputType(editTextOutline.getInputType() | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
                         if (i12 >= 23) {
                             setBreakStrategy(editTextOutline);
                         }

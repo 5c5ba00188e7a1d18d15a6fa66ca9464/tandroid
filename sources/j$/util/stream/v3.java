@@ -1,4 +1,6 @@
 package j$.util.stream;
+
+import org.telegram.messenger.LiteMode;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class v3 extends b1 {
@@ -16,7 +18,7 @@ public class v3 extends b1 {
     @Override // j$.util.stream.c
     A1 E0(y2 y2Var, j$.util.u uVar, j$.util.function.m mVar) {
         long q0 = y2Var.q0(uVar);
-        if (q0 > 0 && uVar.hasCharacteristics(16384)) {
+        if (q0 > 0 && uVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
             return x2.h(y2Var, B3.b(y2Var.r0(), uVar, this.l, this.m), true);
         }
         return !d4.ORDERED.d(y2Var.s0()) ? x2.h(this, N0((j$.util.v) y2Var.w0(uVar), this.l, this.m, q0), true) : (A1) new A3(this, y2Var, uVar, mVar, this.l, this.m).invoke();
@@ -26,7 +28,7 @@ public class v3 extends b1 {
     j$.util.u F0(y2 y2Var, j$.util.u uVar) {
         long d;
         long q0 = y2Var.q0(uVar);
-        if (q0 > 0 && uVar.hasCharacteristics(16384)) {
+        if (q0 > 0 && uVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
             j$.util.v vVar = (j$.util.v) y2Var.w0(uVar);
             long j = this.l;
             d = B3.d(j, this.m);

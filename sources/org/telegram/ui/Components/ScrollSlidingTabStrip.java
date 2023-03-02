@@ -374,7 +374,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
             frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda3
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    ScrollSlidingTabStrip.this.lambda$addIconTab$1(view);
+                    ScrollSlidingTabStrip.this.lambda$addIconTab$0(view);
                 }
             });
             this.tabsContainer.addView(frameLayout, i2);
@@ -386,7 +386,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$addIconTab$1(View view) {
+    public /* synthetic */ void lambda$addIconTab$0(View view) {
         this.delegate.onPageSelected(((Integer) view.getTag(R.id.index_tag)).intValue());
     }
 
@@ -401,10 +401,10 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
             stickerTabView = new StickerTabView(getContext(), 1);
             stickerTabView.iconView.setImageDrawable(drawable);
             stickerTabView.setFocusable(true);
-            stickerTabView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda2
+            stickerTabView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda5
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    ScrollSlidingTabStrip.this.lambda$addStickerIconTab$2(view);
+                    ScrollSlidingTabStrip.this.lambda$addStickerIconTab$1(view);
                 }
             });
             stickerTabView.setExpanded(this.expanded);
@@ -419,7 +419,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$addStickerIconTab$2(View view) {
+    public /* synthetic */ void lambda$addStickerIconTab$1(View view) {
         this.delegate.onPageSelected(((Integer) view.getTag(R.id.index_tag)).intValue());
     }
 
@@ -436,7 +436,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
             stickerTabView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda6
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    ScrollSlidingTabStrip.this.lambda$addStickerTab$3(view);
+                    ScrollSlidingTabStrip.this.lambda$addStickerTab$2(view);
                 }
             });
             this.tabsContainer.addView(stickerTabView, i);
@@ -459,7 +459,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$addStickerTab$3(View view) {
+    public /* synthetic */ void lambda$addStickerTab$2(View view) {
         this.delegate.onPageSelected(((Integer) view.getTag(R.id.index_tag)).intValue());
     }
 
@@ -473,10 +473,10 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
         } else {
             stickerTabView = new StickerTabView(getContext(), 2);
             stickerTabView.setFocusable(true);
-            stickerTabView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda5
+            stickerTabView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda4
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    ScrollSlidingTabStrip.this.lambda$addEmojiTab$4(view);
+                    ScrollSlidingTabStrip.this.lambda$addEmojiTab$3(view);
                 }
             });
             stickerTabView.setExpanded(this.expanded);
@@ -493,7 +493,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$addEmojiTab$4(View view) {
+    public /* synthetic */ void lambda$addEmojiTab$3(View view) {
         this.delegate.onPageSelected(((Integer) view.getTag(R.id.index_tag)).intValue());
     }
 
@@ -510,10 +510,10 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
         } else {
             stickerTabView = new StickerTabView(getContext(), 0);
             stickerTabView.setFocusable(true);
-            stickerTabView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda4
+            stickerTabView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda2
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    ScrollSlidingTabStrip.this.lambda$addStickerTab$5(view);
+                    ScrollSlidingTabStrip.this.lambda$addStickerTab$4(view);
                 }
             });
             stickerTabView.setExpanded(this.expanded);
@@ -531,7 +531,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$addStickerTab$5(View view) {
+    public /* synthetic */ void lambda$addStickerTab$4(View view) {
         this.delegate.onPageSelected(((Integer) view.getTag(R.id.index_tag)).intValue());
     }
 
@@ -554,7 +554,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    ScrollSlidingTabStrip.this.lambda$expandStickers$6(z, f, valueAnimator2);
+                    ScrollSlidingTabStrip.this.lambda$expandStickers$5(z, f, valueAnimator2);
                 }
             });
             this.expandStickerAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip.4
@@ -624,7 +624,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$expandStickers$6(boolean z, float f, ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$expandStickers$5(boolean z, float f, ValueAnimator valueAnimator) {
         if (!z) {
             float childCount = this.stickerTabWidth * this.tabsContainer.getChildCount();
             float scrollX = (getScrollX() + f) / (this.stickerTabExpandedWidth * this.tabsContainer.getChildCount());
@@ -1055,7 +1055,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
                 ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda0
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        ScrollSlidingTabStrip.this.lambda$checkLongPress$7(valueAnimator);
+                        ScrollSlidingTabStrip.this.lambda$checkLongPress$6(valueAnimator);
                     }
                 });
                 ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip.5
@@ -1080,7 +1080,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkLongPress$7(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$checkLongPress$6(ValueAnimator valueAnimator) {
         this.draggingViewOutProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidateOverlays();
     }

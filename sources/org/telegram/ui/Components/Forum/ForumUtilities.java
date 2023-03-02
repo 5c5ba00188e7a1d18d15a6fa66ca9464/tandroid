@@ -209,7 +209,7 @@ public class ForumUtilities {
                 AnimatedEmojiSpan animatedEmojiSpan = new AnimatedEmojiSpan(tLRPC$TL_forumTopic.icon_emoji_id, 0.95f, paint == null ? null : paint.getFontMetricsInt());
                 spannableStringBuilder.setSpan(animatedEmojiSpan, 0, 1, 33);
                 animatedEmojiSpan.top = true;
-                animatedEmojiSpan.cacheType = 7;
+                animatedEmojiSpan.cacheType = 13;
             } else {
                 spannableStringBuilder.append((CharSequence) " ");
                 Drawable createTopicDrawable = createTopicDrawable(tLRPC$TL_forumTopic);

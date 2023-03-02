@@ -727,7 +727,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             });
             AlertDialog create = builder.create();
             FiltersSetupActivity.this.showDialog(create);
-            create.setItemColor(1, Theme.getColor("dialogTextRed2"), Theme.getColor("dialogRedIcon"));
+            create.setItemColor(1, Theme.getColor("dialogTextRed"), Theme.getColor("dialogRedIcon"));
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -755,7 +755,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
                 FiltersSetupActivity.this.showDialog(create);
                 TextView textView = (TextView) create.getButton(-1);
                 if (textView != null) {
-                    textView.setTextColor(Theme.getColor("dialogTextRed2"));
+                    textView.setTextColor(Theme.getColor("dialogTextRed"));
                 }
             }
         }

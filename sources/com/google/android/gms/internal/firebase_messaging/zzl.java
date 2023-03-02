@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayDeque;
 import java.util.Queue;
+import org.telegram.messenger.LiteMode;
 import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
@@ -14,7 +15,7 @@ public final class zzl {
 
     public static byte[] zza(InputStream inputStream) throws IOException {
         ArrayDeque arrayDeque = new ArrayDeque(20);
-        int i = 8192;
+        int i = LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
         int i2 = 0;
         while (i2 < 2147483639) {
             int min = Math.min(i, 2147483639 - i2);

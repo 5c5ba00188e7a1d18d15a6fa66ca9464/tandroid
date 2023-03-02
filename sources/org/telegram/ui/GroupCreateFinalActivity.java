@@ -29,7 +29,6 @@ import android.view.ViewOutlineProvider;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -66,6 +65,7 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.ContextProgressView;
 import org.telegram.ui.Components.EditTextEmoji;
+import org.telegram.ui.Components.FillLastLinearLayoutManager;
 import org.telegram.ui.Components.ImageUpdater;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.ListView.AdapterWithDiffUtils;
@@ -106,6 +106,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
     private TLRPC$InputFile inputPhoto;
     private TLRPC$InputFile inputVideo;
     private String inputVideoPath;
+    private FillLastLinearLayoutManager linearLayoutManager;
     private RecyclerListView listView;
     private String nameToSet;
     ActionBarPopupWindow popupWindow;
@@ -372,7 +373,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
                             i13 = 51;
                         }
                         int i14 = i13 & 7;
-                        int i15 = i13 & MessagesStorage.LAST_DB_VERSION;
+                        int i15 = i13 & 112;
                         int i16 = i14 & 7;
                         if (i16 == 1) {
                             i6 = (((i4 - i2) - measuredWidth) / 2) + layoutParams.leftMargin;
@@ -564,13 +565,14 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         EditTextEmoji editTextEmoji3 = this.editText;
         boolean z5 = LocaleController.isRTL;
         frameLayout6.addView(editTextEmoji3, LayoutHelper.createFrame(-1, -2.0f, 16, z5 ? 5.0f : 96.0f, 0.0f, z5 ? 96.0f : 5.0f, 0.0f));
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, false);
         RecyclerListView recyclerListView = new RecyclerListView(context);
         this.listView = recyclerListView;
+        this.linearLayoutManager = new FillLastLinearLayoutManager(context, 1, recyclerListView);
+        RecyclerListView recyclerListView2 = this.listView;
         GroupCreateAdapter groupCreateAdapter = new GroupCreateAdapter(context);
         this.adapter = groupCreateAdapter;
-        recyclerListView.setAdapter(groupCreateAdapter);
-        this.listView.setLayoutManager(linearLayoutManager);
+        recyclerListView2.setAdapter(groupCreateAdapter);
+        this.listView.setLayoutManager(this.linearLayoutManager);
         this.listView.setVerticalScrollBarEnabled(false);
         this.listView.setVerticalScrollbarPosition(LocaleController.isRTL ? 1 : 2);
         linearLayout.addView(this.listView, LayoutHelper.createLinear(-1, -1));
@@ -1061,11 +1063,14 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
                 this.items.add(new InnerItem(this, 3));
                 this.items.add(new InnerItem(this, 0));
             }
-            this.items.add(new InnerItem(this, 1));
-            this.usersStartRow = this.items.size();
-            for (int i = 0; i < GroupCreateFinalActivity.this.selectedContacts.size(); i++) {
-                this.items.add(new InnerItem(this, 2));
+            if (GroupCreateFinalActivity.this.selectedContacts.size() > 0) {
+                this.items.add(new InnerItem(this, 1));
+                this.usersStartRow = this.items.size();
+                for (int i = 0; i < GroupCreateFinalActivity.this.selectedContacts.size(); i++) {
+                    this.items.add(new InnerItem(this, 2));
+                }
             }
+            this.items.add(new InnerItem(this, 7));
             super.notifyDataSetChanged();
         }
 
@@ -1099,13 +1104,20 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
                     textSettingsCell = new TextCell(this.context);
                 } else if (i == 5) {
                     shadowSectionCell = new TextInfoPrivacyCell(this.context);
-                    CombinedDrawable combinedDrawable2 = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(this.context, R.drawable.greydivider, "windowBackgroundGrayShadow"));
+                    CombinedDrawable combinedDrawable2 = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(this.context, GroupCreateFinalActivity.this.selectedContacts.size() == 0 ? R.drawable.greydivider_bottom : R.drawable.greydivider, "windowBackgroundGrayShadow"));
                     combinedDrawable2.setFullsize(true);
                     shadowSectionCell.setBackgroundDrawable(combinedDrawable2);
                 } else if (i == 6) {
                     textSettingsCell = new TextCell(this.context, 23, false, true, GroupCreateFinalActivity.this.getResourceProvider());
-                } else {
+                } else if (i != 7) {
                     textSettingsCell = new TextSettingsCell(this.context);
+                } else {
+                    View view = new View(this.context);
+                    textSettingsCell = view;
+                    if (GroupCreateFinalActivity.this.selectedContacts.isEmpty()) {
+                        view.setBackgroundColor(Theme.getColor("windowBackgroundGray"));
+                        textSettingsCell = view;
+                    }
                 }
                 return new RecyclerListView.Holder(textSettingsCell);
             }

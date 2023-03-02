@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.clearcut;
 
 import java.nio.ByteBuffer;
-import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 final class zzfh extends zzfg {
     @Override // com.google.android.gms.internal.clearcut.zzfg
@@ -125,7 +124,7 @@ final class zzfh extends zzfg {
                     throw new zzfi(i7 - 1, length);
                 } else {
                     int i14 = i8 + 1;
-                    bArr[i8] = (byte) ((charAt2 >>> '\f') | LiteMode.FLAGS_CHAT);
+                    bArr[i8] = (byte) ((charAt2 >>> '\f') | 480);
                     int i15 = i14 + 1;
                     bArr[i14] = (byte) (((charAt2 >>> 6) & 63) | 128);
                     i3 = i15 + 1;

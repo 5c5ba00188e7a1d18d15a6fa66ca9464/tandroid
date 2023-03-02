@@ -594,7 +594,7 @@ public class StickerCategoriesListView extends RecyclerListView {
     }
 
     protected boolean isTabIconsAnimationEnabled(boolean z) {
-        return LiteMode.isEnabled(4) && !z;
+        return LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD) && !z;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

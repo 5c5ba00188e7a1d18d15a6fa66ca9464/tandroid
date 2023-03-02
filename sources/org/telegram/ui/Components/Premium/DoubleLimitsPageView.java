@@ -44,7 +44,9 @@ public class DoubleLimitsPageView extends FrameLayout implements PagerHeaderView
     @Override // org.telegram.ui.Components.Premium.PagerHeaderView
     public void setOffset(float f) {
         if (Math.abs(f / getMeasuredWidth()) == 1.0f) {
-            this.recyclerListView.scrollToPosition(0);
+            if (this.recyclerListView.findViewHolderForAdapterPosition(0) == null || this.recyclerListView.findViewHolderForAdapterPosition(0).itemView.getTop() != this.recyclerListView.getPaddingTop()) {
+                this.recyclerListView.scrollToPosition(0);
+            }
         }
     }
 

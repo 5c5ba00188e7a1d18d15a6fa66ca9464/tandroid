@@ -12,7 +12,7 @@ public class TLRPC$TL_updateShortChatMessage extends TLRPC$Updates {
         this.out = (readInt32 & 2) != 0;
         this.mentioned = (readInt32 & 16) != 0;
         this.media_unread = (readInt32 & 32) != 0;
-        this.silent = (readInt32 & 8192) != 0;
+        this.silent = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0;
         this.id = abstractSerializedData.readInt32(z);
         this.from_id = abstractSerializedData.readInt64(z);
         this.chat_id = abstractSerializedData.readInt64(z);

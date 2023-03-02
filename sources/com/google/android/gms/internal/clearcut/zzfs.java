@@ -5,7 +5,6 @@ import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ReadOnlyBufferException;
-import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class zzfs {
     private final ByteBuffer zzgd;
@@ -141,7 +140,7 @@ public final class zzfs {
                         sb.append(i4 - 1);
                         throw new IllegalArgumentException(sb.toString());
                     } else {
-                        byteBuffer.put((byte) ((charAt2 >>> '\f') | LiteMode.FLAGS_CHAT));
+                        byteBuffer.put((byte) ((charAt2 >>> '\f') | 480));
                         i3 = ((charAt2 >>> 6) & 63) | 128;
                     }
                     byteBuffer.put((byte) i3);
@@ -211,7 +210,7 @@ public final class zzfs {
                             throw new IllegalArgumentException(sb3.toString());
                         } else {
                             int i13 = i + 1;
-                            array[i] = (byte) ((charAt4 >>> '\f') | LiteMode.FLAGS_CHAT);
+                            array[i] = (byte) ((charAt4 >>> '\f') | 480);
                             int i14 = i13 + 1;
                             array[i13] = (byte) (((charAt4 >>> 6) & 63) | 128);
                             i2 = i14 + 1;

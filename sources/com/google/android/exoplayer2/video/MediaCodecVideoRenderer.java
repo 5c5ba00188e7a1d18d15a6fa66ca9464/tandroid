@@ -45,7 +45,7 @@ import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.voip.VoIPService;
 /* loaded from: classes.dex */
 public class MediaCodecVideoRenderer extends MediaCodecRenderer {
-    private static final int[] STANDARD_LONG_EDGE_VIDEO_PX = {1920, 1600, 1440, 1280, 960, 854, 640, 540, LiteMode.FLAGS_CHAT};
+    private static final int[] STANDARD_LONG_EDGE_VIDEO_PX = {1920, 1600, 1440, 1280, 960, 854, 640, 540, 480};
     private static boolean deviceNeedsSetOutputSurfaceWorkaround;
     private static boolean evaluatedDeviceNeedsSetOutputSurfaceWorkaround;
     private final long allowedJoiningTimeMs;
@@ -2337,7 +2337,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                             case 25:
                             case 26:
                             case 27:
-                            case LiteMode.FLAGS_ANIMATED_EMOJI /* 28 */:
+                            case 28:
                             case 29:
                             case 30:
                             case 31:
@@ -2421,8 +2421,8 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                             case 'm':
                             case 'n':
                             case 'o':
-                            case MessagesStorage.LAST_DB_VERSION /* 112 */:
-                            case 'q':
+                            case 'p':
+                            case MessagesStorage.LAST_DB_VERSION /* 113 */:
                             case 'r':
                             case 's':
                             case 't':

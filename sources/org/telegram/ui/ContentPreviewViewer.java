@@ -430,7 +430,7 @@ public class ContentPreviewViewer {
                         addItem2.setTag(Integer.valueOf(i13));
                         addItem2.setOnClickListener(onClickListener);
                         if (z && i13 == arrayList4.size() - 1) {
-                            addItem2.setColors(ContentPreviewViewer.this.getThemedColor("dialogTextRed2"), ContentPreviewViewer.this.getThemedColor("dialogRedIcon"));
+                            addItem2.setColors(ContentPreviewViewer.this.getThemedColor("dialogTextRed"), ContentPreviewViewer.this.getThemedColor("dialogRedIcon"));
                         }
                     }
                     ContentPreviewViewer.this.popupWindow = new ActionBarPopupWindow(actionBarPopupWindowLayout2, -2, -2) { // from class: org.telegram.ui.ContentPreviewViewer.1.4
@@ -543,7 +543,7 @@ public class ContentPreviewViewer {
                     ActionBarMenuSubItem addItem3 = ActionBarMenuItem.addItem(i16 == 0, i16 == arrayList7.size() - 1, actionBarPopupWindowLayout3, ((Integer) arrayList9.get(i16)).intValue(), (CharSequence) arrayList7.get(i16), false, ContentPreviewViewer.this.resourcesProvider);
                     if (((Integer) arrayList8.get(i16)).intValue() == 4) {
                         addItem3.setIconColor(ContentPreviewViewer.this.getThemedColor("dialogRedIcon"));
-                        addItem3.setTextColor(ContentPreviewViewer.this.getThemedColor("dialogTextRed2"));
+                        addItem3.setTextColor(ContentPreviewViewer.this.getThemedColor("dialogTextRed"));
                     }
                     addItem3.setTag(Integer.valueOf(i16));
                     addItem3.setOnClickListener(onClickListener2);
@@ -776,7 +776,7 @@ public class ContentPreviewViewer {
             if (launchActivity.getActionBarLayout() != null && launchActivity.getActionBarLayout().getLastFragment() != null) {
                 launchActivity.getActionBarLayout().getLastFragment().dismissCurrentDialog();
             }
-            launchActivity.lambda$runLinkRequest$72(new PremiumPreviewFragment(PremiumPreviewFragment.featureTypeToServerString(5)));
+            launchActivity.lambda$runLinkRequest$78(new PremiumPreviewFragment(PremiumPreviewFragment.featureTypeToServerString(5)));
         }
         this.menuVisible = false;
         this.containerView.invalidate();

@@ -41,6 +41,7 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
@@ -705,7 +706,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         } else {
             layoutParams2.flags = 8;
         }
-        layoutParams2.flags |= 8192;
+        layoutParams2.flags |= LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
         this.centerImage.setParentView(this.containerView);
         this.centerImage.setForceCrossfade(true);
     }

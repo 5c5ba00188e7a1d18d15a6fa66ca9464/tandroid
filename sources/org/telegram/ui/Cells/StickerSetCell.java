@@ -93,15 +93,7 @@ public class StickerSetCell extends FrameLayout {
         BackupImageView backupImageView2 = this.imageView;
         boolean z = LocaleController.isRTL;
         addView(backupImageView2, LayoutHelper.createFrame(40, 40.0f, (z ? 5 : 3) | 48, z ? 0.0f : 13.0f, 9.0f, z ? 13.0f : 0.0f, 0.0f));
-        if (i == 2) {
-            RadialProgressView radialProgressView = new RadialProgressView(getContext());
-            this.progressView = radialProgressView;
-            radialProgressView.setProgressColor(Theme.getColor("dialogProgressCircle"));
-            this.progressView.setSize(AndroidUtilities.dp(30.0f));
-            RadialProgressView radialProgressView2 = this.progressView;
-            boolean z2 = LocaleController.isRTL;
-            addView(radialProgressView2, LayoutHelper.createFrame(48, 48.0f, (z2 ? 5 : 3) | 48, z2 ? 0.0f : 12.0f, 5.0f, z2 ? 12.0f : 0.0f, 0.0f));
-        } else if (i != 0) {
+        if (i != 0) {
             ImageView imageView = new ImageView(context);
             this.optionsButton = imageView;
             imageView.setFocusable(false);
@@ -132,8 +124,8 @@ public class StickerSetCell extends FrameLayout {
                 this.optionsButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("featuredStickers_addedIcon"), PorterDuff.Mode.MULTIPLY));
                 this.optionsButton.setImageResource(R.drawable.floating_check);
                 ImageView imageView3 = this.optionsButton;
-                boolean z3 = LocaleController.isRTL;
-                addView(imageView3, LayoutHelper.createFrame(40, 40.0f, (z3 ? 3 : 5) | 48, z3 ? 10 : 0, 9.0f, z3 ? 0 : 10, 0.0f));
+                boolean z2 = LocaleController.isRTL;
+                addView(imageView3, LayoutHelper.createFrame(40, 40.0f, (z2 ? 3 : 5) | 48, z2 ? 10 : 0, 9.0f, z2 ? 0 : 10, 0.0f));
             }
         }
         this.sideButtons = new FrameLayout(getContext());
@@ -574,14 +566,14 @@ public class StickerSetCell extends FrameLayout {
 
     public void updateRightMargin() {
         this.sideButtons.measure(View.MeasureSpec.makeMeasureSpec(999999, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(58.0f), 1073741824));
-        int measuredWidth = this.sideButtons.getMeasuredWidth();
+        int dp = AndroidUtilities.dp(26.0f) + this.sideButtons.getMeasuredWidth();
         if (LocaleController.isRTL) {
-            ((ViewGroup.MarginLayoutParams) this.textView.getLayoutParams()).leftMargin = measuredWidth;
-            ((ViewGroup.MarginLayoutParams) this.valueTextView.getLayoutParams()).leftMargin = measuredWidth;
+            ((ViewGroup.MarginLayoutParams) this.textView.getLayoutParams()).leftMargin = dp;
+            ((ViewGroup.MarginLayoutParams) this.valueTextView.getLayoutParams()).leftMargin = dp;
             return;
         }
-        ((ViewGroup.MarginLayoutParams) this.textView.getLayoutParams()).rightMargin = measuredWidth;
-        ((ViewGroup.MarginLayoutParams) this.valueTextView.getLayoutParams()).rightMargin = measuredWidth;
+        ((ViewGroup.MarginLayoutParams) this.textView.getLayoutParams()).rightMargin = dp;
+        ((ViewGroup.MarginLayoutParams) this.valueTextView.getLayoutParams()).rightMargin = dp;
     }
 
     public void updateButtonState(final int i, boolean z) {

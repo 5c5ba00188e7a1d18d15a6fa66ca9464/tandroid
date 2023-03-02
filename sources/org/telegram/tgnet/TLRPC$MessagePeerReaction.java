@@ -5,6 +5,7 @@ public abstract class TLRPC$MessagePeerReaction extends TLObject {
     public int flags;
     public TLRPC$Peer peer_id;
     public TLRPC$Reaction reaction;
+    public int seenDate;
     public boolean unread;
 
     public static TLRPC$MessagePeerReaction TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {

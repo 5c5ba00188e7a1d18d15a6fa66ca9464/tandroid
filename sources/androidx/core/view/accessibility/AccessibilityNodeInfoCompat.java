@@ -51,13 +51,13 @@ public class AccessibilityNodeInfoCompat {
                         return "ACTION_NEXT_HTML_ELEMENT";
                     case LiteMode.FLAG_AUTOPLAY_GIFS /* 2048 */:
                         return "ACTION_PREVIOUS_HTML_ELEMENT";
-                    case 4096:
+                    case LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM /* 4096 */:
                         return "ACTION_SCROLL_FORWARD";
-                    case 8192:
+                    case LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM /* 8192 */:
                         return "ACTION_SCROLL_BACKWARD";
-                    case 16384:
+                    case LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM /* 16384 */:
                         return "ACTION_COPY";
-                    case 32768:
+                    case LiteMode.FLAG_CHAT_SCALE /* 32768 */:
                         return "ACTION_PASTE";
                     case CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT /* 65536 */:
                         return "ACTION_CUT";
@@ -142,10 +142,10 @@ public class AccessibilityNodeInfoCompat {
             new AccessibilityActionCompat(LiteMode.FLAG_CALLS_ANIMATIONS, null, AccessibilityViewCommand.MoveAtGranularityArguments.class);
             new AccessibilityActionCompat(1024, null, AccessibilityViewCommand.MoveHtmlArguments.class);
             new AccessibilityActionCompat(LiteMode.FLAG_AUTOPLAY_GIFS, null, AccessibilityViewCommand.MoveHtmlArguments.class);
-            ACTION_SCROLL_FORWARD = new AccessibilityActionCompat(4096, null);
-            ACTION_SCROLL_BACKWARD = new AccessibilityActionCompat(8192, null);
-            new AccessibilityActionCompat(16384, null);
-            new AccessibilityActionCompat(32768, null);
+            ACTION_SCROLL_FORWARD = new AccessibilityActionCompat(LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM, null);
+            ACTION_SCROLL_BACKWARD = new AccessibilityActionCompat(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM, null);
+            new AccessibilityActionCompat(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM, null);
+            new AccessibilityActionCompat(LiteMode.FLAG_CHAT_SCALE, null);
             new AccessibilityActionCompat(CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT, null);
             new AccessibilityActionCompat(131072, null, AccessibilityViewCommand.SetSelectionArguments.class);
             new AccessibilityActionCompat(262144, null);

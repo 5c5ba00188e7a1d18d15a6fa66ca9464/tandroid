@@ -30,18 +30,28 @@ public class AnimatedTextView extends View {
     private AnimatedTextDrawable drawable;
     private boolean first;
     private int lastMaxWidth;
+    private int maxWidth;
     private boolean toSetMoveDown;
     private CharSequence toSetText;
 
     /* loaded from: classes3.dex */
     public static class AnimatedTextDrawable extends Drawable {
         private boolean allowCancel;
+        private int alpha;
+        private long animateDelay;
+        private long animateDuration;
+        private TimeInterpolator animateInterpolator;
         private ValueAnimator animator;
+        private android.graphics.Rect bounds;
         private float currentHeight;
         private Part[] currentParts;
         private CharSequence currentText;
         private float currentWidth;
+        private int gravity;
         public boolean ignoreRTL;
+        private boolean isRTL;
+        private float moveAmplitude;
+        private boolean moveDown;
         private float oldHeight;
         private Part[] oldParts;
         private CharSequence oldText;
@@ -50,19 +60,10 @@ public class AnimatedTextView extends View {
         private boolean preserveIndex;
         private boolean splitByWords;
         private boolean startFromEnd;
+        private float t;
+        private TextPaint textPaint;
         private CharSequence toSetText;
         private boolean toSetTextMoveDown;
-        private TextPaint textPaint = new TextPaint(1);
-        private int gravity = 0;
-        private boolean isRTL = false;
-        private float t = 0.0f;
-        private boolean moveDown = true;
-        private long animateDelay = 0;
-        private long animateDuration = 450;
-        private TimeInterpolator animateInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
-        private float moveAmplitude = 1.0f;
-        private int alpha = 255;
-        private android.graphics.Rect bounds = new android.graphics.Rect();
 
         /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes3.dex */
@@ -98,7 +99,22 @@ public class AnimatedTextView extends View {
             }
         }
 
+        public AnimatedTextDrawable() {
+            this(false, false, false);
+        }
+
         public AnimatedTextDrawable(boolean z, boolean z2, boolean z3) {
+            this.textPaint = new TextPaint(1);
+            this.gravity = 0;
+            this.isRTL = false;
+            this.t = 0.0f;
+            this.moveDown = true;
+            this.animateDelay = 0L;
+            this.animateDuration = 450L;
+            this.animateInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
+            this.moveAmplitude = 1.0f;
+            this.alpha = 255;
+            this.bounds = new android.graphics.Rect();
             this.splitByWords = z;
             this.preserveIndex = z2;
             this.startFromEnd = z3;
@@ -824,10 +840,19 @@ public class AnimatedTextView extends View {
         }
     }
 
+    public void setMaxWidth(int i) {
+        this.maxWidth = i;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    protected void onMeasure(int i, int i2) {
+    public void onMeasure(int i, int i2) {
         int size = View.MeasureSpec.getSize(i);
         int size2 = View.MeasureSpec.getSize(i2);
+        int i3 = this.maxWidth;
+        if (i3 > 0) {
+            size = Math.min(size, i3);
+        }
         if (this.lastMaxWidth != size && getLayoutParams().width != 0) {
             this.drawable.setBounds(getPaddingLeft(), getPaddingTop(), size - getPaddingRight(), size2 - getPaddingBottom());
             setText(this.drawable.getText(), false);

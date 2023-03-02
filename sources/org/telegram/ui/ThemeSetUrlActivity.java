@@ -428,7 +428,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
                 arrayList.add(themeInfo);
             }
         }
-        ThemesHorizontalListCell themesHorizontalListCell = new ThemesHorizontalListCell(this, context, 2, arrayList, new ArrayList()) { // from class: org.telegram.ui.ThemeSetUrlActivity.4
+        ThemesHorizontalListCell themesHorizontalListCell = new ThemesHorizontalListCell(this, context, this, 2, arrayList, new ArrayList()) { // from class: org.telegram.ui.ThemeSetUrlActivity.4
             @Override // org.telegram.ui.Cells.ThemesHorizontalListCell
             protected void updateRows() {
                 builder.getDismissRunnable().run();

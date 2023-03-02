@@ -12,6 +12,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.Arrays;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.TranslateController;
 /* loaded from: classes.dex */
 public final class TrackGroup implements Bundleable {
@@ -25,7 +26,7 @@ public final class TrackGroup implements Bundleable {
     public static final Bundleable.Creator<TrackGroup> CREATOR = TrackGroup$$ExternalSyntheticLambda0.INSTANCE;
 
     private static int normalizeRoleFlags(int i) {
-        return i | 16384;
+        return i | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
     }
 
     public TrackGroup(Format... formatArr) {

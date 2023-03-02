@@ -36,6 +36,7 @@ import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
@@ -503,7 +504,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                             i13 = 51;
                         }
                         int i14 = i13 & 7;
-                        int i15 = i13 & MessagesStorage.LAST_DB_VERSION;
+                        int i15 = i13 & 112;
                         int i16 = i14 & 7;
                         if (i16 == 1) {
                             i6 = (((i4 - i2) - measuredWidth) / 2) + layoutParams.leftMargin;
@@ -1242,7 +1243,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         tLRPC$TL_channelLocation.geo_point = tLRPC$MessageMedia.geo;
         TLRPC$ChatFull tLRPC$ChatFull = this.info;
         tLRPC$ChatFull.location = tLRPC$TL_channelLocation;
-        tLRPC$ChatFull.flags |= 32768;
+        tLRPC$ChatFull.flags |= LiteMode.FLAG_CHAT_SCALE;
         updateFields(false, true);
         getMessagesController().loadFullChat(this.chatId, 0, true);
     }

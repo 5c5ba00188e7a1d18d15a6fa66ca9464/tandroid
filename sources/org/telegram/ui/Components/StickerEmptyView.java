@@ -71,7 +71,9 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
             public void setVisibility(int i2) {
                 if (getVisibility() == 8 && i2 == 0) {
                     StickerEmptyView.this.setSticker();
-                    StickerEmptyView.this.stickerView.getImageReceiver().startAnimation();
+                    if (LiteMode.isEnabled(3)) {
+                        StickerEmptyView.this.stickerView.getImageReceiver().startAnimation();
+                    }
                 } else if (i2 == 8) {
                     StickerEmptyView.this.stickerView.getImageReceiver().clearImage();
                 }
@@ -221,12 +223,13 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
     public void setSticker() {
         TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet;
         TLRPC$Document tLRPC$Document;
-        String str;
         int i;
         TLRPC$Document tLRPC$Document2 = null;
+        String str = null;
+        tLRPC$Document2 = null;
+        tLRPC$Document2 = null;
         if (this.stickerType == 2) {
             tLRPC$Document = MediaDataController.getInstance(this.currentAccount).getEmojiAnimatedSticker("👍");
-            str = null;
             tLRPC$TL_messages_stickerSet = null;
         } else {
             TLRPC$TL_messages_stickerSet stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME);
@@ -240,12 +243,16 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
             tLRPC$Document = tLRPC$Document2;
             str = "130_130";
         }
+        if (!LiteMode.isEnabled(3)) {
+            str = str + "_firstframe";
+        }
+        String str2 = str;
         if (tLRPC$Document != null) {
             SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document.thumbs, this.colorKey1, 0.2f);
             if (svgThumb != null) {
                 svgThumb.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
             }
-            this.stickerView.setImage(ImageLocation.getForDocument(tLRPC$Document), str, "tgs", svgThumb, tLRPC$TL_messages_stickerSet);
+            this.stickerView.setImage(ImageLocation.getForDocument(tLRPC$Document), str2, "tgs", svgThumb, tLRPC$TL_messages_stickerSet);
             int i2 = this.stickerType;
             if (i2 == 9 || i2 == 0) {
                 this.stickerView.getImageReceiver().setAutoRepeat(1);

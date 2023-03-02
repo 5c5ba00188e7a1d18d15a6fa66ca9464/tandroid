@@ -5,6 +5,7 @@ import j$.util.function.Consumer;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Objects;
+import org.telegram.messenger.LiteMode;
 import org.telegram.tgnet.ConnectionsManager;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
@@ -17,7 +18,7 @@ public class J implements u {
 
     public J(Collection collection, int i) {
         this.a = collection;
-        this.c = (i & 4096) == 0 ? i | 64 | 16384 : i;
+        this.c = (i & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) == 0 ? i | 64 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i;
     }
 
     @Override // j$.util.u

@@ -2111,7 +2111,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             chatFull.groupcall_default_join_as = tLRPC$Peer;
             if (tLRPC$Peer != null) {
                 if (chatFull instanceof TLRPC$TL_chatFull) {
-                    chatFull.flags |= 32768;
+                    chatFull.flags |= LiteMode.FLAG_CHAT_SCALE;
                 } else {
                     chatFull.flags |= ConnectionsManager.FileTypeFile;
                 }

@@ -229,7 +229,7 @@ public class FileLoadOperation {
     }
 
     public FileLoadOperation(ImageLocation imageLocation, Object obj, String str, long j) {
-        this.downloadChunkSize = 32768;
+        this.downloadChunkSize = LiteMode.FLAG_CHAT_SCALE;
         this.downloadChunkSizeBig = 131072;
         this.cdnChunkCheckSize = 131072;
         this.maxDownloadRequests = 4;
@@ -367,7 +367,7 @@ public class FileLoadOperation {
     }
 
     public FileLoadOperation(SecureDocument secureDocument) {
-        this.downloadChunkSize = 32768;
+        this.downloadChunkSize = LiteMode.FLAG_CHAT_SCALE;
         this.downloadChunkSizeBig = 131072;
         this.cdnChunkCheckSize = 131072;
         this.maxDownloadRequests = 4;
@@ -407,7 +407,7 @@ public class FileLoadOperation {
     }
 
     public FileLoadOperation(int i, WebFile webFile) {
-        this.downloadChunkSize = 32768;
+        this.downloadChunkSize = LiteMode.FLAG_CHAT_SCALE;
         this.downloadChunkSizeBig = 131072;
         this.cdnChunkCheckSize = 131072;
         this.maxDownloadRequests = 4;
@@ -452,7 +452,7 @@ public class FileLoadOperation {
         long j;
         String documentFileName;
         int lastIndexOf;
-        this.downloadChunkSize = 32768;
+        this.downloadChunkSize = LiteMode.FLAG_CHAT_SCALE;
         this.downloadChunkSizeBig = 131072;
         this.cdnChunkCheckSize = 131072;
         this.maxDownloadRequests = 4;
@@ -1829,7 +1829,7 @@ public class FileLoadOperation {
             for (int i = 0; i < this.requestInfos.size(); i++) {
                 RequestInfo requestInfo = this.requestInfos.get(i);
                 if (requestInfo.requestToken != 0) {
-                    ConnectionsManager.getInstance(this.currentAccount).cancelRequest(requestInfo.requestToken, false);
+                    ConnectionsManager.getInstance(this.currentAccount).cancelRequest(requestInfo.requestToken, true);
                 }
             }
         }
@@ -2094,7 +2094,7 @@ public class FileLoadOperation {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onFinishLoadingFile$11(boolean z) {
         if (BuildVars.LOGS_ENABLED) {
-            FileLog.d("finished downloading file to " + this.cacheFileFinal + " time = " + (System.currentTimeMillis() - this.startTime));
+            FileLog.d("finished downloading file to " + this.cacheFileFinal + " time = " + (System.currentTimeMillis() - this.startTime) + " dc = " + this.datacenterId + " size = " + AndroidUtilities.formatFileSize(this.totalBytesCount));
         }
         if (z) {
             int i = this.currentType;

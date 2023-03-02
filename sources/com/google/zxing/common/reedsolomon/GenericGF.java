@@ -20,7 +20,7 @@ public final class GenericGF {
     }
 
     static {
-        new GenericGF(4201, 4096, 1);
+        new GenericGF(4201, LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM, 1);
         new GenericGF(1033, 1024, 1);
         AZTEC_DATA_6 = new GenericGF(67, 64, 1);
         new GenericGF(19, 16, 1);

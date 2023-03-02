@@ -93,6 +93,14 @@ public class PremiumGradient {
         this.mainGradient.gradientMatrix(i, i2, i3, i4, f, f2);
     }
 
+    public Paint getPremiumLocakedPaint() {
+        if (this.lockedPremiumPaint == null) {
+            this.lockedPremiumPaint = new Paint(1);
+        }
+        this.lockedPremiumPaint.setColor(Theme.getColor("featuredStickers_addButton"));
+        return this.lockedPremiumPaint;
+    }
+
     /* loaded from: classes.dex */
     public static class InternalDrawable extends BitmapDrawable {
         public int[] colors;

@@ -43,7 +43,6 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
@@ -603,11 +602,6 @@ public class BottomSheet extends Dialog {
             }
         }
 
-        @Override // android.view.View, android.view.ViewParent
-        public void requestLayout() {
-            super.requestLayout();
-        }
-
         /* JADX WARN: Removed duplicated region for block: B:66:0x019d  */
         /* JADX WARN: Removed duplicated region for block: B:70:0x01aa  */
         /* JADX WARN: Removed duplicated region for block: B:74:0x01bd  */
@@ -702,7 +696,7 @@ public class BottomSheet extends Dialog {
                                 i17 = 51;
                             }
                             int i18 = i17 & 7;
-                            int i19 = i17 & MessagesStorage.LAST_DB_VERSION;
+                            int i19 = i17 & 112;
                             int i20 = i18 & 7;
                             if (i20 == 1) {
                                 i7 = (((i6 - i5) - measuredWidth2) / 2) + layoutParams.leftMargin;
@@ -1331,7 +1325,7 @@ public class BottomSheet extends Dialog {
         setContentView(this.container, new ViewGroup.LayoutParams(-1, -1));
         Drawable drawable = null;
         if (this.useLightStatusBar && Build.VERSION.SDK_INT >= 23 && Theme.getColor("actionBarDefault", null, true) == -1) {
-            this.container.setSystemUiVisibility(this.container.getSystemUiVisibility() | 8192);
+            this.container.setSystemUiVisibility(this.container.getSystemUiVisibility() | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
         }
         if (this.useLightNavBar && Build.VERSION.SDK_INT >= 26) {
             AndroidUtilities.setLightNavigationBar(getWindow(), false);
@@ -1414,7 +1408,9 @@ public class BottomSheet extends Dialog {
                 this.containerView.setClipChildren(false);
                 this.container.setClipToPadding(false);
                 this.container.setClipChildren(false);
-                this.containerView.addView(this.customView, LayoutHelper.createFrame(-1, -2.0f, this.customViewGravity, 0.0f, (-this.backgroundPaddingTop) + i, 0.0f, 0.0f));
+                float f = i;
+                this.containerView.addView(this.customView, LayoutHelper.createFrame(-1, -2.0f, this.customViewGravity, 0.0f, f, 0.0f, 0.0f));
+                ((ViewGroup.MarginLayoutParams) this.customView.getLayoutParams()).topMargin = (-this.backgroundPaddingTop) + AndroidUtilities.dp(f);
             } else {
                 this.containerView.addView(this.customView, LayoutHelper.createFrame(-1, -2.0f, this.customViewGravity, 0.0f, i, 0.0f, 0.0f));
             }
@@ -1486,7 +1482,7 @@ public class BottomSheet extends Dialog {
         if (Build.VERSION.SDK_INT >= 23) {
             int color = Theme.getColor("actionBarDefault", null, true);
             int systemUiVisibility = this.container.getSystemUiVisibility();
-            this.container.setSystemUiVisibility((this.useLightStatusBar && color == -1) ? systemUiVisibility | 8192 : systemUiVisibility & (-8193));
+            this.container.setSystemUiVisibility((this.useLightStatusBar && color == -1) ? systemUiVisibility | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM : systemUiVisibility & (-8193));
         }
     }
 

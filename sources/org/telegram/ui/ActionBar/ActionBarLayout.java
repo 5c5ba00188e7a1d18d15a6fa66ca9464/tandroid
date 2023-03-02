@@ -43,7 +43,6 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
-import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.ActionBar.ActionBarLayout;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.INavigationLayout;
@@ -169,7 +168,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     }
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout
-    public ViewGroup getOverlayContainerView() {
+    public FrameLayout getOverlayContainerView() {
         return this;
     }
 
@@ -647,14 +646,10 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         List<BaseFragment> list2 = this.fragmentsStack;
         BaseFragment baseFragment2 = list2.get(list2.size() - 1);
         float clamp = MathUtils.clamp(measuredWidth * 2.0f, 0.0f, 1.0f);
-        if (baseFragment2.isBeginToShow() && (navigationBarColor = baseFragment2.getNavigationBarColor()) != (navigationBarColor2 = baseFragment.getNavigationBarColor())) {
-            baseFragment2.setNavigationBarColor(ColorUtils.blendARGB(navigationBarColor, navigationBarColor2, clamp));
-        }
-        if (baseFragment2.inPreviewMode || Build.VERSION.SDK_INT < 23 || SharedConfig.noStatusBar) {
+        if (!baseFragment2.isBeginToShow() || (navigationBarColor = baseFragment2.getNavigationBarColor()) == (navigationBarColor2 = baseFragment.getNavigationBarColor())) {
             return;
         }
-        int i = Theme.getColor("actionBarDefault") == -1 ? AndroidUtilities.LIGHT_STATUS_BAR_OVERLAY : AndroidUtilities.DARK_STATUS_BAR_OVERLAY;
-        this.parentActivity.getWindow().setStatusBarColor(ColorUtils.blendARGB(baseFragment2.hasForceLightStatusBar() ? 0 : i, baseFragment.hasForceLightStatusBar() ? 0 : i, clamp));
+        baseFragment2.setNavigationBarColor(ColorUtils.blendARGB(navigationBarColor, navigationBarColor2, clamp));
     }
 
     @Keep
@@ -1575,7 +1570,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                                 }
                             };
                         }
-                        AndroidUtilities.runOnUIThread(this.waitingForKeyboardCloseRunnable, SharedConfig.smoothKeyboard ? 250L : 200L);
+                        AndroidUtilities.runOnUIThread(this.waitingForKeyboardCloseRunnable, 250L);
                     } else if (baseFragment2.needDelayOpenAnimation()) {
                         Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarLayout.7
                             @Override // java.lang.Runnable
@@ -1828,7 +1823,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         closeLastFragment(z, false);
     }
 
-    @Override // org.telegram.ui.ActionBar.INavigationLayout
     public void closeLastFragment(boolean z, boolean z2) {
         final BaseFragment baseFragment;
         BaseFragment lastFragment = getLastFragment();
