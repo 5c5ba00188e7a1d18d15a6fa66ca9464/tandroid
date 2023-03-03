@@ -10540,56 +10540,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didUploadPhoto$47(TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, TLRPC$VideoSize tLRPC$VideoSize, double d, final String str, TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$PhotoSize tLRPC$PhotoSize2) {
-        if (this.avatar == null) {
-            return;
-        }
-        if (tLRPC$InputFile != null || tLRPC$InputFile2 != null || tLRPC$VideoSize != null) {
-            TLRPC$TL_photos_uploadProfilePhoto tLRPC$TL_photos_uploadProfilePhoto = new TLRPC$TL_photos_uploadProfilePhoto();
-            if (tLRPC$InputFile != null) {
-                tLRPC$TL_photos_uploadProfilePhoto.file = tLRPC$InputFile;
-                tLRPC$TL_photos_uploadProfilePhoto.flags |= 1;
-            }
-            if (tLRPC$InputFile2 != null) {
-                tLRPC$TL_photos_uploadProfilePhoto.video = tLRPC$InputFile2;
-                int i = tLRPC$TL_photos_uploadProfilePhoto.flags | 2;
-                tLRPC$TL_photos_uploadProfilePhoto.flags = i;
-                tLRPC$TL_photos_uploadProfilePhoto.video_start_ts = d;
-                tLRPC$TL_photos_uploadProfilePhoto.flags = i | 4;
-            }
-            if (tLRPC$VideoSize != null) {
-                tLRPC$TL_photos_uploadProfilePhoto.video_emoji_markup = tLRPC$VideoSize;
-                tLRPC$TL_photos_uploadProfilePhoto.flags |= 16;
-            }
-            this.avatarUploadingRequest = getConnectionsManager().sendRequest(tLRPC$TL_photos_uploadProfilePhoto, new RequestDelegate() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda47
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ProfileActivity.this.lambda$didUploadPhoto$46(str, tLObject, tLRPC$TL_error);
-                }
-            });
-        } else {
-            TLRPC$FileLocation tLRPC$FileLocation = tLRPC$PhotoSize.location;
-            this.avatar = tLRPC$FileLocation;
-            this.avatarBig = tLRPC$PhotoSize2.location;
-            this.avatarImage.setImage(ImageLocation.getForLocal(tLRPC$FileLocation), "50_50", this.avatarDrawable, (Object) null);
-            if (this.setAvatarRow != -1) {
-                updateRowsIds();
-                ListAdapter listAdapter = this.listAdapter;
-                if (listAdapter != null) {
-                    listAdapter.notifyDataSetChanged();
-                }
-                needLayout(true);
-            }
-            ProfileGalleryView profileGalleryView = this.avatarsViewPager;
-            ImageLocation forLocal = ImageLocation.getForLocal(this.avatarBig);
-            this.uploadingImageLocation = forLocal;
-            profileGalleryView.addUploadingImage(forLocal, ImageLocation.getForLocal(this.avatar));
-            showAvatarProgress(true, false);
-        }
-        this.actionBar.createMenu().requestLayout();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$didUploadPhoto$46(final String str, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda32
             @Override // java.lang.Runnable
@@ -10655,6 +10605,56 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_ALL));
         getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged, new Object[0]);
         getUserConfig().saveConfig(true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$didUploadPhoto$47(TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, TLRPC$VideoSize tLRPC$VideoSize, double d, final String str, TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$PhotoSize tLRPC$PhotoSize2) {
+        if (tLRPC$InputFile != null || tLRPC$InputFile2 != null || tLRPC$VideoSize != null) {
+            if (this.avatar == null) {
+                return;
+            }
+            TLRPC$TL_photos_uploadProfilePhoto tLRPC$TL_photos_uploadProfilePhoto = new TLRPC$TL_photos_uploadProfilePhoto();
+            if (tLRPC$InputFile != null) {
+                tLRPC$TL_photos_uploadProfilePhoto.file = tLRPC$InputFile;
+                tLRPC$TL_photos_uploadProfilePhoto.flags |= 1;
+            }
+            if (tLRPC$InputFile2 != null) {
+                tLRPC$TL_photos_uploadProfilePhoto.video = tLRPC$InputFile2;
+                int i = tLRPC$TL_photos_uploadProfilePhoto.flags | 2;
+                tLRPC$TL_photos_uploadProfilePhoto.flags = i;
+                tLRPC$TL_photos_uploadProfilePhoto.video_start_ts = d;
+                tLRPC$TL_photos_uploadProfilePhoto.flags = i | 4;
+            }
+            if (tLRPC$VideoSize != null) {
+                tLRPC$TL_photos_uploadProfilePhoto.video_emoji_markup = tLRPC$VideoSize;
+                tLRPC$TL_photos_uploadProfilePhoto.flags |= 16;
+            }
+            this.avatarUploadingRequest = getConnectionsManager().sendRequest(tLRPC$TL_photos_uploadProfilePhoto, new RequestDelegate() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda47
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    ProfileActivity.this.lambda$didUploadPhoto$46(str, tLObject, tLRPC$TL_error);
+                }
+            });
+        } else {
+            TLRPC$FileLocation tLRPC$FileLocation = tLRPC$PhotoSize.location;
+            this.avatar = tLRPC$FileLocation;
+            this.avatarBig = tLRPC$PhotoSize2.location;
+            this.avatarImage.setImage(ImageLocation.getForLocal(tLRPC$FileLocation), "50_50", this.avatarDrawable, (Object) null);
+            if (this.setAvatarRow != -1) {
+                updateRowsIds();
+                ListAdapter listAdapter = this.listAdapter;
+                if (listAdapter != null) {
+                    listAdapter.notifyDataSetChanged();
+                }
+                needLayout(true);
+            }
+            ProfileGalleryView profileGalleryView = this.avatarsViewPager;
+            ImageLocation forLocal = ImageLocation.getForLocal(this.avatarBig);
+            this.uploadingImageLocation = forLocal;
+            profileGalleryView.addUploadingImage(forLocal, ImageLocation.getForLocal(this.avatar));
+            showAvatarProgress(true, false);
+        }
+        this.actionBar.createMenu().requestLayout();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

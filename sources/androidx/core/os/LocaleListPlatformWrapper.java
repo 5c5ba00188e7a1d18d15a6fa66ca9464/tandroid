@@ -7,8 +7,8 @@ final class LocaleListPlatformWrapper implements LocaleListInterface {
     private final LocaleList mLocaleList;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public LocaleListPlatformWrapper(LocaleList localeList) {
-        this.mLocaleList = localeList;
+    public LocaleListPlatformWrapper(Object obj) {
+        this.mLocaleList = (LocaleList) obj;
     }
 
     @Override // androidx.core.os.LocaleListInterface
@@ -17,8 +17,8 @@ final class LocaleListPlatformWrapper implements LocaleListInterface {
     }
 
     @Override // androidx.core.os.LocaleListInterface
-    public Locale get(int index) {
-        return this.mLocaleList.get(index);
+    public Locale get(int i) {
+        return this.mLocaleList.get(i);
     }
 
     @Override // androidx.core.os.LocaleListInterface
@@ -26,8 +26,8 @@ final class LocaleListPlatformWrapper implements LocaleListInterface {
         return this.mLocaleList.size();
     }
 
-    public boolean equals(Object other) {
-        return this.mLocaleList.equals(((LocaleListInterface) other).getLocaleList());
+    public boolean equals(Object obj) {
+        return this.mLocaleList.equals(((LocaleListInterface) obj).getLocaleList());
     }
 
     public int hashCode() {

@@ -3,5 +3,5 @@ package androidx.core.util;
 public interface Pools$Pool<T> {
     T acquire();
 
-    boolean release(T instance);
+    boolean release(T t);
 }

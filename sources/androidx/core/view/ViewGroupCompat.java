@@ -5,11 +5,26 @@ import android.view.ViewGroup;
 import androidx.core.R$id;
 /* loaded from: classes.dex */
 public final class ViewGroupCompat {
-    public static boolean isTransitionGroup(ViewGroup group) {
+    public static boolean isTransitionGroup(ViewGroup viewGroup) {
         if (Build.VERSION.SDK_INT >= 21) {
-            return group.isTransitionGroup();
+            return Api21Impl.isTransitionGroup(viewGroup);
         }
-        Boolean bool = (Boolean) group.getTag(R$id.tag_transition_group);
-        return ((bool == null || !bool.booleanValue()) && group.getBackground() == null && ViewCompat.getTransitionName(group) == null) ? false : true;
+        Boolean bool = (Boolean) viewGroup.getTag(R$id.tag_transition_group);
+        return ((bool == null || !bool.booleanValue()) && viewGroup.getBackground() == null && ViewCompat.getTransitionName(viewGroup) == null) ? false : true;
+    }
+
+    /* loaded from: classes.dex */
+    static class Api21Impl {
+        static void setTransitionGroup(ViewGroup viewGroup, boolean z) {
+            viewGroup.setTransitionGroup(z);
+        }
+
+        static boolean isTransitionGroup(ViewGroup viewGroup) {
+            return viewGroup.isTransitionGroup();
+        }
+
+        static int getNestedScrollAxes(ViewGroup viewGroup) {
+            return viewGroup.getNestedScrollAxes();
+        }
     }
 }

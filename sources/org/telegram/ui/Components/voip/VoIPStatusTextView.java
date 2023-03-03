@@ -17,7 +17,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.EllipsizeSpanAnimator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.voip.VoIPStatusTextView;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class VoIPStatusTextView extends FrameLayout {
     boolean animationInProgress;
     ValueAnimator animator;
@@ -178,7 +178,7 @@ public class VoIPStatusTextView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class 1 extends AnimatorListenerAdapter {
         final /* synthetic */ View val$in;
         final /* synthetic */ Runnable val$onEnd;

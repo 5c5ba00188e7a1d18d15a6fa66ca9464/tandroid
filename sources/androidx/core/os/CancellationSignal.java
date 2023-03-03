@@ -31,7 +31,7 @@ public final class CancellationSignal {
                 }
             }
             if (obj != null && Build.VERSION.SDK_INT >= 16) {
-                ((android.os.CancellationSignal) obj).cancel();
+                Api16Impl.cancel(obj);
             }
             synchronized (this) {
                 notifyAll();
@@ -46,14 +46,25 @@ public final class CancellationSignal {
         }
         synchronized (this) {
             if (this.mCancellationSignalObj == null) {
-                android.os.CancellationSignal cancellationSignal = new android.os.CancellationSignal();
-                this.mCancellationSignalObj = cancellationSignal;
+                android.os.CancellationSignal createCancellationSignal = Api16Impl.createCancellationSignal();
+                this.mCancellationSignalObj = createCancellationSignal;
                 if (this.mIsCanceled) {
-                    cancellationSignal.cancel();
+                    Api16Impl.cancel(createCancellationSignal);
                 }
             }
             obj = this.mCancellationSignalObj;
         }
         return obj;
+    }
+
+    /* loaded from: classes.dex */
+    static class Api16Impl {
+        static void cancel(Object obj) {
+            ((android.os.CancellationSignal) obj).cancel();
+        }
+
+        static android.os.CancellationSignal createCancellationSignal() {
+            return new android.os.CancellationSignal();
+        }
     }
 }

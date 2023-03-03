@@ -4,7 +4,7 @@ import androidx.lifecycle.ClassesInfoCache;
 import androidx.lifecycle.Lifecycle;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class ReflectiveGenericLifecycleObserver implements GenericLifecycleObserver {
+public class ReflectiveGenericLifecycleObserver implements LifecycleEventObserver {
     private final ClassesInfoCache.CallbackInfo mInfo;
     private final Object mWrapped;
 
@@ -14,7 +14,7 @@ public class ReflectiveGenericLifecycleObserver implements GenericLifecycleObser
         this.mInfo = ClassesInfoCache.sInstance.getInfo(obj.getClass());
     }
 
-    @Override // androidx.lifecycle.GenericLifecycleObserver
+    @Override // androidx.lifecycle.LifecycleEventObserver
     public void onStateChanged(LifecycleOwner lifecycleOwner, Lifecycle.Event event) {
         this.mInfo.invokeCallbacks(lifecycleOwner, event, this.mWrapped);
     }

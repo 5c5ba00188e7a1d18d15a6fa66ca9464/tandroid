@@ -2269,7 +2269,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:396:0x092e  */
     /* JADX WARN: Removed duplicated region for block: B:399:0x0980  */
     /* JADX WARN: Type inference failed for: r2v19 */
-    /* JADX WARN: Type inference failed for: r2v22, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v22, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v26 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -10742,7 +10742,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         z2 = true;
                         getMediaDataController().addRecentSticker(0, tLRPC$Message, tLRPC$Message.media.document, tLRPC$Message.date, false);
                         str2 = tLRPC$Message2.attachPath;
-                        if (str2 == null && str2.startsWith(FileLoader.getDirectory(4).getAbsolutePath())) {
+                        if (str2 == null && str2.startsWith(FileLoader.getDirectory(4).getAbsolutePath()) && !MessageObject.isGifDocument(tLRPC$Message.media.document)) {
                             File file3 = new File(tLRPC$Message2.attachPath);
                             FileLoader fileLoader = FileLoader.getInstance(this.currentAccount);
                             TLRPC$MessageMedia tLRPC$MessageMedia11 = tLRPC$Message.media;

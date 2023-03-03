@@ -10,20 +10,20 @@ public final class RoundedBitmapDrawableFactory {
 
     /* loaded from: classes.dex */
     private static class DefaultRoundedBitmapDrawable extends RoundedBitmapDrawable {
-        DefaultRoundedBitmapDrawable(Resources res, Bitmap bitmap) {
-            super(res, bitmap);
+        DefaultRoundedBitmapDrawable(Resources resources, Bitmap bitmap) {
+            super(resources, bitmap);
         }
 
         @Override // androidx.core.graphics.drawable.RoundedBitmapDrawable
-        void gravityCompatApply(int gravity, int bitmapWidth, int bitmapHeight, Rect bounds, Rect outRect) {
-            GravityCompat.apply(gravity, bitmapWidth, bitmapHeight, bounds, outRect, 0);
+        void gravityCompatApply(int i, int i2, int i3, Rect rect, Rect rect2) {
+            GravityCompat.apply(i, i2, i3, rect, rect2, 0);
         }
     }
 
-    public static RoundedBitmapDrawable create(Resources res, Bitmap bitmap) {
+    public static RoundedBitmapDrawable create(Resources resources, Bitmap bitmap) {
         if (Build.VERSION.SDK_INT >= 21) {
-            return new RoundedBitmapDrawable21(res, bitmap);
+            return new RoundedBitmapDrawable21(resources, bitmap);
         }
-        return new DefaultRoundedBitmapDrawable(res, bitmap);
+        return new DefaultRoundedBitmapDrawable(resources, bitmap);
     }
 }

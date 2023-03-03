@@ -1,8 +1,9 @@
 package androidx.lifecycle;
 
 import androidx.lifecycle.Lifecycle;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class CompositeGeneratedAdaptersObserver implements GenericLifecycleObserver {
+public class CompositeGeneratedAdaptersObserver implements LifecycleEventObserver {
     private final GeneratedAdapter[] mGeneratedAdapters;
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -10,7 +11,7 @@ public class CompositeGeneratedAdaptersObserver implements GenericLifecycleObser
         this.mGeneratedAdapters = generatedAdapterArr;
     }
 
-    @Override // androidx.lifecycle.GenericLifecycleObserver
+    @Override // androidx.lifecycle.LifecycleEventObserver
     public void onStateChanged(LifecycleOwner lifecycleOwner, Lifecycle.Event event) {
         MethodCallsLogger methodCallsLogger = new MethodCallsLogger();
         for (GeneratedAdapter generatedAdapter : this.mGeneratedAdapters) {

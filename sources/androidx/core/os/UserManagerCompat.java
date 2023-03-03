@@ -7,8 +7,15 @@ import android.os.UserManager;
 public class UserManagerCompat {
     public static boolean isUserUnlocked(Context context) {
         if (Build.VERSION.SDK_INT >= 24) {
-            return ((UserManager) context.getSystemService(UserManager.class)).isUserUnlocked();
+            return Api24Impl.isUserUnlocked(context);
         }
         return true;
+    }
+
+    /* loaded from: classes.dex */
+    static class Api24Impl {
+        static boolean isUserUnlocked(Context context) {
+            return ((UserManager) context.getSystemService(UserManager.class)).isUserUnlocked();
+        }
     }
 }

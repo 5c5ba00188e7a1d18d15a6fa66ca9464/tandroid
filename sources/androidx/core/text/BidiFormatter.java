@@ -32,14 +32,14 @@ public final class BidiFormatter {
             initialize(BidiFormatter.isRtlLocale(Locale.getDefault()));
         }
 
-        private void initialize(boolean isRtlContext) {
-            this.mIsRtlContext = isRtlContext;
+        private void initialize(boolean z) {
+            this.mIsRtlContext = z;
             this.mTextDirectionHeuristicCompat = BidiFormatter.DEFAULT_TEXT_DIRECTION_HEURISTIC;
             this.mFlags = 2;
         }
 
-        private static BidiFormatter getDefaultInstanceFromContext(boolean isRtlContext) {
-            return isRtlContext ? BidiFormatter.DEFAULT_RTL_INSTANCE : BidiFormatter.DEFAULT_LTR_INSTANCE;
+        private static BidiFormatter getDefaultInstanceFromContext(boolean z) {
+            return z ? BidiFormatter.DEFAULT_RTL_INSTANCE : BidiFormatter.DEFAULT_LTR_INSTANCE;
         }
 
         public BidiFormatter build() {
@@ -54,68 +54,68 @@ public final class BidiFormatter {
         return new Builder().build();
     }
 
-    BidiFormatter(boolean isRtlContext, int flags, TextDirectionHeuristicCompat heuristic) {
-        this.mIsRtlContext = isRtlContext;
-        this.mFlags = flags;
-        this.mDefaultTextDirectionHeuristicCompat = heuristic;
+    BidiFormatter(boolean z, int i, TextDirectionHeuristicCompat textDirectionHeuristicCompat) {
+        this.mIsRtlContext = z;
+        this.mFlags = i;
+        this.mDefaultTextDirectionHeuristicCompat = textDirectionHeuristicCompat;
     }
 
     public boolean getStereoReset() {
         return (this.mFlags & 2) != 0;
     }
 
-    private String markAfter(CharSequence str, TextDirectionHeuristicCompat heuristic) {
-        boolean isRtl = heuristic.isRtl(str, 0, str.length());
-        if (this.mIsRtlContext || !(isRtl || getExitDir(str) == 1)) {
-            return this.mIsRtlContext ? (!isRtl || getExitDir(str) == -1) ? RLM_STRING : "" : "";
+    private String markAfter(CharSequence charSequence, TextDirectionHeuristicCompat textDirectionHeuristicCompat) {
+        boolean isRtl = textDirectionHeuristicCompat.isRtl(charSequence, 0, charSequence.length());
+        if (this.mIsRtlContext || !(isRtl || getExitDir(charSequence) == 1)) {
+            return this.mIsRtlContext ? (!isRtl || getExitDir(charSequence) == -1) ? RLM_STRING : "" : "";
         }
         return LRM_STRING;
     }
 
-    private String markBefore(CharSequence str, TextDirectionHeuristicCompat heuristic) {
-        boolean isRtl = heuristic.isRtl(str, 0, str.length());
-        if (this.mIsRtlContext || !(isRtl || getEntryDir(str) == 1)) {
-            return this.mIsRtlContext ? (!isRtl || getEntryDir(str) == -1) ? RLM_STRING : "" : "";
+    private String markBefore(CharSequence charSequence, TextDirectionHeuristicCompat textDirectionHeuristicCompat) {
+        boolean isRtl = textDirectionHeuristicCompat.isRtl(charSequence, 0, charSequence.length());
+        if (this.mIsRtlContext || !(isRtl || getEntryDir(charSequence) == 1)) {
+            return this.mIsRtlContext ? (!isRtl || getEntryDir(charSequence) == -1) ? RLM_STRING : "" : "";
         }
         return LRM_STRING;
     }
 
-    public CharSequence unicodeWrap(CharSequence str, TextDirectionHeuristicCompat heuristic, boolean isolate) {
-        if (str == null) {
+    public CharSequence unicodeWrap(CharSequence charSequence, TextDirectionHeuristicCompat textDirectionHeuristicCompat, boolean z) {
+        if (charSequence == null) {
             return null;
         }
-        boolean isRtl = heuristic.isRtl(str, 0, str.length());
+        boolean isRtl = textDirectionHeuristicCompat.isRtl(charSequence, 0, charSequence.length());
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-        if (getStereoReset() && isolate) {
-            spannableStringBuilder.append((CharSequence) markBefore(str, isRtl ? TextDirectionHeuristicsCompat.RTL : TextDirectionHeuristicsCompat.LTR));
+        if (getStereoReset() && z) {
+            spannableStringBuilder.append((CharSequence) markBefore(charSequence, isRtl ? TextDirectionHeuristicsCompat.RTL : TextDirectionHeuristicsCompat.LTR));
         }
         if (isRtl != this.mIsRtlContext) {
             spannableStringBuilder.append(isRtl ? (char) 8235 : (char) 8234);
-            spannableStringBuilder.append(str);
+            spannableStringBuilder.append(charSequence);
             spannableStringBuilder.append((char) 8236);
         } else {
-            spannableStringBuilder.append(str);
+            spannableStringBuilder.append(charSequence);
         }
-        if (isolate) {
-            spannableStringBuilder.append((CharSequence) markAfter(str, isRtl ? TextDirectionHeuristicsCompat.RTL : TextDirectionHeuristicsCompat.LTR));
+        if (z) {
+            spannableStringBuilder.append((CharSequence) markAfter(charSequence, isRtl ? TextDirectionHeuristicsCompat.RTL : TextDirectionHeuristicsCompat.LTR));
         }
         return spannableStringBuilder;
     }
 
-    public CharSequence unicodeWrap(CharSequence str) {
-        return unicodeWrap(str, this.mDefaultTextDirectionHeuristicCompat, true);
+    public CharSequence unicodeWrap(CharSequence charSequence) {
+        return unicodeWrap(charSequence, this.mDefaultTextDirectionHeuristicCompat, true);
     }
 
     static boolean isRtlLocale(Locale locale) {
         return TextUtilsCompat.getLayoutDirectionFromLocale(locale) == 1;
     }
 
-    private static int getExitDir(CharSequence str) {
-        return new DirectionalityEstimator(str, false).getExitDir();
+    private static int getExitDir(CharSequence charSequence) {
+        return new DirectionalityEstimator(charSequence, false).getExitDir();
     }
 
-    private static int getEntryDir(CharSequence str) {
-        return new DirectionalityEstimator(str, false).getEntryDir();
+    private static int getEntryDir(CharSequence charSequence) {
+        return new DirectionalityEstimator(charSequence, false).getEntryDir();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -134,10 +134,10 @@ public final class BidiFormatter {
             }
         }
 
-        DirectionalityEstimator(CharSequence text, boolean isHtml) {
-            this.text = text;
-            this.isHtml = isHtml;
-            this.length = text.length();
+        DirectionalityEstimator(CharSequence charSequence, boolean z) {
+            this.text = charSequence;
+            this.isHtml = z;
+            this.length = charSequence.length();
         }
 
         int getEntryDir() {

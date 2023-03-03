@@ -714,7 +714,7 @@ public class ContactsController extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:285:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r5v1 */
     /* JADX WARN: Type inference failed for: r5v12 */
-    /* JADX WARN: Type inference failed for: r5v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r5v2, types: [boolean, int] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

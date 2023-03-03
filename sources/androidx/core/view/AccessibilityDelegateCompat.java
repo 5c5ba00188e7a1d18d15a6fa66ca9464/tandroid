@@ -26,58 +26,58 @@ public class AccessibilityDelegateCompat {
     public static final class AccessibilityDelegateAdapter extends View.AccessibilityDelegate {
         final AccessibilityDelegateCompat mCompat;
 
-        AccessibilityDelegateAdapter(AccessibilityDelegateCompat compat) {
-            this.mCompat = compat;
+        AccessibilityDelegateAdapter(AccessibilityDelegateCompat accessibilityDelegateCompat) {
+            this.mCompat = accessibilityDelegateCompat;
         }
 
         @Override // android.view.View.AccessibilityDelegate
-        public boolean dispatchPopulateAccessibilityEvent(View host, AccessibilityEvent event) {
-            return this.mCompat.dispatchPopulateAccessibilityEvent(host, event);
+        public boolean dispatchPopulateAccessibilityEvent(View view, AccessibilityEvent accessibilityEvent) {
+            return this.mCompat.dispatchPopulateAccessibilityEvent(view, accessibilityEvent);
         }
 
         @Override // android.view.View.AccessibilityDelegate
-        public void onInitializeAccessibilityEvent(View host, AccessibilityEvent event) {
-            this.mCompat.onInitializeAccessibilityEvent(host, event);
+        public void onInitializeAccessibilityEvent(View view, AccessibilityEvent accessibilityEvent) {
+            this.mCompat.onInitializeAccessibilityEvent(view, accessibilityEvent);
         }
 
         @Override // android.view.View.AccessibilityDelegate
-        public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfo info) {
-            AccessibilityNodeInfoCompat wrap = AccessibilityNodeInfoCompat.wrap(info);
-            wrap.setScreenReaderFocusable(ViewCompat.isScreenReaderFocusable(host));
-            wrap.setHeading(ViewCompat.isAccessibilityHeading(host));
-            wrap.setPaneTitle(ViewCompat.getAccessibilityPaneTitle(host));
-            wrap.setStateDescription(ViewCompat.getStateDescription(host));
-            this.mCompat.onInitializeAccessibilityNodeInfo(host, wrap);
-            wrap.addSpansToExtras(info.getText(), host);
-            List<AccessibilityNodeInfoCompat.AccessibilityActionCompat> actionList = AccessibilityDelegateCompat.getActionList(host);
+        public void onInitializeAccessibilityNodeInfo(View view, AccessibilityNodeInfo accessibilityNodeInfo) {
+            AccessibilityNodeInfoCompat wrap = AccessibilityNodeInfoCompat.wrap(accessibilityNodeInfo);
+            wrap.setScreenReaderFocusable(ViewCompat.isScreenReaderFocusable(view));
+            wrap.setHeading(ViewCompat.isAccessibilityHeading(view));
+            wrap.setPaneTitle(ViewCompat.getAccessibilityPaneTitle(view));
+            wrap.setStateDescription(ViewCompat.getStateDescription(view));
+            this.mCompat.onInitializeAccessibilityNodeInfo(view, wrap);
+            wrap.addSpansToExtras(accessibilityNodeInfo.getText(), view);
+            List<AccessibilityNodeInfoCompat.AccessibilityActionCompat> actionList = AccessibilityDelegateCompat.getActionList(view);
             for (int i = 0; i < actionList.size(); i++) {
                 wrap.addAction(actionList.get(i));
             }
         }
 
         @Override // android.view.View.AccessibilityDelegate
-        public void onPopulateAccessibilityEvent(View host, AccessibilityEvent event) {
-            this.mCompat.onPopulateAccessibilityEvent(host, event);
+        public void onPopulateAccessibilityEvent(View view, AccessibilityEvent accessibilityEvent) {
+            this.mCompat.onPopulateAccessibilityEvent(view, accessibilityEvent);
         }
 
         @Override // android.view.View.AccessibilityDelegate
-        public boolean onRequestSendAccessibilityEvent(ViewGroup host, View child, AccessibilityEvent event) {
-            return this.mCompat.onRequestSendAccessibilityEvent(host, child, event);
+        public boolean onRequestSendAccessibilityEvent(ViewGroup viewGroup, View view, AccessibilityEvent accessibilityEvent) {
+            return this.mCompat.onRequestSendAccessibilityEvent(viewGroup, view, accessibilityEvent);
         }
 
         @Override // android.view.View.AccessibilityDelegate
-        public void sendAccessibilityEvent(View host, int eventType) {
-            this.mCompat.sendAccessibilityEvent(host, eventType);
+        public void sendAccessibilityEvent(View view, int i) {
+            this.mCompat.sendAccessibilityEvent(view, i);
         }
 
         @Override // android.view.View.AccessibilityDelegate
-        public void sendAccessibilityEventUnchecked(View host, AccessibilityEvent event) {
-            this.mCompat.sendAccessibilityEventUnchecked(host, event);
+        public void sendAccessibilityEventUnchecked(View view, AccessibilityEvent accessibilityEvent) {
+            this.mCompat.sendAccessibilityEventUnchecked(view, accessibilityEvent);
         }
 
         @Override // android.view.View.AccessibilityDelegate
-        public AccessibilityNodeProvider getAccessibilityNodeProvider(View host) {
-            AccessibilityNodeProviderCompat accessibilityNodeProvider = this.mCompat.getAccessibilityNodeProvider(host);
+        public AccessibilityNodeProvider getAccessibilityNodeProvider(View view) {
+            AccessibilityNodeProviderCompat accessibilityNodeProvider = this.mCompat.getAccessibilityNodeProvider(view);
             if (accessibilityNodeProvider != null) {
                 return (AccessibilityNodeProvider) accessibilityNodeProvider.getProvider();
             }
@@ -85,8 +85,8 @@ public class AccessibilityDelegateCompat {
         }
 
         @Override // android.view.View.AccessibilityDelegate
-        public boolean performAccessibilityAction(View host, int action, Bundle args) {
-            return this.mCompat.performAccessibilityAction(host, action, args);
+        public boolean performAccessibilityAction(View view, int i, Bundle bundle) {
+            return this.mCompat.performAccessibilityAction(view, i, bundle);
         }
     }
 
@@ -94,8 +94,8 @@ public class AccessibilityDelegateCompat {
         this(DEFAULT_DELEGATE);
     }
 
-    public AccessibilityDelegateCompat(View.AccessibilityDelegate originalDelegate) {
-        this.mOriginalDelegate = originalDelegate;
+    public AccessibilityDelegateCompat(View.AccessibilityDelegate accessibilityDelegate) {
+        this.mOriginalDelegate = accessibilityDelegate;
         this.mBridge = new AccessibilityDelegateAdapter(this);
     }
 
@@ -104,82 +104,82 @@ public class AccessibilityDelegateCompat {
         return this.mBridge;
     }
 
-    public void sendAccessibilityEvent(View host, int eventType) {
-        this.mOriginalDelegate.sendAccessibilityEvent(host, eventType);
+    public void sendAccessibilityEvent(View view, int i) {
+        this.mOriginalDelegate.sendAccessibilityEvent(view, i);
     }
 
-    public void sendAccessibilityEventUnchecked(View host, AccessibilityEvent event) {
-        this.mOriginalDelegate.sendAccessibilityEventUnchecked(host, event);
+    public void sendAccessibilityEventUnchecked(View view, AccessibilityEvent accessibilityEvent) {
+        this.mOriginalDelegate.sendAccessibilityEventUnchecked(view, accessibilityEvent);
     }
 
-    public boolean dispatchPopulateAccessibilityEvent(View host, AccessibilityEvent event) {
-        return this.mOriginalDelegate.dispatchPopulateAccessibilityEvent(host, event);
+    public boolean dispatchPopulateAccessibilityEvent(View view, AccessibilityEvent accessibilityEvent) {
+        return this.mOriginalDelegate.dispatchPopulateAccessibilityEvent(view, accessibilityEvent);
     }
 
-    public void onPopulateAccessibilityEvent(View host, AccessibilityEvent event) {
-        this.mOriginalDelegate.onPopulateAccessibilityEvent(host, event);
+    public void onPopulateAccessibilityEvent(View view, AccessibilityEvent accessibilityEvent) {
+        this.mOriginalDelegate.onPopulateAccessibilityEvent(view, accessibilityEvent);
     }
 
-    public void onInitializeAccessibilityEvent(View host, AccessibilityEvent event) {
-        this.mOriginalDelegate.onInitializeAccessibilityEvent(host, event);
+    public void onInitializeAccessibilityEvent(View view, AccessibilityEvent accessibilityEvent) {
+        this.mOriginalDelegate.onInitializeAccessibilityEvent(view, accessibilityEvent);
     }
 
-    public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfoCompat info) {
-        this.mOriginalDelegate.onInitializeAccessibilityNodeInfo(host, info.unwrap());
+    public void onInitializeAccessibilityNodeInfo(View view, AccessibilityNodeInfoCompat accessibilityNodeInfoCompat) {
+        this.mOriginalDelegate.onInitializeAccessibilityNodeInfo(view, accessibilityNodeInfoCompat.unwrap());
     }
 
-    public boolean onRequestSendAccessibilityEvent(ViewGroup host, View child, AccessibilityEvent event) {
-        return this.mOriginalDelegate.onRequestSendAccessibilityEvent(host, child, event);
+    public boolean onRequestSendAccessibilityEvent(ViewGroup viewGroup, View view, AccessibilityEvent accessibilityEvent) {
+        return this.mOriginalDelegate.onRequestSendAccessibilityEvent(viewGroup, view, accessibilityEvent);
     }
 
-    public AccessibilityNodeProviderCompat getAccessibilityNodeProvider(View host) {
+    public AccessibilityNodeProviderCompat getAccessibilityNodeProvider(View view) {
         AccessibilityNodeProvider accessibilityNodeProvider;
-        if (Build.VERSION.SDK_INT < 16 || (accessibilityNodeProvider = this.mOriginalDelegate.getAccessibilityNodeProvider(host)) == null) {
+        if (Build.VERSION.SDK_INT < 16 || (accessibilityNodeProvider = Api16Impl.getAccessibilityNodeProvider(this.mOriginalDelegate, view)) == null) {
             return null;
         }
         return new AccessibilityNodeProviderCompat(accessibilityNodeProvider);
     }
 
-    public boolean performAccessibilityAction(View host, int action, Bundle args) {
-        List<AccessibilityNodeInfoCompat.AccessibilityActionCompat> actionList = getActionList(host);
+    public boolean performAccessibilityAction(View view, int i, Bundle bundle) {
+        List<AccessibilityNodeInfoCompat.AccessibilityActionCompat> actionList = getActionList(view);
         boolean z = false;
-        int i = 0;
+        int i2 = 0;
         while (true) {
-            if (i >= actionList.size()) {
+            if (i2 >= actionList.size()) {
                 break;
             }
-            AccessibilityNodeInfoCompat.AccessibilityActionCompat accessibilityActionCompat = actionList.get(i);
-            if (accessibilityActionCompat.getId() == action) {
-                z = accessibilityActionCompat.perform(host, args);
+            AccessibilityNodeInfoCompat.AccessibilityActionCompat accessibilityActionCompat = actionList.get(i2);
+            if (accessibilityActionCompat.getId() == i) {
+                z = accessibilityActionCompat.perform(view, bundle);
                 break;
             }
-            i++;
+            i2++;
         }
         if (!z && Build.VERSION.SDK_INT >= 16) {
-            z = this.mOriginalDelegate.performAccessibilityAction(host, action, args);
+            z = Api16Impl.performAccessibilityAction(this.mOriginalDelegate, view, i, bundle);
         }
-        return (z || action != R$id.accessibility_action_clickable_span) ? z : performClickableSpanAction(args.getInt("ACCESSIBILITY_CLICKABLE_SPAN_ID", -1), host);
+        return (z || i != R$id.accessibility_action_clickable_span || bundle == null) ? z : performClickableSpanAction(bundle.getInt("ACCESSIBILITY_CLICKABLE_SPAN_ID", -1), view);
     }
 
-    private boolean performClickableSpanAction(int clickableSpanId, View host) {
+    private boolean performClickableSpanAction(int i, View view) {
         WeakReference weakReference;
-        SparseArray sparseArray = (SparseArray) host.getTag(R$id.tag_accessibility_clickable_spans);
-        if (sparseArray == null || (weakReference = (WeakReference) sparseArray.get(clickableSpanId)) == null) {
+        SparseArray sparseArray = (SparseArray) view.getTag(R$id.tag_accessibility_clickable_spans);
+        if (sparseArray == null || (weakReference = (WeakReference) sparseArray.get(i)) == null) {
             return false;
         }
         ClickableSpan clickableSpan = (ClickableSpan) weakReference.get();
-        if (isSpanStillValid(clickableSpan, host)) {
-            clickableSpan.onClick(host);
+        if (isSpanStillValid(clickableSpan, view)) {
+            clickableSpan.onClick(view);
             return true;
         }
         return false;
     }
 
-    private boolean isSpanStillValid(ClickableSpan span, View view) {
-        if (span != null) {
+    private boolean isSpanStillValid(ClickableSpan clickableSpan, View view) {
+        if (clickableSpan != null) {
             ClickableSpan[] clickableSpans = AccessibilityNodeInfoCompat.getClickableSpans(view.createAccessibilityNodeInfo().getText());
             for (int i = 0; clickableSpans != null && i < clickableSpans.length; i++) {
-                if (span.equals(clickableSpans[i])) {
+                if (clickableSpan.equals(clickableSpans[i])) {
                     return true;
                 }
             }
@@ -190,5 +190,17 @@ public class AccessibilityDelegateCompat {
     static List<AccessibilityNodeInfoCompat.AccessibilityActionCompat> getActionList(View view) {
         List<AccessibilityNodeInfoCompat.AccessibilityActionCompat> list = (List) view.getTag(R$id.tag_accessibility_actions);
         return list == null ? Collections.emptyList() : list;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class Api16Impl {
+        static AccessibilityNodeProvider getAccessibilityNodeProvider(View.AccessibilityDelegate accessibilityDelegate, View view) {
+            return accessibilityDelegate.getAccessibilityNodeProvider(view);
+        }
+
+        static boolean performAccessibilityAction(View.AccessibilityDelegate accessibilityDelegate, View view, int i, Bundle bundle) {
+            return accessibilityDelegate.performAccessibilityAction(view, i, bundle);
+        }
     }
 }

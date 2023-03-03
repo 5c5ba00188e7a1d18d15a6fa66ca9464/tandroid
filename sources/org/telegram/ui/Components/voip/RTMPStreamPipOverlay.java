@@ -59,7 +59,7 @@ import org.telegram.ui.Components.SimpleFloatPropertyCompat;
 import org.telegram.ui.Components.voip.RTMPStreamPipOverlay;
 import org.telegram.ui.LaunchActivity;
 import org.webrtc.RendererCommon;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCenterDelegate {
     private static final FloatPropertyCompat<RTMPStreamPipOverlay> PIP_X_PROPERTY = new SimpleFloatPropertyCompat("pipX", RTMPStreamPipOverlay$$ExternalSyntheticLambda6.INSTANCE, RTMPStreamPipOverlay$$ExternalSyntheticLambda8.INSTANCE);
     private static final FloatPropertyCompat<RTMPStreamPipOverlay> PIP_Y_PROPERTY = new SimpleFloatPropertyCompat("pipY", RTMPStreamPipOverlay$$ExternalSyntheticLambda5.INSTANCE, RTMPStreamPipOverlay$$ExternalSyntheticLambda7.INSTANCE);
@@ -528,7 +528,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class 3 implements ScaleGestureDetector.OnScaleGestureListener {
         3() {
         }
@@ -631,7 +631,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class 8 implements RendererCommon.RendererEvents {
         8() {
         }

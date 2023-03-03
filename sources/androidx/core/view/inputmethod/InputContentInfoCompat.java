@@ -32,9 +32,9 @@ public final class InputContentInfoCompat {
         public void requestPermission() {
         }
 
-        InputContentInfoCompatBaseImpl(Uri contentUri, ClipDescription description, Uri linkUri) {
-            this.mContentUri = contentUri;
-            this.mDescription = description;
+        InputContentInfoCompatBaseImpl(Uri uri, ClipDescription clipDescription, Uri uri2) {
+            this.mContentUri = uri;
+            this.mDescription = clipDescription;
         }
 
         @Override // androidx.core.view.inputmethod.InputContentInfoCompat.InputContentInfoCompatImpl
@@ -52,12 +52,12 @@ public final class InputContentInfoCompat {
     private static final class InputContentInfoCompatApi25Impl implements InputContentInfoCompatImpl {
         final InputContentInfo mObject;
 
-        InputContentInfoCompatApi25Impl(Object inputContentInfo) {
-            this.mObject = (InputContentInfo) inputContentInfo;
+        InputContentInfoCompatApi25Impl(Object obj) {
+            this.mObject = (InputContentInfo) obj;
         }
 
-        InputContentInfoCompatApi25Impl(Uri contentUri, ClipDescription description, Uri linkUri) {
-            this.mObject = new InputContentInfo(contentUri, description, linkUri);
+        InputContentInfoCompatApi25Impl(Uri uri, ClipDescription clipDescription, Uri uri2) {
+            this.mObject = new InputContentInfo(uri, clipDescription, uri2);
         }
 
         @Override // androidx.core.view.inputmethod.InputContentInfoCompat.InputContentInfoCompatImpl
@@ -81,16 +81,16 @@ public final class InputContentInfoCompat {
         }
     }
 
-    public InputContentInfoCompat(Uri contentUri, ClipDescription description, Uri linkUri) {
+    public InputContentInfoCompat(Uri uri, ClipDescription clipDescription, Uri uri2) {
         if (Build.VERSION.SDK_INT >= 25) {
-            this.mImpl = new InputContentInfoCompatApi25Impl(contentUri, description, linkUri);
+            this.mImpl = new InputContentInfoCompatApi25Impl(uri, clipDescription, uri2);
         } else {
-            this.mImpl = new InputContentInfoCompatBaseImpl(contentUri, description, linkUri);
+            this.mImpl = new InputContentInfoCompatBaseImpl(uri, clipDescription, uri2);
         }
     }
 
-    private InputContentInfoCompat(InputContentInfoCompatImpl impl) {
-        this.mImpl = impl;
+    private InputContentInfoCompat(InputContentInfoCompatImpl inputContentInfoCompatImpl) {
+        this.mImpl = inputContentInfoCompatImpl;
     }
 
     public Uri getContentUri() {
@@ -101,9 +101,9 @@ public final class InputContentInfoCompat {
         return this.mImpl.getDescription();
     }
 
-    public static InputContentInfoCompat wrap(Object inputContentInfo) {
-        if (inputContentInfo != null && Build.VERSION.SDK_INT >= 25) {
-            return new InputContentInfoCompat(new InputContentInfoCompatApi25Impl(inputContentInfo));
+    public static InputContentInfoCompat wrap(Object obj) {
+        if (obj != null && Build.VERSION.SDK_INT >= 25) {
+            return new InputContentInfoCompat(new InputContentInfoCompatApi25Impl(obj));
         }
         return null;
     }

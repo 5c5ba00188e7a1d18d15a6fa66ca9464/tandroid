@@ -1,5 +1,6 @@
 package androidx.lifecycle;
 
+import androidx.lifecycle.Lifecycle;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -9,16 +10,31 @@ import java.util.List;
 import java.util.Map;
 /* loaded from: classes.dex */
 public class Lifecycling {
-    private static Map<Class, Integer> sCallbackCache = new HashMap();
-    private static Map<Class, List<Constructor<? extends GeneratedAdapter>>> sClassToAdapters = new HashMap();
+    private static Map<Class<?>, Integer> sCallbackCache = new HashMap();
+    private static Map<Class<?>, List<Constructor<? extends GeneratedAdapter>>> sClassToAdapters = new HashMap();
+
+    /* loaded from: classes.dex */
+    class 1 implements LifecycleEventObserver {
+        final /* synthetic */ LifecycleEventObserver val$observer;
+
+        @Override // androidx.lifecycle.LifecycleEventObserver
+        public void onStateChanged(LifecycleOwner lifecycleOwner, Lifecycle.Event event) {
+            this.val$observer.onStateChanged(lifecycleOwner, event);
+        }
+    }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static GenericLifecycleObserver getCallback(Object obj) {
-        if (obj instanceof FullLifecycleObserver) {
-            return new FullLifecycleObserverAdapter((FullLifecycleObserver) obj);
+    public static LifecycleEventObserver lifecycleEventObserver(Object obj) {
+        boolean z = obj instanceof LifecycleEventObserver;
+        boolean z2 = obj instanceof FullLifecycleObserver;
+        if (z && z2) {
+            return new FullLifecycleObserverAdapter((FullLifecycleObserver) obj, (LifecycleEventObserver) obj);
         }
-        if (obj instanceof GenericLifecycleObserver) {
-            return (GenericLifecycleObserver) obj;
+        if (z2) {
+            return new FullLifecycleObserverAdapter((FullLifecycleObserver) obj, null);
+        }
+        if (z) {
+            return (LifecycleEventObserver) obj;
         }
         Class<?> cls = obj.getClass();
         if (getObserverConstructorType(cls) == 2) {
@@ -72,8 +88,9 @@ public class Lifecycling {
     }
 
     private static int getObserverConstructorType(Class<?> cls) {
-        if (sCallbackCache.containsKey(cls)) {
-            return sCallbackCache.get(cls).intValue();
+        Integer num = sCallbackCache.get(cls);
+        if (num != null) {
+            return num.intValue();
         }
         int resolveObserverCallbackType = resolveObserverCallbackType(cls);
         sCallbackCache.put(cls, Integer.valueOf(resolveObserverCallbackType));

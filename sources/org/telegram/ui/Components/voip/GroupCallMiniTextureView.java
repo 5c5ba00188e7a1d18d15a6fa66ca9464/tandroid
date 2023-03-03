@@ -71,7 +71,7 @@ import org.webrtc.GlGenericDrawer;
 import org.webrtc.RendererCommon;
 import org.webrtc.TextureViewRenderer;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class GroupCallMiniTextureView extends FrameLayout implements GroupCallStatusIcon.Callback {
     GroupCallActivity activity;
     boolean animateEnter;
@@ -966,35 +966,35 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
     /* JADX WARN: Code restructure failed: missing block: B:45:0x0089, code lost:
         if (r23.participant != r10.videoNotAvailableParticipant) goto L282;
      */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x02be  */
-    /* JADX WARN: Removed duplicated region for block: B:160:0x02d2  */
-    /* JADX WARN: Removed duplicated region for block: B:165:0x02e8  */
-    /* JADX WARN: Removed duplicated region for block: B:212:0x0370  */
-    /* JADX WARN: Removed duplicated region for block: B:225:0x038b  */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x0396  */
-    /* JADX WARN: Removed duplicated region for block: B:229:0x039e  */
-    /* JADX WARN: Removed duplicated region for block: B:233:0x03bb  */
-    /* JADX WARN: Removed duplicated region for block: B:241:0x0405  */
-    /* JADX WARN: Removed duplicated region for block: B:242:0x040f  */
-    /* JADX WARN: Removed duplicated region for block: B:245:0x0424  */
-    /* JADX WARN: Removed duplicated region for block: B:253:0x044d  */
-    /* JADX WARN: Removed duplicated region for block: B:254:0x046f  */
-    /* JADX WARN: Removed duplicated region for block: B:257:0x0497  */
-    /* JADX WARN: Removed duplicated region for block: B:263:0x04d9  */
-    /* JADX WARN: Removed duplicated region for block: B:272:0x04ea A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:275:0x04f2  */
-    /* JADX WARN: Removed duplicated region for block: B:277:0x04fc  */
-    /* JADX WARN: Removed duplicated region for block: B:287:0x0540  */
-    /* JADX WARN: Removed duplicated region for block: B:298:0x0565  */
-    /* JADX WARN: Removed duplicated region for block: B:301:0x0572  */
-    /* JADX WARN: Removed duplicated region for block: B:306:0x0598  */
-    /* JADX WARN: Removed duplicated region for block: B:309:0x05a3  */
-    /* JADX WARN: Removed duplicated region for block: B:314:0x05ae  */
-    /* JADX WARN: Removed duplicated region for block: B:321:0x05bd  */
-    /* JADX WARN: Removed duplicated region for block: B:327:0x05e2  */
-    /* JADX WARN: Removed duplicated region for block: B:351:0x0666  */
-    /* JADX WARN: Removed duplicated region for block: B:354:0x0678  */
-    /* JADX WARN: Removed duplicated region for block: B:359:0x069c  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x02bd  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x02d1  */
+    /* JADX WARN: Removed duplicated region for block: B:165:0x02e7  */
+    /* JADX WARN: Removed duplicated region for block: B:212:0x036f  */
+    /* JADX WARN: Removed duplicated region for block: B:225:0x038a  */
+    /* JADX WARN: Removed duplicated region for block: B:228:0x0395  */
+    /* JADX WARN: Removed duplicated region for block: B:229:0x039d  */
+    /* JADX WARN: Removed duplicated region for block: B:233:0x03ba  */
+    /* JADX WARN: Removed duplicated region for block: B:241:0x0404  */
+    /* JADX WARN: Removed duplicated region for block: B:242:0x040e  */
+    /* JADX WARN: Removed duplicated region for block: B:245:0x0423  */
+    /* JADX WARN: Removed duplicated region for block: B:253:0x044c  */
+    /* JADX WARN: Removed duplicated region for block: B:254:0x046e  */
+    /* JADX WARN: Removed duplicated region for block: B:257:0x0496  */
+    /* JADX WARN: Removed duplicated region for block: B:263:0x04d7  */
+    /* JADX WARN: Removed duplicated region for block: B:272:0x04e8 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:275:0x04f0  */
+    /* JADX WARN: Removed duplicated region for block: B:277:0x04fa  */
+    /* JADX WARN: Removed duplicated region for block: B:287:0x053e  */
+    /* JADX WARN: Removed duplicated region for block: B:298:0x0563  */
+    /* JADX WARN: Removed duplicated region for block: B:301:0x0570  */
+    /* JADX WARN: Removed duplicated region for block: B:306:0x0596  */
+    /* JADX WARN: Removed duplicated region for block: B:309:0x05a1  */
+    /* JADX WARN: Removed duplicated region for block: B:314:0x05ac  */
+    /* JADX WARN: Removed duplicated region for block: B:321:0x05bb  */
+    /* JADX WARN: Removed duplicated region for block: B:327:0x05e0  */
+    /* JADX WARN: Removed duplicated region for block: B:351:0x0664  */
+    /* JADX WARN: Removed duplicated region for block: B:354:0x0676  */
+    /* JADX WARN: Removed duplicated region for block: B:359:0x069a  */
     /* JADX WARN: Removed duplicated region for block: B:64:0x00dd  */
     /* JADX WARN: Removed duplicated region for block: B:65:0x00e6  */
     /* JADX WARN: Removed duplicated region for block: B:69:0x00f9  */
@@ -2008,8 +2008,8 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x002f A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0030  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x002d A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x002e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2112,7 +2112,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class NoVideoStubLayout extends View {
         float amplitude;
         float animateAmplitudeDiff;

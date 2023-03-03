@@ -24,6 +24,7 @@ import android.graphics.drawable.AnimatedVectorDrawable;
 import android.hardware.Camera;
 import android.media.AudioManager;
 import android.media.AudioRecord;
+import android.media.AudioTimestamp;
 import android.media.MediaCodec;
 import android.media.MediaCrypto;
 import android.media.MediaFormat;
@@ -1791,8 +1792,8 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             1() {
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:13:0x002f, code lost:
-                if (r16.this$1.sendWhenDone == 0) goto L61;
+            /* JADX WARN: Code restructure failed: missing block: B:16:0x003d, code lost:
+                if (r18.this$1.sendWhenDone == 0) goto L72;
              */
             @Override // java.lang.Runnable
             /*
@@ -1800,94 +1801,101 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             */
             public void run() {
                 AudioBufferInfo audioBufferInfo;
+                AudioTimestamp audioTimestamp = new AudioTimestamp();
+                boolean z = Build.VERSION.SDK_INT >= 24;
                 long j = -1;
                 long j2 = -1;
-                boolean z = false;
-                while (true) {
-                    boolean z2 = true;
-                    if (!z) {
-                        if (!VideoRecorder.this.running && VideoRecorder.this.audioRecorder.getRecordingState() != 1) {
-                            try {
-                                VideoRecorder.this.audioRecorder.stop();
-                            } catch (Exception unused) {
-                                z = true;
-                            }
+                boolean z2 = false;
+                while (!z2) {
+                    if (!VideoRecorder.this.running && VideoRecorder.this.audioRecorder.getRecordingState() != 1) {
+                        try {
+                            VideoRecorder.this.audioRecorder.stop();
+                        } catch (Exception unused) {
+                            z2 = true;
                         }
-                        if (!VideoRecorder.this.buffers.isEmpty()) {
-                            audioBufferInfo = (AudioBufferInfo) VideoRecorder.this.buffers.poll();
+                    }
+                    if (!VideoRecorder.this.buffers.isEmpty()) {
+                        audioBufferInfo = (AudioBufferInfo) VideoRecorder.this.buffers.poll();
+                    } else {
+                        audioBufferInfo = new AudioBufferInfo();
+                    }
+                    audioBufferInfo.lastWroteBuffer = 0;
+                    int i = 10;
+                    audioBufferInfo.results = 10;
+                    int i2 = 0;
+                    while (true) {
+                        if (i2 >= i) {
+                            break;
+                        }
+                        if (j2 == j && !z) {
+                            j2 = System.nanoTime() / 1000;
+                        }
+                        ByteBuffer byteBuffer = audioBufferInfo.buffer[i2];
+                        byteBuffer.rewind();
+                        int read = VideoRecorder.this.audioRecorder.read(byteBuffer, LiteMode.FLAG_AUTOPLAY_GIFS);
+                        if (read > 0 && i2 % 2 == 0) {
+                            byteBuffer.limit(read);
+                            double d = 0.0d;
+                            for (int i3 = 0; i3 < read / 2; i3++) {
+                                short s = byteBuffer.getShort();
+                                double d2 = s * s;
+                                Double.isNaN(d2);
+                                d += d2;
+                            }
+                            double d3 = read;
+                            Double.isNaN(d3);
+                            final double sqrt = Math.sqrt((d / d3) / 2.0d);
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InstantCameraView$VideoRecorder$1$$ExternalSyntheticLambda0
+                                @Override // java.lang.Runnable
+                                public final void run() {
+                                    InstantCameraView.VideoRecorder.1.this.lambda$run$0(sqrt);
+                                }
+                            });
+                            byteBuffer.position(0);
+                        }
+                        if (read <= 0) {
+                            audioBufferInfo.results = i2;
+                            if (!VideoRecorder.this.running) {
+                                audioBufferInfo.last = true;
+                            }
                         } else {
-                            audioBufferInfo = new AudioBufferInfo();
-                        }
-                        audioBufferInfo.lastWroteBuffer = 0;
-                        audioBufferInfo.results = 10;
-                        int i = 0;
-                        while (true) {
-                            if (i >= 10) {
-                                break;
-                            }
-                            if (j2 == j) {
-                                j2 = System.nanoTime() / 1000;
-                            }
-                            ByteBuffer byteBuffer = audioBufferInfo.buffer[i];
-                            byteBuffer.rewind();
-                            int read = VideoRecorder.this.audioRecorder.read(byteBuffer, LiteMode.FLAG_AUTOPLAY_GIFS);
-                            if (read > 0 && i % 2 == 0) {
-                                byteBuffer.limit(read);
-                                double d = 0.0d;
-                                for (int i2 = 0; i2 < read / 2; i2++) {
-                                    short s = byteBuffer.getShort();
-                                    double d2 = s * s;
-                                    Double.isNaN(d2);
-                                    d += d2;
-                                }
-                                double d3 = read;
-                                Double.isNaN(d3);
-                                final double sqrt = Math.sqrt((d / d3) / 2.0d);
-                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InstantCameraView$VideoRecorder$1$$ExternalSyntheticLambda0
-                                    @Override // java.lang.Runnable
-                                    public final void run() {
-                                        InstantCameraView.VideoRecorder.1.this.lambda$run$0(sqrt);
-                                    }
-                                });
-                                byteBuffer.position(0);
-                            }
-                            if (read <= 0) {
-                                audioBufferInfo.results = i;
-                                if (!VideoRecorder.this.running) {
-                                    audioBufferInfo.last = true;
-                                }
+                            if (z) {
+                                VideoRecorder.this.audioRecorder.getTimestamp(audioTimestamp, 0);
+                                audioBufferInfo.offset[i2] = audioTimestamp.nanoTime / 1000;
                             } else {
-                                audioBufferInfo.offset[i] = j2;
-                                audioBufferInfo.read[i] = read;
-                                j2 += ((read * MediaController.VIDEO_BITRATE_480) / 48000) / 2;
-                                i++;
-                                j = -1;
+                                audioBufferInfo.offset[i2] = j2;
                             }
+                            audioBufferInfo.read[i2] = read;
+                            int i4 = ((read * MediaController.VIDEO_BITRATE_480) / 48000) / 2;
+                            if (!z) {
+                                j2 += i4;
+                            }
+                            i2++;
+                            j = -1;
+                            i = 10;
                         }
-                        if (audioBufferInfo.results >= 0 || audioBufferInfo.last) {
-                            if (VideoRecorder.this.running || audioBufferInfo.results >= 10) {
-                                z2 = z;
-                            }
-                            VideoRecorder.this.handler.sendMessage(VideoRecorder.this.handler.obtainMessage(3, audioBufferInfo));
-                            z = z2;
-                        } else if (VideoRecorder.this.running) {
-                            try {
-                                VideoRecorder.this.buffers.put(audioBufferInfo);
-                            } catch (Exception unused2) {
-                            }
-                        } else {
-                            z = true;
+                    }
+                    if (audioBufferInfo.results >= 0 || audioBufferInfo.last) {
+                        if (!VideoRecorder.this.running && audioBufferInfo.results < 10) {
+                            z2 = true;
                         }
-                        j = -1;
+                        VideoRecorder.this.handler.sendMessage(VideoRecorder.this.handler.obtainMessage(3, audioBufferInfo));
+                    } else if (VideoRecorder.this.running) {
+                        try {
+                            VideoRecorder.this.buffers.put(audioBufferInfo);
+                        } catch (Exception unused2) {
+                        }
+                    } else {
+                        z2 = true;
                     }
-                    try {
-                        VideoRecorder.this.audioRecorder.release();
-                    } catch (Exception e) {
-                        FileLog.e(e);
-                    }
-                    VideoRecorder.this.handler.sendMessage(VideoRecorder.this.handler.obtainMessage(1, VideoRecorder.this.sendWhenDone, 0));
-                    return;
+                    j = -1;
                 }
+                try {
+                    VideoRecorder.this.audioRecorder.release();
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+                VideoRecorder.this.handler.sendMessage(VideoRecorder.this.handler.obtainMessage(1, VideoRecorder.this.sendWhenDone, 0));
             }
 
             /* JADX INFO: Access modifiers changed from: private */

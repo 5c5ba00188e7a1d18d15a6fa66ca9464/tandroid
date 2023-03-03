@@ -279,10 +279,10 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                 UsersSelectActivity.access$508(UsersSelectActivity.this);
             }
             UsersSelectActivity.this.selectedContacts.put(uid, groupCreateSpan);
-            UsersSelectActivity.this.editText.setHintVisible(false);
+            UsersSelectActivity.this.editText.setHintVisible(false, TextUtils.isEmpty(UsersSelectActivity.this.editText.getText()));
             AnimatorSet animatorSet = this.currentAnimation;
-            if (animatorSet != null) {
-                animatorSet.setupEndValues();
+            if (animatorSet != null && animatorSet.isRunning()) {
+                this.currentAnimation.setupEndValues();
                 this.currentAnimation.cancel();
             }
             this.animationStarted = false;
@@ -334,7 +334,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                     SpansContainer.this.animationStarted = false;
                     UsersSelectActivity.this.editText.setAllowDrawCursor(true);
                     if (UsersSelectActivity.this.allSpans.isEmpty()) {
-                        UsersSelectActivity.this.editText.setHintVisible(true);
+                        UsersSelectActivity.this.editText.setHintVisible(true, true);
                     }
                 }
             });

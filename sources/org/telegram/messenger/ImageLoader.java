@@ -4259,7 +4259,7 @@ public class ImageLoader {
             public final void run() {
                 ImageLoader.this.lambda$cancelLoadingForImageReceiver$3(z, imageReceiver);
             }
-        }, imageReceiver.getFileLoadingPriority() == 0 ? 0L : 1L);
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */

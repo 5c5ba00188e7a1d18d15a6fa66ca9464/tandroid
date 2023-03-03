@@ -1,14 +1,15 @@
 package androidx.lifecycle;
 
 import androidx.lifecycle.Lifecycle;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class FullLifecycleObserverAdapter implements GenericLifecycleObserver {
-    private final FullLifecycleObserver mObserver;
+class FullLifecycleObserverAdapter implements LifecycleEventObserver {
+    private final FullLifecycleObserver mFullLifecycleObserver;
+    private final LifecycleEventObserver mLifecycleEventObserver;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public FullLifecycleObserverAdapter(FullLifecycleObserver fullLifecycleObserver) {
-        this.mObserver = fullLifecycleObserver;
+    public FullLifecycleObserverAdapter(FullLifecycleObserver fullLifecycleObserver, LifecycleEventObserver lifecycleEventObserver) {
+        this.mFullLifecycleObserver = fullLifecycleObserver;
+        this.mLifecycleEventObserver = lifecycleEventObserver;
     }
 
     /* loaded from: classes.dex */
@@ -49,31 +50,33 @@ public class FullLifecycleObserverAdapter implements GenericLifecycleObserver {
         }
     }
 
-    @Override // androidx.lifecycle.GenericLifecycleObserver
+    @Override // androidx.lifecycle.LifecycleEventObserver
     public void onStateChanged(LifecycleOwner lifecycleOwner, Lifecycle.Event event) {
         switch (1.$SwitchMap$androidx$lifecycle$Lifecycle$Event[event.ordinal()]) {
             case 1:
-                this.mObserver.onCreate(lifecycleOwner);
-                return;
+                this.mFullLifecycleObserver.onCreate(lifecycleOwner);
+                break;
             case 2:
-                this.mObserver.onStart(lifecycleOwner);
-                return;
+                this.mFullLifecycleObserver.onStart(lifecycleOwner);
+                break;
             case 3:
-                this.mObserver.onResume(lifecycleOwner);
-                return;
+                this.mFullLifecycleObserver.onResume(lifecycleOwner);
+                break;
             case 4:
-                this.mObserver.onPause(lifecycleOwner);
-                return;
+                this.mFullLifecycleObserver.onPause(lifecycleOwner);
+                break;
             case 5:
-                this.mObserver.onStop(lifecycleOwner);
-                return;
+                this.mFullLifecycleObserver.onStop(lifecycleOwner);
+                break;
             case 6:
-                this.mObserver.onDestroy(lifecycleOwner);
-                return;
+                this.mFullLifecycleObserver.onDestroy(lifecycleOwner);
+                break;
             case 7:
                 throw new IllegalArgumentException("ON_ANY must not been send by anybody");
-            default:
-                return;
+        }
+        LifecycleEventObserver lifecycleEventObserver = this.mLifecycleEventObserver;
+        if (lifecycleEventObserver != null) {
+            lifecycleEventObserver.onStateChanged(lifecycleOwner, event);
         }
     }
 }

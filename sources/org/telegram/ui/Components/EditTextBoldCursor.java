@@ -464,12 +464,15 @@ public class EditTextBoldCursor extends EditTextEffects {
         invalidate();
     }
 
-    public void setHintVisible(boolean z) {
+    public void setHintVisible(boolean z, boolean z2) {
         if (this.hintVisible == z) {
             return;
         }
         this.hintLastUpdateTime = System.currentTimeMillis();
         this.hintVisible = z;
+        if (!z2) {
+            this.hintAlpha = z ? 1.0f : 0.0f;
+        }
         invalidate();
     }
 

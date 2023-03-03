@@ -1,8 +1,9 @@
 package androidx.lifecycle;
 
 import androidx.lifecycle.Lifecycle;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class SingleGeneratedAdapterObserver implements GenericLifecycleObserver {
+public class SingleGeneratedAdapterObserver implements LifecycleEventObserver {
     private final GeneratedAdapter mGeneratedAdapter;
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -10,7 +11,7 @@ public class SingleGeneratedAdapterObserver implements GenericLifecycleObserver 
         this.mGeneratedAdapter = generatedAdapter;
     }
 
-    @Override // androidx.lifecycle.GenericLifecycleObserver
+    @Override // androidx.lifecycle.LifecycleEventObserver
     public void onStateChanged(LifecycleOwner lifecycleOwner, Lifecycle.Event event) {
         this.mGeneratedAdapter.callMethods(lifecycleOwner, event, false, null);
         this.mGeneratedAdapter.callMethods(lifecycleOwner, event, true, null);

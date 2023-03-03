@@ -13,6 +13,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.ActionMode;
 import android.view.KeyEvent;
@@ -223,7 +224,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         public void addSpan(GroupCreateSpan groupCreateSpan) {
             InviteContactsActivity.this.allSpans.add(groupCreateSpan);
             InviteContactsActivity.this.selectedContacts.put(groupCreateSpan.getKey(), groupCreateSpan);
-            InviteContactsActivity.this.editText.setHintVisible(false);
+            InviteContactsActivity.this.editText.setHintVisible(false, TextUtils.isEmpty(InviteContactsActivity.this.editText.getText()));
             AnimatorSet animatorSet = this.currentAnimation;
             if (animatorSet != null) {
                 animatorSet.setupEndValues();
@@ -256,8 +257,8 @@ public class InviteContactsActivity extends BaseFragment implements Notification
             InviteContactsActivity.this.allSpans.remove(groupCreateSpan);
             groupCreateSpan.setOnClickListener(null);
             AnimatorSet animatorSet = this.currentAnimation;
-            if (animatorSet != null) {
-                animatorSet.setupEndValues();
+            if (animatorSet != null && animatorSet.isRunning()) {
+                this.currentAnimation.setupEndValues();
                 this.currentAnimation.cancel();
             }
             this.animationStarted = false;
@@ -272,7 +273,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
                     SpansContainer.this.animationStarted = false;
                     InviteContactsActivity.this.editText.setAllowDrawCursor(true);
                     if (InviteContactsActivity.this.allSpans.isEmpty()) {
-                        InviteContactsActivity.this.editText.setHintVisible(true);
+                        InviteContactsActivity.this.editText.setHintVisible(true, true);
                     }
                 }
             });

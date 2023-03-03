@@ -8,8 +8,8 @@ import android.view.Gravity;
 /* loaded from: classes.dex */
 class RoundedBitmapDrawable21 extends RoundedBitmapDrawable {
     /* JADX INFO: Access modifiers changed from: protected */
-    public RoundedBitmapDrawable21(Resources res, Bitmap bitmap) {
-        super(res, bitmap);
+    public RoundedBitmapDrawable21(Resources resources, Bitmap bitmap) {
+        super(resources, bitmap);
     }
 
     @Override // android.graphics.drawable.Drawable
@@ -19,7 +19,7 @@ class RoundedBitmapDrawable21 extends RoundedBitmapDrawable {
     }
 
     @Override // androidx.core.graphics.drawable.RoundedBitmapDrawable
-    void gravityCompatApply(int gravity, int bitmapWidth, int bitmapHeight, Rect bounds, Rect outRect) {
-        Gravity.apply(gravity, bitmapWidth, bitmapHeight, bounds, outRect, 0);
+    void gravityCompatApply(int i, int i2, int i3, Rect rect, Rect rect2) {
+        Gravity.apply(i, i2, i3, rect, rect2, 0);
     }
 }

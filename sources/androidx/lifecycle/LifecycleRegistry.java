@@ -1,6 +1,7 @@
 package androidx.lifecycle;
 
-import android.util.Log;
+import android.annotation.SuppressLint;
+import androidx.arch.core.executor.ArchTaskExecutor;
 import androidx.arch.core.internal.FastSafeIterableMap;
 import androidx.arch.core.internal.SafeIterableMap;
 import androidx.lifecycle.Lifecycle;
@@ -10,24 +11,44 @@ import java.util.Iterator;
 import java.util.Map;
 /* loaded from: classes.dex */
 public class LifecycleRegistry extends Lifecycle {
+    private int mAddingObserverCounter;
+    private final boolean mEnforceMainThread;
+    private boolean mHandlingEvent;
     private final WeakReference<LifecycleOwner> mLifecycleOwner;
-    private FastSafeIterableMap<LifecycleObserver, ObserverWithState> mObserverMap = new FastSafeIterableMap<>();
-    private int mAddingObserverCounter = 0;
-    private boolean mHandlingEvent = false;
-    private boolean mNewEventOccurred = false;
-    private ArrayList<Lifecycle.State> mParentStates = new ArrayList<>();
-    private Lifecycle.State mState = Lifecycle.State.INITIALIZED;
+    private boolean mNewEventOccurred;
+    private FastSafeIterableMap<LifecycleObserver, ObserverWithState> mObserverMap;
+    private ArrayList<Lifecycle.State> mParentStates;
+    private Lifecycle.State mState;
 
     public LifecycleRegistry(LifecycleOwner lifecycleOwner) {
-        this.mLifecycleOwner = new WeakReference<>(lifecycleOwner);
+        this(lifecycleOwner, true);
     }
 
+    private LifecycleRegistry(LifecycleOwner lifecycleOwner, boolean z) {
+        this.mObserverMap = new FastSafeIterableMap<>();
+        this.mAddingObserverCounter = 0;
+        this.mHandlingEvent = false;
+        this.mNewEventOccurred = false;
+        this.mParentStates = new ArrayList<>();
+        this.mLifecycleOwner = new WeakReference<>(lifecycleOwner);
+        this.mState = Lifecycle.State.INITIALIZED;
+        this.mEnforceMainThread = z;
+    }
+
+    @Deprecated
     public void markState(Lifecycle.State state) {
+        enforceMainThreadIfNeeded("markState");
+        setCurrentState(state);
+    }
+
+    public void setCurrentState(Lifecycle.State state) {
+        enforceMainThreadIfNeeded("setCurrentState");
         moveToState(state);
     }
 
     public void handleLifecycleEvent(Lifecycle.Event event) {
-        moveToState(getStateAfter(event));
+        enforceMainThreadIfNeeded("handleLifecycleEvent");
+        moveToState(event.getTargetState());
     }
 
     private void moveToState(Lifecycle.State state) {
@@ -67,6 +88,7 @@ public class LifecycleRegistry extends Lifecycle {
     @Override // androidx.lifecycle.Lifecycle
     public void addObserver(LifecycleObserver lifecycleObserver) {
         LifecycleOwner lifecycleOwner;
+        enforceMainThreadIfNeeded("addObserver");
         Lifecycle.State state = this.mState;
         Lifecycle.State state2 = Lifecycle.State.DESTROYED;
         if (state != state2) {
@@ -79,7 +101,11 @@ public class LifecycleRegistry extends Lifecycle {
             this.mAddingObserverCounter++;
             while (observerWithState.mState.compareTo(calculateTargetState) < 0 && this.mObserverMap.contains(lifecycleObserver)) {
                 pushParentState(observerWithState.mState);
-                observerWithState.dispatchEvent(lifecycleOwner, upEvent(observerWithState.mState));
+                Lifecycle.Event upFrom = Lifecycle.Event.upFrom(observerWithState.mState);
+                if (upFrom == null) {
+                    throw new IllegalStateException("no event up from " + observerWithState.mState);
+                }
+                observerWithState.dispatchEvent(lifecycleOwner, upFrom);
                 popParentState();
                 calculateTargetState = calculateTargetState(lifecycleObserver);
             }
@@ -101,130 +127,13 @@ public class LifecycleRegistry extends Lifecycle {
 
     @Override // androidx.lifecycle.Lifecycle
     public void removeObserver(LifecycleObserver lifecycleObserver) {
+        enforceMainThreadIfNeeded("removeObserver");
         this.mObserverMap.remove(lifecycleObserver);
     }
 
     @Override // androidx.lifecycle.Lifecycle
     public Lifecycle.State getCurrentState() {
         return this.mState;
-    }
-
-    static Lifecycle.State getStateAfter(Lifecycle.Event event) {
-        switch (1.$SwitchMap$androidx$lifecycle$Lifecycle$Event[event.ordinal()]) {
-            case 1:
-            case 2:
-                return Lifecycle.State.CREATED;
-            case 3:
-            case 4:
-                return Lifecycle.State.STARTED;
-            case 5:
-                return Lifecycle.State.RESUMED;
-            case 6:
-                return Lifecycle.State.DESTROYED;
-            default:
-                throw new IllegalArgumentException("Unexpected event value " + event);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static /* synthetic */ class 1 {
-        static final /* synthetic */ int[] $SwitchMap$androidx$lifecycle$Lifecycle$Event;
-        static final /* synthetic */ int[] $SwitchMap$androidx$lifecycle$Lifecycle$State;
-
-        static {
-            int[] iArr = new int[Lifecycle.State.values().length];
-            $SwitchMap$androidx$lifecycle$Lifecycle$State = iArr;
-            try {
-                iArr[Lifecycle.State.INITIALIZED.ordinal()] = 1;
-            } catch (NoSuchFieldError unused) {
-            }
-            try {
-                $SwitchMap$androidx$lifecycle$Lifecycle$State[Lifecycle.State.CREATED.ordinal()] = 2;
-            } catch (NoSuchFieldError unused2) {
-            }
-            try {
-                $SwitchMap$androidx$lifecycle$Lifecycle$State[Lifecycle.State.STARTED.ordinal()] = 3;
-            } catch (NoSuchFieldError unused3) {
-            }
-            try {
-                $SwitchMap$androidx$lifecycle$Lifecycle$State[Lifecycle.State.RESUMED.ordinal()] = 4;
-            } catch (NoSuchFieldError unused4) {
-            }
-            try {
-                $SwitchMap$androidx$lifecycle$Lifecycle$State[Lifecycle.State.DESTROYED.ordinal()] = 5;
-            } catch (NoSuchFieldError unused5) {
-            }
-            int[] iArr2 = new int[Lifecycle.Event.values().length];
-            $SwitchMap$androidx$lifecycle$Lifecycle$Event = iArr2;
-            try {
-                iArr2[Lifecycle.Event.ON_CREATE.ordinal()] = 1;
-            } catch (NoSuchFieldError unused6) {
-            }
-            try {
-                $SwitchMap$androidx$lifecycle$Lifecycle$Event[Lifecycle.Event.ON_STOP.ordinal()] = 2;
-            } catch (NoSuchFieldError unused7) {
-            }
-            try {
-                $SwitchMap$androidx$lifecycle$Lifecycle$Event[Lifecycle.Event.ON_START.ordinal()] = 3;
-            } catch (NoSuchFieldError unused8) {
-            }
-            try {
-                $SwitchMap$androidx$lifecycle$Lifecycle$Event[Lifecycle.Event.ON_PAUSE.ordinal()] = 4;
-            } catch (NoSuchFieldError unused9) {
-            }
-            try {
-                $SwitchMap$androidx$lifecycle$Lifecycle$Event[Lifecycle.Event.ON_RESUME.ordinal()] = 5;
-            } catch (NoSuchFieldError unused10) {
-            }
-            try {
-                $SwitchMap$androidx$lifecycle$Lifecycle$Event[Lifecycle.Event.ON_DESTROY.ordinal()] = 6;
-            } catch (NoSuchFieldError unused11) {
-            }
-            try {
-                $SwitchMap$androidx$lifecycle$Lifecycle$Event[Lifecycle.Event.ON_ANY.ordinal()] = 7;
-            } catch (NoSuchFieldError unused12) {
-            }
-        }
-    }
-
-    private static Lifecycle.Event downEvent(Lifecycle.State state) {
-        int i = 1.$SwitchMap$androidx$lifecycle$Lifecycle$State[state.ordinal()];
-        if (i != 1) {
-            if (i != 2) {
-                if (i != 3) {
-                    if (i != 4) {
-                        if (i == 5) {
-                            throw new IllegalArgumentException();
-                        }
-                        throw new IllegalArgumentException("Unexpected state value " + state);
-                    }
-                    return Lifecycle.Event.ON_PAUSE;
-                }
-                return Lifecycle.Event.ON_STOP;
-            }
-            return Lifecycle.Event.ON_DESTROY;
-        }
-        throw new IllegalArgumentException();
-    }
-
-    private static Lifecycle.Event upEvent(Lifecycle.State state) {
-        int i = 1.$SwitchMap$androidx$lifecycle$Lifecycle$State[state.ordinal()];
-        if (i != 1) {
-            if (i == 2) {
-                return Lifecycle.Event.ON_START;
-            }
-            if (i == 3) {
-                return Lifecycle.Event.ON_RESUME;
-            }
-            if (i == 4) {
-                throw new IllegalArgumentException();
-            }
-            if (i != 5) {
-                throw new IllegalArgumentException("Unexpected state value " + state);
-            }
-        }
-        return Lifecycle.Event.ON_CREATE;
     }
 
     /* JADX WARN: Multi-variable type inference failed */
@@ -235,7 +144,11 @@ public class LifecycleRegistry extends Lifecycle {
             ObserverWithState observerWithState = (ObserverWithState) next.getValue();
             while (observerWithState.mState.compareTo(this.mState) < 0 && !this.mNewEventOccurred && this.mObserverMap.contains(next.getKey())) {
                 pushParentState(observerWithState.mState);
-                observerWithState.dispatchEvent(lifecycleOwner, upEvent(observerWithState.mState));
+                Lifecycle.Event upFrom = Lifecycle.Event.upFrom(observerWithState.mState);
+                if (upFrom == null) {
+                    throw new IllegalStateException("no event up from " + observerWithState.mState);
+                }
+                observerWithState.dispatchEvent(lifecycleOwner, upFrom);
                 popParentState();
             }
         }
@@ -247,9 +160,12 @@ public class LifecycleRegistry extends Lifecycle {
             Map.Entry<LifecycleObserver, ObserverWithState> next = descendingIterator.next();
             ObserverWithState value = next.getValue();
             while (value.mState.compareTo(this.mState) > 0 && !this.mNewEventOccurred && this.mObserverMap.contains(next.getKey())) {
-                Lifecycle.Event downEvent = downEvent(value.mState);
-                pushParentState(getStateAfter(downEvent));
-                value.dispatchEvent(lifecycleOwner, downEvent);
+                Lifecycle.Event downFrom = Lifecycle.Event.downFrom(value.mState);
+                if (downFrom == null) {
+                    throw new IllegalStateException("no event down from " + value.mState);
+                }
+                pushParentState(downFrom.getTargetState());
+                value.dispatchEvent(lifecycleOwner, downFrom);
                 popParentState();
             }
         }
@@ -258,8 +174,7 @@ public class LifecycleRegistry extends Lifecycle {
     private void sync() {
         LifecycleOwner lifecycleOwner = this.mLifecycleOwner.get();
         if (lifecycleOwner == null) {
-            Log.w("LifecycleRegistry", "LifecycleOwner is garbage collected, you shouldn't try dispatch new events from it.");
-            return;
+            throw new IllegalStateException("LifecycleOwner of this LifecycleRegistry is alreadygarbage collected. It is too late to change lifecycle state.");
         }
         while (!isSynced()) {
             this.mNewEventOccurred = false;
@@ -274,6 +189,14 @@ public class LifecycleRegistry extends Lifecycle {
         this.mNewEventOccurred = false;
     }
 
+    @SuppressLint({"RestrictedApi"})
+    private void enforceMainThreadIfNeeded(String str) {
+        if (!this.mEnforceMainThread || ArchTaskExecutor.getInstance().isMainThread()) {
+            return;
+        }
+        throw new IllegalStateException("Method " + str + " must be called on the main thread");
+    }
+
     static Lifecycle.State min(Lifecycle.State state, Lifecycle.State state2) {
         return (state2 == null || state2.compareTo(state) >= 0) ? state : state2;
     }
@@ -281,19 +204,19 @@ public class LifecycleRegistry extends Lifecycle {
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class ObserverWithState {
-        GenericLifecycleObserver mLifecycleObserver;
+        LifecycleEventObserver mLifecycleObserver;
         Lifecycle.State mState;
 
         ObserverWithState(LifecycleObserver lifecycleObserver, Lifecycle.State state) {
-            this.mLifecycleObserver = Lifecycling.getCallback(lifecycleObserver);
+            this.mLifecycleObserver = Lifecycling.lifecycleEventObserver(lifecycleObserver);
             this.mState = state;
         }
 
         void dispatchEvent(LifecycleOwner lifecycleOwner, Lifecycle.Event event) {
-            Lifecycle.State stateAfter = LifecycleRegistry.getStateAfter(event);
-            this.mState = LifecycleRegistry.min(this.mState, stateAfter);
+            Lifecycle.State targetState = event.getTargetState();
+            this.mState = LifecycleRegistry.min(this.mState, targetState);
             this.mLifecycleObserver.onStateChanged(lifecycleOwner, event);
-            this.mState = stateAfter;
+            this.mState = targetState;
         }
     }
 }

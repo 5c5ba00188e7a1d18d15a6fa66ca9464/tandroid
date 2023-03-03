@@ -23,7 +23,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class VoIPToggleButton extends FrameLayout {
     private boolean animateBackground;
     int animateToBackgroundColor;

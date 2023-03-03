@@ -140,7 +140,7 @@ public abstract class LiveData<T> {
     }
 
     /* loaded from: classes.dex */
-    class LifecycleBoundObserver extends LiveData<T>.ObserverWrapper implements GenericLifecycleObserver {
+    class LifecycleBoundObserver extends LiveData<T>.ObserverWrapper implements LifecycleEventObserver {
         final LifecycleOwner mOwner;
 
         LifecycleBoundObserver(LifecycleOwner lifecycleOwner, Observer<? super T> observer) {
@@ -153,7 +153,7 @@ public abstract class LiveData<T> {
             return this.mOwner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED);
         }
 
-        @Override // androidx.lifecycle.GenericLifecycleObserver
+        @Override // androidx.lifecycle.LifecycleEventObserver
         public void onStateChanged(LifecycleOwner lifecycleOwner, Lifecycle.Event event) {
             if (this.mOwner.getLifecycle().getCurrentState() == Lifecycle.State.DESTROYED) {
                 LiveData.this.removeObserver(this.mObserver);

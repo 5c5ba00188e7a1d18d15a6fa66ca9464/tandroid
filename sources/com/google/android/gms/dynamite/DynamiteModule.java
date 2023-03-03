@@ -438,11 +438,11 @@ public final class DynamiteModule {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x00a0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x009f, code lost:
         r10.close();
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x00ca  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x00c9  */
     /* JADX WARN: Type inference failed for: r0v0 */
     /* JADX WARN: Type inference failed for: r0v1, types: [android.database.Cursor] */
     /* JADX WARN: Type inference failed for: r0v2 */

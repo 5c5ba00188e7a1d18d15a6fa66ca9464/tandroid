@@ -5,21 +5,47 @@ import android.view.View;
 import android.view.accessibility.AccessibilityRecord;
 /* loaded from: classes.dex */
 public class AccessibilityRecordCompat {
-    public static void setSource(AccessibilityRecord record, View root, int virtualDescendantId) {
+    public static void setSource(AccessibilityRecord accessibilityRecord, View view, int i) {
         if (Build.VERSION.SDK_INT >= 16) {
-            record.setSource(root, virtualDescendantId);
+            Api16Impl.setSource(accessibilityRecord, view, i);
         }
     }
 
-    public static void setMaxScrollX(AccessibilityRecord record, int maxScrollX) {
+    public static void setMaxScrollX(AccessibilityRecord accessibilityRecord, int i) {
         if (Build.VERSION.SDK_INT >= 15) {
-            record.setMaxScrollX(maxScrollX);
+            Api15Impl.setMaxScrollX(accessibilityRecord, i);
         }
     }
 
-    public static void setMaxScrollY(AccessibilityRecord record, int maxScrollY) {
+    public static void setMaxScrollY(AccessibilityRecord accessibilityRecord, int i) {
         if (Build.VERSION.SDK_INT >= 15) {
-            record.setMaxScrollY(maxScrollY);
+            Api15Impl.setMaxScrollY(accessibilityRecord, i);
+        }
+    }
+
+    /* loaded from: classes.dex */
+    static class Api16Impl {
+        static void setSource(AccessibilityRecord accessibilityRecord, View view, int i) {
+            accessibilityRecord.setSource(view, i);
+        }
+    }
+
+    /* loaded from: classes.dex */
+    static class Api15Impl {
+        static int getMaxScrollX(AccessibilityRecord accessibilityRecord) {
+            return accessibilityRecord.getMaxScrollX();
+        }
+
+        static void setMaxScrollX(AccessibilityRecord accessibilityRecord, int i) {
+            accessibilityRecord.setMaxScrollX(i);
+        }
+
+        static int getMaxScrollY(AccessibilityRecord accessibilityRecord) {
+            return accessibilityRecord.getMaxScrollY();
+        }
+
+        static void setMaxScrollY(AccessibilityRecord accessibilityRecord, int i) {
+            accessibilityRecord.setMaxScrollY(i);
         }
     }
 }

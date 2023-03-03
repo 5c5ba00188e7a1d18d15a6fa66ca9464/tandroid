@@ -1,5 +1,6 @@
 package androidx.core.text;
 
+import android.annotation.SuppressLint;
 import android.icu.util.ULocale;
 import android.os.Build;
 import android.util.Log;
@@ -38,31 +39,32 @@ public final class ICUCompat {
     public static String maximizeAndGetScript(Locale locale) {
         int i = Build.VERSION.SDK_INT;
         if (i >= 24) {
-            return ULocale.addLikelySubtags(ULocale.forLocale(locale)).getScript();
+            return Api24Impl.getScript(Api24Impl.addLikelySubtags(Api24Impl.forLocale(locale)));
         }
         if (i >= 21) {
             try {
-                return ((Locale) sAddLikelySubtagsMethod.invoke(null, locale)).getScript();
+                return Api21Impl.getScript((Locale) sAddLikelySubtagsMethod.invoke(null, locale));
             } catch (IllegalAccessException e) {
                 Log.w("ICUCompat", e);
-                return locale.getScript();
+                return Api21Impl.getScript(locale);
             } catch (InvocationTargetException e2) {
                 Log.w("ICUCompat", e2);
-                return locale.getScript();
+                return Api21Impl.getScript(locale);
             }
         }
-        String addLikelySubtags = addLikelySubtags(locale);
-        if (addLikelySubtags != null) {
-            return getScript(addLikelySubtags);
+        String addLikelySubtagsBelowApi21 = addLikelySubtagsBelowApi21(locale);
+        if (addLikelySubtagsBelowApi21 != null) {
+            return getScriptBelowApi21(addLikelySubtagsBelowApi21);
         }
         return null;
     }
 
-    private static String getScript(String localeStr) {
+    @SuppressLint({"BanUncheckedReflection"})
+    private static String getScriptBelowApi21(String str) {
         try {
             Method method = sGetScriptMethod;
             if (method != null) {
-                return (String) method.invoke(null, localeStr);
+                return (String) method.invoke(null, str);
             }
         } catch (IllegalAccessException e) {
             Log.w("ICUCompat", e);
@@ -72,7 +74,8 @@ public final class ICUCompat {
         return null;
     }
 
-    private static String addLikelySubtags(Locale locale) {
+    @SuppressLint({"BanUncheckedReflection"})
+    private static String addLikelySubtagsBelowApi21(Locale locale) {
         String locale2 = locale.toString();
         try {
             Method method = sAddLikelySubtagsMethod;
@@ -85,5 +88,27 @@ public final class ICUCompat {
             Log.w("ICUCompat", e2);
         }
         return locale2;
+    }
+
+    /* loaded from: classes.dex */
+    static class Api24Impl {
+        static ULocale forLocale(Locale locale) {
+            return ULocale.forLocale(locale);
+        }
+
+        static ULocale addLikelySubtags(Object obj) {
+            return ULocale.addLikelySubtags((ULocale) obj);
+        }
+
+        static String getScript(Object obj) {
+            return ((ULocale) obj).getScript();
+        }
+    }
+
+    /* loaded from: classes.dex */
+    static class Api21Impl {
+        static String getScript(Locale locale) {
+            return locale.getScript();
+        }
     }
 }

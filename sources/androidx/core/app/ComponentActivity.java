@@ -23,16 +23,16 @@ public class ComponentActivity extends Activity implements LifecycleOwner, KeyEv
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Activity
     @SuppressLint({"RestrictedApi"})
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
         ReportFragment.injectIfNeededIn(this);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Activity
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(Bundle bundle) {
         this.mLifecycleRegistry.markState(Lifecycle.State.CREATED);
-        super.onSaveInstanceState(outState);
+        super.onSaveInstanceState(bundle);
     }
 
     @Override // androidx.lifecycle.LifecycleOwner
@@ -41,24 +41,24 @@ public class ComponentActivity extends Activity implements LifecycleOwner, KeyEv
     }
 
     @Override // androidx.core.view.KeyEventDispatcher.Component
-    public boolean superDispatchKeyEvent(KeyEvent event) {
-        return super.dispatchKeyEvent(event);
+    public boolean superDispatchKeyEvent(KeyEvent keyEvent) {
+        return super.dispatchKeyEvent(keyEvent);
     }
 
     @Override // android.app.Activity, android.view.Window.Callback
-    public boolean dispatchKeyShortcutEvent(KeyEvent event) {
+    public boolean dispatchKeyShortcutEvent(KeyEvent keyEvent) {
         View decorView = getWindow().getDecorView();
-        if (decorView == null || !KeyEventDispatcher.dispatchBeforeHierarchy(decorView, event)) {
-            return super.dispatchKeyShortcutEvent(event);
+        if (decorView == null || !KeyEventDispatcher.dispatchBeforeHierarchy(decorView, keyEvent)) {
+            return super.dispatchKeyShortcutEvent(keyEvent);
         }
         return true;
     }
 
     @Override // android.app.Activity, android.view.Window.Callback
-    public boolean dispatchKeyEvent(KeyEvent event) {
+    public boolean dispatchKeyEvent(KeyEvent keyEvent) {
         View decorView = getWindow().getDecorView();
-        if (decorView == null || !KeyEventDispatcher.dispatchBeforeHierarchy(decorView, event)) {
-            return KeyEventDispatcher.dispatchKeyEvent(this, decorView, this, event);
+        if (decorView == null || !KeyEventDispatcher.dispatchBeforeHierarchy(decorView, keyEvent)) {
+            return KeyEventDispatcher.dispatchKeyEvent(this, decorView, this, keyEvent);
         }
         return true;
     }

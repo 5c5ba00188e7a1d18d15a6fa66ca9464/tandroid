@@ -30,136 +30,140 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
     private final Bundle mExtras = new Bundle();
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public NotificationCompatBuilder(NotificationCompat.Builder b) {
+    public NotificationCompatBuilder(NotificationCompat.Builder builder) {
+        int i;
         Icon icon;
         List<String> list;
         List<String> combineLists;
-        this.mBuilderCompat = b;
-        this.mContext = b.mContext;
-        int i = Build.VERSION.SDK_INT;
-        if (i >= 26) {
-            this.mBuilder = new Notification.Builder(b.mContext, b.mChannelId);
+        this.mBuilderCompat = builder;
+        this.mContext = builder.mContext;
+        int i2 = Build.VERSION.SDK_INT;
+        if (i2 >= 26) {
+            this.mBuilder = new Notification.Builder(builder.mContext, builder.mChannelId);
         } else {
-            this.mBuilder = new Notification.Builder(b.mContext);
+            this.mBuilder = new Notification.Builder(builder.mContext);
         }
-        Notification notification = b.mNotification;
-        this.mBuilder.setWhen(notification.when).setSmallIcon(notification.icon, notification.iconLevel).setContent(notification.contentView).setTicker(notification.tickerText, b.mTickerView).setVibrate(notification.vibrate).setLights(notification.ledARGB, notification.ledOnMS, notification.ledOffMS).setOngoing((notification.flags & 2) != 0).setOnlyAlertOnce((notification.flags & 8) != 0).setAutoCancel((notification.flags & 16) != 0).setDefaults(notification.defaults).setContentTitle(b.mContentTitle).setContentText(b.mContentText).setContentInfo(b.mContentInfo).setContentIntent(b.mContentIntent).setDeleteIntent(notification.deleteIntent).setFullScreenIntent(b.mFullScreenIntent, (notification.flags & 128) != 0).setLargeIcon(b.mLargeIcon).setNumber(b.mNumber).setProgress(b.mProgressMax, b.mProgress, b.mProgressIndeterminate);
-        if (i < 21) {
+        Notification notification = builder.mNotification;
+        this.mBuilder.setWhen(notification.when).setSmallIcon(notification.icon, notification.iconLevel).setContent(notification.contentView).setTicker(notification.tickerText, builder.mTickerView).setVibrate(notification.vibrate).setLights(notification.ledARGB, notification.ledOnMS, notification.ledOffMS).setOngoing((notification.flags & 2) != 0).setOnlyAlertOnce((notification.flags & 8) != 0).setAutoCancel((notification.flags & 16) != 0).setDefaults(notification.defaults).setContentTitle(builder.mContentTitle).setContentText(builder.mContentText).setContentInfo(builder.mContentInfo).setContentIntent(builder.mContentIntent).setDeleteIntent(notification.deleteIntent).setFullScreenIntent(builder.mFullScreenIntent, (notification.flags & 128) != 0).setLargeIcon(builder.mLargeIcon).setNumber(builder.mNumber).setProgress(builder.mProgressMax, builder.mProgress, builder.mProgressIndeterminate);
+        if (i2 < 21) {
             this.mBuilder.setSound(notification.sound, notification.audioStreamType);
         }
-        if (i >= 16) {
-            this.mBuilder.setSubText(b.mSubText).setUsesChronometer(b.mUseChronometer).setPriority(b.mPriority);
-            Iterator<NotificationCompat.Action> it = b.mActions.iterator();
+        if (i2 >= 16) {
+            this.mBuilder.setSubText(builder.mSubText).setUsesChronometer(builder.mUseChronometer).setPriority(builder.mPriority);
+            Iterator<NotificationCompat.Action> it = builder.mActions.iterator();
             while (it.hasNext()) {
                 addAction(it.next());
             }
-            Bundle bundle = b.mExtras;
+            Bundle bundle = builder.mExtras;
             if (bundle != null) {
                 this.mExtras.putAll(bundle);
             }
             if (Build.VERSION.SDK_INT < 20) {
-                if (b.mLocalOnly) {
+                if (builder.mLocalOnly) {
                     this.mExtras.putBoolean("android.support.localOnly", true);
                 }
-                String str = b.mGroupKey;
+                String str = builder.mGroupKey;
                 if (str != null) {
                     this.mExtras.putString("android.support.groupKey", str);
-                    if (b.mGroupSummary) {
+                    if (builder.mGroupSummary) {
                         this.mExtras.putBoolean("android.support.isGroupSummary", true);
                     } else {
                         this.mExtras.putBoolean("android.support.useSideChannel", true);
                     }
                 }
-                String str2 = b.mSortKey;
+                String str2 = builder.mSortKey;
                 if (str2 != null) {
                     this.mExtras.putString("android.support.sortKey", str2);
                 }
             }
-            this.mContentView = b.mContentView;
-            this.mBigContentView = b.mBigContentView;
+            this.mContentView = builder.mContentView;
+            this.mBigContentView = builder.mBigContentView;
         }
-        int i2 = Build.VERSION.SDK_INT;
-        if (i2 >= 17) {
-            this.mBuilder.setShowWhen(b.mShowWhen);
+        int i3 = Build.VERSION.SDK_INT;
+        if (i3 >= 17) {
+            this.mBuilder.setShowWhen(builder.mShowWhen);
         }
-        if (i2 >= 19 && i2 < 21 && (combineLists = combineLists(getPeople(b.mPersonList), b.mPeople)) != null && !combineLists.isEmpty()) {
+        if (i3 >= 19 && i3 < 21 && (combineLists = combineLists(getPeople(builder.mPersonList), builder.mPeople)) != null && !combineLists.isEmpty()) {
             this.mExtras.putStringArray("android.people", (String[]) combineLists.toArray(new String[combineLists.size()]));
         }
-        if (i2 >= 20) {
-            this.mBuilder.setLocalOnly(b.mLocalOnly).setGroup(b.mGroupKey).setGroupSummary(b.mGroupSummary).setSortKey(b.mSortKey);
-            this.mGroupAlertBehavior = b.mGroupAlertBehavior;
+        if (i3 >= 20) {
+            this.mBuilder.setLocalOnly(builder.mLocalOnly).setGroup(builder.mGroupKey).setGroupSummary(builder.mGroupSummary).setSortKey(builder.mSortKey);
+            this.mGroupAlertBehavior = builder.mGroupAlertBehavior;
         }
-        if (i2 >= 21) {
-            this.mBuilder.setCategory(b.mCategory).setColor(b.mColor).setVisibility(b.mVisibility).setPublicVersion(b.mPublicVersion).setSound(notification.sound, notification.audioAttributes);
-            if (i2 < 28) {
-                list = combineLists(getPeople(b.mPersonList), b.mPeople);
+        if (i3 >= 21) {
+            this.mBuilder.setCategory(builder.mCategory).setColor(builder.mColor).setVisibility(builder.mVisibility).setPublicVersion(builder.mPublicVersion).setSound(notification.sound, notification.audioAttributes);
+            if (i3 < 28) {
+                list = combineLists(getPeople(builder.mPersonList), builder.mPeople);
             } else {
-                list = b.mPeople;
+                list = builder.mPeople;
             }
             if (list != null && !list.isEmpty()) {
                 for (String str3 : list) {
                     this.mBuilder.addPerson(str3);
                 }
             }
-            this.mHeadsUpContentView = b.mHeadsUpContentView;
-            if (b.mInvisibleActions.size() > 0) {
-                Bundle bundle2 = b.getExtras().getBundle("android.car.EXTENSIONS");
+            this.mHeadsUpContentView = builder.mHeadsUpContentView;
+            if (builder.mInvisibleActions.size() > 0) {
+                Bundle bundle2 = builder.getExtras().getBundle("android.car.EXTENSIONS");
                 bundle2 = bundle2 == null ? new Bundle() : bundle2;
                 Bundle bundle3 = new Bundle(bundle2);
                 Bundle bundle4 = new Bundle();
-                for (int i3 = 0; i3 < b.mInvisibleActions.size(); i3++) {
-                    bundle4.putBundle(Integer.toString(i3), NotificationCompatJellybean.getBundleForAction(b.mInvisibleActions.get(i3)));
+                for (int i4 = 0; i4 < builder.mInvisibleActions.size(); i4++) {
+                    bundle4.putBundle(Integer.toString(i4), NotificationCompatJellybean.getBundleForAction(builder.mInvisibleActions.get(i4)));
                 }
                 bundle2.putBundle("invisible_actions", bundle4);
                 bundle3.putBundle("invisible_actions", bundle4);
-                b.getExtras().putBundle("android.car.EXTENSIONS", bundle2);
+                builder.getExtras().putBundle("android.car.EXTENSIONS", bundle2);
                 this.mExtras.putBundle("android.car.EXTENSIONS", bundle3);
             }
         }
-        int i4 = Build.VERSION.SDK_INT;
-        if (i4 >= 23 && (icon = b.mSmallIcon) != null) {
+        int i5 = Build.VERSION.SDK_INT;
+        if (i5 >= 23 && (icon = builder.mSmallIcon) != null) {
             this.mBuilder.setSmallIcon(icon);
         }
-        if (i4 >= 24) {
-            this.mBuilder.setExtras(b.mExtras).setRemoteInputHistory(b.mRemoteInputHistory);
-            RemoteViews remoteViews = b.mContentView;
+        if (i5 >= 24) {
+            this.mBuilder.setExtras(builder.mExtras).setRemoteInputHistory(builder.mRemoteInputHistory);
+            RemoteViews remoteViews = builder.mContentView;
             if (remoteViews != null) {
                 this.mBuilder.setCustomContentView(remoteViews);
             }
-            RemoteViews remoteViews2 = b.mBigContentView;
+            RemoteViews remoteViews2 = builder.mBigContentView;
             if (remoteViews2 != null) {
                 this.mBuilder.setCustomBigContentView(remoteViews2);
             }
-            RemoteViews remoteViews3 = b.mHeadsUpContentView;
+            RemoteViews remoteViews3 = builder.mHeadsUpContentView;
             if (remoteViews3 != null) {
                 this.mBuilder.setCustomHeadsUpContentView(remoteViews3);
             }
         }
-        if (i4 >= 26) {
-            this.mBuilder.setBadgeIconType(b.mBadgeIcon).setSettingsText(b.mSettingsText).setShortcutId(b.mShortcutId).setTimeoutAfter(b.mTimeout).setGroupAlertBehavior(b.mGroupAlertBehavior);
-            if (b.mColorizedSet) {
-                this.mBuilder.setColorized(b.mColorized);
+        if (i5 >= 26) {
+            this.mBuilder.setBadgeIconType(builder.mBadgeIcon).setSettingsText(builder.mSettingsText).setShortcutId(builder.mShortcutId).setTimeoutAfter(builder.mTimeout).setGroupAlertBehavior(builder.mGroupAlertBehavior);
+            if (builder.mColorizedSet) {
+                this.mBuilder.setColorized(builder.mColorized);
             }
-            if (!TextUtils.isEmpty(b.mChannelId)) {
+            if (!TextUtils.isEmpty(builder.mChannelId)) {
                 this.mBuilder.setSound(null).setDefaults(0).setLights(0, 0, 0).setVibrate(null);
             }
         }
-        if (i4 >= 28) {
-            Iterator<Person> it2 = b.mPersonList.iterator();
+        if (i5 >= 28) {
+            Iterator<Person> it2 = builder.mPersonList.iterator();
             while (it2.hasNext()) {
                 this.mBuilder.addPerson(it2.next().toAndroidPerson());
             }
         }
-        int i5 = Build.VERSION.SDK_INT;
-        if (i5 >= 29) {
-            this.mBuilder.setAllowSystemGeneratedContextualActions(b.mAllowSystemGeneratedContextualActions);
-            this.mBuilder.setBubbleMetadata(NotificationCompat.BubbleMetadata.toPlatform(b.mBubbleMetadata));
-            LocusIdCompat locusIdCompat = b.mLocusId;
+        int i6 = Build.VERSION.SDK_INT;
+        if (i6 >= 29) {
+            this.mBuilder.setAllowSystemGeneratedContextualActions(builder.mAllowSystemGeneratedContextualActions);
+            this.mBuilder.setBubbleMetadata(NotificationCompat.BubbleMetadata.toPlatform(builder.mBubbleMetadata));
+            LocusIdCompat locusIdCompat = builder.mLocusId;
             if (locusIdCompat != null) {
                 this.mBuilder.setLocusId(locusIdCompat.toLocusId());
             }
         }
-        if (b.mSilent) {
+        if (i6 >= 31 && (i = builder.mFgsDeferBehavior) != 0) {
+            this.mBuilder.setForegroundServiceBehavior(i);
+        }
+        if (builder.mSilent) {
             if (this.mBuilderCompat.mGroupSummary) {
                 this.mGroupAlertBehavior = 2;
             } else {
@@ -167,12 +171,12 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
             }
             this.mBuilder.setVibrate(null);
             this.mBuilder.setSound(null);
-            int i6 = notification.defaults & (-2);
-            notification.defaults = i6;
-            int i7 = i6 & (-3);
+            int i7 = notification.defaults & (-2);
             notification.defaults = i7;
-            this.mBuilder.setDefaults(i7);
-            if (i5 >= 26) {
+            int i8 = i7 & (-3);
+            notification.defaults = i8;
+            this.mBuilder.setDefaults(i8);
+            if (i6 >= 26) {
                 if (TextUtils.isEmpty(this.mBuilderCompat.mGroupKey)) {
                     this.mBuilder.setGroup("silent");
                 }
@@ -181,25 +185,25 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
         }
     }
 
-    private static List<String> combineLists(final List<String> first, final List<String> second) {
-        if (first == null) {
-            return second;
+    private static List<String> combineLists(List<String> list, List<String> list2) {
+        if (list == null) {
+            return list2;
         }
-        if (second == null) {
-            return first;
+        if (list2 == null) {
+            return list;
         }
-        ArraySet arraySet = new ArraySet(first.size() + second.size());
-        arraySet.addAll(first);
-        arraySet.addAll(second);
+        ArraySet arraySet = new ArraySet(list.size() + list2.size());
+        arraySet.addAll(list);
+        arraySet.addAll(list2);
         return new ArrayList(arraySet);
     }
 
-    private static List<String> getPeople(final List<Person> people) {
-        if (people == null) {
+    private static List<String> getPeople(List<Person> list) {
+        if (list == null) {
             return null;
         }
-        ArrayList arrayList = new ArrayList(people.size());
-        for (Person person : people) {
+        ArrayList arrayList = new ArrayList(list.size());
+        for (Person person : list) {
             arrayList.add(person.resolveToLegacyUri());
         }
         return arrayList;
@@ -284,6 +288,9 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
         }
         if (i2 >= 29) {
             builder.setContextual(action.isContextual());
+        }
+        if (i2 >= 31) {
+            builder.setAuthenticationRequired(action.isAuthenticationRequired());
         }
         bundle.putBoolean("android.support.action.showsUserInterface", action.getShowsUserInterface());
         builder.addExtras(bundle);

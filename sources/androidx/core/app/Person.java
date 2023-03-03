@@ -13,8 +13,8 @@ public class Person {
     CharSequence mName;
     String mUri;
 
-    public static Person fromPersistableBundle(PersistableBundle bundle) {
-        return new Builder().setName(bundle.getString("name")).setUri(bundle.getString("uri")).setKey(bundle.getString("key")).setBot(bundle.getBoolean("isBot")).setImportant(bundle.getBoolean("isImportant")).build();
+    public static Person fromPersistableBundle(PersistableBundle persistableBundle) {
+        return Api22Impl.fromPersistableBundle(persistableBundle);
     }
 
     Person(Builder builder) {
@@ -39,18 +39,11 @@ public class Person {
     }
 
     public PersistableBundle toPersistableBundle() {
-        PersistableBundle persistableBundle = new PersistableBundle();
-        CharSequence charSequence = this.mName;
-        persistableBundle.putString("name", charSequence != null ? charSequence.toString() : null);
-        persistableBundle.putString("uri", this.mUri);
-        persistableBundle.putString("key", this.mKey);
-        persistableBundle.putBoolean("isBot", this.mIsBot);
-        persistableBundle.putBoolean("isImportant", this.mIsImportant);
-        return persistableBundle;
+        return Api22Impl.toPersistableBundle(this);
     }
 
     public android.app.Person toAndroidPerson() {
-        return new Person.Builder().setName(getName()).setIcon(getIcon() != null ? getIcon().toIcon() : null).setUri(getUri()).setKey(getKey()).setBot(isBot()).setImportant(isImportant()).build();
+        return Api28Impl.toAndroidPerson(this);
     }
 
     public CharSequence getName() {
@@ -97,38 +90,67 @@ public class Person {
         CharSequence mName;
         String mUri;
 
-        public Builder setName(CharSequence name) {
-            this.mName = name;
+        public Builder setName(CharSequence charSequence) {
+            this.mName = charSequence;
             return this;
         }
 
-        public Builder setIcon(IconCompat icon) {
-            this.mIcon = icon;
+        public Builder setIcon(IconCompat iconCompat) {
+            this.mIcon = iconCompat;
             return this;
         }
 
-        public Builder setUri(String uri) {
-            this.mUri = uri;
+        public Builder setUri(String str) {
+            this.mUri = str;
             return this;
         }
 
-        public Builder setKey(String key) {
-            this.mKey = key;
+        public Builder setKey(String str) {
+            this.mKey = str;
             return this;
         }
 
-        public Builder setBot(boolean bot) {
-            this.mIsBot = bot;
+        public Builder setBot(boolean z) {
+            this.mIsBot = z;
             return this;
         }
 
-        public Builder setImportant(boolean important) {
-            this.mIsImportant = important;
+        public Builder setImportant(boolean z) {
+            this.mIsImportant = z;
             return this;
         }
 
         public Person build() {
             return new Person(this);
+        }
+    }
+
+    /* loaded from: classes.dex */
+    static class Api22Impl {
+        static Person fromPersistableBundle(PersistableBundle persistableBundle) {
+            return new Builder().setName(persistableBundle.getString("name")).setUri(persistableBundle.getString("uri")).setKey(persistableBundle.getString("key")).setBot(persistableBundle.getBoolean("isBot")).setImportant(persistableBundle.getBoolean("isImportant")).build();
+        }
+
+        static PersistableBundle toPersistableBundle(Person person) {
+            PersistableBundle persistableBundle = new PersistableBundle();
+            CharSequence charSequence = person.mName;
+            persistableBundle.putString("name", charSequence != null ? charSequence.toString() : null);
+            persistableBundle.putString("uri", person.mUri);
+            persistableBundle.putString("key", person.mKey);
+            persistableBundle.putBoolean("isBot", person.mIsBot);
+            persistableBundle.putBoolean("isImportant", person.mIsImportant);
+            return persistableBundle;
+        }
+    }
+
+    /* loaded from: classes.dex */
+    static class Api28Impl {
+        static Person fromAndroidPerson(android.app.Person person) {
+            return new Builder().setName(person.getName()).setIcon(person.getIcon() != null ? IconCompat.createFromIcon(person.getIcon()) : null).setUri(person.getUri()).setKey(person.getKey()).setBot(person.isBot()).setImportant(person.isImportant()).build();
+        }
+
+        static android.app.Person toAndroidPerson(Person person) {
+            return new Person.Builder().setName(person.getName()).setIcon(person.getIcon() != null ? person.getIcon().toIcon() : null).setUri(person.getUri()).setKey(person.getKey()).setBot(person.isBot()).setImportant(person.isImportant()).build();
         }
     }
 }

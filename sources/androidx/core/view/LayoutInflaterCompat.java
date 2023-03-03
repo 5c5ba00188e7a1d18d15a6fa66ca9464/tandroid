@@ -9,7 +9,7 @@ public final class LayoutInflaterCompat {
     private static boolean sCheckedField;
     private static Field sLayoutInflaterFactory2Field;
 
-    private static void forceSetFactory2(LayoutInflater inflater, LayoutInflater.Factory2 factory) {
+    private static void forceSetFactory2(LayoutInflater layoutInflater, LayoutInflater.Factory2 factory2) {
         if (!sCheckedField) {
             try {
                 Field declaredField = LayoutInflater.class.getDeclaredField("mFactory2");
@@ -23,21 +23,21 @@ public final class LayoutInflaterCompat {
         Field field = sLayoutInflaterFactory2Field;
         if (field != null) {
             try {
-                field.set(inflater, factory);
+                field.set(layoutInflater, factory2);
             } catch (IllegalAccessException e2) {
-                Log.e("LayoutInflaterCompatHC", "forceSetFactory2 could not set the Factory2 on LayoutInflater " + inflater + "; inflation may have unexpected results.", e2);
+                Log.e("LayoutInflaterCompatHC", "forceSetFactory2 could not set the Factory2 on LayoutInflater " + layoutInflater + "; inflation may have unexpected results.", e2);
             }
         }
     }
 
-    public static void setFactory2(LayoutInflater inflater, LayoutInflater.Factory2 factory) {
-        inflater.setFactory2(factory);
+    public static void setFactory2(LayoutInflater layoutInflater, LayoutInflater.Factory2 factory2) {
+        layoutInflater.setFactory2(factory2);
         if (Build.VERSION.SDK_INT < 21) {
-            LayoutInflater.Factory factory2 = inflater.getFactory();
-            if (factory2 instanceof LayoutInflater.Factory2) {
-                forceSetFactory2(inflater, (LayoutInflater.Factory2) factory2);
+            LayoutInflater.Factory factory = layoutInflater.getFactory();
+            if (factory instanceof LayoutInflater.Factory2) {
+                forceSetFactory2(layoutInflater, (LayoutInflater.Factory2) factory);
             } else {
-                forceSetFactory2(inflater, factory);
+                forceSetFactory2(layoutInflater, factory2);
             }
         }
     }

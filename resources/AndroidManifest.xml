@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="31829" android:versionName="9.5.0" android:installLocation="auto" android:compileSdkVersion="33" android:compileSdkVersionCodename="13" package="org.telegram.messenger.beta" platformBuildVersionCode="33" platformBuildVersionName="13">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="31849" android:versionName="9.5.0" android:installLocation="auto" android:compileSdkVersion="33" android:compileSdkVersionCodename="13" package="org.telegram.messenger.beta" platformBuildVersionCode="33" platformBuildVersionName="13">
     <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="31"/>
     <uses-feature android:name="android.hardware.location.gps" android:required="false"/>
     <uses-feature android:name="android.hardware.location.network" android:required="false"/>
@@ -84,6 +84,8 @@
         </intent>
     </queries>
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"/>
+    <permission android:name="org.telegram.messenger.beta.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" android:protectionLevel="signature"/>
+    <uses-permission android:name="org.telegram.messenger.beta.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"/>
     <application android:theme="@style/Theme.TMessages.Start" android:label="@string/AppNameBeta" android:icon="@mipmap/ic_launcher" android:name="org.telegram.messenger.ApplicationLoaderImpl" android:manageSpaceActivity="org.telegram.ui.ExternalActionActivity" android:backupAgent="org.telegram.messenger.BackupAgent" android:allowBackup="true" android:restoreAnyVersion="true" android:hardwareAccelerated="@bool/useHardwareAcceleration" android:largeHeap="true" android:supportsRtl="false" android:roundIcon="@mipmap/ic_launcher_round" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:allowAudioPlaybackCapture="true" android:requestLegacyExternalStorage="true" android:preserveLegacyExternalStorage="true">
         <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyA-t0jLPjUt2FxrA8VPK2EiYHcYcboIR6k"/>
         <service android:name="org.telegram.messenger.GcmPushListenerService" android:exported="true">
@@ -192,6 +194,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
             </intent-filter>
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts"/>
         </activity-alias>
         <activity-alias android:icon="@mipmap/icon_6_launcher" android:name="org.telegram.messenger.VintageIcon" android:enabled="false" android:exported="true" android:targetActivity="org.telegram.ui.LaunchActivity" android:roundIcon="@mipmap/icon_6_launcher_round">
             <intent-filter>
@@ -199,6 +202,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
             </intent-filter>
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts"/>
         </activity-alias>
         <activity-alias android:icon="@mipmap/icon_4_launcher" android:name="org.telegram.messenger.AquaIcon" android:enabled="false" android:exported="true" android:targetActivity="org.telegram.ui.LaunchActivity" android:roundIcon="@mipmap/icon_4_launcher_round">
             <intent-filter>
@@ -206,6 +210,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
             </intent-filter>
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts"/>
         </activity-alias>
         <activity-alias android:icon="@mipmap/icon_3_launcher" android:name="org.telegram.messenger.PremiumIcon" android:enabled="false" android:exported="true" android:targetActivity="org.telegram.ui.LaunchActivity" android:roundIcon="@mipmap/icon_3_launcher_round">
             <intent-filter>
@@ -213,6 +218,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
             </intent-filter>
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts"/>
         </activity-alias>
         <activity-alias android:icon="@mipmap/icon_5_launcher" android:name="org.telegram.messenger.TurboIcon" android:enabled="false" android:exported="true" android:targetActivity="org.telegram.ui.LaunchActivity" android:roundIcon="@mipmap/icon_5_launcher_round">
             <intent-filter>
@@ -220,6 +226,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
             </intent-filter>
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts"/>
         </activity-alias>
         <activity-alias android:icon="@mipmap/icon_2_launcher" android:name="org.telegram.messenger.NoxIcon" android:enabled="false" android:exported="true" android:targetActivity="org.telegram.ui.LaunchActivity" android:roundIcon="@mipmap/icon_2_launcher_round">
             <intent-filter>
@@ -227,6 +234,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
             </intent-filter>
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts"/>
         </activity-alias>
         <activity-alias android:name="org.telegram.ui.CallsActivity" android:permission="android.permission.CALL_PHONE" android:exported="true" android:targetActivity="org.telegram.ui.LaunchActivity">
             <intent-filter>

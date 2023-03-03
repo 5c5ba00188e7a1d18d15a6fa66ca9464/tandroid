@@ -5,29 +5,29 @@ import android.os.LocaleList;
 import java.util.Locale;
 /* loaded from: classes.dex */
 public final class LocaleListCompat {
-    private LocaleListInterface mImpl;
+    private final LocaleListInterface mImpl;
 
     static {
         create(new Locale[0]);
     }
 
-    private LocaleListCompat(LocaleListInterface impl) {
-        this.mImpl = impl;
+    private LocaleListCompat(LocaleListInterface localeListInterface) {
+        this.mImpl = localeListInterface;
     }
 
     public static LocaleListCompat wrap(LocaleList localeList) {
         return new LocaleListCompat(new LocaleListPlatformWrapper(localeList));
     }
 
-    public static LocaleListCompat create(Locale... localeList) {
+    public static LocaleListCompat create(Locale... localeArr) {
         if (Build.VERSION.SDK_INT >= 24) {
-            return wrap(new LocaleList(localeList));
+            return wrap(Api24Impl.createLocaleList(localeArr));
         }
-        return new LocaleListCompat(new LocaleListCompatWrapper(localeList));
+        return new LocaleListCompat(new LocaleListCompatWrapper(localeArr));
     }
 
-    public Locale get(int index) {
-        return this.mImpl.get(index);
+    public Locale get(int i) {
+        return this.mImpl.get(i);
     }
 
     public int size() {
@@ -64,8 +64,8 @@ public final class LocaleListCompat {
         throw new IllegalArgumentException("Can not parse language tag: [" + str + "]");
     }
 
-    public boolean equals(Object other) {
-        return (other instanceof LocaleListCompat) && this.mImpl.equals(((LocaleListCompat) other).mImpl);
+    public boolean equals(Object obj) {
+        return (obj instanceof LocaleListCompat) && this.mImpl.equals(((LocaleListCompat) obj).mImpl);
     }
 
     public int hashCode() {
@@ -74,5 +74,21 @@ public final class LocaleListCompat {
 
     public String toString() {
         return this.mImpl.toString();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class Api24Impl {
+        static LocaleList createLocaleList(Locale... localeArr) {
+            return new LocaleList(localeArr);
+        }
+
+        static LocaleList getAdjustedDefault() {
+            return LocaleList.getAdjustedDefault();
+        }
+
+        static LocaleList getDefault() {
+            return LocaleList.getDefault();
+        }
     }
 }

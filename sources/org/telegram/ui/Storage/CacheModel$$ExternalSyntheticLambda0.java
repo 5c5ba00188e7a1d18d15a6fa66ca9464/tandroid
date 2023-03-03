@@ -2,7 +2,7 @@ package org.telegram.ui.Storage;
 
 import java.util.Comparator;
 import org.telegram.ui.Storage.CacheModel;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class CacheModel$$ExternalSyntheticLambda0 implements Comparator {
     public static final /* synthetic */ CacheModel$$ExternalSyntheticLambda0 INSTANCE = new CacheModel$$ExternalSyntheticLambda0();
 

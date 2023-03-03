@@ -1,7 +1,7 @@
 package org.telegram.ui.Components.voip;
 
 import org.telegram.ui.Components.SimpleFloatPropertyCompat;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class RTMPStreamPipOverlay$$ExternalSyntheticLambda7 implements SimpleFloatPropertyCompat.Setter {
     public static final /* synthetic */ RTMPStreamPipOverlay$$ExternalSyntheticLambda7 INSTANCE = new RTMPStreamPipOverlay$$ExternalSyntheticLambda7();
 

@@ -1,22 +1,24 @@
 package androidx.core.view.inputmethod;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.inputmethod.EditorInfo;
+@SuppressLint({"PrivateConstructorForUtilityClass"})
 /* loaded from: classes.dex */
 public final class EditorInfoCompat {
     private static final String[] EMPTY_STRING_ARRAY = new String[0];
 
-    public static void setContentMimeTypes(EditorInfo editorInfo, String[] contentMimeTypes) {
+    public static void setContentMimeTypes(EditorInfo editorInfo, String[] strArr) {
         if (Build.VERSION.SDK_INT >= 25) {
-            editorInfo.contentMimeTypes = contentMimeTypes;
+            editorInfo.contentMimeTypes = strArr;
             return;
         }
         if (editorInfo.extras == null) {
             editorInfo.extras = new Bundle();
         }
-        editorInfo.extras.putStringArray("androidx.core.view.inputmethod.EditorInfoCompat.CONTENT_MIME_TYPES", contentMimeTypes);
-        editorInfo.extras.putStringArray("android.support.v13.view.inputmethod.EditorInfoCompat.CONTENT_MIME_TYPES", contentMimeTypes);
+        editorInfo.extras.putStringArray("androidx.core.view.inputmethod.EditorInfoCompat.CONTENT_MIME_TYPES", strArr);
+        editorInfo.extras.putStringArray("android.support.v13.view.inputmethod.EditorInfoCompat.CONTENT_MIME_TYPES", strArr);
     }
 
     public static String[] getContentMimeTypes(EditorInfo editorInfo) {

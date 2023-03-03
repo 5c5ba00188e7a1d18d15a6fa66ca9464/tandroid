@@ -39,5 +39,5 @@ public interface AccessibilityViewCommand {
     public static final class SetTextArguments extends CommandArguments {
     }
 
-    boolean perform(View view, CommandArguments arguments);
+    boolean perform(View view, CommandArguments commandArguments);
 }

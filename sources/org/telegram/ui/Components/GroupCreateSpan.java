@@ -348,7 +348,9 @@ public class GroupCreateSpan extends View {
         float f4 = this.progress;
         paint.setColor(Color.argb(i + ((int) (f3 * f4)), iArr[0] + ((int) ((iArr[1] - iArr[0]) * f4)), iArr[2] + ((int) ((iArr[3] - iArr[2]) * f4)), iArr[4] + ((int) ((iArr[5] - iArr[4]) * f4))));
         canvas.drawRoundRect(this.rect, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), backPaint);
-        this.imageReceiver.draw(canvas);
+        if (this.progress != 1.0f) {
+            this.imageReceiver.draw(canvas);
+        }
         if (this.progress != 0.0f) {
             backPaint.setColor(this.avatarDrawable.getColor());
             backPaint.setAlpha((int) (this.progress * 255.0f * (Color.alpha(color) / 255.0f)));

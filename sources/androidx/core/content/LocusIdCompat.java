@@ -8,10 +8,10 @@ public final class LocusIdCompat {
     private final String mId;
     private final LocusId mWrapped;
 
-    public LocusIdCompat(String id) {
-        this.mId = (String) Preconditions.checkStringNotEmpty(id, "id cannot be empty");
+    public LocusIdCompat(String str) {
+        this.mId = (String) Preconditions.checkStringNotEmpty(str, "id cannot be empty");
         if (Build.VERSION.SDK_INT >= 29) {
-            this.mWrapped = Api29Impl.create(id);
+            this.mWrapped = Api29Impl.create(str);
         } else {
             this.mWrapped = null;
         }
@@ -26,7 +26,7 @@ public final class LocusIdCompat {
         return 31 + (str == null ? 0 : str.hashCode());
     }
 
-    public boolean equals(final Object obj) {
+    public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
@@ -49,7 +49,7 @@ public final class LocusIdCompat {
         return this.mWrapped;
     }
 
-    public static LocusIdCompat toLocusIdCompat(final LocusId locusId) {
+    public static LocusIdCompat toLocusIdCompat(LocusId locusId) {
         Preconditions.checkNotNull(locusId, "locusId cannot be null");
         return new LocusIdCompat((String) Preconditions.checkStringNotEmpty(Api29Impl.getId(locusId), "id cannot be empty"));
     }
@@ -61,12 +61,12 @@ public final class LocusIdCompat {
 
     /* loaded from: classes.dex */
     private static class Api29Impl {
-        static LocusId create(final String id) {
-            return new LocusId(id);
+        static LocusId create(String str) {
+            return new LocusId(str);
         }
 
-        static String getId(final LocusId obj) {
-            return obj.getId();
+        static String getId(LocusId locusId) {
+            return locusId.getId();
         }
     }
 }

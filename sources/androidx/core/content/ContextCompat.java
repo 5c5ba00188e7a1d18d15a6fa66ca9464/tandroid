@@ -1,6 +1,7 @@
 package androidx.core.content;
 
 import android.accounts.AccountManager;
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.AppOpsManager;
@@ -20,7 +21,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.RestrictionsManager;
 import android.content.pm.LauncherApps;
-import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.hardware.ConsumerIrManager;
 import android.hardware.SensorManager;
@@ -52,6 +52,7 @@ import android.print.PrintManager;
 import android.telecom.TelecomManager;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -60,62 +61,67 @@ import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.CaptioningManager;
 import android.view.inputmethod.InputMethodManager;
 import android.view.textservice.TextServicesManager;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.os.BuildCompat;
+import androidx.core.util.ObjectsCompat;
 import java.io.File;
 import java.util.HashMap;
 import org.webrtc.MediaStreamTrack;
+@SuppressLint({"PrivateConstructorForUtilityClass"})
 /* loaded from: classes.dex */
 public class ContextCompat {
     private static final Object sLock = new Object();
     private static final Object sSync = new Object();
     private static TypedValue sTempValue;
 
-    public static void startActivity(Context context, Intent intent, Bundle options) {
+    public static void startActivity(Context context, Intent intent, Bundle bundle) {
         if (Build.VERSION.SDK_INT >= 16) {
-            Api16Impl.startActivity(context, intent, options);
+            Api16Impl.startActivity(context, intent, bundle);
         } else {
             context.startActivity(intent);
         }
     }
 
-    public static File[] getExternalFilesDirs(Context context, String type) {
-        return Build.VERSION.SDK_INT >= 19 ? Api19Impl.getExternalFilesDirs(context, type) : new File[]{context.getExternalFilesDir(type)};
+    public static File[] getExternalFilesDirs(Context context, String str) {
+        return Build.VERSION.SDK_INT >= 19 ? Api19Impl.getExternalFilesDirs(context, str) : new File[]{context.getExternalFilesDir(str)};
     }
 
     public static File[] getExternalCacheDirs(Context context) {
         return Build.VERSION.SDK_INT >= 19 ? Api19Impl.getExternalCacheDirs(context) : new File[]{context.getExternalCacheDir()};
     }
 
-    public static Drawable getDrawable(Context context, int id) {
-        int i;
-        int i2 = Build.VERSION.SDK_INT;
-        if (i2 >= 21) {
-            return Api21Impl.getDrawable(context, id);
+    public static Drawable getDrawable(Context context, int i) {
+        int i2;
+        int i3 = Build.VERSION.SDK_INT;
+        if (i3 >= 21) {
+            return Api21Impl.getDrawable(context, i);
         }
-        if (i2 >= 16) {
-            return context.getResources().getDrawable(id);
+        if (i3 >= 16) {
+            return context.getResources().getDrawable(i);
         }
         synchronized (sLock) {
             if (sTempValue == null) {
                 sTempValue = new TypedValue();
             }
-            context.getResources().getValue(id, sTempValue, true);
-            i = sTempValue.resourceId;
+            context.getResources().getValue(i, sTempValue, true);
+            i2 = sTempValue.resourceId;
         }
-        return context.getResources().getDrawable(i);
+        return context.getResources().getDrawable(i2);
     }
 
-    public static int getColor(Context context, int id) {
+    public static int getColor(Context context, int i) {
         if (Build.VERSION.SDK_INT >= 23) {
-            return Api23Impl.getColor(context, id);
+            return Api23Impl.getColor(context, i);
         }
-        return context.getResources().getColor(id);
+        return context.getResources().getColor(i);
     }
 
-    public static int checkSelfPermission(Context context, String permission) {
-        if (permission == null) {
-            throw new IllegalArgumentException("permission is null");
+    public static int checkSelfPermission(Context context, String str) {
+        ObjectsCompat.requireNonNull(str, "permission must be non-null");
+        if (BuildCompat.isAtLeastT() || !TextUtils.equals("android.permission.POST_NOTIFICATIONS", str)) {
+            return context.checkPermission(str, Process.myPid(), Process.myUid());
         }
-        return context.checkPermission(permission, Process.myPid(), Process.myUid());
+        return NotificationManagerCompat.from(context).areNotificationsEnabled() ? 0 : -1;
     }
 
     public static File getNoBackupFilesDir(Context context) {
@@ -144,22 +150,22 @@ public class ContextCompat {
         return null;
     }
 
-    public static <T> T getSystemService(Context context, Class<T> serviceClass) {
+    public static <T> T getSystemService(Context context, Class<T> cls) {
         if (Build.VERSION.SDK_INT >= 23) {
-            return (T) Api23Impl.getSystemService(context, serviceClass);
+            return (T) Api23Impl.getSystemService(context, cls);
         }
-        String systemServiceName = getSystemServiceName(context, serviceClass);
+        String systemServiceName = getSystemServiceName(context, cls);
         if (systemServiceName != null) {
             return (T) context.getSystemService(systemServiceName);
         }
         return null;
     }
 
-    public static String getSystemServiceName(Context context, Class<?> serviceClass) {
+    public static String getSystemServiceName(Context context, Class<?> cls) {
         if (Build.VERSION.SDK_INT >= 23) {
-            return Api23Impl.getSystemServiceName(context, serviceClass);
+            return Api23Impl.getSystemServiceName(context, cls);
         }
-        return LegacyServiceMapHolder.SERVICES.get(serviceClass);
+        return LegacyServiceMapHolder.SERVICES.get(cls);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -239,77 +245,73 @@ public class ContextCompat {
 
     /* loaded from: classes.dex */
     static class Api16Impl {
-        static void startActivities(Context obj, Intent[] intents, Bundle options) {
-            obj.startActivities(intents, options);
+        static void startActivities(Context context, Intent[] intentArr, Bundle bundle) {
+            context.startActivities(intentArr, bundle);
         }
 
-        static void startActivity(Context obj, Intent intent, Bundle options) {
-            obj.startActivity(intent, options);
+        static void startActivity(Context context, Intent intent, Bundle bundle) {
+            context.startActivity(intent, bundle);
         }
     }
 
     /* loaded from: classes.dex */
     static class Api19Impl {
-        static File[] getExternalCacheDirs(Context obj) {
-            return obj.getExternalCacheDirs();
+        static File[] getExternalCacheDirs(Context context) {
+            return context.getExternalCacheDirs();
         }
 
-        static File[] getExternalFilesDirs(Context obj, String type) {
-            return obj.getExternalFilesDirs(type);
+        static File[] getExternalFilesDirs(Context context, String str) {
+            return context.getExternalFilesDirs(str);
         }
 
-        static File[] getObbDirs(Context obj) {
-            return obj.getObbDirs();
+        static File[] getObbDirs(Context context) {
+            return context.getObbDirs();
         }
     }
 
     /* loaded from: classes.dex */
     static class Api21Impl {
-        static Drawable getDrawable(Context obj, int id) {
-            return obj.getDrawable(id);
+        static Drawable getDrawable(Context context, int i) {
+            return context.getDrawable(i);
         }
 
-        static File getNoBackupFilesDir(Context obj) {
-            return obj.getNoBackupFilesDir();
+        static File getNoBackupFilesDir(Context context) {
+            return context.getNoBackupFilesDir();
         }
 
-        static File getCodeCacheDir(Context obj) {
-            return obj.getCodeCacheDir();
+        static File getCodeCacheDir(Context context) {
+            return context.getCodeCacheDir();
         }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class Api23Impl {
-        static ColorStateList getColorStateList(Context obj, int id) {
-            return obj.getColorStateList(id);
+        static int getColor(Context context, int i) {
+            return context.getColor(i);
         }
 
-        static int getColor(Context obj, int id) {
-            return obj.getColor(id);
+        static <T> T getSystemService(Context context, Class<T> cls) {
+            return (T) context.getSystemService(cls);
         }
 
-        static <T> T getSystemService(Context obj, Class<T> serviceClass) {
-            return (T) obj.getSystemService(serviceClass);
-        }
-
-        static String getSystemServiceName(Context obj, Class<?> serviceClass) {
-            return obj.getSystemServiceName(serviceClass);
+        static String getSystemServiceName(Context context, Class<?> cls) {
+            return context.getSystemServiceName(cls);
         }
     }
 
     /* loaded from: classes.dex */
     static class Api24Impl {
-        static File getDataDir(Context obj) {
-            return obj.getDataDir();
+        static File getDataDir(Context context) {
+            return context.getDataDir();
         }
 
-        static Context createDeviceProtectedStorageContext(Context obj) {
-            return obj.createDeviceProtectedStorageContext();
+        static Context createDeviceProtectedStorageContext(Context context) {
+            return context.createDeviceProtectedStorageContext();
         }
 
-        static boolean isDeviceProtectedStorage(Context obj) {
-            return obj.isDeviceProtectedStorage();
+        static boolean isDeviceProtectedStorage(Context context) {
+            return context.isDeviceProtectedStorage();
         }
     }
 }

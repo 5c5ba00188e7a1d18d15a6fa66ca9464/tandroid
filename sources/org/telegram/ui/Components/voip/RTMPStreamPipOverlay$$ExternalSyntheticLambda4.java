@@ -1,5 +1,5 @@
 package org.telegram.ui.Components.voip;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class RTMPStreamPipOverlay$$ExternalSyntheticLambda4 implements Runnable {
     public static final /* synthetic */ RTMPStreamPipOverlay$$ExternalSyntheticLambda4 INSTANCE = new RTMPStreamPipOverlay$$ExternalSyntheticLambda4();
 

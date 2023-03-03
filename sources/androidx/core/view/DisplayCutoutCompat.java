@@ -1,60 +1,62 @@
 package androidx.core.view;
 
+import android.graphics.Rect;
 import android.os.Build;
 import android.view.DisplayCutout;
 import androidx.core.util.ObjectsCompat;
+import java.util.List;
 /* loaded from: classes.dex */
 public final class DisplayCutoutCompat {
-    private final Object mDisplayCutout;
+    private final DisplayCutout mDisplayCutout;
 
-    private DisplayCutoutCompat(Object displayCutout) {
+    private DisplayCutoutCompat(DisplayCutout displayCutout) {
         this.mDisplayCutout = displayCutout;
     }
 
     public int getSafeInsetTop() {
         if (Build.VERSION.SDK_INT >= 28) {
-            return ((DisplayCutout) this.mDisplayCutout).getSafeInsetTop();
+            return Api28Impl.getSafeInsetTop(this.mDisplayCutout);
         }
         return 0;
     }
 
     public int getSafeInsetBottom() {
         if (Build.VERSION.SDK_INT >= 28) {
-            return ((DisplayCutout) this.mDisplayCutout).getSafeInsetBottom();
+            return Api28Impl.getSafeInsetBottom(this.mDisplayCutout);
         }
         return 0;
     }
 
     public int getSafeInsetLeft() {
         if (Build.VERSION.SDK_INT >= 28) {
-            return ((DisplayCutout) this.mDisplayCutout).getSafeInsetLeft();
+            return Api28Impl.getSafeInsetLeft(this.mDisplayCutout);
         }
         return 0;
     }
 
     public int getSafeInsetRight() {
         if (Build.VERSION.SDK_INT >= 28) {
-            return ((DisplayCutout) this.mDisplayCutout).getSafeInsetRight();
+            return Api28Impl.getSafeInsetRight(this.mDisplayCutout);
         }
         return 0;
     }
 
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (o == null || DisplayCutoutCompat.class != o.getClass()) {
+        if (obj == null || DisplayCutoutCompat.class != obj.getClass()) {
             return false;
         }
-        return ObjectsCompat.equals(this.mDisplayCutout, ((DisplayCutoutCompat) o).mDisplayCutout);
+        return ObjectsCompat.equals(this.mDisplayCutout, ((DisplayCutoutCompat) obj).mDisplayCutout);
     }
 
     public int hashCode() {
-        Object obj = this.mDisplayCutout;
-        if (obj == null) {
+        DisplayCutout displayCutout = this.mDisplayCutout;
+        if (displayCutout == null) {
             return 0;
         }
-        return obj.hashCode();
+        return displayCutout.hashCode();
     }
 
     public String toString() {
@@ -62,10 +64,37 @@ public final class DisplayCutoutCompat {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static DisplayCutoutCompat wrap(Object displayCutout) {
+    public static DisplayCutoutCompat wrap(DisplayCutout displayCutout) {
         if (displayCutout == null) {
             return null;
         }
         return new DisplayCutoutCompat(displayCutout);
+    }
+
+    /* loaded from: classes.dex */
+    static class Api28Impl {
+        static DisplayCutout createDisplayCutout(Rect rect, List<Rect> list) {
+            return new DisplayCutout(rect, list);
+        }
+
+        static int getSafeInsetTop(DisplayCutout displayCutout) {
+            return displayCutout.getSafeInsetTop();
+        }
+
+        static int getSafeInsetBottom(DisplayCutout displayCutout) {
+            return displayCutout.getSafeInsetBottom();
+        }
+
+        static int getSafeInsetLeft(DisplayCutout displayCutout) {
+            return displayCutout.getSafeInsetLeft();
+        }
+
+        static int getSafeInsetRight(DisplayCutout displayCutout) {
+            return displayCutout.getSafeInsetRight();
+        }
+
+        static List<Rect> getBoundingRects(DisplayCutout displayCutout) {
+            return displayCutout.getBoundingRects();
+        }
     }
 }

@@ -4,11 +4,11 @@ public class Pools$SimplePool<T> implements Pools$Pool<T> {
     private final Object[] mPool;
     private int mPoolSize;
 
-    public Pools$SimplePool(int maxPoolSize) {
-        if (maxPoolSize <= 0) {
+    public Pools$SimplePool(int i) {
+        if (i <= 0) {
             throw new IllegalArgumentException("The max pool size must be > 0");
         }
-        this.mPool = new Object[maxPoolSize];
+        this.mPool = new Object[i];
     }
 
     @Override // androidx.core.util.Pools$Pool
@@ -26,23 +26,23 @@ public class Pools$SimplePool<T> implements Pools$Pool<T> {
     }
 
     @Override // androidx.core.util.Pools$Pool
-    public boolean release(T instance) {
-        if (isInPool(instance)) {
+    public boolean release(T t) {
+        if (isInPool(t)) {
             throw new IllegalStateException("Already in the pool!");
         }
         int i = this.mPoolSize;
         Object[] objArr = this.mPool;
         if (i < objArr.length) {
-            objArr[i] = instance;
+            objArr[i] = t;
             this.mPoolSize = i + 1;
             return true;
         }
         return false;
     }
 
-    private boolean isInPool(T instance) {
+    private boolean isInPool(T t) {
         for (int i = 0; i < this.mPoolSize; i++) {
-            if (this.mPool[i] == instance) {
+            if (this.mPool[i] == t) {
                 return true;
             }
         }

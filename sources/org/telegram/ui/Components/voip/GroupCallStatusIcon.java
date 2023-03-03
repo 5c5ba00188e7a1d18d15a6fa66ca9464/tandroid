@@ -10,7 +10,7 @@ import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.TLRPC$TL_groupCallParticipant;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class GroupCallStatusIcon {
     Callback callback;
     RLottieImageView iconView;
@@ -46,7 +46,7 @@ public class GroupCallStatusIcon {
         }
     };
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public interface Callback {
         void onStatusChanged();
     }

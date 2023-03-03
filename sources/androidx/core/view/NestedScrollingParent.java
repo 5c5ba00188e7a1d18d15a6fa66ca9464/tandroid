@@ -3,17 +3,17 @@ package androidx.core.view;
 import android.view.View;
 /* loaded from: classes.dex */
 public interface NestedScrollingParent {
-    boolean onNestedFling(View target, float velocityX, float velocityY, boolean consumed);
+    boolean onNestedFling(View view, float f, float f2, boolean z);
 
-    boolean onNestedPreFling(View target, float velocityX, float velocityY);
+    boolean onNestedPreFling(View view, float f, float f2);
 
-    void onNestedPreScroll(View target, int dx, int dy, int[] consumed);
+    void onNestedPreScroll(View view, int i, int i2, int[] iArr);
 
-    void onNestedScroll(View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed);
+    void onNestedScroll(View view, int i, int i2, int i3, int i4);
 
-    void onNestedScrollAccepted(View child, View target, int axes);
+    void onNestedScrollAccepted(View view, View view2, int i);
 
-    boolean onStartNestedScroll(View child, View target, int axes);
+    boolean onStartNestedScroll(View view, View view2, int i);
 
-    void onStopNestedScroll(View target);
+    void onStopNestedScroll(View view);
 }

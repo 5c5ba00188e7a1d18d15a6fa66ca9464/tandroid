@@ -31,7 +31,7 @@ import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class AcceptDeclineView extends View {
     private Paint acceptCirclePaint;
     private FabBackgroundDrawable acceptDrawable;
@@ -68,7 +68,7 @@ public class AcceptDeclineView extends View {
     float startY;
     float touchSlop;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public interface Listener {
         void onAccept();
 
@@ -510,7 +510,7 @@ public class AcceptDeclineView extends View {
         this.screenWasWakeup = z;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static abstract class AcceptDeclineAccessibilityNodeProvider extends AccessibilityNodeProvider {
         private final AccessibilityManager accessibilityManager;
         private final View hostView;

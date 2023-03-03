@@ -6,132 +6,132 @@ public final class TimeUtils {
     private static final Object sFormatSync = new Object();
     private static char[] sFormatStr = new char[24];
 
-    private static int accumField(int amt, int suffix, boolean always, int zeropad) {
-        if (amt > 99 || (always && zeropad >= 3)) {
-            return suffix + 3;
+    private static int accumField(int i, int i2, boolean z, int i3) {
+        if (i > 99 || (z && i3 >= 3)) {
+            return i2 + 3;
         }
-        if (amt > 9 || (always && zeropad >= 2)) {
-            return suffix + 2;
+        if (i > 9 || (z && i3 >= 2)) {
+            return i2 + 2;
         }
-        if (always || amt > 0) {
-            return suffix + 1;
+        if (z || i > 0) {
+            return i2 + 1;
         }
         return 0;
     }
 
-    private static int printField(char[] formatStr, int amt, char suffix, int pos, boolean always, int zeropad) {
-        int i;
-        if (always || amt > 0) {
-            if ((!always || zeropad < 3) && amt <= 99) {
-                i = pos;
+    private static int printField(char[] cArr, int i, char c, int i2, boolean z, int i3) {
+        int i4;
+        if (z || i > 0) {
+            if ((!z || i3 < 3) && i <= 99) {
+                i4 = i2;
             } else {
-                int i2 = amt / 100;
-                formatStr[pos] = (char) (i2 + 48);
-                i = pos + 1;
-                amt -= i2 * 100;
+                int i5 = i / 100;
+                cArr[i2] = (char) (i5 + 48);
+                i4 = i2 + 1;
+                i -= i5 * 100;
             }
-            if ((always && zeropad >= 2) || amt > 9 || pos != i) {
-                int i3 = amt / 10;
-                formatStr[i] = (char) (i3 + 48);
-                i++;
-                amt -= i3 * 10;
+            if ((z && i3 >= 2) || i > 9 || i2 != i4) {
+                int i6 = i / 10;
+                cArr[i4] = (char) (i6 + 48);
+                i4++;
+                i -= i6 * 10;
             }
-            formatStr[i] = (char) (amt + 48);
-            int i4 = i + 1;
-            formatStr[i4] = suffix;
-            return i4 + 1;
+            cArr[i4] = (char) (i + 48);
+            int i7 = i4 + 1;
+            cArr[i7] = c;
+            return i7 + 1;
         }
-        return pos;
+        return i2;
     }
 
-    private static int formatDurationLocked(long duration, int fieldLen) {
+    private static int formatDurationLocked(long j, int i) {
         char c;
-        int i;
         int i2;
         int i3;
         int i4;
         int i5;
-        long j = duration;
-        if (sFormatStr.length < fieldLen) {
-            sFormatStr = new char[fieldLen];
+        int i6;
+        long j2 = j;
+        if (sFormatStr.length < i) {
+            sFormatStr = new char[i];
         }
         char[] cArr = sFormatStr;
-        if (j == 0) {
-            int i6 = fieldLen - 1;
-            while (i6 > 0) {
+        if (j2 == 0) {
+            int i7 = i - 1;
+            while (i7 > 0) {
                 cArr[0] = ' ';
             }
             cArr[0] = '0';
             return 1;
         }
-        if (j > 0) {
+        if (j2 > 0) {
             c = '+';
         } else {
             c = '-';
-            j = -j;
+            j2 = -j2;
         }
-        int i7 = (int) (j % 1000);
-        int floor = (int) Math.floor(j / 1000);
+        int i8 = (int) (j2 % 1000);
+        int floor = (int) Math.floor(j2 / 1000);
         if (floor > 86400) {
-            i = floor / 86400;
-            floor -= 86400 * i;
-        } else {
-            i = 0;
-        }
-        if (floor > 3600) {
-            i2 = floor / 3600;
-            floor -= i2 * 3600;
+            i2 = floor / 86400;
+            floor -= 86400 * i2;
         } else {
             i2 = 0;
         }
-        if (floor > 60) {
-            int i8 = floor / 60;
-            i3 = floor - (i8 * 60);
-            i4 = i8;
+        if (floor > 3600) {
+            i3 = floor / 3600;
+            floor -= i3 * 3600;
         } else {
-            i3 = floor;
-            i4 = 0;
+            i3 = 0;
         }
-        if (fieldLen != 0) {
-            int accumField = accumField(i, 1, false, 0);
-            int accumField2 = accumField + accumField(i2, 1, accumField > 0, 2);
-            int accumField3 = accumField2 + accumField(i4, 1, accumField2 > 0, 2);
-            int accumField4 = accumField3 + accumField(i3, 1, accumField3 > 0, 2);
+        if (floor > 60) {
+            int i9 = floor / 60;
+            i4 = floor - (i9 * 60);
+            i5 = i9;
+        } else {
+            i4 = floor;
             i5 = 0;
-            for (int accumField5 = accumField4 + accumField(i7, 2, true, accumField4 > 0 ? 3 : 0) + 1; accumField5 < fieldLen; accumField5++) {
-                cArr[i5] = ' ';
-                i5++;
+        }
+        if (i != 0) {
+            int accumField = accumField(i2, 1, false, 0);
+            int accumField2 = accumField + accumField(i3, 1, accumField > 0, 2);
+            int accumField3 = accumField2 + accumField(i5, 1, accumField2 > 0, 2);
+            int accumField4 = accumField3 + accumField(i4, 1, accumField3 > 0, 2);
+            i6 = 0;
+            for (int accumField5 = accumField4 + accumField(i8, 2, true, accumField4 > 0 ? 3 : 0) + 1; accumField5 < i; accumField5++) {
+                cArr[i6] = ' ';
+                i6++;
             }
         } else {
-            i5 = 0;
+            i6 = 0;
         }
-        cArr[i5] = c;
-        int i9 = i5 + 1;
-        boolean z = fieldLen != 0;
-        int printField = printField(cArr, i, 'd', i9, false, 0);
-        int printField2 = printField(cArr, i2, 'h', printField, printField != i9, z ? 2 : 0);
-        int printField3 = printField(cArr, i4, 'm', printField2, printField2 != i9, z ? 2 : 0);
-        int printField4 = printField(cArr, i3, 's', printField3, printField3 != i9, z ? 2 : 0);
-        int printField5 = printField(cArr, i7, 'm', printField4, true, (!z || printField4 == i9) ? 0 : 3);
+        cArr[i6] = c;
+        int i10 = i6 + 1;
+        boolean z = i != 0;
+        int printField = printField(cArr, i2, 'd', i10, false, 0);
+        int printField2 = printField(cArr, i3, 'h', printField, printField != i10, z ? 2 : 0);
+        int printField3 = printField(cArr, i5, 'm', printField2, printField2 != i10, z ? 2 : 0);
+        int printField4 = printField(cArr, i4, 's', printField3, printField3 != i10, z ? 2 : 0);
+        int printField5 = printField(cArr, i8, 'm', printField4, true, (!z || printField4 == i10) ? 0 : 3);
         cArr[printField5] = 's';
         return printField5 + 1;
     }
 
-    public static void formatDuration(long duration, PrintWriter pw, int fieldLen) {
+    public static void formatDuration(long j, PrintWriter printWriter, int i) {
         synchronized (sFormatSync) {
-            pw.print(new String(sFormatStr, 0, formatDurationLocked(duration, fieldLen)));
+            printWriter.print(new String(sFormatStr, 0, formatDurationLocked(j, i)));
         }
     }
 
-    public static void formatDuration(long duration, PrintWriter pw) {
-        formatDuration(duration, pw, 0);
+    public static void formatDuration(long j, PrintWriter printWriter) {
+        formatDuration(j, printWriter, 0);
     }
 
-    public static void formatDuration(long time, long now, PrintWriter pw) {
-        if (time == 0) {
-            pw.print("--");
+    public static void formatDuration(long j, long j2, PrintWriter printWriter) {
+        if (j == 0) {
+            printWriter.print("--");
         } else {
-            formatDuration(time - now, pw, 0);
+            formatDuration(j - j2, printWriter, 0);
         }
     }
 }

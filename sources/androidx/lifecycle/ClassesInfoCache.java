@@ -8,18 +8,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 /* loaded from: classes.dex */
-class ClassesInfoCache {
+final class ClassesInfoCache {
     static ClassesInfoCache sInstance = new ClassesInfoCache();
-    private final Map<Class, CallbackInfo> mCallbackMap = new HashMap();
-    private final Map<Class, Boolean> mHasLifecycleMethods = new HashMap();
+    private final Map<Class<?>, CallbackInfo> mCallbackMap = new HashMap();
+    private final Map<Class<?>, Boolean> mHasLifecycleMethods = new HashMap();
 
     ClassesInfoCache() {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean hasLifecycleMethods(Class cls) {
-        if (this.mHasLifecycleMethods.containsKey(cls)) {
-            return this.mHasLifecycleMethods.get(cls).booleanValue();
+    public boolean hasLifecycleMethods(Class<?> cls) {
+        Boolean bool = this.mHasLifecycleMethods.get(cls);
+        if (bool != null) {
+            return bool.booleanValue();
         }
         Method[] declaredMethods = getDeclaredMethods(cls);
         for (Method method : declaredMethods) {
@@ -32,7 +33,7 @@ class ClassesInfoCache {
         return false;
     }
 
-    private Method[] getDeclaredMethods(Class cls) {
+    private Method[] getDeclaredMethods(Class<?> cls) {
         try {
             return cls.getDeclaredMethods();
         } catch (NoClassDefFoundError e) {
@@ -41,12 +42,12 @@ class ClassesInfoCache {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public CallbackInfo getInfo(Class cls) {
+    public CallbackInfo getInfo(Class<?> cls) {
         CallbackInfo callbackInfo = this.mCallbackMap.get(cls);
         return callbackInfo != null ? callbackInfo : createInfo(cls, null);
     }
 
-    private void verifyAndPutHandler(Map<MethodReference, Lifecycle.Event> map, MethodReference methodReference, Lifecycle.Event event, Class cls) {
+    private void verifyAndPutHandler(Map<MethodReference, Lifecycle.Event> map, MethodReference methodReference, Lifecycle.Event event, Class<?> cls) {
         Lifecycle.Event event2 = map.get(methodReference);
         if (event2 == null || event == event2) {
             if (event2 == null) {
@@ -59,10 +60,10 @@ class ClassesInfoCache {
         throw new IllegalArgumentException("Method " + method.getName() + " in " + cls.getName() + " already declared with different @OnLifecycleEvent value: previous value " + event2 + ", new value " + event);
     }
 
-    private CallbackInfo createInfo(Class cls, Method[] methodArr) {
+    private CallbackInfo createInfo(Class<?> cls, Method[] methodArr) {
         int i;
         CallbackInfo info;
-        Class superclass = cls.getSuperclass();
+        Class<? super Object> superclass = cls.getSuperclass();
         HashMap hashMap = new HashMap();
         if (superclass != null && (info = getInfo(superclass)) != null) {
             hashMap.putAll(info.mHandlerToEvent);
@@ -146,7 +147,7 @@ class ClassesInfoCache {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static class MethodReference {
+    public static final class MethodReference {
         final int mCallType;
         final Method mMethod;
 
@@ -178,11 +179,11 @@ class ClassesInfoCache {
             if (this == obj) {
                 return true;
             }
-            if (obj == null || MethodReference.class != obj.getClass()) {
-                return false;
+            if (obj instanceof MethodReference) {
+                MethodReference methodReference = (MethodReference) obj;
+                return this.mCallType == methodReference.mCallType && this.mMethod.getName().equals(methodReference.mMethod.getName());
             }
-            MethodReference methodReference = (MethodReference) obj;
-            return this.mCallType == methodReference.mCallType && this.mMethod.getName().equals(methodReference.mMethod.getName());
+            return false;
         }
 
         public int hashCode() {

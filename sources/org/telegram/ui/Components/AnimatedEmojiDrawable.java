@@ -814,13 +814,13 @@ public class AnimatedEmojiDrawable extends Drawable {
                     attachedDrawable = new ArrayList<>();
                 }
                 if (this.attached) {
-                    attachedCount--;
-                    attachedDrawable.remove(this);
-                } else {
                     attachedCount++;
                     attachedDrawable.add(this);
+                } else {
+                    attachedCount--;
+                    attachedDrawable.remove(this);
                 }
-                Log.d("animatedDrable", "attached count " + attachedCount);
+                Log.d("animatedDrawable", "attached count " + attachedCount);
             }
         }
     }

@@ -9,7 +9,7 @@ public final class TextUtilsCompat {
 
     public static int getLayoutDirectionFromLocale(Locale locale) {
         if (Build.VERSION.SDK_INT >= 17) {
-            return TextUtils.getLayoutDirectionFromLocale(locale);
+            return Api17Impl.getLayoutDirectionFromLocale(locale);
         }
         if (locale == null || locale.equals(ROOT)) {
             return 0;
@@ -24,5 +24,12 @@ public final class TextUtilsCompat {
     private static int getLayoutDirectionFromFirstChar(Locale locale) {
         byte directionality = Character.getDirectionality(locale.getDisplayName(locale).charAt(0));
         return (directionality == 1 || directionality == 2) ? 1 : 0;
+    }
+
+    /* loaded from: classes.dex */
+    static class Api17Impl {
+        static int getLayoutDirectionFromLocale(Locale locale) {
+            return TextUtils.getLayoutDirectionFromLocale(locale);
+        }
     }
 }

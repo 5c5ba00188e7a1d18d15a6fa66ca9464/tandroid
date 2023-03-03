@@ -42,7 +42,7 @@ public final class NotificationManagerCompat {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public interface Task {
-        void send(INotificationSideChannel service) throws RemoteException;
+        void send(INotificationSideChannel iNotificationSideChannel) throws RemoteException;
     }
 
     public static NotificationManagerCompat from(Context context) {
@@ -54,28 +54,28 @@ public final class NotificationManagerCompat {
         this.mNotificationManager = (NotificationManager) context.getSystemService("notification");
     }
 
-    public void cancel(int id) {
-        cancel(null, id);
+    public void cancel(int i) {
+        cancel(null, i);
     }
 
-    public void cancel(String tag, int id) {
-        this.mNotificationManager.cancel(tag, id);
+    public void cancel(String str, int i) {
+        this.mNotificationManager.cancel(str, i);
         if (Build.VERSION.SDK_INT <= 19) {
-            pushSideChannelQueue(new CancelTask(this.mContext.getPackageName(), id, tag));
+            pushSideChannelQueue(new CancelTask(this.mContext.getPackageName(), i, str));
         }
     }
 
-    public void notify(int id, Notification notification) {
-        notify(null, id, notification);
+    public void notify(int i, Notification notification) {
+        notify(null, i, notification);
     }
 
-    public void notify(String tag, int id, Notification notification) {
+    public void notify(String str, int i, Notification notification) {
         if (useSideChannelForNotification(notification)) {
-            pushSideChannelQueue(new NotifyTask(this.mContext.getPackageName(), id, tag, notification));
-            this.mNotificationManager.cancel(tag, id);
+            pushSideChannelQueue(new NotifyTask(this.mContext.getPackageName(), i, str, notification));
+            this.mNotificationManager.cancel(str, i);
             return;
         }
-        this.mNotificationManager.notify(tag, id, notification);
+        this.mNotificationManager.notify(str, i, notification);
     }
 
     public boolean areNotificationsEnabled() {
@@ -158,22 +158,22 @@ public final class NotificationManagerCompat {
         }
 
         @Override // android.os.Handler.Callback
-        public boolean handleMessage(Message msg) {
-            int i = msg.what;
+        public boolean handleMessage(Message message) {
+            int i = message.what;
             if (i == 0) {
-                handleQueueTask((Task) msg.obj);
+                handleQueueTask((Task) message.obj);
                 return true;
             } else if (i == 1) {
-                ServiceConnectedEvent serviceConnectedEvent = (ServiceConnectedEvent) msg.obj;
+                ServiceConnectedEvent serviceConnectedEvent = (ServiceConnectedEvent) message.obj;
                 handleServiceConnected(serviceConnectedEvent.componentName, serviceConnectedEvent.iBinder);
                 return true;
             } else if (i == 2) {
-                handleServiceDisconnected((ComponentName) msg.obj);
+                handleServiceDisconnected((ComponentName) message.obj);
                 return true;
             } else if (i != 3) {
                 return false;
             } else {
-                handleRetryListenerQueue((ComponentName) msg.obj);
+                handleRetryListenerQueue((ComponentName) message.obj);
                 return true;
             }
         }
@@ -265,60 +265,60 @@ public final class NotificationManagerCompat {
             }
         }
 
-        private boolean ensureServiceBound(ListenerRecord record) {
-            if (record.bound) {
+        private boolean ensureServiceBound(ListenerRecord listenerRecord) {
+            if (listenerRecord.bound) {
                 return true;
             }
-            boolean bindService = this.mContext.bindService(new Intent("android.support.BIND_NOTIFICATION_SIDE_CHANNEL").setComponent(record.componentName), this, 33);
-            record.bound = bindService;
+            boolean bindService = this.mContext.bindService(new Intent("android.support.BIND_NOTIFICATION_SIDE_CHANNEL").setComponent(listenerRecord.componentName), this, 33);
+            listenerRecord.bound = bindService;
             if (bindService) {
-                record.retryCount = 0;
+                listenerRecord.retryCount = 0;
             } else {
-                Log.w("NotifManCompat", "Unable to bind to listener " + record.componentName);
+                Log.w("NotifManCompat", "Unable to bind to listener " + listenerRecord.componentName);
                 this.mContext.unbindService(this);
             }
-            return record.bound;
+            return listenerRecord.bound;
         }
 
-        private void ensureServiceUnbound(ListenerRecord record) {
-            if (record.bound) {
+        private void ensureServiceUnbound(ListenerRecord listenerRecord) {
+            if (listenerRecord.bound) {
                 this.mContext.unbindService(this);
-                record.bound = false;
+                listenerRecord.bound = false;
             }
-            record.service = null;
+            listenerRecord.service = null;
         }
 
-        private void scheduleListenerRetry(ListenerRecord record) {
-            if (this.mHandler.hasMessages(3, record.componentName)) {
+        private void scheduleListenerRetry(ListenerRecord listenerRecord) {
+            if (this.mHandler.hasMessages(3, listenerRecord.componentName)) {
                 return;
             }
-            int i = record.retryCount + 1;
-            record.retryCount = i;
+            int i = listenerRecord.retryCount + 1;
+            listenerRecord.retryCount = i;
             if (i > 6) {
-                Log.w("NotifManCompat", "Giving up on delivering " + record.taskQueue.size() + " tasks to " + record.componentName + " after " + record.retryCount + " retries");
-                record.taskQueue.clear();
+                Log.w("NotifManCompat", "Giving up on delivering " + listenerRecord.taskQueue.size() + " tasks to " + listenerRecord.componentName + " after " + listenerRecord.retryCount + " retries");
+                listenerRecord.taskQueue.clear();
                 return;
             }
             int i2 = (1 << (i - 1)) * 1000;
             if (Log.isLoggable("NotifManCompat", 3)) {
                 Log.d("NotifManCompat", "Scheduling retry for " + i2 + " ms");
             }
-            this.mHandler.sendMessageDelayed(this.mHandler.obtainMessage(3, record.componentName), i2);
+            this.mHandler.sendMessageDelayed(this.mHandler.obtainMessage(3, listenerRecord.componentName), i2);
         }
 
-        private void processListenerQueue(ListenerRecord record) {
+        private void processListenerQueue(ListenerRecord listenerRecord) {
             if (Log.isLoggable("NotifManCompat", 3)) {
-                Log.d("NotifManCompat", "Processing component " + record.componentName + ", " + record.taskQueue.size() + " queued tasks");
+                Log.d("NotifManCompat", "Processing component " + listenerRecord.componentName + ", " + listenerRecord.taskQueue.size() + " queued tasks");
             }
-            if (record.taskQueue.isEmpty()) {
+            if (listenerRecord.taskQueue.isEmpty()) {
                 return;
             }
-            if (!ensureServiceBound(record) || record.service == null) {
-                scheduleListenerRetry(record);
+            if (!ensureServiceBound(listenerRecord) || listenerRecord.service == null) {
+                scheduleListenerRetry(listenerRecord);
                 return;
             }
             while (true) {
-                Task peek = record.taskQueue.peek();
+                Task peek = listenerRecord.taskQueue.peek();
                 if (peek == null) {
                     break;
                 }
@@ -326,20 +326,20 @@ public final class NotificationManagerCompat {
                     if (Log.isLoggable("NotifManCompat", 3)) {
                         Log.d("NotifManCompat", "Sending task " + peek);
                     }
-                    peek.send(record.service);
-                    record.taskQueue.remove();
+                    peek.send(listenerRecord.service);
+                    listenerRecord.taskQueue.remove();
                 } catch (DeadObjectException unused) {
                     if (Log.isLoggable("NotifManCompat", 3)) {
-                        Log.d("NotifManCompat", "Remote service has died: " + record.componentName);
+                        Log.d("NotifManCompat", "Remote service has died: " + listenerRecord.componentName);
                     }
                 } catch (RemoteException e) {
-                    Log.w("NotifManCompat", "RemoteException communicating with " + record.componentName, e);
+                    Log.w("NotifManCompat", "RemoteException communicating with " + listenerRecord.componentName, e);
                 }
             }
-            if (record.taskQueue.isEmpty()) {
+            if (listenerRecord.taskQueue.isEmpty()) {
                 return;
             }
-            scheduleListenerRetry(record);
+            scheduleListenerRetry(listenerRecord);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -362,7 +362,7 @@ public final class NotificationManagerCompat {
         final ComponentName componentName;
         final IBinder iBinder;
 
-        ServiceConnectedEvent(ComponentName componentName, final IBinder iBinder) {
+        ServiceConnectedEvent(ComponentName componentName, IBinder iBinder) {
             this.componentName = componentName;
             this.iBinder = iBinder;
         }
@@ -376,16 +376,16 @@ public final class NotificationManagerCompat {
         final String packageName;
         final String tag;
 
-        NotifyTask(String packageName, int id, String tag, Notification notif) {
-            this.packageName = packageName;
-            this.id = id;
-            this.tag = tag;
-            this.notif = notif;
+        NotifyTask(String str, int i, String str2, Notification notification) {
+            this.packageName = str;
+            this.id = i;
+            this.tag = str2;
+            this.notif = notification;
         }
 
         @Override // androidx.core.app.NotificationManagerCompat.Task
-        public void send(INotificationSideChannel service) throws RemoteException {
-            service.notify(this.packageName, this.id, this.tag, this.notif);
+        public void send(INotificationSideChannel iNotificationSideChannel) throws RemoteException {
+            iNotificationSideChannel.notify(this.packageName, this.id, this.tag, this.notif);
         }
 
         public String toString() {
@@ -401,18 +401,18 @@ public final class NotificationManagerCompat {
         final String packageName;
         final String tag;
 
-        CancelTask(String packageName, int id, String tag) {
-            this.packageName = packageName;
-            this.id = id;
-            this.tag = tag;
+        CancelTask(String str, int i, String str2) {
+            this.packageName = str;
+            this.id = i;
+            this.tag = str2;
         }
 
         @Override // androidx.core.app.NotificationManagerCompat.Task
-        public void send(INotificationSideChannel service) throws RemoteException {
+        public void send(INotificationSideChannel iNotificationSideChannel) throws RemoteException {
             if (this.all) {
-                service.cancelAll(this.packageName);
+                iNotificationSideChannel.cancelAll(this.packageName);
             } else {
-                service.cancel(this.packageName, this.id, this.tag);
+                iNotificationSideChannel.cancel(this.packageName, this.id, this.tag);
             }
         }
 

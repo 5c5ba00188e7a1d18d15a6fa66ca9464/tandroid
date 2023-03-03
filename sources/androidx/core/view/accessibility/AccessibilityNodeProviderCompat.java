@@ -10,22 +10,22 @@ import java.util.List;
 public class AccessibilityNodeProviderCompat {
     private final Object mProvider;
 
-    public void addExtraDataToAccessibilityNodeInfo(int virtualViewId, AccessibilityNodeInfoCompat info, String extraDataKey, Bundle arguments) {
+    public void addExtraDataToAccessibilityNodeInfo(int i, AccessibilityNodeInfoCompat accessibilityNodeInfoCompat, String str, Bundle bundle) {
     }
 
-    public AccessibilityNodeInfoCompat createAccessibilityNodeInfo(int virtualViewId) {
+    public AccessibilityNodeInfoCompat createAccessibilityNodeInfo(int i) {
         return null;
     }
 
-    public List<AccessibilityNodeInfoCompat> findAccessibilityNodeInfosByText(String text, int virtualViewId) {
+    public List<AccessibilityNodeInfoCompat> findAccessibilityNodeInfosByText(String str, int i) {
         return null;
     }
 
-    public AccessibilityNodeInfoCompat findFocus(int focus) {
+    public AccessibilityNodeInfoCompat findFocus(int i) {
         return null;
     }
 
-    public boolean performAction(int virtualViewId, int action, Bundle arguments) {
+    public boolean performAction(int i, int i2, Bundle bundle) {
         return false;
     }
 
@@ -33,13 +33,13 @@ public class AccessibilityNodeProviderCompat {
     static class AccessibilityNodeProviderApi16 extends AccessibilityNodeProvider {
         final AccessibilityNodeProviderCompat mCompat;
 
-        AccessibilityNodeProviderApi16(AccessibilityNodeProviderCompat compat) {
-            this.mCompat = compat;
+        AccessibilityNodeProviderApi16(AccessibilityNodeProviderCompat accessibilityNodeProviderCompat) {
+            this.mCompat = accessibilityNodeProviderCompat;
         }
 
         @Override // android.view.accessibility.AccessibilityNodeProvider
-        public AccessibilityNodeInfo createAccessibilityNodeInfo(int virtualViewId) {
-            AccessibilityNodeInfoCompat createAccessibilityNodeInfo = this.mCompat.createAccessibilityNodeInfo(virtualViewId);
+        public AccessibilityNodeInfo createAccessibilityNodeInfo(int i) {
+            AccessibilityNodeInfoCompat createAccessibilityNodeInfo = this.mCompat.createAccessibilityNodeInfo(i);
             if (createAccessibilityNodeInfo == null) {
                 return null;
             }
@@ -47,34 +47,34 @@ public class AccessibilityNodeProviderCompat {
         }
 
         @Override // android.view.accessibility.AccessibilityNodeProvider
-        public List<AccessibilityNodeInfo> findAccessibilityNodeInfosByText(String text, int virtualViewId) {
-            List<AccessibilityNodeInfoCompat> findAccessibilityNodeInfosByText = this.mCompat.findAccessibilityNodeInfosByText(text, virtualViewId);
+        public List<AccessibilityNodeInfo> findAccessibilityNodeInfosByText(String str, int i) {
+            List<AccessibilityNodeInfoCompat> findAccessibilityNodeInfosByText = this.mCompat.findAccessibilityNodeInfosByText(str, i);
             if (findAccessibilityNodeInfosByText == null) {
                 return null;
             }
             ArrayList arrayList = new ArrayList();
             int size = findAccessibilityNodeInfosByText.size();
-            for (int i = 0; i < size; i++) {
-                arrayList.add(findAccessibilityNodeInfosByText.get(i).unwrap());
+            for (int i2 = 0; i2 < size; i2++) {
+                arrayList.add(findAccessibilityNodeInfosByText.get(i2).unwrap());
             }
             return arrayList;
         }
 
         @Override // android.view.accessibility.AccessibilityNodeProvider
-        public boolean performAction(int virtualViewId, int action, Bundle arguments) {
-            return this.mCompat.performAction(virtualViewId, action, arguments);
+        public boolean performAction(int i, int i2, Bundle bundle) {
+            return this.mCompat.performAction(i, i2, bundle);
         }
     }
 
     /* loaded from: classes.dex */
     static class AccessibilityNodeProviderApi19 extends AccessibilityNodeProviderApi16 {
-        AccessibilityNodeProviderApi19(AccessibilityNodeProviderCompat compat) {
-            super(compat);
+        AccessibilityNodeProviderApi19(AccessibilityNodeProviderCompat accessibilityNodeProviderCompat) {
+            super(accessibilityNodeProviderCompat);
         }
 
         @Override // android.view.accessibility.AccessibilityNodeProvider
-        public AccessibilityNodeInfo findFocus(int focus) {
-            AccessibilityNodeInfoCompat findFocus = this.mCompat.findFocus(focus);
+        public AccessibilityNodeInfo findFocus(int i) {
+            AccessibilityNodeInfoCompat findFocus = this.mCompat.findFocus(i);
             if (findFocus == null) {
                 return null;
             }
@@ -84,13 +84,13 @@ public class AccessibilityNodeProviderCompat {
 
     /* loaded from: classes.dex */
     static class AccessibilityNodeProviderApi26 extends AccessibilityNodeProviderApi19 {
-        AccessibilityNodeProviderApi26(AccessibilityNodeProviderCompat compat) {
-            super(compat);
+        AccessibilityNodeProviderApi26(AccessibilityNodeProviderCompat accessibilityNodeProviderCompat) {
+            super(accessibilityNodeProviderCompat);
         }
 
         @Override // android.view.accessibility.AccessibilityNodeProvider
-        public void addExtraDataToAccessibilityNodeInfo(int virtualViewId, AccessibilityNodeInfo info, String extraDataKey, Bundle arguments) {
-            this.mCompat.addExtraDataToAccessibilityNodeInfo(virtualViewId, AccessibilityNodeInfoCompat.wrap(info), extraDataKey, arguments);
+        public void addExtraDataToAccessibilityNodeInfo(int i, AccessibilityNodeInfo accessibilityNodeInfo, String str, Bundle bundle) {
+            this.mCompat.addExtraDataToAccessibilityNodeInfo(i, AccessibilityNodeInfoCompat.wrap(accessibilityNodeInfo), str, bundle);
         }
     }
 
@@ -107,8 +107,8 @@ public class AccessibilityNodeProviderCompat {
         }
     }
 
-    public AccessibilityNodeProviderCompat(Object provider) {
-        this.mProvider = provider;
+    public AccessibilityNodeProviderCompat(Object obj) {
+        this.mProvider = obj;
     }
 
     public Object getProvider() {

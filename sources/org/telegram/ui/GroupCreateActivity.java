@@ -290,8 +290,8 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         public void addSpan(GroupCreateSpan groupCreateSpan) {
             GroupCreateActivity.this.allSpans.add(groupCreateSpan);
             GroupCreateActivity.this.selectedContacts.put(groupCreateSpan.getUid(), groupCreateSpan);
-            GroupCreateActivity.this.editText.setHintVisible(false);
-            if (GroupCreateActivity.this.currentAnimation != null) {
+            GroupCreateActivity.this.editText.setHintVisible(false, TextUtils.isEmpty(GroupCreateActivity.this.editText.getText()));
+            if (GroupCreateActivity.this.currentAnimation != null && GroupCreateActivity.this.currentAnimation.isRunning()) {
                 GroupCreateActivity.this.currentAnimation.setupEndValues();
                 GroupCreateActivity.this.currentAnimation.cancel();
             }
@@ -335,7 +335,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                     SpansContainer.this.animationStarted = false;
                     GroupCreateActivity.this.editText.setAllowDrawCursor(true);
                     if (GroupCreateActivity.this.allSpans.isEmpty()) {
-                        GroupCreateActivity.this.editText.setHintVisible(true);
+                        GroupCreateActivity.this.editText.setHintVisible(true, true);
                     }
                 }
             });

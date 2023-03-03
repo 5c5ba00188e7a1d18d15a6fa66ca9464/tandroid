@@ -1,5 +1,6 @@
 package androidx.core.view;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
@@ -20,30 +21,31 @@ public class KeyEventDispatcher {
 
     /* loaded from: classes.dex */
     public interface Component {
-        boolean superDispatchKeyEvent(KeyEvent event);
+        boolean superDispatchKeyEvent(KeyEvent keyEvent);
     }
 
-    public static boolean dispatchBeforeHierarchy(View root, KeyEvent event) {
-        return ViewCompat.dispatchUnhandledKeyEventBeforeHierarchy(root, event);
+    public static boolean dispatchBeforeHierarchy(View view, KeyEvent keyEvent) {
+        return ViewCompat.dispatchUnhandledKeyEventBeforeHierarchy(view, keyEvent);
     }
 
-    public static boolean dispatchKeyEvent(Component component, View root, Window.Callback callback, KeyEvent event) {
+    @SuppressLint({"LambdaLast"})
+    public static boolean dispatchKeyEvent(Component component, View view, Window.Callback callback, KeyEvent keyEvent) {
         if (component == null) {
             return false;
         }
         if (Build.VERSION.SDK_INT >= 28) {
-            return component.superDispatchKeyEvent(event);
+            return component.superDispatchKeyEvent(keyEvent);
         }
         if (callback instanceof Activity) {
-            return activitySuperDispatchKeyEventPre28((Activity) callback, event);
+            return activitySuperDispatchKeyEventPre28((Activity) callback, keyEvent);
         }
         if (callback instanceof Dialog) {
-            return dialogSuperDispatchKeyEventPre28((Dialog) callback, event);
+            return dialogSuperDispatchKeyEventPre28((Dialog) callback, keyEvent);
         }
-        return (root != null && ViewCompat.dispatchUnhandledKeyEventBeforeCallback(root, event)) || component.superDispatchKeyEvent(event);
+        return (view != null && ViewCompat.dispatchUnhandledKeyEventBeforeCallback(view, keyEvent)) || component.superDispatchKeyEvent(keyEvent);
     }
 
-    private static boolean actionBarOnMenuKeyEventPre28(ActionBar actionBar, KeyEvent event) {
+    private static boolean actionBarOnMenuKeyEventPre28(ActionBar actionBar, KeyEvent keyEvent) {
         if (!sActionBarFieldsFetched) {
             try {
                 sActionBarOnMenuKeyMethod = actionBar.getClass().getMethod("onMenuKeyEvent", KeyEvent.class);
@@ -54,30 +56,34 @@ public class KeyEventDispatcher {
         Method method = sActionBarOnMenuKeyMethod;
         if (method != null) {
             try {
-                return ((Boolean) method.invoke(actionBar, event)).booleanValue();
+                Object invoke = method.invoke(actionBar, keyEvent);
+                if (invoke == null) {
+                    return false;
+                }
+                return ((Boolean) invoke).booleanValue();
             } catch (IllegalAccessException | InvocationTargetException unused2) {
             }
         }
         return false;
     }
 
-    private static boolean activitySuperDispatchKeyEventPre28(Activity activity, KeyEvent event) {
+    private static boolean activitySuperDispatchKeyEventPre28(Activity activity, KeyEvent keyEvent) {
         activity.onUserInteraction();
         Window window = activity.getWindow();
         if (window.hasFeature(8)) {
             ActionBar actionBar = activity.getActionBar();
-            if (event.getKeyCode() == 82 && actionBar != null && actionBarOnMenuKeyEventPre28(actionBar, event)) {
+            if (keyEvent.getKeyCode() == 82 && actionBar != null && actionBarOnMenuKeyEventPre28(actionBar, keyEvent)) {
                 return true;
             }
         }
-        if (window.superDispatchKeyEvent(event)) {
+        if (window.superDispatchKeyEvent(keyEvent)) {
             return true;
         }
         View decorView = window.getDecorView();
-        if (ViewCompat.dispatchUnhandledKeyEventBeforeCallback(decorView, event)) {
+        if (ViewCompat.dispatchUnhandledKeyEventBeforeCallback(decorView, keyEvent)) {
             return true;
         }
-        return event.dispatch(activity, decorView != null ? decorView.getKeyDispatcherState() : null, activity);
+        return keyEvent.dispatch(activity, decorView != null ? decorView.getKeyDispatcherState() : null, activity);
     }
 
     private static DialogInterface.OnKeyListener getDialogKeyListenerPre28(Dialog dialog) {
@@ -101,18 +107,18 @@ public class KeyEventDispatcher {
         return null;
     }
 
-    private static boolean dialogSuperDispatchKeyEventPre28(Dialog dialog, KeyEvent event) {
+    private static boolean dialogSuperDispatchKeyEventPre28(Dialog dialog, KeyEvent keyEvent) {
         DialogInterface.OnKeyListener dialogKeyListenerPre28 = getDialogKeyListenerPre28(dialog);
-        if (dialogKeyListenerPre28 == null || !dialogKeyListenerPre28.onKey(dialog, event.getKeyCode(), event)) {
+        if (dialogKeyListenerPre28 == null || !dialogKeyListenerPre28.onKey(dialog, keyEvent.getKeyCode(), keyEvent)) {
             Window window = dialog.getWindow();
-            if (window.superDispatchKeyEvent(event)) {
+            if (window.superDispatchKeyEvent(keyEvent)) {
                 return true;
             }
             View decorView = window.getDecorView();
-            if (ViewCompat.dispatchUnhandledKeyEventBeforeCallback(decorView, event)) {
+            if (ViewCompat.dispatchUnhandledKeyEventBeforeCallback(decorView, keyEvent)) {
                 return true;
             }
-            return event.dispatch(dialog, decorView != null ? decorView.getKeyDispatcherState() : null, dialog);
+            return keyEvent.dispatch(dialog, decorView != null ? decorView.getKeyDispatcherState() : null, dialog);
         }
         return true;
     }

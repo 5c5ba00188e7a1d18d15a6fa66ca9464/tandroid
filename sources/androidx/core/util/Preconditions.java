@@ -4,22 +4,22 @@ import android.text.TextUtils;
 import java.util.Objects;
 /* loaded from: classes.dex */
 public final class Preconditions {
-    public static <T extends CharSequence> T checkStringNotEmpty(final T string, final Object errorMessage) {
-        if (TextUtils.isEmpty(string)) {
-            throw new IllegalArgumentException(String.valueOf(errorMessage));
+    public static <T extends CharSequence> T checkStringNotEmpty(T t, Object obj) {
+        if (TextUtils.isEmpty(t)) {
+            throw new IllegalArgumentException(String.valueOf(obj));
         }
-        return string;
+        return t;
     }
 
-    public static <T> T checkNotNull(T reference) {
-        Objects.requireNonNull(reference);
-        return reference;
+    public static <T> T checkNotNull(T t) {
+        Objects.requireNonNull(t);
+        return t;
     }
 
-    public static <T> T checkNotNull(T reference, Object errorMessage) {
-        if (reference != null) {
-            return reference;
+    public static <T> T checkNotNull(T t, Object obj) {
+        if (t != null) {
+            return t;
         }
-        throw new NullPointerException(String.valueOf(errorMessage));
+        throw new NullPointerException(String.valueOf(obj));
     }
 }

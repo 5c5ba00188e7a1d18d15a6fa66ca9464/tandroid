@@ -17,11 +17,11 @@ public class NotificationCompatJellybean {
     private static boolean sExtrasFieldAccessFailed;
     private static final Object sExtrasLock = new Object();
 
-    public static SparseArray<Bundle> buildActionExtrasMap(List<Bundle> actionExtrasList) {
-        int size = actionExtrasList.size();
+    public static SparseArray<Bundle> buildActionExtrasMap(List<Bundle> list) {
+        int size = list.size();
         SparseArray<Bundle> sparseArray = null;
         for (int i = 0; i < size; i++) {
-            Bundle bundle = actionExtrasList.get(i);
+            Bundle bundle = list.get(i);
             if (bundle != null) {
                 if (sparseArray == null) {
                     sparseArray = new SparseArray<>();
@@ -32,7 +32,7 @@ public class NotificationCompatJellybean {
         return sparseArray;
     }
 
-    public static Bundle getExtras(Notification notif) {
+    public static Bundle getExtras(Notification notification) {
         synchronized (sExtrasLock) {
             if (sExtrasFieldAccessFailed) {
                 return null;
@@ -48,10 +48,10 @@ public class NotificationCompatJellybean {
                     declaredField.setAccessible(true);
                     sExtrasField = declaredField;
                 }
-                Bundle bundle = (Bundle) sExtrasField.get(notif);
+                Bundle bundle = (Bundle) sExtrasField.get(notification);
                 if (bundle == null) {
                     bundle = new Bundle();
-                    sExtrasField.set(notif, bundle);
+                    sExtrasField.set(notification, bundle);
                 }
                 return bundle;
             } catch (IllegalAccessException e) {
@@ -119,13 +119,13 @@ public class NotificationCompatJellybean {
         return bundle;
     }
 
-    private static Bundle[] toBundleArray(RemoteInput[] remoteInputs) {
-        if (remoteInputs == null) {
+    private static Bundle[] toBundleArray(RemoteInput[] remoteInputArr) {
+        if (remoteInputArr == null) {
             return null;
         }
-        Bundle[] bundleArr = new Bundle[remoteInputs.length];
-        for (int i = 0; i < remoteInputs.length; i++) {
-            bundleArr[i] = toBundle(remoteInputs[i]);
+        Bundle[] bundleArr = new Bundle[remoteInputArr.length];
+        for (int i = 0; i < remoteInputArr.length; i++) {
+            bundleArr[i] = toBundle(remoteInputArr[i]);
         }
         return bundleArr;
     }

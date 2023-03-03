@@ -8,8 +8,8 @@ public class LogWriter extends Writer {
     private StringBuilder mBuilder = new StringBuilder(128);
     private final String mTag;
 
-    public LogWriter(String tag) {
-        this.mTag = tag;
+    public LogWriter(String str) {
+        this.mTag = str;
     }
 
     @Override // java.io.Writer, java.io.Closeable, java.lang.AutoCloseable
@@ -23,9 +23,9 @@ public class LogWriter extends Writer {
     }
 
     @Override // java.io.Writer
-    public void write(char[] buf, int offset, int count) {
-        for (int i = 0; i < count; i++) {
-            char c = buf[offset + i];
+    public void write(char[] cArr, int i, int i2) {
+        for (int i3 = 0; i3 < i2; i3++) {
+            char c = cArr[i + i3];
             if (c == '\n') {
                 flushBuilder();
             } else {

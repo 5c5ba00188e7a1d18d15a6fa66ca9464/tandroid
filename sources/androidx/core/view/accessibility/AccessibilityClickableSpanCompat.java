@@ -9,14 +9,14 @@ public final class AccessibilityClickableSpanCompat extends ClickableSpan {
     private final AccessibilityNodeInfoCompat mNodeInfoCompat;
     private final int mOriginalClickableSpanId;
 
-    public AccessibilityClickableSpanCompat(int originalClickableSpanId, AccessibilityNodeInfoCompat nodeInfoCompat, int clickableSpanActionId) {
-        this.mOriginalClickableSpanId = originalClickableSpanId;
-        this.mNodeInfoCompat = nodeInfoCompat;
-        this.mClickableSpanActionId = clickableSpanActionId;
+    public AccessibilityClickableSpanCompat(int i, AccessibilityNodeInfoCompat accessibilityNodeInfoCompat, int i2) {
+        this.mOriginalClickableSpanId = i;
+        this.mNodeInfoCompat = accessibilityNodeInfoCompat;
+        this.mClickableSpanActionId = i2;
     }
 
     @Override // android.text.style.ClickableSpan
-    public void onClick(View unused) {
+    public void onClick(View view) {
         Bundle bundle = new Bundle();
         bundle.putInt("ACCESSIBILITY_CLICKABLE_SPAN_ID", this.mOriginalClickableSpanId);
         this.mNodeInfoCompat.performAction(this.mClickableSpanActionId, bundle);

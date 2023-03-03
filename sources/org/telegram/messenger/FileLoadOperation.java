@@ -183,6 +183,7 @@ public class FileLoadOperation {
     public static class RequestInfo {
         private boolean forceSmallChunk;
         private long offset;
+        public long requestStartTime;
         private int requestToken;
         private TLRPC$TL_upload_file response;
         private TLRPC$TL_upload_cdnFile responseCdn;
@@ -919,30 +920,30 @@ public class FileLoadOperation {
         return start(this.stream, this.streamOffset, this.streamPriority);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:116:0x03ed, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:116:0x03ec, code lost:
         if (r6 != r28.cacheFileFinal.length()) goto L57;
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:104:0x038f  */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x03b6  */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x03d7  */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x0405  */
-    /* JADX WARN: Removed duplicated region for block: B:217:0x060e  */
-    /* JADX WARN: Removed duplicated region for block: B:232:0x063b  */
-    /* JADX WARN: Removed duplicated region for block: B:245:0x06b0  */
-    /* JADX WARN: Removed duplicated region for block: B:248:0x06da  */
-    /* JADX WARN: Removed duplicated region for block: B:261:0x0733  */
-    /* JADX WARN: Removed duplicated region for block: B:268:0x075e  */
-    /* JADX WARN: Removed duplicated region for block: B:274:0x078a  */
-    /* JADX WARN: Removed duplicated region for block: B:279:0x07d3  */
-    /* JADX WARN: Removed duplicated region for block: B:308:0x0837  */
-    /* JADX WARN: Removed duplicated region for block: B:316:0x085a A[Catch: Exception -> 0x0860, TRY_LEAVE, TryCatch #3 {Exception -> 0x0860, blocks: (B:314:0x0849, B:316:0x085a), top: B:348:0x0849 }] */
-    /* JADX WARN: Removed duplicated region for block: B:326:0x087a  */
-    /* JADX WARN: Removed duplicated region for block: B:328:0x087e  */
-    /* JADX WARN: Removed duplicated region for block: B:329:0x088b  */
-    /* JADX WARN: Removed duplicated region for block: B:368:0x0619 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x03b5  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x03d6  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x0404  */
+    /* JADX WARN: Removed duplicated region for block: B:217:0x060d  */
+    /* JADX WARN: Removed duplicated region for block: B:232:0x063a  */
+    /* JADX WARN: Removed duplicated region for block: B:245:0x06af  */
+    /* JADX WARN: Removed duplicated region for block: B:248:0x06d9  */
+    /* JADX WARN: Removed duplicated region for block: B:261:0x0732  */
+    /* JADX WARN: Removed duplicated region for block: B:268:0x075d  */
+    /* JADX WARN: Removed duplicated region for block: B:274:0x0789  */
+    /* JADX WARN: Removed duplicated region for block: B:279:0x07d2  */
+    /* JADX WARN: Removed duplicated region for block: B:308:0x0836  */
+    /* JADX WARN: Removed duplicated region for block: B:316:0x0859 A[Catch: Exception -> 0x085f, TRY_LEAVE, TryCatch #5 {Exception -> 0x085f, blocks: (B:314:0x0848, B:316:0x0859), top: B:352:0x0848 }] */
+    /* JADX WARN: Removed duplicated region for block: B:326:0x0879  */
+    /* JADX WARN: Removed duplicated region for block: B:328:0x087d  */
+    /* JADX WARN: Removed duplicated region for block: B:329:0x088a  */
+    /* JADX WARN: Removed duplicated region for block: B:350:0x0618 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r2v64 */
-    /* JADX WARN: Type inference failed for: r2v67, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v67, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v69 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2676,7 +2677,7 @@ public class FileLoadOperation {
         int i;
         long j;
         long j2;
-        final TLRPC$TL_upload_getFile tLRPC$TL_upload_getFile;
+        TLRPC$TL_upload_getFile tLRPC$TL_upload_getFile;
         long j3;
         HashMap<Long, PreloadRange> hashMap;
         PreloadRange preloadRange;
@@ -2823,6 +2824,7 @@ public class FileLoadOperation {
                     tLRPC$TL_upload_getFile = tLRPC$TL_upload_getFile2;
                 }
                 int i10 = i9;
+                final TLRPC$TL_upload_getFile tLRPC$TL_upload_getFile3 = tLRPC$TL_upload_getFile;
                 this.requestedBytesCount += this.currentDownloadChunkSize;
                 final RequestInfo requestInfo = new RequestInfo();
                 this.requestInfos.add(requestInfo);
@@ -2871,12 +2873,18 @@ public class FileLoadOperation {
                 TLRPC$InputFileLocation tLRPC$InputFileLocation = this.location;
                 if (!(tLRPC$InputFileLocation instanceof TLRPC$TL_inputPeerPhotoFileLocation) || ((TLRPC$TL_inputPeerPhotoFileLocation) tLRPC$InputFileLocation).photo_id != j3) {
                     requestInfo.forceSmallChunk = this.forceSmallChunk;
-                    requestInfo.requestToken = ConnectionsManager.getInstance(this.currentAccount).sendRequestSync(tLRPC$TL_upload_getFile, new RequestDelegate() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda18
+                    if (BuildVars.LOGS_ENABLED) {
+                        requestInfo.requestStartTime = System.currentTimeMillis();
+                    }
+                    final int i11 = this.isCdn ? this.cdnDatacenterId : this.datacenterId;
+                    final int i12 = i8;
+                    final boolean z4 = z3;
+                    requestInfo.requestToken = ConnectionsManager.getInstance(this.currentAccount).sendRequestSync(tLRPC$TL_upload_getFile3, new RequestDelegate() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda18
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                            FileLoadOperation.this.lambda$startDownloadRequest$17(requestInfo, tLRPC$TL_upload_getFile, tLObject, tLRPC$TL_error);
+                            FileLoadOperation.this.lambda$startDownloadRequest$17(requestInfo, tLRPC$TL_upload_getFile3, i11, i12, z4, tLObject, tLRPC$TL_error);
                         }
-                    }, null, null, i10, this.isCdn ? this.cdnDatacenterId : this.datacenterId, i8, z3);
+                    }, null, null, i10, i11, i8, z3);
                     this.requestsCount++;
                 } else {
                     requestReference(requestInfo);
@@ -2897,9 +2905,12 @@ public class FileLoadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startDownloadRequest$17(final RequestInfo requestInfo, TLObject tLObject, TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$startDownloadRequest$17(final RequestInfo requestInfo, TLObject tLObject, int i, int i2, boolean z, TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
         byte[] bArr;
         if (this.requestInfos.contains(requestInfo)) {
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.d("debug_loading: " + tLObject.getClass().getSimpleName() + " time=" + (System.currentTimeMillis() - requestInfo.requestStartTime) + " dcId=" + i + " cdn=" + this.isCdn + " connectionType=" + i2 + " " + z);
+            }
             if (requestInfo == this.priorityRequestInfo) {
                 if (BuildVars.DEBUG_VERSION) {
                     FileLog.d("frame get request completed " + this.priorityRequestInfo.offset);
@@ -2923,8 +2934,8 @@ public class FileLoadOperation {
                     if (this.cdnHashes == null) {
                         this.cdnHashes = new HashMap<>();
                     }
-                    for (int i = 0; i < tLRPC$TL_upload_fileCdnRedirect.file_hashes.size(); i++) {
-                        TLRPC$TL_fileHash tLRPC$TL_fileHash = tLRPC$TL_upload_fileCdnRedirect.file_hashes.get(i);
+                    for (int i3 = 0; i3 < tLRPC$TL_upload_fileCdnRedirect.file_hashes.size(); i3++) {
+                        TLRPC$TL_fileHash tLRPC$TL_fileHash = tLRPC$TL_upload_fileCdnRedirect.file_hashes.get(i3);
                         this.cdnHashes.put(Long.valueOf(tLRPC$TL_fileHash.offset), tLRPC$TL_fileHash);
                     }
                 }
@@ -2962,7 +2973,7 @@ public class FileLoadOperation {
                     public final void run(TLObject tLObject3, TLRPC$TL_error tLRPC$TL_error3) {
                         FileLoadOperation.this.lambda$startDownloadRequest$16(requestInfo, tLObject3, tLRPC$TL_error3);
                     }
-                }, null, null, 0, this.datacenterId, 1, true);
+                }, null, null, 0, i, 1, true);
             } else {
                 if (tLObject2 instanceof TLRPC$TL_upload_file) {
                     requestInfo.response = (TLRPC$TL_upload_file) tLObject2;
@@ -2975,14 +2986,14 @@ public class FileLoadOperation {
                     requestInfo.responseCdn = (TLRPC$TL_upload_cdnFile) tLObject2;
                 }
                 if (tLObject2 != null) {
-                    int i2 = this.currentType;
-                    if (i2 == 50331648) {
+                    int i4 = this.currentType;
+                    if (i4 == 50331648) {
                         StatsController.getInstance(this.currentAccount).incrementReceivedBytesCount(tLObject2.networkType, 3, tLObject2.getObjectSize() + 4);
-                    } else if (i2 == 33554432) {
+                    } else if (i4 == 33554432) {
                         StatsController.getInstance(this.currentAccount).incrementReceivedBytesCount(tLObject2.networkType, 2, tLObject2.getObjectSize() + 4);
-                    } else if (i2 == 16777216) {
+                    } else if (i4 == 16777216) {
                         StatsController.getInstance(this.currentAccount).incrementReceivedBytesCount(tLObject2.networkType, 4, tLObject2.getObjectSize() + 4);
-                    } else if (i2 == 67108864) {
+                    } else if (i4 == 67108864) {
                         String str = this.ext;
                         if (str != null && (str.toLowerCase().endsWith("mp3") || this.ext.toLowerCase().endsWith("m4a"))) {
                             StatsController.getInstance(this.currentAccount).incrementReceivedBytesCount(tLObject2.networkType, 7, tLObject2.getObjectSize() + 4);

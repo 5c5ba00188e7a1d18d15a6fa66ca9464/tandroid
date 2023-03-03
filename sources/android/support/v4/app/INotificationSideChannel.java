@@ -5,36 +5,35 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
+import android.os.Parcelable;
 import android.os.RemoteException;
 /* loaded from: classes.dex */
 public interface INotificationSideChannel extends IInterface {
-    void cancel(String packageName, int id, String tag) throws RemoteException;
+    void cancel(String str, int i, String str2) throws RemoteException;
 
-    void cancelAll(String packageName) throws RemoteException;
+    void cancelAll(String str) throws RemoteException;
 
-    void notify(String packageName, int id, String tag, Notification notification) throws RemoteException;
+    void notify(String str, int i, String str2, Notification notification) throws RemoteException;
 
     /* loaded from: classes.dex */
     public static abstract class Stub extends Binder implements INotificationSideChannel {
-        public static INotificationSideChannel asInterface(IBinder obj) {
-            if (obj == null) {
+        public static INotificationSideChannel asInterface(IBinder iBinder) {
+            if (iBinder == null) {
                 return null;
             }
-            IInterface queryLocalInterface = obj.queryLocalInterface("android.support.v4.app.INotificationSideChannel");
+            IInterface queryLocalInterface = iBinder.queryLocalInterface("android.support.v4.app.INotificationSideChannel");
             if (queryLocalInterface != null && (queryLocalInterface instanceof INotificationSideChannel)) {
                 return (INotificationSideChannel) queryLocalInterface;
             }
-            return new Proxy(obj);
+            return new Proxy(iBinder);
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
-        public static class Proxy implements INotificationSideChannel {
-            public static INotificationSideChannel sDefaultImpl;
+        private static class Proxy implements INotificationSideChannel {
             private IBinder mRemote;
 
-            Proxy(IBinder remote) {
-                this.mRemote = remote;
+            Proxy(IBinder iBinder) {
+                this.mRemote = iBinder;
             }
 
             @Override // android.os.IInterface
@@ -43,63 +42,58 @@ public interface INotificationSideChannel extends IInterface {
             }
 
             @Override // android.support.v4.app.INotificationSideChannel
-            public void notify(String packageName, int id, String tag, Notification notification) throws RemoteException {
+            public void notify(String str, int i, String str2, Notification notification) throws RemoteException {
                 Parcel obtain = Parcel.obtain();
                 try {
                     obtain.writeInterfaceToken("android.support.v4.app.INotificationSideChannel");
-                    obtain.writeString(packageName);
-                    obtain.writeInt(id);
-                    obtain.writeString(tag);
-                    if (notification != null) {
-                        obtain.writeInt(1);
-                        notification.writeToParcel(obtain, 0);
-                    } else {
-                        obtain.writeInt(0);
-                    }
-                    if (this.mRemote.transact(1, obtain, null, 1) || Stub.getDefaultImpl() == null) {
-                        return;
-                    }
-                    Stub.getDefaultImpl().notify(packageName, id, tag, notification);
+                    obtain.writeString(str);
+                    obtain.writeInt(i);
+                    obtain.writeString(str2);
+                    _Parcel.writeTypedObject(obtain, notification, 0);
+                    this.mRemote.transact(1, obtain, null, 1);
                 } finally {
                     obtain.recycle();
                 }
             }
 
             @Override // android.support.v4.app.INotificationSideChannel
-            public void cancel(String packageName, int id, String tag) throws RemoteException {
+            public void cancel(String str, int i, String str2) throws RemoteException {
                 Parcel obtain = Parcel.obtain();
                 try {
                     obtain.writeInterfaceToken("android.support.v4.app.INotificationSideChannel");
-                    obtain.writeString(packageName);
-                    obtain.writeInt(id);
-                    obtain.writeString(tag);
-                    if (this.mRemote.transact(2, obtain, null, 1) || Stub.getDefaultImpl() == null) {
-                        return;
-                    }
-                    Stub.getDefaultImpl().cancel(packageName, id, tag);
+                    obtain.writeString(str);
+                    obtain.writeInt(i);
+                    obtain.writeString(str2);
+                    this.mRemote.transact(2, obtain, null, 1);
                 } finally {
                     obtain.recycle();
                 }
             }
 
             @Override // android.support.v4.app.INotificationSideChannel
-            public void cancelAll(String packageName) throws RemoteException {
+            public void cancelAll(String str) throws RemoteException {
                 Parcel obtain = Parcel.obtain();
                 try {
                     obtain.writeInterfaceToken("android.support.v4.app.INotificationSideChannel");
-                    obtain.writeString(packageName);
-                    if (this.mRemote.transact(3, obtain, null, 1) || Stub.getDefaultImpl() == null) {
-                        return;
-                    }
-                    Stub.getDefaultImpl().cancelAll(packageName);
+                    obtain.writeString(str);
+                    this.mRemote.transact(3, obtain, null, 1);
                 } finally {
                     obtain.recycle();
                 }
             }
         }
+    }
 
-        public static INotificationSideChannel getDefaultImpl() {
-            return Proxy.sDefaultImpl;
+    /* loaded from: classes.dex */
+    public static class _Parcel {
+        /* JADX INFO: Access modifiers changed from: private */
+        public static <T extends Parcelable> void writeTypedObject(Parcel parcel, T t, int i) {
+            if (t != null) {
+                parcel.writeInt(1);
+                t.writeToParcel(parcel, i);
+                return;
+            }
+            parcel.writeInt(0);
         }
     }
 }

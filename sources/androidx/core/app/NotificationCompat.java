@@ -55,6 +55,7 @@ public class NotificationCompat {
         RemoteViews mContentView;
         public Context mContext;
         Bundle mExtras;
+        int mFgsDeferBehavior;
         PendingIntent mFullScreenIntent;
         int mGroupAlertBehavior;
         String mGroupKey;
@@ -88,7 +89,7 @@ public class NotificationCompat {
         boolean mUseChronometer;
         int mVisibility;
 
-        public Builder(Context context, String channelId) {
+        public Builder(Context context, String str) {
             this.mActions = new ArrayList<>();
             this.mPersonList = new ArrayList<>();
             this.mInvisibleActions = new ArrayList<>();
@@ -98,10 +99,11 @@ public class NotificationCompat {
             this.mVisibility = 0;
             this.mBadgeIcon = 0;
             this.mGroupAlertBehavior = 0;
+            this.mFgsDeferBehavior = 0;
             Notification notification = new Notification();
             this.mNotification = notification;
             this.mContext = context;
-            this.mChannelId = channelId;
+            this.mChannelId = str;
             notification.when = System.currentTimeMillis();
             this.mNotification.audioStreamType = -1;
             this.mPriority = 0;
@@ -114,98 +116,98 @@ public class NotificationCompat {
             this(context, null);
         }
 
-        public Builder setWhen(long when) {
-            this.mNotification.when = when;
+        public Builder setWhen(long j) {
+            this.mNotification.when = j;
             return this;
         }
 
-        public Builder setShowWhen(boolean show) {
-            this.mShowWhen = show;
+        public Builder setShowWhen(boolean z) {
+            this.mShowWhen = z;
             return this;
         }
 
-        public Builder setSmallIcon(int icon) {
-            this.mNotification.icon = icon;
+        public Builder setSmallIcon(int i) {
+            this.mNotification.icon = i;
             return this;
         }
 
-        public Builder setContentTitle(CharSequence title) {
-            this.mContentTitle = limitCharSequenceLength(title);
+        public Builder setContentTitle(CharSequence charSequence) {
+            this.mContentTitle = limitCharSequenceLength(charSequence);
             return this;
         }
 
-        public Builder setContentText(CharSequence text) {
-            this.mContentText = limitCharSequenceLength(text);
+        public Builder setContentText(CharSequence charSequence) {
+            this.mContentText = limitCharSequenceLength(charSequence);
             return this;
         }
 
-        public Builder setSubText(CharSequence text) {
-            this.mSubText = limitCharSequenceLength(text);
+        public Builder setSubText(CharSequence charSequence) {
+            this.mSubText = limitCharSequenceLength(charSequence);
             return this;
         }
 
-        public Builder setNumber(int number) {
-            this.mNumber = number;
+        public Builder setNumber(int i) {
+            this.mNumber = i;
             return this;
         }
 
-        public Builder setProgress(int max, int progress, boolean indeterminate) {
-            this.mProgressMax = max;
-            this.mProgress = progress;
-            this.mProgressIndeterminate = indeterminate;
+        public Builder setProgress(int i, int i2, boolean z) {
+            this.mProgressMax = i;
+            this.mProgress = i2;
+            this.mProgressIndeterminate = z;
             return this;
         }
 
-        public Builder setContentIntent(PendingIntent intent) {
-            this.mContentIntent = intent;
+        public Builder setContentIntent(PendingIntent pendingIntent) {
+            this.mContentIntent = pendingIntent;
             return this;
         }
 
-        public Builder setDeleteIntent(PendingIntent intent) {
-            this.mNotification.deleteIntent = intent;
+        public Builder setDeleteIntent(PendingIntent pendingIntent) {
+            this.mNotification.deleteIntent = pendingIntent;
             return this;
         }
 
-        public Builder setTicker(CharSequence tickerText) {
-            this.mNotification.tickerText = limitCharSequenceLength(tickerText);
+        public Builder setTicker(CharSequence charSequence) {
+            this.mNotification.tickerText = limitCharSequenceLength(charSequence);
             return this;
         }
 
-        public Builder setLargeIcon(Bitmap icon) {
-            this.mLargeIcon = reduceLargeIconSize(icon);
+        public Builder setLargeIcon(Bitmap bitmap) {
+            this.mLargeIcon = reduceLargeIconSize(bitmap);
             return this;
         }
 
-        private Bitmap reduceLargeIconSize(Bitmap icon) {
-            if (icon == null || Build.VERSION.SDK_INT >= 27) {
-                return icon;
+        private Bitmap reduceLargeIconSize(Bitmap bitmap) {
+            if (bitmap == null || Build.VERSION.SDK_INT >= 27) {
+                return bitmap;
             }
             Resources resources = this.mContext.getResources();
             int dimensionPixelSize = resources.getDimensionPixelSize(R$dimen.compat_notification_large_icon_max_width);
             int dimensionPixelSize2 = resources.getDimensionPixelSize(R$dimen.compat_notification_large_icon_max_height);
-            if (icon.getWidth() > dimensionPixelSize || icon.getHeight() > dimensionPixelSize2) {
+            if (bitmap.getWidth() > dimensionPixelSize || bitmap.getHeight() > dimensionPixelSize2) {
                 double d = dimensionPixelSize;
-                double max = Math.max(1, icon.getWidth());
+                double max = Math.max(1, bitmap.getWidth());
                 Double.isNaN(d);
                 Double.isNaN(max);
                 double d2 = d / max;
                 double d3 = dimensionPixelSize2;
-                double max2 = Math.max(1, icon.getHeight());
+                double max2 = Math.max(1, bitmap.getHeight());
                 Double.isNaN(d3);
                 Double.isNaN(max2);
                 double min = Math.min(d2, d3 / max2);
-                double width = icon.getWidth();
+                double width = bitmap.getWidth();
                 Double.isNaN(width);
-                double height = icon.getHeight();
+                double height = bitmap.getHeight();
                 Double.isNaN(height);
-                return Bitmap.createScaledBitmap(icon, (int) Math.ceil(width * min), (int) Math.ceil(height * min), true);
+                return Bitmap.createScaledBitmap(bitmap, (int) Math.ceil(width * min), (int) Math.ceil(height * min), true);
             }
-            return icon;
+            return bitmap;
         }
 
-        public Builder setSound(Uri sound) {
+        public Builder setSound(Uri uri) {
             Notification notification = this.mNotification;
-            notification.sound = sound;
+            notification.sound = uri;
             notification.audioStreamType = -1;
             if (Build.VERSION.SDK_INT >= 21) {
                 notification.audioAttributes = new AudioAttributes.Builder().setContentType(4).setUsage(5).build();
@@ -213,89 +215,89 @@ public class NotificationCompat {
             return this;
         }
 
-        public Builder setSound(Uri sound, int streamType) {
+        public Builder setSound(Uri uri, int i) {
             Notification notification = this.mNotification;
-            notification.sound = sound;
-            notification.audioStreamType = streamType;
+            notification.sound = uri;
+            notification.audioStreamType = i;
             if (Build.VERSION.SDK_INT >= 21) {
-                notification.audioAttributes = new AudioAttributes.Builder().setContentType(4).setLegacyStreamType(streamType).build();
+                notification.audioAttributes = new AudioAttributes.Builder().setContentType(4).setLegacyStreamType(i).build();
             }
             return this;
         }
 
-        public Builder setVibrate(long[] pattern) {
-            this.mNotification.vibrate = pattern;
+        public Builder setVibrate(long[] jArr) {
+            this.mNotification.vibrate = jArr;
             return this;
         }
 
-        public Builder setLights(int argb, int onMs, int offMs) {
+        public Builder setLights(int i, int i2, int i3) {
             Notification notification = this.mNotification;
-            notification.ledARGB = argb;
-            notification.ledOnMS = onMs;
-            notification.ledOffMS = offMs;
-            notification.flags = ((onMs == 0 || offMs == 0) ? 0 : 1) | (notification.flags & (-2));
+            notification.ledARGB = i;
+            notification.ledOnMS = i2;
+            notification.ledOffMS = i3;
+            notification.flags = ((i2 == 0 || i3 == 0) ? 0 : 1) | (notification.flags & (-2));
             return this;
         }
 
-        public Builder setAutoCancel(boolean autoCancel) {
-            setFlag(16, autoCancel);
+        public Builder setAutoCancel(boolean z) {
+            setFlag(16, z);
             return this;
         }
 
-        public Builder setLocalOnly(boolean b) {
-            this.mLocalOnly = b;
+        public Builder setLocalOnly(boolean z) {
+            this.mLocalOnly = z;
             return this;
         }
 
-        public Builder setCategory(String category) {
-            this.mCategory = category;
+        public Builder setCategory(String str) {
+            this.mCategory = str;
             return this;
         }
 
-        public Builder setDefaults(int defaults) {
+        public Builder setDefaults(int i) {
             Notification notification = this.mNotification;
-            notification.defaults = defaults;
-            if ((defaults & 4) != 0) {
+            notification.defaults = i;
+            if ((i & 4) != 0) {
                 notification.flags |= 1;
             }
             return this;
         }
 
-        private void setFlag(int mask, boolean value) {
-            if (value) {
+        private void setFlag(int i, boolean z) {
+            if (z) {
                 Notification notification = this.mNotification;
-                notification.flags = mask | notification.flags;
+                notification.flags = i | notification.flags;
                 return;
             }
             Notification notification2 = this.mNotification;
-            notification2.flags = (mask ^ (-1)) & notification2.flags;
+            notification2.flags = (i ^ (-1)) & notification2.flags;
         }
 
-        public Builder setPriority(int pri) {
-            this.mPriority = pri;
+        public Builder setPriority(int i) {
+            this.mPriority = i;
             return this;
         }
 
         @Deprecated
-        public Builder addPerson(String uri) {
-            if (uri != null && !uri.isEmpty()) {
-                this.mPeople.add(uri);
+        public Builder addPerson(String str) {
+            if (str != null && !str.isEmpty()) {
+                this.mPeople.add(str);
             }
             return this;
         }
 
-        public Builder setGroup(String groupKey) {
-            this.mGroupKey = groupKey;
+        public Builder setGroup(String str) {
+            this.mGroupKey = str;
             return this;
         }
 
-        public Builder setGroupSummary(boolean isGroupSummary) {
-            this.mGroupSummary = isGroupSummary;
+        public Builder setGroupSummary(boolean z) {
+            this.mGroupSummary = z;
             return this;
         }
 
-        public Builder setSortKey(String sortKey) {
-            this.mSortKey = sortKey;
+        public Builder setSortKey(String str) {
+            this.mSortKey = str;
             return this;
         }
 
@@ -306,8 +308,8 @@ public class NotificationCompat {
             return this.mExtras;
         }
 
-        public Builder addAction(int icon, CharSequence title, PendingIntent intent) {
-            this.mActions.add(new Action(icon, title, intent));
+        public Builder addAction(int i, CharSequence charSequence, PendingIntent pendingIntent) {
+            this.mActions.add(new Action(i, charSequence, pendingIntent));
             return this;
         }
 
@@ -328,46 +330,46 @@ public class NotificationCompat {
             return this;
         }
 
-        public Builder setColor(int argb) {
-            this.mColor = argb;
+        public Builder setColor(int i) {
+            this.mColor = i;
             return this;
         }
 
-        public Builder setVisibility(int visibility) {
-            this.mVisibility = visibility;
+        public Builder setVisibility(int i) {
+            this.mVisibility = i;
             return this;
         }
 
-        public Builder setChannelId(String channelId) {
-            this.mChannelId = channelId;
+        public Builder setChannelId(String str) {
+            this.mChannelId = str;
             return this;
         }
 
-        public Builder setShortcutInfo(final ShortcutInfoCompat shortcutInfo) {
-            if (shortcutInfo == null) {
+        public Builder setShortcutInfo(ShortcutInfoCompat shortcutInfoCompat) {
+            if (shortcutInfoCompat == null) {
                 return this;
             }
-            this.mShortcutId = shortcutInfo.getId();
+            this.mShortcutId = shortcutInfoCompat.getId();
             if (this.mLocusId == null) {
-                if (shortcutInfo.getLocusId() != null) {
-                    this.mLocusId = shortcutInfo.getLocusId();
-                } else if (shortcutInfo.getId() != null) {
-                    this.mLocusId = new LocusIdCompat(shortcutInfo.getId());
+                if (shortcutInfoCompat.getLocusId() != null) {
+                    this.mLocusId = shortcutInfoCompat.getLocusId();
+                } else if (shortcutInfoCompat.getId() != null) {
+                    this.mLocusId = new LocusIdCompat(shortcutInfoCompat.getId());
                 }
             }
             if (this.mContentTitle == null) {
-                setContentTitle(shortcutInfo.getShortLabel());
+                setContentTitle(shortcutInfoCompat.getShortLabel());
             }
             return this;
         }
 
-        public Builder setGroupAlertBehavior(int groupAlertBehavior) {
-            this.mGroupAlertBehavior = groupAlertBehavior;
+        public Builder setGroupAlertBehavior(int i) {
+            this.mGroupAlertBehavior = i;
             return this;
         }
 
-        public Builder setBubbleMetadata(BubbleMetadata data) {
-            this.mBubbleMetadata = data;
+        public Builder setBubbleMetadata(BubbleMetadata bubbleMetadata) {
+            this.mBubbleMetadata = bubbleMetadata;
             return this;
         }
 
@@ -380,8 +382,8 @@ public class NotificationCompat {
             return new NotificationCompatBuilder(this).build();
         }
 
-        protected static CharSequence limitCharSequenceLength(CharSequence cs) {
-            return (cs != null && cs.length() > 5120) ? cs.subSequence(0, 5120) : cs;
+        protected static CharSequence limitCharSequenceLength(CharSequence charSequence) {
+            return (charSequence != null && charSequence.length() > 5120) ? charSequence.subSequence(0, 5120) : charSequence;
         }
 
         public int getColor() {
@@ -396,19 +398,19 @@ public class NotificationCompat {
         CharSequence mSummaryText;
         boolean mSummaryTextSet = false;
 
-        public abstract void apply(NotificationBuilderWithBuilderAccessor builder);
+        public abstract void apply(NotificationBuilderWithBuilderAccessor notificationBuilderWithBuilderAccessor);
 
         protected abstract String getClassName();
 
-        public RemoteViews makeBigContentView(NotificationBuilderWithBuilderAccessor builder) {
+        public RemoteViews makeBigContentView(NotificationBuilderWithBuilderAccessor notificationBuilderWithBuilderAccessor) {
             return null;
         }
 
-        public RemoteViews makeContentView(NotificationBuilderWithBuilderAccessor builder) {
+        public RemoteViews makeContentView(NotificationBuilderWithBuilderAccessor notificationBuilderWithBuilderAccessor) {
             return null;
         }
 
-        public RemoteViews makeHeadsUpContentView(NotificationBuilderWithBuilderAccessor builder) {
+        public RemoteViews makeHeadsUpContentView(NotificationBuilderWithBuilderAccessor notificationBuilderWithBuilderAccessor) {
             return null;
         }
 
@@ -421,17 +423,17 @@ public class NotificationCompat {
             }
         }
 
-        public void addCompatExtras(Bundle extras) {
+        public void addCompatExtras(Bundle bundle) {
             if (this.mSummaryTextSet) {
-                extras.putCharSequence("android.summaryText", this.mSummaryText);
+                bundle.putCharSequence("android.summaryText", this.mSummaryText);
             }
             CharSequence charSequence = this.mBigContentTitle;
             if (charSequence != null) {
-                extras.putCharSequence("android.title.big", charSequence);
+                bundle.putCharSequence("android.title.big", charSequence);
             }
             String className = getClassName();
             if (className != null) {
-                extras.putString("androidx.core.app.extra.COMPAT_TEMPLATE", className);
+                bundle.putString("androidx.core.app.extra.COMPAT_TEMPLATE", className);
             }
         }
     }
@@ -440,62 +442,91 @@ public class NotificationCompat {
     public static class BigPictureStyle extends Style {
         private IconCompat mBigLargeIcon;
         private boolean mBigLargeIconSet;
-        private Bitmap mPicture;
+        private CharSequence mPictureContentDescription;
+        private IconCompat mPictureIcon;
+        private boolean mShowBigPictureWhenCollapsed;
 
         @Override // androidx.core.app.NotificationCompat.Style
         protected String getClassName() {
             return "androidx.core.app.NotificationCompat$BigPictureStyle";
         }
 
-        public BigPictureStyle bigPicture(Bitmap b) {
-            this.mPicture = b;
+        public BigPictureStyle bigPicture(Bitmap bitmap) {
+            this.mPictureIcon = bitmap == null ? null : IconCompat.createWithBitmap(bitmap);
             return this;
         }
 
-        public BigPictureStyle bigLargeIcon(Bitmap b) {
-            this.mBigLargeIcon = b == null ? null : IconCompat.createWithBitmap(b);
+        public BigPictureStyle bigLargeIcon(Bitmap bitmap) {
+            this.mBigLargeIcon = bitmap == null ? null : IconCompat.createWithBitmap(bitmap);
             this.mBigLargeIconSet = true;
             return this;
         }
 
         @Override // androidx.core.app.NotificationCompat.Style
-        public void apply(NotificationBuilderWithBuilderAccessor builder) {
+        public void apply(NotificationBuilderWithBuilderAccessor notificationBuilderWithBuilderAccessor) {
             int i = Build.VERSION.SDK_INT;
             if (i >= 16) {
-                Notification.BigPictureStyle bigPicture = new Notification.BigPictureStyle(builder.getBuilder()).setBigContentTitle(this.mBigContentTitle).bigPicture(this.mPicture);
-                if (this.mBigLargeIconSet) {
-                    IconCompat iconCompat = this.mBigLargeIcon;
-                    if (iconCompat == null) {
-                        Api16Impl.setBigLargeIcon(bigPicture, null);
-                    } else if (i >= 23) {
-                        Api23Impl.setBigLargeIcon(bigPicture, this.mBigLargeIcon.toIcon(builder instanceof NotificationCompatBuilder ? ((NotificationCompatBuilder) builder).getContext() : null));
+                Notification.BigPictureStyle bigContentTitle = new Notification.BigPictureStyle(notificationBuilderWithBuilderAccessor.getBuilder()).setBigContentTitle(this.mBigContentTitle);
+                IconCompat iconCompat = this.mPictureIcon;
+                if (iconCompat != null) {
+                    if (i >= 31) {
+                        Api31Impl.setBigPicture(bigContentTitle, this.mPictureIcon.toIcon(notificationBuilderWithBuilderAccessor instanceof NotificationCompatBuilder ? ((NotificationCompatBuilder) notificationBuilderWithBuilderAccessor).getContext() : null));
                     } else if (iconCompat.getType() == 1) {
-                        Api16Impl.setBigLargeIcon(bigPicture, this.mBigLargeIcon.getBitmap());
+                        bigContentTitle = bigContentTitle.bigPicture(this.mPictureIcon.getBitmap());
+                    }
+                }
+                if (this.mBigLargeIconSet) {
+                    IconCompat iconCompat2 = this.mBigLargeIcon;
+                    if (iconCompat2 == null) {
+                        Api16Impl.setBigLargeIcon(bigContentTitle, null);
+                    } else if (i >= 23) {
+                        Api23Impl.setBigLargeIcon(bigContentTitle, this.mBigLargeIcon.toIcon(notificationBuilderWithBuilderAccessor instanceof NotificationCompatBuilder ? ((NotificationCompatBuilder) notificationBuilderWithBuilderAccessor).getContext() : null));
+                    } else if (iconCompat2.getType() == 1) {
+                        Api16Impl.setBigLargeIcon(bigContentTitle, this.mBigLargeIcon.getBitmap());
                     } else {
-                        Api16Impl.setBigLargeIcon(bigPicture, null);
+                        Api16Impl.setBigLargeIcon(bigContentTitle, null);
                     }
                 }
                 if (this.mSummaryTextSet) {
-                    Api16Impl.setSummaryText(bigPicture, this.mSummaryText);
+                    Api16Impl.setSummaryText(bigContentTitle, this.mSummaryText);
+                }
+                if (i >= 31) {
+                    Api31Impl.showBigPictureWhenCollapsed(bigContentTitle, this.mShowBigPictureWhenCollapsed);
+                    Api31Impl.setContentDescription(bigContentTitle, this.mPictureContentDescription);
                 }
             }
         }
 
         /* loaded from: classes.dex */
         private static class Api16Impl {
-            static void setBigLargeIcon(Notification.BigPictureStyle style, Bitmap icon) {
-                style.bigLargeIcon(icon);
+            static void setBigLargeIcon(Notification.BigPictureStyle bigPictureStyle, Bitmap bitmap) {
+                bigPictureStyle.bigLargeIcon(bitmap);
             }
 
-            static void setSummaryText(Notification.BigPictureStyle style, CharSequence text) {
-                style.setSummaryText(text);
+            static void setSummaryText(Notification.BigPictureStyle bigPictureStyle, CharSequence charSequence) {
+                bigPictureStyle.setSummaryText(charSequence);
             }
         }
 
         /* loaded from: classes.dex */
         private static class Api23Impl {
-            static void setBigLargeIcon(Notification.BigPictureStyle style, Icon icon) {
-                style.bigLargeIcon(icon);
+            static void setBigLargeIcon(Notification.BigPictureStyle bigPictureStyle, Icon icon) {
+                bigPictureStyle.bigLargeIcon(icon);
+            }
+        }
+
+        /* loaded from: classes.dex */
+        private static class Api31Impl {
+            static void showBigPictureWhenCollapsed(Notification.BigPictureStyle bigPictureStyle, boolean z) {
+                bigPictureStyle.showBigPictureWhenCollapsed(z);
+            }
+
+            static void setContentDescription(Notification.BigPictureStyle bigPictureStyle, CharSequence charSequence) {
+                bigPictureStyle.setContentDescription(charSequence);
+            }
+
+            static void setBigPicture(Notification.BigPictureStyle bigPictureStyle, Icon icon) {
+                bigPictureStyle.bigPicture(icon);
             }
         }
     }
@@ -509,15 +540,15 @@ public class NotificationCompat {
             return "androidx.core.app.NotificationCompat$BigTextStyle";
         }
 
-        public BigTextStyle bigText(CharSequence cs) {
-            this.mBigText = Builder.limitCharSequenceLength(cs);
+        public BigTextStyle bigText(CharSequence charSequence) {
+            this.mBigText = Builder.limitCharSequenceLength(charSequence);
             return this;
         }
 
         @Override // androidx.core.app.NotificationCompat.Style
-        public void apply(NotificationBuilderWithBuilderAccessor builder) {
+        public void apply(NotificationBuilderWithBuilderAccessor notificationBuilderWithBuilderAccessor) {
             if (Build.VERSION.SDK_INT >= 16) {
-                Notification.BigTextStyle bigText = new Notification.BigTextStyle(builder.getBuilder()).setBigContentTitle(this.mBigContentTitle).bigText(this.mBigText);
+                Notification.BigTextStyle bigText = new Notification.BigTextStyle(notificationBuilderWithBuilderAccessor.getBuilder()).setBigContentTitle(this.mBigContentTitle).bigText(this.mBigText);
                 if (this.mSummaryTextSet) {
                     bigText.setSummaryText(this.mSummaryText);
                 }
@@ -525,10 +556,10 @@ public class NotificationCompat {
         }
 
         @Override // androidx.core.app.NotificationCompat.Style
-        public void addCompatExtras(Bundle extras) {
-            super.addCompatExtras(extras);
+        public void addCompatExtras(Bundle bundle) {
+            super.addCompatExtras(bundle);
             if (Build.VERSION.SDK_INT < 21) {
-                extras.putCharSequence("android.bigText", this.mBigText);
+                bundle.putCharSequence("android.bigText", this.mBigText);
             }
         }
     }
@@ -547,24 +578,24 @@ public class NotificationCompat {
         }
 
         @Deprecated
-        public MessagingStyle(CharSequence userDisplayName) {
-            this.mUser = new Person.Builder().setName(userDisplayName).build();
+        public MessagingStyle(CharSequence charSequence) {
+            this.mUser = new Person.Builder().setName(charSequence).build();
         }
 
-        public MessagingStyle(Person user) {
-            if (TextUtils.isEmpty(user.getName())) {
+        public MessagingStyle(Person person) {
+            if (TextUtils.isEmpty(person.getName())) {
                 throw new IllegalArgumentException("User's name must not be empty.");
             }
-            this.mUser = user;
+            this.mUser = person;
         }
 
-        public MessagingStyle setConversationTitle(CharSequence conversationTitle) {
-            this.mConversationTitle = conversationTitle;
+        public MessagingStyle setConversationTitle(CharSequence charSequence) {
+            this.mConversationTitle = charSequence;
             return this;
         }
 
-        public MessagingStyle addMessage(CharSequence text, long timestamp, Person person) {
-            addMessage(new Message(text, timestamp, person));
+        public MessagingStyle addMessage(CharSequence charSequence, long j, Person person) {
+            addMessage(new Message(charSequence, j, person));
             return this;
         }
 
@@ -582,8 +613,8 @@ public class NotificationCompat {
             return this.mMessages;
         }
 
-        public MessagingStyle setGroupConversation(boolean isGroupConversation) {
-            this.mIsGroupConversation = Boolean.valueOf(isGroupConversation);
+        public MessagingStyle setGroupConversation(boolean z) {
+            this.mIsGroupConversation = Boolean.valueOf(z);
             return this;
         }
 
@@ -600,7 +631,7 @@ public class NotificationCompat {
         }
 
         @Override // androidx.core.app.NotificationCompat.Style
-        public void apply(NotificationBuilderWithBuilderAccessor builder) {
+        public void apply(NotificationBuilderWithBuilderAccessor notificationBuilderWithBuilderAccessor) {
             CharSequence text;
             Notification.MessagingStyle messagingStyle;
             setGroupConversation(isGroupConversation());
@@ -625,26 +656,26 @@ public class NotificationCompat {
                 if (Build.VERSION.SDK_INT >= 28) {
                     messagingStyle.setGroupConversation(this.mIsGroupConversation.booleanValue());
                 }
-                messagingStyle.setBuilder(builder.getBuilder());
+                messagingStyle.setBuilder(notificationBuilderWithBuilderAccessor.getBuilder());
                 return;
             }
             Message findLatestIncomingMessage = findLatestIncomingMessage();
             if (this.mConversationTitle != null && this.mIsGroupConversation.booleanValue()) {
-                builder.getBuilder().setContentTitle(this.mConversationTitle);
+                notificationBuilderWithBuilderAccessor.getBuilder().setContentTitle(this.mConversationTitle);
             } else if (findLatestIncomingMessage != null) {
-                builder.getBuilder().setContentTitle("");
+                notificationBuilderWithBuilderAccessor.getBuilder().setContentTitle("");
                 if (findLatestIncomingMessage.getPerson() != null) {
-                    builder.getBuilder().setContentTitle(findLatestIncomingMessage.getPerson().getName());
+                    notificationBuilderWithBuilderAccessor.getBuilder().setContentTitle(findLatestIncomingMessage.getPerson().getName());
                 }
             }
             if (findLatestIncomingMessage != null) {
-                Notification.Builder builder2 = builder.getBuilder();
+                Notification.Builder builder = notificationBuilderWithBuilderAccessor.getBuilder();
                 if (this.mConversationTitle != null) {
                     text = makeMessageLine(findLatestIncomingMessage);
                 } else {
                     text = findLatestIncomingMessage.getText();
                 }
-                builder2.setContentText(text);
+                builder.setContentText(text);
             }
             if (i >= 16) {
                 SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
@@ -657,7 +688,7 @@ public class NotificationCompat {
                     }
                     spannableStringBuilder.insert(0, makeMessageLine);
                 }
-                new Notification.BigTextStyle(builder.getBuilder()).setBigContentTitle(null).bigText(spannableStringBuilder);
+                new Notification.BigTextStyle(notificationBuilderWithBuilderAccessor.getBuilder()).setBigContentTitle(null).bigText(spannableStringBuilder);
             }
         }
 
@@ -704,28 +735,28 @@ public class NotificationCompat {
             return spannableStringBuilder;
         }
 
-        private TextAppearanceSpan makeFontColorSpan(int color) {
-            return new TextAppearanceSpan(null, 0, 0, ColorStateList.valueOf(color), null);
+        private TextAppearanceSpan makeFontColorSpan(int i) {
+            return new TextAppearanceSpan(null, 0, 0, ColorStateList.valueOf(i), null);
         }
 
         @Override // androidx.core.app.NotificationCompat.Style
-        public void addCompatExtras(Bundle extras) {
-            super.addCompatExtras(extras);
-            extras.putCharSequence("android.selfDisplayName", this.mUser.getName());
-            extras.putBundle("android.messagingStyleUser", this.mUser.toBundle());
-            extras.putCharSequence("android.hiddenConversationTitle", this.mConversationTitle);
+        public void addCompatExtras(Bundle bundle) {
+            super.addCompatExtras(bundle);
+            bundle.putCharSequence("android.selfDisplayName", this.mUser.getName());
+            bundle.putBundle("android.messagingStyleUser", this.mUser.toBundle());
+            bundle.putCharSequence("android.hiddenConversationTitle", this.mConversationTitle);
             if (this.mConversationTitle != null && this.mIsGroupConversation.booleanValue()) {
-                extras.putCharSequence("android.conversationTitle", this.mConversationTitle);
+                bundle.putCharSequence("android.conversationTitle", this.mConversationTitle);
             }
             if (!this.mMessages.isEmpty()) {
-                extras.putParcelableArray("android.messages", Message.getBundleArrayForMessages(this.mMessages));
+                bundle.putParcelableArray("android.messages", Message.getBundleArrayForMessages(this.mMessages));
             }
             if (!this.mHistoricMessages.isEmpty()) {
-                extras.putParcelableArray("android.messages.historic", Message.getBundleArrayForMessages(this.mHistoricMessages));
+                bundle.putParcelableArray("android.messages.historic", Message.getBundleArrayForMessages(this.mHistoricMessages));
             }
             Boolean bool = this.mIsGroupConversation;
             if (bool != null) {
-                extras.putBoolean("android.isGroupConversation", bool.booleanValue());
+                bundle.putBoolean("android.isGroupConversation", bool.booleanValue());
             }
         }
 
@@ -738,15 +769,15 @@ public class NotificationCompat {
             private final CharSequence mText;
             private final long mTimestamp;
 
-            public Message(CharSequence text, long timestamp, Person person) {
-                this.mText = text;
-                this.mTimestamp = timestamp;
+            public Message(CharSequence charSequence, long j, Person person) {
+                this.mText = charSequence;
+                this.mTimestamp = j;
                 this.mPerson = person;
             }
 
-            public Message setData(String dataMimeType, Uri dataUri) {
-                this.mDataMimeType = dataMimeType;
-                this.mDataUri = dataUri;
+            public Message setData(String str, Uri uri) {
+                this.mDataMimeType = str;
+                this.mDataUri = uri;
                 return this;
             }
 
@@ -801,11 +832,11 @@ public class NotificationCompat {
                 return bundle;
             }
 
-            static Bundle[] getBundleArrayForMessages(List<Message> messages) {
-                Bundle[] bundleArr = new Bundle[messages.size()];
-                int size = messages.size();
+            static Bundle[] getBundleArrayForMessages(List<Message> list) {
+                Bundle[] bundleArr = new Bundle[list.size()];
+                int size = list.size();
                 for (int i = 0; i < size; i++) {
-                    bundleArr[i] = messages.get(i).toBundle();
+                    bundleArr[i] = list.get(i).toBundle();
                 }
                 return bundleArr;
             }
@@ -835,28 +866,28 @@ public class NotificationCompat {
             return "androidx.core.app.NotificationCompat$InboxStyle";
         }
 
-        public InboxStyle setBigContentTitle(CharSequence title) {
-            this.mBigContentTitle = Builder.limitCharSequenceLength(title);
+        public InboxStyle setBigContentTitle(CharSequence charSequence) {
+            this.mBigContentTitle = Builder.limitCharSequenceLength(charSequence);
             return this;
         }
 
-        public InboxStyle setSummaryText(CharSequence cs) {
-            this.mSummaryText = Builder.limitCharSequenceLength(cs);
+        public InboxStyle setSummaryText(CharSequence charSequence) {
+            this.mSummaryText = Builder.limitCharSequenceLength(charSequence);
             this.mSummaryTextSet = true;
             return this;
         }
 
-        public InboxStyle addLine(CharSequence cs) {
-            if (cs != null) {
-                this.mTexts.add(Builder.limitCharSequenceLength(cs));
+        public InboxStyle addLine(CharSequence charSequence) {
+            if (charSequence != null) {
+                this.mTexts.add(Builder.limitCharSequenceLength(charSequence));
             }
             return this;
         }
 
         @Override // androidx.core.app.NotificationCompat.Style
-        public void apply(NotificationBuilderWithBuilderAccessor builder) {
+        public void apply(NotificationBuilderWithBuilderAccessor notificationBuilderWithBuilderAccessor) {
             if (Build.VERSION.SDK_INT >= 16) {
-                Notification.InboxStyle bigContentTitle = new Notification.InboxStyle(builder.getBuilder()).setBigContentTitle(this.mBigContentTitle);
+                Notification.InboxStyle bigContentTitle = new Notification.InboxStyle(notificationBuilderWithBuilderAccessor.getBuilder()).setBigContentTitle(this.mBigContentTitle);
                 if (this.mSummaryTextSet) {
                     bigContentTitle.setSummaryText(this.mSummaryText);
                 }
@@ -874,6 +905,7 @@ public class NotificationCompat {
         @Deprecated
         public int icon;
         private boolean mAllowGeneratedReplies;
+        private boolean mAuthenticationRequired;
         private final RemoteInput[] mDataOnlyRemoteInputs;
         final Bundle mExtras;
         private IconCompat mIcon;
@@ -883,29 +915,30 @@ public class NotificationCompat {
         boolean mShowsUserInterface;
         public CharSequence title;
 
-        public Action(int icon, CharSequence title, PendingIntent intent) {
-            this(icon != 0 ? IconCompat.createWithResource(null, "", icon) : null, title, intent);
+        public Action(int i, CharSequence charSequence, PendingIntent pendingIntent) {
+            this(i != 0 ? IconCompat.createWithResource(null, "", i) : null, charSequence, pendingIntent);
         }
 
-        public Action(IconCompat icon, CharSequence title, PendingIntent intent) {
-            this(icon, title, intent, new Bundle(), null, null, true, 0, true, false);
+        public Action(IconCompat iconCompat, CharSequence charSequence, PendingIntent pendingIntent) {
+            this(iconCompat, charSequence, pendingIntent, new Bundle(), null, null, true, 0, true, false, false);
         }
 
-        Action(IconCompat icon, CharSequence title, PendingIntent intent, Bundle extras, RemoteInput[] remoteInputs, RemoteInput[] dataOnlyRemoteInputs, boolean allowGeneratedReplies, int semanticAction, boolean showsUserInterface, boolean isContextual) {
+        Action(IconCompat iconCompat, CharSequence charSequence, PendingIntent pendingIntent, Bundle bundle, RemoteInput[] remoteInputArr, RemoteInput[] remoteInputArr2, boolean z, int i, boolean z2, boolean z3, boolean z4) {
             this.mShowsUserInterface = true;
-            this.mIcon = icon;
-            if (icon != null && icon.getType() == 2) {
-                this.icon = icon.getResId();
+            this.mIcon = iconCompat;
+            if (iconCompat != null && iconCompat.getType() == 2) {
+                this.icon = iconCompat.getResId();
             }
-            this.title = Builder.limitCharSequenceLength(title);
-            this.actionIntent = intent;
-            this.mExtras = extras == null ? new Bundle() : extras;
-            this.mRemoteInputs = remoteInputs;
-            this.mDataOnlyRemoteInputs = dataOnlyRemoteInputs;
-            this.mAllowGeneratedReplies = allowGeneratedReplies;
-            this.mSemanticAction = semanticAction;
-            this.mShowsUserInterface = showsUserInterface;
-            this.mIsContextual = isContextual;
+            this.title = Builder.limitCharSequenceLength(charSequence);
+            this.actionIntent = pendingIntent;
+            this.mExtras = bundle == null ? new Bundle() : bundle;
+            this.mRemoteInputs = remoteInputArr;
+            this.mDataOnlyRemoteInputs = remoteInputArr2;
+            this.mAllowGeneratedReplies = z;
+            this.mSemanticAction = i;
+            this.mShowsUserInterface = z2;
+            this.mIsContextual = z3;
+            this.mAuthenticationRequired = z4;
         }
 
         public IconCompat getIconCompat() {
@@ -932,6 +965,10 @@ public class NotificationCompat {
             return this.mAllowGeneratedReplies;
         }
 
+        public boolean isAuthenticationRequired() {
+            return this.mAuthenticationRequired;
+        }
+
         public RemoteInput[] getRemoteInputs() {
             return this.mRemoteInputs;
         }
@@ -955,6 +992,7 @@ public class NotificationCompat {
         /* loaded from: classes.dex */
         public static final class Builder {
             private boolean mAllowGeneratedReplies;
+            private boolean mAuthenticationRequired;
             private final Bundle mExtras;
             private final IconCompat mIcon;
             private final PendingIntent mIntent;
@@ -964,22 +1002,23 @@ public class NotificationCompat {
             private boolean mShowsUserInterface;
             private final CharSequence mTitle;
 
-            public Builder(int icon, CharSequence title, PendingIntent intent) {
-                this(icon != 0 ? IconCompat.createWithResource(null, "", icon) : null, title, intent, new Bundle(), null, true, 0, true, false);
+            public Builder(int i, CharSequence charSequence, PendingIntent pendingIntent) {
+                this(i != 0 ? IconCompat.createWithResource(null, "", i) : null, charSequence, pendingIntent, new Bundle(), null, true, 0, true, false, false);
             }
 
-            private Builder(IconCompat icon, CharSequence title, PendingIntent intent, Bundle extras, RemoteInput[] remoteInputs, boolean allowGeneratedReplies, int semanticAction, boolean showsUserInterface, boolean isContextual) {
+            private Builder(IconCompat iconCompat, CharSequence charSequence, PendingIntent pendingIntent, Bundle bundle, RemoteInput[] remoteInputArr, boolean z, int i, boolean z2, boolean z3, boolean z4) {
                 this.mAllowGeneratedReplies = true;
                 this.mShowsUserInterface = true;
-                this.mIcon = icon;
-                this.mTitle = Builder.limitCharSequenceLength(title);
-                this.mIntent = intent;
-                this.mExtras = extras;
-                this.mRemoteInputs = remoteInputs == null ? null : new ArrayList<>(Arrays.asList(remoteInputs));
-                this.mAllowGeneratedReplies = allowGeneratedReplies;
-                this.mSemanticAction = semanticAction;
-                this.mShowsUserInterface = showsUserInterface;
-                this.mIsContextual = isContextual;
+                this.mIcon = iconCompat;
+                this.mTitle = Builder.limitCharSequenceLength(charSequence);
+                this.mIntent = pendingIntent;
+                this.mExtras = bundle;
+                this.mRemoteInputs = remoteInputArr == null ? null : new ArrayList<>(Arrays.asList(remoteInputArr));
+                this.mAllowGeneratedReplies = z;
+                this.mSemanticAction = i;
+                this.mShowsUserInterface = z2;
+                this.mIsContextual = z3;
+                this.mAuthenticationRequired = z4;
             }
 
             public Builder addRemoteInput(RemoteInput remoteInput) {
@@ -992,18 +1031,18 @@ public class NotificationCompat {
                 return this;
             }
 
-            public Builder setAllowGeneratedReplies(boolean allowGeneratedReplies) {
-                this.mAllowGeneratedReplies = allowGeneratedReplies;
+            public Builder setAllowGeneratedReplies(boolean z) {
+                this.mAllowGeneratedReplies = z;
                 return this;
             }
 
-            public Builder setSemanticAction(int semanticAction) {
-                this.mSemanticAction = semanticAction;
+            public Builder setSemanticAction(int i) {
+                this.mSemanticAction = i;
                 return this;
             }
 
-            public Builder setShowsUserInterface(boolean showsUserInterface) {
-                this.mShowsUserInterface = showsUserInterface;
+            public Builder setShowsUserInterface(boolean z) {
+                this.mShowsUserInterface = z;
                 return this;
             }
 
@@ -1030,7 +1069,7 @@ public class NotificationCompat {
                     }
                 }
                 RemoteInput[] remoteInputArr = arrayList.isEmpty() ? null : (RemoteInput[]) arrayList.toArray(new RemoteInput[arrayList.size()]);
-                return new Action(this.mIcon, this.mTitle, this.mIntent, this.mExtras, arrayList2.isEmpty() ? null : (RemoteInput[]) arrayList2.toArray(new RemoteInput[arrayList2.size()]), remoteInputArr, this.mAllowGeneratedReplies, this.mSemanticAction, this.mShowsUserInterface, this.mIsContextual);
+                return new Action(this.mIcon, this.mTitle, this.mIntent, this.mExtras, arrayList2.isEmpty() ? null : (RemoteInput[]) arrayList2.toArray(new RemoteInput[arrayList2.size()]), remoteInputArr, this.mAllowGeneratedReplies, this.mSemanticAction, this.mShowsUserInterface, this.mIsContextual, this.mAuthenticationRequired);
             }
         }
     }
@@ -1129,28 +1168,31 @@ public class NotificationCompat {
             return builder;
         }
 
-        private static Notification.Action getActionFromActionCompat(Action actionCompat) {
+        private static Notification.Action getActionFromActionCompat(Action action) {
             Notification.Action.Builder builder;
             Bundle bundle;
             int i = Build.VERSION.SDK_INT;
             if (i >= 23) {
-                IconCompat iconCompat = actionCompat.getIconCompat();
-                builder = new Notification.Action.Builder(iconCompat == null ? null : iconCompat.toIcon(), actionCompat.getTitle(), actionCompat.getActionIntent());
+                IconCompat iconCompat = action.getIconCompat();
+                builder = new Notification.Action.Builder(iconCompat == null ? null : iconCompat.toIcon(), action.getTitle(), action.getActionIntent());
             } else {
-                IconCompat iconCompat2 = actionCompat.getIconCompat();
-                builder = new Notification.Action.Builder((iconCompat2 == null || iconCompat2.getType() != 2) ? 0 : iconCompat2.getResId(), actionCompat.getTitle(), actionCompat.getActionIntent());
+                IconCompat iconCompat2 = action.getIconCompat();
+                builder = new Notification.Action.Builder((iconCompat2 == null || iconCompat2.getType() != 2) ? 0 : iconCompat2.getResId(), action.getTitle(), action.getActionIntent());
             }
-            if (actionCompat.getExtras() != null) {
-                bundle = new Bundle(actionCompat.getExtras());
+            if (action.getExtras() != null) {
+                bundle = new Bundle(action.getExtras());
             } else {
                 bundle = new Bundle();
             }
-            bundle.putBoolean("android.support.allowGeneratedReplies", actionCompat.getAllowGeneratedReplies());
+            bundle.putBoolean("android.support.allowGeneratedReplies", action.getAllowGeneratedReplies());
             if (i >= 24) {
-                builder.setAllowGeneratedReplies(actionCompat.getAllowGeneratedReplies());
+                builder.setAllowGeneratedReplies(action.getAllowGeneratedReplies());
+            }
+            if (i >= 31) {
+                builder.setAuthenticationRequired(action.isAuthenticationRequired());
             }
             builder.addExtras(bundle);
-            RemoteInput[] remoteInputs = actionCompat.getRemoteInputs();
+            RemoteInput[] remoteInputs = action.getRemoteInputs();
             if (remoteInputs != null) {
                 for (android.app.RemoteInput remoteInput : RemoteInput.fromCompat(remoteInputs)) {
                     builder.addRemoteInput(remoteInput);
@@ -1183,13 +1225,13 @@ public class NotificationCompat {
             return this;
         }
 
-        public WearableExtender setDismissalId(String dismissalId) {
-            this.mDismissalId = dismissalId;
+        public WearableExtender setDismissalId(String str) {
+            this.mDismissalId = str;
             return this;
         }
 
-        public WearableExtender setBridgeTag(String bridgeTag) {
-            this.mBridgeTag = bridgeTag;
+        public WearableExtender setBridgeTag(String str) {
+            this.mBridgeTag = str;
             return this;
         }
     }
@@ -1204,14 +1246,14 @@ public class NotificationCompat {
         private PendingIntent mPendingIntent;
         private String mShortcutId;
 
-        private BubbleMetadata(PendingIntent expandIntent, PendingIntent deleteIntent, IconCompat icon, int height, int heightResId, int flags, String shortcutId) {
-            this.mPendingIntent = expandIntent;
-            this.mIcon = icon;
-            this.mDesiredHeight = height;
-            this.mDesiredHeightResId = heightResId;
-            this.mDeleteIntent = deleteIntent;
-            this.mFlags = flags;
-            this.mShortcutId = shortcutId;
+        private BubbleMetadata(PendingIntent pendingIntent, PendingIntent pendingIntent2, IconCompat iconCompat, int i, int i2, int i3, String str) {
+            this.mPendingIntent = pendingIntent;
+            this.mIcon = iconCompat;
+            this.mDesiredHeight = i;
+            this.mDesiredHeightResId = i2;
+            this.mDeleteIntent = pendingIntent2;
+            this.mFlags = i3;
+            this.mShortcutId = str;
         }
 
         @SuppressLint({"InvalidNullConversion"})
@@ -1248,20 +1290,20 @@ public class NotificationCompat {
             return (this.mFlags & 2) != 0;
         }
 
-        public void setFlags(int flags) {
-            this.mFlags = flags;
+        public void setFlags(int i) {
+            this.mFlags = i;
         }
 
-        public static Notification.BubbleMetadata toPlatform(BubbleMetadata compatMetadata) {
-            if (compatMetadata == null) {
+        public static Notification.BubbleMetadata toPlatform(BubbleMetadata bubbleMetadata) {
+            if (bubbleMetadata == null) {
                 return null;
             }
             int i = Build.VERSION.SDK_INT;
             if (i >= 30) {
-                return Api30Impl.toPlatform(compatMetadata);
+                return Api30Impl.toPlatform(bubbleMetadata);
             }
             if (i == 29) {
-                return Api29Impl.toPlatform(compatMetadata);
+                return Api29Impl.toPlatform(bubbleMetadata);
             }
             return null;
         }
@@ -1276,26 +1318,26 @@ public class NotificationCompat {
             private PendingIntent mPendingIntent;
             private String mShortcutId;
 
-            public Builder(PendingIntent intent, IconCompat icon) {
-                Objects.requireNonNull(intent, "Bubble requires non-null pending intent");
-                Objects.requireNonNull(icon, "Bubbles require non-null icon");
-                this.mPendingIntent = intent;
-                this.mIcon = icon;
+            public Builder(PendingIntent pendingIntent, IconCompat iconCompat) {
+                Objects.requireNonNull(pendingIntent, "Bubble requires non-null pending intent");
+                Objects.requireNonNull(iconCompat, "Bubbles require non-null icon");
+                this.mPendingIntent = pendingIntent;
+                this.mIcon = iconCompat;
             }
 
-            public Builder setDesiredHeight(int height) {
-                this.mDesiredHeight = Math.max(height, 0);
+            public Builder setDesiredHeight(int i) {
+                this.mDesiredHeight = Math.max(i, 0);
                 this.mDesiredHeightResId = 0;
                 return this;
             }
 
-            public Builder setAutoExpandBubble(boolean shouldExpand) {
-                setFlag(1, shouldExpand);
+            public Builder setAutoExpandBubble(boolean z) {
+                setFlag(1, z);
                 return this;
             }
 
-            public Builder setSuppressNotification(boolean shouldSuppressNotif) {
-                setFlag(2, shouldSuppressNotif);
+            public Builder setSuppressNotification(boolean z) {
+                setFlag(2, z);
                 return this;
             }
 
@@ -1313,11 +1355,11 @@ public class NotificationCompat {
                 return bubbleMetadata;
             }
 
-            private Builder setFlag(int mask, boolean value) {
-                if (value) {
-                    this.mFlags = mask | this.mFlags;
+            private Builder setFlag(int i, boolean z) {
+                if (z) {
+                    this.mFlags = i | this.mFlags;
                 } else {
-                    this.mFlags = (mask ^ (-1)) & this.mFlags;
+                    this.mFlags = (i ^ (-1)) & this.mFlags;
                 }
                 return this;
             }
@@ -1326,16 +1368,16 @@ public class NotificationCompat {
         /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
         public static class Api29Impl {
-            static Notification.BubbleMetadata toPlatform(BubbleMetadata compatMetadata) {
-                if (compatMetadata == null || compatMetadata.getIntent() == null) {
+            static Notification.BubbleMetadata toPlatform(BubbleMetadata bubbleMetadata) {
+                if (bubbleMetadata == null || bubbleMetadata.getIntent() == null) {
                     return null;
                 }
-                Notification.BubbleMetadata.Builder suppressNotification = new Notification.BubbleMetadata.Builder().setIcon(compatMetadata.getIcon().toIcon()).setIntent(compatMetadata.getIntent()).setDeleteIntent(compatMetadata.getDeleteIntent()).setAutoExpandBubble(compatMetadata.getAutoExpandBubble()).setSuppressNotification(compatMetadata.isNotificationSuppressed());
-                if (compatMetadata.getDesiredHeight() != 0) {
-                    suppressNotification.setDesiredHeight(compatMetadata.getDesiredHeight());
+                Notification.BubbleMetadata.Builder suppressNotification = new Notification.BubbleMetadata.Builder().setIcon(bubbleMetadata.getIcon().toIcon()).setIntent(bubbleMetadata.getIntent()).setDeleteIntent(bubbleMetadata.getDeleteIntent()).setAutoExpandBubble(bubbleMetadata.getAutoExpandBubble()).setSuppressNotification(bubbleMetadata.isNotificationSuppressed());
+                if (bubbleMetadata.getDesiredHeight() != 0) {
+                    suppressNotification.setDesiredHeight(bubbleMetadata.getDesiredHeight());
                 }
-                if (compatMetadata.getDesiredHeightResId() != 0) {
-                    suppressNotification.setDesiredHeightResId(compatMetadata.getDesiredHeightResId());
+                if (bubbleMetadata.getDesiredHeightResId() != 0) {
+                    suppressNotification.setDesiredHeightResId(bubbleMetadata.getDesiredHeightResId());
                 }
                 return suppressNotification.build();
             }
@@ -1344,22 +1386,22 @@ public class NotificationCompat {
         /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
         public static class Api30Impl {
-            static Notification.BubbleMetadata toPlatform(BubbleMetadata compatMetadata) {
+            static Notification.BubbleMetadata toPlatform(BubbleMetadata bubbleMetadata) {
                 Notification.BubbleMetadata.Builder builder;
-                if (compatMetadata == null) {
+                if (bubbleMetadata == null) {
                     return null;
                 }
-                if (compatMetadata.getShortcutId() != null) {
-                    builder = new Notification.BubbleMetadata.Builder(compatMetadata.getShortcutId());
+                if (bubbleMetadata.getShortcutId() != null) {
+                    builder = new Notification.BubbleMetadata.Builder(bubbleMetadata.getShortcutId());
                 } else {
-                    builder = new Notification.BubbleMetadata.Builder(compatMetadata.getIntent(), compatMetadata.getIcon().toIcon());
+                    builder = new Notification.BubbleMetadata.Builder(bubbleMetadata.getIntent(), bubbleMetadata.getIcon().toIcon());
                 }
-                builder.setDeleteIntent(compatMetadata.getDeleteIntent()).setAutoExpandBubble(compatMetadata.getAutoExpandBubble()).setSuppressNotification(compatMetadata.isNotificationSuppressed());
-                if (compatMetadata.getDesiredHeight() != 0) {
-                    builder.setDesiredHeight(compatMetadata.getDesiredHeight());
+                builder.setDeleteIntent(bubbleMetadata.getDeleteIntent()).setAutoExpandBubble(bubbleMetadata.getAutoExpandBubble()).setSuppressNotification(bubbleMetadata.isNotificationSuppressed());
+                if (bubbleMetadata.getDesiredHeight() != 0) {
+                    builder.setDesiredHeight(bubbleMetadata.getDesiredHeight());
                 }
-                if (compatMetadata.getDesiredHeightResId() != 0) {
-                    builder.setDesiredHeightResId(compatMetadata.getDesiredHeightResId());
+                if (bubbleMetadata.getDesiredHeightResId() != 0) {
+                    builder.setDesiredHeightResId(bubbleMetadata.getDesiredHeightResId());
                 }
                 return builder.build();
             }

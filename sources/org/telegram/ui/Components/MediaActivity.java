@@ -69,7 +69,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r5v7 */
-    /* JADX WARN: Type inference failed for: r5v8, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r5v8, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r5v9 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(final Context context) {

@@ -1,6 +1,5 @@
 package androidx.core.content.pm;
 
-import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +27,7 @@ public class ShortcutInfoCompat {
     Context mContext;
     CharSequence mDisabledMessage;
     int mDisabledReason;
+    int mExcludedSurfaces;
     PersistableBundle mExtras;
     boolean mHasKeyFieldsOnly;
     IconCompat mIcon;
@@ -126,9 +126,9 @@ public class ShortcutInfoCompat {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public Intent addToIntent(Intent outIntent) {
+    public Intent addToIntent(Intent intent) {
         Intent[] intentArr = this.mIntents;
-        outIntent.putExtra("android.intent.extra.shortcut.INTENT", intentArr[intentArr.length - 1]).putExtra("android.intent.extra.shortcut.NAME", this.mLabel.toString());
+        intent.putExtra("android.intent.extra.shortcut.INTENT", intentArr[intentArr.length - 1]).putExtra("android.intent.extra.shortcut.NAME", this.mLabel.toString());
         if (this.mIcon != null) {
             Drawable drawable = null;
             if (this.mIsAlwaysBadged) {
@@ -144,9 +144,9 @@ public class ShortcutInfoCompat {
                     drawable = this.mContext.getApplicationInfo().loadIcon(packageManager);
                 }
             }
-            this.mIcon.addToShortcutIntent(outIntent, drawable, this.mContext);
+            this.mIcon.addToShortcutIntent(intent, drawable, this.mContext);
         }
-        return outIntent;
+        return intent;
     }
 
     public String getId() {
@@ -195,11 +195,11 @@ public class ShortcutInfoCompat {
         return this.mIcon;
     }
 
-    static Person[] getPersonsFromExtra(PersistableBundle bundle) {
-        if (bundle == null || !bundle.containsKey("extraPersonCount")) {
+    static Person[] getPersonsFromExtra(PersistableBundle persistableBundle) {
+        if (persistableBundle == null || !persistableBundle.containsKey("extraPersonCount")) {
             return null;
         }
-        int i = bundle.getInt("extraPersonCount");
+        int i = persistableBundle.getInt("extraPersonCount");
         Person[] personArr = new Person[i];
         int i2 = 0;
         while (i2 < i) {
@@ -207,13 +207,13 @@ public class ShortcutInfoCompat {
             sb.append("extraPerson_");
             int i3 = i2 + 1;
             sb.append(i3);
-            personArr[i2] = Person.fromPersistableBundle(bundle.getPersistableBundle(sb.toString()));
+            personArr[i2] = Person.fromPersistableBundle(persistableBundle.getPersistableBundle(sb.toString()));
             i2 = i3;
         }
         return personArr;
     }
 
-    static LocusIdCompat getLocusId(final ShortcutInfo shortcutInfo) {
+    static LocusIdCompat getLocusId(ShortcutInfo shortcutInfo) {
         if (Build.VERSION.SDK_INT >= 29) {
             if (shortcutInfo.getLocusId() == null) {
                 return null;
@@ -223,9 +223,13 @@ public class ShortcutInfoCompat {
         return getLocusIdFromExtra(shortcutInfo.getExtras());
     }
 
-    private static LocusIdCompat getLocusIdFromExtra(PersistableBundle bundle) {
+    public boolean isExcludedFromSurfaces(int i) {
+        return (i & this.mExcludedSurfaces) != 0;
+    }
+
+    private static LocusIdCompat getLocusIdFromExtra(PersistableBundle persistableBundle) {
         String string;
-        if (bundle == null || (string = bundle.getString("extraLocusId")) == null) {
+        if (persistableBundle == null || (string = persistableBundle.getString("extraLocusId")) == null) {
             return null;
         }
         return new LocusIdCompat(string);
@@ -239,51 +243,52 @@ public class ShortcutInfoCompat {
         private boolean mIsConversation;
         private Uri mSliceUri;
 
-        public Builder(Context context, String id) {
+        public Builder(Context context, String str) {
             ShortcutInfoCompat shortcutInfoCompat = new ShortcutInfoCompat();
             this.mInfo = shortcutInfoCompat;
             shortcutInfoCompat.mContext = context;
-            shortcutInfoCompat.mId = id;
+            shortcutInfoCompat.mId = str;
         }
 
-        public Builder(ShortcutInfoCompat shortcutInfo) {
-            ShortcutInfoCompat shortcutInfoCompat = new ShortcutInfoCompat();
-            this.mInfo = shortcutInfoCompat;
-            shortcutInfoCompat.mContext = shortcutInfo.mContext;
-            shortcutInfoCompat.mId = shortcutInfo.mId;
-            shortcutInfoCompat.mPackageName = shortcutInfo.mPackageName;
-            Intent[] intentArr = shortcutInfo.mIntents;
-            shortcutInfoCompat.mIntents = (Intent[]) Arrays.copyOf(intentArr, intentArr.length);
-            shortcutInfoCompat.mActivity = shortcutInfo.mActivity;
-            shortcutInfoCompat.mLabel = shortcutInfo.mLabel;
-            shortcutInfoCompat.mLongLabel = shortcutInfo.mLongLabel;
-            shortcutInfoCompat.mDisabledMessage = shortcutInfo.mDisabledMessage;
-            shortcutInfoCompat.mDisabledReason = shortcutInfo.mDisabledReason;
-            shortcutInfoCompat.mIcon = shortcutInfo.mIcon;
-            shortcutInfoCompat.mIsAlwaysBadged = shortcutInfo.mIsAlwaysBadged;
-            shortcutInfoCompat.mUser = shortcutInfo.mUser;
-            shortcutInfoCompat.mLastChangedTimestamp = shortcutInfo.mLastChangedTimestamp;
-            shortcutInfoCompat.mIsCached = shortcutInfo.mIsCached;
-            shortcutInfoCompat.mIsDynamic = shortcutInfo.mIsDynamic;
-            shortcutInfoCompat.mIsPinned = shortcutInfo.mIsPinned;
-            shortcutInfoCompat.mIsDeclaredInManifest = shortcutInfo.mIsDeclaredInManifest;
-            shortcutInfoCompat.mIsImmutable = shortcutInfo.mIsImmutable;
-            shortcutInfoCompat.mIsEnabled = shortcutInfo.mIsEnabled;
-            shortcutInfoCompat.mLocusId = shortcutInfo.mLocusId;
-            shortcutInfoCompat.mIsLongLived = shortcutInfo.mIsLongLived;
-            shortcutInfoCompat.mHasKeyFieldsOnly = shortcutInfo.mHasKeyFieldsOnly;
-            shortcutInfoCompat.mRank = shortcutInfo.mRank;
-            Person[] personArr = shortcutInfo.mPersons;
+        public Builder(ShortcutInfoCompat shortcutInfoCompat) {
+            ShortcutInfoCompat shortcutInfoCompat2 = new ShortcutInfoCompat();
+            this.mInfo = shortcutInfoCompat2;
+            shortcutInfoCompat2.mContext = shortcutInfoCompat.mContext;
+            shortcutInfoCompat2.mId = shortcutInfoCompat.mId;
+            shortcutInfoCompat2.mPackageName = shortcutInfoCompat.mPackageName;
+            Intent[] intentArr = shortcutInfoCompat.mIntents;
+            shortcutInfoCompat2.mIntents = (Intent[]) Arrays.copyOf(intentArr, intentArr.length);
+            shortcutInfoCompat2.mActivity = shortcutInfoCompat.mActivity;
+            shortcutInfoCompat2.mLabel = shortcutInfoCompat.mLabel;
+            shortcutInfoCompat2.mLongLabel = shortcutInfoCompat.mLongLabel;
+            shortcutInfoCompat2.mDisabledMessage = shortcutInfoCompat.mDisabledMessage;
+            shortcutInfoCompat2.mDisabledReason = shortcutInfoCompat.mDisabledReason;
+            shortcutInfoCompat2.mIcon = shortcutInfoCompat.mIcon;
+            shortcutInfoCompat2.mIsAlwaysBadged = shortcutInfoCompat.mIsAlwaysBadged;
+            shortcutInfoCompat2.mUser = shortcutInfoCompat.mUser;
+            shortcutInfoCompat2.mLastChangedTimestamp = shortcutInfoCompat.mLastChangedTimestamp;
+            shortcutInfoCompat2.mIsCached = shortcutInfoCompat.mIsCached;
+            shortcutInfoCompat2.mIsDynamic = shortcutInfoCompat.mIsDynamic;
+            shortcutInfoCompat2.mIsPinned = shortcutInfoCompat.mIsPinned;
+            shortcutInfoCompat2.mIsDeclaredInManifest = shortcutInfoCompat.mIsDeclaredInManifest;
+            shortcutInfoCompat2.mIsImmutable = shortcutInfoCompat.mIsImmutable;
+            shortcutInfoCompat2.mIsEnabled = shortcutInfoCompat.mIsEnabled;
+            shortcutInfoCompat2.mLocusId = shortcutInfoCompat.mLocusId;
+            shortcutInfoCompat2.mIsLongLived = shortcutInfoCompat.mIsLongLived;
+            shortcutInfoCompat2.mHasKeyFieldsOnly = shortcutInfoCompat.mHasKeyFieldsOnly;
+            shortcutInfoCompat2.mRank = shortcutInfoCompat.mRank;
+            Person[] personArr = shortcutInfoCompat.mPersons;
             if (personArr != null) {
-                shortcutInfoCompat.mPersons = (Person[]) Arrays.copyOf(personArr, personArr.length);
+                shortcutInfoCompat2.mPersons = (Person[]) Arrays.copyOf(personArr, personArr.length);
             }
-            if (shortcutInfo.mCategories != null) {
-                shortcutInfoCompat.mCategories = new HashSet(shortcutInfo.mCategories);
+            if (shortcutInfoCompat.mCategories != null) {
+                shortcutInfoCompat2.mCategories = new HashSet(shortcutInfoCompat.mCategories);
             }
-            PersistableBundle persistableBundle = shortcutInfo.mExtras;
+            PersistableBundle persistableBundle = shortcutInfoCompat.mExtras;
             if (persistableBundle != null) {
-                shortcutInfoCompat.mExtras = persistableBundle;
+                shortcutInfoCompat2.mExtras = persistableBundle;
             }
+            shortcutInfoCompat2.mExcludedSurfaces = shortcutInfoCompat.mExcludedSurfaces;
         }
 
         public Builder(Context context, ShortcutInfo shortcutInfo) {
@@ -322,18 +327,18 @@ public class ShortcutInfoCompat {
             shortcutInfoCompat.mExtras = shortcutInfo.getExtras();
         }
 
-        public Builder setShortLabel(CharSequence shortLabel) {
-            this.mInfo.mLabel = shortLabel;
+        public Builder setShortLabel(CharSequence charSequence) {
+            this.mInfo.mLabel = charSequence;
             return this;
         }
 
-        public Builder setLongLabel(CharSequence longLabel) {
-            this.mInfo.mLongLabel = longLabel;
+        public Builder setLongLabel(CharSequence charSequence) {
+            this.mInfo.mLongLabel = charSequence;
             return this;
         }
 
-        public Builder setDisabledMessage(CharSequence disabledMessage) {
-            this.mInfo.mDisabledMessage = disabledMessage;
+        public Builder setDisabledMessage(CharSequence charSequence) {
+            this.mInfo.mDisabledMessage = charSequence;
             return this;
         }
 
@@ -341,23 +346,23 @@ public class ShortcutInfoCompat {
             return setIntents(new Intent[]{intent});
         }
 
-        public Builder setIntents(Intent[] intents) {
-            this.mInfo.mIntents = intents;
+        public Builder setIntents(Intent[] intentArr) {
+            this.mInfo.mIntents = intentArr;
             return this;
         }
 
-        public Builder setIcon(IconCompat icon) {
-            this.mInfo.mIcon = icon;
+        public Builder setIcon(IconCompat iconCompat) {
+            this.mInfo.mIcon = iconCompat;
             return this;
         }
 
-        public Builder setLocusId(final LocusIdCompat locusId) {
-            this.mInfo.mLocusId = locusId;
+        public Builder setLocusId(LocusIdCompat locusIdCompat) {
+            this.mInfo.mLocusId = locusIdCompat;
             return this;
         }
 
-        public Builder setActivity(ComponentName activity) {
-            this.mInfo.mActivity = activity;
+        public Builder setActivity(ComponentName componentName) {
+            this.mInfo.mActivity = componentName;
             return this;
         }
 
@@ -365,27 +370,26 @@ public class ShortcutInfoCompat {
             return setPersons(new Person[]{person});
         }
 
-        public Builder setPersons(Person[] persons) {
-            this.mInfo.mPersons = persons;
+        public Builder setPersons(Person[] personArr) {
+            this.mInfo.mPersons = personArr;
             return this;
         }
 
-        public Builder setCategories(Set<String> categories) {
-            this.mInfo.mCategories = categories;
+        public Builder setCategories(Set<String> set) {
+            this.mInfo.mCategories = set;
             return this;
         }
 
-        public Builder setLongLived(boolean longLived) {
-            this.mInfo.mIsLongLived = longLived;
+        public Builder setLongLived(boolean z) {
+            this.mInfo.mIsLongLived = z;
             return this;
         }
 
-        public Builder setRank(int rank) {
-            this.mInfo.mRank = rank;
+        public Builder setRank(int i) {
+            this.mInfo.mRank = i;
             return this;
         }
 
-        @SuppressLint({"UnsafeNewApiCall"})
         public ShortcutInfoCompat build() {
             if (TextUtils.isEmpty(this.mInfo.mLabel)) {
                 throw new IllegalArgumentException("Shortcut must have a non-empty label");

@@ -20,25 +20,25 @@ public final class ViewConfigurationCompat {
         }
     }
 
-    public static float getScaledHorizontalScrollFactor(ViewConfiguration config, Context context) {
+    public static float getScaledHorizontalScrollFactor(ViewConfiguration viewConfiguration, Context context) {
         if (Build.VERSION.SDK_INT >= 26) {
-            return config.getScaledHorizontalScrollFactor();
+            return Api26Impl.getScaledHorizontalScrollFactor(viewConfiguration);
         }
-        return getLegacyScrollFactor(config, context);
+        return getLegacyScrollFactor(viewConfiguration, context);
     }
 
-    public static float getScaledVerticalScrollFactor(ViewConfiguration config, Context context) {
+    public static float getScaledVerticalScrollFactor(ViewConfiguration viewConfiguration, Context context) {
         if (Build.VERSION.SDK_INT >= 26) {
-            return config.getScaledVerticalScrollFactor();
+            return Api26Impl.getScaledVerticalScrollFactor(viewConfiguration);
         }
-        return getLegacyScrollFactor(config, context);
+        return getLegacyScrollFactor(viewConfiguration, context);
     }
 
-    private static float getLegacyScrollFactor(ViewConfiguration config, Context context) {
+    private static float getLegacyScrollFactor(ViewConfiguration viewConfiguration, Context context) {
         Method method;
         if (Build.VERSION.SDK_INT >= 25 && (method = sGetScaledScrollFactorMethod) != null) {
             try {
-                return ((Integer) method.invoke(config, new Object[0])).intValue();
+                return ((Integer) method.invoke(viewConfiguration, new Object[0])).intValue();
             } catch (Exception unused) {
                 Log.i("ViewConfigCompat", "Could not find method getScaledScrollFactor() on ViewConfiguration");
             }
@@ -48,5 +48,16 @@ public final class ViewConfigurationCompat {
             return typedValue.getDimension(context.getResources().getDisplayMetrics());
         }
         return 0.0f;
+    }
+
+    /* loaded from: classes.dex */
+    static class Api26Impl {
+        static float getScaledHorizontalScrollFactor(ViewConfiguration viewConfiguration) {
+            return viewConfiguration.getScaledHorizontalScrollFactor();
+        }
+
+        static float getScaledVerticalScrollFactor(ViewConfiguration viewConfiguration) {
+            return viewConfiguration.getScaledVerticalScrollFactor();
+        }
     }
 }
