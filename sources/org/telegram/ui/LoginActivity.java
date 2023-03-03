@@ -377,28 +377,28 @@ public class LoginActivity extends BaseFragment {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:118:0x0423, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:118:0x042a, code lost:
         if (r2 != 4) goto L94;
      */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x041e A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x042c  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x0455  */
-    /* JADX WARN: Removed duplicated region for block: B:135:0x044a A[EDGE_INSN: B:135:0x044a->B:127:0x044a ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x020d  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x020f  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x021c  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0281  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0290  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0295  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x029b  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x02a0  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0367  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x036a  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x036e  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0371  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x03b0  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x03b8  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x03d3  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x0425 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x0433  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x045c  */
+    /* JADX WARN: Removed duplicated region for block: B:135:0x0451 A[EDGE_INSN: B:135:0x0451->B:127:0x0451 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0214  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x0216  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0223  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0288  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0297  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x029c  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x02a2  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x02a7  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x036e  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0371  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0375  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0378  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x03b7  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x03bf  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x03da  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -514,7 +514,8 @@ public class LoginActivity extends BaseFragment {
         this.keyboardLinearLayout.addView(frameLayout, LayoutHelper.createLinear(-1, 0, 1.0f));
         CustomPhoneKeyboardView customPhoneKeyboardView = new CustomPhoneKeyboardView(context);
         this.keyboardView = customPhoneKeyboardView;
-        this.keyboardLinearLayout.addView(customPhoneKeyboardView, LayoutHelper.createLinear(-1, 230));
+        customPhoneKeyboardView.setViewToFindFocus(this.slideViewsContainer);
+        this.keyboardLinearLayout.addView(this.keyboardView, LayoutHelper.createLinear(-1, 230));
         this.views[0] = new PhoneView(context);
         this.views[1] = new LoginActivitySmsView(context, 1);
         this.views[2] = new LoginActivitySmsView(context, 2);

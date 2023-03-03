@@ -500,11 +500,11 @@ public class ReactedUsersListView extends FrameLayout {
             SimpleTextView simpleTextView2 = new SimpleTextView(context);
             this.subtitleView = simpleTextView2;
             simpleTextView2.setTextSize(13);
-            this.subtitleView.setTextColor(Theme.getColor("actionBarDefaultSubmenuItemIcon"));
+            this.subtitleView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
             this.subtitleView.setEllipsizeByGradient(true);
             this.subtitleView.setImportantForAccessibility(2);
             this.subtitleView.setTranslationX(LocaleController.isRTL ? AndroidUtilities.dp(30.0f) : 0.0f);
-            addView(this.subtitleView, LayoutHelper.createFrameRelatively(-1.0f, -2.0f, 55, 55.0f, 18.0f, 20.0f, 0.0f));
+            addView(this.subtitleView, LayoutHelper.createFrameRelatively(-1.0f, -2.0f, 55, 55.0f, 19.0f, 20.0f, 0.0f));
             BackupImageView backupImageView2 = new BackupImageView(context);
             this.reactView = backupImageView2;
             addView(backupImageView2, LayoutHelper.createFrameRelatively(24.0f, 24.0f, 8388629, 0.0f, 0.0f, 12.0f, 0.0f));

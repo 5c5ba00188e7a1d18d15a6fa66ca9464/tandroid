@@ -2735,10 +2735,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Removed duplicated region for block: B:281:0x0d18  */
     /* JADX WARN: Removed duplicated region for block: B:289:0x0d42  */
     /* JADX WARN: Type inference failed for: r13v0 */
-    /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r13v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r13v5 */
     /* JADX WARN: Type inference failed for: r7v0 */
-    /* JADX WARN: Type inference failed for: r7v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r7v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v5 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -7814,7 +7814,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                 if (getMessagesController().checkCanOpenChat(bundle3, this)) {
                                     TLRPC$Chat chat2 = getMessagesController().getChat(Long.valueOf(-j));
                                     if (chat2 != null && chat2.forum && i2 == 0) {
-                                        if (SharedConfig.getDevicePerformanceClass() == 0 || !LiteMode.isEnabled(64)) {
+                                        if (!LiteMode.isEnabled(64)) {
                                             presentFragment(new TopicsFragment(bundle3));
                                             return;
                                         } else if (!z4) {

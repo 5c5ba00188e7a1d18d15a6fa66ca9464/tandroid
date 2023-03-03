@@ -28,6 +28,7 @@ public class CustomPhoneKeyboardView extends ViewGroup {
     private Runnable onBackButton;
     private boolean postedLongClick;
     private boolean runningLongClick;
+    private View viewToFindFocus;
     private View[] views;
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -41,6 +42,7 @@ public class CustomPhoneKeyboardView extends ViewGroup {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
+        checkFindEditText();
         EditText editText = this.editText;
         if (editText != null) {
             if (editText.length() != 0 || this.dispatchBackWhenEmpty) {
@@ -156,6 +158,7 @@ public class CustomPhoneKeyboardView extends ViewGroup {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(String str, View view) {
+        checkFindEditText();
         if (this.editText == null) {
             return;
         }
@@ -218,6 +221,21 @@ public class CustomPhoneKeyboardView extends ViewGroup {
                 return false;
             }
         });
+    }
+
+    public void setViewToFindFocus(View view) {
+        this.viewToFindFocus = view;
+    }
+
+    public void checkFindEditText() {
+        View view;
+        if (this.editText != null || (view = this.viewToFindFocus) == null) {
+            return;
+        }
+        View findFocus = view.findFocus();
+        if (findFocus instanceof EditText) {
+            this.editText = (EditText) findFocus;
+        }
     }
 
     public void setEditText(EditText editText) {

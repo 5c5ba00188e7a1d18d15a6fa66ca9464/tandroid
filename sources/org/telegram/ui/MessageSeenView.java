@@ -392,8 +392,8 @@ public class MessageSeenView extends FrameLayout {
             this.readView.setLines(1);
             this.readView.setEllipsize(TextUtils.TruncateAt.END);
             this.readView.setImportantForAccessibility(2);
-            this.readView.setTextColor(Theme.getColor("actionBarDefaultSubmenuItemIcon"));
-            addView(this.readView, LayoutHelper.createFrame(-2, -2.0f, 51, 55.0f, 18.0f, 13.0f, 0.0f));
+            this.readView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
+            addView(this.readView, LayoutHelper.createFrame(-2, -2.0f, 51, 55.0f, 19.0f, 13.0f, 0.0f));
         }
 
         @Override // android.widget.FrameLayout, android.view.View

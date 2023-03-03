@@ -1061,7 +1061,7 @@ public class LocaleController {
         return applyLanguage(localeInfo, z, z2, false, false, false, i, null);
     }
 
-    public int applyLanguage(final LocaleInfo localeInfo, boolean z, boolean z2, boolean z3, final boolean z4, final boolean z5, final int i, final Runnable runnable) {
+    public int applyLanguage(final LocaleInfo localeInfo, boolean z, boolean z2, boolean z3, boolean z4, final boolean z5, final int i, final Runnable runnable) {
         int applyRemoteLanguage;
         boolean z6;
         String[] split;
@@ -1090,7 +1090,7 @@ public class LocaleController {
         }
         if ((localeInfo.isRemote() || localeInfo.isUnofficial()) && (z4 || !pathToFile.exists() || (hasBaseLang && !pathToBaseFile.exists()))) {
             if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("reload locale because one of file doesn't exist" + pathToFile + " " + pathToBaseFile);
+                FileLog.d("reload locale because one of file doesn't exist " + pathToFile + " " + pathToBaseFile);
             }
             if (z2) {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda8
@@ -1158,15 +1158,18 @@ public class LocaleController {
             ApplicationLoader.applicationContext.getResources().updateConfiguration(configuration, ApplicationLoader.applicationContext.getResources().getDisplayMetrics());
             this.changingConfiguration = false;
             if (this.reloadLastFile) {
+                if (BuildVars.LOGS_ENABLED) {
+                    FileLog.d("reload locale because one of file is corrupted " + pathToFile + " " + pathToBaseFile);
+                }
                 if (z2) {
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda3
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda2
                         @Override // java.lang.Runnable
                         public final void run() {
-                            LocaleController.this.lambda$applyLanguage$3(i, z4);
+                            LocaleController.this.lambda$applyLanguage$3(i);
                         }
                     });
                 } else {
-                    reloadCurrentRemoteLocale(i, null, z4, null);
+                    reloadCurrentRemoteLocale(i, null, true, null);
                 }
                 this.reloadLastFile = false;
             }
@@ -1197,8 +1200,8 @@ public class LocaleController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$applyLanguage$3(int i, boolean z) {
-        reloadCurrentRemoteLocale(i, null, z, null);
+    public /* synthetic */ void lambda$applyLanguage$3(int i) {
+        reloadCurrentRemoteLocale(i, null, true, null);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2350,7 +2353,7 @@ public class LocaleController {
             calendar.setTimeInMillis(j2);
             int i3 = calendar.get(6);
             int i4 = calendar.get(1);
-            return (i3 == i && i2 == i4) ? formatString("TodayAtFormattedWithToday", R.string.TodayAtFormattedWithToday, getInstance().formatterDay.format(new Date(j2))) : (i3 + 1 == i && i2 == i4) ? formatString("YesterdayAtFormatted", R.string.YesterdayAtFormatted, getInstance().formatterDay.format(new Date(j2))) : Math.abs(System.currentTimeMillis() - j2) < 31536000000L ? formatString("UserRead", R.string.UserRead, formatString("formatDateAtTime", R.string.formatDateAtTime, getInstance().formatterDayMonth.format(new Date(j2)), getInstance().formatterDay.format(new Date(j2)))) : formatString("UserRead", R.string.UserRead, formatString("formatDateAtTime", R.string.formatDateAtTime, getInstance().formatterYear.format(new Date(j2)), getInstance().formatterDay.format(new Date(j2))));
+            return (i3 == i && i2 == i4) ? formatString("TodayAtFormattedWithToday", R.string.TodayAtFormattedWithToday, getInstance().formatterDay.format(new Date(j2))) : (i3 + 1 == i && i2 == i4) ? formatString("YesterdayAtFormatted", R.string.YesterdayAtFormatted, getInstance().formatterDay.format(new Date(j2))) : Math.abs(System.currentTimeMillis() - j2) < 31536000000L ? formatString("formatDateAtTime", R.string.formatDateAtTime, getInstance().formatterDayMonth.format(new Date(j2)), getInstance().formatterDay.format(new Date(j2))) : formatString("formatDateAtTime", R.string.formatDateAtTime, getInstance().formatterYear.format(new Date(j2)), getInstance().formatterDay.format(new Date(j2)));
         } catch (Exception e) {
             FileLog.e(e);
             return "LOC_ERR";
@@ -2834,8 +2837,10 @@ public class LocaleController {
         }
         try {
             if (tLRPC$TL_langPackDifference.from_version == 0) {
+                FileLog.d("saveRemoteLocaleStrings: difference is straight from the beginning");
                 localeFileStrings = new HashMap<>();
             } else {
+                FileLog.d("saveRemoteLocaleStrings: difference is from version " + tLRPC$TL_langPackDifference.from_version + " ours " + localeInfo.version + " (base version " + localeInfo.baseLangCode + ")");
                 localeFileStrings = getLocaleFileStrings(pathToBaseFile, true);
             }
             for (int i3 = 0; i3 < tLRPC$TL_langPackDifference.strings.size(); i3++) {
@@ -2865,9 +2870,7 @@ public class LocaleController {
                     localeFileStrings.remove(tLRPC$LangPackString.key);
                 }
             }
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("save locale file to " + pathToBaseFile);
-            }
+            FileLog.d("save locale file to " + pathToBaseFile);
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathToBaseFile));
             bufferedWriter.write("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
             bufferedWriter.write("<resources>\n");
@@ -2881,13 +2884,15 @@ public class LocaleController {
             if (hasBaseLang) {
                 localeFileStrings2.putAll(getLocaleFileStrings(localeInfo.getPathToFile()));
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda2
+            FileLog.d("saved locale file to " + pathToBaseFile);
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     LocaleController.this.lambda$saveRemoteLocaleStrings$5(i2, localeInfo, tLRPC$TL_langPackDifference, localeFileStrings2, runnable);
                 }
             });
-        } catch (Exception unused) {
+        } catch (Exception e) {
+            FileLog.e(e);
         }
     }
 
@@ -2938,6 +2943,8 @@ public class LocaleController {
                 configuration.locale = this.currentLocale;
                 ApplicationLoader.applicationContext.getResources().updateConfiguration(configuration, ApplicationLoader.applicationContext.getResources().getDisplayMetrics());
                 this.changingConfiguration = false;
+            } else {
+                FileLog.d("saveRemoteLocaleStrings: currentLocaleInfo != localeInfo, do nothing");
             }
         } catch (Exception e) {
             FileLog.e(e);

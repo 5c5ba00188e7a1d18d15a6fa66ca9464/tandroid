@@ -9338,7 +9338,7 @@ public class MessagesController extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:411:0x03e0  */
     /* JADX WARN: Removed duplicated region for block: B:421:0x0419  */
     /* JADX WARN: Type inference failed for: r2v11 */
-    /* JADX WARN: Type inference failed for: r2v12, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r2v12, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r2v59 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -11512,20 +11512,18 @@ public class MessagesController extends BaseController implements NotificationCe
         getNotificationCenter().postNotificationName(NotificationCenter.replaceMessagesObjects, Long.valueOf(j), arrayList);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:227:0x010c  */
-    /* JADX WARN: Removed duplicated region for block: B:234:0x011f  */
-    /* JADX WARN: Removed duplicated region for block: B:238:0x013c  */
-    /* JADX WARN: Removed duplicated region for block: B:258:0x019a A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:275:0x0230 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:280:0x0245 A[LOOP:0: B:278:0x023d->B:280:0x0245, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:284:0x025e A[LOOP:1: B:282:0x0256->B:284:0x025e, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:287:0x0278  */
-    /* JADX WARN: Removed duplicated region for block: B:332:0x0349  */
-    /* JADX WARN: Removed duplicated region for block: B:335:0x034f  */
-    /* JADX WARN: Removed duplicated region for block: B:341:0x0380  */
-    /* JADX WARN: Removed duplicated region for block: B:383:0x04a3  */
-    /* JADX WARN: Removed duplicated region for block: B:386:0x050c  */
-    /* JADX WARN: Removed duplicated region for block: B:387:0x0514  */
+    /* JADX WARN: Removed duplicated region for block: B:223:0x010e  */
+    /* JADX WARN: Removed duplicated region for block: B:230:0x0121  */
+    /* JADX WARN: Removed duplicated region for block: B:234:0x013e  */
+    /* JADX WARN: Removed duplicated region for block: B:254:0x019c A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:271:0x0232 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:276:0x0247 A[LOOP:0: B:274:0x023f->B:276:0x0247, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:280:0x0260 A[LOOP:1: B:278:0x0258->B:280:0x0260, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:283:0x027a  */
+    /* JADX WARN: Removed duplicated region for block: B:328:0x034b  */
+    /* JADX WARN: Removed duplicated region for block: B:331:0x0351  */
+    /* JADX WARN: Removed duplicated region for block: B:337:0x0382  */
+    /* JADX WARN: Removed duplicated region for block: B:379:0x04a5  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -11726,19 +11724,12 @@ public class MessagesController extends BaseController implements NotificationCe
                                 if (BuildVars.LOGS_ENABLED) {
                                     FileLog.d("process time = " + (SystemClock.elapsedRealtime() - elapsedRealtime) + " file time = " + j7 + " for dialog = " + j3);
                                 }
-                                Runnable runnable = new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda213
+                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda213
                                     @Override // java.lang.Runnable
                                     public final void run() {
                                         MessagesController.this.lambda$processLoadedMessages$163(tLRPC$messages_Messages, z, z4, i11, z3, i10, i6, i2, j, arrayList, i12, i5, i, z2, i7, i8, i9, i13, i3, i14, arrayList2, hashMap3);
                                     }
-                                };
-                                if (i13 != 1) {
-                                    ApplicationLoader.applicationHandler.postAtFrontOfQueue(runnable);
-                                    return;
-                                } else {
-                                    ApplicationLoader.applicationHandler.post(runnable);
-                                    return;
-                                }
+                                });
                             }
                         }
                         c = 0;
@@ -11756,14 +11747,12 @@ public class MessagesController extends BaseController implements NotificationCe
                         getFileLoader().checkMediaExistance(arrayList4);
                         if (BuildVars.LOGS_ENABLED) {
                         }
-                        Runnable runnable2 = new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda213
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda213
                             @Override // java.lang.Runnable
                             public final void run() {
                                 MessagesController.this.lambda$processLoadedMessages$163(tLRPC$messages_Messages, z, z4, i11, z3, i10, i6, i2, j, arrayList4, i12, i5, i, z2, i7, i8, i9, i13, i3, i14, arrayList22, hashMap32);
                             }
-                        };
-                        if (i13 != 1) {
-                        }
+                        });
                     }
                 }
                 z8 = z7;
@@ -11795,14 +11784,12 @@ public class MessagesController extends BaseController implements NotificationCe
                 getFileLoader().checkMediaExistance(arrayList42);
                 if (BuildVars.LOGS_ENABLED) {
                 }
-                Runnable runnable22 = new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda213
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda213
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesController.this.lambda$processLoadedMessages$163(tLRPC$messages_Messages, z, z4, i11, z3, i10, i6, i2, j, arrayList42, i12, i5, i, z2, i7, i8, i9, i13, i3, i14, arrayList222, hashMap322);
                     }
-                };
-                if (i13 != 1) {
-                }
+                });
             }
         }
         i15 = 1;
@@ -11842,14 +11829,12 @@ public class MessagesController extends BaseController implements NotificationCe
         getFileLoader().checkMediaExistance(arrayList422);
         if (BuildVars.LOGS_ENABLED) {
         }
-        Runnable runnable222 = new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda213
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda213
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesController.this.lambda$processLoadedMessages$163(tLRPC$messages_Messages, z, z4, i11, z3, i10, i6, i2, j, arrayList422, i12, i5, i, z2, i7, i8, i9, i13, i3, i14, arrayList2222, hashMap3222);
             }
-        };
-        if (i13 != 1) {
-        }
+        });
     }
 
     public /* synthetic */ void lambda$processLoadedMessages$160(long j, long j2, int i, int i2, boolean z, int i3, int i4, int i5, int i6, int i7, int i8, int i9, int i10, int i11, int i12, int i13, int i14, boolean z2, boolean z3) {
@@ -13222,7 +13207,7 @@ public class MessagesController extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:446:0x03e6  */
     /* JADX WARN: Removed duplicated region for block: B:449:0x0413  */
     /* JADX WARN: Type inference failed for: r13v1 */
-    /* JADX WARN: Type inference failed for: r13v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r13v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r13v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

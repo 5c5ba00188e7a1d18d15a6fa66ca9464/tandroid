@@ -618,6 +618,12 @@ public class LiteModeSettingsActivity extends BaseFragment {
                         LiteMode.setPowerSaverLevel(round);
                         LiteModeSettingsActivity.this.updateValues();
                         LiteModeSettingsActivity.this.updateInfo();
+                        if (round <= 0 || round >= 100) {
+                            try {
+                                PowerSaverSlider.this.performHapticFeedback(3, 1);
+                            } catch (Exception unused) {
+                            }
+                        }
                     }
                 }
             });

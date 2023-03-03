@@ -33,6 +33,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioAttributes;
+import android.media.AudioDeviceCallback;
+import android.media.AudioDeviceInfo;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.media.MediaPlayer;
@@ -46,7 +48,9 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.PowerManager;
 import android.os.SystemClock;
 import android.os.Vibrator;
@@ -366,7 +370,18 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             }
         }
     };
-    private BroadcastReceiver receiver = new BroadcastReceiver() { // from class: org.telegram.messenger.voip.VoIPService.3
+    private AudioDeviceCallback audioDeviceCallback = new AudioDeviceCallback() { // from class: org.telegram.messenger.voip.VoIPService.3
+        @Override // android.media.AudioDeviceCallback
+        public void onAudioDevicesAdded(AudioDeviceInfo[] audioDeviceInfoArr) {
+            VoIPService.this.checkUpdateBluetoothHeadset();
+        }
+
+        @Override // android.media.AudioDeviceCallback
+        public void onAudioDevicesRemoved(AudioDeviceInfo[] audioDeviceInfoArr) {
+            VoIPService.this.checkUpdateBluetoothHeadset();
+        }
+    };
+    private BroadcastReceiver receiver = new BroadcastReceiver() { // from class: org.telegram.messenger.voip.VoIPService.4
         @Override // android.content.BroadcastReceiver
         public void onReceive(Context context, Intent intent) {
             if (VoIPService.ACTION_HEADSET_PLUG.equals(intent.getAction())) {
@@ -440,7 +455,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         }
     };
     private final HashMap<String, TLRPC$TL_groupCallParticipant> waitingFrameParticipant = new HashMap<>();
-    private final LruCache<String, ProxyVideoSink> proxyVideoSinkLruCache = new LruCache<String, ProxyVideoSink>(6) { // from class: org.telegram.messenger.voip.VoIPService.4
+    private final LruCache<String, ProxyVideoSink> proxyVideoSinkLruCache = new LruCache<String, ProxyVideoSink>(6) { // from class: org.telegram.messenger.voip.VoIPService.5
         /* JADX INFO: Access modifiers changed from: protected */
         @Override // android.util.LruCache
         public void entryRemoved(boolean z, String str, ProxyVideoSink proxyVideoSink, ProxyVideoSink proxyVideoSink2) {
@@ -543,6 +558,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             final AudioManager audioManager = (AudioManager) VoIPService.this.getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
             audioManager.abandonAudioFocus(VoIPService.this);
             audioManager.unregisterMediaButtonEventReceiver(new ComponentName(VoIPService.this, VoIPMediaButtonReceiver.class));
+            audioManager.unregisterAudioDeviceCallback(VoIPService.this.audioDeviceCallback);
             if (!VoIPService.USE_CONNECTION_SERVICE && VoIPService.sharedInstance == null) {
                 if (VoIPService.this.isBtHeadsetConnected) {
                     audioManager.stopBluetoothSco();
@@ -683,7 +699,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                         tLRPC$TL_groupCallParticipant.hasCameraFrame = 1;
                     }
                     this.waitingFrameParticipant.put(str, tLRPC$TL_groupCallParticipant);
-                    addRemoteSink(tLRPC$TL_groupCallParticipant, z, new 5(str, z), null);
+                    addRemoteSink(tLRPC$TL_groupCallParticipant, z, new 6(str, z), null);
                 }
             }
         }
@@ -691,7 +707,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public class 5 implements VideoSink {
+    public class 6 implements VideoSink {
         final /* synthetic */ String val$endpointId;
         final /* synthetic */ boolean val$screencast;
 
@@ -700,7 +716,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             VideoSink.-CC.$default$setParentSink(this, videoSink);
         }
 
-        5(String str, boolean z) {
+        6(String str, boolean z) {
             this.val$endpointId = str;
             this.val$screencast = z;
         }
@@ -712,10 +728,10 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             }
             final String str = this.val$endpointId;
             final boolean z = this.val$screencast;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService$5$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService$6$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    VoIPService.5.this.lambda$onFrame$0(str, this, z);
+                    VoIPService.6.this.lambda$onFrame$0(str, this, z);
                 }
             });
         }
@@ -2794,7 +2810,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Type inference failed for: r0v7, types: [org.telegram.messenger.AccountInstance, java.lang.String] */
-    /* JADX WARN: Type inference failed for: r0v9, types: [java.lang.String, int] */
+    /* JADX WARN: Type inference failed for: r0v9, types: [int, java.lang.String] */
     public /* synthetic */ void lambda$createGroupInstance$45(final int i, final long j, long j2, final int i2, final int i3) {
         StringBuilder sb;
         if (i != 0) {
@@ -3294,7 +3310,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                                     }
                                 }
                                 voIPService.destroyCaptureDevice[0] = false;
-                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService.6
+                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService.7
                                     @Override // java.lang.Runnable
                                     public void run() {
                                         if (VoIPService.this.tgVoip[0] != null) {
@@ -3352,7 +3368,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                         if (z5 != voIPService.isVideoAvailable) {
                         }
                         voIPService.destroyCaptureDevice[0] = false;
-                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService.6
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService.7
                             @Override // java.lang.Runnable
                             public void run() {
                                 if (VoIPService.this.tgVoip[0] != null) {
@@ -3430,7 +3446,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                             if (z5 != voIPService.isVideoAvailable) {
                             }
                             voIPService.destroyCaptureDevice[0] = false;
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService.6
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService.7
                                 @Override // java.lang.Runnable
                                 public void run() {
                                     if (VoIPService.this.tgVoip[0] != null) {
@@ -3485,7 +3501,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                     if (z5 != voIPService.isVideoAvailable) {
                     }
                     voIPService.destroyCaptureDevice[0] = false;
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService.6
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService.7
                         @Override // java.lang.Runnable
                         public void run() {
                             if (VoIPService.this.tgVoip[0] != null) {
@@ -3563,7 +3579,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                     if (z5 != voIPService.isVideoAvailable) {
                     }
                     voIPService.destroyCaptureDevice[0] = false;
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService.6
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService.7
                         @Override // java.lang.Runnable
                         public void run() {
                             if (VoIPService.this.tgVoip[0] != null) {
@@ -3639,7 +3655,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                 if (z5 != voIPService.isVideoAvailable) {
                 }
                 voIPService.destroyCaptureDevice[0] = false;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService.6
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService.7
                     @Override // java.lang.Runnable
                     public void run() {
                         if (VoIPService.this.tgVoip[0] != null) {
@@ -3731,7 +3747,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                 if (z5 != voIPService.isVideoAvailable) {
                 }
                 voIPService.destroyCaptureDevice[0] = false;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService.6
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService.7
                     @Override // java.lang.Runnable
                     public void run() {
                         if (VoIPService.this.tgVoip[0] != null) {
@@ -3810,7 +3826,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             if (z5 != voIPService.isVideoAvailable) {
             }
             voIPService.destroyCaptureDevice[0] = false;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService.6
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService.7
                 @Override // java.lang.Runnable
                 public void run() {
                     if (VoIPService.this.tgVoip[0] != null) {
@@ -3896,7 +3912,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         int play = this.soundPool.play(this.spConnectingId, 1.0f, 1.0f, 0, -1, 1.0f);
         this.spPlayId = play;
         if (play == 0) {
-            7 r0 = new 7();
+            8 r0 = new 8();
             this.connectingSoundRunnable = r0;
             AndroidUtilities.runOnUIThread(r0, 100L);
         }
@@ -3904,8 +3920,8 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public class 7 implements Runnable {
-        7() {
+    public class 8 implements Runnable {
+        8() {
         }
 
         @Override // java.lang.Runnable
@@ -3913,10 +3929,10 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             if (VoIPService.sharedInstance == null) {
                 return;
             }
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService$7$$ExternalSyntheticLambda0
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService$8$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    VoIPService.7.this.lambda$run$0();
+                    VoIPService.8.this.lambda$run$0();
                 }
             });
         }
@@ -4608,6 +4624,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             } catch (Exception e) {
                 FileLog.e(e);
             }
+            audioManager.unregisterAudioDeviceCallback(this.audioDeviceCallback);
             if (this.hasAudioFocus) {
                 audioManager.abandonAudioFocus(this);
             }
@@ -5087,28 +5104,24 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     @Override // android.app.Service
     @SuppressLint({"InvalidWakeLockTag"})
     public void onCreate() {
-        BluetoothAdapter bluetoothAdapter;
         super.onCreate();
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("=============== VoIPService STARTING ===============");
         }
         try {
             AudioManager audioManager = (AudioManager) getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
-            int i = Build.VERSION.SDK_INT;
-            if (i >= 17 && audioManager.getProperty("android.media.property.OUTPUT_FRAMES_PER_BUFFER") != null) {
+            if (Build.VERSION.SDK_INT >= 17 && audioManager.getProperty("android.media.property.OUTPUT_FRAMES_PER_BUFFER") != null) {
                 Instance.setBufferSize(Integer.parseInt(audioManager.getProperty("android.media.property.OUTPUT_FRAMES_PER_BUFFER")));
             } else {
                 Instance.setBufferSize(AudioTrack.getMinBufferSize(48000, 4, 2) / 2);
             }
-            boolean z = true;
             PowerManager.WakeLock newWakeLock = ((PowerManager) getSystemService("power")).newWakeLock(1, "telegram-voip");
             this.cpuWakelock = newWakeLock;
             newWakeLock.acquire();
             this.btAdapter = audioManager.isBluetoothScoAvailableOffCall() ? BluetoothAdapter.getDefaultAdapter() : null;
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-            boolean z2 = USE_CONNECTION_SERVICE;
-            if (!z2) {
+            if (!USE_CONNECTION_SERVICE) {
                 intentFilter.addAction(ACTION_HEADSET_PLUG);
                 if (this.btAdapter != null) {
                     intentFilter.addAction("android.bluetooth.headset.profile.action.CONNECTION_STATE_CHANGED");
@@ -5120,31 +5133,9 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             }
             registerReceiver(this.receiver, intentFilter);
             fetchBluetoothDeviceName();
+            audioManager.registerAudioDeviceCallback(this.audioDeviceCallback, new Handler(Looper.getMainLooper()));
             audioManager.registerMediaButtonEventReceiver(new ComponentName(this, VoIPMediaButtonReceiver.class));
-            if (!z2 && (bluetoothAdapter = this.btAdapter) != null && bluetoothAdapter.isEnabled()) {
-                MediaRouter mediaRouter = (MediaRouter) getSystemService("media_router");
-                if (i < 24) {
-                    if (this.btAdapter.getProfileConnectionState(1) != 2) {
-                        z = false;
-                    }
-                    updateBluetoothHeadsetState(z);
-                    Iterator<StateListener> it = this.stateListeners.iterator();
-                    while (it.hasNext()) {
-                        it.next().onAudioSettingsChanged();
-                    }
-                } else if (mediaRouter.getSelectedRoute(1).getDeviceType() == 3) {
-                    if (this.btAdapter.getProfileConnectionState(1) != 2) {
-                        z = false;
-                    }
-                    updateBluetoothHeadsetState(z);
-                    Iterator<StateListener> it2 = this.stateListeners.iterator();
-                    while (it2.hasNext()) {
-                        it2.next().onAudioSettingsChanged();
-                    }
-                } else {
-                    updateBluetoothHeadsetState(false);
-                }
-            }
+            checkUpdateBluetoothHeadset();
         } catch (Exception e) {
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.e("error initializing voip controller", e);
@@ -5162,6 +5153,34 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             showWhen.setSmallIcon(R.drawable.notification);
         }
         startForeground(ID_ONGOING_CALL_NOTIFICATION, showWhen.build());
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void checkUpdateBluetoothHeadset() {
+        BluetoothAdapter bluetoothAdapter;
+        if (USE_CONNECTION_SERVICE || (bluetoothAdapter = this.btAdapter) == null || !bluetoothAdapter.isEnabled()) {
+            return;
+        }
+        try {
+            MediaRouter mediaRouter = (MediaRouter) getSystemService("media_router");
+            if (Build.VERSION.SDK_INT < 24) {
+                updateBluetoothHeadsetState(this.btAdapter.getProfileConnectionState(1) == 2);
+                Iterator<StateListener> it = this.stateListeners.iterator();
+                while (it.hasNext()) {
+                    it.next().onAudioSettingsChanged();
+                }
+            } else if (mediaRouter.getSelectedRoute(1).getDeviceType() == 3) {
+                updateBluetoothHeadsetState(this.btAdapter.getProfileConnectionState(1) == 2);
+                Iterator<StateListener> it2 = this.stateListeners.iterator();
+                while (it2.hasNext()) {
+                    it2.next().onAudioSettingsChanged();
+                }
+            } else {
+                updateBluetoothHeadsetState(false);
+            }
+        } catch (Throwable th) {
+            FileLog.e(th);
+        }
     }
 
     private void loadResources() {
@@ -5895,7 +5914,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                         vibrator.vibrate(100L);
                     }
                 }
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService.8
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService.9
                     @Override // java.lang.Runnable
                     public void run() {
                         if (VoIPService.this.tgVoip[0] != null) {
