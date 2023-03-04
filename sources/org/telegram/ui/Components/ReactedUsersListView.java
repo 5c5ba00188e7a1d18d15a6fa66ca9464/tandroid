@@ -52,6 +52,7 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserProfilePhoto;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.ReactedHeaderView;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.RecyclerListView;
@@ -471,6 +472,7 @@ public class ReactedUsersListView extends FrameLayout {
         BackupImageView avatarView;
         View overlaySelectorView;
         BackupImageView reactView;
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable rightDrawable;
         SimpleTextView subtitleView;
         SimpleTextView titleView;
 
@@ -497,6 +499,9 @@ public class ReactedUsersListView extends FrameLayout {
             this.titleView.setRightPadding(AndroidUtilities.dp(30.0f));
             this.titleView.setTranslationX(LocaleController.isRTL ? AndroidUtilities.dp(30.0f) : 0.0f);
             addView(this.titleView, LayoutHelper.createFrameRelatively(-1.0f, -2.0f, 55, 55.0f, 5.33f, 12.0f, 0.0f));
+            this.rightDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this, AndroidUtilities.dp(18.0f));
+            this.titleView.setDrawablePadding(AndroidUtilities.dp(3.0f));
+            this.titleView.setRightDrawable(this.rightDrawable);
             SimpleTextView simpleTextView2 = new SimpleTextView(context);
             this.subtitleView = simpleTextView2;
             simpleTextView2.setTextSize(13);
@@ -514,7 +519,7 @@ public class ReactedUsersListView extends FrameLayout {
             addView(this.overlaySelectorView, LayoutHelper.createFrame(-1, -1.0f));
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:23:0x00b2  */
+        /* JADX WARN: Removed duplicated region for block: B:27:0x00c7  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -526,6 +531,12 @@ public class ReactedUsersListView extends FrameLayout {
             TLRPC$User user = MessagesController.getInstance(ReactedUsersListView.this.currentAccount).getUser(Long.valueOf(MessageObject.getPeerId(tLRPC$MessagePeerReaction.peer_id)));
             if (user == null) {
                 return;
+            }
+            Long emojiStatusDocumentId = UserObject.getEmojiStatusDocumentId(user);
+            if (emojiStatusDocumentId == null) {
+                this.rightDrawable.set((Drawable) null, false);
+            } else {
+                this.rightDrawable.set(emojiStatusDocumentId.longValue(), false);
             }
             this.avatarDrawable.setInfo(user);
             this.titleView.setText(UserObject.getUserName(user));
@@ -606,6 +617,24 @@ public class ReactedUsersListView extends FrameLayout {
         public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
             super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
             accessibilityNodeInfo.setEnabled(true);
+        }
+
+        @Override // android.view.ViewGroup, android.view.View
+        protected void onAttachedToWindow() {
+            super.onAttachedToWindow();
+            AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.rightDrawable;
+            if (swapAnimatedEmojiDrawable != null) {
+                swapAnimatedEmojiDrawable.attach();
+            }
+        }
+
+        @Override // android.view.ViewGroup, android.view.View
+        protected void onDetachedFromWindow() {
+            super.onDetachedFromWindow();
+            AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.rightDrawable;
+            if (swapAnimatedEmojiDrawable != null) {
+                swapAnimatedEmojiDrawable.detach();
+            }
         }
     }
 

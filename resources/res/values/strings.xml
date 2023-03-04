@@ -161,6 +161,7 @@
     <string name="AccDescrShowAccounts">Show accounts</string>
     <string name="AccDescrShowKeyboard">Show keyboard</string>
     <string name="AccDescrShutter">Shutter</string>
+    <string name="AccDescrSpeedSlider">Choose speed</string>
     <string name="AccDescrStickerSet">Sticker set</string>
     <string name="AccDescrStickers">Stickers</string>
     <string name="AccDescrStopLiveLocation">Stop sharing live location</string>
@@ -806,7 +807,7 @@
     <string name="AutoNightSchedule">Schedule</string>
     <string name="AutoNightScheduled">Scheduled</string>
     <string name="AutoNightSystemDefault">System Default</string>
-    <string name="AutoNightSystemModeOff">Theme is no longer System Default</string>
+    <string name="AutoNightSystemModeOff">System Default theme is disabled</string>
     <string name="AutoNightTheme">Auto-Night Mode</string>
     <string name="AutoNightThemeOff">Off</string>
     <string name="AutoNightTo">To</string>

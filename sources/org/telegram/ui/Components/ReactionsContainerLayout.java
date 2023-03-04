@@ -1130,7 +1130,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                         }
                     }
                 }
-            } else if (BuildVars.DEBUG_VERSION) {
+            } else if (BuildVars.DEBUG_PRIVATE_VERSION) {
                 throw new RuntimeException("Unknown chat reactions type: " + tLRPC$ChatFull.available_reactions);
             }
         } else {

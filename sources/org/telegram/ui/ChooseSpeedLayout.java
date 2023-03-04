@@ -4,8 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import androidx.core.graphics.ColorUtils;
-import androidx.core.math.MathUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
@@ -14,14 +12,12 @@ import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSlider;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
-import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChooseSpeedLayout;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.PopupSwipeBackLayout;
-import org.telegram.ui.Components.SpeedIconDrawable;
 /* loaded from: classes3.dex */
 public class ChooseSpeedLayout {
-    ActionBarMenuSlider slider;
+    ActionBarMenuSlider.SpeedSlider slider;
     ActionBarMenuSubItem[] speedItems = new ActionBarMenuSubItem[5];
     ActionBarPopupWindow.ActionBarPopupWindowLayout speedSwipeBackLayout;
 
@@ -59,19 +55,9 @@ public class ChooseSpeedLayout {
         layoutParams.width = -1;
         layoutParams.height = AndroidUtilities.dp(8.0f);
         frameLayout.setLayoutParams(layoutParams);
-        ActionBarMenuSlider actionBarMenuSlider = new ActionBarMenuSlider(this, context) { // from class: org.telegram.ui.ChooseSpeedLayout.2
-            @Override // org.telegram.ui.ActionBar.ActionBarMenuSlider
-            protected String getStringValue(float f) {
-                return SpeedIconDrawable.formatNumber((f * 2.3f) + 0.2f) + "x";
-            }
-
-            @Override // org.telegram.ui.ActionBar.ActionBarMenuSlider
-            protected int getColorValue(float f) {
-                return ColorUtils.blendARGB(Theme.getColor("color_lightblue"), Theme.getColor("color_blue"), MathUtils.clamp((((f * 2.3f) + 0.2f) - 1.0f) / 1.0f, 0.0f, 1.0f));
-            }
-        };
-        this.slider = actionBarMenuSlider;
-        actionBarMenuSlider.setMinimumWidth(AndroidUtilities.dp(196.0f));
+        ActionBarMenuSlider.SpeedSlider speedSlider = new ActionBarMenuSlider.SpeedSlider(context, null);
+        this.slider = speedSlider;
+        speedSlider.setMinimumWidth(AndroidUtilities.dp(196.0f));
         this.slider.setDrawShadow(false);
         this.slider.setBackgroundColor(-14540254);
         this.slider.setTextColor(-1);
@@ -82,7 +68,7 @@ public class ChooseSpeedLayout {
             }
         });
         this.speedSwipeBackLayout.addView((View) this.slider, LayoutHelper.createLinear(-1, 44));
-        FrameLayout frameLayout2 = new FrameLayout(this, context) { // from class: org.telegram.ui.ChooseSpeedLayout.3
+        FrameLayout frameLayout2 = new FrameLayout(this, context) { // from class: org.telegram.ui.ChooseSpeedLayout.2
             @Override // android.widget.FrameLayout, android.view.View
             protected void onMeasure(int i, int i2) {
                 super.onMeasure(i, i2);
@@ -163,6 +149,6 @@ public class ChooseSpeedLayout {
                 this.speedItems[i].setColors(-328966, -328966);
             }
         }
-        this.slider.setValue((f - 0.2f) / 2.3f, true);
+        this.slider.setSpeed(f, true);
     }
 }

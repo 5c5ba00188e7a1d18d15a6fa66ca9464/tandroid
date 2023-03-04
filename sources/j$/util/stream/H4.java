@@ -2,9 +2,8 @@ package j$.util.stream;
 
 import java.util.Comparator;
 import java.util.Objects;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public abstract class H4 extends J4 implements j$.util.w {
+abstract class H4 extends J4 implements j$.util.w {
     /* JADX INFO: Access modifiers changed from: package-private */
     public H4(j$.util.w wVar, long j, long j2) {
         super(wVar, j, j2);

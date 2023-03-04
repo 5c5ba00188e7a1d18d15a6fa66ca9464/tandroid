@@ -64,7 +64,7 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-V-WRP
 
     @Override // j$.util.stream.IntStream
     public /* synthetic */ j$.util.k a0(j$.util.function.j jVar) {
-        return j$.util.a.r(this.a.reduce(O.a(jVar)));
+        return j$.util.a.o(this.a.reduce(O.a(jVar)));
     }
 
     @Override // j$.util.stream.IntStream
@@ -79,7 +79,7 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-V-WRP
 
     @Override // j$.util.stream.IntStream
     public /* synthetic */ j$.util.j average() {
-        return j$.util.a.q(this.a.average());
+        return j$.util.a.n(this.a.average());
     }
 
     @Override // j$.util.stream.IntStream
@@ -114,12 +114,12 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-V-WRP
 
     @Override // j$.util.stream.IntStream
     public /* synthetic */ j$.util.k findAny() {
-        return j$.util.a.r(this.a.findAny());
+        return j$.util.a.o(this.a.findAny());
     }
 
     @Override // j$.util.stream.IntStream
     public /* synthetic */ j$.util.k findFirst() {
-        return j$.util.a.r(this.a.findFirst());
+        return j$.util.a.o(this.a.findFirst());
     }
 
     @Override // j$.util.stream.IntStream
@@ -154,12 +154,12 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-V-WRP
 
     @Override // j$.util.stream.IntStream
     public /* synthetic */ j$.util.k max() {
-        return j$.util.a.r(this.a.max());
+        return j$.util.a.o(this.a.max());
     }
 
     @Override // j$.util.stream.IntStream
     public /* synthetic */ j$.util.k min() {
-        return j$.util.a.r(this.a.min());
+        return j$.util.a.o(this.a.min());
     }
 
     @Override // j$.util.stream.g

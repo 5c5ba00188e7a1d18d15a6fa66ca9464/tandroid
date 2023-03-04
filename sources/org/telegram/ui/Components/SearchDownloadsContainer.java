@@ -350,7 +350,8 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
             }
         }
         for (int i2 = 0; i2 < arrayList2.size(); i2++) {
-            if (FileLoader.getDocumentFileName(((MessageObject) arrayList2.get(i2)).getDocument()).toLowerCase().contains(str)) {
+            String documentFileName = FileLoader.getDocumentFileName(((MessageObject) arrayList2.get(i2)).getDocument());
+            if (documentFileName != null && documentFileName.toLowerCase().contains(str)) {
                 MessageObject messageObject2 = new MessageObject(this.currentAccount, ((MessageObject) arrayList2.get(i2)).messageOwner, false, false);
                 messageObject2.mediaExists = ((MessageObject) arrayList2.get(i2)).mediaExists;
                 messageObject2.setQuery(this.searchQuery);

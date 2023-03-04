@@ -1,5 +1,6 @@
 package org.telegram.messenger.voip;
 
+import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 import java.util.List;
 import org.json.JSONException;
@@ -182,6 +183,7 @@ public final class Instance {
         public final String password;
         public final byte[] peerTag;
         public final int port;
+        public int reflectorId;
         public final boolean stun;
         public final boolean tcp;
         public final boolean turn;
@@ -198,8 +200,16 @@ public final class Instance {
             this.peerTag = bArr;
             this.turn = z2;
             this.stun = z3;
-            this.username = str3;
-            this.password = str4;
+            if (z) {
+                this.username = str3;
+                this.password = str4;
+            } else if (bArr != null) {
+                this.username = "reflector";
+                this.password = Util.toHexString(bArr);
+            } else {
+                this.username = null;
+                this.password = null;
+            }
             this.tcp = z4;
         }
 

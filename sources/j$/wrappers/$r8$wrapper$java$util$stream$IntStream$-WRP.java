@@ -56,7 +56,7 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-WRP i
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ OptionalDouble average() {
-        return j$.util.a.u(this.a.average());
+        return j$.util.a.r(this.a.average());
     }
 
     @Override // java.util.stream.IntStream
@@ -91,12 +91,12 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-WRP i
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ OptionalInt findAny() {
-        return j$.util.a.v(this.a.findAny());
+        return j$.util.a.s(this.a.findAny());
     }
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ OptionalInt findFirst() {
-        return j$.util.a.v(this.a.findFirst());
+        return j$.util.a.s(this.a.findFirst());
     }
 
     @Override // java.util.stream.IntStream
@@ -156,12 +156,12 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-WRP i
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ OptionalInt max() {
-        return j$.util.a.v(this.a.max());
+        return j$.util.a.s(this.a.max());
     }
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ OptionalInt min() {
-        return j$.util.a.v(this.a.min());
+        return j$.util.a.s(this.a.min());
     }
 
     @Override // java.util.stream.IntStream
@@ -198,7 +198,7 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-WRP i
 
     @Override // java.util.stream.IntStream
     public /* synthetic */ OptionalInt reduce(IntBinaryOperator intBinaryOperator) {
-        return j$.util.a.v(this.a.a0(N.a(intBinaryOperator)));
+        return j$.util.a.s(this.a.a0(N.a(intBinaryOperator)));
     }
 
     /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.IntStream, java.util.stream.BaseStream] */

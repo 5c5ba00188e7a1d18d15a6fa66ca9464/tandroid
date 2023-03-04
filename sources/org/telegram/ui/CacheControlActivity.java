@@ -1945,9 +1945,18 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                     ClearCacheButton clearCacheButton = ClearCacheButton.this;
                     return drawable == clearCacheButton.valueTextView || drawable == clearCacheButton.textView || super.verifyDrawable(drawable);
                 }
+
+                @Override // android.view.View
+                public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+                    super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+                    accessibilityNodeInfo.setClassName("android.widget.Button");
+                }
             };
             this.button = frameLayout;
             frameLayout.setBackground(Theme.AdaptiveRipple.filledRect("featuredStickers_addButton", 8.0f));
+            this.button.setFocusable(true);
+            this.button.setFocusableInTouchMode(true);
+            this.button.setImportantForAccessibility(1);
             if (LocaleController.isRTL) {
                 TextView textView = new TextView(context);
                 this.rtlTextView = textView;
@@ -1997,6 +2006,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             this.valueTextView.setText(j <= 0 ? "" : AndroidUtilities.formatFileSize(j));
             setDisabled(j <= 0);
             this.button.invalidate();
+            this.button.setContentDescription(TextUtils.concat(this.textView.getText(), "\t", this.valueTextView.getText()));
         }
 
         public void setDisabled(boolean z) {

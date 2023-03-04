@@ -110,7 +110,7 @@ public abstract class zzx implements Map, Serializable, j$.util.Map {
 
     @Override // java.util.Map, j$.util.Map
     public /* synthetic */ Object putIfAbsent(Object obj, Object obj2) {
-        return get(obj);
+        return Map.-CC.$default$putIfAbsent(this, obj, obj2);
     }
 
     @Override // java.util.Map, j$.util.Map

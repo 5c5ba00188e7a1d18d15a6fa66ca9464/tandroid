@@ -25,7 +25,10 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
+import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
@@ -43,6 +46,7 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$Vector;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.AvatarsImageView;
 import org.telegram.ui.Components.BackupImageView;
@@ -365,35 +369,41 @@ public class MessageSeenView extends FrameLayout {
     }
 
     /* loaded from: classes3.dex */
-    private static class UserCell extends FrameLayout {
+    private static class UserCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
         AvatarDrawable avatarDrawable;
         BackupImageView avatarImageView;
-        TextView nameView;
+        private int currentAccount;
+        SimpleTextView nameView;
         TextView readView;
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable rightDrawable;
+        TLRPC$User user;
 
         public UserCell(Context context) {
             super(context);
+            this.currentAccount = UserConfig.selectedAccount;
             this.avatarDrawable = new AvatarDrawable();
             BackupImageView backupImageView = new BackupImageView(context);
             this.avatarImageView = backupImageView;
             backupImageView.setRoundRadius(AndroidUtilities.dp(18.0f));
             addView(this.avatarImageView, LayoutHelper.createFrame(34, 34.0f, 16, 10.0f, 0.0f, 0.0f, 0.0f));
-            TextView textView = new TextView(context);
-            this.nameView = textView;
-            textView.setTextSize(1, 16.0f);
-            this.nameView.setLines(1);
-            this.nameView.setEllipsize(TextUtils.TruncateAt.END);
+            SimpleTextView simpleTextView = new SimpleTextView(context);
+            this.nameView = simpleTextView;
+            simpleTextView.setTextSize(16);
+            this.nameView.setEllipsizeByGradient(true);
             this.nameView.setImportantForAccessibility(2);
             this.nameView.setTextColor(Theme.getColor("actionBarDefaultSubmenuItem"));
-            addView(this.nameView, LayoutHelper.createFrame(-2, -2.0f, 51, 55.0f, 5.33f, 13.0f, 0.0f));
-            TextView textView2 = new TextView(context);
-            this.readView = textView2;
-            textView2.setTextSize(1, 13.0f);
+            addView(this.nameView, LayoutHelper.createFrame(-2, -2.0f, 51, 55.0f, 6.33f, 8.0f, 0.0f));
+            this.rightDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this, AndroidUtilities.dp(18.0f));
+            this.nameView.setDrawablePadding(AndroidUtilities.dp(3.0f));
+            this.nameView.setRightDrawable(this.rightDrawable);
+            TextView textView = new TextView(context);
+            this.readView = textView;
+            textView.setTextSize(1, 13.0f);
             this.readView.setLines(1);
             this.readView.setEllipsize(TextUtils.TruncateAt.END);
             this.readView.setImportantForAccessibility(2);
             this.readView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
-            addView(this.readView, LayoutHelper.createFrame(-2, -2.0f, 51, 55.0f, 19.0f, 13.0f, 0.0f));
+            addView(this.readView, LayoutHelper.createFrame(-2, -2.0f, 51, 55.0f, 20.0f, 13.0f, 0.0f));
         }
 
         @Override // android.widget.FrameLayout, android.view.View
@@ -402,6 +412,8 @@ public class MessageSeenView extends FrameLayout {
         }
 
         public void setUser(TLRPC$User tLRPC$User, int i) {
+            this.user = tLRPC$User;
+            updateStatus(false);
             if (tLRPC$User != null) {
                 this.avatarDrawable.setInfo(tLRPC$User);
                 this.avatarImageView.setImage(ImageLocation.getForUser(tLRPC$User, 1), "50_50", this.avatarDrawable, tLRPC$User);
@@ -420,7 +432,53 @@ public class MessageSeenView extends FrameLayout {
         @Override // android.view.View
         public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
             super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-            accessibilityNodeInfo.setText(LocaleController.formatString("AccDescrPersonHasSeen", R.string.AccDescrPersonHasSeen, this.nameView.getText()));
+            String formatString = LocaleController.formatString("AccDescrPersonHasSeen", R.string.AccDescrPersonHasSeen, this.nameView.getText());
+            if (this.readView.getVisibility() == 0) {
+                formatString = formatString + " " + ((Object) this.readView.getText());
+            }
+            accessibilityNodeInfo.setText(formatString);
+        }
+
+        @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+        public void didReceivedNotification(int i, int i2, Object... objArr) {
+            if (i == NotificationCenter.userEmojiStatusUpdated) {
+                TLRPC$User tLRPC$User = (TLRPC$User) objArr[0];
+                TLRPC$User tLRPC$User2 = this.user;
+                if (tLRPC$User2 == null || tLRPC$User == null || tLRPC$User2.id != tLRPC$User.id) {
+                    return;
+                }
+                this.user = tLRPC$User;
+                updateStatus(true);
+            }
+        }
+
+        private void updateStatus(boolean z) {
+            Long emojiStatusDocumentId = UserObject.getEmojiStatusDocumentId(this.user);
+            if (emojiStatusDocumentId == null) {
+                this.rightDrawable.set((Drawable) null, z);
+            } else {
+                this.rightDrawable.set(emojiStatusDocumentId.longValue(), z);
+            }
+        }
+
+        @Override // android.view.ViewGroup, android.view.View
+        protected void onAttachedToWindow() {
+            super.onAttachedToWindow();
+            AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.rightDrawable;
+            if (swapAnimatedEmojiDrawable != null) {
+                swapAnimatedEmojiDrawable.attach();
+            }
+            NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.userEmojiStatusUpdated);
+        }
+
+        @Override // android.view.ViewGroup, android.view.View
+        protected void onDetachedFromWindow() {
+            super.onDetachedFromWindow();
+            AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.rightDrawable;
+            if (swapAnimatedEmojiDrawable != null) {
+                swapAnimatedEmojiDrawable.detach();
+            }
+            NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.userEmojiStatusUpdated);
         }
     }
 }

@@ -20,24 +20,29 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.math.MathUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
+import org.telegram.ui.Components.FloatSeekBarAccessibilityDelegate;
 import org.telegram.ui.Components.MotionBackgroundDrawable;
+import org.telegram.ui.Components.SeekBarAccessibilityDelegate;
 import org.telegram.ui.Components.SpeedIconDrawable;
 /* loaded from: classes3.dex */
 public class ActionBarMenuSlider extends FrameLayout {
@@ -87,10 +92,6 @@ public class ActionBarMenuSlider extends FrameLayout {
     @Override // android.view.ViewGroup
     public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
         return false;
-    }
-
-    public ActionBarMenuSlider(Context context) {
-        this(context, null);
     }
 
     public ActionBarMenuSlider(Context context, Theme.ResourcesProvider resourcesProvider) {
@@ -477,12 +478,62 @@ public class ActionBarMenuSlider extends FrameLayout {
 
     /* loaded from: classes3.dex */
     public static class SpeedSlider extends ActionBarMenuSlider {
+        private final SeekBarAccessibilityDelegate seekBarAccessibilityDelegate;
+
         public float getSpeed(float f) {
             return (f * 2.3f) + 0.2f;
         }
 
         public SpeedSlider(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context, resourcesProvider);
+            setFocusable(true);
+            setFocusableInTouchMode(true);
+            setImportantForAccessibility(1);
+            FloatSeekBarAccessibilityDelegate floatSeekBarAccessibilityDelegate = new FloatSeekBarAccessibilityDelegate(false) { // from class: org.telegram.ui.ActionBar.ActionBarMenuSlider.SpeedSlider.1
+                /* JADX INFO: Access modifiers changed from: protected */
+                @Override // org.telegram.ui.Components.FloatSeekBarAccessibilityDelegate
+                public float getDelta() {
+                    return 0.2f;
+                }
+
+                @Override // org.telegram.ui.Components.FloatSeekBarAccessibilityDelegate
+                protected float getMaxValue() {
+                    return 2.5f;
+                }
+
+                @Override // org.telegram.ui.Components.FloatSeekBarAccessibilityDelegate
+                protected float getMinValue() {
+                    return 0.2f;
+                }
+
+                @Override // org.telegram.ui.Components.FloatSeekBarAccessibilityDelegate
+                public float getProgress() {
+                    return SpeedSlider.this.getSpeed();
+                }
+
+                @Override // org.telegram.ui.Components.FloatSeekBarAccessibilityDelegate
+                public void setProgress(float f) {
+                    SpeedSlider.this.setSpeed(f, true);
+                }
+
+                @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
+                public CharSequence getContentDescription(View view) {
+                    return SpeedIconDrawable.formatNumber(SpeedSlider.this.getSpeed()) + "x  " + LocaleController.getString("AccDescrSpeedSlider", R.string.AccDescrSpeedSlider);
+                }
+            };
+            this.seekBarAccessibilityDelegate = floatSeekBarAccessibilityDelegate;
+            setAccessibilityDelegate(floatSeekBarAccessibilityDelegate);
+        }
+
+        @Override // android.view.View
+        public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+            super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+            this.seekBarAccessibilityDelegate.onInitializeAccessibilityNodeInfoInternal(this, accessibilityNodeInfo);
+        }
+
+        @Override // android.view.View
+        public boolean performAccessibilityAction(int i, Bundle bundle) {
+            return super.performAccessibilityAction(i, bundle) || this.seekBarAccessibilityDelegate.performAccessibilityActionInternal(this, i, bundle);
         }
 
         public float getSpeed() {

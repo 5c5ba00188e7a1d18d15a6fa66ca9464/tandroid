@@ -21,7 +21,7 @@ final class N3 extends F3 {
 
     @Override // j$.util.stream.i3, j$.util.stream.m3
     public void m() {
-        j$.util.a.G(this.d, this.b);
+        j$.util.a.v(this.d, this.b);
         this.a.n(this.d.size());
         if (this.c) {
             Iterator it = this.d.iterator();

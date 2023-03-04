@@ -116,9 +116,9 @@ public class CheckBox2 extends View {
     @Override // android.view.View
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
         super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-        accessibilityNodeInfo.setClassName(android.widget.CheckBox.class.getName());
-        accessibilityNodeInfo.setChecked(isChecked());
+        accessibilityNodeInfo.setClassName("android.widget.Switch");
         accessibilityNodeInfo.setCheckable(true);
+        accessibilityNodeInfo.setChecked(isChecked());
     }
 
     public void setIcon(int i) {

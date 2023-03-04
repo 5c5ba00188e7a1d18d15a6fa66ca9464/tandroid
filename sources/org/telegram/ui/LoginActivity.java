@@ -4748,8 +4748,8 @@ public class LoginActivity extends BaseFragment {
             return LocaleController.getString("YourCode", R.string.YourCode);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:103:0x0316  */
-        /* JADX WARN: Removed duplicated region for block: B:104:0x031f  */
+        /* JADX WARN: Removed duplicated region for block: B:108:0x031a  */
+        /* JADX WARN: Removed duplicated region for block: B:109:0x0323  */
         @Override // org.telegram.ui.Components.SlideView
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -4853,7 +4853,10 @@ public class LoginActivity extends BaseFragment {
             if (i6 == 1) {
                 setProblemTextVisible(true);
                 this.timeText.setVisibility(8);
-                this.problemText.setVisibility(0);
+                TextView textView = this.problemText;
+                if (textView != null) {
+                    textView.setVisibility(0);
+                }
             } else if (i6 == 3 && ((i2 = this.nextType) == 4 || i2 == 2)) {
                 setProblemTextVisible(false);
                 this.timeText.setVisibility(0);
@@ -4879,7 +4882,10 @@ public class LoginActivity extends BaseFragment {
                 this.timeText.setText(LocaleController.formatString("CallAvailableIn", R.string.CallAvailableIn, 2, 0));
                 setProblemTextVisible(this.time < 1000);
                 this.timeText.setVisibility(this.time < 1000 ? 8 : 0);
-                this.problemText.setVisibility(this.time < 1000 ? 0 : 8);
+                TextView textView2 = this.problemText;
+                if (textView2 != null) {
+                    textView2.setVisibility(this.time < 1000 ? 0 : 8);
+                }
                 SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
                 String string2 = sharedPreferences.getString("sms_hash", null);
                 if (!TextUtils.isEmpty(string2) && (string = sharedPreferences.getString("sms_hash_code", null)) != null) {
@@ -4900,11 +4906,17 @@ public class LoginActivity extends BaseFragment {
                 this.timeText.setText(LocaleController.formatString("SmsAvailableIn", R.string.SmsAvailableIn, 2, 0));
                 setProblemTextVisible(this.time < 1000);
                 this.timeText.setVisibility(this.time < 1000 ? 8 : 0);
-                this.problemText.setVisibility(this.time < 1000 ? 0 : 8);
+                TextView textView3 = this.problemText;
+                if (textView3 != null) {
+                    textView3.setVisibility(this.time < 1000 ? 0 : 8);
+                }
                 createTimer();
             } else {
                 this.timeText.setVisibility(8);
-                this.problemText.setVisibility(0);
+                TextView textView4 = this.problemText;
+                if (textView4 != null) {
+                    textView4.setVisibility(0);
+                }
                 setProblemTextVisible(false);
                 createCodeTimer();
             }

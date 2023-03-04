@@ -3328,7 +3328,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (this.currentUser != null) {
             MediaController.getInstance().stopMediaObserver();
         }
-        this.flagSecure.detach();
+        FlagSecureReason flagSecureReason = this.flagSecure;
+        if (flagSecureReason != null) {
+            flagSecureReason.detach();
+        }
         if (this.currentUser != null) {
             getMessagesController().cancelLoadFullUser(this.currentUser.id);
         }

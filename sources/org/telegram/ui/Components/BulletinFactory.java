@@ -345,7 +345,7 @@ public final class BulletinFactory {
         } else if (ChatObject.isChannelAndNotMegaGroup(tLRPC$Chat)) {
             spannableStringBuilder = AndroidUtilities.replaceTags(LocaleController.formatPluralString("AddedMembersToChannel", arrayList.size(), new Object[0]));
         } else {
-            spannableStringBuilder = AndroidUtilities.replaceTags(LocaleController.formatPluralString("AddedMembersToGroup", arrayList.size(), new Object[0]));
+            spannableStringBuilder = AndroidUtilities.replaceTags(LocaleController.formatPluralString("AddedSubscribersToChannel", arrayList.size(), new Object[0]));
         }
         return createUsersBulletin(arrayList, spannableStringBuilder);
     }

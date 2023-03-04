@@ -2303,6 +2303,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         this.cameraView.setFpsLimit(-1);
         AndroidUtilities.hideKeyboard(this);
         AndroidUtilities.setLightNavigationBar(this.parentAlert.getWindow(), false);
+        this.parentAlert.getWindow().addFlags(128);
         if (z) {
             setCameraOpenProgress(0.0f);
             this.cameraAnimationInProgress = true;
@@ -2883,7 +2884,8 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                     NotificationCenter.getInstance(ChatAttachAlertPhotoLayout.this.parentAlert.currentAccount).onAnimationFinish(ChatAttachAlertPhotoLayout.this.animationIndex);
                     ChatAttachAlertPhotoLayout chatAttachAlertPhotoLayout = ChatAttachAlertPhotoLayout.this;
                     chatAttachAlertPhotoLayout.cameraExpanded = false;
-                    chatAttachAlertPhotoLayout.setCameraOpenProgress(0.0f);
+                    chatAttachAlertPhotoLayout.parentAlert.getWindow().clearFlags(128);
+                    ChatAttachAlertPhotoLayout.this.setCameraOpenProgress(0.0f);
                     ChatAttachAlertPhotoLayout.this.cameraAnimationInProgress = false;
                     int i3 = Build.VERSION.SDK_INT;
                     if (i3 >= 21 && (cameraView = ChatAttachAlertPhotoLayout.this.cameraView) != null) {
@@ -2917,6 +2919,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             animatorSet.start();
         } else {
             this.cameraExpanded = false;
+            this.parentAlert.getWindow().clearFlags(128);
             setCameraOpenProgress(0.0f);
             this.animateCameraValues[0] = 0;
             setCameraOpenProgress(0.0f);

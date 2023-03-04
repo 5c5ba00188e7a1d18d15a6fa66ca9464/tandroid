@@ -45,7 +45,7 @@ public final /* synthetic */ class L0 implements DoubleStream {
 
     @Override // java.util.stream.DoubleStream
     public /* synthetic */ OptionalDouble average() {
-        return j$.util.a.u(this.a.average());
+        return j$.util.a.r(this.a.average());
     }
 
     @Override // java.util.stream.DoubleStream
@@ -80,12 +80,12 @@ public final /* synthetic */ class L0 implements DoubleStream {
 
     @Override // java.util.stream.DoubleStream
     public /* synthetic */ OptionalDouble findAny() {
-        return j$.util.a.u(this.a.findAny());
+        return j$.util.a.r(this.a.findAny());
     }
 
     @Override // java.util.stream.DoubleStream
     public /* synthetic */ OptionalDouble findFirst() {
-        return j$.util.a.u(this.a.findFirst());
+        return j$.util.a.r(this.a.findFirst());
     }
 
     @Override // java.util.stream.DoubleStream
@@ -145,12 +145,12 @@ public final /* synthetic */ class L0 implements DoubleStream {
 
     @Override // java.util.stream.DoubleStream
     public /* synthetic */ OptionalDouble max() {
-        return j$.util.a.u(this.a.max());
+        return j$.util.a.r(this.a.max());
     }
 
     @Override // java.util.stream.DoubleStream
     public /* synthetic */ OptionalDouble min() {
-        return j$.util.a.u(this.a.min());
+        return j$.util.a.r(this.a.min());
     }
 
     @Override // java.util.stream.DoubleStream
@@ -187,7 +187,7 @@ public final /* synthetic */ class L0 implements DoubleStream {
 
     @Override // java.util.stream.DoubleStream
     public /* synthetic */ OptionalDouble reduce(DoubleBinaryOperator doubleBinaryOperator) {
-        return j$.util.a.u(this.a.G(x.a(doubleBinaryOperator)));
+        return j$.util.a.r(this.a.G(x.a(doubleBinaryOperator)));
     }
 
     /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.BaseStream, java.util.stream.DoubleStream] */

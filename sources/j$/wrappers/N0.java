@@ -52,7 +52,7 @@ public final /* synthetic */ class N0 implements LongStream {
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ OptionalDouble average() {
-        return j$.util.a.u(this.a.average());
+        return j$.util.a.r(this.a.average());
     }
 
     @Override // java.util.stream.LongStream
@@ -87,12 +87,12 @@ public final /* synthetic */ class N0 implements LongStream {
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ OptionalLong findAny() {
-        return j$.util.a.w(this.a.findAny());
+        return j$.util.a.t(this.a.findAny());
     }
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ OptionalLong findFirst() {
-        return j$.util.a.w(this.a.findFirst());
+        return j$.util.a.t(this.a.findFirst());
     }
 
     @Override // java.util.stream.LongStream
@@ -152,12 +152,12 @@ public final /* synthetic */ class N0 implements LongStream {
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ OptionalLong max() {
-        return j$.util.a.w(this.a.max());
+        return j$.util.a.t(this.a.max());
     }
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ OptionalLong min() {
-        return j$.util.a.w(this.a.min());
+        return j$.util.a.t(this.a.min());
     }
 
     @Override // java.util.stream.LongStream
@@ -194,7 +194,7 @@ public final /* synthetic */ class N0 implements LongStream {
 
     @Override // java.util.stream.LongStream
     public /* synthetic */ OptionalLong reduce(LongBinaryOperator longBinaryOperator) {
-        return j$.util.a.w(this.a.g(c0.a(longBinaryOperator)));
+        return j$.util.a.t(this.a.g(c0.a(longBinaryOperator)));
     }
 
     /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.LongStream, java.util.stream.BaseStream] */

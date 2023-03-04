@@ -142,7 +142,9 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onReactionClicked$0() {
-            ChatSelectionReactionMenuOverlay.this.reactionsContainerLayout.dismissParent(true);
+            if (ChatSelectionReactionMenuOverlay.this.reactionsContainerLayout != null) {
+                ChatSelectionReactionMenuOverlay.this.reactionsContainerLayout.dismissParent(true);
+            }
             hideMenu();
         }
 

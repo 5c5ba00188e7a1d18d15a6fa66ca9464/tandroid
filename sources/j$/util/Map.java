@@ -8,6 +8,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
 /* loaded from: classes2.dex */
 public interface Map<K, V> {
 
@@ -90,7 +91,7 @@ public interface Map<K, V> {
 
         public static boolean $default$remove(java.util.Map map, Object obj, Object obj2) {
             Object obj3 = map.get(obj);
-            if (a.x(obj3, obj2)) {
+            if (a.u(obj3, obj2)) {
                 if (obj3 != null || map.containsKey(obj)) {
                     map.remove(obj);
                     return true;
@@ -107,7 +108,7 @@ public interface Map<K, V> {
 
         public static boolean $default$replace(java.util.Map map, Object obj, Object obj2, Object obj3) {
             Object obj4 = map.get(obj);
-            if (a.x(obj4, obj2)) {
+            if (a.u(obj4, obj2)) {
                 if (obj4 != null || map.containsKey(obj)) {
                     map.put(obj, obj3);
                     return true;
@@ -130,6 +131,25 @@ public interface Map<K, V> {
                     throw new ConcurrentModificationException(e2);
                 }
             }
+        }
+    }
+
+    /* loaded from: classes2.dex */
+    public final /* synthetic */ class -EL {
+        public static /* synthetic */ Object a(java.util.Map map, Object obj, Object obj2) {
+            return map instanceof Map ? ((Map) map).putIfAbsent(obj, obj2) : -CC.$default$putIfAbsent(map, obj, obj2);
+        }
+
+        public static Object getOrDefault(java.util.Map map, Object obj, Object obj2) {
+            if (map instanceof Map) {
+                return ((Map) map).getOrDefault(obj, obj2);
+            }
+            if (map instanceof ConcurrentMap) {
+                Object obj3 = ((ConcurrentMap) map).get(obj);
+                return obj3 != null ? obj3 : obj2;
+            }
+            Object obj4 = map.get(obj);
+            return (obj4 != null || map.containsKey(obj)) ? obj4 : obj2;
         }
     }
 

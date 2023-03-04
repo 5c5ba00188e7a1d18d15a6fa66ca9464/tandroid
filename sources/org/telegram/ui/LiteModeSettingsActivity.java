@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.text.style.ImageSpan;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -367,10 +368,13 @@ public class LiteModeSettingsActivity extends BaseFragment {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class SwitchCell extends FrameLayout {
+        private int all;
         private ImageView arrowView;
         private CheckBox2 checkBoxView;
+        private boolean containing;
         private AnimatedTextView countTextView;
         private boolean disabled;
+        private int enabled;
         private ImageView imageView;
         private boolean needDivider;
         private boolean needLine;
@@ -435,6 +439,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
             CheckBox2 checkBox22 = this.checkBoxView;
             boolean z = LocaleController.isRTL;
             addView(checkBox22, LayoutHelper.createFrame(21, 21.0f, (z ? 5 : 3) | 16, z ? 0.0f : 64.0f, 0.0f, z ? 64.0f : 0.0f, 0.0f));
+            setFocusable(true);
         }
 
         public void setDisabled(boolean z, boolean z2) {
@@ -467,7 +472,9 @@ public class LiteModeSettingsActivity extends BaseFragment {
                 this.imageView.setVisibility(0);
                 this.imageView.setImageResource(item.iconResId);
                 this.textView.setText(item.text);
-                if (item.getFlagsCount() > 1) {
+                boolean z3 = item.getFlagsCount() > 1;
+                this.containing = z3;
+                if (z3) {
                     updateCount(item, false);
                     this.countTextView.setVisibility(0);
                     this.arrowView.setVisibility(0);
@@ -487,7 +494,8 @@ public class LiteModeSettingsActivity extends BaseFragment {
                 this.countTextView.setVisibility(8);
                 this.arrowView.setVisibility(8);
                 this.textView.setText(item.text);
-                this.textView.setTranslationX(AndroidUtilities.dp(41.0f) * (LocaleController.isRTL ? -1 : 1));
+                this.textView.setTranslationX(AndroidUtilities.dp(41.0f) * (LocaleController.isRTL ? -2.5f : 1.0f));
+                this.containing = false;
                 this.needLine = false;
             }
             ((ViewGroup.MarginLayoutParams) this.textViewLayout.getLayoutParams()).rightMargin = AndroidUtilities.dp(item.viewType == 3 ? 79.0f : 8.0f);
@@ -498,7 +506,9 @@ public class LiteModeSettingsActivity extends BaseFragment {
 
         public void update(Item item) {
             if (item.viewType == 3) {
-                if (item.getFlagsCount() > 1) {
+                boolean z = item.getFlagsCount() > 1;
+                this.containing = z;
+                if (z) {
                     updateCount(item, true);
                     int expandedIndex = LiteModeSettingsActivity.this.getExpandedIndex(item.flags);
                     this.arrowView.clearAnimation();
@@ -512,7 +522,9 @@ public class LiteModeSettingsActivity extends BaseFragment {
         }
 
         private void updateCount(Item item, boolean z) {
-            this.countTextView.setText(String.format("%d/%d", Integer.valueOf(preprocessFlagsCount(LiteMode.getValue(true) & item.flags)), Integer.valueOf(preprocessFlagsCount(item.flags))), z);
+            this.enabled = preprocessFlagsCount(LiteMode.getValue(true) & item.flags);
+            this.all = preprocessFlagsCount(item.flags);
+            this.countTextView.setText(String.format("%d/%d", Integer.valueOf(this.enabled), Integer.valueOf(this.all)), z);
         }
 
         private int preprocessFlagsCount(int i) {
@@ -540,6 +552,25 @@ public class LiteModeSettingsActivity extends BaseFragment {
             if (this.needDivider) {
                 canvas.drawLine(AndroidUtilities.dp(64.0f) + this.textView.getTranslationX(), getMeasuredHeight() - 1, getMeasuredWidth(), getMeasuredHeight() - 1, Theme.dividerPaint);
             }
+        }
+
+        @Override // android.view.View
+        public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+            super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+            accessibilityNodeInfo.setClassName("android.widget.Switch");
+            accessibilityNodeInfo.setCheckable(true);
+            if (this.checkBoxView.getVisibility() == 0) {
+                accessibilityNodeInfo.setChecked(this.checkBoxView.isChecked());
+            } else {
+                accessibilityNodeInfo.setChecked(this.switchView.isChecked());
+            }
+            StringBuilder sb = new StringBuilder();
+            sb.append(this.textView.getText());
+            if (this.containing) {
+                sb.append('\n');
+                sb.append(LocaleController.formatString("Of", R.string.Of, Integer.valueOf(this.enabled), Integer.valueOf(this.all)));
+            }
+            accessibilityNodeInfo.setContentDescription(sb);
         }
     }
 

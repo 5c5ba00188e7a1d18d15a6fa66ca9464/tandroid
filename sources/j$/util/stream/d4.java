@@ -1,5 +1,6 @@
 package j$.util.stream;
 
+import j$.util.Map;
 import java.util.EnumMap;
 import java.util.Map;
 /* JADX INFO: Access modifiers changed from: package-private */
@@ -109,7 +110,7 @@ public final class d4 {
             if (map instanceof j$.util.Map) {
                 ((j$.util.Map) map).putIfAbsent(c4Var, 0);
             } else {
-                map.get(c4Var);
+                Map.-CC.$default$putIfAbsent(map, c4Var, 0);
             }
         }
         this.a = b4Var.a;

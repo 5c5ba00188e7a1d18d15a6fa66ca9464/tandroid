@@ -1914,7 +1914,10 @@ public class Bulletin {
                 @Override // android.view.ViewGroup, android.view.ViewManager
                 public void removeView(View view) {
                     super.removeView(view);
-                    BulletinWindow.this.dismiss();
+                    try {
+                        BulletinWindow.this.dismiss();
+                    } catch (Exception unused) {
+                    }
                     Bulletin.removeDelegate(BulletinWindow.this.container);
                 }
             };

@@ -11448,7 +11448,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         str = "YourBioChanged";
                     } else {
                         i3 = R.string.ChannelDescriptionChanged;
-                        str = "CannelDescriptionChanged";
+                        str = "ChannelDescriptionChanged";
                     }
                     (container != null ? BulletinFactory.of(container, null) : BulletinFactory.of(baseFragment)).createErrorBulletin(LocaleController.getString(str, i3)).show();
                     return;
@@ -11458,7 +11458,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         str2 = "YourNameChanged";
                     } else {
                         i4 = R.string.ChannelTitleChanged;
-                        str2 = "CannelTitleChanged";
+                        str2 = "ChannelTitleChanged";
                     }
                     (container != null ? BulletinFactory.of(container, null) : BulletinFactory.of(baseFragment)).createErrorBulletin(LocaleController.getString(str2, i4)).show();
                     return;

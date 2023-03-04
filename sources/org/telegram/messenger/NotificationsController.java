@@ -5136,9 +5136,9 @@ public class NotificationsController extends BaseController {
         this.channelGroupsCreated = true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:191:0x040b A[LOOP:1: B:189:0x0408->B:191:0x040b, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:194:0x041d  */
-    /* JADX WARN: Removed duplicated region for block: B:215:0x046b  */
+    /* JADX WARN: Removed duplicated region for block: B:191:0x0409 A[LOOP:1: B:189:0x0406->B:191:0x0409, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:194:0x041b  */
+    /* JADX WARN: Removed duplicated region for block: B:215:0x0468  */
     @TargetApi(26)
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5165,19 +5165,17 @@ public class NotificationsController extends BaseController {
         SharedPreferences sharedPreferences;
         Uri uri2;
         String MD5;
-        String str11;
         boolean z6;
         boolean z7;
         boolean z8;
-        String str12;
+        String str11;
         boolean z9;
         long[] jArr3;
         SharedPreferences.Editor editor;
-        SharedPreferences.Editor editor2;
         int i9;
         ensureGroupsCreated();
         SharedPreferences notificationsSettings = getAccountInstance().getNotificationsSettings();
-        String str13 = "private";
+        String str12 = "private";
         if (z3) {
             str2 = "other" + this.currentAccount;
             str3 = null;
@@ -5199,7 +5197,7 @@ public class NotificationsController extends BaseController {
         }
         if (z3) {
             formatString = LocaleController.getString("NotificationsSilent", R.string.NotificationsSilent);
-            str13 = "silent";
+            str12 = "silent";
         } else if (z) {
             if (z2) {
                 i5 = R.string.NotificationsInAppDefault;
@@ -5210,11 +5208,11 @@ public class NotificationsController extends BaseController {
             }
             String string = LocaleController.getString(str4, i5);
             if (i4 == 2) {
-                str13 = z2 ? "channels_ia" : "channels";
+                str12 = z2 ? "channels_ia" : "channels";
             } else if (i4 == 0) {
-                str13 = z2 ? "groups_ia" : "groups";
+                str12 = z2 ? "groups_ia" : "groups";
             } else if (z2) {
-                str13 = "private_ia";
+                str12 = "private_ia";
             }
             formatString = string;
         } else {
@@ -5224,14 +5222,14 @@ public class NotificationsController extends BaseController {
             sb.append(j);
             sb.append("_");
             sb.append(i);
-            str13 = sb.toString();
+            str12 = sb.toString();
         }
-        String str14 = str13 + "_" + MD52;
-        String string2 = notificationsSettings.getString(str14, null);
-        String string3 = notificationsSettings.getString(str14 + "_s", null);
+        String str13 = str12 + "_" + MD52;
+        String string2 = notificationsSettings.getString(str13, null);
+        String string3 = notificationsSettings.getString(str13 + "_s", null);
         StringBuilder sb2 = new StringBuilder();
-        String str15 = formatString;
-        String str16 = str2;
+        String str14 = formatString;
+        String str15 = str2;
         if (string2 != null) {
             NotificationChannel notificationChannel = systemNotificationManager.getNotificationChannel(string2);
             str6 = "_";
@@ -5249,7 +5247,7 @@ public class NotificationsController extends BaseController {
             if (notificationChannel == null) {
                 j2 = j;
                 i6 = i3;
-                str5 = str14;
+                str5 = str13;
                 z4 = z11;
                 i7 = i2;
                 jArr2 = jArr;
@@ -5260,7 +5258,7 @@ public class NotificationsController extends BaseController {
             } else if (z3 || z11) {
                 j2 = j;
                 i6 = i3;
-                str5 = str14;
+                str5 = str13;
                 z4 = z11;
             } else {
                 int importance = notificationChannel.getImportance();
@@ -5269,11 +5267,11 @@ public class NotificationsController extends BaseController {
                 z4 = z11;
                 boolean shouldVibrate = notificationChannel.shouldVibrate();
                 if (shouldVibrate || vibrationPattern != null) {
-                    str5 = str14;
+                    str5 = str13;
                     z8 = shouldVibrate;
                     jArr2 = vibrationPattern;
                 } else {
-                    str5 = str14;
+                    str5 = str13;
                     z8 = shouldVibrate;
                     jArr2 = new long[]{0, 0};
                 }
@@ -5299,7 +5297,7 @@ public class NotificationsController extends BaseController {
                 if (MD53.equals(string3)) {
                     j2 = j;
                     i6 = i3;
-                    str12 = MD53;
+                    str11 = MD53;
                     jArr2 = jArr;
                     lightColor = i2;
                     z9 = false;
@@ -5323,39 +5321,39 @@ public class NotificationsController extends BaseController {
                             updateServerNotificationsSettings(j2, 0, true);
                         }
                         i6 = i3;
-                        str12 = MD53;
+                        str11 = MD53;
                         jArr3 = jArr;
                     } else {
                         j2 = j;
                         i6 = i3;
                         if (importance != i6) {
                             if (z2) {
-                                str12 = MD53;
-                                editor2 = null;
+                                str11 = MD53;
+                                editor = null;
                             } else {
-                                editor2 = notificationsSettings.edit();
-                                str12 = MD53;
+                                SharedPreferences.Editor edit = notificationsSettings.edit();
+                                str11 = MD53;
                                 int i10 = (importance == 4 || importance == 5) ? 1 : importance == 1 ? 4 : importance == 2 ? 5 : 0;
                                 if (z) {
-                                    editor2.putInt(getGlobalNotificationsKey(i4), 0).commit();
+                                    edit.putInt(getGlobalNotificationsKey(i4), 0).commit();
                                     if (i4 == 2) {
-                                        editor2.putInt("priority_channel", i10);
+                                        edit.putInt("priority_channel", i10);
                                     } else if (i4 == 0) {
-                                        editor2.putInt("priority_group", i10);
+                                        edit.putInt("priority_group", i10);
                                     } else {
-                                        editor2.putInt("priority_messages", i10);
+                                        edit.putInt("priority_messages", i10);
                                     }
                                 } else {
-                                    editor2.putInt(NotificationsSettingsFacade.PROPERTY_NOTIFY + j2, 0);
-                                    editor2.remove(NotificationsSettingsFacade.PROPERTY_NOTIFY_UNTIL + j2);
-                                    editor2.putInt("priority_" + j2, i10);
+                                    edit.putInt(NotificationsSettingsFacade.PROPERTY_NOTIFY + j2, 0);
+                                    edit.remove(NotificationsSettingsFacade.PROPERTY_NOTIFY_UNTIL + j2);
+                                    edit.putInt("priority_" + j2, i10);
                                 }
+                                editor = edit;
                             }
                             jArr3 = jArr;
-                            editor = editor2;
                             z9 = true;
                         } else {
-                            str12 = MD53;
+                            str11 = MD53;
                             jArr3 = jArr;
                             editor = null;
                             z9 = false;
@@ -5408,7 +5406,7 @@ public class NotificationsController extends BaseController {
                     }
                 }
                 i7 = lightColor;
-                str8 = str12;
+                str8 = str11;
                 z5 = z9;
             }
             if (z5 || str8 == null) {
@@ -5432,7 +5430,9 @@ public class NotificationsController extends BaseController {
                         sb2.append("secret");
                     }
                     MD5 = Utilities.MD5(sb2.toString());
-                    if (z3 && string2 != null && (z4 || !string3.equals(MD5))) {
+                    if (!z3 || string2 == null || (!z4 && string3.equals(MD5))) {
+                        str8 = MD5;
+                    } else {
                         try {
                             systemNotificationManager.deleteNotificationChannel(string2);
                         } catch (Exception e) {
@@ -5442,17 +5442,12 @@ public class NotificationsController extends BaseController {
                             FileLog.d("delete channel by settings change " + string2);
                         }
                         str8 = MD5;
-                        str11 = null;
-                        if (str11 == null) {
-                        }
-                        return str11;
+                        string2 = null;
                     }
-                    str8 = MD5;
-                    str11 = string2;
-                    if (str11 == null) {
-                        str11 = z ? this.currentAccount + "channel_" + str10 + str6 + Utilities.random.nextLong() : this.currentAccount + "channel_" + j2 + str6 + Utilities.random.nextLong();
-                        NotificationChannel notificationChannel2 = new NotificationChannel(str11, z10 ? LocaleController.getString("SecretChatName", R.string.SecretChatName) : str15, i6);
-                        notificationChannel2.setGroup(str16);
+                    if (string2 == null) {
+                        string2 = z ? this.currentAccount + "channel_" + str10 + str6 + Utilities.random.nextLong() : this.currentAccount + "channel_" + j2 + str6 + Utilities.random.nextLong();
+                        NotificationChannel notificationChannel2 = new NotificationChannel(string2, z10 ? LocaleController.getString("SecretChatName", R.string.SecretChatName) : str14, i6);
+                        notificationChannel2.setGroup(str15);
                         if (i7 != 0) {
                             z7 = true;
                             notificationChannel2.enableLights(true);
@@ -5476,17 +5471,15 @@ public class NotificationsController extends BaseController {
                         builder.setUsage(5);
                         if (uri2 != null) {
                             notificationChannel2.setSound(uri2, builder.build());
-                        } else {
-                            notificationChannel2.setSound(null, null);
                         }
                         if (BuildVars.LOGS_ENABLED) {
-                            FileLog.d("create new channel " + str11);
+                            FileLog.d("create new channel " + string2);
                         }
                         this.lastNotificationChannelCreateTime = SystemClock.elapsedRealtime();
                         systemNotificationManager.createNotificationChannel(notificationChannel2);
-                        sharedPreferences.edit().putString(str10, str11).putString(str10 + str9, str8).commit();
+                        sharedPreferences.edit().putString(str10, string2).putString(str10 + str9, str8).commit();
                     }
-                    return str11;
+                    return string2;
                 }
             } else {
                 str10 = str5;
@@ -5502,12 +5495,11 @@ public class NotificationsController extends BaseController {
             }
             uri2 = uri;
             sharedPreferences = notificationsSettings;
-            str11 = string2;
-            if (str11 == null) {
+            if (string2 == null) {
             }
-            return str11;
+            return string2;
         }
-        str5 = str14;
+        str5 = str13;
         str6 = "_";
         z4 = z11;
         str7 = "_s";
@@ -5539,10 +5531,9 @@ public class NotificationsController extends BaseController {
         if (z3) {
         }
         str8 = MD5;
-        str11 = string2;
-        if (str11 == null) {
+        if (string2 == null) {
         }
-        return str11;
+        return string2;
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:295:0x0719, code lost:

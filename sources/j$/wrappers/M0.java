@@ -58,7 +58,7 @@ public final /* synthetic */ class M0 implements e1 {
 
     @Override // j$.util.stream.e1
     public /* synthetic */ j$.util.j average() {
-        return j$.util.a.q(this.a.average());
+        return j$.util.a.n(this.a.average());
     }
 
     @Override // j$.util.stream.e1
@@ -98,17 +98,17 @@ public final /* synthetic */ class M0 implements e1 {
 
     @Override // j$.util.stream.e1
     public /* synthetic */ j$.util.l findAny() {
-        return j$.util.a.s(this.a.findAny());
+        return j$.util.a.p(this.a.findAny());
     }
 
     @Override // j$.util.stream.e1
     public /* synthetic */ j$.util.l findFirst() {
-        return j$.util.a.s(this.a.findFirst());
+        return j$.util.a.p(this.a.findFirst());
     }
 
     @Override // j$.util.stream.e1
     public /* synthetic */ j$.util.l g(j$.util.function.o oVar) {
-        return j$.util.a.s(this.a.reduce(d0.a(oVar)));
+        return j$.util.a.p(this.a.reduce(d0.a(oVar)));
     }
 
     @Override // j$.util.stream.g
@@ -138,12 +138,12 @@ public final /* synthetic */ class M0 implements e1 {
 
     @Override // j$.util.stream.e1
     public /* synthetic */ j$.util.l max() {
-        return j$.util.a.s(this.a.max());
+        return j$.util.a.p(this.a.max());
     }
 
     @Override // j$.util.stream.e1
     public /* synthetic */ j$.util.l min() {
-        return j$.util.a.s(this.a.min());
+        return j$.util.a.p(this.a.min());
     }
 
     @Override // j$.util.stream.g

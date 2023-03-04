@@ -533,10 +533,22 @@ public class TextCell extends FrameLayout {
         if (!TextUtils.isEmpty(text)) {
             CharSequence text2 = this.valueTextView.getText();
             if (!TextUtils.isEmpty(text2)) {
-                accessibilityNodeInfo.setText(((Object) text) + ": " + ((Object) text2));
-            } else {
-                accessibilityNodeInfo.setText(text);
+                text = TextUtils.concat(text, ": ", text2);
             }
+        }
+        if (this.checkBox != null) {
+            accessibilityNodeInfo.setClassName("android.widget.Switch");
+            accessibilityNodeInfo.setCheckable(true);
+            accessibilityNodeInfo.setChecked(this.checkBox.isChecked());
+            StringBuilder sb = new StringBuilder();
+            sb.append(this.textView.getText());
+            if (!TextUtils.isEmpty(this.valueTextView.getText())) {
+                sb.append('\n');
+                sb.append(this.valueTextView.getText());
+            }
+            accessibilityNodeInfo.setContentDescription(sb);
+        } else if (!TextUtils.isEmpty(text)) {
+            accessibilityNodeInfo.setText(text);
         }
         accessibilityNodeInfo.addAction(16);
     }

@@ -99,12 +99,12 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$Stream$-V-WRP im
 
     @Override // j$.util.stream.Stream
     public /* synthetic */ Optional findAny() {
-        return j$.util.a.p(this.a.findAny());
+        return j$.util.a.m(this.a.findAny());
     }
 
     @Override // j$.util.stream.Stream
     public /* synthetic */ Optional findFirst() {
-        return j$.util.a.p(this.a.findFirst());
+        return j$.util.a.m(this.a.findFirst());
     }
 
     @Override // j$.util.stream.Stream
@@ -159,12 +159,12 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$Stream$-V-WRP im
 
     @Override // j$.util.stream.Stream
     public /* synthetic */ Optional max(Comparator comparator) {
-        return j$.util.a.p(this.a.max(comparator));
+        return j$.util.a.m(this.a.max(comparator));
     }
 
     @Override // j$.util.stream.Stream
     public /* synthetic */ Optional min(Comparator comparator) {
-        return j$.util.a.p(this.a.min(comparator));
+        return j$.util.a.m(this.a.min(comparator));
     }
 
     @Override // j$.util.stream.Stream
@@ -214,7 +214,7 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$Stream$-V-WRP im
 
     @Override // j$.util.stream.Stream
     public /* synthetic */ Optional t(j$.util.function.b bVar) {
-        return j$.util.a.p(this.a.reduce(v.a(bVar)));
+        return j$.util.a.m(this.a.reduce(v.a(bVar)));
     }
 
     @Override // j$.util.stream.Stream

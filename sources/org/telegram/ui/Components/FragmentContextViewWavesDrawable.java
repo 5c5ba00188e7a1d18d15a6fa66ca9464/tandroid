@@ -9,9 +9,11 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.os.SystemClock;
 import android.view.View;
+import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.TLRPC$TL_groupCallParticipant;
@@ -149,12 +151,16 @@ public class FragmentContextViewWavesDrawable {
                             this.lineBlobDrawable1.update(this.amplitude, 0.7f);
                             this.lineBlobDrawable2.update(this.amplitude, 0.7f);
                         }
-                        this.paint.setAlpha((int) (76.0f * f18));
-                        float dp = AndroidUtilities.dp(6.0f) * this.amplitude2;
-                        float dp2 = AndroidUtilities.dp(6.0f) * this.amplitude2;
-                        i2 = i;
-                        this.lineBlobDrawable1.draw(f, f2 - dp, f3, f4, canvas, this.paint, f2, f5);
-                        this.lineBlobDrawable2.draw(f, f2 - dp2, f3, f4, canvas, this.paint, f2, f5);
+                        if (LiteMode.isEnabled(LiteMode.FLAG_CALLS_ANIMATIONS)) {
+                            this.paint.setAlpha((int) (76.0f * f18));
+                            float dp = AndroidUtilities.dp(6.0f) * this.amplitude2;
+                            float dp2 = AndroidUtilities.dp(6.0f) * this.amplitude2;
+                            i2 = i;
+                            this.lineBlobDrawable1.draw(f, f2 - dp, f3, f4, canvas, this.paint, f2, f5);
+                            this.lineBlobDrawable2.draw(f, f2 - dp2, f3, f4, canvas, this.paint, f2, f5);
+                        } else {
+                            i2 = i;
+                        }
                         if (i2 == 1 && z3) {
                             this.paint.setAlpha(255);
                         } else if (i2 == 1) {
@@ -270,6 +276,7 @@ public class FragmentContextViewWavesDrawable {
     public static class WeavingState {
         int color1;
         int color2;
+        int color3;
         private final int currentState;
         private float duration;
         public Shader shader;
@@ -309,9 +316,11 @@ public class FragmentContextViewWavesDrawable {
             } else if (i == 3) {
                 int color5 = Theme.getColor(this.mutedByAdmin);
                 this.color1 = color5;
-                int color6 = Theme.getColor(this.mutedByAdmin2);
-                this.color2 = color6;
-                this.shader = new RadialGradient(200.0f, 200.0f, 200.0f, new int[]{color5, Theme.getColor(this.mutedByAdmin3), color6}, new float[]{0.0f, 0.6f, 1.0f}, Shader.TileMode.CLAMP);
+                int color6 = Theme.getColor(this.mutedByAdmin3);
+                this.color3 = color6;
+                int color7 = Theme.getColor(this.mutedByAdmin2);
+                this.color2 = color7;
+                this.shader = new RadialGradient(200.0f, 200.0f, 200.0f, new int[]{color5, color6, color7}, new float[]{0.0f, 0.6f, 1.0f}, Shader.TileMode.CLAMP);
             }
         }
 
@@ -395,6 +404,16 @@ public class FragmentContextViewWavesDrawable {
         public void setToPaint(Paint paint) {
             int i = this.currentState;
             if (i == 0 || i == 1 || i == 3) {
+                if (!LiteMode.isEnabled(LiteMode.FLAG_CALLS_ANIMATIONS)) {
+                    paint.setShader(null);
+                    if (this.currentState == 3) {
+                        paint.setColor(ColorUtils.blendARGB(ColorUtils.blendARGB(this.color1, this.color2, 0.5f), this.color3, 0.5f));
+                        return;
+                    } else {
+                        paint.setColor(ColorUtils.blendARGB(this.color1, this.color2, 0.5f));
+                        return;
+                    }
+                }
                 paint.setShader(this.shader);
                 return;
             }

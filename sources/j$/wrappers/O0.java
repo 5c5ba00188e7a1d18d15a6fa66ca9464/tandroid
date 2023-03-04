@@ -78,12 +78,12 @@ public final /* synthetic */ class O0 implements Stream {
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Optional findAny() {
-        return j$.util.a.t(this.a.findAny());
+        return j$.util.a.q(this.a.findAny());
     }
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Optional findFirst() {
-        return j$.util.a.t(this.a.findFirst());
+        return j$.util.a.q(this.a.findFirst());
     }
 
     @Override // java.util.stream.Stream
@@ -153,12 +153,12 @@ public final /* synthetic */ class O0 implements Stream {
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Optional max(Comparator comparator) {
-        return j$.util.a.t(this.a.max(comparator));
+        return j$.util.a.q(this.a.max(comparator));
     }
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Optional min(Comparator comparator) {
-        return j$.util.a.t(this.a.min(comparator));
+        return j$.util.a.q(this.a.min(comparator));
     }
 
     @Override // java.util.stream.Stream
@@ -193,7 +193,7 @@ public final /* synthetic */ class O0 implements Stream {
 
     @Override // java.util.stream.Stream
     public /* synthetic */ Optional reduce(BinaryOperator binaryOperator) {
-        return j$.util.a.t(this.a.t(u.a(binaryOperator)));
+        return j$.util.a.q(this.a.t(u.a(binaryOperator)));
     }
 
     @Override // java.util.stream.BaseStream
