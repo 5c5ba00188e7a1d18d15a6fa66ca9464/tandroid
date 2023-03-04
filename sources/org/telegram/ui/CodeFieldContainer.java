@@ -116,6 +116,11 @@ public class CodeFieldContainer extends LinearLayout {
         CodeNumberField[] codeNumberFieldArr = this.codeField;
         int i5 = 0;
         if (codeNumberFieldArr == null || codeNumberFieldArr.length != i) {
+            if (codeNumberFieldArr != null) {
+                for (CodeNumberField codeNumberField : codeNumberFieldArr) {
+                    removeView(codeNumberField);
+                }
+            }
             this.codeField = new CodeNumberField[i];
             final int i6 = 0;
             while (i6 < i) {

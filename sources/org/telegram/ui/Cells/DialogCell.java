@@ -3337,12 +3337,12 @@ public class DialogCell extends BaseCell {
         return update(i, true);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:143:0x0294  */
-    /* JADX WARN: Removed duplicated region for block: B:169:0x02cb  */
-    /* JADX WARN: Removed duplicated region for block: B:212:0x037f  */
-    /* JADX WARN: Removed duplicated region for block: B:214:0x0384  */
-    /* JADX WARN: Removed duplicated region for block: B:216:0x0388  */
-    /* JADX WARN: Type inference failed for: r5v101 */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x0293  */
+    /* JADX WARN: Removed duplicated region for block: B:169:0x02ca  */
+    /* JADX WARN: Removed duplicated region for block: B:212:0x037e  */
+    /* JADX WARN: Removed duplicated region for block: B:214:0x0383  */
+    /* JADX WARN: Removed duplicated region for block: B:216:0x0387  */
+    /* JADX WARN: Type inference failed for: r5v106 */
     /* JADX WARN: Type inference failed for: r5v2 */
     /* JADX WARN: Type inference failed for: r5v3, types: [org.telegram.tgnet.TLRPC$Chat, org.telegram.tgnet.TLRPC$User, org.telegram.tgnet.TLRPC$EncryptedChat] */
     /*
@@ -3351,12 +3351,9 @@ public class DialogCell extends BaseCell {
     public boolean update(int i, boolean z) {
         ?? r5;
         long j;
-        long j2;
-        boolean z2;
         MessageObject messageObject;
-        float f;
         TLRPC$Chat chat;
-        boolean z3;
+        boolean z2;
         MessageObject messageObject2;
         int i2;
         int i3;
@@ -3366,7 +3363,6 @@ public class DialogCell extends BaseCell {
         TLRPC$Chat chat2;
         MessageObject messageObject3;
         boolean isForumCell = isForumCell();
-        boolean z4 = false;
         this.ttlPeriod = 0;
         CustomDialog customDialog = this.customDialog;
         if (customDialog != null) {
@@ -3390,12 +3386,10 @@ public class DialogCell extends BaseCell {
             }
             this.avatarImage.setRoundRadius(AndroidUtilities.dp(28.0f));
             this.drawUnmute = false;
-            f = 0.0f;
-            z2 = false;
         } else {
             int i9 = this.unreadCount;
-            boolean z5 = this.reactionMentionCount != 0;
-            boolean z6 = this.markUnread;
+            boolean z3 = this.reactionMentionCount != 0;
+            boolean z4 = this.markUnread;
             this.hasUnmutedTopics = false;
             this.readOutboxMaxId = -1;
             if (this.isDialogCell) {
@@ -3412,7 +3406,7 @@ public class DialogCell extends BaseCell {
                         this.lastUnreadState = messageObject4 != null && messageObject4.isUnread();
                         TLRPC$Chat chat3 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-tLRPC$Dialog.id));
                         if (chat3 != null && chat3.forum) {
-                            boolean z7 = this.isTopic;
+                            boolean z5 = this.isTopic;
                         }
                         if (chat3 != null && chat3.forum) {
                             int[] forumUnreadCount = MessagesController.getInstance(this.currentAccount).getTopicsController().getForumUnreadCount(chat3.id);
@@ -3454,9 +3448,9 @@ public class DialogCell extends BaseCell {
                     this.lastMessageDate = 0;
                     this.clearingDialog = false;
                 }
-                long j3 = this.currentDialogId;
-                if (j3 != 0) {
-                    int i12 = (j3 > RightSlidingDialogContainer.fragmentDialogId ? 1 : (j3 == RightSlidingDialogContainer.fragmentDialogId ? 0 : -1));
+                long j2 = this.currentDialogId;
+                if (j2 != 0) {
+                    int i12 = (j2 > RightSlidingDialogContainer.fragmentDialogId ? 1 : (j2 == RightSlidingDialogContainer.fragmentDialogId ? 0 : -1));
                 }
             } else {
                 this.drawPin = false;
@@ -3492,33 +3486,33 @@ public class DialogCell extends BaseCell {
                     CharSequence printingString = MessagesController.getInstance(this.currentAccount).getPrintingString(this.currentDialogId, getTopicId(), true);
                     CharSequence charSequence = this.lastPrintString;
                     if ((charSequence != null && printingString == null) || ((charSequence == null && printingString != null) || (charSequence != null && !charSequence.equals(printingString)))) {
-                        z3 = true;
-                        if (!z3 && (i & MessagesController.UPDATE_MASK_MESSAGE_TEXT) != 0 && (messageObject3 = this.message) != null && messageObject3.messageText != this.lastMessageString) {
-                            z3 = true;
+                        z2 = true;
+                        if (!z2 && (i & MessagesController.UPDATE_MASK_MESSAGE_TEXT) != 0 && (messageObject3 = this.message) != null && messageObject3.messageText != this.lastMessageString) {
+                            z2 = true;
                         }
-                        if (!z3 && (i & MessagesController.UPDATE_MASK_CHAT) != 0 && this.chat != null) {
+                        if (!z2 && (i & MessagesController.UPDATE_MASK_CHAT) != 0 && this.chat != null) {
                             chat2 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(this.chat.id));
                             if ((!chat2.call_active && chat2.call_not_empty) != this.hasCall) {
-                                z3 = true;
+                                z2 = true;
                             }
                         }
-                        if (!z3 && (i & MessagesController.UPDATE_MASK_AVATAR) != 0 && this.chat == null) {
-                            z3 = true;
+                        if (!z2 && (i & MessagesController.UPDATE_MASK_AVATAR) != 0 && this.chat == null) {
+                            z2 = true;
                         }
-                        if (!z3 && (i & MessagesController.UPDATE_MASK_NAME) != 0 && this.chat == null) {
-                            z3 = true;
+                        if (!z2 && (i & MessagesController.UPDATE_MASK_NAME) != 0 && this.chat == null) {
+                            z2 = true;
                         }
-                        if (!z3 && (i & MessagesController.UPDATE_MASK_CHAT_AVATAR) != 0 && this.user == null) {
-                            z3 = true;
+                        if (!z2 && (i & MessagesController.UPDATE_MASK_CHAT_AVATAR) != 0 && this.user == null) {
+                            z2 = true;
                         }
-                        if (!z3 && (i & MessagesController.UPDATE_MASK_CHAT_NAME) != 0 && this.user == null) {
-                            z3 = true;
+                        if (!z2 && (i & MessagesController.UPDATE_MASK_CHAT_NAME) != 0 && this.user == null) {
+                            z2 = true;
                         }
-                        if (!z3) {
+                        if (!z2) {
                             MessageObject messageObject7 = this.message;
                             if (messageObject7 != null && this.lastUnreadState != messageObject7.isUnread()) {
                                 this.lastUnreadState = this.message.isUnread();
-                                z3 = true;
+                                z2 = true;
                             }
                             if (this.isDialogCell) {
                                 TLRPC$Dialog tLRPC$Dialog2 = MessagesController.getInstance(this.currentAccount).dialogs_dict.get(this.currentDialogId);
@@ -3547,55 +3541,55 @@ public class DialogCell extends BaseCell {
                                     this.mentionCount = i5;
                                     this.markUnread = tLRPC$Dialog2.unread_mark;
                                     this.reactionMentionCount = i6;
-                                    z3 = true;
+                                    z2 = true;
                                 }
                             }
                         }
-                        if (!z3 && (i & MessagesController.UPDATE_MASK_SEND_STATE) != 0 && (messageObject2 = this.message) != null) {
+                        if (!z2 && (i & MessagesController.UPDATE_MASK_SEND_STATE) != 0 && (messageObject2 = this.message) != null) {
                             i2 = this.lastSendState;
                             i3 = messageObject2.messageOwner.send_state;
                             if (i2 != i3) {
                                 this.lastSendState = i3;
-                                z3 = true;
+                                z2 = true;
                             }
                         }
-                        if (z3) {
+                        if (z2) {
                             invalidate();
                             return false;
                         }
                         r5 = 0;
                     }
                 }
-                z3 = false;
-                if (!z3) {
-                    z3 = true;
+                z2 = false;
+                if (!z2) {
+                    z2 = true;
                 }
-                if (!z3) {
+                if (!z2) {
                     chat2 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(this.chat.id));
                     if ((!chat2.call_active && chat2.call_not_empty) != this.hasCall) {
                     }
                 }
-                if (!z3) {
-                    z3 = true;
+                if (!z2) {
+                    z2 = true;
                 }
-                if (!z3) {
-                    z3 = true;
+                if (!z2) {
+                    z2 = true;
                 }
-                if (!z3) {
-                    z3 = true;
+                if (!z2) {
+                    z2 = true;
                 }
-                if (!z3) {
-                    z3 = true;
+                if (!z2) {
+                    z2 = true;
                 }
-                if (!z3) {
+                if (!z2) {
                 }
-                if (!z3) {
+                if (!z2) {
                     i2 = this.lastSendState;
                     i3 = messageObject2.messageOwner.send_state;
                     if (i2 != i3) {
                     }
                 }
-                if (z3) {
+                if (z2) {
                 }
             } else {
                 r5 = 0;
@@ -3627,14 +3621,7 @@ public class DialogCell extends BaseCell {
                 }
                 j = this.currentDialogId;
             }
-            if (this.dialogMuted || this.drawUnmute) {
-                j2 = 0;
-                z2 = true;
-            } else {
-                j2 = 0;
-                z2 = false;
-            }
-            if (j != j2) {
+            if (j != 0) {
                 if (DialogObject.isEncryptedDialog(j)) {
                     TLRPC$EncryptedChat encryptedChat = MessagesController.getInstance(this.currentAccount).getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(j)));
                     this.encryptedChat = encryptedChat;
@@ -3682,7 +3669,7 @@ public class DialogCell extends BaseCell {
                     }
                 }
             }
-            if (z && ((i9 != this.unreadCount || z6 != this.markUnread) && (!this.isDialogCell || System.currentTimeMillis() - this.lastDialogChangedTime > 100))) {
+            if (z && ((i9 != this.unreadCount || z4 != this.markUnread) && (!this.isDialogCell || System.currentTimeMillis() - this.lastDialogChangedTime > 100))) {
                 ValueAnimator valueAnimator = this.countAnimator;
                 if (valueAnimator != null) {
                     valueAnimator.cancel();
@@ -3705,7 +3692,7 @@ public class DialogCell extends BaseCell {
                         DialogCell.this.invalidate();
                     }
                 });
-                if ((i9 == 0 || this.markUnread) && (this.markUnread || !z6)) {
+                if ((i9 == 0 || this.markUnread) && (this.markUnread || !z4)) {
                     this.countAnimator.setDuration(220L);
                     this.countAnimator.setInterpolator(new OvershootInterpolator());
                 } else if (this.unreadCount == 0) {
@@ -3744,15 +3731,12 @@ public class DialogCell extends BaseCell {
                 this.countAnimationIncrement = this.unreadCount > i9;
                 this.countAnimator.start();
             }
-            boolean z8 = this.reactionMentionCount != 0;
-            if (!z || z8 == z5) {
-                f = 0.0f;
-            } else {
+            boolean z6 = this.reactionMentionCount != 0;
+            if (z && z6 != z3) {
                 ValueAnimator valueAnimator2 = this.reactionsMentionsAnimator;
                 if (valueAnimator2 != null) {
                     valueAnimator2.cancel();
                 }
-                f = 0.0f;
                 this.reactionsMentionsChangeProgress = 0.0f;
                 ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
                 this.reactionsMentionsAnimator = ofFloat2;
@@ -3769,7 +3753,7 @@ public class DialogCell extends BaseCell {
                         DialogCell.this.invalidate();
                     }
                 });
-                if (z8) {
+                if (z6) {
                     this.reactionsMentionsAnimator.setDuration(220L);
                     this.reactionsMentionsAnimator.setInterpolator(new OvershootInterpolator());
                 } else {
@@ -3782,22 +3766,20 @@ public class DialogCell extends BaseCell {
             TLRPC$Chat tLRPC$Chat2 = this.chat;
             imageReceiver.setRoundRadius(AndroidUtilities.dp((tLRPC$Chat2 == null || !tLRPC$Chat2.forum || this.currentDialogFolderId != 0 || this.useFromUserAsAvatar) ? 28.0f : 16.0f));
         }
-        if (!this.isTopic && (getMeasuredWidth() != 0 || getMeasuredHeight() != 0)) {
-            z4 = true;
-        }
+        boolean z7 = (this.isTopic || (getMeasuredWidth() == 0 && getMeasuredHeight() == 0)) ? false : true;
         if (!z) {
-            this.dialogMutedProgress = (this.dialogMuted || this.drawUnmute) ? 1.0f : 1.0f;
+            this.dialogMutedProgress = (this.dialogMuted || this.drawUnmute) ? 1.0f : 0.0f;
             ValueAnimator valueAnimator3 = this.countAnimator;
             if (valueAnimator3 != null) {
                 valueAnimator3.cancel();
             }
         }
         invalidate();
-        boolean z9 = isForumCell() != isForumCell ? true : z2;
-        if (z4) {
+        boolean z8 = isForumCell() != isForumCell;
+        if (z7) {
             buildLayout();
         }
-        return z9;
+        return z8;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
