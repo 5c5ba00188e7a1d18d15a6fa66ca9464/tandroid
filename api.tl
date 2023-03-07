@@ -575,7 +575,7 @@ messageMediaPoll#4bd6e798 poll:Poll results:PollResults = MessageMedia;
 messageMediaUnsupported#9f84f49e = MessageMedia;
 messageMediaVenue#2ec0533f geo:GeoPoint title:string address:string provider:string venue_id:string venue_type:string = MessageMedia;
 messageMediaWebPage#a32dd600 webpage:WebPage = MessageMedia;
-messagePeerReaction#b156fe9c flags:# big:flags.0?true unread:flags.1?true peer_id:Peer reaction:Reaction = MessagePeerReaction;
+messagePeerReaction#8c79b63c flags:# big:flags.0?true unread:flags.1?true peer_id:Peer date:int reaction:Reaction = MessagePeerReaction;
 messageReactions#4f2b9479 flags:# min:flags.0?true can_see_list:flags.2?true results:Vector<ReactionCount> recent_reactions:flags.1?Vector<MessagePeerReaction> = MessageReactions;
 messageReactionsOld#87b6e36 flags:# min:flags.0?true can_see_list:flags.2?true results:Vector<ReactionCount> recent_reactions:flags.1?Vector<MessagePeerReaction> = MessageReactions;
 messageReplies#83d60fc2 flags:# comments:flags.0?true replies:int replies_pts:int recent_repliers:flags.1?Vector<Peer> channel_id:flags.0?long max_id:flags.2?int read_max_id:flags.3?int = MessageReplies;
@@ -1492,4 +1492,4 @@ upload.saveFilePart#b304a621 file_id:long file_part:int bytes:bytes = Bool;
 users.getFullUser#b60f5918 id:InputUser = users.UserFull;
 users.getUsers#d91a548 id:Vector<InputUser> = Vector<User>;
 
-// Layer 154
+// Layer 155
