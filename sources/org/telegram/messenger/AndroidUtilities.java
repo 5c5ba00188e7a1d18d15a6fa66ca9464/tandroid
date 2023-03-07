@@ -2002,11 +2002,12 @@ public class AndroidUtilities {
         }
         if (str == null || str.startsWith("mounted")) {
             try {
+                boolean z = false;
                 if (Build.VERSION.SDK_INT >= 19) {
                     File[] externalCacheDirs = ApplicationLoader.applicationContext.getExternalCacheDirs();
-                    int i = 0;
                     externalCacheDir = externalCacheDirs[0];
                     if (!TextUtils.isEmpty(SharedConfig.storageCacheDir)) {
+                        int i = 0;
                         while (true) {
                             if (i < externalCacheDirs.length) {
                                 if (externalCacheDirs[i] != null && externalCacheDirs[i].getAbsolutePath().startsWith(SharedConfig.storageCacheDir)) {
@@ -2024,7 +2025,14 @@ public class AndroidUtilities {
                 }
                 if (externalCacheDir != null && (externalCacheDir.exists() || externalCacheDir.mkdirs())) {
                     if (externalCacheDir.canWrite()) {
-                        return externalCacheDir;
+                        try {
+                            createEmptyFile(new File(externalCacheDir, ".nomedia"));
+                            z = true;
+                        } catch (Exception unused) {
+                        }
+                        if (z) {
+                            return externalCacheDir;
+                        }
                     }
                 }
             } catch (Exception e2) {
@@ -2050,7 +2058,7 @@ public class AndroidUtilities {
                     }
                 }
             }
-        } catch (Exception unused) {
+        } catch (Exception unused2) {
         }
         return new File("");
     }

@@ -50,10 +50,10 @@ import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.AvatarsImageView;
 import org.telegram.ui.Components.BackupImageView;
-import org.telegram.ui.Components.CheckDrawable;
 import org.telegram.ui.Components.FlickerLoadingView;
 import org.telegram.ui.Components.HideViewAfterAnimation;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.MessageSeenCheckDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes3.dex */
 public class MessageSeenView extends FrameLayout {
@@ -370,6 +370,7 @@ public class MessageSeenView extends FrameLayout {
 
     /* loaded from: classes3.dex */
     private static class UserCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
+        private static MessageSeenCheckDrawable seenDrawable = new MessageSeenCheckDrawable(R.drawable.msg_mini_checks, "windowBackgroundWhiteGrayText");
         AvatarDrawable avatarDrawable;
         BackupImageView avatarImageView;
         private int currentAccount;
@@ -424,7 +425,7 @@ public class MessageSeenView extends FrameLayout {
                 this.nameView.setTranslationY(AndroidUtilities.dp(9.0f));
                 return;
             }
-            this.readView.setText(TextUtils.concat(CheckDrawable.getSpanned(getContext()), LocaleController.formatSeenDate(i)));
+            this.readView.setText(TextUtils.concat(seenDrawable.getSpanned(getContext()), LocaleController.formatSeenDate(i)));
             this.readView.setVisibility(0);
             this.nameView.setTranslationY(0.0f);
         }

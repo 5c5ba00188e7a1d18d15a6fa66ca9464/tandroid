@@ -1663,7 +1663,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                         long clientUserId = UserConfig.getInstance(MentionsAdapter.this.currentAccount).getClientUserId();
                         for (int i2 = 0; i2 < tLRPC$TL_channels_channelParticipants.participants.size(); i2++) {
                             long peerId = MessageObject.getPeerId(tLRPC$TL_channels_channelParticipants.participants.get(i2).peer);
-                            if (MentionsAdapter.this.searchResultUsernamesMap.indexOfKey(peerId) < 0 && (MentionsAdapter.this.isSearchingMentions || peerId != clientUserId)) {
+                            if (MentionsAdapter.this.searchResultUsernamesMap.indexOfKey(peerId) < 0 && ((peerId != 0 || MentionsAdapter.this.searchResultUsernamesMap.indexOfKey(clientUserId) < 0) && (MentionsAdapter.this.isSearchingMentions || (peerId != clientUserId && peerId != 0)))) {
                                 if (peerId >= 0) {
                                     TLRPC$User user = messagesController.getUser(Long.valueOf(peerId));
                                     if (user == null) {

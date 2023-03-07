@@ -1564,7 +1564,7 @@ public class ActionBarMenuItem extends FrameLayout {
                     ActionBarMenuItem.this.onFiltersChanged();
                 }
             });
-            this.searchField.setImeOptions(33554435);
+            this.searchField.setImeOptions(234881027);
             this.searchField.setTextIsSelectable(false);
             this.searchField.setHighlightColor(getThemedColor("chat_inTextSelectionHighlight"));
             this.searchField.setHandlesColor(getThemedColor("chat_TextSelectionCursor"));

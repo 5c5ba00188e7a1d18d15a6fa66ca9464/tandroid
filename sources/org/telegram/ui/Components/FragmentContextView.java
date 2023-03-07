@@ -115,6 +115,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
     private boolean isMuted;
     private TextView joinButton;
     private CellFlickerDrawable joinButtonFlicker;
+    private int joinButtonWidth;
     private int lastLocationSharingCount;
     private MessageObject lastMessageObject;
     private long lastPlaybackClick;
@@ -438,6 +439,28 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             protected void onSizeChanged(int i2, int i3, int i4, int i5) {
                 super.onSizeChanged(i2, i3, i4, i5);
                 FragmentContextView.this.joinButtonFlicker.setParentWidth(getWidth());
+            }
+
+            @Override // android.widget.TextView, android.view.View
+            protected void onMeasure(int i2, int i3) {
+                super.onMeasure(i2, i3);
+                updateJoinButtonWidth(getMeasuredWidth());
+            }
+
+            @Override // android.view.View
+            public void setVisibility(int i2) {
+                super.setVisibility(i2);
+                if (i2 != 0) {
+                    updateJoinButtonWidth(0);
+                    FragmentContextView.this.joinButtonWidth = 0;
+                }
+            }
+
+            private void updateJoinButtonWidth(int i2) {
+                if (FragmentContextView.this.joinButtonWidth != i2) {
+                    FragmentContextView.this.titleTextView.setPadding(FragmentContextView.this.titleTextView.getPaddingLeft(), FragmentContextView.this.titleTextView.getPaddingTop(), (FragmentContextView.this.titleTextView.getPaddingRight() - FragmentContextView.this.joinButtonWidth) + i2, FragmentContextView.this.titleTextView.getPaddingBottom());
+                    FragmentContextView.this.joinButtonWidth = i2;
+                }
             }
         };
         this.joinButton = textView;
@@ -1299,7 +1322,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 i5++;
             }
             this.titleTextView.setTag("inappPlayerPerformer");
-            this.titleTextView.setPadding(0, 0, 0, 0);
+            this.titleTextView.setPadding(0, 0, this.joinButtonWidth, 0);
             this.importingImageView.setVisibility(8);
             this.importingImageView.stopAnimation();
             ChatActivityInterface chatActivityInterface = this.chatActivity;
@@ -1362,7 +1385,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             this.subtitleTextView.setVisibility(8);
             this.joinButton.setVisibility(8);
             this.titleTextView.setLayoutParams(LayoutHelper.createFrame(-2, -2.0f, 17, 0.0f, 0.0f, 0.0f, 2.0f));
-            this.titleTextView.setPadding(AndroidUtilities.dp(112.0f), 0, AndroidUtilities.dp(112.0f), 0);
+            this.titleTextView.setPadding(AndroidUtilities.dp(112.0f), 0, AndroidUtilities.dp(112.0f) + this.joinButtonWidth, 0);
             ActionBarMenuItem actionBarMenuItem4 = this.playbackSpeedButton;
             if (actionBarMenuItem4 != null) {
                 actionBarMenuItem4.setVisibility(8);
@@ -1947,7 +1970,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 actionBarMenuItem2.setAlpha(1.0f);
                 this.playbackSpeedButton.setEnabled(true);
             }
-            this.titleTextView.setPadding(0, 0, AndroidUtilities.dp(44.0f), 0);
+            this.titleTextView.setPadding(0, 0, AndroidUtilities.dp(44.0f) + this.joinButtonWidth, 0);
             spannableStringBuilder = new SpannableStringBuilder(String.format("%s %s", playingMessageObject.getMusicAuthor(), playingMessageObject.getMusicTitle()));
             int i3 = 0;
             while (i3 < 2) {
@@ -1965,15 +1988,15 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 if (playingMessageObject.getDuration() >= 600) {
                     this.playbackSpeedButton.setAlpha(1.0f);
                     this.playbackSpeedButton.setEnabled(true);
-                    this.titleTextView.setPadding(0, 0, AndroidUtilities.dp(44.0f), 0);
+                    this.titleTextView.setPadding(0, 0, AndroidUtilities.dp(44.0f) + this.joinButtonWidth, 0);
                     updatePlaybackButton(false);
                 } else {
                     this.playbackSpeedButton.setAlpha(0.0f);
                     this.playbackSpeedButton.setEnabled(false);
-                    this.titleTextView.setPadding(0, 0, 0, 0);
+                    this.titleTextView.setPadding(0, 0, this.joinButtonWidth, 0);
                 }
             } else {
-                this.titleTextView.setPadding(0, 0, 0, 0);
+                this.titleTextView.setPadding(0, 0, this.joinButtonWidth, 0);
             }
             spannableStringBuilder = new SpannableStringBuilder(String.format("%s - %s", playingMessageObject.getMusicAuthor(), playingMessageObject.getMusicTitle()));
             int i4 = 0;

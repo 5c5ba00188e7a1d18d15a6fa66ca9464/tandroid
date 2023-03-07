@@ -2072,6 +2072,7 @@
     <string name="Links_two">رابطان</string>
     <string name="Links_zero">%1$d رابط</string>
     <string name="Listening">يستمع</string>
+    <string name="LiteOptionsBackground">دوران الخلفية</string>
     <string name="LiveLocationAlertGroup">اختر المدة التي سيتمكن خلالها أعضاء هذه المحادثة من مشاهدة موقعك الحي.</string>
     <string name="LiveLocationAlertPrivate">اختر المدة التي سيتمكن خلالها %1$s من مشاهدة موقعك الفعلي.</string>
     <string name="LiveLocationContext">الموقع المباشر</string>

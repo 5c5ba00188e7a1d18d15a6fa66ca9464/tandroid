@@ -12467,11 +12467,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             }
         }
         try {
-            super.dispatchKeyEvent(keyEvent);
+            return super.dispatchKeyEvent(keyEvent);
         } catch (Exception e) {
             FileLog.e(e);
+            return false;
         }
-        return false;
     }
 
     @Override // android.app.Activity, android.view.KeyEvent.Callback

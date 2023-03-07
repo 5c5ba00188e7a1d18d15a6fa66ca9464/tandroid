@@ -136,7 +136,7 @@ public class HardwareVideoEncoderFactory implements VideoEncoderFactory {
                     }
                     return isHardwareSupportedInCurrentSdkVp9(mediaCodecInfo, z);
                 }
-                return isHardwareSupportedInCurrentSdkVp8(mediaCodecInfo);
+                return isHardwareSupportedInCurrentSdkVp8(mediaCodecInfo, z);
             }
             return false;
         }
@@ -170,10 +170,26 @@ public class HardwareVideoEncoderFactory implements VideoEncoderFactory {
         }
     }
 
-    private boolean isHardwareSupportedInCurrentSdkVp8(MediaCodecInfo mediaCodecInfo) {
+    private boolean isHardwareSupportedInCurrentSdkVp8(MediaCodecInfo mediaCodecInfo, boolean z) {
         if (Instance.getGlobalServerConfig().enable_vp8_encoder) {
             String name = mediaCodecInfo.getName();
-            return (name.startsWith("OMX.qcom.") && Build.VERSION.SDK_INT >= 19) || (name.startsWith("OMX.hisi.") && Build.VERSION.SDK_INT >= 19) || ((name.startsWith("OMX.Exynos.") && Build.VERSION.SDK_INT >= 23) || ((name.startsWith("OMX.Intel.") && Build.VERSION.SDK_INT >= 21 && this.enableIntelVp8Encoder) || (name.startsWith("c2.exynos.") && Build.VERSION.SDK_INT >= 23)));
+            if ((!name.startsWith("OMX.qcom.") || Build.VERSION.SDK_INT < 19) && ((!name.startsWith("OMX.hisi.") || Build.VERSION.SDK_INT < 19) && ((!name.startsWith("OMX.Exynos.") || Build.VERSION.SDK_INT < 23) && (!(name.startsWith("OMX.Intel.") && Build.VERSION.SDK_INT >= 21 && this.enableIntelVp8Encoder) && (!name.startsWith("c2.exynos.") || Build.VERSION.SDK_INT < 23))))) {
+                if (!z) {
+                    int i = 0;
+                    while (true) {
+                        String[] strArr = MediaCodecUtils.SOFTWARE_IMPLEMENTATION_PREFIXES;
+                        if (i >= strArr.length) {
+                            break;
+                        } else if (name.startsWith(strArr[i])) {
+                            return true;
+                        } else {
+                            i++;
+                        }
+                    }
+                }
+                return false;
+            }
+            return true;
         }
         return false;
     }

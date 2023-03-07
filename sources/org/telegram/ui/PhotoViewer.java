@@ -9864,7 +9864,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             }
                         }
                         MessageObject messageObject2 = this.currentMessageObject;
-                        if (messageObject2.forceSeekTo < 0.0f && savedVideoPosition != null) {
+                        if (messageObject2 != null && messageObject2.forceSeekTo < 0.0f && savedVideoPosition != null) {
                             float f2 = savedVideoPosition.position;
                             if (f2 > 0.0f && f2 < 0.999f) {
                                 messageObject2.forceSeekTo = f2;
@@ -13327,10 +13327,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:347:0x083e  */
-    /* JADX WARN: Removed duplicated region for block: B:364:0x08ad  */
-    /* JADX WARN: Removed duplicated region for block: B:367:0x08ce  */
-    /* JADX WARN: Removed duplicated region for block: B:386:0x0917  */
+    /* JADX WARN: Removed duplicated region for block: B:350:0x0844  */
+    /* JADX WARN: Removed duplicated region for block: B:367:0x08b3  */
+    /* JADX WARN: Removed duplicated region for block: B:370:0x08d4  */
+    /* JADX WARN: Removed duplicated region for block: B:389:0x091d  */
     /* JADX WARN: Type inference failed for: r11v1 */
     /* JADX WARN: Type inference failed for: r11v2, types: [android.animation.AnimatorSet, java.lang.String] */
     /* JADX WARN: Type inference failed for: r11v22 */
@@ -13397,7 +13397,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.avatarsArr.clear();
         this.secureDocuments.clear();
         this.imagesArrLocals.clear();
-        this.actionBar.setElevation(0.0f);
+        if (Build.VERSION.SDK_INT > 21) {
+            this.actionBar.setElevation(0.0f);
+        }
         for (int i3 = 0; i3 < 2; i3++) {
             this.imagesByIds[i3].clear();
             this.imagesByIdsTemp[i3].clear();
@@ -21132,11 +21134,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         return false;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:57:0x010a, code lost:
-        if (r1 > r3) goto L23;
+    /* JADX WARN: Code restructure failed: missing block: B:60:0x0144, code lost:
+        if (r1 > r3) goto L27;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:63:0x0119, code lost:
-        if (r2 > r3) goto L26;
+    /* JADX WARN: Code restructure failed: missing block: B:66:0x0153, code lost:
+        if (r2 > r3) goto L30;
      */
     /* JADX WARN: Removed duplicated region for block: B:32:0x005f  */
     @Override // org.telegram.ui.Components.GestureDetector2.OnDoubleTapListener
@@ -21180,33 +21182,30 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 }
             }
         }
-        if (this.canZoom) {
-            float f2 = this.scale;
-            if ((f2 != 1.0f || (this.translationY == 0.0f && this.translationX == 0.0f)) && this.animationStartTime == 0 && this.animationInProgress == 0) {
-                if (f2 == 1.0f) {
-                    float x2 = (motionEvent.getX() - (getContainerViewWidth() / 2)) - (((motionEvent.getX() - (getContainerViewWidth() / 2)) - this.translationX) * (3.0f / this.scale));
-                    float y = (motionEvent.getY() - (getContainerViewHeight() / 2)) - (((motionEvent.getY() - (getContainerViewHeight() / 2)) - this.translationY) * (3.0f / this.scale));
-                    updateMinMax(3.0f);
-                    float f3 = this.minX;
-                    if (x2 >= f3) {
-                        f3 = this.maxX;
-                    }
-                    x2 = f3;
-                    float f4 = this.minY;
-                    if (y >= f4) {
-                        f4 = this.maxY;
-                    }
-                    y = f4;
-                    animateTo(3.0f, x2, y, true);
-                } else {
-                    animateTo(1.0f, 0.0f, 0.0f, true);
-                }
-                this.doubleTap = true;
-                hidePressedDrawables();
-                return true;
-            }
+        if (!this.canZoom || ((this.scale == 1.0f && !(this.translationY == 0.0f && this.translationX == 0.0f)) || this.animationStartTime != 0 || this.animationInProgress != 0 || Math.sqrt(Math.pow((AndroidUtilities.displaySize.x / 2.0f) - motionEvent.getX(), 2.0d) + Math.pow(((AndroidUtilities.displaySize.y + AndroidUtilities.statusBarHeight) / 2.0f) - motionEvent.getY(), 2.0d)) < AndroidUtilities.dp(40.0f))) {
+            return false;
         }
-        return false;
+        if (this.scale == 1.0f) {
+            float x2 = (motionEvent.getX() - (getContainerViewWidth() / 2)) - (((motionEvent.getX() - (getContainerViewWidth() / 2)) - this.translationX) * (3.0f / this.scale));
+            float y = (motionEvent.getY() - (getContainerViewHeight() / 2)) - (((motionEvent.getY() - (getContainerViewHeight() / 2)) - this.translationY) * (3.0f / this.scale));
+            updateMinMax(3.0f);
+            float f2 = this.minX;
+            if (x2 >= f2) {
+                f2 = this.maxX;
+            }
+            x2 = f2;
+            float f3 = this.minY;
+            if (y >= f3) {
+                f3 = this.maxY;
+            }
+            y = f3;
+            animateTo(3.0f, x2, y, true);
+        } else {
+            animateTo(1.0f, 0.0f, 0.0f, true);
+        }
+        this.doubleTap = true;
+        hidePressedDrawables();
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

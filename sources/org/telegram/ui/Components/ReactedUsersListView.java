@@ -134,7 +134,7 @@ public class ReactedUsersListView extends FrameLayout {
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i2) {
                 FrameLayout reactedUserHolderView;
                 if (i2 == 0) {
-                    reactedUserHolderView = new ReactedUserHolderView(context);
+                    reactedUserHolderView = new ReactedUserHolderView(i, context);
                 } else {
                     ReactedUsersListView reactedUsersListView = ReactedUsersListView.this;
                     MessageContainsEmojiButton messageContainsEmojiButton = reactedUsersListView.messageContainsEmojiButton;
@@ -239,12 +239,14 @@ public class ReactedUsersListView extends FrameLayout {
                     while (true) {
                         if (i >= this.userReactions.size()) {
                             break;
-                        } else if (this.userReactions.get(i).peer_id.user_id == tLRPC$User.id) {
-                            this.userReactions.get(i).seenDate = userSeen.date;
-                            break;
-                        } else {
-                            i++;
                         }
+                        TLRPC$MessagePeerReaction tLRPC$MessagePeerReaction = this.userReactions.get(i);
+                        if (tLRPC$MessagePeerReaction != null && tLRPC$MessagePeerReaction.date <= 0 && tLRPC$MessagePeerReaction.peer_id.user_id == tLRPC$User.id) {
+                            tLRPC$MessagePeerReaction.date = userSeen.date;
+                            tLRPC$MessagePeerReaction.dateIsSeen = true;
+                            break;
+                        }
+                        i++;
                     }
                 }
             }
@@ -257,7 +259,8 @@ public class ReactedUsersListView extends FrameLayout {
                 TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                 tLRPC$TL_messagePeerReaction.peer_id = tLRPC$TL_peerUser;
                 tLRPC$TL_peerUser.user_id = userSeen2.user.id;
-                tLRPC$TL_messagePeerReaction.seenDate = userSeen2.date;
+                tLRPC$TL_messagePeerReaction.date = userSeen2.date;
+                tLRPC$TL_messagePeerReaction.dateIsSeen = true;
                 ArrayList<TLRPC$MessagePeerReaction> arrayList2 = new ArrayList<>();
                 arrayList2.add(tLRPC$TL_messagePeerReaction);
                 this.peerReactionMap.put(MessageObject.getPeerId(tLRPC$TL_messagePeerReaction.peer_id), arrayList2);
@@ -274,7 +277,7 @@ public class ReactedUsersListView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$setSeenUsers$1(TLRPC$MessagePeerReaction tLRPC$MessagePeerReaction) {
-        int i = tLRPC$MessagePeerReaction.seenDate;
+        int i = tLRPC$MessagePeerReaction.date;
         if (i <= 0 || tLRPC$MessagePeerReaction.reaction != null) {
             return Integer.MIN_VALUE;
         }
@@ -407,7 +410,7 @@ public class ReactedUsersListView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$load$2(TLRPC$MessagePeerReaction tLRPC$MessagePeerReaction) {
-        int i = tLRPC$MessagePeerReaction.seenDate;
+        int i = tLRPC$MessagePeerReaction.date;
         if (i <= 0 || tLRPC$MessagePeerReaction.reaction != null) {
             return Integer.MIN_VALUE;
         }
@@ -467,24 +470,28 @@ public class ReactedUsersListView extends FrameLayout {
     }
 
     /* loaded from: classes3.dex */
-    private final class ReactedUserHolderView extends FrameLayout {
+    private static final class ReactedUserHolderView extends FrameLayout {
         AvatarDrawable avatarDrawable;
         BackupImageView avatarView;
+        int currentAccount;
         View overlaySelectorView;
         BackupImageView reactView;
         AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable rightDrawable;
         SimpleTextView subtitleView;
         SimpleTextView titleView;
+        private static final MessageSeenCheckDrawable seenDrawable = new MessageSeenCheckDrawable(R.drawable.msg_mini_checks, "windowBackgroundWhiteGrayText");
+        private static final MessageSeenCheckDrawable reactDrawable = new MessageSeenCheckDrawable(R.drawable.msg_reactions, "windowBackgroundWhiteGrayText", 16, 16, 5.66f);
 
-        ReactedUserHolderView(Context context) {
+        ReactedUserHolderView(int i, Context context) {
             super(context);
             this.avatarDrawable = new AvatarDrawable();
+            this.currentAccount = i;
             setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(50.0f)));
             BackupImageView backupImageView = new BackupImageView(context);
             this.avatarView = backupImageView;
             backupImageView.setRoundRadius(AndroidUtilities.dp(34.0f));
             addView(this.avatarView, LayoutHelper.createFrameRelatively(34.0f, 34.0f, 8388627, 10.0f, 0.0f, 0.0f, 0.0f));
-            SimpleTextView simpleTextView = new SimpleTextView(this, context, ReactedUsersListView.this) { // from class: org.telegram.ui.Components.ReactedUsersListView.ReactedUserHolderView.1
+            SimpleTextView simpleTextView = new SimpleTextView(this, context) { // from class: org.telegram.ui.Components.ReactedUsersListView.ReactedUserHolderView.1
                 @Override // org.telegram.ui.ActionBar.SimpleTextView
                 public boolean setText(CharSequence charSequence) {
                     return super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false));
@@ -519,7 +526,7 @@ public class ReactedUsersListView extends FrameLayout {
             addView(this.overlaySelectorView, LayoutHelper.createFrame(-1, -1.0f));
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:27:0x00c7  */
+        /* JADX WARN: Removed duplicated region for block: B:27:0x00bb  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -528,7 +535,7 @@ public class ReactedUsersListView extends FrameLayout {
             boolean z;
             Object obj;
             Drawable drawable;
-            TLRPC$User user = MessagesController.getInstance(ReactedUsersListView.this.currentAccount).getUser(Long.valueOf(MessageObject.getPeerId(tLRPC$MessagePeerReaction.peer_id)));
+            TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(MessageObject.getPeerId(tLRPC$MessagePeerReaction.peer_id)));
             if (user == null) {
                 return;
             }
@@ -550,7 +557,7 @@ public class ReactedUsersListView extends FrameLayout {
             if (tLRPC$Reaction != null) {
                 ReactionsLayoutInBubble.VisibleReaction fromTLReaction = ReactionsLayoutInBubble.VisibleReaction.fromTLReaction(tLRPC$Reaction);
                 if (fromTLReaction.emojicon != null) {
-                    TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(ReactedUsersListView.this.currentAccount).getReactionsMap().get(fromTLReaction.emojicon);
+                    TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(this.currentAccount).getReactionsMap().get(fromTLReaction.emojicon);
                     if (tLRPC$TL_availableReaction != null) {
                         this.reactView.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.center_icon), "40_40_lastreactframe", "webp", DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.static_icon.thumbs, "windowBackgroundGray", 1.0f), tLRPC$TL_availableReaction);
                     } else {
@@ -567,7 +574,7 @@ public class ReactedUsersListView extends FrameLayout {
                         formatString = LocaleController.formatString("AccDescrReactedWith", i, objArr);
                     }
                 } else {
-                    AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable(0, ReactedUsersListView.this.currentAccount, fromTLReaction.documentId);
+                    AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable(0, this.currentAccount, fromTLReaction.documentId);
                     animatedEmojiDrawable.setColorFilter(Theme.chat_animatedEmojiTextColorFilter);
                     this.reactView.setAnimatedEmojiDrawable(animatedEmojiDrawable);
                 }
@@ -585,14 +592,15 @@ public class ReactedUsersListView extends FrameLayout {
                 formatString = LocaleController.formatString("AccDescrPersonHasSeen", R.string.AccDescrPersonHasSeen, UserObject.getUserName(user));
                 z = false;
             }
-            if (tLRPC$MessagePeerReaction.seenDate != 0) {
-                formatString = formatString + " " + LocaleController.formatSeenDate(tLRPC$MessagePeerReaction.seenDate);
+            if (tLRPC$MessagePeerReaction.date != 0) {
+                formatString = formatString + " " + LocaleController.formatSeenDate(tLRPC$MessagePeerReaction.date);
             }
             setContentDescription(formatString);
             float f = 0.0f;
-            if (tLRPC$MessagePeerReaction.seenDate != 0) {
+            if (tLRPC$MessagePeerReaction.date != 0) {
                 this.subtitleView.setVisibility(0);
-                this.subtitleView.setText(TextUtils.concat(CheckDrawable.getSpanned(getContext()), LocaleController.formatSeenDate(tLRPC$MessagePeerReaction.seenDate)));
+                this.subtitleView.setText(TextUtils.concat((tLRPC$MessagePeerReaction.dateIsSeen ? seenDrawable : reactDrawable).getSpanned(getContext()), LocaleController.formatSeenDate(tLRPC$MessagePeerReaction.date)));
+                this.subtitleView.setTranslationY(!tLRPC$MessagePeerReaction.dateIsSeen ? AndroidUtilities.dp(-1.0f) : 0.0f);
                 this.titleView.setTranslationY(0.0f);
             } else {
                 this.subtitleView.setVisibility(8);

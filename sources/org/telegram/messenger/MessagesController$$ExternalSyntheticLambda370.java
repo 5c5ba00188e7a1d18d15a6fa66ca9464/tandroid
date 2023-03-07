@@ -12,6 +12,6 @@ public final /* synthetic */ class MessagesController$$ExternalSyntheticLambda37
 
     @Override // org.telegram.tgnet.RequestDelegate
     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        MessagesController.lambda$hidePeerSettingsBar$59(tLObject, tLRPC$TL_error);
+        MessagesController.lambda$completeReadTask$203(tLObject, tLRPC$TL_error);
     }
 }

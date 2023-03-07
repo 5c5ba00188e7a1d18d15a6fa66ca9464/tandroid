@@ -289,7 +289,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             if (i == 3) {
                 f = 0.55f;
             } else if (!z2) {
-                f = 0.97f;
+                f = 0.985f;
             }
             this.blurOpacity = f;
             mutate.setColorFilter(new PorterDuffColorFilter(this.backgroundColor, PorterDuff.Mode.MULTIPLY));

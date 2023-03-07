@@ -18,7 +18,7 @@ import org.telegram.ui.Components.AnimatedEmojiDrawable;
 /* loaded from: classes.dex */
 public class LiteMode {
     private static int BATTERY_HIGH = 10;
-    private static int BATTERY_LOW = 100;
+    private static int BATTERY_LOW = 10;
     private static int BATTERY_MEDIUM = 10;
     public static final int FLAGS_ANIMATED_EMOJI = 28700;
     public static final int FLAGS_ANIMATED_STICKERS = 3;

@@ -167,7 +167,7 @@ public class SaveToGallerySettingsHelper {
         /* JADX INFO: Access modifiers changed from: private */
         public boolean needSave(FilePathDatabase.FileMeta fileMeta, MessageObject messageObject, int i) {
             DialogException dialogException = UserConfig.getInstance(i).getSaveGalleryExceptions(this.type).get(fileMeta.dialogId);
-            if (messageObject == null || !messageObject.isOutOwner()) {
+            if (messageObject == null || !(messageObject.isOutOwner() || messageObject.isSecretMedia())) {
                 boolean z = (messageObject != null && messageObject.isVideo()) || fileMeta.messageType == 3;
                 long size = messageObject != null ? messageObject.getSize() : fileMeta.messageSize;
                 boolean z2 = this.saveVideo;

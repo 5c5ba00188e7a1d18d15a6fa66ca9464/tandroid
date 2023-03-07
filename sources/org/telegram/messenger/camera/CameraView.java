@@ -14,6 +14,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.AudioRecord;
 import android.media.MediaCodec;
 import android.media.MediaCrypto;
@@ -78,6 +79,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
     private static final String VERTEX_SHADER = "uniform mat4 uMVPMatrix;\nuniform mat4 uSTMatrix;\nattribute vec4 aPosition;\nattribute vec4 aTextureCoord;\nvarying vec2 vTextureCoord;\nvoid main() {\n   gl_Position = uMVPMatrix * aPosition;\n   vTextureCoord = (uSTMatrix * aTextureCoord).xy;\n}\n";
     private static final int audioSampleRate = 44100;
     private ImageView blurredStubView;
+    Rect bounds;
     private File cameraFile;
     private CameraSession cameraSession;
     private int[] cameraTexture;
@@ -104,6 +106,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
     private int lastHeight;
     private int lastWidth;
     private final Object layoutLock;
+    private boolean lazy;
     private float[] mMVPMatrix;
     private float[] mSTMatrix;
     private Matrix matrix;
@@ -124,7 +127,10 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
     private volatile int surfaceWidth;
     private float takePictureProgress;
     private FloatBuffer textureBuffer;
+    private boolean textureInited;
     private TextureView textureView;
+    private ValueAnimator textureViewAnimator;
+    private Drawable thumbDrawable;
     private Matrix txform;
     private final Runnable updateRotationMatrix;
     private boolean useMaxPreview;
@@ -228,6 +234,10 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
     }
 
     public CameraView(Context context, boolean z) {
+        this(context, z, false);
+    }
+
+    public CameraView(Context context, boolean z, boolean z2) {
         super(context, null);
         this.txform = new Matrix();
         this.matrix = new Matrix();
@@ -240,13 +250,15 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         this.mSTMatrix = new float[16];
         this.moldSTMatrix = new float[16];
         this.fpsLimit = -1;
+        this.textureInited = false;
+        this.bounds = new Rect();
         this.measurementsCount = 0;
         this.lastWidth = -1;
         this.lastHeight = -1;
-        this.updateRotationMatrix = new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda0
+        this.updateRotationMatrix = new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
-                CameraView.this.lambda$new$1();
+                CameraView.this.lambda$new$2();
             }
         };
         this.takePictureProgress = 1.0f;
@@ -255,10 +267,12 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         this.oldCameraTexture = new int[1];
         this.isFrontface = z;
         this.initialFrontface = z;
-        TextureView textureView = new TextureView(context);
-        this.textureView = textureView;
-        textureView.setSurfaceTextureListener(this);
-        addView(this.textureView, LayoutHelper.createFrame(-1, -1, 17));
+        this.textureView = new TextureView(context);
+        this.lazy = z2;
+        if (!z2) {
+            initTexture();
+        }
+        setWillNotDraw(!z2);
         ImageView imageView = new ImageView(context);
         this.blurredStubView = imageView;
         addView(imageView, LayoutHelper.createFrame(-1, -1, 17));
@@ -270,11 +284,51 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         this.innerPaint.setColor(ConnectionsManager.DEFAULT_DATACENTER_ID);
     }
 
+    public void initTexture() {
+        if (this.textureInited) {
+            return;
+        }
+        this.textureView.setSurfaceTextureListener(this);
+        addView(this.textureView, 0, LayoutHelper.createFrame(-1, -1, 17));
+        this.textureInited = true;
+    }
+
     public void setOptimizeForBarcode(boolean z) {
         this.optimizeForBarcode = z;
         CameraSession cameraSession = this.cameraSession;
         if (cameraSession != null) {
             cameraSession.setOptimizeForBarcode(true);
+        }
+    }
+
+    @Override // android.view.View
+    protected void onDraw(Canvas canvas) {
+        if (this.thumbDrawable != null) {
+            this.bounds.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
+            float intrinsicWidth = this.thumbDrawable.getIntrinsicWidth();
+            float intrinsicHeight = this.thumbDrawable.getIntrinsicHeight();
+            float min = 1.0f / Math.min(intrinsicWidth / Math.max(1, this.bounds.width()), intrinsicHeight / Math.max(1, this.bounds.height()));
+            float f = (intrinsicWidth * min) / 2.0f;
+            float f2 = (intrinsicHeight * min) / 2.0f;
+            this.thumbDrawable.setBounds((int) (this.bounds.centerX() - f), (int) (this.bounds.centerY() - f2), (int) (this.bounds.centerX() + f), (int) (this.bounds.centerY() + f2));
+            this.thumbDrawable.draw(canvas);
+        }
+        super.onDraw(canvas);
+    }
+
+    @Override // android.view.View
+    protected boolean verifyDrawable(Drawable drawable) {
+        return drawable == this.thumbDrawable || super.verifyDrawable(drawable);
+    }
+
+    public void setThumbDrawable(Drawable drawable) {
+        Drawable drawable2 = this.thumbDrawable;
+        if (drawable2 != null) {
+            drawable2.setCallback(null);
+        }
+        this.thumbDrawable = drawable;
+        if (drawable != null) {
+            drawable.setCallback(this);
         }
     }
 
@@ -464,7 +518,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         CameraGLThread cameraGLThread = this.cameraThread;
         if (cameraGLThread != null) {
             cameraGLThread.shutdown(0);
-            this.cameraThread.postRunnable(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda1
+            this.cameraThread.postRunnable(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     CameraView.this.lambda$onSurfaceTextureDestroyed$0();
@@ -493,6 +547,49 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             cameraViewDelegate.onCameraInit();
         }
         this.inited = true;
+        if (this.lazy) {
+            this.textureView.setAlpha(0.0f);
+            showTexture(true, true);
+        }
+    }
+
+    public void showTexture(final boolean z, boolean z2) {
+        if (this.textureView == null) {
+            return;
+        }
+        ValueAnimator valueAnimator = this.textureViewAnimator;
+        if (valueAnimator != null) {
+            valueAnimator.cancel();
+            this.textureViewAnimator = null;
+        }
+        if (z2) {
+            float[] fArr = new float[2];
+            fArr[0] = this.textureView.getAlpha();
+            fArr[1] = z ? 1.0f : 0.0f;
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+            this.textureViewAnimator = ofFloat;
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda0
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                    CameraView.this.lambda$showTexture$1(valueAnimator2);
+                }
+            });
+            this.textureViewAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.camera.CameraView.3
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    CameraView.this.textureView.setAlpha(z ? 1.0f : 0.0f);
+                    CameraView.this.textureViewAnimator = null;
+                }
+            });
+            this.textureViewAnimator.start();
+            return;
+        }
+        this.textureView.setAlpha(z ? 1.0f : 0.0f);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$showTexture$1(ValueAnimator valueAnimator) {
+        this.textureView.setAlpha(((Float) valueAnimator.getAnimatedValue()).floatValue());
     }
 
     public void setClipTop(int i) {
@@ -504,7 +601,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$1() {
+    public /* synthetic */ void lambda$new$2() {
         CameraGLThread cameraGLThread = this.cameraThread;
         if (cameraGLThread == null || cameraGLThread.currentSession == null) {
             return;
@@ -517,11 +614,12 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
     }
 
     private void checkPreviewMatrix() {
+        TextureView textureView;
         CameraSession cameraSession;
-        if (this.previewSize == null) {
+        if (this.previewSize == null || (textureView = this.textureView) == null) {
             return;
         }
-        int width = this.textureView.getWidth();
+        int width = textureView.getWidth();
         int height = this.textureView.getHeight();
         Matrix matrix = new Matrix();
         if (this.cameraSession != null) {
@@ -1117,7 +1215,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
     /* JADX INFO: Access modifiers changed from: private */
     public void onFirstFrameRendered() {
         if (this.blurredStubView.getVisibility() == 0) {
-            this.blurredStubView.animate().alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.camera.CameraView.3
+            this.blurredStubView.animate().alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.camera.CameraView.4
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     super.onAnimationEnd(animator);
@@ -1146,16 +1244,16 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
 
     /* JADX INFO: Access modifiers changed from: private */
     public void createCamera(final SurfaceTexture surfaceTexture) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
-                CameraView.this.lambda$createCamera$4(surfaceTexture);
+                CameraView.this.lambda$createCamera$5(surfaceTexture);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createCamera$4(SurfaceTexture surfaceTexture) {
+    public /* synthetic */ void lambda$createCamera$5(SurfaceTexture surfaceTexture) {
         final CameraGLThread cameraGLThread = this.cameraThread;
         if (cameraGLThread == null) {
             return;
@@ -1175,21 +1273,21 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         this.cameraSession = cameraSession;
         cameraGLThread.setCurrentSession(cameraSession);
         requestLayout();
-        CameraController.getInstance().open(this.cameraSession, surfaceTexture, new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda2
+        CameraController.getInstance().open(this.cameraSession, surfaceTexture, new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
-                CameraView.this.lambda$createCamera$2();
+                CameraView.this.lambda$createCamera$3();
             }
-        }, new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda4
+        }, new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
-                CameraView.this.lambda$createCamera$3(cameraGLThread);
+                CameraView.this.lambda$createCamera$4(cameraGLThread);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createCamera$2() {
+    public /* synthetic */ void lambda$createCamera$3() {
         if (this.cameraSession != null) {
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.d("CameraView camera initied");
@@ -1200,7 +1298,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createCamera$3(CameraGLThread cameraGLThread) {
+    public /* synthetic */ void lambda$createCamera$4(CameraGLThread cameraGLThread) {
         cameraGLThread.setCurrentSession(this.cameraSession);
     }
 

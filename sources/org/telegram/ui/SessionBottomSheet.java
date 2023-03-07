@@ -398,13 +398,13 @@ public class SessionBottomSheet extends BottomSheet {
             textView.setTextSize(2, 16.0f);
             this.valueText.setGravity(3);
             this.valueText.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            linearLayout.addView(this.valueText, LayoutHelper.createLinear(-1, -2, 0, 0, 0, z ? 46 : 0, 0));
+            linearLayout.addView(this.valueText, LayoutHelper.createLinear(-1, -2, 0, 0, 0, z ? 64 : 0, 0));
             TextView textView2 = new TextView(context);
             this.descriptionText = textView2;
             textView2.setTextSize(2, 13.0f);
             this.descriptionText.setGravity(3);
             this.descriptionText.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
-            linearLayout.addView(this.descriptionText, LayoutHelper.createLinear(-1, -2, 0, 0, 4, z ? 46 : 0, 0));
+            linearLayout.addView(this.descriptionText, LayoutHelper.createLinear(-1, -2, 0, 0, 4, z ? 64 : 0, 0));
             setPadding(0, AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f));
             if (z) {
                 Switch r2 = new Switch(context);

@@ -18,6 +18,10 @@ public abstract class Fetcher<Args, R> {
     protected void setLocal(int i, Args args, R r, long j) {
     }
 
+    protected boolean useCache(Args args) {
+        return true;
+    }
+
     protected void getLocal(int i, Args args, Utilities.Callback2<Long, R> callback2) {
         callback2.run(0L, null);
     }
@@ -82,11 +86,14 @@ public abstract class Fetcher<Args, R> {
         return hashMap.get(pair);
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     private void cacheResult(Pair<Integer, Args> pair, R r) {
-        if (this.cachedResults == null) {
-            this.cachedResults = new HashMap<>();
+        if (useCache(pair.second)) {
+            if (this.cachedResults == null) {
+                this.cachedResults = new HashMap<>();
+            }
+            this.cachedResults.put(pair, r);
         }
-        this.cachedResults.put(pair, r);
     }
 
     private void saveLastRequested(Pair<Integer, Args> pair) {

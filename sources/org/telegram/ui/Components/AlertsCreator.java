@@ -957,7 +957,7 @@ public class AlertsCreator {
                 languageFromDict.pathToFile = "unofficial";
             }
         }
-        LocaleController.getInstance().applyLanguage(languageFromDict, true, false, false, true, true, UserConfig.selectedAccount, null);
+        LocaleController.getInstance().applyLanguage(languageFromDict, true, false, false, true, UserConfig.selectedAccount, null);
         launchActivity.rebuildAllFragments(true);
     }
 

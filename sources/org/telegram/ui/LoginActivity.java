@@ -4993,7 +4993,9 @@ public class LoginActivity extends BaseFragment {
                 if (LoginActivitySmsView.this.codeTime <= 1000) {
                     LoginActivitySmsView.this.setProblemTextVisible(true);
                     LoginActivitySmsView.this.timeText.setVisibility(8);
-                    LoginActivitySmsView.this.problemText.setVisibility(0);
+                    if (LoginActivitySmsView.this.problemText != null) {
+                        LoginActivitySmsView.this.problemText.setVisibility(0);
+                    }
                     LoginActivitySmsView.this.destroyCodeTimer();
                 }
             }

@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -78,6 +79,10 @@ public class PhotoAttachCameraCell extends FrameLayout {
         } else {
             this.backgroundView.setImageResource(R.drawable.icplaceholder);
         }
+    }
+
+    public Drawable getDrawable() {
+        return this.backgroundView.getDrawable();
     }
 
     protected int getThemedColor(String str) {

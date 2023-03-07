@@ -61,16 +61,16 @@ public class CacheByChatsController {
     }
 
     public static long getDaysInSeconds(int i) {
-        if (i == KEEP_MEDIA_FOREVER) {
-            return Long.MAX_VALUE;
-        }
         if (i == KEEP_MEDIA_ONE_WEEK) {
             return 604800L;
         }
         if (i == KEEP_MEDIA_ONE_MONTH) {
             return 2592000L;
         }
-        return i == KEEP_MEDIA_ONE_DAY ? 86400L : 60L;
+        if (i == KEEP_MEDIA_ONE_DAY) {
+            return 86400L;
+        }
+        return (i == KEEP_MEDIA_ONE_MINUTE && BuildVars.DEBUG_PRIVATE_VERSION) ? 60L : Long.MAX_VALUE;
     }
 
     public ArrayList<KeepMediaException> getKeepMediaExceptions(int i) {

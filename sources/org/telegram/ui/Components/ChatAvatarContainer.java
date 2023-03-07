@@ -1082,6 +1082,10 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             this.currentConnectionState = ConnectionsManager.getInstance(this.currentAccount).getConnectionState();
             updateCurrentConnectionState();
         }
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.emojiStatusDrawable;
+        if (swapAnimatedEmojiDrawable != null) {
+            swapAnimatedEmojiDrawable.attach();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -1091,6 +1095,10 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         if (this.parentFragment != null) {
             NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.didUpdateConnectionState);
             NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
+        }
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.emojiStatusDrawable;
+        if (swapAnimatedEmojiDrawable != null) {
+            swapAnimatedEmojiDrawable.detach();
         }
     }
 

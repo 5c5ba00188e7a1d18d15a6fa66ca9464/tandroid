@@ -405,6 +405,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
             this.textView.setEllipsize(TextUtils.TruncateAt.END);
             this.textView.setTextSize(1, 16.0f);
             this.textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+            this.textView.setGravity(LocaleController.isRTL ? 5 : 3);
             AnimatedTextView animatedTextView = new AnimatedTextView(context, false, true, true);
             this.countTextView = animatedTextView;
             animatedTextView.setAnimationProperties(0.35f, 0L, 200L, CubicBezierInterpolator.EASE_OUT_QUINT);
@@ -420,9 +421,15 @@ public class LiteModeSettingsActivity extends BaseFragment {
             this.textViewLayout = linearLayout;
             linearLayout.setOrientation(0);
             this.textViewLayout.setGravity(LocaleController.isRTL ? 5 : 3);
-            this.textViewLayout.addView(this.textView, LayoutHelper.createLinear(-2, -2, 16));
-            this.textViewLayout.addView(this.countTextView, LayoutHelper.createLinear(-2, -2, 0.0f, 16, 6, 0, 0, 0));
-            this.textViewLayout.addView(this.arrowView, LayoutHelper.createLinear(16, 16, 0.0f, 16, 2, 0, 0, 0));
+            if (LocaleController.isRTL) {
+                this.textViewLayout.addView(this.arrowView, LayoutHelper.createLinear(16, 16, 0.0f, 16, 0, 0, 6, 0));
+                this.textViewLayout.addView(this.countTextView, LayoutHelper.createLinear(-2, -2, 0.0f, 16, 0, 0, 6, 0));
+                this.textViewLayout.addView(this.textView, LayoutHelper.createLinear(-2, -2, 16));
+            } else {
+                this.textViewLayout.addView(this.textView, LayoutHelper.createLinear(-2, -2, 16));
+                this.textViewLayout.addView(this.countTextView, LayoutHelper.createLinear(-2, -2, 0.0f, 16, 6, 0, 0, 0));
+                this.textViewLayout.addView(this.arrowView, LayoutHelper.createLinear(16, 16, 0.0f, 16, 2, 0, 0, 0));
+            }
             addView(this.textViewLayout, LayoutHelper.createFrame(-1, -2.0f, (LocaleController.isRTL ? 5 : 3) | 16, 64.0f, 0.0f, 8.0f, 0.0f));
             Switch r6 = new Switch(context);
             this.switchView = r6;
@@ -466,6 +473,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
         }
 
         public void set(Item item, boolean z) {
+            float f;
             boolean z2 = true;
             if (item.viewType == 3) {
                 this.checkBoxView.setVisibility(8);
@@ -494,11 +502,17 @@ public class LiteModeSettingsActivity extends BaseFragment {
                 this.countTextView.setVisibility(8);
                 this.arrowView.setVisibility(8);
                 this.textView.setText(item.text);
-                this.textView.setTranslationX(AndroidUtilities.dp(41.0f) * (LocaleController.isRTL ? -2.5f : 1.0f));
+                this.textView.setTranslationX(AndroidUtilities.dp(41.0f) * (LocaleController.isRTL ? -2.2f : 1.0f));
                 this.containing = false;
                 this.needLine = false;
             }
-            ((ViewGroup.MarginLayoutParams) this.textViewLayout.getLayoutParams()).rightMargin = AndroidUtilities.dp(item.viewType == 3 ? 79.0f : 8.0f);
+            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) this.textViewLayout.getLayoutParams();
+            if (item.viewType == 3) {
+                f = (LocaleController.isRTL ? 64 : 75) + 4;
+            } else {
+                f = 8.0f;
+            }
+            marginLayoutParams.rightMargin = AndroidUtilities.dp(f);
             this.needDivider = z;
             setWillNotDraw((z || this.needLine) ? false : false);
             setDisabled(LiteMode.isPowerSaverApplied(), false);
@@ -522,9 +536,10 @@ public class LiteModeSettingsActivity extends BaseFragment {
         }
 
         private void updateCount(Item item, boolean z) {
+            boolean z2 = true;
             this.enabled = preprocessFlagsCount(LiteMode.getValue(true) & item.flags);
             this.all = preprocessFlagsCount(item.flags);
-            this.countTextView.setText(String.format("%d/%d", Integer.valueOf(this.enabled), Integer.valueOf(this.all)), z);
+            this.countTextView.setText(String.format("%d/%d", Integer.valueOf(this.enabled), Integer.valueOf(this.all)), (!z || LocaleController.isRTL) ? false : false);
         }
 
         private int preprocessFlagsCount(int i) {
@@ -540,7 +555,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
                     canvas.drawRect(dp - AndroidUtilities.dp(0.66f), (getMeasuredHeight() - AndroidUtilities.dp(20.0f)) / 2.0f, dp, (getMeasuredHeight() + AndroidUtilities.dp(20.0f)) / 2.0f, Theme.dividerPaint);
                 }
                 if (this.needDivider) {
-                    canvas.drawLine((getMeasuredWidth() - AndroidUtilities.dp(64.0f)) + this.textView.getTranslationX(), getMeasuredHeight() - 1, 0.0f, getMeasuredHeight() - 1, Theme.dividerPaint);
+                    canvas.drawLine((getMeasuredWidth() - AndroidUtilities.dp(64.0f)) + (this.textView.getTranslationX() < 0.0f ? AndroidUtilities.dp(-32.0f) : 0), getMeasuredHeight() - 1, 0.0f, getMeasuredHeight() - 1, Theme.dividerPaint);
                     return;
                 }
                 return;
@@ -709,13 +724,13 @@ public class LiteModeSettingsActivity extends BaseFragment {
             int powerSaverLevel = LiteMode.getPowerSaverLevel();
             this.middleTextView.cancelAnimation();
             if (powerSaverLevel <= 0) {
-                this.middleTextView.setText(LocaleController.getString("LiteBatteryAlwaysDisabled", R.string.LiteBatteryAlwaysDisabled));
+                this.middleTextView.setText(LocaleController.getString("LiteBatteryAlwaysDisabled", R.string.LiteBatteryAlwaysDisabled), !LocaleController.isRTL);
             } else if (powerSaverLevel >= 100) {
-                this.middleTextView.setText(LocaleController.getString("LiteBatteryAlwaysEnabled", R.string.LiteBatteryAlwaysEnabled));
+                this.middleTextView.setText(LocaleController.getString("LiteBatteryAlwaysEnabled", R.string.LiteBatteryAlwaysEnabled), !LocaleController.isRTL);
             } else {
                 float f = powerSaverLevel;
                 this.batteryIcon.setFillValue(f / 100.0f, true);
-                this.middleTextView.setText(AndroidUtilities.replaceCharSequence("%s", LocaleController.getString("LiteBatteryWhenBelow", R.string.LiteBatteryWhenBelow), TextUtils.concat(String.format("%d%% ", Integer.valueOf(Math.round(f))), this.batteryText)));
+                this.middleTextView.setText(AndroidUtilities.replaceCharSequence("%s", LocaleController.getString("LiteBatteryWhenBelow", R.string.LiteBatteryWhenBelow), TextUtils.concat(String.format("%d%% ", Integer.valueOf(Math.round(f))), this.batteryText)), !LocaleController.isRTL);
             }
             AnimatedTextView animatedTextView = this.headerOnView;
             if (LiteMode.isPowerSaverApplied()) {

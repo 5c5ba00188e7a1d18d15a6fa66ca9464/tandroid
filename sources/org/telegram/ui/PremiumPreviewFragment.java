@@ -432,8 +432,8 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
 
             @Override // android.view.ViewGroup, android.view.View
             public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-                float x = PremiumPreviewFragment.this.backgroundView.getX() + PremiumPreviewFragment.this.backgroundView.imageView.getX();
-                float y = PremiumPreviewFragment.this.backgroundView.getY() + PremiumPreviewFragment.this.backgroundView.imageView.getY();
+                float x = PremiumPreviewFragment.this.backgroundView.getX() + PremiumPreviewFragment.this.backgroundView.imageFrameLayout.getX();
+                float y = PremiumPreviewFragment.this.backgroundView.getY() + PremiumPreviewFragment.this.backgroundView.imageFrameLayout.getY();
                 RectF rectF = AndroidUtilities.rectTmp;
                 rectF.set(x, y, PremiumPreviewFragment.this.backgroundView.imageView.getMeasuredWidth() + x, PremiumPreviewFragment.this.backgroundView.imageView.getMeasuredHeight() + y);
                 if ((rectF.contains(motionEvent.getX(), motionEvent.getY()) || this.iconInterceptedTouch) && !PremiumPreviewFragment.this.listView.scrollingByUser) {
@@ -1371,6 +1371,8 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
             };
             this.imageView = gLIconTextureView;
             frameLayout.addView(gLIconTextureView, LayoutHelper.createFrame(-1, -1.0f));
+            frameLayout.setClipChildren(false);
+            setClipChildren(false);
             TextView textView = new TextView(context);
             this.titleView = textView;
             textView.setTextSize(1, 22.0f);
