@@ -8,7 +8,6 @@ public class FileLoaderPriorityQueue {
     private final int maxActiveOperationsCount;
     String name;
     ArrayList<FileLoadOperation> allOperations = new ArrayList<>();
-    ArrayList<FileLoadOperation> activeOperations = new ArrayList<>();
     private int PRIORITY_VALUE_MAX = 1048576;
     private int PRIORITY_VALUE_NORMAL = CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT;
     private int PRIORITY_VALUE_LOW = 0;

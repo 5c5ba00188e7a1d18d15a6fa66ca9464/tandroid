@@ -927,7 +927,9 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
             }
         }
         EmojiThemes.saveCustomTheme(themeInfo, themeInfo.currentAccentId);
-        Theme.turnOffAutoNight(this.fragment);
+        if (this.currentType != 1) {
+            Theme.turnOffAutoNight(this.fragment);
+        }
     }
 
     public void setDrawDivider(boolean z) {

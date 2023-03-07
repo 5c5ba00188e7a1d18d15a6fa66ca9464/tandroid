@@ -150,7 +150,7 @@ public class FileLoadOperation {
     private long streamStartOffset;
     private boolean supportsPreloading;
     private File tempPath;
-    private long totalBytesCount;
+    public long totalBytesCount;
     private int totalPreloadedBytes;
     long totalTime;
     private boolean ungzip;

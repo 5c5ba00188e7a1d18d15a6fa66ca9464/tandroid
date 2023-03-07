@@ -2805,7 +2805,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Type inference failed for: r0v7, types: [org.telegram.messenger.AccountInstance, java.lang.String] */
-    /* JADX WARN: Type inference failed for: r0v9, types: [int, java.lang.String] */
+    /* JADX WARN: Type inference failed for: r0v9, types: [java.lang.String, int] */
     public /* synthetic */ void lambda$createGroupInstance$45(final int i, final long j, long j2, final int i2, final int i3) {
         StringBuilder sb;
         if (i != 0) {
@@ -5196,22 +5196,17 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             registerReceiver(this.receiver, intentFilter);
             fetchBluetoothDeviceName();
             if (this.audioDeviceCallback == null) {
-                try {
-                    this.audioDeviceCallback = new AudioDeviceCallback() { // from class: org.telegram.messenger.voip.VoIPService.8
-                        @Override // android.media.AudioDeviceCallback
-                        public void onAudioDevicesAdded(AudioDeviceInfo[] audioDeviceInfoArr) {
-                            VoIPService.this.checkUpdateBluetoothHeadset();
-                        }
+                this.audioDeviceCallback = new AudioDeviceCallback() { // from class: org.telegram.messenger.voip.VoIPService.8
+                    @Override // android.media.AudioDeviceCallback
+                    public void onAudioDevicesAdded(AudioDeviceInfo[] audioDeviceInfoArr) {
+                        VoIPService.this.checkUpdateBluetoothHeadset();
+                    }
 
-                        @Override // android.media.AudioDeviceCallback
-                        public void onAudioDevicesRemoved(AudioDeviceInfo[] audioDeviceInfoArr) {
-                            VoIPService.this.checkUpdateBluetoothHeadset();
-                        }
-                    };
-                } catch (Exception e) {
-                    FileLog.e(e);
-                    this.audioDeviceCallback = null;
-                }
+                    @Override // android.media.AudioDeviceCallback
+                    public void onAudioDevicesRemoved(AudioDeviceInfo[] audioDeviceInfoArr) {
+                        VoIPService.this.checkUpdateBluetoothHeadset();
+                    }
+                };
             }
             AudioDeviceCallback audioDeviceCallback = this.audioDeviceCallback;
             if (audioDeviceCallback != null) {
@@ -5219,9 +5214,9 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             }
             audioManager.registerMediaButtonEventReceiver(new ComponentName(this, VoIPMediaButtonReceiver.class));
             checkUpdateBluetoothHeadset();
-        } catch (Exception e2) {
+        } catch (Exception e) {
             if (BuildVars.LOGS_ENABLED) {
-                FileLog.e("error initializing voip controller", e2);
+                FileLog.e("error initializing voip controller", e);
             }
             callFailed();
         }
