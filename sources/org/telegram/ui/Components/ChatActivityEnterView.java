@@ -3017,7 +3017,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         if (Build.VERSION.SDK_INT >= 21) {
             this.giftButton.setBackground(Theme.createSelectorDrawable(getThemedColor("listSelectorSDK21")));
         }
-        this.attachLayout.addView(this.giftButton, 0, LayoutHelper.createFrame(48, 48, 85));
+        this.attachLayout.addView(this.giftButton, 0, LayoutHelper.createFrame(48, 48, 21));
         this.giftButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda16
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
@@ -6552,14 +6552,18 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                                 Property property = View.TRANSLATION_X;
                                 float[] fArr = new float[1];
                                 ImageView imageView6 = this.botButton;
-                                fArr[0] = AndroidUtilities.dp((imageView6 == null || imageView6.getVisibility() != 0) ? 48.0f : 96.0f);
+                                int dp = AndroidUtilities.dp((imageView6 == null || imageView6.getVisibility() != 0) ? 48.0f : 96.0f);
+                                ImageView imageView7 = this.giftButton;
+                                fArr[0] = dp - AndroidUtilities.dp((imageView7 == null || imageView7.getVisibility() != 0) ? 0.0f : 48.0f);
                                 arrayList.add(ObjectAnimator.ofFloat(imageView5, property, fArr));
                                 arrayList.add(ObjectAnimator.ofFloat(this.scheduledButton, View.ALPHA, 1.0f));
                                 arrayList.add(ObjectAnimator.ofFloat(this.scheduledButton, View.SCALE_X, 1.0f));
                             } else {
-                                ImageView imageView7 = this.scheduledButton;
-                                ImageView imageView8 = this.botButton;
-                                imageView7.setTranslationX(AndroidUtilities.dp((imageView8 == null || imageView8.getVisibility() != 0) ? 48.0f : 96.0f));
+                                ImageView imageView8 = this.scheduledButton;
+                                ImageView imageView9 = this.botButton;
+                                int dp2 = AndroidUtilities.dp((imageView9 == null || imageView9.getVisibility() != 0) ? 48.0f : 96.0f);
+                                ImageView imageView10 = this.giftButton;
+                                imageView8.setTranslationX(dp2 - AndroidUtilities.dp((imageView10 == null || imageView10.getVisibility() != 0) ? 0.0f : 48.0f));
                                 this.scheduledButton.setAlpha(1.0f);
                                 this.scheduledButton.setScaleX(1.0f);
                             }
@@ -6600,8 +6604,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                         arrayList2.add(ObjectAnimator.ofFloat(this.audioVideoButtonContainer, View.SCALE_Y, 0.1f));
                         arrayList2.add(ObjectAnimator.ofFloat(this.audioVideoButtonContainer, View.ALPHA, 0.0f));
                     }
-                    ImageView imageView9 = this.expandStickersButton;
-                    if (imageView9 != null && imageView9.getVisibility() == 0) {
+                    ImageView imageView11 = this.expandStickersButton;
+                    if (imageView11 != null && imageView11.getVisibility() == 0) {
                         arrayList2.add(ObjectAnimator.ofFloat(this.expandStickersButton, View.SCALE_X, 0.1f));
                         arrayList2.add(ObjectAnimator.ofFloat(this.expandStickersButton, View.SCALE_Y, 0.1f));
                         arrayList2.add(ObjectAnimator.ofFloat(this.expandStickersButton, View.ALPHA, 0.0f));
@@ -6667,8 +6671,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 this.cancelBotButton.setScaleY(0.1f);
                 this.cancelBotButton.setAlpha(0.0f);
                 this.cancelBotButton.setVisibility(8);
-                ImageView imageView10 = this.expandStickersButton;
-                if (imageView10 == null || imageView10.getVisibility() != 0) {
+                ImageView imageView12 = this.expandStickersButton;
+                if (imageView12 == null || imageView12.getVisibility() != 0) {
                     i2 = 8;
                 } else {
                     this.expandStickersButton.setScaleX(0.1f);
@@ -6691,15 +6695,17 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 if (z4) {
                     createScheduledButton();
                 }
-                ImageView imageView11 = this.scheduledButton;
-                if (imageView11 != null) {
+                ImageView imageView13 = this.scheduledButton;
+                if (imageView13 != null) {
                     if (z4) {
-                        imageView11.setVisibility(0);
+                        imageView13.setVisibility(0);
                         this.scheduledButton.setTag(1);
                     }
-                    ImageView imageView12 = this.scheduledButton;
-                    ImageView imageView13 = this.botButton;
-                    imageView12.setTranslationX(AndroidUtilities.dp((imageView13 == null || imageView13.getVisibility() != 0) ? 48.0f : 96.0f));
+                    ImageView imageView14 = this.scheduledButton;
+                    ImageView imageView15 = this.botButton;
+                    int dp3 = AndroidUtilities.dp((imageView15 == null || imageView15.getVisibility() != 0) ? 48.0f : 96.0f);
+                    ImageView imageView16 = this.giftButton;
+                    imageView14.setTranslationX(dp3 - AndroidUtilities.dp((imageView16 == null || imageView16.getVisibility() != 0) ? 0.0f : 48.0f));
                     this.scheduledButton.setAlpha(1.0f);
                     this.scheduledButton.setScaleX(1.0f);
                     this.scheduledButton.setScaleY(1.0f);
@@ -6741,25 +6747,29 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                             ChatActivityEnterViewDelegate chatActivityEnterViewDelegate3 = this.delegate;
                             final boolean z7 = chatActivityEnterViewDelegate3 != null && chatActivityEnterViewDelegate3.hasScheduledMessages();
                             this.scheduleButtonHidden = true;
-                            ImageView imageView14 = this.scheduledButton;
-                            if (imageView14 != null) {
-                                imageView14.setScaleY(1.0f);
+                            ImageView imageView17 = this.scheduledButton;
+                            if (imageView17 != null) {
+                                imageView17.setScaleY(1.0f);
                                 if (z7) {
                                     this.scheduledButton.setTag(null);
                                     arrayList3.add(ObjectAnimator.ofFloat(this.scheduledButton, View.ALPHA, 0.0f));
                                     arrayList3.add(ObjectAnimator.ofFloat(this.scheduledButton, View.SCALE_X, 0.0f));
-                                    ImageView imageView15 = this.scheduledButton;
+                                    ImageView imageView18 = this.scheduledButton;
                                     Property property2 = View.TRANSLATION_X;
                                     float[] fArr2 = new float[1];
-                                    ImageView imageView16 = this.botButton;
-                                    fArr2[0] = AndroidUtilities.dp((imageView16 == null || imageView16.getVisibility() == 8) ? 48.0f : 96.0f);
-                                    arrayList3.add(ObjectAnimator.ofFloat(imageView15, property2, fArr2));
+                                    ImageView imageView19 = this.botButton;
+                                    int dp4 = AndroidUtilities.dp((imageView19 == null || imageView19.getVisibility() != 0) ? 48.0f : 96.0f);
+                                    ImageView imageView20 = this.giftButton;
+                                    fArr2[0] = dp4 - AndroidUtilities.dp((imageView20 == null || imageView20.getVisibility() != 0) ? 0.0f : 48.0f);
+                                    arrayList3.add(ObjectAnimator.ofFloat(imageView18, property2, fArr2));
                                 } else {
                                     this.scheduledButton.setAlpha(0.0f);
                                     this.scheduledButton.setScaleX(0.0f);
-                                    ImageView imageView17 = this.scheduledButton;
-                                    ImageView imageView18 = this.botButton;
-                                    imageView17.setTranslationX(AndroidUtilities.dp((imageView18 == null || imageView18.getVisibility() == 8) ? 48.0f : 96.0f));
+                                    ImageView imageView21 = this.scheduledButton;
+                                    ImageView imageView22 = this.botButton;
+                                    int dp5 = AndroidUtilities.dp((imageView22 == null || imageView22.getVisibility() != 0) ? 48.0f : 96.0f);
+                                    ImageView imageView23 = this.giftButton;
+                                    imageView21.setTranslationX(dp5 - AndroidUtilities.dp((imageView23 == null || imageView23.getVisibility() != 0) ? 0.0f : 48.0f));
                                 }
                             }
                             this.runningAnimation2.playTogether(arrayList3);
@@ -6800,8 +6810,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                             arrayList4.add(ObjectAnimator.ofFloat(this.audioVideoButtonContainer, View.SCALE_Y, 0.1f));
                             arrayList4.add(ObjectAnimator.ofFloat(this.audioVideoButtonContainer, View.ALPHA, 0.0f));
                         }
-                        ImageView imageView19 = this.expandStickersButton;
-                        if (imageView19 != null && imageView19.getVisibility() == 0) {
+                        ImageView imageView24 = this.expandStickersButton;
+                        if (imageView24 != null && imageView24.getVisibility() == 0) {
                             arrayList4.add(ObjectAnimator.ofFloat(this.expandStickersButton, View.SCALE_X, 0.1f));
                             arrayList4.add(ObjectAnimator.ofFloat(this.expandStickersButton, View.SCALE_Y, 0.1f));
                             arrayList4.add(ObjectAnimator.ofFloat(this.expandStickersButton, View.ALPHA, 0.0f));
@@ -6901,8 +6911,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     this.sendButton.setAlpha(1.0f);
                     this.cancelBotButton.setVisibility(8);
                 }
-                ImageView imageView20 = this.expandStickersButton;
-                if (imageView20 == null || imageView20.getVisibility() != 0) {
+                ImageView imageView25 = this.expandStickersButton;
+                if (imageView25 == null || imageView25.getVisibility() != 0) {
                     i = 8;
                 } else {
                     this.expandStickersButton.setScaleX(0.1f);
@@ -6929,9 +6939,11 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     this.scheduledButton.setAlpha(0.0f);
                     this.scheduledButton.setScaleX(0.0f);
                     this.scheduledButton.setScaleY(1.0f);
-                    ImageView imageView21 = this.scheduledButton;
-                    ImageView imageView22 = this.botButton;
-                    imageView21.setTranslationX(AndroidUtilities.dp((imageView22 == null || imageView22.getVisibility() == 8) ? 48.0f : 96.0f));
+                    ImageView imageView26 = this.scheduledButton;
+                    ImageView imageView27 = this.botButton;
+                    int dp6 = AndroidUtilities.dp((imageView27 == null || imageView27.getVisibility() != 0) ? 48.0f : 96.0f);
+                    ImageView imageView28 = this.giftButton;
+                    imageView26.setTranslationX(dp6 - AndroidUtilities.dp((imageView28 == null || imageView28.getVisibility() != 0) ? 0.0f : 48.0f));
                 }
             }
         } else if (this.emojiView != null && this.emojiViewVisible && ((this.stickersTabOpen || (this.emojiTabOpen && this.searchingType == 2)) && !AndroidUtilities.isInMultiwindow)) {
@@ -6962,9 +6974,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     if (z8) {
                         createScheduledButton();
                     }
-                    ImageView imageView23 = this.scheduledButton;
-                    if (imageView23 != null) {
-                        imageView23.setScaleY(1.0f);
+                    ImageView imageView29 = this.scheduledButton;
+                    if (imageView29 != null) {
+                        imageView29.setScaleY(1.0f);
                         if (z8) {
                             this.scheduledButton.setVisibility(0);
                             this.scheduledButton.setTag(1);
@@ -7094,10 +7106,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             if (z9) {
                 createScheduledButton();
             }
-            ImageView imageView24 = this.scheduledButton;
-            if (imageView24 != null) {
+            ImageView imageView30 = this.scheduledButton;
+            if (imageView30 != null) {
                 if (z9) {
-                    imageView24.setVisibility(0);
+                    imageView30.setVisibility(0);
                     this.scheduledButton.setTag(1);
                 }
                 this.scheduledButton.setAlpha(1.0f);
@@ -7137,17 +7149,22 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     if (z10) {
                         createScheduledButton();
                     }
-                    ImageView imageView25 = this.scheduledButton;
-                    if (imageView25 != null) {
+                    ImageView imageView31 = this.scheduledButton;
+                    if (imageView31 != null) {
                         if (z10) {
-                            imageView25.setVisibility(0);
+                            imageView31.setVisibility(0);
                             this.scheduledButton.setTag(1);
                             this.scheduledButton.setPivotX(AndroidUtilities.dp(48.0f));
                             arrayList7.add(ObjectAnimator.ofFloat(this.scheduledButton, View.ALPHA, 1.0f));
                             arrayList7.add(ObjectAnimator.ofFloat(this.scheduledButton, View.SCALE_X, 1.0f));
-                            arrayList7.add(ObjectAnimator.ofFloat(this.scheduledButton, View.TRANSLATION_X, 0.0f));
+                            ImageView imageView32 = this.scheduledButton;
+                            Property property3 = View.TRANSLATION_X;
+                            float[] fArr3 = new float[1];
+                            ImageView imageView33 = this.giftButton;
+                            fArr3[0] = (imageView33 == null || imageView33.getVisibility() != 0) ? 0.0f : -AndroidUtilities.dp(48.0f);
+                            arrayList7.add(ObjectAnimator.ofFloat(imageView32, property3, fArr3));
                         } else {
-                            imageView25.setAlpha(1.0f);
+                            imageView31.setAlpha(1.0f);
                             this.scheduledButton.setScaleX(1.0f);
                             this.scheduledButton.setScaleY(1.0f);
                             this.scheduledButton.setTranslationX(0.0f);
@@ -7197,8 +7214,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     arrayList8.add(ObjectAnimator.ofFloat(this.cancelBotButton, View.SCALE_Y, 0.1f));
                     arrayList8.add(ObjectAnimator.ofFloat(this.cancelBotButton, View.ALPHA, 0.0f));
                 } else {
-                    ImageView imageView26 = this.expandStickersButton;
-                    if (imageView26 != null && imageView26.getVisibility() == 0) {
+                    ImageView imageView34 = this.expandStickersButton;
+                    if (imageView34 != null && imageView34.getVisibility() == 0) {
                         arrayList8.add(ObjectAnimator.ofFloat(this.expandStickersButton, View.SCALE_X, 0.1f));
                         arrayList8.add(ObjectAnimator.ofFloat(this.expandStickersButton, View.SCALE_Y, 0.1f));
                         arrayList8.add(ObjectAnimator.ofFloat(this.expandStickersButton, View.ALPHA, 0.0f));
@@ -7253,9 +7270,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             this.cancelBotButton.setScaleY(0.1f);
             this.cancelBotButton.setAlpha(0.0f);
             this.cancelBotButton.setVisibility(8);
-            ImageView imageView27 = this.expandStickersButton;
-            if (imageView27 != null) {
-                imageView27.setScaleX(0.1f);
+            ImageView imageView35 = this.expandStickersButton;
+            if (imageView35 != null) {
+                imageView35.setScaleX(0.1f);
                 this.expandStickersButton.setScaleY(0.1f);
                 this.expandStickersButton.setAlpha(0.0f);
                 this.expandStickersButton.setVisibility(8);
@@ -8699,10 +8716,23 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     }
 
     public void updateGiftButton(boolean z) {
-        boolean z2 = (MessagesController.getInstance(this.currentAccount).premiumLocked || !MessagesController.getInstance(this.currentAccount).giftAttachMenuIcon || !MessagesController.getInstance(this.currentAccount).giftTextFieldIcon || getParentFragment() == null || getParentFragment().getCurrentUser() == null || BuildVars.IS_BILLING_UNAVAILABLE || getParentFragment().getCurrentUser().self || getParentFragment().getCurrentUser().premium || getParentFragment().getCurrentUserInfo() == null || getParentFragment().getCurrentUserInfo().premium_gifts.isEmpty()) ? false : true;
+        boolean z2 = (MessagesController.getInstance(this.currentAccount).premiumLocked || !MessagesController.getInstance(this.currentAccount).giftAttachMenuIcon || !MessagesController.getInstance(this.currentAccount).giftTextFieldIcon || getParentFragment() == null || getParentFragment().getCurrentUser() == null || BuildVars.IS_BILLING_UNAVAILABLE || getParentFragment().getCurrentUser().self || getParentFragment().getCurrentUser().premium || getParentFragment().getCurrentUserInfo() == null || getParentFragment().getCurrentUserInfo().premium_gifts.isEmpty() || isInScheduleMode()) ? false : true;
         if (z2 || this.giftButton != null) {
             createGiftButton();
             AndroidUtilities.updateViewVisibilityAnimated(this.giftButton, z2, 1.0f, z);
+            ImageView imageView = this.scheduledButton;
+            if (imageView == null || imageView.getVisibility() != 0) {
+                return;
+            }
+            float f = 48.0f;
+            int i = z2 ? -AndroidUtilities.dp(48.0f) : 0;
+            ImageView imageView2 = this.botButton;
+            float dp = i + AndroidUtilities.dp((imageView2 == null || imageView2.getVisibility() != 0) ? 0.0f : 0.0f);
+            if (z) {
+                this.scheduledButton.animate().translationX(dp).setDuration(150L).start();
+            } else {
+                this.scheduledButton.setTranslationX(dp);
+            }
         }
     }
 
@@ -8778,32 +8808,36 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 if (imageView6 != null) {
                     imageView6.setVisibility((!z2 || this.scheduledButton.getVisibility() == 0) ? 8 : 8);
                 }
+                ImageView imageView7 = this.giftButton;
+                if (imageView7 != null && imageView7.getVisibility() == 0) {
+                    this.scheduledButton.setTranslationX(-AndroidUtilities.dp(48.0f));
+                }
             }
         } else {
-            ImageView imageView7 = this.scheduledButton;
-            if (imageView7 != null) {
+            ImageView imageView8 = this.scheduledButton;
+            if (imageView8 != null) {
                 if (z4) {
-                    imageView7.setVisibility(0);
+                    imageView8.setVisibility(0);
                 }
                 this.scheduledButton.setPivotX(AndroidUtilities.dp(24.0f));
                 AnimatorSet animatorSet2 = new AnimatorSet();
                 this.scheduledButtonAnimation = animatorSet2;
                 Animator[] animatorArr = new Animator[3];
-                ImageView imageView8 = this.scheduledButton;
+                ImageView imageView9 = this.scheduledButton;
                 Property property = View.ALPHA;
                 float[] fArr = new float[1];
                 fArr[0] = z4 ? 1.0f : 0.0f;
-                animatorArr[0] = ObjectAnimator.ofFloat(imageView8, property, fArr);
-                ImageView imageView9 = this.scheduledButton;
+                animatorArr[0] = ObjectAnimator.ofFloat(imageView9, property, fArr);
+                ImageView imageView10 = this.scheduledButton;
                 Property property2 = View.SCALE_X;
                 float[] fArr2 = new float[1];
                 fArr2[0] = z4 ? 1.0f : 0.1f;
-                animatorArr[1] = ObjectAnimator.ofFloat(imageView9, property2, fArr2);
-                ImageView imageView10 = this.scheduledButton;
+                animatorArr[1] = ObjectAnimator.ofFloat(imageView10, property2, fArr2);
+                ImageView imageView11 = this.scheduledButton;
                 Property property3 = View.SCALE_Y;
                 float[] fArr3 = new float[1];
                 fArr3[0] = z4 ? 1.0f : 0.1f;
-                animatorArr[2] = ObjectAnimator.ofFloat(imageView10, property3, fArr3);
+                animatorArr[2] = ObjectAnimator.ofFloat(imageView11, property3, fArr3);
                 animatorSet2.playTogether(animatorArr);
                 this.scheduledButtonAnimation.setDuration(180L);
                 this.scheduledButtonAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatActivityEnterView.51
@@ -8825,8 +8859,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
         LinearLayout linearLayout3 = this.attachLayout;
         if (linearLayout3 != null) {
-            ImageView imageView11 = this.botButton;
-            if ((imageView11 == null || imageView11.getVisibility() == 8) && ((imageView = this.notifyButton) == null || imageView.getVisibility() == 8)) {
+            ImageView imageView12 = this.botButton;
+            if ((imageView12 == null || imageView12.getVisibility() == 8) && ((imageView = this.notifyButton) == null || imageView.getVisibility() == 8)) {
                 f = 48.0f;
             }
             linearLayout3.setPivotX(AndroidUtilities.dp(f));

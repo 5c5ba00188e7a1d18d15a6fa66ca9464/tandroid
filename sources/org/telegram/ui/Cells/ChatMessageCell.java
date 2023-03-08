@@ -74,7 +74,6 @@ import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
-import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
@@ -24750,11 +24749,6 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:155:0x0188  */
-    /* JADX WARN: Removed duplicated region for block: B:157:? A[RETURN, SYNTHETIC] */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     private void updateCurrentUserAndChat() {
         TLRPC$Peer tLRPC$Peer;
         MessageObject messageObject;
@@ -24818,16 +24812,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             MessageObject messageObject3 = this.currentMessageObject;
             if (messageObject3.messageOwner != null && (messageObject = messageObject3.replyMessageObject) != null && messageObject.isFromUser()) {
                 this.currentReplyUserId = this.currentMessageObject.replyMessageObject.messageOwner.from_id.user_id;
-                if (BuildVars.DEBUG_VERSION) {
-                    return;
-                }
-                FileLog.d("updateCurrentUserAndChat(): currentUser=" + this.currentUser + " currentChat=" + this.currentChat);
                 return;
             }
         }
         this.currentReplyUserId = 0L;
-        if (BuildVars.DEBUG_VERSION) {
-        }
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(28:21|(1:23)|24|(1:534)(2:30|(23:32|33|34|(1:36)(1:(1:502)(1:503))|37|(1:39)(1:500)|40|(7:42|(1:44)|45|(1:47)(3:53|(1:55)(1:57)|56)|48|(1:50)(1:52)|51)|58|59|60|61|62|(3:64|(1:66)|67)(1:495)|68|(1:70)|(1:72)(1:494)|73|(2:75|(1:77))|78|(1:80)(2:488|(1:490)(2:491|(1:493)))|81|(1:83)))|504|(24:511|(4:524|(1:526)(1:533)|527|(3:529|(1:531)|532))|515|34|(0)(0)|37|(0)(0)|40|(0)|58|59|60|61|62|(0)(0)|68|(0)|(0)(0)|73|(0)|78|(0)(0)|81|(0))(1:510)|33|34|(0)(0)|37|(0)(0)|40|(0)|58|59|60|61|62|(0)(0)|68|(0)|(0)(0)|73|(0)|78|(0)(0)|81|(0)) */
@@ -25561,15 +25549,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             return tLRPC$Chat2.title;
         }
         MessageObject messageObject = this.currentMessageObject;
-        if (messageObject != null && messageObject.isSponsored()) {
-            TLRPC$ChatInvite tLRPC$ChatInvite = this.currentMessageObject.sponsoredChatInvite;
-            return (tLRPC$ChatInvite == null || (str2 = tLRPC$ChatInvite.title) == null) ? (tLRPC$ChatInvite == null || (tLRPC$Chat = tLRPC$ChatInvite.chat) == null || (str = tLRPC$Chat.title) == null) ? "" : str : str2;
-        } else if (BuildVars.DEBUG_VERSION) {
-            FileLog.e(new Exception("DELETED: no user found"));
-            return "DELETED";
-        } else {
+        if (messageObject == null || !messageObject.isSponsored()) {
             return "DELETED";
         }
+        TLRPC$ChatInvite tLRPC$ChatInvite = this.currentMessageObject.sponsoredChatInvite;
+        return (tLRPC$ChatInvite == null || (str2 = tLRPC$ChatInvite.title) == null) ? (tLRPC$ChatInvite == null || (tLRPC$Chat = tLRPC$ChatInvite.chat) == null || (str = tLRPC$Chat.title) == null) ? "" : str : str2;
     }
 
     private Object getAuthorStatus() {

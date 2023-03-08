@@ -6448,9 +6448,6 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public TLRPC$Chat getChat(Long l) {
-        if (BuildVars.DEBUG_VERSION) {
-            FileLog.e("getChat(" + l + ")");
-        }
         return this.chats.get(l);
     }
 

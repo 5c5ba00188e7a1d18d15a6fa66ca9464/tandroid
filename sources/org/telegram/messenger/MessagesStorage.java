@@ -413,6 +413,20 @@ public class MessagesStorage extends BaseController {
     }
 
     public void openDatabase(int i) {
+        if (!NativeLoader.loaded()) {
+            int i2 = 0;
+            while (!NativeLoader.loaded()) {
+                try {
+                    Thread.sleep(1000L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                i2++;
+                if (i2 > 5) {
+                    break;
+                }
+            }
+        }
         File filesDirFixed = ApplicationLoader.getFilesDirFixed();
         if (this.currentAccount != 0) {
             File file = new File(filesDirFixed, "account" + this.currentAccount + "/");
@@ -463,33 +477,33 @@ public class MessagesStorage extends BaseController {
                         }
                     }
                     queryFinalized.dispose();
-                } catch (Exception e) {
-                    FileLog.e(e);
-                    if (e.getMessage() != null && e.getMessage().contains("malformed")) {
+                } catch (Exception e2) {
+                    FileLog.e(e2);
+                    if (e2.getMessage() != null && e2.getMessage().contains("malformed")) {
                         throw new RuntimeException("malformed");
                     }
                     try {
                         this.database.executeFast("CREATE TABLE IF NOT EXISTS params(id INTEGER PRIMARY KEY, seq INTEGER, pts INTEGER, date INTEGER, qts INTEGER, lsv INTEGER, sg INTEGER, pbytes BLOB)").stepThis().dispose();
                         this.database.executeFast("INSERT INTO params VALUES(1, 0, 0, 0, 0, 0, 0, NULL)").stepThis().dispose();
-                    } catch (Exception e2) {
-                        FileLog.e(e2);
+                    } catch (Exception e3) {
+                        FileLog.e(e3);
                     }
                 }
                 if (intValue < 113) {
                     try {
                         updateDbToLastVersion(intValue);
-                    } catch (Exception e3) {
+                    } catch (Exception e4) {
                         if (BuildVars.DEBUG_PRIVATE_VERSION) {
-                            throw e3;
+                            throw e4;
                         }
-                        FileLog.e(e3);
+                        FileLog.e(e4);
                         throw new RuntimeException("malformed");
                     }
                 }
             }
-        } catch (Exception e4) {
-            FileLog.e(e4);
-            if (i < 3 && e4.getMessage() != null && e4.getMessage().contains("malformed")) {
+        } catch (Exception e5) {
+            FileLog.e(e5);
+            if (i < 3 && e5.getMessage() != null && e5.getMessage().contains("malformed")) {
                 if (i == 2) {
                     cleanupInternal(true);
                     clearLoadingDialogsOffsets();
