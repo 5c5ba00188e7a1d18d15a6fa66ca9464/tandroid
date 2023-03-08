@@ -326,6 +326,7 @@ public class DialogCell extends BaseCell {
     private int swipeMessageWidth;
     private Paint thumbBackgroundPaint;
     private ImageReceiver[] thumbImage;
+    private boolean[] thumbImageSeen;
     private Path thumbPath;
     int thumbSize;
     private SpoilerEffect thumbSpoiler;
@@ -518,6 +519,7 @@ public class DialogCell extends BaseCell {
         this.collapseOffset = 0.0f;
         this.hasUnmutedTopics = false;
         this.overrideSwipeAction = false;
+        this.thumbImageSeen = new boolean[3];
         this.thumbImage = new ImageReceiver[3];
         this.drawPlay = new boolean[3];
         this.drawSpoiler = new boolean[3];
@@ -3083,6 +3085,9 @@ public class DialogCell extends BaseCell {
                 if (text instanceof Spanned) {
                     FixedWidthSpan[] fixedWidthSpanArr = (FixedWidthSpan[]) ((Spanned) text).getSpans(0, text.length(), FixedWidthSpan.class);
                     if (fixedWidthSpanArr == null || fixedWidthSpanArr.length <= 0) {
+                        for (int i2 = 0; i2 < 3; i2++) {
+                            this.thumbImageSeen[i2] = false;
+                        }
                         return;
                     }
                     int spanStart = ((Spanned) text).getSpanStart(fixedWidthSpanArr[0]);
@@ -3093,8 +3098,9 @@ public class DialogCell extends BaseCell {
                     if (ceil != 0) {
                         ceil += AndroidUtilities.dp(3.0f);
                     }
-                    for (int i2 = 0; i2 < this.thumbsCount; i2++) {
-                        this.thumbImage[i2].setImageX(i + ceil + AndroidUtilities.dp((this.thumbSize + 2) * i2));
+                    for (int i3 = 0; i3 < this.thumbsCount; i3++) {
+                        this.thumbImage[i3].setImageX(i + ceil + AndroidUtilities.dp((this.thumbSize + 2) * i3));
+                        this.thumbImageSeen[i3] = true;
                     }
                 }
             } catch (Exception e) {
@@ -3848,12 +3854,12 @@ public class DialogCell extends BaseCell {
     /* JADX WARN: Code restructure failed: missing block: B:315:0x0b39, code lost:
         if (r2.lastKnownTypingType >= 0) goto L161;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:688:0x1460, code lost:
-        if (r1 > 0) goto L407;
+    /* JADX WARN: Code restructure failed: missing block: B:691:0x1468, code lost:
+        if (r1 > 0) goto L410;
      */
-    /* JADX WARN: Removed duplicated region for block: B:1003:0x1ba1  */
-    /* JADX WARN: Removed duplicated region for block: B:1013:0x1bbf  */
-    /* JADX WARN: Removed duplicated region for block: B:1029:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1006:0x1ba9  */
+    /* JADX WARN: Removed duplicated region for block: B:1016:0x1bc7  */
+    /* JADX WARN: Removed duplicated region for block: B:1033:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:249:0x08f8  */
     /* JADX WARN: Removed duplicated region for block: B:275:0x09b7  */
     /* JADX WARN: Removed duplicated region for block: B:339:0x0bc4  */
@@ -3871,31 +3877,31 @@ public class DialogCell extends BaseCell {
     /* JADX WARN: Removed duplicated region for block: B:559:0x1054  */
     /* JADX WARN: Removed duplicated region for block: B:561:0x10a7  */
     /* JADX WARN: Removed duplicated region for block: B:617:0x1255  */
-    /* JADX WARN: Removed duplicated region for block: B:644:0x13d2  */
-    /* JADX WARN: Removed duplicated region for block: B:648:0x13e3  */
-    /* JADX WARN: Removed duplicated region for block: B:666:0x1428  */
-    /* JADX WARN: Removed duplicated region for block: B:692:0x146e  */
-    /* JADX WARN: Removed duplicated region for block: B:695:0x1494  */
-    /* JADX WARN: Removed duplicated region for block: B:696:0x14a3  */
-    /* JADX WARN: Removed duplicated region for block: B:699:0x14d3  */
-    /* JADX WARN: Removed duplicated region for block: B:702:0x14df  */
-    /* JADX WARN: Removed duplicated region for block: B:713:0x1541  */
-    /* JADX WARN: Removed duplicated region for block: B:843:0x18cc  */
-    /* JADX WARN: Removed duplicated region for block: B:851:0x18ec  */
-    /* JADX WARN: Removed duplicated region for block: B:856:0x18fd  */
-    /* JADX WARN: Removed duplicated region for block: B:863:0x1913  */
-    /* JADX WARN: Removed duplicated region for block: B:881:0x194a  */
-    /* JADX WARN: Removed duplicated region for block: B:883:0x194e  */
-    /* JADX WARN: Removed duplicated region for block: B:897:0x19bb  */
-    /* JADX WARN: Removed duplicated region for block: B:900:0x19c4  */
-    /* JADX WARN: Removed duplicated region for block: B:916:0x1a03  */
-    /* JADX WARN: Removed duplicated region for block: B:945:0x1a8b  */
-    /* JADX WARN: Removed duplicated region for block: B:954:0x1ae0  */
-    /* JADX WARN: Removed duplicated region for block: B:959:0x1af3  */
-    /* JADX WARN: Removed duplicated region for block: B:968:0x1b0d  */
-    /* JADX WARN: Removed duplicated region for block: B:976:0x1b36  */
-    /* JADX WARN: Removed duplicated region for block: B:987:0x1b63  */
-    /* JADX WARN: Removed duplicated region for block: B:993:0x1b7b  */
+    /* JADX WARN: Removed duplicated region for block: B:647:0x13da  */
+    /* JADX WARN: Removed duplicated region for block: B:651:0x13eb  */
+    /* JADX WARN: Removed duplicated region for block: B:669:0x1430  */
+    /* JADX WARN: Removed duplicated region for block: B:695:0x1476  */
+    /* JADX WARN: Removed duplicated region for block: B:698:0x149c  */
+    /* JADX WARN: Removed duplicated region for block: B:699:0x14ab  */
+    /* JADX WARN: Removed duplicated region for block: B:702:0x14db  */
+    /* JADX WARN: Removed duplicated region for block: B:705:0x14e7  */
+    /* JADX WARN: Removed duplicated region for block: B:716:0x1549  */
+    /* JADX WARN: Removed duplicated region for block: B:846:0x18d4  */
+    /* JADX WARN: Removed duplicated region for block: B:854:0x18f4  */
+    /* JADX WARN: Removed duplicated region for block: B:859:0x1905  */
+    /* JADX WARN: Removed duplicated region for block: B:866:0x191b  */
+    /* JADX WARN: Removed duplicated region for block: B:884:0x1952  */
+    /* JADX WARN: Removed duplicated region for block: B:886:0x1956  */
+    /* JADX WARN: Removed duplicated region for block: B:900:0x19c3  */
+    /* JADX WARN: Removed duplicated region for block: B:903:0x19cc  */
+    /* JADX WARN: Removed duplicated region for block: B:919:0x1a0b  */
+    /* JADX WARN: Removed duplicated region for block: B:948:0x1a93  */
+    /* JADX WARN: Removed duplicated region for block: B:957:0x1ae8  */
+    /* JADX WARN: Removed duplicated region for block: B:962:0x1afb  */
+    /* JADX WARN: Removed duplicated region for block: B:971:0x1b15  */
+    /* JADX WARN: Removed duplicated region for block: B:979:0x1b3e  */
+    /* JADX WARN: Removed duplicated region for block: B:990:0x1b6b  */
+    /* JADX WARN: Removed duplicated region for block: B:996:0x1b83  */
     @Override // android.view.View
     @SuppressLint({"DrawAllocation"})
     /*
@@ -4811,30 +4817,32 @@ public class DialogCell extends BaseCell {
                                                 canvas2.translate(f2, dp10 * f8);
                                             }
                                             for (int i31 = 0; i31 < this.thumbsCount; i31++) {
-                                                if (this.thumbBackgroundPaint == null) {
-                                                    Paint paint9 = new Paint(i4);
-                                                    this.thumbBackgroundPaint = paint9;
-                                                    paint9.setShadowLayer(AndroidUtilities.dp(1.34f), f2, AndroidUtilities.dp(0.34f), 402653184);
-                                                    this.thumbBackgroundPaint.setColor(0);
-                                                }
-                                                RectF rectF7 = AndroidUtilities.rectTmp;
-                                                rectF7.set(this.thumbImage[i31].getImageX(), this.thumbImage[i31].getImageY(), this.thumbImage[i31].getImageX2(), this.thumbImage[i31].getImageY2());
-                                                canvas2.drawRoundRect(rectF7, this.thumbImage[i31].getRoundRadius()[0], this.thumbImage[i31].getRoundRadius()[i4], this.thumbBackgroundPaint);
-                                                this.thumbImage[i31].draw(canvas2);
-                                                if (this.drawSpoiler[i31]) {
-                                                    this.thumbPath.rewind();
-                                                    this.thumbPath.addRoundRect(rectF7, this.thumbImage[i31].getRoundRadius()[0], this.thumbImage[i31].getRoundRadius()[i4], Path.Direction.CW);
-                                                    canvas.save();
-                                                    canvas2.clipPath(this.thumbPath);
-                                                    this.thumbSpoiler.setColor(ColorUtils.setAlphaComponent(-1, (int) (Color.alpha(-1) * 0.325f)));
-                                                    this.thumbSpoiler.setBounds((int) this.thumbImage[i31].getImageX(), (int) this.thumbImage[i31].getImageY(), (int) this.thumbImage[i31].getImageX2(), (int) this.thumbImage[i31].getImageY2());
-                                                    this.thumbSpoiler.draw(canvas2);
-                                                    invalidate();
-                                                    canvas.restore();
-                                                }
-                                                if (this.drawPlay[i31]) {
-                                                    BaseCell.setDrawableBounds(Theme.dialogs_playDrawable, (int) (this.thumbImage[i31].getCenterX() - (Theme.dialogs_playDrawable.getIntrinsicWidth() / 2)), (int) (this.thumbImage[i31].getCenterY() - (Theme.dialogs_playDrawable.getIntrinsicHeight() / 2)));
-                                                    Theme.dialogs_playDrawable.draw(canvas2);
+                                                if (this.thumbImageSeen[i31]) {
+                                                    if (this.thumbBackgroundPaint == null) {
+                                                        Paint paint9 = new Paint(i4);
+                                                        this.thumbBackgroundPaint = paint9;
+                                                        paint9.setShadowLayer(AndroidUtilities.dp(1.34f), f2, AndroidUtilities.dp(0.34f), 402653184);
+                                                        this.thumbBackgroundPaint.setColor(0);
+                                                    }
+                                                    RectF rectF7 = AndroidUtilities.rectTmp;
+                                                    rectF7.set(this.thumbImage[i31].getImageX(), this.thumbImage[i31].getImageY(), this.thumbImage[i31].getImageX2(), this.thumbImage[i31].getImageY2());
+                                                    canvas2.drawRoundRect(rectF7, this.thumbImage[i31].getRoundRadius()[0], this.thumbImage[i31].getRoundRadius()[i4], this.thumbBackgroundPaint);
+                                                    this.thumbImage[i31].draw(canvas2);
+                                                    if (this.drawSpoiler[i31]) {
+                                                        this.thumbPath.rewind();
+                                                        this.thumbPath.addRoundRect(rectF7, this.thumbImage[i31].getRoundRadius()[0], this.thumbImage[i31].getRoundRadius()[i4], Path.Direction.CW);
+                                                        canvas.save();
+                                                        canvas2.clipPath(this.thumbPath);
+                                                        this.thumbSpoiler.setColor(ColorUtils.setAlphaComponent(-1, (int) (Color.alpha(-1) * 0.325f)));
+                                                        this.thumbSpoiler.setBounds((int) this.thumbImage[i31].getImageX(), (int) this.thumbImage[i31].getImageY(), (int) this.thumbImage[i31].getImageX2(), (int) this.thumbImage[i31].getImageY2());
+                                                        this.thumbSpoiler.draw(canvas2);
+                                                        invalidate();
+                                                        canvas.restore();
+                                                    }
+                                                    if (this.drawPlay[i31]) {
+                                                        BaseCell.setDrawableBounds(Theme.dialogs_playDrawable, (int) (this.thumbImage[i31].getCenterX() - (Theme.dialogs_playDrawable.getIntrinsicWidth() / 2)), (int) (this.thumbImage[i31].getCenterY() - (Theme.dialogs_playDrawable.getIntrinsicHeight() / 2)));
+                                                        Theme.dialogs_playDrawable.draw(canvas2);
+                                                    }
                                                 }
                                             }
                                             if (this.updateHelper.typingProgres > f2) {

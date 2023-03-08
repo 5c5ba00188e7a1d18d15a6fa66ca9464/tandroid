@@ -8222,7 +8222,7 @@ public class MessageObject {
     }
 
     public boolean isMusic() {
-        return isMusicMessage(this.messageOwner) && !isVideo();
+        return (!isMusicMessage(this.messageOwner) || isVideo() || isRoundVideo()) ? false : true;
     }
 
     public boolean isDocument() {

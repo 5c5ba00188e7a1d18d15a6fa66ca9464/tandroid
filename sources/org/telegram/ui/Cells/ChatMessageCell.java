@@ -537,7 +537,6 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     private boolean locationExpired;
     private ImageReceiver locationImageReceiver;
     private Drawable locationLoadingThumb;
-    private long logid;
     private boolean mediaBackground;
     private CheckBoxBase mediaCheckBox;
     private int mediaOffsetY;
@@ -1491,7 +1490,6 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         this.captionPatchedSpoilersLayout = new AtomicReference<>();
         this.sPath = new Path();
         this.hadLongPress = false;
-        this.logid = Math.round(Math.random() * 9999999.0d);
         this.ANIMATION_OFFSET_X = new Property<ChatMessageCell, Float>(this, Float.class, "animationOffsetX") { // from class: org.telegram.ui.Cells.ChatMessageCell.12
             @Override // android.util.Property
             public Float get(ChatMessageCell chatMessageCell) {
@@ -24823,7 +24821,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 if (BuildVars.DEBUG_VERSION) {
                     return;
                 }
-                FileLog.d("{" + this.logid + "} updateCurrentUserAndChat(): currentUser=" + this.currentUser + " currentChat=" + this.currentChat);
+                FileLog.d("updateCurrentUserAndChat(): currentUser=" + this.currentUser + " currentChat=" + this.currentChat);
                 return;
             }
         }
@@ -25567,7 +25565,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             TLRPC$ChatInvite tLRPC$ChatInvite = this.currentMessageObject.sponsoredChatInvite;
             return (tLRPC$ChatInvite == null || (str2 = tLRPC$ChatInvite.title) == null) ? (tLRPC$ChatInvite == null || (tLRPC$Chat = tLRPC$ChatInvite.chat) == null || (str = tLRPC$Chat.title) == null) ? "" : str : str2;
         } else if (BuildVars.DEBUG_VERSION) {
-            FileLog.e("{" + this.logid + "} DELETED: no user found", new Exception("DELETED: no user found"));
+            FileLog.e(new Exception("DELETED: no user found"));
             return "DELETED";
         } else {
             return "DELETED";

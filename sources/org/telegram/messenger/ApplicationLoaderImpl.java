@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.crashes.Crashes;
 import com.microsoft.appcenter.distribute.Distribute;
+import org.telegram.tgnet.TLRPC$User;
 /* loaded from: classes.dex */
 public class ApplicationLoaderImpl extends ApplicationLoader {
     private static long lastUpdateCheckTime;
@@ -25,7 +26,12 @@ public class ApplicationLoaderImpl extends ApplicationLoader {
                 }
                 AppCenter.start(activity.getApplication(), BuildConfig.APP_CENTER_HASH, Distribute.class, Crashes.class);
                 Crashes.getMinidumpDirectory().thenAccept(ApplicationLoaderImpl$$ExternalSyntheticLambda0.INSTANCE);
-                AppCenter.setUserId("uid=" + UserConfig.getInstance(UserConfig.selectedAccount).clientUserId);
+                String str = "uid=" + UserConfig.getInstance(UserConfig.selectedAccount).clientUserId;
+                TLRPC$User currentUser = UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser();
+                if (currentUser != null && !TextUtils.isEmpty(currentUser.username)) {
+                    str = str + " uname=" + currentUser.username;
+                }
+                AppCenter.setUserId(str);
             }
         } catch (Throwable th) {
             FileLog.e(th);
