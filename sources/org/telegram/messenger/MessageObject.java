@@ -3973,7 +3973,13 @@ public class MessageObject {
         } else {
             tLRPC$User = longSparseArray != null ? longSparseArray.get(j) : null;
         }
-        return tLRPC$User == null ? MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j)) : tLRPC$User;
+        if (tLRPC$User == null) {
+            tLRPC$User = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j));
+        }
+        if (BuildVars.DEBUG_VERSION && tLRPC$User == null) {
+            FileLog.e(new Exception("DELETED problem detected!!!"));
+        }
+        return tLRPC$User;
     }
 
     private TLRPC$Chat getChat(AbstractMap<Long, TLRPC$Chat> abstractMap, LongSparseArray<TLRPC$Chat> longSparseArray, long j) {

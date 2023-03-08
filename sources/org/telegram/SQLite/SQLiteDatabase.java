@@ -94,7 +94,10 @@ public class SQLiteDatabase {
 
     public void beginTransaction() throws SQLiteException {
         if (this.inTransaction) {
-            throw new SQLiteException("database already in transaction");
+            if (BuildVars.DEBUG_PRIVATE_VERSION) {
+                throw new SQLiteException("database already in transaction");
+            }
+            commitTransaction();
         }
         this.inTransaction = true;
         beginTransaction(this.sqliteHandle);

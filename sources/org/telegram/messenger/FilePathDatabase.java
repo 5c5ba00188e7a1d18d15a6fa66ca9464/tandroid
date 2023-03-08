@@ -246,7 +246,7 @@ public class FilePathDatabase {
         countDownLatch.countDown();
     }
 
-    private void ensureDatabaseCreated() {
+    public void ensureDatabaseCreated() {
         if (this.databaseCreated) {
             return;
         }

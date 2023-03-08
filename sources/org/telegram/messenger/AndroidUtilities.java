@@ -2203,45 +2203,6 @@ public class AndroidUtilities {
         }
     }
 
-    public static void slowRunOnUIThread(Runnable runnable) {
-        slowRunOnUIThread(runnable, 12);
-    }
-
-    public static void slowRunOnUIThread(Runnable runnable, int i) {
-        if (SharedConfig.getDevicePerformanceClass() >= 2) {
-            runOnUIThread(runnable);
-        } else {
-            runOnUIThread(new TryPost(runnable, i));
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class TryPost implements Runnable {
-        private final Runnable runnable;
-        private int triesCount;
-        private long lastTime = System.currentTimeMillis();
-        private final long threshold = (1000.0f / AndroidUtilities.screenRefreshRate) * 1.25f;
-
-        public TryPost(Runnable runnable, int i) {
-            this.runnable = runnable;
-            this.triesCount = i;
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            long currentTimeMillis = System.currentTimeMillis();
-            int i = this.triesCount;
-            if (i <= 0 || currentTimeMillis - this.lastTime <= this.threshold) {
-                this.runnable.run();
-                return;
-            }
-            this.triesCount = i - 1;
-            this.lastTime = currentTimeMillis;
-            AndroidUtilities.runOnUIThread(this);
-        }
-    }
-
     public static void cancelRunOnUIThread(Runnable runnable) {
         if (ApplicationLoader.applicationHandler == null) {
             return;

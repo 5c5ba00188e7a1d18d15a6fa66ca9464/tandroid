@@ -526,17 +526,17 @@ public class ReactedUsersListView extends FrameLayout {
             addView(this.overlaySelectorView, LayoutHelper.createFrame(-1, -1.0f));
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:27:0x00bb  */
+        /* JADX WARN: Removed duplicated region for block: B:29:0x00be  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         void setUserReaction(TLRPC$MessagePeerReaction tLRPC$MessagePeerReaction) {
+            TLRPC$User user;
             String formatString;
             boolean z;
             Object obj;
             Drawable drawable;
-            TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(MessageObject.getPeerId(tLRPC$MessagePeerReaction.peer_id)));
-            if (user == null) {
+            if (tLRPC$MessagePeerReaction == null || (user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(MessageObject.getPeerId(tLRPC$MessagePeerReaction.peer_id)))) == null) {
                 return;
             }
             Long emojiStatusDocumentId = UserObject.getEmojiStatusDocumentId(user);

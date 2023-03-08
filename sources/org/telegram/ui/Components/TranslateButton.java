@@ -21,6 +21,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.TranslateController;
+import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
@@ -341,18 +342,19 @@ public class TranslateButton extends FrameLayout {
         TranslateController translateController = MessagesController.getInstance(this.currentAccount).getTranslateController();
         if (translateController.isTranslatingDialog(this.dialogId)) {
             this.textView.setText(TextUtils.concat(this.translateIcon, " ", LocaleController.getString("ShowOriginalButton", R.string.ShowOriginalButton)));
-            return;
-        }
-        String dialogTranslateTo = translateController.getDialogTranslateTo(this.dialogId);
-        if (dialogTranslateTo == null) {
-            dialogTranslateTo = "en";
-        }
-        String languageName = TranslateAlert2.languageName(dialogTranslateTo, this.accusative);
-        if (this.accusative[0]) {
-            formatString = LocaleController.formatString("TranslateToButton", R.string.TranslateToButton, languageName);
         } else {
-            formatString = LocaleController.formatString("TranslateToButtonOther", R.string.TranslateToButtonOther, languageName);
+            String dialogTranslateTo = translateController.getDialogTranslateTo(this.dialogId);
+            if (dialogTranslateTo == null) {
+                dialogTranslateTo = "en";
+            }
+            String languageName = TranslateAlert2.languageName(dialogTranslateTo, this.accusative);
+            if (this.accusative[0]) {
+                formatString = LocaleController.formatString("TranslateToButton", R.string.TranslateToButton, languageName);
+            } else {
+                formatString = LocaleController.formatString("TranslateToButtonOther", R.string.TranslateToButtonOther, languageName);
+            }
+            this.textView.setText(TextUtils.concat(this.translateIcon, " ", formatString));
         }
-        this.textView.setText(TextUtils.concat(this.translateIcon, " ", formatString));
+        this.menuView.setVisibility(UserConfig.getInstance(this.currentAccount).isPremium() ? 0 : 8);
     }
 }

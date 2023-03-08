@@ -471,6 +471,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadDialogEntities$6() {
+        getFileLoader().getFileDatabase().ensureDatabaseCreated();
         final CacheModel cacheModel = new CacheModel(false);
         LongSparseArray<DialogFileEntities> longSparseArray = new LongSparseArray<>();
         fillDialogsEntitiesRecursive(FileLoader.checkDirectory(4), 6, longSparseArray, null);

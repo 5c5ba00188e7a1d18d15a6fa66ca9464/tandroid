@@ -32,6 +32,7 @@ import org.telegram.tgnet.TLRPC$TL_boolTrue;
 import org.telegram.tgnet.TLRPC$TL_channels_getAdminedPublicChannels;
 import org.telegram.tgnet.TLRPC$TL_channels_getInactiveChannels;
 import org.telegram.tgnet.TLRPC$TL_channels_updateUsername;
+import org.telegram.tgnet.TLRPC$TL_chatInviteExported;
 import org.telegram.tgnet.TLRPC$TL_dialogFolder;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_messages_chats;
@@ -287,16 +288,25 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
 
     private void sendInviteMessages() {
         String str;
+        TLRPC$ChatFull chatFull = MessagesController.getInstance(this.currentAccount).getChatFull(this.fromChat.id);
+        if (chatFull == null) {
+            dismiss();
+            return;
+        }
+        if (this.fromChat.username != null) {
+            str = "@" + this.fromChat.username;
+        } else {
+            TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = chatFull.exported_invite;
+            if (tLRPC$TL_chatInviteExported != null) {
+                str = tLRPC$TL_chatInviteExported.link;
+            } else {
+                dismiss();
+                return;
+            }
+        }
         Iterator<Object> it = this.selectedChats.iterator();
         while (it.hasNext()) {
-            TLRPC$User tLRPC$User = (TLRPC$User) it.next();
-            TLRPC$ChatFull chatFull = MessagesController.getInstance(this.currentAccount).getChatFull(this.fromChat.id);
-            if (this.fromChat.username != null) {
-                str = "@" + this.fromChat.username;
-            } else {
-                str = chatFull.exported_invite.link;
-            }
-            SendMessagesHelper.getInstance(this.currentAccount).sendMessage(str, tLRPC$User.id, null, null, this.linkPreview, false, null, null, null, false, 0, null, false);
+            SendMessagesHelper.getInstance(this.currentAccount).sendMessage(str, ((TLRPC$User) it.next()).id, null, null, this.linkPreview, false, null, null, null, false, 0, null, false);
         }
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
@@ -554,6 +564,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     public void setRestrictedUsers(TLRPC$Chat tLRPC$Chat, ArrayList<TLRPC$User> arrayList) {
+        TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported;
         this.fromChat = tLRPC$Chat;
         this.canSendLink = ChatObject.canUserDoAdminAction(tLRPC$Chat, 3);
         this.restrictedUsers = new ArrayList<>(arrayList);
@@ -564,10 +575,10 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
         updateRows();
         updateButton();
         TLRPC$ChatFull chatFull = MessagesController.getInstance(this.currentAccount).getChatFull(this.fromChat.id);
-        if (this.fromChat.username != null || chatFull == null) {
+        if (this.fromChat.username != null || chatFull == null || (tLRPC$TL_chatInviteExported = chatFull.exported_invite) == null) {
             return;
         }
-        String str = chatFull.exported_invite.link;
+        String str = tLRPC$TL_chatInviteExported.link;
         TLRPC$TL_messages_getWebPage tLRPC$TL_messages_getWebPage = new TLRPC$TL_messages_getWebPage();
         tLRPC$TL_messages_getWebPage.url = str;
         ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getWebPage, new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda8

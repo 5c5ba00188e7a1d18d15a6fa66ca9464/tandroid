@@ -790,7 +790,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:72:0x01e7, code lost:
-        if (r2 != false) goto L104;
+        if (r2 != false) goto L107;
      */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
@@ -947,7 +947,11 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                                         this.thumbsFileNames.add(null);
                                         this.videoFileNames.add(null);
                                         this.imagesLocations.add(this.prevImageLocation);
-                                        this.thumbsLocations.add(this.prevThumbLocation);
+                                        ImageLocation imageLocation3 = this.prevThumbLocation;
+                                        if (imageLocation3 == null) {
+                                            imageLocation3 = ImageLocation.getForPhoto(closestPhotoSizeWithSize, tLRPC$Photo2);
+                                        }
+                                        this.thumbsLocations.add(imageLocation3);
                                         this.vectorAvatars.add(this.prevVectorAvatarThumbDrawable);
                                         this.videoLocations.add(null);
                                         this.photos.add(null);
@@ -1032,9 +1036,9 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                 if (callback != null) {
                     callback.onPhotosLoaded();
                 }
-                ImageLocation imageLocation3 = this.currentUploadingImageLocation;
-                if (imageLocation3 != null) {
-                    addUploadingImage(imageLocation3, this.curreantUploadingThumbLocation);
+                ImageLocation imageLocation4 = this.currentUploadingImageLocation;
+                if (imageLocation4 != null) {
+                    addUploadingImage(imageLocation4, this.curreantUploadingThumbLocation);
                 }
             }
         } else if (i == NotificationCenter.fileLoaded) {
@@ -1132,7 +1136,8 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                 ImageLocation imageLocation = (ImageLocation) ProfileGalleryView.this.videoLocations.get(i2);
                 item.imageView.isVideo = imageLocation != null;
                 z = ProfileGalleryView.this.vectorAvatars.get(i2) == null;
-                item.imageView.setImageMedia((VectorAvatarThumbDrawable) ProfileGalleryView.this.vectorAvatars.get(i2), imageLocation, null, (ImageLocation) ProfileGalleryView.this.imagesLocations.get(i2), null, (ImageLocation) ProfileGalleryView.this.thumbsLocations.get(i2), ((ImageLocation) ProfileGalleryView.this.thumbsLocations.get(i2)).photoSize instanceof TLRPC$TL_photoStrippedSize ? "b" : null, null, ((Integer) ProfileGalleryView.this.imagesLocationsSizes.get(i2)).intValue(), 1, "avatar_" + ProfileGalleryView.this.dialogId);
+                ImageLocation imageLocation2 = (ImageLocation) ProfileGalleryView.this.thumbsLocations.get(i2);
+                item.imageView.setImageMedia((VectorAvatarThumbDrawable) ProfileGalleryView.this.vectorAvatars.get(i2), imageLocation, null, (ImageLocation) ProfileGalleryView.this.imagesLocations.get(i2), null, (ImageLocation) ProfileGalleryView.this.thumbsLocations.get(i2), (imageLocation2 == null || !(imageLocation2.photoSize instanceof TLRPC$TL_photoStrippedSize)) ? null : "b", null, ((Integer) ProfileGalleryView.this.imagesLocationsSizes.get(i2)).intValue(), 1, "avatar_" + ProfileGalleryView.this.dialogId);
             } else {
                 BackupImageView backupImageView = this.parentAvatarImageView;
                 Drawable drawable = backupImageView == null ? null : backupImageView.getImageReceiver().getDrawable();
@@ -1145,18 +1150,18 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                         z = false;
                     }
                 }
-                ImageLocation imageLocation2 = (ImageLocation) ProfileGalleryView.this.videoLocations.get(i2);
-                item.imageView.isVideo = imageLocation2 != null;
+                ImageLocation imageLocation3 = (ImageLocation) ProfileGalleryView.this.videoLocations.get(i2);
+                item.imageView.isVideo = imageLocation3 != null;
                 z = ProfileGalleryView.this.vectorAvatars.get(i2) == null;
-                String str = (ProfileGalleryView.this.isProfileFragment && imageLocation2 != null && imageLocation2.imageType == 2) ? "avatar" : null;
-                ImageLocation imageLocation3 = (ImageLocation) ProfileGalleryView.this.thumbsLocations.get(i2);
+                String str = (ProfileGalleryView.this.isProfileFragment && imageLocation3 != null && imageLocation3.imageType == 2) ? "avatar" : null;
+                ImageLocation imageLocation4 = (ImageLocation) ProfileGalleryView.this.thumbsLocations.get(i2);
                 Bitmap bitmap = (this.parentAvatarImageView == null || !ProfileGalleryView.this.createThumbFromParent) ? null : this.parentAvatarImageView.getImageReceiver().getBitmap();
                 String str2 = "avatar_" + ProfileGalleryView.this.dialogId;
                 if (bitmap == null || ProfileGalleryView.this.vectorAvatars.get(i2) != null) {
                     if (ProfileGalleryView.this.uploadingImageLocation != null) {
                         item.imageView.setImageMedia((VectorAvatarThumbDrawable) ProfileGalleryView.this.vectorAvatars.get(i2), (ImageLocation) ProfileGalleryView.this.videoLocations.get(i2), str, (ImageLocation) ProfileGalleryView.this.imagesLocations.get(i2), null, ProfileGalleryView.this.uploadingImageLocation, null, null, ((Integer) ProfileGalleryView.this.imagesLocationsSizes.get(i2)).intValue(), 1, str2);
                     } else {
-                        item.imageView.setImageMedia((VectorAvatarThumbDrawable) ProfileGalleryView.this.vectorAvatars.get(i2), imageLocation2, null, (ImageLocation) ProfileGalleryView.this.imagesLocations.get(i2), null, (ImageLocation) ProfileGalleryView.this.thumbsLocations.get(i2), imageLocation3.photoSize instanceof TLRPC$TL_photoStrippedSize ? "b" : null, null, ((Integer) ProfileGalleryView.this.imagesLocationsSizes.get(i2)).intValue(), 1, str2);
+                        item.imageView.setImageMedia((VectorAvatarThumbDrawable) ProfileGalleryView.this.vectorAvatars.get(i2), imageLocation3, null, (ImageLocation) ProfileGalleryView.this.imagesLocations.get(i2), null, (ImageLocation) ProfileGalleryView.this.thumbsLocations.get(i2), imageLocation4.photoSize instanceof TLRPC$TL_photoStrippedSize ? "b" : null, null, ((Integer) ProfileGalleryView.this.imagesLocationsSizes.get(i2)).intValue(), 1, str2);
                     }
                 } else {
                     item.imageView.setImageMedia((ImageLocation) ProfileGalleryView.this.videoLocations.get(i2), str, (ImageLocation) ProfileGalleryView.this.imagesLocations.get(i2), null, bitmap, ((Integer) ProfileGalleryView.this.imagesLocationsSizes.get(i2)).intValue(), 1, str2);

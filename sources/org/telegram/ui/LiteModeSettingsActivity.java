@@ -211,7 +211,9 @@ public class LiteModeSettingsActivity extends BaseFragment {
             this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsBackground"), 32));
             this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsTopics"), 64));
             this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsSpoiler"), 128));
-            this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsBlur"), LiteMode.FLAG_CHAT_BLUR));
+            if (SharedConfig.canBlurChat()) {
+                this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsBlur"), LiteMode.FLAG_CHAT_BLUR));
+            }
             this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsScale"), LiteMode.FLAG_CHAT_SCALE));
         }
         this.items.add(Item.asSwitch(R.drawable.msg2_call_earpiece, LocaleController.getString("LiteOptionsCalls"), LiteMode.FLAG_CALLS_ANIMATIONS));
@@ -543,7 +545,8 @@ public class LiteModeSettingsActivity extends BaseFragment {
         }
 
         private int preprocessFlagsCount(int i) {
-            return Integer.bitCount(i) + ((i & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) > 0 ? -1 : 0) + ((i & 16) > 0 ? -1 : 0) + ((i & LiteMode.FLAG_ANIMATED_EMOJI_CHAT) > 0 ? 1 : 0) + ((i & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) > 0 ? -1 : 0) + ((i & 8) > 0 ? -1 : 0) + ((i & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS) > 0 ? 1 : 0) + ((i & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) > 0 ? -1 : 0) + ((i & 4) <= 0 ? 0 : -1) + ((i & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD) > 0 ? 1 : 0);
+            int bitCount = Integer.bitCount(i) + ((i & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) > 0 ? -1 : 0) + ((i & 16) > 0 ? -1 : 0) + ((i & LiteMode.FLAG_ANIMATED_EMOJI_CHAT) > 0 ? 1 : 0) + ((i & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) > 0 ? -1 : 0) + ((i & 8) > 0 ? -1 : 0) + ((i & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS) > 0 ? 1 : 0) + ((i & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) > 0 ? -1 : 0) + ((i & 4) <= 0 ? 0 : -1) + ((i & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD) > 0 ? 1 : 0);
+            return (SharedConfig.canBlurChat() || (i & LiteMode.FLAG_CHAT_BLUR) <= 0) ? bitCount : bitCount - 1;
         }
 
         @Override // android.view.View
