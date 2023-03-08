@@ -6415,9 +6415,6 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public TLRPC$User getUser(Long l) {
-        if (BuildVars.DEBUG_VERSION) {
-            FileLog.e("getUser(" + l + ")");
-        }
         if (l.longValue() == 0) {
             return UserConfig.getInstance(this.currentAccount).getCurrentUser();
         }
@@ -6551,11 +6548,11 @@ public class MessagesController extends BaseController implements NotificationCe
         return putUser(tLRPC$User, z, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:144:0x0084  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x00a6  */
-    /* JADX WARN: Removed duplicated region for block: B:155:0x00b5  */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x00e8  */
-    /* JADX WARN: Removed duplicated region for block: B:183:0x012e  */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x0054  */
+    /* JADX WARN: Removed duplicated region for block: B:140:0x0076  */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x0085  */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x00b8  */
+    /* JADX WARN: Removed duplicated region for block: B:171:0x00fe  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -6568,13 +6565,7 @@ public class MessagesController extends BaseController implements NotificationCe
         int i;
         String str2;
         if (tLRPC$User == null) {
-            if (BuildVars.DEBUG_VERSION) {
-                FileLog.d("putUser(null)");
-            }
             return false;
-        }
-        if (BuildVars.DEBUG_VERSION) {
-            FileLog.d("putUser(" + tLRPC$User.id + ", " + tLRPC$User + ")");
         }
         if (z) {
             long j = tLRPC$User.id;

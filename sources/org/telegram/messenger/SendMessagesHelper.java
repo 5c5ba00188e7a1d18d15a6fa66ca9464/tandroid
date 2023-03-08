@@ -9165,10 +9165,19 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             MessageObject messageObject6 = delayedMessage.obj;
             String str10 = messageObject6.messageOwner.attachPath;
             TLRPC$Document document4 = messageObject6.getDocument();
-            if (delayedMessage.sendEncryptedRequest != null && document4.dc_id != 0 && !new File(str10).exists()) {
-                putToDelayedMessages(FileLoader.getAttachFileName(document4), delayedMessage);
-                getFileLoader().loadFile(document4, delayedMessage.parentObject, 3, 0);
-                return;
+            if (delayedMessage.sendEncryptedRequest != null && document4.dc_id != 0) {
+                File file4 = new File(str10);
+                if (!file4.exists() && (file4 = getFileLoader().getPathToMessage(delayedMessage.obj.messageOwner)) != null) {
+                    TLRPC$Message tLRPC$Message = delayedMessage.obj.messageOwner;
+                    String absolutePath = file4.getAbsolutePath();
+                    tLRPC$Message.attachPath = absolutePath;
+                    str10 = absolutePath;
+                }
+                if (file4 == null || !file4.exists()) {
+                    putToDelayedMessages(FileLoader.getAttachFileName(document4), delayedMessage);
+                    getFileLoader().loadFile(document4, delayedMessage.parentObject, 3, 0);
+                    return;
+                }
             }
             putToDelayedMessages(str10, delayedMessage);
             getFileLoader().uploadFile(str10, true, false, ConnectionsManager.FileTypeFile);
@@ -9295,12 +9304,12 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         } else {
                             tLRPC$InputEncryptedFile = ((TLRPC$TL_messages_sendEncryptedMultiMedia) delayedMessage.sendEncryptedRequest).files.get(size);
                         }
-                        String file4 = FileLoader.getInstance(this.currentAccount).getPathToAttach(delayedMessage.photoSize).toString();
-                        putToDelayedMessages(file4, delayedMessage);
-                        delayedMessage.extraHashMap.put(file4, tLRPC$InputEncryptedFile);
-                        delayedMessage.extraHashMap.put(messageObject7, file4);
+                        String file5 = FileLoader.getInstance(this.currentAccount).getPathToAttach(delayedMessage.photoSize).toString();
+                        putToDelayedMessages(file5, delayedMessage);
+                        delayedMessage.extraHashMap.put(file5, tLRPC$InputEncryptedFile);
+                        delayedMessage.extraHashMap.put(messageObject7, file5);
                         z = true;
-                        getFileLoader().uploadFile(file4, delayedMessage.sendEncryptedRequest != null, true, ConnectionsManager.FileTypePhoto);
+                        getFileLoader().uploadFile(file5, delayedMessage.sendEncryptedRequest != null, true, ConnectionsManager.FileTypePhoto);
                         putToUploadingMessages(messageObject7);
                         delayedMessage.photoSize = null;
                         z2 = false;
