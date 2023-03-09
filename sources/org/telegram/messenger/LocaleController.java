@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
@@ -59,6 +60,7 @@ public class LocaleController {
     private static Boolean useImperialSystemType;
     public FastDateFormat chatDate;
     public FastDateFormat chatFullDate;
+    private boolean checkingUpdateForCurrentRemoteLocale;
     private HashMap<String, String> currencyValues;
     private Locale currentLocale;
     private LocaleInfo currentLocaleInfo;
@@ -630,22 +632,92 @@ public class LocaleController {
         applyRemoteLanguage(this.currentLocaleInfo, str2, z, i, runnable);
     }
 
-    public void checkUpdateForCurrentRemoteLocale(int i, int i2, int i3) {
+    public void checkUpdateForCurrentRemoteLocale(final int i, int i2, int i3) {
         LocaleInfo localeInfo = this.currentLocaleInfo;
         if (localeInfo != null) {
             if (localeInfo.isRemote() || this.currentLocaleInfo.isUnofficial()) {
                 if (this.currentLocaleInfo.hasBaseLang()) {
                     LocaleInfo localeInfo2 = this.currentLocaleInfo;
                     if (localeInfo2.baseVersion < i3) {
-                        applyRemoteLanguage(localeInfo2, localeInfo2.baseLangCode, false, i, null);
+                        this.checkingUpdateForCurrentRemoteLocale = true;
+                        applyRemoteLanguage(localeInfo2, localeInfo2.baseLangCode, false, i, new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda5
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                LocaleController.this.lambda$checkUpdateForCurrentRemoteLocale$2(i);
+                            }
+                        });
                     }
                 }
                 LocaleInfo localeInfo3 = this.currentLocaleInfo;
                 if (localeInfo3.version < i2) {
-                    applyRemoteLanguage(localeInfo3, localeInfo3.shortName, false, i, null);
+                    this.checkingUpdateForCurrentRemoteLocale = true;
+                    applyRemoteLanguage(localeInfo3, localeInfo3.shortName, false, i, new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda4
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            LocaleController.this.lambda$checkUpdateForCurrentRemoteLocale$3(i);
+                        }
+                    });
                 }
             }
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$checkUpdateForCurrentRemoteLocale$2(int i) {
+        this.checkingUpdateForCurrentRemoteLocale = false;
+        checkPatchLangpack(i);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$checkUpdateForCurrentRemoteLocale$3(int i) {
+        this.checkingUpdateForCurrentRemoteLocale = false;
+        checkPatchLangpack(i);
+    }
+
+    public int calculateTranslatedCount(HashMap<String, String> hashMap) {
+        HashSet hashSet = new HashSet();
+        int i = 0;
+        for (String str : hashMap.keySet()) {
+            if (str != null) {
+                String str2 = null;
+                if (str.endsWith("_other")) {
+                    str2 = str.substring(0, str.length() - 6);
+                } else if (str.endsWith("_zero") || str.endsWith("_many")) {
+                    str2 = str.substring(0, str.length() - 5);
+                } else if (str.endsWith("_one") || str.endsWith("_two") || str.endsWith("_few")) {
+                    str2 = str.substring(0, str.length() - 4);
+                }
+                if (str2 != null) {
+                    if (!hashSet.contains(str2)) {
+                        hashSet.add(str2);
+                    }
+                }
+                i++;
+            }
+        }
+        hashSet.clear();
+        return i;
+    }
+
+    public void checkPatchLangpack(final int i) {
+        LocaleInfo localeInfo = this.currentLocaleInfo;
+        if (localeInfo == null || this.checkingUpdateForCurrentRemoteLocale || !shouldReinstallLangpack(localeInfo.shortName)) {
+            return;
+        }
+        if (BuildVars.LOGS_ENABLED) {
+            FileLog.d("reload locale because locale file is not enough");
+        }
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                LocaleController.this.lambda$checkPatchLangpack$4(i);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$checkPatchLangpack$4(int i) {
+        reloadCurrentRemoteLocale(i, null, true, null);
     }
 
     private String getLocaleString(Locale locale) {
@@ -1093,10 +1165,10 @@ public class LocaleController {
                 FileLog.d("reload locale because one of file doesn't exist " + pathToFile + " " + pathToBaseFile);
             }
             if (z2) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda4
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda7
                     @Override // java.lang.Runnable
                     public final void run() {
-                        LocaleController.this.lambda$applyLanguage$2(localeInfo, i, runnable);
+                        LocaleController.this.lambda$applyLanguage$5(localeInfo, i, runnable);
                     }
                 });
                 applyRemoteLanguage = 0;
@@ -1157,15 +1229,15 @@ public class LocaleController {
             configuration.locale = this.currentLocale;
             ApplicationLoader.applicationContext.getResources().updateConfiguration(configuration, ApplicationLoader.applicationContext.getResources().getDisplayMetrics());
             this.changingConfiguration = false;
-            if (this.reloadLastFile) {
+            if (this.reloadLastFile || (!z5 && !z4 && shouldReinstallLangpack(localeInfo.shortName))) {
                 if (BuildVars.LOGS_ENABLED) {
                     FileLog.d("reload locale because one of file is corrupted " + pathToFile + " " + pathToBaseFile);
                 }
                 if (z2) {
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda2
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda3
                         @Override // java.lang.Runnable
                         public final void run() {
-                            LocaleController.this.lambda$applyLanguage$3(i);
+                            LocaleController.this.lambda$applyLanguage$6(i);
                         }
                     });
                 } else {
@@ -1175,7 +1247,7 @@ public class LocaleController {
             }
             if (!z5) {
                 if (z2) {
-                    AndroidUtilities.runOnUIThread(LocaleController$$ExternalSyntheticLambda11.INSTANCE);
+                    AndroidUtilities.runOnUIThread(LocaleController$$ExternalSyntheticLambda14.INSTANCE);
                 } else {
                     NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.reloadInterface, new Object[0]);
                 }
@@ -1195,17 +1267,17 @@ public class LocaleController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$applyLanguage$2(LocaleInfo localeInfo, int i, Runnable runnable) {
+    public /* synthetic */ void lambda$applyLanguage$5(LocaleInfo localeInfo, int i, Runnable runnable) {
         applyRemoteLanguage(localeInfo, null, true, i, runnable);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$applyLanguage$3(int i) {
+    public /* synthetic */ void lambda$applyLanguage$6(int i) {
         reloadCurrentRemoteLocale(i, null, true, null);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$applyLanguage$4() {
+    public static /* synthetic */ void lambda$applyLanguage$7() {
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.reloadInterface, new Object[0]);
     }
 
@@ -2792,12 +2864,12 @@ public class LocaleController {
         }
         String lowerCase = tLRPC$TL_langPackDifference.lang_code.replace('-', '_').toLowerCase();
         if (lowerCase.equals(this.currentLocaleInfo.shortName) || lowerCase.equals(this.currentLocaleInfo.baseLangCode)) {
-            lambda$applyRemoteLanguage$9(this.currentLocaleInfo, tLRPC$TL_langPackDifference, i, null);
+            lambda$applyRemoteLanguage$18(this.currentLocaleInfo, tLRPC$TL_langPackDifference, i, null);
         }
     }
 
     /* renamed from: saveRemoteLocaleStrings */
-    public void lambda$applyRemoteLanguage$9(final LocaleInfo localeInfo, final TLRPC$TL_langPackDifference tLRPC$TL_langPackDifference, int i, final Runnable runnable) {
+    public void lambda$applyRemoteLanguage$18(final LocaleInfo localeInfo, final TLRPC$TL_langPackDifference tLRPC$TL_langPackDifference, int i, final Runnable runnable) {
         final int i2;
         File pathToBaseFile;
         HashMap<String, String> localeFileStrings;
@@ -2885,10 +2957,10 @@ public class LocaleController {
                 localeFileStrings2.putAll(getLocaleFileStrings(localeInfo.getPathToFile()));
             }
             FileLog.d("saved locale file to " + pathToBaseFile);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda3
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
-                    LocaleController.this.lambda$saveRemoteLocaleStrings$5(i2, localeInfo, tLRPC$TL_langPackDifference, localeFileStrings2, runnable);
+                    LocaleController.this.lambda$saveRemoteLocaleStrings$8(i2, localeInfo, tLRPC$TL_langPackDifference, localeFileStrings2, runnable);
                 }
             });
         } catch (Exception e) {
@@ -2897,7 +2969,7 @@ public class LocaleController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$saveRemoteLocaleStrings$5(int i, LocaleInfo localeInfo, TLRPC$TL_langPackDifference tLRPC$TL_langPackDifference, HashMap hashMap, Runnable runnable) {
+    public /* synthetic */ void lambda$saveRemoteLocaleStrings$8(int i, LocaleInfo localeInfo, TLRPC$TL_langPackDifference tLRPC$TL_langPackDifference, HashMap hashMap, Runnable runnable) {
         String[] split;
         Locale locale;
         if (i == 0) {
@@ -2987,28 +3059,28 @@ public class LocaleController {
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                 abstractSerializedData.writeInt32(constructor);
             }
-        }, new RequestDelegate() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda16
+        }, new RequestDelegate() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda19
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                LocaleController.this.lambda$loadRemoteLanguages$7(z, i, tLObject, tLRPC$TL_error);
+                LocaleController.this.lambda$loadRemoteLanguages$10(z, i, tLObject, tLRPC$TL_error);
             }
         }, 8);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadRemoteLanguages$7(final boolean z, final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$loadRemoteLanguages$10(final boolean z, final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda9
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda12
                 @Override // java.lang.Runnable
                 public final void run() {
-                    LocaleController.this.lambda$loadRemoteLanguages$6(tLObject, z, i);
+                    LocaleController.this.lambda$loadRemoteLanguages$9(tLObject, z, i);
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadRemoteLanguages$6(TLObject tLObject, boolean z, int i) {
+    public /* synthetic */ void lambda$loadRemoteLanguages$9(TLObject tLObject, boolean z, int i) {
         this.loadingRemoteLanguages = false;
         TLRPC$Vector tLRPC$Vector = (TLRPC$Vector) tLObject;
         int size = this.remoteLanguages.size();
@@ -3082,12 +3154,13 @@ public class LocaleController {
         FileLog.d("applyRemoteLanguage " + str + " force=" + z + " currentAccount=" + i);
         final int[] iArr = {0};
         final int[] iArr2 = {0};
-        final Runnable runnable2 = new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda10
+        final Runnable runnable2 = new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda13
             @Override // java.lang.Runnable
             public final void run() {
-                LocaleController.lambda$applyRemoteLanguage$8(iArr, iArr2, runnable);
+                LocaleController.lambda$applyRemoteLanguage$11(iArr, iArr2, runnable);
             }
         };
+        patched(localeInfo.shortName);
         if (localeInfo.hasBaseLang() && (str == null || str.equals(localeInfo.baseLangCode))) {
             if (localeInfo.baseVersion != 0 && !z) {
                 if (localeInfo.hasBaseLang()) {
@@ -3097,10 +3170,10 @@ public class LocaleController {
                     tLRPC$TL_langpack_getDifference.lang_code = localeInfo.getBaseLangCode();
                     tLRPC$TL_langpack_getDifference.lang_pack = "";
                     iArr2[0] = iArr2[0] + 1;
-                    ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_langpack_getDifference, new RequestDelegate() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda15
+                    ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_langpack_getDifference, new RequestDelegate() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda18
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                            LocaleController.this.lambda$applyRemoteLanguage$10(localeInfo, i, runnable2, tLObject, tLRPC$TL_error);
+                            LocaleController.this.lambda$applyRemoteLanguage$13(localeInfo, i, runnable2, tLObject, tLRPC$TL_error);
                         }
                     }, 8);
                 }
@@ -3109,10 +3182,10 @@ public class LocaleController {
                 TLRPC$TL_langpack_getLangPack tLRPC$TL_langpack_getLangPack = new TLRPC$TL_langpack_getLangPack();
                 tLRPC$TL_langpack_getLangPack.lang_code = localeInfo.getBaseLangCode();
                 iArr2[0] = iArr2[0] + 1;
-                ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_langpack_getLangPack, new RequestDelegate() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda13
+                ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_langpack_getLangPack, new RequestDelegate() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda17
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        LocaleController.this.lambda$applyRemoteLanguage$12(localeInfo, i, runnable2, tLObject, tLRPC$TL_error);
+                        LocaleController.this.lambda$applyRemoteLanguage$15(localeInfo, i, runnable2, tLObject, tLRPC$TL_error);
                     }
                 }, 8);
             }
@@ -3125,10 +3198,10 @@ public class LocaleController {
                 tLRPC$TL_langpack_getDifference2.lang_code = localeInfo.getLangCode();
                 tLRPC$TL_langpack_getDifference2.lang_pack = "";
                 iArr2[0] = iArr2[0] + 1;
-                return ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_langpack_getDifference2, new RequestDelegate() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda14
+                return ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_langpack_getDifference2, new RequestDelegate() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda15
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        LocaleController.this.lambda$applyRemoteLanguage$14(localeInfo, i, runnable2, tLObject, tLRPC$TL_error);
+                        LocaleController.this.lambda$applyRemoteLanguage$17(localeInfo, i, runnable2, tLObject, tLRPC$TL_error);
                     }
                 }, 8);
             }
@@ -3139,10 +3212,10 @@ public class LocaleController {
             TLRPC$TL_langpack_getLangPack tLRPC$TL_langpack_getLangPack2 = new TLRPC$TL_langpack_getLangPack();
             tLRPC$TL_langpack_getLangPack2.lang_code = localeInfo.getLangCode();
             iArr2[0] = iArr2[0] + 1;
-            return ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_langpack_getLangPack2, new RequestDelegate() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda12
+            return ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_langpack_getLangPack2, new RequestDelegate() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda16
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    LocaleController.this.lambda$applyRemoteLanguage$16(localeInfo, i, runnable2, tLObject, tLRPC$TL_error);
+                    LocaleController.this.lambda$applyRemoteLanguage$19(localeInfo, i, runnable2, tLObject, tLRPC$TL_error);
                 }
             }, 8);
         }
@@ -3150,7 +3223,7 @@ public class LocaleController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$applyRemoteLanguage$8(int[] iArr, int[] iArr2, Runnable runnable) {
+    public static /* synthetic */ void lambda$applyRemoteLanguage$11(int[] iArr, int[] iArr2, Runnable runnable) {
         iArr[0] = iArr[0] + 1;
         if (iArr[0] < iArr2[0] || runnable == null) {
             return;
@@ -3159,48 +3232,48 @@ public class LocaleController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$applyRemoteLanguage$10(final LocaleInfo localeInfo, final int i, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$applyRemoteLanguage$13(final LocaleInfo localeInfo, final int i, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda5
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda11
                 @Override // java.lang.Runnable
                 public final void run() {
-                    LocaleController.this.lambda$applyRemoteLanguage$9(localeInfo, tLObject, i, runnable);
+                    LocaleController.this.lambda$applyRemoteLanguage$12(localeInfo, tLObject, i, runnable);
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$applyRemoteLanguage$12(final LocaleInfo localeInfo, final int i, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        if (tLObject != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda6
-                @Override // java.lang.Runnable
-                public final void run() {
-                    LocaleController.this.lambda$applyRemoteLanguage$11(localeInfo, tLObject, i, runnable);
-                }
-            });
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$applyRemoteLanguage$14(final LocaleInfo localeInfo, final int i, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$applyRemoteLanguage$15(final LocaleInfo localeInfo, final int i, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda8
                 @Override // java.lang.Runnable
                 public final void run() {
-                    LocaleController.this.lambda$applyRemoteLanguage$13(localeInfo, tLObject, i, runnable);
+                    LocaleController.this.lambda$applyRemoteLanguage$14(localeInfo, tLObject, i, runnable);
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$applyRemoteLanguage$16(final LocaleInfo localeInfo, final int i, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$applyRemoteLanguage$17(final LocaleInfo localeInfo, final int i, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda7
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda10
                 @Override // java.lang.Runnable
                 public final void run() {
-                    LocaleController.this.lambda$applyRemoteLanguage$15(localeInfo, tLObject, i, runnable);
+                    LocaleController.this.lambda$applyRemoteLanguage$16(localeInfo, tLObject, i, runnable);
+                }
+            });
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$applyRemoteLanguage$19(final LocaleInfo localeInfo, final int i, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        if (tLObject != null) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda9
+                @Override // java.lang.Runnable
+                public final void run() {
+                    LocaleController.this.lambda$applyRemoteLanguage$18(localeInfo, tLObject, i, runnable);
                 }
             });
         }
@@ -4032,6 +4105,21 @@ public class LocaleController {
         return formatDistance(f, i, null);
     }
 
+    private boolean shouldReinstallLangpack(String str) {
+        int calculateTranslatedCount;
+        int i = MessagesController.getInstance(UserConfig.selectedAccount).checkResetLangpack;
+        if (i <= 0) {
+            return false;
+        }
+        SharedPreferences globalMainSettings = MessagesController.getGlobalMainSettings();
+        if (!globalMainSettings.getBoolean("lngpack_patched_" + str, false) && (calculateTranslatedCount = calculateTranslatedCount(this.localeValues)) < i) {
+            FileLog.e("reinstalling " + str + " langpack because of patch (" + calculateTranslatedCount + " keys, must be at least " + i + ")");
+            patched(str);
+            return true;
+        }
+        return false;
+    }
+
     public static String formatDistance(float f, int i, Boolean bool) {
         ensureImperialSystemInit();
         if (!((bool != null && bool.booleanValue()) || (bool == null && useImperialSystemType.booleanValue()))) {
@@ -4047,5 +4135,13 @@ public class LocaleController {
         }
         String format2 = f2 % 5280.0f == 0.0f ? String.format("%d", Integer.valueOf((int) (f2 / 5280.0f))) : String.format("%.2f", Float.valueOf(f2 / 5280.0f));
         return i != 0 ? i != 1 ? formatString("MilesShort", R.string.MilesShort, format2) : formatString("MilesFromYou", R.string.MilesFromYou, format2) : formatString("MilesAway", R.string.MilesAway, format2);
+    }
+
+    private void patched(String str) {
+        if (BuildVars.LOGS_ENABLED) {
+            FileLog.d("set as patched " + str + " langpack");
+        }
+        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+        edit.putBoolean("lngpack_patched_" + str, true).apply();
     }
 }

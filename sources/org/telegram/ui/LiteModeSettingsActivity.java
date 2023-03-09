@@ -544,8 +544,36 @@ public class LiteModeSettingsActivity extends BaseFragment {
             this.countTextView.setText(String.format("%d/%d", Integer.valueOf(this.enabled), Integer.valueOf(this.all)), (!z || LocaleController.isRTL) ? false : false);
         }
 
+        /* JADX WARN: Code restructure failed: missing block: B:11:0x001e, code lost:
+            if ((r3 & org.telegram.messenger.LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) > 0) goto L20;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:20:0x002f, code lost:
+            if ((r3 & 4) > 0) goto L20;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:21:0x0031, code lost:
+            r1 = r1 - 1;
+         */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
         private int preprocessFlagsCount(int i) {
-            int bitCount = Integer.bitCount(i) + ((i & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) > 0 ? -1 : 0) + ((i & 16) > 0 ? -1 : 0) + ((i & LiteMode.FLAG_ANIMATED_EMOJI_CHAT) > 0 ? 1 : 0) + ((i & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) > 0 ? -1 : 0) + ((i & 8) > 0 ? -1 : 0) + ((i & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS) > 0 ? 1 : 0) + ((i & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) > 0 ? -1 : 0) + ((i & 4) <= 0 ? 0 : -1) + ((i & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD) > 0 ? 1 : 0);
+            boolean isPremium = LiteModeSettingsActivity.this.getUserConfig().isPremium();
+            int bitCount = Integer.bitCount(i);
+            if (isPremium) {
+                if ((i & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) > 0) {
+                    bitCount--;
+                }
+                if ((i & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) > 0) {
+                    bitCount--;
+                }
+            } else {
+                if ((i & 16) > 0) {
+                    bitCount--;
+                }
+                if ((i & 8) > 0) {
+                    bitCount--;
+                }
+            }
             return (SharedConfig.canBlurChat() || (i & LiteMode.FLAG_CHAT_BLUR) <= 0) ? bitCount : bitCount - 1;
         }
 

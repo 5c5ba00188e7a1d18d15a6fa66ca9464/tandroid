@@ -165,6 +165,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     private float chatActivityEnterViewAnimateFromTop;
     private int codepointCount;
     protected EditTextEmoji commentTextView;
+    private int[] commentTextViewLocation;
     private AnimatorSet commentsAnimator;
     private boolean confirmationAlertShown;
     private ChatAttachAlertContactsLayout contactsLayout;
@@ -1244,6 +1245,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         };
         this.layouts = new AttachAlertLayout[7];
         this.botAttachLayouts = new LongSparseArray<>();
+        this.commentTextViewLocation = new int[2];
         this.textPaint = new TextPaint(1);
         this.rect = new RectF();
         this.paint = new Paint(1);
@@ -1649,9 +1651,9 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         numberTextView.setCenterAlign(true);
         this.frameLayout2.addView(numberTextView, LayoutHelper.createFrame(56, 20.0f, 85, 3.0f, 0.0f, 14.0f, 78.0f));
         this.currentLimit = MessagesController.getInstance(UserConfig.selectedAccount).getCaptionMaxLengthLimit();
-        11 r6 = new 11(context, this.sizeNotifierFrameLayout, null, 1, true, resourcesProvider);
-        this.commentTextView = r6;
-        r6.setHint(LocaleController.getString("AddCaption", R.string.AddCaption));
+        11 r5 = new 11(context, this.sizeNotifierFrameLayout, null, 1, true, resourcesProvider);
+        this.commentTextView = r5;
+        r5.setHint(LocaleController.getString("AddCaption", R.string.AddCaption));
         this.commentTextView.onResume();
         this.commentTextView.getEditText().addTextChangedListener(new 12());
         this.frameLayout2.addView(this.commentTextView, LayoutHelper.createFrame(-1, -2.0f, 83, 0.0f, 0.0f, 84.0f, 0.0f));
@@ -1903,6 +1905,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                     chatAttachAlert7.setCurrentPanTranslationY(chatAttachAlert7.currentPanTranslationY);
                     3.this.invalidate();
                     ChatAttachAlert.this.frameLayout2.invalidate();
+                    ChatAttachAlert.this.updateCommentTextViewPosition();
                     if (ChatAttachAlert.this.currentAttachLayout != null) {
                         ChatAttachAlert.this.currentAttachLayout.onContainerTranslationUpdated(ChatAttachAlert.this.currentPanTranslationY);
                     }
@@ -2800,7 +2803,6 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public class 11 extends EditTextEmoji {
         private ValueAnimator messageEditTextAnimator;
@@ -2837,7 +2839,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ChatAttachAlert$11$$ExternalSyntheticLambda0
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        ChatAttachAlert.11.lambda$dispatchDraw$0(EditTextCaption.this, valueAnimator);
+                        ChatAttachAlert.11.this.lambda$dispatchDraw$0(editText, valueAnimator);
                     }
                 });
                 ValueAnimator valueAnimator = this.messageEditTextAnimator;
@@ -2853,8 +2855,12 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             super.dispatchDraw(canvas);
         }
 
-        public static /* synthetic */ void lambda$dispatchDraw$0(EditTextCaption editTextCaption, ValueAnimator valueAnimator) {
+        public /* synthetic */ void lambda$dispatchDraw$0(EditTextCaption editTextCaption, ValueAnimator valueAnimator) {
             editTextCaption.setOffsetY(((Float) valueAnimator.getAnimatedValue()).floatValue());
+            ChatAttachAlert.this.updateCommentTextViewPosition();
+            if (ChatAttachAlert.this.currentAttachLayout == ChatAttachAlert.this.photoLayout) {
+                ChatAttachAlert.this.photoLayout.onContainerTranslationUpdated(ChatAttachAlert.this.currentPanTranslationY);
+            }
         }
 
         @Override // org.telegram.ui.Components.EditTextEmoji
@@ -2872,6 +2878,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             ChatAttachAlert chatAttachAlert = ChatAttachAlert.this;
             chatAttachAlert.chatActivityEnterViewAnimateFromTop = chatAttachAlert.frameLayout2.getTop() + ChatAttachAlert.this.captionEditTextTopOffset;
             ChatAttachAlert.this.frameLayout2.invalidate();
+            ChatAttachAlert.this.updateCommentTextViewPosition();
         }
 
         @Override // org.telegram.ui.Components.EditTextEmoji
@@ -2888,6 +2895,12 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         @Override // org.telegram.ui.Components.EditTextEmoji
         protected void closeParent() {
             ChatAttachAlert.super.dismiss();
+        }
+
+        @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+            super.onLayout(z, i, i2, i3, i4);
+            ChatAttachAlert.this.updateCommentTextViewPosition();
         }
     }
 
@@ -3212,6 +3225,14 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         if (context instanceof LaunchActivity) {
             ((LaunchActivity) context).removeOverlayPasscodeView(this.passcodeView);
         }
+    }
+
+    public void updateCommentTextViewPosition() {
+        this.commentTextView.getLocationOnScreen(this.commentTextViewLocation);
+    }
+
+    public int getCommentTextViewTop() {
+        return this.commentTextViewLocation[1];
     }
 
     private void showCaptionLimitBulletin(final BaseFragment baseFragment) {

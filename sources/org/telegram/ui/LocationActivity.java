@@ -2970,11 +2970,11 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void finishFragment(boolean z) {
+    public boolean finishFragment(boolean z) {
         if (onCheckGlScreenshot()) {
-            return;
+            return false;
         }
-        super.finishFragment(z);
+        return super.finishFragment(z);
     }
 
     private boolean onCheckGlScreenshot() {

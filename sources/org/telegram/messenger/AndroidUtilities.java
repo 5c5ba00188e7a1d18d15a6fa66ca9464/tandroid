@@ -1964,9 +1964,11 @@ public class AndroidUtilities {
     }
 
     public static ArrayList<File> getRootDirs() {
+        File externalStorageDirectory;
         File[] externalFilesDirs;
         String absolutePath;
         int indexOf;
+        HashSet hashSet = new HashSet();
         ArrayList<File> arrayList = null;
         if (Build.VERSION.SDK_INT >= 19 && (externalFilesDirs = ApplicationLoader.applicationContext.getExternalFilesDirs(null)) != null) {
             for (int i = 0; i < externalFilesDirs.length; i++) {
@@ -1978,15 +1980,18 @@ public class AndroidUtilities {
                     for (int i2 = 0; i2 < arrayList.size(); i2++) {
                         arrayList.get(i2).getPath().equals(file.getPath());
                     }
-                    arrayList.add(file);
+                    if (!hashSet.contains(file.getAbsolutePath())) {
+                        hashSet.add(file.getAbsolutePath());
+                        arrayList.add(file);
+                    }
                 }
             }
         }
         if (arrayList == null) {
             arrayList = new ArrayList<>();
         }
-        if (arrayList.isEmpty()) {
-            arrayList.add(Environment.getExternalStorageDirectory());
+        if (arrayList.isEmpty() && (externalStorageDirectory = Environment.getExternalStorageDirectory()) != null && !hashSet.contains(externalStorageDirectory.getAbsolutePath())) {
+            arrayList.add(externalStorageDirectory);
         }
         return arrayList;
     }

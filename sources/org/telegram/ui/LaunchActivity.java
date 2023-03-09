@@ -391,6 +391,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     @Override // android.app.Activity
     protected void onCreate(Bundle bundle) {
         boolean z;
+        INavigationLayout iNavigationLayout;
         Intent intent;
         Uri data;
         if (BuildVars.DEBUG_VERSION) {
@@ -677,7 +678,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.requestPermissions);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
         LiteMode.addOnPowerSaverAppliedListener(new LaunchActivity$$ExternalSyntheticLambda86(this));
-        if (this.actionBarLayout.getFragmentStack().isEmpty()) {
+        if (this.actionBarLayout.getFragmentStack().isEmpty() && ((iNavigationLayout = this.layersActionBarLayout) == null || iNavigationLayout.getFragmentStack().isEmpty())) {
             if (!UserConfig.getInstance(this.currentAccount).isClientActivated()) {
                 this.actionBarLayout.addFragmentToStack(getClientNotActivatedFragment());
                 this.drawerLayoutContainer.setAllowOpenDrawer(false, false);
@@ -774,7 +775,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 }
             }
         } else {
-            BaseFragment baseFragment = this.actionBarLayout.getFragmentStack().get(0);
+            BaseFragment baseFragment = (this.actionBarLayout.getFragmentStack().size() > 0 ? this.actionBarLayout : this.layersActionBarLayout).getFragmentStack().get(0);
             if (baseFragment instanceof DialogsActivity) {
                 ((DialogsActivity) baseFragment).setSideMenu(this.sideMenu);
             }
@@ -1649,14 +1650,17 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (AndroidUtilities.getWasTablet() == null || AndroidUtilities.getWasTablet().booleanValue() == AndroidUtilities.isTabletForce()) {
             if (!AndroidUtilities.isInMultiwindow && (!AndroidUtilities.isSmallTablet() || getResources().getConfiguration().orientation == 2)) {
                 this.tabletFullSize = false;
-                if (this.actionBarLayout.getFragmentStack().size() >= 2) {
-                    while (1 < this.actionBarLayout.getFragmentStack().size()) {
-                        BaseFragment baseFragment = this.actionBarLayout.getFragmentStack().get(1);
+                List<BaseFragment> fragmentStack = this.actionBarLayout.getFragmentStack();
+                if (fragmentStack.size() >= 2) {
+                    while (1 < fragmentStack.size()) {
+                        BaseFragment baseFragment = fragmentStack.get(1);
                         if (baseFragment instanceof ChatActivity) {
                             ((ChatActivity) baseFragment).setIgnoreAttachOnPause(true);
                         }
                         baseFragment.onPause();
-                        this.actionBarLayout.removeFragmentFromStack(1);
+                        baseFragment.onFragmentDestroy();
+                        baseFragment.setParentLayout(null);
+                        fragmentStack.remove(baseFragment);
                         this.rightActionBarLayout.addFragmentToStack(baseFragment);
                     }
                     PasscodeView passcodeView = this.passcodeView;
@@ -1671,14 +1675,17 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 return;
             }
             this.tabletFullSize = true;
-            if (!this.rightActionBarLayout.getFragmentStack().isEmpty()) {
-                while (this.rightActionBarLayout.getFragmentStack().size() > 0) {
-                    BaseFragment baseFragment2 = this.rightActionBarLayout.getFragmentStack().get(0);
+            List<BaseFragment> fragmentStack2 = this.rightActionBarLayout.getFragmentStack();
+            if (!fragmentStack2.isEmpty()) {
+                while (fragmentStack2.size() > 0) {
+                    BaseFragment baseFragment2 = fragmentStack2.get(0);
                     if (baseFragment2 instanceof ChatActivity) {
                         ((ChatActivity) baseFragment2).setIgnoreAttachOnPause(true);
                     }
                     baseFragment2.onPause();
-                    this.rightActionBarLayout.removeFragmentFromStack(0);
+                    baseFragment2.onFragmentDestroy();
+                    baseFragment2.setParentLayout(null);
+                    fragmentStack2.remove(baseFragment2);
                     this.actionBarLayout.addFragmentToStack(baseFragment2);
                 }
                 PasscodeView passcodeView2 = this.passcodeView;

@@ -82,6 +82,7 @@ public class SharedConfig {
     public static long lastUpdateCheckTime = 0;
     public static String lastUpdateVersion = null;
     public static long lastUptimeMillis = 0;
+    private static int legacyDevicePerformanceClass = -1;
     public static LiteMode liteMode = null;
     public static int lockRecordAudioVideoHint = 0;
     public static int mediaColumnsCount = 0;
@@ -1494,5 +1495,37 @@ public class SharedConfig {
 
     public static boolean deviceIsAverage() {
         return getDevicePerformanceClass() <= 1;
+    }
+
+    @Deprecated
+    public static int getLegacyDevicePerformanceClass() {
+        if (legacyDevicePerformanceClass == -1) {
+            int i = Build.VERSION.SDK_INT;
+            int i2 = ConnectionsManager.CPU_COUNT;
+            int memoryClass = ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).getMemoryClass();
+            int i3 = 0;
+            int i4 = 0;
+            for (int i5 = 0; i5 < i2; i5++) {
+                try {
+                    RandomAccessFile randomAccessFile = new RandomAccessFile(String.format(Locale.ENGLISH, "/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_max_freq", Integer.valueOf(i5)), "r");
+                    String readLine = randomAccessFile.readLine();
+                    if (readLine != null) {
+                        i4 += Utilities.parseInt((CharSequence) readLine).intValue() / 1000;
+                        i3++;
+                    }
+                    randomAccessFile.close();
+                } catch (Throwable unused) {
+                }
+            }
+            int ceil = i3 == 0 ? -1 : (int) Math.ceil(i4 / i3);
+            if (i < 21 || i2 <= 2 || memoryClass <= 100 || ((i2 <= 4 && ceil != -1 && ceil <= 1250) || ((i2 <= 4 && ceil <= 1600 && memoryClass <= 128 && i <= 21) || (i2 <= 4 && ceil <= 1300 && memoryClass <= 128 && i <= 24)))) {
+                legacyDevicePerformanceClass = 0;
+            } else if (i2 < 8 || memoryClass <= 160 || ((ceil != -1 && ceil <= 2050) || (ceil == -1 && i2 == 8 && i <= 23))) {
+                legacyDevicePerformanceClass = 1;
+            } else {
+                legacyDevicePerformanceClass = 2;
+            }
+        }
+        return legacyDevicePerformanceClass;
     }
 }

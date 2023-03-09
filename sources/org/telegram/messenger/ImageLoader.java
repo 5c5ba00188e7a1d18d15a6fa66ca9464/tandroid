@@ -3750,23 +3750,35 @@ public class ImageLoader {
     }
 
     public void checkMediaPaths() {
-        this.cacheOutQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda1
+        checkMediaPaths(null);
+    }
+
+    public void checkMediaPaths(final Runnable runnable) {
+        this.cacheOutQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
-                ImageLoader.this.lambda$checkMediaPaths$1();
+                ImageLoader.this.lambda$checkMediaPaths$1(runnable);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkMediaPaths$1() {
+    public /* synthetic */ void lambda$checkMediaPaths$1(final Runnable runnable) {
         final SparseArray<File> createMediaPaths = createMediaPaths();
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
-                FileLoader.setMediaDirs(createMediaPaths);
+                ImageLoader.lambda$checkMediaPaths$0(createMediaPaths, runnable);
             }
         });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$checkMediaPaths$0(SparseArray sparseArray, Runnable runnable) {
+        FileLoader.setMediaDirs(sparseArray);
+        if (runnable != null) {
+            runnable.run();
+        }
     }
 
     public void addTestWebFile(String str, WebFile webFile) {
@@ -4431,7 +4443,7 @@ public class ImageLoader {
         final boolean isShouldGenerateQualityThumb = imageReceiver.isShouldGenerateQualityThumb();
         final int currentAccount = imageReceiver.getCurrentAccount();
         final boolean z = i2 == 0 && imageReceiver.isCurrentKeyQuality();
-        Runnable runnable = new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda2
+        Runnable runnable = new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 ImageLoader.this.lambda$createLoadOperationForImageReceiver$6(i3, str2, str, i6, imageReceiver, i4, str4, i2, imageLocation, z, parentObject, currentAccount, qualityThumbDocument, isNeedsQualityThumb, isShouldGenerateQualityThumb, str3, i, j);

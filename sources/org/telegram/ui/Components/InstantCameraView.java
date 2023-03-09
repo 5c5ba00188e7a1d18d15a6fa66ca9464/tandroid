@@ -1055,7 +1055,8 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 arrayList2.add(arrayList.get(i));
             }
         }
-        if (arrayList2.isEmpty() || SharedConfig.getDevicePerformanceClass() == 0 || SharedConfig.getDevicePerformanceClass() == 1) {
+        int legacyDevicePerformanceClass = SharedConfig.getLegacyDevicePerformanceClass();
+        if (arrayList2.isEmpty() || legacyDevicePerformanceClass == 0 || legacyDevicePerformanceClass == 1) {
             if (!arrayList2.isEmpty()) {
                 arrayList = arrayList2;
             }

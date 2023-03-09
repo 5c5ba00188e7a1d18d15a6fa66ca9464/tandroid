@@ -388,13 +388,14 @@ public abstract class BaseFragment {
         this.finishing = z;
     }
 
-    public void finishFragment(boolean z) {
+    public boolean finishFragment(boolean z) {
         INavigationLayout iNavigationLayout;
         if (this.isFinished || (iNavigationLayout = this.parentLayout) == null) {
-            return;
+            return false;
         }
         this.finishing = true;
         iNavigationLayout.closeLastFragment(z);
+        return true;
     }
 
     public void removeSelfFromStack() {

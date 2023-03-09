@@ -299,20 +299,6 @@ public class TextCell extends FrameLayout {
         setWillNotDraw(!z);
     }
 
-    public void setTextAndColorfulIcon(String str, int i, int i2, boolean z) {
-        this.imageLeft = 21;
-        this.offsetFromImage = 71;
-        this.textView.setText(str);
-        AnimatedTextView animatedTextView = this.valueTextView;
-        this.valueText = null;
-        animatedTextView.setText(null, false);
-        setColorfulIcon(i2, i);
-        this.valueTextView.setVisibility(8);
-        this.valueImageView.setVisibility(8);
-        this.needDivider = z;
-        setWillNotDraw(!z);
-    }
-
     public void setTextAndIcon(String str, Drawable drawable, boolean z) {
         this.offsetFromImage = 68;
         this.imageLeft = 18;

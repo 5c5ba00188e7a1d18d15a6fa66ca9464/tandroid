@@ -3364,7 +3364,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                 setForumIcon(null);
                 AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
                 if (animatedEmojiDrawable == null || animatedEmojiDrawable.getDocumentId() != tLRPC$TL_forumTopic.icon_emoji_id) {
-                    setAnimatedEmojiDrawable(new AnimatedEmojiDrawable(10, ((BaseFragment) TopicsFragment.this).currentAccount, tLRPC$TL_forumTopic.icon_emoji_id));
+                    setAnimatedEmojiDrawable(new AnimatedEmojiDrawable(TopicsFragment.this.openedForForward ? 13 : 10, ((BaseFragment) TopicsFragment.this).currentAccount, tLRPC$TL_forumTopic.icon_emoji_id));
                 }
             } else {
                 setAnimatedEmojiDrawable(null);

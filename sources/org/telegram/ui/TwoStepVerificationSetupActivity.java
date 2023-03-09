@@ -2665,13 +2665,13 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void finishFragment(boolean z) {
+    public boolean finishFragment(boolean z) {
         for (BaseFragment baseFragment : getParentLayout().getFragmentStack()) {
             if (baseFragment != this && (baseFragment instanceof TwoStepVerificationSetupActivity)) {
                 ((TwoStepVerificationSetupActivity) baseFragment).floatingAutoAnimator.ignoreNextLayout();
             }
         }
-        super.finishFragment(z);
+        return super.finishFragment(z);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

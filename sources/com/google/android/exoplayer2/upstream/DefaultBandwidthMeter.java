@@ -1903,9 +1903,9 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 return new int[]{2, 1, 1, 2, 2, 2};
             case 'm':
                 return new int[]{1, 0, 4, 2, 2, 2};
-            case MessagesStorage.LAST_DB_VERSION /* 113 */:
+            case 'q':
                 return new int[]{0, 2, 2, 4, 4, 4};
-            case 'r':
+            case MessagesStorage.LAST_DB_VERSION /* 114 */:
                 return new int[]{1, 0, 1, 0, 0, 2};
             case 'u':
                 return new int[]{1, 2, 1, 3, 2, 2};

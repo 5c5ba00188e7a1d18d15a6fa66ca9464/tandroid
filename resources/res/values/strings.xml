@@ -1104,6 +1104,7 @@
     <string name="ChannelBroadcast">Broadcast</string>
     <string name="ChannelCantOpenBanned">Unfortunately, you were banned from participating in public groups.</string>
     <string name="ChannelCantOpenBannedByAdmin">Sorry, you can\'t access this chat because you were banned by an admin.</string>
+    <string name="ChannelCantOpenBannedByAdminTitle">Can\'t access the chat</string>
     <string name="ChannelCantOpenNa">Sorry, this chat is no longer accessible.</string>
     <string name="ChannelCantOpenPrivate">Sorry, this channel is private, so you can’t view its content.</string>
     <string name="ChannelCantOpenPrivate2">Sorry, this channel is private.</string>
@@ -1630,6 +1631,7 @@
     <string name="DebugMenuEnableSmoothKeyboard">Enable smooth keyboard</string>
     <string name="DebugMenuEnableWebViewDebug">Enable WebView debug</string>
     <string name="DebugMenuImportContacts">Import Contacts</string>
+    <string name="DebugMenuLongPress">Long press again for debug menu</string>
     <string name="DebugMenuReadAllDialogs">Read all Chats</string>
     <string name="DebugMenuReloadContacts">Reload Contacts</string>
     <string name="DebugMenuResetContacts">Reset Imported Contacts</string>
@@ -5282,6 +5284,8 @@
     <string name="StorageCleared">Storage Cleared</string>
     <string name="StorageCleared2">All media can be re-downloaded from the Telegram cloud if you need it again.</string>
     <string name="StoragePath">Storage Path</string>
+    <string name="StoragePathFree">%1$s free</string>
+    <string name="StoragePathFreeValue">%1$s free, %2$s</string>
     <string name="StorageUsage">Storage Usage</string>
     <string name="StorageUsageCalculating">Calculating cache size...</string>
     <string name="StorageUsageInfo">All media will stay in the Telegram cloud and can be re-downloaded if you need it again.</string>

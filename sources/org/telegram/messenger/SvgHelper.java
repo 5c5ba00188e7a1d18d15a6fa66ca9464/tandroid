@@ -580,7 +580,7 @@ public class SvgHelper {
                     case 'h':
                     case 'l':
                     case 'm':
-                    case MessagesStorage.LAST_DB_VERSION /* 113 */:
+                    case 'q':
                     case 's':
                     case 't':
                     case 'v':

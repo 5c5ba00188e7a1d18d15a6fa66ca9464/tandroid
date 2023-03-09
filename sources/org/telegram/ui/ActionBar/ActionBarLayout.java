@@ -71,6 +71,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     private float animationProgress;
     public INavigationLayout.ThemeAnimationSettings.onAnimationProgress animationProgressListener;
     private Runnable animationRunnable;
+    private boolean attached;
     private View backgroundView;
     private boolean beginTrackingSent;
     public LayoutContainer containerView;
@@ -2686,13 +2687,12 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$8() {
-        if (getLastFragment() == null || this.containerView.getChildCount() != 0) {
-            return;
+        if (this.attached && getLastFragment() != null && this.containerView.getChildCount() == 0) {
+            if (BuildVars.DEBUG_VERSION) {
+                FileLog.e(new RuntimeException(TextUtils.join(", ", this.lastActions)));
+            }
+            rebuildAllFragmentViews(true, true);
         }
-        if (BuildVars.DEBUG_VERSION) {
-            FileLog.e(new RuntimeException(TextUtils.join(", ", this.lastActions)));
-        }
-        rebuildAllFragmentViews(true, true);
     }
 
     public void checkBlackScreen(String str) {
@@ -2708,5 +2708,17 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         }
         AndroidUtilities.cancelRunOnUIThread(this.debugBlackScreenRunnable);
         AndroidUtilities.runOnUIThread(this.debugBlackScreenRunnable, 500L);
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        this.attached = true;
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        this.attached = false;
     }
 }

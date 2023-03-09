@@ -28,8 +28,8 @@ public enum zzai implements zzet {
     zzv(110),
     zzw(111),
     zzx(112),
-    zzy(MessagesStorage.LAST_DB_VERSION),
-    zzz(114),
+    zzy(113),
+    zzz(MessagesStorage.LAST_DB_VERSION),
     zzaa(115),
     zzab(116),
     zzb(9999);

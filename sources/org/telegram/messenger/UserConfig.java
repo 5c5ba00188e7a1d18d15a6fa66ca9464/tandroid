@@ -597,6 +597,16 @@ public class UserConfig extends BaseController {
         edit.putBoolean("2pinnedDialogsLoaded" + i, z).commit();
     }
 
+    public void clearPinnedDialogsLoaded() {
+        SharedPreferences.Editor edit = getPreferences().edit();
+        for (String str : getPreferences().getAll().keySet()) {
+            if (str.startsWith("2pinnedDialogsLoaded")) {
+                edit.remove(str);
+            }
+        }
+        edit.apply();
+    }
+
     public int getTotalDialogsCount(int i) {
         SharedPreferences preferences = getPreferences();
         StringBuilder sb = new StringBuilder();

@@ -233,6 +233,10 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         callback.run(Long.valueOf(j));
     }
 
+    public static void resetCalculatedTotalSIze() {
+        lastTotalSizeCalculated = null;
+    }
+
     public static void getDeviceTotalSize(Utilities.Callback2<Long, Long> callback2) {
         File file;
         long blockSize;

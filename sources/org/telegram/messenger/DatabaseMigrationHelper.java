@@ -1178,6 +1178,11 @@ public class DatabaseMigrationHelper {
         if (i7 == 112) {
             sQLiteDatabase.executeFast("CREATE TABLE app_config(data BLOB)").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 113").stepThis().dispose();
+            i7 = 113;
+        }
+        if (i7 == 113) {
+            messagesStorage.reset();
+            sQLiteDatabase.executeFast("PRAGMA user_version = 114").stepThis().dispose();
             return MessagesStorage.LAST_DB_VERSION;
         }
         return i7;
@@ -1222,7 +1227,7 @@ public class DatabaseMigrationHelper {
             FileLog.e(e2);
             z = false;
         }
-        if (intValue != 113) {
+        if (intValue != 114) {
             FileLog.e("can't restore database from version " + intValue);
             return false;
         }

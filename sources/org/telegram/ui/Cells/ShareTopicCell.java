@@ -67,7 +67,7 @@ public class ShareTopicCell extends FrameLayout {
         }
         if (tLRPC$TL_forumTopic.icon_emoji_id != 0) {
             this.imageView.setImageDrawable(null);
-            this.imageView.setAnimatedEmojiDrawable(new AnimatedEmojiDrawable(10, UserConfig.selectedAccount, tLRPC$TL_forumTopic.icon_emoji_id));
+            this.imageView.setAnimatedEmojiDrawable(new AnimatedEmojiDrawable(13, UserConfig.selectedAccount, tLRPC$TL_forumTopic.icon_emoji_id));
         } else {
             this.imageView.setAnimatedEmojiDrawable(null);
             ForumBubbleDrawable forumBubbleDrawable = new ForumBubbleDrawable(tLRPC$TL_forumTopic.icon_color);
