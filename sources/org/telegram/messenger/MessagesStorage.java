@@ -2743,12 +2743,6 @@ public class MessagesStorage extends BaseController {
     }
 
     public void reset() {
-        for (int i = 0; i < 2; i++) {
-            getUserConfig().setDialogsLoadOffset(i, 0, 0, 0L, 0L, 0L, 0L);
-            getUserConfig().setTotalDialogsCount(i, 0);
-        }
-        getUserConfig().saveConfig(false);
-        getUserConfig().clearPinnedDialogsLoaded();
         clearDatabaseValues();
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
@@ -2760,6 +2754,11 @@ public class MessagesStorage extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$reset$45() {
+        for (int i = 0; i < 2; i++) {
+            getUserConfig().setDialogsLoadOffset(i, 0, 0, 0L, 0L, 0L, 0L);
+            getUserConfig().setTotalDialogsCount(i, 0);
+        }
+        getUserConfig().clearPinnedDialogsLoaded();
         NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.didClearDatabase, new Object[0]);
         getMediaDataController().loadAttachMenuBots(false, true);
         getNotificationCenter().postNotificationName(NotificationCenter.onDatabaseReset, new Object[0]);

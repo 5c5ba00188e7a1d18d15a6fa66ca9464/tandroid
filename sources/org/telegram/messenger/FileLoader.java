@@ -2089,21 +2089,18 @@ public class FileLoader extends BaseController {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$15() {
         int i = 0;
-        while (i < this.smallFilesQueue.length) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("download queue: dc");
-            int i2 = i + 1;
-            sb.append(i2);
-            sb.append(" account=");
-            sb.append(this.currentAccount);
-            sb.append(" small_operations=");
-            sb.append(this.smallFilesQueue[i].allOperations.size());
-            sb.append(" large_operations=");
-            sb.append(this.largeFilesQueue[i].allOperations.size());
-            FileLog.d(sb.toString());
-            i = i2;
+        while (true) {
+            FileLoaderPriorityQueue[] fileLoaderPriorityQueueArr = this.smallFilesQueue;
+            if (i < fileLoaderPriorityQueueArr.length) {
+                if (fileLoaderPriorityQueueArr[i].allOperations.size() > 0 || this.largeFilesQueue[i].allOperations.size() > 0) {
+                    FileLog.d("download queue: dc" + (i + 1) + " account=" + this.currentAccount + " small_operations=" + this.smallFilesQueue[i].allOperations.size() + " large_operations=" + this.largeFilesQueue[i].allOperations.size());
+                }
+                i++;
+            } else {
+                dumpFilesQueue();
+                return;
+            }
         }
-        dumpFilesQueue();
     }
 
     public void dumpFilesQueue() {
