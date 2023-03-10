@@ -4236,10 +4236,10 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         this.actionModeAnimation.start();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:179:0x0370  */
-    /* JADX WARN: Removed duplicated region for block: B:188:0x0392  */
-    /* JADX WARN: Removed duplicated region for block: B:267:0x049e  */
-    /* JADX WARN: Removed duplicated region for block: B:348:0x04bf A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:181:0x0372  */
+    /* JADX WARN: Removed duplicated region for block: B:190:0x0394  */
+    /* JADX WARN: Removed duplicated region for block: B:269:0x04a0  */
+    /* JADX WARN: Removed duplicated region for block: B:352:0x04c1 A[SYNTHETIC] */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -4362,7 +4362,10 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                                 this.photoVideoAdapter.notifyDataSetChanged();
                             }
                         } else {
-                            adapter3.notifyDataSetChanged();
+                            try {
+                                adapter3.notifyDataSetChanged();
+                            } catch (Throwable unused) {
+                            }
                         }
                         if (!this.sharedMediaData[intValue3].messages.isEmpty() || this.sharedMediaData[intValue3].loading) {
                             if (blurredRecyclerView != null && (adapter3 == this.photoVideoAdapter || itemCount >= i5)) {

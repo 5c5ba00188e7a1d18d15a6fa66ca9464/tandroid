@@ -765,7 +765,11 @@ public class MessagesStorage extends BaseController {
     }
 
     private void cleanupInternal(boolean z) {
-        clearDatabaseValues();
+        if (z) {
+            reset();
+        } else {
+            clearDatabaseValues();
+        }
         SQLiteDatabase sQLiteDatabase = this.database;
         if (sQLiteDatabase != null) {
             sQLiteDatabase.close();
@@ -2758,6 +2762,7 @@ public class MessagesStorage extends BaseController {
             getUserConfig().setDialogsLoadOffset(i, 0, 0, 0L, 0L, 0L, 0L);
             getUserConfig().setTotalDialogsCount(i, 0);
         }
+        getUserConfig().clearFilters();
         getUserConfig().clearPinnedDialogsLoaded();
         NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.didClearDatabase, new Object[0]);
         getMediaDataController().loadAttachMenuBots(false, true);

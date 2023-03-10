@@ -39,7 +39,7 @@ public class CacheByChatsController {
             return KEEP_MEDIA_ONE_MONTH;
         }
         if (i == 2) {
-            return KEEP_MEDIA_ONE_MONTH;
+            return KEEP_MEDIA_ONE_WEEK;
         }
         return SharedConfig.keepMedia;
     }

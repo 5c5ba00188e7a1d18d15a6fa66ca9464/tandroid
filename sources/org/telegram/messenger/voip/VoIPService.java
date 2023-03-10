@@ -5543,6 +5543,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         } else {
             this.bluetoothScoActive = false;
             this.bluetoothScoConnecting = false;
+            audioManager.setBluetoothScoOn(false);
         }
         Iterator<StateListener> it = this.stateListeners.iterator();
         while (it.hasNext()) {

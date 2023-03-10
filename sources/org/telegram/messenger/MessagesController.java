@@ -2087,8 +2087,6 @@ public class MessagesController extends BaseController implements NotificationCe
         this.gifSearchBot = this.mainPreferences.getString("gifSearchBot", "gif");
         this.imageSearchBot = this.mainPreferences.getString("imageSearchBot", "pic");
         this.blockedCountry = this.mainPreferences.getBoolean("blockedCountry", false);
-        this.dcDomainName = this.mainPreferences.getString("dcDomainName2", ConnectionsManager.native_isTestBackend(this.currentAccount) != 0 ? "tapv3.stel.com" : "apv3.stel.com");
-        this.webFileDatacenterId = this.mainPreferences.getInt("webFileDatacenterId", ConnectionsManager.native_isTestBackend(this.currentAccount) != 0 ? 2 : 4);
         this.suggestedLangCode = this.mainPreferences.getString("suggestedLangCode", "en");
         this.animatedEmojisZoom = this.mainPreferences.getFloat("animatedEmojisZoom", 0.625f);
         this.qrLoginCamera = this.mainPreferences.getBoolean("qrLoginCamera", false);
@@ -2151,6 +2149,8 @@ public class MessagesController extends BaseController implements NotificationCe
         this.giftTextFieldIcon = this.mainPreferences.getBoolean("giftTextFieldIcon", false);
         this.checkResetLangpack = this.mainPreferences.getInt("checkResetLangpack", 0);
         BuildVars.GOOGLE_AUTH_CLIENT_ID = this.mainPreferences.getString("googleAuthClientId", BuildVars.GOOGLE_AUTH_CLIENT_ID);
+        this.dcDomainName = this.mainPreferences.getString("dcDomainName2", ConnectionsManager.native_isTestBackend(this.currentAccount) != 0 ? "tapv3.stel.com" : "apv3.stel.com");
+        this.webFileDatacenterId = this.mainPreferences.getInt("webFileDatacenterId", ConnectionsManager.native_isTestBackend(this.currentAccount) == 0 ? 4 : 2);
         Set<String> stringSet = this.mainPreferences.getStringSet("directPaymentsCurrency", null);
         if (stringSet != null) {
             this.directPaymentsCurrency.clear();

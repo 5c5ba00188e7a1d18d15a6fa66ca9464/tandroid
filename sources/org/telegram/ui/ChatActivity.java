@@ -13463,7 +13463,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 TLRPC$UserFull tLRPC$UserFull = this.userInfo;
                 if (tLRPC$UserFull != null && tLRPC$UserFull.voice_messages_forbidden) {
                     this.mediaBanTooltip.setText(AndroidUtilities.replaceTags(LocaleController.formatString(this.chatActivityEnterView.isInVideoMode() ? R.string.VideoMessagesRestrictedByPrivacy : R.string.VoiceMessagesRestrictedByPrivacy, this.currentUser.first_name)));
-                } else if (!ChatObject.canSendVoice(this.currentChat) && !ChatObject.canSendVoice(this.currentChat)) {
+                } else if (!ChatObject.canSendVoice(this.currentChat) && !ChatObject.canSendRoundVideo(this.currentChat)) {
                     if (this.chatActivityEnterView.isInVideoMode()) {
                         this.mediaBanTooltip.setText(ChatObject.getRestrictedErrorText(this.currentChat, 21));
                     } else {
@@ -26664,26 +26664,26 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:1042:0x18aa  */
     /* JADX WARN: Removed duplicated region for block: B:1045:0x18c5  */
     /* JADX WARN: Removed duplicated region for block: B:1068:0x1a5b  */
-    /* JADX WARN: Removed duplicated region for block: B:1211:0x229e  */
-    /* JADX WARN: Removed duplicated region for block: B:1214:0x22cc  */
-    /* JADX WARN: Removed duplicated region for block: B:1215:0x22d5  */
-    /* JADX WARN: Removed duplicated region for block: B:1243:0x2381  */
-    /* JADX WARN: Removed duplicated region for block: B:1244:0x2386  */
-    /* JADX WARN: Removed duplicated region for block: B:1247:0x238d  */
-    /* JADX WARN: Removed duplicated region for block: B:1248:0x2392  */
-    /* JADX WARN: Removed duplicated region for block: B:1251:0x23a5  */
-    /* JADX WARN: Removed duplicated region for block: B:1275:0x2480  */
-    /* JADX WARN: Removed duplicated region for block: B:1339:0x261f  */
-    /* JADX WARN: Removed duplicated region for block: B:1340:0x2626  */
-    /* JADX WARN: Removed duplicated region for block: B:1345:0x2652  */
-    /* JADX WARN: Removed duplicated region for block: B:1348:0x267d  */
-    /* JADX WARN: Removed duplicated region for block: B:1350:0x2680  */
-    /* JADX WARN: Removed duplicated region for block: B:1359:0x26dd  */
-    /* JADX WARN: Removed duplicated region for block: B:1366:0x26fd  */
-    /* JADX WARN: Removed duplicated region for block: B:1367:0x2701  */
-    /* JADX WARN: Removed duplicated region for block: B:1370:0x271c  */
-    /* JADX WARN: Removed duplicated region for block: B:1373:0x2723  */
-    /* JADX WARN: Removed duplicated region for block: B:1376:0x272a  */
+    /* JADX WARN: Removed duplicated region for block: B:1211:0x22b0  */
+    /* JADX WARN: Removed duplicated region for block: B:1214:0x22de  */
+    /* JADX WARN: Removed duplicated region for block: B:1215:0x22e7  */
+    /* JADX WARN: Removed duplicated region for block: B:1243:0x2393  */
+    /* JADX WARN: Removed duplicated region for block: B:1244:0x2398  */
+    /* JADX WARN: Removed duplicated region for block: B:1247:0x239f  */
+    /* JADX WARN: Removed duplicated region for block: B:1248:0x23a4  */
+    /* JADX WARN: Removed duplicated region for block: B:1251:0x23b7  */
+    /* JADX WARN: Removed duplicated region for block: B:1275:0x2492  */
+    /* JADX WARN: Removed duplicated region for block: B:1339:0x2631  */
+    /* JADX WARN: Removed duplicated region for block: B:1340:0x2638  */
+    /* JADX WARN: Removed duplicated region for block: B:1345:0x2664  */
+    /* JADX WARN: Removed duplicated region for block: B:1348:0x268f  */
+    /* JADX WARN: Removed duplicated region for block: B:1350:0x2692  */
+    /* JADX WARN: Removed duplicated region for block: B:1359:0x26ef  */
+    /* JADX WARN: Removed duplicated region for block: B:1366:0x270f  */
+    /* JADX WARN: Removed duplicated region for block: B:1367:0x2713  */
+    /* JADX WARN: Removed duplicated region for block: B:1370:0x272e  */
+    /* JADX WARN: Removed duplicated region for block: B:1373:0x2735  */
+    /* JADX WARN: Removed duplicated region for block: B:1376:0x273c  */
     /* JADX WARN: Removed duplicated region for block: B:1411:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:167:0x02f3  */
     /* JADX WARN: Removed duplicated region for block: B:177:0x0317  */
@@ -27503,6 +27503,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         Drawable mutate = chatActivity.contentView.getContext().getResources().getDrawable(R.drawable.msg_rate_up).mutate();
                                         mutate.setColorFilter(new PorterDuffColorFilter(chatActivity.getThemedColor("actionBarDefaultSubmenuItemIcon"), PorterDuff.Mode.SRC_IN));
                                         imageView.setImageDrawable(new CrossfadeDrawable(mutate, new CircularProgressDrawable(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(1.5f), chatActivity.getThemedColor("actionBarDefaultSubmenuItemIcon"))));
+                                        imageView.setContentDescription(LocaleController.getString(R.string.AccDescrRateTranscriptionUp));
                                         frameLayout4.addView(imageView, LayoutHelper.createFrame(33, 33.0f, 49, -42.0f, 39.0f, 0.0f, 0.0f));
                                         final ImageView imageView2 = new ImageView(chatActivity.contentView.getContext());
                                         imageView2.setBackground(Theme.createCircleSelectorDrawable(chatActivity.getThemedColor("dialogButtonSelector"), 0, 0));
@@ -27510,6 +27511,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         mutate2.setColorFilter(new PorterDuffColorFilter(chatActivity.getThemedColor("actionBarDefaultSubmenuItemIcon"), PorterDuff.Mode.SRC_IN));
                                         messageObject8 = messageObject7;
                                         imageView2.setImageDrawable(new CrossfadeDrawable(mutate2, new CircularProgressDrawable(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(1.5f), chatActivity.getThemedColor("actionBarDefaultSubmenuItemIcon"))));
+                                        imageView2.setContentDescription(LocaleController.getString(R.string.AccDescrRateTranscriptionDown));
                                         frameLayout4.addView(imageView2, LayoutHelper.createFrame(33, 33.0f, 49, 42.0f, 39.0f, 0.0f, 0.0f));
                                         final Runnable runnable = new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda228
                                             @Override // java.lang.Runnable

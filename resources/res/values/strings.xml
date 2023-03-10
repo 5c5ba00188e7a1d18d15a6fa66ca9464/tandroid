@@ -64,6 +64,8 @@
     <string name="AccDescrIVHeading">Heading</string>
     <string name="AccDescrIVTitle">Title</string>
     <string name="AccDescrInstantCamera">Instant camera</string>
+    <string name="AccDescrLiteBatteryLevelAnnounce">%s%%</string>
+    <string name="AccDescrLiteBatteryWhenBelow">enabled when below %s%%</string>
     <string name="AccDescrLocationNotify">Notify when in range</string>
     <string name="AccDescrMentionCount_few">%1$d mentions</string>
     <string name="AccDescrMentionCount_many">%1$d mentions</string>
@@ -122,6 +124,8 @@
     <string name="AccDescrQuizCorrectAnswer">Correct answer</string>
     <string name="AccDescrQuizExplanation">Explanation</string>
     <string name="AccDescrQuizIncorrectAnswer">Incorrect answer</string>
+    <string name="AccDescrRateTranscriptionDown">Rate down</string>
+    <string name="AccDescrRateTranscriptionUp">Rate up</string>
     <string name="AccDescrReactedWith">%1$s reacted with %2$s</string>
     <string name="AccDescrReactionMentionDown">Go to next unread reactions</string>
     <string name="AccDescrReceivedDate">Received %s</string>

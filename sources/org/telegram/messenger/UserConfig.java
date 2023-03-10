@@ -747,4 +747,9 @@ public class UserConfig extends BaseController {
     public void setGlobalTtl(int i) {
         this.globalTtl = i;
     }
+
+    public void clearFilters() {
+        getPreferences().edit().remove("filtersLoaded").apply();
+        this.filtersLoaded = false;
+    }
 }

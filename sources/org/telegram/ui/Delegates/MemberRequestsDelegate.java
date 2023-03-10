@@ -39,6 +39,7 @@ import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DispatchQueue;
+import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MemberRequestsController;
 import org.telegram.messenger.MessagesController;
@@ -1016,8 +1017,15 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
         public void setImporter(TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter, BackupImageView backupImageView) {
             this.importer = tLRPC$TL_chatInviteImporter;
             this.imageView = backupImageView;
+            TLRPC$User user = MessagesController.getInstance(MemberRequestsDelegate.this.currentAccount).getUser(Long.valueOf(tLRPC$TL_chatInviteImporter.user_id));
+            ImageLocation forUserOrChat = ImageLocation.getForUserOrChat(user, 0);
+            ImageLocation forUserOrChat2 = ImageLocation.getForUserOrChat(user, 1);
+            if (MessagesController.getInstance(MemberRequestsDelegate.this.currentAccount).getUserFull(tLRPC$TL_chatInviteImporter.user_id) == null) {
+                MessagesController.getInstance(MemberRequestsDelegate.this.currentAccount).loadUserInfo(user, false, 0);
+            }
             this.viewPager.setParentAvatarImage(backupImageView);
             this.viewPager.setData(tLRPC$TL_chatInviteImporter.user_id, true);
+            this.viewPager.initIfEmpty(null, forUserOrChat, forUserOrChat2, true);
             this.nameText.setText(UserObject.getUserName((TLRPC$User) MemberRequestsDelegate.this.users.get(tLRPC$TL_chatInviteImporter.user_id)));
             this.bioText.setText(tLRPC$TL_chatInviteImporter.about);
             this.bioText.setVisibility(TextUtils.isEmpty(tLRPC$TL_chatInviteImporter.about) ? 8 : 0);

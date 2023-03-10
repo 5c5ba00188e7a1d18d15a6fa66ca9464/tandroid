@@ -341,11 +341,12 @@ public class CalendarActivity extends BaseFragment {
             @Override // org.telegram.messenger.MessagesStorage.BooleanCallback
             public void run(boolean z) {
                 CalendarActivity.this.finishFragment();
-                if (((BaseFragment) CalendarActivity.this).parentLayout.getFragmentStack().size() >= 2) {
-                    BaseFragment baseFragment = ((BaseFragment) CalendarActivity.this).parentLayout.getFragmentStack().get(((BaseFragment) CalendarActivity.this).parentLayout.getFragmentStack().size() - 2);
-                    if (baseFragment instanceof ChatActivity) {
-                        ((ChatActivity) baseFragment).deleteHistory(CalendarActivity.this.dateSelectedStart, CalendarActivity.this.dateSelectedEnd + 86400, z);
-                    }
+                if (((BaseFragment) CalendarActivity.this).parentLayout == null || ((BaseFragment) CalendarActivity.this).parentLayout.getFragmentStack().size() < 2) {
+                    return;
+                }
+                BaseFragment baseFragment = ((BaseFragment) CalendarActivity.this).parentLayout.getFragmentStack().get(((BaseFragment) CalendarActivity.this).parentLayout.getFragmentStack().size() - 2);
+                if (baseFragment instanceof ChatActivity) {
+                    ((ChatActivity) baseFragment).deleteHistory(CalendarActivity.this.dateSelectedStart, CalendarActivity.this.dateSelectedEnd + 86400, z);
                 }
             }
         }, null);

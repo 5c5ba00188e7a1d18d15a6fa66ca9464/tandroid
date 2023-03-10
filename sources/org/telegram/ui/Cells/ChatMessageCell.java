@@ -31858,7 +31858,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                 spannableStringBuilder.append((CharSequence) LocaleController.getString("AccDescrMsgSending", R.string.AccDescrMsgSending));
                                 float progress = ChatMessageCell.this.radialProgress.getProgress();
                                 if (progress > 0.0f) {
-                                    spannableStringBuilder.append(charSequence4).append((CharSequence) Integer.toString(Math.round(progress * 100.0f))).append((CharSequence) "%");
+                                    spannableStringBuilder.append((CharSequence) Integer.toString(Math.round(progress * 100.0f))).append((CharSequence) "%");
                                 }
                             }
                         } else {

@@ -465,15 +465,7 @@ public class LinkEditActivity extends BaseFragment {
 
             @Override // android.text.TextWatcher
             public void afterTextChanged(Editable editable) {
-                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(editable);
-                Emoji.replaceEmoji(spannableStringBuilder, LinkEditActivity.this.nameEditText.getPaint().getFontMetricsInt(), (int) LinkEditActivity.this.nameEditText.getPaint().getTextSize(), false);
-                int selectionStart = LinkEditActivity.this.nameEditText.getSelectionStart();
-                LinkEditActivity.this.nameEditText.removeTextChangedListener(this);
-                LinkEditActivity.this.nameEditText.setText(spannableStringBuilder);
-                if (selectionStart >= 0) {
-                    LinkEditActivity.this.nameEditText.setSelection(selectionStart);
-                }
-                LinkEditActivity.this.nameEditText.addTextChangedListener(this);
+                Emoji.replaceEmoji(editable, LinkEditActivity.this.nameEditText.getPaint().getFontMetricsInt(), (int) LinkEditActivity.this.nameEditText.getPaint().getTextSize(), false);
             }
         });
         this.nameEditText.setCursorVisible(false);

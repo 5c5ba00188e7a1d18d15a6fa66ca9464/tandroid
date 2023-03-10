@@ -10,11 +10,13 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.ImageSpan;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -45,9 +47,11 @@ import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.CubicBezierInterpolator;
+import org.telegram.ui.Components.IntSeekBarAccessibilityDelegate;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.ListView.AdapterWithDiffUtils;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.Components.SeekBarAccessibilityDelegate;
 import org.telegram.ui.Components.SeekBarView;
 import org.telegram.ui.Components.Switch;
 import org.telegram.ui.LiteModeSettingsActivity;
@@ -289,7 +293,20 @@ public class LiteModeSettingsActivity extends BaseFragment {
                 switchCell = new PowerSaverSlider(context);
                 switchCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             } else if (i == 2) {
-                switchCell = new TextInfoPrivacyCell(context);
+                switchCell = new TextInfoPrivacyCell(this, context) { // from class: org.telegram.ui.LiteModeSettingsActivity.Adapter.1
+                    @Override // org.telegram.ui.Cells.TextInfoPrivacyCell, android.view.View
+                    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+                        super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+                        accessibilityNodeInfo.setEnabled(true);
+                    }
+
+                    @Override // android.view.View
+                    public void onPopulateAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
+                        super.onPopulateAccessibilityEvent(accessibilityEvent);
+                        accessibilityEvent.setContentDescription(getTextView().getText());
+                        setContentDescription(getTextView().getText());
+                    }
+                };
             } else if (i == 3 || i == 4) {
                 switchCell = new SwitchCell(context);
             } else if (i == 5) {
@@ -333,6 +350,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
                     textInfoPrivacyCell.setFixedSize(0);
                 }
                 textInfoPrivacyCell.setText(item.text);
+                textInfoPrivacyCell.setContentDescription(item.text);
                 boolean z2 = i > 0 && ((Item) LiteModeSettingsActivity.this.items.get(i + (-1))).viewType != 2;
                 int i3 = i + 1;
                 z = (i3 >= LiteModeSettingsActivity.this.items.size() || ((Item) LiteModeSettingsActivity.this.items.get(i3)).viewType == 2) ? false : false;
@@ -386,6 +404,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
 
         public SwitchCell(Context context) {
             super(context);
+            setImportantForAccessibility(1);
             setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             ImageView imageView = new ImageView(context);
             this.imageView = imageView;
@@ -408,12 +427,14 @@ public class LiteModeSettingsActivity extends BaseFragment {
             this.textView.setTextSize(1, 16.0f);
             this.textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
             this.textView.setGravity(LocaleController.isRTL ? 5 : 3);
+            this.textView.setImportantForAccessibility(2);
             AnimatedTextView animatedTextView = new AnimatedTextView(context, false, true, true);
             this.countTextView = animatedTextView;
             animatedTextView.setAnimationProperties(0.35f, 0L, 200L, CubicBezierInterpolator.EASE_OUT_QUINT);
             this.countTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.countTextView.setTextSize(AndroidUtilities.dp(14.0f));
             this.countTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+            this.countTextView.setImportantForAccessibility(2);
             ImageView imageView2 = new ImageView(context);
             this.arrowView = imageView2;
             imageView2.setVisibility(8);
@@ -433,10 +454,11 @@ public class LiteModeSettingsActivity extends BaseFragment {
                 this.textViewLayout.addView(this.arrowView, LayoutHelper.createLinear(16, 16, 0.0f, 16, 2, 0, 0, 0));
             }
             addView(this.textViewLayout, LayoutHelper.createFrame(-1, -2.0f, (LocaleController.isRTL ? 5 : 3) | 16, 64.0f, 0.0f, 8.0f, 0.0f));
-            Switch r6 = new Switch(context);
-            this.switchView = r6;
-            r6.setVisibility(8);
+            Switch r5 = new Switch(context);
+            this.switchView = r5;
+            r5.setVisibility(8);
             this.switchView.setColors("switchTrack", "switchTrackChecked", "windowBackgroundWhite", "windowBackgroundWhite");
+            this.switchView.setImportantForAccessibility(2);
             addView(this.switchView, LayoutHelper.createFrame(37, 50.0f, (LocaleController.isRTL ? 3 : 5) | 16, 19.0f, 0.0f, 19.0f, 0.0f));
             CheckBox2 checkBox2 = new CheckBox2(context, 21);
             this.checkBoxView = checkBox2;
@@ -445,6 +467,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
             this.checkBoxView.setChecked(true, false);
             this.checkBoxView.setDrawBackgroundAsArc(10);
             this.checkBoxView.setVisibility(8);
+            this.checkBoxView.setImportantForAccessibility(2);
             CheckBox2 checkBox22 = this.checkBoxView;
             boolean z = LocaleController.isRTL;
             addView(checkBox22, LayoutHelper.createFrame(21, 21.0f, (z ? 5 : 3) | 16, z ? 0.0f : 64.0f, 0.0f, z ? 64.0f : 0.0f, 0.0f));
@@ -603,8 +626,9 @@ public class LiteModeSettingsActivity extends BaseFragment {
         @Override // android.view.View
         public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
             super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-            accessibilityNodeInfo.setClassName("android.widget.Switch");
+            accessibilityNodeInfo.setClassName(this.checkBoxView.getVisibility() == 0 ? "android.widget.CheckBox" : "android.widget.Switch");
             accessibilityNodeInfo.setCheckable(true);
+            accessibilityNodeInfo.setEnabled(true);
             if (this.checkBoxView.getVisibility() == 0) {
                 accessibilityNodeInfo.setChecked(this.checkBoxView.isChecked());
             } else {
@@ -636,6 +660,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
         private ValueAnimator onActiveAnimator;
         private float onActiveT;
         TextView rightTextView;
+        private SeekBarAccessibilityDelegate seekBarAccessibilityDelegate;
         SeekBarView seekBarView;
         FrameLayout valuesView;
 
@@ -644,6 +669,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
             LinearLayout linearLayout = new LinearLayout(context);
             this.headerLayout = linearLayout;
             linearLayout.setGravity(LocaleController.isRTL ? 5 : 3);
+            this.headerLayout.setImportantForAccessibility(4);
             TextView textView = new TextView(context);
             this.headerTextView = textView;
             textView.setTextSize(1, 15.0f);
@@ -705,8 +731,11 @@ public class LiteModeSettingsActivity extends BaseFragment {
                 }
             });
             this.seekBarView.setProgress(LiteMode.getPowerSaverLevel() / 100.0f);
+            this.seekBarView.setImportantForAccessibility(2);
             addView(this.seekBarView, LayoutHelper.createFrame(-1, 44.0f, 48, 6.0f, 68.0f, 6.0f, 0.0f));
-            this.valuesView = new FrameLayout(context);
+            FrameLayout frameLayout = new FrameLayout(context);
+            this.valuesView = frameLayout;
+            frameLayout.setImportantForAccessibility(4);
             TextView textView2 = new TextView(context);
             this.leftTextView = textView2;
             textView2.setTextSize(1, 13.0f);
@@ -746,7 +775,70 @@ public class LiteModeSettingsActivity extends BaseFragment {
             this.rightTextView.setText(LocaleController.getString("LiteBatteryEnabled", R.string.LiteBatteryEnabled));
             this.valuesView.addView(this.rightTextView, LayoutHelper.createFrame(-2, -2, 21));
             addView(this.valuesView, LayoutHelper.createFrame(-1, -2.0f, 55, 21.0f, 52.0f, 21.0f, 0.0f));
+            this.seekBarAccessibilityDelegate = new IntSeekBarAccessibilityDelegate(LiteModeSettingsActivity.this) { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.4
+                @Override // org.telegram.ui.Components.IntSeekBarAccessibilityDelegate
+                protected int getDelta() {
+                    return 5;
+                }
+
+                @Override // org.telegram.ui.Components.IntSeekBarAccessibilityDelegate
+                protected int getMaxValue() {
+                    return 100;
+                }
+
+                @Override // org.telegram.ui.Components.IntSeekBarAccessibilityDelegate
+                protected int getProgress() {
+                    return LiteMode.getPowerSaverLevel();
+                }
+
+                @Override // org.telegram.ui.Components.IntSeekBarAccessibilityDelegate
+                protected void setProgress(int i) {
+                    float f = i / 100.0f;
+                    PowerSaverSlider.this.seekBarView.delegate.onSeekBarDrag(true, f);
+                    PowerSaverSlider.this.seekBarView.setProgress(f);
+                }
+
+                @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
+                public void onInitializeAccessibilityNodeInfoInternal(View view, AccessibilityNodeInfo accessibilityNodeInfo) {
+                    super.onInitializeAccessibilityNodeInfoInternal(view, accessibilityNodeInfo);
+                    accessibilityNodeInfo.setEnabled(true);
+                }
+
+                @Override // android.view.View.AccessibilityDelegate
+                public void onPopulateAccessibilityEvent(View view, AccessibilityEvent accessibilityEvent) {
+                    super.onPopulateAccessibilityEvent(view, accessibilityEvent);
+                    StringBuilder sb = new StringBuilder(LocaleController.getString(R.string.LiteBatteryTitle));
+                    sb.append(", ");
+                    int powerSaverLevel = LiteMode.getPowerSaverLevel();
+                    if (powerSaverLevel <= 0) {
+                        sb.append(LocaleController.getString(R.string.LiteBatteryAlwaysDisabled));
+                    } else if (powerSaverLevel >= 100) {
+                        sb.append(LocaleController.getString(R.string.LiteBatteryAlwaysEnabled));
+                    } else {
+                        sb.append(LocaleController.formatString(R.string.AccDescrLiteBatteryWhenBelow, Integer.valueOf(Math.round(powerSaverLevel))));
+                    }
+                    accessibilityEvent.setContentDescription(sb);
+                    PowerSaverSlider.this.setContentDescription(sb);
+                }
+            };
             update();
+        }
+
+        @Override // android.view.View
+        public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+            super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+            this.seekBarAccessibilityDelegate.onInitializeAccessibilityNodeInfo(this, accessibilityNodeInfo);
+        }
+
+        @Override // android.view.View
+        public void onPopulateAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
+            super.onPopulateAccessibilityEvent(accessibilityEvent);
+            this.seekBarAccessibilityDelegate.onPopulateAccessibilityEvent(this, accessibilityEvent);
+        }
+
+        @Override // android.view.View
+        public boolean performAccessibilityAction(int i, Bundle bundle) {
+            return this.seekBarAccessibilityDelegate.performAccessibilityAction(this, i, bundle);
         }
 
         public void update() {
@@ -802,7 +894,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
                         LiteModeSettingsActivity.PowerSaverSlider.this.lambda$updateOnActive$0(valueAnimator2);
                     }
                 });
-                this.onActiveAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.4
+                this.onActiveAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.5
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
                         PowerSaverSlider.this.rightTextView.setTextColor(ColorUtils.blendARGB(Theme.getColor("windowBackgroundWhiteGrayText"), Theme.getColor("windowBackgroundWhiteBlueText"), PowerSaverSlider.this.onActiveT = f));
@@ -841,7 +933,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
                         LiteModeSettingsActivity.PowerSaverSlider.this.lambda$updateOffActive$1(valueAnimator2);
                     }
                 });
-                this.offActiveAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.5
+                this.offActiveAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.6
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
                         PowerSaverSlider.this.leftTextView.setTextColor(ColorUtils.blendARGB(Theme.getColor("windowBackgroundWhiteGrayText"), Theme.getColor("windowBackgroundWhiteBlueText"), PowerSaverSlider.this.offActiveT = f));
