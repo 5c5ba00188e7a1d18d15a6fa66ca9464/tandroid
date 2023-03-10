@@ -727,10 +727,9 @@ public class FileLoadOperation {
         long currentTimeMillis = System.currentTimeMillis();
         try {
         } catch (Exception e) {
+            FileLog.e((Throwable) e, false);
             if (AndroidUtilities.isENOSPC(e)) {
                 LaunchActivity.checkFreeDiscSpaceStatic(1);
-            } else {
-                FileLog.e(e);
             }
         }
         if (this.filePartsStream == null) {
@@ -928,23 +927,26 @@ public class FileLoadOperation {
     /* JADX WARN: Removed duplicated region for block: B:105:0x03b5  */
     /* JADX WARN: Removed duplicated region for block: B:111:0x03d6  */
     /* JADX WARN: Removed duplicated region for block: B:122:0x0404  */
-    /* JADX WARN: Removed duplicated region for block: B:217:0x060d  */
-    /* JADX WARN: Removed duplicated region for block: B:232:0x063a  */
-    /* JADX WARN: Removed duplicated region for block: B:245:0x06af  */
-    /* JADX WARN: Removed duplicated region for block: B:248:0x06d9  */
-    /* JADX WARN: Removed duplicated region for block: B:261:0x0732  */
-    /* JADX WARN: Removed duplicated region for block: B:268:0x075d  */
-    /* JADX WARN: Removed duplicated region for block: B:274:0x0789  */
-    /* JADX WARN: Removed duplicated region for block: B:279:0x07d2  */
-    /* JADX WARN: Removed duplicated region for block: B:308:0x0836  */
-    /* JADX WARN: Removed duplicated region for block: B:316:0x0859 A[Catch: Exception -> 0x085f, TRY_LEAVE, TryCatch #5 {Exception -> 0x085f, blocks: (B:314:0x0848, B:316:0x0859), top: B:352:0x0848 }] */
-    /* JADX WARN: Removed duplicated region for block: B:326:0x0879  */
-    /* JADX WARN: Removed duplicated region for block: B:328:0x087d  */
-    /* JADX WARN: Removed duplicated region for block: B:329:0x088a  */
-    /* JADX WARN: Removed duplicated region for block: B:350:0x0618 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Type inference failed for: r2v64 */
-    /* JADX WARN: Type inference failed for: r2v67, types: [boolean, int] */
-    /* JADX WARN: Type inference failed for: r2v69 */
+    /* JADX WARN: Removed duplicated region for block: B:217:0x0610  */
+    /* JADX WARN: Removed duplicated region for block: B:232:0x063d  */
+    /* JADX WARN: Removed duplicated region for block: B:245:0x06b2  */
+    /* JADX WARN: Removed duplicated region for block: B:248:0x06dc  */
+    /* JADX WARN: Removed duplicated region for block: B:261:0x0735  */
+    /* JADX WARN: Removed duplicated region for block: B:268:0x0760  */
+    /* JADX WARN: Removed duplicated region for block: B:274:0x078c  */
+    /* JADX WARN: Removed duplicated region for block: B:279:0x07d5  */
+    /* JADX WARN: Removed duplicated region for block: B:307:0x083a  */
+    /* JADX WARN: Removed duplicated region for block: B:315:0x085f A[Catch: Exception -> 0x0865, TRY_LEAVE, TryCatch #8 {Exception -> 0x0865, blocks: (B:313:0x084e, B:315:0x085f), top: B:359:0x084e }] */
+    /* JADX WARN: Removed duplicated region for block: B:324:0x087d  */
+    /* JADX WARN: Removed duplicated region for block: B:326:0x0881  */
+    /* JADX WARN: Removed duplicated region for block: B:327:0x088e  */
+    /* JADX WARN: Removed duplicated region for block: B:365:0x061b A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Type inference failed for: r1v30 */
+    /* JADX WARN: Type inference failed for: r1v31, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r1v33 */
+    /* JADX WARN: Type inference failed for: r1v37 */
+    /* JADX WARN: Type inference failed for: r1v38, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r1v42 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -965,9 +967,9 @@ public class FileLoadOperation {
         boolean z3;
         String str10;
         ArrayList<Range> arrayList;
-        long j2;
+        ?? r1;
         boolean z4;
-        ?? r2;
+        long j2;
         long j3;
         RandomAccessFile randomAccessFile;
         RandomAccessFile randomAccessFile2;
@@ -1103,6 +1105,7 @@ public class FileLoadOperation {
                         if (AndroidUtilities.isENOSPC(e)) {
                             i = 1;
                             LaunchActivity.checkFreeDiscSpaceStatic(1);
+                            FileLog.e((Throwable) e, false);
                         } else {
                             i = 1;
                             FileLog.e(e);
@@ -1129,17 +1132,16 @@ public class FileLoadOperation {
                         }
                         if (str8 != null) {
                         }
-                        j2 = 0;
                         if (!this.isPreloadVideoOperation) {
                         }
                         updateProgress();
                         RandomAccessFile randomAccessFile3 = new RandomAccessFile(this.cacheFileTemp, str10);
                         this.fileOutputStream = randomAccessFile3;
-                        j3 = this.downloadedBytes;
-                        if (j3 != 0) {
+                        j2 = this.downloadedBytes;
+                        if (j2 != 0) {
                         }
+                        r1 = 0;
                         z4 = true;
-                        r2 = 0;
                         if (this.fileOutputStream != null) {
                         }
                     }
@@ -1198,14 +1200,6 @@ public class FileLoadOperation {
                                                         str9 = str4;
                                                         FileLog.e((Throwable) e, false);
                                                         if (!this.isPreloadVideoOperation) {
-                                                            this.cacheFilePreload = null;
-                                                            try {
-                                                                randomAccessFile = this.preloadStream;
-                                                                if (randomAccessFile != null) {
-                                                                }
-                                                            } catch (Exception e5) {
-                                                                FileLog.e(e5);
-                                                            }
                                                         }
                                                         if (str9 != null) {
                                                         }
@@ -1220,25 +1214,24 @@ public class FileLoadOperation {
                                                         }
                                                         if (str8 != null) {
                                                         }
-                                                        j2 = 0;
                                                         if (!this.isPreloadVideoOperation) {
                                                         }
                                                         updateProgress();
                                                         RandomAccessFile randomAccessFile32 = new RandomAccessFile(this.cacheFileTemp, str10);
                                                         this.fileOutputStream = randomAccessFile32;
-                                                        j3 = this.downloadedBytes;
-                                                        if (j3 != 0) {
+                                                        j2 = this.downloadedBytes;
+                                                        if (j2 != 0) {
                                                         }
+                                                        r1 = 0;
                                                         z4 = true;
-                                                        r2 = 0;
                                                         if (this.fileOutputStream != null) {
                                                         }
                                                     }
                                                     try {
                                                         this.moovFound = this.nextPreloadDownloadOffset > this.totalBytesCount / 2 ? 2 : 1;
                                                         this.preloadNotRequestedBytesCount = readLong3;
-                                                    } catch (Exception e6) {
-                                                        e = e6;
+                                                    } catch (Exception e5) {
+                                                        e = e5;
                                                         FileLog.e((Throwable) e, false);
                                                         if (!this.isPreloadVideoOperation) {
                                                         }
@@ -1255,17 +1248,16 @@ public class FileLoadOperation {
                                                         }
                                                         if (str8 != null) {
                                                         }
-                                                        j2 = 0;
                                                         if (!this.isPreloadVideoOperation) {
                                                         }
                                                         updateProgress();
                                                         RandomAccessFile randomAccessFile322 = new RandomAccessFile(this.cacheFileTemp, str10);
                                                         this.fileOutputStream = randomAccessFile322;
-                                                        j3 = this.downloadedBytes;
-                                                        if (j3 != 0) {
+                                                        j2 = this.downloadedBytes;
+                                                        if (j2 != 0) {
                                                         }
+                                                        r1 = 0;
                                                         z4 = true;
-                                                        r2 = 0;
                                                         if (this.fileOutputStream != null) {
                                                         }
                                                     }
@@ -1301,14 +1293,22 @@ public class FileLoadOperation {
                                     str9 = str4;
                                     z3 = z8;
                                     break;
-                                } catch (Exception e7) {
-                                    e = e7;
+                                } catch (Exception e6) {
+                                    e = e6;
                                     str8 = str3;
                                     str9 = str4;
                                     z3 = z8;
                                     str10 = str12;
                                     FileLog.e((Throwable) e, false);
                                     if (!this.isPreloadVideoOperation) {
+                                        this.cacheFilePreload = null;
+                                        try {
+                                            randomAccessFile = this.preloadStream;
+                                            if (randomAccessFile != null) {
+                                            }
+                                        } catch (Exception e7) {
+                                            FileLog.e(e7);
+                                        }
                                     }
                                     if (str9 != null) {
                                     }
@@ -1323,17 +1323,17 @@ public class FileLoadOperation {
                                     }
                                     if (str8 != null) {
                                     }
-                                    j2 = 0;
                                     if (!this.isPreloadVideoOperation) {
+                                        copyNotLoadedRanges();
                                     }
                                     updateProgress();
                                     RandomAccessFile randomAccessFile3222 = new RandomAccessFile(this.cacheFileTemp, str10);
                                     this.fileOutputStream = randomAccessFile3222;
-                                    j3 = this.downloadedBytes;
-                                    if (j3 != 0) {
+                                    j2 = this.downloadedBytes;
+                                    if (j2 != 0) {
                                     }
+                                    r1 = 0;
                                     z4 = true;
-                                    r2 = 0;
                                     if (this.fileOutputStream != null) {
                                     }
                                 }
@@ -1439,75 +1439,74 @@ public class FileLoadOperation {
                             try {
                                 long length6 = this.cacheIvTemp.length();
                                 if (length6 <= 0) {
-                                    j2 = 0;
+                                    j3 = 0;
                                 } else if (length6 % 64 == 0) {
                                     this.fiv.read(this.iv, 0, 64);
                                 } else {
-                                    j2 = 0;
+                                    j3 = 0;
                                 }
-                            } catch (Exception e11) {
-                                e = e11;
-                                j2 = 0;
-                            }
-                            try {
-                                this.downloadedBytes = j2;
-                                this.requestedBytesCount = j2;
+                                try {
+                                    this.downloadedBytes = j3;
+                                    this.requestedBytesCount = j3;
+                                } catch (Exception e11) {
+                                    e = e11;
+                                    this.downloadedBytes = j3;
+                                    this.requestedBytesCount = j3;
+                                    if (AndroidUtilities.isENOSPC(e)) {
+                                        LaunchActivity.checkFreeDiscSpaceStatic(1);
+                                        FileLog.e((Throwable) e, false);
+                                    } else {
+                                        FileLog.e(e);
+                                    }
+                                    if (!this.isPreloadVideoOperation) {
+                                    }
+                                    updateProgress();
+                                    RandomAccessFile randomAccessFile32222 = new RandomAccessFile(this.cacheFileTemp, str10);
+                                    this.fileOutputStream = randomAccessFile32222;
+                                    j2 = this.downloadedBytes;
+                                    if (j2 != 0) {
+                                    }
+                                    r1 = 0;
+                                    z4 = true;
+                                    if (this.fileOutputStream != null) {
+                                    }
+                                }
                             } catch (Exception e12) {
                                 e = e12;
-                                this.downloadedBytes = j2;
-                                this.requestedBytesCount = j2;
-                                if (AndroidUtilities.isENOSPC(e)) {
-                                    LaunchActivity.checkFreeDiscSpaceStatic(1);
-                                } else {
-                                    FileLog.e(e);
-                                }
-                                if (!this.isPreloadVideoOperation) {
-                                    copyNotLoadedRanges();
-                                }
-                                updateProgress();
-                                RandomAccessFile randomAccessFile32222 = new RandomAccessFile(this.cacheFileTemp, str10);
-                                this.fileOutputStream = randomAccessFile32222;
-                                j3 = this.downloadedBytes;
-                                if (j3 != 0) {
-                                }
-                                z4 = true;
-                                r2 = 0;
-                                if (this.fileOutputStream != null) {
-                                }
+                                j3 = 0;
                             }
                         }
                     } catch (Exception e13) {
                         e = e13;
-                        j2 = 0;
+                        j3 = 0;
                     }
                 }
-                j2 = 0;
-                if (!this.isPreloadVideoOperation && this.downloadedBytes != j2 && this.totalBytesCount > j2) {
+                if (!this.isPreloadVideoOperation && this.downloadedBytes != 0 && this.totalBytesCount > 0) {
                     copyNotLoadedRanges();
                 }
                 updateProgress();
                 try {
                     RandomAccessFile randomAccessFile322222 = new RandomAccessFile(this.cacheFileTemp, str10);
                     this.fileOutputStream = randomAccessFile322222;
-                    j3 = this.downloadedBytes;
-                    if (j3 != 0) {
-                        randomAccessFile322222.seek(j3);
+                    j2 = this.downloadedBytes;
+                    if (j2 != 0) {
+                        randomAccessFile322222.seek(j2);
                     }
+                    r1 = 0;
                     z4 = true;
-                    r2 = 0;
                 } catch (Exception e14) {
+                    r1 = 0;
+                    FileLog.e((Throwable) e14, false);
+                    z4 = true;
                     if (AndroidUtilities.isENOSPC(e14)) {
                         LaunchActivity.checkFreeDiscSpaceStatic(1);
                         onFail(true, -1);
                         return false;
                     }
-                    z4 = true;
-                    r2 = 0;
-                    FileLog.e((Throwable) e14, false);
                 }
                 if (this.fileOutputStream != null) {
-                    onFail(z4, r2);
-                    return r2;
+                    onFail(z4, r1);
+                    return r1;
                 }
                 this.started = z4;
                 Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda14
@@ -1518,22 +1517,29 @@ public class FileLoadOperation {
                 });
                 return z4;
             }
+            ?? r12 = 0;
             this.started = true;
             try {
                 onFinishLoadingFile(false);
+            } catch (Exception e15) {
+                e = e15;
+            }
+            try {
                 FilePathDatabase.PathData pathData = this.pathSaveData;
                 if (pathData != null) {
                     this.delegate.saveFilePath(pathData, null);
                 }
                 return true;
-            } catch (Exception e15) {
-                if (AndroidUtilities.isENOSPC(e15)) {
+            } catch (Exception e16) {
+                e = e16;
+                r12 = 0;
+                FileLog.e(e, (boolean) r12);
+                if (AndroidUtilities.isENOSPC(e)) {
                     LaunchActivity.checkFreeDiscSpaceStatic(1);
                     onFail(true, -1);
                     return true;
                 }
-                FileLog.e((Throwable) e15, false);
-                onFail(true, 0);
+                onFail(true, r12);
                 return true;
             }
         }
@@ -2245,11 +2251,11 @@ public class FileLoadOperation {
     /* JADX WARN: Code restructure failed: missing block: B:146:0x03d3, code lost:
         if (r9 != false) goto L199;
      */
-    /* JADX WARN: Removed duplicated region for block: B:177:0x0506 A[Catch: Exception -> 0x05b2, TryCatch #2 {Exception -> 0x05b2, blocks: (B:12:0x0058, B:14:0x005c, B:16:0x0066, B:18:0x006a, B:20:0x0070, B:29:0x0094, B:32:0x009c, B:34:0x00a4, B:36:0x00b4, B:39:0x00c2, B:41:0x00c9, B:43:0x00e1, B:44:0x0113, B:46:0x0117, B:48:0x013b, B:49:0x0164, B:51:0x0168, B:52:0x016f, B:54:0x019a, B:56:0x01ae, B:58:0x01c3, B:60:0x01d8, B:62:0x01e5, B:64:0x01eb, B:66:0x020c, B:68:0x0210, B:70:0x0216, B:72:0x021c, B:78:0x0228, B:185:0x0530, B:187:0x0538, B:189:0x0544, B:192:0x054f, B:193:0x0552, B:195:0x055e, B:197:0x0564, B:198:0x0573, B:200:0x0579, B:201:0x0588, B:203:0x058e, B:205:0x059e, B:206:0x05a3, B:208:0x05a8, B:79:0x0235, B:81:0x0239, B:59:0x01cf, B:61:0x01dd, B:82:0x0243, B:102:0x0277, B:104:0x027c, B:106:0x0295, B:108:0x029d, B:113:0x02b1, B:114:0x02c7, B:115:0x02c8, B:116:0x02cc, B:118:0x02d0, B:119:0x0302, B:121:0x0306, B:123:0x0313, B:124:0x034a, B:126:0x0370, B:128:0x0382, B:130:0x0392, B:136:0x03a2, B:138:0x03bc, B:140:0x03c3, B:142:0x03c9, B:147:0x03d5, B:149:0x03e5, B:150:0x03f6, B:155:0x0407, B:156:0x040e, B:157:0x040f, B:159:0x041c, B:161:0x045a, B:163:0x0469, B:165:0x046d, B:167:0x0471, B:168:0x04bc, B:170:0x04c0, B:171:0x04de, B:173:0x04e8, B:175:0x0502, B:177:0x0506, B:178:0x0512, B:180:0x051a, B:182:0x051f, B:133:0x039c, B:87:0x0257, B:91:0x025f, B:209:0x05ac, B:21:0x0077, B:23:0x007d, B:24:0x0084, B:26:0x008a), top: B:261:0x0058 }] */
-    /* JADX WARN: Removed duplicated region for block: B:205:0x059e A[Catch: Exception -> 0x05b2, TryCatch #2 {Exception -> 0x05b2, blocks: (B:12:0x0058, B:14:0x005c, B:16:0x0066, B:18:0x006a, B:20:0x0070, B:29:0x0094, B:32:0x009c, B:34:0x00a4, B:36:0x00b4, B:39:0x00c2, B:41:0x00c9, B:43:0x00e1, B:44:0x0113, B:46:0x0117, B:48:0x013b, B:49:0x0164, B:51:0x0168, B:52:0x016f, B:54:0x019a, B:56:0x01ae, B:58:0x01c3, B:60:0x01d8, B:62:0x01e5, B:64:0x01eb, B:66:0x020c, B:68:0x0210, B:70:0x0216, B:72:0x021c, B:78:0x0228, B:185:0x0530, B:187:0x0538, B:189:0x0544, B:192:0x054f, B:193:0x0552, B:195:0x055e, B:197:0x0564, B:198:0x0573, B:200:0x0579, B:201:0x0588, B:203:0x058e, B:205:0x059e, B:206:0x05a3, B:208:0x05a8, B:79:0x0235, B:81:0x0239, B:59:0x01cf, B:61:0x01dd, B:82:0x0243, B:102:0x0277, B:104:0x027c, B:106:0x0295, B:108:0x029d, B:113:0x02b1, B:114:0x02c7, B:115:0x02c8, B:116:0x02cc, B:118:0x02d0, B:119:0x0302, B:121:0x0306, B:123:0x0313, B:124:0x034a, B:126:0x0370, B:128:0x0382, B:130:0x0392, B:136:0x03a2, B:138:0x03bc, B:140:0x03c3, B:142:0x03c9, B:147:0x03d5, B:149:0x03e5, B:150:0x03f6, B:155:0x0407, B:156:0x040e, B:157:0x040f, B:159:0x041c, B:161:0x045a, B:163:0x0469, B:165:0x046d, B:167:0x0471, B:168:0x04bc, B:170:0x04c0, B:171:0x04de, B:173:0x04e8, B:175:0x0502, B:177:0x0506, B:178:0x0512, B:180:0x051a, B:182:0x051f, B:133:0x039c, B:87:0x0257, B:91:0x025f, B:209:0x05ac, B:21:0x0077, B:23:0x007d, B:24:0x0084, B:26:0x008a), top: B:261:0x0058 }] */
-    /* JADX WARN: Removed duplicated region for block: B:206:0x05a3 A[Catch: Exception -> 0x05b2, TryCatch #2 {Exception -> 0x05b2, blocks: (B:12:0x0058, B:14:0x005c, B:16:0x0066, B:18:0x006a, B:20:0x0070, B:29:0x0094, B:32:0x009c, B:34:0x00a4, B:36:0x00b4, B:39:0x00c2, B:41:0x00c9, B:43:0x00e1, B:44:0x0113, B:46:0x0117, B:48:0x013b, B:49:0x0164, B:51:0x0168, B:52:0x016f, B:54:0x019a, B:56:0x01ae, B:58:0x01c3, B:60:0x01d8, B:62:0x01e5, B:64:0x01eb, B:66:0x020c, B:68:0x0210, B:70:0x0216, B:72:0x021c, B:78:0x0228, B:185:0x0530, B:187:0x0538, B:189:0x0544, B:192:0x054f, B:193:0x0552, B:195:0x055e, B:197:0x0564, B:198:0x0573, B:200:0x0579, B:201:0x0588, B:203:0x058e, B:205:0x059e, B:206:0x05a3, B:208:0x05a8, B:79:0x0235, B:81:0x0239, B:59:0x01cf, B:61:0x01dd, B:82:0x0243, B:102:0x0277, B:104:0x027c, B:106:0x0295, B:108:0x029d, B:113:0x02b1, B:114:0x02c7, B:115:0x02c8, B:116:0x02cc, B:118:0x02d0, B:119:0x0302, B:121:0x0306, B:123:0x0313, B:124:0x034a, B:126:0x0370, B:128:0x0382, B:130:0x0392, B:136:0x03a2, B:138:0x03bc, B:140:0x03c3, B:142:0x03c9, B:147:0x03d5, B:149:0x03e5, B:150:0x03f6, B:155:0x0407, B:156:0x040e, B:157:0x040f, B:159:0x041c, B:161:0x045a, B:163:0x0469, B:165:0x046d, B:167:0x0471, B:168:0x04bc, B:170:0x04c0, B:171:0x04de, B:173:0x04e8, B:175:0x0502, B:177:0x0506, B:178:0x0512, B:180:0x051a, B:182:0x051f, B:133:0x039c, B:87:0x0257, B:91:0x025f, B:209:0x05ac, B:21:0x0077, B:23:0x007d, B:24:0x0084, B:26:0x008a), top: B:261:0x0058 }] */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x0228 A[Catch: Exception -> 0x05b2, TryCatch #2 {Exception -> 0x05b2, blocks: (B:12:0x0058, B:14:0x005c, B:16:0x0066, B:18:0x006a, B:20:0x0070, B:29:0x0094, B:32:0x009c, B:34:0x00a4, B:36:0x00b4, B:39:0x00c2, B:41:0x00c9, B:43:0x00e1, B:44:0x0113, B:46:0x0117, B:48:0x013b, B:49:0x0164, B:51:0x0168, B:52:0x016f, B:54:0x019a, B:56:0x01ae, B:58:0x01c3, B:60:0x01d8, B:62:0x01e5, B:64:0x01eb, B:66:0x020c, B:68:0x0210, B:70:0x0216, B:72:0x021c, B:78:0x0228, B:185:0x0530, B:187:0x0538, B:189:0x0544, B:192:0x054f, B:193:0x0552, B:195:0x055e, B:197:0x0564, B:198:0x0573, B:200:0x0579, B:201:0x0588, B:203:0x058e, B:205:0x059e, B:206:0x05a3, B:208:0x05a8, B:79:0x0235, B:81:0x0239, B:59:0x01cf, B:61:0x01dd, B:82:0x0243, B:102:0x0277, B:104:0x027c, B:106:0x0295, B:108:0x029d, B:113:0x02b1, B:114:0x02c7, B:115:0x02c8, B:116:0x02cc, B:118:0x02d0, B:119:0x0302, B:121:0x0306, B:123:0x0313, B:124:0x034a, B:126:0x0370, B:128:0x0382, B:130:0x0392, B:136:0x03a2, B:138:0x03bc, B:140:0x03c3, B:142:0x03c9, B:147:0x03d5, B:149:0x03e5, B:150:0x03f6, B:155:0x0407, B:156:0x040e, B:157:0x040f, B:159:0x041c, B:161:0x045a, B:163:0x0469, B:165:0x046d, B:167:0x0471, B:168:0x04bc, B:170:0x04c0, B:171:0x04de, B:173:0x04e8, B:175:0x0502, B:177:0x0506, B:178:0x0512, B:180:0x051a, B:182:0x051f, B:133:0x039c, B:87:0x0257, B:91:0x025f, B:209:0x05ac, B:21:0x0077, B:23:0x007d, B:24:0x0084, B:26:0x008a), top: B:261:0x0058 }] */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x0235 A[Catch: Exception -> 0x05b2, TryCatch #2 {Exception -> 0x05b2, blocks: (B:12:0x0058, B:14:0x005c, B:16:0x0066, B:18:0x006a, B:20:0x0070, B:29:0x0094, B:32:0x009c, B:34:0x00a4, B:36:0x00b4, B:39:0x00c2, B:41:0x00c9, B:43:0x00e1, B:44:0x0113, B:46:0x0117, B:48:0x013b, B:49:0x0164, B:51:0x0168, B:52:0x016f, B:54:0x019a, B:56:0x01ae, B:58:0x01c3, B:60:0x01d8, B:62:0x01e5, B:64:0x01eb, B:66:0x020c, B:68:0x0210, B:70:0x0216, B:72:0x021c, B:78:0x0228, B:185:0x0530, B:187:0x0538, B:189:0x0544, B:192:0x054f, B:193:0x0552, B:195:0x055e, B:197:0x0564, B:198:0x0573, B:200:0x0579, B:201:0x0588, B:203:0x058e, B:205:0x059e, B:206:0x05a3, B:208:0x05a8, B:79:0x0235, B:81:0x0239, B:59:0x01cf, B:61:0x01dd, B:82:0x0243, B:102:0x0277, B:104:0x027c, B:106:0x0295, B:108:0x029d, B:113:0x02b1, B:114:0x02c7, B:115:0x02c8, B:116:0x02cc, B:118:0x02d0, B:119:0x0302, B:121:0x0306, B:123:0x0313, B:124:0x034a, B:126:0x0370, B:128:0x0382, B:130:0x0392, B:136:0x03a2, B:138:0x03bc, B:140:0x03c3, B:142:0x03c9, B:147:0x03d5, B:149:0x03e5, B:150:0x03f6, B:155:0x0407, B:156:0x040e, B:157:0x040f, B:159:0x041c, B:161:0x045a, B:163:0x0469, B:165:0x046d, B:167:0x0471, B:168:0x04bc, B:170:0x04c0, B:171:0x04de, B:173:0x04e8, B:175:0x0502, B:177:0x0506, B:178:0x0512, B:180:0x051a, B:182:0x051f, B:133:0x039c, B:87:0x0257, B:91:0x025f, B:209:0x05ac, B:21:0x0077, B:23:0x007d, B:24:0x0084, B:26:0x008a), top: B:261:0x0058 }] */
+    /* JADX WARN: Removed duplicated region for block: B:177:0x0506 A[Catch: Exception -> 0x05b2, TryCatch #2 {Exception -> 0x05b2, blocks: (B:12:0x0058, B:14:0x005c, B:16:0x0066, B:18:0x006a, B:20:0x0070, B:29:0x0094, B:32:0x009c, B:34:0x00a4, B:36:0x00b4, B:39:0x00c2, B:41:0x00c9, B:43:0x00e1, B:44:0x0113, B:46:0x0117, B:48:0x013b, B:49:0x0164, B:51:0x0168, B:52:0x016f, B:54:0x019a, B:56:0x01ae, B:58:0x01c3, B:60:0x01d8, B:62:0x01e5, B:64:0x01eb, B:66:0x020c, B:68:0x0210, B:70:0x0216, B:72:0x021c, B:78:0x0228, B:185:0x0530, B:187:0x0538, B:189:0x0544, B:192:0x054f, B:193:0x0552, B:195:0x055e, B:197:0x0564, B:198:0x0573, B:200:0x0579, B:201:0x0588, B:203:0x058e, B:205:0x059e, B:206:0x05a3, B:208:0x05a8, B:79:0x0235, B:81:0x0239, B:59:0x01cf, B:61:0x01dd, B:82:0x0243, B:102:0x0277, B:104:0x027c, B:106:0x0295, B:108:0x029d, B:113:0x02b1, B:114:0x02c7, B:115:0x02c8, B:116:0x02cc, B:118:0x02d0, B:119:0x0302, B:121:0x0306, B:123:0x0313, B:124:0x034a, B:126:0x0370, B:128:0x0382, B:130:0x0392, B:136:0x03a2, B:138:0x03bc, B:140:0x03c3, B:142:0x03c9, B:147:0x03d5, B:149:0x03e5, B:150:0x03f6, B:155:0x0407, B:156:0x040e, B:157:0x040f, B:159:0x041c, B:161:0x045a, B:163:0x0469, B:165:0x046d, B:167:0x0471, B:168:0x04bc, B:170:0x04c0, B:171:0x04de, B:173:0x04e8, B:175:0x0502, B:177:0x0506, B:178:0x0512, B:180:0x051a, B:182:0x051f, B:133:0x039c, B:87:0x0257, B:91:0x025f, B:209:0x05ac, B:21:0x0077, B:23:0x007d, B:24:0x0084, B:26:0x008a), top: B:267:0x0058 }] */
+    /* JADX WARN: Removed duplicated region for block: B:205:0x059e A[Catch: Exception -> 0x05b2, TryCatch #2 {Exception -> 0x05b2, blocks: (B:12:0x0058, B:14:0x005c, B:16:0x0066, B:18:0x006a, B:20:0x0070, B:29:0x0094, B:32:0x009c, B:34:0x00a4, B:36:0x00b4, B:39:0x00c2, B:41:0x00c9, B:43:0x00e1, B:44:0x0113, B:46:0x0117, B:48:0x013b, B:49:0x0164, B:51:0x0168, B:52:0x016f, B:54:0x019a, B:56:0x01ae, B:58:0x01c3, B:60:0x01d8, B:62:0x01e5, B:64:0x01eb, B:66:0x020c, B:68:0x0210, B:70:0x0216, B:72:0x021c, B:78:0x0228, B:185:0x0530, B:187:0x0538, B:189:0x0544, B:192:0x054f, B:193:0x0552, B:195:0x055e, B:197:0x0564, B:198:0x0573, B:200:0x0579, B:201:0x0588, B:203:0x058e, B:205:0x059e, B:206:0x05a3, B:208:0x05a8, B:79:0x0235, B:81:0x0239, B:59:0x01cf, B:61:0x01dd, B:82:0x0243, B:102:0x0277, B:104:0x027c, B:106:0x0295, B:108:0x029d, B:113:0x02b1, B:114:0x02c7, B:115:0x02c8, B:116:0x02cc, B:118:0x02d0, B:119:0x0302, B:121:0x0306, B:123:0x0313, B:124:0x034a, B:126:0x0370, B:128:0x0382, B:130:0x0392, B:136:0x03a2, B:138:0x03bc, B:140:0x03c3, B:142:0x03c9, B:147:0x03d5, B:149:0x03e5, B:150:0x03f6, B:155:0x0407, B:156:0x040e, B:157:0x040f, B:159:0x041c, B:161:0x045a, B:163:0x0469, B:165:0x046d, B:167:0x0471, B:168:0x04bc, B:170:0x04c0, B:171:0x04de, B:173:0x04e8, B:175:0x0502, B:177:0x0506, B:178:0x0512, B:180:0x051a, B:182:0x051f, B:133:0x039c, B:87:0x0257, B:91:0x025f, B:209:0x05ac, B:21:0x0077, B:23:0x007d, B:24:0x0084, B:26:0x008a), top: B:267:0x0058 }] */
+    /* JADX WARN: Removed duplicated region for block: B:206:0x05a3 A[Catch: Exception -> 0x05b2, TryCatch #2 {Exception -> 0x05b2, blocks: (B:12:0x0058, B:14:0x005c, B:16:0x0066, B:18:0x006a, B:20:0x0070, B:29:0x0094, B:32:0x009c, B:34:0x00a4, B:36:0x00b4, B:39:0x00c2, B:41:0x00c9, B:43:0x00e1, B:44:0x0113, B:46:0x0117, B:48:0x013b, B:49:0x0164, B:51:0x0168, B:52:0x016f, B:54:0x019a, B:56:0x01ae, B:58:0x01c3, B:60:0x01d8, B:62:0x01e5, B:64:0x01eb, B:66:0x020c, B:68:0x0210, B:70:0x0216, B:72:0x021c, B:78:0x0228, B:185:0x0530, B:187:0x0538, B:189:0x0544, B:192:0x054f, B:193:0x0552, B:195:0x055e, B:197:0x0564, B:198:0x0573, B:200:0x0579, B:201:0x0588, B:203:0x058e, B:205:0x059e, B:206:0x05a3, B:208:0x05a8, B:79:0x0235, B:81:0x0239, B:59:0x01cf, B:61:0x01dd, B:82:0x0243, B:102:0x0277, B:104:0x027c, B:106:0x0295, B:108:0x029d, B:113:0x02b1, B:114:0x02c7, B:115:0x02c8, B:116:0x02cc, B:118:0x02d0, B:119:0x0302, B:121:0x0306, B:123:0x0313, B:124:0x034a, B:126:0x0370, B:128:0x0382, B:130:0x0392, B:136:0x03a2, B:138:0x03bc, B:140:0x03c3, B:142:0x03c9, B:147:0x03d5, B:149:0x03e5, B:150:0x03f6, B:155:0x0407, B:156:0x040e, B:157:0x040f, B:159:0x041c, B:161:0x045a, B:163:0x0469, B:165:0x046d, B:167:0x0471, B:168:0x04bc, B:170:0x04c0, B:171:0x04de, B:173:0x04e8, B:175:0x0502, B:177:0x0506, B:178:0x0512, B:180:0x051a, B:182:0x051f, B:133:0x039c, B:87:0x0257, B:91:0x025f, B:209:0x05ac, B:21:0x0077, B:23:0x007d, B:24:0x0084, B:26:0x008a), top: B:267:0x0058 }] */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x0228 A[Catch: Exception -> 0x05b2, TryCatch #2 {Exception -> 0x05b2, blocks: (B:12:0x0058, B:14:0x005c, B:16:0x0066, B:18:0x006a, B:20:0x0070, B:29:0x0094, B:32:0x009c, B:34:0x00a4, B:36:0x00b4, B:39:0x00c2, B:41:0x00c9, B:43:0x00e1, B:44:0x0113, B:46:0x0117, B:48:0x013b, B:49:0x0164, B:51:0x0168, B:52:0x016f, B:54:0x019a, B:56:0x01ae, B:58:0x01c3, B:60:0x01d8, B:62:0x01e5, B:64:0x01eb, B:66:0x020c, B:68:0x0210, B:70:0x0216, B:72:0x021c, B:78:0x0228, B:185:0x0530, B:187:0x0538, B:189:0x0544, B:192:0x054f, B:193:0x0552, B:195:0x055e, B:197:0x0564, B:198:0x0573, B:200:0x0579, B:201:0x0588, B:203:0x058e, B:205:0x059e, B:206:0x05a3, B:208:0x05a8, B:79:0x0235, B:81:0x0239, B:59:0x01cf, B:61:0x01dd, B:82:0x0243, B:102:0x0277, B:104:0x027c, B:106:0x0295, B:108:0x029d, B:113:0x02b1, B:114:0x02c7, B:115:0x02c8, B:116:0x02cc, B:118:0x02d0, B:119:0x0302, B:121:0x0306, B:123:0x0313, B:124:0x034a, B:126:0x0370, B:128:0x0382, B:130:0x0392, B:136:0x03a2, B:138:0x03bc, B:140:0x03c3, B:142:0x03c9, B:147:0x03d5, B:149:0x03e5, B:150:0x03f6, B:155:0x0407, B:156:0x040e, B:157:0x040f, B:159:0x041c, B:161:0x045a, B:163:0x0469, B:165:0x046d, B:167:0x0471, B:168:0x04bc, B:170:0x04c0, B:171:0x04de, B:173:0x04e8, B:175:0x0502, B:177:0x0506, B:178:0x0512, B:180:0x051a, B:182:0x051f, B:133:0x039c, B:87:0x0257, B:91:0x025f, B:209:0x05ac, B:21:0x0077, B:23:0x007d, B:24:0x0084, B:26:0x008a), top: B:267:0x0058 }] */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x0235 A[Catch: Exception -> 0x05b2, TryCatch #2 {Exception -> 0x05b2, blocks: (B:12:0x0058, B:14:0x005c, B:16:0x0066, B:18:0x006a, B:20:0x0070, B:29:0x0094, B:32:0x009c, B:34:0x00a4, B:36:0x00b4, B:39:0x00c2, B:41:0x00c9, B:43:0x00e1, B:44:0x0113, B:46:0x0117, B:48:0x013b, B:49:0x0164, B:51:0x0168, B:52:0x016f, B:54:0x019a, B:56:0x01ae, B:58:0x01c3, B:60:0x01d8, B:62:0x01e5, B:64:0x01eb, B:66:0x020c, B:68:0x0210, B:70:0x0216, B:72:0x021c, B:78:0x0228, B:185:0x0530, B:187:0x0538, B:189:0x0544, B:192:0x054f, B:193:0x0552, B:195:0x055e, B:197:0x0564, B:198:0x0573, B:200:0x0579, B:201:0x0588, B:203:0x058e, B:205:0x059e, B:206:0x05a3, B:208:0x05a8, B:79:0x0235, B:81:0x0239, B:59:0x01cf, B:61:0x01dd, B:82:0x0243, B:102:0x0277, B:104:0x027c, B:106:0x0295, B:108:0x029d, B:113:0x02b1, B:114:0x02c7, B:115:0x02c8, B:116:0x02cc, B:118:0x02d0, B:119:0x0302, B:121:0x0306, B:123:0x0313, B:124:0x034a, B:126:0x0370, B:128:0x0382, B:130:0x0392, B:136:0x03a2, B:138:0x03bc, B:140:0x03c3, B:142:0x03c9, B:147:0x03d5, B:149:0x03e5, B:150:0x03f6, B:155:0x0407, B:156:0x040e, B:157:0x040f, B:159:0x041c, B:161:0x045a, B:163:0x0469, B:165:0x046d, B:167:0x0471, B:168:0x04bc, B:170:0x04c0, B:171:0x04de, B:173:0x04e8, B:175:0x0502, B:177:0x0506, B:178:0x0512, B:180:0x051a, B:182:0x051f, B:133:0x039c, B:87:0x0257, B:91:0x025f, B:209:0x05ac, B:21:0x0077, B:23:0x007d, B:24:0x0084, B:26:0x008a), top: B:267:0x0058 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2526,10 +2532,10 @@ public class FileLoadOperation {
                 delayRequestInfo(requestInfo);
                 return false;
             } catch (Exception e) {
+                FileLog.e(e, (AndroidUtilities.isFilNotFoundException(e) || AndroidUtilities.isENOSPC(e)) ? false : true);
                 if (AndroidUtilities.isENOSPC(e)) {
                     onFail(false, -1);
                 } else {
-                    FileLog.e(e, !AndroidUtilities.isFilNotFoundException(e));
                     onFail(false, 0);
                 }
             }
