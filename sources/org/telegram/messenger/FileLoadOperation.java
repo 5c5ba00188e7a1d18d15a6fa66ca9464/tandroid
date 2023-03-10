@@ -2596,8 +2596,10 @@ public class FileLoadOperation {
     public void onFail(boolean z, final int i) {
         cleanup();
         this.state = i == 1 ? 4 : 2;
-        FileLoadOperationDelegate fileLoadOperationDelegate = this.delegate;
-        if (fileLoadOperationDelegate != null) {
+        if (this.delegate != null) {
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.d("failed downloading file to " + this.cacheFileFinal + " reason = " + i + " time = " + (System.currentTimeMillis() - this.startTime) + " dc = " + this.datacenterId + " size = " + AndroidUtilities.formatFileSize(this.totalBytesCount));
+            }
             if (z) {
                 Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
@@ -2606,7 +2608,7 @@ public class FileLoadOperation {
                     }
                 });
             } else {
-                fileLoadOperationDelegate.didFailedLoadingFile(this, i);
+                this.delegate.didFailedLoadingFile(this, i);
             }
         }
     }
