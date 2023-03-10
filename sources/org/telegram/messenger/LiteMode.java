@@ -44,7 +44,7 @@ public class LiteMode {
     public static final int FLAG_CHAT_SPOILER = 128;
     public static int PRESET_HIGH = 65535;
     public static int PRESET_LOW = 2064;
-    public static int PRESET_MEDIUM = 8031;
+    public static int PRESET_MEDIUM = 7775;
     public static int PRESET_POWER_SAVER = 0;
     private static int lastBatteryLevelCached = -1;
     private static long lastBatteryLevelChecked;

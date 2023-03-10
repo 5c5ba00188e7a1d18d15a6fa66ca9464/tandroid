@@ -211,7 +211,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
             this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsBackground"), 32));
             this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsTopics"), 64));
             this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsSpoiler"), 128));
-            if (SharedConfig.canBlurChat()) {
+            if (SharedConfig.getDevicePerformanceClass() >= 1) {
                 this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsBlur"), LiteMode.FLAG_CHAT_BLUR));
             }
             this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsScale"), LiteMode.FLAG_CHAT_SCALE));
@@ -545,10 +545,10 @@ public class LiteModeSettingsActivity extends BaseFragment {
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:11:0x001e, code lost:
-            if ((r3 & org.telegram.messenger.LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) > 0) goto L20;
+            if ((r4 & org.telegram.messenger.LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) > 0) goto L20;
          */
         /* JADX WARN: Code restructure failed: missing block: B:20:0x002f, code lost:
-            if ((r3 & 4) > 0) goto L20;
+            if ((r4 & 4) > 0) goto L20;
          */
         /* JADX WARN: Code restructure failed: missing block: B:21:0x0031, code lost:
             r1 = r1 - 1;
@@ -574,7 +574,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
                     bitCount--;
                 }
             }
-            return (SharedConfig.canBlurChat() || (i & LiteMode.FLAG_CHAT_BLUR) <= 0) ? bitCount : bitCount - 1;
+            return (SharedConfig.getDevicePerformanceClass() >= 1 || (i & LiteMode.FLAG_CHAT_BLUR) <= 0) ? bitCount : bitCount - 1;
         }
 
         @Override // android.view.View

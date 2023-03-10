@@ -1999,6 +1999,7 @@ public class AndroidUtilities {
     public static File getCacheDir() {
         String str;
         File externalCacheDir;
+        String str2 = null;
         try {
             str = Environment.getExternalStorageState();
         } catch (Exception e) {
@@ -2006,13 +2007,13 @@ public class AndroidUtilities {
             str = null;
         }
         if (str == null || str.startsWith("mounted")) {
+            FileLog.d("external dir mounted");
             try {
-                boolean z = false;
                 if (Build.VERSION.SDK_INT >= 19) {
                     File[] externalCacheDirs = ApplicationLoader.applicationContext.getExternalCacheDirs();
+                    int i = 0;
                     externalCacheDir = externalCacheDirs[0];
                     if (!TextUtils.isEmpty(SharedConfig.storageCacheDir)) {
-                        int i = 0;
                         while (true) {
                             if (i < externalCacheDirs.length) {
                                 if (externalCacheDirs[i] != null && externalCacheDirs[i].getAbsolutePath().startsWith(SharedConfig.storageCacheDir)) {
@@ -2028,17 +2029,19 @@ public class AndroidUtilities {
                 } else {
                     externalCacheDir = ApplicationLoader.applicationContext.getExternalCacheDir();
                 }
-                if (externalCacheDir != null && (externalCacheDir.exists() || externalCacheDir.mkdirs())) {
-                    if (externalCacheDir.canWrite()) {
-                        try {
-                            createEmptyFile(new File(externalCacheDir, ".nomedia"));
-                            z = true;
-                        } catch (Exception unused) {
-                        }
-                        if (z) {
-                            return externalCacheDir;
-                        }
-                    }
+                StringBuilder sb = new StringBuilder();
+                sb.append("check dir ");
+                if (externalCacheDir != null) {
+                    str2 = externalCacheDir.getPath();
+                }
+                sb.append(str2);
+                sb.append(" ");
+                FileLog.d(sb.toString());
+                if (externalCacheDir != null && ((externalCacheDir.exists() || externalCacheDir.mkdirs()) && externalCacheDir.canWrite())) {
+                    return externalCacheDir;
+                }
+                if (externalCacheDir != null) {
+                    FileLog.d("check dir file exist " + externalCacheDir.exists() + " can write " + externalCacheDir.canWrite());
                 }
             } catch (Exception e2) {
                 FileLog.e(e2);
@@ -2063,7 +2066,7 @@ public class AndroidUtilities {
                     }
                 }
             }
-        } catch (Exception unused2) {
+        } catch (Exception unused) {
         }
         return new File("");
     }
