@@ -334,9 +334,9 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                                 return lambda$createView$3;
                             }
                         });
-                        if (str != null && !"null".equals(str)) {
-                            hashSet.add(str);
-                        }
+                    }
+                    if (str != null && !"null".equals(str)) {
+                        hashSet.add(str);
                     }
                     globalMainSettings.edit().putStringSet("translate_button_restricted_languages", hashSet).apply();
                     MessagesController.getInstance(this.currentAccount).getTranslateController().checkRestrictedLanguagesUpdate();
@@ -671,25 +671,25 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:101:0x0274, code lost:
-            if (r13 == (r11.this$0.unofficialLanguages.size() - 1)) goto L109;
+        /* JADX WARN: Code restructure failed: missing block: B:104:0x027e, code lost:
+            if (r13 == (r11.this$0.unofficialLanguages.size() - 1)) goto L112;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:111:0x02b5, code lost:
-            if (r13 == (r11.this$0.sortedLanguages.size() - 1)) goto L109;
+        /* JADX WARN: Code restructure failed: missing block: B:114:0x02bf, code lost:
+            if (r13 == (r11.this$0.sortedLanguages.size() - 1)) goto L112;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:41:0x0117, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:44:0x0121, code lost:
             if (r12.getValueTextView().getPaint().measureText(r2) > java.lang.Math.min((org.telegram.messenger.AndroidUtilities.displaySize.x - org.telegram.messenger.AndroidUtilities.dp(34.0f)) / 2.0f, (org.telegram.messenger.AndroidUtilities.displaySize.x - org.telegram.messenger.AndroidUtilities.dp(84.0f)) - r12.getTextView().getPaint().measureText(r0))) goto L32;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:92:0x023a, code lost:
-            if (r13 == (r11.this$0.searchResult.size() - 1)) goto L109;
+        /* JADX WARN: Code restructure failed: missing block: B:95:0x0244, code lost:
+            if (r13 == (r11.this$0.searchResult.size() - 1)) goto L112;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:93:0x023c, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:96:0x0246, code lost:
             r13 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:94:0x023f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:97:0x0249, code lost:
             r13 = false;
          */
-        /* JADX WARN: Removed duplicated region for block: B:46:0x011f  */
+        /* JADX WARN: Removed duplicated region for block: B:49:0x0129  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -807,7 +807,9 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                     String string2 = LocaleController.getString("DoNotTranslate", R.string.DoNotTranslate);
                     try {
                         boolean[] zArr = new boolean[1];
-                        if (restrictedLanguages.size() == 1) {
+                        if (restrictedLanguages.size() == 0) {
+                            charSequence = "";
+                        } else if (restrictedLanguages.size() == 1) {
                             charSequence = TranslateAlert2.capitalFirst(TranslateAlert2.languageName(restrictedLanguages.iterator().next(), zArr));
                         } else {
                             Iterator<String> it = restrictedLanguages.iterator();

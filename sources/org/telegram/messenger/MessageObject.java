@@ -350,6 +350,7 @@ public class MessageObject {
     public static Pattern urlPattern;
     public static Pattern videoTimeUrlPattern;
     public boolean animateComments;
+    public int animatedEmojiCount;
     public boolean attachPathExists;
     public int attributeDuration;
     public int audioPlayerDuration;
@@ -381,7 +382,7 @@ public class MessageObject {
     public Long emojiAnimatedStickerId;
     private boolean emojiAnimatedStickerLoading;
     public TLRPC$VideoSize emojiMarkup;
-    private int emojiOnlyCount;
+    public int emojiOnlyCount;
     public long eventId;
     public long extendedMediaLastCheckTime;
     public boolean forcePlayEffect;
@@ -1632,7 +1633,6 @@ public class MessageObject {
     }
 
     private void checkEmojiOnly(Integer num) {
-        int i;
         TextPaint textPaint;
         if (num != null && num.intValue() >= 1) {
             CharSequence charSequence = this.messageText;
@@ -1641,32 +1641,31 @@ public class MessageObject {
             AnimatedEmojiSpan[] animatedEmojiSpanArr = (AnimatedEmojiSpan[]) ((Spannable) charSequence2).getSpans(0, charSequence2.length(), AnimatedEmojiSpan.class);
             this.emojiOnlyCount = Math.max(num.intValue(), (emojiSpanArr == null ? 0 : emojiSpanArr.length) + (animatedEmojiSpanArr == null ? 0 : animatedEmojiSpanArr.length));
             this.totalAnimatedEmojiCount = animatedEmojiSpanArr == null ? 0 : animatedEmojiSpanArr.length;
+            this.animatedEmojiCount = 0;
             if (animatedEmojiSpanArr != null) {
-                i = 0;
                 for (AnimatedEmojiSpan animatedEmojiSpan : animatedEmojiSpanArr) {
                     if (!animatedEmojiSpan.standard) {
-                        i++;
+                        this.animatedEmojiCount++;
                     }
                 }
-            } else {
-                i = 0;
             }
-            int i2 = this.emojiOnlyCount;
-            boolean z = (i2 - (emojiSpanArr == null ? 0 : emojiSpanArr.length)) - (animatedEmojiSpanArr == null ? 0 : animatedEmojiSpanArr.length) > 0;
+            int i = this.emojiOnlyCount;
+            boolean z = (i - (emojiSpanArr == null ? 0 : emojiSpanArr.length)) - (animatedEmojiSpanArr == null ? 0 : animatedEmojiSpanArr.length) > 0;
             this.hasUnwrappedEmoji = z;
-            if (i2 == 0 || z) {
+            if (i == 0 || z) {
                 if (animatedEmojiSpanArr == null || animatedEmojiSpanArr.length <= 0) {
                     return;
                 }
-                for (int i3 = 0; i3 < animatedEmojiSpanArr.length; i3++) {
-                    animatedEmojiSpanArr[i3].replaceFontMetrics(Theme.chat_msgTextPaint.getFontMetricsInt(), (int) (Theme.chat_msgTextPaint.getTextSize() + AndroidUtilities.dp(4.0f)), -1);
-                    animatedEmojiSpanArr[i3].full = false;
+                for (int i2 = 0; i2 < animatedEmojiSpanArr.length; i2++) {
+                    animatedEmojiSpanArr[i2].replaceFontMetrics(Theme.chat_msgTextPaint.getFontMetricsInt(), (int) (Theme.chat_msgTextPaint.getTextSize() + AndroidUtilities.dp(4.0f)), -1);
+                    animatedEmojiSpanArr[i2].full = false;
                 }
                 return;
             }
-            boolean z2 = i2 == i;
+            int i3 = this.animatedEmojiCount;
+            boolean z2 = i == i3;
             int i4 = 2;
-            switch (Math.max(i2, i)) {
+            switch (Math.max(i, i3)) {
                 case 0:
                 case 1:
                 case 2:
@@ -7613,7 +7612,7 @@ public class MessageObject {
     }
 
     public static boolean canAutoplayAnimatedSticker(TLRPC$Document tLRPC$Document) {
-        return (isAnimatedStickerDocument(tLRPC$Document, true) || isVideoStickerDocument(tLRPC$Document)) && SharedConfig.getDevicePerformanceClass() != 0 && LiteMode.isEnabled(1);
+        return (isAnimatedStickerDocument(tLRPC$Document, true) || isVideoStickerDocument(tLRPC$Document)) && LiteMode.isEnabled(1);
     }
 
     public static boolean isMaskDocument(TLRPC$Document tLRPC$Document) {

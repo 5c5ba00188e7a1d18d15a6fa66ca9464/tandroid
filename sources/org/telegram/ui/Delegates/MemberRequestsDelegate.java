@@ -706,12 +706,46 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
 
         @SuppressLint({"NotifyDataSetChanged"})
         public void setItems(List<TLRPC$TL_chatInviteImporter> list) {
+            int i = 0;
+            while (i < list.size()) {
+                long j = list.get(i).user_id;
+                int i2 = i + 1;
+                while (true) {
+                    if (i2 >= list.size()) {
+                        break;
+                    } else if (list.get(i2).user_id == j) {
+                        list.remove(i);
+                        i--;
+                        break;
+                    } else {
+                        i2++;
+                    }
+                }
+                i++;
+            }
             MemberRequestsDelegate.this.currentImporters.clear();
             MemberRequestsDelegate.this.currentImporters.addAll(list);
             notifyDataSetChanged();
         }
 
         public void appendItems(List<TLRPC$TL_chatInviteImporter> list) {
+            int i = 0;
+            while (i < list.size()) {
+                long j = list.get(i).user_id;
+                int i2 = 0;
+                while (true) {
+                    if (i2 >= MemberRequestsDelegate.this.currentImporters.size()) {
+                        break;
+                    } else if (((TLRPC$TL_chatInviteImporter) MemberRequestsDelegate.this.currentImporters.get(i2)).user_id == j) {
+                        list.remove(i);
+                        i--;
+                        break;
+                    } else {
+                        i2++;
+                    }
+                }
+                i++;
+            }
             MemberRequestsDelegate.this.currentImporters.addAll(list);
             if (MemberRequestsDelegate.this.currentImporters.size() > list.size()) {
                 notifyItemChanged((MemberRequestsDelegate.this.currentImporters.size() - list.size()) - 1);

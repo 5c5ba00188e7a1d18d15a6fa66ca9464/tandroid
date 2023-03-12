@@ -505,6 +505,7 @@ public class ReactedUsersListView extends FrameLayout {
             this.titleView.setImportantForAccessibility(2);
             this.titleView.setRightPadding(AndroidUtilities.dp(30.0f));
             this.titleView.setTranslationX(LocaleController.isRTL ? AndroidUtilities.dp(30.0f) : 0.0f);
+            this.titleView.setRightDrawableOutside(true);
             addView(this.titleView, LayoutHelper.createFrameRelatively(-1.0f, -2.0f, 55, 55.0f, 5.33f, 12.0f, 0.0f));
             this.rightDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this, AndroidUtilities.dp(18.0f));
             this.titleView.setDrawablePadding(AndroidUtilities.dp(3.0f));

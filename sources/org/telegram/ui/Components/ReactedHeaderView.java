@@ -303,6 +303,7 @@ public class ReactedHeaderView extends FrameLayout {
         if (tLObject instanceof TLRPC$TL_messages_messageReactionsList) {
             final TLRPC$TL_messages_messageReactionsList tLRPC$TL_messages_messageReactionsList = (TLRPC$TL_messages_messageReactionsList) tLObject;
             final int i = tLRPC$TL_messages_messageReactionsList.count;
+            tLRPC$TL_messages_messageReactionsList.users.size();
             post(new Runnable() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {

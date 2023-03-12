@@ -832,7 +832,7 @@ public class FileLoader extends BaseController {
     /* JADX WARN: Type inference failed for: r15v16 */
     /* JADX WARN: Type inference failed for: r15v17 */
     /* JADX WARN: Type inference failed for: r15v3 */
-    /* JADX WARN: Type inference failed for: r15v6, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r15v6, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r15v8 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

@@ -942,10 +942,10 @@ public class FileLoadOperation {
     /* JADX WARN: Removed duplicated region for block: B:327:0x088e  */
     /* JADX WARN: Removed duplicated region for block: B:365:0x061b A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r1v30 */
-    /* JADX WARN: Type inference failed for: r1v31, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r1v31, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r1v33 */
     /* JADX WARN: Type inference failed for: r1v37 */
-    /* JADX WARN: Type inference failed for: r1v38, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r1v38, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r1v42 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2598,6 +2598,9 @@ public class FileLoadOperation {
         this.state = i == 1 ? 4 : 2;
         if (this.delegate != null) {
             if (BuildVars.LOGS_ENABLED) {
+                if (this.startTime != 0) {
+                    System.currentTimeMillis();
+                }
                 FileLog.d("failed downloading file to " + this.cacheFileFinal + " reason = " + i + " time = " + (System.currentTimeMillis() - this.startTime) + " dc = " + this.datacenterId + " size = " + AndroidUtilities.formatFileSize(this.totalBytesCount));
             }
             if (z) {

@@ -1951,12 +1951,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r12v174 */
     /* JADX WARN: Type inference failed for: r12v175 */
     /* JADX WARN: Type inference failed for: r12v21 */
-    /* JADX WARN: Type inference failed for: r12v9, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r12v9, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r3v29 */
     /* JADX WARN: Type inference failed for: r3v32 */
     /* JADX WARN: Type inference failed for: r3v33 */
     /* JADX WARN: Type inference failed for: r3v7 */
-    /* JADX WARN: Type inference failed for: r3v8, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v8, types: [int, boolean] */
     @SuppressLint({"Range"})
     /* renamed from: handleIntent */
     /*
@@ -10251,14 +10251,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         this.actionBarLayout.presentFragment(chatActivity, dialogsActivity != null, z8, true, false);
                         boolean z9 = dialogsActivity != null;
                         String str2 = this.videoPath;
-                        if (str2 != null) {
+                        if (str2 != null && i == 0) {
                             chatActivity6.openVideoEditor(str2, this.sendingText);
                             this.sendingText = null;
                             z5 = false;
                             z6 = true;
                         } else {
                             ArrayList<SendMessagesHelper.SendingMediaInfo> arrayList11 = this.photoPathsArray;
-                            if (arrayList11 == null || arrayList11.size() <= 0) {
+                            if (arrayList11 == null || arrayList11.size() <= 0 || i != 0) {
                                 z5 = false;
                             } else {
                                 z5 = chatActivity6.openPhotosEditor(this.photoPathsArray, (charSequence == null || charSequence.length() == 0) ? this.sendingText : charSequence);

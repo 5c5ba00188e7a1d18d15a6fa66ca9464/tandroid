@@ -28,6 +28,7 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.TLRPC$Message;
 import org.telegram.tgnet.TLRPC$MessagePeerReaction;
 import org.telegram.tgnet.TLRPC$Reaction;
@@ -137,7 +138,7 @@ public class ReactionsLayoutInBubble {
                     ReactionButton reactionButton = new ReactionButton(null, tLRPC$ReactionCount, z);
                     this.reactionButtons.add(reactionButton);
                     if (!z && messageObject.messageOwner.reactions.recent_reactions != null) {
-                        if (messageObject.getDialogId() > 0) {
+                        if (messageObject.getDialogId() > 0 && !UserObject.isReplyUser(messageObject.getDialogId())) {
                             ArrayList<TLRPC$User> arrayList2 = new ArrayList<>();
                             TLRPC$User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
                             TLRPC$User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(messageObject.getDialogId()));

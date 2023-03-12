@@ -3,6 +3,8 @@ package org.telegram.ui.Components;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.text.Layout;
@@ -113,9 +115,13 @@ public class BotCommandsMenuView extends View {
 
     private void updateColors() {
         this.paint.setColor(Theme.getColor("chat_messagePanelVoiceBackground"));
-        int color = Theme.getColor("chat_messagePanelVoicePressed");
+        int color = Theme.getColor("chat_messagePanelVoiceDuration");
         this.backDrawable.setBackColor(color);
         this.backDrawable.setIconColor(color);
+        RLottieDrawable rLottieDrawable = this.webViewAnimation;
+        if (rLottieDrawable != null) {
+            rLottieDrawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
+        }
         this.textPaint.setColor(color);
     }
 

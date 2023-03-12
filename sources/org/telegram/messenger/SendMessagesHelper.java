@@ -2269,7 +2269,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:396:0x092e  */
     /* JADX WARN: Removed duplicated region for block: B:399:0x0980  */
     /* JADX WARN: Type inference failed for: r2v19 */
-    /* JADX WARN: Type inference failed for: r2v22, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r2v22, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r2v26 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -9119,23 +9119,33 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             if (str6 == null) {
                 str6 = FileLoader.getDirectory(4) + "/" + document3.id + ".mp4";
             }
-            if (delayedMessage.sendEncryptedRequest != null && document3.dc_id != 0 && !new File(str6).exists()) {
-                putToDelayedMessages(FileLoader.getAttachFileName(document3), delayedMessage);
-                getFileLoader().loadFile(document3, delayedMessage.parentObject, 3, 0);
-                return;
+            if (delayedMessage.sendEncryptedRequest != null && document3.dc_id != 0) {
+                File file4 = new File(str6);
+                if (!file4.exists() && (file4 = getFileLoader().getPathToMessage(delayedMessage.obj.messageOwner)) != null) {
+                    TLRPC$Message tLRPC$Message = delayedMessage.obj.messageOwner;
+                    String absolutePath = file4.getAbsolutePath();
+                    tLRPC$Message.attachPath = absolutePath;
+                    str6 = absolutePath;
+                }
+                if (file4 == null || !file4.exists()) {
+                    putToDelayedMessages(FileLoader.getAttachFileName(document3), delayedMessage);
+                    getFileLoader().loadFile(document3, delayedMessage.parentObject, 3, 0);
+                    return;
+                }
             }
-            putToDelayedMessages(str6, delayedMessage);
+            String str7 = str6;
+            putToDelayedMessages(str7, delayedMessage);
             VideoEditedInfo videoEditedInfo4 = delayedMessage.obj.videoEditedInfo;
             if (videoEditedInfo4 != null && videoEditedInfo4.needConvert()) {
-                getFileLoader().uploadFile(str6, true, false, document3.size, ConnectionsManager.FileTypeVideo, false);
+                getFileLoader().uploadFile(str7, true, false, document3.size, ConnectionsManager.FileTypeVideo, false);
             } else {
-                getFileLoader().uploadFile(str6, true, false, ConnectionsManager.FileTypeVideo);
+                getFileLoader().uploadFile(str7, true, false, ConnectionsManager.FileTypeVideo);
             }
             putToUploadingMessages(delayedMessage.obj);
         } else if (i2 == 2) {
-            String str7 = delayedMessage.httpLocation;
-            if (str7 != null) {
-                putToDelayedMessages(str7, delayedMessage);
+            String str8 = delayedMessage.httpLocation;
+            if (str8 != null) {
+                putToDelayedMessages(str8, delayedMessage);
                 ImageLoader.getInstance().loadHttpFile(delayedMessage.httpLocation, "gif", this.currentAccount);
                 return;
             }
@@ -9147,58 +9157,58 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     tLRPC$InputMedia = ((TLRPC$TL_messages_editMessage) tLObject3).media;
                 }
                 if (tLRPC$InputMedia.file == null) {
-                    String str8 = delayedMessage.obj.messageOwner.attachPath;
-                    putToDelayedMessages(str8, delayedMessage);
-                    getFileLoader().uploadFile(str8, delayedMessage.sendRequest == null, false, ConnectionsManager.FileTypeFile);
+                    String str9 = delayedMessage.obj.messageOwner.attachPath;
+                    putToDelayedMessages(str9, delayedMessage);
+                    getFileLoader().uploadFile(str9, delayedMessage.sendRequest == null, false, ConnectionsManager.FileTypeFile);
                     putToUploadingMessages(delayedMessage.obj);
                     return;
                 } else if (tLRPC$InputMedia.thumb != null || (tLRPC$PhotoSize = delayedMessage.photoSize) == null || (tLRPC$PhotoSize instanceof TLRPC$TL_photoStrippedSize)) {
                     return;
                 } else {
-                    String str9 = FileLoader.getDirectory(4) + "/" + delayedMessage.photoSize.location.volume_id + "_" + delayedMessage.photoSize.location.local_id + ".jpg";
-                    putToDelayedMessages(str9, delayedMessage);
-                    getFileLoader().uploadFile(str9, false, true, ConnectionsManager.FileTypePhoto);
+                    String str10 = FileLoader.getDirectory(4) + "/" + delayedMessage.photoSize.location.volume_id + "_" + delayedMessage.photoSize.location.local_id + ".jpg";
+                    putToDelayedMessages(str10, delayedMessage);
+                    getFileLoader().uploadFile(str10, false, true, ConnectionsManager.FileTypePhoto);
                     putToUploadingMessages(delayedMessage.obj);
                     return;
                 }
             }
             MessageObject messageObject6 = delayedMessage.obj;
-            String str10 = messageObject6.messageOwner.attachPath;
+            String str11 = messageObject6.messageOwner.attachPath;
             TLRPC$Document document4 = messageObject6.getDocument();
             if (delayedMessage.sendEncryptedRequest != null && document4.dc_id != 0) {
-                File file4 = new File(str10);
-                if (!file4.exists() && (file4 = getFileLoader().getPathToMessage(delayedMessage.obj.messageOwner)) != null) {
-                    TLRPC$Message tLRPC$Message = delayedMessage.obj.messageOwner;
-                    String absolutePath = file4.getAbsolutePath();
-                    tLRPC$Message.attachPath = absolutePath;
-                    str10 = absolutePath;
+                File file5 = new File(str11);
+                if (!file5.exists() && (file5 = getFileLoader().getPathToMessage(delayedMessage.obj.messageOwner)) != null) {
+                    TLRPC$Message tLRPC$Message2 = delayedMessage.obj.messageOwner;
+                    String absolutePath2 = file5.getAbsolutePath();
+                    tLRPC$Message2.attachPath = absolutePath2;
+                    str11 = absolutePath2;
                 }
-                if (file4 == null || !file4.exists()) {
+                if (file5 == null || !file5.exists()) {
                     putToDelayedMessages(FileLoader.getAttachFileName(document4), delayedMessage);
                     getFileLoader().loadFile(document4, delayedMessage.parentObject, 3, 0);
                     return;
                 }
             }
-            putToDelayedMessages(str10, delayedMessage);
-            getFileLoader().uploadFile(str10, true, false, ConnectionsManager.FileTypeFile);
+            putToDelayedMessages(str11, delayedMessage);
+            getFileLoader().uploadFile(str11, true, false, ConnectionsManager.FileTypeFile);
             putToUploadingMessages(delayedMessage.obj);
         } else if (i2 == 3) {
-            String str11 = delayedMessage.obj.messageOwner.attachPath;
-            putToDelayedMessages(str11, delayedMessage);
-            getFileLoader().uploadFile(str11, delayedMessage.sendRequest == null, true, ConnectionsManager.FileTypeAudio);
+            String str12 = delayedMessage.obj.messageOwner.attachPath;
+            putToDelayedMessages(str12, delayedMessage);
+            getFileLoader().uploadFile(str12, delayedMessage.sendRequest == null, true, ConnectionsManager.FileTypeAudio);
             putToUploadingMessages(delayedMessage.obj);
         } else if (i2 != 4) {
             if (i2 == 5) {
-                final String str12 = "stickerset_" + delayedMessage.obj.getId();
+                final String str13 = "stickerset_" + delayedMessage.obj.getId();
                 TLRPC$TL_messages_getStickerSet tLRPC$TL_messages_getStickerSet = new TLRPC$TL_messages_getStickerSet();
                 tLRPC$TL_messages_getStickerSet.stickerset = (TLRPC$InputStickerSet) delayedMessage.parentObject;
                 getConnectionsManager().sendRequest(tLRPC$TL_messages_getStickerSet, new RequestDelegate() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda87
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject4, TLRPC$TL_error tLRPC$TL_error) {
-                        SendMessagesHelper.this.lambda$performSendDelayedMessage$33(delayedMessage, str12, tLObject4, tLRPC$TL_error);
+                        SendMessagesHelper.this.lambda$performSendDelayedMessage$33(delayedMessage, str13, tLObject4, tLRPC$TL_error);
                     }
                 });
-                putToDelayedMessages(str12, delayedMessage);
+                putToDelayedMessages(str13, delayedMessage);
             }
         } else {
             boolean z3 = i < 0;
@@ -9207,32 +9217,32 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 MessageObject messageObject7 = delayedMessage.messageObjects.get(size);
                 if (messageObject7.getDocument() != null) {
                     if (delayedMessage.videoEditedInfo != null) {
-                        String str13 = messageObject7.messageOwner.attachPath;
+                        String str14 = messageObject7.messageOwner.attachPath;
                         TLRPC$Document document5 = messageObject7.getDocument();
-                        if (str13 == null) {
-                            str13 = FileLoader.getDirectory(4) + "/" + document5.id + ".mp4";
+                        if (str14 == null) {
+                            str14 = FileLoader.getDirectory(4) + "/" + document5.id + ".mp4";
                         }
-                        putToDelayedMessages(str13, delayedMessage);
-                        delayedMessage.extraHashMap.put(messageObject7, str13);
-                        delayedMessage.extraHashMap.put(str13 + "_i", messageObject7);
+                        putToDelayedMessages(str14, delayedMessage);
+                        delayedMessage.extraHashMap.put(messageObject7, str14);
+                        delayedMessage.extraHashMap.put(str14 + "_i", messageObject7);
                         TLRPC$PhotoSize tLRPC$PhotoSize2 = delayedMessage.photoSize;
                         if (tLRPC$PhotoSize2 != null && tLRPC$PhotoSize2.location != null) {
-                            delayedMessage.extraHashMap.put(str13 + "_t", delayedMessage.photoSize);
+                            delayedMessage.extraHashMap.put(str14 + "_t", delayedMessage.photoSize);
                         }
                         MediaController.getInstance().scheduleVideoConvert(messageObject7);
                         delayedMessage.obj = messageObject7;
                         putToUploadingMessages(messageObject7);
                     } else {
                         TLRPC$Document document6 = messageObject7.getDocument();
-                        String str14 = messageObject7.messageOwner.attachPath;
-                        if (str14 == null) {
+                        String str15 = messageObject7.messageOwner.attachPath;
+                        if (str15 == null) {
                             StringBuilder sb = new StringBuilder();
                             sb.append(FileLoader.getDirectory(4));
                             sb.append("/");
                             messageObject = messageObject7;
                             sb.append(document6.id);
                             sb.append(".mp4");
-                            str14 = sb.toString();
+                            str15 = sb.toString();
                         } else {
                             messageObject = messageObject7;
                         }
@@ -9240,49 +9250,49 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         if (tLObject4 != null) {
                             TLRPC$InputMedia tLRPC$InputMedia4 = ((TLRPC$TL_messages_sendMultiMedia) tLObject4).multi_media.get(size).media;
                             if (tLRPC$InputMedia4.file == null) {
-                                putToDelayedMessages(str14, delayedMessage);
+                                putToDelayedMessages(str15, delayedMessage);
                                 MessageObject messageObject8 = messageObject;
-                                delayedMessage.extraHashMap.put(messageObject8, str14);
-                                delayedMessage.extraHashMap.put(str14, tLRPC$InputMedia4);
-                                delayedMessage.extraHashMap.put(str14 + "_i", messageObject8);
+                                delayedMessage.extraHashMap.put(messageObject8, str15);
+                                delayedMessage.extraHashMap.put(str15, tLRPC$InputMedia4);
+                                delayedMessage.extraHashMap.put(str15 + "_i", messageObject8);
                                 TLRPC$PhotoSize tLRPC$PhotoSize3 = delayedMessage.photoSize;
                                 if (tLRPC$PhotoSize3 != null && tLRPC$PhotoSize3.location != null) {
-                                    delayedMessage.extraHashMap.put(str14 + "_t", delayedMessage.photoSize);
+                                    delayedMessage.extraHashMap.put(str15 + "_t", delayedMessage.photoSize);
                                 }
                                 VideoEditedInfo videoEditedInfo5 = messageObject8.videoEditedInfo;
                                 if (videoEditedInfo5 != null && videoEditedInfo5.needConvert()) {
-                                    getFileLoader().uploadFile(str14, false, false, document6.size, ConnectionsManager.FileTypeVideo, false);
+                                    getFileLoader().uploadFile(str15, false, false, document6.size, ConnectionsManager.FileTypeVideo, false);
                                 } else {
-                                    getFileLoader().uploadFile(str14, false, false, ConnectionsManager.FileTypeVideo);
+                                    getFileLoader().uploadFile(str15, false, false, ConnectionsManager.FileTypeVideo);
                                 }
                                 putToUploadingMessages(messageObject8);
                             } else {
                                 MessageObject messageObject9 = messageObject;
                                 if (delayedMessage.photoSize != null) {
-                                    String str15 = FileLoader.getDirectory(4) + "/" + delayedMessage.photoSize.location.volume_id + "_" + delayedMessage.photoSize.location.local_id + ".jpg";
-                                    putToDelayedMessages(str15, delayedMessage);
-                                    delayedMessage.extraHashMap.put(str15 + "_o", str14);
-                                    delayedMessage.extraHashMap.put(messageObject9, str15);
-                                    delayedMessage.extraHashMap.put(str15, tLRPC$InputMedia4);
-                                    getFileLoader().uploadFile(str15, false, true, ConnectionsManager.FileTypePhoto);
+                                    String str16 = FileLoader.getDirectory(4) + "/" + delayedMessage.photoSize.location.volume_id + "_" + delayedMessage.photoSize.location.local_id + ".jpg";
+                                    putToDelayedMessages(str16, delayedMessage);
+                                    delayedMessage.extraHashMap.put(str16 + "_o", str15);
+                                    delayedMessage.extraHashMap.put(messageObject9, str16);
+                                    delayedMessage.extraHashMap.put(str16, tLRPC$InputMedia4);
+                                    getFileLoader().uploadFile(str16, false, true, ConnectionsManager.FileTypePhoto);
                                     putToUploadingMessages(messageObject9);
                                 }
                             }
                         } else {
                             MessageObject messageObject10 = messageObject;
-                            putToDelayedMessages(str14, delayedMessage);
-                            delayedMessage.extraHashMap.put(messageObject10, str14);
-                            delayedMessage.extraHashMap.put(str14, ((TLRPC$TL_messages_sendEncryptedMultiMedia) delayedMessage.sendEncryptedRequest).files.get(size));
-                            delayedMessage.extraHashMap.put(str14 + "_i", messageObject10);
+                            putToDelayedMessages(str15, delayedMessage);
+                            delayedMessage.extraHashMap.put(messageObject10, str15);
+                            delayedMessage.extraHashMap.put(str15, ((TLRPC$TL_messages_sendEncryptedMultiMedia) delayedMessage.sendEncryptedRequest).files.get(size));
+                            delayedMessage.extraHashMap.put(str15 + "_i", messageObject10);
                             TLRPC$PhotoSize tLRPC$PhotoSize4 = delayedMessage.photoSize;
                             if (tLRPC$PhotoSize4 != null && tLRPC$PhotoSize4.location != null) {
-                                delayedMessage.extraHashMap.put(str14 + "_t", delayedMessage.photoSize);
+                                delayedMessage.extraHashMap.put(str15 + "_t", delayedMessage.photoSize);
                             }
                             VideoEditedInfo videoEditedInfo6 = messageObject10.videoEditedInfo;
                             if (videoEditedInfo6 != null && videoEditedInfo6.needConvert()) {
-                                getFileLoader().uploadFile(str14, true, false, document6.size, ConnectionsManager.FileTypeVideo, false);
+                                getFileLoader().uploadFile(str15, true, false, document6.size, ConnectionsManager.FileTypeVideo, false);
                             } else {
-                                getFileLoader().uploadFile(str14, true, false, ConnectionsManager.FileTypeVideo);
+                                getFileLoader().uploadFile(str15, true, false, ConnectionsManager.FileTypeVideo);
                             }
                             putToUploadingMessages(messageObject10);
                         }
@@ -9290,9 +9300,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     delayedMessage.videoEditedInfo = null;
                     delayedMessage.photoSize = null;
                 } else {
-                    String str16 = delayedMessage.httpLocation;
-                    if (str16 != null) {
-                        putToDelayedMessages(str16, delayedMessage);
+                    String str17 = delayedMessage.httpLocation;
+                    if (str17 != null) {
+                        putToDelayedMessages(str17, delayedMessage);
                         delayedMessage.extraHashMap.put(messageObject7, delayedMessage.httpLocation);
                         delayedMessage.extraHashMap.put(delayedMessage.httpLocation, messageObject7);
                         ImageLoader.getInstance().loadHttpFile(delayedMessage.httpLocation, "file", this.currentAccount);
@@ -9304,12 +9314,12 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         } else {
                             tLRPC$InputEncryptedFile = ((TLRPC$TL_messages_sendEncryptedMultiMedia) delayedMessage.sendEncryptedRequest).files.get(size);
                         }
-                        String file5 = FileLoader.getInstance(this.currentAccount).getPathToAttach(delayedMessage.photoSize).toString();
-                        putToDelayedMessages(file5, delayedMessage);
-                        delayedMessage.extraHashMap.put(file5, tLRPC$InputEncryptedFile);
-                        delayedMessage.extraHashMap.put(messageObject7, file5);
+                        String file6 = FileLoader.getInstance(this.currentAccount).getPathToAttach(delayedMessage.photoSize).toString();
+                        putToDelayedMessages(file6, delayedMessage);
+                        delayedMessage.extraHashMap.put(file6, tLRPC$InputEncryptedFile);
+                        delayedMessage.extraHashMap.put(messageObject7, file6);
                         z = true;
-                        getFileLoader().uploadFile(file5, delayedMessage.sendEncryptedRequest != null, true, ConnectionsManager.FileTypePhoto);
+                        getFileLoader().uploadFile(file6, delayedMessage.sendEncryptedRequest != null, true, ConnectionsManager.FileTypePhoto);
                         putToUploadingMessages(messageObject7);
                         delayedMessage.photoSize = null;
                         z2 = false;

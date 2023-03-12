@@ -1283,7 +1283,6 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             DialogsActivity dialogsActivity = this.dialogsActivity;
             if (dialogsActivity != null) {
                 dialogsActivity.didSelectResult(-this.chatId, tLRPC$TL_forumTopic.id, true, false, this);
-                this.dialogsActivity.removeSelfFromStack();
             }
         } else if (this.selectedTopics.size() > 0) {
             toggleSelection(view);

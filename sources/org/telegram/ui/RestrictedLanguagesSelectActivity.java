@@ -27,7 +27,6 @@ import java.util.Objects;
 import java.util.Timer;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
-import org.telegram.messenger.BotWebViewVibrationEffect;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
@@ -104,9 +103,6 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
         String lowerCase = str.toLowerCase();
         LocaleController.LocaleInfo currentLocaleInfo = LocaleController.getInstance().getCurrentLocaleInfo();
         HashSet<String> restrictedLanguages = getRestrictedLanguages();
-        if (lowerCase != null && lowerCase.equals(currentLocaleInfo.pluralLangCode) && z) {
-            return false;
-        }
         if (!z) {
             restrictedLanguages.remove(lowerCase);
         } else {
@@ -232,13 +228,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
         }
         LocaleController.LocaleInfo currentLocaleInfo = LocaleController.getInstance().getCurrentLocaleInfo();
         final String str = language.code;
-        boolean contains = this.selectedLanguages.contains(str);
-        if (str != null && str.equals(currentLocaleInfo.pluralLangCode) && contains) {
-            AndroidUtilities.shakeViewSpring(view);
-            BotWebViewVibrationEffect.APP_ERROR.vibrate();
-            return;
-        }
-        if (contains) {
+        if (this.selectedLanguages.contains(str)) {
             Collection$-EL.removeIf(this.selectedLanguages, new Predicate() { // from class: org.telegram.ui.RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda0
                 @Override // j$.util.function.Predicate
                 public /* synthetic */ Predicate and(Predicate predicate) {
