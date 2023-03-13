@@ -2984,7 +2984,7 @@ public class FileLoadOperation {
                     public final void run(TLObject tLObject3, TLRPC$TL_error tLRPC$TL_error3) {
                         FileLoadOperation.this.lambda$startDownloadRequest$16(requestInfo, tLObject3, tLRPC$TL_error3);
                     }
-                }, null, null, 0, i, 1, true);
+                }, null, null, 0, this.datacenterId, 1, true);
             } else {
                 if (tLObject2 instanceof TLRPC$TL_upload_file) {
                     requestInfo.response = (TLRPC$TL_upload_file) tLObject2;

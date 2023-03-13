@@ -9121,11 +9121,19 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             }
             if (delayedMessage.sendEncryptedRequest != null && document3.dc_id != 0) {
                 File file4 = new File(str6);
-                if (!file4.exists() && (file4 = getFileLoader().getPathToMessage(delayedMessage.obj.messageOwner)) != null) {
+                if (!file4.exists() && (file4 = getFileLoader().getPathToMessage(delayedMessage.obj.messageOwner)) != null && file4.exists()) {
                     TLRPC$Message tLRPC$Message = delayedMessage.obj.messageOwner;
                     String absolutePath = file4.getAbsolutePath();
                     tLRPC$Message.attachPath = absolutePath;
+                    delayedMessage.obj.attachPathExists = true;
                     str6 = absolutePath;
+                }
+                if ((file4 == null || (!file4.exists() && delayedMessage.obj.getDocument() != null)) && (file4 = getFileLoader().getPathToAttach(delayedMessage.obj.getDocument(), false)) != null && file4.exists()) {
+                    TLRPC$Message tLRPC$Message2 = delayedMessage.obj.messageOwner;
+                    String absolutePath2 = file4.getAbsolutePath();
+                    tLRPC$Message2.attachPath = absolutePath2;
+                    delayedMessage.obj.attachPathExists = true;
+                    str6 = absolutePath2;
                 }
                 if (file4 == null || !file4.exists()) {
                     putToDelayedMessages(FileLoader.getAttachFileName(document3), delayedMessage);
@@ -9177,11 +9185,19 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             TLRPC$Document document4 = messageObject6.getDocument();
             if (delayedMessage.sendEncryptedRequest != null && document4.dc_id != 0) {
                 File file5 = new File(str11);
-                if (!file5.exists() && (file5 = getFileLoader().getPathToMessage(delayedMessage.obj.messageOwner)) != null) {
-                    TLRPC$Message tLRPC$Message2 = delayedMessage.obj.messageOwner;
-                    String absolutePath2 = file5.getAbsolutePath();
-                    tLRPC$Message2.attachPath = absolutePath2;
-                    str11 = absolutePath2;
+                if (!file5.exists() && (file5 = getFileLoader().getPathToMessage(delayedMessage.obj.messageOwner)) != null && file5.exists()) {
+                    TLRPC$Message tLRPC$Message3 = delayedMessage.obj.messageOwner;
+                    String absolutePath3 = file5.getAbsolutePath();
+                    tLRPC$Message3.attachPath = absolutePath3;
+                    delayedMessage.obj.attachPathExists = true;
+                    str11 = absolutePath3;
+                }
+                if ((file5 == null || (!file5.exists() && delayedMessage.obj.getDocument() != null)) && (file5 = getFileLoader().getPathToAttach(delayedMessage.obj.getDocument(), false)) != null && file5.exists()) {
+                    TLRPC$Message tLRPC$Message4 = delayedMessage.obj.messageOwner;
+                    String absolutePath4 = file5.getAbsolutePath();
+                    tLRPC$Message4.attachPath = absolutePath4;
+                    delayedMessage.obj.attachPathExists = true;
+                    str11 = absolutePath4;
                 }
                 if (file5 == null || !file5.exists()) {
                     putToDelayedMessages(FileLoader.getAttachFileName(document4), delayedMessage);

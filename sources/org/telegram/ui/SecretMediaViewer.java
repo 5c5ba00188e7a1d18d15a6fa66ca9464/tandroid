@@ -729,6 +729,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         int i;
         int i2;
         char c;
+        ImageLocation forDocument;
         if (this.parentActivity == null || messageObject == null || !messageObject.needDrawBluredPreview() || photoViewerProvider == null || (placeForPhoto = photoViewerProvider.getPlaceForPhoto(messageObject, null, 0, true)) == null) {
             return;
         }
@@ -834,9 +835,15 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         if (document != null) {
             if (MessageObject.isGifDocument(document)) {
                 this.actionBar.setTitle(LocaleController.getString("DisappearingGif", R.string.DisappearingGif));
+                String str = messageObject.messageOwner.attachPath;
+                if (str != null && messageObject.attachPathExists) {
+                    forDocument = ImageLocation.getForPath(str);
+                } else {
+                    forDocument = ImageLocation.getForDocument(document);
+                }
                 i2 = 21;
                 c = 4;
-                this.centerImage.setImage(ImageLocation.getForDocument(document), (String) null, this.currentThumb != null ? new BitmapDrawable(this.currentThumb.bitmap) : null, -1L, (String) null, messageObject, 1);
+                this.centerImage.setImage(forDocument, (String) null, this.currentThumb != null ? new BitmapDrawable(this.currentThumb.bitmap) : null, -1L, (String) null, messageObject, 1);
                 SecretDeleteTimer secretDeleteTimer = this.secretDeleteTimer;
                 TLRPC$Message tLRPC$Message = messageObject.messageOwner;
                 secretDeleteTimer.setDestroyTime(tLRPC$Message.destroyTime * 1000, tLRPC$Message.ttl, false);
