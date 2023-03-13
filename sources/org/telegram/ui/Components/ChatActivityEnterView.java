@@ -5904,7 +5904,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 this.botMessageObject = messageObject2;
             }
             this.replyingMessageObject = messageObject;
-            setButtons(messageObject, true);
+            ChatActivity chatActivity = this.parentFragment;
+            if (chatActivity == null || !chatActivity.isTopic || chatActivity.getThreadMessage() != this.replyingMessageObject) {
+                setButtons(this.replyingMessageObject, true);
+            }
         } else if (this.replyingMessageObject == this.botButtonsMessageObject) {
             this.replyingMessageObject = null;
             setButtons(this.botMessageObject, false);
@@ -9065,7 +9068,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             boolean z3 = imageView3 != null && imageView3.getVisibility() == 0;
             if (hasBotWebView || this.hasBotCommands || this.botReplyMarkup != null) {
                 if (this.botReplyMarkup != null) {
-                    if (isPopupShowing() && this.currentPopupContentType == 1) {
+                    if (isPopupShowing() && this.currentPopupContentType == 1 && this.botReplyMarkup.is_persistent) {
                         ImageView imageView4 = this.botButton;
                         if (imageView4 != null && imageView4.getVisibility() != 8) {
                             this.botButton.setVisibility(8);
@@ -9156,13 +9159,16 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         setButtons(messageObject, true);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:92:0x009b, code lost:
-        if (r7.getInt("answered_" + r5.dialog_id, 0) == r6.getId()) goto L35;
+    /* JADX WARN: Code restructure failed: missing block: B:100:0x00c2, code lost:
+        if (r7.getInt("closed_botkeyboard_" + getTopicKeyString(), 0) == r6.getId()) goto L35;
      */
-    /* JADX WARN: Removed duplicated region for block: B:104:0x00bc  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x0062  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x0065  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x006e  */
+    /* JADX WARN: Code restructure failed: missing block: B:96:0x009d, code lost:
+        if (r7.getInt("answered_" + getTopicKeyString(), 0) != r6.getId()) goto L46;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x00e3  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x0062  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x006e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -9218,7 +9224,11 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     botKeyboardView2.setPanelHeight(point.x <= point.y ? this.keyboardHeightLand : this.keyboardHeight);
                     if (this.botReplyMarkup == null) {
                         SharedPreferences mainSettings = MessagesController.getMainSettings(this.currentAccount);
-                        if (this.botButtonsMessageObject != this.replyingMessageObject && this.botReplyMarkup.single_use) {
+                        if (this.botButtonsMessageObject != this.replyingMessageObject) {
+                            if (this.botReplyMarkup.single_use) {
+                            }
+                            if (!this.botReplyMarkup.is_persistent) {
+                            }
                         }
                         z2 = true;
                         this.botKeyboardView.setButtons(this.botReplyMarkup);
@@ -9248,16 +9258,18 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     }
 
     public /* synthetic */ void lambda$setButtons$49(TLRPC$KeyboardButton tLRPC$KeyboardButton) {
+        ChatActivity chatActivity;
+        boolean z = this.replyingMessageObject != null && (chatActivity = this.parentFragment) != null && chatActivity.isTopic && chatActivity.getTopicId() == this.replyingMessageObject.getId();
         MessageObject messageObject = this.replyingMessageObject;
-        if (messageObject == null) {
+        if (messageObject == null || z) {
             messageObject = DialogObject.isChatDialog(this.dialog_id) ? this.botButtonsMessageObject : null;
         }
         MessageObject messageObject2 = this.replyingMessageObject;
-        if (messageObject2 == null) {
+        if (messageObject2 == null || z) {
             messageObject2 = this.botButtonsMessageObject;
         }
         boolean didPressedBotButton = didPressedBotButton(tLRPC$KeyboardButton, messageObject, messageObject2);
-        if (this.replyingMessageObject != null) {
+        if (this.replyingMessageObject != null && !z) {
             openKeyboardInternal();
             setButtons(this.botMessageObject, false);
         } else {
@@ -9269,7 +9281,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     showPopup(0, 0);
                 }
                 SharedPreferences.Editor edit = MessagesController.getMainSettings(this.currentAccount).edit();
-                edit.putInt("answered_" + this.dialog_id, this.botButtonsMessageObject.getId()).commit();
+                edit.putInt("answered_" + getTopicKeyString(), this.botButtonsMessageObject.getId()).commit();
             }
         }
         ChatActivityEnterViewDelegate chatActivityEnterViewDelegate = this.delegate;
@@ -10041,6 +10053,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         EmojiView emojiView;
         int i3;
         View view;
+        int i4;
         SizeNotifierFrameLayout sizeNotifierFrameLayout;
         if (i == 2) {
             return;
@@ -10079,17 +10092,20 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 this.botKeyboardViewVisible = true;
                 EmojiView emojiView2 = this.emojiView;
                 if (emojiView2 == null || emojiView2.getVisibility() == 8) {
-                    i3 = 0;
+                    i4 = 0;
                 } else {
                     this.sizeNotifierLayout.removeView(this.emojiView);
                     this.emojiView.setVisibility(8);
                     this.emojiView.setShowing(false);
                     this.emojiViewVisible = false;
-                    i3 = this.emojiView.getMeasuredHeight();
+                    i4 = this.emojiView.getMeasuredHeight();
                 }
                 this.botKeyboardView.setVisibility(0);
-                view = this.botKeyboardView;
+                View view2 = this.botKeyboardView;
                 this.animatingContentType = 1;
+                MessagesController.getMainSettings(this.currentAccount).edit().remove("closed_botkeyboard_" + getTopicKeyString()).apply();
+                i3 = i4;
+                view = view2;
             } else {
                 i3 = 0;
                 view = null;
@@ -10102,17 +10118,17 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 this.keyboardHeightLand = MessagesController.getGlobalEmojiSettings().getInt("kbd_height_land3", AndroidUtilities.dp(200.0f));
             }
             android.graphics.Point point = AndroidUtilities.displaySize;
-            int i4 = point.x > point.y ? this.keyboardHeightLand : this.keyboardHeight;
+            int i5 = point.x > point.y ? this.keyboardHeightLand : this.keyboardHeight;
             if (i2 == 1) {
-                i4 = Math.min(this.botKeyboardView.getKeyboardHeight(), i4);
+                i5 = Math.min(this.botKeyboardView.getKeyboardHeight(), i5);
             }
             BotKeyboardView botKeyboardView3 = this.botKeyboardView;
             if (botKeyboardView3 != null) {
-                botKeyboardView3.setPanelHeight(i4);
+                botKeyboardView3.setPanelHeight(i5);
             }
             if (view != null) {
                 FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) view.getLayoutParams();
-                layoutParams.height = i4;
+                layoutParams.height = i5;
                 view.setLayoutParams(layoutParams);
             }
             if (!AndroidUtilities.isInMultiwindow) {
@@ -10120,14 +10136,14 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             }
             SizeNotifierFrameLayout sizeNotifierFrameLayout2 = this.sizeNotifierLayout;
             if (sizeNotifierFrameLayout2 != null) {
-                this.emojiPadding = i4;
+                this.emojiPadding = i5;
                 sizeNotifierFrameLayout2.requestLayout();
                 setEmojiButtonImage(true, true);
                 updateBotButton(true);
                 onWindowSizeChanged();
-                if (this.smoothKeyboard && !this.keyboardVisible && i4 != i3 && z) {
+                if (this.smoothKeyboard && !this.keyboardVisible && i5 != i3 && z) {
                     this.panelAnimation = new AnimatorSet();
-                    float f = i4 - i3;
+                    float f = i5 - i3;
                     view.setTranslationY(f);
                     this.panelAnimation.playTogether(ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, f, 0.0f));
                     this.panelAnimation.setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator);
@@ -10261,6 +10277,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 }
                 this.botKeyboardViewVisible = false;
             }
+            if (i2 == 1) {
+                MessagesController.getMainSettings(this.currentAccount).edit().putInt("closed_botkeyboard_" + getTopicKeyString(), this.botButtonsMessageObject.getId()).apply();
+            }
             updateBotButton(true);
         }
         if (this.stickersTabOpen || this.emojiTabOpen) {
@@ -10271,6 +10290,14 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
         updateFieldHint(false);
         checkBotMenu();
+    }
+
+    private String getTopicKeyString() {
+        ChatActivity chatActivity = this.parentFragment;
+        if (chatActivity != null && chatActivity.isTopic) {
+            return this.dialog_id + "_" + this.parentFragment.getTopicId();
+        }
+        return "" + this.dialog_id;
     }
 
     public void setEmojiButtonImage(boolean z, boolean z2) {
@@ -10337,9 +10364,14 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     }
 
     public boolean hidePopup(boolean z, boolean z2) {
+        TLRPC$TL_replyKeyboardMarkup tLRPC$TL_replyKeyboardMarkup;
         if (isPopupShowing()) {
-            if (this.currentPopupContentType == 1 && z && this.botButtonsMessageObject != null) {
-                return false;
+            if (this.currentPopupContentType == 1 && (tLRPC$TL_replyKeyboardMarkup = this.botReplyMarkup) != null && z && this.botButtonsMessageObject != null) {
+                if (tLRPC$TL_replyKeyboardMarkup.is_persistent) {
+                    return false;
+                }
+                SharedPreferences.Editor edit = MessagesController.getMainSettings(this.currentAccount).edit();
+                edit.putInt("closed_botkeyboard_" + getTopicKeyString(), this.botButtonsMessageObject.getId()).apply();
             }
             if ((z && this.searchingType != 0) || z2) {
                 setSearchingTypeInternal(0, true);

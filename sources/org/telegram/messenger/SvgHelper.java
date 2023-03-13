@@ -581,7 +581,7 @@ public class SvgHelper {
                     case 'l':
                     case 'm':
                     case 'q':
-                    case 's':
+                    case MessagesStorage.LAST_DB_VERSION /* 115 */:
                     case 't':
                     case 'v':
                     case 'z':
@@ -818,7 +818,7 @@ public class SvgHelper {
                             z = false;
                         }
                     case 'S':
-                    case 's':
+                    case MessagesStorage.LAST_DB_VERSION /* 115 */:
                         float nextFloat12 = parserHelper.nextFloat();
                         float nextFloat13 = parserHelper.nextFloat();
                         float nextFloat14 = parserHelper.nextFloat();
@@ -891,7 +891,7 @@ public class SvgHelper {
                     case 'm':
                         break;
                     case 'S':
-                    case 's':
+                    case MessagesStorage.LAST_DB_VERSION /* 115 */:
                         break;
                     case 'V':
                     case 'v':
@@ -942,7 +942,7 @@ public class SvgHelper {
                     case 'm':
                         break;
                     case 'S':
-                    case 's':
+                    case MessagesStorage.LAST_DB_VERSION /* 115 */:
                         break;
                     case 'V':
                     case 'v':

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 /* loaded from: classes.dex */
 public abstract class TLRPC$ReplyMarkup extends TLObject {
     public int flags;
+    public boolean is_persistent;
     public String placeholder;
     public boolean resize;
     public ArrayList<TLRPC$TL_keyboardButtonRow> rows = new ArrayList<>();
