@@ -766,6 +766,8 @@ public class ActionBarMenuItem extends FrameLayout {
 
     /* JADX WARN: Multi-variable type inference failed */
     public void toggleSubMenu(final View view, View view2) {
+        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout;
+        View childAt;
         ActionBar actionBar;
         ActionBarPopupWindow actionBarPopupWindow = this.popupWindow;
         if (actionBarPopupWindow == null || !actionBarPopupWindow.isShowing()) {
@@ -775,6 +777,7 @@ public class ActionBarMenuItem extends FrameLayout {
             ActionBarMenu actionBarMenu = this.parentMenu;
             if (actionBarMenu == null || !actionBarMenu.isActionMode || (actionBar = actionBarMenu.parentActionBar) == null || actionBar.isActionModeShowed()) {
                 Runnable runnable = this.showMenuRunnable;
+                FrameLayout frameLayout = null;
                 if (runnable != null) {
                     AndroidUtilities.cancelRunOnUIThread(runnable);
                     this.showMenuRunnable = null;
@@ -792,7 +795,7 @@ public class ActionBarMenuItem extends FrameLayout {
                 if (this.popupLayout.getParent() != null) {
                     ((ViewGroup) this.popupLayout.getParent()).removeView(this.popupLayout);
                 }
-                ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = this.popupLayout;
+                ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout2 = this.popupLayout;
                 if (view != null) {
                     LinearLayout linearLayout = new LinearLayout(getContext()) { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.1
                         @Override // android.widget.LinearLayout, android.view.View
@@ -807,7 +810,7 @@ public class ActionBarMenuItem extends FrameLayout {
                         }
                     };
                     linearLayout.setOrientation(1);
-                    FrameLayout frameLayout = new FrameLayout(getContext());
+                    frameLayout = new FrameLayout(getContext());
                     frameLayout.setAlpha(0.0f);
                     frameLayout.animate().alpha(1.0f).setDuration(100L).setStartDelay(this.popupLayout.shownFromBottom ? 165L : 0L).start();
                     if (view.getParent() instanceof ViewGroup) {
@@ -823,6 +826,9 @@ public class ActionBarMenuItem extends FrameLayout {
                     linearLayout.addView(this.popupLayout, LayoutHelper.createLinear(-2, -2, 0, 0, -10, 0, 0));
                     this.popupLayout.setTopView(frameLayout);
                     actionBarPopupWindowLayout = linearLayout;
+                } else {
+                    actionBarPopupWindowLayout2.setTopView(null);
+                    actionBarPopupWindowLayout = actionBarPopupWindowLayout2;
                 }
                 ActionBarPopupWindow actionBarPopupWindow3 = new ActionBarPopupWindow(actionBarPopupWindowLayout, -2, -2);
                 this.popupWindow = actionBarPopupWindow3;
@@ -858,6 +864,9 @@ public class ActionBarMenuItem extends FrameLayout {
                     }
                 });
                 actionBarPopupWindowLayout.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.displaySize.x - AndroidUtilities.dp(40.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.displaySize.y, Integer.MIN_VALUE));
+                if (frameLayout != null && frameLayout.getLayoutParams() != null && this.popupLayout.getSwipeBack() != null && (childAt = this.popupLayout.getSwipeBack().getChildAt(0)) != null && childAt.getMeasuredWidth() > 0) {
+                    frameLayout.getLayoutParams().width = childAt.getMeasuredWidth() + AndroidUtilities.dp(16.0f);
+                }
                 this.processedPopupClick = false;
                 this.popupWindow.setFocusable(true);
                 updateOrShowPopup(true, actionBarPopupWindowLayout.getMeasuredWidth() == 0);

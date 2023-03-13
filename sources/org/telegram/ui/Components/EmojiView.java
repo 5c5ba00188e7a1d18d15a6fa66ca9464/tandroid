@@ -8588,6 +8588,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             StickerSetNameCell stickerSetNameCell;
             if (i == 0) {
                 ContextLinkCell contextLinkCell = new ContextLinkCell(this.context);
+                contextLinkCell.setIsKeyboard(true);
                 contextLinkCell.setCanPreviewGif(true);
                 stickerSetNameCell = contextLinkCell;
             } else if (i == 1) {

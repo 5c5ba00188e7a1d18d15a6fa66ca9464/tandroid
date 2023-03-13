@@ -13894,9 +13894,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x02bc  */
-    /* JADX WARN: Removed duplicated region for block: B:331:0x079d  */
-    /* JADX WARN: Removed duplicated region for block: B:332:0x07a4  */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x02c6  */
+    /* JADX WARN: Removed duplicated region for block: B:333:0x07a7  */
+    /* JADX WARN: Removed duplicated region for block: B:334:0x07ae  */
     /* JADX WARN: Type inference failed for: r1v47, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r1v54, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r1v56, types: [java.lang.CharSequence] */
@@ -14002,7 +14002,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     str = "Of";
                 } else {
                     this.allowShare = !z18;
-                    if (messageObject7.isNewGif() && this.allowShare) {
+                    if (messageObject7.isNewGif() && this.allowShare && !DialogObject.isEncryptedDialog(messageObject7.getDialogId())) {
                         this.menuItem.showSubItem(14);
                     }
                     ChatActivity chatActivity = this.parentChatActivity;

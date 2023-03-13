@@ -1016,11 +1016,10 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
     }
 
     private void showSpeedHint() {
-        BaseFragment baseFragment = this.fragment;
-        if (baseFragment == null || !(baseFragment.getFragmentView() instanceof ViewGroup)) {
+        if (this.fragment == null || !(getParent() instanceof ViewGroup)) {
             return;
         }
-        HintView hintView = new HintView(this, getContext(), 5, true) { // from class: org.telegram.ui.Components.FragmentContextView.8
+        HintView hintView = new HintView(this, getContext(), 6, true) { // from class: org.telegram.ui.Components.FragmentContextView.8
             @Override // android.view.View
             public void setVisibility(int i) {
                 super.setVisibility(i);
@@ -1033,11 +1032,11 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             }
         };
         this.speedHintView = hintView;
-        hintView.setExtraTranslationY(AndroidUtilities.dp(72.0f));
+        hintView.setExtraTranslationY(AndroidUtilities.dp(-12.0f));
         this.speedHintView.setText(LocaleController.getString("SpeedHint"));
         ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(-2, -2);
         marginLayoutParams.rightMargin = AndroidUtilities.dp(3.0f);
-        ((ViewGroup) this.fragment.getFragmentView()).addView(this.speedHintView, marginLayoutParams);
+        ((ViewGroup) getParent()).addView(this.speedHintView, marginLayoutParams);
         this.speedHintView.showForView(this.playbackSpeedButton, true);
     }
 

@@ -106,6 +106,7 @@ import org.webrtc.MediaStreamTrack;
 @TargetApi(18)
 /* loaded from: classes3.dex */
 public class InstantCameraView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
+    private static final int[] ALLOW_BIG_CAMERA_WHITELIST = {285904780};
     private float animationTranslationY;
     private AnimatorSet animatorSet;
     private org.telegram.messenger.camera.Size aspectRatio;
@@ -1051,12 +1052,11 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     private org.telegram.messenger.camera.Size chooseOptimalSize(ArrayList<org.telegram.messenger.camera.Size> arrayList) {
         ArrayList<org.telegram.messenger.camera.Size> arrayList2 = new ArrayList<>();
         for (int i = 0; i < arrayList.size(); i++) {
-            if (Math.max(arrayList.get(i).mHeight, arrayList.get(i).mWidth) <= 1200 && Math.min(arrayList.get(i).mHeight, arrayList.get(i).mWidth) >= 320) {
+            if (Math.max(arrayList.get(i).mHeight, arrayList.get(i).mWidth) <= 1440 && Math.min(arrayList.get(i).mHeight, arrayList.get(i).mWidth) >= 320) {
                 arrayList2.add(arrayList.get(i));
             }
         }
-        int max = Math.max(SharedConfig.getDevicePerformanceClass(), SharedConfig.getLegacyDevicePerformanceClass());
-        if (arrayList2.isEmpty() || max == 0 || max == 1) {
+        if (arrayList2.isEmpty() || !allowBigSizeCamera()) {
             if (!arrayList2.isEmpty()) {
                 arrayList = arrayList2;
             }
@@ -1077,6 +1077,24 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             return -1;
         }
         return abs > abs2 ? 1 : 0;
+    }
+
+    private boolean allowBigSizeCamera() {
+        if (Math.max(SharedConfig.getDevicePerformanceClass(), SharedConfig.getLegacyDevicePerformanceClass()) == 2) {
+            return true;
+        }
+        int hashCode = (Build.MANUFACTURER + " " + Build.DEVICE).toUpperCase().hashCode();
+        int i = 0;
+        while (true) {
+            int[] iArr = ALLOW_BIG_CAMERA_WHITELIST;
+            if (i >= iArr.length) {
+                return false;
+            }
+            if (iArr[i] == hashCode) {
+                return true;
+            }
+            i++;
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2887,8 +2905,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public String createFragmentShader(org.telegram.messenger.camera.Size size) {
-        int max = Math.max(SharedConfig.getDevicePerformanceClass(), SharedConfig.getLegacyDevicePerformanceClass());
-        return (max == 0 || max == 1 || ((float) Math.max(size.getHeight(), size.getWidth())) * 0.7f < ((float) MessagesController.getInstance(this.currentAccount).roundVideoSize)) ? "#extension GL_OES_EGL_image_external : require\nprecision highp float;\nvarying vec2 vTextureCoord;\nuniform float alpha;\nuniform vec2 preview;\nuniform vec2 resolution;\nuniform samplerExternalOES sTexture;\nvoid main() {\n   vec4 textColor = texture2D(sTexture, vTextureCoord);\n   vec2 coord = resolution * 0.5;\n   float radius = 0.51 * resolution.x;\n   float d = length(coord - gl_FragCoord.xy) - radius;\n   float t = clamp(d, 0.0, 1.0);\n   vec3 color = mix(textColor.rgb, vec3(1, 1, 1), t);\n   gl_FragColor = vec4(color * alpha, alpha);\n}\n" : "#extension GL_OES_EGL_image_external : require\nprecision highp float;\nvarying vec2 vTextureCoord;\nuniform vec2 resolution;\nuniform vec2 preview;\nuniform float alpha;\nuniform samplerExternalOES sTexture;\nvoid main() {\n   float pixelSizeX = 1.0 / preview.x;\n   float pixelSizeY = 1.0 / preview.y;\n   vec3 accumulation = vec3(0);\n   for (float x = 0.0; x < 2.0; x++){\n       for (float y = 0.0; y < 2.0; y++){\n           accumulation += texture2D(sTexture, vTextureCoord + vec2(x * pixelSizeX, y * pixelSizeY)).xyz;\n       }\n   }\n   vec4 textColor = vec4(accumulation / vec3(4, 4, 4), 1);\n   vec2 coord = resolution * 0.5;\n   float radius = 0.51 * resolution.x;\n   float d = length(coord - gl_FragCoord.xy) - radius;\n   float t = clamp(d, 0.0, 1.0);\n   vec3 color = mix(textColor.rgb, vec3(1, 1, 1), t);\n   gl_FragColor = vec4(color * alpha, alpha);\n}\n";
+        return (!allowBigSizeCamera() || ((float) Math.max(size.getHeight(), size.getWidth())) * 0.7f < ((float) MessagesController.getInstance(this.currentAccount).roundVideoSize)) ? "#extension GL_OES_EGL_image_external : require\nprecision highp float;\nvarying vec2 vTextureCoord;\nuniform float alpha;\nuniform vec2 preview;\nuniform vec2 resolution;\nuniform samplerExternalOES sTexture;\nvoid main() {\n   vec4 textColor = texture2D(sTexture, vTextureCoord);\n   vec2 coord = resolution * 0.5;\n   float radius = 0.51 * resolution.x;\n   float d = length(coord - gl_FragCoord.xy) - radius;\n   float t = clamp(d, 0.0, 1.0);\n   vec3 color = mix(textColor.rgb, vec3(1, 1, 1), t);\n   gl_FragColor = vec4(color * alpha, alpha);\n}\n" : "#extension GL_OES_EGL_image_external : require\nprecision highp float;\nvarying vec2 vTextureCoord;\nuniform vec2 resolution;\nuniform vec2 preview;\nuniform float alpha;\nuniform samplerExternalOES sTexture;\nvoid main() {\n   vec2 coord = resolution * 0.5;\n   float radius = 0.51 * resolution.x;\n   float d = length(coord - gl_FragCoord.xy) - radius;\n   float t = clamp(d, 0.0, 1.0);\n   if (t == 0.0) {\n       float pixelSizeX = 1.0 / preview.x;\n       float pixelSizeY = 1.0 / preview.y;\n       vec3 accumulation = vec3(0);\n       for (float x = 0.0; x < 2.0; x++){\n           for (float y = 0.0; y < 2.0; y++){\n               accumulation += texture2D(sTexture, vTextureCoord + vec2(x * pixelSizeX, y * pixelSizeY)).xyz;\n           }\n       }\n       vec4 textColor = vec4(accumulation / vec3(4, 4, 4), 1);\n       gl_FragColor = textColor * alpha;\n   } else {\n       gl_FragColor = vec4(1, 1, 1, alpha);\n   }\n}\n";
     }
 
     /* loaded from: classes3.dex */

@@ -3160,7 +3160,9 @@ public class LocaleController {
                 LocaleController.lambda$applyRemoteLanguage$11(iArr, iArr2, runnable);
             }
         };
-        patched(localeInfo.shortName);
+        if (z) {
+            patched(localeInfo.shortName);
+        }
         if (localeInfo.hasBaseLang() && (str == null || str.equals(localeInfo.baseLangCode))) {
             if (localeInfo.baseVersion != 0 && !z) {
                 if (localeInfo.hasBaseLang()) {

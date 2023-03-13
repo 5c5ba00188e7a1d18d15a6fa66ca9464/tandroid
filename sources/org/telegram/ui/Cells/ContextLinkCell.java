@@ -99,6 +99,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
     private TLRPC$User inlineBot;
     private TLRPC$BotInlineResult inlineResult;
     private boolean isForceGif;
+    private boolean isKeyboard;
     private long lastUpdateTime;
     private LetterDrawable letterDrawable;
     private ImageReceiver linkImageView;
@@ -194,18 +195,17 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
     /* JADX WARN: Removed duplicated region for block: B:152:0x0306 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:156:0x0311  */
     /* JADX WARN: Removed duplicated region for block: B:162:0x031f  */
-    /* JADX WARN: Removed duplicated region for block: B:170:0x039f  */
-    /* JADX WARN: Removed duplicated region for block: B:173:0x03ad  */
-    /* JADX WARN: Removed duplicated region for block: B:174:0x03af  */
-    /* JADX WARN: Removed duplicated region for block: B:177:0x03b7  */
-    /* JADX WARN: Removed duplicated region for block: B:197:0x0485  */
-    /* JADX WARN: Removed duplicated region for block: B:215:0x058e  */
-    /* JADX WARN: Removed duplicated region for block: B:216:0x0599  */
-    /* JADX WARN: Removed duplicated region for block: B:220:0x05ad  */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x05ec  */
-    /* JADX WARN: Removed duplicated region for block: B:250:0x06bc  */
-    /* JADX WARN: Removed duplicated region for block: B:254:0x0130 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:265:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:172:0x03a3  */
+    /* JADX WARN: Removed duplicated region for block: B:175:0x03b1  */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x03b3  */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x03bb  */
+    /* JADX WARN: Removed duplicated region for block: B:203:0x0491  */
+    /* JADX WARN: Removed duplicated region for block: B:221:0x059a  */
+    /* JADX WARN: Removed duplicated region for block: B:229:0x05be  */
+    /* JADX WARN: Removed duplicated region for block: B:233:0x05fd  */
+    /* JADX WARN: Removed duplicated region for block: B:259:0x06cd  */
+    /* JADX WARN: Removed duplicated region for block: B:263:0x0130 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:274:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:54:0x0172  */
     /* JADX WARN: Removed duplicated region for block: B:59:0x0180  */
     /* JADX WARN: Removed duplicated region for block: B:75:0x01ca  */
@@ -360,13 +360,16 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                             i4 = i3;
                             if (this.documentAttach == null) {
                             }
+                            String str10 = "_firstframe";
                             if (this.mediaWebpage) {
                             }
                             this.linkImageView.setAspectFit(this.documentAttachType == 6);
                             if (this.documentAttachType == 2) {
                             }
-                            if (SharedConfig.isAutoplayGifs()) {
+                            if (!SharedConfig.isAutoplayGifs()) {
                             }
+                            this.linkImageView.setAllowStartAnimation(r3);
+                            this.linkImageView.startAnimation();
                             this.drawLinkImageView = r3;
                             if (this.mediaWebpage) {
                             }
@@ -487,6 +490,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                                     i4 = i3;
                                 }
                                 if (this.documentAttach == null || this.currentPhotoObject != null || webFile != null || str2 != null) {
+                                    String str102 = "_firstframe";
                                     if (this.mediaWebpage) {
                                         int dp3 = (int) (i3 / (i4 / AndroidUtilities.dp(80.0f)));
                                         if (this.documentAttachType == 2) {
@@ -495,7 +499,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                                             objArr[0] = Integer.valueOf((int) (dp3 / AndroidUtilities.density));
                                             objArr[r3] = 80;
                                             str4 = String.format(locale, "%d_%d_b", objArr);
-                                            if (SharedConfig.isAutoplayGifs()) {
+                                            if (SharedConfig.isAutoplayGifs() || this.isKeyboard) {
                                                 str3 = str4;
                                             } else {
                                                 str5 = str4 + "_firstframe";
@@ -524,7 +528,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                                                 ImageLocation forDocument = ImageLocation.getForDocument(documentVideoThumb, this.documentAttach);
                                                 StringBuilder sb = new StringBuilder();
                                                 sb.append("100_100");
-                                                sb.append(SharedConfig.isAutoplayGifs() ? "" : "_firstframe");
+                                                sb.append((SharedConfig.isAutoplayGifs() || this.isKeyboard) ? "" : "");
                                                 imageReceiver.setImage(forDocument, sb.toString(), ImageLocation.getForDocument(this.currentPhotoObject, this.documentAttach), str4, -1L, str, this.parentObject, 1);
                                             } else {
                                                 ImageLocation forDocument2 = ImageLocation.getForDocument(this.documentAttach);
@@ -534,7 +538,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                                                 ImageReceiver imageReceiver2 = this.linkImageView;
                                                 StringBuilder sb2 = new StringBuilder();
                                                 sb2.append("100_100");
-                                                sb2.append(SharedConfig.isAutoplayGifs() ? "" : "_firstframe");
+                                                sb2.append((SharedConfig.isAutoplayGifs() || this.isKeyboard) ? "" : "");
                                                 imageReceiver2.setImage(forDocument2, sb2.toString(), ImageLocation.getForDocument(this.currentPhotoObject, this.documentAttach), str4, this.documentAttach.size, str, this.parentObject, 0);
                                             }
                                         } else if (webFile != null) {
@@ -563,7 +567,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                                     } else {
                                         this.linkImageView.setImage(ImageLocation.getForPath(str2), str4, ImageLocation.getForPhoto(closestPhotoSizeWithSize, this.photoAttach), str3, -1L, str, this.parentObject, 1);
                                     }
-                                    if (SharedConfig.isAutoplayGifs()) {
+                                    if (!SharedConfig.isAutoplayGifs() || this.isKeyboard) {
                                         this.linkImageView.setAllowStartAnimation(r3);
                                         this.linkImageView.startAnimation();
                                     } else {
@@ -656,13 +660,16 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                         i4 = i3;
                         if (this.documentAttach == null) {
                         }
+                        String str1022 = "_firstframe";
                         if (this.mediaWebpage) {
                         }
                         this.linkImageView.setAspectFit(this.documentAttachType == 6);
                         if (this.documentAttachType == 2) {
                         }
-                        if (SharedConfig.isAutoplayGifs()) {
+                        if (!SharedConfig.isAutoplayGifs()) {
                         }
+                        this.linkImageView.setAllowStartAnimation(r3);
+                        this.linkImageView.startAnimation();
                         this.drawLinkImageView = r3;
                         if (this.mediaWebpage) {
                         }
@@ -699,13 +706,16 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                 i4 = i3;
                 if (this.documentAttach == null) {
                 }
+                String str10222 = "_firstframe";
                 if (this.mediaWebpage) {
                 }
                 this.linkImageView.setAspectFit(this.documentAttachType == 6);
                 if (this.documentAttachType == 2) {
                 }
-                if (SharedConfig.isAutoplayGifs()) {
+                if (!SharedConfig.isAutoplayGifs()) {
                 }
+                this.linkImageView.setAllowStartAnimation(r3);
+                this.linkImageView.startAnimation();
                 this.drawLinkImageView = r3;
                 if (this.mediaWebpage) {
                 }
@@ -744,13 +754,16 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         i4 = i3;
         if (this.documentAttach == null) {
         }
+        String str102222 = "_firstframe";
         if (this.mediaWebpage) {
         }
         this.linkImageView.setAspectFit(this.documentAttachType == 6);
         if (this.documentAttachType == 2) {
         }
-        if (SharedConfig.isAutoplayGifs()) {
+        if (!SharedConfig.isAutoplayGifs()) {
         }
+        this.linkImageView.setAllowStartAnimation(r3);
+        this.linkImageView.startAnimation();
         this.drawLinkImageView = r3;
         if (this.mediaWebpage) {
         }
@@ -946,6 +959,10 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
 
     public void setCanPreviewGif(boolean z) {
         this.canPreviewGif = z;
+    }
+
+    public void setIsKeyboard(boolean z) {
+        this.isKeyboard = z;
     }
 
     @Override // android.view.ViewGroup, android.view.View
