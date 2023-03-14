@@ -790,7 +790,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:72:0x01e7, code lost:
-        if (r2 != false) goto L107;
+        if (r2 != false) goto L125;
      */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
@@ -807,6 +807,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
         ArrayList arrayList3;
         int i3;
         boolean z2;
+        Float f2;
         boolean z3;
         int i4;
         TLRPC$Photo tLRPC$Photo;
@@ -840,7 +841,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                 this.photos.clear();
                 this.imagesLocationsSizes.clear();
                 this.imagesUploadProgress.clear();
-                Float f2 = null;
+                Float f3 = null;
                 if (DialogObject.isChatDialog(longValue)) {
                     TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue));
                     imageLocation = ImageLocation.getForUserOrChat(chat, 0);
@@ -876,7 +877,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                     TLRPC$Photo tLRPC$Photo2 = (TLRPC$Photo) arrayList4.get(i5);
                     if (tLRPC$Photo2 == null || (tLRPC$Photo2 instanceof TLRPC$TL_photoEmpty) || (arrayList2 = tLRPC$Photo2.sizes) == null) {
                         arrayList = arrayList4;
-                        f = f2;
+                        f = f3;
                     } else {
                         TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList2, 50);
                         int size = tLRPC$Photo2.sizes.size();
@@ -943,23 +944,39 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                                 ImageLocation imageLocation2 = this.prevImageLocation;
                                 if (imageLocation2 != null) {
                                     arrayList = arrayList3;
-                                    if (imageLocation2.photoId == forPhoto.photoId) {
+                                    if (imageLocation2.photoId == forPhoto.photoId && !this.isProfileFragment && this.dialogId != UserConfig.getInstance(this.currentAccount).getClientUserId()) {
                                         this.thumbsFileNames.add(null);
-                                        this.videoFileNames.add(null);
                                         this.imagesLocations.add(this.prevImageLocation);
                                         ImageLocation imageLocation3 = this.prevThumbLocation;
                                         if (imageLocation3 == null) {
                                             imageLocation3 = ImageLocation.getForPhoto(closestPhotoSizeWithSize, tLRPC$Photo2);
                                         }
                                         this.thumbsLocations.add(imageLocation3);
-                                        this.vectorAvatars.add(this.prevVectorAvatarThumbDrawable);
-                                        this.videoLocations.add(null);
-                                        this.photos.add(null);
+                                        if (!tLRPC$Photo2.video_sizes.isEmpty()) {
+                                            TLRPC$VideoSize closestVideoSizeWithSize2 = FileLoader.getClosestVideoSizeWithSize(tLRPC$Photo2.video_sizes, 1000);
+                                            TLRPC$VideoSize vectorMarkupVideoSize = FileLoader.getVectorMarkupVideoSize(tLRPC$Photo2);
+                                            if (vectorMarkupVideoSize != null) {
+                                                this.vectorAvatars.add(new VectorAvatarThumbDrawable(vectorMarkupVideoSize, user != null && user.premium, 2));
+                                                this.videoLocations.add(null);
+                                                this.videoFileNames.add(null);
+                                            } else {
+                                                this.vectorAvatars.add(null);
+                                                this.videoLocations.add(ImageLocation.getForPhoto(closestVideoSizeWithSize2, tLRPC$Photo2));
+                                                this.videoFileNames.add(FileLoader.getAttachFileName(closestVideoSizeWithSize2));
+                                            }
+                                            f2 = null;
+                                        } else {
+                                            this.vectorAvatars.add(this.prevVectorAvatarThumbDrawable);
+                                            f2 = null;
+                                            this.videoLocations.add(null);
+                                            this.videoFileNames.add(null);
+                                        }
+                                        this.photos.add(f2);
                                         this.imagesLocationsSizes.add(-1);
-                                        this.imagesUploadProgress.add(null);
-                                        f = null;
+                                        this.imagesUploadProgress.add(f2);
+                                        f = f2;
                                         i5++;
-                                        f2 = f;
+                                        f3 = f;
                                         arrayList4 = arrayList;
                                     }
                                 } else {
@@ -969,9 +986,9 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                                 this.thumbsFileNames.add(FileLoader.getAttachFileName(closestPhotoSizeWithSize instanceof TLRPC$TL_photoStrippedSize ? closestPhotoSizeWithSize2 : closestPhotoSizeWithSize));
                                 this.thumbsLocations.add(ImageLocation.getForPhoto(closestPhotoSizeWithSize, tLRPC$Photo2));
                                 if (!tLRPC$Photo2.video_sizes.isEmpty()) {
-                                    TLRPC$VideoSize closestVideoSizeWithSize2 = FileLoader.getClosestVideoSizeWithSize(tLRPC$Photo2.video_sizes, 1000);
-                                    TLRPC$VideoSize vectorMarkupVideoSize = FileLoader.getVectorMarkupVideoSize(tLRPC$Photo2);
-                                    if (vectorMarkupVideoSize != null) {
+                                    TLRPC$VideoSize closestVideoSizeWithSize3 = FileLoader.getClosestVideoSizeWithSize(tLRPC$Photo2.video_sizes, 1000);
+                                    TLRPC$VideoSize vectorMarkupVideoSize2 = FileLoader.getVectorMarkupVideoSize(tLRPC$Photo2);
+                                    if (vectorMarkupVideoSize2 != null) {
                                         ArrayList<VectorAvatarThumbDrawable> arrayList5 = this.vectorAvatars;
                                         if (user == null || !user.premium) {
                                             i3 = 2;
@@ -980,15 +997,15 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                                             i3 = 2;
                                             z2 = true;
                                         }
-                                        arrayList5.add(new VectorAvatarThumbDrawable(vectorMarkupVideoSize, z2, i3));
+                                        arrayList5.add(new VectorAvatarThumbDrawable(vectorMarkupVideoSize2, z2, i3));
                                         f = null;
                                         this.videoLocations.add(null);
                                         this.videoFileNames.add(null);
                                     } else {
                                         f = null;
                                         this.vectorAvatars.add(null);
-                                        this.videoLocations.add(ImageLocation.getForPhoto(closestVideoSizeWithSize2, tLRPC$Photo2));
-                                        this.videoFileNames.add(FileLoader.getAttachFileName(closestVideoSizeWithSize2));
+                                        this.videoLocations.add(ImageLocation.getForPhoto(closestVideoSizeWithSize3, tLRPC$Photo2));
+                                        this.videoFileNames.add(FileLoader.getAttachFileName(closestVideoSizeWithSize3));
                                     }
                                 } else {
                                     f = null;
@@ -1000,7 +1017,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                                 this.imagesLocationsSizes.add(Integer.valueOf(closestPhotoSizeWithSize2.size));
                                 this.imagesUploadProgress.add(f);
                                 i5++;
-                                f2 = f;
+                                f3 = f;
                                 arrayList4 = arrayList;
                             }
                         }
@@ -1008,7 +1025,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                         f = null;
                     }
                     i5++;
-                    f2 = f;
+                    f3 = f;
                     arrayList4 = arrayList;
                 }
                 loadNeighboringThumbs();

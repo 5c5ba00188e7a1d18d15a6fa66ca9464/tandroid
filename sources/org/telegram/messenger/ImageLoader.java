@@ -6595,6 +6595,7 @@ public class ImageLoader {
     public static void saveMessageThumbs(TLRPC$Message tLRPC$Message) {
         TLRPC$PhotoSize findPhotoCachedSize;
         byte[] bArr;
+        TLRPC$PhotoSize tLRPC$TL_photoSize_layer127;
         if (tLRPC$Message.media == null || (findPhotoCachedSize = findPhotoCachedSize(tLRPC$Message)) == null || (bArr = findPhotoCachedSize.bytes) == null || bArr.length == 0) {
             return;
         }
@@ -6605,48 +6606,56 @@ public class ImageLoader {
             tLRPC$TL_fileLocationToBeDeprecated.volume_id = -2147483648L;
             tLRPC$TL_fileLocationToBeDeprecated.local_id = SharedConfig.getLastLocalId();
         }
-        boolean z = true;
-        File pathToAttach = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(findPhotoCachedSize, true);
         int i = 0;
-        if (MessageObject.shouldEncryptPhotoOrVideo(tLRPC$Message)) {
-            pathToAttach = new File(pathToAttach.getAbsolutePath() + ".enc");
+        if (findPhotoCachedSize.h <= 50 && findPhotoCachedSize.w <= 50) {
+            tLRPC$TL_photoSize_layer127 = new TLRPC$TL_photoStrippedSize();
+            tLRPC$TL_photoSize_layer127.location = findPhotoCachedSize.location;
+            tLRPC$TL_photoSize_layer127.bytes = findPhotoCachedSize.bytes;
+            tLRPC$TL_photoSize_layer127.h = findPhotoCachedSize.h;
+            tLRPC$TL_photoSize_layer127.w = findPhotoCachedSize.w;
         } else {
-            z = false;
-        }
-        if (!pathToAttach.exists()) {
-            if (z) {
-                try {
-                    File internalCacheDir = FileLoader.getInternalCacheDir();
-                    RandomAccessFile randomAccessFile = new RandomAccessFile(new File(internalCacheDir, pathToAttach.getName() + ".key"), "rws");
-                    long length = randomAccessFile.length();
-                    byte[] bArr2 = new byte[32];
-                    byte[] bArr3 = new byte[16];
-                    if (length > 0 && length % 48 == 0) {
-                        randomAccessFile.read(bArr2, 0, 32);
-                        randomAccessFile.read(bArr3, 0, 16);
-                    } else {
-                        Utilities.random.nextBytes(bArr2);
-                        Utilities.random.nextBytes(bArr3);
-                        randomAccessFile.write(bArr2);
-                        randomAccessFile.write(bArr3);
-                    }
-                    randomAccessFile.close();
-                    byte[] bArr4 = findPhotoCachedSize.bytes;
-                    Utilities.aesCtrDecryptionByteArray(bArr4, bArr2, bArr3, 0, bArr4.length, 0);
-                } catch (Exception e) {
-                    FileLog.e(e);
-                }
+            boolean z = true;
+            File pathToAttach = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(findPhotoCachedSize, true);
+            if (MessageObject.shouldEncryptPhotoOrVideo(tLRPC$Message)) {
+                pathToAttach = new File(pathToAttach.getAbsolutePath() + ".enc");
+            } else {
+                z = false;
             }
-            RandomAccessFile randomAccessFile2 = new RandomAccessFile(pathToAttach, "rws");
-            randomAccessFile2.write(findPhotoCachedSize.bytes);
-            randomAccessFile2.close();
+            if (!pathToAttach.exists()) {
+                if (z) {
+                    try {
+                        File internalCacheDir = FileLoader.getInternalCacheDir();
+                        RandomAccessFile randomAccessFile = new RandomAccessFile(new File(internalCacheDir, pathToAttach.getName() + ".key"), "rws");
+                        long length = randomAccessFile.length();
+                        byte[] bArr2 = new byte[32];
+                        byte[] bArr3 = new byte[16];
+                        if (length > 0 && length % 48 == 0) {
+                            randomAccessFile.read(bArr2, 0, 32);
+                            randomAccessFile.read(bArr3, 0, 16);
+                        } else {
+                            Utilities.random.nextBytes(bArr2);
+                            Utilities.random.nextBytes(bArr3);
+                            randomAccessFile.write(bArr2);
+                            randomAccessFile.write(bArr3);
+                        }
+                        randomAccessFile.close();
+                        byte[] bArr4 = findPhotoCachedSize.bytes;
+                        Utilities.aesCtrDecryptionByteArray(bArr4, bArr2, bArr3, 0, bArr4.length, 0);
+                    } catch (Exception e) {
+                        FileLog.e(e);
+                    }
+                }
+                RandomAccessFile randomAccessFile2 = new RandomAccessFile(pathToAttach, "rws");
+                randomAccessFile2.write(findPhotoCachedSize.bytes);
+                randomAccessFile2.close();
+            }
+            tLRPC$TL_photoSize_layer127 = new TLRPC$TL_photoSize_layer127();
+            tLRPC$TL_photoSize_layer127.w = findPhotoCachedSize.w;
+            tLRPC$TL_photoSize_layer127.h = findPhotoCachedSize.h;
+            tLRPC$TL_photoSize_layer127.location = findPhotoCachedSize.location;
+            tLRPC$TL_photoSize_layer127.size = findPhotoCachedSize.size;
+            tLRPC$TL_photoSize_layer127.type = findPhotoCachedSize.type;
         }
-        TLRPC$TL_photoSize_layer127 tLRPC$TL_photoSize_layer127 = new TLRPC$TL_photoSize_layer127();
-        tLRPC$TL_photoSize_layer127.w = findPhotoCachedSize.w;
-        tLRPC$TL_photoSize_layer127.h = findPhotoCachedSize.h;
-        tLRPC$TL_photoSize_layer127.location = findPhotoCachedSize.location;
-        tLRPC$TL_photoSize_layer127.size = findPhotoCachedSize.size;
-        tLRPC$TL_photoSize_layer127.type = findPhotoCachedSize.type;
         TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message.media;
         if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPhoto) {
             int size = tLRPC$MessageMedia.photo.sizes.size();

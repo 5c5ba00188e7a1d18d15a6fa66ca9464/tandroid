@@ -132,10 +132,10 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     private byte[] iv;
     private byte[] key;
     private Bitmap lastBitmap;
-    private float[] mMVPMatrix;
-    private float[] mSTMatrix;
+    private final float[] mMVPMatrix;
+    private final float[] mSTMatrix;
     boolean maybePinchToZoomTouchMode;
-    private float[] moldSTMatrix;
+    private final float[] moldSTMatrix;
     private AnimatorSet muteAnimation;
     private ImageView muteImageView;
     private boolean needDrawFlickerStub;
@@ -2134,16 +2134,23 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Removed duplicated region for block: B:19:0x0050  */
         /* JADX WARN: Removed duplicated region for block: B:25:0x006a  */
-        /* JADX WARN: Removed duplicated region for block: B:34:0x00d6  */
-        /* JADX WARN: Removed duplicated region for block: B:37:0x00e3  */
-        /* JADX WARN: Removed duplicated region for block: B:41:0x0136  */
-        /* JADX WARN: Removed duplicated region for block: B:53:0x0225  */
-        /* JADX WARN: Removed duplicated region for block: B:60:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:33:0x00e2  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x00ef  */
+        /* JADX WARN: Removed duplicated region for block: B:40:0x013f  */
+        /* JADX WARN: Removed duplicated region for block: B:42:0x015c  */
+        /* JADX WARN: Removed duplicated region for block: B:44:0x016d  */
+        /* JADX WARN: Removed duplicated region for block: B:45:0x017c  */
+        /* JADX WARN: Removed duplicated region for block: B:57:0x022d  */
+        /* JADX WARN: Removed duplicated region for block: B:64:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void handleVideoFrameAvailable(long j, Integer num) {
             long j2;
+            FloatBuffer floatBuffer;
+            FloatBuffer floatBuffer2;
+            FloatBuffer floatBuffer3;
+            float f;
             try {
                 drainEncoder(false);
             } catch (Exception e) {
@@ -2183,7 +2190,10 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                     GLES20.glEnableVertexAttribArray(this.positionHandle);
                     GLES20.glEnableVertexAttribArray(this.textureHandle);
                     GLES20.glUniform2f(this.resolutionHandle, this.videoWidth, this.videoHeight);
-                    if (InstantCameraView.this.oldCameraTexture[0] != 0 && InstantCameraView.this.oldTextureTextureBuffer != null) {
+                    floatBuffer = InstantCameraView.this.textureBuffer;
+                    floatBuffer2 = InstantCameraView.this.vertexBuffer;
+                    floatBuffer3 = InstantCameraView.this.oldTextureTextureBuffer;
+                    if (InstantCameraView.this.oldCameraTexture[0] != 0 && floatBuffer3 != null) {
                         if (!this.blendEnabled) {
                             GLES20.glEnable(3042);
                             this.blendEnabled = true;
@@ -2191,7 +2201,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                         if (InstantCameraView.this.oldTexturePreviewSize != null) {
                             GLES20.glUniform2f(this.previewSizeHandle, InstantCameraView.this.oldTexturePreviewSize.getWidth(), InstantCameraView.this.oldTexturePreviewSize.getHeight());
                         }
-                        GLES20.glVertexAttribPointer(this.textureHandle, 2, 5126, false, 8, (Buffer) InstantCameraView.this.oldTextureTextureBuffer);
+                        GLES20.glVertexAttribPointer(this.textureHandle, 2, 5126, false, 8, (Buffer) floatBuffer3);
                         GLES20.glUniformMatrix4fv(this.textureMatrixHandle, 1, false, InstantCameraView.this.moldSTMatrix, 0);
                         GLES20.glUniform1f(this.alphaHandle, 1.0f);
                         GLES20.glBindTexture(36197, InstantCameraView.this.oldCameraTexture[0]);
@@ -2200,8 +2210,15 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                     if (InstantCameraView.this.previewSize != null) {
                         GLES20.glUniform2f(this.previewSizeHandle, InstantCameraView.this.previewSize.getWidth(), InstantCameraView.this.previewSize.getHeight());
                     }
-                    GLES20.glVertexAttribPointer(this.positionHandle, 3, 5126, false, 12, (Buffer) InstantCameraView.this.vertexBuffer);
-                    GLES20.glVertexAttribPointer(this.textureHandle, 2, 5126, false, 8, (Buffer) InstantCameraView.this.textureBuffer);
+                    if (floatBuffer2 != null) {
+                        GLES20.glVertexAttribPointer(this.positionHandle, 3, 5126, false, 12, (Buffer) floatBuffer2);
+                    }
+                    if (floatBuffer == null) {
+                        f = 1.0f;
+                        GLES20.glVertexAttribPointer(this.textureHandle, 2, 5126, false, 8, (Buffer) floatBuffer);
+                    } else {
+                        f = 1.0f;
+                    }
                     GLES20.glUniformMatrix4fv(this.textureMatrixHandle, 1, false, InstantCameraView.this.mSTMatrix, 0);
                     GLES20.glUniform1f(this.alphaHandle, InstantCameraView.this.cameraTextureAlpha);
                     GLES20.glBindTexture(36197, InstantCameraView.this.cameraTexture[0]);
@@ -2214,7 +2231,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                     EGL14.eglSwapBuffers(this.eglDisplay, this.eglSurface);
                     createKeyframeThumb();
                     this.frameCount++;
-                    if (InstantCameraView.this.oldCameraTexture[0] != 0 || InstantCameraView.this.cameraTextureAlpha >= 1.0f) {
+                    if (InstantCameraView.this.oldCameraTexture[0] != 0 || InstantCameraView.this.cameraTextureAlpha >= f) {
                         if (InstantCameraView.this.cameraReady) {
                             InstantCameraView.this.cameraReady = true;
                             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InstantCameraView$VideoRecorder$$ExternalSyntheticLambda1
@@ -2228,10 +2245,10 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                         return;
                     }
                     InstantCameraView.access$2516(InstantCameraView.this, ((float) j2) / 2.0E8f);
-                    if (InstantCameraView.this.cameraTextureAlpha > 1.0f) {
+                    if (InstantCameraView.this.cameraTextureAlpha > f) {
                         GLES20.glDisable(3042);
                         this.blendEnabled = false;
-                        InstantCameraView.this.cameraTextureAlpha = 1.0f;
+                        InstantCameraView.this.cameraTextureAlpha = f;
                         GLES20.glDeleteTextures(1, InstantCameraView.this.oldCameraTexture, 0);
                         InstantCameraView.this.oldCameraTexture[0] = 0;
                         if (InstantCameraView.this.cameraReady) {
@@ -2266,12 +2283,15 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             GLES20.glEnableVertexAttribArray(this.positionHandle);
             GLES20.glEnableVertexAttribArray(this.textureHandle);
             GLES20.glUniform2f(this.resolutionHandle, this.videoWidth, this.videoHeight);
+            floatBuffer = InstantCameraView.this.textureBuffer;
+            floatBuffer2 = InstantCameraView.this.vertexBuffer;
+            floatBuffer3 = InstantCameraView.this.oldTextureTextureBuffer;
             if (InstantCameraView.this.oldCameraTexture[0] != 0) {
                 if (!this.blendEnabled) {
                 }
                 if (InstantCameraView.this.oldTexturePreviewSize != null) {
                 }
-                GLES20.glVertexAttribPointer(this.textureHandle, 2, 5126, false, 8, (Buffer) InstantCameraView.this.oldTextureTextureBuffer);
+                GLES20.glVertexAttribPointer(this.textureHandle, 2, 5126, false, 8, (Buffer) floatBuffer3);
                 GLES20.glUniformMatrix4fv(this.textureMatrixHandle, 1, false, InstantCameraView.this.moldSTMatrix, 0);
                 GLES20.glUniform1f(this.alphaHandle, 1.0f);
                 GLES20.glBindTexture(36197, InstantCameraView.this.oldCameraTexture[0]);
@@ -2279,8 +2299,10 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             }
             if (InstantCameraView.this.previewSize != null) {
             }
-            GLES20.glVertexAttribPointer(this.positionHandle, 3, 5126, false, 12, (Buffer) InstantCameraView.this.vertexBuffer);
-            GLES20.glVertexAttribPointer(this.textureHandle, 2, 5126, false, 8, (Buffer) InstantCameraView.this.textureBuffer);
+            if (floatBuffer2 != null) {
+            }
+            if (floatBuffer == null) {
+            }
             GLES20.glUniformMatrix4fv(this.textureMatrixHandle, 1, false, InstantCameraView.this.mSTMatrix, 0);
             GLES20.glUniform1f(this.alphaHandle, InstantCameraView.this.cameraTextureAlpha);
             GLES20.glBindTexture(36197, InstantCameraView.this.cameraTexture[0]);

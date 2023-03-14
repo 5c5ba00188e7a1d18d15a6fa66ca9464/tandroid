@@ -9159,16 +9159,16 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         setButtons(messageObject, true);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:100:0x00c2, code lost:
-        if (r7.getInt("closed_botkeyboard_" + getTopicKeyString(), 0) == r6.getId()) goto L35;
+    /* JADX WARN: Code restructure failed: missing block: B:102:0x00c4, code lost:
+        if (r7.getInt("closed_botkeyboard_" + getTopicKeyString(), 0) == r6.getId()) goto L36;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:96:0x009d, code lost:
-        if (r7.getInt("answered_" + getTopicKeyString(), 0) != r6.getId()) goto L46;
+    /* JADX WARN: Code restructure failed: missing block: B:98:0x009f, code lost:
+        if (r7.getInt("answered_" + getTopicKeyString(), 0) != r6.getId()) goto L47;
      */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x00e3  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x0062  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0065  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x006e  */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x00e5  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0062  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x006e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -9224,7 +9224,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     botKeyboardView2.setPanelHeight(point.x <= point.y ? this.keyboardHeightLand : this.keyboardHeight);
                     if (this.botReplyMarkup == null) {
                         SharedPreferences mainSettings = MessagesController.getMainSettings(this.currentAccount);
-                        if (this.botButtonsMessageObject != this.replyingMessageObject) {
+                        if (this.botButtonsMessageObject != this.replyingMessageObject && messageObject != null) {
                             if (this.botReplyMarkup.single_use) {
                             }
                             if (!this.botReplyMarkup.is_persistent) {
@@ -10277,7 +10277,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 }
                 this.botKeyboardViewVisible = false;
             }
-            if (i2 == 1) {
+            if (i2 == 1 && this.botButtonsMessageObject != null) {
                 MessagesController.getMainSettings(this.currentAccount).edit().putInt("closed_botkeyboard_" + getTopicKeyString(), this.botButtonsMessageObject.getId()).apply();
             }
             updateBotButton(true);

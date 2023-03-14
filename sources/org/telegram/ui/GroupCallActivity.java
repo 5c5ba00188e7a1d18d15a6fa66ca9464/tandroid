@@ -3882,7 +3882,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             }
         };
         this.avatarsViewPager = profileGalleryView2;
-        profileGalleryView2.setImagesLayerNum(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
+        profileGalleryView2.setImagesLayerNum(ConnectionsManager.DEFAULT_DATACENTER_ID);
         profileGalleryView2.setInvalidateWithParent(true);
         avatarPreviewPagerIndicator.setProfileGalleryView(profileGalleryView2);
         FrameLayout frameLayout2 = new FrameLayout(context) { // from class: org.telegram.ui.GroupCallActivity.29

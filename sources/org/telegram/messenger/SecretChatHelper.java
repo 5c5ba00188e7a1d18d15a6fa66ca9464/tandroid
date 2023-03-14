@@ -954,8 +954,8 @@ public class SecretChatHelper extends BaseController {
         getNotificationCenter().postNotificationName(NotificationCenter.encryptedChatUpdated, tLRPC$EncryptedChat);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:309:0x07dd  */
-    /* JADX WARN: Removed duplicated region for block: B:310:0x07ed  */
+    /* JADX WARN: Removed duplicated region for block: B:304:0x07cf  */
+    /* JADX WARN: Removed duplicated region for block: B:305:0x07df  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1214,7 +1214,12 @@ public class SecretChatHelper extends BaseController {
                         }
                         TLRPC$Document tLRPC$Document4 = tLRPC$TL_message_secret.media.document;
                         long j4 = tLRPC$TL_decryptedMessage.media.size;
-                        tLRPC$Document4.size = j4 != 0 ? Math.min(j4, tLRPC$EncryptedFile.size) : tLRPC$EncryptedFile.size;
+                        int i10 = (j4 > 0L ? 1 : (j4 == 0L ? 0 : -1));
+                        long j5 = tLRPC$EncryptedFile.size;
+                        if (i10 != 0) {
+                            j5 = Math.min(j4, j5);
+                        }
+                        tLRPC$Document4.size = j5;
                         TLRPC$Document tLRPC$Document5 = tLRPC$TL_message_secret.media.document;
                         TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia13 = tLRPC$TL_decryptedMessage.media;
                         tLRPC$Document5.key = tLRPC$DecryptedMessageMedia13.key;
@@ -1225,14 +1230,13 @@ public class SecretChatHelper extends BaseController {
                         } else if ("application/x-tgsticker".equals(str6) || "application/x-tgsdice".equals(tLRPC$TL_message_secret.media.document.mime_type)) {
                             tLRPC$TL_message_secret.media.document.mime_type = "application/x-bad_tgsticker";
                         }
-                        TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia14 = tLRPC$TL_decryptedMessage.media;
-                        byte[] bArr12 = ((TLRPC$TL_decryptedMessageMediaDocument) tLRPC$DecryptedMessageMedia14).thumb;
-                        if (bArr12 != null && bArr12.length != 0 && bArr12.length <= 6000 && tLRPC$DecryptedMessageMedia14.thumb_w <= 100 && tLRPC$DecryptedMessageMedia14.thumb_h <= 100) {
+                        byte[] bArr12 = ((TLRPC$TL_decryptedMessageMediaDocument) tLRPC$TL_decryptedMessage.media).thumb;
+                        if (bArr12 != null && bArr12.length != 0 && bArr12.length <= 20000) {
                             tLRPC$TL_photoSizeEmpty = new TLRPC$TL_photoCachedSize();
                             tLRPC$TL_photoSizeEmpty.bytes = bArr12;
-                            TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia15 = tLRPC$TL_decryptedMessage.media;
-                            tLRPC$TL_photoSizeEmpty.w = tLRPC$DecryptedMessageMedia15.thumb_w;
-                            tLRPC$TL_photoSizeEmpty.h = tLRPC$DecryptedMessageMedia15.thumb_h;
+                            TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia14 = tLRPC$TL_decryptedMessage.media;
+                            tLRPC$TL_photoSizeEmpty.w = tLRPC$DecryptedMessageMedia14.thumb_w;
+                            tLRPC$TL_photoSizeEmpty.h = tLRPC$DecryptedMessageMedia14.thumb_h;
                             tLRPC$TL_photoSizeEmpty.type = "s";
                             tLRPC$TL_photoSizeEmpty.location = new TLRPC$TL_fileLocationUnavailable();
                         } else {
@@ -1253,16 +1257,16 @@ public class SecretChatHelper extends BaseController {
                         tLRPC$TL_message_secret.message = "";
                         tLRPC$TL_messageMediaDocument3.document = new TLRPC$TL_document();
                         TLRPC$Document tLRPC$Document7 = tLRPC$TL_message_secret.media.document;
-                        TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia16 = tLRPC$TL_decryptedMessage.media;
-                        tLRPC$Document7.id = tLRPC$DecryptedMessageMedia16.id;
-                        tLRPC$Document7.access_hash = tLRPC$DecryptedMessageMedia16.access_hash;
+                        TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia15 = tLRPC$TL_decryptedMessage.media;
+                        tLRPC$Document7.id = tLRPC$DecryptedMessageMedia15.id;
+                        tLRPC$Document7.access_hash = tLRPC$DecryptedMessageMedia15.access_hash;
                         tLRPC$Document7.file_reference = new byte[0];
-                        tLRPC$Document7.date = tLRPC$DecryptedMessageMedia16.date;
-                        tLRPC$Document7.attributes = tLRPC$DecryptedMessageMedia16.attributes;
-                        tLRPC$Document7.mime_type = tLRPC$DecryptedMessageMedia16.mime_type;
-                        tLRPC$Document7.dc_id = tLRPC$DecryptedMessageMedia16.dc_id;
-                        tLRPC$Document7.size = tLRPC$DecryptedMessageMedia16.size;
-                        tLRPC$Document7.thumbs.add(((TLRPC$TL_decryptedMessageMediaExternalDocument) tLRPC$DecryptedMessageMedia16).thumb);
+                        tLRPC$Document7.date = tLRPC$DecryptedMessageMedia15.date;
+                        tLRPC$Document7.attributes = tLRPC$DecryptedMessageMedia15.attributes;
+                        tLRPC$Document7.mime_type = tLRPC$DecryptedMessageMedia15.mime_type;
+                        tLRPC$Document7.dc_id = tLRPC$DecryptedMessageMedia15.dc_id;
+                        tLRPC$Document7.size = tLRPC$DecryptedMessageMedia15.size;
+                        tLRPC$Document7.thumbs.add(((TLRPC$TL_decryptedMessageMediaExternalDocument) tLRPC$DecryptedMessageMedia15).thumb);
                         TLRPC$Document tLRPC$Document8 = tLRPC$TL_message_secret.media.document;
                         tLRPC$Document8.flags |= 1;
                         if (tLRPC$Document8.mime_type == null) {
@@ -1282,15 +1286,15 @@ public class SecretChatHelper extends BaseController {
                         tLRPC$TL_messageMediaDocument4.flags |= 3;
                         tLRPC$TL_messageMediaDocument4.document = new TLRPC$TL_documentEncrypted();
                         TLRPC$Document tLRPC$Document9 = tLRPC$TL_message_secret.media.document;
-                        TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia17 = tLRPC$TL_decryptedMessage.media;
-                        tLRPC$Document9.key = tLRPC$DecryptedMessageMedia17.key;
-                        tLRPC$Document9.iv = tLRPC$DecryptedMessageMedia17.iv;
+                        TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia16 = tLRPC$TL_decryptedMessage.media;
+                        tLRPC$Document9.key = tLRPC$DecryptedMessageMedia16.key;
+                        tLRPC$Document9.iv = tLRPC$DecryptedMessageMedia16.iv;
                         tLRPC$Document9.id = tLRPC$EncryptedFile.id;
                         tLRPC$Document9.access_hash = tLRPC$EncryptedFile.access_hash;
                         tLRPC$Document9.date = i;
                         tLRPC$Document9.size = tLRPC$EncryptedFile.size;
                         tLRPC$Document9.dc_id = tLRPC$EncryptedFile.dc_id;
-                        tLRPC$Document9.mime_type = tLRPC$DecryptedMessageMedia17.mime_type;
+                        tLRPC$Document9.mime_type = tLRPC$DecryptedMessageMedia16.mime_type;
                         if (TextUtils.isEmpty(tLRPC$TL_message_secret.message)) {
                             String str7 = tLRPC$TL_decryptedMessage.media.caption;
                             tLRPC$TL_message_secret.message = str7 != null ? str7 : "";
@@ -1303,9 +1307,9 @@ public class SecretChatHelper extends BaseController {
                         tLRPC$TL_documentAttributeAudio.duration = tLRPC$TL_decryptedMessage.media.duration;
                         tLRPC$TL_documentAttributeAudio.voice = true;
                         tLRPC$TL_message_secret.media.document.attributes.add(tLRPC$TL_documentAttributeAudio);
-                        int i10 = tLRPC$TL_message_secret.ttl;
-                        if (i10 != 0) {
-                            tLRPC$TL_message_secret.ttl = Math.max(tLRPC$TL_decryptedMessage.media.duration + 1, i10);
+                        int i11 = tLRPC$TL_message_secret.ttl;
+                        if (i11 != 0) {
+                            tLRPC$TL_message_secret.ttl = Math.max(tLRPC$TL_decryptedMessage.media.duration + 1, i11);
                         }
                         if (tLRPC$TL_message_secret.media.document.thumbs.isEmpty()) {
                             TLRPC$TL_photoSizeEmpty tLRPC$TL_photoSizeEmpty3 = new TLRPC$TL_photoSizeEmpty();
@@ -1320,21 +1324,21 @@ public class SecretChatHelper extends BaseController {
                         tLRPC$TL_messageMediaVenue.geo = new TLRPC$TL_geoPoint();
                         TLRPC$MessageMedia tLRPC$MessageMedia3 = tLRPC$TL_message_secret.media;
                         TLRPC$GeoPoint tLRPC$GeoPoint2 = tLRPC$MessageMedia3.geo;
-                        TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia18 = tLRPC$TL_decryptedMessage.media;
-                        tLRPC$GeoPoint2.lat = tLRPC$DecryptedMessageMedia18.lat;
-                        tLRPC$GeoPoint2._long = tLRPC$DecryptedMessageMedia18._long;
-                        tLRPC$MessageMedia3.title = tLRPC$DecryptedMessageMedia18.title;
-                        tLRPC$MessageMedia3.address = tLRPC$DecryptedMessageMedia18.address;
-                        tLRPC$MessageMedia3.provider = tLRPC$DecryptedMessageMedia18.provider;
-                        tLRPC$MessageMedia3.venue_id = tLRPC$DecryptedMessageMedia18.venue_id;
+                        TLRPC$DecryptedMessageMedia tLRPC$DecryptedMessageMedia17 = tLRPC$TL_decryptedMessage.media;
+                        tLRPC$GeoPoint2.lat = tLRPC$DecryptedMessageMedia17.lat;
+                        tLRPC$GeoPoint2._long = tLRPC$DecryptedMessageMedia17._long;
+                        tLRPC$MessageMedia3.title = tLRPC$DecryptedMessageMedia17.title;
+                        tLRPC$MessageMedia3.address = tLRPC$DecryptedMessageMedia17.address;
+                        tLRPC$MessageMedia3.provider = tLRPC$DecryptedMessageMedia17.provider;
+                        tLRPC$MessageMedia3.venue_id = tLRPC$DecryptedMessageMedia17.venue_id;
                         tLRPC$MessageMedia3.venue_type = "";
                     }
                 }
-                int i11 = tLRPC$TL_message_secret.ttl;
-                if (i11 != 0) {
+                int i12 = tLRPC$TL_message_secret.ttl;
+                if (i12 != 0) {
                     TLRPC$MessageMedia tLRPC$MessageMedia4 = tLRPC$TL_message_secret.media;
                     if (tLRPC$MessageMedia4.ttl_seconds == 0) {
-                        tLRPC$MessageMedia4.ttl_seconds = i11;
+                        tLRPC$MessageMedia4.ttl_seconds = i12;
                         tLRPC$MessageMedia4.flags |= 4;
                     }
                 }
@@ -1352,8 +1356,8 @@ public class SecretChatHelper extends BaseController {
                         TLRPC$TL_messageEncryptedAction tLRPC$TL_messageEncryptedAction = new TLRPC$TL_messageEncryptedAction();
                         tLRPC$TL_messageService.action = tLRPC$TL_messageEncryptedAction;
                         TLRPC$DecryptedMessageAction tLRPC$DecryptedMessageAction2 = tLRPC$TL_decryptedMessageService.action;
-                        int i12 = tLRPC$DecryptedMessageAction2.ttl_seconds;
-                        if (i12 < 0 || i12 > 31536000) {
+                        int i13 = tLRPC$DecryptedMessageAction2.ttl_seconds;
+                        if (i13 < 0 || i13 > 31536000) {
                             tLRPC$DecryptedMessageAction2.ttl_seconds = 31536000;
                         }
                         tLRPC$EncryptedChat.ttl = tLRPC$DecryptedMessageAction2.ttl_seconds;
@@ -1401,15 +1405,15 @@ public class SecretChatHelper extends BaseController {
                 } else if (tLRPC$DecryptedMessageAction instanceof TLRPC$TL_decryptedMessageActionNotifyLayer) {
                     applyPeerLayer(tLRPC$EncryptedChat, tLRPC$DecryptedMessageAction.layer);
                 } else if (tLRPC$DecryptedMessageAction instanceof TLRPC$TL_decryptedMessageActionRequestKey) {
-                    long j5 = tLRPC$EncryptedChat.exchange_id;
-                    if (j5 != 0) {
-                        if (j5 > tLRPC$DecryptedMessageAction.exchange_id) {
+                    long j6 = tLRPC$EncryptedChat.exchange_id;
+                    if (j6 != 0) {
+                        if (j6 > tLRPC$DecryptedMessageAction.exchange_id) {
                             if (BuildVars.LOGS_ENABLED) {
                                 FileLog.d("we already have request key with higher exchange_id");
                             }
                             return null;
                         }
-                        sendAbortKeyMessage(tLRPC$EncryptedChat, null, j5);
+                        sendAbortKeyMessage(tLRPC$EncryptedChat, null, j6);
                     }
                     byte[] bArr14 = new byte[LiteMode.FLAG_CHAT_BLUR];
                     Utilities.random.nextBytes(bArr14);
@@ -1436,8 +1440,8 @@ public class SecretChatHelper extends BaseController {
                         if (byteArray2.length < 256) {
                             bArr2 = new byte[LiteMode.FLAG_CHAT_BLUR];
                             System.arraycopy(byteArray2, 0, bArr2, 256 - byteArray2.length, byteArray2.length);
-                            for (int i13 = 0; i13 < 256 - byteArray2.length; i13++) {
-                                bArr2[i13] = 0;
+                            for (int i14 = 0; i14 < 256 - byteArray2.length; i14++) {
+                                bArr2[i14] = 0;
                             }
                         }
                         byte[] computeSHA1 = Utilities.computeSHA1(byteArray2);
@@ -1482,8 +1486,8 @@ public class SecretChatHelper extends BaseController {
                             if (byteArray3.length < 256) {
                                 bArr = new byte[LiteMode.FLAG_CHAT_BLUR];
                                 System.arraycopy(byteArray3, 0, bArr, 256 - byteArray3.length, byteArray3.length);
-                                for (int i14 = 0; i14 < 256 - byteArray3.length; i14++) {
-                                    bArr[i14] = 0;
+                                for (int i15 = 0; i15 < 256 - byteArray3.length; i15++) {
+                                    bArr[i15] = 0;
                                 }
                             }
                             byte[] computeSHA13 = Utilities.computeSHA1(byteArray3);
@@ -1519,15 +1523,15 @@ public class SecretChatHelper extends BaseController {
                     }
                 } else if (tLRPC$DecryptedMessageAction instanceof TLRPC$TL_decryptedMessageActionCommitKey) {
                     if (tLRPC$EncryptedChat.exchange_id == tLRPC$DecryptedMessageAction.exchange_id) {
-                        long j6 = tLRPC$EncryptedChat.future_key_fingerprint;
-                        if (j6 == tLRPC$DecryptedMessageAction.key_fingerprint) {
-                            long j7 = tLRPC$EncryptedChat.key_fingerprint;
+                        long j7 = tLRPC$EncryptedChat.future_key_fingerprint;
+                        if (j7 == tLRPC$DecryptedMessageAction.key_fingerprint) {
+                            long j8 = tLRPC$EncryptedChat.key_fingerprint;
                             byte[] bArr18 = tLRPC$EncryptedChat.auth_key;
-                            tLRPC$EncryptedChat.key_fingerprint = j6;
+                            tLRPC$EncryptedChat.key_fingerprint = j7;
                             tLRPC$EncryptedChat.auth_key = tLRPC$EncryptedChat.future_auth_key;
                             tLRPC$EncryptedChat.key_create_date = getConnectionsManager().getCurrentTime();
                             tLRPC$EncryptedChat.future_auth_key = bArr18;
-                            tLRPC$EncryptedChat.future_key_fingerprint = j7;
+                            tLRPC$EncryptedChat.future_key_fingerprint = j8;
                             tLRPC$EncryptedChat.key_use_count_in = (short) 0;
                             tLRPC$EncryptedChat.key_use_count_out = (short) 0;
                             tLRPC$EncryptedChat.exchange_id = 0L;

@@ -1211,9 +1211,8 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:111:0x029f  */
-    /* JADX WARN: Removed duplicated region for block: B:116:0x02b4  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x0241  */
+    /* JADX WARN: Removed duplicated region for block: B:153:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x0249  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1222,27 +1221,26 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         TLRPC$RequestPeerType tLRPC$RequestPeerType;
         int i;
         int i2;
-        int i3;
         this.itemInternals.clear();
         updateHasHints();
         MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
         ArrayList<TLRPC$Dialog> dialogsArray = this.parentFragment.getDialogsArray(this.currentAccount, this.dialogsType, this.folderId, this.dialogsListFrozen);
         this.dialogsCount = dialogsArray.size();
         this.isEmpty = false;
-        if (!this.hasHints && this.dialogsType == 0 && (i3 = this.folderId) == 0 && messagesController.isDialogsEndReached(i3) && !this.forceUpdatingContacts) {
+        if (!this.hasHints && this.dialogsType == 0 && (i2 = this.folderId) == 0 && messagesController.isDialogsEndReached(i2) && !this.forceUpdatingContacts) {
             if (messagesController.getAllFoldersDialogsCount() <= 10 && ContactsController.getInstance(this.currentAccount).doneLoadingContacts && !ContactsController.getInstance(this.currentAccount).contacts.isEmpty()) {
                 this.onlineContacts = new ArrayList<>(ContactsController.getInstance(this.currentAccount).contacts);
                 long j = UserConfig.getInstance(this.currentAccount).clientUserId;
                 int size = this.onlineContacts.size();
-                int i4 = 0;
-                while (i4 < size) {
-                    long j2 = this.onlineContacts.get(i4).user_id;
+                int i3 = 0;
+                while (i3 < size) {
+                    long j2 = this.onlineContacts.get(i3).user_id;
                     if (j2 == j || messagesController.dialogs_dict.get(j2) != null) {
-                        this.onlineContacts.remove(i4);
-                        i4--;
+                        this.onlineContacts.remove(i3);
+                        i3--;
                         size--;
                     }
-                    i4++;
+                    i3++;
                 }
                 if (this.onlineContacts.isEmpty()) {
                     this.onlineContacts = null;
@@ -1257,100 +1255,99 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             this.itemInternals.add(new ItemInternal(this, 15));
         }
         if (this.collapsedView || this.isTransitionSupport) {
-            for (int i5 = 0; i5 < dialogsArray.size(); i5++) {
-                if (this.dialogsType == 2 && (dialogsArray.get(i5) instanceof DialogsActivity.DialogsHeader)) {
-                    this.itemInternals.add(new ItemInternal(this, 14, dialogsArray.get(i5)));
+            for (int i4 = 0; i4 < dialogsArray.size(); i4++) {
+                if (this.dialogsType == 2 && (dialogsArray.get(i4) instanceof DialogsActivity.DialogsHeader)) {
+                    this.itemInternals.add(new ItemInternal(this, 14, dialogsArray.get(i4)));
                 } else {
-                    this.itemInternals.add(new ItemInternal(this, 0, dialogsArray.get(i5)));
+                    this.itemInternals.add(new ItemInternal(this, 0, dialogsArray.get(i4)));
                 }
             }
             return;
         }
-        int i6 = this.dialogsCount;
-        if (i6 == 0 && this.forceUpdatingContacts) {
+        if (this.dialogsCount == 0 && this.forceUpdatingContacts) {
             this.isEmpty = true;
             this.itemInternals.add(new ItemInternal(this, this.requestPeerType == null ? 5 : 16));
             this.itemInternals.add(new ItemInternal(this, 8));
             this.itemInternals.add(new ItemInternal(this, 7));
             this.itemInternals.add(new ItemInternal(this, 13));
-        } else if (this.onlineContacts == null) {
-            if (this.hasHints) {
+        } else {
+            ArrayList<TLRPC$TL_contact> arrayList = this.onlineContacts;
+            if (arrayList != null && !arrayList.isEmpty()) {
+                if (this.dialogsCount == 0) {
+                    this.isEmpty = true;
+                    this.itemInternals.add(new ItemInternal(this, this.requestPeerType == null ? 5 : 16));
+                    this.itemInternals.add(new ItemInternal(this, 8));
+                    this.itemInternals.add(new ItemInternal(this, 7));
+                } else {
+                    for (int i5 = 0; i5 < dialogsArray.size(); i5++) {
+                        this.itemInternals.add(new ItemInternal(this, 0, dialogsArray.get(i5)));
+                    }
+                    this.itemInternals.add(new ItemInternal(this, 8));
+                    this.itemInternals.add(new ItemInternal(this, 7));
+                }
+                for (int i6 = 0; i6 < this.onlineContacts.size(); i6++) {
+                    this.itemInternals.add(new ItemInternal(this, 6, this.onlineContacts.get(i6)));
+                }
+                this.itemInternals.add(new ItemInternal(this, 10));
+                z = true;
+                tLRPC$RequestPeerType = this.requestPeerType;
+                if ((!(tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeBroadcast) || (tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeChat)) && this.dialogsCount > 0) {
+                    this.itemInternals.add(new ItemInternal(this, 12));
+                }
+                if (z) {
+                    for (int i7 = 0; i7 < dialogsArray.size(); i7++) {
+                        if (this.dialogsType == 2 && (dialogsArray.get(i7) instanceof DialogsActivity.DialogsHeader)) {
+                            this.itemInternals.add(new ItemInternal(this, 14, dialogsArray.get(i7)));
+                        } else {
+                            this.itemInternals.add(new ItemInternal(this, 0, dialogsArray.get(i7)));
+                        }
+                    }
+                    if (!this.forceShowEmptyCell && (i = this.dialogsType) != 7 && i != 8 && !MessagesController.getInstance(this.currentAccount).isDialogsEndReached(this.folderId)) {
+                        if (this.dialogsCount != 0) {
+                            this.itemInternals.add(new ItemInternal(this, 1));
+                            return;
+                        }
+                        return;
+                    }
+                    int i8 = this.dialogsCount;
+                    if (i8 == 0) {
+                        this.isEmpty = true;
+                        this.itemInternals.add(new ItemInternal(this, this.requestPeerType == null ? 5 : 16));
+                        return;
+                    }
+                    if (this.folderId == 0 && i8 > 10 && this.dialogsType == 0) {
+                        this.itemInternals.add(new ItemInternal(this, 11));
+                    }
+                    this.itemInternals.add(new ItemInternal(this, 10));
+                    return;
+                }
+                return;
+            } else if (this.hasHints) {
                 int size2 = MessagesController.getInstance(this.currentAccount).hintDialogs.size();
                 this.itemInternals.add(new ItemInternal(this, 2));
-                for (int i7 = 0; i7 < size2; i7++) {
-                    this.itemInternals.add(new ItemInternal(this, 4, MessagesController.getInstance(this.currentAccount).hintDialogs.get(i7)));
+                for (int i9 = 0; i9 < size2; i9++) {
+                    this.itemInternals.add(new ItemInternal(this, 4, MessagesController.getInstance(this.currentAccount).hintDialogs.get(i9)));
                 }
                 this.itemInternals.add(new ItemInternal(this, 3));
             } else if (this.showArchiveHint) {
                 this.itemInternals.add(new ItemInternal(this, 9));
                 this.itemInternals.add(new ItemInternal(this, 8));
             } else {
-                int i8 = this.dialogsType;
-                if (i8 == 11 || i8 == 13) {
+                int i10 = this.dialogsType;
+                if (i10 == 11 || i10 == 13) {
                     this.itemInternals.add(new ItemInternal(this, 7));
                     this.itemInternals.add(new ItemInternal(this, 12));
-                } else if (i8 == 12) {
+                } else if (i10 == 12) {
                     this.itemInternals.add(new ItemInternal(this, 7));
                 }
             }
-        } else {
-            if (i6 == 0) {
-                this.isEmpty = true;
-                this.itemInternals.add(new ItemInternal(this, this.requestPeerType == null ? 5 : 16));
-                this.itemInternals.add(new ItemInternal(this, 8));
-                this.itemInternals.add(new ItemInternal(this, 7));
-            } else {
-                for (int i9 = 0; i9 < dialogsArray.size(); i9++) {
-                    this.itemInternals.add(new ItemInternal(this, 0, dialogsArray.get(i9)));
-                }
-                this.itemInternals.add(new ItemInternal(this, 8));
-                this.itemInternals.add(new ItemInternal(this, 7));
-                for (int i10 = 0; i10 < this.onlineContacts.size(); i10++) {
-                    this.itemInternals.add(new ItemInternal(this, 6, this.onlineContacts.get(i10)));
-                }
-                this.itemInternals.add(new ItemInternal(this, 10));
-            }
-            z = true;
-            tLRPC$RequestPeerType = this.requestPeerType;
-            if ((!(tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeBroadcast) || (tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeChat)) && this.dialogsCount > 0) {
-                this.itemInternals.add(new ItemInternal(this, 12));
-            }
-            if (!z) {
-                for (int i11 = 0; i11 < dialogsArray.size(); i11++) {
-                    if (this.dialogsType == 2 && (dialogsArray.get(i11) instanceof DialogsActivity.DialogsHeader)) {
-                        this.itemInternals.add(new ItemInternal(this, 14, dialogsArray.get(i11)));
-                    } else {
-                        this.itemInternals.add(new ItemInternal(this, 0, dialogsArray.get(i11)));
-                    }
-                }
-            }
-            if (this.forceShowEmptyCell && (i2 = this.dialogsType) != 7 && i2 != 8 && !MessagesController.getInstance(this.currentAccount).isDialogsEndReached(this.folderId)) {
-                this.itemInternals.add(new ItemInternal(this, 1));
-                return;
-            }
-            i = this.dialogsCount;
-            if (i != 0) {
-                this.isEmpty = true;
-                this.itemInternals.add(new ItemInternal(this, this.requestPeerType == null ? 5 : 16));
-                return;
-            }
-            if (this.folderId == 0 && i > 10 && this.dialogsType == 0) {
-                this.itemInternals.add(new ItemInternal(this, 11));
-            }
-            this.itemInternals.add(new ItemInternal(this, 10));
-            return;
         }
         z = false;
         tLRPC$RequestPeerType = this.requestPeerType;
         if (!(tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeBroadcast)) {
         }
         this.itemInternals.add(new ItemInternal(this, 12));
-        if (!z) {
-        }
-        if (this.forceShowEmptyCell) {
-        }
-        i = this.dialogsCount;
-        if (i != 0) {
+        if (z) {
         }
     }
 }

@@ -10,7 +10,7 @@ public class TLRPC$TL_replyKeyboardMarkup extends TLRPC$ReplyMarkup {
         this.resize = (readInt32 & 1) != 0;
         this.single_use = (readInt32 & 2) != 0;
         this.selective = (readInt32 & 4) != 0;
-        this.is_persistent = (readInt32 & 8) != 0;
+        this.is_persistent = (readInt32 & 16) != 0;
         int readInt322 = abstractSerializedData.readInt32(z);
         if (readInt322 != 481674261) {
             if (z) {
@@ -40,7 +40,7 @@ public class TLRPC$TL_replyKeyboardMarkup extends TLRPC$ReplyMarkup {
         this.flags = i2;
         int i3 = this.selective ? i2 | 4 : i2 & (-5);
         this.flags = i3;
-        int i4 = this.is_persistent ? i3 | 8 : i3 & (-9);
+        int i4 = this.is_persistent ? i3 | 16 : i3 & (-17);
         this.flags = i4;
         abstractSerializedData.writeInt32(i4);
         abstractSerializedData.writeInt32(481674261);

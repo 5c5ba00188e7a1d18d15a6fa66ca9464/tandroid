@@ -4609,9 +4609,15 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             return DialogsActivity.this.getMessagesController().dialogFilters.get(i).unreadCount;
         }
 
+        /* JADX WARN: Multi-variable type inference failed */
         @Override // org.telegram.ui.Components.FilterTabsView.FilterTabsViewDelegate
         public boolean didSelectTab(FilterTabsView.TabView tabView, boolean z) {
             ScrollView scrollView;
+            int i;
+            int i2;
+            Rect rect;
+            final ArrayList arrayList;
+            boolean z2 = false;
             if (((BaseFragment) DialogsActivity.this).actionBar.isActionModeShowed()) {
                 return false;
             }
@@ -4621,7 +4627,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 DialogsActivity.this.scrimPopupWindowItems = null;
                 return false;
             }
-            final Rect rect = new Rect();
+            final Rect rect2 = new Rect();
             final MessagesController.DialogFilter dialogFilter = tabView.getId() != DialogsActivity.this.filterTabsView.getDefaultTabId() ? DialogsActivity.this.getMessagesController().dialogFilters.get(tabView.getId()) : null;
             ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(DialogsActivity.this.getParentActivity());
             actionBarPopupWindowLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.DialogsActivity.7.1
@@ -4633,10 +4639,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         if (DialogsActivity.this.scrimPopupWindow != null && DialogsActivity.this.scrimPopupWindow.isShowing()) {
                             View contentView = DialogsActivity.this.scrimPopupWindow.getContentView();
                             contentView.getLocationInWindow(this.pos);
-                            Rect rect2 = rect;
+                            Rect rect3 = rect2;
                             int[] iArr = this.pos;
-                            rect2.set(iArr[0], iArr[1], iArr[0] + contentView.getMeasuredWidth(), this.pos[1] + contentView.getMeasuredHeight());
-                            if (!rect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
+                            rect3.set(iArr[0], iArr[1], iArr[0] + contentView.getMeasuredWidth(), this.pos[1] + contentView.getMeasuredHeight());
+                            if (!rect2.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
                                 DialogsActivity.this.scrimPopupWindow.dismiss();
                             }
                         }
@@ -4652,17 +4658,17 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     DialogsActivity.7.this.lambda$didSelectTab$3(keyEvent);
                 }
             });
-            Rect rect2 = new Rect();
+            Rect rect3 = new Rect();
             Drawable mutate = DialogsActivity.this.getParentActivity().getResources().getDrawable(R.drawable.popup_fixed_alert).mutate();
-            mutate.getPadding(rect2);
+            mutate.getPadding(rect3);
             actionBarPopupWindowLayout.setBackgroundDrawable(mutate);
             actionBarPopupWindowLayout.setBackgroundColor(Theme.getColor("actionBarDefaultSubmenuBackground"));
             final LinearLayout linearLayout = new LinearLayout(DialogsActivity.this.getParentActivity());
             if (Build.VERSION.SDK_INT >= 21) {
                 scrollView = new ScrollView(this, DialogsActivity.this.getParentActivity(), null, 0, R.style.scrollbarShapeStyle) { // from class: org.telegram.ui.DialogsActivity.7.2
                     @Override // android.widget.ScrollView, android.widget.FrameLayout, android.view.View
-                    protected void onMeasure(int i, int i2) {
-                        super.onMeasure(i, i2);
+                    protected void onMeasure(int i3, int i4) {
+                        super.onMeasure(i3, i4);
                         setMeasuredDimension(linearLayout.getMeasuredWidth(), getMeasuredHeight());
                     }
                 };
@@ -4672,34 +4678,86 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             scrollView.setClipToPadding(false);
             actionBarPopupWindowLayout.addView(scrollView, LayoutHelper.createFrame(-2, -2.0f));
             linearLayout.setMinimumWidth(AndroidUtilities.dp(200.0f));
+            int i3 = 1;
             linearLayout.setOrientation(1);
-            DialogsActivity.this.scrimPopupWindowItems = new ActionBarMenuSubItem[3];
-            final int i = tabView.getId() == DialogsActivity.this.filterTabsView.getDefaultTabId() ? 2 : 3;
-            final int i2 = 0;
-            while (i2 < i) {
-                ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(DialogsActivity.this.getParentActivity(), i2 == 0, i2 == i + (-1));
-                if (i2 == 0) {
-                    if (DialogsActivity.this.getMessagesController().dialogFilters.size() <= 1) {
-                        i2++;
+            DialogsActivity.this.scrimPopupWindowItems = new ActionBarMenuSubItem[4];
+            int i4 = tabView.getId() == DialogsActivity.this.filterTabsView.getDefaultTabId() ? 1 : 0;
+            MessagesController messagesController = DialogsActivity.this.getMessagesController();
+            ArrayList arrayList2 = new ArrayList(i4 != 0 ? messagesController.getDialogs(DialogsActivity.this.folderId) : messagesController.getAllDialogs());
+            if (i4 == 0) {
+                MessagesController.DialogFilter dialogFilter2 = DialogsActivity.this.getMessagesController().dialogFilters.get(tabView.getId());
+                int i5 = 0;
+                while (i5 < arrayList2.size()) {
+                    if (!dialogFilter2.includesDialog(DialogsActivity.this.getAccountInstance(), ((TLRPC$Dialog) arrayList2.get(i5)).id)) {
+                        arrayList2.remove(i5);
+                        i5--;
+                    }
+                    i5++;
+                }
+            }
+            int i6 = 0;
+            for (int i7 = 0; i7 < arrayList2.size(); i7++) {
+                if (((TLRPC$Dialog) arrayList2.get(i7)).unread_mark || ((TLRPC$Dialog) arrayList2.get(i7)).unread_count > 0) {
+                    i6 = 1;
+                }
+            }
+            int i8 = 2;
+            int i9 = (i4 ^ 1) + 2 + i6;
+            final int i10 = 0;
+            while (i10 < i9) {
+                Activity parentActivity = DialogsActivity.this.getParentActivity();
+                if (i10 == 0) {
+                    z2 = true;
+                }
+                ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(parentActivity, z2, i10 == i9 + (-1));
+                if (i10 == 0) {
+                    if (DialogsActivity.this.getMessagesController().dialogFilters.size() <= i3) {
+                        i = i10;
+                        i2 = i9;
+                        arrayList = arrayList2;
+                        rect = rect3;
+                        i10 = i + 1;
+                        i9 = i2;
+                        rect3 = rect;
+                        arrayList2 = arrayList;
+                        i8 = 2;
+                        i3 = 1;
+                        z2 = false;
                     } else {
                         actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("FilterReorder", R.string.FilterReorder), R.drawable.tabs_reorder);
                     }
-                } else if (i2 != 1) {
-                    actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("FilterDeleteItem", R.string.FilterDeleteItem), R.drawable.msg_delete);
-                } else if (i == 2) {
-                    actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("FilterEditAll", R.string.FilterEditAll), R.drawable.msg_edit);
+                } else if (i10 == i3) {
+                    if (i4 != 0) {
+                        actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("FilterEditAll", R.string.FilterEditAll), R.drawable.msg_edit);
+                    } else {
+                        actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("FilterEdit", R.string.FilterEdit), R.drawable.msg_edit);
+                    }
+                } else if (i10 == i8 && i6 != 0) {
+                    actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("MarkAllAsRead", R.string.MarkAllAsRead), R.drawable.msg_markread);
                 } else {
-                    actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("FilterEdit", R.string.FilterEdit), R.drawable.msg_edit);
+                    actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("FilterDeleteItem", R.string.FilterDeleteItem), R.drawable.msg_delete);
                 }
-                DialogsActivity.this.scrimPopupWindowItems[i2] = actionBarMenuSubItem;
+                DialogsActivity.this.scrimPopupWindowItems[i10] = actionBarMenuSubItem;
                 linearLayout.addView(actionBarMenuSubItem);
+                i = i10;
+                i2 = i9;
+                final boolean z3 = i4;
+                rect = rect3;
+                arrayList = arrayList2;
+                final boolean z4 = i6;
                 actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$7$$ExternalSyntheticLambda1
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
-                        DialogsActivity.7.this.lambda$didSelectTab$4(i2, i, dialogFilter, view);
+                        DialogsActivity.7.this.lambda$didSelectTab$4(i10, z3, dialogFilter, z4, arrayList, view);
                     }
                 });
-                i2++;
+                i10 = i + 1;
+                i9 = i2;
+                rect3 = rect;
+                arrayList2 = arrayList;
+                i8 = 2;
+                i3 = 1;
+                z2 = false;
             }
             scrollView.addView(linearLayout, LayoutHelper.createScroll(-2, -2, 51));
             DialogsActivity.this.scrimPopupWindow = new ActionBarPopupWindow(actionBarPopupWindowLayout, -2, -2) { // from class: org.telegram.ui.DialogsActivity.7.3
@@ -4717,9 +4775,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     }
                     DialogsActivity.this.scrimAnimatorSet = new AnimatorSet();
                     DialogsActivity.this.scrimViewAppearing = false;
-                    ArrayList arrayList = new ArrayList();
-                    arrayList.add(ObjectAnimator.ofInt(DialogsActivity.this.scrimPaint, AnimationProperties.PAINT_ALPHA, 0));
-                    DialogsActivity.this.scrimAnimatorSet.playTogether(arrayList);
+                    ArrayList arrayList3 = new ArrayList();
+                    arrayList3.add(ObjectAnimator.ofInt(DialogsActivity.this.scrimPaint, AnimationProperties.PAINT_ALPHA, 0));
+                    DialogsActivity.this.scrimAnimatorSet.playTogether(arrayList3);
                     DialogsActivity.this.scrimAnimatorSet.setDuration(220L);
                     DialogsActivity.this.scrimAnimatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.DialogsActivity.7.3.1
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -4750,7 +4808,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             DialogsActivity.this.scrimPopupWindow.setSoftInputMode(0);
             DialogsActivity.this.scrimPopupWindow.getContentView().setFocusableInTouchMode(true);
             tabView.getLocationInWindow(DialogsActivity.this.scrimViewLocation);
-            int dp = (DialogsActivity.this.scrimViewLocation[0] + rect2.left) - AndroidUtilities.dp(16.0f);
+            int dp = (DialogsActivity.this.scrimViewLocation[0] + rect3.left) - AndroidUtilities.dp(16.0f);
             if (dp >= AndroidUtilities.dp(6.0f)) {
                 if (dp > (((BaseFragment) DialogsActivity.this).fragmentView.getMeasuredWidth() - AndroidUtilities.dp(6.0f)) - actionBarPopupWindowLayout.getMeasuredWidth()) {
                     dp = (((BaseFragment) DialogsActivity.this).fragmentView.getMeasuredWidth() - AndroidUtilities.dp(6.0f)) - actionBarPopupWindowLayout.getMeasuredWidth();
@@ -4767,9 +4825,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             DialogsActivity.this.scrimAnimatorSet = new AnimatorSet();
             DialogsActivity.this.scrimViewAppearing = true;
-            ArrayList arrayList = new ArrayList();
-            arrayList.add(ObjectAnimator.ofInt(DialogsActivity.this.scrimPaint, AnimationProperties.PAINT_ALPHA, 0, 50));
-            DialogsActivity.this.scrimAnimatorSet.playTogether(arrayList);
+            ArrayList arrayList3 = new ArrayList();
+            arrayList3.add(ObjectAnimator.ofInt(DialogsActivity.this.scrimPaint, AnimationProperties.PAINT_ALPHA, 0, 50));
+            DialogsActivity.this.scrimAnimatorSet.playTogether(arrayList3);
             DialogsActivity.this.scrimAnimatorSet.setDuration(150L);
             DialogsActivity.this.scrimAnimatorSet.start();
             return true;
@@ -4783,17 +4841,19 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$didSelectTab$4(int i, int i2, MessagesController.DialogFilter dialogFilter, View view) {
+        public /* synthetic */ void lambda$didSelectTab$4(int i, boolean z, MessagesController.DialogFilter dialogFilter, boolean z2, ArrayList arrayList, View view) {
             if (i == 0) {
                 DialogsActivity.this.resetScroll();
                 DialogsActivity.this.filterTabsView.setIsEditing(true);
                 DialogsActivity.this.showDoneItem(true);
             } else if (i == 1) {
-                if (i2 == 2) {
+                if (z) {
                     DialogsActivity.this.presentFragment(new FiltersSetupActivity());
                 } else {
                     DialogsActivity.this.presentFragment(new FilterCreateActivity(dialogFilter));
                 }
+            } else if (i == 2 && z2) {
+                DialogsActivity.this.markDialogsAsRead(arrayList);
             } else if (i == 2) {
                 showDeleteAlert(dialogFilter);
             }
@@ -9274,6 +9334,24 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     private void markAsUnread(long j) {
         getMessagesController().markDialogAsUnread(j, null, 0L);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void markDialogsAsRead(ArrayList<TLRPC$Dialog> arrayList) {
+        this.debugLastUpdateAction = 2;
+        setDialogsListFrozen(true);
+        checkAnimationFinished();
+        for (int i = 0; i < arrayList.size(); i++) {
+            long j = arrayList.get(i).id;
+            TLRPC$Dialog tLRPC$Dialog = arrayList.get(i);
+            if (getMessagesController().isForum(j)) {
+                getMessagesController().markAllTopicsAsRead(j);
+            }
+            getMessagesController().markMentionsAsRead(j, 0);
+            MessagesController messagesController = getMessagesController();
+            int i2 = tLRPC$Dialog.top_message;
+            messagesController.markDialogAsRead(j, i2, i2, tLRPC$Dialog.last_message_date, false, 0, 0, true, 0);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

@@ -5032,7 +5032,7 @@ public class MessageObject {
             int size = tLRPC$Document.thumbs.size();
             for (int i = 0; i < size; i++) {
                 TLRPC$PhotoSize tLRPC$PhotoSize = tLRPC$Document.thumbs.get(i);
-                if (tLRPC$PhotoSize != null && !(tLRPC$PhotoSize instanceof TLRPC$TL_photoSizeEmpty) && !(tLRPC$PhotoSize.location instanceof TLRPC$TL_fileLocationUnavailable)) {
+                if (tLRPC$PhotoSize != null && !(tLRPC$PhotoSize instanceof TLRPC$TL_photoSizeEmpty) && (!(tLRPC$PhotoSize.location instanceof TLRPC$TL_fileLocationUnavailable) || tLRPC$PhotoSize.bytes != null)) {
                     return true;
                 }
             }
