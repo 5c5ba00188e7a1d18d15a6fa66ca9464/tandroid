@@ -50,7 +50,7 @@ auth.sentCode#5e002502 flags:# type:auth.SentCodeType phone_code_hash:string nex
 auth.sentCodeSuccess#2390fe44 authorization:auth.Authorization = auth.SentCode;
 auth.sentCodeTypeApp#3dbb5986 length:int = auth.SentCodeType;
 auth.sentCodeTypeCall#5353e5a7 length:int = auth.SentCodeType;
-auth.sentCodeTypeEmailCode#5a159841 flags:# apple_signin_allowed:flags.0?true google_signin_allowed:flags.1?true email_pattern:string length:int next_phone_login_date:flags.2?int = auth.SentCodeType;
+auth.sentCodeTypeEmailCode#f450f59b flags:# apple_signin_allowed:flags.0?true google_signin_allowed:flags.1?true email_pattern:string length:int reset_available_period:flags.3?int reset_pending_date:flags.4?int = auth.SentCodeType;
 auth.sentCodeTypeFirebaseSms#e57b1432 flags:# nonce:flags.0?bytes receipt:flags.1?string push_timeout:flags.1?int length:int = auth.SentCodeType;
 auth.sentCodeTypeFlashCall#ab03c6d9 pattern:string = auth.SentCodeType;
 auth.sentCodeTypeFragmentSms#d9565c39 url:string length:int = auth.SentCodeType;
@@ -1159,6 +1159,7 @@ auth.requestFirebaseSms#89464b50 flags:# phone_number:string phone_code_hash:str
 auth.requestPasswordRecovery#d897bc66 = auth.PasswordRecovery;
 auth.resendCode#3ef1a9bf phone_number:string phone_code_hash:string = auth.SentCode;
 auth.resetAuthorizations#9fab0d1a = Bool;
+auth.resetLoginEmail#7e960193 phone_number:string phone_code_hash:string = auth.SentCode;
 auth.sendCode#a677244f phone_number:string api_id:int api_hash:string settings:CodeSettings = auth.SentCode;
 auth.signIn#8d52a951 flags:# phone_number:string phone_code_hash:string phone_code:flags.0?string email_verification:flags.1?EmailVerification = auth.Authorization;
 auth.signUp#80eee427 phone_number:string phone_code_hash:string first_name:string last_name:string = auth.Authorization;
@@ -1492,4 +1493,4 @@ upload.saveFilePart#b304a621 file_id:long file_part:int bytes:bytes = Bool;
 users.getFullUser#b60f5918 id:InputUser = users.UserFull;
 users.getUsers#d91a548 id:Vector<InputUser> = Vector<User>;
 
-// Layer 155
+// Layer 156
