@@ -89,24 +89,16 @@ public class LiteMode {
     }
 
     private static int preprocessFlag(int i) {
-        if (i == 16388) {
-            if (UserConfig.hasPremiumOnAccounts()) {
-                return 4;
-            }
-            return FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
-        } else if (i == 8200) {
-            if (UserConfig.hasPremiumOnAccounts()) {
-                return 8;
-            }
-            return FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
-        } else if (i == 4112) {
-            if (UserConfig.hasPremiumOnAccounts()) {
-                return 16;
-            }
-            return FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
-        } else {
-            return i;
+        if ((i & FLAG_ANIMATED_EMOJI_KEYBOARD) > 0) {
+            i = (i & (-16389)) | (UserConfig.hasPremiumOnAccounts() ? 4 : FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
         }
+        if ((i & FLAG_ANIMATED_EMOJI_REACTIONS) > 0) {
+            i = (i & (-8201)) | (UserConfig.hasPremiumOnAccounts() ? 8 : FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
+        }
+        if ((i & FLAG_ANIMATED_EMOJI_CHAT) > 0) {
+            return (i & (-4113)) | (UserConfig.hasPremiumOnAccounts() ? 16 : FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM);
+        }
+        return i;
     }
 
     public static boolean isEnabled(int i) {

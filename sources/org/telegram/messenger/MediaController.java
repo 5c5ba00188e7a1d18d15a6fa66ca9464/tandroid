@@ -1790,6 +1790,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         PowerManager.WakeLock wakeLock;
         PowerManager.WakeLock wakeLock2;
         PowerManager.WakeLock wakeLock3;
+        MessageObject messageObject;
         PowerManager.WakeLock wakeLock4;
         PowerManager.WakeLock wakeLock5;
         if (this.sensorsStarted && VoIPService.getSharedInstance() == null) {
@@ -1937,7 +1938,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 this.lastAccelerometerDetected = System.currentTimeMillis();
             }
             if (this.proximityTouched && ((this.raisedToBack == 6 || this.accelerometerVertical || System.currentTimeMillis() - this.lastAccelerometerDetected < 60) && !NotificationsController.audioManager.isWiredHeadsetOn() && !NotificationsController.audioManager.isBluetoothA2dpOn() && !VoIPService.isAnyKindOfCallActive())) {
-                if (SharedConfig.raiseToSpeak && this.playingMessageObject == null && this.recordStartRunnable == null && this.recordingAudio == null && !PhotoViewer.getInstance().isVisible() && ApplicationLoader.isScreenOn && !this.inputFieldHasText && this.allowStartRecord && this.raiseChat != null && !this.callInProgress) {
+                if (SharedConfig.enabledRaiseTo(true) && this.playingMessageObject == null && this.recordStartRunnable == null && this.recordingAudio == null && !PhotoViewer.getInstance().isVisible() && ApplicationLoader.isScreenOn && !this.inputFieldHasText && this.allowStartRecord && this.raiseChat != null && !this.callInProgress) {
                     if (!this.raiseToEarRecord) {
                         if (BuildVars.LOGS_ENABLED) {
                             FileLog.d("start record");
@@ -1956,26 +1957,23 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                             this.proximityWakeLock.acquire();
                         }
                     }
-                } else {
-                    MessageObject messageObject = this.playingMessageObject;
-                    if (messageObject != null && ((messageObject.isVoice() || this.playingMessageObject.isRoundVideo()) && !this.useFrontSpeaker)) {
-                        if (BuildVars.LOGS_ENABLED) {
-                            FileLog.d("start listen");
-                        }
-                        if (this.proximityHasDifferentValues && (wakeLock4 = this.proximityWakeLock) != null && !wakeLock4.isHeld()) {
-                            this.proximityWakeLock.acquire();
-                        }
-                        setUseFrontSpeaker(true);
-                        startAudioAgain(false);
-                        this.ignoreOnPause = true;
+                } else if (SharedConfig.enabledRaiseTo(false) && (messageObject = this.playingMessageObject) != null && ((messageObject.isVoice() || this.playingMessageObject.isRoundVideo()) && !this.useFrontSpeaker)) {
+                    if (BuildVars.LOGS_ENABLED) {
+                        FileLog.d("start listen");
                     }
+                    if (this.proximityHasDifferentValues && (wakeLock4 = this.proximityWakeLock) != null && !wakeLock4.isHeld()) {
+                        this.proximityWakeLock.acquire();
+                    }
+                    setUseFrontSpeaker(true);
+                    startAudioAgain(false);
+                    this.ignoreOnPause = true;
                 }
                 this.raisedToBack = 0;
                 this.raisedToTop = 0;
                 this.raisedToTopSign = 0;
                 this.countLess = 0;
             } else if (this.proximityTouched && ((((this.accelerometerSensor == null || this.linearSensor == null) && this.gravitySensor == null) || ignoreAccelerometerGestures()) && !VoIPService.isAnyKindOfCallActive())) {
-                if (this.playingMessageObject != null && !ApplicationLoader.mainInterfacePaused && ((this.playingMessageObject.isVoice() || this.playingMessageObject.isRoundVideo()) && !this.useFrontSpeaker && !NotificationsController.audioManager.isWiredHeadsetOn() && !NotificationsController.audioManager.isBluetoothA2dpOn())) {
+                if (this.playingMessageObject != null && !ApplicationLoader.mainInterfacePaused && ((this.playingMessageObject.isVoice() || this.playingMessageObject.isRoundVideo()) && SharedConfig.enabledRaiseTo(false) && !this.useFrontSpeaker && !NotificationsController.audioManager.isWiredHeadsetOn() && !NotificationsController.audioManager.isBluetoothA2dpOn())) {
                     if (BuildVars.LOGS_ENABLED) {
                         FileLog.d("start listen by proximity only");
                     }
@@ -2032,10 +2030,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     public void startRecordingIfFromSpeaker() {
-        ChatActivity chatActivity;
-        if (this.useFrontSpeaker && (chatActivity = this.raiseChat) != null && this.allowStartRecord && SharedConfig.raiseToSpeak) {
+        if (this.useFrontSpeaker && this.raiseChat != null && this.allowStartRecord && SharedConfig.enabledRaiseTo(true)) {
             this.raiseToEarRecord = true;
-            startRecording(chatActivity.getCurrentAccount(), this.raiseChat.getDialogId(), null, this.raiseChat.getThreadMessage(), this.raiseChat.getClassGuid());
+            startRecording(this.raiseChat.getCurrentAccount(), this.raiseChat.getDialogId(), null, this.raiseChat.getThreadMessage(), this.raiseChat.getClassGuid());
             this.ignoreOnPause = true;
         }
     }
@@ -2099,7 +2096,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 return;
             }
             this.raiseChat = chatActivity;
-            if (!SharedConfig.raiseToSpeak) {
+            if (!SharedConfig.enabledRaiseTo(true)) {
                 MessageObject messageObject = this.playingMessageObject;
                 if (messageObject == null) {
                     return;
@@ -2285,7 +2282,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         stopProgressTimer();
         this.lastProgress = 0L;
         this.isPaused = false;
-        if (!this.useFrontSpeaker && !SharedConfig.raiseToSpeak) {
+        if (!this.useFrontSpeaker && !SharedConfig.enabledRaiseTo(true)) {
             ChatActivity chatActivity = this.raiseChat;
             stopRaiseToEarSensors(chatActivity, false);
             this.raiseChat = chatActivity;
@@ -2906,7 +2903,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             if (i == 3) {
                 requestAudioFocus = NotificationsController.audioManager.requestAudioFocus(this, 0, 1);
             } else {
-                requestAudioFocus = NotificationsController.audioManager.requestAudioFocus(this, 3, i == 2 ? 3 : 1);
+                requestAudioFocus = NotificationsController.audioManager.requestAudioFocus(this, 3, (i != 2 || SharedConfig.pauseMusicOnMedia) ? 1 : 3);
             }
             if (requestAudioFocus == 1) {
                 this.audioFocus = 2;
@@ -3162,7 +3159,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         this.lastProgress = 0L;
         MessageObject messageObject2 = this.playingMessageObject;
         this.playingMessageObject = messageObject;
-        if (!SharedConfig.raiseToSpeak) {
+        if (!SharedConfig.enabledRaiseTo(true)) {
             startRaiseToEarSensors(this.raiseChat);
         }
         startProgressTimer(this.playingMessageObject);
@@ -3492,12 +3489,12 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         return playMessage(messageObject, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:182:0x047a  */
-    /* JADX WARN: Removed duplicated region for block: B:184:0x0485  */
-    /* JADX WARN: Removed duplicated region for block: B:199:0x054c  */
-    /* JADX WARN: Removed duplicated region for block: B:209:0x0585  */
-    /* JADX WARN: Removed duplicated region for block: B:270:0x0461 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:275:0x049e A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:182:0x047c  */
+    /* JADX WARN: Removed duplicated region for block: B:184:0x0487  */
+    /* JADX WARN: Removed duplicated region for block: B:199:0x054e  */
+    /* JADX WARN: Removed duplicated region for block: B:209:0x0587  */
+    /* JADX WARN: Removed duplicated region for block: B:274:0x0463 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:277:0x04a0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3516,7 +3513,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             if (this.isPaused) {
                 resumeAudio(messageObject);
             }
-            if (!SharedConfig.raiseToSpeak) {
+            if (!SharedConfig.enabledRaiseTo(true)) {
                 startRaiseToEarSensors(this.raiseChat);
             }
             return true;
@@ -3911,10 +3908,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         this.isPaused = false;
         this.lastProgress = 0L;
         this.playingMessageObject = messageObject;
-        if (!SharedConfig.raiseToSpeak) {
+        if (!SharedConfig.enabledRaiseTo(true)) {
             startRaiseToEarSensors(this.raiseChat);
         }
-        if (!ApplicationLoader.mainInterfacePaused && (wakeLock = this.proximityWakeLock) != null && !wakeLock.isHeld() && ((this.playingMessageObject.isVoice() || this.playingMessageObject.isRoundVideo()) && ignoreAccelerometerGestures())) {
+        if (!ApplicationLoader.mainInterfacePaused && (wakeLock = this.proximityWakeLock) != null && !wakeLock.isHeld() && ((this.playingMessageObject.isVoice() || this.playingMessageObject.isRoundVideo()) && SharedConfig.enabledRaiseTo(false) && ignoreAccelerometerGestures())) {
             this.proximityWakeLock.acquire();
         }
         startProgressTimer(this.playingMessageObject);

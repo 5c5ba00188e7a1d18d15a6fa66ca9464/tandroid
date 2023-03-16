@@ -1578,14 +1578,17 @@ public class ChatObject {
                     tLRPC$TL_groupCallParticipant2.videoIndex = 0;
                 }
             }
-            Collections.sort(this.sortedParticipants, new Comparator() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda7
-                @Override // java.util.Comparator
-                public final int compare(Object obj, Object obj2) {
-                    int lambda$sortParticipants$12;
-                    lambda$sortParticipants$12 = ChatObject.Call.this.lambda$sortParticipants$12(selfId, canManageCalls, (TLRPC$TL_groupCallParticipant) obj, (TLRPC$TL_groupCallParticipant) obj2);
-                    return lambda$sortParticipants$12;
-                }
-            });
+            try {
+                Collections.sort(this.sortedParticipants, new Comparator() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda7
+                    @Override // java.util.Comparator
+                    public final int compare(Object obj, Object obj2) {
+                        int lambda$sortParticipants$12;
+                        lambda$sortParticipants$12 = ChatObject.Call.this.lambda$sortParticipants$12(selfId, canManageCalls, (TLRPC$TL_groupCallParticipant) obj, (TLRPC$TL_groupCallParticipant) obj2);
+                        return lambda$sortParticipants$12;
+                    }
+                });
+            } catch (Exception unused) {
+            }
             if (this.sortedParticipants.isEmpty()) {
                 tLRPC$TL_groupCallParticipant = null;
             } else {

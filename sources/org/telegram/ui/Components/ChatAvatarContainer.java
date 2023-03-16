@@ -1180,6 +1180,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         sb.append("\n");
         sb.append(this.subtitleTextView.getText());
         accessibilityNodeInfo.setContentDescription(sb);
+        setContentDescription(sb);
         if (!accessibilityNodeInfo.isClickable() || Build.VERSION.SDK_INT < 21) {
             return;
         }

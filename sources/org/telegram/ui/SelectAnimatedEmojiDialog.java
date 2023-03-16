@@ -5027,12 +5027,18 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             if (this.categoriesListView != null || getContext() == null) {
                 return;
             }
-            if (SelectAnimatedEmojiDialog.this.type == 1 || SelectAnimatedEmojiDialog.this.type == 0 || SelectAnimatedEmojiDialog.this.type == 4) {
-                int i = SelectAnimatedEmojiDialog.this.type;
-                StickerCategoriesListView stickerCategoriesListView = new StickerCategoriesListView(getContext(), i != 0 ? i != 4 ? 0 : 2 : 1, SelectAnimatedEmojiDialog.this.resourcesProvider) { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.SearchBox.5
+            int i = 2;
+            if (SelectAnimatedEmojiDialog.this.type == 1 || SelectAnimatedEmojiDialog.this.type == 2 || SelectAnimatedEmojiDialog.this.type == 0 || SelectAnimatedEmojiDialog.this.type == 4) {
+                int i2 = SelectAnimatedEmojiDialog.this.type;
+                if (i2 == 0) {
+                    i = 1;
+                } else if (i2 != 4) {
+                    i = 0;
+                }
+                StickerCategoriesListView stickerCategoriesListView = new StickerCategoriesListView(getContext(), i, SelectAnimatedEmojiDialog.this.resourcesProvider) { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.SearchBox.5
                     @Override // org.telegram.ui.Components.StickerCategoriesListView
-                    public void selectCategory(int i2) {
-                        super.selectCategory(i2);
+                    public void selectCategory(int i3) {
+                        super.selectCategory(i3);
                         SearchBox.this.updateButton();
                     }
 

@@ -559,6 +559,10 @@ public class MessageObject {
         return (tLRPC$MessageAction instanceof TLRPC$TL_messageActionTopicCreate) || (tLRPC$MessageAction instanceof TLRPC$TL_messageActionTopicEdit);
     }
 
+    public static boolean canCreateStripedThubms() {
+        return SharedConfig.getDevicePerformanceClass() == 2;
+    }
+
     public int getEmojiOnlyCount() {
         return this.emojiOnlyCount;
     }
@@ -1592,7 +1596,7 @@ public class MessageObject {
 
     public void createStrippedThumb() {
         if (this.photoThumbs != null) {
-            if (SharedConfig.getDevicePerformanceClass() == 2 || hasExtendedMediaPreview()) {
+            if (canCreateStripedThubms() || hasExtendedMediaPreview()) {
                 try {
                     int size = this.photoThumbs.size();
                     for (int i = 0; i < size; i++) {
@@ -3883,7 +3887,6 @@ public class MessageObject {
 
     public void measureInlineBotButtons() {
         TLRPC$TL_messageReactions tLRPC$TL_messageReactions;
-        int i;
         CharSequence replaceEmoji;
         if (this.isRestrictedMessage) {
             return;
@@ -3898,60 +3901,38 @@ public class MessageObject {
                 sb.setLength(0);
             }
         }
-        if ((this.messageOwner.reply_markup instanceof TLRPC$TL_replyInlineMarkup) && !hasExtendedMedia()) {
-            for (int i2 = 0; i2 < this.messageOwner.reply_markup.rows.size(); i2++) {
-                TLRPC$TL_keyboardButtonRow tLRPC$TL_keyboardButtonRow = this.messageOwner.reply_markup.rows.get(i2);
-                int size = tLRPC$TL_keyboardButtonRow.buttons.size();
-                int i3 = 0;
-                for (int i4 = 0; i4 < size; i4++) {
-                    TLRPC$KeyboardButton tLRPC$KeyboardButton = tLRPC$TL_keyboardButtonRow.buttons.get(i4);
-                    StringBuilder sb2 = this.botButtonsLayout;
-                    sb2.append(i2);
-                    sb2.append(i4);
-                    if ((tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButtonBuy) && (getMedia(this.messageOwner).flags & 4) != 0) {
-                        replaceEmoji = LocaleController.getString("PaymentReceipt", R.string.PaymentReceipt);
-                    } else {
-                        String str = tLRPC$KeyboardButton.text;
-                        if (str == null) {
-                            str = "";
-                        }
-                        replaceEmoji = Emoji.replaceEmoji(str, Theme.chat_msgBotButtonPaint.getFontMetricsInt(), AndroidUtilities.dp(15.0f), false);
-                    }
-                    StaticLayout staticLayout = new StaticLayout(replaceEmoji, Theme.chat_msgBotButtonPaint, AndroidUtilities.dp(2000.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-                    if (staticLayout.getLineCount() > 0) {
-                        float lineWidth = staticLayout.getLineWidth(0);
-                        float lineLeft = staticLayout.getLineLeft(0);
-                        if (lineLeft < lineWidth) {
-                            lineWidth -= lineLeft;
-                        }
-                        i3 = Math.max(i3, ((int) Math.ceil(lineWidth)) + AndroidUtilities.dp(4.0f));
-                    }
-                }
-                this.wantedBotKeyboardWidth = Math.max(this.wantedBotKeyboardWidth, ((i3 + AndroidUtilities.dp(12.0f)) * size) + (AndroidUtilities.dp(5.0f) * (size - 1)));
-            }
+        if (!(this.messageOwner.reply_markup instanceof TLRPC$TL_replyInlineMarkup) || hasExtendedMedia()) {
             return;
         }
-        TLRPC$TL_messageReactions tLRPC$TL_messageReactions2 = this.messageOwner.reactions;
-        if (tLRPC$TL_messageReactions2 != null) {
-            int size2 = tLRPC$TL_messageReactions2.results.size();
-            for (int i5 = 0; i5 < size2; i5++) {
-                TLRPC$ReactionCount tLRPC$ReactionCount = this.messageOwner.reactions.results.get(i5);
-                StringBuilder sb3 = this.botButtonsLayout;
-                sb3.append(0);
-                sb3.append(i5);
-                StaticLayout staticLayout2 = new StaticLayout(Emoji.replaceEmoji(String.format("%d %s", Integer.valueOf(tLRPC$ReactionCount.count), tLRPC$ReactionCount.reaction), Theme.chat_msgBotButtonPaint.getFontMetricsInt(), AndroidUtilities.dp(15.0f), false), Theme.chat_msgBotButtonPaint, AndroidUtilities.dp(2000.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-                if (staticLayout2.getLineCount() > 0) {
-                    float lineWidth2 = staticLayout2.getLineWidth(0);
-                    float lineLeft2 = staticLayout2.getLineLeft(0);
-                    if (lineLeft2 < lineWidth2) {
-                        lineWidth2 -= lineLeft2;
-                    }
-                    i = Math.max(0, ((int) Math.ceil(lineWidth2)) + AndroidUtilities.dp(4.0f));
+        for (int i = 0; i < this.messageOwner.reply_markup.rows.size(); i++) {
+            TLRPC$TL_keyboardButtonRow tLRPC$TL_keyboardButtonRow = this.messageOwner.reply_markup.rows.get(i);
+            int size = tLRPC$TL_keyboardButtonRow.buttons.size();
+            int i2 = 0;
+            for (int i3 = 0; i3 < size; i3++) {
+                TLRPC$KeyboardButton tLRPC$KeyboardButton = tLRPC$TL_keyboardButtonRow.buttons.get(i3);
+                StringBuilder sb2 = this.botButtonsLayout;
+                sb2.append(i);
+                sb2.append(i3);
+                if ((tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButtonBuy) && (getMedia(this.messageOwner).flags & 4) != 0) {
+                    replaceEmoji = LocaleController.getString("PaymentReceipt", R.string.PaymentReceipt);
                 } else {
-                    i = 0;
+                    String str = tLRPC$KeyboardButton.text;
+                    if (str == null) {
+                        str = "";
+                    }
+                    replaceEmoji = Emoji.replaceEmoji(str, Theme.chat_msgBotButtonPaint.getFontMetricsInt(), AndroidUtilities.dp(15.0f), false);
                 }
-                this.wantedBotKeyboardWidth = Math.max(this.wantedBotKeyboardWidth, ((i + AndroidUtilities.dp(12.0f)) * size2) + (AndroidUtilities.dp(5.0f) * (size2 - 1)));
+                StaticLayout staticLayout = new StaticLayout(replaceEmoji, Theme.chat_msgBotButtonPaint, AndroidUtilities.dp(2000.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                if (staticLayout.getLineCount() > 0) {
+                    float lineWidth = staticLayout.getLineWidth(0);
+                    float lineLeft = staticLayout.getLineLeft(0);
+                    if (lineLeft < lineWidth) {
+                        lineWidth -= lineLeft;
+                    }
+                    i2 = Math.max(i2, ((int) Math.ceil(lineWidth)) + AndroidUtilities.dp(4.0f));
+                }
             }
+            this.wantedBotKeyboardWidth = Math.max(this.wantedBotKeyboardWidth, ((i2 + AndroidUtilities.dp(12.0f)) * size) + (AndroidUtilities.dp(5.0f) * (size - 1)));
         }
     }
 

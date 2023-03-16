@@ -277,6 +277,7 @@ import org.telegram.ui.Components.FragmentContextView;
 import org.telegram.ui.Components.HintView;
 import org.telegram.ui.Components.IdenticonDrawable;
 import org.telegram.ui.Components.ImageUpdater;
+import org.telegram.ui.Components.InstantCameraView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.Premium.GiftPremiumBottomSheet;
@@ -4409,7 +4410,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (i4 >= 2 || BuildVars.DEBUG_PRIVATE_VERSION) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this.getParentActivity(), ProfileActivity.this.resourcesProvider);
                 builder.setTitle(LocaleController.getString("DebugMenu", R.string.DebugMenu));
-                CharSequence[] charSequenceArr = new CharSequence[21];
+                CharSequence[] charSequenceArr = new CharSequence[22];
                 charSequenceArr[0] = LocaleController.getString("DebugMenuImportContacts", R.string.DebugMenuImportContacts);
                 charSequenceArr[1] = LocaleController.getString("DebugMenuReloadContacts", R.string.DebugMenuReloadContacts);
                 charSequenceArr[2] = LocaleController.getString("DebugMenuResetContacts", R.string.DebugMenuResetContacts);
@@ -4462,6 +4463,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 charSequenceArr[18] = z2 ? "Force remove premium suggestions" : null;
                 charSequenceArr[19] = z2 ? "Share device info" : null;
                 charSequenceArr[20] = z2 ? "Force performance class" : null;
+                charSequenceArr[21] = (!z2 || InstantCameraView.allowBigSizeCameraDebug()) ? null : !SharedConfig.bigCameraForRound ? "Force big camera for round" : "Disable big camera for round";
                 final Context context = this.val$context;
                 builder.setItems(charSequenceArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$15$$ExternalSyntheticLambda1
                     @Override // android.content.DialogInterface.OnClickListener
@@ -4567,33 +4569,38 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                 });
             } else if (i != 19) {
-                if (i == 20) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this.getParentActivity(), ProfileActivity.this.resourcesProvider);
-                    builder.setTitle("Force performance class");
-                    int devicePerformanceClass = SharedConfig.getDevicePerformanceClass();
-                    final int measureDevicePerformanceClass = SharedConfig.measureDevicePerformanceClass();
-                    CharSequence[] charSequenceArr = new CharSequence[3];
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(devicePerformanceClass == 2 ? "**HIGH**" : "HIGH");
-                    sb.append(measureDevicePerformanceClass == 2 ? " (measured)" : "");
-                    charSequenceArr[0] = AndroidUtilities.replaceTags(sb.toString());
-                    StringBuilder sb2 = new StringBuilder();
-                    sb2.append(devicePerformanceClass == 1 ? "**AVERAGE**" : "AVERAGE");
-                    sb2.append(measureDevicePerformanceClass == 1 ? " (measured)" : "");
-                    charSequenceArr[1] = AndroidUtilities.replaceTags(sb2.toString());
-                    StringBuilder sb3 = new StringBuilder();
-                    sb3.append(devicePerformanceClass == 0 ? "**LOW**" : "LOW");
-                    sb3.append(measureDevicePerformanceClass != 0 ? "" : " (measured)");
-                    charSequenceArr[2] = AndroidUtilities.replaceTags(sb3.toString());
-                    builder.setItems(charSequenceArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$15$$ExternalSyntheticLambda0
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface2, int i3) {
-                            ProfileActivity.15.lambda$onItemClick$2(measureDevicePerformanceClass, dialogInterface2, i3);
-                        }
-                    });
-                    builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                    builder.show();
+                if (i != 20) {
+                    if (i == 21) {
+                        SharedConfig.toggleRoundCamera();
+                        return;
+                    }
+                    return;
                 }
+                AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this.getParentActivity(), ProfileActivity.this.resourcesProvider);
+                builder.setTitle("Force performance class");
+                int devicePerformanceClass = SharedConfig.getDevicePerformanceClass();
+                final int measureDevicePerformanceClass = SharedConfig.measureDevicePerformanceClass();
+                CharSequence[] charSequenceArr = new CharSequence[3];
+                StringBuilder sb = new StringBuilder();
+                sb.append(devicePerformanceClass == 2 ? "**HIGH**" : "HIGH");
+                sb.append(measureDevicePerformanceClass == 2 ? " (measured)" : "");
+                charSequenceArr[0] = AndroidUtilities.replaceTags(sb.toString());
+                StringBuilder sb2 = new StringBuilder();
+                sb2.append(devicePerformanceClass == 1 ? "**AVERAGE**" : "AVERAGE");
+                sb2.append(measureDevicePerformanceClass == 1 ? " (measured)" : "");
+                charSequenceArr[1] = AndroidUtilities.replaceTags(sb2.toString());
+                StringBuilder sb3 = new StringBuilder();
+                sb3.append(devicePerformanceClass == 0 ? "**LOW**" : "LOW");
+                sb3.append(measureDevicePerformanceClass != 0 ? "" : " (measured)");
+                charSequenceArr[2] = AndroidUtilities.replaceTags(sb3.toString());
+                builder.setItems(charSequenceArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$15$$ExternalSyntheticLambda0
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public final void onClick(DialogInterface dialogInterface2, int i3) {
+                        ProfileActivity.15.lambda$onItemClick$2(measureDevicePerformanceClass, dialogInterface2, i3);
+                    }
+                });
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                builder.show();
             } else {
                 int i3 = ConnectionsManager.CPU_COUNT;
                 String str2 = "activity";

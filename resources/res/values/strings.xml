@@ -3038,6 +3038,16 @@
     <string name="LoginAccessibilityCountryCode">Country code</string>
     <string name="LoginAttempts">Incomplete login attempts</string>
     <string name="LoginAttemptsInfo">The devices above have no access to your messages. The code was entered correctly, but no correct password was given.</string>
+    <string name="LoginCantAccessThisEmail">Can\'t access this email?</string>
+    <string name="LoginEmailResetButton">Reset Login Email</string>
+    <string name="LoginEmailResetInDoublePattern">%1$s and %2$s</string>
+    <string name="LoginEmailResetInSinglePattern">%1$s</string>
+    <string name="LoginEmailResetInTime">Email will be reset in %1$s.\n*Reset now via SMS*</string>
+    <string name="LoginEmailResetMessage">You can change your login email if you are logged into Telegram from another device. Otherwise, if you don\'t have access to email %1$s, you can reset this email with an **SMS** code in **%2$s**.</string>
+    <string name="LoginEmailResetPleaseWait">Resetting email, please wait...</string>
+    <string name="LoginEmailResetPremiumRequiredMessage">Due to the high cost of SMS in your country, you need a **Telegram Premium** account to immediately reset this email via an SMS code.\n\nYou can ask a friend to gift a Premium subscription for your account **%1$s**</string>
+    <string name="LoginEmailResetPremiumRequiredTitle">Telegram Premium Required</string>
+    <string name="LoginEmailResetTitle">Reset Email</string>
     <string name="LoginOrSingInWithGoogle">or</string>
     <string name="LoginPassword">Password</string>
     <string name="LoginPasswordText">You have Two-Step Verification enabled, so your account is protected with an additional password.</string>
@@ -3971,6 +3981,7 @@
     <string name="PasswordReset">Password deactivated</string>
     <string name="PasteFromClipboard">Paste from clipboard</string>
     <string name="PauseAll">Pause all</string>
+    <string name="PauseMusicOnMedia">Pause music while playing media</string>
     <string name="PauseMusicOnRecord">Pause music while recording</string>
     <string name="PaymentAppNotFoundForDeeplink">No app found to handle this deep link.</string>
     <string name="PaymentBillingAddress">Billing address</string>
@@ -4417,6 +4428,7 @@
     <string name="ProximityTooltioUser">Alert when %1$s is close</string>
     <string name="Proxy">Proxy</string>
     <string name="ProxyAddedSuccess">Proxy added.</string>
+    <string name="ProxyBottomSheetChecking">Checking</string>
     <string name="ProxyConnections">Connections</string>
     <string name="ProxyDetails">Proxy Details</string>
     <string name="ProxyRotationTimeoutInfo">You can configure the timeout for connecting to the nearest active proxy if the current one stops working.</string>
@@ -4499,6 +4511,7 @@
     <string name="QuizWellDoneInfo">You chose the right answer.</string>
     <string name="QuizWrongAnswer">Wrong answer!</string>
     <string name="QuizWrongAnswerInfo">You missed the correct option.</string>
+    <string name="RaiseToListen">Raise to Listen</string>
     <string name="RaiseToSpeak">Raise to Speak</string>
     <string name="RateCallDistorted">Speech was distorted</string>
     <string name="RateCallDropped">Call ended unexpectedly</string>

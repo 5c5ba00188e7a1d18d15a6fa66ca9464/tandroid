@@ -12,6 +12,8 @@ public abstract class TLRPC$auth_SentCodeType extends TLObject {
     public String prefix;
     public int push_timeout;
     public String receipt;
+    public int reset_available_period;
+    public int reset_pending_date;
     public String url;
     public boolean verifiedFirebase;
 
@@ -146,6 +148,45 @@ public abstract class TLRPC$auth_SentCodeType extends TLObject {
                     }
                 };
                 break;
+            case -196020837:
+                tLRPC$auth_SentCodeType = new TLRPC$auth_SentCodeType() { // from class: org.telegram.tgnet.TLRPC$TL_auth_sentCodeTypeEmailCode
+                    public static int constructor = -196020837;
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                        int readInt32 = abstractSerializedData2.readInt32(z2);
+                        this.flags = readInt32;
+                        this.apple_signin_allowed = (readInt32 & 1) != 0;
+                        this.google_signin_allowed = (readInt32 & 2) != 0;
+                        this.email_pattern = abstractSerializedData2.readString(z2);
+                        this.length = abstractSerializedData2.readInt32(z2);
+                        if ((this.flags & 8) != 0) {
+                            this.reset_available_period = abstractSerializedData2.readInt32(z2);
+                        }
+                        if ((this.flags & 16) != 0) {
+                            this.reset_pending_date = abstractSerializedData2.readInt32(z2);
+                        }
+                    }
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(constructor);
+                        int i2 = this.apple_signin_allowed ? this.flags | 1 : this.flags & (-2);
+                        this.flags = i2;
+                        int i3 = this.google_signin_allowed ? i2 | 2 : i2 & (-3);
+                        this.flags = i3;
+                        abstractSerializedData2.writeInt32(i3);
+                        abstractSerializedData2.writeString(this.email_pattern);
+                        abstractSerializedData2.writeInt32(this.length);
+                        if ((this.flags & 8) != 0) {
+                            abstractSerializedData2.writeInt32(this.reset_available_period);
+                        }
+                        if ((this.flags & 16) != 0) {
+                            abstractSerializedData2.writeInt32(this.reset_pending_date);
+                        }
+                    }
+                };
+                break;
             case 1035688326:
                 tLRPC$auth_SentCodeType = new TLRPC$auth_SentCodeType() { // from class: org.telegram.tgnet.TLRPC$TL_auth_sentCodeTypeApp
                     public static int constructor = 1035688326;
@@ -175,39 +216,6 @@ public abstract class TLRPC$auth_SentCodeType extends TLObject {
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
                         abstractSerializedData2.writeInt32(constructor);
                         abstractSerializedData2.writeInt32(this.length);
-                    }
-                };
-                break;
-            case 1511364673:
-                tLRPC$auth_SentCodeType = new TLRPC$auth_SentCodeType() { // from class: org.telegram.tgnet.TLRPC$TL_auth_sentCodeTypeEmailCode
-                    public static int constructor = 1511364673;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        int readInt32 = abstractSerializedData2.readInt32(z2);
-                        this.flags = readInt32;
-                        this.apple_signin_allowed = (readInt32 & 1) != 0;
-                        this.google_signin_allowed = (readInt32 & 2) != 0;
-                        this.email_pattern = abstractSerializedData2.readString(z2);
-                        this.length = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & 4) != 0) {
-                            this.next_phone_login_date = abstractSerializedData2.readInt32(z2);
-                        }
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        int i2 = this.apple_signin_allowed ? this.flags | 1 : this.flags & (-2);
-                        this.flags = i2;
-                        int i3 = this.google_signin_allowed ? i2 | 2 : i2 & (-3);
-                        this.flags = i3;
-                        abstractSerializedData2.writeInt32(i3);
-                        abstractSerializedData2.writeString(this.email_pattern);
-                        abstractSerializedData2.writeInt32(this.length);
-                        if ((this.flags & 4) != 0) {
-                            abstractSerializedData2.writeInt32(this.next_phone_login_date);
-                        }
                     }
                 };
                 break;

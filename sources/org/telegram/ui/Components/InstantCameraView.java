@@ -106,7 +106,7 @@ import org.webrtc.MediaStreamTrack;
 @TargetApi(18)
 /* loaded from: classes3.dex */
 public class InstantCameraView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
-    private static final int[] ALLOW_BIG_CAMERA_WHITELIST = {285904780};
+    private static final int[] ALLOW_BIG_CAMERA_WHITELIST = {285904780, -1394191079};
     private float animationTranslationY;
     private AnimatorSet animatorSet;
     private org.telegram.messenger.camera.Size aspectRatio;
@@ -1080,6 +1080,24 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     }
 
     private boolean allowBigSizeCamera() {
+        if (SharedConfig.bigCameraForRound || Math.max(SharedConfig.getDevicePerformanceClass(), SharedConfig.getLegacyDevicePerformanceClass()) == 2) {
+            return true;
+        }
+        int hashCode = (Build.MANUFACTURER + " " + Build.DEVICE).toUpperCase().hashCode();
+        int i = 0;
+        while (true) {
+            int[] iArr = ALLOW_BIG_CAMERA_WHITELIST;
+            if (i >= iArr.length) {
+                return false;
+            }
+            if (iArr[i] == hashCode) {
+                return true;
+            }
+            i++;
+        }
+    }
+
+    public static boolean allowBigSizeCameraDebug() {
         if (Math.max(SharedConfig.getDevicePerformanceClass(), SharedConfig.getLegacyDevicePerformanceClass()) == 2) {
             return true;
         }

@@ -293,7 +293,7 @@ public class FileLoader extends BaseController {
         if (file == null && i != 4) {
             file = mediaDirs.get(4);
         }
-        if (file != null) {
+        if (BuildVars.NO_SCOPED_STORAGE && file != null) {
             try {
                 if (!file.isDirectory()) {
                     file.mkdirs();
@@ -2040,7 +2040,11 @@ public class FileLoader extends BaseController {
     }
 
     public void checkMediaExistance(ArrayList<MessageObject> arrayList) {
-        getFileDatabase().checkMediaExistance(arrayList);
+        getFileDatabase().checkMediaExistance(arrayList, null);
+    }
+
+    public void checkMediaExistance(ArrayList<MessageObject> arrayList, CountDownLatch countDownLatch) {
+        getFileDatabase().checkMediaExistance(arrayList, countDownLatch);
     }
 
     public void clearRecentDownloadedFiles() {

@@ -153,6 +153,12 @@ public class SpoilersTextView extends TextView {
         canvas.restore();
     }
 
+    @Override // android.widget.TextView, android.view.View
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        super.onLayout(z, i, i2, i3, i4);
+        invalidateSpoilers();
+    }
+
     private void invalidateSpoilers() {
         List<SpoilerEffect> list = this.spoilers;
         if (list == null) {

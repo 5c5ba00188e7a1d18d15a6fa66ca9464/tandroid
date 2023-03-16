@@ -49,6 +49,7 @@ import android.telephony.TelephonyManager;
 import android.text.Layout;
 import android.text.Selection;
 import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.SpannedString;
@@ -133,6 +134,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.telegram.PhoneFormat.PhoneFormat;
@@ -163,6 +165,7 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.BackgroundGradientDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
+import org.telegram.ui.Components.EllipsizeSpanAnimator;
 import org.telegram.ui.Components.ForegroundColorSpanThemable;
 import org.telegram.ui.Components.ForegroundDetector;
 import org.telegram.ui.Components.HideViewAfterAnimation;
@@ -3392,15 +3395,15 @@ public class AndroidUtilities {
         return openForView(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$Document, true), FileLoader.getAttachFileName(tLRPC$Document), tLRPC$Document.mime_type, activity, null);
     }
 
-    public static SpannableStringBuilder formatSpannableSimple(String str, CharSequence... charSequenceArr) {
-        return formatSpannable(str, AndroidUtilities$$ExternalSyntheticLambda17.INSTANCE, charSequenceArr);
+    public static SpannableStringBuilder formatSpannableSimple(CharSequence charSequence, CharSequence... charSequenceArr) {
+        return formatSpannable(charSequence, AndroidUtilities$$ExternalSyntheticLambda17.INSTANCE, charSequenceArr);
     }
 
-    public static SpannableStringBuilder formatSpannable(String str, CharSequence... charSequenceArr) {
-        if (str.contains("%s")) {
-            return formatSpannableSimple(str, charSequenceArr);
+    public static SpannableStringBuilder formatSpannable(CharSequence charSequence, CharSequence... charSequenceArr) {
+        if (charSequence.toString().contains("%s")) {
+            return formatSpannableSimple(charSequence, charSequenceArr);
         }
-        return formatSpannable(str, AndroidUtilities$$ExternalSyntheticLambda16.INSTANCE, charSequenceArr);
+        return formatSpannable(charSequence, AndroidUtilities$$ExternalSyntheticLambda16.INSTANCE, charSequenceArr);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -3408,17 +3411,18 @@ public class AndroidUtilities {
         return "%" + (num.intValue() + 1) + "$s";
     }
 
-    public static SpannableStringBuilder formatSpannable(String str, GenericProvider<Integer, String> genericProvider, CharSequence... charSequenceArr) {
-        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(str);
+    public static SpannableStringBuilder formatSpannable(CharSequence charSequence, GenericProvider<Integer, String> genericProvider, CharSequence... charSequenceArr) {
+        String charSequence2 = charSequence.toString();
+        SpannableStringBuilder valueOf = SpannableStringBuilder.valueOf(charSequence);
         for (int i = 0; i < charSequenceArr.length; i++) {
             String provide = genericProvider.provide(Integer.valueOf(i));
-            int indexOf = str.indexOf(provide);
+            int indexOf = charSequence2.indexOf(provide);
             if (indexOf != -1) {
-                spannableStringBuilder.replace(indexOf, provide.length() + indexOf, charSequenceArr[i]);
-                str = str.substring(0, indexOf) + charSequenceArr[i].toString() + str.substring(indexOf + provide.length());
+                valueOf.replace(indexOf, provide.length() + indexOf, charSequenceArr[i]);
+                charSequence2 = charSequence2.substring(0, indexOf) + charSequenceArr[i].toString() + charSequence2.substring(indexOf + provide.length());
             }
         }
-        return spannableStringBuilder;
+        return valueOf;
     }
 
     public static CharSequence replaceTwoNewLinesToOne(CharSequence charSequence) {
@@ -3716,7 +3720,7 @@ public class AndroidUtilities {
     }
 
     public static void showProxyAlert(final Activity activity, final String str, final String str2, final String str3, final String str4, final String str5) {
-        String str6;
+        CharSequence charSequence;
         BottomSheet.Builder builder = new BottomSheet.Builder(activity);
         final Runnable dismissRunnable = builder.getDismissRunnable();
         builder.setApplyTopPadding(false);
@@ -3724,6 +3728,8 @@ public class AndroidUtilities {
         LinearLayout linearLayout = new LinearLayout(activity);
         builder.setCustomView(linearLayout);
         linearLayout.setOrientation(1);
+        int i = 3;
+        int i2 = 5;
         if (!TextUtils.isEmpty(str5)) {
             TextView textView = new TextView(activity);
             textView.setText(LocaleController.getString("UseProxyTelegramInfo2", R.string.UseProxyTelegramInfo2));
@@ -3735,36 +3741,65 @@ public class AndroidUtilities {
             view.setBackgroundColor(Theme.getColor("divider"));
             linearLayout.addView(view, new LinearLayout.LayoutParams(-1, 1));
         }
-        for (int i = 0; i < 6; i++) {
-            String str7 = null;
-            if (i == 0) {
-                str6 = LocaleController.getString("UseProxyAddress", R.string.UseProxyAddress);
-                str7 = str;
-            } else if (i == 1) {
-                str7 = "" + str2;
-                str6 = LocaleController.getString("UseProxyPort", R.string.UseProxyPort);
-            } else if (i == 2) {
-                str6 = LocaleController.getString("UseProxySecret", R.string.UseProxySecret);
-                str7 = str5;
-            } else if (i == 3) {
-                str6 = LocaleController.getString("UseProxyUsername", R.string.UseProxyUsername);
-                str7 = str3;
-            } else if (i == 4) {
-                str6 = LocaleController.getString("UseProxyPassword", R.string.UseProxyPassword);
-                str7 = str4;
-            } else if (i == 5) {
-                str7 = LocaleController.getString(R.string.Checking);
-                str6 = LocaleController.getString(R.string.ProxyStatus);
+        int i3 = 0;
+        while (i3 < 6) {
+            CharSequence charSequence2 = null;
+            if (i3 == 0) {
+                charSequence = LocaleController.getString("UseProxyAddress", R.string.UseProxyAddress);
+                charSequence2 = str;
+            } else if (i3 == 1) {
+                charSequence2 = "" + str2;
+                charSequence = LocaleController.getString("UseProxyPort", R.string.UseProxyPort);
+            } else if (i3 == 2) {
+                charSequence = LocaleController.getString("UseProxySecret", R.string.UseProxySecret);
+                charSequence2 = str5;
+            } else if (i3 == i) {
+                charSequence = LocaleController.getString("UseProxyUsername", R.string.UseProxyUsername);
+                charSequence2 = str3;
+            } else if (i3 == 4) {
+                charSequence = LocaleController.getString("UseProxyPassword", R.string.UseProxyPassword);
+                charSequence2 = str4;
+            } else if (i3 == i2) {
+                charSequence2 = LocaleController.getString(R.string.ProxyBottomSheetChecking);
+                charSequence = LocaleController.getString(R.string.ProxyStatus);
             } else {
-                str6 = null;
+                charSequence = null;
             }
-            if (!TextUtils.isEmpty(str7)) {
-                final TextDetailSettingsCell textDetailSettingsCell = new TextDetailSettingsCell(activity);
-                textDetailSettingsCell.setTextAndValue(str7, str6, true);
+            if (!TextUtils.isEmpty(charSequence2)) {
+                final AtomicReference atomicReference = new AtomicReference();
+                final TextDetailSettingsCell textDetailSettingsCell = new TextDetailSettingsCell(activity) { // from class: org.telegram.messenger.AndroidUtilities.4
+                    @Override // android.view.ViewGroup, android.view.View
+                    protected void onAttachedToWindow() {
+                        super.onAttachedToWindow();
+                        if (atomicReference.get() != null) {
+                            ((EllipsizeSpanAnimator) atomicReference.get()).onAttachedToWindow();
+                        }
+                    }
+
+                    @Override // android.view.ViewGroup, android.view.View
+                    protected void onDetachedFromWindow() {
+                        super.onDetachedFromWindow();
+                        if (atomicReference.get() != null) {
+                            ((EllipsizeSpanAnimator) atomicReference.get()).onDetachedFromWindow();
+                        }
+                    }
+                };
+                if (i3 == i2) {
+                    SpannableStringBuilder valueOf = SpannableStringBuilder.valueOf(charSequence2);
+                    EllipsizeSpanAnimator ellipsizeSpanAnimator = new EllipsizeSpanAnimator(textDetailSettingsCell);
+                    ellipsizeSpanAnimator.addView(textDetailSettingsCell);
+                    SpannableString spannableString = new SpannableString("...");
+                    ellipsizeSpanAnimator.wrap(spannableString, 0);
+                    valueOf.append((CharSequence) spannableString);
+                    atomicReference.set(ellipsizeSpanAnimator);
+                    textDetailSettingsCell.setTextAndValue(valueOf, charSequence, true);
+                } else {
+                    textDetailSettingsCell.setTextAndValue(charSequence2, charSequence, true);
+                }
                 textDetailSettingsCell.getTextView().setTextColor(Theme.getColor("dialogTextBlack"));
                 textDetailSettingsCell.getValueTextView().setTextColor(Theme.getColor("dialogTextGray3"));
                 linearLayout.addView(textDetailSettingsCell, LayoutHelper.createLinear(-1, -2));
-                if (i == 5) {
+                if (i3 == 5) {
                     try {
                         ConnectionsManager.getInstance(UserConfig.selectedAccount).checkProxy(str, Integer.parseInt(str2), str3, str4, str5, new RequestTimeDelegate() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda18
                             @Override // org.telegram.tgnet.RequestTimeDelegate
@@ -3778,6 +3813,9 @@ public class AndroidUtilities {
                     }
                 }
             }
+            i3++;
+            i = 3;
+            i2 = 5;
         }
         PickerBottomLayout pickerBottomLayout = new PickerBottomLayout(activity, false);
         pickerBottomLayout.setBackgroundColor(Theme.getColor("dialogBackground"));
@@ -4311,7 +4349,7 @@ public class AndroidUtilities {
                     AndroidUtilities.lambda$setNavigationBarColor$15(AndroidUtilities.IntColorCallback.this, window, valueAnimator2);
                 }
             });
-            ofArgb.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.AndroidUtilities.4
+            ofArgb.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.AndroidUtilities.5
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     if (AndroidUtilities.navigationBarColorAnimators != null) {

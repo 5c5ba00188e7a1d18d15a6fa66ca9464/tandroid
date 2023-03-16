@@ -1329,7 +1329,7 @@ public class MediaDataController extends BaseController {
     }
 
     public void preloadDefaultReactions() {
-        if (this.reactionsList == null || this.reactionsCacheGenerated || !LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS)) {
+        if (this.reactionsList == null || this.reactionsCacheGenerated || !LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS) || this.currentAccount != UserConfig.selectedAccount) {
             return;
         }
         this.reactionsCacheGenerated = true;
@@ -3592,7 +3592,9 @@ public class MediaDataController extends BaseController {
             getUserConfig().saveConfig(false);
             processLoadedDiceStickers(getUserConfig().genericAnimationsStickerPack, false, tLRPC$TL_messages_stickerSet, false, (int) (System.currentTimeMillis() / 1000));
             for (int i = 0; i < tLRPC$TL_messages_stickerSet.documents.size(); i++) {
-                preloadImage(ImageLocation.getForDocument(tLRPC$TL_messages_stickerSet.documents.get(i)));
+                if (this.currentAccount == UserConfig.selectedAccount) {
+                    preloadImage(ImageLocation.getForDocument(tLRPC$TL_messages_stickerSet.documents.get(i)));
+                }
             }
         }
     }
@@ -6389,14 +6391,15 @@ public class MediaDataController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x0261  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x0278  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x0291 A[Catch: all -> 0x02cb, TryCatch #2 {all -> 0x02cb, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002a, B:9:0x0045, B:11:0x004b, B:12:0x004f, B:14:0x0055, B:16:0x0077, B:18:0x007d, B:20:0x008d, B:21:0x0090, B:22:0x0096, B:24:0x009c, B:27:0x00a3, B:29:0x00ec, B:31:0x00f7, B:33:0x0100, B:34:0x0105, B:35:0x0110, B:37:0x0116, B:39:0x0131, B:42:0x015b, B:47:0x0167, B:49:0x0173, B:55:0x0186, B:74:0x0263, B:77:0x027a, B:79:0x0291, B:81:0x0296, B:83:0x02a9, B:85:0x02b6, B:87:0x02c1, B:86:0x02bc, B:82:0x029e, B:72:0x025d, B:50:0x0176, B:52:0x017c, B:40:0x0145, B:30:0x00f2), top: B:96:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x0296 A[Catch: all -> 0x02cb, TryCatch #2 {all -> 0x02cb, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002a, B:9:0x0045, B:11:0x004b, B:12:0x004f, B:14:0x0055, B:16:0x0077, B:18:0x007d, B:20:0x008d, B:21:0x0090, B:22:0x0096, B:24:0x009c, B:27:0x00a3, B:29:0x00ec, B:31:0x00f7, B:33:0x0100, B:34:0x0105, B:35:0x0110, B:37:0x0116, B:39:0x0131, B:42:0x015b, B:47:0x0167, B:49:0x0173, B:55:0x0186, B:74:0x0263, B:77:0x027a, B:79:0x0291, B:81:0x0296, B:83:0x02a9, B:85:0x02b6, B:87:0x02c1, B:86:0x02bc, B:82:0x029e, B:72:0x025d, B:50:0x0176, B:52:0x017c, B:40:0x0145, B:30:0x00f2), top: B:96:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x029e A[Catch: all -> 0x02cb, TryCatch #2 {all -> 0x02cb, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002a, B:9:0x0045, B:11:0x004b, B:12:0x004f, B:14:0x0055, B:16:0x0077, B:18:0x007d, B:20:0x008d, B:21:0x0090, B:22:0x0096, B:24:0x009c, B:27:0x00a3, B:29:0x00ec, B:31:0x00f7, B:33:0x0100, B:34:0x0105, B:35:0x0110, B:37:0x0116, B:39:0x0131, B:42:0x015b, B:47:0x0167, B:49:0x0173, B:55:0x0186, B:74:0x0263, B:77:0x027a, B:79:0x0291, B:81:0x0296, B:83:0x02a9, B:85:0x02b6, B:87:0x02c1, B:86:0x02bc, B:82:0x029e, B:72:0x025d, B:50:0x0176, B:52:0x017c, B:40:0x0145, B:30:0x00f2), top: B:96:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x02b6 A[Catch: all -> 0x02cb, TryCatch #2 {all -> 0x02cb, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002a, B:9:0x0045, B:11:0x004b, B:12:0x004f, B:14:0x0055, B:16:0x0077, B:18:0x007d, B:20:0x008d, B:21:0x0090, B:22:0x0096, B:24:0x009c, B:27:0x00a3, B:29:0x00ec, B:31:0x00f7, B:33:0x0100, B:34:0x0105, B:35:0x0110, B:37:0x0116, B:39:0x0131, B:42:0x015b, B:47:0x0167, B:49:0x0173, B:55:0x0186, B:74:0x0263, B:77:0x027a, B:79:0x0291, B:81:0x0296, B:83:0x02a9, B:85:0x02b6, B:87:0x02c1, B:86:0x02bc, B:82:0x029e, B:72:0x025d, B:50:0x0176, B:52:0x017c, B:40:0x0145, B:30:0x00f2), top: B:96:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x02bc A[Catch: all -> 0x02cb, TryCatch #2 {all -> 0x02cb, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002a, B:9:0x0045, B:11:0x004b, B:12:0x004f, B:14:0x0055, B:16:0x0077, B:18:0x007d, B:20:0x008d, B:21:0x0090, B:22:0x0096, B:24:0x009c, B:27:0x00a3, B:29:0x00ec, B:31:0x00f7, B:33:0x0100, B:34:0x0105, B:35:0x0110, B:37:0x0116, B:39:0x0131, B:42:0x015b, B:47:0x0167, B:49:0x0173, B:55:0x0186, B:74:0x0263, B:77:0x027a, B:79:0x0291, B:81:0x0296, B:83:0x02a9, B:85:0x02b6, B:87:0x02c1, B:86:0x02bc, B:82:0x029e, B:72:0x025d, B:50:0x0176, B:52:0x017c, B:40:0x0145, B:30:0x00f2), top: B:96:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x01b6 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x01d2  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x01ea  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x0209 A[Catch: all -> 0x0231, TryCatch #0 {all -> 0x0231, blocks: (B:29:0x0101, B:47:0x01d3, B:50:0x01ec, B:52:0x0209, B:54:0x020e, B:56:0x0221, B:55:0x0216, B:45:0x01ce), top: B:63:0x0101 }] */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x020e A[Catch: all -> 0x0231, TryCatch #0 {all -> 0x0231, blocks: (B:29:0x0101, B:47:0x01d3, B:50:0x01ec, B:52:0x0209, B:54:0x020e, B:56:0x0221, B:55:0x0216, B:45:0x01ce), top: B:63:0x0101 }] */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0216 A[Catch: all -> 0x0231, TryCatch #0 {all -> 0x0231, blocks: (B:29:0x0101, B:47:0x01d3, B:50:0x01ec, B:52:0x0209, B:54:0x020e, B:56:0x0221, B:55:0x0216, B:45:0x01ce), top: B:63:0x0101 }] */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x012d A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Type inference failed for: r3v4 */
+    /* JADX WARN: Type inference failed for: r3v5, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v6 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -6406,56 +6409,26 @@ public class MediaDataController extends BaseController {
         String str;
         TLRPC$FileLocation tLRPC$FileLocation;
         Bitmap bitmap;
-        Bitmap bitmap2;
-        String str2;
-        ArrayList arrayList2 = arrayList;
         try {
             int i = 0;
             if (SharedConfig.directShareHash == null) {
                 SharedConfig.directShareHash = UUID.randomUUID().toString();
                 ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0).edit().putString("directShareHash2", SharedConfig.directShareHash).commit();
             }
-            List<ShortcutInfoCompat> dynamicShortcuts = ShortcutManagerCompat.getDynamicShortcuts(ApplicationLoader.applicationContext);
-            ArrayList arrayList3 = new ArrayList();
-            ArrayList arrayList4 = new ArrayList();
-            ArrayList arrayList5 = new ArrayList();
-            if (dynamicShortcuts != null && !dynamicShortcuts.isEmpty()) {
-                arrayList4.add("compose");
-                for (int i2 = 0; i2 < arrayList.size(); i2++) {
-                    arrayList4.add("did3_" + MessageObject.getPeerId(((TLRPC$TL_topPeer) arrayList2.get(i2)).peer));
-                }
-                for (int i3 = 0; i3 < dynamicShortcuts.size(); i3++) {
-                    String id = dynamicShortcuts.get(i3).getId();
-                    if (!arrayList4.remove(id)) {
-                        arrayList5.add(id);
-                    }
-                    arrayList3.add(id);
-                }
-                if (arrayList4.isEmpty() && arrayList5.isEmpty()) {
-                    return;
-                }
-            }
+            ShortcutManagerCompat.removeAllDynamicShortcuts(ApplicationLoader.applicationContext);
             Intent intent = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
             intent.setAction("new_dialog");
-            ArrayList arrayList6 = new ArrayList();
+            new ArrayList();
+            Context context = ApplicationLoader.applicationContext;
             ShortcutInfoCompat.Builder builder = new ShortcutInfoCompat.Builder(ApplicationLoader.applicationContext, "compose");
-            int i4 = R.string.NewConversationShortcut;
-            arrayList6.add(builder.setShortLabel(LocaleController.getString("NewConversationShortcut", i4)).setLongLabel(LocaleController.getString("NewConversationShortcut", i4)).setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.shortcut_compose)).setIntent(intent).build());
-            if (arrayList3.contains("compose")) {
-                ShortcutManagerCompat.updateShortcuts(ApplicationLoader.applicationContext, arrayList6);
-            } else {
-                ShortcutManagerCompat.addDynamicShortcuts(ApplicationLoader.applicationContext, arrayList6);
-            }
-            arrayList6.clear();
-            if (!arrayList5.isEmpty()) {
-                ShortcutManagerCompat.removeDynamicShortcuts(ApplicationLoader.applicationContext, arrayList5);
-            }
-            boolean z = true;
+            int i2 = R.string.NewConversationShortcut;
+            ShortcutManagerCompat.pushDynamicShortcut(context, builder.setShortLabel(LocaleController.getString("NewConversationShortcut", i2)).setLongLabel(LocaleController.getString("NewConversationShortcut", i2)).setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.shortcut_compose)).setRank(0).setIntent(intent).build());
+            ?? r3 = 1;
             HashSet hashSet = new HashSet(1);
             hashSet.add(SHORTCUT_CATEGORY);
             while (i < arrayList.size()) {
                 Intent intent2 = new Intent(ApplicationLoader.applicationContext, OpenChatReceiver.class);
-                long peerId = MessageObject.getPeerId(((TLRPC$TL_topPeer) arrayList2.get(i)).peer);
+                long peerId = MessageObject.getPeerId(((TLRPC$TL_topPeer) arrayList.get(i)).peer);
                 if (DialogObject.isUserDialog(peerId)) {
                     intent2.putExtra("userId", peerId);
                     tLRPC$User = getMessagesController().getUser(Long.valueOf(peerId));
@@ -6471,114 +6444,102 @@ public class MediaDataController extends BaseController {
                     if (tLRPC$User != null) {
                         str = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
                         TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto = tLRPC$User.photo;
-                        if (tLRPC$UserProfilePhoto != null) {
-                            tLRPC$FileLocation = tLRPC$UserProfilePhoto.photo_small;
+                        try {
+                            if (tLRPC$UserProfilePhoto != null) {
+                                tLRPC$FileLocation = tLRPC$UserProfilePhoto.photo_small;
+                                intent2.putExtra("currentAccount", this.currentAccount);
+                                intent2.setAction("com.tmessages.openchat" + peerId);
+                                intent2.putExtra("dialogId", peerId);
+                                intent2.putExtra("hash", SharedConfig.directShareHash);
+                                intent2.addFlags(ConnectionsManager.FileTypeFile);
+                                if (tLRPC$FileLocation == null) {
+                                    try {
+                                        Bitmap decodeFile = BitmapFactory.decodeFile(getFileLoader().getPathToAttach(tLRPC$FileLocation, r3).toString());
+                                        if (decodeFile != null) {
+                                            try {
+                                                int dp = AndroidUtilities.dp(48.0f);
+                                                Bitmap createBitmap = Bitmap.createBitmap(dp, dp, Bitmap.Config.ARGB_8888);
+                                                Canvas canvas = new Canvas(createBitmap);
+                                                if (roundPaint == null) {
+                                                    roundPaint = new Paint(3);
+                                                    bitmapRect = new RectF();
+                                                    Paint paint = new Paint((int) r3);
+                                                    erasePaint = paint;
+                                                    paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+                                                    Path path = new Path();
+                                                    roundPath = path;
+                                                    path.addCircle(dp / 2, dp / 2, (dp / 2) - AndroidUtilities.dp(2.0f), Path.Direction.CW);
+                                                    roundPath.toggleInverseFillType();
+                                                }
+                                                bitmapRect.set(AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(46.0f), AndroidUtilities.dp(46.0f));
+                                                canvas.drawBitmap(decodeFile, (Rect) null, bitmapRect, roundPaint);
+                                                canvas.drawPath(roundPath, erasePaint);
+                                                try {
+                                                    canvas.setBitmap(null);
+                                                } catch (Exception unused) {
+                                                }
+                                                bitmap = createBitmap;
+                                            } catch (Throwable th) {
+                                                th = th;
+                                                bitmap = decodeFile;
+                                                FileLog.e(th);
+                                                String str2 = "did3_" + peerId;
+                                                if (TextUtils.isEmpty(str)) {
+                                                }
+                                                ShortcutInfoCompat.Builder intent3 = new ShortcutInfoCompat.Builder(ApplicationLoader.applicationContext, str2).setShortLabel(str).setLongLabel(str).setRank(i + 1).setIntent(intent2);
+                                                if (SharedConfig.directShare) {
+                                                }
+                                                if (bitmap != null) {
+                                                }
+                                                ShortcutManagerCompat.pushDynamicShortcut(ApplicationLoader.applicationContext, intent3.build());
+                                                i++;
+                                                r3 = 1;
+                                            }
+                                        } else {
+                                            bitmap = decodeFile;
+                                        }
+                                    } catch (Throwable th2) {
+                                        th = th2;
+                                        bitmap = null;
+                                    }
+                                } else {
+                                    bitmap = null;
+                                }
+                                String str22 = "did3_" + peerId;
+                                if (TextUtils.isEmpty(str)) {
+                                    str = " ";
+                                }
+                                ShortcutInfoCompat.Builder intent32 = new ShortcutInfoCompat.Builder(ApplicationLoader.applicationContext, str22).setShortLabel(str).setLongLabel(str).setRank(i + 1).setIntent(intent2);
+                                if (SharedConfig.directShare) {
+                                    intent32.setCategories(hashSet);
+                                }
+                                if (bitmap != null) {
+                                    intent32.setIcon(IconCompat.createWithBitmap(bitmap));
+                                } else {
+                                    intent32.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.shortcut_user));
+                                }
+                                ShortcutManagerCompat.pushDynamicShortcut(ApplicationLoader.applicationContext, intent32.build());
+                            }
                             intent2.putExtra("currentAccount", this.currentAccount);
                             intent2.setAction("com.tmessages.openchat" + peerId);
                             intent2.putExtra("dialogId", peerId);
                             intent2.putExtra("hash", SharedConfig.directShareHash);
                             intent2.addFlags(ConnectionsManager.FileTypeFile);
                             if (tLRPC$FileLocation == null) {
-                                try {
-                                    Bitmap decodeFile = BitmapFactory.decodeFile(getFileLoader().getPathToAttach(tLRPC$FileLocation, z).toString());
-                                    if (decodeFile != null) {
-                                        try {
-                                            int dp = AndroidUtilities.dp(48.0f);
-                                            Bitmap createBitmap = Bitmap.createBitmap(dp, dp, Bitmap.Config.ARGB_8888);
-                                            Canvas canvas = new Canvas(createBitmap);
-                                            if (roundPaint == null) {
-                                                roundPaint = new Paint(3);
-                                                bitmapRect = new RectF();
-                                                Paint paint = new Paint(1);
-                                                erasePaint = paint;
-                                                paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-                                                Path path = new Path();
-                                                roundPath = path;
-                                                bitmap2 = createBitmap;
-                                                path.addCircle(dp / 2, dp / 2, (dp / 2) - AndroidUtilities.dp(2.0f), Path.Direction.CW);
-                                                roundPath.toggleInverseFillType();
-                                            } else {
-                                                bitmap2 = createBitmap;
-                                            }
-                                            bitmapRect.set(AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(46.0f), AndroidUtilities.dp(46.0f));
-                                            canvas.drawBitmap(decodeFile, (Rect) null, bitmapRect, roundPaint);
-                                            canvas.drawPath(roundPath, erasePaint);
-                                            try {
-                                                canvas.setBitmap(null);
-                                            } catch (Exception unused) {
-                                            }
-                                            bitmap = bitmap2;
-                                        } catch (Throwable th) {
-                                            th = th;
-                                            bitmap = decodeFile;
-                                            FileLog.e(th);
-                                            str2 = "did3_" + peerId;
-                                            if (TextUtils.isEmpty(str)) {
-                                            }
-                                            ShortcutInfoCompat.Builder intent3 = new ShortcutInfoCompat.Builder(ApplicationLoader.applicationContext, str2).setShortLabel(str).setLongLabel(str).setIntent(intent2);
-                                            if (SharedConfig.directShare) {
-                                            }
-                                            if (bitmap != null) {
-                                            }
-                                            arrayList6.add(intent3.build());
-                                            if (arrayList3.contains(str2)) {
-                                            }
-                                            arrayList6.clear();
-                                            i++;
-                                            arrayList2 = arrayList;
-                                            z = true;
-                                        }
-                                    } else {
-                                        bitmap = decodeFile;
-                                    }
-                                } catch (Throwable th2) {
-                                    th = th2;
-                                    bitmap = null;
-                                }
-                            } else {
-                                bitmap = null;
                             }
-                            str2 = "did3_" + peerId;
+                            String str222 = "did3_" + peerId;
                             if (TextUtils.isEmpty(str)) {
-                                str = " ";
                             }
-                            ShortcutInfoCompat.Builder intent32 = new ShortcutInfoCompat.Builder(ApplicationLoader.applicationContext, str2).setShortLabel(str).setLongLabel(str).setIntent(intent2);
+                            ShortcutInfoCompat.Builder intent322 = new ShortcutInfoCompat.Builder(ApplicationLoader.applicationContext, str222).setShortLabel(str).setLongLabel(str).setRank(i + 1).setIntent(intent2);
                             if (SharedConfig.directShare) {
-                                intent32.setCategories(hashSet);
                             }
                             if (bitmap != null) {
-                                intent32.setIcon(IconCompat.createWithBitmap(bitmap));
-                            } else {
-                                intent32.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.shortcut_user));
                             }
-                            arrayList6.add(intent32.build());
-                            if (arrayList3.contains(str2)) {
-                                ShortcutManagerCompat.updateShortcuts(ApplicationLoader.applicationContext, arrayList6);
-                            } else {
-                                ShortcutManagerCompat.addDynamicShortcuts(ApplicationLoader.applicationContext, arrayList6);
-                            }
-                            arrayList6.clear();
+                            ShortcutManagerCompat.pushDynamicShortcut(ApplicationLoader.applicationContext, intent322.build());
+                        } catch (Throwable unused2) {
+                            return;
                         }
                         tLRPC$FileLocation = null;
-                        intent2.putExtra("currentAccount", this.currentAccount);
-                        intent2.setAction("com.tmessages.openchat" + peerId);
-                        intent2.putExtra("dialogId", peerId);
-                        intent2.putExtra("hash", SharedConfig.directShareHash);
-                        intent2.addFlags(ConnectionsManager.FileTypeFile);
-                        if (tLRPC$FileLocation == null) {
-                        }
-                        str2 = "did3_" + peerId;
-                        if (TextUtils.isEmpty(str)) {
-                        }
-                        ShortcutInfoCompat.Builder intent322 = new ShortcutInfoCompat.Builder(ApplicationLoader.applicationContext, str2).setShortLabel(str).setLongLabel(str).setIntent(intent2);
-                        if (SharedConfig.directShare) {
-                        }
-                        if (bitmap != null) {
-                        }
-                        arrayList6.add(intent322.build());
-                        if (arrayList3.contains(str2)) {
-                        }
-                        arrayList6.clear();
                     } else {
                         String str3 = tLRPC$Chat.title;
                         TLRPC$ChatPhoto tLRPC$ChatPhoto = tLRPC$Chat.photo;
@@ -6593,18 +6554,15 @@ public class MediaDataController extends BaseController {
                             intent2.addFlags(ConnectionsManager.FileTypeFile);
                             if (tLRPC$FileLocation == null) {
                             }
-                            str2 = "did3_" + peerId;
+                            String str2222 = "did3_" + peerId;
                             if (TextUtils.isEmpty(str)) {
                             }
-                            ShortcutInfoCompat.Builder intent3222 = new ShortcutInfoCompat.Builder(ApplicationLoader.applicationContext, str2).setShortLabel(str).setLongLabel(str).setIntent(intent2);
+                            ShortcutInfoCompat.Builder intent3222 = new ShortcutInfoCompat.Builder(ApplicationLoader.applicationContext, str2222).setShortLabel(str).setLongLabel(str).setRank(i + 1).setIntent(intent2);
                             if (SharedConfig.directShare) {
                             }
                             if (bitmap != null) {
                             }
-                            arrayList6.add(intent3222.build());
-                            if (arrayList3.contains(str2)) {
-                            }
-                            arrayList6.clear();
+                            ShortcutManagerCompat.pushDynamicShortcut(ApplicationLoader.applicationContext, intent3222.build());
                         } else {
                             str = str3;
                             tLRPC$FileLocation = null;
@@ -6615,26 +6573,22 @@ public class MediaDataController extends BaseController {
                             intent2.addFlags(ConnectionsManager.FileTypeFile);
                             if (tLRPC$FileLocation == null) {
                             }
-                            str2 = "did3_" + peerId;
+                            String str22222 = "did3_" + peerId;
                             if (TextUtils.isEmpty(str)) {
                             }
-                            ShortcutInfoCompat.Builder intent32222 = new ShortcutInfoCompat.Builder(ApplicationLoader.applicationContext, str2).setShortLabel(str).setLongLabel(str).setIntent(intent2);
+                            ShortcutInfoCompat.Builder intent32222 = new ShortcutInfoCompat.Builder(ApplicationLoader.applicationContext, str22222).setShortLabel(str).setLongLabel(str).setRank(i + 1).setIntent(intent2);
                             if (SharedConfig.directShare) {
                             }
                             if (bitmap != null) {
                             }
-                            arrayList6.add(intent32222.build());
-                            if (arrayList3.contains(str2)) {
-                            }
-                            arrayList6.clear();
+                            ShortcutManagerCompat.pushDynamicShortcut(ApplicationLoader.applicationContext, intent32222.build());
                         }
                     }
                 }
                 i++;
-                arrayList2 = arrayList;
-                z = true;
+                r3 = 1;
             }
-        } catch (Throwable unused2) {
+        } catch (Throwable unused3) {
         }
     }
 

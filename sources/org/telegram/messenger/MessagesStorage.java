@@ -573,17 +573,9 @@ public class MessagesStorage extends BaseController {
             }
         }
         if (!recoverDatabase) {
-            cleanupInternal(true);
-            int i = 0;
-            while (i < 2) {
-                int i2 = i;
-                getUserConfig().setDialogsLoadOffset(i, 0, 0, 0L, 0L, 0L, 0L);
-                getUserConfig().setTotalDialogsCount(i2, 0);
-                i = i2 + 1;
-            }
-            getUserConfig().saveConfig(false);
             openDatabase(1);
         }
+        reset();
         return recoverDatabase;
     }
 
@@ -23588,12 +23580,12 @@ public class MessagesStorage extends BaseController {
         TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message.media;
         if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaUnsupported_old) {
             if (tLRPC$MessageMedia.bytes.length == 0) {
-                tLRPC$MessageMedia.bytes = Utilities.intToBytes(155);
+                tLRPC$MessageMedia.bytes = Utilities.intToBytes(156);
             }
         } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaUnsupported) {
             TLRPC$TL_messageMediaUnsupported_old tLRPC$TL_messageMediaUnsupported_old = new TLRPC$TL_messageMediaUnsupported_old();
             tLRPC$Message.media = tLRPC$TL_messageMediaUnsupported_old;
-            tLRPC$TL_messageMediaUnsupported_old.bytes = Utilities.intToBytes(155);
+            tLRPC$TL_messageMediaUnsupported_old.bytes = Utilities.intToBytes(156);
             tLRPC$Message.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
         }
     }

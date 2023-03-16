@@ -2040,50 +2040,52 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         if (this.fragmentsStack.isEmpty()) {
             return;
         }
-        for (int i2 = 0; i2 < i; i2++) {
-            BaseFragment baseFragment = this.fragmentsStack.get(i2);
-            ActionBar actionBar = baseFragment.actionBar;
-            if (actionBar != null && actionBar.shouldAddToContainer() && (viewGroup2 = (ViewGroup) baseFragment.actionBar.getParent()) != null) {
-                viewGroup2.removeView(baseFragment.actionBar);
+        if (this.fragmentsStack.isEmpty() || this.fragmentsStack.size() - 1 != i || this.fragmentsStack.get(i).fragmentView == null) {
+            for (int i2 = 0; i2 < i; i2++) {
+                BaseFragment baseFragment = this.fragmentsStack.get(i2);
+                ActionBar actionBar = baseFragment.actionBar;
+                if (actionBar != null && actionBar.shouldAddToContainer() && (viewGroup2 = (ViewGroup) baseFragment.actionBar.getParent()) != null) {
+                    viewGroup2.removeView(baseFragment.actionBar);
+                }
+                View view = baseFragment.fragmentView;
+                if (view != null && (viewGroup = (ViewGroup) view.getParent()) != null) {
+                    baseFragment.onPause();
+                    baseFragment.onRemoveFromParent();
+                    viewGroup.removeView(baseFragment.fragmentView);
+                }
             }
-            View view = baseFragment.fragmentView;
-            if (view != null && (viewGroup = (ViewGroup) view.getParent()) != null) {
-                baseFragment.onPause();
-                baseFragment.onRemoveFromParent();
-                viewGroup.removeView(baseFragment.fragmentView);
+            BaseFragment baseFragment2 = this.fragmentsStack.get(i);
+            baseFragment2.setParentLayout(this);
+            View view2 = baseFragment2.fragmentView;
+            if (view2 == null) {
+                view2 = baseFragment2.createView(this.parentActivity);
+            } else {
+                ViewGroup viewGroup3 = (ViewGroup) view2.getParent();
+                if (viewGroup3 != null) {
+                    baseFragment2.onRemoveFromParent();
+                    viewGroup3.removeView(view2);
+                }
             }
+            this.containerView.addView(view2, LayoutHelper.createFrame(-1, -1.0f));
+            ActionBar actionBar2 = baseFragment2.actionBar;
+            if (actionBar2 != null && actionBar2.shouldAddToContainer()) {
+                if (this.removeActionBarExtraHeight) {
+                    baseFragment2.actionBar.setOccupyStatusBar(false);
+                }
+                ViewGroup viewGroup4 = (ViewGroup) baseFragment2.actionBar.getParent();
+                if (viewGroup4 != null) {
+                    viewGroup4.removeView(baseFragment2.actionBar);
+                }
+                this.containerView.addView(baseFragment2.actionBar);
+                baseFragment2.actionBar.setTitleOverlayText(this.titleOverlayText, this.titleOverlayTextId, this.overlayAction);
+            }
+            baseFragment2.onResume();
+            this.currentActionBar = baseFragment2.actionBar;
+            if (baseFragment2.hasOwnBackground || view2.getBackground() != null) {
+                return;
+            }
+            view2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
         }
-        BaseFragment baseFragment2 = this.fragmentsStack.get(i);
-        baseFragment2.setParentLayout(this);
-        View view2 = baseFragment2.fragmentView;
-        if (view2 == null) {
-            view2 = baseFragment2.createView(this.parentActivity);
-        } else {
-            ViewGroup viewGroup3 = (ViewGroup) view2.getParent();
-            if (viewGroup3 != null) {
-                baseFragment2.onRemoveFromParent();
-                viewGroup3.removeView(view2);
-            }
-        }
-        this.containerView.addView(view2, LayoutHelper.createFrame(-1, -1.0f));
-        ActionBar actionBar2 = baseFragment2.actionBar;
-        if (actionBar2 != null && actionBar2.shouldAddToContainer()) {
-            if (this.removeActionBarExtraHeight) {
-                baseFragment2.actionBar.setOccupyStatusBar(false);
-            }
-            ViewGroup viewGroup4 = (ViewGroup) baseFragment2.actionBar.getParent();
-            if (viewGroup4 != null) {
-                viewGroup4.removeView(baseFragment2.actionBar);
-            }
-            this.containerView.addView(baseFragment2.actionBar);
-            baseFragment2.actionBar.setTitleOverlayText(this.titleOverlayText, this.titleOverlayTextId, this.overlayAction);
-        }
-        baseFragment2.onResume();
-        this.currentActionBar = baseFragment2.actionBar;
-        if (baseFragment2.hasOwnBackground || view2.getBackground() != null) {
-            return;
-        }
-        view2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
     }
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout

@@ -316,7 +316,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         super.onCreate(bundle);
         final 1 r1 = new 1(getContext());
         r1.setOrientation(1);
-        if (this.blurredBackground || this.progressViewStyle == 3) {
+        if ((this.blurredBackground || this.progressViewStyle == 3) && this.progressViewStyle != 2) {
             r1.setBackgroundDrawable(null);
             r1.setPadding(0, 0, 0, 0);
             if (this.blurredBackground && !this.blurredNativeBackground) {

@@ -49,6 +49,7 @@ public class SharedConfig {
     public static boolean archiveHidden = false;
     public static int autoLockIn = 3600;
     public static int badPasscodeTries = 0;
+    public static boolean bigCameraForRound = false;
     public static int bubbleRadius = 0;
     public static boolean chatBubbles = false;
     private static int chatSwipeAction = 0;
@@ -96,6 +97,7 @@ public class SharedConfig {
     public static int passcodeType = 0;
     public static int passportConfigHash = 0;
     private static HashMap<String, String> passportConfigMap = null;
+    public static boolean pauseMusicOnMedia = false;
     public static boolean pauseMusicOnRecord = false;
     public static TLRPC$TL_help_appUpdate pendingAppUpdate = null;
     public static int pendingAppUpdateBuildVersion = 0;
@@ -112,6 +114,7 @@ public class SharedConfig {
     public static long pushStringGetTimeStart = 0;
     public static String pushStringStatus = "";
     public static int pushType = 2;
+    public static boolean raiseToListen = false;
     public static boolean raiseToSpeak = false;
     public static boolean recordViaSco = false;
     public static int repeatMode = 0;
@@ -167,6 +170,7 @@ public class SharedConfig {
     static {
         chatBubbles = Build.VERSION.SDK_INT >= 30;
         raiseToSpeak = false;
+        raiseToListen = true;
         recordViaSco = false;
         customTabs = true;
         directShare = true;
@@ -178,6 +182,7 @@ public class SharedConfig {
         streamMkv = false;
         saveStreamMedia = true;
         pauseMusicOnRecord = false;
+        pauseMusicOnMedia = true;
         showNotificationsForAllAccounts = true;
         fontSize = 16;
         bubbleRadius = 17;
@@ -322,12 +327,12 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x017e A[Catch: Exception -> 0x01a0, all -> 0x03cb, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:83:0x012f, outer: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0182 A[Catch: Exception -> 0x01a0, all -> 0x03cb, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:83:0x012f, outer: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0211  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0214  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0224  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0226  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x017e A[Catch: Exception -> 0x01a0, all -> 0x03e3, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:83:0x012f, outer: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0182 A[Catch: Exception -> 0x01a0, all -> 0x03e3, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:83:0x012f, outer: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0219  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x021c  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x022c  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x022e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -411,6 +416,7 @@ public class SharedConfig {
                             SharedPreferences sharedPreferences2 = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
                             SaveToGallerySettingsHelper.load(sharedPreferences2);
                             mapPreviewType = sharedPreferences2.getInt("mapPreviewType", 2);
+                            raiseToListen = sharedPreferences2.getBoolean("raise_to_listen", true);
                             raiseToSpeak = sharedPreferences2.getBoolean("raise_to_speak", false);
                             recordViaSco = sharedPreferences2.getBoolean("record_via_sco", false);
                             customTabs = sharedPreferences2.getBoolean("custom_tabs", true);
@@ -431,6 +437,7 @@ public class SharedConfig {
                             streamMedia = sharedPreferences2.getBoolean("streamMedia", true);
                             saveStreamMedia = sharedPreferences2.getBoolean("saveStreamMedia", true);
                             pauseMusicOnRecord = sharedPreferences2.getBoolean("pauseMusicOnRecord", false);
+                            pauseMusicOnMedia = sharedPreferences2.getBoolean("pauseMusicOnMedia", true);
                             forceDisableTabletMode = sharedPreferences2.getBoolean("forceDisableTabletMode", false);
                             streamAllVideo = sharedPreferences2.getBoolean("streamAllVideo", BuildVars.DEBUG_VERSION);
                             streamMkv = sharedPreferences2.getBoolean("streamMkv", false);
@@ -468,6 +475,7 @@ public class SharedConfig {
                             hasEmailLogin = sharedPreferences2.getBoolean("hasEmailLogin", false);
                             isFloatingDebugActive = sharedPreferences2.getBoolean("floatingDebugActive", false);
                             updateStickersOrderOnSend = sharedPreferences2.getBoolean("updateStickersOrderOnSend", true);
+                            bigCameraForRound = sharedPreferences2.getBoolean("bigCameraForRound", false);
                             showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
                             configLoaded = true;
                             if (Build.VERSION.SDK_INT >= 19) {
@@ -491,6 +499,7 @@ public class SharedConfig {
                 SharedPreferences sharedPreferences22 = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
                 SaveToGallerySettingsHelper.load(sharedPreferences22);
                 mapPreviewType = sharedPreferences22.getInt("mapPreviewType", 2);
+                raiseToListen = sharedPreferences22.getBoolean("raise_to_listen", true);
                 raiseToSpeak = sharedPreferences22.getBoolean("raise_to_speak", false);
                 recordViaSco = sharedPreferences22.getBoolean("record_via_sco", false);
                 customTabs = sharedPreferences22.getBoolean("custom_tabs", true);
@@ -511,6 +520,7 @@ public class SharedConfig {
                 streamMedia = sharedPreferences22.getBoolean("streamMedia", true);
                 saveStreamMedia = sharedPreferences22.getBoolean("saveStreamMedia", true);
                 pauseMusicOnRecord = sharedPreferences22.getBoolean("pauseMusicOnRecord", false);
+                pauseMusicOnMedia = sharedPreferences22.getBoolean("pauseMusicOnMedia", true);
                 forceDisableTabletMode = sharedPreferences22.getBoolean("forceDisableTabletMode", false);
                 streamAllVideo = sharedPreferences22.getBoolean("streamAllVideo", BuildVars.DEBUG_VERSION);
                 streamMkv = sharedPreferences22.getBoolean("streamMkv", false);
@@ -548,6 +558,7 @@ public class SharedConfig {
                 hasEmailLogin = sharedPreferences22.getBoolean("hasEmailLogin", false);
                 isFloatingDebugActive = sharedPreferences22.getBoolean("floatingDebugActive", false);
                 updateStickersOrderOnSend = sharedPreferences22.getBoolean("updateStickersOrderOnSend", true);
+                bigCameraForRound = sharedPreferences22.getBoolean("bigCameraForRound", false);
                 showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
                 configLoaded = true;
                 try {
@@ -1003,11 +1014,22 @@ public class SharedConfig {
         edit.commit();
     }
 
-    public static void toogleRaiseToSpeak() {
+    public static void toggleRaiseToSpeak() {
         raiseToSpeak = !raiseToSpeak;
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putBoolean("raise_to_speak", raiseToSpeak);
         edit.commit();
+    }
+
+    public static void toggleRaiseToListen() {
+        raiseToListen = !raiseToListen;
+        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+        edit.putBoolean("raise_to_listen", raiseToListen);
+        edit.commit();
+    }
+
+    public static boolean enabledRaiseTo(boolean z) {
+        return raiseToListen && (!z || raiseToSpeak);
     }
 
     public static void toggleCustomTabs() {
@@ -1072,6 +1094,13 @@ public class SharedConfig {
         pauseMusicOnRecord = !pauseMusicOnRecord;
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putBoolean("pauseMusicOnRecord", pauseMusicOnRecord);
+        edit.commit();
+    }
+
+    public static void togglePauseMusicOnMedia() {
+        pauseMusicOnMedia = !pauseMusicOnMedia;
+        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+        edit.putBoolean("pauseMusicOnMedia", pauseMusicOnMedia);
         edit.commit();
     }
 
@@ -1495,6 +1524,11 @@ public class SharedConfig {
 
     public static boolean deviceIsAverage() {
         return getDevicePerformanceClass() <= 1;
+    }
+
+    public static void toggleRoundCamera() {
+        bigCameraForRound = !bigCameraForRound;
+        ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0).edit().putBoolean("bigCameraForRound", bigCameraForRound).apply();
     }
 
     @Deprecated
