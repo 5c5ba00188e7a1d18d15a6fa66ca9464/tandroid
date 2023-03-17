@@ -1,10 +1,10 @@
 Signature-Version: 1.0
 Created-By: Android Gradle 7.0.3
-SHA-256-Digest-Manifest: ShIBrI94U5aj3o+PI5wWXGm/K5R+NYhgvpDb0eNuDUw=
+SHA-256-Digest-Manifest: EwoAVIIaQEjUCYTFi+0rMFkan7E3Kq5Zqqfrj/55GUY=
 X-Android-APK-Signed: 2
 
 Name: AndroidManifest.xml
-SHA-256-Digest: OZ2ajtInknBXPUVwAtJ0//yOK8ZR0//o9Zh5WZThRHw=
+SHA-256-Digest: TBDCcaqvGSZZHMwe5G0DxvXsKJcArwfVOPYkjuIty9g=
 
 Name: META-INF/androidx.annotation_annotation-experimental.version
 SHA-256-Digest: EzM0+E5iHHuwy1qvYlX203WLBvPdKME6UghaYpvIwfw=

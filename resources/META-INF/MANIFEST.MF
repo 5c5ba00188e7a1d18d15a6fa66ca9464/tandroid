@@ -3,7 +3,7 @@ Built-By: Signflinger
 Created-By: Android Gradle 7.0.3
 
 Name: AndroidManifest.xml
-SHA-256-Digest: uM2VVDNdZlhAoG9oKjETBoyk/ZceZrzT1vgtcq5YVns=
+SHA-256-Digest: f9Tsiacr5ehcvjhzWFCvows6ha+HLSRLd4xMkug6NDo=
 
 Name: META-INF/androidx.annotation_annotation-experimental.version
 SHA-256-Digest: ZNI/hY71Gw+Zbklm1OJ8A3G0N+LSeHiQsfetItTsVmM=
