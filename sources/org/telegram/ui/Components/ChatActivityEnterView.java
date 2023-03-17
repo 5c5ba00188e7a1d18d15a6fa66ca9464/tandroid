@@ -3027,6 +3027,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     }
 
     public /* synthetic */ void lambda$createGiftButton$15(View view) {
+        SharedPreferences.Editor edit = MessagesController.getInstance(this.currentAccount).getMainSettings().edit();
+        edit.putBoolean("show_gift_for_" + this.parentFragment.getDialogId(), false).apply();
+        AndroidUtilities.updateViewVisibilityAnimated(this.giftButton, false);
         new GiftPremiumBottomSheet(getParentFragment(), getParentFragment().getCurrentUser()).show();
     }
 
@@ -8718,8 +8721,17 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         return this.messageEditText.getText();
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:78:0x0091, code lost:
+        if (org.telegram.messenger.MessagesController.getInstance(r6.currentAccount).getMainSettings().getBoolean("show_gift_for_" + r6.parentFragment.getDialogId(), true) != false) goto L25;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void updateGiftButton(boolean z) {
-        boolean z2 = (MessagesController.getInstance(this.currentAccount).premiumLocked || !MessagesController.getInstance(this.currentAccount).giftAttachMenuIcon || !MessagesController.getInstance(this.currentAccount).giftTextFieldIcon || getParentFragment() == null || getParentFragment().getCurrentUser() == null || BuildVars.IS_BILLING_UNAVAILABLE || getParentFragment().getCurrentUser().self || getParentFragment().getCurrentUser().premium || getParentFragment().getCurrentUserInfo() == null || getParentFragment().getCurrentUserInfo().premium_gifts.isEmpty() || isInScheduleMode()) ? false : true;
+        boolean z2 = true;
+        if (!MessagesController.getInstance(this.currentAccount).premiumLocked && MessagesController.getInstance(this.currentAccount).giftAttachMenuIcon && MessagesController.getInstance(this.currentAccount).giftTextFieldIcon && getParentFragment() != null && getParentFragment().getCurrentUser() != null && !BuildVars.IS_BILLING_UNAVAILABLE && !getParentFragment().getCurrentUser().self && !getParentFragment().getCurrentUser().premium && getParentFragment().getCurrentUserInfo() != null && !getParentFragment().getCurrentUserInfo().premium_gifts.isEmpty() && !isInScheduleMode()) {
+        }
+        z2 = false;
         if (z2 || this.giftButton != null) {
             createGiftButton();
             AndroidUtilities.updateViewVisibilityAnimated(this.giftButton, z2, 1.0f, z);

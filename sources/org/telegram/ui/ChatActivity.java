@@ -1073,6 +1073,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         void openSearch(String str);
     }
 
+    private void checkAutoDownloadMessage(MessageObject messageObject) {
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createActionMode$64(View view, MotionEvent motionEvent) {
         return true;
@@ -13779,7 +13782,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     public void checkAutoDownloadMessages(boolean z) {
-        if (this.chatListView == null || !this.chatListViewAttached) {
+        if (this.chatListView == null || !this.chatListViewAttached || SharedConfig.deviceIsLow()) {
             return;
         }
         this.preloadingMessagesTmp.clear();
@@ -13850,32 +13853,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
         ImageLocation.getForObject(closestPhotoSizeWithSize, messageObject.photoThumbsObject);
         getFileLoader().cancelLoadFile(ImageLocation.getForObject(closestPhotoSizeWithSize, messageObject.photoThumbsObject).location, (String) null);
-    }
-
-    private void checkAutoDownloadMessage(MessageObject messageObject) {
-        if (messageObject.mediaExists) {
-            return;
-        }
-        int canDownloadMedia = getDownloadController().canDownloadMedia(messageObject.messageOwner);
-        if (canDownloadMedia == 0) {
-            return;
-        }
-        TLRPC$Document document = messageObject.getDocument();
-        TLRPC$PhotoSize closestPhotoSizeWithSize = document == null ? FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, AndroidUtilities.getPhotoSize()) : null;
-        if (document == null && closestPhotoSizeWithSize == null) {
-            return;
-        }
-        int i = 2;
-        if (canDownloadMedia != 2) {
-            if (canDownloadMedia == 1 && messageObject.isVideo()) {
-                return;
-            }
-            if (document != null) {
-                getFileLoader().loadFile(document, messageObject, 0, (MessageObject.isVideoDocument(document) && messageObject.shouldEncryptPhotoOrVideo()) ? 0 : 0);
-            } else {
-                getFileLoader().loadFile(ImageLocation.getForObject(closestPhotoSizeWithSize, messageObject.photoThumbsObject), messageObject, null, 0, messageObject.shouldEncryptPhotoOrVideo() ? 2 : 0);
-            }
-        }
     }
 
     public void clearMessagesPreloading() {
@@ -31206,53 +31183,57 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onBackPressed() {
-        if (ContentPreviewViewer.getInstance().isVisible()) {
-            ContentPreviewViewer.getInstance().closeWithMenu();
-            return false;
+        ChatSelectionReactionMenuOverlay chatSelectionReactionMenuOverlay = this.selectionReactionsOverlay;
+        if (chatSelectionReactionMenuOverlay == null || chatSelectionReactionMenuOverlay.onBackPressed()) {
+            if (ContentPreviewViewer.getInstance().isVisible()) {
+                ContentPreviewViewer.getInstance().closeWithMenu();
+                return false;
+            }
+            ForwardingPreviewView forwardingPreviewView = this.forwardingPreviewView;
+            if (forwardingPreviewView != null && forwardingPreviewView.isShowing()) {
+                this.forwardingPreviewView.dismiss(true);
+                return false;
+            } else if (this.messagesSearchListView.getTag() != null) {
+                showMessagesSearchListView(false);
+                return false;
+            } else if (this.scrimPopupWindow != null) {
+                closeMenu();
+                return false;
+            } else if (checkRecordLocked(false)) {
+                return false;
+            } else {
+                if (this.textSelectionHelper.isSelectionMode()) {
+                    this.textSelectionHelper.clear();
+                    return false;
+                }
+                ActionBar actionBar = this.actionBar;
+                if (actionBar != null && actionBar.isActionModeShowed()) {
+                    clearSelectionMode();
+                    return false;
+                }
+                ChatActivityEnterView chatActivityEnterView = this.chatActivityEnterView;
+                if (chatActivityEnterView != null && chatActivityEnterView.isPopupShowing()) {
+                    return !this.chatActivityEnterView.hidePopup(true);
+                }
+                ChatActivityEnterView chatActivityEnterView2 = this.chatActivityEnterView;
+                if (chatActivityEnterView2 != null && chatActivityEnterView2.hasBotWebView() && this.chatActivityEnterView.botCommandsMenuIsShowing() && this.chatActivityEnterView.onBotWebViewBackPressed()) {
+                    return false;
+                }
+                ChatActivityEnterView chatActivityEnterView3 = this.chatActivityEnterView;
+                if (chatActivityEnterView3 != null && chatActivityEnterView3.botCommandsMenuIsShowing()) {
+                    this.chatActivityEnterView.hideBotCommands();
+                    return false;
+                }
+                ChatActivity chatActivity = this.backToPreviousFragment;
+                if (chatActivity != null) {
+                    INavigationLayout iNavigationLayout = this.parentLayout;
+                    iNavigationLayout.addFragmentToStack(chatActivity, iNavigationLayout.getFragmentStack().size() - 1);
+                    this.backToPreviousFragment = null;
+                }
+                return true;
+            }
         }
-        ForwardingPreviewView forwardingPreviewView = this.forwardingPreviewView;
-        if (forwardingPreviewView != null && forwardingPreviewView.isShowing()) {
-            this.forwardingPreviewView.dismiss(true);
-            return false;
-        } else if (this.messagesSearchListView.getTag() != null) {
-            showMessagesSearchListView(false);
-            return false;
-        } else if (this.scrimPopupWindow != null) {
-            closeMenu();
-            return false;
-        } else if (checkRecordLocked(false)) {
-            return false;
-        } else {
-            if (this.textSelectionHelper.isSelectionMode()) {
-                this.textSelectionHelper.clear();
-                return false;
-            }
-            ActionBar actionBar = this.actionBar;
-            if (actionBar != null && actionBar.isActionModeShowed()) {
-                clearSelectionMode();
-                return false;
-            }
-            ChatActivityEnterView chatActivityEnterView = this.chatActivityEnterView;
-            if (chatActivityEnterView != null && chatActivityEnterView.isPopupShowing()) {
-                return !this.chatActivityEnterView.hidePopup(true);
-            }
-            ChatActivityEnterView chatActivityEnterView2 = this.chatActivityEnterView;
-            if (chatActivityEnterView2 != null && chatActivityEnterView2.hasBotWebView() && this.chatActivityEnterView.botCommandsMenuIsShowing() && this.chatActivityEnterView.onBotWebViewBackPressed()) {
-                return false;
-            }
-            ChatActivityEnterView chatActivityEnterView3 = this.chatActivityEnterView;
-            if (chatActivityEnterView3 != null && chatActivityEnterView3.botCommandsMenuIsShowing()) {
-                this.chatActivityEnterView.hideBotCommands();
-                return false;
-            }
-            ChatActivity chatActivity = this.backToPreviousFragment;
-            if (chatActivity != null) {
-                INavigationLayout iNavigationLayout = this.parentLayout;
-                iNavigationLayout.addFragmentToStack(chatActivity, iNavigationLayout.getFragmentStack().size() - 1);
-                this.backToPreviousFragment = null;
-            }
-            return true;
-        }
+        return false;
     }
 
     public void clearSelectionMode() {

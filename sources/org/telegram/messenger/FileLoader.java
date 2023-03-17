@@ -2040,11 +2040,7 @@ public class FileLoader extends BaseController {
     }
 
     public void checkMediaExistance(ArrayList<MessageObject> arrayList) {
-        getFileDatabase().checkMediaExistance(arrayList, null);
-    }
-
-    public void checkMediaExistance(ArrayList<MessageObject> arrayList, CountDownLatch countDownLatch) {
-        getFileDatabase().checkMediaExistance(arrayList, countDownLatch);
+        getFileDatabase().checkMediaExistance(arrayList);
     }
 
     public void clearRecentDownloadedFiles() {

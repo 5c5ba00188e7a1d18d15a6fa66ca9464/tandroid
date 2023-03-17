@@ -1137,9 +1137,9 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         return this.customDate;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:187:0x030f  */
-    /* JADX WARN: Removed duplicated region for block: B:193:0x0360  */
-    /* JADX WARN: Removed duplicated region for block: B:197:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:195:0x0316  */
+    /* JADX WARN: Removed duplicated region for block: B:201:0x0367  */
+    /* JADX WARN: Removed duplicated region for block: B:205:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1216,7 +1216,11 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         }
         canvas.save();
         float dp3 = ((this.previousWidth - this.giftRectSize) / 2.0f) + AndroidUtilities.dp(8.0f);
-        float dp4 = this.textY + this.textHeight + (this.giftRectSize * 0.075f) + i2 + AndroidUtilities.dp(4.0f);
+        float f3 = this.textY + this.textHeight + (this.giftRectSize * 0.075f);
+        if (messageObject.type != 21) {
+            i2 = this.stickerSize;
+        }
+        float dp4 = f3 + i2 + AndroidUtilities.dp(4.0f);
         if (messageObject.type == 21) {
             dp4 += AndroidUtilities.dp(16.0f);
         }
@@ -1264,10 +1268,10 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         canvas.restore();
         boolean z = messageObject.settingAvatar;
         if (z) {
-            float f3 = this.progressToProgress;
+            float f4 = this.progressToProgress;
             f = 1.0f;
-            if (f3 != 1.0f) {
-                this.progressToProgress = f3 + 0.10666667f;
+            if (f4 != 1.0f) {
+                this.progressToProgress = f4 + 0.10666667f;
                 clamp = Utilities.clamp(this.progressToProgress, f, 0.0f);
                 this.progressToProgress = clamp;
                 if (clamp != 0.0f) {
@@ -1276,8 +1280,8 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                     }
                     int dp6 = AndroidUtilities.dp(16.0f);
                     canvas.save();
-                    float f4 = this.progressToProgress;
-                    canvas.scale(f4, f4, this.giftButtonRect.centerX(), this.giftButtonRect.centerY());
+                    float f5 = this.progressToProgress;
+                    canvas.scale(f5, f5, this.giftButtonRect.centerX(), this.giftButtonRect.centerY());
                     this.progressView.setSize(dp6);
                     this.progressView.setProgressColor(Theme.getColor("chat_serviceText"));
                     this.progressView.draw(canvas, this.giftButtonRect.centerX(), this.giftButtonRect.centerY());
@@ -1285,8 +1289,8 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 }
                 if (this.progressToProgress == f) {
                     canvas.save();
-                    float f5 = f - this.progressToProgress;
-                    canvas.scale(f5, f5, this.giftButtonRect.centerX(), this.giftButtonRect.centerY());
+                    float f6 = f - this.progressToProgress;
+                    canvas.scale(f6, f6, this.giftButtonRect.centerX(), this.giftButtonRect.centerY());
                     canvas.translate(dp3, height2);
                     this.giftPremiumButtonLayout.draw(canvas);
                     canvas.restore();
@@ -1298,9 +1302,9 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             f = 1.0f;
         }
         if (!z) {
-            float f6 = this.progressToProgress;
-            if (f6 != 0.0f) {
-                this.progressToProgress = f6 - 0.10666667f;
+            float f7 = this.progressToProgress;
+            if (f7 != 0.0f) {
+                this.progressToProgress = f7 - 0.10666667f;
             }
         }
         clamp = Utilities.clamp(this.progressToProgress, f, 0.0f);

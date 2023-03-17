@@ -559,6 +559,14 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         invalidate();
     }
 
+    public void dismissWindow() {
+        this.reactionsWindow.dismiss();
+    }
+
+    public CustomEmojiReactionsWindow getReactionsWindow() {
+        return this.reactionsWindow;
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public void showCustomEmojiReactionDialog() {
         if (this.reactionsWindow != null) {

@@ -343,15 +343,15 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
         return (MessageObject.isPhoto(messageObject.messageOwner) && MessageObject.getMedia(messageObject.messageOwner).webpage == null) || (messageObject.getDocument() != null && (MessageObject.isVideoDocument(messageObject.getDocument()) || MessageObject.isGifDocument(messageObject.getDocument())));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0053  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x005b  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x005b  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0063  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void setSelectedMessages(List<MessageObject> list) {
         this.selectedMessages = list;
         boolean z = true;
-        if ((this.parentFragment.getCurrentChatInfo() == null || !(this.parentFragment.getCurrentChatInfo().available_reactions instanceof TLRPC$TL_chatReactionsNone)) && !list.isEmpty()) {
+        if (!this.parentFragment.isSecretChat() && ((this.parentFragment.getCurrentChatInfo() == null || !(this.parentFragment.getCurrentChatInfo().available_reactions instanceof TLRPC$TL_chatReactionsNone)) && !list.isEmpty())) {
             long j = 0;
             boolean z2 = false;
             for (MessageObject messageObject : list) {
@@ -426,6 +426,15 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
         if (reactionsContainerLayout != null) {
             reactionsContainerLayout.setAlpha(floatValue);
         }
+    }
+
+    public boolean onBackPressed() {
+        ReactionsContainerLayout reactionsContainerLayout = this.reactionsContainerLayout;
+        if (reactionsContainerLayout == null || reactionsContainerLayout.getReactionsWindow() == null) {
+            return true;
+        }
+        this.reactionsContainerLayout.dismissWindow();
+        return false;
     }
 
     public void setHiddenByScroll(boolean z) {

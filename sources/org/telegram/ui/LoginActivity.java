@@ -7905,13 +7905,15 @@ public class LoginActivity extends BaseFragment {
             int i5 = i3 % 3600;
             int i6 = i5 / 60;
             int i7 = i5 % 60;
+            if (i2 != 0) {
+                return LocaleController.formatString(R.string.LoginEmailResetInSinglePattern, LocaleController.formatPluralString("Days", i2, new Object[0]));
+            }
             StringBuilder sb = new StringBuilder();
             sb.append(i4 != 0 ? String.format(Locale.ROOT, "%02d:", Integer.valueOf(i4)) : "");
             Locale locale = Locale.ROOT;
             sb.append(String.format(locale, "%02d:", Integer.valueOf(i6)));
             sb.append(String.format(locale, "%02d", Integer.valueOf(i7)));
-            String sb2 = sb.toString();
-            return i2 != 0 ? LocaleController.formatString(R.string.LoginEmailResetInDoublePattern, LocaleController.formatPluralString("Days", i2, new Object[0]), sb2) : LocaleController.formatString(R.string.LoginEmailResetInSinglePattern, sb2);
+            return LocaleController.formatString(R.string.LoginEmailResetInSinglePattern, sb.toString());
         }
 
         private String getTimePattern(int i) {

@@ -2088,7 +2088,7 @@ public class MessagesController extends BaseController implements NotificationCe
         this.blockedCountry = this.mainPreferences.getBoolean("blockedCountry", false);
         this.suggestedLangCode = this.mainPreferences.getString("suggestedLangCode", "en");
         this.animatedEmojisZoom = this.mainPreferences.getFloat("animatedEmojisZoom", 0.625f);
-        this.qrLoginCamera = this.mainPreferences.getBoolean("qrLoginCamera", false);
+        this.qrLoginCamera = this.mainPreferences.getBoolean("qrLoginCamera", true);
         this.saveGifsWithStickers = this.mainPreferences.getBoolean("saveGifsWithStickers", false);
         this.filtersEnabled = this.mainPreferences.getBoolean("filtersEnabled", false);
         this.getfileExperimentalParams = this.mainPreferences.getBoolean("getfileExperimentalParams", false);
@@ -11685,21 +11685,20 @@ public class MessagesController extends BaseController implements NotificationCe
         getNotificationCenter().postNotificationName(NotificationCenter.replaceMessagesObjects, Long.valueOf(j), arrayList);
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(34:1|(1:3)(1:216)|4|(2:6|(31:13|(1:214)(1:17)|18|(1:20)|(1:213)(1:23)|24|(2:27|25)|28|29|(2:32|30)|33|34|(2:36|(1:38)(1:191))(2:(1:212)(1:198)|(3:202|(1:204)|(7:209|(1:211)|40|(1:190)(5:44|(1:46)(2:176|(6:178|(3:180|(2:182|183)(2:185|186)|184)|187|188|48|(1:50))(1:189))|47|48|(0))|52|(9:54|(1:56)(1:174)|57|(1:59)(1:173)|60|(3:62|(4:64|(2:66|(1:70))(1:91)|71|(2:89|90)(1:(6:76|(1:78)(1:86)|79|(1:81)(1:85)|82|83)(2:87|88)))(2:92|93)|84)|94|95|(3:168|(1:170)(1:172)|171)(1:98))(1:175)|(11:104|(5:106|(1:108)(1:150)|109|(1:149)(4:111|(2:134|(1:148))(1:115)|116|(1:133)(2:118|(2:125|(1:132)(4:127|(1:129)|130|131))(2:122|123)))|124)|151|152|(2:154|(2:157|155))|158|159|160|(1:162)(1:165)|163|164)(2:102|103))))|39|40|(0)|190|52|(0)(0)|(1:100)|104|(0)|151|152|(0)|158|159|160|(0)(0)|163|164))|215|(0)|(0)|213|24|(1:25)|28|29|(1:30)|33|34|(0)(0)|39|40|(0)|190|52|(0)(0)|(0)|104|(0)|151|152|(0)|158|159|160|(0)(0)|163|164) */
-    /* JADX WARN: Removed duplicated region for block: B:244:0x010e  */
-    /* JADX WARN: Removed duplicated region for block: B:252:0x012d A[LOOP:0: B:250:0x0125->B:252:0x012d, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:256:0x0149 A[LOOP:1: B:254:0x0141->B:256:0x0149, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:259:0x0160  */
-    /* JADX WARN: Removed duplicated region for block: B:264:0x0182  */
-    /* JADX WARN: Removed duplicated region for block: B:287:0x01f5 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:306:0x029f A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:310:0x02af  */
-    /* JADX WARN: Removed duplicated region for block: B:359:0x0390  */
-    /* JADX WARN: Removed duplicated region for block: B:361:0x0398  */
-    /* JADX WARN: Removed duplicated region for block: B:367:0x03c7  */
-    /* JADX WARN: Removed duplicated region for block: B:409:0x04d6  */
-    /* JADX WARN: Removed duplicated region for block: B:418:0x04f2  */
-    /* JADX WARN: Removed duplicated region for block: B:419:0x0523  */
+    /* JADX WARN: Removed duplicated region for block: B:240:0x010e  */
+    /* JADX WARN: Removed duplicated region for block: B:248:0x012d A[LOOP:0: B:246:0x0125->B:248:0x012d, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:252:0x0149 A[LOOP:1: B:250:0x0141->B:252:0x0149, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:255:0x0160  */
+    /* JADX WARN: Removed duplicated region for block: B:260:0x0182  */
+    /* JADX WARN: Removed duplicated region for block: B:283:0x01f5 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:302:0x029f A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:306:0x02af  */
+    /* JADX WARN: Removed duplicated region for block: B:355:0x0390  */
+    /* JADX WARN: Removed duplicated region for block: B:357:0x0398  */
+    /* JADX WARN: Removed duplicated region for block: B:363:0x03c7  */
+    /* JADX WARN: Removed duplicated region for block: B:405:0x04d0  */
+    /* JADX WARN: Removed duplicated region for block: B:411:0x04e7  */
+    /* JADX WARN: Removed duplicated region for block: B:412:0x0518  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -11931,14 +11930,12 @@ public class MessagesController extends BaseController implements NotificationCe
                                 j3 = j;
                                 size = i23;
                             }
-                            CountDownLatch countDownLatch = new CountDownLatch(1);
-                            getFileLoader().checkMediaExistance(arrayList, countDownLatch);
+                            getFileLoader().checkMediaExistance(arrayList);
                             if (MessageObject.canCreateStripedThubms()) {
                                 for (int i24 = 0; i24 < arrayList.size(); i24++) {
                                     arrayList.get(i24).createStrippedThumb();
                                 }
                             }
-                            countDownLatch.await();
                             if (BuildVars.LOGS_ENABLED) {
                                 FileLog.d("process time=" + (SystemClock.elapsedRealtime() - elapsedRealtime) + " count=" + arrayList.size() + " for dialog  " + j);
                             }
@@ -11969,11 +11966,9 @@ public class MessagesController extends BaseController implements NotificationCe
                 i17 = 0;
                 while (i17 < size) {
                 }
-                CountDownLatch countDownLatch2 = new CountDownLatch(1);
-                getFileLoader().checkMediaExistance(arrayList4, countDownLatch2);
+                getFileLoader().checkMediaExistance(arrayList4);
                 if (MessageObject.canCreateStripedThubms()) {
                 }
-                countDownLatch2.await();
                 if (BuildVars.LOGS_ENABLED) {
                 }
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda214
@@ -12016,11 +12011,9 @@ public class MessagesController extends BaseController implements NotificationCe
         i17 = 0;
         while (i17 < size) {
         }
-        CountDownLatch countDownLatch22 = new CountDownLatch(1);
-        getFileLoader().checkMediaExistance(arrayList42, countDownLatch22);
+        getFileLoader().checkMediaExistance(arrayList42);
         if (MessageObject.canCreateStripedThubms()) {
         }
-        countDownLatch22.await();
         if (BuildVars.LOGS_ENABLED) {
         }
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda214

@@ -311,7 +311,7 @@ public class ChatRightsEditActivity extends BaseFragment {
                 tLRPC$TL_chatBannedRights3.view_messages = false;
             }
             TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights4 = this.defaultBannedRights;
-            if (tLRPC$TL_chatBannedRights4.change_info) {
+            if (tLRPC$TL_chatBannedRights4.change_info || this.isChannel) {
                 z3 = true;
             } else {
                 z3 = true;
@@ -1945,7 +1945,7 @@ public class ChatRightsEditActivity extends BaseFragment {
                         return false;
                     } else {
                         if (adapterPosition == ChatRightsEditActivity.this.changeInfoRow) {
-                            return ChatRightsEditActivity.this.myAdminRights.change_info && (ChatRightsEditActivity.this.defaultBannedRights == null || ChatRightsEditActivity.this.defaultBannedRights.change_info);
+                            return ChatRightsEditActivity.this.myAdminRights.change_info && (ChatRightsEditActivity.this.defaultBannedRights == null || ChatRightsEditActivity.this.defaultBannedRights.change_info || ChatRightsEditActivity.this.isChannel);
                         } else if (adapterPosition == ChatRightsEditActivity.this.postMessagesRow) {
                             return ChatRightsEditActivity.this.myAdminRights.post_messages;
                         } else {
@@ -2207,7 +2207,7 @@ public class ChatRightsEditActivity extends BaseFragment {
                     } else if (i == ChatRightsEditActivity.this.changeInfoRow) {
                         if (ChatRightsEditActivity.this.currentType == 0 || ChatRightsEditActivity.this.currentType == 2) {
                             if (ChatRightsEditActivity.this.isChannel) {
-                                textCheckCell2.setTextAndCheck(LocaleController.getString("EditAdminChangeChannelInfo", R.string.EditAdminChangeChannelInfo), (z2 && ChatRightsEditActivity.this.adminRights.change_info) || !ChatRightsEditActivity.this.defaultBannedRights.change_info, true);
+                                textCheckCell2.setTextAndCheck(LocaleController.getString("EditAdminChangeChannelInfo", R.string.EditAdminChangeChannelInfo), z2 && ChatRightsEditActivity.this.adminRights.change_info, true);
                             } else {
                                 textCheckCell2.setTextAndCheck(LocaleController.getString("EditAdminChangeGroupInfo", R.string.EditAdminChangeGroupInfo), (z2 && ChatRightsEditActivity.this.adminRights.change_info) || !ChatRightsEditActivity.this.defaultBannedRights.change_info, true);
                             }

@@ -78,7 +78,7 @@ public class CustomEmojiReactionsWindow {
     ArrayList<ValueAnimator> animators = new ArrayList<>();
     private int frameDrawCount = 0;
 
-    static /* synthetic */ int access$908(CustomEmojiReactionsWindow customEmojiReactionsWindow) {
+    static /* synthetic */ int access$808(CustomEmojiReactionsWindow customEmojiReactionsWindow) {
         int i = customEmojiReactionsWindow.frameDrawCount;
         customEmojiReactionsWindow.frameDrawCount = i + 1;
         return i;
@@ -514,7 +514,6 @@ public class CustomEmojiReactionsWindow {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public void dismiss() {
         if (this.dismissed) {
             return;
@@ -900,7 +899,7 @@ public class CustomEmojiReactionsWindow {
                     if (CustomEmojiReactionsWindow.this.frameDrawCount == 3) {
                         CustomEmojiReactionsWindow.this.reactionsContainerLayout.setSkipDraw(true);
                     }
-                    CustomEmojiReactionsWindow.access$908(CustomEmojiReactionsWindow.this);
+                    CustomEmojiReactionsWindow.access$808(CustomEmojiReactionsWindow.this);
                 }
                 CustomEmojiReactionsWindow.this.selectAnimatedEmojiDialog.drawBigReaction(canvas, this);
                 if (CustomEmojiReactionsWindow.this.valueAnimator != null) {

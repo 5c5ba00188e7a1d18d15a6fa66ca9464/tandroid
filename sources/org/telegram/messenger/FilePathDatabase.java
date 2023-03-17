@@ -364,20 +364,12 @@ public class FilePathDatabase {
         }
     }
 
-    public void checkMediaExistance(ArrayList<MessageObject> arrayList, final CountDownLatch countDownLatch) {
+    public void checkMediaExistance(ArrayList<MessageObject> arrayList) {
         if (arrayList.isEmpty()) {
-            if (countDownLatch != null) {
-                countDownLatch.countDown();
-                return;
-            }
             return;
         }
         final ArrayList arrayList2 = new ArrayList(arrayList);
-        boolean z = false;
-        if (countDownLatch == null) {
-            countDownLatch = new CountDownLatch(1);
-            z = true;
-        }
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
         long currentTimeMillis = System.currentTimeMillis();
         postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
@@ -385,12 +377,10 @@ public class FilePathDatabase {
                 FilePathDatabase.this.lambda$checkMediaExistance$2(arrayList2, countDownLatch);
             }
         });
-        if (z) {
-            try {
-                countDownLatch.await();
-            } catch (InterruptedException e) {
-                FileLog.e(e);
-            }
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            FileLog.e(e);
         }
         FileLog.d("checkMediaExistance size=" + arrayList.size() + " time=" + (System.currentTimeMillis() - currentTimeMillis));
         if (BuildVars.DEBUG_VERSION && Thread.currentThread() == Looper.getMainLooper().getThread()) {
