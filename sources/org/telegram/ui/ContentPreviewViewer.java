@@ -664,7 +664,7 @@ public class ContentPreviewViewer {
         }
 
         public /* synthetic */ void lambda$run$0(ArrayList arrayList, View view) {
-            if (ContentPreviewViewer.this.parentActivity == null) {
+            if (ContentPreviewViewer.this.parentActivity == null || ContentPreviewViewer.this.delegate == null) {
                 return;
             }
             int intValue = ((Integer) arrayList.get(((Integer) view.getTag()).intValue())).intValue();

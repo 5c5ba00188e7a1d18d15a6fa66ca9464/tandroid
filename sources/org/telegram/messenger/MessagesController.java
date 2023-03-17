@@ -2148,8 +2148,16 @@ public class MessagesController extends BaseController implements NotificationCe
         this.giftTextFieldIcon = this.mainPreferences.getBoolean("giftTextFieldIcon", false);
         this.checkResetLangpack = this.mainPreferences.getInt("checkResetLangpack", 0);
         BuildVars.GOOGLE_AUTH_CLIENT_ID = this.mainPreferences.getString("googleAuthClientId", BuildVars.GOOGLE_AUTH_CLIENT_ID);
-        this.dcDomainName = this.mainPreferences.getString("dcDomainName2", ConnectionsManager.native_isTestBackend(this.currentAccount) != 0 ? "tapv3.stel.com" : "apv3.stel.com");
-        this.webFileDatacenterId = this.mainPreferences.getInt("webFileDatacenterId", ConnectionsManager.native_isTestBackend(this.currentAccount) == 0 ? 4 : 2);
+        if (this.mainPreferences.contains("dcDomainName2")) {
+            this.dcDomainName = this.mainPreferences.getString("dcDomainName2", "apv3.stel.com");
+        } else {
+            this.dcDomainName = ConnectionsManager.native_isTestBackend(this.currentAccount) != 0 ? "tapv3.stel.com" : "apv3.stel.com";
+        }
+        if (this.mainPreferences.contains("webFileDatacenterId")) {
+            this.webFileDatacenterId = this.mainPreferences.getInt("webFileDatacenterId", 4);
+        } else {
+            this.webFileDatacenterId = ConnectionsManager.native_isTestBackend(this.currentAccount) == 0 ? 4 : 2;
+        }
         Set<String> stringSet = this.mainPreferences.getStringSet("directPaymentsCurrency", null);
         if (stringSet != null) {
             this.directPaymentsCurrency.clear();
@@ -2310,16 +2318,16 @@ public class MessagesController extends BaseController implements NotificationCe
         this.nextTosCheckTime = this.notificationsPreferences.getInt("nextTosCheckTime", 0);
     }
 
-    private void sendLoadPeersRequest(final TLObject tLObject, final ArrayList<TLObject> arrayList, final TLRPC$messages_Dialogs tLRPC$messages_Dialogs, final TLRPC$messages_Dialogs tLRPC$messages_Dialogs2, final ArrayList<TLRPC$User> arrayList2, final ArrayList<TLRPC$Chat> arrayList3, final ArrayList<DialogFilter> arrayList4, final SparseArray<DialogFilter> sparseArray, final ArrayList<Integer> arrayList5, final HashMap<Integer, HashSet<Long>> hashMap, final HashMap<Integer, HashSet<Long>> hashMap2, final HashSet<Integer> hashSet) {
+    private void sendLoadPeersRequest(final TLObject tLObject, final ArrayList<TLObject> arrayList, final TLRPC$messages_Dialogs tLRPC$messages_Dialogs, final TLRPC$messages_Dialogs tLRPC$messages_Dialogs2, final ArrayList<TLRPC$User> arrayList2, final ArrayList<TLRPC$Chat> arrayList3, final ArrayList<DialogFilter> arrayList4, final SparseArray<DialogFilter> sparseArray, final ArrayList<Integer> arrayList5, final HashMap<Integer, HashSet<Long>> hashMap, final HashSet<Integer> hashSet) {
         getConnectionsManager().sendRequest(tLObject, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda338
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
-                MessagesController.this.lambda$sendLoadPeersRequest$15(arrayList3, arrayList2, tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, tLObject, arrayList4, sparseArray, arrayList5, hashMap, hashMap2, hashSet, tLObject2, tLRPC$TL_error);
+                MessagesController.this.lambda$sendLoadPeersRequest$15(arrayList3, arrayList2, tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, tLObject, arrayList4, sparseArray, arrayList5, hashMap, hashSet, tLObject2, tLRPC$TL_error);
             }
         });
     }
 
-    public /* synthetic */ void lambda$sendLoadPeersRequest$15(ArrayList arrayList, ArrayList arrayList2, TLRPC$messages_Dialogs tLRPC$messages_Dialogs, TLRPC$messages_Dialogs tLRPC$messages_Dialogs2, ArrayList arrayList3, TLObject tLObject, ArrayList arrayList4, SparseArray sparseArray, ArrayList arrayList5, HashMap hashMap, HashMap hashMap2, HashSet hashSet, TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$sendLoadPeersRequest$15(ArrayList arrayList, ArrayList arrayList2, TLRPC$messages_Dialogs tLRPC$messages_Dialogs, TLRPC$messages_Dialogs tLRPC$messages_Dialogs2, ArrayList arrayList3, TLObject tLObject, ArrayList arrayList4, SparseArray sparseArray, ArrayList arrayList5, HashMap hashMap, HashSet hashSet, TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject2 instanceof TLRPC$TL_messages_chats) {
             arrayList.addAll(((TLRPC$TL_messages_chats) tLObject2).chats);
         } else if (tLObject2 instanceof TLRPC$Vector) {
@@ -2339,22 +2347,21 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         arrayList3.remove(tLObject);
         if (arrayList3.isEmpty()) {
-            getMessagesStorage().processLoadedFilterPeers(tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList2, arrayList, arrayList4, sparseArray, arrayList5, hashMap, hashMap2, hashSet);
+            getMessagesStorage().processLoadedFilterPeers(tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList2, arrayList, arrayList4, sparseArray, arrayList5, hashMap, hashSet);
         }
     }
 
-    public void loadFilterPeers(final HashMap<Long, TLRPC$InputPeer> hashMap, final HashMap<Long, TLRPC$InputPeer> hashMap2, final HashMap<Long, TLRPC$InputPeer> hashMap3, final TLRPC$messages_Dialogs tLRPC$messages_Dialogs, final TLRPC$messages_Dialogs tLRPC$messages_Dialogs2, final ArrayList<TLRPC$User> arrayList, final ArrayList<TLRPC$Chat> arrayList2, final ArrayList<DialogFilter> arrayList3, final SparseArray<DialogFilter> sparseArray, final ArrayList<Integer> arrayList4, final HashMap<Integer, HashSet<Long>> hashMap4, final HashMap<Integer, HashSet<Long>> hashMap5, final HashSet<Integer> hashSet) {
+    public void loadFilterPeers(final HashMap<Long, TLRPC$InputPeer> hashMap, final HashMap<Long, TLRPC$InputPeer> hashMap2, final HashMap<Long, TLRPC$InputPeer> hashMap3, final TLRPC$messages_Dialogs tLRPC$messages_Dialogs, final TLRPC$messages_Dialogs tLRPC$messages_Dialogs2, final ArrayList<TLRPC$User> arrayList, final ArrayList<TLRPC$Chat> arrayList2, final ArrayList<DialogFilter> arrayList3, final SparseArray<DialogFilter> sparseArray, final ArrayList<Integer> arrayList4, final HashMap<Integer, HashSet<Long>> hashMap4, final HashSet<Integer> hashSet) {
         Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda137
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesController.this.lambda$loadFilterPeers$16(hashMap2, tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap4, hashMap5, hashSet, hashMap3, hashMap);
+                MessagesController.this.lambda$loadFilterPeers$16(hashMap2, tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap4, hashSet, hashMap3, hashMap);
             }
         });
     }
 
-    public /* synthetic */ void lambda$loadFilterPeers$16(HashMap hashMap, TLRPC$messages_Dialogs tLRPC$messages_Dialogs, TLRPC$messages_Dialogs tLRPC$messages_Dialogs2, ArrayList arrayList, ArrayList arrayList2, ArrayList arrayList3, SparseArray sparseArray, ArrayList arrayList4, HashMap hashMap2, HashMap hashMap3, HashSet hashSet, HashMap hashMap4, HashMap hashMap5) {
+    public /* synthetic */ void lambda$loadFilterPeers$16(HashMap hashMap, TLRPC$messages_Dialogs tLRPC$messages_Dialogs, TLRPC$messages_Dialogs tLRPC$messages_Dialogs2, ArrayList arrayList, ArrayList arrayList2, ArrayList arrayList3, SparseArray sparseArray, ArrayList arrayList4, HashMap hashMap2, HashSet hashSet, HashMap hashMap3, HashMap hashMap4) {
         TLRPC$TL_users_getUsers tLRPC$TL_users_getUsers;
-        int i;
         TLRPC$TL_messages_getPeerDialogs tLRPC$TL_messages_getPeerDialogs;
         TLRPC$TL_messages_getChats tLRPC$TL_messages_getChats;
         TLRPC$TL_channels_getChannels tLRPC$TL_channels_getChannels;
@@ -2371,17 +2378,14 @@ public class MessagesController extends BaseController implements NotificationCe
                     break;
                 }
             }
-            sendLoadPeersRequest(tLRPC$TL_users_getUsers, arrayList5, tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap2, hashMap3, hashSet);
+            sendLoadPeersRequest(tLRPC$TL_users_getUsers, arrayList5, tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap2, hashSet);
         }
         if (tLRPC$TL_users_getUsers != null) {
-            i = 100;
-            sendLoadPeersRequest(tLRPC$TL_users_getUsers, arrayList5, tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap2, hashMap3, hashSet);
-        } else {
-            i = 100;
+            sendLoadPeersRequest(tLRPC$TL_users_getUsers, arrayList5, tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap2, hashSet);
         }
         TLObject tLObject = null;
         TLObject tLObject2 = null;
-        for (Map.Entry entry2 : hashMap4.entrySet()) {
+        for (Map.Entry entry2 : hashMap3.entrySet()) {
             TLRPC$InputPeer tLRPC$InputPeer = (TLRPC$InputPeer) entry2.getValue();
             if (tLRPC$InputPeer.chat_id != 0) {
                 if (tLObject == null) {
@@ -2391,8 +2395,8 @@ public class MessagesController extends BaseController implements NotificationCe
                     tLRPC$TL_messages_getChats = tLObject;
                 }
                 tLRPC$TL_messages_getChats.id.add((Long) entry2.getKey());
-                if (tLRPC$TL_messages_getChats.id.size() == i) {
-                    sendLoadPeersRequest(tLRPC$TL_messages_getChats, arrayList5, tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap2, hashMap3, hashSet);
+                if (tLRPC$TL_messages_getChats.id.size() == 100) {
+                    sendLoadPeersRequest(tLRPC$TL_messages_getChats, arrayList5, tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap2, hashSet);
                     tLObject = null;
                 } else {
                     tLObject = tLRPC$TL_messages_getChats;
@@ -2406,8 +2410,8 @@ public class MessagesController extends BaseController implements NotificationCe
                     tLRPC$TL_channels_getChannels = tLObject2;
                 }
                 tLRPC$TL_channels_getChannels.id.add(getInputChannel(tLRPC$InputPeer));
-                if (tLRPC$TL_channels_getChannels.id.size() == i) {
-                    sendLoadPeersRequest(tLRPC$TL_channels_getChannels, arrayList5, tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap2, hashMap3, hashSet);
+                if (tLRPC$TL_channels_getChannels.id.size() == 100) {
+                    sendLoadPeersRequest(tLRPC$TL_channels_getChannels, arrayList5, tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap2, hashSet);
                     tLObject2 = null;
                 } else {
                     tLObject2 = tLRPC$TL_channels_getChannels;
@@ -2415,14 +2419,14 @@ public class MessagesController extends BaseController implements NotificationCe
             }
         }
         if (tLObject != null) {
-            sendLoadPeersRequest(tLObject, arrayList5, tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap2, hashMap3, hashSet);
+            sendLoadPeersRequest(tLObject, arrayList5, tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap2, hashSet);
         }
         if (tLObject2 != null) {
-            sendLoadPeersRequest(tLObject2, arrayList5, tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap2, hashMap3, hashSet);
+            sendLoadPeersRequest(tLObject2, arrayList5, tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap2, hashSet);
         }
         loop3: while (true) {
             tLRPC$TL_messages_getPeerDialogs = null;
-            for (Map.Entry entry3 : hashMap5.entrySet()) {
+            for (Map.Entry entry3 : hashMap4.entrySet()) {
                 if (tLRPC$TL_messages_getPeerDialogs == null) {
                     tLRPC$TL_messages_getPeerDialogs = new TLRPC$TL_messages_getPeerDialogs();
                     arrayList5.add(tLRPC$TL_messages_getPeerDialogs);
@@ -2430,14 +2434,14 @@ public class MessagesController extends BaseController implements NotificationCe
                 TLRPC$TL_inputDialogPeer tLRPC$TL_inputDialogPeer = new TLRPC$TL_inputDialogPeer();
                 tLRPC$TL_inputDialogPeer.peer = (TLRPC$InputPeer) entry3.getValue();
                 tLRPC$TL_messages_getPeerDialogs.peers.add(tLRPC$TL_inputDialogPeer);
-                if (tLRPC$TL_messages_getPeerDialogs.peers.size() == i) {
+                if (tLRPC$TL_messages_getPeerDialogs.peers.size() == 100) {
                     break;
                 }
             }
-            sendLoadPeersRequest(tLRPC$TL_messages_getPeerDialogs, arrayList5, tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap2, hashMap3, hashSet);
+            sendLoadPeersRequest(tLRPC$TL_messages_getPeerDialogs, arrayList5, tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap2, hashSet);
         }
         if (tLRPC$TL_messages_getPeerDialogs != null) {
-            sendLoadPeersRequest(tLRPC$TL_messages_getPeerDialogs, arrayList5, tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap2, hashMap3, hashSet);
+            sendLoadPeersRequest(tLRPC$TL_messages_getPeerDialogs, arrayList5, tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap2, hashSet);
         }
     }
 

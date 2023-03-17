@@ -2654,20 +2654,23 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$sortPlaylist$13(MessageObject messageObject, MessageObject messageObject2) {
+        int compare;
         int id = messageObject.getId();
         int id2 = messageObject2.getId();
         long j = messageObject.messageOwner.grouped_id;
         long j2 = messageObject2.messageOwner.grouped_id;
         if (id >= 0 || id2 >= 0) {
             if (j != 0 && j == j2) {
-                return Integer.compare(id2, id);
+                compare = Integer.compare(id2, id);
+            } else {
+                return Integer.compare(id, id2);
             }
-            return Integer.compare(id, id2);
         } else if (j != 0 && j == j2) {
-            return Integer.compare(id, id2);
+            compare = Integer.compare(id, id2);
         } else {
             return Integer.compare(id2, id);
         }
+        return -compare;
     }
 
     public void playNextMessage() {

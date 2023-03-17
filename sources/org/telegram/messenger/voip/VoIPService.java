@@ -4886,6 +4886,9 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     }
 
     public void declineIncomingCall(int i, Runnable runnable) {
+        if (this.groupCall != null) {
+            stopScreenCapture();
+        }
         stopRinging();
         this.callDiscardReason = i;
         int i2 = this.currentState;

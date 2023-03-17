@@ -1540,7 +1540,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                                             ActionBarLayout.this.delayedOpenAnimationRunnable.run();
                                             return;
                                         } else {
-                                            AndroidUtilities.runOnUIThread(ActionBarLayout.this.delayedOpenAnimationRunnable, 100L);
+                                            AndroidUtilities.runOnUIThread(ActionBarLayout.this.delayedOpenAnimationRunnable, 200L);
                                             return;
                                         }
                                     }

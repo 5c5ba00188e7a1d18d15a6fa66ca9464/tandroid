@@ -4271,6 +4271,29 @@ public class MessagesStorage extends BaseController {
         }
     }
 
+    private ArrayList<Long> toPeerIds(ArrayList<TLRPC$InputPeer> arrayList) {
+        ArrayList<Long> arrayList2 = new ArrayList<>();
+        if (arrayList == null) {
+            return arrayList2;
+        }
+        int size = arrayList.size();
+        for (int i = 0; i < size; i++) {
+            TLRPC$InputPeer tLRPC$InputPeer = arrayList.get(i);
+            if (tLRPC$InputPeer != null) {
+                long j = tLRPC$InputPeer.user_id;
+                if (j == 0) {
+                    long j2 = tLRPC$InputPeer.chat_id;
+                    if (j2 == 0) {
+                        j2 = tLRPC$InputPeer.channel_id;
+                    }
+                    j = -j2;
+                }
+                arrayList2.add(Long.valueOf(j));
+            }
+        }
+        return arrayList2;
+    }
+
     public void checkLoadedRemoteFilters(final TLRPC$Vector tLRPC$Vector) {
         this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda192
             @Override // java.lang.Runnable
@@ -4281,623 +4304,505 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:158:0x0382 A[Catch: Exception -> 0x05fc, TryCatch #1 {Exception -> 0x05fc, blocks: (B:10:0x0064, B:15:0x0087, B:19:0x008e, B:23:0x0095, B:27:0x009c, B:31:0x00a3, B:35:0x00aa, B:39:0x00b1, B:43:0x00b8, B:45:0x00c8, B:47:0x00d9, B:49:0x00e0, B:51:0x00e4, B:53:0x00ea, B:55:0x0109, B:57:0x011d, B:60:0x012d, B:62:0x013b, B:64:0x0153, B:68:0x0177, B:67:0x0168, B:72:0x0189, B:74:0x0192, B:78:0x01ad, B:77:0x019f, B:83:0x01b8, B:87:0x01c1, B:90:0x01c8, B:92:0x01da, B:94:0x01ee, B:100:0x0201, B:102:0x0209, B:103:0x020e, B:106:0x0218, B:108:0x0224, B:111:0x024b, B:113:0x025e, B:115:0x0264, B:117:0x026c, B:95:0x01f3, B:99:0x01fc, B:98:0x01fa, B:120:0x028e, B:121:0x0296, B:123:0x029c, B:125:0x02c9, B:127:0x02d2, B:129:0x02de, B:131:0x02e8, B:133:0x02ee, B:134:0x02f1, B:136:0x02f7, B:154:0x0351, B:141:0x0310, B:145:0x031c, B:147:0x0331, B:149:0x0337, B:150:0x033a, B:152:0x0342, B:144:0x031a, B:155:0x035d, B:88:0x01c4, B:84:0x01bb, B:156:0x0373, B:158:0x0382, B:160:0x0395, B:162:0x039b, B:165:0x03ad, B:168:0x03b7, B:224:0x0503, B:171:0x03cd, B:175:0x03f3, B:177:0x03fc, B:179:0x040e, B:185:0x0421, B:187:0x0429, B:188:0x042e, B:190:0x044b, B:191:0x0451, B:180:0x0413, B:184:0x041c, B:183:0x041a, B:194:0x0469, B:197:0x0470, B:199:0x0475, B:201:0x047c, B:203:0x0488, B:205:0x0492, B:206:0x0495, B:208:0x049b, B:221:0x04de, B:210:0x04a9, B:214:0x04b2, B:216:0x04c8, B:217:0x04cb, B:219:0x04d3, B:213:0x04b0, B:222:0x04e8, B:198:0x0473, B:195:0x046c, B:223:0x04fa, B:225:0x0519, B:228:0x052e), top: B:259:0x0064 }] */
-    /* JADX WARN: Removed duplicated region for block: B:159:0x0391  */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x039b A[Catch: Exception -> 0x05fc, TryCatch #1 {Exception -> 0x05fc, blocks: (B:10:0x0064, B:15:0x0087, B:19:0x008e, B:23:0x0095, B:27:0x009c, B:31:0x00a3, B:35:0x00aa, B:39:0x00b1, B:43:0x00b8, B:45:0x00c8, B:47:0x00d9, B:49:0x00e0, B:51:0x00e4, B:53:0x00ea, B:55:0x0109, B:57:0x011d, B:60:0x012d, B:62:0x013b, B:64:0x0153, B:68:0x0177, B:67:0x0168, B:72:0x0189, B:74:0x0192, B:78:0x01ad, B:77:0x019f, B:83:0x01b8, B:87:0x01c1, B:90:0x01c8, B:92:0x01da, B:94:0x01ee, B:100:0x0201, B:102:0x0209, B:103:0x020e, B:106:0x0218, B:108:0x0224, B:111:0x024b, B:113:0x025e, B:115:0x0264, B:117:0x026c, B:95:0x01f3, B:99:0x01fc, B:98:0x01fa, B:120:0x028e, B:121:0x0296, B:123:0x029c, B:125:0x02c9, B:127:0x02d2, B:129:0x02de, B:131:0x02e8, B:133:0x02ee, B:134:0x02f1, B:136:0x02f7, B:154:0x0351, B:141:0x0310, B:145:0x031c, B:147:0x0331, B:149:0x0337, B:150:0x033a, B:152:0x0342, B:144:0x031a, B:155:0x035d, B:88:0x01c4, B:84:0x01bb, B:156:0x0373, B:158:0x0382, B:160:0x0395, B:162:0x039b, B:165:0x03ad, B:168:0x03b7, B:224:0x0503, B:171:0x03cd, B:175:0x03f3, B:177:0x03fc, B:179:0x040e, B:185:0x0421, B:187:0x0429, B:188:0x042e, B:190:0x044b, B:191:0x0451, B:180:0x0413, B:184:0x041c, B:183:0x041a, B:194:0x0469, B:197:0x0470, B:199:0x0475, B:201:0x047c, B:203:0x0488, B:205:0x0492, B:206:0x0495, B:208:0x049b, B:221:0x04de, B:210:0x04a9, B:214:0x04b2, B:216:0x04c8, B:217:0x04cb, B:219:0x04d3, B:213:0x04b0, B:222:0x04e8, B:198:0x0473, B:195:0x046c, B:223:0x04fa, B:225:0x0519, B:228:0x052e), top: B:259:0x0064 }] */
-    /* JADX WARN: Removed duplicated region for block: B:163:0x03a7  */
-    /* JADX WARN: Removed duplicated region for block: B:165:0x03ad A[Catch: Exception -> 0x05fc, TryCatch #1 {Exception -> 0x05fc, blocks: (B:10:0x0064, B:15:0x0087, B:19:0x008e, B:23:0x0095, B:27:0x009c, B:31:0x00a3, B:35:0x00aa, B:39:0x00b1, B:43:0x00b8, B:45:0x00c8, B:47:0x00d9, B:49:0x00e0, B:51:0x00e4, B:53:0x00ea, B:55:0x0109, B:57:0x011d, B:60:0x012d, B:62:0x013b, B:64:0x0153, B:68:0x0177, B:67:0x0168, B:72:0x0189, B:74:0x0192, B:78:0x01ad, B:77:0x019f, B:83:0x01b8, B:87:0x01c1, B:90:0x01c8, B:92:0x01da, B:94:0x01ee, B:100:0x0201, B:102:0x0209, B:103:0x020e, B:106:0x0218, B:108:0x0224, B:111:0x024b, B:113:0x025e, B:115:0x0264, B:117:0x026c, B:95:0x01f3, B:99:0x01fc, B:98:0x01fa, B:120:0x028e, B:121:0x0296, B:123:0x029c, B:125:0x02c9, B:127:0x02d2, B:129:0x02de, B:131:0x02e8, B:133:0x02ee, B:134:0x02f1, B:136:0x02f7, B:154:0x0351, B:141:0x0310, B:145:0x031c, B:147:0x0331, B:149:0x0337, B:150:0x033a, B:152:0x0342, B:144:0x031a, B:155:0x035d, B:88:0x01c4, B:84:0x01bb, B:156:0x0373, B:158:0x0382, B:160:0x0395, B:162:0x039b, B:165:0x03ad, B:168:0x03b7, B:224:0x0503, B:171:0x03cd, B:175:0x03f3, B:177:0x03fc, B:179:0x040e, B:185:0x0421, B:187:0x0429, B:188:0x042e, B:190:0x044b, B:191:0x0451, B:180:0x0413, B:184:0x041c, B:183:0x041a, B:194:0x0469, B:197:0x0470, B:199:0x0475, B:201:0x047c, B:203:0x0488, B:205:0x0492, B:206:0x0495, B:208:0x049b, B:221:0x04de, B:210:0x04a9, B:214:0x04b2, B:216:0x04c8, B:217:0x04cb, B:219:0x04d3, B:213:0x04b0, B:222:0x04e8, B:198:0x0473, B:195:0x046c, B:223:0x04fa, B:225:0x0519, B:228:0x052e), top: B:259:0x0064 }] */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x03b3  */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x03b7 A[Catch: Exception -> 0x05fc, TryCatch #1 {Exception -> 0x05fc, blocks: (B:10:0x0064, B:15:0x0087, B:19:0x008e, B:23:0x0095, B:27:0x009c, B:31:0x00a3, B:35:0x00aa, B:39:0x00b1, B:43:0x00b8, B:45:0x00c8, B:47:0x00d9, B:49:0x00e0, B:51:0x00e4, B:53:0x00ea, B:55:0x0109, B:57:0x011d, B:60:0x012d, B:62:0x013b, B:64:0x0153, B:68:0x0177, B:67:0x0168, B:72:0x0189, B:74:0x0192, B:78:0x01ad, B:77:0x019f, B:83:0x01b8, B:87:0x01c1, B:90:0x01c8, B:92:0x01da, B:94:0x01ee, B:100:0x0201, B:102:0x0209, B:103:0x020e, B:106:0x0218, B:108:0x0224, B:111:0x024b, B:113:0x025e, B:115:0x0264, B:117:0x026c, B:95:0x01f3, B:99:0x01fc, B:98:0x01fa, B:120:0x028e, B:121:0x0296, B:123:0x029c, B:125:0x02c9, B:127:0x02d2, B:129:0x02de, B:131:0x02e8, B:133:0x02ee, B:134:0x02f1, B:136:0x02f7, B:154:0x0351, B:141:0x0310, B:145:0x031c, B:147:0x0331, B:149:0x0337, B:150:0x033a, B:152:0x0342, B:144:0x031a, B:155:0x035d, B:88:0x01c4, B:84:0x01bb, B:156:0x0373, B:158:0x0382, B:160:0x0395, B:162:0x039b, B:165:0x03ad, B:168:0x03b7, B:224:0x0503, B:171:0x03cd, B:175:0x03f3, B:177:0x03fc, B:179:0x040e, B:185:0x0421, B:187:0x0429, B:188:0x042e, B:190:0x044b, B:191:0x0451, B:180:0x0413, B:184:0x041c, B:183:0x041a, B:194:0x0469, B:197:0x0470, B:199:0x0475, B:201:0x047c, B:203:0x0488, B:205:0x0492, B:206:0x0495, B:208:0x049b, B:221:0x04de, B:210:0x04a9, B:214:0x04b2, B:216:0x04c8, B:217:0x04cb, B:219:0x04d3, B:213:0x04b0, B:222:0x04e8, B:198:0x0473, B:195:0x046c, B:223:0x04fa, B:225:0x0519, B:228:0x052e), top: B:259:0x0064 }] */
-    /* JADX WARN: Removed duplicated region for block: B:169:0x03c3  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x0192 A[Catch: Exception -> 0x05fc, TryCatch #1 {Exception -> 0x05fc, blocks: (B:10:0x0064, B:15:0x0087, B:19:0x008e, B:23:0x0095, B:27:0x009c, B:31:0x00a3, B:35:0x00aa, B:39:0x00b1, B:43:0x00b8, B:45:0x00c8, B:47:0x00d9, B:49:0x00e0, B:51:0x00e4, B:53:0x00ea, B:55:0x0109, B:57:0x011d, B:60:0x012d, B:62:0x013b, B:64:0x0153, B:68:0x0177, B:67:0x0168, B:72:0x0189, B:74:0x0192, B:78:0x01ad, B:77:0x019f, B:83:0x01b8, B:87:0x01c1, B:90:0x01c8, B:92:0x01da, B:94:0x01ee, B:100:0x0201, B:102:0x0209, B:103:0x020e, B:106:0x0218, B:108:0x0224, B:111:0x024b, B:113:0x025e, B:115:0x0264, B:117:0x026c, B:95:0x01f3, B:99:0x01fc, B:98:0x01fa, B:120:0x028e, B:121:0x0296, B:123:0x029c, B:125:0x02c9, B:127:0x02d2, B:129:0x02de, B:131:0x02e8, B:133:0x02ee, B:134:0x02f1, B:136:0x02f7, B:154:0x0351, B:141:0x0310, B:145:0x031c, B:147:0x0331, B:149:0x0337, B:150:0x033a, B:152:0x0342, B:144:0x031a, B:155:0x035d, B:88:0x01c4, B:84:0x01bb, B:156:0x0373, B:158:0x0382, B:160:0x0395, B:162:0x039b, B:165:0x03ad, B:168:0x03b7, B:224:0x0503, B:171:0x03cd, B:175:0x03f3, B:177:0x03fc, B:179:0x040e, B:185:0x0421, B:187:0x0429, B:188:0x042e, B:190:0x044b, B:191:0x0451, B:180:0x0413, B:184:0x041c, B:183:0x041a, B:194:0x0469, B:197:0x0470, B:199:0x0475, B:201:0x047c, B:203:0x0488, B:205:0x0492, B:206:0x0495, B:208:0x049b, B:221:0x04de, B:210:0x04a9, B:214:0x04b2, B:216:0x04c8, B:217:0x04cb, B:219:0x04d3, B:213:0x04b0, B:222:0x04e8, B:198:0x0473, B:195:0x046c, B:223:0x04fa, B:225:0x0519, B:228:0x052e), top: B:259:0x0064 }] */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x01b6  */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x02e7 A[Catch: Exception -> 0x0543, TryCatch #0 {Exception -> 0x0543, blocks: (B:3:0x0004, B:5:0x0012, B:6:0x0022, B:8:0x005d, B:10:0x0072, B:12:0x007e, B:14:0x0082, B:15:0x0085, B:17:0x0089, B:18:0x008c, B:20:0x0090, B:21:0x0093, B:23:0x0097, B:24:0x009a, B:26:0x009e, B:27:0x00a1, B:29:0x00a5, B:30:0x00a8, B:32:0x00ac, B:33:0x00af, B:35:0x00c1, B:37:0x00d2, B:39:0x00d9, B:41:0x00dd, B:43:0x00e3, B:45:0x0102, B:47:0x0116, B:50:0x0126, B:52:0x0134, B:54:0x014c, B:58:0x0170, B:57:0x0161, B:61:0x017f, B:63:0x0188, B:67:0x01a3, B:66:0x0195, B:68:0x01a6, B:70:0x01b4, B:72:0x01c6, B:78:0x01d9, B:80:0x01e3, B:82:0x01ef, B:83:0x0207, B:85:0x021f, B:87:0x0225, B:89:0x022d, B:73:0x01cb, B:77:0x01d4, B:76:0x01d2, B:92:0x0249, B:93:0x0251, B:95:0x0257, B:100:0x0279, B:102:0x027e, B:104:0x0284, B:107:0x028b, B:108:0x0292, B:110:0x0298, B:111:0x02a2, B:113:0x02a8, B:120:0x02c0, B:123:0x02cd, B:126:0x02d4, B:127:0x02d7, B:129:0x02dd, B:105:0x0287, B:101:0x027c, B:130:0x02e0, B:132:0x02e7, B:135:0x02f9, B:138:0x0303, B:195:0x045b, B:141:0x031e, B:145:0x0343, B:147:0x034c, B:149:0x035a, B:155:0x036d, B:157:0x0375, B:158:0x037a, B:160:0x0393, B:161:0x0399, B:150:0x035f, B:154:0x0368, B:153:0x0366, B:164:0x03a4, B:167:0x03ab, B:169:0x03b0, B:171:0x03b7, B:173:0x03c3, B:175:0x03cd, B:176:0x03d0, B:178:0x03d8, B:192:0x0429, B:181:0x03ed, B:185:0x03fd, B:187:0x0413, B:188:0x0416, B:190:0x041e, B:184:0x03fb, B:193:0x043a, B:168:0x03ae, B:165:0x03a7, B:194:0x044d, B:196:0x046e, B:199:0x0480, B:201:0x0496, B:203:0x04af, B:205:0x04ba, B:207:0x04c8, B:208:0x04da, B:210:0x04e5, B:212:0x04f3, B:213:0x0505, B:215:0x050b, B:217:0x0511, B:219:0x0517, B:220:0x0525, B:202:0x04aa), top: B:225:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x02f3  */
+    /* JADX WARN: Removed duplicated region for block: B:135:0x02f9 A[Catch: Exception -> 0x0543, TryCatch #0 {Exception -> 0x0543, blocks: (B:3:0x0004, B:5:0x0012, B:6:0x0022, B:8:0x005d, B:10:0x0072, B:12:0x007e, B:14:0x0082, B:15:0x0085, B:17:0x0089, B:18:0x008c, B:20:0x0090, B:21:0x0093, B:23:0x0097, B:24:0x009a, B:26:0x009e, B:27:0x00a1, B:29:0x00a5, B:30:0x00a8, B:32:0x00ac, B:33:0x00af, B:35:0x00c1, B:37:0x00d2, B:39:0x00d9, B:41:0x00dd, B:43:0x00e3, B:45:0x0102, B:47:0x0116, B:50:0x0126, B:52:0x0134, B:54:0x014c, B:58:0x0170, B:57:0x0161, B:61:0x017f, B:63:0x0188, B:67:0x01a3, B:66:0x0195, B:68:0x01a6, B:70:0x01b4, B:72:0x01c6, B:78:0x01d9, B:80:0x01e3, B:82:0x01ef, B:83:0x0207, B:85:0x021f, B:87:0x0225, B:89:0x022d, B:73:0x01cb, B:77:0x01d4, B:76:0x01d2, B:92:0x0249, B:93:0x0251, B:95:0x0257, B:100:0x0279, B:102:0x027e, B:104:0x0284, B:107:0x028b, B:108:0x0292, B:110:0x0298, B:111:0x02a2, B:113:0x02a8, B:120:0x02c0, B:123:0x02cd, B:126:0x02d4, B:127:0x02d7, B:129:0x02dd, B:105:0x0287, B:101:0x027c, B:130:0x02e0, B:132:0x02e7, B:135:0x02f9, B:138:0x0303, B:195:0x045b, B:141:0x031e, B:145:0x0343, B:147:0x034c, B:149:0x035a, B:155:0x036d, B:157:0x0375, B:158:0x037a, B:160:0x0393, B:161:0x0399, B:150:0x035f, B:154:0x0368, B:153:0x0366, B:164:0x03a4, B:167:0x03ab, B:169:0x03b0, B:171:0x03b7, B:173:0x03c3, B:175:0x03cd, B:176:0x03d0, B:178:0x03d8, B:192:0x0429, B:181:0x03ed, B:185:0x03fd, B:187:0x0413, B:188:0x0416, B:190:0x041e, B:184:0x03fb, B:193:0x043a, B:168:0x03ae, B:165:0x03a7, B:194:0x044d, B:196:0x046e, B:199:0x0480, B:201:0x0496, B:203:0x04af, B:205:0x04ba, B:207:0x04c8, B:208:0x04da, B:210:0x04e5, B:212:0x04f3, B:213:0x0505, B:215:0x050b, B:217:0x0511, B:219:0x0517, B:220:0x0525, B:202:0x04aa), top: B:225:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x02ff  */
+    /* JADX WARN: Removed duplicated region for block: B:138:0x0303 A[Catch: Exception -> 0x0543, TryCatch #0 {Exception -> 0x0543, blocks: (B:3:0x0004, B:5:0x0012, B:6:0x0022, B:8:0x005d, B:10:0x0072, B:12:0x007e, B:14:0x0082, B:15:0x0085, B:17:0x0089, B:18:0x008c, B:20:0x0090, B:21:0x0093, B:23:0x0097, B:24:0x009a, B:26:0x009e, B:27:0x00a1, B:29:0x00a5, B:30:0x00a8, B:32:0x00ac, B:33:0x00af, B:35:0x00c1, B:37:0x00d2, B:39:0x00d9, B:41:0x00dd, B:43:0x00e3, B:45:0x0102, B:47:0x0116, B:50:0x0126, B:52:0x0134, B:54:0x014c, B:58:0x0170, B:57:0x0161, B:61:0x017f, B:63:0x0188, B:67:0x01a3, B:66:0x0195, B:68:0x01a6, B:70:0x01b4, B:72:0x01c6, B:78:0x01d9, B:80:0x01e3, B:82:0x01ef, B:83:0x0207, B:85:0x021f, B:87:0x0225, B:89:0x022d, B:73:0x01cb, B:77:0x01d4, B:76:0x01d2, B:92:0x0249, B:93:0x0251, B:95:0x0257, B:100:0x0279, B:102:0x027e, B:104:0x0284, B:107:0x028b, B:108:0x0292, B:110:0x0298, B:111:0x02a2, B:113:0x02a8, B:120:0x02c0, B:123:0x02cd, B:126:0x02d4, B:127:0x02d7, B:129:0x02dd, B:105:0x0287, B:101:0x027c, B:130:0x02e0, B:132:0x02e7, B:135:0x02f9, B:138:0x0303, B:195:0x045b, B:141:0x031e, B:145:0x0343, B:147:0x034c, B:149:0x035a, B:155:0x036d, B:157:0x0375, B:158:0x037a, B:160:0x0393, B:161:0x0399, B:150:0x035f, B:154:0x0368, B:153:0x0366, B:164:0x03a4, B:167:0x03ab, B:169:0x03b0, B:171:0x03b7, B:173:0x03c3, B:175:0x03cd, B:176:0x03d0, B:178:0x03d8, B:192:0x0429, B:181:0x03ed, B:185:0x03fd, B:187:0x0413, B:188:0x0416, B:190:0x041e, B:184:0x03fb, B:193:0x043a, B:168:0x03ae, B:165:0x03a7, B:194:0x044d, B:196:0x046e, B:199:0x0480, B:201:0x0496, B:203:0x04af, B:205:0x04ba, B:207:0x04c8, B:208:0x04da, B:210:0x04e5, B:212:0x04f3, B:213:0x0505, B:215:0x050b, B:217:0x0511, B:219:0x0517, B:220:0x0525, B:202:0x04aa), top: B:225:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x030f  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0188 A[Catch: Exception -> 0x0543, TryCatch #0 {Exception -> 0x0543, blocks: (B:3:0x0004, B:5:0x0012, B:6:0x0022, B:8:0x005d, B:10:0x0072, B:12:0x007e, B:14:0x0082, B:15:0x0085, B:17:0x0089, B:18:0x008c, B:20:0x0090, B:21:0x0093, B:23:0x0097, B:24:0x009a, B:26:0x009e, B:27:0x00a1, B:29:0x00a5, B:30:0x00a8, B:32:0x00ac, B:33:0x00af, B:35:0x00c1, B:37:0x00d2, B:39:0x00d9, B:41:0x00dd, B:43:0x00e3, B:45:0x0102, B:47:0x0116, B:50:0x0126, B:52:0x0134, B:54:0x014c, B:58:0x0170, B:57:0x0161, B:61:0x017f, B:63:0x0188, B:67:0x01a3, B:66:0x0195, B:68:0x01a6, B:70:0x01b4, B:72:0x01c6, B:78:0x01d9, B:80:0x01e3, B:82:0x01ef, B:83:0x0207, B:85:0x021f, B:87:0x0225, B:89:0x022d, B:73:0x01cb, B:77:0x01d4, B:76:0x01d2, B:92:0x0249, B:93:0x0251, B:95:0x0257, B:100:0x0279, B:102:0x027e, B:104:0x0284, B:107:0x028b, B:108:0x0292, B:110:0x0298, B:111:0x02a2, B:113:0x02a8, B:120:0x02c0, B:123:0x02cd, B:126:0x02d4, B:127:0x02d7, B:129:0x02dd, B:105:0x0287, B:101:0x027c, B:130:0x02e0, B:132:0x02e7, B:135:0x02f9, B:138:0x0303, B:195:0x045b, B:141:0x031e, B:145:0x0343, B:147:0x034c, B:149:0x035a, B:155:0x036d, B:157:0x0375, B:158:0x037a, B:160:0x0393, B:161:0x0399, B:150:0x035f, B:154:0x0368, B:153:0x0366, B:164:0x03a4, B:167:0x03ab, B:169:0x03b0, B:171:0x03b7, B:173:0x03c3, B:175:0x03cd, B:176:0x03d0, B:178:0x03d8, B:192:0x0429, B:181:0x03ed, B:185:0x03fd, B:187:0x0413, B:188:0x0416, B:190:0x041e, B:184:0x03fb, B:193:0x043a, B:168:0x03ae, B:165:0x03a7, B:194:0x044d, B:196:0x046e, B:199:0x0480, B:201:0x0496, B:203:0x04af, B:205:0x04ba, B:207:0x04c8, B:208:0x04da, B:210:0x04e5, B:212:0x04f3, B:213:0x0505, B:215:0x050b, B:217:0x0511, B:219:0x0517, B:220:0x0525, B:202:0x04aa), top: B:225:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x01b4 A[Catch: Exception -> 0x0543, TryCatch #0 {Exception -> 0x0543, blocks: (B:3:0x0004, B:5:0x0012, B:6:0x0022, B:8:0x005d, B:10:0x0072, B:12:0x007e, B:14:0x0082, B:15:0x0085, B:17:0x0089, B:18:0x008c, B:20:0x0090, B:21:0x0093, B:23:0x0097, B:24:0x009a, B:26:0x009e, B:27:0x00a1, B:29:0x00a5, B:30:0x00a8, B:32:0x00ac, B:33:0x00af, B:35:0x00c1, B:37:0x00d2, B:39:0x00d9, B:41:0x00dd, B:43:0x00e3, B:45:0x0102, B:47:0x0116, B:50:0x0126, B:52:0x0134, B:54:0x014c, B:58:0x0170, B:57:0x0161, B:61:0x017f, B:63:0x0188, B:67:0x01a3, B:66:0x0195, B:68:0x01a6, B:70:0x01b4, B:72:0x01c6, B:78:0x01d9, B:80:0x01e3, B:82:0x01ef, B:83:0x0207, B:85:0x021f, B:87:0x0225, B:89:0x022d, B:73:0x01cb, B:77:0x01d4, B:76:0x01d2, B:92:0x0249, B:93:0x0251, B:95:0x0257, B:100:0x0279, B:102:0x027e, B:104:0x0284, B:107:0x028b, B:108:0x0292, B:110:0x0298, B:111:0x02a2, B:113:0x02a8, B:120:0x02c0, B:123:0x02cd, B:126:0x02d4, B:127:0x02d7, B:129:0x02dd, B:105:0x0287, B:101:0x027c, B:130:0x02e0, B:132:0x02e7, B:135:0x02f9, B:138:0x0303, B:195:0x045b, B:141:0x031e, B:145:0x0343, B:147:0x034c, B:149:0x035a, B:155:0x036d, B:157:0x0375, B:158:0x037a, B:160:0x0393, B:161:0x0399, B:150:0x035f, B:154:0x0368, B:153:0x0366, B:164:0x03a4, B:167:0x03ab, B:169:0x03b0, B:171:0x03b7, B:173:0x03c3, B:175:0x03cd, B:176:0x03d0, B:178:0x03d8, B:192:0x0429, B:181:0x03ed, B:185:0x03fd, B:187:0x0413, B:188:0x0416, B:190:0x041e, B:184:0x03fb, B:193:0x043a, B:168:0x03ae, B:165:0x03a7, B:194:0x044d, B:196:0x046e, B:199:0x0480, B:201:0x0496, B:203:0x04af, B:205:0x04ba, B:207:0x04c8, B:208:0x04da, B:210:0x04e5, B:212:0x04f3, B:213:0x0505, B:215:0x050b, B:217:0x0511, B:219:0x0517, B:220:0x0525, B:202:0x04aa), top: B:225:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x0249 A[Catch: Exception -> 0x0543, TryCatch #0 {Exception -> 0x0543, blocks: (B:3:0x0004, B:5:0x0012, B:6:0x0022, B:8:0x005d, B:10:0x0072, B:12:0x007e, B:14:0x0082, B:15:0x0085, B:17:0x0089, B:18:0x008c, B:20:0x0090, B:21:0x0093, B:23:0x0097, B:24:0x009a, B:26:0x009e, B:27:0x00a1, B:29:0x00a5, B:30:0x00a8, B:32:0x00ac, B:33:0x00af, B:35:0x00c1, B:37:0x00d2, B:39:0x00d9, B:41:0x00dd, B:43:0x00e3, B:45:0x0102, B:47:0x0116, B:50:0x0126, B:52:0x0134, B:54:0x014c, B:58:0x0170, B:57:0x0161, B:61:0x017f, B:63:0x0188, B:67:0x01a3, B:66:0x0195, B:68:0x01a6, B:70:0x01b4, B:72:0x01c6, B:78:0x01d9, B:80:0x01e3, B:82:0x01ef, B:83:0x0207, B:85:0x021f, B:87:0x0225, B:89:0x022d, B:73:0x01cb, B:77:0x01d4, B:76:0x01d2, B:92:0x0249, B:93:0x0251, B:95:0x0257, B:100:0x0279, B:102:0x027e, B:104:0x0284, B:107:0x028b, B:108:0x0292, B:110:0x0298, B:111:0x02a2, B:113:0x02a8, B:120:0x02c0, B:123:0x02cd, B:126:0x02d4, B:127:0x02d7, B:129:0x02dd, B:105:0x0287, B:101:0x027c, B:130:0x02e0, B:132:0x02e7, B:135:0x02f9, B:138:0x0303, B:195:0x045b, B:141:0x031e, B:145:0x0343, B:147:0x034c, B:149:0x035a, B:155:0x036d, B:157:0x0375, B:158:0x037a, B:160:0x0393, B:161:0x0399, B:150:0x035f, B:154:0x0368, B:153:0x0366, B:164:0x03a4, B:167:0x03ab, B:169:0x03b0, B:171:0x03b7, B:173:0x03c3, B:175:0x03cd, B:176:0x03d0, B:178:0x03d8, B:192:0x0429, B:181:0x03ed, B:185:0x03fd, B:187:0x0413, B:188:0x0416, B:190:0x041e, B:184:0x03fb, B:193:0x043a, B:168:0x03ae, B:165:0x03a7, B:194:0x044d, B:196:0x046e, B:199:0x0480, B:201:0x0496, B:203:0x04af, B:205:0x04ba, B:207:0x04c8, B:208:0x04da, B:210:0x04e5, B:212:0x04f3, B:213:0x0505, B:215:0x050b, B:217:0x0511, B:219:0x0517, B:220:0x0525, B:202:0x04aa), top: B:225:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x0277  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$checkLoadedRemoteFilters$51(TLRPC$Vector tLRPC$Vector) {
-        MessagesStorage messagesStorage;
         TLRPC$messages_Dialogs tLRPC$TL_messages_dialogs;
-        ArrayList<Integer> arrayList;
         int i;
         int i2;
         SparseArray<MessagesController.DialogFilter> sparseArray;
-        HashSet<Integer> hashSet;
+        int i3;
+        HashMap<Integer, HashSet<Long>> hashMap;
+        HashMap<Long, TLRPC$InputPeer> hashMap2;
+        ArrayList<Long> arrayList;
+        HashMap<Long, TLRPC$InputPeer> hashMap3;
         ArrayList<Long> arrayList2;
-        HashMap<Long, TLRPC$InputPeer> hashMap;
-        HashMap<Integer, HashSet<Long>> hashMap2;
-        HashMap<Integer, HashSet<Long>> hashMap3;
-        TLRPC$DialogFilter tLRPC$DialogFilter;
         ArrayList<TLRPC$InputPeer> arrayList3;
-        HashMap<Long, TLRPC$InputPeer> hashMap4;
         ArrayList<Long> arrayList4;
+        HashMap<Long, TLRPC$InputPeer> hashMap4;
+        TLRPC$DialogFilter tLRPC$DialogFilter;
+        HashMap<Long, TLRPC$InputPeer> hashMap5;
+        HashMap<Long, TLRPC$InputPeer> hashMap6;
+        ArrayList<Long> arrayList5;
         Long valueOf;
         boolean z;
         boolean z2;
-        ArrayList<MessagesController.DialogFilter> arrayList5;
-        HashSet<Integer> hashSet2;
+        ArrayList<Long> arrayList6;
+        HashMap<Long, TLRPC$InputPeer> hashMap7;
         LinkedHashMap linkedHashMap;
         int size;
-        int i3;
         int i4;
-        HashMap<Integer, HashSet<Long>> hashMap5;
-        boolean z3;
-        HashMap<Integer, HashSet<Long>> hashMap6;
-        ArrayList<Long> arrayList6;
-        LinkedHashMap linkedHashMap2;
-        ArrayList<Long> arrayList7;
-        HashMap<Long, TLRPC$InputPeer> hashMap7;
+        int size2;
         int i5;
-        ArrayList<Long> arrayList8;
-        HashMap<Integer, HashSet<Long>> hashMap8;
-        HashMap<Integer, HashSet<Long>> hashMap9;
-        TLRPC$DialogFilter tLRPC$DialogFilter2;
-        ArrayList<Long> arrayList9;
-        boolean z4;
-        ArrayList<TLRPC$InputPeer> arrayList10;
-        HashMap<Long, TLRPC$InputPeer> hashMap10;
-        ArrayList<Long> arrayList11;
-        Long valueOf2;
-        ArrayList<Long> arrayList12;
-        LinkedHashMap linkedHashMap3;
         int i6;
-        TLRPC$DialogFilter tLRPC$DialogFilter3;
+        HashMap<Integer, HashSet<Long>> hashMap8;
+        Long valueOf2;
+        ArrayList arrayList7;
         int i7;
-        ArrayList arrayList13;
-        MessagesStorage messagesStorage2 = this;
         TLRPC$Vector tLRPC$Vector2 = tLRPC$Vector;
         try {
             SparseArray<MessagesController.DialogFilter> sparseArray2 = new SparseArray<>();
-            int size2 = messagesStorage2.dialogFilters.size();
-            for (int i8 = 0; i8 < size2; i8++) {
-                MessagesController.DialogFilter dialogFilter = messagesStorage2.dialogFilters.get(i8);
+            int size3 = this.dialogFilters.size();
+            for (int i8 = 0; i8 < size3; i8++) {
+                MessagesController.DialogFilter dialogFilter = this.dialogFilters.get(i8);
                 sparseArray2.put(dialogFilter.id, dialogFilter);
             }
-            ArrayList<Integer> arrayList14 = new ArrayList<>();
-            ArrayList<Long> arrayList15 = new ArrayList<>();
+            ArrayList<Integer> arrayList8 = new ArrayList<>();
+            ArrayList<Long> arrayList9 = new ArrayList<>();
+            HashMap<Long, TLRPC$InputPeer> hashMap9 = new HashMap<>();
+            ArrayList<Long> arrayList10 = new ArrayList<>();
+            HashMap<Long, TLRPC$InputPeer> hashMap10 = new HashMap<>();
+            ArrayList arrayList11 = new ArrayList();
             HashMap<Long, TLRPC$InputPeer> hashMap11 = new HashMap<>();
-            ArrayList<Long> arrayList16 = new ArrayList<>();
-            HashMap<Long, TLRPC$InputPeer> hashMap12 = new HashMap<>();
-            ArrayList arrayList17 = new ArrayList();
-            HashMap<Long, TLRPC$InputPeer> hashMap13 = new HashMap<>();
-            ArrayList<MessagesController.DialogFilter> arrayList18 = new ArrayList<>();
-            HashMap<Integer, HashSet<Long>> hashMap14 = new HashMap<>();
-            HashMap<Integer, HashSet<Long>> hashMap15 = new HashMap<>();
-            HashSet<Integer> hashSet3 = new HashSet<>();
-            int size3 = tLRPC$Vector2.objects.size();
+            ArrayList<MessagesController.DialogFilter> arrayList12 = new ArrayList<>();
+            HashMap<Integer, HashSet<Long>> hashMap12 = new HashMap<>();
+            HashSet<Integer> hashSet = new HashSet<>();
+            int size4 = tLRPC$Vector2.objects.size();
             int i9 = 0;
-            while (i9 < size3) {
-                int i10 = size3;
-                try {
-                    TLRPC$DialogFilter tLRPC$DialogFilter4 = (TLRPC$DialogFilter) tLRPC$Vector2.objects.get(i9);
-                    arrayList14.add(Integer.valueOf(tLRPC$DialogFilter4.id));
-                    if (tLRPC$DialogFilter4.contacts) {
-                        i = MessagesController.DIALOG_FILTER_FLAG_CONTACTS | 0;
-                        arrayList = arrayList14;
+            while (i9 < size4) {
+                TLRPC$DialogFilter tLRPC$DialogFilter2 = (TLRPC$DialogFilter) tLRPC$Vector2.objects.get(i9);
+                arrayList8.add(Integer.valueOf(tLRPC$DialogFilter2.id));
+                if (tLRPC$DialogFilter2.contacts) {
+                    i2 = MessagesController.DIALOG_FILTER_FLAG_CONTACTS | 0;
+                    i = size4;
+                } else {
+                    i = size4;
+                    i2 = 0;
+                }
+                if (tLRPC$DialogFilter2.non_contacts) {
+                    i2 |= MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS;
+                }
+                if (tLRPC$DialogFilter2.groups) {
+                    i2 |= MessagesController.DIALOG_FILTER_FLAG_GROUPS;
+                }
+                if (tLRPC$DialogFilter2.broadcasts) {
+                    i2 |= MessagesController.DIALOG_FILTER_FLAG_CHANNELS;
+                }
+                if (tLRPC$DialogFilter2.bots) {
+                    i2 |= MessagesController.DIALOG_FILTER_FLAG_BOTS;
+                }
+                if (tLRPC$DialogFilter2.exclude_muted) {
+                    i2 |= MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED;
+                }
+                if (tLRPC$DialogFilter2.exclude_read) {
+                    i2 |= MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ;
+                }
+                if (tLRPC$DialogFilter2.exclude_archived) {
+                    i2 |= MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_ARCHIVED;
+                }
+                ArrayList<Integer> arrayList13 = arrayList8;
+                MessagesController.DialogFilter dialogFilter2 = this.dialogFiltersMap.get(tLRPC$DialogFilter2.id);
+                boolean z3 = true;
+                if (dialogFilter2 != null) {
+                    sparseArray2.remove(tLRPC$DialogFilter2.id);
+                    sparseArray = sparseArray2;
+                    if (TextUtils.equals(dialogFilter2.name, tLRPC$DialogFilter2.title)) {
+                        z = false;
                     } else {
-                        arrayList = arrayList14;
-                        i = 0;
+                        dialogFilter2.name = tLRPC$DialogFilter2.title;
+                        z = true;
                     }
-                    if (tLRPC$DialogFilter4.non_contacts) {
-                        i |= MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS;
+                    if (dialogFilter2.flags != i2) {
+                        dialogFilter2.flags = i2;
+                        z2 = true;
+                        z = true;
+                    } else {
+                        z2 = false;
                     }
-                    if (tLRPC$DialogFilter4.groups) {
-                        i |= MessagesController.DIALOG_FILTER_FLAG_GROUPS;
-                    }
-                    if (tLRPC$DialogFilter4.broadcasts) {
-                        i |= MessagesController.DIALOG_FILTER_FLAG_CHANNELS;
-                    }
-                    if (tLRPC$DialogFilter4.bots) {
-                        i |= MessagesController.DIALOG_FILTER_FLAG_BOTS;
-                    }
-                    if (tLRPC$DialogFilter4.exclude_muted) {
-                        i |= MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED;
-                    }
-                    if (tLRPC$DialogFilter4.exclude_read) {
-                        i |= MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ;
-                    }
-                    if (tLRPC$DialogFilter4.exclude_archived) {
-                        i |= MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_ARCHIVED;
-                    }
-                    MessagesController.DialogFilter dialogFilter2 = messagesStorage2.dialogFiltersMap.get(tLRPC$DialogFilter4.id);
-                    boolean z5 = true;
-                    if (dialogFilter2 != null) {
-                        sparseArray2.remove(tLRPC$DialogFilter4.id);
-                        sparseArray = sparseArray2;
-                        if (TextUtils.equals(dialogFilter2.name, tLRPC$DialogFilter4.title)) {
-                            z = false;
-                        } else {
-                            dialogFilter2.name = tLRPC$DialogFilter4.title;
-                            z = true;
-                        }
-                        if (dialogFilter2.flags != i) {
-                            dialogFilter2.flags = i;
-                            z2 = true;
-                            z = true;
-                        } else {
-                            z2 = false;
-                        }
-                        boolean z6 = z2;
-                        HashSet<Long> hashSet4 = new HashSet<>(dialogFilter2.alwaysShow);
-                        hashSet4.addAll(dialogFilter2.neverShow);
-                        HashSet<Long> hashSet5 = new HashSet<>();
-                        boolean z7 = z;
-                        if (dialogFilter2.pinnedDialogs.size() != 0) {
-                            ArrayList arrayList19 = new ArrayList();
-                            i2 = i9;
-                            int size4 = dialogFilter2.pinnedDialogs.size();
-                            hashSet2 = hashSet3;
-                            int i11 = 0;
-                            boolean z8 = false;
-                            while (i11 < size4) {
-                                int i12 = size4;
-                                long keyAt = dialogFilter2.pinnedDialogs.keyAt(i11);
-                                if (DialogObject.isEncryptedDialog(keyAt)) {
-                                    z8 = true;
-                                }
-                                arrayList19.add(Long.valueOf(keyAt));
-                                i11++;
-                                size4 = i12;
+                    boolean z4 = z2;
+                    HashSet hashSet2 = new HashSet(dialogFilter2.alwaysShow);
+                    hashSet2.addAll(dialogFilter2.neverShow);
+                    HashSet<Long> hashSet3 = new HashSet<>();
+                    boolean z5 = z;
+                    if (dialogFilter2.pinnedDialogs.size() != 0) {
+                        ArrayList arrayList14 = new ArrayList();
+                        i3 = i9;
+                        int size5 = dialogFilter2.pinnedDialogs.size();
+                        arrayList6 = arrayList10;
+                        int i10 = 0;
+                        boolean z6 = false;
+                        while (i10 < size5) {
+                            int i11 = size5;
+                            long keyAt = dialogFilter2.pinnedDialogs.keyAt(i10);
+                            if (DialogObject.isEncryptedDialog(keyAt)) {
+                                z6 = true;
                             }
-                            if (z8) {
-                                linkedHashMap = new LinkedHashMap();
-                                final LongSparseIntArray longSparseIntArray = dialogFilter2.pinnedDialogs;
-                                arrayList5 = arrayList18;
-                                Collections.sort(arrayList19, new Comparator() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda211
-                                    @Override // java.util.Comparator
-                                    public final int compare(Object obj, Object obj2) {
-                                        int lambda$checkLoadedRemoteFilters$50;
-                                        lambda$checkLoadedRemoteFilters$50 = MessagesStorage.lambda$checkLoadedRemoteFilters$50(LongSparseIntArray.this, (Long) obj, (Long) obj2);
-                                        return lambda$checkLoadedRemoteFilters$50;
-                                    }
-                                });
-                                int size5 = arrayList19.size();
-                                int i13 = 0;
-                                while (i13 < size5) {
-                                    long longValue = ((Long) arrayList19.get(i13)).longValue();
-                                    if (DialogObject.isEncryptedDialog(longValue)) {
-                                        i7 = size5;
-                                        arrayList13 = arrayList19;
-                                        linkedHashMap.put(Integer.valueOf(i13), Long.valueOf(longValue));
-                                    } else {
-                                        i7 = size5;
-                                        arrayList13 = arrayList19;
-                                    }
-                                    i13++;
-                                    size5 = i7;
-                                    arrayList19 = arrayList13;
-                                }
-                                size = dialogFilter2.pinnedDialogs.size();
-                                for (i3 = 0; i3 < size; i3++) {
-                                    long keyAt2 = dialogFilter2.pinnedDialogs.keyAt(i3);
-                                    if (!DialogObject.isEncryptedDialog(keyAt2)) {
-                                        hashSet5.add(Long.valueOf(keyAt2));
-                                        hashSet4.remove(Long.valueOf(keyAt2));
-                                    }
-                                }
-                                boolean z9 = z7;
-                                i4 = 0;
-                                while (i4 < 2) {
-                                    ArrayList<TLRPC$InputPeer> arrayList20 = i4 == 0 ? tLRPC$DialogFilter4.include_peers : tLRPC$DialogFilter4.exclude_peers;
-                                    boolean z10 = z9;
-                                    ArrayList<Long> arrayList21 = i4 == 0 ? dialogFilter2.alwaysShow : dialogFilter2.neverShow;
-                                    if (i4 == 0) {
-                                        hashMap8 = hashMap15;
-                                        dialogFilter2.pinnedDialogs.clear();
-                                        int size6 = tLRPC$DialogFilter4.pinned_peers.size();
-                                        hashMap9 = hashMap14;
-                                        int i14 = 0;
-                                        while (i14 < size6) {
-                                            int i15 = size6;
-                                            TLRPC$InputPeer tLRPC$InputPeer = tLRPC$DialogFilter4.pinned_peers.get(i14);
-                                            ArrayList<Long> arrayList22 = arrayList16;
-                                            HashMap<Long, TLRPC$InputPeer> hashMap16 = hashMap12;
-                                            long j = tLRPC$InputPeer.user_id;
-                                            if (j != 0) {
-                                                valueOf2 = Long.valueOf(j);
-                                            } else {
-                                                long j2 = tLRPC$InputPeer.chat_id;
-                                                if (j2 == 0) {
-                                                    j2 = tLRPC$InputPeer.channel_id;
-                                                }
-                                                valueOf2 = Long.valueOf(-j2);
-                                            }
-                                            if (!dialogFilter2.alwaysShow.contains(valueOf2)) {
-                                                dialogFilter2.alwaysShow.add(valueOf2);
-                                            }
-                                            int size7 = dialogFilter2.pinnedDialogs.size();
-                                            if (linkedHashMap != null) {
-                                                tLRPC$DialogFilter3 = tLRPC$DialogFilter4;
-                                                while (true) {
-                                                    Long l = (Long) linkedHashMap.remove(Integer.valueOf(size7));
-                                                    if (l == null) {
-                                                        break;
-                                                    }
-                                                    dialogFilter2.pinnedDialogs.put(l.longValue(), size7);
-                                                    size7++;
-                                                    i4 = i4;
-                                                    arrayList15 = arrayList15;
-                                                    linkedHashMap = linkedHashMap;
-                                                }
-                                                arrayList12 = arrayList15;
-                                                linkedHashMap3 = linkedHashMap;
-                                                i6 = i4;
-                                            } else {
-                                                arrayList12 = arrayList15;
-                                                linkedHashMap3 = linkedHashMap;
-                                                i6 = i4;
-                                                tLRPC$DialogFilter3 = tLRPC$DialogFilter4;
-                                            }
-                                            ArrayList<Long> arrayList23 = arrayList21;
-                                            dialogFilter2.pinnedDialogs.put(valueOf2.longValue(), size7);
-                                            hashSet4.remove(valueOf2);
-                                            if (!hashSet5.remove(valueOf2)) {
-                                                if (!hashMap13.containsKey(valueOf2)) {
-                                                    arrayList17.add(valueOf2);
-                                                    hashMap13.put(valueOf2, tLRPC$InputPeer);
-                                                }
-                                                z10 = true;
-                                            }
-                                            i14++;
-                                            arrayList21 = arrayList23;
-                                            size6 = i15;
-                                            arrayList16 = arrayList22;
-                                            hashMap12 = hashMap16;
-                                            tLRPC$DialogFilter4 = tLRPC$DialogFilter3;
-                                            i4 = i6;
-                                            arrayList15 = arrayList12;
-                                            linkedHashMap = linkedHashMap3;
-                                        }
-                                        arrayList6 = arrayList15;
-                                        linkedHashMap2 = linkedHashMap;
-                                        arrayList7 = arrayList16;
-                                        hashMap7 = hashMap12;
-                                        i5 = i4;
-                                        arrayList8 = arrayList21;
-                                        tLRPC$DialogFilter2 = tLRPC$DialogFilter4;
-                                        if (linkedHashMap2 != null) {
-                                            for (Map.Entry entry : linkedHashMap2.entrySet()) {
-                                                dialogFilter2.pinnedDialogs.put(((Long) entry.getValue()).longValue(), dialogFilter2.pinnedDialogs.size());
-                                            }
-                                        }
-                                    } else {
-                                        arrayList6 = arrayList15;
-                                        linkedHashMap2 = linkedHashMap;
-                                        arrayList7 = arrayList16;
-                                        hashMap7 = hashMap12;
-                                        i5 = i4;
-                                        arrayList8 = arrayList21;
-                                        hashMap8 = hashMap15;
-                                        hashMap9 = hashMap14;
-                                        tLRPC$DialogFilter2 = tLRPC$DialogFilter4;
-                                    }
-                                    z9 = z10;
-                                    int size8 = arrayList20.size();
-                                    int i16 = 0;
-                                    while (i16 < size8) {
-                                        TLRPC$InputPeer tLRPC$InputPeer2 = arrayList20.get(i16);
-                                        long j3 = tLRPC$InputPeer2.user_id;
-                                        if (j3 != 0) {
-                                            Long valueOf3 = Long.valueOf(j3);
-                                            if (hashSet4.remove(valueOf3)) {
-                                                arrayList9 = arrayList6;
-                                            } else {
-                                                if (!arrayList8.contains(valueOf3)) {
-                                                    arrayList8.add(valueOf3);
-                                                }
-                                                if (hashMap11.containsKey(valueOf3)) {
-                                                    arrayList9 = arrayList6;
-                                                    z9 = true;
-                                                } else {
-                                                    arrayList9 = arrayList6;
-                                                    arrayList9.add(valueOf3);
-                                                    hashMap11.put(valueOf3, tLRPC$InputPeer2);
-                                                    z9 = true;
-                                                    z6 = true;
-                                                }
-                                            }
-                                            z4 = z9;
-                                            arrayList10 = arrayList20;
-                                        } else {
-                                            boolean z11 = z9;
-                                            arrayList9 = arrayList6;
-                                            long j4 = tLRPC$InputPeer2.chat_id;
-                                            if (j4 == 0) {
-                                                j4 = tLRPC$InputPeer2.channel_id;
-                                            }
-                                            Long valueOf4 = Long.valueOf(j4);
-                                            z4 = z11;
-                                            arrayList10 = arrayList20;
-                                            Long valueOf5 = Long.valueOf(-valueOf4.longValue());
-                                            if (!hashSet4.remove(valueOf5)) {
-                                                if (!arrayList8.contains(valueOf5)) {
-                                                    arrayList8.add(valueOf5);
-                                                }
-                                                hashMap10 = hashMap7;
-                                                if (hashMap10.containsKey(valueOf4)) {
-                                                    arrayList11 = arrayList7;
-                                                    z4 = true;
-                                                } else {
-                                                    arrayList11 = arrayList7;
-                                                    arrayList11.add(valueOf4);
-                                                    hashMap10.put(valueOf4, tLRPC$InputPeer2);
-                                                    z4 = true;
-                                                    z6 = true;
-                                                }
-                                                i16++;
-                                                arrayList6 = arrayList9;
-                                                hashMap7 = hashMap10;
-                                                arrayList7 = arrayList11;
-                                                arrayList20 = arrayList10;
-                                                z9 = z4;
-                                            }
-                                        }
-                                        arrayList11 = arrayList7;
-                                        hashMap10 = hashMap7;
-                                        i16++;
-                                        arrayList6 = arrayList9;
-                                        hashMap7 = hashMap10;
-                                        arrayList7 = arrayList11;
-                                        arrayList20 = arrayList10;
-                                        z9 = z4;
-                                    }
-                                    i4 = i5 + 1;
-                                    arrayList15 = arrayList6;
-                                    hashMap12 = hashMap7;
-                                    arrayList16 = arrayList7;
-                                    hashMap15 = hashMap8;
-                                    hashMap14 = hashMap9;
-                                    tLRPC$DialogFilter4 = tLRPC$DialogFilter2;
-                                    linkedHashMap = linkedHashMap2;
-                                }
-                                ArrayList<Long> arrayList24 = arrayList16;
-                                boolean z12 = z9;
-                                HashMap<Integer, HashSet<Long>> hashMap17 = hashMap15;
-                                HashMap<Integer, HashSet<Long>> hashMap18 = hashMap14;
-                                arrayList2 = arrayList15;
-                                HashMap<Long, TLRPC$InputPeer> hashMap19 = hashMap12;
-                                if (hashSet4.isEmpty()) {
-                                    hashMap5 = hashMap18;
-                                    hashMap5.put(Integer.valueOf(dialogFilter2.id), hashSet4);
-                                    z3 = true;
-                                    z6 = true;
-                                } else {
-                                    hashMap5 = hashMap18;
-                                    z3 = z12;
-                                }
-                                if (hashSet5.isEmpty()) {
-                                    hashMap6 = hashMap17;
-                                    hashMap6.put(Integer.valueOf(dialogFilter2.id), hashSet5);
-                                } else {
-                                    hashMap6 = hashMap17;
-                                    z5 = z3;
-                                }
-                                if (z5) {
-                                    arrayList18 = arrayList5;
-                                } else {
-                                    arrayList18 = arrayList5;
-                                    arrayList18.add(dialogFilter2);
-                                }
-                                if (z6) {
-                                    hashSet = hashSet2;
-                                } else {
-                                    hashSet = hashSet2;
-                                    hashSet.add(Integer.valueOf(dialogFilter2.id));
-                                }
-                                hashMap = hashMap19;
-                                arrayList16 = arrayList24;
-                                hashMap2 = hashMap6;
-                                hashMap3 = hashMap5;
-                            } else {
-                                arrayList5 = arrayList18;
-                            }
-                        } else {
-                            i2 = i9;
-                            arrayList5 = arrayList18;
-                            hashSet2 = hashSet3;
-                        }
-                        linkedHashMap = null;
-                        size = dialogFilter2.pinnedDialogs.size();
-                        while (i3 < size) {
-                        }
-                        boolean z92 = z7;
-                        i4 = 0;
-                        while (i4 < 2) {
-                        }
-                        ArrayList<Long> arrayList242 = arrayList16;
-                        boolean z122 = z92;
-                        HashMap<Integer, HashSet<Long>> hashMap172 = hashMap15;
-                        HashMap<Integer, HashSet<Long>> hashMap182 = hashMap14;
-                        arrayList2 = arrayList15;
-                        HashMap<Long, TLRPC$InputPeer> hashMap192 = hashMap12;
-                        if (hashSet4.isEmpty()) {
-                        }
-                        if (hashSet5.isEmpty()) {
-                        }
-                        if (z5) {
+                            arrayList14.add(Long.valueOf(keyAt));
+                            i10++;
+                            size5 = i11;
                         }
                         if (z6) {
-                        }
-                        hashMap = hashMap192;
-                        arrayList16 = arrayList242;
-                        hashMap2 = hashMap6;
-                        hashMap3 = hashMap5;
-                    } else {
-                        i2 = i9;
-                        sparseArray = sparseArray2;
-                        HashMap<Integer, HashSet<Long>> hashMap20 = hashMap15;
-                        hashSet = hashSet3;
-                        arrayList2 = arrayList15;
-                        ArrayList<Long> arrayList25 = arrayList16;
-                        HashMap<Integer, HashSet<Long>> hashMap21 = hashMap14;
-                        HashMap<Long, TLRPC$InputPeer> hashMap22 = hashMap12;
-                        MessagesController.DialogFilter dialogFilter3 = new MessagesController.DialogFilter();
-                        TLRPC$DialogFilter tLRPC$DialogFilter5 = tLRPC$DialogFilter4;
-                        dialogFilter3.id = tLRPC$DialogFilter5.id;
-                        dialogFilter3.flags = i;
-                        dialogFilter3.name = tLRPC$DialogFilter5.title;
-                        dialogFilter3.pendingUnreadCount = -1;
-                        int i17 = 0;
-                        while (i17 < 2) {
-                            if (i17 == 0) {
-                                int size9 = tLRPC$DialogFilter5.pinned_peers.size();
-                                int i18 = 0;
-                                while (i18 < size9) {
-                                    TLRPC$InputPeer tLRPC$InputPeer3 = tLRPC$DialogFilter5.pinned_peers.get(i18);
-                                    HashMap<Integer, HashSet<Long>> hashMap23 = hashMap20;
-                                    HashMap<Integer, HashSet<Long>> hashMap24 = hashMap21;
-                                    long j5 = tLRPC$InputPeer3.user_id;
-                                    if (j5 != 0) {
-                                        valueOf = Long.valueOf(j5);
-                                    } else {
-                                        long j6 = tLRPC$InputPeer3.chat_id;
-                                        if (j6 == 0) {
-                                            j6 = tLRPC$InputPeer3.channel_id;
-                                        }
-                                        valueOf = Long.valueOf(-j6);
-                                    }
-                                    if (!dialogFilter3.alwaysShow.contains(valueOf)) {
-                                        dialogFilter3.alwaysShow.add(valueOf);
-                                    }
-                                    HashMap<Long, TLRPC$InputPeer> hashMap25 = hashMap22;
-                                    ArrayList<Long> arrayList26 = arrayList25;
-                                    int i19 = size9;
-                                    dialogFilter3.pinnedDialogs.put(valueOf.longValue(), dialogFilter3.pinnedDialogs.size() + 1);
-                                    if (!hashMap13.containsKey(valueOf)) {
-                                        arrayList17.add(valueOf);
-                                        hashMap13.put(valueOf, tLRPC$InputPeer3);
-                                    }
-                                    i18++;
-                                    size9 = i19;
-                                    hashMap20 = hashMap23;
-                                    hashMap21 = hashMap24;
-                                    arrayList25 = arrayList26;
-                                    hashMap22 = hashMap25;
+                            linkedHashMap = new LinkedHashMap();
+                            final LongSparseIntArray longSparseIntArray = dialogFilter2.pinnedDialogs;
+                            hashMap7 = hashMap10;
+                            Collections.sort(arrayList14, new Comparator() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda211
+                                @Override // java.util.Comparator
+                                public final int compare(Object obj, Object obj2) {
+                                    int lambda$checkLoadedRemoteFilters$50;
+                                    lambda$checkLoadedRemoteFilters$50 = MessagesStorage.lambda$checkLoadedRemoteFilters$50(LongSparseIntArray.this, (Long) obj, (Long) obj2);
+                                    return lambda$checkLoadedRemoteFilters$50;
                                 }
-                            }
-                            HashMap<Long, TLRPC$InputPeer> hashMap26 = hashMap22;
-                            ArrayList<Long> arrayList27 = arrayList25;
-                            HashMap<Integer, HashSet<Long>> hashMap27 = hashMap20;
-                            HashMap<Integer, HashSet<Long>> hashMap28 = hashMap21;
-                            ArrayList<TLRPC$InputPeer> arrayList28 = i17 == 0 ? tLRPC$DialogFilter5.include_peers : tLRPC$DialogFilter5.exclude_peers;
-                            ArrayList<Long> arrayList29 = i17 == 0 ? dialogFilter3.alwaysShow : dialogFilter3.neverShow;
-                            int size10 = arrayList28.size();
-                            int i20 = 0;
-                            while (i20 < size10) {
-                                TLRPC$InputPeer tLRPC$InputPeer4 = arrayList28.get(i20);
-                                long j7 = tLRPC$InputPeer4.user_id;
-                                if (j7 != 0) {
-                                    Long valueOf6 = Long.valueOf(j7);
-                                    if (!arrayList29.contains(valueOf6)) {
-                                        arrayList29.add(valueOf6);
-                                    }
-                                    if (!hashMap11.containsKey(valueOf6)) {
-                                        arrayList2.add(valueOf6);
-                                        hashMap11.put(valueOf6, tLRPC$InputPeer4);
-                                    }
-                                    tLRPC$DialogFilter = tLRPC$DialogFilter5;
-                                    arrayList3 = arrayList28;
-                                    arrayList4 = arrayList27;
-                                    hashMap4 = hashMap26;
+                            });
+                            int size6 = arrayList14.size();
+                            int i12 = 0;
+                            while (i12 < size6) {
+                                long longValue = ((Long) arrayList14.get(i12)).longValue();
+                                if (DialogObject.isEncryptedDialog(longValue)) {
+                                    arrayList7 = arrayList14;
+                                    i7 = size6;
+                                    linkedHashMap.put(Integer.valueOf(i12), Long.valueOf(longValue));
                                 } else {
-                                    long j8 = tLRPC$InputPeer4.chat_id;
-                                    if (j8 == 0) {
-                                        j8 = tLRPC$InputPeer4.channel_id;
+                                    arrayList7 = arrayList14;
+                                    i7 = size6;
+                                }
+                                i12++;
+                                size6 = i7;
+                                arrayList14 = arrayList7;
+                            }
+                            size = dialogFilter2.pinnedDialogs.size();
+                            for (i4 = 0; i4 < size; i4++) {
+                                long keyAt2 = dialogFilter2.pinnedDialogs.keyAt(i4);
+                                if (!DialogObject.isEncryptedDialog(keyAt2)) {
+                                    hashSet3.add(Long.valueOf(keyAt2));
+                                    hashSet2.remove(Long.valueOf(keyAt2));
+                                }
+                            }
+                            dialogFilter2.pinnedDialogs.clear();
+                            size2 = tLRPC$DialogFilter2.pinned_peers.size();
+                            i5 = 0;
+                            while (i5 < size2) {
+                                TLRPC$InputPeer tLRPC$InputPeer = tLRPC$DialogFilter2.pinned_peers.get(i5);
+                                ArrayList<MessagesController.DialogFilter> arrayList15 = arrayList12;
+                                int i13 = size2;
+                                long j = tLRPC$InputPeer.user_id;
+                                if (j != 0) {
+                                    valueOf2 = Long.valueOf(j);
+                                } else {
+                                    long j2 = tLRPC$InputPeer.chat_id;
+                                    if (j2 == 0) {
+                                        j2 = tLRPC$InputPeer.channel_id;
                                     }
-                                    Long valueOf7 = Long.valueOf(j8);
-                                    tLRPC$DialogFilter = tLRPC$DialogFilter5;
-                                    arrayList3 = arrayList28;
-                                    Long valueOf8 = Long.valueOf(-valueOf7.longValue());
-                                    if (!arrayList29.contains(valueOf8)) {
-                                        arrayList29.add(valueOf8);
-                                    }
-                                    hashMap4 = hashMap26;
-                                    if (hashMap4.containsKey(valueOf7)) {
-                                        arrayList4 = arrayList27;
-                                    } else {
-                                        arrayList4 = arrayList27;
-                                        arrayList4.add(valueOf7);
-                                        hashMap4.put(valueOf7, tLRPC$InputPeer4);
+                                    valueOf2 = Long.valueOf(-j2);
+                                }
+                                int size7 = dialogFilter2.pinnedDialogs.size();
+                                ArrayList<Long> arrayList16 = arrayList9;
+                                if (linkedHashMap != null) {
+                                    while (true) {
+                                        Long l = (Long) linkedHashMap.remove(Integer.valueOf(size7));
+                                        if (l == null) {
+                                            break;
+                                        }
+                                        dialogFilter2.pinnedDialogs.put(l.longValue(), size7);
+                                        size7++;
+                                        hashMap9 = hashMap9;
+                                        hashMap12 = hashMap12;
+                                        hashSet = hashSet;
                                     }
                                 }
-                                i20++;
-                                hashMap26 = hashMap4;
-                                arrayList27 = arrayList4;
-                                arrayList28 = arrayList3;
-                                tLRPC$DialogFilter5 = tLRPC$DialogFilter;
+                                HashMap<Integer, HashSet<Long>> hashMap13 = hashMap12;
+                                HashSet<Integer> hashSet4 = hashSet;
+                                HashMap<Long, TLRPC$InputPeer> hashMap14 = hashMap9;
+                                dialogFilter2.pinnedDialogs.put(valueOf2.longValue(), size7);
+                                hashSet2.remove(valueOf2);
+                                if (!hashSet3.remove(valueOf2)) {
+                                    if (!hashMap11.containsKey(valueOf2)) {
+                                        arrayList11.add(valueOf2);
+                                        hashMap11.put(valueOf2, tLRPC$InputPeer);
+                                    }
+                                    z5 = true;
+                                }
+                                i5++;
+                                arrayList12 = arrayList15;
+                                size2 = i13;
+                                arrayList9 = arrayList16;
+                                hashMap9 = hashMap14;
+                                hashMap12 = hashMap13;
+                                hashSet = hashSet4;
                             }
-                            i17++;
-                            hashMap22 = hashMap26;
-                            arrayList25 = arrayList27;
-                            hashMap20 = hashMap27;
-                            hashMap21 = hashMap28;
-                            tLRPC$DialogFilter5 = tLRPC$DialogFilter5;
+                            ArrayList<Long> arrayList17 = arrayList9;
+                            ArrayList<MessagesController.DialogFilter> arrayList18 = arrayList12;
+                            HashMap<Integer, HashSet<Long>> hashMap15 = hashMap12;
+                            HashSet<Integer> hashSet5 = hashSet;
+                            HashMap<Long, TLRPC$InputPeer> hashMap16 = hashMap9;
+                            if (linkedHashMap != null) {
+                                for (Map.Entry entry : linkedHashMap.entrySet()) {
+                                    dialogFilter2.pinnedDialogs.put(((Long) entry.getValue()).longValue(), dialogFilter2.pinnedDialogs.size());
+                                }
+                            }
+                            i6 = 0;
+                            while (i6 < 2) {
+                                ArrayList<Long> peerIds = toPeerIds(i6 == 0 ? tLRPC$DialogFilter2.include_peers : tLRPC$DialogFilter2.exclude_peers);
+                                ArrayList<Long> arrayList19 = i6 == 0 ? dialogFilter2.alwaysShow : dialogFilter2.neverShow;
+                                if (i6 == 0) {
+                                    ArrayList<Long> peerIds2 = toPeerIds(tLRPC$DialogFilter2.pinned_peers);
+                                    for (int i14 = 0; i14 < peerIds2.size(); i14++) {
+                                        peerIds.remove(peerIds2.get(i14));
+                                    }
+                                    peerIds.addAll(0, peerIds2);
+                                }
+                                int size8 = peerIds.size();
+                                boolean z7 = peerIds.size() != arrayList19.size();
+                                if (!z7) {
+                                    int i15 = 0;
+                                    while (true) {
+                                        if (i15 >= size8) {
+                                            break;
+                                        } else if (!arrayList19.contains(peerIds.get(i15))) {
+                                            z7 = true;
+                                            break;
+                                        } else {
+                                            i15++;
+                                        }
+                                    }
+                                }
+                                if (z7) {
+                                    if (i6 == 0) {
+                                        dialogFilter2.alwaysShow = peerIds;
+                                    } else {
+                                        dialogFilter2.neverShow = peerIds;
+                                    }
+                                    z4 = true;
+                                    z5 = true;
+                                }
+                                i6++;
+                            }
+                            if (hashSet3.isEmpty()) {
+                                hashMap8 = hashMap15;
+                                hashMap8.put(Integer.valueOf(dialogFilter2.id), hashSet3);
+                            } else {
+                                hashMap8 = hashMap15;
+                                z3 = z5;
+                            }
+                            if (z3) {
+                                arrayList12 = arrayList18;
+                            } else {
+                                arrayList12 = arrayList18;
+                                arrayList12.add(dialogFilter2);
+                            }
+                            if (z4) {
+                                hashSet = hashSet5;
+                            } else {
+                                hashSet = hashSet5;
+                                hashSet.add(Integer.valueOf(dialogFilter2.id));
+                            }
+                            hashMap = hashMap8;
+                            hashMap2 = hashMap11;
+                            arrayList = arrayList6;
+                            hashMap3 = hashMap7;
+                            arrayList2 = arrayList17;
+                            hashMap9 = hashMap16;
                         }
-                        hashMap = hashMap22;
-                        arrayList16 = arrayList25;
-                        hashMap2 = hashMap20;
-                        hashMap3 = hashMap21;
-                        arrayList18.add(dialogFilter3);
+                    } else {
+                        arrayList6 = arrayList10;
+                        i3 = i9;
                     }
-                    messagesStorage2 = this;
-                    hashMap12 = hashMap;
-                    hashSet3 = hashSet;
-                    arrayList15 = arrayList2;
-                    size3 = i10;
-                    sparseArray2 = sparseArray;
-                    arrayList14 = arrayList;
-                    hashMap15 = hashMap2;
-                    hashMap14 = hashMap3;
-                    i9 = i2 + 1;
-                    tLRPC$Vector2 = tLRPC$Vector;
-                } catch (Exception e) {
-                    e = e;
-                    messagesStorage2 = this;
-                    messagesStorage2.checkSQLException(e);
-                    return;
+                    hashMap7 = hashMap10;
+                    linkedHashMap = null;
+                    size = dialogFilter2.pinnedDialogs.size();
+                    while (i4 < size) {
+                    }
+                    dialogFilter2.pinnedDialogs.clear();
+                    size2 = tLRPC$DialogFilter2.pinned_peers.size();
+                    i5 = 0;
+                    while (i5 < size2) {
+                    }
+                    ArrayList<Long> arrayList172 = arrayList9;
+                    ArrayList<MessagesController.DialogFilter> arrayList182 = arrayList12;
+                    HashMap<Integer, HashSet<Long>> hashMap152 = hashMap12;
+                    HashSet<Integer> hashSet52 = hashSet;
+                    HashMap<Long, TLRPC$InputPeer> hashMap162 = hashMap9;
+                    if (linkedHashMap != null) {
+                    }
+                    i6 = 0;
+                    while (i6 < 2) {
+                    }
+                    if (hashSet3.isEmpty()) {
+                    }
+                    if (z3) {
+                    }
+                    if (z4) {
+                    }
+                    hashMap = hashMap8;
+                    hashMap2 = hashMap11;
+                    arrayList = arrayList6;
+                    hashMap3 = hashMap7;
+                    arrayList2 = arrayList172;
+                    hashMap9 = hashMap162;
+                } else {
+                    ArrayList<Long> arrayList20 = arrayList9;
+                    ArrayList<Long> arrayList21 = arrayList10;
+                    sparseArray = sparseArray2;
+                    i3 = i9;
+                    HashMap<Long, TLRPC$InputPeer> hashMap17 = hashMap9;
+                    HashMap<Long, TLRPC$InputPeer> hashMap18 = hashMap10;
+                    MessagesController.DialogFilter dialogFilter3 = new MessagesController.DialogFilter();
+                    dialogFilter3.id = tLRPC$DialogFilter2.id;
+                    dialogFilter3.flags = i2;
+                    dialogFilter3.name = tLRPC$DialogFilter2.title;
+                    dialogFilter3.pendingUnreadCount = -1;
+                    int i16 = 0;
+                    while (i16 < 2) {
+                        if (i16 == 0) {
+                            int size9 = tLRPC$DialogFilter2.pinned_peers.size();
+                            int i17 = 0;
+                            while (i17 < size9) {
+                                TLRPC$InputPeer tLRPC$InputPeer2 = tLRPC$DialogFilter2.pinned_peers.get(i17);
+                                long j3 = tLRPC$InputPeer2.user_id;
+                                if (j3 != 0) {
+                                    valueOf = Long.valueOf(j3);
+                                } else {
+                                    long j4 = tLRPC$InputPeer2.chat_id;
+                                    if (j4 == 0) {
+                                        j4 = tLRPC$InputPeer2.channel_id;
+                                    }
+                                    valueOf = Long.valueOf(-j4);
+                                }
+                                if (!dialogFilter3.alwaysShow.contains(valueOf)) {
+                                    dialogFilter3.alwaysShow.add(valueOf);
+                                }
+                                HashMap<Integer, HashSet<Long>> hashMap19 = hashMap12;
+                                dialogFilter3.pinnedDialogs.put(valueOf.longValue(), dialogFilter3.pinnedDialogs.size() + 1);
+                                if (!hashMap11.containsKey(valueOf)) {
+                                    arrayList11.add(valueOf);
+                                    hashMap11.put(valueOf, tLRPC$InputPeer2);
+                                }
+                                i17++;
+                                hashMap12 = hashMap19;
+                            }
+                        }
+                        HashMap<Integer, HashSet<Long>> hashMap20 = hashMap12;
+                        ArrayList<TLRPC$InputPeer> arrayList22 = i16 == 0 ? tLRPC$DialogFilter2.include_peers : tLRPC$DialogFilter2.exclude_peers;
+                        ArrayList<Long> arrayList23 = i16 == 0 ? dialogFilter3.alwaysShow : dialogFilter3.neverShow;
+                        int size10 = arrayList22.size();
+                        int i18 = 0;
+                        while (i18 < size10) {
+                            TLRPC$InputPeer tLRPC$InputPeer3 = arrayList22.get(i18);
+                            long j5 = tLRPC$InputPeer3.user_id;
+                            if (j5 != 0) {
+                                Long valueOf3 = Long.valueOf(j5);
+                                if (!arrayList23.contains(valueOf3)) {
+                                    arrayList23.add(valueOf3);
+                                }
+                                hashMap4 = hashMap17;
+                                if (hashMap4.containsKey(valueOf3)) {
+                                    arrayList4 = arrayList20;
+                                } else {
+                                    arrayList4 = arrayList20;
+                                    arrayList4.add(valueOf3);
+                                    hashMap4.put(valueOf3, tLRPC$InputPeer3);
+                                }
+                                tLRPC$DialogFilter = tLRPC$DialogFilter2;
+                                arrayList3 = arrayList22;
+                                hashMap5 = hashMap11;
+                                arrayList5 = arrayList21;
+                                hashMap6 = hashMap18;
+                            } else {
+                                TLRPC$DialogFilter tLRPC$DialogFilter3 = tLRPC$DialogFilter2;
+                                arrayList3 = arrayList22;
+                                arrayList4 = arrayList20;
+                                hashMap4 = hashMap17;
+                                long j6 = tLRPC$InputPeer3.chat_id;
+                                if (j6 == 0) {
+                                    j6 = tLRPC$InputPeer3.channel_id;
+                                }
+                                Long valueOf4 = Long.valueOf(j6);
+                                tLRPC$DialogFilter = tLRPC$DialogFilter3;
+                                hashMap5 = hashMap11;
+                                Long valueOf5 = Long.valueOf(-valueOf4.longValue());
+                                if (!arrayList23.contains(valueOf5)) {
+                                    arrayList23.add(valueOf5);
+                                }
+                                hashMap6 = hashMap18;
+                                if (hashMap6.containsKey(valueOf4)) {
+                                    arrayList5 = arrayList21;
+                                } else {
+                                    arrayList5 = arrayList21;
+                                    arrayList5.add(valueOf4);
+                                    hashMap6.put(valueOf4, tLRPC$InputPeer3);
+                                }
+                            }
+                            i18++;
+                            arrayList21 = arrayList5;
+                            hashMap18 = hashMap6;
+                            hashMap17 = hashMap4;
+                            arrayList20 = arrayList4;
+                            tLRPC$DialogFilter2 = tLRPC$DialogFilter;
+                            hashMap11 = hashMap5;
+                            arrayList22 = arrayList3;
+                        }
+                        i16++;
+                        hashMap12 = hashMap20;
+                        hashMap11 = hashMap11;
+                    }
+                    hashMap = hashMap12;
+                    hashMap2 = hashMap11;
+                    arrayList = arrayList21;
+                    hashMap3 = hashMap18;
+                    arrayList2 = arrayList20;
+                    hashMap9 = hashMap17;
+                    arrayList12.add(dialogFilter3);
                 }
+                arrayList9 = arrayList2;
+                size4 = i;
+                arrayList8 = arrayList13;
+                sparseArray2 = sparseArray;
+                hashMap12 = hashMap;
+                hashMap10 = hashMap3;
+                hashMap11 = hashMap2;
+                arrayList10 = arrayList;
+                i9 = i3 + 1;
+                tLRPC$Vector2 = tLRPC$Vector;
             }
-            HashMap<Long, TLRPC$InputPeer> hashMap29 = hashMap12;
+            ArrayList<Long> arrayList24 = arrayList10;
             SparseArray<MessagesController.DialogFilter> sparseArray3 = sparseArray2;
-            ArrayList<Integer> arrayList30 = arrayList14;
-            HashMap<Integer, HashSet<Long>> hashMap30 = hashMap15;
-            HashMap<Integer, HashSet<Long>> hashMap31 = hashMap14;
-            HashSet<Integer> hashSet6 = hashSet3;
-            ArrayList<Long> arrayList31 = arrayList15;
-            if (!arrayList17.isEmpty()) {
-                messagesStorage = this;
-                tLRPC$TL_messages_dialogs = messagesStorage.loadDialogsByIds(TextUtils.join(",", arrayList17), arrayList31, arrayList16, new ArrayList<>());
+            ArrayList<Integer> arrayList25 = arrayList8;
+            HashMap<Integer, HashSet<Long>> hashMap21 = hashMap12;
+            HashMap<Long, TLRPC$InputPeer> hashMap22 = hashMap11;
+            HashMap<Long, TLRPC$InputPeer> hashMap23 = hashMap10;
+            ArrayList<Long> arrayList26 = arrayList9;
+            if (!arrayList11.isEmpty()) {
+                tLRPC$TL_messages_dialogs = loadDialogsByIds(TextUtils.join(",", arrayList11), arrayList26, arrayList24, new ArrayList<>());
                 int size11 = tLRPC$TL_messages_dialogs.dialogs.size();
-                for (int i21 = 0; i21 < size11; i21++) {
-                    hashMap13.remove(Long.valueOf(tLRPC$TL_messages_dialogs.dialogs.get(i21).id));
+                for (int i19 = 0; i19 < size11; i19++) {
+                    hashMap22.remove(Long.valueOf(tLRPC$TL_messages_dialogs.dialogs.get(i19).id));
                 }
             } else {
-                messagesStorage = this;
                 tLRPC$TL_messages_dialogs = new TLRPC$TL_messages_dialogs();
             }
-            TLRPC$messages_Dialogs tLRPC$messages_Dialogs = tLRPC$TL_messages_dialogs;
-            ArrayList<TLRPC$User> arrayList32 = new ArrayList<>();
-            if (!arrayList31.isEmpty()) {
-                messagesStorage.getUsersInternal(TextUtils.join(",", arrayList31), arrayList32);
-                int size12 = arrayList32.size();
-                for (int i22 = 0; i22 < size12; i22++) {
-                    hashMap11.remove(Long.valueOf(arrayList32.get(i22).id));
+            ArrayList<TLRPC$User> arrayList27 = new ArrayList<>();
+            if (!arrayList26.isEmpty()) {
+                getUsersInternal(TextUtils.join(",", arrayList26), arrayList27);
+                int size12 = arrayList27.size();
+                for (int i20 = 0; i20 < size12; i20++) {
+                    hashMap9.remove(Long.valueOf(arrayList27.get(i20).id));
                 }
             }
-            ArrayList<TLRPC$Chat> arrayList33 = new ArrayList<>();
-            if (!arrayList16.isEmpty()) {
-                messagesStorage.getChatsInternal(TextUtils.join(",", arrayList16), arrayList33);
-                int size13 = arrayList33.size();
-                for (int i23 = 0; i23 < size13; i23++) {
-                    hashMap29.remove(Long.valueOf(arrayList33.get(i23).id));
+            ArrayList<TLRPC$Chat> arrayList28 = new ArrayList<>();
+            if (!arrayList24.isEmpty()) {
+                getChatsInternal(TextUtils.join(",", arrayList24), arrayList28);
+                int size13 = arrayList28.size();
+                for (int i21 = 0; i21 < size13; i21++) {
+                    hashMap23.remove(Long.valueOf(arrayList28.get(i21).id));
                 }
             }
-            if (hashMap11.isEmpty() && hashMap29.isEmpty() && hashMap13.isEmpty()) {
-                lambda$processLoadedFilterPeers$53(tLRPC$messages_Dialogs, null, arrayList32, arrayList33, arrayList18, sparseArray3, arrayList30, hashMap30, hashMap31, hashSet6);
+            if (hashMap9.isEmpty() && hashMap23.isEmpty() && hashMap22.isEmpty()) {
+                lambda$processLoadedFilterPeers$53(tLRPC$TL_messages_dialogs, null, arrayList27, arrayList28, arrayList12, sparseArray3, arrayList25, hashMap21, hashSet);
             } else {
-                getMessagesController().loadFilterPeers(hashMap13, hashMap11, hashMap29, tLRPC$messages_Dialogs, new TLRPC$TL_messages_dialogs(), arrayList32, arrayList33, arrayList18, sparseArray3, arrayList30, hashMap30, hashMap31, hashSet6);
+                getMessagesController().loadFilterPeers(hashMap22, hashMap9, hashMap23, tLRPC$TL_messages_dialogs, new TLRPC$TL_messages_dialogs(), arrayList27, arrayList28, arrayList12, sparseArray3, arrayList25, hashMap21, hashSet);
             }
-        } catch (Exception e2) {
-            e = e2;
+        } catch (Exception e) {
+            checkSQLException(e);
         }
     }
 
@@ -4913,7 +4818,7 @@ public class MessagesStorage extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: processLoadedFilterPeersInternal */
-    public void lambda$processLoadedFilterPeers$53(TLRPC$messages_Dialogs tLRPC$messages_Dialogs, TLRPC$messages_Dialogs tLRPC$messages_Dialogs2, ArrayList<TLRPC$User> arrayList, ArrayList<TLRPC$Chat> arrayList2, ArrayList<MessagesController.DialogFilter> arrayList3, SparseArray<MessagesController.DialogFilter> sparseArray, ArrayList<Integer> arrayList4, HashMap<Integer, HashSet<Long>> hashMap, HashMap<Integer, HashSet<Long>> hashMap2, HashSet<Integer> hashSet) {
+    public void lambda$processLoadedFilterPeers$53(TLRPC$messages_Dialogs tLRPC$messages_Dialogs, TLRPC$messages_Dialogs tLRPC$messages_Dialogs2, ArrayList<TLRPC$User> arrayList, ArrayList<TLRPC$Chat> arrayList2, ArrayList<MessagesController.DialogFilter> arrayList3, SparseArray<MessagesController.DialogFilter> sparseArray, ArrayList<Integer> arrayList4, HashMap<Integer, HashSet<Long>> hashMap, HashSet<Integer> hashSet) {
         putUsersAndChats(arrayList, arrayList2, true, false);
         int size = sparseArray.size();
         int i = 0;
@@ -4930,21 +4835,12 @@ public class MessagesStorage extends BaseController {
                 dialogFilter.pendingUnreadCount = -1;
             }
         }
-        for (Map.Entry<Integer, HashSet<Long>> entry : hashMap2.entrySet()) {
+        for (Map.Entry<Integer, HashSet<Long>> entry : hashMap.entrySet()) {
             MessagesController.DialogFilter dialogFilter2 = this.dialogFiltersMap.get(entry.getKey().intValue());
             if (dialogFilter2 != null) {
-                HashSet<Long> value = entry.getValue();
-                dialogFilter2.alwaysShow.removeAll(value);
-                dialogFilter2.neverShow.removeAll(value);
-                z = true;
-            }
-        }
-        for (Map.Entry<Integer, HashSet<Long>> entry2 : hashMap.entrySet()) {
-            MessagesController.DialogFilter dialogFilter3 = this.dialogFiltersMap.get(entry2.getKey().intValue());
-            if (dialogFilter3 != null) {
-                Iterator<Long> it2 = entry2.getValue().iterator();
+                Iterator<Long> it2 = entry.getValue().iterator();
                 while (it2.hasNext()) {
-                    dialogFilter3.pinnedDialogs.delete(it2.next().longValue());
+                    dialogFilter2.pinnedDialogs.delete(it2.next().longValue());
                 }
                 z = true;
             }
@@ -4959,10 +4855,10 @@ public class MessagesStorage extends BaseController {
         int size3 = this.dialogFilters.size();
         boolean z2 = false;
         for (int i3 = 0; i3 < size3; i3++) {
-            MessagesController.DialogFilter dialogFilter4 = this.dialogFilters.get(i3);
-            int indexOf = arrayList4.indexOf(Integer.valueOf(dialogFilter4.id));
-            if (dialogFilter4.order != indexOf) {
-                dialogFilter4.order = indexOf;
+            MessagesController.DialogFilter dialogFilter3 = this.dialogFilters.get(i3);
+            int indexOf = arrayList4.indexOf(Integer.valueOf(dialogFilter3.id));
+            if (dialogFilter3.order != indexOf) {
+                dialogFilter3.order = indexOf;
                 z2 = true;
                 z = true;
             }
@@ -4987,11 +4883,11 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public void processLoadedFilterPeers(final TLRPC$messages_Dialogs tLRPC$messages_Dialogs, final TLRPC$messages_Dialogs tLRPC$messages_Dialogs2, final ArrayList<TLRPC$User> arrayList, final ArrayList<TLRPC$Chat> arrayList2, final ArrayList<MessagesController.DialogFilter> arrayList3, final SparseArray<MessagesController.DialogFilter> sparseArray, final ArrayList<Integer> arrayList4, final HashMap<Integer, HashSet<Long>> hashMap, final HashMap<Integer, HashSet<Long>> hashMap2, final HashSet<Integer> hashSet) {
+    public void processLoadedFilterPeers(final TLRPC$messages_Dialogs tLRPC$messages_Dialogs, final TLRPC$messages_Dialogs tLRPC$messages_Dialogs2, final ArrayList<TLRPC$User> arrayList, final ArrayList<TLRPC$Chat> arrayList2, final ArrayList<MessagesController.DialogFilter> arrayList3, final SparseArray<MessagesController.DialogFilter> sparseArray, final ArrayList<Integer> arrayList4, final HashMap<Integer, HashSet<Long>> hashMap, final HashSet<Integer> hashSet) {
         this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda195
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesStorage.this.lambda$processLoadedFilterPeers$53(tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap, hashMap2, hashSet);
+                MessagesStorage.this.lambda$processLoadedFilterPeers$53(tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap, hashSet);
             }
         });
     }

@@ -19055,9 +19055,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         this.replyButtonAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChatActivity.81
                             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                             public void onAnimationEnd(Animator animator) {
-                                if (ChatActivity.this.replyButtonAnimation != null && ChatActivity.this.replyButtonAnimation.equals(animator) && i6 == 8) {
-                                    ChatActivity.this.replyButton.setVisibility(8);
+                                if (ChatActivity.this.replyButtonAnimation == null || !ChatActivity.this.replyButtonAnimation.equals(animator) || ChatActivity.this.replyButton == null || i6 != 8) {
+                                    return;
                                 }
+                                ChatActivity.this.replyButton.setVisibility(8);
                             }
 
                             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener

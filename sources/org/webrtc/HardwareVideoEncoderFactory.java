@@ -3,6 +3,7 @@ package org.webrtc;
 import android.media.MediaCodecInfo;
 import android.os.Build;
 import java.util.ArrayList;
+import org.telegram.messenger.FileLog;
 import org.telegram.messenger.voip.Instance;
 import org.telegram.messenger.voip.VoIPService;
 import org.webrtc.EglBase;
@@ -111,6 +112,17 @@ public class HardwareVideoEncoderFactory implements VideoEncoderFactory {
                     mediaCodecInfo = mediaCodecInfo2;
                 }
             }
+        }
+        if (mediaCodecInfo == null) {
+            StringBuilder sb = new StringBuilder();
+            for (int i2 = 0; i2 < size; i2++) {
+                MediaCodecInfo mediaCodecInfo3 = sortedCodecsList.get(i2);
+                if (mediaCodecInfo3 != null && mediaCodecInfo3.isEncoder() && MediaCodecUtils.codecSupportsType(mediaCodecInfo3, videoCodecMimeType)) {
+                    sb.append(mediaCodecInfo3.getName());
+                    sb.append(", ");
+                }
+            }
+            FileLog.e("can't create video encoder " + videoCodecMimeType.mimeType() + ", supported codecs" + ((Object) sb));
         }
         return mediaCodecInfo;
     }

@@ -1080,7 +1080,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     }
 
     private boolean allowBigSizeCamera() {
-        if (SharedConfig.bigCameraForRound || Math.max(SharedConfig.getDevicePerformanceClass(), SharedConfig.getLegacyDevicePerformanceClass()) == 2) {
+        if (SharedConfig.bigCameraForRound || SharedConfig.deviceIsAboveAverage() || Math.max(SharedConfig.getDevicePerformanceClass(), SharedConfig.getLegacyDevicePerformanceClass()) == 2) {
             return true;
         }
         int hashCode = (Build.MANUFACTURER + " " + Build.DEVICE).toUpperCase().hashCode();
