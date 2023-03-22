@@ -532,7 +532,7 @@ public class AndroidUtilities {
     }
 
     public static void recycleBitmaps(final List<Bitmap> list) {
-        if (list == null || list.isEmpty()) {
+        if (Build.VERSION.SDK_INT <= 23 || list == null || list.isEmpty()) {
             return;
         }
         runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda11
@@ -540,7 +540,7 @@ public class AndroidUtilities {
             public final void run() {
                 AndroidUtilities.lambda$recycleBitmaps$1(list);
             }
-        }, Build.VERSION.SDK_INT <= 23 ? 100L : 36L);
+        }, 36L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

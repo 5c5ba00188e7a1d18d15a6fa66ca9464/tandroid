@@ -212,35 +212,27 @@ public class FilePathDatabase {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:15:0x0075, code lost:
-        if (r1 == null) goto L21;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public /* synthetic */ void lambda$getPath$0(long j, int i, int i2, String[] strArr, CountDownLatch countDownLatch) {
         ensureDatabaseCreated();
         SQLiteDatabase sQLiteDatabase = this.database;
         if (sQLiteDatabase != null) {
             SQLiteCursor sQLiteCursor = null;
             try {
-                try {
-                    sQLiteCursor = sQLiteDatabase.queryFinalized("SELECT path FROM paths WHERE document_id = " + j + " AND dc_id = " + i + " AND type = " + i2, new Object[0]);
-                    if (sQLiteCursor.next()) {
-                        strArr[0] = sQLiteCursor.stringValue(0);
-                        if (BuildVars.DEBUG_VERSION) {
-                            FileLog.d("get file path id=" + j + " dc=" + i + " type=" + i2 + " path=" + strArr[0]);
-                        }
+                sQLiteCursor = sQLiteDatabase.queryFinalized("SELECT path FROM paths WHERE document_id = " + j + " AND dc_id = " + i + " AND type = " + i2, new Object[0]);
+                if (sQLiteCursor.next()) {
+                    strArr[0] = sQLiteCursor.stringValue(0);
+                    if (BuildVars.DEBUG_VERSION) {
+                        FileLog.d("get file path id=" + j + " dc=" + i + " type=" + i2 + " path=" + strArr[0]);
                     }
-                } catch (SQLiteException e) {
-                    FileLog.e(e);
                 }
-                sQLiteCursor.dispose();
             } catch (Throwable th) {
-                if (sQLiteCursor != null) {
-                    sQLiteCursor.dispose();
+                try {
+                    FileLog.e(th);
+                } finally {
+                    if (sQLiteCursor != null) {
+                        sQLiteCursor.dispose();
+                    }
                 }
-                throw th;
             }
         }
         countDownLatch.countDown();
@@ -394,11 +386,12 @@ public class FilePathDatabase {
         for (int i = 0; i < arrayList.size(); i++) {
             try {
                 ((MessageObject) arrayList.get(i)).checkMediaExistance(false);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } finally {
+                try {
+                } finally {
+                }
             }
         }
-        countDownLatch.countDown();
     }
 
     public void clear() {
@@ -442,14 +435,17 @@ public class FilePathDatabase {
     public /* synthetic */ void lambda$hasAnotherRefOnFile$4(String str, boolean[] zArr, CountDownLatch countDownLatch) {
         ensureDatabaseCreated();
         try {
-            SQLiteDatabase sQLiteDatabase = this.database;
-            if (sQLiteDatabase.queryFinalized("SELECT document_id FROM paths WHERE path = '" + str + "'", new Object[0]).next()) {
-                zArr[0] = true;
+            try {
+                SQLiteDatabase sQLiteDatabase = this.database;
+                if (sQLiteDatabase.queryFinalized("SELECT document_id FROM paths WHERE path = '" + str + "'", new Object[0]).next()) {
+                    zArr[0] = true;
+                }
+            } catch (Exception e) {
+                FileLog.e(e);
             }
-        } catch (Exception e) {
-            FileLog.e(e);
+        } finally {
+            countDownLatch.countDown();
         }
-        countDownLatch.countDown();
     }
 
     public void saveFileDialogId(final File file, final FileMeta fileMeta) {
@@ -564,18 +560,16 @@ public class FilePathDatabase {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$removeFiles$6(List list) {
         try {
-            try {
-                ensureDatabaseCreated();
-                this.database.beginTransaction();
-                for (int i = 0; i < list.size(); i++) {
-                    SQLiteDatabase sQLiteDatabase = this.database;
-                    sQLiteDatabase.executeFast("DELETE FROM paths_by_dialog_id WHERE path = '" + shield(((CacheModel.FileInfo) list.get(i)).file.getPath()) + "'").stepThis().dispose();
-                }
-            } catch (Exception e) {
-                FileLog.e(e);
+            ensureDatabaseCreated();
+            this.database.beginTransaction();
+            for (int i = 0; i < list.size(); i++) {
+                SQLiteDatabase sQLiteDatabase = this.database;
+                sQLiteDatabase.executeFast("DELETE FROM paths_by_dialog_id WHERE path = '" + shield(((CacheModel.FileInfo) list.get(i)).file.getPath()) + "'").stepThis().dispose();
             }
         } finally {
-            this.database.commitTransaction();
+            try {
+            } finally {
+            }
         }
     }
 
@@ -615,10 +609,11 @@ public class FilePathDatabase {
                     }
                 }
             }
-        } catch (Exception e) {
-            FileLog.e(e);
+        } finally {
+            try {
+            } finally {
+            }
         }
-        countDownLatch.countDown();
     }
 
     private void postRunnable(Runnable runnable) {

@@ -7905,6 +7905,9 @@ public class LoginActivity extends BaseFragment {
             int i5 = i3 % 3600;
             int i6 = i5 / 60;
             int i7 = i5 % 60;
+            if (i4 >= 16) {
+                i2++;
+            }
             if (i2 != 0) {
                 return LocaleController.formatString(R.string.LoginEmailResetInSinglePattern, LocaleController.formatPluralString("Days", i2, new Object[0]));
             }

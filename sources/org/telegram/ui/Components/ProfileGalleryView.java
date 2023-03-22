@@ -758,6 +758,8 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
         this.imagesUploadProgress.remove(i);
         if (i == 0 && !this.imagesLocations.isEmpty()) {
             this.prevImageLocation = this.imagesLocations.get(0);
+            this.prevThumbLocation = null;
+            this.prevVectorAvatarThumbDrawable = null;
         }
         this.adapter.notifyDataSetChanged();
         return this.photos.isEmpty();

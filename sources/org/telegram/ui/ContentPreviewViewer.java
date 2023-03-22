@@ -391,14 +391,19 @@ public class ContentPreviewViewer {
                         arrayList6.add(Integer.valueOf(R.drawable.msg_send));
                         arrayList5.add(0);
                     }
+                    if (ContentPreviewViewer.this.delegate.needSend(ContentPreviewViewer.this.currentContentType) && !ContentPreviewViewer.this.delegate.isInScheduleMode()) {
+                        arrayList4.add(LocaleController.getString("SendWithoutSound", R.string.SendWithoutSound));
+                        arrayList6.add(Integer.valueOf(R.drawable.input_notify_off));
+                        arrayList5.add(4);
+                    }
                     if (ContentPreviewViewer.this.delegate.canSchedule()) {
                         arrayList4.add(LocaleController.getString("Schedule", R.string.Schedule));
                         arrayList6.add(Integer.valueOf(R.drawable.msg_autodelete));
                         arrayList5.add(3);
                     }
                     if (ContentPreviewViewer.this.currentDocument != null) {
-                        boolean hasRecentGif = MediaDataController.getInstance(ContentPreviewViewer.this.currentAccount).hasRecentGif(ContentPreviewViewer.this.currentDocument);
-                        if (hasRecentGif) {
+                        z = MediaDataController.getInstance(ContentPreviewViewer.this.currentAccount).hasRecentGif(ContentPreviewViewer.this.currentDocument);
+                        if (z) {
                             arrayList4.add(LocaleController.formatString("Delete", R.string.Delete, new Object[0]));
                             arrayList6.add(Integer.valueOf(R.drawable.msg_delete));
                             arrayList5.add(1);
@@ -407,7 +412,6 @@ public class ContentPreviewViewer {
                             arrayList6.add(Integer.valueOf(R.drawable.msg_gif_add));
                             arrayList5.add(2);
                         }
-                        z = hasRecentGif;
                     } else {
                         z = false;
                     }
@@ -699,6 +703,8 @@ public class ContentPreviewViewer {
             int intValue = ((Integer) view.getTag()).intValue();
             if (((Integer) arrayList.get(intValue)).intValue() == 0) {
                 ContentPreviewViewer.this.delegate.sendGif(ContentPreviewViewer.this.currentDocument != null ? ContentPreviewViewer.this.currentDocument : ContentPreviewViewer.this.inlineResult, ContentPreviewViewer.this.parentObject, true, 0);
+            } else if (((Integer) arrayList.get(intValue)).intValue() == 4) {
+                ContentPreviewViewer.this.delegate.sendGif(ContentPreviewViewer.this.currentDocument != null ? ContentPreviewViewer.this.currentDocument : ContentPreviewViewer.this.inlineResult, ContentPreviewViewer.this.parentObject, false, 0);
             } else if (((Integer) arrayList.get(intValue)).intValue() == 1) {
                 MediaDataController.getInstance(ContentPreviewViewer.this.currentAccount).removeRecentGif(ContentPreviewViewer.this.currentDocument);
                 ContentPreviewViewer.this.delegate.gifAddedOrDeleted();

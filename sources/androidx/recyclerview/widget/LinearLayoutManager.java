@@ -36,6 +36,10 @@ public class LinearLayoutManager extends RecyclerView.LayoutManager implements I
     private boolean needFixEndGap;
     private boolean needFixGap;
 
+    protected int firstPosition() {
+        return 0;
+    }
+
     @Override // androidx.recyclerview.widget.RecyclerView.LayoutManager
     public boolean isAutoMeasureEnabled() {
         return true;
@@ -445,7 +449,7 @@ public class LinearLayoutManager extends RecyclerView.LayoutManager implements I
             return;
         }
         anchorInfo.assignCoordinateFromPadding();
-        anchorInfo.mPosition = this.mStackFromEnd ? state.getItemCount() - 1 : 0;
+        anchorInfo.mPosition = this.mStackFromEnd ? state.getItemCount() - 1 : firstPosition();
     }
 
     private boolean updateAnchorFromChildren(RecyclerView.Recycler recycler, RecyclerView.State state, AnchorInfo anchorInfo) {

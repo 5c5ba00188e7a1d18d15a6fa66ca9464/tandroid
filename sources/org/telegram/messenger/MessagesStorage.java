@@ -1562,7 +1562,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:59:0x0313 A[Catch: all -> 0x0330, Exception -> 0x0332, TryCatch #10 {Exception -> 0x0332, blocks: (B:56:0x021e, B:57:0x0222, B:59:0x0313, B:61:0x0325), top: B:145:0x021e }] */
     /* JADX WARN: Type inference failed for: r7v23 */
     /* JADX WARN: Type inference failed for: r7v6 */
-    /* JADX WARN: Type inference failed for: r7v7, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r7v7, types: [boolean, int] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2299,7 +2299,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:147:0x02d3  */
     /* JADX WARN: Removed duplicated region for block: B:152:0x02df  */
     /* JADX WARN: Type inference failed for: r13v4 */
-    /* JADX WARN: Type inference failed for: r13v5, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v5, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v6 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2925,7 +2925,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:79:0x01c5 A[Catch: all -> 0x03e3, Exception -> 0x03e6, TryCatch #4 {all -> 0x03e3, blocks: (B:4:0x002d, B:6:0x0035, B:8:0x005d, B:14:0x006d, B:18:0x008c, B:22:0x00a2, B:24:0x00b5, B:26:0x00bd, B:27:0x00c2, B:29:0x00de, B:31:0x00ea, B:33:0x00fd, B:35:0x0108, B:37:0x012d, B:39:0x0134, B:40:0x0148, B:42:0x014c, B:44:0x0150, B:46:0x0156, B:48:0x015a, B:50:0x015e, B:52:0x0166, B:54:0x016c, B:56:0x017d, B:58:0x0189, B:60:0x0190, B:62:0x0194, B:72:0x01b0, B:74:0x01b6, B:76:0x01bc, B:77:0x01bf, B:79:0x01c5, B:81:0x01d5, B:82:0x01dd, B:84:0x01e5, B:86:0x01ef, B:87:0x01f7, B:89:0x0202, B:69:0x01a2, B:70:0x01a6, B:91:0x0210), top: B:196:0x002d }] */
     /* JADX WARN: Removed duplicated region for block: B:82:0x01dd A[Catch: all -> 0x03e3, Exception -> 0x03e6, TryCatch #4 {all -> 0x03e3, blocks: (B:4:0x002d, B:6:0x0035, B:8:0x005d, B:14:0x006d, B:18:0x008c, B:22:0x00a2, B:24:0x00b5, B:26:0x00bd, B:27:0x00c2, B:29:0x00de, B:31:0x00ea, B:33:0x00fd, B:35:0x0108, B:37:0x012d, B:39:0x0134, B:40:0x0148, B:42:0x014c, B:44:0x0150, B:46:0x0156, B:48:0x015a, B:50:0x015e, B:52:0x0166, B:54:0x016c, B:56:0x017d, B:58:0x0189, B:60:0x0190, B:62:0x0194, B:72:0x01b0, B:74:0x01b6, B:76:0x01bc, B:77:0x01bf, B:79:0x01c5, B:81:0x01d5, B:82:0x01dd, B:84:0x01e5, B:86:0x01ef, B:87:0x01f7, B:89:0x0202, B:69:0x01a2, B:70:0x01a6, B:91:0x0210), top: B:196:0x002d }] */
     /* JADX WARN: Type inference failed for: r1v2 */
-    /* JADX WARN: Type inference failed for: r1v3, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r1v3, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r1v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5030,7 +5030,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:35:0x00f4 A[Catch: all -> 0x0101, Exception -> 0x0103, TRY_LEAVE, TryCatch #1 {Exception -> 0x0103, blocks: (B:22:0x0045, B:25:0x008c, B:27:0x0092, B:29:0x0098, B:31:0x00d3, B:33:0x00da, B:35:0x00f4, B:24:0x0069), top: B:49:0x0045, outer: #0 }] */
     /* JADX WARN: Type inference failed for: r14v10 */
     /* JADX WARN: Type inference failed for: r14v3 */
-    /* JADX WARN: Type inference failed for: r14v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r14v4, types: [boolean, int] */
     /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:23:0x0067 -> B:25:0x008c). Please submit an issue!!! */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5127,7 +5127,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:137:0x0326  */
     /* JADX WARN: Removed duplicated region for block: B:138:0x0329  */
     /* JADX WARN: Type inference failed for: r10v11 */
-    /* JADX WARN: Type inference failed for: r10v12, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r10v12, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r10v18 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5698,7 +5698,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:57:0x00fe  */
     /* JADX WARN: Removed duplicated region for block: B:74:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r13v0 */
-    /* JADX WARN: Type inference failed for: r13v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v8 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5939,10 +5939,10 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:214:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:92:0x02d5  */
     /* JADX WARN: Type inference failed for: r14v0 */
-    /* JADX WARN: Type inference failed for: r14v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r14v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r14v8 */
     /* JADX WARN: Type inference failed for: r8v21 */
-    /* JADX WARN: Type inference failed for: r8v22, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r8v22, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r8v29 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -7089,7 +7089,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:76:0x01c6 A[Catch: all -> 0x01dc, Exception -> 0x01e1, TryCatch #6 {Exception -> 0x01e1, all -> 0x01dc, blocks: (B:29:0x00d0, B:31:0x00d6, B:33:0x0112, B:38:0x011a, B:40:0x012c, B:42:0x0139, B:48:0x0144, B:52:0x0152, B:54:0x0162, B:56:0x017a, B:58:0x0180, B:62:0x0187, B:64:0x018f, B:66:0x01a0, B:68:0x01a7, B:70:0x01b0, B:72:0x01b9, B:74:0x01c1, B:76:0x01c6, B:77:0x01c9, B:71:0x01b6, B:67:0x01a4, B:61:0x0185, B:63:0x018b, B:55:0x0176, B:41:0x0132, B:78:0x01d0), top: B:114:0x00d0 }] */
     /* JADX WARN: Removed duplicated region for block: B:98:0x020b  */
     /* JADX WARN: Type inference failed for: r13v0 */
-    /* JADX WARN: Type inference failed for: r13v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -11515,7 +11515,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:288:0x0086 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:41:0x00ca A[Catch: all -> 0x0376, Exception -> 0x037c, TRY_ENTER, TRY_LEAVE, TryCatch #38 {Exception -> 0x037c, all -> 0x0376, blocks: (B:22:0x0080, B:41:0x00ca), top: B:278:0x0080 }] */
     /* JADX WARN: Type inference failed for: r5v0 */
-    /* JADX WARN: Type inference failed for: r5v34, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r5v34, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r5v35 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -13020,7 +13020,7 @@ public class MessagesStorage extends BaseController {
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Removed duplicated region for block: B:116:0x02bc  */
     /* JADX WARN: Type inference failed for: r13v2 */
-    /* JADX WARN: Type inference failed for: r13v3, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v3, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v8 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -24050,48 +24050,47 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:100:0x01ac  */
-    /* JADX WARN: Removed duplicated region for block: B:125:0x0221 A[Catch: all -> 0x0291, Exception -> 0x0296, TRY_ENTER, TryCatch #9 {Exception -> 0x0296, all -> 0x0291, blocks: (B:6:0x0031, B:13:0x0044, B:28:0x005c, B:30:0x0069, B:31:0x006c, B:37:0x0084, B:93:0x0195, B:42:0x0098, B:92:0x0192, B:43:0x00a1, B:98:0x01a4, B:106:0x01b5, B:111:0x01c9, B:112:0x01d2, B:125:0x0221, B:126:0x0224, B:128:0x022e, B:129:0x0239, B:131:0x023f, B:132:0x0253, B:134:0x0259, B:135:0x026d, B:26:0x0058, B:147:0x029e, B:148:0x02a1), top: B:182:0x0007 }] */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x022e A[Catch: all -> 0x0291, Exception -> 0x0296, TryCatch #9 {Exception -> 0x0296, all -> 0x0291, blocks: (B:6:0x0031, B:13:0x0044, B:28:0x005c, B:30:0x0069, B:31:0x006c, B:37:0x0084, B:93:0x0195, B:42:0x0098, B:92:0x0192, B:43:0x00a1, B:98:0x01a4, B:106:0x01b5, B:111:0x01c9, B:112:0x01d2, B:125:0x0221, B:126:0x0224, B:128:0x022e, B:129:0x0239, B:131:0x023f, B:132:0x0253, B:134:0x0259, B:135:0x026d, B:26:0x0058, B:147:0x029e, B:148:0x02a1), top: B:182:0x0007 }] */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x028d  */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x029e A[Catch: all -> 0x0291, Exception -> 0x0296, TRY_ENTER, TryCatch #9 {Exception -> 0x0296, all -> 0x0291, blocks: (B:6:0x0031, B:13:0x0044, B:28:0x005c, B:30:0x0069, B:31:0x006c, B:37:0x0084, B:93:0x0195, B:42:0x0098, B:92:0x0192, B:43:0x00a1, B:98:0x01a4, B:106:0x01b5, B:111:0x01c9, B:112:0x01d2, B:125:0x0221, B:126:0x0224, B:128:0x022e, B:129:0x0239, B:131:0x023f, B:132:0x0253, B:134:0x0259, B:135:0x026d, B:26:0x0058, B:147:0x029e, B:148:0x02a1), top: B:182:0x0007 }] */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x02a9  */
-    /* JADX WARN: Removed duplicated region for block: B:154:0x02ae  */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x02b3  */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x02bc  */
-    /* JADX WARN: Removed duplicated region for block: B:163:0x02c1  */
-    /* JADX WARN: Removed duplicated region for block: B:165:0x02c6  */
-    /* JADX WARN: Removed duplicated region for block: B:186:0x0195 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x01af  */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x0224 A[Catch: all -> 0x0294, Exception -> 0x0299, TRY_ENTER, TryCatch #11 {Exception -> 0x0299, all -> 0x0294, blocks: (B:7:0x0034, B:14:0x0047, B:29:0x005f, B:31:0x006c, B:32:0x006f, B:38:0x0087, B:94:0x0198, B:43:0x009b, B:93:0x0195, B:44:0x00a4, B:99:0x01a7, B:107:0x01b8, B:112:0x01cc, B:113:0x01d5, B:126:0x0224, B:127:0x0227, B:129:0x0231, B:130:0x023c, B:132:0x0242, B:133:0x0256, B:135:0x025c, B:136:0x0270, B:27:0x005b, B:148:0x02a1, B:149:0x02a4), top: B:177:0x0007 }] */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x0231 A[Catch: all -> 0x0294, Exception -> 0x0299, TryCatch #11 {Exception -> 0x0299, all -> 0x0294, blocks: (B:7:0x0034, B:14:0x0047, B:29:0x005f, B:31:0x006c, B:32:0x006f, B:38:0x0087, B:94:0x0198, B:43:0x009b, B:93:0x0195, B:44:0x00a4, B:99:0x01a7, B:107:0x01b8, B:112:0x01cc, B:113:0x01d5, B:126:0x0224, B:127:0x0227, B:129:0x0231, B:130:0x023c, B:132:0x0242, B:133:0x0256, B:135:0x025c, B:136:0x0270, B:27:0x005b, B:148:0x02a1, B:149:0x02a4), top: B:177:0x0007 }] */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x0290  */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x02ac  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x02b1  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x02b6  */
+    /* JADX WARN: Removed duplicated region for block: B:162:0x02bf  */
+    /* JADX WARN: Removed duplicated region for block: B:164:0x02c4  */
+    /* JADX WARN: Removed duplicated region for block: B:166:0x02c9  */
+    /* JADX WARN: Removed duplicated region for block: B:184:0x0198 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:191:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:193:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:195:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0058 A[Catch: all -> 0x0291, Exception -> 0x0296, TRY_ENTER, TryCatch #9 {Exception -> 0x0296, all -> 0x0291, blocks: (B:6:0x0031, B:13:0x0044, B:28:0x005c, B:30:0x0069, B:31:0x006c, B:37:0x0084, B:93:0x0195, B:42:0x0098, B:92:0x0192, B:43:0x00a1, B:98:0x01a4, B:106:0x01b5, B:111:0x01c9, B:112:0x01d2, B:125:0x0221, B:126:0x0224, B:128:0x022e, B:129:0x0239, B:131:0x023f, B:132:0x0253, B:134:0x0259, B:135:0x026d, B:26:0x0058, B:147:0x029e, B:148:0x02a1), top: B:182:0x0007 }] */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x0069 A[Catch: all -> 0x0291, Exception -> 0x0296, TryCatch #9 {Exception -> 0x0296, all -> 0x0291, blocks: (B:6:0x0031, B:13:0x0044, B:28:0x005c, B:30:0x0069, B:31:0x006c, B:37:0x0084, B:93:0x0195, B:42:0x0098, B:92:0x0192, B:43:0x00a1, B:98:0x01a4, B:106:0x01b5, B:111:0x01c9, B:112:0x01d2, B:125:0x0221, B:126:0x0224, B:128:0x022e, B:129:0x0239, B:131:0x023f, B:132:0x0253, B:134:0x0259, B:135:0x026d, B:26:0x0058, B:147:0x029e, B:148:0x02a1), top: B:182:0x0007 }] */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x007f  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x00f6 A[Catch: all -> 0x019c, Exception -> 0x01a0, TryCatch #12 {Exception -> 0x01a0, all -> 0x019c, blocks: (B:44:0x00a9, B:46:0x00b8, B:48:0x00be, B:50:0x00de, B:55:0x00e6, B:57:0x00f6, B:59:0x0107, B:65:0x0112, B:69:0x0120, B:71:0x012e, B:73:0x014a, B:75:0x014e, B:79:0x0157, B:81:0x0160, B:83:0x016d, B:86:0x017a, B:88:0x0181, B:89:0x0187, B:90:0x018a, B:84:0x0173, B:78:0x0155, B:80:0x015b, B:72:0x0144, B:58:0x00fe), top: B:176:0x00a9 }] */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x00fe A[Catch: all -> 0x019c, Exception -> 0x01a0, TryCatch #12 {Exception -> 0x01a0, all -> 0x019c, blocks: (B:44:0x00a9, B:46:0x00b8, B:48:0x00be, B:50:0x00de, B:55:0x00e6, B:57:0x00f6, B:59:0x0107, B:65:0x0112, B:69:0x0120, B:71:0x012e, B:73:0x014a, B:75:0x014e, B:79:0x0157, B:81:0x0160, B:83:0x016d, B:86:0x017a, B:88:0x0181, B:89:0x0187, B:90:0x018a, B:84:0x0173, B:78:0x0155, B:80:0x015b, B:72:0x0144, B:58:0x00fe), top: B:176:0x00a9 }] */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x010b  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x010d  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x011d  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x011f  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x012e A[Catch: all -> 0x019c, Exception -> 0x01a0, TryCatch #12 {Exception -> 0x01a0, all -> 0x019c, blocks: (B:44:0x00a9, B:46:0x00b8, B:48:0x00be, B:50:0x00de, B:55:0x00e6, B:57:0x00f6, B:59:0x0107, B:65:0x0112, B:69:0x0120, B:71:0x012e, B:73:0x014a, B:75:0x014e, B:79:0x0157, B:81:0x0160, B:83:0x016d, B:86:0x017a, B:88:0x0181, B:89:0x0187, B:90:0x018a, B:84:0x0173, B:78:0x0155, B:80:0x015b, B:72:0x0144, B:58:0x00fe), top: B:176:0x00a9 }] */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x0144 A[Catch: all -> 0x019c, Exception -> 0x01a0, TryCatch #12 {Exception -> 0x01a0, all -> 0x019c, blocks: (B:44:0x00a9, B:46:0x00b8, B:48:0x00be, B:50:0x00de, B:55:0x00e6, B:57:0x00f6, B:59:0x0107, B:65:0x0112, B:69:0x0120, B:71:0x012e, B:73:0x014a, B:75:0x014e, B:79:0x0157, B:81:0x0160, B:83:0x016d, B:86:0x017a, B:88:0x0181, B:89:0x0187, B:90:0x018a, B:84:0x0173, B:78:0x0155, B:80:0x015b, B:72:0x0144, B:58:0x00fe), top: B:176:0x00a9 }] */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x014e A[Catch: all -> 0x019c, Exception -> 0x01a0, TryCatch #12 {Exception -> 0x01a0, all -> 0x019c, blocks: (B:44:0x00a9, B:46:0x00b8, B:48:0x00be, B:50:0x00de, B:55:0x00e6, B:57:0x00f6, B:59:0x0107, B:65:0x0112, B:69:0x0120, B:71:0x012e, B:73:0x014a, B:75:0x014e, B:79:0x0157, B:81:0x0160, B:83:0x016d, B:86:0x017a, B:88:0x0181, B:89:0x0187, B:90:0x018a, B:84:0x0173, B:78:0x0155, B:80:0x015b, B:72:0x0144, B:58:0x00fe), top: B:176:0x00a9 }] */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x015b A[Catch: all -> 0x019c, Exception -> 0x01a0, TryCatch #12 {Exception -> 0x01a0, all -> 0x019c, blocks: (B:44:0x00a9, B:46:0x00b8, B:48:0x00be, B:50:0x00de, B:55:0x00e6, B:57:0x00f6, B:59:0x0107, B:65:0x0112, B:69:0x0120, B:71:0x012e, B:73:0x014a, B:75:0x014e, B:79:0x0157, B:81:0x0160, B:83:0x016d, B:86:0x017a, B:88:0x0181, B:89:0x0187, B:90:0x018a, B:84:0x0173, B:78:0x0155, B:80:0x015b, B:72:0x0144, B:58:0x00fe), top: B:176:0x00a9 }] */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x016d A[Catch: all -> 0x019c, Exception -> 0x01a0, TryCatch #12 {Exception -> 0x01a0, all -> 0x019c, blocks: (B:44:0x00a9, B:46:0x00b8, B:48:0x00be, B:50:0x00de, B:55:0x00e6, B:57:0x00f6, B:59:0x0107, B:65:0x0112, B:69:0x0120, B:71:0x012e, B:73:0x014a, B:75:0x014e, B:79:0x0157, B:81:0x0160, B:83:0x016d, B:86:0x017a, B:88:0x0181, B:89:0x0187, B:90:0x018a, B:84:0x0173, B:78:0x0155, B:80:0x015b, B:72:0x0144, B:58:0x00fe), top: B:176:0x00a9 }] */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x0173 A[Catch: all -> 0x019c, Exception -> 0x01a0, TryCatch #12 {Exception -> 0x01a0, all -> 0x019c, blocks: (B:44:0x00a9, B:46:0x00b8, B:48:0x00be, B:50:0x00de, B:55:0x00e6, B:57:0x00f6, B:59:0x0107, B:65:0x0112, B:69:0x0120, B:71:0x012e, B:73:0x014a, B:75:0x014e, B:79:0x0157, B:81:0x0160, B:83:0x016d, B:86:0x017a, B:88:0x0181, B:89:0x0187, B:90:0x018a, B:84:0x0173, B:78:0x0155, B:80:0x015b, B:72:0x0144, B:58:0x00fe), top: B:176:0x00a9 }] */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x017a A[Catch: all -> 0x019c, Exception -> 0x01a0, TryCatch #12 {Exception -> 0x01a0, all -> 0x019c, blocks: (B:44:0x00a9, B:46:0x00b8, B:48:0x00be, B:50:0x00de, B:55:0x00e6, B:57:0x00f6, B:59:0x0107, B:65:0x0112, B:69:0x0120, B:71:0x012e, B:73:0x014a, B:75:0x014e, B:79:0x0157, B:81:0x0160, B:83:0x016d, B:86:0x017a, B:88:0x0181, B:89:0x0187, B:90:0x018a, B:84:0x0173, B:78:0x0155, B:80:0x015b, B:72:0x0144, B:58:0x00fe), top: B:176:0x00a9 }] */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x0192 A[Catch: all -> 0x0291, Exception -> 0x0296, TRY_ENTER, TryCatch #9 {Exception -> 0x0296, all -> 0x0291, blocks: (B:6:0x0031, B:13:0x0044, B:28:0x005c, B:30:0x0069, B:31:0x006c, B:37:0x0084, B:93:0x0195, B:42:0x0098, B:92:0x0192, B:43:0x00a1, B:98:0x01a4, B:106:0x01b5, B:111:0x01c9, B:112:0x01d2, B:125:0x0221, B:126:0x0224, B:128:0x022e, B:129:0x0239, B:131:0x023f, B:132:0x0253, B:134:0x0259, B:135:0x026d, B:26:0x0058, B:147:0x029e, B:148:0x02a1), top: B:182:0x0007 }] */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x005b A[Catch: all -> 0x0294, Exception -> 0x0299, TRY_ENTER, TryCatch #11 {Exception -> 0x0299, all -> 0x0294, blocks: (B:7:0x0034, B:14:0x0047, B:29:0x005f, B:31:0x006c, B:32:0x006f, B:38:0x0087, B:94:0x0198, B:43:0x009b, B:93:0x0195, B:44:0x00a4, B:99:0x01a7, B:107:0x01b8, B:112:0x01cc, B:113:0x01d5, B:126:0x0224, B:127:0x0227, B:129:0x0231, B:130:0x023c, B:132:0x0242, B:133:0x0256, B:135:0x025c, B:136:0x0270, B:27:0x005b, B:148:0x02a1, B:149:0x02a4), top: B:177:0x0007 }] */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x006c A[Catch: all -> 0x0294, Exception -> 0x0299, TryCatch #11 {Exception -> 0x0299, all -> 0x0294, blocks: (B:7:0x0034, B:14:0x0047, B:29:0x005f, B:31:0x006c, B:32:0x006f, B:38:0x0087, B:94:0x0198, B:43:0x009b, B:93:0x0195, B:44:0x00a4, B:99:0x01a7, B:107:0x01b8, B:112:0x01cc, B:113:0x01d5, B:126:0x0224, B:127:0x0227, B:129:0x0231, B:130:0x023c, B:132:0x0242, B:133:0x0256, B:135:0x025c, B:136:0x0270, B:27:0x005b, B:148:0x02a1, B:149:0x02a4), top: B:177:0x0007 }] */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0082  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x00f9 A[Catch: all -> 0x019f, Exception -> 0x01a3, TryCatch #10 {Exception -> 0x01a3, all -> 0x019f, blocks: (B:45:0x00ac, B:47:0x00bb, B:49:0x00c1, B:51:0x00e1, B:56:0x00e9, B:58:0x00f9, B:60:0x010a, B:66:0x0115, B:70:0x0123, B:72:0x0131, B:74:0x014d, B:76:0x0151, B:80:0x015a, B:82:0x0163, B:84:0x0170, B:87:0x017d, B:89:0x0184, B:90:0x018a, B:91:0x018d, B:85:0x0176, B:79:0x0158, B:81:0x015e, B:73:0x0147, B:59:0x0101), top: B:178:0x00ac }] */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0101 A[Catch: all -> 0x019f, Exception -> 0x01a3, TryCatch #10 {Exception -> 0x01a3, all -> 0x019f, blocks: (B:45:0x00ac, B:47:0x00bb, B:49:0x00c1, B:51:0x00e1, B:56:0x00e9, B:58:0x00f9, B:60:0x010a, B:66:0x0115, B:70:0x0123, B:72:0x0131, B:74:0x014d, B:76:0x0151, B:80:0x015a, B:82:0x0163, B:84:0x0170, B:87:0x017d, B:89:0x0184, B:90:0x018a, B:91:0x018d, B:85:0x0176, B:79:0x0158, B:81:0x015e, B:73:0x0147, B:59:0x0101), top: B:178:0x00ac }] */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x010e  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0110  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0120  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0122  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x0131 A[Catch: all -> 0x019f, Exception -> 0x01a3, TryCatch #10 {Exception -> 0x01a3, all -> 0x019f, blocks: (B:45:0x00ac, B:47:0x00bb, B:49:0x00c1, B:51:0x00e1, B:56:0x00e9, B:58:0x00f9, B:60:0x010a, B:66:0x0115, B:70:0x0123, B:72:0x0131, B:74:0x014d, B:76:0x0151, B:80:0x015a, B:82:0x0163, B:84:0x0170, B:87:0x017d, B:89:0x0184, B:90:0x018a, B:91:0x018d, B:85:0x0176, B:79:0x0158, B:81:0x015e, B:73:0x0147, B:59:0x0101), top: B:178:0x00ac }] */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x0147 A[Catch: all -> 0x019f, Exception -> 0x01a3, TryCatch #10 {Exception -> 0x01a3, all -> 0x019f, blocks: (B:45:0x00ac, B:47:0x00bb, B:49:0x00c1, B:51:0x00e1, B:56:0x00e9, B:58:0x00f9, B:60:0x010a, B:66:0x0115, B:70:0x0123, B:72:0x0131, B:74:0x014d, B:76:0x0151, B:80:0x015a, B:82:0x0163, B:84:0x0170, B:87:0x017d, B:89:0x0184, B:90:0x018a, B:91:0x018d, B:85:0x0176, B:79:0x0158, B:81:0x015e, B:73:0x0147, B:59:0x0101), top: B:178:0x00ac }] */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x0151 A[Catch: all -> 0x019f, Exception -> 0x01a3, TryCatch #10 {Exception -> 0x01a3, all -> 0x019f, blocks: (B:45:0x00ac, B:47:0x00bb, B:49:0x00c1, B:51:0x00e1, B:56:0x00e9, B:58:0x00f9, B:60:0x010a, B:66:0x0115, B:70:0x0123, B:72:0x0131, B:74:0x014d, B:76:0x0151, B:80:0x015a, B:82:0x0163, B:84:0x0170, B:87:0x017d, B:89:0x0184, B:90:0x018a, B:91:0x018d, B:85:0x0176, B:79:0x0158, B:81:0x015e, B:73:0x0147, B:59:0x0101), top: B:178:0x00ac }] */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x015e A[Catch: all -> 0x019f, Exception -> 0x01a3, TryCatch #10 {Exception -> 0x01a3, all -> 0x019f, blocks: (B:45:0x00ac, B:47:0x00bb, B:49:0x00c1, B:51:0x00e1, B:56:0x00e9, B:58:0x00f9, B:60:0x010a, B:66:0x0115, B:70:0x0123, B:72:0x0131, B:74:0x014d, B:76:0x0151, B:80:0x015a, B:82:0x0163, B:84:0x0170, B:87:0x017d, B:89:0x0184, B:90:0x018a, B:91:0x018d, B:85:0x0176, B:79:0x0158, B:81:0x015e, B:73:0x0147, B:59:0x0101), top: B:178:0x00ac }] */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x0170 A[Catch: all -> 0x019f, Exception -> 0x01a3, TryCatch #10 {Exception -> 0x01a3, all -> 0x019f, blocks: (B:45:0x00ac, B:47:0x00bb, B:49:0x00c1, B:51:0x00e1, B:56:0x00e9, B:58:0x00f9, B:60:0x010a, B:66:0x0115, B:70:0x0123, B:72:0x0131, B:74:0x014d, B:76:0x0151, B:80:0x015a, B:82:0x0163, B:84:0x0170, B:87:0x017d, B:89:0x0184, B:90:0x018a, B:91:0x018d, B:85:0x0176, B:79:0x0158, B:81:0x015e, B:73:0x0147, B:59:0x0101), top: B:178:0x00ac }] */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x0176 A[Catch: all -> 0x019f, Exception -> 0x01a3, TryCatch #10 {Exception -> 0x01a3, all -> 0x019f, blocks: (B:45:0x00ac, B:47:0x00bb, B:49:0x00c1, B:51:0x00e1, B:56:0x00e9, B:58:0x00f9, B:60:0x010a, B:66:0x0115, B:70:0x0123, B:72:0x0131, B:74:0x014d, B:76:0x0151, B:80:0x015a, B:82:0x0163, B:84:0x0170, B:87:0x017d, B:89:0x0184, B:90:0x018a, B:91:0x018d, B:85:0x0176, B:79:0x0158, B:81:0x015e, B:73:0x0147, B:59:0x0101), top: B:178:0x00ac }] */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x017d A[Catch: all -> 0x019f, Exception -> 0x01a3, TryCatch #10 {Exception -> 0x01a3, all -> 0x019f, blocks: (B:45:0x00ac, B:47:0x00bb, B:49:0x00c1, B:51:0x00e1, B:56:0x00e9, B:58:0x00f9, B:60:0x010a, B:66:0x0115, B:70:0x0123, B:72:0x0131, B:74:0x014d, B:76:0x0151, B:80:0x015a, B:82:0x0163, B:84:0x0170, B:87:0x017d, B:89:0x0184, B:90:0x018a, B:91:0x018d, B:85:0x0176, B:79:0x0158, B:81:0x015e, B:73:0x0147, B:59:0x0101), top: B:178:0x00ac }] */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x0195 A[Catch: all -> 0x0294, Exception -> 0x0299, TRY_ENTER, TryCatch #11 {Exception -> 0x0299, all -> 0x0294, blocks: (B:7:0x0034, B:14:0x0047, B:29:0x005f, B:31:0x006c, B:32:0x006f, B:38:0x0087, B:94:0x0198, B:43:0x009b, B:93:0x0195, B:44:0x00a4, B:99:0x01a7, B:107:0x01b8, B:112:0x01cc, B:113:0x01d5, B:126:0x0224, B:127:0x0227, B:129:0x0231, B:130:0x023c, B:132:0x0242, B:133:0x0256, B:135:0x025c, B:136:0x0270, B:27:0x005b, B:148:0x02a1, B:149:0x02a4), top: B:177:0x0007 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$replaceMessageIfExists$190(TLRPC$Message tLRPC$Message, boolean z, ArrayList arrayList, ArrayList arrayList2) {
+        SQLiteCursor sQLiteCursor;
         SQLitePreparedStatement sQLitePreparedStatement;
+        int i;
+        NativeByteBuffer nativeByteBuffer;
         SQLitePreparedStatement sQLitePreparedStatement2;
         SQLiteDatabase sQLiteDatabase;
         SQLiteDatabase sQLiteDatabase2;
-        SQLiteCursor sQLiteCursor;
-        int i;
-        NativeByteBuffer nativeByteBuffer;
         int i2;
         SQLiteDatabase sQLiteDatabase3;
         int i3;
@@ -24151,219 +24150,300 @@ public class MessagesStorage extends BaseController {
                 }
             } catch (Exception e2) {
                 e = e2;
-                sQLiteCursor = null;
-            } catch (Throwable th2) {
-                th = th2;
-                sQLiteCursor = null;
-                if (sQLiteCursor != null) {
+                sQLitePreparedStatement = null;
+                sQLitePreparedStatement2 = null;
+                try {
+                    checkSQLException(e);
+                    sQLiteDatabase2 = this.database;
+                    if (sQLiteDatabase2 != null) {
+                    }
+                    if (sQLitePreparedStatement != null) {
+                    }
+                    if (sQLitePreparedStatement2 != null) {
+                    }
+                } catch (Throwable th2) {
+                    th = th2;
+                    sQLiteDatabase = this.database;
+                    if (sQLiteDatabase != null) {
+                        sQLiteDatabase.commitTransaction();
+                    }
+                    if (sQLitePreparedStatement != null) {
+                        sQLitePreparedStatement.dispose();
+                    }
+                    if (sQLitePreparedStatement2 != null) {
+                        sQLitePreparedStatement2.dispose();
+                    }
+                    throw th;
+                }
+            } catch (Throwable th3) {
+                th = th3;
+                sQLitePreparedStatement = null;
+                sQLitePreparedStatement2 = null;
+                sQLiteDatabase = this.database;
+                if (sQLiteDatabase != null) {
+                }
+                if (sQLitePreparedStatement != null) {
+                }
+                if (sQLitePreparedStatement2 != null) {
                 }
                 throw th;
             }
-            if (!sQLiteCursor.next()) {
-                sQLiteCursor.dispose();
-                SQLiteDatabase sQLiteDatabase4 = this.database;
-                if (sQLiteDatabase4 != null) {
-                    sQLiteDatabase4.commitTransaction();
-                    return;
-                }
+        } catch (Exception e3) {
+            e = e3;
+            sQLiteCursor = null;
+        } catch (Throwable th4) {
+            th = th4;
+            sQLiteCursor = null;
+        }
+        if (!sQLiteCursor.next()) {
+            sQLiteCursor.dispose();
+            sQLiteCursor.dispose();
+            SQLiteDatabase sQLiteDatabase4 = this.database;
+            if (sQLiteDatabase4 != null) {
+                sQLiteDatabase4.commitTransaction();
                 return;
             }
-            i = sQLiteCursor.intValue(1);
-            try {
-                nativeByteBuffer = sQLiteCursor.byteBufferValue(2);
-                sQLiteCursor.dispose();
-            } catch (Exception e3) {
-                e = e3;
-                checkSQLException(e);
-                if (sQLiteCursor != null) {
-                }
-                nativeByteBuffer = null;
-                this.database.beginTransaction();
-                if (tLRPC$Message.dialog_id == 0) {
-                }
-                fixUnsupportedMedia(tLRPC$Message);
-                NativeByteBuffer nativeByteBuffer52 = new NativeByteBuffer(tLRPC$Message.getObjectSize());
-                tLRPC$Message.serializeToStream(nativeByteBuffer52);
-                i2 = 0;
-                while (i2 < 2) {
-                }
-                NativeByteBuffer nativeByteBuffer62 = nativeByteBuffer52;
-                if (MediaDataController.canAddMessageToMedia(tLRPC$Message)) {
-                }
-                NativeByteBuffer nativeByteBuffer72 = nativeByteBuffer62;
-                if (nativeByteBuffer != null) {
-                }
-                nativeByteBuffer72.reuse();
-                this.database.commitTransaction();
-                if (z) {
-                }
-                sQLiteDatabase3 = this.database;
-                if (sQLiteDatabase3 != null) {
-                }
+            return;
+        }
+        i = sQLiteCursor.intValue(1);
+        try {
+            nativeByteBuffer = sQLiteCursor.byteBufferValue(2);
+            sQLiteCursor.dispose();
+        } catch (Exception e4) {
+            e = e4;
+            checkSQLException(e);
+            if (sQLiteCursor != null) {
             }
+            nativeByteBuffer = null;
             this.database.beginTransaction();
             if (tLRPC$Message.dialog_id == 0) {
-                MessageObject.getDialogId(tLRPC$Message);
             }
             fixUnsupportedMedia(tLRPC$Message);
-            NativeByteBuffer nativeByteBuffer522 = new NativeByteBuffer(tLRPC$Message.getObjectSize());
-            tLRPC$Message.serializeToStream(nativeByteBuffer522);
+            NativeByteBuffer nativeByteBuffer52 = new NativeByteBuffer(tLRPC$Message.getObjectSize());
+            tLRPC$Message.serializeToStream(nativeByteBuffer52);
             i2 = 0;
             while (i2 < 2) {
-                boolean z2 = i2 == i10;
-                int topicId = MessageObject.getTopicId(tLRPC$Message, isForum(tLRPC$Message.dialog_id));
-                if (z2 && topicId == 0) {
-                    nativeByteBuffer4 = nativeByteBuffer522;
-                } else {
-                    SQLitePreparedStatement executeFast = z2 ? this.database.executeFast("REPLACE INTO messages_topics VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?, ?, ?, ?, 0, ?)") : this.database.executeFast("REPLACE INTO messages_v2 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?, ?, ?, ?, 0, ?, ?)");
-                    try {
-                        executeFast.requery();
-                        executeFast.bindInteger(i10, tLRPC$Message.id);
-                        executeFast.bindLong(2, tLRPC$Message.dialog_id);
-                        if (z2) {
-                            executeFast.bindInteger(3, topicId);
-                            i4 = 4;
-                        } else {
-                            i4 = 3;
-                        }
-                        int i11 = i4 + 1;
-                        executeFast.bindInteger(i4, i);
-                        int i12 = i11 + 1;
-                        executeFast.bindInteger(i11, tLRPC$Message.send_state);
-                        int i13 = i12 + 1;
-                        executeFast.bindInteger(i12, tLRPC$Message.date);
-                        int i14 = i13 + 1;
-                        executeFast.bindByteBuffer(i13, nativeByteBuffer522);
-                        int i15 = i14 + 1;
-                        if (!MessageObject.isOut(tLRPC$Message) && !tLRPC$Message.from_scheduled) {
-                            i5 = 0;
-                            executeFast.bindInteger(i14, i5);
-                            int i16 = i15 + 1;
-                            executeFast.bindInteger(i15, tLRPC$Message.ttl);
-                            if ((tLRPC$Message.flags & 1024) == 0) {
-                                i6 = i16 + 1;
-                                executeFast.bindInteger(i16, tLRPC$Message.views);
-                            } else {
-                                i6 = i16 + 1;
-                                executeFast.bindInteger(i16, getMessageMediaType(tLRPC$Message));
-                            }
-                            int i17 = tLRPC$Message.stickerVerified;
-                            int i18 = i6 + 1;
-                            executeFast.bindInteger(i6, i17 != 0 ? 1 : i17 == 2 ? 2 : 0);
-                            int i19 = i18 + 1;
-                            executeFast.bindInteger(i18, !tLRPC$Message.mentioned ? 1 : 0);
-                            int i20 = i19 + 1;
-                            executeFast.bindInteger(i19, tLRPC$Message.forwards);
-                            if (tLRPC$Message.replies == null) {
-                                nativeByteBuffer3 = new NativeByteBuffer(tLRPC$Message.replies.getObjectSize());
-                                tLRPC$Message.replies.serializeToStream(nativeByteBuffer3);
-                                i7 = i20 + 1;
-                                executeFast.bindByteBuffer(i20, nativeByteBuffer3);
-                            } else {
-                                i7 = i20 + 1;
-                                executeFast.bindNull(i20);
-                                nativeByteBuffer3 = null;
-                            }
-                            tLRPC$TL_messageReplyHeader = tLRPC$Message.reply_to;
-                            if (tLRPC$TL_messageReplyHeader == null) {
-                                i8 = i7 + 1;
-                                int i21 = tLRPC$TL_messageReplyHeader.reply_to_top_id;
-                                if (i21 == 0) {
-                                    i21 = tLRPC$TL_messageReplyHeader.reply_to_msg_id;
-                                }
-                                executeFast.bindInteger(i7, i21);
-                            } else {
-                                i8 = i7 + 1;
-                                executeFast.bindInteger(i7, 0);
-                            }
-                            int i22 = i8 + 1;
-                            nativeByteBuffer4 = nativeByteBuffer522;
-                            executeFast.bindLong(i8, MessageObject.getChannelId(tLRPC$Message));
-                            if (nativeByteBuffer == null) {
-                                i9 = i22 + 1;
-                                executeFast.bindByteBuffer(i22, nativeByteBuffer);
-                            } else {
-                                i9 = i22 + 1;
-                                executeFast.bindNull(i22);
-                            }
-                            if (!z2) {
-                                if ((tLRPC$Message.flags & 131072) != 0) {
-                                    executeFast.bindLong(i9, tLRPC$Message.grouped_id);
-                                } else {
-                                    executeFast.bindNull(i9);
-                                }
-                            }
-                            executeFast.step();
-                            executeFast.dispose();
-                            if (nativeByteBuffer3 == null) {
-                                nativeByteBuffer3.reuse();
-                            }
-                        }
-                        i5 = 1;
+            }
+            NativeByteBuffer nativeByteBuffer62 = nativeByteBuffer52;
+            if (MediaDataController.canAddMessageToMedia(tLRPC$Message)) {
+            }
+            NativeByteBuffer nativeByteBuffer72 = nativeByteBuffer62;
+            if (nativeByteBuffer != null) {
+            }
+            nativeByteBuffer72.reuse();
+            this.database.commitTransaction();
+            if (z) {
+            }
+            sQLiteDatabase3 = this.database;
+            if (sQLiteDatabase3 != null) {
+            }
+        }
+        this.database.beginTransaction();
+        if (tLRPC$Message.dialog_id == 0) {
+            MessageObject.getDialogId(tLRPC$Message);
+        }
+        fixUnsupportedMedia(tLRPC$Message);
+        NativeByteBuffer nativeByteBuffer522 = new NativeByteBuffer(tLRPC$Message.getObjectSize());
+        tLRPC$Message.serializeToStream(nativeByteBuffer522);
+        i2 = 0;
+        while (i2 < 2) {
+            boolean z2 = i2 == i10;
+            int topicId = MessageObject.getTopicId(tLRPC$Message, isForum(tLRPC$Message.dialog_id));
+            if (z2 && topicId == 0) {
+                nativeByteBuffer4 = nativeByteBuffer522;
+            } else {
+                SQLitePreparedStatement executeFast = z2 ? this.database.executeFast("REPLACE INTO messages_topics VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?, ?, ?, ?, 0, ?)") : this.database.executeFast("REPLACE INTO messages_v2 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?, ?, ?, ?, 0, ?, ?)");
+                try {
+                    executeFast.requery();
+                    executeFast.bindInteger(i10, tLRPC$Message.id);
+                    executeFast.bindLong(2, tLRPC$Message.dialog_id);
+                    if (z2) {
+                        executeFast.bindInteger(3, topicId);
+                        i4 = 4;
+                    } else {
+                        i4 = 3;
+                    }
+                    int i11 = i4 + 1;
+                    executeFast.bindInteger(i4, i);
+                    int i12 = i11 + 1;
+                    executeFast.bindInteger(i11, tLRPC$Message.send_state);
+                    int i13 = i12 + 1;
+                    executeFast.bindInteger(i12, tLRPC$Message.date);
+                    int i14 = i13 + 1;
+                    executeFast.bindByteBuffer(i13, nativeByteBuffer522);
+                    int i15 = i14 + 1;
+                    if (!MessageObject.isOut(tLRPC$Message) && !tLRPC$Message.from_scheduled) {
+                        i5 = 0;
                         executeFast.bindInteger(i14, i5);
-                        int i162 = i15 + 1;
+                        int i16 = i15 + 1;
                         executeFast.bindInteger(i15, tLRPC$Message.ttl);
                         if ((tLRPC$Message.flags & 1024) == 0) {
+                            i6 = i16 + 1;
+                            executeFast.bindInteger(i16, tLRPC$Message.views);
+                        } else {
+                            i6 = i16 + 1;
+                            executeFast.bindInteger(i16, getMessageMediaType(tLRPC$Message));
                         }
-                        int i172 = tLRPC$Message.stickerVerified;
-                        int i182 = i6 + 1;
-                        executeFast.bindInteger(i6, i172 != 0 ? 1 : i172 == 2 ? 2 : 0);
-                        int i192 = i182 + 1;
-                        executeFast.bindInteger(i182, !tLRPC$Message.mentioned ? 1 : 0);
-                        int i202 = i192 + 1;
-                        executeFast.bindInteger(i192, tLRPC$Message.forwards);
+                        int i17 = tLRPC$Message.stickerVerified;
+                        int i18 = i6 + 1;
+                        executeFast.bindInteger(i6, i17 != 0 ? 1 : i17 == 2 ? 2 : 0);
+                        int i19 = i18 + 1;
+                        executeFast.bindInteger(i18, !tLRPC$Message.mentioned ? 1 : 0);
+                        int i20 = i19 + 1;
+                        executeFast.bindInteger(i19, tLRPC$Message.forwards);
                         if (tLRPC$Message.replies == null) {
+                            nativeByteBuffer3 = new NativeByteBuffer(tLRPC$Message.replies.getObjectSize());
+                            tLRPC$Message.replies.serializeToStream(nativeByteBuffer3);
+                            i7 = i20 + 1;
+                            executeFast.bindByteBuffer(i20, nativeByteBuffer3);
+                        } else {
+                            i7 = i20 + 1;
+                            executeFast.bindNull(i20);
+                            nativeByteBuffer3 = null;
                         }
                         tLRPC$TL_messageReplyHeader = tLRPC$Message.reply_to;
                         if (tLRPC$TL_messageReplyHeader == null) {
+                            i8 = i7 + 1;
+                            int i21 = tLRPC$TL_messageReplyHeader.reply_to_top_id;
+                            if (i21 == 0) {
+                                i21 = tLRPC$TL_messageReplyHeader.reply_to_msg_id;
+                            }
+                            executeFast.bindInteger(i7, i21);
+                        } else {
+                            i8 = i7 + 1;
+                            executeFast.bindInteger(i7, 0);
                         }
-                        int i222 = i8 + 1;
+                        int i22 = i8 + 1;
                         nativeByteBuffer4 = nativeByteBuffer522;
                         executeFast.bindLong(i8, MessageObject.getChannelId(tLRPC$Message));
                         if (nativeByteBuffer == null) {
+                            i9 = i22 + 1;
+                            executeFast.bindByteBuffer(i22, nativeByteBuffer);
+                        } else {
+                            i9 = i22 + 1;
+                            executeFast.bindNull(i22);
                         }
                         if (!z2) {
+                            if ((tLRPC$Message.flags & 131072) != 0) {
+                                executeFast.bindLong(i9, tLRPC$Message.grouped_id);
+                            } else {
+                                executeFast.bindNull(i9);
+                            }
                         }
                         executeFast.step();
                         executeFast.dispose();
                         if (nativeByteBuffer3 == null) {
+                            nativeByteBuffer3.reuse();
                         }
-                    } catch (Exception e4) {
-                        e = e4;
-                        sQLitePreparedStatement = executeFast;
-                        sQLitePreparedStatement2 = null;
-                        try {
-                            checkSQLException(e);
-                            sQLiteDatabase2 = this.database;
-                            if (sQLiteDatabase2 != null) {
-                                sQLiteDatabase2.commitTransaction();
-                            }
-                            if (sQLitePreparedStatement != null) {
-                                sQLitePreparedStatement.dispose();
-                            }
-                            if (sQLitePreparedStatement2 == null) {
-                                sQLitePreparedStatement2.dispose();
-                                return;
-                            }
+                    }
+                    i5 = 1;
+                    executeFast.bindInteger(i14, i5);
+                    int i162 = i15 + 1;
+                    executeFast.bindInteger(i15, tLRPC$Message.ttl);
+                    if ((tLRPC$Message.flags & 1024) == 0) {
+                    }
+                    int i172 = tLRPC$Message.stickerVerified;
+                    int i182 = i6 + 1;
+                    executeFast.bindInteger(i6, i172 != 0 ? 1 : i172 == 2 ? 2 : 0);
+                    int i192 = i182 + 1;
+                    executeFast.bindInteger(i182, !tLRPC$Message.mentioned ? 1 : 0);
+                    int i202 = i192 + 1;
+                    executeFast.bindInteger(i192, tLRPC$Message.forwards);
+                    if (tLRPC$Message.replies == null) {
+                    }
+                    tLRPC$TL_messageReplyHeader = tLRPC$Message.reply_to;
+                    if (tLRPC$TL_messageReplyHeader == null) {
+                    }
+                    int i222 = i8 + 1;
+                    nativeByteBuffer4 = nativeByteBuffer522;
+                    executeFast.bindLong(i8, MessageObject.getChannelId(tLRPC$Message));
+                    if (nativeByteBuffer == null) {
+                    }
+                    if (!z2) {
+                    }
+                    executeFast.step();
+                    executeFast.dispose();
+                    if (nativeByteBuffer3 == null) {
+                    }
+                } catch (Exception e5) {
+                    e = e5;
+                    sQLitePreparedStatement = executeFast;
+                    sQLitePreparedStatement2 = null;
+                    checkSQLException(e);
+                    sQLiteDatabase2 = this.database;
+                    if (sQLiteDatabase2 != null) {
+                    }
+                    if (sQLitePreparedStatement != null) {
+                    }
+                    if (sQLitePreparedStatement2 != null) {
+                    }
+                } catch (Throwable th5) {
+                    th = th5;
+                    sQLitePreparedStatement = executeFast;
+                    sQLitePreparedStatement2 = null;
+                    sQLiteDatabase = this.database;
+                    if (sQLiteDatabase != null) {
+                    }
+                    if (sQLitePreparedStatement != null) {
+                    }
+                    if (sQLitePreparedStatement2 != null) {
+                    }
+                    throw th;
+                }
+            }
+            i2++;
+            nativeByteBuffer522 = nativeByteBuffer4;
+            i10 = 1;
+        }
+        NativeByteBuffer nativeByteBuffer622 = nativeByteBuffer522;
+        if (MediaDataController.canAddMessageToMedia(tLRPC$Message)) {
+            int i23 = 0;
+            while (i23 < 2) {
+                boolean z3 = i23 == 1;
+                int topicId2 = MessageObject.getTopicId(tLRPC$Message, isForum(tLRPC$Message.dialog_id));
+                if (z3 && topicId2 == 0) {
+                    nativeByteBuffer2 = nativeByteBuffer622;
+                } else {
+                    SQLitePreparedStatement executeFast2 = i23 == 0 ? this.database.executeFast("REPLACE INTO media_v4 VALUES(?, ?, ?, ?, ?)") : this.database.executeFast("REPLACE INTO media_topics VALUES(?, ?, ?, ?, ?, ?)");
+                    try {
+                        executeFast2.requery();
+                        executeFast2.bindInteger(1, tLRPC$Message.id);
+                        executeFast2.bindLong(2, tLRPC$Message.dialog_id);
+                        if (i23 != 0) {
+                            executeFast2.bindLong(3, topicId2);
+                            i3 = 4;
+                        } else {
+                            i3 = 3;
+                        }
+                        int i24 = i3 + 1;
+                        executeFast2.bindInteger(i3, tLRPC$Message.date);
+                        int i25 = i24 + 1;
+                        executeFast2.bindInteger(i24, MediaDataController.getMediaType(tLRPC$Message));
+                        nativeByteBuffer2 = nativeByteBuffer622;
+                        executeFast2.bindByteBuffer(i25, nativeByteBuffer2);
+                        executeFast2.step();
+                        executeFast2.dispose();
+                    } catch (Exception e6) {
+                        e = e6;
+                        sQLitePreparedStatement2 = executeFast2;
+                        sQLitePreparedStatement = null;
+                        checkSQLException(e);
+                        sQLiteDatabase2 = this.database;
+                        if (sQLiteDatabase2 != null) {
+                            sQLiteDatabase2.commitTransaction();
+                        }
+                        if (sQLitePreparedStatement != null) {
+                            sQLitePreparedStatement.dispose();
+                        }
+                        if (sQLitePreparedStatement2 != null) {
+                            sQLitePreparedStatement2.dispose();
                             return;
-                        } catch (Throwable th3) {
-                            th = th3;
-                            sQLiteDatabase = this.database;
-                            if (sQLiteDatabase != null) {
-                                sQLiteDatabase.commitTransaction();
-                            }
-                            if (sQLitePreparedStatement != null) {
-                                sQLitePreparedStatement.dispose();
-                            }
-                            if (sQLitePreparedStatement2 != null) {
-                                sQLitePreparedStatement2.dispose();
-                            }
-                            throw th;
                         }
-                    } catch (Throwable th4) {
-                        th = th4;
-                        sQLitePreparedStatement = executeFast;
-                        sQLitePreparedStatement2 = null;
+                        return;
+                    } catch (Throwable th6) {
+                        th = th6;
+                        sQLitePreparedStatement2 = executeFast2;
+                        sQLitePreparedStatement = null;
                         sQLiteDatabase = this.database;
                         if (sQLiteDatabase != null) {
                         }
@@ -24374,105 +24454,40 @@ public class MessagesStorage extends BaseController {
                         throw th;
                     }
                 }
-                i2++;
-                nativeByteBuffer522 = nativeByteBuffer4;
-                i10 = 1;
+                i23++;
+                nativeByteBuffer622 = nativeByteBuffer2;
             }
-            NativeByteBuffer nativeByteBuffer622 = nativeByteBuffer522;
-            if (MediaDataController.canAddMessageToMedia(tLRPC$Message)) {
-                int i23 = 0;
-                while (i23 < 2) {
-                    boolean z3 = i23 == 1;
-                    int topicId2 = MessageObject.getTopicId(tLRPC$Message, isForum(tLRPC$Message.dialog_id));
-                    if (z3 && topicId2 == 0) {
-                        nativeByteBuffer2 = nativeByteBuffer622;
-                    } else {
-                        SQLitePreparedStatement executeFast2 = i23 == 0 ? this.database.executeFast("REPLACE INTO media_v4 VALUES(?, ?, ?, ?, ?)") : this.database.executeFast("REPLACE INTO media_topics VALUES(?, ?, ?, ?, ?, ?)");
-                        try {
-                            executeFast2.requery();
-                            executeFast2.bindInteger(1, tLRPC$Message.id);
-                            executeFast2.bindLong(2, tLRPC$Message.dialog_id);
-                            if (i23 != 0) {
-                                executeFast2.bindLong(3, topicId2);
-                                i3 = 4;
-                            } else {
-                                i3 = 3;
-                            }
-                            int i24 = i3 + 1;
-                            executeFast2.bindInteger(i3, tLRPC$Message.date);
-                            int i25 = i24 + 1;
-                            executeFast2.bindInteger(i24, MediaDataController.getMediaType(tLRPC$Message));
-                            nativeByteBuffer2 = nativeByteBuffer622;
-                            executeFast2.bindByteBuffer(i25, nativeByteBuffer2);
-                            executeFast2.step();
-                            executeFast2.dispose();
-                        } catch (Exception e5) {
-                            e = e5;
-                            sQLitePreparedStatement2 = executeFast2;
-                            sQLitePreparedStatement = null;
-                            checkSQLException(e);
-                            sQLiteDatabase2 = this.database;
-                            if (sQLiteDatabase2 != null) {
-                            }
-                            if (sQLitePreparedStatement != null) {
-                            }
-                            if (sQLitePreparedStatement2 == null) {
-                            }
-                        } catch (Throwable th5) {
-                            th = th5;
-                            sQLitePreparedStatement2 = executeFast2;
-                            sQLitePreparedStatement = null;
-                            sQLiteDatabase = this.database;
-                            if (sQLiteDatabase != null) {
-                            }
-                            if (sQLitePreparedStatement != null) {
-                            }
-                            if (sQLitePreparedStatement2 != null) {
-                            }
-                            throw th;
-                        }
-                    }
-                    i23++;
-                    nativeByteBuffer622 = nativeByteBuffer2;
+        }
+        NativeByteBuffer nativeByteBuffer722 = nativeByteBuffer622;
+        if (nativeByteBuffer != null) {
+            nativeByteBuffer.reuse();
+        }
+        nativeByteBuffer722.reuse();
+        this.database.commitTransaction();
+        if (z) {
+            HashMap hashMap = new HashMap();
+            HashMap hashMap2 = new HashMap();
+            for (int i26 = 0; i26 < arrayList.size(); i26++) {
+                TLRPC$User tLRPC$User = (TLRPC$User) arrayList.get(i26);
+                hashMap.put(Long.valueOf(tLRPC$User.id), tLRPC$User);
+            }
+            for (int i27 = 0; i27 < arrayList2.size(); i27++) {
+                TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) arrayList2.get(i27);
+                hashMap2.put(Long.valueOf(tLRPC$Chat.id), tLRPC$Chat);
+            }
+            final MessageObject messageObject = new MessageObject(this.currentAccount, tLRPC$Message, (AbstractMap<Long, TLRPC$User>) hashMap, (AbstractMap<Long, TLRPC$Chat>) hashMap2, true, true);
+            final ArrayList arrayList3 = new ArrayList();
+            arrayList3.add(messageObject);
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda165
+                @Override // java.lang.Runnable
+                public final void run() {
+                    MessagesStorage.this.lambda$replaceMessageIfExists$189(messageObject, arrayList3);
                 }
-            }
-            NativeByteBuffer nativeByteBuffer722 = nativeByteBuffer622;
-            if (nativeByteBuffer != null) {
-                nativeByteBuffer.reuse();
-            }
-            nativeByteBuffer722.reuse();
-            this.database.commitTransaction();
-            if (z) {
-                HashMap hashMap = new HashMap();
-                HashMap hashMap2 = new HashMap();
-                for (int i26 = 0; i26 < arrayList.size(); i26++) {
-                    TLRPC$User tLRPC$User = (TLRPC$User) arrayList.get(i26);
-                    hashMap.put(Long.valueOf(tLRPC$User.id), tLRPC$User);
-                }
-                for (int i27 = 0; i27 < arrayList2.size(); i27++) {
-                    TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) arrayList2.get(i27);
-                    hashMap2.put(Long.valueOf(tLRPC$Chat.id), tLRPC$Chat);
-                }
-                final MessageObject messageObject = new MessageObject(this.currentAccount, tLRPC$Message, (AbstractMap<Long, TLRPC$User>) hashMap, (AbstractMap<Long, TLRPC$Chat>) hashMap2, true, true);
-                final ArrayList arrayList3 = new ArrayList();
-                arrayList3.add(messageObject);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda165
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        MessagesStorage.this.lambda$replaceMessageIfExists$189(messageObject, arrayList3);
-                    }
-                });
-            }
-            sQLiteDatabase3 = this.database;
-            if (sQLiteDatabase3 != null) {
-                sQLiteDatabase3.commitTransaction();
-            }
-        } catch (Exception e6) {
-            e = e6;
-            sQLitePreparedStatement = null;
-        } catch (Throwable th6) {
-            th = th6;
-            sQLitePreparedStatement = null;
+            });
+        }
+        sQLiteDatabase3 = this.database;
+        if (sQLiteDatabase3 != null) {
+            sQLiteDatabase3.commitTransaction();
         }
     }
 

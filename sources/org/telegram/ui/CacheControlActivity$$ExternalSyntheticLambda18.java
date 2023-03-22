@@ -11,8 +11,8 @@ public final /* synthetic */ class CacheControlActivity$$ExternalSyntheticLambda
 
     @Override // java.util.Comparator
     public final int compare(Object obj, Object obj2) {
-        int lambda$updateRows$8;
-        lambda$updateRows$8 = CacheControlActivity.lambda$updateRows$8((CacheControlActivity.ItemInner) obj, (CacheControlActivity.ItemInner) obj2);
-        return lambda$updateRows$8;
+        int lambda$sort$7;
+        lambda$sort$7 = CacheControlActivity.lambda$sort$7((CacheControlActivity.DialogFileEntities) obj, (CacheControlActivity.DialogFileEntities) obj2);
+        return lambda$sort$7;
     }
 }

@@ -1267,6 +1267,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         if (this.visibleOnScreen != z) {
             this.visibleOnScreen = z;
             checkImageReceiversAttachState();
+            if (z) {
+                invalidate();
+            }
         }
     }
 
@@ -1408,6 +1411,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
     public ChatMessageCell(Context context, boolean z, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.visibleOnScreen = true;
         this.reactionsLayoutInBubble = new ReactionsLayoutInBubble(this);
         this.scrollRect = new Rect();
         this.imageBackgroundGradientRotation = 45;
@@ -4867,35 +4871,35 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     }
 
     private void checkImageReceiversAttachState() {
-        boolean z = true;
-        boolean z2 = this.attachedToWindow && (this.visibleOnScreen || !this.shouldCheckVisibleOnScreen);
-        if (z2 == this.imageReceiversAttachState) {
+        int i = 0;
+        boolean z = this.attachedToWindow && (this.visibleOnScreen || !this.shouldCheckVisibleOnScreen);
+        if (z == this.imageReceiversAttachState) {
             return;
         }
-        this.imageReceiversAttachState = z2;
-        if (z2) {
+        this.imageReceiversAttachState = z;
+        if (z) {
             this.radialProgress.onAttachedToWindow();
             this.videoRadialProgress.onAttachedToWindow();
             if (this.pollAvatarImages != null) {
-                int i = 0;
+                int i2 = 0;
                 while (true) {
                     ImageReceiver[] imageReceiverArr = this.pollAvatarImages;
-                    if (i >= imageReceiverArr.length) {
+                    if (i2 >= imageReceiverArr.length) {
                         break;
                     }
-                    imageReceiverArr[i].onAttachedToWindow();
-                    i++;
+                    imageReceiverArr[i2].onAttachedToWindow();
+                    i2++;
                 }
             }
             if (this.commentAvatarImages != null) {
-                int i2 = 0;
+                int i3 = 0;
                 while (true) {
                     ImageReceiver[] imageReceiverArr2 = this.commentAvatarImages;
-                    if (i2 >= imageReceiverArr2.length) {
+                    if (i3 >= imageReceiverArr2.length) {
                         break;
                     }
-                    imageReceiverArr2[i2].onAttachedToWindow();
-                    i2++;
+                    imageReceiverArr2[i3].onAttachedToWindow();
+                    i3++;
                 }
             }
             this.replyImageReceiver.onAttachedToWindow();
@@ -4918,7 +4922,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 TLRPC$Document document = this.currentMessageObject.getDocument();
                 if (!(MessageObject.isStickerDocument(document) || MessageObject.isAnimatedStickerDocument(document, true) || MessageObject.isGifDocument(document) || MessageObject.isRoundVideoDocument(document))) {
                     TLRPC$PhotoSize closestPhotoSizeWithSize = document == null ? FileLoader.getClosestPhotoSizeWithSize(this.currentMessageObject.photoThumbs, AndroidUtilities.getPhotoSize()) : null;
-                    int i3 = 2;
+                    int i4 = 2;
                     if (canDownloadMedia == 2 || (canDownloadMedia == 1 && this.currentMessageObject.isVideo())) {
                         if (canDownloadMedia != 2 && document != null && !this.currentMessageObject.shouldEncryptPhotoOrVideo() && this.currentMessageObject.canStreamVideo()) {
                             FileLoader.getInstance(this.currentAccount).loadFile(document, this.currentMessageObject, 1, 0);
@@ -4944,51 +4948,58 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         this.radialProgress.onDetachedFromWindow();
         this.videoRadialProgress.onDetachedFromWindow();
         if (this.pollAvatarImages != null) {
-            int i4 = 0;
+            int i5 = 0;
             while (true) {
                 ImageReceiver[] imageReceiverArr3 = this.pollAvatarImages;
-                if (i4 >= imageReceiverArr3.length) {
+                if (i5 >= imageReceiverArr3.length) {
                     break;
                 }
-                imageReceiverArr3[i4].onDetachedFromWindow();
-                i4++;
+                imageReceiverArr3[i5].onDetachedFromWindow();
+                i5++;
             }
         }
         if (this.commentAvatarImages != null) {
-            int i5 = 0;
             while (true) {
                 ImageReceiver[] imageReceiverArr4 = this.commentAvatarImages;
-                if (i5 >= imageReceiverArr4.length) {
+                if (i >= imageReceiverArr4.length) {
                     break;
                 }
-                imageReceiverArr4[i5].onDetachedFromWindow();
-                i5++;
+                imageReceiverArr4[i].onDetachedFromWindow();
+                i++;
             }
         }
         this.replyImageReceiver.onDetachedFromWindow();
         this.locationImageReceiver.onDetachedFromWindow();
         this.photoImage.onDetachedFromWindow();
         this.blurredPhotoImage.onDetachedFromWindow();
-        MessageObject messageObject4 = this.currentMessageObject;
-        if (messageObject4 != null && !messageObject4.mediaExists && !messageObject4.putInDownloadsStore && !DownloadController.getInstance(this.currentAccount).isDownloading(this.currentMessageObject.messageOwner.id)) {
-            TLRPC$Document document2 = this.currentMessageObject.getDocument();
-            if (!MessageObject.isStickerDocument(document2) && !MessageObject.isAnimatedStickerDocument(document2, true) && !MessageObject.isGifDocument(document2) && !MessageObject.isRoundVideoDocument(document2)) {
-                z = false;
-            }
-            if (!z) {
-                if (document2 != null) {
-                    FileLoader.getInstance(this.currentAccount).cancelLoadFile(document2);
-                } else {
-                    TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(this.currentMessageObject.photoThumbs, AndroidUtilities.getPhotoSize());
-                    if (closestPhotoSizeWithSize2 != null) {
-                        FileLoader.getInstance(this.currentAccount).cancelLoadFile(closestPhotoSizeWithSize2);
-                    }
-                }
-            }
-        }
+        cancelLoading(this.currentMessageObject);
         AnimatedEmojiSpan.release(this, this.animatedEmojiDescriptionStack);
         AnimatedEmojiSpan.release(this, this.animatedEmojiReplyStack);
         AnimatedEmojiSpan.release(this, this.animatedEmojiStack);
+    }
+
+    private void cancelLoading(MessageObject messageObject) {
+        if (messageObject == null || messageObject.mediaExists || messageObject.putInDownloadsStore || DownloadController.getInstance(this.currentAccount).isDownloading(messageObject.messageOwner.id)) {
+            return;
+        }
+        TLRPC$Document document = messageObject.getDocument();
+        boolean z = true;
+        if (!MessageObject.isStickerDocument(document) && !MessageObject.isAnimatedStickerDocument(document, true) && !MessageObject.isGifDocument(document) && !MessageObject.isRoundVideoDocument(document)) {
+            z = false;
+        }
+        if (z) {
+            return;
+        }
+        if (document != null) {
+            FileLoader.getInstance(this.currentAccount).cancelLoadFile(document);
+            FileLog.d("chat message cell cancel loading detach: " + FileLoader.getAttachFileName(document) + " " + this.attachedToWindow + " " + this.visibleOnScreen);
+            return;
+        }
+        TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, AndroidUtilities.getPhotoSize());
+        if (closestPhotoSizeWithSize != null) {
+            FileLoader.getInstance(this.currentAccount).cancelLoadFile(closestPhotoSizeWithSize);
+            FileLog.d("chat message cell cancel loading detach: " + FileLoader.getAttachFileName(closestPhotoSizeWithSize) + " " + this.attachedToWindow + " " + this.visibleOnScreen);
+        }
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(39:(1:1576)(4:1607|(1:(2:1619|1620)(3:1609|1610|(1:1612)(1:1613)))|1615|(1:1617)(1:1618))|1577|(23:1602|1603|636|637|(1:639)(5:1523|(1:1525)(1:1567)|1526|(8:1530|(2:1532|(1:1534)(1:1565))(1:1566)|1535|(1:1537)(1:1564)|1538|(1:1544)|1545|(2:1547|(3:1551|(2:1553|(1:1555))|1556)(1:(4:1558|(1:1560)|1561|(1:1563)))))(1:1528)|1529)|640|(3:1519|(1:1521)|1522)|644|(2:646|(1:648))|(2:1502|(3:1507|(1:1509)(2:1511|(1:1513))|1510)(1:1504))(3:650|651|(2:655|(1:657)(1:1493)))|658|(1:664)(1:1492)|665|(1:1491)(1:667)|668|(1:673)|674|(8:1462|(2:1464|(1:1466))|1468|(2:1478|(1:1480)(6:1481|(1:1485)(1:1487)|1486|678|(2:680|(2:682|(3:684|(2:688|(3:693|(1:695)(1:1308)|696)(4:(1:1318)(1:1310)|1311|(1:1313)(1:1315)|1314))(12:1319|(2:1321|(1:1323)(1:1410))(1:1411)|1324|(1:1326)(2:1407|(3:1409|1328|(3:1333|(2:1335|(4:1339|1340|(1:1342)|(5:1349|(1:1351)|1352|(1:1354)(1:1356)|1355)(2:1357|(1:1362)(1:1363)))(1:1337))|(2:(5:1373|(1:1375)|1376|(1:1378)(1:1381)|1379)(1:1382)|1380)(3:1383|(1:1385)(1:1387)|1386))(2:1391|(1:1397)(2:(1:1401)|1402))))|1327|1328|(4:1330|1333|(0)|(0)(0))|1403|1405|1333|(0)|(0)(0))|697)(2:1412|(2:1414|(1:1416)(3:1417|(1:1419)(1:1442)|(2:1427|(1:1431)(3:1432|(1:1434)(1:1436)|1435))(3:1437|(1:1439)(1:1441)|1440)))(1:1443)))(3:1444|(1:1446)(1:1448)|1447))(2:1449|(1:1455)(2:1456|(2:(1:1460)|1461)))|698))|677|678|(0)(0)|698)|676|677|678|(0)(0)|698)|1580|1581|1582|(31:1597|1588|1589|637|(0)(0)|640|(1:642)(4:1514|1519|(0)|1522)|644|(0)|(18:1502|(19:1505|1507|(0)(0)|1510|658|(15:660|662|664|665|(11:1489|1491|668|(2:671|673)|674|(0)|676|677|678|(0)(0)|698)|667|668|(0)|674|(0)|676|677|678|(0)(0)|698)|1492|665|(0)|667|668|(0)|674|(0)|676|677|678|(0)(0)|698)|1504|658|(0)|1492|665|(0)|667|668|(0)|674|(0)|676|677|678|(0)(0)|698)|650|651|(18:653|655|(0)(0)|658|(0)|1492|665|(0)|667|668|(0)|674|(0)|676|677|678|(0)(0)|698)|1494|655|(0)(0)|658|(0)|1492|665|(0)|667|668|(0)|674|(0)|676|677|678|(0)(0)|698)|1585|(30:1592|1593|637|(0)(0)|640|(0)(0)|644|(0)|(0)|650|651|(0)|1494|655|(0)(0)|658|(0)|1492|665|(0)|667|668|(0)|674|(0)|676|677|678|(0)(0)|698)|1588|1589|637|(0)(0)|640|(0)(0)|644|(0)|(0)|650|651|(0)|1494|655|(0)(0)|658|(0)|1492|665|(0)|667|668|(0)|674|(0)|676|677|678|(0)(0)|698) */
@@ -5398,7 +5409,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r13v176 */
     /* JADX WARN: Type inference failed for: r13v177 */
     /* JADX WARN: Type inference failed for: r13v178 */
-    /* JADX WARN: Type inference failed for: r13v180, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v180, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v185 */
     /* JADX WARN: Type inference failed for: r13v190 */
     /* JADX WARN: Type inference failed for: r13v2 */
@@ -5418,9 +5429,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r13v99, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r15v115, types: [org.telegram.tgnet.TLRPC$InputStickerSet] */
     /* JADX WARN: Type inference failed for: r2v26 */
-    /* JADX WARN: Type inference failed for: r2v27, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v27, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v35 */
-    /* JADX WARN: Type inference failed for: r2v48, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v48, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v757 */
     /* JADX WARN: Type inference failed for: r2v758 */
     /* JADX WARN: Type inference failed for: r2v785 */
@@ -13900,7 +13911,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                     this.botButtonsByData.put(bytesToHex, botButton2);
                                                     this.botButtonsByPosition.put(str34, botButton2);
                                                     botButton2.x = (AndroidUtilities.dp(5.0f) + dp72) * i247;
-                                                    botButton2.y = (AndroidUtilities.dp(48.0f) * i246) + AndroidUtilities.dp(5.0f);
+                                                    botButton2.y = (AndroidUtilities.dp(48.0f) * i246) + AndroidUtilities.dp(2.5f);
                                                     botButton2.width = dp72;
                                                     botButton2.height = AndroidUtilities.dp(44.0f);
                                                     TextPaint textPaint2 = (TextPaint) getThemedPaint("paintChatBotButton");

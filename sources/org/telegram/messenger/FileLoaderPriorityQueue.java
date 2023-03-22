@@ -1,13 +1,12 @@
 package org.telegram.messenger;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class FileLoaderPriorityQueue {
     private final int maxActiveOperationsCount;
     String name;
-    ArrayList<FileLoadOperation> allOperations = new ArrayList<>();
+    private ArrayList<FileLoadOperation> allOperations = new ArrayList<>();
     private int PRIORITY_VALUE_MAX = 1048576;
     private int PRIORITY_VALUE_NORMAL = CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT;
     private int PRIORITY_VALUE_LOW = 0;
@@ -25,7 +24,7 @@ public class FileLoaderPriorityQueue {
         int i = 0;
         int i2 = 0;
         while (i2 < this.allOperations.size()) {
-            if (this.allOperations.get(i2) == fileLoadOperation || Objects.equals(this.allOperations.get(i2).getFileName(), fileLoadOperation.getFileName())) {
+            if (this.allOperations.get(i2) == fileLoadOperation) {
                 this.allOperations.remove(i2);
                 i2--;
             }
@@ -49,11 +48,9 @@ public class FileLoaderPriorityQueue {
     }
 
     public void cancel(FileLoadOperation fileLoadOperation) {
-        if (fileLoadOperation == null) {
-            return;
+        if (fileLoadOperation != null && this.allOperations.remove(fileLoadOperation)) {
+            fileLoadOperation.cancel();
         }
-        this.allOperations.remove(fileLoadOperation);
-        fileLoadOperation.cancel();
     }
 
     public void checkLoadingOperations() {
@@ -82,5 +79,13 @@ public class FileLoaderPriorityQueue {
             fileLoadOperation.cancel();
         }
         this.allOperations.remove(fileLoadOperation);
+    }
+
+    public int getCount() {
+        return this.allOperations.size();
+    }
+
+    public int getPosition(FileLoadOperation fileLoadOperation) {
+        return this.allOperations.indexOf(fileLoadOperation);
     }
 }

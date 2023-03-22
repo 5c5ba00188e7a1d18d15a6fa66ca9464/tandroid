@@ -273,7 +273,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         if ((this.botAttachLayouts.get(j) == null || !Objects.equals(str, this.botAttachLayouts.get(j).getStartCommand()) || this.botAttachLayouts.get(j).needReload()) && (this.baseFragment instanceof ChatActivity)) {
             ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout = new ChatAttachAlertBotWebViewLayout(this, getContext(), this.resourcesProvider);
             this.botAttachLayouts.put(j, chatAttachAlertBotWebViewLayout);
-            this.botAttachLayouts.get(j).setDelegate(new 1(chatAttachAlertBotWebViewLayout));
+            this.botAttachLayouts.get(j).setDelegate(new 1(chatAttachAlertBotWebViewLayout, str));
             MessageObject replyingMessageObject = ((ChatActivity) this.baseFragment).getChatActivityEnterView().getReplyingMessageObject();
             this.botAttachLayouts.get(j).requestWebView(this.currentAccount, ((ChatActivity) this.baseFragment).getDialogId(), j, false, replyingMessageObject != null ? replyingMessageObject.messageOwner.id : 0, str);
         }
@@ -286,6 +286,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     /* loaded from: classes3.dex */
     public class 1 implements BotWebViewContainer.Delegate {
         private ValueAnimator botButtonAnimator;
+        final /* synthetic */ String val$startCommand;
         final /* synthetic */ ChatAttachAlertBotWebViewLayout val$webViewLayout;
 
         @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
@@ -303,9 +304,10 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             BotWebViewContainer.Delegate.-CC.$default$onWebAppReady(this);
         }
 
-        1(ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout) {
+        1(ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout, String str) {
             ChatAttachAlert.this = r1;
             this.val$webViewLayout = chatAttachAlertBotWebViewLayout;
+            this.val$startCommand = str;
         }
 
         @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
@@ -462,87 +464,89 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         public void onSetupMainButton(final boolean z, boolean z2, String str, int i, int i2, final boolean z3) {
             AttachAlertLayout attachAlertLayout = ChatAttachAlert.this.currentAttachLayout;
             ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout = this.val$webViewLayout;
-            if (attachAlertLayout == chatAttachAlertBotWebViewLayout && chatAttachAlertBotWebViewLayout.isBotButtonAvailable()) {
-                ChatAttachAlert.this.botMainButtonTextView.setClickable(z2);
-                ChatAttachAlert.this.botMainButtonTextView.setText(str);
-                ChatAttachAlert.this.botMainButtonTextView.setTextColor(i2);
-                ChatAttachAlert.this.botMainButtonTextView.setBackground(BotWebViewContainer.getMainButtonRippleDrawable(i));
-                if (ChatAttachAlert.this.botButtonWasVisible != z) {
-                    ChatAttachAlert.this.botButtonWasVisible = z;
-                    ValueAnimator valueAnimator = this.botButtonAnimator;
-                    if (valueAnimator != null) {
-                        valueAnimator.cancel();
-                    }
-                    float[] fArr = new float[2];
-                    fArr[0] = z ? 0.0f : 1.0f;
-                    fArr[1] = z ? 1.0f : 0.0f;
-                    ValueAnimator duration = ValueAnimator.ofFloat(fArr).setDuration(250L);
-                    this.botButtonAnimator = duration;
-                    duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ChatAttachAlert$1$$ExternalSyntheticLambda0
-                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                        public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                            ChatAttachAlert.1.this.lambda$onSetupMainButton$4(valueAnimator2);
+            if (attachAlertLayout == chatAttachAlertBotWebViewLayout) {
+                if (chatAttachAlertBotWebViewLayout.isBotButtonAvailable() || this.val$startCommand != null) {
+                    ChatAttachAlert.this.botMainButtonTextView.setClickable(z2);
+                    ChatAttachAlert.this.botMainButtonTextView.setText(str);
+                    ChatAttachAlert.this.botMainButtonTextView.setTextColor(i2);
+                    ChatAttachAlert.this.botMainButtonTextView.setBackground(BotWebViewContainer.getMainButtonRippleDrawable(i));
+                    if (ChatAttachAlert.this.botButtonWasVisible != z) {
+                        ChatAttachAlert.this.botButtonWasVisible = z;
+                        ValueAnimator valueAnimator = this.botButtonAnimator;
+                        if (valueAnimator != null) {
+                            valueAnimator.cancel();
                         }
-                    });
-                    this.botButtonAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlert.1.1
-                        {
-                            1.this = this;
-                        }
+                        float[] fArr = new float[2];
+                        fArr[0] = z ? 0.0f : 1.0f;
+                        fArr[1] = z ? 1.0f : 0.0f;
+                        ValueAnimator duration = ValueAnimator.ofFloat(fArr).setDuration(250L);
+                        this.botButtonAnimator = duration;
+                        duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ChatAttachAlert$1$$ExternalSyntheticLambda0
+                            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                                ChatAttachAlert.1.this.lambda$onSetupMainButton$4(valueAnimator2);
+                            }
+                        });
+                        this.botButtonAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlert.1.1
+                            {
+                                1.this = this;
+                            }
 
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationStart(Animator animator) {
-                            if (z) {
-                                ChatAttachAlert.this.botMainButtonTextView.setAlpha(0.0f);
-                                ChatAttachAlert.this.botMainButtonTextView.setVisibility(0);
-                                int dp = AndroidUtilities.dp(36.0f);
+                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                            public void onAnimationStart(Animator animator) {
+                                if (z) {
+                                    ChatAttachAlert.this.botMainButtonTextView.setAlpha(0.0f);
+                                    ChatAttachAlert.this.botMainButtonTextView.setVisibility(0);
+                                    int dp = AndroidUtilities.dp(36.0f);
+                                    for (int i3 = 0; i3 < ChatAttachAlert.this.botAttachLayouts.size(); i3++) {
+                                        ((ChatAttachAlertBotWebViewLayout) ChatAttachAlert.this.botAttachLayouts.valueAt(i3)).setMeasureOffsetY(dp);
+                                    }
+                                    return;
+                                }
+                                ChatAttachAlert.this.buttonsRecyclerView.setAlpha(0.0f);
+                                ChatAttachAlert.this.buttonsRecyclerView.setVisibility(0);
+                            }
+
+                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                            public void onAnimationEnd(Animator animator) {
+                                if (!z) {
+                                    ChatAttachAlert.this.botMainButtonTextView.setVisibility(8);
+                                } else {
+                                    ChatAttachAlert.this.buttonsRecyclerView.setVisibility(8);
+                                }
+                                int dp = z ? AndroidUtilities.dp(36.0f) : 0;
                                 for (int i3 = 0; i3 < ChatAttachAlert.this.botAttachLayouts.size(); i3++) {
                                     ((ChatAttachAlertBotWebViewLayout) ChatAttachAlert.this.botAttachLayouts.valueAt(i3)).setMeasureOffsetY(dp);
                                 }
-                                return;
+                                if (1.this.botButtonAnimator == animator) {
+                                    1.this.botButtonAnimator = null;
+                                }
                             }
-                            ChatAttachAlert.this.buttonsRecyclerView.setAlpha(0.0f);
-                            ChatAttachAlert.this.buttonsRecyclerView.setVisibility(0);
-                        }
-
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationEnd(Animator animator) {
-                            if (!z) {
-                                ChatAttachAlert.this.botMainButtonTextView.setVisibility(8);
-                            } else {
-                                ChatAttachAlert.this.buttonsRecyclerView.setVisibility(8);
-                            }
-                            int dp = z ? AndroidUtilities.dp(36.0f) : 0;
-                            for (int i3 = 0; i3 < ChatAttachAlert.this.botAttachLayouts.size(); i3++) {
-                                ((ChatAttachAlertBotWebViewLayout) ChatAttachAlert.this.botAttachLayouts.valueAt(i3)).setMeasureOffsetY(dp);
-                            }
-                            if (1.this.botButtonAnimator == animator) {
-                                1.this.botButtonAnimator = null;
-                            }
-                        }
-                    });
-                    this.botButtonAnimator.start();
-                }
-                ChatAttachAlert.this.botProgressView.setProgressColor(i2);
-                if (ChatAttachAlert.this.botButtonProgressWasVisible != z3) {
-                    ChatAttachAlert.this.botProgressView.animate().cancel();
-                    if (z3) {
-                        ChatAttachAlert.this.botProgressView.setAlpha(0.0f);
-                        ChatAttachAlert.this.botProgressView.setVisibility(0);
+                        });
+                        this.botButtonAnimator.start();
                     }
-                    ChatAttachAlert.this.botProgressView.animate().alpha(z3 ? 1.0f : 0.0f).scaleX(z3 ? 1.0f : 0.1f).scaleY(z3 ? 1.0f : 0.1f).setDuration(250L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlert.1.2
-                        {
-                            1.this = this;
+                    ChatAttachAlert.this.botProgressView.setProgressColor(i2);
+                    if (ChatAttachAlert.this.botButtonProgressWasVisible != z3) {
+                        ChatAttachAlert.this.botProgressView.animate().cancel();
+                        if (z3) {
+                            ChatAttachAlert.this.botProgressView.setAlpha(0.0f);
+                            ChatAttachAlert.this.botProgressView.setVisibility(0);
                         }
-
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationEnd(Animator animator) {
-                            ChatAttachAlert.this.botButtonProgressWasVisible = z3;
-                            if (z3) {
-                                return;
+                        ChatAttachAlert.this.botProgressView.animate().alpha(z3 ? 1.0f : 0.0f).scaleX(z3 ? 1.0f : 0.1f).scaleY(z3 ? 1.0f : 0.1f).setDuration(250L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlert.1.2
+                            {
+                                1.this = this;
                             }
-                            ChatAttachAlert.this.botProgressView.setVisibility(8);
-                        }
-                    }).start();
+
+                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                            public void onAnimationEnd(Animator animator) {
+                                ChatAttachAlert.this.botButtonProgressWasVisible = z3;
+                                if (z3) {
+                                    return;
+                                }
+                                ChatAttachAlert.this.botProgressView.setVisibility(8);
+                            }
+                        }).start();
+                    }
                 }
             }
         }

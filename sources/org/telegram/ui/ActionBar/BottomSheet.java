@@ -1876,7 +1876,6 @@ public class BottomSheet extends Dialog {
 
     @Override // android.app.Dialog, android.content.DialogInterface
     public void dismiss() {
-        ObjectAnimator ofFloat;
         long j;
         BottomSheetDelegateInterface bottomSheetDelegateInterface = this.delegate;
         if ((bottomSheetDelegateInterface == null || bottomSheetDelegateInterface.canDismiss()) && !this.dismissed) {
@@ -1891,34 +1890,30 @@ public class BottomSheet extends Dialog {
                 j = 0;
             } else {
                 this.currentSheetAnimationType = 2;
-                this.currentSheetAnimation = new AnimatorSet();
                 ValueAnimator valueAnimator = this.navigationBarAnimation;
                 if (valueAnimator != null) {
                     valueAnimator.cancel();
                 }
-                ValueAnimator ofFloat2 = ValueAnimator.ofFloat(this.navigationBarAlpha, 0.0f);
-                this.navigationBarAnimation = ofFloat2;
-                ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$$ExternalSyntheticLambda2
+                ValueAnimator ofFloat = ValueAnimator.ofFloat(this.navigationBarAlpha, 0.0f);
+                this.navigationBarAnimation = ofFloat;
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$$ExternalSyntheticLambda2
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                         BottomSheet.this.lambda$dismiss$5(valueAnimator2);
                     }
                 });
-                AnimatorSet animatorSet = this.currentSheetAnimation;
-                Animator[] animatorArr = new Animator[3];
+                this.currentSheetAnimation = new AnimatorSet();
+                ArrayList arrayList = new ArrayList();
                 ViewGroup viewGroup = this.containerView;
-                if (viewGroup == null) {
-                    ofFloat = null;
-                } else {
+                if (viewGroup != null) {
                     Property property = View.TRANSLATION_Y;
                     float[] fArr = new float[1];
                     fArr[0] = getContainerViewHeight() + this.container.keyboardHeight + AndroidUtilities.dp(10.0f) + (this.scrollNavBar ? getBottomInset() : 0);
-                    ofFloat = ObjectAnimator.ofFloat(viewGroup, property, fArr);
+                    arrayList.add(ObjectAnimator.ofFloat(viewGroup, property, fArr));
                 }
-                animatorArr[0] = ofFloat;
-                animatorArr[1] = ObjectAnimator.ofInt(this.backDrawable, AnimationProperties.COLOR_DRAWABLE_ALPHA, 0);
-                animatorArr[2] = this.navigationBarAnimation;
-                animatorSet.playTogether(animatorArr);
+                arrayList.add(ObjectAnimator.ofInt(this.backDrawable, AnimationProperties.COLOR_DRAWABLE_ALPHA, 0));
+                arrayList.add(this.navigationBarAnimation);
+                this.currentSheetAnimation.playTogether(arrayList);
                 j = 250;
                 this.currentSheetAnimation.setDuration(250L);
                 this.currentSheetAnimation.setInterpolator(CubicBezierInterpolator.EASE_OUT);

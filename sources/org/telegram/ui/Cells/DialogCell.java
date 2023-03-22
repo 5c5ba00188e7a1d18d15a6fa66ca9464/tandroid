@@ -3857,8 +3857,8 @@ public class DialogCell extends BaseCell {
     /* JADX WARN: Code restructure failed: missing block: B:691:0x1468, code lost:
         if (r1 > 0) goto L410;
      */
-    /* JADX WARN: Removed duplicated region for block: B:1006:0x1ba9  */
-    /* JADX WARN: Removed duplicated region for block: B:1016:0x1bc7  */
+    /* JADX WARN: Removed duplicated region for block: B:1006:0x1bab  */
+    /* JADX WARN: Removed duplicated region for block: B:1016:0x1bc9  */
     /* JADX WARN: Removed duplicated region for block: B:1033:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:249:0x08f8  */
     /* JADX WARN: Removed duplicated region for block: B:275:0x09b7  */
@@ -3886,22 +3886,22 @@ public class DialogCell extends BaseCell {
     /* JADX WARN: Removed duplicated region for block: B:702:0x14db  */
     /* JADX WARN: Removed duplicated region for block: B:705:0x14e7  */
     /* JADX WARN: Removed duplicated region for block: B:716:0x1549  */
-    /* JADX WARN: Removed duplicated region for block: B:846:0x18d4  */
-    /* JADX WARN: Removed duplicated region for block: B:854:0x18f4  */
-    /* JADX WARN: Removed duplicated region for block: B:859:0x1905  */
-    /* JADX WARN: Removed duplicated region for block: B:866:0x191b  */
-    /* JADX WARN: Removed duplicated region for block: B:884:0x1952  */
-    /* JADX WARN: Removed duplicated region for block: B:886:0x1956  */
-    /* JADX WARN: Removed duplicated region for block: B:900:0x19c3  */
-    /* JADX WARN: Removed duplicated region for block: B:903:0x19cc  */
-    /* JADX WARN: Removed duplicated region for block: B:919:0x1a0b  */
-    /* JADX WARN: Removed duplicated region for block: B:948:0x1a93  */
-    /* JADX WARN: Removed duplicated region for block: B:957:0x1ae8  */
-    /* JADX WARN: Removed duplicated region for block: B:962:0x1afb  */
-    /* JADX WARN: Removed duplicated region for block: B:971:0x1b15  */
-    /* JADX WARN: Removed duplicated region for block: B:979:0x1b3e  */
-    /* JADX WARN: Removed duplicated region for block: B:990:0x1b6b  */
-    /* JADX WARN: Removed duplicated region for block: B:996:0x1b83  */
+    /* JADX WARN: Removed duplicated region for block: B:846:0x18d6  */
+    /* JADX WARN: Removed duplicated region for block: B:854:0x18f6  */
+    /* JADX WARN: Removed duplicated region for block: B:859:0x1907  */
+    /* JADX WARN: Removed duplicated region for block: B:866:0x191d  */
+    /* JADX WARN: Removed duplicated region for block: B:884:0x1954  */
+    /* JADX WARN: Removed duplicated region for block: B:886:0x1958  */
+    /* JADX WARN: Removed duplicated region for block: B:900:0x19c5  */
+    /* JADX WARN: Removed duplicated region for block: B:903:0x19ce  */
+    /* JADX WARN: Removed duplicated region for block: B:919:0x1a0d  */
+    /* JADX WARN: Removed duplicated region for block: B:948:0x1a95  */
+    /* JADX WARN: Removed duplicated region for block: B:957:0x1aea  */
+    /* JADX WARN: Removed duplicated region for block: B:962:0x1afd  */
+    /* JADX WARN: Removed duplicated region for block: B:971:0x1b17  */
+    /* JADX WARN: Removed duplicated region for block: B:979:0x1b40  */
+    /* JADX WARN: Removed duplicated region for block: B:990:0x1b6d  */
+    /* JADX WARN: Removed duplicated region for block: B:996:0x1b85  */
     @Override // android.view.View
     @SuppressLint({"DrawAllocation"})
     /*
@@ -5127,7 +5127,7 @@ public class DialogCell extends BaseCell {
                         Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor("chats_onlineCircle", this.resourcesProvider));
                         canvas2.drawCircle(f40, f41, AndroidUtilities.dp(9.0f) * this.chatCallProgress * progress, Theme.dialogs_onlineCirclePaint);
                         Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(str3, this.resourcesProvider));
-                        if (!LiteMode.isEnabled(32)) {
+                        if (!LiteMode.isEnabled(LiteMode.FLAGS_CHAT)) {
                             this.innerProgress = 0.65f;
                         }
                         int i35 = this.progressStage;
@@ -5190,7 +5190,7 @@ public class DialogCell extends BaseCell {
                             if (this.chatCallProgress >= f3 || progress < f3) {
                                 canvas.restore();
                             }
-                            if (!LiteMode.isEnabled(32)) {
+                            if (LiteMode.isEnabled(LiteMode.FLAGS_CHAT)) {
                                 float f45 = this.innerProgress + 0.04f;
                                 this.innerProgress = f45;
                                 if (f45 >= f3) {
@@ -5243,7 +5243,7 @@ public class DialogCell extends BaseCell {
                         if (this.chatCallProgress >= f3) {
                         }
                         canvas.restore();
-                        if (!LiteMode.isEnabled(32)) {
+                        if (LiteMode.isEnabled(LiteMode.FLAGS_CHAT)) {
                         }
                         if (!this.hasCall) {
                         }

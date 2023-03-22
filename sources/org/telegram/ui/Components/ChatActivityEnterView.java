@@ -8638,14 +8638,18 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             if (this.searchingType != 0 || this.messageEditText.isFocused()) {
                 return;
             }
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda43
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChatActivityEnterView.this.lambda$setFieldFocused$47();
-                }
-            };
-            this.focusRunnable = runnable;
-            AndroidUtilities.runOnUIThread(runnable, 600L);
+            BotWebViewMenuContainer botWebViewMenuContainer = this.botWebViewMenuContainer;
+            if (botWebViewMenuContainer == null || botWebViewMenuContainer.getVisibility() == 8) {
+                Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda43
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ChatActivityEnterView.this.lambda$setFieldFocused$47();
+                    }
+                };
+                this.focusRunnable = runnable;
+                AndroidUtilities.runOnUIThread(runnable, 600L);
+                return;
+            }
             return;
         }
         EditTextCaption editTextCaption = this.messageEditText;

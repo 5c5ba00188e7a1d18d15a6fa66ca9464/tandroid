@@ -3444,6 +3444,18 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     ProfileActivity.this.setForegroundImage(true);
                 }
                 if (photo == null || ProfileActivity.this.avatarsViewPager.getRealPosition() == 0) {
+                    TLRPC$Photo photo2 = ProfileActivity.this.avatarsViewPager.getPhoto(1);
+                    if (photo2 != null) {
+                        ProfileActivity.this.getUserConfig().getCurrentUser().photo = new TLRPC$TL_userProfilePhoto();
+                        TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(photo2.sizes, 90);
+                        TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(photo2.sizes, 1000);
+                        if (closestPhotoSizeWithSize != null && closestPhotoSizeWithSize2 != null) {
+                            ProfileActivity.this.getUserConfig().getCurrentUser().photo.photo_small = closestPhotoSizeWithSize.location;
+                            ProfileActivity.this.getUserConfig().getCurrentUser().photo.photo_big = closestPhotoSizeWithSize2.location;
+                        }
+                    } else {
+                        ProfileActivity.this.getUserConfig().getCurrentUser().photo = new TLRPC$TL_userProfilePhotoEmpty();
+                    }
                     ProfileActivity.this.getMessagesController().deleteUserPhoto(null);
                 } else {
                     TLRPC$TL_inputPhoto tLRPC$TL_inputPhoto = new TLRPC$TL_inputPhoto();

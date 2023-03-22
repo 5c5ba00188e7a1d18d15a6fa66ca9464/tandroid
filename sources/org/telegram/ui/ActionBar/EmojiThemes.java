@@ -341,6 +341,7 @@ public class EmojiThemes {
         }
         ImageLocation forDocument = ImageLocation.getForDocument(tLRPC$WallPaper.document);
         ImageReceiver imageReceiver = new ImageReceiver();
+        imageReceiver.setAllowLoadingOnAttachedOnly(false);
         Point point = AndroidUtilities.displaySize;
         int min = Math.min(point.x, point.y);
         Point point2 = AndroidUtilities.displaySize;
@@ -415,6 +416,7 @@ public class EmojiThemes {
         }
         ImageLocation forDocument = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 140), wallpaper.document);
         ImageReceiver imageReceiver = new ImageReceiver();
+        imageReceiver.setAllowLoadingOnAttachedOnly(false);
         imageReceiver.setImage(forDocument, "120_140", null, null, null, 1);
         imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.ActionBar.EmojiThemes$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate

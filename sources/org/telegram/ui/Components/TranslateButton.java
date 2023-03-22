@@ -44,11 +44,15 @@ public class TranslateButton extends FrameLayout {
         throw null;
     }
 
+    protected void onCloseClick() {
+        throw null;
+    }
+
     public TranslateButton(Context context, ChatActivity chatActivity, Theme.ResourcesProvider resourcesProvider) {
         this(context, chatActivity.getCurrentAccount(), chatActivity.getDialogId(), chatActivity, resourcesProvider);
     }
 
-    public TranslateButton(Context context, int i, long j, BaseFragment baseFragment, Theme.ResourcesProvider resourcesProvider) {
+    public TranslateButton(Context context, final int i, long j, BaseFragment baseFragment, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.accusative = new boolean[1];
         this.currentAccount = i;
@@ -67,7 +71,7 @@ public class TranslateButton extends FrameLayout {
         AnimatedTextView animatedTextView2 = this.textView;
         animatedTextView2.adaptWidth = false;
         animatedTextView2.setBackground(Theme.createSelectorDrawable(Theme.getColor("chat_addContact", resourcesProvider) & 436207615, 3));
-        this.textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TranslateButton$$ExternalSyntheticLambda3
+        this.textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TranslateButton$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 TranslateButton.this.lambda$new$0(view);
@@ -86,10 +90,10 @@ public class TranslateButton extends FrameLayout {
         this.menuView.setImageResource(R.drawable.msg_mini_customize);
         this.menuView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chat_addContact", resourcesProvider), PorterDuff.Mode.MULTIPLY));
         this.menuView.setBackground(Theme.createSelectorDrawable(Theme.getColor("chat_addContact", resourcesProvider) & 436207615, 7));
-        this.menuView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TranslateButton$$ExternalSyntheticLambda2
+        this.menuView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TranslateButton$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                TranslateButton.this.lambda$new$1(view);
+                TranslateButton.this.lambda$new$1(i, view);
             }
         });
         addView(this.menuView, LayoutHelper.createFrame(32, 32.0f, 21, 0.0f, 0.0f, 8.0f, 0.0f));
@@ -101,8 +105,12 @@ public class TranslateButton extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$1(View view) {
-        onMenuClick();
+    public /* synthetic */ void lambda$new$1(int i, View view) {
+        if (UserConfig.getInstance(i).isPremium()) {
+            onMenuClick();
+        } else {
+            onCloseClick();
+        }
     }
 
     protected void onMenuClick() {
@@ -355,6 +363,6 @@ public class TranslateButton extends FrameLayout {
             }
             this.textView.setText(TextUtils.concat(this.translateIcon, " ", formatString));
         }
-        this.menuView.setVisibility(UserConfig.getInstance(this.currentAccount).isPremium() ? 0 : 8);
+        this.menuView.setImageResource(UserConfig.getInstance(this.currentAccount).isPremium() ? R.drawable.msg_mini_customize : R.drawable.msg_close);
     }
 }
