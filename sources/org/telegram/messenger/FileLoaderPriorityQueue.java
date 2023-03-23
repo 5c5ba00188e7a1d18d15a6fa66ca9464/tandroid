@@ -54,19 +54,22 @@ public class FileLoaderPriorityQueue {
     }
 
     public void checkLoadingOperations() {
+        int i = this.maxActiveOperationsCount;
         boolean z = false;
-        int i = 0;
-        for (int i2 = 0; i2 < this.allOperations.size(); i2++) {
-            FileLoadOperation fileLoadOperation = this.allOperations.get(i2);
-            if (i2 > 0 && !z && i > this.PRIORITY_VALUE_LOW && fileLoadOperation.getPriority() == this.PRIORITY_VALUE_LOW) {
+        int i2 = 0;
+        for (int i3 = 0; i3 < this.allOperations.size(); i3++) {
+            FileLoadOperation fileLoadOperation = this.allOperations.get(i3);
+            if (i3 > 0 && !z && i2 > this.PRIORITY_VALUE_LOW && fileLoadOperation.getPriority() == this.PRIORITY_VALUE_LOW) {
                 z = true;
             }
-            if (!z && i2 < this.maxActiveOperationsCount) {
+            if (fileLoadOperation.preFinished) {
+                i++;
+            } else if (!z && i3 < i) {
                 fileLoadOperation.start();
             } else if (fileLoadOperation.wasStarted()) {
                 fileLoadOperation.pause();
             }
-            i = fileLoadOperation.getPriority();
+            i2 = fileLoadOperation.getPriority();
         }
     }
 

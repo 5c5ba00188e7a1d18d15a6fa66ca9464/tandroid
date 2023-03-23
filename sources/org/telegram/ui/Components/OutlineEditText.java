@@ -2,6 +2,7 @@ package org.telegram.ui.Components;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class OutlineEditText extends OutlineTextContainerView {
@@ -27,6 +28,7 @@ public class OutlineEditText extends OutlineTextContainerView {
         this.editText.setTypeface(Typeface.DEFAULT);
         this.editText.setCursorColor(Theme.getColor("windowBackgroundWhiteInputFieldActivated"));
         this.editText.setCursorWidth(1.5f);
+        this.editText.setPadding(AndroidUtilities.dp(15.0f), 0, AndroidUtilities.dp(15.0f), 0);
         attachEditText(this.editText);
         addView(this.editText, LayoutHelper.createFrame(-1, -2, 16));
     }

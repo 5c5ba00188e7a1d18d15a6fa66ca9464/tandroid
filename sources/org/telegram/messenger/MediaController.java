@@ -37,6 +37,7 @@ import android.provider.MediaStore;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.TextureView;
 import android.view.View;
@@ -175,6 +176,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     private TLRPC$User lastUser;
     private Sensor linearSensor;
     private boolean loadingPlaylist;
+    private boolean manualRecording;
     private String[] mediaProjections;
     private PipRoundVideoView pipRoundVideoView;
     private int pipSwitchingState;
@@ -1938,7 +1940,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             if (this.raisedToBack == 6 || this.accelerometerVertical) {
                 this.lastAccelerometerDetected = System.currentTimeMillis();
             }
-            if (this.proximityTouched && ((this.raisedToBack == 6 || this.accelerometerVertical || System.currentTimeMillis() - this.lastAccelerometerDetected < 60) && !NotificationsController.audioManager.isWiredHeadsetOn() && !NotificationsController.audioManager.isBluetoothA2dpOn() && !VoIPService.isAnyKindOfCallActive())) {
+            if (this.proximityTouched && ((this.raisedToBack == 6 || this.accelerometerVertical || System.currentTimeMillis() - this.lastAccelerometerDetected < 60) && !NotificationsController.audioManager.isWiredHeadsetOn() && !NotificationsController.audioManager.isBluetoothA2dpOn() && !VoIPService.isAnyKindOfCallActive() && !this.manualRecording)) {
                 if (SharedConfig.enabledRaiseTo(true) && this.playingMessageObject == null && this.recordStartRunnable == null && this.recordingAudio == null && !PhotoViewer.getInstance().isVisible() && ApplicationLoader.isScreenOn && !this.inputFieldHasText && this.allowStartRecord && this.raiseChat != null && !this.callInProgress) {
                     if (!this.raiseToEarRecord) {
                         if (BuildVars.LOGS_ENABLED) {
@@ -1948,7 +1950,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         if (!this.raiseChat.playFirstUnreadVoiceMessage()) {
                             this.raiseToEarRecord = true;
                             this.useFrontSpeaker = false;
-                            startRecording(this.raiseChat.getCurrentAccount(), this.raiseChat.getDialogId(), null, this.raiseChat.getThreadMessage(), this.raiseChat.getClassGuid());
+                            startRecording(this.raiseChat.getCurrentAccount(), this.raiseChat.getDialogId(), null, this.raiseChat.getThreadMessage(), this.raiseChat.getClassGuid(), false);
                         }
                         if (this.useFrontSpeaker) {
                             setUseFrontSpeaker(true);
@@ -1974,7 +1976,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 this.raisedToTopSign = 0;
                 this.countLess = 0;
             } else if (this.proximityTouched && ((((this.accelerometerSensor == null || this.linearSensor == null) && this.gravitySensor == null) || ignoreAccelerometerGestures()) && !VoIPService.isAnyKindOfCallActive())) {
-                if (this.playingMessageObject != null && !ApplicationLoader.mainInterfacePaused && ((this.playingMessageObject.isVoice() || this.playingMessageObject.isRoundVideo()) && SharedConfig.enabledRaiseTo(false) && !this.useFrontSpeaker && !NotificationsController.audioManager.isWiredHeadsetOn() && !NotificationsController.audioManager.isBluetoothA2dpOn())) {
+                if (this.playingMessageObject != null && !ApplicationLoader.mainInterfacePaused && ((this.playingMessageObject.isVoice() || this.playingMessageObject.isRoundVideo()) && SharedConfig.enabledRaiseTo(false) && !this.useFrontSpeaker && !NotificationsController.audioManager.isWiredHeadsetOn() && !NotificationsController.audioManager.isBluetoothA2dpOn() && !this.manualRecording)) {
                     if (BuildVars.LOGS_ENABLED) {
                         FileLog.d("start listen by proximity only");
                     }
@@ -1985,7 +1987,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     startAudioAgain(false);
                     this.ignoreOnPause = true;
                 }
-            } else if (!this.proximityTouched) {
+            } else if (!this.proximityTouched && !this.manualRecording) {
                 if (this.raiseToEarRecord) {
                     if (BuildVars.LOGS_ENABLED) {
                         FileLog.d("stop record");
@@ -2033,7 +2035,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     public void startRecordingIfFromSpeaker() {
         if (this.useFrontSpeaker && this.raiseChat != null && this.allowStartRecord && SharedConfig.enabledRaiseTo(true)) {
             this.raiseToEarRecord = true;
-            startRecording(this.raiseChat.getCurrentAccount(), this.raiseChat.getDialogId(), null, this.raiseChat.getThreadMessage(), this.raiseChat.getClassGuid());
+            startRecording(this.raiseChat.getCurrentAccount(), this.raiseChat.getDialogId(), null, this.raiseChat.getThreadMessage(), this.raiseChat.getClassGuid(), false);
             this.ignoreOnPause = true;
         }
     }
@@ -2703,7 +2705,6 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
     /* JADX INFO: Access modifiers changed from: private */
     public void playNextMessageWithoutOrder(boolean z) {
-        boolean z2;
         int i;
         ArrayList<MessageObject> arrayList = SharedConfig.shuffleMusic ? this.shuffledPlaylist : this.playlist;
         if (z && (((i = SharedConfig.repeatMode) == 2 || (i == 1 && arrayList.size() == 1)) && !this.forceLoopCurrentPlaylist)) {
@@ -2714,24 +2715,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             playMessage(messageObject);
             return;
         }
-        if (SharedConfig.playOrderReversed) {
-            int i2 = this.currentPlaylistNum + 1;
-            this.currentPlaylistNum = i2;
-            if (i2 >= arrayList.size()) {
-                this.currentPlaylistNum = 0;
-                z2 = true;
-            }
-            z2 = false;
-        } else {
-            int i3 = this.currentPlaylistNum - 1;
-            this.currentPlaylistNum = i3;
-            if (i3 < 0) {
-                this.currentPlaylistNum = arrayList.size() - 1;
-                z2 = true;
-            }
-            z2 = false;
-        }
-        if (z2 && z && SharedConfig.repeatMode == 0 && !this.forceLoopCurrentPlaylist) {
+        if (traversePlaylist(arrayList, SharedConfig.playOrderReversed ? 1 : -1) && z && SharedConfig.repeatMode == 0 && !this.forceLoopCurrentPlaylist) {
             VideoPlayer videoPlayer = this.audioPlayer;
             if (videoPlayer == null && this.videoPlayer == null) {
                 return;
@@ -2769,8 +2753,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             NotificationCenter.getInstance(this.playingMessageObject.currentAccount).postNotificationName(NotificationCenter.messagePlayingPlayStateChanged, Integer.valueOf(this.playingMessageObject.getId()));
             return;
         }
-        int i4 = this.currentPlaylistNum;
-        if (i4 < 0 || i4 >= arrayList.size()) {
+        int i2 = this.currentPlaylistNum;
+        if (i2 < 0 || i2 >= arrayList.size()) {
             return;
         }
         MessageObject messageObject3 = this.playingMessageObject;
@@ -2792,24 +2776,48 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             seekToProgress(messageObject, 0.0f);
             return;
         }
-        if (SharedConfig.playOrderReversed) {
-            int i2 = this.currentPlaylistNum - 1;
-            this.currentPlaylistNum = i2;
-            if (i2 < 0) {
-                this.currentPlaylistNum = arrayList.size() - 1;
-            }
-        } else {
-            int i3 = this.currentPlaylistNum + 1;
-            this.currentPlaylistNum = i3;
-            if (i3 >= arrayList.size()) {
-                this.currentPlaylistNum = 0;
-            }
-        }
+        traversePlaylist(arrayList, SharedConfig.playOrderReversed ? -1 : 1);
         if (this.currentPlaylistNum >= arrayList.size()) {
             return;
         }
         this.playMusicAgain = true;
         playMessage(arrayList.get(this.currentPlaylistNum));
+    }
+
+    private boolean traversePlaylist(ArrayList<MessageObject> arrayList, int i) {
+        int i2;
+        MessageObject messageObject;
+        int i3 = this.currentPlaylistNum;
+        boolean z = ConnectionsManager.getInstance(UserConfig.selectedAccount).getConnectionState() == 2;
+        this.currentPlaylistNum += i;
+        if (z) {
+            while (this.currentPlaylistNum < arrayList.size() && (i2 = this.currentPlaylistNum) >= 0 && ((messageObject = arrayList.get(i2)) == null || !messageObject.mediaExists)) {
+                this.currentPlaylistNum += i;
+            }
+        }
+        if (this.currentPlaylistNum >= arrayList.size() || this.currentPlaylistNum < 0) {
+            this.currentPlaylistNum = this.currentPlaylistNum < arrayList.size() ? arrayList.size() - 1 : 0;
+            if (z) {
+                while (this.currentPlaylistNum < arrayList.size()) {
+                    int i4 = this.currentPlaylistNum;
+                    if (i > 0) {
+                        if (i4 > i3) {
+                            return true;
+                        }
+                    } else if (i4 < i3) {
+                        return true;
+                    }
+                    MessageObject messageObject2 = arrayList.get(this.currentPlaylistNum);
+                    if (messageObject2 != null && messageObject2.mediaExists) {
+                        return true;
+                    }
+                    this.currentPlaylistNum += i;
+                }
+                return true;
+            }
+            return true;
+        }
+        return false;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -4311,9 +4319,18 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    public void startRecording(final int i, final long j, final MessageObject messageObject, final MessageObject messageObject2, final int i2) {
+    public void startRecording(final int i, final long j, final MessageObject messageObject, final MessageObject messageObject2, final int i2, boolean z) {
+        boolean z2;
+        boolean z3;
         MessageObject messageObject3 = this.playingMessageObject;
-        boolean z = (messageObject3 == null || !isPlayingMessage(messageObject3) || isMessagePaused()) ? false : true;
+        if (messageObject3 == null || !isPlayingMessage(messageObject3) || isMessagePaused()) {
+            z2 = z;
+            z3 = false;
+        } else {
+            z2 = z;
+            z3 = true;
+        }
+        this.manualRecording = z2;
         requestAudioFocus(true);
         try {
             this.feedbackView.performHapticFeedback(3, 2);
@@ -4327,7 +4344,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             }
         };
         this.recordStartRunnable = runnable;
-        dispatchQueue.postRunnable(runnable, z ? 500L : 50L);
+        dispatchQueue.postRunnable(runnable, z3 ? 500L : 50L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -4507,6 +4524,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
     /* JADX INFO: Access modifiers changed from: private */
     public void stopRecordingInternal(final int i, final boolean z, final int i2) {
+        Log.e("lolkek", "stopRecordingInternal", new Exception());
         if (i != 0) {
             final TLRPC$TL_document tLRPC$TL_document = this.recordingAudio;
             final File file = this.recordingAudioFile;
@@ -4538,6 +4556,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
         this.recordingAudio = null;
         this.recordingAudioFile = null;
+        this.manualRecording = false;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -4607,6 +4626,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             this.recordQueue.cancelRunnable(runnable);
             this.recordStartRunnable = null;
         }
+        Log.e("lolkek", "stopRecording", new Exception());
         this.recordQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda24
             @Override // java.lang.Runnable
             public final void run() {

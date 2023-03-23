@@ -362,7 +362,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         this.crossfadeByScale = 0.05f;
         this.crossfadeDuration = DEFAULT_CROSSFADE_DURATION;
         this.loadingOperations = new ArrayList<>();
-        this.allowLoadingOnAttachedOnly = true;
+        this.allowLoadingOnAttachedOnly = BuildVars.DEBUG_VERSION;
         this.clip = true;
         this.parentView = view;
         this.roundPaint = new Paint(3);

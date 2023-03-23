@@ -122,6 +122,7 @@ public class FileLoadOperation {
     public Object parentObject;
     public FilePathDatabase.PathData pathSaveData;
     private volatile boolean paused;
+    public boolean preFinished;
     private boolean preloadFinished;
     private long preloadNotRequestedBytesCount;
     private RandomAccessFile preloadStream;
@@ -169,6 +170,8 @@ public class FileLoadOperation {
         void didFailedLoadingFile(FileLoadOperation fileLoadOperation, int i);
 
         void didFinishLoadingFile(FileLoadOperation fileLoadOperation, File file);
+
+        void didPreFinishLoading(FileLoadOperation fileLoadOperation, File file);
 
         boolean hasAnotherRefOnFile(String str);
 
@@ -955,10 +958,10 @@ public class FileLoadOperation {
     /* JADX WARN: Removed duplicated region for block: B:327:0x088e  */
     /* JADX WARN: Removed duplicated region for block: B:365:0x061b A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r1v30 */
-    /* JADX WARN: Type inference failed for: r1v31, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r1v31, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r1v33 */
     /* JADX WARN: Type inference failed for: r1v37 */
-    /* JADX WARN: Type inference failed for: r1v38, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r1v38, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r1v42 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1980,6 +1983,7 @@ public class FileLoadOperation {
         this.cacheIvTemp = null;
         this.cacheFileParts = null;
         this.cacheFilePreload = null;
+        this.delegate.didPreFinishLoading(this, this.cacheFileFinal);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2703,7 +2707,7 @@ public class FileLoadOperation {
     /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r11v0 */
-    /* JADX WARN: Type inference failed for: r11v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r11v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r11v7 */
     public void startDownloadRequest() {
         int i;

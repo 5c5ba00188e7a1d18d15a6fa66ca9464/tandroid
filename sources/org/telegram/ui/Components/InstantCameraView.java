@@ -1051,7 +1051,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
 
     private org.telegram.messenger.camera.Size chooseOptimalSize(ArrayList<org.telegram.messenger.camera.Size> arrayList) {
         ArrayList<org.telegram.messenger.camera.Size> arrayList2 = new ArrayList<>();
-        int i = allowBigSizeCamera() ? 1440 : 1200;
+        int i = Build.MANUFACTURER.equalsIgnoreCase("Samsung") ? 1200 : allowBigSizeCamera() ? 1440 : 1200;
         for (int i2 = 0; i2 < arrayList.size(); i2++) {
             if (Math.max(arrayList.get(i2).mHeight, arrayList.get(i2).mWidth) <= i && Math.min(arrayList.get(i2).mHeight, arrayList.get(i2).mWidth) >= 320) {
                 arrayList2.add(arrayList.get(i2));

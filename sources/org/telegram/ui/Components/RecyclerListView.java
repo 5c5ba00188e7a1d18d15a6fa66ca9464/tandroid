@@ -235,6 +235,10 @@ public class RecyclerListView extends RecyclerView {
         return true;
     }
 
+    public Integer getSelectorColor(int i) {
+        return null;
+    }
+
     @Override // android.view.View
     public boolean hasOverlappingRendering() {
         return false;
@@ -2352,6 +2356,10 @@ public class RecyclerListView extends RecyclerView {
         if (z2) {
             this.selectorDrawable.setVisible(false, false);
             this.selectorDrawable.setState(StateSet.NOTHING);
+        }
+        Integer selectorColor = getSelectorColor(i);
+        if (selectorColor != null) {
+            setListSelectorColor(selectorColor.intValue());
         }
         this.selectorDrawable.setBounds(this.selectorRect);
         if (z2 && getVisibility() == 0) {
