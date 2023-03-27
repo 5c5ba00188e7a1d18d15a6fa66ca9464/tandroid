@@ -2741,10 +2741,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Removed duplicated region for block: B:281:0x0d18  */
     /* JADX WARN: Removed duplicated region for block: B:289:0x0d42  */
     /* JADX WARN: Type inference failed for: r13v0 */
-    /* JADX WARN: Type inference failed for: r13v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v5 */
     /* JADX WARN: Type inference failed for: r7v0 */
-    /* JADX WARN: Type inference failed for: r7v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r7v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v5 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -8190,7 +8190,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX WARN: Type inference failed for: r1v29 */
     /* JADX WARN: Type inference failed for: r1v30, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r1v91 */
+    /* JADX WARN: Type inference failed for: r1v92 */
     public boolean showChatPreview(final DialogCell dialogCell) {
         long j;
         TLRPC$Chat chat;
@@ -8385,6 +8385,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         ActionBarMenuSubItem actionBarMenuSubItem4 = new ActionBarMenuSubItem(getParentActivity(), z, true);
         actionBarMenuSubItem4.setIconColor(getThemedColor("dialogRedIcon"));
         actionBarMenuSubItem4.setTextColor(getThemedColor("dialogTextRed"));
+        actionBarMenuSubItem4.setSelectorColor(Theme.multAlpha(getThemedColor("dialogTextRed"), 0.12f));
         actionBarMenuSubItem4.setTextAndIcon(LocaleController.getString("Delete", R.string.Delete), R.drawable.msg_delete);
         actionBarMenuSubItem4.setMinimumWidth(160);
         actionBarMenuSubItem4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda33
@@ -10305,6 +10306,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, final Object... objArr) {
+        final boolean booleanValue;
+        final boolean z;
         DialogsSearchAdapter dialogsSearchAdapter;
         DialogsSearchAdapter dialogsSearchAdapter2;
         MessagesController.DialogFilter dialogFilter;
@@ -10325,8 +10328,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 } else {
                     dialogFilter = null;
                 }
-                boolean z = (dialogFilter == null || (dialogFilter.flags & MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ) == 0) ? false : true;
-                if (this.slowedReloadAfterDialogClick && z) {
+                boolean z2 = (dialogFilter == null || (dialogFilter.flags & MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ) == 0) ? false : true;
+                if (this.slowedReloadAfterDialogClick && z2) {
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda63
                         @Override // java.lang.Runnable
                         public final void run() {
@@ -10353,7 +10356,23 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         } else if (i == NotificationCenter.dialogsUnreadReactionsCounterChanged) {
             updateVisibleRows(0);
         } else if (i == NotificationCenter.emojiLoaded) {
-            updateVisibleRows(0);
+            int i5 = 0;
+            while (true) {
+                ViewPage[] viewPageArr2 = this.viewPages;
+                if (i5 >= viewPageArr2.length) {
+                    break;
+                }
+                DialogsRecyclerView dialogsRecyclerView = viewPageArr2[i5].listView;
+                if (dialogsRecyclerView != null) {
+                    for (int i6 = 0; i6 < dialogsRecyclerView.getChildCount(); i6++) {
+                        View childAt = dialogsRecyclerView.getChildAt(i6);
+                        if (childAt != null) {
+                            childAt.invalidate();
+                        }
+                    }
+                }
+                i5++;
+            }
             FilterTabsView filterTabsView4 = this.filterTabsView;
             if (filterTabsView4 != null) {
                 filterTabsView4.getTabsContainer().invalidateViews();
@@ -10389,45 +10408,45 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (this.viewPages == null || this.dialogsListFrozen) {
                 return;
             }
-            boolean z2 = this.floatingProgressVisible;
+            boolean z3 = this.floatingProgressVisible;
             setFloatingProgressVisible(false, true);
             for (ViewPage viewPage2 : this.viewPages) {
                 viewPage2.dialogsAdapter.setForceUpdatingContacts(false);
             }
-            if (z2) {
+            if (z3) {
                 setContactsAlpha(0.0f);
                 animateContactsAlpha(1.0f);
             }
-            int i5 = 0;
-            boolean z3 = false;
+            int i7 = 0;
+            boolean z4 = false;
             while (true) {
-                ViewPage[] viewPageArr2 = this.viewPages;
-                if (i5 >= viewPageArr2.length) {
+                ViewPage[] viewPageArr3 = this.viewPages;
+                if (i7 >= viewPageArr3.length) {
                     break;
                 }
-                if (!viewPageArr2[i5].isDefaultDialogType() || getMessagesController().getAllFoldersDialogsCount() > 10) {
-                    z3 = true;
+                if (!viewPageArr3[i7].isDefaultDialogType() || getMessagesController().getAllFoldersDialogsCount() > 10) {
+                    z4 = true;
                 } else {
-                    this.viewPages[i5].dialogsAdapter.notifyDataSetChanged();
+                    this.viewPages[i7].dialogsAdapter.notifyDataSetChanged();
                 }
-                i5++;
+                i7++;
             }
-            if (z3) {
+            if (z4) {
                 updateVisibleRows(0);
             }
         } else if (i == NotificationCenter.openedChatChanged) {
             if (this.viewPages == null) {
                 return;
             }
-            int i6 = 0;
+            int i8 = 0;
             while (true) {
-                ViewPage[] viewPageArr3 = this.viewPages;
-                if (i6 < viewPageArr3.length) {
-                    if (viewPageArr3[i6].isDefaultDialogType() && AndroidUtilities.isTablet()) {
-                        boolean booleanValue = ((Boolean) objArr[2]).booleanValue();
+                ViewPage[] viewPageArr4 = this.viewPages;
+                if (i8 < viewPageArr4.length) {
+                    if (viewPageArr4[i8].isDefaultDialogType() && AndroidUtilities.isTablet()) {
+                        boolean booleanValue2 = ((Boolean) objArr[2]).booleanValue();
                         long longValue = ((Long) objArr[0]).longValue();
                         int intValue = ((Integer) objArr[1]).intValue();
-                        if (booleanValue) {
+                        if (booleanValue2) {
                             MessagesStorage.TopicKey topicKey = this.openedDialogId;
                             if (longValue == topicKey.dialogId && intValue == topicKey.topicId) {
                                 topicKey.dialogId = 0L;
@@ -10438,9 +10457,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                             topicKey2.dialogId = longValue;
                             topicKey2.topicId = intValue;
                         }
-                        this.viewPages[i6].dialogsAdapter.setOpenedDialogId(this.openedDialogId.dialogId);
+                        this.viewPages[i8].dialogsAdapter.setOpenedDialogId(this.openedDialogId.dialogId);
                     }
-                    i6++;
+                    i8++;
                 } else {
                     updateVisibleRows(MessagesController.UPDATE_MASK_SELECT_DIALOG);
                     return;
@@ -10485,11 +10504,17 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             final long longValue2 = ((Long) objArr[0]).longValue();
             final TLRPC$User tLRPC$User = (TLRPC$User) objArr[1];
             final TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) objArr[2];
-            final boolean booleanValue2 = ((Boolean) objArr[3]).booleanValue();
+            if (tLRPC$User != null && tLRPC$User.bot) {
+                z = ((Boolean) objArr[3]).booleanValue();
+                booleanValue = false;
+            } else {
+                booleanValue = ((Boolean) objArr[3]).booleanValue();
+                z = false;
+            }
             Runnable runnable = new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda60
                 @Override // java.lang.Runnable
                 public final void run() {
-                    DialogsActivity.this.lambda$didReceivedNotification$65(tLRPC$Chat, longValue2, booleanValue2, tLRPC$User);
+                    DialogsActivity.this.lambda$didReceivedNotification$65(tLRPC$Chat, longValue2, booleanValue, tLRPC$User, z);
                 }
             };
             if (this.undoView[0] != null) {
@@ -10504,8 +10529,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             runnable.run();
         } else if (i == NotificationCenter.folderBecomeEmpty) {
             int intValue2 = ((Integer) objArr[0]).intValue();
-            int i7 = this.folderId;
-            if (i7 != intValue2 || i7 == 0) {
+            int i9 = this.folderId;
+            if (i9 != intValue2 || i9 == 0) {
                 return;
             }
             finishFragment();
@@ -10518,9 +10543,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             updateDialogsHint();
         } else if (i == NotificationCenter.forceImportContactsStart) {
             setFloatingProgressVisible(true, true);
-            ViewPage[] viewPageArr4 = this.viewPages;
-            if (viewPageArr4 != null) {
-                for (ViewPage viewPage3 : viewPageArr4) {
+            ViewPage[] viewPageArr5 = this.viewPages;
+            if (viewPageArr5 != null) {
+                for (ViewPage viewPage3 : viewPageArr5) {
                     viewPage3.dialogsAdapter.setForceShowEmptyCell(false);
                     viewPage3.dialogsAdapter.setForceUpdatingContacts(true);
                     viewPage3.dialogsAdapter.notifyDataSetChanged();
@@ -10534,11 +10559,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         } else if (i == NotificationCenter.didClearDatabase) {
             if (this.viewPages != null) {
                 while (true) {
-                    ViewPage[] viewPageArr5 = this.viewPages;
-                    if (i3 >= viewPageArr5.length) {
+                    ViewPage[] viewPageArr6 = this.viewPages;
+                    if (i3 >= viewPageArr6.length) {
                         break;
                     }
-                    viewPageArr5[i3].dialogsAdapter.didDatabaseCleared();
+                    viewPageArr6[i3].dialogsAdapter.didDatabaseCleared();
                     i3++;
                 }
             }
@@ -10605,7 +10630,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didReceivedNotification$65(TLRPC$Chat tLRPC$Chat, long j, boolean z, TLRPC$User tLRPC$User) {
+    public /* synthetic */ void lambda$didReceivedNotification$65(TLRPC$Chat tLRPC$Chat, long j, boolean z, TLRPC$User tLRPC$User, boolean z2) {
         if (tLRPC$Chat != null) {
             if (ChatObject.isNotInChat(tLRPC$Chat)) {
                 getMessagesController().deleteDialog(j, 0, z);
@@ -10614,7 +10639,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
         } else {
             getMessagesController().deleteDialog(j, 0, z);
-            if (tLRPC$User != null && tLRPC$User.bot) {
+            if (tLRPC$User != null && tLRPC$User.bot && z2) {
                 getMessagesController().blockPeer(tLRPC$User.id);
             }
         }

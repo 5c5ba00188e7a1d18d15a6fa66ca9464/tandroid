@@ -9,7 +9,11 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CombinedDrawable;
 /* loaded from: classes3.dex */
 public class ShadowSectionCell extends View {
+    private int backgroundColor;
+    private boolean bottom;
+    private Theme.ResourcesProvider resourcesProvider;
     private int size;
+    private boolean top;
 
     public ShadowSectionCell(Context context) {
         this(context, 12, (Theme.ResourcesProvider) null);
@@ -25,8 +29,11 @@ public class ShadowSectionCell extends View {
 
     public ShadowSectionCell(Context context, int i, Theme.ResourcesProvider resourcesProvider) {
         super(context);
-        setBackgroundDrawable(Theme.getThemedDrawable(context, R.drawable.greydivider, Theme.getColor("windowBackgroundGrayShadow", resourcesProvider)));
+        this.top = true;
+        this.bottom = true;
+        this.resourcesProvider = resourcesProvider;
         this.size = i;
+        updateBackground();
     }
 
     public ShadowSectionCell(Context context, int i, int i2) {
@@ -35,10 +42,52 @@ public class ShadowSectionCell extends View {
 
     public ShadowSectionCell(Context context, int i, int i2, Theme.ResourcesProvider resourcesProvider) {
         super(context);
-        CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(i2), Theme.getThemedDrawable(context, R.drawable.greydivider, Theme.getColor("windowBackgroundGrayShadow", resourcesProvider)), 0, 0);
-        combinedDrawable.setFullsize(true);
-        setBackgroundDrawable(combinedDrawable);
+        this.top = true;
+        this.bottom = true;
+        this.resourcesProvider = resourcesProvider;
+        this.backgroundColor = i2;
         this.size = i;
+        updateBackground();
+    }
+
+    public void setTopBottom(boolean z, boolean z2) {
+        if (this.top == z && this.bottom == z2) {
+            return;
+        }
+        this.top = z;
+        this.bottom = z2;
+        updateBackground();
+    }
+
+    private void updateBackground() {
+        int i = this.backgroundColor;
+        if (i == 0) {
+            if (!this.top && !this.bottom) {
+                setBackground(null);
+            } else {
+                setBackground(Theme.getThemedDrawable(getContext(), getBackgroundResId(), Theme.getColor("windowBackgroundGrayShadow", this.resourcesProvider)));
+            }
+        } else if (!this.top && !this.bottom) {
+            setBackgroundColor(i);
+        } else {
+            CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(this.backgroundColor), Theme.getThemedDrawable(getContext(), getBackgroundResId(), Theme.getColor("windowBackgroundGrayShadow", this.resourcesProvider)), 0, 0);
+            combinedDrawable.setFullsize(true);
+            setBackground(combinedDrawable);
+        }
+    }
+
+    private int getBackgroundResId() {
+        boolean z = this.top;
+        if (z && this.bottom) {
+            return R.drawable.greydivider;
+        }
+        if (z) {
+            return R.drawable.greydivider_bottom;
+        }
+        if (this.bottom) {
+            return R.drawable.greydivider_top;
+        }
+        return R.drawable.transparent;
     }
 
     @Override // android.view.View

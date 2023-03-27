@@ -2502,7 +2502,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             marginLayoutParams3.bottomMargin = dp2;
             marginLayoutParams4.bottomMargin = dp2;
         } else {
-            this.pickerBottomLayout.setBackground(Theme.createSelectorWithBackgroundDrawable(getThemedColor("dialogBackground"), getThemedColor("listSelectorSDK21")));
+            this.pickerBottomLayout.setBackground(Theme.createSelectorWithBackgroundDrawable(getThemedColor("dialogBackground"), Theme.multAlpha(getThemedColor("dialogTextRed"), 0.1f)));
             this.pickerBottomFrameLayout.setBackgroundColor(0);
             marginLayoutParams.bottomMargin = 0;
             marginLayoutParams.rightMargin = 0;

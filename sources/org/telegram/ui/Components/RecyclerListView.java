@@ -525,11 +525,13 @@ public class RecyclerListView extends RecyclerView {
         private float textY;
         float touchSlop;
         private int type;
+        public boolean usePadding;
         float viewAlpha;
         float visibilityAlpha;
 
         public FastScroll(Context context, int i) {
             super(context);
+            this.usePadding = true;
             this.rect = new RectF();
             this.paint = new Paint(1);
             this.paint2 = new Paint(1);
@@ -551,6 +553,7 @@ public class RecyclerListView extends RecyclerView {
                     AndroidUtilities.runOnUIThread(FastScroll.this.hideFloatingDateRunnable, 4000L);
                 }
             };
+            this.viewAlpha = 1.0f;
             this.type = i;
             if (i == 0) {
                 this.letterPaint.setTextSize(AndroidUtilities.dp(45.0f));
@@ -763,47 +766,48 @@ public class RecyclerListView extends RecyclerView {
             this.arrowPath.close();
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:25:0x01ea, code lost:
-            if (r14[6] == r8) goto L85;
+        /* JADX WARN: Code restructure failed: missing block: B:29:0x01ec, code lost:
+            if (r12[6] == r9) goto L88;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:30:0x01fb, code lost:
-            if (r14[4] == r8) goto L77;
+        /* JADX WARN: Code restructure failed: missing block: B:34:0x01fd, code lost:
+            if (r12[4] == r9) goto L80;
          */
-        /* JADX WARN: Removed duplicated region for block: B:32:0x01ff  */
-        /* JADX WARN: Removed duplicated region for block: B:33:0x020b  */
-        /* JADX WARN: Removed duplicated region for block: B:36:0x0223  */
-        /* JADX WARN: Removed duplicated region for block: B:37:0x0229  */
-        /* JADX WARN: Removed duplicated region for block: B:40:0x022e  */
-        /* JADX WARN: Removed duplicated region for block: B:41:0x0231  */
-        /* JADX WARN: Removed duplicated region for block: B:46:0x0257  */
-        /* JADX WARN: Removed duplicated region for block: B:48:0x025b  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x0201  */
+        /* JADX WARN: Removed duplicated region for block: B:37:0x020e  */
+        /* JADX WARN: Removed duplicated region for block: B:40:0x0226  */
+        /* JADX WARN: Removed duplicated region for block: B:41:0x022c  */
+        /* JADX WARN: Removed duplicated region for block: B:44:0x0231  */
+        /* JADX WARN: Removed duplicated region for block: B:45:0x0234  */
+        /* JADX WARN: Removed duplicated region for block: B:50:0x025a  */
+        /* JADX WARN: Removed duplicated region for block: B:52:0x025e  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         protected void onDraw(Canvas canvas) {
+            int paddingTop;
             float f;
             float dp;
             float dp2;
             StaticLayout staticLayout;
-            int paddingTop = getPaddingTop() + ((int) Math.ceil(((getMeasuredHeight() - getPaddingTop()) - AndroidUtilities.dp(54.0f)) * this.progress));
-            this.rect.set(this.scrollX, AndroidUtilities.dp(12.0f) + paddingTop, this.scrollX + AndroidUtilities.dp(5.0f), AndroidUtilities.dp(42.0f) + paddingTop);
+            int paddingTop2 = (this.usePadding ? getPaddingTop() : 0) + ((int) Math.ceil(((getMeasuredHeight() - paddingTop) - AndroidUtilities.dp(54.0f)) * this.progress));
+            this.rect.set(this.scrollX, AndroidUtilities.dp(12.0f) + paddingTop2, this.scrollX + AndroidUtilities.dp(5.0f), AndroidUtilities.dp(42.0f) + paddingTop2);
             if (this.type == 0) {
                 this.paint.setColor(ColorUtils.blendARGB(this.inactiveColor, this.activeColor, this.bubbleProgress));
                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), this.paint);
             } else {
                 this.paint.setColor(ColorUtils.blendARGB(Theme.getColor("windowBackgroundWhite"), -1, 0.1f));
-                float dp3 = AndroidUtilities.dp(27.0f) + paddingTop;
+                float dp3 = AndroidUtilities.dp(27.0f) + paddingTop2;
                 this.fastScrollShadowDrawable.setBounds(getMeasuredWidth() - this.fastScrollShadowDrawable.getIntrinsicWidth(), (int) (dp3 - (this.fastScrollShadowDrawable.getIntrinsicHeight() / 2)), getMeasuredWidth(), (int) (dp3 + (this.fastScrollShadowDrawable.getIntrinsicHeight() / 2)));
                 this.fastScrollShadowDrawable.draw(canvas);
-                canvas.drawCircle(this.scrollX + AndroidUtilities.dp(8.0f), AndroidUtilities.dp(27.0f) + paddingTop, AndroidUtilities.dp(24.0f), this.paint);
+                canvas.drawCircle(this.scrollX + AndroidUtilities.dp(8.0f), AndroidUtilities.dp(27.0f) + paddingTop2, AndroidUtilities.dp(24.0f), this.paint);
                 this.paint.setColor(Theme.getColor("windowBackgroundWhiteBlackText"));
                 canvas.save();
-                canvas.translate(this.scrollX + AndroidUtilities.dp(4.0f), AndroidUtilities.dp(34.0f) + paddingTop + (AndroidUtilities.dp(2.0f) * this.bubbleProgress));
+                canvas.translate(this.scrollX + AndroidUtilities.dp(4.0f), AndroidUtilities.dp(34.0f) + paddingTop2 + (AndroidUtilities.dp(2.0f) * this.bubbleProgress));
                 canvas.drawPath(this.arrowPath, this.paint);
                 canvas.restore();
                 canvas.save();
-                canvas.translate(this.scrollX + AndroidUtilities.dp(4.0f), (AndroidUtilities.dp(24.0f) + paddingTop) - (AndroidUtilities.dp(2.0f) * this.bubbleProgress));
+                canvas.translate(this.scrollX + AndroidUtilities.dp(4.0f), (AndroidUtilities.dp(24.0f) + paddingTop2) - (AndroidUtilities.dp(2.0f) * this.bubbleProgress));
                 canvas.rotate(180.0f, 0.0f, -AndroidUtilities.dp(2.0f));
                 canvas.drawPath(this.arrowPath, this.paint);
                 canvas.restore();
@@ -812,8 +816,8 @@ public class RecyclerListView extends RecyclerView {
             if (i == 0) {
                 if (this.isMoving || this.bubbleProgress != 0.0f) {
                     this.paint.setAlpha((int) (this.bubbleProgress * 255.0f));
-                    int dp4 = AndroidUtilities.dp(30.0f) + paddingTop;
-                    int dp5 = paddingTop - AndroidUtilities.dp(46.0f);
+                    int dp4 = AndroidUtilities.dp(30.0f) + paddingTop2;
+                    int dp5 = paddingTop2 - AndroidUtilities.dp(46.0f);
                     if (dp5 <= AndroidUtilities.dp(12.0f)) {
                         f = AndroidUtilities.dp(12.0f) - dp5;
                         dp5 = AndroidUtilities.dp(12.0f);
@@ -1669,7 +1673,7 @@ public class RecyclerListView extends RecyclerView {
         super.onMeasure(i, i2);
         FastScroll fastScroll = this.fastScroll;
         if (fastScroll != null && fastScroll.getLayoutParams() != null) {
-            int measuredHeight = (getMeasuredHeight() - getPaddingTop()) - getPaddingBottom();
+            int measuredHeight = (getMeasuredHeight() - (this.fastScroll.usePadding ? getPaddingTop() : 0)) - getPaddingBottom();
             this.fastScroll.getLayoutParams().height = measuredHeight;
             this.fastScroll.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(132.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(measuredHeight, 1073741824));
         }
@@ -1680,16 +1684,17 @@ public class RecyclerListView extends RecyclerView {
     @Override // androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
     public void onLayout(boolean z, int i, int i2, int i3, int i4) {
         super.onLayout(z, i, i2, i3, i4);
-        if (this.fastScroll != null) {
+        FastScroll fastScroll = this.fastScroll;
+        if (fastScroll != null) {
             this.selfOnLayout = true;
-            int paddingTop = i2 + getPaddingTop();
-            FastScroll fastScroll = this.fastScroll;
-            if (fastScroll.isRtl) {
-                fastScroll.layout(0, paddingTop, fastScroll.getMeasuredWidth(), this.fastScroll.getMeasuredHeight() + paddingTop);
+            int paddingTop = i2 + (fastScroll.usePadding ? getPaddingTop() : 0);
+            FastScroll fastScroll2 = this.fastScroll;
+            if (fastScroll2.isRtl) {
+                fastScroll2.layout(0, paddingTop, fastScroll2.getMeasuredWidth(), this.fastScroll.getMeasuredHeight() + paddingTop);
             } else {
                 int measuredWidth = getMeasuredWidth() - this.fastScroll.getMeasuredWidth();
-                FastScroll fastScroll2 = this.fastScroll;
-                fastScroll2.layout(measuredWidth, paddingTop, fastScroll2.getMeasuredWidth() + measuredWidth, this.fastScroll.getMeasuredHeight() + paddingTop);
+                FastScroll fastScroll3 = this.fastScroll;
+                fastScroll3.layout(measuredWidth, paddingTop, fastScroll3.getMeasuredWidth() + measuredWidth, this.fastScroll.getMeasuredHeight() + paddingTop);
             }
             this.selfOnLayout = false;
         }

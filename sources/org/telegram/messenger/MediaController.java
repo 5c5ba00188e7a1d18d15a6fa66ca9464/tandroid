@@ -37,7 +37,6 @@ import android.provider.MediaStore;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.TextureView;
 import android.view.View;
@@ -2785,33 +2784,48 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     private boolean traversePlaylist(ArrayList<MessageObject> arrayList, int i) {
-        int i2;
         MessageObject messageObject;
+        int i2;
+        MessageObject messageObject2;
         int i3 = this.currentPlaylistNum;
         boolean z = ConnectionsManager.getInstance(UserConfig.selectedAccount).getConnectionState() == 2;
         this.currentPlaylistNum += i;
         if (z) {
-            while (this.currentPlaylistNum < arrayList.size() && (i2 = this.currentPlaylistNum) >= 0 && ((messageObject = arrayList.get(i2)) == null || !messageObject.mediaExists)) {
+            while (this.currentPlaylistNum < arrayList.size() && (i2 = this.currentPlaylistNum) >= 0 && ((messageObject2 = arrayList.get(i2)) == null || !messageObject2.mediaExists)) {
                 this.currentPlaylistNum += i;
             }
         }
         if (this.currentPlaylistNum >= arrayList.size() || this.currentPlaylistNum < 0) {
-            this.currentPlaylistNum = this.currentPlaylistNum < arrayList.size() ? arrayList.size() - 1 : 0;
+            this.currentPlaylistNum = this.currentPlaylistNum >= arrayList.size() ? 0 : arrayList.size() - 1;
             if (z) {
-                while (this.currentPlaylistNum < arrayList.size()) {
+                while (true) {
                     int i4 = this.currentPlaylistNum;
+                    if (i4 < 0 || i4 >= arrayList.size()) {
+                        break;
+                    }
+                    int i5 = this.currentPlaylistNum;
                     if (i > 0) {
-                        if (i4 > i3) {
-                            return true;
+                        if (i5 > i3) {
+                            break;
                         }
-                    } else if (i4 < i3) {
-                        return true;
+                        messageObject = arrayList.get(this.currentPlaylistNum);
+                        if (messageObject == null && messageObject.mediaExists) {
+                            break;
+                        }
+                        this.currentPlaylistNum += i;
+                    } else {
+                        if (i5 < i3) {
+                            break;
+                        }
+                        messageObject = arrayList.get(this.currentPlaylistNum);
+                        if (messageObject == null) {
+                        }
+                        this.currentPlaylistNum += i;
                     }
-                    MessageObject messageObject2 = arrayList.get(this.currentPlaylistNum);
-                    if (messageObject2 != null && messageObject2.mediaExists) {
-                        return true;
-                    }
-                    this.currentPlaylistNum += i;
+                }
+                if (this.currentPlaylistNum >= arrayList.size() || this.currentPlaylistNum < 0) {
+                    this.currentPlaylistNum = this.currentPlaylistNum < arrayList.size() ? arrayList.size() - 1 : 0;
+                    return true;
                 }
                 return true;
             }
@@ -4524,7 +4538,6 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
     /* JADX INFO: Access modifiers changed from: private */
     public void stopRecordingInternal(final int i, final boolean z, final int i2) {
-        Log.e("lolkek", "stopRecordingInternal", new Exception());
         if (i != 0) {
             final TLRPC$TL_document tLRPC$TL_document = this.recordingAudio;
             final File file = this.recordingAudioFile;
@@ -4626,7 +4639,6 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             this.recordQueue.cancelRunnable(runnable);
             this.recordStartRunnable = null;
         }
-        Log.e("lolkek", "stopRecording", new Exception());
         this.recordQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda24
             @Override // java.lang.Runnable
             public final void run() {

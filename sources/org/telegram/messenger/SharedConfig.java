@@ -1,6 +1,7 @@
 package org.telegram.messenger;
 
 import android.app.ActivityManager;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.os.Build;
@@ -26,6 +27,9 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLRPC$TL_help_appUpdate;
 import org.telegram.tgnet.TLRPC$help_AppUpdate;
+import org.telegram.ui.ActionBar.AlertDialog;
+import org.telegram.ui.ActionBar.BaseFragment;
+import org.telegram.ui.LaunchActivity;
 /* loaded from: classes.dex */
 public class SharedConfig {
     private static final int[] AVERAGE_DEVICES;
@@ -116,6 +120,7 @@ public class SharedConfig {
     public static int pushType = 2;
     public static boolean raiseToListen = false;
     public static boolean raiseToSpeak = false;
+    public static boolean readOnlyStorageDirAlertShowed = false;
     public static boolean recordViaSco = false;
     public static int repeatMode = 0;
     public static boolean roundCamera16to9 = false;
@@ -159,12 +164,46 @@ public class SharedConfig {
     public @interface PerformanceClass {
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$checkSdCard$0() {
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$checkSdCard$1(DialogInterface dialogInterface, int i) {
+    }
+
     public static String performanceClassName(int i) {
         return i != 0 ? i != 1 ? i != 2 ? "UNKNOWN" : "HIGH" : "AVERAGE" : "LOW";
     }
 
     public static boolean loopStickers() {
         return LiteMode.isEnabled(2);
+    }
+
+    public static void checkSdCard(File file) {
+        if (file == null || storageCacheDir == null || readOnlyStorageDirAlertShowed || !file.getPath().startsWith(storageCacheDir)) {
+            return;
+        }
+        AndroidUtilities.runOnUIThread(SharedConfig$$ExternalSyntheticLambda3.INSTANCE);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$checkSdCard$2() {
+        BaseFragment lastFragment;
+        if (readOnlyStorageDirAlertShowed || (lastFragment = LaunchActivity.getLastFragment()) == null || lastFragment.getParentActivity() == null) {
+            return;
+        }
+        storageCacheDir = null;
+        saveConfig();
+        ImageLoader.getInstance().checkMediaPaths(SharedConfig$$ExternalSyntheticLambda2.INSTANCE);
+        readOnlyStorageDirAlertShowed = true;
+        AlertDialog.Builder builder = new AlertDialog.Builder(lastFragment.getParentActivity());
+        builder.setTitle(LocaleController.getString("SdCardError", R.string.SdCardError));
+        builder.setSubtitle(LocaleController.getString("SdCardErrorDescription", R.string.SdCardErrorDescription));
+        builder.setPositiveButton(LocaleController.getString("DoNotUseSDCard", R.string.DoNotUseSDCard), SharedConfig$$ExternalSyntheticLambda0.INSTANCE);
+        AlertDialog create = builder.create();
+        create.setCanceledOnTouchOutside(false);
+        create.show();
     }
 
     static {
@@ -412,7 +451,7 @@ public class SharedConfig {
                             if (pendingAppUpdateBuildVersion == i) {
                             }
                             pendingAppUpdate = null;
-                            AndroidUtilities.runOnUIThread(SharedConfig$$ExternalSyntheticLambda2.INSTANCE);
+                            AndroidUtilities.runOnUIThread(SharedConfig$$ExternalSyntheticLambda5.INSTANCE);
                             SharedPreferences sharedPreferences2 = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
                             SaveToGallerySettingsHelper.load(sharedPreferences2);
                             mapPreviewType = sharedPreferences2.getInt("mapPreviewType", 2);
@@ -490,7 +529,7 @@ public class SharedConfig {
                         }
                         if (pendingAppUpdateBuildVersion == i || (str2 = pendingAppUpdate.version) == null || str.compareTo(str2) >= 0 || BuildVars.DEBUG_PRIVATE_VERSION) {
                             pendingAppUpdate = null;
-                            AndroidUtilities.runOnUIThread(SharedConfig$$ExternalSyntheticLambda2.INSTANCE);
+                            AndroidUtilities.runOnUIThread(SharedConfig$$ExternalSyntheticLambda5.INSTANCE);
                         }
                     }
                 } catch (Exception e3) {
@@ -863,17 +902,17 @@ public class SharedConfig {
                 return;
             }
             lastLogsCheckTime = currentTimeMillis;
-            Utilities.cacheClearQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda0
+            Utilities.cacheClearQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
-                    SharedConfig.lambda$checkLogsToDelete$0(currentTimeMillis);
+                    SharedConfig.lambda$checkLogsToDelete$3(currentTimeMillis);
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$checkLogsToDelete$0(int i) {
+    public static /* synthetic */ void lambda$checkLogsToDelete$3(int i) {
         File logsDir;
         long j = i - 864000;
         try {
@@ -1162,7 +1201,7 @@ public class SharedConfig {
                         ProxyInfo proxyInfo = new ProxyInfo(serializedData.readString(false), serializedData.readInt32(false), serializedData.readString(false), serializedData.readString(false), serializedData.readString(false));
                         proxyInfo.ping = serializedData.readInt64(false);
                         proxyInfo.availableCheckTime = serializedData.readInt64(false);
-                        proxyList.add(proxyInfo);
+                        proxyList.add(0, proxyInfo);
                         if (currentProxy == null && !TextUtils.isEmpty(string) && string.equals(proxyInfo.address) && i == proxyInfo.port && string2.equals(proxyInfo.username) && string3.equals(proxyInfo.password)) {
                             currentProxy = proxyInfo;
                         }
@@ -1173,7 +1212,7 @@ public class SharedConfig {
             } else {
                 for (int i3 = 0; i3 < readInt32; i3++) {
                     ProxyInfo proxyInfo2 = new ProxyInfo(serializedData.readString(false), serializedData.readInt32(false), serializedData.readString(false), serializedData.readString(false), serializedData.readString(false));
-                    proxyList.add(proxyInfo2);
+                    proxyList.add(0, proxyInfo2);
                     if (currentProxy == null && !TextUtils.isEmpty(string) && string.equals(proxyInfo2.address) && i == proxyInfo2.port && string2.equals(proxyInfo2.username) && string3.equals(proxyInfo2.password)) {
                         currentProxy = proxyInfo2;
                     }
@@ -1191,13 +1230,13 @@ public class SharedConfig {
 
     public static void saveProxyList() {
         ArrayList arrayList = new ArrayList(proxyList);
-        Collections.sort(arrayList, SharedConfig$$ExternalSyntheticLambda3.INSTANCE);
+        Collections.sort(arrayList, SharedConfig$$ExternalSyntheticLambda6.INSTANCE);
         SerializedData serializedData = new SerializedData();
         serializedData.writeInt32(-1);
         serializedData.writeByte(2);
         int size = arrayList.size();
         serializedData.writeInt32(size);
-        for (int i = 0; i < size; i++) {
+        for (int i = size - 1; i >= 0; i++) {
             ProxyInfo proxyInfo = (ProxyInfo) arrayList.get(i);
             String str = proxyInfo.address;
             String str2 = "";
@@ -1229,7 +1268,7 @@ public class SharedConfig {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ int lambda$saveProxyList$1(ProxyInfo proxyInfo, ProxyInfo proxyInfo2) {
+    public static /* synthetic */ int lambda$saveProxyList$4(ProxyInfo proxyInfo, ProxyInfo proxyInfo2) {
         ProxyInfo proxyInfo3 = currentProxy;
         long j = proxyInfo3 == proxyInfo ? -200000L : 0L;
         if (!proxyInfo.available) {
@@ -1283,11 +1322,11 @@ public class SharedConfig {
     }
 
     public static void checkSaveToGalleryFiles() {
-        Utilities.globalQueue.postRunnable(SharedConfig$$ExternalSyntheticLambda1.INSTANCE);
+        Utilities.globalQueue.postRunnable(SharedConfig$$ExternalSyntheticLambda4.INSTANCE);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$checkSaveToGalleryFiles$2() {
+    public static /* synthetic */ void lambda$checkSaveToGalleryFiles$5() {
         try {
             File file = new File(Environment.getExternalStorageDirectory(), "Telegram");
             File file2 = new File(file, "Telegram Images");

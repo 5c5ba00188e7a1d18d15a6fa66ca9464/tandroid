@@ -295,6 +295,7 @@ public class ChatNotificationsPopupWrapper {
             this.muteForLastSelected2.setVisibility(8);
         }
         this.muteUnmuteButton.setColors(i2, i2);
+        this.muteUnmuteButton.setSelectorColor(Theme.multAlpha(i2, 0.1f));
         if (hashSet == null || hashSet.isEmpty()) {
             this.gap.setVisibility(8);
             this.topicsExceptionsTextView.setVisibility(8);

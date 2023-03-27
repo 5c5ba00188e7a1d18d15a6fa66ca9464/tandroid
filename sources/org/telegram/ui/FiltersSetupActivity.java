@@ -893,6 +893,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             while (FiltersSetupActivity.this.getMessagesController().dialogFiltersById.get(dialogFilter.id) != null) {
                 dialogFilter.id++;
             }
+            dialogFilter.order = FiltersSetupActivity.this.getMessagesController().dialogFilters.size();
             dialogFilter.unreadCount = -1;
             dialogFilter.pendingUnreadCount = -1;
             int i = 0;
@@ -938,7 +939,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
                 dialogFilter.flags |= MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED;
             }
             FiltersSetupActivity.this.ignoreUpdates = true;
-            FilterCreateActivity.saveFilterToServer(dialogFilter, dialogFilter.flags, dialogFilter.name, dialogFilter.alwaysShow, dialogFilter.neverShow, dialogFilter.pinnedDialogs, true, true, true, true, false, FiltersSetupActivity.this, new Runnable() { // from class: org.telegram.ui.FiltersSetupActivity$ListAdapter$$ExternalSyntheticLambda5
+            FilterCreateActivity.saveFilterToServer(dialogFilter, dialogFilter.flags, dialogFilter.name, dialogFilter.alwaysShow, dialogFilter.neverShow, dialogFilter.pinnedDialogs, true, false, true, true, false, FiltersSetupActivity.this, new Runnable() { // from class: org.telegram.ui.FiltersSetupActivity$ListAdapter$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
                     FiltersSetupActivity.ListAdapter.this.lambda$onCreateViewHolder$6(suggestedFilter, dialogFilter);

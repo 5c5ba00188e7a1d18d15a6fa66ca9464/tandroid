@@ -8,6 +8,6 @@ public final /* synthetic */ class SharedConfig$$ExternalSyntheticLambda2 implem
 
     @Override // java.lang.Runnable
     public final void run() {
-        SharedConfig.saveConfig();
+        SharedConfig.lambda$checkSdCard$0();
     }
 }

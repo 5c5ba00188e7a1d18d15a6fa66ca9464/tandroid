@@ -185,7 +185,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         public AlertDialogCell(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context);
             this.resourcesProvider = resourcesProvider;
-            setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor("dialogButtonSelector"), 2));
+            setBackground(Theme.createSelectorDrawable(getThemedColor("dialogButtonSelector"), 2));
             setPadding(AndroidUtilities.dp(23.0f), 0, AndroidUtilities.dp(23.0f), 0);
             ImageView imageView = new ImageView(context);
             this.imageView = imageView;

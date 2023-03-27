@@ -6398,7 +6398,7 @@ public class MediaDataController extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:55:0x0216 A[Catch: all -> 0x0231, TryCatch #0 {all -> 0x0231, blocks: (B:29:0x0101, B:47:0x01d3, B:50:0x01ec, B:52:0x0209, B:54:0x020e, B:56:0x0221, B:55:0x0216, B:45:0x01ce), top: B:63:0x0101 }] */
     /* JADX WARN: Removed duplicated region for block: B:69:0x012d A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r3v4 */
-    /* JADX WARN: Type inference failed for: r3v5, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v5, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v6 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -7428,7 +7428,7 @@ public class MediaDataController extends BaseController {
     /* JADX WARN: Type inference failed for: r3v1, types: [java.lang.Object[]] */
     /* JADX WARN: Type inference failed for: r4v1 */
     /* JADX WARN: Type inference failed for: r4v11 */
-    /* JADX WARN: Type inference failed for: r4v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r4v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v1, types: [java.lang.String] */
     /* JADX WARN: Type inference failed for: r7v13, types: [java.lang.StringBuilder] */
     /* JADX WARN: Type inference failed for: r7v2 */
@@ -7940,7 +7940,7 @@ public class MediaDataController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Type inference failed for: r15v4 */
-    /* JADX WARN: Type inference failed for: r15v5, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r15v5, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r15v7 */
     public /* synthetic */ void lambda$loadReplyMessagesForMessages$165(final LongSparseArray longSparseArray, LongSparseArray longSparseArray2, final boolean z, final long j, final Runnable runnable) {
         ArrayList<TLRPC$User> arrayList;
@@ -8987,7 +8987,7 @@ public class MediaDataController extends BaseController {
         return new TLRPC$TL_messageEntityStrike();
     }
 
-    private CharSequence parsePattern(CharSequence charSequence, Pattern pattern, List<TLRPC$MessageEntity> list, GenericProvider<Void, TLRPC$MessageEntity> genericProvider) {
+    private CharSequence parsePattern(CharSequence charSequence, Pattern pattern, ArrayList<TLRPC$MessageEntity> arrayList, GenericProvider<Void, TLRPC$MessageEntity> genericProvider) {
         URLSpan[] uRLSpanArr;
         Matcher matcher = pattern.matcher(charSequence);
         int i = 0;
@@ -9001,12 +9001,28 @@ public class MediaDataController extends BaseController {
                 charSequence = ((Object) charSequence.subSequence(0, matcher.start() - i)) + group + ((Object) charSequence.subSequence(matcher.end() - i, charSequence.length()));
                 TLRPC$MessageEntity provide = genericProvider.provide(null);
                 provide.offset = matcher.start() - i;
-                provide.length = group.length();
-                list.add(provide);
+                int length = group.length();
+                provide.length = length;
+                int i2 = provide.offset;
+                removeOffset4After(i2, length + i2, arrayList);
+                arrayList.add(provide);
             }
             i += (matcher.end() - matcher.start()) - group.length();
         }
         return charSequence;
+    }
+
+    private static void removeOffset4After(int i, int i2, ArrayList<TLRPC$MessageEntity> arrayList) {
+        int size = arrayList.size();
+        for (int i3 = 0; i3 < size; i3++) {
+            TLRPC$MessageEntity tLRPC$MessageEntity = arrayList.get(i3);
+            int i4 = tLRPC$MessageEntity.offset;
+            if (i4 > i2) {
+                tLRPC$MessageEntity.offset = i4 - 4;
+            } else if (i4 > i) {
+                tLRPC$MessageEntity.offset = i4 - 2;
+            }
+        }
     }
 
     public void loadDraftsIfNeed() {

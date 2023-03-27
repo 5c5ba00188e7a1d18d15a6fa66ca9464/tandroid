@@ -427,10 +427,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:56:0x029f, code lost:
-        if ("d".equals(((org.telegram.ui.WallpapersListActivity.ColorWallpaper) r0).slug) == false) goto L287;
+        if ("d".equals(((org.telegram.ui.WallpapersListActivity.ColorWallpaper) r0).slug) == false) goto L290;
      */
     /* JADX WARN: Code restructure failed: missing block: B:58:0x02a5, code lost:
-        if ((r37.currentWallpaper instanceof org.telegram.tgnet.TLRPC$TL_wallPaper) != false) goto L287;
+        if ((r37.currentWallpaper instanceof org.telegram.tgnet.TLRPC$TL_wallPaper) != false) goto L290;
      */
     /* JADX WARN: Removed duplicated region for block: B:120:0x05f4  */
     /* JADX WARN: Removed duplicated region for block: B:151:0x06e1  */
@@ -438,8 +438,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     /* JADX WARN: Removed duplicated region for block: B:203:0x07d4  */
     /* JADX WARN: Removed duplicated region for block: B:242:0x0909  */
     /* JADX WARN: Removed duplicated region for block: B:247:0x0915  */
-    /* JADX WARN: Removed duplicated region for block: B:289:0x0c60  */
-    /* JADX WARN: Removed duplicated region for block: B:292:0x0c6b  */
+    /* JADX WARN: Removed duplicated region for block: B:291:0x0c62  */
+    /* JADX WARN: Removed duplicated region for block: B:294:0x0c6d  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     @SuppressLint({"Recycle"})
     /*
@@ -1505,11 +1505,14 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                             this.colorPicker.setMinBrightness(0.05f);
                                             this.colorPicker.setMaxBrightness(0.8f);
                                         }
-                                        this.colorPicker.setType(1, hasChanges(1), 2, this.accent.accentColor2 != 0 ? 2 : 1, false, 0, false);
-                                        this.colorPicker.setColor(this.accent.accentColor, 0);
-                                        int i17 = this.accent.accentColor2;
-                                        if (i17 != 0) {
-                                            this.colorPicker.setColor(i17, 1);
+                                        Theme.ThemeAccent themeAccent2 = this.accent;
+                                        if (themeAccent2 != null) {
+                                            this.colorPicker.setType(1, hasChanges(1), 2, themeAccent2.accentColor2 != 0 ? 2 : 1, false, 0, false);
+                                            this.colorPicker.setColor(this.accent.accentColor, 0);
+                                            int i17 = this.accent.accentColor2;
+                                            if (i17 != 0) {
+                                                this.colorPicker.setColor(i17, 1);
+                                            }
                                         }
                                     } else {
                                         this.patternLayout[i6].addView(colorPicker, LayoutHelper.createFrame(-1, -1.0f, 1, 0.0f, 0.0f, 0.0f, 48.0f));

@@ -1945,12 +1945,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r12v21 */
     /* JADX WARN: Type inference failed for: r12v210 */
     /* JADX WARN: Type inference failed for: r12v211 */
-    /* JADX WARN: Type inference failed for: r12v9, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v9, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v29 */
     /* JADX WARN: Type inference failed for: r3v32 */
     /* JADX WARN: Type inference failed for: r3v33 */
     /* JADX WARN: Type inference failed for: r3v6 */
-    /* JADX WARN: Type inference failed for: r3v7, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v7, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v10, types: [android.os.Bundle, java.lang.String] */
     /* JADX WARN: Type inference failed for: r7v14 */
     /* JADX WARN: Type inference failed for: r7v19 */
@@ -10312,8 +10312,15 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         AlertDialog alertDialog = this.visibleDialog;
         if (alertDialog != null) {
             if (alertDialog == this.localeDialog) {
+                INavigationLayout iNavigationLayout = this.actionBarLayout;
+                BaseFragment lastFragment = iNavigationLayout == null ? null : iNavigationLayout.getLastFragment();
                 try {
-                    BulletinFactory.of(Bulletin.BulletinWindow.make(this), null).createSimpleBulletin(R.raw.msg_translate, getStringForLanguageAlert(LocaleController.getInstance().getCurrentLocaleInfo().shortName.equals("en") ? this.englishLocaleStrings : this.systemLocaleStrings, "ChangeLanguageLater", R.string.ChangeLanguageLater)).setDuration(5000).show();
+                    String str = LocaleController.getInstance().getCurrentLocaleInfo().shortName;
+                    if (lastFragment != null) {
+                        BulletinFactory.of(lastFragment).createSimpleBulletin(R.raw.msg_translate, getStringForLanguageAlert(str.equals("en") ? this.englishLocaleStrings : this.systemLocaleStrings, "ChangeLanguageLater", R.string.ChangeLanguageLater)).setDuration(5000).show();
+                    } else {
+                        BulletinFactory.of(Bulletin.BulletinWindow.make(this), null).createSimpleBulletin(R.raw.msg_translate, getStringForLanguageAlert(str.equals("en") ? this.englishLocaleStrings : this.systemLocaleStrings, "ChangeLanguageLater", R.string.ChangeLanguageLater)).setDuration(5000).show();
+                    }
                 } catch (Exception e) {
                     FileLog.e(e);
                 }

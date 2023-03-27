@@ -694,6 +694,9 @@ public class AndroidUtilities {
         if (TextUtils.indexOf((CharSequence) spannable, (char) 9472) >= 0) {
             spannable = new SpannableStringBuilder(spannable.toString().replace((char) 9472, ' '));
         }
+        if (!TextUtils.isEmpty(spannable) && TextUtils.lastIndexOf(spannable, '_') == spannable.length() - 1) {
+            spannable = new SpannableStringBuilder(spannable.toString()).replace(spannable.length() - 1, spannable.length(), (CharSequence) "a");
+        }
         Matcher matcher = pattern.matcher(spannable);
         while (matcher.find()) {
             int start = matcher.start();
@@ -4760,6 +4763,10 @@ public class AndroidUtilities {
 
     public static boolean isENOSPC(Exception exc) {
         return (Build.VERSION.SDK_INT >= 21 && (exc instanceof IOException) && (exc.getCause() instanceof ErrnoException) && ((ErrnoException) exc.getCause()).errno == OsConstants.ENOSPC) || (exc.getMessage() != null && exc.getMessage().equalsIgnoreCase("no space left on device"));
+    }
+
+    public static boolean isEROFS(Exception exc) {
+        return (Build.VERSION.SDK_INT >= 21 && (exc instanceof IOException) && (exc.getCause() instanceof ErrnoException) && ((ErrnoException) exc.getCause()).errno == OsConstants.EROFS) || (exc.getMessage() != null && exc.getMessage().toLowerCase().contains("read-only file system"));
     }
 
     public static CharSequence replaceCharSequence(String str, CharSequence charSequence, CharSequence charSequence2) {
