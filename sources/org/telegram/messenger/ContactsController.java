@@ -759,10 +759,10 @@ public class ContactsController extends BaseController {
         return i > 3;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:238:0x0572 A[Catch: all -> 0x058a, TRY_LEAVE, TryCatch #6 {all -> 0x058a, blocks: (B:236:0x056d, B:238:0x0572), top: B:272:0x056d }] */
-    /* JADX WARN: Removed duplicated region for block: B:247:0x0584  */
-    /* JADX WARN: Removed duplicated region for block: B:284:0x0577 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:313:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:244:0x0578 A[Catch: all -> 0x0590, TRY_LEAVE, TryCatch #10 {all -> 0x0590, blocks: (B:242:0x0573, B:244:0x0578), top: B:286:0x0573 }] */
+    /* JADX WARN: Removed duplicated region for block: B:253:0x058a  */
+    /* JADX WARN: Removed duplicated region for block: B:295:0x057d A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:320:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1074,7 +1074,12 @@ public class ContactsController extends BaseController {
                                 cursor2 = null;
                             }
                             try {
-                                FileLog.d("loading contacts 1 query time = " + (System.currentTimeMillis() - j) + " contactsSize = " + hashMap2.size());
+                                StringBuilder sb4 = new StringBuilder();
+                                sb4.append("loading contacts 1 query time = ");
+                                sb4.append(System.currentTimeMillis() - j);
+                                sb4.append(" contactsSize = ");
+                                sb4.append(hashMap2 == null ? 0 : hashMap2.size());
+                                FileLog.d(sb4.toString());
                                 long currentTimeMillis2 = System.currentTimeMillis();
                                 HashMap hashMap6 = new HashMap();
                                 ArrayList arrayList5 = new ArrayList();
@@ -1086,11 +1091,13 @@ public class ContactsController extends BaseController {
                                         phoneBookContact.id = query.getString(i2);
                                         phoneBookContact.lookup_key = query.getString(1);
                                         phoneBookContact.name = query.getString(i3);
-                                        if (hashMap2.get(phoneBookContact.lookup_key) == null && !TextUtils.isEmpty(phoneBookContact.name)) {
-                                            HashMap hashMap8 = hashMap7;
-                                            hashMap8.put(phoneBookContact.id, phoneBookContact);
-                                            arrayList5.add(phoneBookContact.id);
-                                            hashMap7 = hashMap8;
+                                        if (hashMap2 == null || hashMap2.get(phoneBookContact.lookup_key) == null) {
+                                            if (!TextUtils.isEmpty(phoneBookContact.name)) {
+                                                HashMap hashMap8 = hashMap7;
+                                                hashMap8.put(phoneBookContact.id, phoneBookContact);
+                                                arrayList5.add(phoneBookContact.id);
+                                                hashMap7 = hashMap8;
+                                            }
                                         }
                                     }
                                     hashMap4 = hashMap7;
@@ -1173,14 +1180,8 @@ public class ContactsController extends BaseController {
                                         cursor = cursor3;
                                         FileLog.e(th);
                                         if (hashMap != null) {
-                                            hashMap.clear();
                                         }
                                         if (cursor != null) {
-                                            try {
-                                                cursor.close();
-                                            } catch (Exception e2) {
-                                                FileLog.e(e2);
-                                            }
                                         }
                                         hashMap2 = hashMap;
                                         if (hashMap2 != null) {
@@ -1191,8 +1192,8 @@ public class ContactsController extends BaseController {
                                 if (cursor4 != null) {
                                     try {
                                         cursor4.close();
-                                    } catch (Exception e3) {
-                                        FileLog.e(e3);
+                                    } catch (Exception e2) {
+                                        FileLog.e(e2);
                                     }
                                 }
                             } catch (Throwable th7) {
@@ -1205,8 +1206,14 @@ public class ContactsController extends BaseController {
                             hashMap = hashMap2;
                             FileLog.e(th);
                             if (hashMap != null) {
+                                hashMap.clear();
                             }
                             if (cursor != null) {
+                                try {
+                                    cursor.close();
+                                } catch (Exception e3) {
+                                    FileLog.e(e3);
+                                }
                             }
                             hashMap2 = hashMap;
                             if (hashMap2 != null) {

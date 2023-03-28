@@ -3493,7 +3493,7 @@ public class MessagesStorage extends BaseController {
                 this.dialogFilters.add(dialogFilter2);
                 this.dialogFiltersMap.put(dialogFilter2.id, dialogFilter2);
                 sparseArray.put(dialogFilter2.id, dialogFilter2);
-                SQLitePreparedStatement executeFast = this.database.executeFast("REPLACE INTO dialog_filter VALUES(?, ?, ?, ?, ?, ?)");
+                SQLitePreparedStatement executeFast = this.database.executeFast("REPLACE INTO dialog_filter VALUES(?, ?, ?, ?, ?)");
                 try {
                     executeFast.bindInteger(1, dialogFilter2.id);
                     executeFast.bindInteger(2, dialogFilter2.order);
