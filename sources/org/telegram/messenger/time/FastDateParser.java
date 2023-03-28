@@ -21,7 +21,6 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.telegram.messenger.FileLoader;
-import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes.dex */
 public class FastDateParser implements DateParser, Serializable {
     private static final long serialVersionUID = 2;
@@ -355,7 +354,7 @@ public class FastDateParser implements DateParser, Serializable {
                     return HOUR_OF_DAY_STRATEGY;
                 case 'm':
                     return MINUTE_STRATEGY;
-                case MessagesStorage.LAST_DB_VERSION /* 115 */:
+                case 's':
                     return SECOND_STRATEGY;
                 case 'w':
                     return WEEK_OF_YEAR_STRATEGY;

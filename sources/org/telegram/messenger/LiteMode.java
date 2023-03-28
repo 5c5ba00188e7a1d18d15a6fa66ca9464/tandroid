@@ -102,6 +102,9 @@ public class LiteMode {
     }
 
     public static boolean isEnabled(int i) {
+        if (i == 64 && AndroidUtilities.isTablet()) {
+            return true;
+        }
         return (preprocessFlag(i) & getValue()) > 0;
     }
 

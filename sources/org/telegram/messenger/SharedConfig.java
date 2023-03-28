@@ -1201,7 +1201,7 @@ public class SharedConfig {
                         ProxyInfo proxyInfo = new ProxyInfo(serializedData.readString(false), serializedData.readInt32(false), serializedData.readString(false), serializedData.readString(false), serializedData.readString(false));
                         proxyInfo.ping = serializedData.readInt64(false);
                         proxyInfo.availableCheckTime = serializedData.readInt64(false);
-                        proxyList.add(0, proxyInfo);
+                        proxyList.add(proxyInfo);
                         if (currentProxy == null && !TextUtils.isEmpty(string) && string.equals(proxyInfo.address) && i == proxyInfo.port && string2.equals(proxyInfo.username) && string3.equals(proxyInfo.password)) {
                             currentProxy = proxyInfo;
                         }
@@ -1212,7 +1212,7 @@ public class SharedConfig {
             } else {
                 for (int i3 = 0; i3 < readInt32; i3++) {
                     ProxyInfo proxyInfo2 = new ProxyInfo(serializedData.readString(false), serializedData.readInt32(false), serializedData.readString(false), serializedData.readString(false), serializedData.readString(false));
-                    proxyList.add(0, proxyInfo2);
+                    proxyList.add(proxyInfo2);
                     if (currentProxy == null && !TextUtils.isEmpty(string) && string.equals(proxyInfo2.address) && i == proxyInfo2.port && string2.equals(proxyInfo2.username) && string3.equals(proxyInfo2.password)) {
                         currentProxy = proxyInfo2;
                     }
@@ -1236,7 +1236,7 @@ public class SharedConfig {
         serializedData.writeByte(2);
         int size = arrayList.size();
         serializedData.writeInt32(size);
-        for (int i = size - 1; i >= 0; i++) {
+        for (int i = 0; i < size; i++) {
             ProxyInfo proxyInfo = (ProxyInfo) arrayList.get(i);
             String str = proxyInfo.address;
             String str2 = "";

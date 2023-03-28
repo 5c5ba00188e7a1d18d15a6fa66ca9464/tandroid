@@ -15,7 +15,6 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentMap;
 import org.telegram.messenger.FileLoader;
-import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes.dex */
 public class FastDatePrinter implements DatePrinter, Serializable {
     public static final int FULL = 0;
@@ -164,7 +163,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
                         case 'm':
                             timeZoneNameRule = selectNumberRule(12, length2);
                             break;
-                        case MessagesStorage.LAST_DB_VERSION /* 115 */:
+                        case 's':
                             timeZoneNameRule = selectNumberRule(13, length2);
                             break;
                         case 'w':

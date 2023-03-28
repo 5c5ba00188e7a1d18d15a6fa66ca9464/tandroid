@@ -1,7 +1,7 @@
 package org.telegram.messenger;
 
 import java.util.Comparator;
-import org.telegram.ui.Adapters.DialogsSearchAdapter;
+import org.telegram.tgnet.TLRPC$Message;
 /* loaded from: classes.dex */
 public final /* synthetic */ class MessagesStorage$$ExternalSyntheticLambda216 implements Comparator {
     public static final /* synthetic */ MessagesStorage$$ExternalSyntheticLambda216 INSTANCE = new MessagesStorage$$ExternalSyntheticLambda216();
@@ -11,8 +11,8 @@ public final /* synthetic */ class MessagesStorage$$ExternalSyntheticLambda216 i
 
     @Override // java.util.Comparator
     public final int compare(Object obj, Object obj2) {
-        int lambda$localSearch$213;
-        lambda$localSearch$213 = MessagesStorage.lambda$localSearch$213((DialogsSearchAdapter.DialogSearchResult) obj, (DialogsSearchAdapter.DialogSearchResult) obj2);
-        return lambda$localSearch$213;
+        int lambda$getMessagesInternal$136;
+        lambda$getMessagesInternal$136 = MessagesStorage.lambda$getMessagesInternal$136((TLRPC$Message) obj, (TLRPC$Message) obj2);
+        return lambda$getMessagesInternal$136;
     }
 }

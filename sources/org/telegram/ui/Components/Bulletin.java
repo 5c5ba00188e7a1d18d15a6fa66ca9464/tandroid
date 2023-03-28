@@ -139,7 +139,7 @@ public class Bulletin {
                 layout.setWideScreenParams(-1, 0);
             }
         } else {
-            layout.setWideScreenParams(-2, 5);
+            layout.setWideScreenParams(-2, 1);
         }
         return new Bulletin(baseFragment, baseFragment.getLayoutContainer(), layout, i);
     }

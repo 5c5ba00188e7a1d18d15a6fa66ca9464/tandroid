@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.telegram.messenger.MessagesStorage;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -1012,7 +1013,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                     }
                     c = 65535;
                     break;
-                case 116:
+                case MessagesStorage.LAST_DB_VERSION /* 116 */:
                     if (str2.equals("t")) {
                         c = 3;
                         break;

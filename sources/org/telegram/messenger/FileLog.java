@@ -106,7 +106,7 @@ public class FileLog {
     }
 
     public static void dumpUnparsedMessage(TLObject tLObject, final long j) {
-        if (BuildVars.DEBUG_PRIVATE_VERSION && BuildVars.LOGS_ENABLED && tLObject != null) {
+        if (BuildVars.DEBUG_PRIVATE_VERSION && BuildVars.LOGS_ENABLED && tLObject != null && SharedConfig.getDevicePerformanceClass() != 0) {
             try {
                 checkGson();
                 getInstance().dateFormat.format(System.currentTimeMillis());

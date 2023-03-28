@@ -57,6 +57,7 @@ import org.telegram.ui.Components.Switch;
 import org.telegram.ui.LiteModeSettingsActivity;
 /* loaded from: classes3.dex */
 public class LiteModeSettingsActivity extends BaseFragment {
+    private int FLAGS_CHAT;
     Adapter adapter;
     FrameLayout contentView;
     RecyclerListView listView;
@@ -70,17 +71,6 @@ public class LiteModeSettingsActivity extends BaseFragment {
     private boolean[] expanded = new boolean[3];
     private ArrayList<Item> oldItems = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public int getExpandedIndex(int i) {
-        if (i == 3) {
-            return 0;
-        }
-        if (i == 28700) {
-            return 1;
-        }
-        return i == 33248 ? 2 : -1;
-    }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
@@ -129,6 +119,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
             }
         });
         this.fragmentView = this.contentView;
+        this.FLAGS_CHAT = AndroidUtilities.isTablet() ? 33184 : LiteMode.FLAGS_CHAT;
         updateItems();
         return this.fragmentView;
     }
@@ -181,6 +172,17 @@ public class LiteModeSettingsActivity extends BaseFragment {
         updateValues();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public int getExpandedIndex(int i) {
+        if (i == 3) {
+            return 0;
+        }
+        if (i == 28700) {
+            return 1;
+        }
+        return i == this.FLAGS_CHAT ? 2 : -1;
+    }
+
     private void updateItems() {
         String formatString;
         this.oldItems.clear();
@@ -210,10 +212,12 @@ public class LiteModeSettingsActivity extends BaseFragment {
             this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsAutoplayReactions"), LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS));
             this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsAutoplayChat"), LiteMode.FLAG_ANIMATED_EMOJI_CHAT));
         }
-        this.items.add(Item.asSwitch(R.drawable.msg2_ask_question, LocaleController.getString("LiteOptionsChat"), LiteMode.FLAGS_CHAT));
+        this.items.add(Item.asSwitch(R.drawable.msg2_ask_question, LocaleController.getString("LiteOptionsChat"), this.FLAGS_CHAT));
         if (this.expanded[2]) {
             this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsBackground"), 32));
-            this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsTopics"), 64));
+            if (!AndroidUtilities.isTablet()) {
+                this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsTopics"), 64));
+            }
             this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsSpoiler"), 128));
             if (SharedConfig.getDevicePerformanceClass() >= 1) {
                 this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsBlur"), LiteMode.FLAG_CHAT_BLUR));

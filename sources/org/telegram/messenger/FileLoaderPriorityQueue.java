@@ -1,7 +1,6 @@
 package org.telegram.messenger;
 
 import java.util.ArrayList;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class FileLoaderPriorityQueue {
     private final int maxActiveOperationsCount;
@@ -76,10 +75,6 @@ public class FileLoaderPriorityQueue {
     public void remove(FileLoadOperation fileLoadOperation) {
         if (fileLoadOperation == null) {
             return;
-        }
-        ConnectionsManager connectionsManager = ConnectionsManager.getInstance(fileLoadOperation.currentAccount);
-        if (connectionsManager != null && connectionsManager.getConnectionState() == 2) {
-            fileLoadOperation.cancel();
         }
         this.allOperations.remove(fileLoadOperation);
     }

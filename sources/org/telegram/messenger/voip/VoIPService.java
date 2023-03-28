@@ -4745,7 +4745,10 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDestroy$66() {
-        this.soundPool.release();
+        SoundPool soundPool = this.soundPool;
+        if (soundPool != null) {
+            soundPool.release();
+        }
     }
 
     public long getCallID() {

@@ -322,7 +322,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     public void loadMoreSearchMessages() {
-        if (this.reqForumId == 0 || this.reqId == 0) {
+        if ((this.reqForumId == 0 || this.reqId == 0) && this.lastMessagesSearchId == this.lastSearchId) {
             DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate = this.delegate;
             if (dialogsSearchAdapterDelegate != null && dialogsSearchAdapterDelegate.getSearchForumDialogId() != 0 && !this.localMessagesSearchEndReached) {
                 searchForumMessagesInternal(this.lastMessagesSearchString, this.lastMessagesSearchId);
@@ -508,7 +508,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             tLRPC$TL_messages_searchGlobal.filter = new TLRPC$TL_inputMessagesFilterEmpty();
             tLRPC$TL_messages_searchGlobal.flags |= 1;
             tLRPC$TL_messages_searchGlobal.folder_id = this.folderId;
-            if (str.equals(this.lastMessagesSearchString) && !this.searchResultMessages.isEmpty()) {
+            if (str.equals(this.lastMessagesSearchString) && !this.searchResultMessages.isEmpty() && this.lastMessagesSearchId == this.lastSearchId) {
                 ArrayList<MessageObject> arrayList = this.searchResultMessages;
                 MessageObject messageObject = arrayList.get(arrayList.size() - 1);
                 tLRPC$TL_messages_searchGlobal.offset_id = messageObject.getId();

@@ -1082,7 +1082,7 @@ public class FileLoader extends BaseController {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$didPreFinishLoading$0(String str, FileLoaderPriorityQueue fileLoaderPriorityQueue) {
-            FileLoadOperation fileLoadOperation = (FileLoadOperation) FileLoader.this.loadOperationPaths.remove(str);
+            FileLoadOperation fileLoadOperation = (FileLoadOperation) FileLoader.this.loadOperationPaths.get(str);
             if (fileLoadOperation != null) {
                 fileLoadOperation.preFinished = true;
                 fileLoaderPriorityQueue.checkLoadingOperations();

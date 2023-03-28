@@ -162,6 +162,11 @@ public class DownloadProgressIcon extends View implements NotificationCenter.Not
             if (getVisibility() == 0 && getAlpha() == 1.0f) {
                 return;
             }
+            if (DownloadController.getInstance(this.currentAccount).hasUnviewedDownloads()) {
+                this.progress = 1.0f;
+                this.currentProgress = 1.0f;
+                return;
+            }
             this.progress = 0.0f;
             this.currentProgress = 0.0f;
         }

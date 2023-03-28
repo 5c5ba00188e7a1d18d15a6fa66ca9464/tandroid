@@ -474,7 +474,6 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
         ImageReceiver imageReceiver;
         if (this.unusedReceivers.isEmpty()) {
             imageReceiver = new ImageReceiver(this);
-            imageReceiver.setAllowLoadingOnAttachedOnly(false);
         } else {
             imageReceiver = this.unusedReceivers.get(0);
             this.unusedReceivers.remove(0);

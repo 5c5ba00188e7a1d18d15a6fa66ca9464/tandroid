@@ -209,7 +209,6 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     private ChatAttachAlertPhotoLayout photoLayout;
     private ChatAttachAlertPhotoLayoutPreview photoPreviewLayout;
     private boolean photosEnabled;
-    public boolean pinnedToTop;
     private boolean plainTextEnabled;
     private ChatAttachAlertPollLayout pollLayout;
     private boolean pollsEnabled;
@@ -4543,7 +4542,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:89:0x0065, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:89:0x0063, code lost:
         if (((androidx.dynamicanimation.animation.SpringAnimation) r8).isRunning() != false) goto L33;
      */
     @SuppressLint({"NewApi"})
@@ -4557,7 +4556,6 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
         boolean z2 = true;
         boolean z3 = attachAlertLayout == this.currentAttachLayout && currentItemTop <= attachAlertLayout.getButtonsHideOffset();
-        this.pinnedToTop = z3;
         AttachAlertLayout attachAlertLayout2 = this.currentAttachLayout;
         if (attachAlertLayout2 != this.photoPreviewLayout && this.keyboardVisible && z && !(attachAlertLayout2 instanceof ChatAttachAlertBotWebViewLayout)) {
             z = false;

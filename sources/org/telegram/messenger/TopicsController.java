@@ -230,8 +230,8 @@ public class TopicsController extends BaseController {
         getNotificationCenter().postNotificationName(NotificationCenter.topicsDidLoaded, Long.valueOf(j), Boolean.FALSE);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:59:0x0138, code lost:
-        if (r22 == 1) goto L79;
+    /* JADX WARN: Code restructure failed: missing block: B:75:0x0186, code lost:
+        if (r23 == 1) goto L100;
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r4v3 */
@@ -241,14 +241,15 @@ public class TopicsController extends BaseController {
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void processTopics(final long j, ArrayList<TLRPC$TL_forumTopic> arrayList, SparseArray<TLRPC$Message> sparseArray, boolean z, int i, int i2) {
-        ArrayList<TLRPC$TL_forumTopic> arrayList2;
+        ArrayList<Integer> arrayList2;
+        ArrayList<TLRPC$TL_forumTopic> arrayList3;
         boolean z2;
-        ArrayList<TLRPC$TL_forumTopic> arrayList3 = arrayList;
+        ArrayList<TLRPC$TL_forumTopic> arrayList4 = arrayList;
         SparseArray<TLRPC$Message> sparseArray2 = sparseArray;
         if (BuildVars.LOGS_ENABLED) {
             StringBuilder sb = new StringBuilder();
             sb.append("processTopics=new_topics_size=");
-            sb.append(arrayList3 == null ? 0 : arrayList.size());
+            sb.append(arrayList4 == null ? 0 : arrayList.size());
             sb.append(" fromCache=");
             sb.append(z);
             sb.append(" load_type=");
@@ -257,32 +258,38 @@ public class TopicsController extends BaseController {
             sb.append(i2);
             FileLog.d(sb.toString());
         }
-        ArrayList<TLRPC$TL_forumTopic> arrayList4 = this.topicsByChatId.get(j);
+        ArrayList<TLRPC$TL_forumTopic> arrayList5 = this.topicsByChatId.get(j);
         LongSparseArray<TLRPC$TL_forumTopic> longSparseArray = this.topicsMapByChatId.get(j);
-        if (arrayList4 == null) {
-            arrayList4 = new ArrayList<>();
-            this.topicsByChatId.put(j, arrayList4);
+        if (arrayList5 == null) {
+            arrayList5 = new ArrayList<>();
+            this.topicsByChatId.put(j, arrayList5);
         }
         if (longSparseArray == null) {
             longSparseArray = new LongSparseArray<>();
             this.topicsMapByChatId.put(j, longSparseArray);
         }
-        if (arrayList3 != null) {
+        if (arrayList4 != null) {
             int i3 = 0;
             arrayList2 = null;
+            arrayList3 = null;
             z2 = false;
             while (i3 < arrayList.size()) {
-                TLRPC$TL_forumTopic tLRPC$TL_forumTopic = arrayList3.get(i3);
-                if (!(tLRPC$TL_forumTopic instanceof TLRPC$TL_forumTopicDeleted) && !longSparseArray.containsKey(tLRPC$TL_forumTopic.id)) {
+                TLRPC$TL_forumTopic tLRPC$TL_forumTopic = arrayList4.get(i3);
+                if (tLRPC$TL_forumTopic instanceof TLRPC$TL_forumTopicDeleted) {
+                    if (arrayList2 == null) {
+                        arrayList2 = new ArrayList<>();
+                    }
+                    arrayList2.add(Integer.valueOf(tLRPC$TL_forumTopic.id));
+                } else if (!longSparseArray.containsKey(tLRPC$TL_forumTopic.id)) {
                     if (sparseArray2 != null) {
                         tLRPC$TL_forumTopic.topMessage = sparseArray2.get(tLRPC$TL_forumTopic.top_message);
                         tLRPC$TL_forumTopic.topicStartMessage = sparseArray2.get(tLRPC$TL_forumTopic.id);
                     }
                     if (tLRPC$TL_forumTopic.topMessage == null && !tLRPC$TL_forumTopic.isShort) {
-                        if (arrayList2 == null) {
-                            arrayList2 = new ArrayList<>();
+                        if (arrayList3 == null) {
+                            arrayList3 = new ArrayList<>();
                         }
-                        arrayList2.add(tLRPC$TL_forumTopic);
+                        arrayList3.add(tLRPC$TL_forumTopic);
                     }
                     if (tLRPC$TL_forumTopic.topicStartMessage == null) {
                         TLRPC$TL_message tLRPC$TL_message = new TLRPC$TL_message();
@@ -293,22 +300,23 @@ public class TopicsController extends BaseController {
                         tLRPC$TL_forumTopic.topicStartMessage.action = new TLRPC$TL_messageActionTopicCreate();
                         tLRPC$TL_forumTopic.topicStartMessage.action.title = tLRPC$TL_forumTopic.title;
                     }
-                    arrayList4.add(tLRPC$TL_forumTopic);
+                    arrayList5.add(tLRPC$TL_forumTopic);
                     longSparseArray.put(tLRPC$TL_forumTopic.id, tLRPC$TL_forumTopic);
                     this.topicsByTopMsgId.put(messageHash(tLRPC$TL_forumTopic.top_message, j), tLRPC$TL_forumTopic);
                     z2 = true;
                 }
                 i3++;
-                arrayList3 = arrayList;
+                arrayList4 = arrayList;
                 sparseArray2 = sparseArray;
             }
         } else {
             arrayList2 = null;
+            arrayList3 = null;
             z2 = false;
         }
         int i4 = 0;
-        for (int i5 = 0; i5 < arrayList4.size(); i5++) {
-            TLRPC$TL_forumTopic tLRPC$TL_forumTopic2 = arrayList4.get(i5);
+        for (int i5 = 0; i5 < arrayList5.size(); i5++) {
+            TLRPC$TL_forumTopic tLRPC$TL_forumTopic2 = arrayList5.get(i5);
             if (tLRPC$TL_forumTopic2 != null && tLRPC$TL_forumTopic2.pinned) {
                 int i6 = i4 + 1;
                 if (tLRPC$TL_forumTopic2.pinnedOrder != i4) {
@@ -320,11 +328,27 @@ public class TopicsController extends BaseController {
                 }
             }
         }
-        if (arrayList2 != null && i != 2) {
-            reloadTopics(j, arrayList2, null);
+        if (arrayList2 != null && i == 2) {
+            for (int i7 = 0; i7 < arrayList2.size(); i7++) {
+                int i8 = 0;
+                while (true) {
+                    if (i8 >= arrayList5.size()) {
+                        break;
+                    } else if (arrayList5.get(i8).id == arrayList2.get(i7).intValue()) {
+                        arrayList5.remove(i8);
+                        break;
+                    } else {
+                        i8++;
+                    }
+                }
+            }
+            getMessagesStorage().removeTopics(j, arrayList2);
+        }
+        if (arrayList3 != null && i != 2) {
+            reloadTopics(j, arrayList3, null);
         } else {
             ?? r4 = (i != 0 || z) ? 1 : 1;
-            if (arrayList4.size() >= i2 && i2 >= 0) {
+            if (arrayList5.size() >= i2 && i2 >= 0) {
                 this.endIsReached.put(j, r4);
                 SharedPreferences.Editor edit = getUserConfig().getPreferences().edit();
                 edit.putBoolean("topics_end_reached_" + j, r4).apply();
