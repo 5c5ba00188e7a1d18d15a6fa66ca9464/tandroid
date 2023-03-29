@@ -391,10 +391,15 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
                     textView2.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(i6, objArr2), "windowBackgroundWhiteBlueButton", 0, null));
                     return;
                 }
+                TLRPC$User tLRPC$User6 = this.user;
+                if (tLRPC$User6 != null && tLRPC$User6.id == 777000) {
+                    linksTextViewArr[0].setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(R.string.TelegramPremiumUserGiftedPremiumDialogTitleWithPluralSomeone, LocaleController.formatPluralString("GiftMonths", giftTier.getMonths(), new Object[0])), "windowBackgroundWhiteBlueButton", 0, null));
+                    this.subtitleView.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.TelegramPremiumUserGiftedPremiumDialogSubtitle)));
+                    return;
+                }
                 LinkSpanDrawable.LinksTextView linksTextView3 = linksTextViewArr[0];
                 int i7 = R.string.TelegramPremiumUserGiftedPremiumDialogTitleWithPlural;
                 Object[] objArr3 = new Object[2];
-                TLRPC$User tLRPC$User6 = this.user;
                 objArr3[0] = tLRPC$User6 != null ? tLRPC$User6.first_name : "";
                 objArr3[1] = LocaleController.formatPluralString("GiftMonths", giftTier.getMonths(), new Object[0]);
                 linksTextView3.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(i7, objArr3), "windowBackgroundWhiteBlueButton", 0, null));

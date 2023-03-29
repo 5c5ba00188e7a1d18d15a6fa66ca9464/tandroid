@@ -5434,6 +5434,7 @@
     <string name="TelegramPremiumUserDialogTitle">**%s** is a subscriber of Telegram Premium.</string>
     <string name="TelegramPremiumUserGiftedPremiumDialogSubtitle">You now have access to additional features.</string>
     <string name="TelegramPremiumUserGiftedPremiumDialogTitleWithPlural">**%1$s** has gifted you a %2$s subscription for Telegram Premium.</string>
+    <string name="TelegramPremiumUserGiftedPremiumDialogTitleWithPluralSomeone">Someone has gifted you a %1$s subscription for Telegram Premium.</string>
     <string name="TelegramPremiumUserGiftedPremiumOutboundDialogSubtitle">**%1$s** now have access to additional features.</string>
     <string name="TelegramPremiumUserGiftedPremiumOutboundDialogTitleWithPlural">You gifted **%1$s** a %2$s subscription for Telegram Premium.</string>
     <string name="TelegramPremiumUserStatusDefaultDialogTitle">This is %1$s\'s current status.</string>

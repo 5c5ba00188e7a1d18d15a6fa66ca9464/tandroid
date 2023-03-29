@@ -3969,17 +3969,17 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:11:0x002a  */
     /* JADX WARN: Removed duplicated region for block: B:12:0x002c  */
     /* JADX WARN: Removed duplicated region for block: B:15:0x0039  */
-    /* JADX WARN: Removed duplicated region for block: B:219:0x05d9  */
-    /* JADX WARN: Removed duplicated region for block: B:223:0x05f7  */
-    /* JADX WARN: Removed duplicated region for block: B:242:0x0659  */
-    /* JADX WARN: Removed duplicated region for block: B:243:0x066f  */
-    /* JADX WARN: Removed duplicated region for block: B:259:0x06bb  */
-    /* JADX WARN: Removed duplicated region for block: B:260:0x06c7  */
-    /* JADX WARN: Removed duplicated region for block: B:327:0x0860  */
-    /* JADX WARN: Removed duplicated region for block: B:335:0x08c4  */
-    /* JADX WARN: Removed duplicated region for block: B:600:0x105c  */
-    /* JADX WARN: Removed duplicated region for block: B:704:0x12e8  */
-    /* JADX WARN: Removed duplicated region for block: B:724:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:222:0x062d  */
+    /* JADX WARN: Removed duplicated region for block: B:226:0x064b  */
+    /* JADX WARN: Removed duplicated region for block: B:245:0x06ad  */
+    /* JADX WARN: Removed duplicated region for block: B:246:0x06c3  */
+    /* JADX WARN: Removed duplicated region for block: B:262:0x070f  */
+    /* JADX WARN: Removed duplicated region for block: B:263:0x071b  */
+    /* JADX WARN: Removed duplicated region for block: B:330:0x08b4  */
+    /* JADX WARN: Removed duplicated region for block: B:338:0x0918  */
+    /* JADX WARN: Removed duplicated region for block: B:603:0x10b0  */
+    /* JADX WARN: Removed duplicated region for block: B:707:0x133c  */
+    /* JADX WARN: Removed duplicated region for block: B:727:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4206,9 +4206,24 @@ public class MessageObject {
                                 }
                                 int indexOf = this.messageText.toString().indexOf("un2");
                                 if (indexOf != -1) {
+                                    SpannableStringBuilder valueOf = SpannableStringBuilder.valueOf(this.messageText);
                                     BillingController billingController = BillingController.getInstance();
                                     TLRPC$MessageAction tLRPC$MessageAction2 = this.messageOwner.action;
-                                    this.messageText = SpannableStringBuilder.valueOf(this.messageText).replace(indexOf, indexOf + 3, (CharSequence) billingController.formatCurrency(tLRPC$MessageAction2.amount, tLRPC$MessageAction2.currency));
+                                    String formatCurrency = billingController.formatCurrency(tLRPC$MessageAction2.amount, tLRPC$MessageAction2.currency);
+                                    if ((this.messageOwner.action.flags & 1) != 0) {
+                                        StringBuilder sb2 = new StringBuilder();
+                                        double d = this.messageOwner.action.cryptoAmount;
+                                        double pow = Math.pow(10.0d, -9.0d);
+                                        Double.isNaN(d);
+                                        sb2.append(String.format("%.2f", Double.valueOf(d * pow)));
+                                        sb2.append(" ");
+                                        sb2.append(this.messageOwner.action.cryptoCurrency);
+                                        sb2.append(" (~ ");
+                                        sb2.append((Object) formatCurrency);
+                                        sb2.append(")");
+                                        formatCurrency = sb2.toString();
+                                    }
+                                    this.messageText = valueOf.replace(indexOf, indexOf + 3, (CharSequence) formatCurrency);
                                 }
                             } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionSuggestProfilePhoto) {
                                 TLRPC$Photo tLRPC$Photo = tLRPC$MessageAction.photo;
@@ -4394,11 +4409,11 @@ public class MessageObject {
                                         sb = LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(j9), LocaleController.getInstance().formatterDay.format(j9));
                                         str = str2;
                                     } else {
-                                        StringBuilder sb2 = new StringBuilder();
+                                        StringBuilder sb3 = new StringBuilder();
                                         str = str2;
-                                        sb2.append(str);
-                                        sb2.append(this.messageOwner.date);
-                                        sb = sb2.toString();
+                                        sb3.append(str);
+                                        sb3.append(this.messageOwner.date);
+                                        sb = sb3.toString();
                                     }
                                     TLRPC$User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
                                     if (currentUser == null) {
@@ -4597,43 +4612,43 @@ public class MessageObject {
                                         this.messageText = spannableString2;
                                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionSecureValuesSent) {
                                         TLRPC$TL_messageActionSecureValuesSent tLRPC$TL_messageActionSecureValuesSent = (TLRPC$TL_messageActionSecureValuesSent) tLRPC$MessageAction;
-                                        StringBuilder sb3 = new StringBuilder();
+                                        StringBuilder sb4 = new StringBuilder();
                                         int size = tLRPC$TL_messageActionSecureValuesSent.types.size();
                                         for (int i9 = 0; i9 < size; i9++) {
                                             TLRPC$SecureValueType tLRPC$SecureValueType = tLRPC$TL_messageActionSecureValuesSent.types.get(i9);
-                                            if (sb3.length() > 0) {
-                                                sb3.append(", ");
+                                            if (sb4.length() > 0) {
+                                                sb4.append(", ");
                                             }
                                             if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePhone) {
-                                                sb3.append(LocaleController.getString("ActionBotDocumentPhone", R.string.ActionBotDocumentPhone));
+                                                sb4.append(LocaleController.getString("ActionBotDocumentPhone", R.string.ActionBotDocumentPhone));
                                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeEmail) {
-                                                sb3.append(LocaleController.getString("ActionBotDocumentEmail", R.string.ActionBotDocumentEmail));
+                                                sb4.append(LocaleController.getString("ActionBotDocumentEmail", R.string.ActionBotDocumentEmail));
                                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeAddress) {
-                                                sb3.append(LocaleController.getString("ActionBotDocumentAddress", R.string.ActionBotDocumentAddress));
+                                                sb4.append(LocaleController.getString("ActionBotDocumentAddress", R.string.ActionBotDocumentAddress));
                                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePersonalDetails) {
-                                                sb3.append(LocaleController.getString("ActionBotDocumentIdentity", R.string.ActionBotDocumentIdentity));
+                                                sb4.append(LocaleController.getString("ActionBotDocumentIdentity", R.string.ActionBotDocumentIdentity));
                                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePassport) {
-                                                sb3.append(LocaleController.getString("ActionBotDocumentPassport", R.string.ActionBotDocumentPassport));
+                                                sb4.append(LocaleController.getString("ActionBotDocumentPassport", R.string.ActionBotDocumentPassport));
                                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeDriverLicense) {
-                                                sb3.append(LocaleController.getString("ActionBotDocumentDriverLicence", R.string.ActionBotDocumentDriverLicence));
+                                                sb4.append(LocaleController.getString("ActionBotDocumentDriverLicence", R.string.ActionBotDocumentDriverLicence));
                                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeIdentityCard) {
-                                                sb3.append(LocaleController.getString("ActionBotDocumentIdentityCard", R.string.ActionBotDocumentIdentityCard));
+                                                sb4.append(LocaleController.getString("ActionBotDocumentIdentityCard", R.string.ActionBotDocumentIdentityCard));
                                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeUtilityBill) {
-                                                sb3.append(LocaleController.getString("ActionBotDocumentUtilityBill", R.string.ActionBotDocumentUtilityBill));
+                                                sb4.append(LocaleController.getString("ActionBotDocumentUtilityBill", R.string.ActionBotDocumentUtilityBill));
                                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeBankStatement) {
-                                                sb3.append(LocaleController.getString("ActionBotDocumentBankStatement", R.string.ActionBotDocumentBankStatement));
+                                                sb4.append(LocaleController.getString("ActionBotDocumentBankStatement", R.string.ActionBotDocumentBankStatement));
                                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeRentalAgreement) {
-                                                sb3.append(LocaleController.getString("ActionBotDocumentRentalAgreement", R.string.ActionBotDocumentRentalAgreement));
+                                                sb4.append(LocaleController.getString("ActionBotDocumentRentalAgreement", R.string.ActionBotDocumentRentalAgreement));
                                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeInternalPassport) {
-                                                sb3.append(LocaleController.getString("ActionBotDocumentInternalPassport", R.string.ActionBotDocumentInternalPassport));
+                                                sb4.append(LocaleController.getString("ActionBotDocumentInternalPassport", R.string.ActionBotDocumentInternalPassport));
                                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePassportRegistration) {
-                                                sb3.append(LocaleController.getString("ActionBotDocumentPassportRegistration", R.string.ActionBotDocumentPassportRegistration));
+                                                sb4.append(LocaleController.getString("ActionBotDocumentPassportRegistration", R.string.ActionBotDocumentPassportRegistration));
                                             } else if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeTemporaryRegistration) {
-                                                sb3.append(LocaleController.getString("ActionBotDocumentTemporaryRegistration", R.string.ActionBotDocumentTemporaryRegistration));
+                                                sb4.append(LocaleController.getString("ActionBotDocumentTemporaryRegistration", R.string.ActionBotDocumentTemporaryRegistration));
                                             }
                                         }
                                         TLRPC$Peer tLRPC$Peer9 = this.messageOwner.peer_id;
-                                        this.messageText = LocaleController.formatString("ActionBotDocuments", R.string.ActionBotDocuments, UserObject.getFirstName(tLRPC$Peer9 != null ? getUser(abstractMap, longSparseArray, tLRPC$Peer9.user_id) : null), sb3.toString());
+                                        this.messageText = LocaleController.formatString("ActionBotDocuments", R.string.ActionBotDocuments, UserObject.getFirstName(tLRPC$Peer9 != null ? getUser(abstractMap, longSparseArray, tLRPC$Peer9.user_id) : null), sb4.toString());
                                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionWebViewDataSent) {
                                         this.messageText = LocaleController.formatString("ActionBotWebViewData", R.string.ActionBotWebViewData, ((TLRPC$TL_messageActionWebViewDataSent) tLRPC$MessageAction).text);
                                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionSetChatTheme) {
