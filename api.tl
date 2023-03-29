@@ -511,7 +511,7 @@ messageActionCustomAction#fae69f56 message:string = MessageAction;
 messageActionEmpty#b6aef7b0 = MessageAction;
 messageActionGameScore#92a72876 game_id:long score:int = MessageAction;
 messageActionGeoProximityReached#98e0d697 from_id:Peer to_id:Peer distance:int = MessageAction;
-messageActionGiftPremium#aba0f5c6 currency:string amount:long months:int = MessageAction;
+messageActionGiftPremium#c83d6aec flags:# currency:string amount:long months:int cryptoCurrency:flags.0?string cryptoAmount:flags.0?long = MessageAction;
 messageActionGroupCall#7a0d7f42 flags:# call:InputGroupCall duration:flags.0?int = MessageAction;
 messageActionGroupCallScheduled#b3a07661 call:InputGroupCall schedule_date:int = MessageAction;
 messageActionHistoryClear#9fbab604 = MessageAction;
@@ -1493,4 +1493,4 @@ upload.saveFilePart#b304a621 file_id:long file_part:int bytes:bytes = Bool;
 users.getFullUser#b60f5918 id:InputUser = users.UserFull;
 users.getUsers#d91a548 id:Vector<InputUser> = Vector<User>;
 
-// Layer 156
+// Layer 157
