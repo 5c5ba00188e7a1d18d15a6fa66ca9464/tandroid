@@ -2458,10 +2458,12 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             edit.putString("lastDayTheme", this.applyingTheme.getKey());
             edit.commit();
         }
+        BaseFragment baseFragment = getParentLayout().getFragmentStack().get(Math.max(0, getParentLayout().getFragmentStack().size() - 2));
         finishFragment();
         if (this.screenType == 0) {
             NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didApplyNewTheme, previousTheme, accent, Boolean.valueOf(this.deleteOnCancel));
         }
+        Theme.turnOffAutoNight(baseFragment);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

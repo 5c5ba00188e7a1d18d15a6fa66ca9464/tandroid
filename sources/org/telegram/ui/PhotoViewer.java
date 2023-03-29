@@ -17877,7 +17877,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                 }
                                             }
                                             if (chatActivity2 != null) {
-                                                chatActivity2.lambda$openDiscussionMessageChat$249(PhotoViewer.this.animationEndRunnable);
+                                                chatActivity2.lambda$openDiscussionMessageChat$250(PhotoViewer.this.animationEndRunnable);
                                                 return;
                                             }
                                             PhotoViewer.this.animationEndRunnable.run();

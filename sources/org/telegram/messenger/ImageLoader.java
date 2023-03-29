@@ -865,7 +865,7 @@ public class ImageLoader {
                                 this.canRetry = false;
                             }
                         } catch (Exception e) {
-                            FileLog.e(e);
+                            FileLog.e((Throwable) e, false);
                         }
                         if (this.imageSize == 0 && (httpURLConnection = this.httpConnection) != null) {
                             try {

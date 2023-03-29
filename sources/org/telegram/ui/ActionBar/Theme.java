@@ -10960,20 +10960,36 @@ public class Theme {
     }
 
     public static void turnOffAutoNight(final BaseFragment baseFragment) {
-        turnOffAutoNight(baseFragment != null ? baseFragment.getLayoutContainer() : null, new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda6
-            @Override // java.lang.Runnable
-            public final void run() {
-                Theme.lambda$turnOffAutoNight$14(BaseFragment.this);
+        String string;
+        if (selectedAutoNightType != 0) {
+            if (baseFragment != null) {
+                try {
+                    BulletinFactory of = BulletinFactory.of(baseFragment);
+                    int i = R.raw.auto_night_off;
+                    if (selectedAutoNightType == 3) {
+                        string = LocaleController.getString("AutoNightSystemModeOff", R.string.AutoNightSystemModeOff);
+                    } else {
+                        string = LocaleController.getString("AutoNightModeOff", R.string.AutoNightModeOff);
+                    }
+                    of.createSimpleBulletin(i, string, LocaleController.getString("Settings", R.string.Settings), 5000, new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda6
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            Theme.lambda$turnOffAutoNight$14(BaseFragment.this);
+                        }
+                    }).show();
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
             }
-        });
+            selectedAutoNightType = 0;
+            saveAutoNightThemeConfig();
+            cancelAutoNightThemeCallbacks();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$turnOffAutoNight$14(BaseFragment baseFragment) {
-        INavigationLayout parentLayout = baseFragment != null ? baseFragment.getParentLayout() : null;
-        if (parentLayout != null) {
-            parentLayout.presentFragment(new ThemeActivity(1));
-        }
+        baseFragment.presentFragment(new ThemeActivity(1));
     }
 
     public static void turnOffAutoNight(FrameLayout frameLayout, Runnable runnable) {

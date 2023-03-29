@@ -221,7 +221,7 @@ public class SharedConfig {
         streamMkv = false;
         saveStreamMedia = true;
         pauseMusicOnRecord = false;
-        pauseMusicOnMedia = true;
+        pauseMusicOnMedia = false;
         showNotificationsForAllAccounts = true;
         fontSize = 16;
         bubbleRadius = 17;
@@ -476,7 +476,7 @@ public class SharedConfig {
                             streamMedia = sharedPreferences2.getBoolean("streamMedia", true);
                             saveStreamMedia = sharedPreferences2.getBoolean("saveStreamMedia", true);
                             pauseMusicOnRecord = sharedPreferences2.getBoolean("pauseMusicOnRecord", false);
-                            pauseMusicOnMedia = sharedPreferences2.getBoolean("pauseMusicOnMedia", true);
+                            pauseMusicOnMedia = sharedPreferences2.getBoolean("pauseMusicOnMedia", false);
                             forceDisableTabletMode = sharedPreferences2.getBoolean("forceDisableTabletMode", false);
                             streamAllVideo = sharedPreferences2.getBoolean("streamAllVideo", BuildVars.DEBUG_VERSION);
                             streamMkv = sharedPreferences2.getBoolean("streamMkv", false);
@@ -559,7 +559,7 @@ public class SharedConfig {
                 streamMedia = sharedPreferences22.getBoolean("streamMedia", true);
                 saveStreamMedia = sharedPreferences22.getBoolean("saveStreamMedia", true);
                 pauseMusicOnRecord = sharedPreferences22.getBoolean("pauseMusicOnRecord", false);
-                pauseMusicOnMedia = sharedPreferences22.getBoolean("pauseMusicOnMedia", true);
+                pauseMusicOnMedia = sharedPreferences22.getBoolean("pauseMusicOnMedia", false);
                 forceDisableTabletMode = sharedPreferences22.getBoolean("forceDisableTabletMode", false);
                 streamAllVideo = sharedPreferences22.getBoolean("streamAllVideo", BuildVars.DEBUG_VERSION);
                 streamMkv = sharedPreferences22.getBoolean("streamMkv", false);
@@ -1201,7 +1201,7 @@ public class SharedConfig {
                         ProxyInfo proxyInfo = new ProxyInfo(serializedData.readString(false), serializedData.readInt32(false), serializedData.readString(false), serializedData.readString(false), serializedData.readString(false));
                         proxyInfo.ping = serializedData.readInt64(false);
                         proxyInfo.availableCheckTime = serializedData.readInt64(false);
-                        proxyList.add(proxyInfo);
+                        proxyList.add(0, proxyInfo);
                         if (currentProxy == null && !TextUtils.isEmpty(string) && string.equals(proxyInfo.address) && i == proxyInfo.port && string2.equals(proxyInfo.username) && string3.equals(proxyInfo.password)) {
                             currentProxy = proxyInfo;
                         }
@@ -1212,7 +1212,7 @@ public class SharedConfig {
             } else {
                 for (int i3 = 0; i3 < readInt32; i3++) {
                     ProxyInfo proxyInfo2 = new ProxyInfo(serializedData.readString(false), serializedData.readInt32(false), serializedData.readString(false), serializedData.readString(false), serializedData.readString(false));
-                    proxyList.add(proxyInfo2);
+                    proxyList.add(0, proxyInfo2);
                     if (currentProxy == null && !TextUtils.isEmpty(string) && string.equals(proxyInfo2.address) && i == proxyInfo2.port && string2.equals(proxyInfo2.username) && string3.equals(proxyInfo2.password)) {
                         currentProxy = proxyInfo2;
                     }
@@ -1236,7 +1236,7 @@ public class SharedConfig {
         serializedData.writeByte(2);
         int size = arrayList.size();
         serializedData.writeInt32(size);
-        for (int i = 0; i < size; i++) {
+        for (int i = size - 1; i >= 0; i++) {
             ProxyInfo proxyInfo = (ProxyInfo) arrayList.get(i);
             String str = proxyInfo.address;
             String str2 = "";

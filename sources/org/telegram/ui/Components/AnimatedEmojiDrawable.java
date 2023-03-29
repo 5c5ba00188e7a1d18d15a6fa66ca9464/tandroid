@@ -521,8 +521,8 @@ public class AnimatedEmojiDrawable extends Drawable {
     /* JADX WARN: Type inference failed for: r25v0, types: [android.graphics.drawable.Drawable] */
     /* JADX WARN: Type inference failed for: r25v1, types: [android.graphics.drawable.Drawable] */
     /* JADX WARN: Type inference failed for: r25v2, types: [android.graphics.drawable.Drawable] */
-    /* JADX WARN: Type inference failed for: r2v2, types: [org.telegram.messenger.SvgHelper$SvgDrawable] */
-    /* JADX WARN: Type inference failed for: r2v3, types: [org.telegram.messenger.SvgHelper$SvgDrawable] */
+    /* JADX WARN: Type inference failed for: r3v2, types: [org.telegram.messenger.SvgHelper$SvgDrawable] */
+    /* JADX WARN: Type inference failed for: r3v3, types: [org.telegram.messenger.SvgHelper$SvgDrawable] */
     private void initDocument(boolean z) {
         String str;
         Object obj;
@@ -530,7 +530,7 @@ public class AnimatedEmojiDrawable extends Drawable {
             ImageReceiver imageReceiver = this.imageReceiver;
             if (imageReceiver == null || z) {
                 if (imageReceiver == null) {
-                    this.imageReceiver = new ImageReceiver() { // from class: org.telegram.ui.Components.AnimatedEmojiDrawable.1
+                    ImageReceiver imageReceiver2 = new ImageReceiver() { // from class: org.telegram.ui.Components.AnimatedEmojiDrawable.1
                         @Override // org.telegram.messenger.ImageReceiver
                         public void invalidate() {
                             AnimatedEmojiDrawable.this.invalidate();
@@ -544,6 +544,8 @@ public class AnimatedEmojiDrawable extends Drawable {
                             return super.setImageBitmapByKey(drawable, str2, i, z2, i2);
                         }
                     };
+                    this.imageReceiver = imageReceiver2;
+                    imageReceiver2.setAllowLoadingOnAttachedOnly(true);
                 }
                 if (this.cacheType == 12) {
                     this.imageReceiver.ignoreNotifications = true;

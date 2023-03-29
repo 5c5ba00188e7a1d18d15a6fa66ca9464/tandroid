@@ -12383,6 +12383,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 int columnIndex = query.getColumnIndex("_size");
                 query.moveToFirst();
                 j = query.getLong(columnIndex);
+                query.close();
             } catch (Exception e) {
                 FileLog.e(e);
             }

@@ -254,12 +254,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         this.dismissDialogByButtons = true;
         this.containerViewLocation = new int[2];
         this.checkFocusable = true;
-        this.dismissRunnable = new Runnable() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda6
-            @Override // java.lang.Runnable
-            public final void run() {
-                AlertDialog.this.dismiss();
-            }
-        };
+        this.dismissRunnable = new AlertDialog$$ExternalSyntheticLambda6(this);
         this.showRunnable = new Runnable() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {

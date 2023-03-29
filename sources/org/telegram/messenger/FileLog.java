@@ -1,5 +1,7 @@
 package org.telegram.messenger;
 
+import android.content.Context;
+import android.content.res.ColorStateList;
 import android.util.Log;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
@@ -152,19 +154,20 @@ public class FileLog {
             hashSet.add("strippedBitmap");
             hashSet.add("networkType");
             hashSet.add("disableFree");
+            hashSet.add("mContext");
             HashSet<String> hashSet2 = new HashSet<>();
             excludeRequests = hashSet2;
             hashSet2.add("TL_upload_getFile");
             excludeRequests.add("TL_upload_getWebFile");
             gson = new GsonBuilder().addSerializationExclusionStrategy(new ExclusionStrategy() { // from class: org.telegram.messenger.FileLog.1
                 @Override // com.google.gson.ExclusionStrategy
-                public boolean shouldSkipClass(Class<?> cls) {
-                    return false;
+                public boolean shouldSkipField(FieldAttributes fieldAttributes) {
+                    return hashSet.contains(fieldAttributes.getName());
                 }
 
                 @Override // com.google.gson.ExclusionStrategy
-                public boolean shouldSkipField(FieldAttributes fieldAttributes) {
-                    return hashSet.contains(fieldAttributes.getName());
+                public boolean shouldSkipClass(Class<?> cls) {
+                    return cls.isInstance(ColorStateList.class) || cls.isInstance(Context.class);
                 }
             }).create();
         }

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Array;
+import org.telegram.messenger.utils.ImmutableByteArrayOutputStream;
 /* loaded from: classes.dex */
 public class StatsController extends BaseController {
     private static final int OLD_TYPES_COUNT = 7;
@@ -21,6 +22,7 @@ public class StatsController extends BaseController {
     public static final int TYPE_VIDEOS = 2;
     public static final int TYPE_WIFI = 1;
     private byte[] buffer;
+    ImmutableByteArrayOutputStream byteArrayOutputStream;
     private int[] callsTotalTime;
     private long lastInternalStatsSaveTime;
     private long[][] receivedBytes;
@@ -88,7 +90,7 @@ public class StatsController extends BaseController {
         return statsController;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0186  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x018d  */
     /* JADX WARN: Removed duplicated region for block: B:57:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -106,6 +108,7 @@ public class StatsController extends BaseController {
         this.receivedItems = (int[][]) Array.newInstance(int.class, 3, 8);
         this.resetStatsDate = new long[3];
         this.callsTotalTime = new int[3];
+        this.byteArrayOutputStream = new ImmutableByteArrayOutputStream();
         this.saveRunnable = new Runnable() { // from class: org.telegram.messenger.StatsController.2
             @Override // java.lang.Runnable
             public void run() {
@@ -116,50 +119,44 @@ public class StatsController extends BaseController {
                 }
                 StatsController.this.lastInternalStatsSaveTime = currentTimeMillis;
                 try {
-                    StatsController.this.statsFile.seek(0L);
+                    StatsController.this.byteArrayOutputStream.reset();
                     int i4 = 0;
                     while (true) {
                         if (i4 >= 3) {
                             break;
                         }
                         for (int i5 = 0; i5 < 7; i5++) {
-                            RandomAccessFile randomAccessFile2 = StatsController.this.statsFile;
                             StatsController statsController = StatsController.this;
-                            randomAccessFile2.write(statsController.longToBytes(statsController.sentBytes[i4][i5]), 0, 8);
-                            RandomAccessFile randomAccessFile3 = StatsController.this.statsFile;
+                            statsController.byteArrayOutputStream.write(statsController.longToBytes(statsController.sentBytes[i4][i5]), 0, 8);
                             StatsController statsController2 = StatsController.this;
-                            randomAccessFile3.write(statsController2.longToBytes(statsController2.receivedBytes[i4][i5]), 0, 8);
-                            RandomAccessFile randomAccessFile4 = StatsController.this.statsFile;
+                            statsController2.byteArrayOutputStream.write(statsController2.longToBytes(statsController2.receivedBytes[i4][i5]), 0, 8);
                             StatsController statsController3 = StatsController.this;
-                            randomAccessFile4.write(statsController3.intToBytes(statsController3.sentItems[i4][i5]), 0, 4);
-                            RandomAccessFile randomAccessFile5 = StatsController.this.statsFile;
+                            statsController3.byteArrayOutputStream.write(statsController3.intToBytes(statsController3.sentItems[i4][i5]), 0, 4);
                             StatsController statsController4 = StatsController.this;
-                            randomAccessFile5.write(statsController4.intToBytes(statsController4.receivedItems[i4][i5]), 0, 4);
+                            statsController4.byteArrayOutputStream.write(statsController4.intToBytes(statsController4.receivedItems[i4][i5]), 0, 4);
                         }
-                        RandomAccessFile randomAccessFile6 = StatsController.this.statsFile;
                         StatsController statsController5 = StatsController.this;
-                        randomAccessFile6.write(statsController5.intToBytes(statsController5.callsTotalTime[i4]), 0, 4);
-                        RandomAccessFile randomAccessFile7 = StatsController.this.statsFile;
+                        statsController5.byteArrayOutputStream.write(statsController5.intToBytes(statsController5.callsTotalTime[i4]), 0, 4);
                         StatsController statsController6 = StatsController.this;
-                        randomAccessFile7.write(statsController6.longToBytes(statsController6.resetStatsDate[i4]), 0, 8);
+                        statsController6.byteArrayOutputStream.write(statsController6.longToBytes(statsController6.resetStatsDate[i4]), 0, 8);
                         i4++;
                     }
                     for (i3 = 7; i3 < 8; i3++) {
                         for (int i6 = 0; i6 < 3; i6++) {
-                            RandomAccessFile randomAccessFile8 = StatsController.this.statsFile;
                             StatsController statsController7 = StatsController.this;
-                            randomAccessFile8.write(statsController7.longToBytes(statsController7.sentBytes[i6][i3]), 0, 8);
-                            RandomAccessFile randomAccessFile9 = StatsController.this.statsFile;
+                            statsController7.byteArrayOutputStream.write(statsController7.longToBytes(statsController7.sentBytes[i6][i3]), 0, 8);
                             StatsController statsController8 = StatsController.this;
-                            randomAccessFile9.write(statsController8.longToBytes(statsController8.receivedBytes[i6][i3]), 0, 8);
-                            RandomAccessFile randomAccessFile10 = StatsController.this.statsFile;
+                            statsController8.byteArrayOutputStream.write(statsController8.longToBytes(statsController8.receivedBytes[i6][i3]), 0, 8);
                             StatsController statsController9 = StatsController.this;
-                            randomAccessFile10.write(statsController9.intToBytes(statsController9.sentItems[i6][i3]), 0, 4);
-                            RandomAccessFile randomAccessFile11 = StatsController.this.statsFile;
+                            statsController9.byteArrayOutputStream.write(statsController9.intToBytes(statsController9.sentItems[i6][i3]), 0, 4);
                             StatsController statsController10 = StatsController.this;
-                            randomAccessFile11.write(statsController10.intToBytes(statsController10.receivedItems[i6][i3]), 0, 4);
+                            statsController10.byteArrayOutputStream.write(statsController10.intToBytes(statsController10.receivedItems[i6][i3]), 0, 4);
                         }
                     }
+                    StatsController.this.statsFile.seek(0L);
+                    RandomAccessFile randomAccessFile2 = StatsController.this.statsFile;
+                    ImmutableByteArrayOutputStream immutableByteArrayOutputStream = StatsController.this.byteArrayOutputStream;
+                    randomAccessFile2.write(immutableByteArrayOutputStream.buf, 0, immutableByteArrayOutputStream.count());
                     StatsController.this.statsFile.getFD().sync();
                 } catch (Exception unused) {
                 }
@@ -341,6 +338,7 @@ public class StatsController extends BaseController {
         ThreadLocal<Long> threadLocal = lastStatsSaveTime;
         if (Math.abs(currentTimeMillis - threadLocal.get().longValue()) >= 2000) {
             threadLocal.set(Long.valueOf(currentTimeMillis));
+            statsSaveQueue.cancelRunnable(this.saveRunnable);
             statsSaveQueue.postRunnable(this.saveRunnable);
         }
     }

@@ -5247,6 +5247,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         }
         try {
             MediaRouter mediaRouter = (MediaRouter) getSystemService("media_router");
+            AudioManager audioManager = (AudioManager) getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
             if (Build.VERSION.SDK_INT < 24) {
                 updateBluetoothHeadsetState(this.btAdapter.getProfileConnectionState(1) == 2);
                 Iterator<StateListener> it = this.stateListeners.iterator();
@@ -5260,7 +5261,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                     it2.next().onAudioSettingsChanged();
                 }
             } else {
-                updateBluetoothHeadsetState(false);
+                updateBluetoothHeadsetState(audioManager.isBluetoothA2dpOn());
             }
         } catch (Throwable th) {
             FileLog.e(th);

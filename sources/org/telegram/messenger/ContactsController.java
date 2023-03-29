@@ -759,10 +759,10 @@ public class ContactsController extends BaseController {
         return i > 3;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:244:0x0578 A[Catch: all -> 0x0590, TRY_LEAVE, TryCatch #10 {all -> 0x0590, blocks: (B:242:0x0573, B:244:0x0578), top: B:286:0x0573 }] */
-    /* JADX WARN: Removed duplicated region for block: B:253:0x058a  */
-    /* JADX WARN: Removed duplicated region for block: B:295:0x057d A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:320:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:252:0x058b A[Catch: all -> 0x05a3, TRY_LEAVE, TryCatch #2 {all -> 0x05a3, blocks: (B:250:0x0586, B:252:0x058b), top: B:278:0x0586 }] */
+    /* JADX WARN: Removed duplicated region for block: B:261:0x059d  */
+    /* JADX WARN: Removed duplicated region for block: B:288:0x0590 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:330:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -849,7 +849,7 @@ public class ContactsController extends BaseController {
                                                             if (cursor != null) {
                                                             }
                                                             hashMap2 = hashMap;
-                                                            if (hashMap2 != null) {
+                                                            if (hashMap2 == null) {
                                                             }
                                                         } catch (Throwable th2) {
                                                             if (cursor != null) {
@@ -1141,15 +1141,39 @@ public class ContactsController extends BaseController {
                                                                     Contact contact4 = new Contact();
                                                                     contact4.first_name = phoneBookContact2.name;
                                                                     contact4.last_name = "";
+                                                                    int i10 = i5 + 1;
                                                                     contact4.contact_id = i5;
                                                                     contact4.key = phoneBookContact2.lookup_key;
                                                                     contact4.phones.add(phoneBookContact2.phone);
                                                                     contact4.shortPhones.add(str5);
                                                                     contact4.phoneDeleted.add(0);
                                                                     contact4.phoneTypes.add(LocaleController.getString("PhoneOther", R.string.PhoneOther));
-                                                                    hashMap2.put(phoneBookContact2.lookup_key, contact4);
-                                                                    i5++;
-                                                                    str = str3;
+                                                                    HashMap<String, Contact> hashMap10 = hashMap2 == null ? new HashMap<>() : hashMap2;
+                                                                    try {
+                                                                        hashMap10.put(phoneBookContact2.lookup_key, contact4);
+                                                                        hashMap2 = hashMap10;
+                                                                        i5 = i10;
+                                                                        str = str3;
+                                                                    } catch (Throwable th5) {
+                                                                        th = th5;
+                                                                        HashMap<String, Contact> hashMap11 = hashMap10;
+                                                                        cursor = cursor4;
+                                                                        hashMap = hashMap11;
+                                                                        FileLog.e(th);
+                                                                        if (hashMap != null) {
+                                                                            hashMap.clear();
+                                                                        }
+                                                                        if (cursor != null) {
+                                                                            try {
+                                                                                cursor.close();
+                                                                            } catch (Exception e2) {
+                                                                                FileLog.e(e2);
+                                                                            }
+                                                                        }
+                                                                        hashMap2 = hashMap;
+                                                                        if (hashMap2 == null) {
+                                                                        }
+                                                                    }
                                                                 }
                                                             }
                                                             i8++;
@@ -1158,8 +1182,8 @@ public class ContactsController extends BaseController {
                                                     }
                                                     str3 = str;
                                                     str = str3;
-                                                } catch (Throwable th5) {
-                                                    th = th5;
+                                                } catch (Throwable th6) {
+                                                    th = th6;
                                                     cursor = cursor4;
                                                     hashMap = hashMap2;
                                                     FileLog.e(th);
@@ -1168,14 +1192,14 @@ public class ContactsController extends BaseController {
                                                     if (cursor != null) {
                                                     }
                                                     hashMap2 = hashMap;
-                                                    if (hashMap2 != null) {
+                                                    if (hashMap2 == null) {
                                                     }
                                                 }
                                             }
                                             cursor4.close();
                                         }
-                                    } catch (Throwable th6) {
-                                        th = th6;
+                                    } catch (Throwable th7) {
+                                        th = th7;
                                         hashMap = hashMap2;
                                         cursor = cursor3;
                                         FileLog.e(th);
@@ -1184,7 +1208,7 @@ public class ContactsController extends BaseController {
                                         if (cursor != null) {
                                         }
                                         hashMap2 = hashMap;
-                                        if (hashMap2 != null) {
+                                        if (hashMap2 == null) {
                                         }
                                     }
                                 }
@@ -1192,46 +1216,40 @@ public class ContactsController extends BaseController {
                                 if (cursor4 != null) {
                                     try {
                                         cursor4.close();
-                                    } catch (Exception e2) {
-                                        FileLog.e(e2);
+                                    } catch (Exception e3) {
+                                        FileLog.e(e3);
                                     }
                                 }
-                            } catch (Throwable th7) {
-                                th = th7;
+                            } catch (Throwable th8) {
+                                th = th8;
                                 cursor3 = cursor2;
                             }
-                        } catch (Throwable th8) {
-                            th = th8;
+                        } catch (Throwable th9) {
+                            th = th9;
                             cursor = cursor2;
                             hashMap = hashMap2;
                             FileLog.e(th);
                             if (hashMap != null) {
-                                hashMap.clear();
                             }
                             if (cursor != null) {
-                                try {
-                                    cursor.close();
-                                } catch (Exception e3) {
-                                    FileLog.e(e3);
-                                }
                             }
                             hashMap2 = hashMap;
-                            if (hashMap2 != null) {
+                            if (hashMap2 == null) {
                             }
                         }
-                    } catch (Throwable th9) {
-                        th = th9;
+                    } catch (Throwable th10) {
+                        th = th10;
                     }
-                } catch (Throwable th10) {
-                    th = th10;
+                } catch (Throwable th11) {
+                    th = th11;
                     hashMap = null;
                 }
-            } catch (Throwable th11) {
-                th = th11;
+            } catch (Throwable th12) {
+                th = th12;
                 hashMap = null;
                 cursor = null;
             }
-            return hashMap2 != null ? hashMap2 : new HashMap<>();
+            return hashMap2 == null ? hashMap2 : new HashMap<>();
         }
     }
 
@@ -2687,62 +2705,86 @@ public class ContactsController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x00ee, code lost:
+        if (r3 != null) goto L47;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:48:0x00fe, code lost:
+        if (r3 == null) goto L45;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:49:0x0100, code lost:
+        r3.close();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x0103, code lost:
+        org.telegram.messenger.FileLog.d("performWriteContactsToPhoneBookInternal " + (java.lang.System.currentTimeMillis() - r1));
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x011c, code lost:
+        return;
+     */
     /* renamed from: performWriteContactsToPhoneBookInternal */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void lambda$performWriteContactsToPhoneBook$45(ArrayList<TLRPC$TL_contact> arrayList) {
-        Account account;
+        long currentTimeMillis = System.currentTimeMillis();
         Cursor cursor = null;
         try {
             try {
-                account = this.systemAccount;
-            } catch (Throwable th) {
-                th = th;
-            }
-        } catch (Exception e) {
-            e = e;
-        }
-        if (hasContactsPermission() && account != null) {
-            SharedPreferences mainSettings = MessagesController.getMainSettings(this.currentAccount);
-            boolean z = !mainSettings.getBoolean("contacts_updated_v7", false);
-            if (z) {
-                mainSettings.edit().putBoolean("contacts_updated_v7", true).commit();
-            }
-            Cursor query = ApplicationLoader.applicationContext.getContentResolver().query(ContactsContract.RawContacts.CONTENT_URI.buildUpon().appendQueryParameter("account_name", this.systemAccount.name).appendQueryParameter("account_type", this.systemAccount.type).build(), new String[]{"_id", "sync2"}, null, null, null);
-            try {
-                LongSparseArray longSparseArray = new LongSparseArray();
-                if (query != null) {
-                    while (query.moveToNext()) {
-                        longSparseArray.put(query.getLong(1), Long.valueOf(query.getLong(0)));
+                Account account = this.systemAccount;
+                if (hasContactsPermission() && account != null) {
+                    SharedPreferences mainSettings = MessagesController.getMainSettings(this.currentAccount);
+                    boolean z = !mainSettings.getBoolean("contacts_updated_v7", false);
+                    if (z) {
+                        mainSettings.edit().putBoolean("contacts_updated_v7", true).commit();
                     }
-                    query.close();
-                    for (int i = 0; i < arrayList.size(); i++) {
-                        TLRPC$TL_contact tLRPC$TL_contact = arrayList.get(i);
-                        if (z || longSparseArray.indexOfKey(tLRPC$TL_contact.user_id) < 0) {
-                            addContactToPhoneBook(getMessagesController().getUser(Long.valueOf(tLRPC$TL_contact.user_id)), z);
+                    ContentResolver contentResolver = ApplicationLoader.applicationContext.getContentResolver();
+                    Cursor query = contentResolver.query(ContactsContract.RawContacts.CONTENT_URI, new String[]{"_id", "sync2"}, null, null, null);
+                    try {
+                        LongSparseArray longSparseArray = new LongSparseArray();
+                        if (query != null) {
+                            while (query.moveToNext()) {
+                                longSparseArray.put(query.getLong(1), Long.valueOf(query.getLong(0)));
+                            }
+                            query.close();
+                            FileLog.d("performWriteContactsToPhoneBookInternal contacts array " + arrayList.size() + " " + z + " bookContactsSize=" + longSparseArray.size() + " currentAccount=" + this.currentAccount);
+                            ArrayList<ContentProviderOperation> arrayList2 = null;
+                            for (int i = 0; i < arrayList.size(); i++) {
+                                TLRPC$TL_contact tLRPC$TL_contact = arrayList.get(i);
+                                if (z || longSparseArray.indexOfKey(tLRPC$TL_contact.user_id) < 0) {
+                                    if (arrayList2 == null) {
+                                        arrayList2 = new ArrayList<>();
+                                    }
+                                    applyContactToPhoneBook(arrayList2, getMessagesController().getUser(Long.valueOf(tLRPC$TL_contact.user_id)));
+                                    if (arrayList2.size() > 450) {
+                                        contentResolver.applyBatch("com.android.contacts", arrayList2);
+                                        arrayList2.clear();
+                                    }
+                                }
+                            }
+                            if (arrayList2 != null && !arrayList2.isEmpty()) {
+                                contentResolver.applyBatch("com.android.contacts", arrayList2);
+                                arrayList2.clear();
+                            }
+                        } else {
+                            cursor = query;
                         }
+                    } catch (Exception e) {
+                        e = e;
+                        cursor = query;
+                        FileLog.e(e);
+                    } catch (Throwable th) {
+                        th = th;
+                        cursor = query;
+                        if (cursor != null) {
+                            cursor.close();
+                        }
+                        throw th;
                     }
-                } else {
-                    cursor = query;
-                }
-                if (cursor == null) {
-                    return;
                 }
             } catch (Exception e2) {
                 e = e2;
-                cursor = query;
-                FileLog.e(e);
-                if (cursor == null) {
-                    return;
-                }
-                cursor.close();
-            } catch (Throwable th2) {
-                th = th2;
-                cursor = query;
-                if (cursor != null) {
-                    cursor.close();
-                }
-                throw th;
             }
-            cursor.close();
+        } catch (Throwable th2) {
+            th = th2;
         }
     }
 
@@ -2928,7 +2970,6 @@ public class ContactsController extends BaseController {
     }
 
     public long addContactToPhoneBook(TLRPC$User tLRPC$User, boolean z) {
-        String str;
         long j = -1;
         if (this.systemAccount == null || tLRPC$User == null || !hasContactsPermission()) {
             return -1L;
@@ -2939,52 +2980,13 @@ public class ContactsController extends BaseController {
         ContentResolver contentResolver = ApplicationLoader.applicationContext.getContentResolver();
         if (z) {
             try {
-                contentResolver.delete(ContactsContract.RawContacts.CONTENT_URI.buildUpon().appendQueryParameter("caller_is_syncadapter", "true").appendQueryParameter("account_name", this.systemAccount.name).appendQueryParameter("account_type", this.systemAccount.type).build(), "sync2 = " + tLRPC$User.id, null);
+                Uri build = ContactsContract.RawContacts.CONTENT_URI.buildUpon().appendQueryParameter("caller_is_syncadapter", "true").appendQueryParameter("account_name", this.systemAccount.name).appendQueryParameter("account_type", this.systemAccount.type).build();
+                contentResolver.delete(build, "sync2 = " + tLRPC$User.id, null);
             } catch (Exception unused) {
             }
         }
         ArrayList<ContentProviderOperation> arrayList = new ArrayList<>();
-        ContentProviderOperation.Builder newInsert = ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI);
-        newInsert.withValue("account_name", this.systemAccount.name);
-        newInsert.withValue("account_type", this.systemAccount.type);
-        newInsert.withValue("sync1", TextUtils.isEmpty(tLRPC$User.phone) ? "" : tLRPC$User.phone);
-        newInsert.withValue("sync2", Long.valueOf(tLRPC$User.id));
-        arrayList.add(newInsert.build());
-        ContentProviderOperation.Builder newInsert2 = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI);
-        newInsert2.withValueBackReference("raw_contact_id", 0);
-        newInsert2.withValue("mimetype", "vnd.android.cursor.item/name");
-        newInsert2.withValue("data2", tLRPC$User.first_name);
-        newInsert2.withValue("data3", tLRPC$User.last_name);
-        arrayList.add(newInsert2.build());
-        if (TextUtils.isEmpty(tLRPC$User.phone)) {
-            str = formatName(tLRPC$User.first_name, tLRPC$User.last_name);
-        } else {
-            str = "+" + tLRPC$User.phone;
-        }
-        ContentProviderOperation.Builder newInsert3 = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI);
-        newInsert3.withValueBackReference("raw_contact_id", 0);
-        newInsert3.withValue("mimetype", "vnd.android.cursor.item/vnd.org.telegram.messenger.android.profile");
-        newInsert3.withValue("data1", Long.valueOf(tLRPC$User.id));
-        newInsert3.withValue("data2", "Telegram Profile");
-        newInsert3.withValue("data3", LocaleController.formatString("ContactShortcutMessage", R.string.ContactShortcutMessage, str));
-        newInsert3.withValue("data4", Long.valueOf(tLRPC$User.id));
-        arrayList.add(newInsert3.build());
-        ContentProviderOperation.Builder newInsert4 = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI);
-        newInsert4.withValueBackReference("raw_contact_id", 0);
-        newInsert4.withValue("mimetype", "vnd.android.cursor.item/vnd.org.telegram.messenger.android.call");
-        newInsert4.withValue("data1", Long.valueOf(tLRPC$User.id));
-        newInsert4.withValue("data2", "Telegram Voice Call");
-        newInsert4.withValue("data3", LocaleController.formatString("ContactShortcutVoiceCall", R.string.ContactShortcutVoiceCall, str));
-        newInsert4.withValue("data4", Long.valueOf(tLRPC$User.id));
-        arrayList.add(newInsert4.build());
-        ContentProviderOperation.Builder newInsert5 = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI);
-        newInsert5.withValueBackReference("raw_contact_id", 0);
-        newInsert5.withValue("mimetype", "vnd.android.cursor.item/vnd.org.telegram.messenger.android.call.video");
-        newInsert5.withValue("data1", Long.valueOf(tLRPC$User.id));
-        newInsert5.withValue("data2", "Telegram Video Call");
-        newInsert5.withValue("data3", LocaleController.formatString("ContactShortcutVideoCall", R.string.ContactShortcutVideoCall, str));
-        newInsert5.withValue("data4", Long.valueOf(tLRPC$User.id));
-        arrayList.add(newInsert5.build());
+        applyContactToPhoneBook(arrayList, tLRPC$User);
         try {
             ContentProviderResult[] applyBatch = contentResolver.applyBatch("com.android.contacts", arrayList);
             if (applyBatch != null && applyBatch.length > 0 && applyBatch[0].uri != null) {
@@ -2996,6 +2998,55 @@ public class ContactsController extends BaseController {
             this.ignoreChanges = false;
         }
         return j;
+    }
+
+    private void applyContactToPhoneBook(ArrayList<ContentProviderOperation> arrayList, TLRPC$User tLRPC$User) {
+        String str;
+        if (tLRPC$User == null) {
+            return;
+        }
+        int size = arrayList.size();
+        ContentProviderOperation.Builder newInsert = ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI);
+        newInsert.withValue("account_name", this.systemAccount.name);
+        newInsert.withValue("account_type", this.systemAccount.type);
+        newInsert.withValue("sync1", TextUtils.isEmpty(tLRPC$User.phone) ? "" : tLRPC$User.phone);
+        newInsert.withValue("sync2", Long.valueOf(tLRPC$User.id));
+        arrayList.add(newInsert.build());
+        ContentProviderOperation.Builder newInsert2 = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI);
+        newInsert2.withValueBackReference("raw_contact_id", size);
+        newInsert2.withValue("mimetype", "vnd.android.cursor.item/name");
+        newInsert2.withValue("data2", tLRPC$User.first_name);
+        newInsert2.withValue("data3", tLRPC$User.last_name);
+        arrayList.add(newInsert2.build());
+        if (TextUtils.isEmpty(tLRPC$User.phone)) {
+            str = formatName(tLRPC$User.first_name, tLRPC$User.last_name);
+        } else {
+            str = "+" + tLRPC$User.phone;
+        }
+        ContentProviderOperation.Builder newInsert3 = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI);
+        newInsert3.withValueBackReference("raw_contact_id", size);
+        newInsert3.withValue("mimetype", "vnd.android.cursor.item/vnd.org.telegram.messenger.android.profile");
+        newInsert3.withValue("data1", Long.valueOf(tLRPC$User.id));
+        newInsert3.withValue("data2", "Telegram Profile");
+        newInsert3.withValue("data3", LocaleController.formatString("ContactShortcutMessage", R.string.ContactShortcutMessage, str));
+        newInsert3.withValue("data4", Long.valueOf(tLRPC$User.id));
+        arrayList.add(newInsert3.build());
+        ContentProviderOperation.Builder newInsert4 = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI);
+        newInsert4.withValueBackReference("raw_contact_id", size);
+        newInsert4.withValue("mimetype", "vnd.android.cursor.item/vnd.org.telegram.messenger.android.call");
+        newInsert4.withValue("data1", Long.valueOf(tLRPC$User.id));
+        newInsert4.withValue("data2", "Telegram Voice Call");
+        newInsert4.withValue("data3", LocaleController.formatString("ContactShortcutVoiceCall", R.string.ContactShortcutVoiceCall, str));
+        newInsert4.withValue("data4", Long.valueOf(tLRPC$User.id));
+        arrayList.add(newInsert4.build());
+        ContentProviderOperation.Builder newInsert5 = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI);
+        newInsert5.withValueBackReference("raw_contact_id", size);
+        newInsert5.withValue("mimetype", "vnd.android.cursor.item/vnd.org.telegram.messenger.android.call.video");
+        newInsert5.withValue("data1", Long.valueOf(tLRPC$User.id));
+        newInsert5.withValue("data2", "Telegram Video Call");
+        newInsert5.withValue("data3", LocaleController.formatString("ContactShortcutVideoCall", R.string.ContactShortcutVideoCall, str));
+        newInsert5.withValue("data4", Long.valueOf(tLRPC$User.id));
+        arrayList.add(newInsert5.build());
     }
 
     private void deleteContactFromPhoneBook(long j) {

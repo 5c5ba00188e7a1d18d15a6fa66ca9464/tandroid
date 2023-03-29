@@ -3923,10 +3923,10 @@ public class LoginActivity extends BaseFragment {
         /* JADX WARN: Removed duplicated region for block: B:67:0x045e  */
         /* JADX WARN: Removed duplicated region for block: B:68:0x04ca  */
         /* JADX WARN: Removed duplicated region for block: B:71:0x05e5  */
-        /* JADX WARN: Removed duplicated region for block: B:83:0x061f  */
-        /* JADX WARN: Removed duplicated region for block: B:88:0x064d  */
-        /* JADX WARN: Removed duplicated region for block: B:91:0x066b  */
-        /* JADX WARN: Removed duplicated region for block: B:93:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:85:0x062f  */
+        /* JADX WARN: Removed duplicated region for block: B:90:0x065d  */
+        /* JADX WARN: Removed duplicated region for block: B:93:0x067b  */
+        /* JADX WARN: Removed duplicated region for block: B:95:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -4221,6 +4221,8 @@ public class LoginActivity extends BaseFragment {
                             int i5 = this.nextType;
                             if (i5 == 3 || i5 == 4 || i5 == 11) {
                                 this.problemText.setText(LocaleController.getString("DidNotGetTheCodePhone", R.string.DidNotGetTheCodePhone));
+                            } else if (i5 == 0) {
+                                this.problemText.setText(LocaleController.getString("DidNotGetTheCode", R.string.DidNotGetTheCode));
                             } else {
                                 this.problemText.setText(LocaleController.getString("DidNotGetTheCodeSms", R.string.DidNotGetTheCodeSms));
                             }
@@ -5581,6 +5583,10 @@ public class LoginActivity extends BaseFragment {
         }
 
         private void animateSuccess(final Runnable runnable) {
+            if (this.currentType == 3) {
+                runnable.run();
+                return;
+            }
             final int i = 0;
             while (true) {
                 CodeFieldContainer codeFieldContainer = this.codeFieldContainer;
