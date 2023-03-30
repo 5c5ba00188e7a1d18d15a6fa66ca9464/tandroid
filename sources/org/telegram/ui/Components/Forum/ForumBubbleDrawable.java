@@ -20,6 +20,7 @@ import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class ForumBubbleDrawable extends Drawable {
     static final SparseArray<int[]> colorsMap;
+    private static SvgHelper.SvgDrawable mainDrawable;
     public static final int[] serverSupportedColor = {7322096, 16766590, 13338331, 9367192, 16749490, 16478047};
     int colorIndex;
     private int[] currentColors;
@@ -56,9 +57,12 @@ public class ForumBubbleDrawable extends Drawable {
     }
 
     public ForumBubbleDrawable(int i) {
-        SvgHelper.SvgDrawable drawable = SvgHelper.getDrawable(R.raw.topic_bubble, -1);
-        this.svgDrawable = drawable;
-        drawable.copyCommandFromPosition(0);
+        if (mainDrawable == null) {
+            mainDrawable = SvgHelper.getDrawable(R.raw.topic_bubble, -1);
+        }
+        SvgHelper.SvgDrawable clone = mainDrawable.clone();
+        this.svgDrawable = clone;
+        clone.copyCommandFromPosition(0);
         Paint paint = new Paint(1);
         this.topPaint = paint;
         Paint paint2 = new Paint(1);

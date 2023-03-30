@@ -3664,17 +3664,17 @@ public class ImageLoader {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:47:0x00c7, code lost:
-        if (r2.mkdirs() != false) goto L29;
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x014b, code lost:
+        if (r2.mkdirs() != false) goto L46;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:49:0x00cd, code lost:
-        if (r2.canWrite() == false) goto L138;
+    /* JADX WARN: Code restructure failed: missing block: B:63:0x0151, code lost:
+        if (r2.canWrite() == false) goto L155;
      */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x0286 A[Catch: Exception -> 0x0299, TRY_LEAVE, TryCatch #7 {Exception -> 0x0299, blocks: (B:122:0x0269, B:124:0x0277, B:126:0x027d, B:128:0x0286), top: B:164:0x0269, outer: #0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x02ba A[Catch: Exception -> 0x02cd, TRY_LEAVE, TryCatch #1 {Exception -> 0x02cd, blocks: (B:132:0x029d, B:134:0x02ab, B:136:0x02b1, B:138:0x02ba), top: B:152:0x029d, outer: #0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x0136 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:177:0x0124 A[EDGE_INSN: B:177:0x0124->B:66:0x0124 ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x00fa A[Catch: Exception -> 0x02e0, TryCatch #0 {Exception -> 0x02e0, blocks: (B:11:0x003d, B:13:0x0049, B:15:0x0056, B:17:0x005c, B:19:0x0063, B:22:0x0077, B:23:0x007a, B:40:0x00a7, B:52:0x00dc, B:54:0x00e7, B:56:0x00ef, B:58:0x00fa, B:60:0x0102, B:62:0x010a, B:64:0x0116, B:65:0x0121, B:66:0x0124, B:118:0x025e, B:108:0x021d, B:98:0x01dc, B:88:0x019b, B:120:0x0263, B:141:0x02ce, B:131:0x029a, B:145:0x02dc, B:78:0x0167, B:39:0x00a4, B:41:0x00b6, B:43:0x00bc, B:48:0x00c9, B:51:0x00d5, B:50:0x00cf, B:46:0x00c3, B:142:0x02d2, B:144:0x02d6, B:132:0x029d, B:134:0x02ab, B:136:0x02b1, B:138:0x02ba, B:109:0x0220, B:111:0x0232, B:113:0x0239, B:115:0x0248, B:99:0x01df, B:101:0x01f1, B:103:0x01f8, B:105:0x0207, B:89:0x019e, B:91:0x01b0, B:93:0x01b7, B:95:0x01c6, B:79:0x016a, B:81:0x017a, B:83:0x0180, B:85:0x0187, B:122:0x0269, B:124:0x0277, B:126:0x027d, B:128:0x0286, B:69:0x0136, B:71:0x0146, B:73:0x014c, B:75:0x0153), top: B:150:0x003d, inners: #1, #2, #3, #4, #6, #7, #9 }] */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x030a A[Catch: Exception -> 0x031d, TRY_LEAVE, TryCatch #4 {Exception -> 0x031d, blocks: (B:136:0x02ed, B:138:0x02fb, B:140:0x0301, B:142:0x030a), top: B:172:0x02ed, outer: #8 }] */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x033e A[Catch: Exception -> 0x0351, TRY_LEAVE, TryCatch #10 {Exception -> 0x0351, blocks: (B:146:0x0321, B:148:0x032f, B:150:0x0335, B:152:0x033e), top: B:184:0x0321, outer: #8 }] */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x01ba A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:194:0x01a8 A[EDGE_INSN: B:194:0x01a8->B:80:0x01a8 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x017e A[Catch: Exception -> 0x0364, TryCatch #8 {Exception -> 0x0364, blocks: (B:12:0x0054, B:14:0x0060, B:16:0x006e, B:19:0x0076, B:21:0x007d, B:24:0x00ac, B:25:0x00af, B:27:0x00bb, B:30:0x00c4, B:32:0x00c7, B:36:0x00e8, B:35:0x00cc, B:37:0x00eb, B:54:0x012b, B:66:0x0160, B:68:0x016b, B:70:0x0173, B:72:0x017e, B:74:0x0186, B:76:0x018e, B:78:0x019a, B:79:0x01a5, B:80:0x01a8, B:132:0x02e2, B:122:0x02a1, B:112:0x0260, B:102:0x021f, B:134:0x02e7, B:155:0x0352, B:145:0x031e, B:159:0x0360, B:92:0x01eb, B:53:0x0128, B:55:0x013a, B:57:0x0140, B:62:0x014d, B:65:0x0159, B:64:0x0153, B:60:0x0147, B:156:0x0356, B:158:0x035a, B:113:0x0263, B:115:0x0275, B:117:0x027c, B:119:0x028b, B:103:0x0222, B:105:0x0234, B:107:0x023b, B:109:0x024a, B:93:0x01ee, B:95:0x01fe, B:97:0x0204, B:99:0x020b, B:136:0x02ed, B:138:0x02fb, B:140:0x0301, B:142:0x030a, B:83:0x01ba, B:85:0x01ca, B:87:0x01d0, B:89:0x01d7, B:146:0x0321, B:148:0x032f, B:150:0x0335, B:152:0x033e, B:123:0x02a4, B:125:0x02b6, B:127:0x02bd, B:129:0x02cc), top: B:180:0x0054, inners: #0, #1, #3, #4, #6, #10, #11 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3684,7 +3684,7 @@ public class ImageLoader {
         File file3;
         int size;
         int i;
-        ArrayList<File> rootDirs;
+        File[] externalFilesDirs;
         SparseArray<File> sparseArray = new SparseArray<>();
         File cacheDir = AndroidUtilities.getCacheDir();
         if (!cacheDir.isDirectory()) {
@@ -3699,25 +3699,38 @@ public class ImageLoader {
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("cache path = " + cacheDir);
         }
+        FileLog.d("selected SD card = " + SharedConfig.storageCacheDir);
         try {
             if ("mounted".equals(Environment.getExternalStorageState())) {
                 File externalStorageDirectory = Environment.getExternalStorageDirectory();
-                if (!TextUtils.isEmpty(SharedConfig.storageCacheDir) && (rootDirs = AndroidUtilities.getRootDirs()) != null) {
-                    int size2 = rootDirs.size();
-                    int i2 = 0;
-                    while (true) {
-                        if (i2 >= size2) {
-                            break;
+                File file4 = null;
+                if (!TextUtils.isEmpty(SharedConfig.storageCacheDir)) {
+                    ArrayList<File> rootDirs = AndroidUtilities.getRootDirs();
+                    if (rootDirs != null) {
+                        int size2 = rootDirs.size();
+                        int i2 = 0;
+                        while (true) {
+                            if (i2 >= size2) {
+                                break;
+                            }
+                            File file5 = rootDirs.get(i2);
+                            FileLog.d("root dir " + i2 + " " + file5);
+                            if (file5.getAbsolutePath().startsWith(SharedConfig.storageCacheDir)) {
+                                externalStorageDirectory = file5;
+                                break;
+                            }
+                            i2++;
                         }
-                        File file4 = rootDirs.get(i2);
-                        if (file4.getAbsolutePath().startsWith(SharedConfig.storageCacheDir)) {
-                            externalStorageDirectory = file4;
-                            break;
+                    }
+                    if (!externalStorageDirectory.getAbsolutePath().startsWith(SharedConfig.storageCacheDir) && (externalFilesDirs = ApplicationLoader.applicationContext.getExternalFilesDirs(null)) != null) {
+                        for (int i3 = 0; i3 < externalFilesDirs.length; i3++) {
+                            if (externalFilesDirs[i3] != null) {
+                                FileLog.d("dirsDebug " + i3 + " " + externalFilesDirs[i3]);
+                            }
                         }
-                        i2++;
                     }
                 }
-                File file5 = null;
+                FileLog.d("external storage = " + externalStorageDirectory);
                 if (Build.VERSION.SDK_INT >= 30) {
                     try {
                         if (ApplicationLoader.applicationContext.getExternalMediaDirs().length > 0) {
@@ -3734,23 +3747,23 @@ public class ImageLoader {
                                 e = e3;
                                 FileLog.e(e);
                                 this.telegramPath = new File(ApplicationLoader.applicationContext.getExternalFilesDir(null), "Telegram");
-                                file5 = file;
+                                file4 = file;
                                 this.telegramPath.mkdirs();
                                 if (Build.VERSION.SDK_INT >= 19) {
                                     ArrayList<File> dataDirs = AndroidUtilities.getDataDirs();
                                     size = dataDirs.size();
                                     i = 0;
                                     while (true) {
-                                        if (i < size) {
+                                        if (i >= size) {
                                         }
                                         i++;
                                     }
                                 }
                                 if (this.telegramPath.isDirectory()) {
                                 }
-                                if (file5 != null) {
+                                if (file4 != null) {
                                     try {
-                                        file3 = new File(file5, "Telegram Images");
+                                        file3 = new File(file4, "Telegram Images");
                                         file3.mkdir();
                                         if (file3.isDirectory()) {
                                             sparseArray.put(100, file3);
@@ -3761,7 +3774,7 @@ public class ImageLoader {
                                         FileLog.e(e4);
                                     }
                                     try {
-                                        file2 = new File(file5, "Telegram Video");
+                                        file2 = new File(file4, "Telegram Video");
                                         file2.mkdir();
                                         if (file2.isDirectory()) {
                                             sparseArray.put(FileLoader.MEDIA_DIR_VIDEO_PUBLIC, file2);
@@ -3783,7 +3796,7 @@ public class ImageLoader {
                         file = null;
                     }
                     this.telegramPath = new File(ApplicationLoader.applicationContext.getExternalFilesDir(null), "Telegram");
-                    file5 = file;
+                    file4 = file;
                 } else {
                     if (externalStorageDirectory.exists()) {
                         if (externalStorageDirectory.isDirectory()) {
@@ -3798,18 +3811,17 @@ public class ImageLoader {
                     size = dataDirs2.size();
                     i = 0;
                     while (true) {
-                        if (i < size) {
-                            File file6 = dataDirs2.get(i);
-                            if (file6 != null && !TextUtils.isEmpty(SharedConfig.storageCacheDir) && file6.getAbsolutePath().startsWith(SharedConfig.storageCacheDir)) {
-                                File file7 = new File(file6, "Telegram");
-                                this.telegramPath = file7;
-                                file7.mkdirs();
-                                break;
-                            }
-                            i++;
-                        } else {
+                        if (i >= size) {
                             break;
                         }
+                        File file6 = dataDirs2.get(i);
+                        if (file6 != null && !TextUtils.isEmpty(SharedConfig.storageCacheDir) && file6.getAbsolutePath().startsWith(SharedConfig.storageCacheDir)) {
+                            File file7 = new File(file6, "Telegram");
+                            this.telegramPath = file7;
+                            file7.mkdirs();
+                            break;
+                        }
+                        i++;
                     }
                 }
                 if (this.telegramPath.isDirectory()) {
@@ -3877,8 +3889,8 @@ public class ImageLoader {
                         FileLog.e(e11);
                     }
                 }
-                if (file5 != null && file5.isDirectory()) {
-                    file3 = new File(file5, "Telegram Images");
+                if (file4 != null && file4.isDirectory()) {
+                    file3 = new File(file4, "Telegram Images");
                     file3.mkdir();
                     if (file3.isDirectory() && canMoveFiles(cacheDir, file3, 0)) {
                         sparseArray.put(100, file3);
@@ -3886,7 +3898,7 @@ public class ImageLoader {
                             FileLog.d("image path = " + file3);
                         }
                     }
-                    file2 = new File(file5, "Telegram Video");
+                    file2 = new File(file4, "Telegram Video");
                     file2.mkdir();
                     if (file2.isDirectory() && canMoveFiles(cacheDir, file2, 2)) {
                         sparseArray.put(FileLoader.MEDIA_DIR_VIDEO_PUBLIC, file2);

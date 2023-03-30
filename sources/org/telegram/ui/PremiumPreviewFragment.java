@@ -787,15 +787,18 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
             return;
         }
         if (subscriptionTier == null) {
-            Iterator<TLRPC$TL_premiumSubscriptionOption> it = baseFragment.getAccountInstance().getMediaDataController().getPremiumPromo().period_options.iterator();
-            while (true) {
-                if (!it.hasNext()) {
-                    break;
-                }
-                TLRPC$TL_premiumSubscriptionOption next = it.next();
-                if (next.months == 1) {
-                    subscriptionTier = new SubscriptionTier(next);
-                    break;
+            TLRPC$TL_help_premiumPromo premiumPromo = baseFragment.getAccountInstance().getMediaDataController().getPremiumPromo();
+            if (premiumPromo != null) {
+                Iterator<TLRPC$TL_premiumSubscriptionOption> it = premiumPromo.period_options.iterator();
+                while (true) {
+                    if (!it.hasNext()) {
+                        break;
+                    }
+                    TLRPC$TL_premiumSubscriptionOption next = it.next();
+                    if (next.months == 1) {
+                        subscriptionTier = new SubscriptionTier(next);
+                        break;
+                    }
                 }
             }
             z = true;

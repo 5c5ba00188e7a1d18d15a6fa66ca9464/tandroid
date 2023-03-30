@@ -405,6 +405,26 @@ public class SvgHelper {
             ArrayList<Object> arrayList = this.commands;
             arrayList.add(arrayList.get(i));
         }
+
+        public SvgDrawable clone() {
+            SvgDrawable svgDrawable = new SvgDrawable();
+            for (int i = 0; i < this.commands.size(); i++) {
+                svgDrawable.commands.add(this.commands.get(i));
+                Paint paint = this.paints.get(this.commands.get(i));
+                if (paint != null) {
+                    Paint paint2 = new Paint();
+                    paint2.setColor(paint.getColor());
+                    paint2.setStrokeCap(paint.getStrokeCap());
+                    paint2.setStrokeJoin(paint.getStrokeJoin());
+                    paint2.setStrokeWidth(paint.getStrokeWidth());
+                    paint2.setStyle(paint.getStyle());
+                    svgDrawable.paints.put(this.commands.get(i), paint2);
+                }
+            }
+            svgDrawable.width = this.width;
+            svgDrawable.height = this.height;
+            return svgDrawable;
+        }
     }
 
     public static Bitmap getBitmap(int i, int i2, int i3, int i4) {
