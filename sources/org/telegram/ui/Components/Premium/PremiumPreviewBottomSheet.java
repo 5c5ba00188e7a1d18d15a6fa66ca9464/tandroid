@@ -296,6 +296,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
     }
 
     public void setTitle(boolean z) {
+        String str;
         TLRPC$Document tLRPC$Document;
         SpannableStringBuilder spannableStringBuilder;
         LinkSpanDrawable.LinksTextView[] linksTextViewArr = this.titleView;
@@ -375,6 +376,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
         } else {
             GiftPremiumBottomSheet.GiftTier giftTier = this.giftTier;
             if (giftTier != null) {
+                str = "";
                 if (this.isOutboundGift) {
                     LinkSpanDrawable.LinksTextView linksTextView2 = linksTextViewArr[0];
                     int i5 = R.string.TelegramPremiumUserGiftedPremiumOutboundDialogTitleWithPlural;
@@ -400,8 +402,13 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
                 LinkSpanDrawable.LinksTextView linksTextView3 = linksTextViewArr[0];
                 int i7 = R.string.TelegramPremiumUserGiftedPremiumDialogTitleWithPlural;
                 Object[] objArr3 = new Object[2];
-                objArr3[0] = tLRPC$User6 != null ? tLRPC$User6.first_name : "";
-                objArr3[1] = LocaleController.formatPluralString("GiftMonths", giftTier.getMonths(), new Object[0]);
+                if (tLRPC$User6 != null && tLRPC$User6.id == 777000) {
+                    str = LocaleController.getString(R.string.TelegramPremiumGiftSomeone);
+                } else if (tLRPC$User6 != null) {
+                    str = tLRPC$User6.first_name;
+                }
+                objArr3[0] = str;
+                objArr3[1] = LocaleController.formatPluralString("GiftMonths", this.giftTier.getMonths(), new Object[0]);
                 linksTextView3.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(i7, objArr3), "windowBackgroundWhiteBlueButton", 0, null));
                 this.subtitleView.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.TelegramPremiumUserGiftedPremiumDialogSubtitle)));
                 return;

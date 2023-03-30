@@ -3918,22 +3918,20 @@ public class LoginActivity extends BaseFragment {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:61:0x03d5  */
-        /* JADX WARN: Removed duplicated region for block: B:64:0x03f5  */
-        /* JADX WARN: Removed duplicated region for block: B:67:0x045e  */
-        /* JADX WARN: Removed duplicated region for block: B:68:0x04ca  */
-        /* JADX WARN: Removed duplicated region for block: B:71:0x05e5  */
-        /* JADX WARN: Removed duplicated region for block: B:85:0x062f  */
-        /* JADX WARN: Removed duplicated region for block: B:90:0x065d  */
-        /* JADX WARN: Removed duplicated region for block: B:93:0x067b  */
-        /* JADX WARN: Removed duplicated region for block: B:95:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:61:0x03d6  */
+        /* JADX WARN: Removed duplicated region for block: B:64:0x03f6  */
+        /* JADX WARN: Removed duplicated region for block: B:67:0x045d  */
+        /* JADX WARN: Removed duplicated region for block: B:68:0x04c7  */
+        /* JADX WARN: Removed duplicated region for block: B:71:0x05de  */
+        /* JADX WARN: Removed duplicated region for block: B:76:0x060c  */
+        /* JADX WARN: Removed duplicated region for block: B:79:0x062a  */
+        /* JADX WARN: Removed duplicated region for block: B:81:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public LoginActivitySmsView(final Context context, int i) {
             super(context);
             FrameLayout frameLayout;
-            int i2;
             this.timerSync = new Object();
             this.time = 60000;
             this.codeTime = 15000;
@@ -3961,8 +3959,8 @@ public class LoginActivity extends BaseFragment {
             this.titleTextView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
             this.titleTextView.setGravity(49);
             String string = LoginActivity.this.activityMode != 1 ? null : LocaleController.getString(R.string.CancelAccountReset);
-            int i3 = this.currentType;
-            if (i3 == 11) {
+            int i2 = this.currentType;
+            if (i2 == 11) {
                 this.titleTextView.setText(string == null ? LocaleController.getString("MissedCallDescriptionTitle", R.string.MissedCallDescriptionTitle) : string);
                 FrameLayout frameLayout2 = new FrameLayout(context);
                 this.missedCallArrowIcon = new ImageView(context);
@@ -4006,26 +4004,27 @@ public class LoginActivity extends BaseFragment {
                 this.missedCallDescriptionSubtitle.setText(AndroidUtilities.replaceTags(LocaleController.getString("MissedCallDescriptionSubtitle2", R.string.MissedCallDescriptionSubtitle2)));
                 addView(this.missedCallDescriptionSubtitle, LayoutHelper.createLinear(-1, -2, 49, 36, 28, 36, 12));
             } else {
-                if (i3 == 3) {
+                if (i2 == 3) {
                     this.confirmTextView.setGravity(1);
-                    frameLayout = new FrameLayout(context);
-                    addView(frameLayout, LayoutHelper.createLinear(-1, 0, 1.0f));
+                    FrameLayout frameLayout3 = new FrameLayout(context);
+                    addView(frameLayout3, LayoutHelper.createLinear(-1, 0, 1.0f));
                     LinearLayout linearLayout2 = new LinearLayout(context);
                     linearLayout2.setOrientation(1);
                     linearLayout2.setGravity(1);
-                    frameLayout.addView(linearLayout2, LayoutHelper.createFrame(-1, -2, 17));
+                    frameLayout3.addView(linearLayout2, LayoutHelper.createFrame(-1, -2, 17));
                     ((FrameLayout.LayoutParams) linearLayout2.getLayoutParams()).bottomMargin = AndroidUtilities.isTablet() ? 0 : AndroidUtilities.statusBarHeight;
-                    FrameLayout frameLayout3 = new FrameLayout(context);
-                    linearLayout2.addView(frameLayout3, LayoutHelper.createFrame(-2, -2, 1));
+                    FrameLayout frameLayout4 = new FrameLayout(context);
+                    linearLayout2.addView(frameLayout4, LayoutHelper.createFrame(-2, -2, 1));
                     this.blueImageView = new RLottieImageView(context);
-                    int i4 = R.raw.phone_flash_call;
-                    RLottieDrawable rLottieDrawable = new RLottieDrawable(i4, String.valueOf(i4), AndroidUtilities.dp(64.0f), AndroidUtilities.dp(64.0f), true, null);
+                    int i3 = R.raw.phone_flash_call;
+                    RLottieDrawable rLottieDrawable = new RLottieDrawable(i3, String.valueOf(i3), AndroidUtilities.dp(64.0f), AndroidUtilities.dp(64.0f), true, null);
                     this.hintDrawable = rLottieDrawable;
                     this.blueImageView.setAnimation(rLottieDrawable);
-                    frameLayout3.addView(this.blueImageView, LayoutHelper.createFrame(64, 64.0f));
+                    frameLayout4.addView(this.blueImageView, LayoutHelper.createFrame(64, 64.0f));
                     this.titleTextView.setText(string == null ? LocaleController.getString(R.string.YourCode) : string);
                     linearLayout2.addView(this.titleTextView, LayoutHelper.createLinear(-2, -2, 1, 0, 16, 0, 0));
                     linearLayout2.addView(this.confirmTextView, LayoutHelper.createLinear(-2, -2, 1, 0, 8, 0, 0));
+                    frameLayout = frameLayout3;
                     if (this.currentType != 11) {
                         CodeFieldContainer codeFieldContainer = new CodeFieldContainer(context, LoginActivity.this) { // from class: org.telegram.ui.LoginActivity.LoginActivitySmsView.2
                             @Override // org.telegram.ui.CodeFieldContainer
@@ -4056,8 +4055,8 @@ public class LoginActivity extends BaseFragment {
                         }
 
                         @Override // android.widget.TextView, android.view.View
-                        protected void onLayout(boolean z, int i5, int i6, int i7, int i8) {
-                            super.onLayout(z, i5, i6, i7, i8);
+                        protected void onLayout(boolean z, int i4, int i5, int i6, int i7) {
+                            super.onLayout(z, i4, i5, i6, i7);
                             updateLoadingLayout();
                         }
 
@@ -4104,8 +4103,8 @@ public class LoginActivity extends BaseFragment {
                     this.problemFrame.addView(this.timeText, LayoutHelper.createFrame(-2, -2, 49));
                     this.errorViewSwitcher = new ViewSwitcher(this, context, LoginActivity.this) { // from class: org.telegram.ui.LoginActivity.LoginActivitySmsView.4
                         @Override // android.widget.FrameLayout, android.view.View
-                        protected void onMeasure(int i5, int i6) {
-                            super.onMeasure(i5, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(100.0f), Integer.MIN_VALUE));
+                        protected void onMeasure(int i4, int i5) {
+                            super.onMeasure(i4, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(100.0f), Integer.MIN_VALUE));
                         }
                     };
                     if (this.currentType == 15) {
@@ -4132,8 +4131,8 @@ public class LoginActivity extends BaseFragment {
                             }
 
                             @Override // android.widget.TextView, android.view.View
-                            protected void onLayout(boolean z, int i5, int i6, int i7, int i8) {
-                                super.onLayout(z, i5, i6, i7, i8);
+                            protected void onLayout(boolean z, int i4, int i5, int i6, int i7) {
+                                super.onLayout(z, i4, i5, i6, i7);
                                 updateLoadingLayout();
                             }
 
@@ -4215,25 +4214,10 @@ public class LoginActivity extends BaseFragment {
                     this.wrongCode.setGravity(49);
                     this.wrongCode.setPadding(0, AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f));
                     this.errorViewSwitcher.addView(this.wrongCode, LayoutHelper.createFrame(-2, -2, 17));
-                    i2 = this.currentType;
-                    if (i2 != 15) {
-                        if (i2 == 1) {
-                            int i5 = this.nextType;
-                            if (i5 == 3 || i5 == 4 || i5 == 11) {
-                                this.problemText.setText(LocaleController.getString("DidNotGetTheCodePhone", R.string.DidNotGetTheCodePhone));
-                            } else if (i5 == 0) {
-                                this.problemText.setText(LocaleController.getString("DidNotGetTheCode", R.string.DidNotGetTheCode));
-                            } else {
-                                this.problemText.setText(LocaleController.getString("DidNotGetTheCodeSms", R.string.DidNotGetTheCodeSms));
-                            }
-                        } else {
-                            this.problemText.setText(LocaleController.getString("DidNotGetTheCode", R.string.DidNotGetTheCode));
-                        }
-                    }
                     if (frameLayout != null) {
-                        FrameLayout frameLayout4 = new FrameLayout(context);
-                        this.bottomContainer = frameLayout4;
-                        frameLayout4.addView(this.errorViewSwitcher, LayoutHelper.createFrame(this.currentType == 15 ? -1 : -2, -2.0f, 81, 0.0f, 0.0f, 0.0f, 32.0f));
+                        FrameLayout frameLayout5 = new FrameLayout(context);
+                        this.bottomContainer = frameLayout5;
+                        frameLayout5.addView(this.errorViewSwitcher, LayoutHelper.createFrame(this.currentType == 15 ? -1 : -2, -2.0f, 81, 0.0f, 0.0f, 0.0f, 32.0f));
                         addView(this.bottomContainer, LayoutHelper.createLinear(-1, 0, 1.0f));
                     } else {
                         frameLayout.addView(this.errorViewSwitcher, LayoutHelper.createFrame(-2, -2.0f, 81, 0.0f, 0.0f, 0.0f, 32.0f));
@@ -4251,24 +4235,24 @@ public class LoginActivity extends BaseFragment {
                     return;
                 }
                 this.confirmTextView.setGravity(49);
-                FrameLayout frameLayout5 = new FrameLayout(context);
-                addView(frameLayout5, LayoutHelper.createLinear(-2, -2, 49, 0, 16, 0, 0));
-                int i6 = this.currentType;
-                int i7 = i6 == 1 ? 128 : 64;
-                if (i6 == 1) {
-                    int i8 = R.raw.code_laptop;
-                    float f = i7;
-                    this.hintDrawable = new RLottieDrawable(i8, String.valueOf(i8), AndroidUtilities.dp(f), AndroidUtilities.dp(f), true, null);
+                FrameLayout frameLayout6 = new FrameLayout(context);
+                addView(frameLayout6, LayoutHelper.createLinear(-2, -2, 49, 0, 16, 0, 0));
+                int i4 = this.currentType;
+                int i5 = i4 == 1 ? 128 : 64;
+                if (i4 == 1) {
+                    int i6 = R.raw.code_laptop;
+                    float f = i5;
+                    this.hintDrawable = new RLottieDrawable(i6, String.valueOf(i6), AndroidUtilities.dp(f), AndroidUtilities.dp(f), true, null);
                 } else {
-                    int i9 = R.raw.sms_incoming_info;
-                    float f2 = i7;
-                    this.hintDrawable = new RLottieDrawable(i9, String.valueOf(i9), AndroidUtilities.dp(f2), AndroidUtilities.dp(f2), true, null);
-                    int i10 = R.raw.phone_stars_to_dots;
-                    this.starsToDotsDrawable = new RLottieDrawable(i10, String.valueOf(i10), AndroidUtilities.dp(f2), AndroidUtilities.dp(f2), true, null);
-                    int i11 = R.raw.phone_dots;
-                    this.dotsDrawable = new RLottieDrawable(i11, String.valueOf(i11), AndroidUtilities.dp(f2), AndroidUtilities.dp(f2), true, null);
-                    int i12 = R.raw.phone_dots_to_stars;
-                    this.dotsToStarsDrawable = new RLottieDrawable(i12, String.valueOf(i12), AndroidUtilities.dp(f2), AndroidUtilities.dp(f2), true, null);
+                    int i7 = R.raw.sms_incoming_info;
+                    float f2 = i5;
+                    this.hintDrawable = new RLottieDrawable(i7, String.valueOf(i7), AndroidUtilities.dp(f2), AndroidUtilities.dp(f2), true, null);
+                    int i8 = R.raw.phone_stars_to_dots;
+                    this.starsToDotsDrawable = new RLottieDrawable(i8, String.valueOf(i8), AndroidUtilities.dp(f2), AndroidUtilities.dp(f2), true, null);
+                    int i9 = R.raw.phone_dots;
+                    this.dotsDrawable = new RLottieDrawable(i9, String.valueOf(i9), AndroidUtilities.dp(f2), AndroidUtilities.dp(f2), true, null);
+                    int i10 = R.raw.phone_dots_to_stars;
+                    this.dotsToStarsDrawable = new RLottieDrawable(i10, String.valueOf(i10), AndroidUtilities.dp(f2), AndroidUtilities.dp(f2), true, null);
                 }
                 RLottieImageView rLottieImageView2 = new RLottieImageView(context);
                 this.blueImageView = rLottieImageView2;
@@ -4276,15 +4260,15 @@ public class LoginActivity extends BaseFragment {
                 if (this.currentType == 1 && !AndroidUtilities.isSmallScreen()) {
                     this.blueImageView.setTranslationY(-AndroidUtilities.dp(24.0f));
                 }
-                frameLayout5.addView(this.blueImageView, LayoutHelper.createFrame(i7, i7, 51, 0.0f, 0.0f, 0.0f, (this.currentType != 1 || AndroidUtilities.isSmallScreen()) ? 0.0f : -AndroidUtilities.dp(16.0f)));
+                frameLayout6.addView(this.blueImageView, LayoutHelper.createFrame(i5, i5, 51, 0.0f, 0.0f, 0.0f, (this.currentType != 1 || AndroidUtilities.isSmallScreen()) ? 0.0f : -AndroidUtilities.dp(16.0f)));
                 TextView textView10 = this.titleTextView;
                 if (string == null) {
                     string = LocaleController.getString(this.currentType == 1 ? R.string.SentAppCodeTitle : R.string.SentSmsCodeTitle);
                 }
                 textView10.setText(string);
                 addView(this.titleTextView, LayoutHelper.createLinear(-2, -2, 49, 0, 18, 0, 0));
-                int i13 = this.currentType == 15 ? 16 : 0;
-                addView(this.confirmTextView, LayoutHelper.createLinear(-2, -2, 49, i13, 17, i13, 0));
+                int i11 = this.currentType == 15 ? 16 : 0;
+                addView(this.confirmTextView, LayoutHelper.createLinear(-2, -2, 49, i11, 17, i11, 0));
             }
             frameLayout = null;
             if (this.currentType != 11) {
@@ -4308,8 +4292,8 @@ public class LoginActivity extends BaseFragment {
                 }
 
                 @Override // android.widget.TextView, android.view.View
-                protected void onLayout(boolean z, int i52, int i62, int i72, int i82) {
-                    super.onLayout(z, i52, i62, i72, i82);
+                protected void onLayout(boolean z, int i42, int i52, int i62, int i72) {
+                    super.onLayout(z, i42, i52, i62, i72);
                     updateLoadingLayout();
                 }
 
@@ -4356,8 +4340,8 @@ public class LoginActivity extends BaseFragment {
             this.problemFrame.addView(this.timeText, LayoutHelper.createFrame(-2, -2, 49));
             this.errorViewSwitcher = new ViewSwitcher(this, context, LoginActivity.this) { // from class: org.telegram.ui.LoginActivity.LoginActivitySmsView.4
                 @Override // android.widget.FrameLayout, android.view.View
-                protected void onMeasure(int i52, int i62) {
-                    super.onMeasure(i52, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(100.0f), Integer.MIN_VALUE));
+                protected void onMeasure(int i42, int i52) {
+                    super.onMeasure(i42, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(100.0f), Integer.MIN_VALUE));
                 }
             };
             if (this.currentType == 15) {
@@ -4370,9 +4354,6 @@ public class LoginActivity extends BaseFragment {
             this.wrongCode.setGravity(49);
             this.wrongCode.setPadding(0, AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f));
             this.errorViewSwitcher.addView(this.wrongCode, LayoutHelper.createFrame(-2, -2, 17));
-            i2 = this.currentType;
-            if (i2 != 15) {
-            }
             if (frameLayout != null) {
             }
             VerticalPositionAutoAnimator.attach(this.errorViewSwitcher);
@@ -4760,8 +4741,8 @@ public class LoginActivity extends BaseFragment {
             return LocaleController.getString("YourCode", R.string.YourCode);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:110:0x0321  */
-        /* JADX WARN: Removed duplicated region for block: B:111:0x032a  */
+        /* JADX WARN: Removed duplicated region for block: B:129:0x0371  */
+        /* JADX WARN: Removed duplicated region for block: B:130:0x037a  */
         @Override // org.telegram.ui.Components.SlideView
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -4772,18 +4753,17 @@ public class LoginActivity extends BaseFragment {
             int i;
             String str;
             String string;
-            int i2;
             if (bundle == null) {
                 return;
             }
             this.waitingForEvent = true;
-            int i3 = this.currentType;
-            if (i3 == 15) {
+            int i2 = this.currentType;
+            if (i2 == 15) {
                 NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didReceiveSmsCode);
-            } else if (i3 == 2) {
+            } else if (i2 == 2) {
                 AndroidUtilities.setWaitingForSms(true);
                 NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didReceiveSmsCode);
-            } else if (i3 == 3) {
+            } else if (i2 == 3) {
                 AndroidUtilities.setWaitingForCall(true);
                 NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didReceiveCall);
                 if (z) {
@@ -4800,9 +4780,9 @@ public class LoginActivity extends BaseFragment {
             this.nextType = bundle.getInt("nextType");
             this.pattern = bundle.getString("pattern");
             this.prefix = bundle.getString("prefix");
-            int i4 = bundle.getInt("length");
-            this.length = i4;
-            if (i4 == 0) {
+            int i3 = bundle.getInt("length");
+            this.length = i3;
+            if (i3 == 0) {
                 this.length = 5;
             }
             this.url = bundle.getString("url");
@@ -4817,11 +4797,11 @@ public class LoginActivity extends BaseFragment {
                     }
 
                     @Override // android.text.TextWatcher
-                    public void onTextChanged(CharSequence charSequence, int i5, int i6, int i7) {
+                    public void onTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
                     }
 
                     @Override // android.text.TextWatcher
-                    public void beforeTextChanged(CharSequence charSequence, int i5, int i6, int i7) {
+                    public void beforeTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
                         if (LoginActivitySmsView.this.postedErrorColorTimeout) {
                             LoginActivitySmsView loginActivitySmsView = LoginActivitySmsView.this;
                             loginActivitySmsView.removeCallbacks(loginActivitySmsView.errorColorTimeout);
@@ -4851,10 +4831,25 @@ public class LoginActivity extends BaseFragment {
                     replaceTags.setSpan(new URLSpanNoUnderline("tg://settings/change_number"), indexOf, lastIndexOf - 1, 33);
                 }
             } else {
-                int i5 = this.currentType;
-                replaceTags = i5 == 1 ? AndroidUtilities.replaceTags(LocaleController.formatString("SentAppCodeWithPhone", R.string.SentAppCodeWithPhone, LocaleController.addNbsp(format))) : i5 == 2 ? AndroidUtilities.replaceTags(LocaleController.formatString("SentSmsCode", R.string.SentSmsCode, LocaleController.addNbsp(format))) : i5 == 3 ? AndroidUtilities.replaceTags(LocaleController.formatString("SentCallCode", R.string.SentCallCode, LocaleController.addNbsp(format))) : i5 == 4 ? AndroidUtilities.replaceTags(LocaleController.formatString("SentCallOnly", R.string.SentCallOnly, LocaleController.addNbsp(format))) : i5 == 15 ? AndroidUtilities.replaceTags(LocaleController.formatString("SentFragmentCode", R.string.SentFragmentCode, LocaleController.addNbsp(format))) : "";
+                int i4 = this.currentType;
+                replaceTags = i4 == 1 ? AndroidUtilities.replaceTags(LocaleController.formatString("SentAppCodeWithPhone", R.string.SentAppCodeWithPhone, LocaleController.addNbsp(format))) : i4 == 2 ? AndroidUtilities.replaceTags(LocaleController.formatString("SentSmsCode", R.string.SentSmsCode, LocaleController.addNbsp(format))) : i4 == 3 ? AndroidUtilities.replaceTags(LocaleController.formatString("SentCallCode", R.string.SentCallCode, LocaleController.addNbsp(format))) : i4 == 4 ? AndroidUtilities.replaceTags(LocaleController.formatString("SentCallOnly", R.string.SentCallOnly, LocaleController.addNbsp(format))) : i4 == 15 ? AndroidUtilities.replaceTags(LocaleController.formatString("SentFragmentCode", R.string.SentFragmentCode, LocaleController.addNbsp(format))) : "";
             }
             this.confirmTextView.setText(replaceTags);
+            int i5 = this.currentType;
+            if (i5 != 15) {
+                if (i5 == 1) {
+                    int i6 = this.nextType;
+                    if (i6 == 3 || i6 == 4 || i6 == 11) {
+                        this.problemText.setText(LocaleController.getString("DidNotGetTheCodePhone", R.string.DidNotGetTheCodePhone));
+                    } else if (i6 == 0) {
+                        this.problemText.setText(LocaleController.getString("DidNotGetTheCode", R.string.DidNotGetTheCode));
+                    } else {
+                        this.problemText.setText(LocaleController.getString("DidNotGetTheCodeSms", R.string.DidNotGetTheCodeSms));
+                    }
+                } else {
+                    this.problemText.setText(LocaleController.getString("DidNotGetTheCode", R.string.DidNotGetTheCode));
+                }
+            }
             if (this.currentType != 3) {
                 LoginActivity.this.showKeyboard(this.codeFieldContainer.codeField[0]);
                 this.codeFieldContainer.codeField[0].requestFocus();
@@ -4864,23 +4859,26 @@ public class LoginActivity extends BaseFragment {
             destroyTimer();
             destroyCodeTimer();
             this.lastCurrentTime = System.currentTimeMillis();
-            int i6 = this.currentType;
-            if (i6 == 1) {
+            int i7 = this.currentType;
+            if (i7 == 1) {
                 setProblemTextVisible(true);
                 this.timeText.setVisibility(8);
                 TextView textView = this.problemText;
                 if (textView != null) {
                     textView.setVisibility(0);
                 }
-            } else if (i6 == 3 && ((i2 = this.nextType) == 4 || i2 == 2)) {
-                setProblemTextVisible(false);
-                this.timeText.setVisibility(0);
-                this.problemText.setVisibility(8);
-                int i7 = this.nextType;
-                if (i7 == 4 || i7 == 11) {
-                    this.timeText.setText(LocaleController.formatString("CallAvailableIn", R.string.CallAvailableIn, 1, 0));
-                } else if (i7 == 2) {
-                    this.timeText.setText(LocaleController.formatString("SmsAvailableIn", R.string.SmsAvailableIn, 1, 0));
+            } else if (i7 == 3) {
+                int i8 = this.nextType;
+                if (i8 == 4 || i8 == 2 || i8 == 11) {
+                    setProblemTextVisible(false);
+                    this.timeText.setVisibility(0);
+                    this.problemText.setVisibility(8);
+                    int i9 = this.nextType;
+                    if (i9 == 4 || i9 == 11) {
+                        this.timeText.setText(LocaleController.formatString("CallAvailableIn", R.string.CallAvailableIn, 1, 0));
+                    } else if (i9 == 2) {
+                        this.timeText.setText(LocaleController.formatString("SmsAvailableIn", R.string.SmsAvailableIn, 1, 0));
+                    }
                 }
                 String obtainLoginPhoneCall = z ? AndroidUtilities.obtainLoginPhoneCall(this.pattern) : null;
                 if (obtainLoginPhoneCall != null) {
@@ -4890,10 +4888,13 @@ public class LoginActivity extends BaseFragment {
                     if (str2 != null) {
                         onNextPressed(str2);
                     } else {
-                        createTimer();
+                        int i10 = this.nextType;
+                        if (i10 == 4 || i10 == 2 || i10 == 11) {
+                            createTimer();
+                        }
                     }
                 }
-            } else if (i6 == 2 && ((i = this.nextType) == 4 || i == 3)) {
+            } else if (i7 == 2 && ((i = this.nextType) == 4 || i == 3)) {
                 this.timeText.setText(LocaleController.formatString("CallAvailableIn", R.string.CallAvailableIn, 2, 0));
                 setProblemTextVisible(this.time < 1000);
                 this.timeText.setVisibility(this.time < 1000 ? 8 : 0);
@@ -4917,7 +4918,7 @@ public class LoginActivity extends BaseFragment {
                 str = null;
                 if (str == null) {
                 }
-            } else if (i6 == 4 && this.nextType == 2) {
+            } else if (i7 == 4 && this.nextType == 2) {
                 this.timeText.setText(LocaleController.formatString("SmsAvailableIn", R.string.SmsAvailableIn, 2, 0));
                 setProblemTextVisible(this.time < 1000);
                 this.timeText.setVisibility(this.time < 1000 ? 8 : 0);
@@ -4937,11 +4938,11 @@ public class LoginActivity extends BaseFragment {
             }
             if (this.currentType == 11) {
                 String str3 = this.prefix;
-                for (int i8 = 0; i8 < this.length; i8++) {
+                for (int i11 = 0; i11 < this.length; i11++) {
                     str3 = str3 + "0";
                 }
                 String format2 = PhoneFormat.getInstance().format("+" + str3);
-                for (int i9 = 0; i9 < this.length; i9++) {
+                for (int i12 = 0; i12 < this.length; i12++) {
                     int lastIndexOf2 = format2.lastIndexOf("0");
                     if (lastIndexOf2 >= 0) {
                         format2 = format2.substring(0, lastIndexOf2);

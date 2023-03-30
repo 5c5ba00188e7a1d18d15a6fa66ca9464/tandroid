@@ -5427,6 +5427,7 @@
     <string name="TelegramPassportDeleteAlert">Are you sure you want to delete your Telegram Passport?</string>
     <string name="TelegramPassportDeleteTitle">Delete Telegram passport</string>
     <string name="TelegramPremium">Telegram Premium</string>
+    <string name="TelegramPremiumGiftSomeone">Someone</string>
     <string name="TelegramPremiumSubscribedSubtitle">Thank you for subscribing to **Telegram Premium**.\nHere’s what is now unlocked.</string>
     <string name="TelegramPremiumSubscribedTitle">You are all set!</string>
     <string name="TelegramPremiumSubtitle">Go **beyond the limits**, get exclusive features and support us by subscribing to **Telegram Premium**.</string>

@@ -6269,18 +6269,18 @@ public class DialogCell extends BaseCell {
             this.waitngNewMessageFroTypingAnimation = false;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:45:0x0126, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:45:0x0131, code lost:
             if (org.telegram.messenger.MessagesController.getInstance(r17.this$0.currentAccount).getTopicsController().endIsReached(-r17.this$0.currentDialogId) != false) goto L111;
          */
-        /* JADX WARN: Removed duplicated region for block: B:114:0x0231  */
-        /* JADX WARN: Removed duplicated region for block: B:115:0x0234  */
-        /* JADX WARN: Removed duplicated region for block: B:117:0x0239  */
-        /* JADX WARN: Removed duplicated region for block: B:49:0x0131  */
-        /* JADX WARN: Removed duplicated region for block: B:55:0x0158  */
-        /* JADX WARN: Removed duplicated region for block: B:59:0x0176  */
-        /* JADX WARN: Removed duplicated region for block: B:60:0x0178  */
-        /* JADX WARN: Removed duplicated region for block: B:93:0x01f0  */
-        /* JADX WARN: Removed duplicated region for block: B:97:0x01fc  */
+        /* JADX WARN: Removed duplicated region for block: B:114:0x023c  */
+        /* JADX WARN: Removed duplicated region for block: B:115:0x023f  */
+        /* JADX WARN: Removed duplicated region for block: B:117:0x0244  */
+        /* JADX WARN: Removed duplicated region for block: B:49:0x013c  */
+        /* JADX WARN: Removed duplicated region for block: B:55:0x0163  */
+        /* JADX WARN: Removed duplicated region for block: B:59:0x0181  */
+        /* JADX WARN: Removed duplicated region for block: B:60:0x0183  */
+        /* JADX WARN: Removed duplicated region for block: B:93:0x01fb  */
+        /* JADX WARN: Removed duplicated region for block: B:97:0x0207  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -6298,7 +6298,7 @@ public class DialogCell extends BaseCell {
                 this.lastDrawnDialogId = DialogCell.this.currentDialogId;
                 return true;
             }
-            int id = DialogCell.this.message == null ? 0 : DialogCell.this.message.getId();
+            int id = DialogCell.this.message == null ? 0 : DialogCell.this.message.getId() + DialogCell.this.message.hashCode();
             long j = tLRPC$Dialog.read_inbox_max_id + (tLRPC$Dialog.read_outbox_max_id << 8) + ((tLRPC$Dialog.unread_count + (tLRPC$Dialog.unread_mark ? -1 : 0)) << 16) + (tLRPC$Dialog.unread_reactions_count > 0 ? 262144 : 0) + (tLRPC$Dialog.unread_mentions_count > 0 ? 524288 : 0);
             TLRPC$DraftMessage tLRPC$DraftMessage = null;
             Integer printingStringType = (DialogCell.this.isForumCell() || !(DialogCell.this.isDialogCell || DialogCell.this.isTopic) || TextUtils.isEmpty(MessagesController.getInstance(DialogCell.this.currentAccount).getPrintingString(DialogCell.this.currentDialogId, DialogCell.this.getTopicId(), true))) ? null : MessagesController.getInstance(DialogCell.this.currentAccount).getPrintingStringType(DialogCell.this.currentDialogId, DialogCell.this.getTopicId());
