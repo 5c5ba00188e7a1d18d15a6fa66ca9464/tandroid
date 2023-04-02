@@ -3664,17 +3664,17 @@ public class ImageLoader {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:61:0x014b, code lost:
-        if (r2.mkdirs() != false) goto L46;
+    /* JADX WARN: Code restructure failed: missing block: B:68:0x0165, code lost:
+        if (r2.mkdirs() != false) goto L162;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:63:0x0151, code lost:
-        if (r2.canWrite() == false) goto L155;
+    /* JADX WARN: Code restructure failed: missing block: B:70:0x016b, code lost:
+        if (r2.canWrite() == false) goto L52;
      */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x030a A[Catch: Exception -> 0x031d, TRY_LEAVE, TryCatch #4 {Exception -> 0x031d, blocks: (B:136:0x02ed, B:138:0x02fb, B:140:0x0301, B:142:0x030a), top: B:172:0x02ed, outer: #8 }] */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x033e A[Catch: Exception -> 0x0351, TRY_LEAVE, TryCatch #10 {Exception -> 0x0351, blocks: (B:146:0x0321, B:148:0x032f, B:150:0x0335, B:152:0x033e), top: B:184:0x0321, outer: #8 }] */
-    /* JADX WARN: Removed duplicated region for block: B:176:0x01ba A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:194:0x01a8 A[EDGE_INSN: B:194:0x01a8->B:80:0x01a8 ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x017e A[Catch: Exception -> 0x0364, TryCatch #8 {Exception -> 0x0364, blocks: (B:12:0x0054, B:14:0x0060, B:16:0x006e, B:19:0x0076, B:21:0x007d, B:24:0x00ac, B:25:0x00af, B:27:0x00bb, B:30:0x00c4, B:32:0x00c7, B:36:0x00e8, B:35:0x00cc, B:37:0x00eb, B:54:0x012b, B:66:0x0160, B:68:0x016b, B:70:0x0173, B:72:0x017e, B:74:0x0186, B:76:0x018e, B:78:0x019a, B:79:0x01a5, B:80:0x01a8, B:132:0x02e2, B:122:0x02a1, B:112:0x0260, B:102:0x021f, B:134:0x02e7, B:155:0x0352, B:145:0x031e, B:159:0x0360, B:92:0x01eb, B:53:0x0128, B:55:0x013a, B:57:0x0140, B:62:0x014d, B:65:0x0159, B:64:0x0153, B:60:0x0147, B:156:0x0356, B:158:0x035a, B:113:0x0263, B:115:0x0275, B:117:0x027c, B:119:0x028b, B:103:0x0222, B:105:0x0234, B:107:0x023b, B:109:0x024a, B:93:0x01ee, B:95:0x01fe, B:97:0x0204, B:99:0x020b, B:136:0x02ed, B:138:0x02fb, B:140:0x0301, B:142:0x030a, B:83:0x01ba, B:85:0x01ca, B:87:0x01d0, B:89:0x01d7, B:146:0x0321, B:148:0x032f, B:150:0x0335, B:152:0x033e, B:123:0x02a4, B:125:0x02b6, B:127:0x02bd, B:129:0x02cc), top: B:180:0x0054, inners: #0, #1, #3, #4, #6, #10, #11 }] */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x0323 A[Catch: Exception -> 0x0336, TRY_LEAVE, TryCatch #9 {Exception -> 0x0336, blocks: (B:143:0x0306, B:145:0x0314, B:147:0x031a, B:149:0x0323), top: B:189:0x0306, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:159:0x0357 A[Catch: Exception -> 0x036a, TRY_LEAVE, TryCatch #3 {Exception -> 0x036a, blocks: (B:153:0x033a, B:155:0x0348, B:157:0x034e, B:159:0x0357), top: B:177:0x033a, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:191:0x01d4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:201:0x01c2 A[EDGE_INSN: B:201:0x01c2->B:87:0x01c2 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x0198 A[Catch: Exception -> 0x037d, TryCatch #2 {Exception -> 0x037d, blocks: (B:12:0x0054, B:14:0x0060, B:16:0x006e, B:19:0x0076, B:21:0x007d, B:24:0x00ac, B:25:0x00af, B:27:0x00bb, B:30:0x00c4, B:32:0x00c7, B:36:0x00e8, B:35:0x00cc, B:37:0x00eb, B:54:0x012c, B:73:0x017a, B:75:0x0185, B:77:0x018d, B:79:0x0198, B:81:0x01a0, B:83:0x01a8, B:85:0x01b4, B:86:0x01bf, B:87:0x01c2, B:139:0x02fb, B:129:0x02ba, B:119:0x0279, B:109:0x0239, B:141:0x0300, B:162:0x036b, B:152:0x0337, B:166:0x0379, B:99:0x0205, B:53:0x0129, B:55:0x013b, B:57:0x0143, B:62:0x0154, B:64:0x015a, B:71:0x016d, B:72:0x0173, B:67:0x0161, B:69:0x0167, B:163:0x036f, B:165:0x0373, B:153:0x033a, B:155:0x0348, B:157:0x034e, B:159:0x0357, B:130:0x02bd, B:132:0x02cf, B:134:0x02d6, B:136:0x02e5, B:120:0x027c, B:122:0x028e, B:124:0x0295, B:126:0x02a4, B:110:0x023c, B:112:0x024e, B:114:0x0254, B:116:0x0263, B:100:0x0208, B:102:0x0218, B:104:0x021e, B:106:0x0225, B:143:0x0306, B:145:0x0314, B:147:0x031a, B:149:0x0323, B:90:0x01d4, B:92:0x01e4, B:94:0x01ea, B:96:0x01f1), top: B:175:0x0054, inners: #3, #4, #5, #6, #7, #9, #10 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3797,13 +3797,13 @@ public class ImageLoader {
                     }
                     this.telegramPath = new File(ApplicationLoader.applicationContext.getExternalFilesDir(null), "Telegram");
                     file4 = file;
-                } else {
+                } else if (!(!TextUtils.isEmpty(SharedConfig.storageCacheDir) && externalStorageDirectory.getAbsolutePath().startsWith(SharedConfig.storageCacheDir))) {
                     if (externalStorageDirectory.exists()) {
                         if (externalStorageDirectory.isDirectory()) {
                         }
                         externalStorageDirectory = ApplicationLoader.applicationContext.getExternalFilesDir(null);
+                        this.telegramPath = new File(externalStorageDirectory, "Telegram");
                     }
-                    this.telegramPath = new File(externalStorageDirectory, "Telegram");
                 }
                 this.telegramPath.mkdirs();
                 if (Build.VERSION.SDK_INT >= 19 && !this.telegramPath.isDirectory()) {
