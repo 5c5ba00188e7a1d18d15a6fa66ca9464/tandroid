@@ -227,24 +227,28 @@ public class ApplicationLoader extends Application {
             applicationContext = getApplicationContext();
         }
         NativeLoader.initNativeLibs(applicationContext);
-        ConnectionsManager.native_setJava(false);
-        new ForegroundDetector(this) { // from class: org.telegram.messenger.ApplicationLoader.2
-            @Override // org.telegram.ui.Components.ForegroundDetector, android.app.Application.ActivityLifecycleCallbacks
-            public void onActivityStarted(Activity activity) {
-                boolean isBackground = isBackground();
-                super.onActivityStarted(activity);
-                if (isBackground) {
-                    ApplicationLoader.ensureCurrentNetworkGet(true);
+        try {
+            ConnectionsManager.native_setJava(false);
+            new ForegroundDetector(this) { // from class: org.telegram.messenger.ApplicationLoader.2
+                @Override // org.telegram.ui.Components.ForegroundDetector, android.app.Application.ActivityLifecycleCallbacks
+                public void onActivityStarted(Activity activity) {
+                    boolean isBackground = isBackground();
+                    super.onActivityStarted(activity);
+                    if (isBackground) {
+                        ApplicationLoader.ensureCurrentNetworkGet(true);
+                    }
                 }
+            };
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.d("load libs time = " + (SystemClock.elapsedRealtime() - startTime));
             }
-        };
-        if (BuildVars.LOGS_ENABLED) {
-            FileLog.d("load libs time = " + (SystemClock.elapsedRealtime() - startTime));
+            applicationHandler = new Handler(applicationContext.getMainLooper());
+            AndroidUtilities.runOnUIThread(ApplicationLoader$$ExternalSyntheticLambda1.INSTANCE);
+            LauncherIconController.tryFixLauncherIconIfNeeded();
+            ProxyRotationController.init();
+        } catch (UnsatisfiedLinkError unused2) {
+            throw new RuntimeException("can't load native libraries " + Build.CPU_ABI + " lookup folder " + NativeLoader.getAbiFolder());
         }
-        applicationHandler = new Handler(applicationContext.getMainLooper());
-        AndroidUtilities.runOnUIThread(ApplicationLoader$$ExternalSyntheticLambda1.INSTANCE);
-        LauncherIconController.tryFixLauncherIconIfNeeded();
-        ProxyRotationController.init();
     }
 
     public static void startPushService() {

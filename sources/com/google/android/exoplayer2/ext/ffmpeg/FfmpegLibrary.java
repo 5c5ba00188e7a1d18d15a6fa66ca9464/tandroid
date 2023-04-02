@@ -1,12 +1,11 @@
 package com.google.android.exoplayer2.ext.ffmpeg;
 
 import com.google.android.exoplayer2.ExoPlayerLibraryInfo;
-import com.google.android.exoplayer2.util.LibraryLoader;
 import com.google.android.exoplayer2.util.Log;
 import org.telegram.messenger.MediaController;
+import org.telegram.messenger.NativeLoader;
 /* loaded from: classes.dex */
 public final class FfmpegLibrary {
-    private static final LibraryLoader LOADER;
     private static final String TAG = "FfmpegLibrary";
     private static int inputBufferPaddingSize;
     private static String version;
@@ -17,26 +16,19 @@ public final class FfmpegLibrary {
 
     private static native boolean ffmpegHasDecoder(String str);
 
+    public static void setLibraries(String... strArr) {
+    }
+
     static {
         ExoPlayerLibraryInfo.registerModule("goog.exo.ffmpeg");
-        LOADER = new LibraryLoader("ffmpegJNI") { // from class: com.google.android.exoplayer2.ext.ffmpeg.FfmpegLibrary.1
-            @Override // com.google.android.exoplayer2.util.LibraryLoader
-            protected void loadLibrary(String str) {
-                System.loadLibrary(str);
-            }
-        };
         inputBufferPaddingSize = -1;
     }
 
     private FfmpegLibrary() {
     }
 
-    public static void setLibraries(String... strArr) {
-        LOADER.setLibraries(strArr);
-    }
-
     public static boolean isAvailable() {
-        return LOADER.isAvailable();
+        return NativeLoader.loaded();
     }
 
     public static String getVersion() {

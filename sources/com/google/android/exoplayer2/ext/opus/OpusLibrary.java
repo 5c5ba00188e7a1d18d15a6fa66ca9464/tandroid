@@ -1,10 +1,9 @@
 package com.google.android.exoplayer2.ext.opus;
 
 import com.google.android.exoplayer2.ExoPlayerLibraryInfo;
-import com.google.android.exoplayer2.util.LibraryLoader;
+import org.telegram.messenger.NativeLoader;
 /* loaded from: classes.dex */
 public final class OpusLibrary {
-    private static final LibraryLoader LOADER;
     private static int cryptoType;
 
     public static native String opusGetVersion();
@@ -13,12 +12,6 @@ public final class OpusLibrary {
 
     static {
         ExoPlayerLibraryInfo.registerModule("goog.exo.opus");
-        LOADER = new LibraryLoader("opusV2JNI") { // from class: com.google.android.exoplayer2.ext.opus.OpusLibrary.1
-            @Override // com.google.android.exoplayer2.util.LibraryLoader
-            protected void loadLibrary(String str) {
-                System.loadLibrary(str);
-            }
-        };
         cryptoType = 1;
     }
 
@@ -27,11 +20,10 @@ public final class OpusLibrary {
 
     public static void setLibraries(int i, String... strArr) {
         cryptoType = i;
-        LOADER.setLibraries(strArr);
     }
 
     public static boolean isAvailable() {
-        return LOADER.isAvailable();
+        return NativeLoader.loaded();
     }
 
     public static String getVersion() {

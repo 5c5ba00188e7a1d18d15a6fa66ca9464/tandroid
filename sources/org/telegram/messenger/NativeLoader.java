@@ -11,10 +11,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 /* loaded from: classes.dex */
 public class NativeLoader {
-    private static final String LIB_NAME = "tmessages.43";
-    private static final String LIB_SO_NAME = "libtmessages.43.so";
-    private static final int LIB_VERSION = 43;
-    private static final String LOCALE_LIB_SO_NAME = "libtmessages.43loc.so";
+    private static final String LIB_NAME = "tmessages.44";
+    private static final String LIB_SO_NAME = "libtmessages.44.so";
+    private static final int LIB_VERSION = 44;
+    private static final String LOCALE_LIB_SO_NAME = "libtmessages.44loc.so";
     private static volatile boolean nativeLoaded = false;
     private String crashPath = "";
 
@@ -161,15 +161,14 @@ public class NativeLoader {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:59:0x00db A[Catch: all -> 0x001d, TryCatch #3 {, blocks: (B:4:0x0003, B:65:0x00fa, B:68:0x0104, B:9:0x000a, B:11:0x0016, B:17:0x0021, B:18:0x0024, B:42:0x008e, B:44:0x0096, B:47:0x00a1, B:49:0x00bc, B:51:0x00c0, B:52:0x00c5, B:57:0x00d7, B:59:0x00db, B:60:0x00ef, B:56:0x00d1, B:21:0x0033, B:24:0x003e, B:27:0x0049, B:30:0x0054, B:33:0x0061, B:36:0x006c, B:38:0x0072, B:41:0x0089), top: B:78:0x0003, inners: #5 }] */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x00f6 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x00fa A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0061 A[Catch: all -> 0x001d, TryCatch #4 {, blocks: (B:4:0x0003, B:35:0x0080, B:38:0x008a, B:9:0x000a, B:11:0x0016, B:17:0x0020, B:19:0x0042, B:21:0x0046, B:22:0x004b, B:27:0x005d, B:29:0x0061, B:30:0x0075, B:26:0x0057), top: B:50:0x0003, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x007c A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0080 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     @SuppressLint({"UnsafeDynamicallyLoadedCode"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static synchronized void initNativeLibs(Context context) {
-        String str;
         synchronized (NativeLoader.class) {
             if (nativeLoaded) {
                 return;
@@ -182,34 +181,7 @@ public class NativeLoader {
                 }
             } catch (Error e) {
                 FileLog.e(e);
-                try {
-                    String str2 = Build.CPU_ABI;
-                    if (str2.equalsIgnoreCase("x86_64")) {
-                        str = "x86_64";
-                    } else if (str2.equalsIgnoreCase("arm64-v8a")) {
-                        str = "arm64-v8a";
-                    } else if (str2.equalsIgnoreCase("armeabi-v7a")) {
-                        str = "armeabi-v7a";
-                    } else if (str2.equalsIgnoreCase("armeabi")) {
-                        str = "armeabi";
-                    } else if (str2.equalsIgnoreCase("x86")) {
-                        str = "x86";
-                    } else if (str2.equalsIgnoreCase("mips")) {
-                        str = "mips";
-                    } else {
-                        if (BuildVars.LOGS_ENABLED) {
-                            FileLog.e("Unsupported arch: " + str2);
-                        }
-                        str = "armeabi";
-                    }
-                } catch (Exception e2) {
-                    FileLog.e(e2);
-                    str = "armeabi";
-                }
-                String property = System.getProperty("os.arch");
-                if (property != null && property.contains("686")) {
-                    str = "x86";
-                }
+                String abiFolder = getAbiFolder();
                 File file = new File(context.getFilesDir(), "lib");
                 file.mkdirs();
                 File file2 = new File(file, LOCALE_LIB_SO_NAME);
@@ -221,28 +193,59 @@ public class NativeLoader {
                         System.load(file2.getAbsolutePath());
                         nativeLoaded = true;
                         return;
-                    } catch (Error e3) {
-                        FileLog.e(e3);
+                    } catch (Error e2) {
+                        FileLog.e(e2);
                         file2.delete();
                         if (BuildVars.LOGS_ENABLED) {
                         }
-                        if (loadFromZip(context, file, file2, str)) {
+                        if (loadFromZip(context, file, file2, abiFolder)) {
                         }
                     }
                 }
                 if (BuildVars.LOGS_ENABLED) {
-                    FileLog.e("Library not found, arch = " + str);
+                    FileLog.e("Library not found, arch = " + abiFolder);
                 }
-                if (loadFromZip(context, file, file2, str)) {
+                if (loadFromZip(context, file, file2, abiFolder)) {
                     try {
                         System.loadLibrary(LIB_NAME);
                         nativeLoaded = true;
-                    } catch (Error e4) {
-                        FileLog.e(e4);
+                    } catch (Error e3) {
+                        FileLog.e(e3);
                     }
                 }
             }
         }
+    }
+
+    public static String getAbiFolder() {
+        String str = "x86_64";
+        String str2 = "armeabi";
+        try {
+            String str3 = Build.CPU_ABI;
+            if (!str3.equalsIgnoreCase("x86_64")) {
+                if (str3.equalsIgnoreCase("arm64-v8a")) {
+                    str = "arm64-v8a";
+                } else if (str3.equalsIgnoreCase("armeabi-v7a")) {
+                    str = "armeabi-v7a";
+                } else {
+                    if (!str3.equalsIgnoreCase("armeabi")) {
+                        if (str3.equalsIgnoreCase("x86")) {
+                            str = "x86";
+                        } else if (str3.equalsIgnoreCase("mips")) {
+                            str = "mips";
+                        } else if (BuildVars.LOGS_ENABLED) {
+                            FileLog.e("Unsupported arch: " + str3);
+                        }
+                    }
+                    str = "armeabi";
+                }
+            }
+            str2 = str;
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        String property = System.getProperty("os.arch");
+        return (property == null || !property.contains("686")) ? str2 : "x86";
     }
 
     public static boolean loaded() {

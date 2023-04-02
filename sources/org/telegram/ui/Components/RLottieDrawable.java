@@ -297,7 +297,6 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         if (this.onAnimationEndListener != null) {
             this.onAnimationEndListener = null;
         }
-        invalidateInternal();
     }
 
     public void setOnFinishCallback(Runnable runnable, int i) {

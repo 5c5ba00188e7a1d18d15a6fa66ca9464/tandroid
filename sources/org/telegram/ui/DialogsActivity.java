@@ -2741,10 +2741,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Removed duplicated region for block: B:281:0x0d18  */
     /* JADX WARN: Removed duplicated region for block: B:289:0x0d42  */
     /* JADX WARN: Type inference failed for: r13v0 */
-    /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r13v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r13v5 */
     /* JADX WARN: Type inference failed for: r7v0 */
-    /* JADX WARN: Type inference failed for: r7v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r7v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v5 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -10362,22 +10362,24 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         } else if (i == NotificationCenter.dialogsUnreadReactionsCounterChanged) {
             updateVisibleRows(0);
         } else if (i == NotificationCenter.emojiLoaded) {
-            int i5 = 0;
-            while (true) {
-                ViewPage[] viewPageArr2 = this.viewPages;
-                if (i5 >= viewPageArr2.length) {
-                    break;
-                }
-                DialogsRecyclerView dialogsRecyclerView = viewPageArr2[i5].listView;
-                if (dialogsRecyclerView != null) {
-                    for (int i6 = 0; i6 < dialogsRecyclerView.getChildCount(); i6++) {
-                        View childAt = dialogsRecyclerView.getChildAt(i6);
-                        if (childAt != null) {
-                            childAt.invalidate();
+            if (this.viewPages != null) {
+                int i5 = 0;
+                while (true) {
+                    ViewPage[] viewPageArr2 = this.viewPages;
+                    if (i5 >= viewPageArr2.length) {
+                        break;
+                    }
+                    DialogsRecyclerView dialogsRecyclerView = viewPageArr2[i5].listView;
+                    if (dialogsRecyclerView != null) {
+                        for (int i6 = 0; i6 < dialogsRecyclerView.getChildCount(); i6++) {
+                            View childAt = dialogsRecyclerView.getChildAt(i6);
+                            if (childAt != null) {
+                                childAt.invalidate();
+                            }
                         }
                     }
+                    i5++;
                 }
-                i5++;
             }
             FilterTabsView filterTabsView4 = this.filterTabsView;
             if (filterTabsView4 != null) {

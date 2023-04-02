@@ -2069,9 +2069,9 @@ public class LoginActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$fillNextCodeParams$23(final TLRPC$auth_SentCode tLRPC$auth_SentCode, final Bundle bundle, final boolean z, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        needHideProgress(false);
-        this.isRequestingFirebaseSms = false;
         if (tLObject instanceof TLRPC$TL_boolTrue) {
+            needHideProgress(false);
+            this.isRequestingFirebaseSms = false;
             tLRPC$auth_SentCode.type.verifiedFirebase = true;
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda22
                 @Override // java.lang.Runnable

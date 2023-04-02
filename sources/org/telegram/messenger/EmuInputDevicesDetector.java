@@ -41,14 +41,16 @@ public final class EmuInputDevicesDetector {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
             while (true) {
                 String readLine = bufferedReader.readLine();
-                if (readLine == null) {
-                    return arrayList;
-                }
-                if (readLine.startsWith(NAME_PREFIX)) {
-                    String substring = readLine.substring(9, readLine.length() - 1);
-                    if (!TextUtils.isEmpty(substring)) {
-                        arrayList.add(substring);
+                if (readLine != null) {
+                    if (readLine.startsWith(NAME_PREFIX)) {
+                        String substring = readLine.substring(9, readLine.length() - 1);
+                        if (!TextUtils.isEmpty(substring)) {
+                            arrayList.add(substring);
+                        }
                     }
+                } else {
+                    bufferedReader.close();
+                    return arrayList;
                 }
             }
         } catch (IOException e) {
