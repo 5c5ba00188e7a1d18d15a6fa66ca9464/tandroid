@@ -101,8 +101,8 @@ public class StickerCategoriesListView extends RecyclerListView {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$preload$0(int i, TLRPC$TL_messages_emojiGroups tLRPC$TL_messages_emojiGroups) {
-        ArrayList<TLRPC$TL_emojiGroup> arrayList = tLRPC$TL_messages_emojiGroups.groups;
-        if (arrayList == null) {
+        ArrayList<TLRPC$TL_emojiGroup> arrayList;
+        if (tLRPC$TL_messages_emojiGroups == null || (arrayList = tLRPC$TL_messages_emojiGroups.groups) == null) {
             return;
         }
         Iterator<TLRPC$TL_emojiGroup> it = arrayList.iterator();

@@ -1077,7 +1077,7 @@ public final class Util {
         switch (i) {
             case VoIPController.ERROR_PRIVACY /* -2 */:
                 return "none";
-            case VoIPController.ERROR_PEER_OUTDATED /* -1 */:
+            case -1:
                 return "unknown";
             case 0:
                 return "default";

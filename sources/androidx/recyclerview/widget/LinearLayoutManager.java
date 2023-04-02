@@ -1271,6 +1271,10 @@ public class LinearLayoutManager extends RecyclerView.LayoutManager implements I
         }
     }
 
+    public boolean hasPendingScrollPosition() {
+        return this.mPendingScrollPosition >= 0;
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class LayoutState {

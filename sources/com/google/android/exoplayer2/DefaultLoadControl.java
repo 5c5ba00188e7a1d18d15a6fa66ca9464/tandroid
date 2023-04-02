@@ -144,7 +144,7 @@ public class DefaultLoadControl implements LoadControl {
         switch (i) {
             case VoIPController.ERROR_PRIVACY /* -2 */:
                 return 0;
-            case VoIPController.ERROR_PEER_OUTDATED /* -1 */:
+            case -1:
             default:
                 throw new IllegalArgumentException();
             case 0:

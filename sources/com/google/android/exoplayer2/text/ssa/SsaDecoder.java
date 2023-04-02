@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.telegram.messenger.voip.VoIPController;
 /* loaded from: classes.dex */
 public final class SsaDecoder extends SimpleSubtitleDecoder {
     private static final Pattern SSA_TIMECODE_PATTERN = Pattern.compile("(?:(\\d+):)?(\\d+):(\\d+)[:.](\\d+)");
@@ -239,7 +238,7 @@ public final class SsaDecoder extends SimpleSubtitleDecoder {
 
     private static Layout.Alignment toTextAlignment(int i) {
         switch (i) {
-            case VoIPController.ERROR_PEER_OUTDATED /* -1 */:
+            case -1:
                 return null;
             case 0:
             default:
@@ -262,7 +261,7 @@ public final class SsaDecoder extends SimpleSubtitleDecoder {
 
     private static int toLineAnchor(int i) {
         switch (i) {
-            case VoIPController.ERROR_PEER_OUTDATED /* -1 */:
+            case -1:
                 return Integer.MIN_VALUE;
             case 0:
             default:
@@ -285,7 +284,7 @@ public final class SsaDecoder extends SimpleSubtitleDecoder {
 
     private static int toPositionAnchor(int i) {
         switch (i) {
-            case VoIPController.ERROR_PEER_OUTDATED /* -1 */:
+            case -1:
                 return Integer.MIN_VALUE;
             case 0:
             default:

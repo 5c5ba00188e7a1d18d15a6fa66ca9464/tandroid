@@ -1,12 +1,10 @@
 package com.google.android.gms.common.api;
-
-import org.telegram.messenger.voip.VoIPController;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public class CommonStatusCodes {
     public static String getStatusCodeString(int i) {
         switch (i) {
-            case VoIPController.ERROR_PEER_OUTDATED /* -1 */:
+            case -1:
                 return "SUCCESS_CACHE";
             case 0:
                 return "SUCCESS";

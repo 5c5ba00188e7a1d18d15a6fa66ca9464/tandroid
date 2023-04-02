@@ -36,7 +36,6 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import org.telegram.messenger.LiteMode;
-import org.telegram.messenger.voip.VoIPController;
 /* loaded from: classes.dex */
 public class IconCompat extends CustomVersionedParcelable {
     static final PorterDuff.Mode DEFAULT_TINT_MODE = PorterDuff.Mode.SRC_IN;
@@ -334,7 +333,7 @@ public class IconCompat extends CustomVersionedParcelable {
     public Bundle toBundle() {
         Bundle bundle = new Bundle();
         switch (this.mType) {
-            case VoIPController.ERROR_PEER_OUTDATED /* -1 */:
+            case -1:
                 bundle.putParcelable("obj", (Parcelable) this.mObj1);
                 break;
             case 0:
@@ -418,7 +417,7 @@ public class IconCompat extends CustomVersionedParcelable {
     public void onPreParceling(boolean z) {
         this.mTintModeStr = this.mTintMode.name();
         switch (this.mType) {
-            case VoIPController.ERROR_PEER_OUTDATED /* -1 */:
+            case -1:
                 if (z) {
                     throw new IllegalArgumentException("Can't serialize Icon created with IconCompat#createFromIcon");
                 }
@@ -453,7 +452,7 @@ public class IconCompat extends CustomVersionedParcelable {
     public void onPostParceling() {
         this.mTintMode = PorterDuff.Mode.valueOf(this.mTintModeStr);
         switch (this.mType) {
-            case VoIPController.ERROR_PEER_OUTDATED /* -1 */:
+            case -1:
                 Parcelable parcelable = this.mParcelable;
                 if (parcelable != null) {
                     this.mObj1 = parcelable;
@@ -660,7 +659,7 @@ public class IconCompat extends CustomVersionedParcelable {
         static Icon toIcon(IconCompat iconCompat, Context context) {
             Icon createWithBitmap;
             switch (iconCompat.mType) {
-                case VoIPController.ERROR_PEER_OUTDATED /* -1 */:
+                case -1:
                     return (Icon) iconCompat.mObj1;
                 case 0:
                 default:

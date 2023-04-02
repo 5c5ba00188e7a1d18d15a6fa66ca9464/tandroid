@@ -5,10 +5,13 @@ import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.metadata.flac.PictureFrame;
 import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.Util;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 /* loaded from: classes.dex */
 public final class FlacStreamMetadata {
+    public static final int NOT_IN_LOOKUP_TABLE = -1;
+    private static final String TAG = "FlacStreamMetadata";
     public final int bitsPerSample;
     public final int bitsPerSampleLookupKey;
     public final int channels;
@@ -97,6 +100,10 @@ public final class FlacStreamMetadata {
         this.metadata = null;
     }
 
+    public FlacStreamMetadata(int i, int i2, int i3, int i4, int i5, int i6, int i7, long j, ArrayList<String> arrayList, ArrayList<PictureFrame> arrayList2) {
+        this(i, i2, i3, i4, i5, i6, i7, j, (SeekTable) null, concatenateVorbisMetadata(arrayList, arrayList2));
+    }
+
     private FlacStreamMetadata(int i, int i2, int i3, int i4, int i5, int i6, int i7, long j, SeekTable seekTable, Metadata metadata) {
         this.minBlockSizeSamples = i;
         this.maxBlockSizeSamples = i2;
@@ -171,5 +178,13 @@ public final class FlacStreamMetadata {
 
     public FlacStreamMetadata copyWithPictureFrames(List<PictureFrame> list) {
         return new FlacStreamMetadata(this.minBlockSizeSamples, this.maxBlockSizeSamples, this.minFrameSize, this.maxFrameSize, this.sampleRate, this.channels, this.bitsPerSample, this.totalSamples, this.seekTable, getMetadataCopyWithAppendedEntriesFrom(new Metadata(list)));
+    }
+
+    private static Metadata concatenateVorbisMetadata(List<String> list, List<PictureFrame> list2) {
+        Metadata parseVorbisComments = VorbisUtil.parseVorbisComments(list);
+        if (parseVorbisComments == null && list2.isEmpty()) {
+            return null;
+        }
+        return new Metadata(list2).copyWithAppendedEntriesFrom(parseVorbisComments);
     }
 }

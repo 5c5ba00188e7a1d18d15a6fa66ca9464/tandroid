@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.clearcut;
 
 import com.google.android.gms.internal.clearcut.zzcg;
-import org.telegram.messenger.voip.VoIPController;
 /* loaded from: classes.dex */
 public final class zzge$zzs extends zzcg<zzge$zzs, zza> implements zzdq {
     private static final zzge$zzs zzbfc;
@@ -143,7 +142,7 @@ public final class zzge$zzs extends zzcg<zzge$zzs, zza> implements zzdq {
 
         public static zzc zzba(int i) {
             switch (i) {
-                case VoIPController.ERROR_PEER_OUTDATED /* -1 */:
+                case -1:
                     return zzbfz;
                 case 0:
                     return zzbga;
