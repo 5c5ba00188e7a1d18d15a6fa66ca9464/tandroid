@@ -514,8 +514,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         TextView textView2 = new TextView(context);
         this.removeButtonView = textView2;
         textView2.setVisibility(8);
-        this.removeButtonView.setBackground(Theme.createRadSelectorDrawable(268435455 & getThemedColor("dialogTextRed"), 0, 0));
-        this.removeButtonView.setTextColor(getThemedColor("dialogTextRed"));
+        this.removeButtonView.setBackground(Theme.createRadSelectorDrawable(268435455 & getThemedColor("text_RedBold"), 0, 0));
+        this.removeButtonView.setTextColor(getThemedColor("text_RedBold"));
         this.removeButtonView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.removeButtonView.setGravity(17);
         this.removeButtonView.setClickable(true);
@@ -1048,7 +1048,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         if (baseFragment != null) {
             new PremiumFeatureBottomSheet(baseFragment, 11, false).show();
         } else if (getContext() instanceof LaunchActivity) {
-            ((LaunchActivity) getContext()).lambda$runLinkRequest$77(new PremiumPreviewFragment(null));
+            ((LaunchActivity) getContext()).lambda$runLinkRequest$79(new PremiumPreviewFragment(null));
         }
     }
 

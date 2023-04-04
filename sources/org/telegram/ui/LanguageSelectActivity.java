@@ -417,7 +417,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                 showDialog(create);
                 TextView textView = (TextView) create.getButton(-1);
                 if (textView != null) {
-                    textView.setTextColor(Theme.getColor("dialogTextRed"));
+                    textView.setTextColor(Theme.getColor("text_RedBold"));
                 }
                 return true;
             }
@@ -693,22 +693,22 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:104:0x027e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:104:0x0281, code lost:
             if (r13 == (r11.this$0.unofficialLanguages.size() - 1)) goto L112;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:114:0x02bf, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:114:0x02c2, code lost:
             if (r13 == (r11.this$0.sortedLanguages.size() - 1)) goto L112;
          */
         /* JADX WARN: Code restructure failed: missing block: B:44:0x0121, code lost:
             if (r12.getValueTextView().getPaint().measureText(r2) > java.lang.Math.min((org.telegram.messenger.AndroidUtilities.displaySize.x - org.telegram.messenger.AndroidUtilities.dp(34.0f)) / 2.0f, (org.telegram.messenger.AndroidUtilities.displaySize.x - org.telegram.messenger.AndroidUtilities.dp(84.0f)) - r12.getTextView().getPaint().measureText(r0))) goto L32;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:95:0x0244, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:95:0x0247, code lost:
             if (r13 == (r11.this$0.searchResult.size() - 1)) goto L112;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:96:0x0246, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:96:0x0249, code lost:
             r13 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:97:0x0249, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:97:0x024c, code lost:
             r13 = false;
          */
         /* JADX WARN: Removed duplicated region for block: B:49:0x0129  */
@@ -775,6 +775,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                 textCheckCell.updateRTL();
                 if (i == 1) {
                     textCheckCell.setTextAndCheck(LocaleController.getString("ShowTranslateButton", R.string.ShowTranslateButton), LanguageSelectActivity.this.getContextValue(), true);
+                    textCheckCell.setCheckBoxIcon(0);
                     return;
                 } else if (i == 2) {
                     String string = LocaleController.getString("ShowTranslateChatButton", R.string.ShowTranslateChatButton);

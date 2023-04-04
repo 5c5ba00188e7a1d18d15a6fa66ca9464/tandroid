@@ -81,6 +81,7 @@ import org.telegram.tgnet.TLRPC$TL_contact;
 import org.telegram.tgnet.TLRPC$TL_decryptedMessageActionScreenshotMessages;
 import org.telegram.tgnet.TLRPC$TL_decryptedMessageActionSetMessageTTL;
 import org.telegram.tgnet.TLRPC$TL_dialog;
+import org.telegram.tgnet.TLRPC$TL_dialogFilterChatlist;
 import org.telegram.tgnet.TLRPC$TL_dialogFolder;
 import org.telegram.tgnet.TLRPC$TL_documentEmpty;
 import org.telegram.tgnet.TLRPC$TL_folder;
@@ -150,7 +151,7 @@ import org.telegram.ui.Adapters.DialogsSearchAdapter;
 /* loaded from: classes.dex */
 public class MessagesStorage extends BaseController {
     public static final String[] DATABASE_TABLES;
-    public static final int LAST_DB_VERSION = 116;
+    public static final int LAST_DB_VERSION = 117;
     private int archiveUnreadCount;
     private int[][] bots;
     private File cacheFile;
@@ -491,7 +492,7 @@ public class MessagesStorage extends BaseController {
                         FileLog.e(e3);
                     }
                 }
-                if (intValue < 116) {
+                if (intValue < 117) {
                     try {
                         updateDbToLastVersion(intValue);
                     } catch (Exception e4) {
@@ -722,7 +723,7 @@ public class MessagesStorage extends BaseController {
         sQLiteDatabase.executeFast("CREATE INDEX IF NOT EXISTS reaction_mentions_topics_did ON reaction_mentions_topics(dialog_id, topic_id);").stepThis().dispose();
         sQLiteDatabase.executeFast("CREATE TABLE emoji_groups(type INTEGER PRIMARY KEY, data BLOB)").stepThis().dispose();
         sQLiteDatabase.executeFast("CREATE TABLE app_config(data BLOB)").stepThis().dispose();
-        sQLiteDatabase.executeFast("PRAGMA user_version = 116").stepThis().dispose();
+        sQLiteDatabase.executeFast("PRAGMA user_version = 117").stepThis().dispose();
     }
 
     public boolean isDatabaseMigrationInProgress() {
@@ -1576,7 +1577,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:59:0x0313 A[Catch: all -> 0x0330, Exception -> 0x0332, TryCatch #10 {Exception -> 0x0332, blocks: (B:56:0x021e, B:57:0x0222, B:59:0x0313, B:61:0x0325), top: B:145:0x021e }] */
     /* JADX WARN: Type inference failed for: r7v23 */
     /* JADX WARN: Type inference failed for: r7v6 */
-    /* JADX WARN: Type inference failed for: r7v7, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r7v7, types: [boolean, int] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2313,7 +2314,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:147:0x02d3  */
     /* JADX WARN: Removed duplicated region for block: B:152:0x02df  */
     /* JADX WARN: Type inference failed for: r13v4 */
-    /* JADX WARN: Type inference failed for: r13v5, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v5, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v6 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2961,7 +2962,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:79:0x01c5 A[Catch: all -> 0x03e3, Exception -> 0x03e6, TryCatch #4 {all -> 0x03e3, blocks: (B:4:0x002d, B:6:0x0035, B:8:0x005d, B:14:0x006d, B:18:0x008c, B:22:0x00a2, B:24:0x00b5, B:26:0x00bd, B:27:0x00c2, B:29:0x00de, B:31:0x00ea, B:33:0x00fd, B:35:0x0108, B:37:0x012d, B:39:0x0134, B:40:0x0148, B:42:0x014c, B:44:0x0150, B:46:0x0156, B:48:0x015a, B:50:0x015e, B:52:0x0166, B:54:0x016c, B:56:0x017d, B:58:0x0189, B:60:0x0190, B:62:0x0194, B:72:0x01b0, B:74:0x01b6, B:76:0x01bc, B:77:0x01bf, B:79:0x01c5, B:81:0x01d5, B:82:0x01dd, B:84:0x01e5, B:86:0x01ef, B:87:0x01f7, B:89:0x0202, B:69:0x01a2, B:70:0x01a6, B:91:0x0210), top: B:196:0x002d }] */
     /* JADX WARN: Removed duplicated region for block: B:82:0x01dd A[Catch: all -> 0x03e3, Exception -> 0x03e6, TryCatch #4 {all -> 0x03e3, blocks: (B:4:0x002d, B:6:0x0035, B:8:0x005d, B:14:0x006d, B:18:0x008c, B:22:0x00a2, B:24:0x00b5, B:26:0x00bd, B:27:0x00c2, B:29:0x00de, B:31:0x00ea, B:33:0x00fd, B:35:0x0108, B:37:0x012d, B:39:0x0134, B:40:0x0148, B:42:0x014c, B:44:0x0150, B:46:0x0156, B:48:0x015a, B:50:0x015e, B:52:0x0166, B:54:0x016c, B:56:0x017d, B:58:0x0189, B:60:0x0190, B:62:0x0194, B:72:0x01b0, B:74:0x01b6, B:76:0x01bc, B:77:0x01bf, B:79:0x01c5, B:81:0x01d5, B:82:0x01dd, B:84:0x01e5, B:86:0x01ef, B:87:0x01f7, B:89:0x0202, B:69:0x01a2, B:70:0x01a6, B:91:0x0210), top: B:196:0x002d }] */
     /* JADX WARN: Type inference failed for: r1v2 */
-    /* JADX WARN: Type inference failed for: r1v3, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r1v3, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r1v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -3356,11 +3357,11 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:101:0x0261  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x0262  */
     /* JADX WARN: Removed duplicated region for block: B:126:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x0250  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x0255  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x025c  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x0251  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x0256  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x025d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3543,7 +3544,7 @@ public class MessagesStorage extends BaseController {
             if (!arrayList2.isEmpty()) {
                 getChatsInternal(TextUtils.join(",", arrayList2), arrayList6);
             }
-            getMessagesController().processLoadedDialogFilters(new ArrayList<>(this.dialogFilters), tLRPC$messages_Dialogs, null, arrayList5, arrayList6, arrayList7, 0);
+            getMessagesController().processLoadedDialogFilters(new ArrayList<>(this.dialogFilters), tLRPC$messages_Dialogs, null, arrayList5, arrayList6, arrayList7, 0, null);
         } catch (Exception e3) {
             e = e3;
             sQLiteCursor = null;
@@ -4330,62 +4331,61 @@ public class MessagesStorage extends BaseController {
         return arrayList2;
     }
 
-    public void checkLoadedRemoteFilters(final TLRPC$Vector tLRPC$Vector) {
+    public void checkLoadedRemoteFilters(final TLRPC$Vector tLRPC$Vector, final Runnable runnable) {
         this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda193
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesStorage.this.lambda$checkLoadedRemoteFilters$52(tLRPC$Vector);
+                MessagesStorage.this.lambda$checkLoadedRemoteFilters$52(tLRPC$Vector, runnable);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:132:0x02e7 A[Catch: Exception -> 0x0543, TryCatch #0 {Exception -> 0x0543, blocks: (B:3:0x0004, B:5:0x0012, B:6:0x0022, B:8:0x005d, B:10:0x0072, B:12:0x007e, B:14:0x0082, B:15:0x0085, B:17:0x0089, B:18:0x008c, B:20:0x0090, B:21:0x0093, B:23:0x0097, B:24:0x009a, B:26:0x009e, B:27:0x00a1, B:29:0x00a5, B:30:0x00a8, B:32:0x00ac, B:33:0x00af, B:35:0x00c1, B:37:0x00d2, B:39:0x00d9, B:41:0x00dd, B:43:0x00e3, B:45:0x0102, B:47:0x0116, B:50:0x0126, B:52:0x0134, B:54:0x014c, B:58:0x0170, B:57:0x0161, B:61:0x017f, B:63:0x0188, B:67:0x01a3, B:66:0x0195, B:68:0x01a6, B:70:0x01b4, B:72:0x01c6, B:78:0x01d9, B:80:0x01e3, B:82:0x01ef, B:83:0x0207, B:85:0x021f, B:87:0x0225, B:89:0x022d, B:73:0x01cb, B:77:0x01d4, B:76:0x01d2, B:92:0x0249, B:93:0x0251, B:95:0x0257, B:100:0x0279, B:102:0x027e, B:104:0x0284, B:107:0x028b, B:108:0x0292, B:110:0x0298, B:111:0x02a2, B:113:0x02a8, B:120:0x02c0, B:123:0x02cd, B:126:0x02d4, B:127:0x02d7, B:129:0x02dd, B:105:0x0287, B:101:0x027c, B:130:0x02e0, B:132:0x02e7, B:135:0x02f9, B:138:0x0303, B:195:0x045b, B:141:0x031e, B:145:0x0343, B:147:0x034c, B:149:0x035a, B:155:0x036d, B:157:0x0375, B:158:0x037a, B:160:0x0393, B:161:0x0399, B:150:0x035f, B:154:0x0368, B:153:0x0366, B:164:0x03a4, B:167:0x03ab, B:169:0x03b0, B:171:0x03b7, B:173:0x03c3, B:175:0x03cd, B:176:0x03d0, B:178:0x03d8, B:192:0x0429, B:181:0x03ed, B:185:0x03fd, B:187:0x0413, B:188:0x0416, B:190:0x041e, B:184:0x03fb, B:193:0x043a, B:168:0x03ae, B:165:0x03a7, B:194:0x044d, B:196:0x046e, B:199:0x0480, B:201:0x0496, B:203:0x04af, B:205:0x04ba, B:207:0x04c8, B:208:0x04da, B:210:0x04e5, B:212:0x04f3, B:213:0x0505, B:215:0x050b, B:217:0x0511, B:219:0x0517, B:220:0x0525, B:202:0x04aa), top: B:225:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:133:0x02f3  */
-    /* JADX WARN: Removed duplicated region for block: B:135:0x02f9 A[Catch: Exception -> 0x0543, TryCatch #0 {Exception -> 0x0543, blocks: (B:3:0x0004, B:5:0x0012, B:6:0x0022, B:8:0x005d, B:10:0x0072, B:12:0x007e, B:14:0x0082, B:15:0x0085, B:17:0x0089, B:18:0x008c, B:20:0x0090, B:21:0x0093, B:23:0x0097, B:24:0x009a, B:26:0x009e, B:27:0x00a1, B:29:0x00a5, B:30:0x00a8, B:32:0x00ac, B:33:0x00af, B:35:0x00c1, B:37:0x00d2, B:39:0x00d9, B:41:0x00dd, B:43:0x00e3, B:45:0x0102, B:47:0x0116, B:50:0x0126, B:52:0x0134, B:54:0x014c, B:58:0x0170, B:57:0x0161, B:61:0x017f, B:63:0x0188, B:67:0x01a3, B:66:0x0195, B:68:0x01a6, B:70:0x01b4, B:72:0x01c6, B:78:0x01d9, B:80:0x01e3, B:82:0x01ef, B:83:0x0207, B:85:0x021f, B:87:0x0225, B:89:0x022d, B:73:0x01cb, B:77:0x01d4, B:76:0x01d2, B:92:0x0249, B:93:0x0251, B:95:0x0257, B:100:0x0279, B:102:0x027e, B:104:0x0284, B:107:0x028b, B:108:0x0292, B:110:0x0298, B:111:0x02a2, B:113:0x02a8, B:120:0x02c0, B:123:0x02cd, B:126:0x02d4, B:127:0x02d7, B:129:0x02dd, B:105:0x0287, B:101:0x027c, B:130:0x02e0, B:132:0x02e7, B:135:0x02f9, B:138:0x0303, B:195:0x045b, B:141:0x031e, B:145:0x0343, B:147:0x034c, B:149:0x035a, B:155:0x036d, B:157:0x0375, B:158:0x037a, B:160:0x0393, B:161:0x0399, B:150:0x035f, B:154:0x0368, B:153:0x0366, B:164:0x03a4, B:167:0x03ab, B:169:0x03b0, B:171:0x03b7, B:173:0x03c3, B:175:0x03cd, B:176:0x03d0, B:178:0x03d8, B:192:0x0429, B:181:0x03ed, B:185:0x03fd, B:187:0x0413, B:188:0x0416, B:190:0x041e, B:184:0x03fb, B:193:0x043a, B:168:0x03ae, B:165:0x03a7, B:194:0x044d, B:196:0x046e, B:199:0x0480, B:201:0x0496, B:203:0x04af, B:205:0x04ba, B:207:0x04c8, B:208:0x04da, B:210:0x04e5, B:212:0x04f3, B:213:0x0505, B:215:0x050b, B:217:0x0511, B:219:0x0517, B:220:0x0525, B:202:0x04aa), top: B:225:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:136:0x02ff  */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x0303 A[Catch: Exception -> 0x0543, TryCatch #0 {Exception -> 0x0543, blocks: (B:3:0x0004, B:5:0x0012, B:6:0x0022, B:8:0x005d, B:10:0x0072, B:12:0x007e, B:14:0x0082, B:15:0x0085, B:17:0x0089, B:18:0x008c, B:20:0x0090, B:21:0x0093, B:23:0x0097, B:24:0x009a, B:26:0x009e, B:27:0x00a1, B:29:0x00a5, B:30:0x00a8, B:32:0x00ac, B:33:0x00af, B:35:0x00c1, B:37:0x00d2, B:39:0x00d9, B:41:0x00dd, B:43:0x00e3, B:45:0x0102, B:47:0x0116, B:50:0x0126, B:52:0x0134, B:54:0x014c, B:58:0x0170, B:57:0x0161, B:61:0x017f, B:63:0x0188, B:67:0x01a3, B:66:0x0195, B:68:0x01a6, B:70:0x01b4, B:72:0x01c6, B:78:0x01d9, B:80:0x01e3, B:82:0x01ef, B:83:0x0207, B:85:0x021f, B:87:0x0225, B:89:0x022d, B:73:0x01cb, B:77:0x01d4, B:76:0x01d2, B:92:0x0249, B:93:0x0251, B:95:0x0257, B:100:0x0279, B:102:0x027e, B:104:0x0284, B:107:0x028b, B:108:0x0292, B:110:0x0298, B:111:0x02a2, B:113:0x02a8, B:120:0x02c0, B:123:0x02cd, B:126:0x02d4, B:127:0x02d7, B:129:0x02dd, B:105:0x0287, B:101:0x027c, B:130:0x02e0, B:132:0x02e7, B:135:0x02f9, B:138:0x0303, B:195:0x045b, B:141:0x031e, B:145:0x0343, B:147:0x034c, B:149:0x035a, B:155:0x036d, B:157:0x0375, B:158:0x037a, B:160:0x0393, B:161:0x0399, B:150:0x035f, B:154:0x0368, B:153:0x0366, B:164:0x03a4, B:167:0x03ab, B:169:0x03b0, B:171:0x03b7, B:173:0x03c3, B:175:0x03cd, B:176:0x03d0, B:178:0x03d8, B:192:0x0429, B:181:0x03ed, B:185:0x03fd, B:187:0x0413, B:188:0x0416, B:190:0x041e, B:184:0x03fb, B:193:0x043a, B:168:0x03ae, B:165:0x03a7, B:194:0x044d, B:196:0x046e, B:199:0x0480, B:201:0x0496, B:203:0x04af, B:205:0x04ba, B:207:0x04c8, B:208:0x04da, B:210:0x04e5, B:212:0x04f3, B:213:0x0505, B:215:0x050b, B:217:0x0511, B:219:0x0517, B:220:0x0525, B:202:0x04aa), top: B:225:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:139:0x030f  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0188 A[Catch: Exception -> 0x0543, TryCatch #0 {Exception -> 0x0543, blocks: (B:3:0x0004, B:5:0x0012, B:6:0x0022, B:8:0x005d, B:10:0x0072, B:12:0x007e, B:14:0x0082, B:15:0x0085, B:17:0x0089, B:18:0x008c, B:20:0x0090, B:21:0x0093, B:23:0x0097, B:24:0x009a, B:26:0x009e, B:27:0x00a1, B:29:0x00a5, B:30:0x00a8, B:32:0x00ac, B:33:0x00af, B:35:0x00c1, B:37:0x00d2, B:39:0x00d9, B:41:0x00dd, B:43:0x00e3, B:45:0x0102, B:47:0x0116, B:50:0x0126, B:52:0x0134, B:54:0x014c, B:58:0x0170, B:57:0x0161, B:61:0x017f, B:63:0x0188, B:67:0x01a3, B:66:0x0195, B:68:0x01a6, B:70:0x01b4, B:72:0x01c6, B:78:0x01d9, B:80:0x01e3, B:82:0x01ef, B:83:0x0207, B:85:0x021f, B:87:0x0225, B:89:0x022d, B:73:0x01cb, B:77:0x01d4, B:76:0x01d2, B:92:0x0249, B:93:0x0251, B:95:0x0257, B:100:0x0279, B:102:0x027e, B:104:0x0284, B:107:0x028b, B:108:0x0292, B:110:0x0298, B:111:0x02a2, B:113:0x02a8, B:120:0x02c0, B:123:0x02cd, B:126:0x02d4, B:127:0x02d7, B:129:0x02dd, B:105:0x0287, B:101:0x027c, B:130:0x02e0, B:132:0x02e7, B:135:0x02f9, B:138:0x0303, B:195:0x045b, B:141:0x031e, B:145:0x0343, B:147:0x034c, B:149:0x035a, B:155:0x036d, B:157:0x0375, B:158:0x037a, B:160:0x0393, B:161:0x0399, B:150:0x035f, B:154:0x0368, B:153:0x0366, B:164:0x03a4, B:167:0x03ab, B:169:0x03b0, B:171:0x03b7, B:173:0x03c3, B:175:0x03cd, B:176:0x03d0, B:178:0x03d8, B:192:0x0429, B:181:0x03ed, B:185:0x03fd, B:187:0x0413, B:188:0x0416, B:190:0x041e, B:184:0x03fb, B:193:0x043a, B:168:0x03ae, B:165:0x03a7, B:194:0x044d, B:196:0x046e, B:199:0x0480, B:201:0x0496, B:203:0x04af, B:205:0x04ba, B:207:0x04c8, B:208:0x04da, B:210:0x04e5, B:212:0x04f3, B:213:0x0505, B:215:0x050b, B:217:0x0511, B:219:0x0517, B:220:0x0525, B:202:0x04aa), top: B:225:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x01b4 A[Catch: Exception -> 0x0543, TryCatch #0 {Exception -> 0x0543, blocks: (B:3:0x0004, B:5:0x0012, B:6:0x0022, B:8:0x005d, B:10:0x0072, B:12:0x007e, B:14:0x0082, B:15:0x0085, B:17:0x0089, B:18:0x008c, B:20:0x0090, B:21:0x0093, B:23:0x0097, B:24:0x009a, B:26:0x009e, B:27:0x00a1, B:29:0x00a5, B:30:0x00a8, B:32:0x00ac, B:33:0x00af, B:35:0x00c1, B:37:0x00d2, B:39:0x00d9, B:41:0x00dd, B:43:0x00e3, B:45:0x0102, B:47:0x0116, B:50:0x0126, B:52:0x0134, B:54:0x014c, B:58:0x0170, B:57:0x0161, B:61:0x017f, B:63:0x0188, B:67:0x01a3, B:66:0x0195, B:68:0x01a6, B:70:0x01b4, B:72:0x01c6, B:78:0x01d9, B:80:0x01e3, B:82:0x01ef, B:83:0x0207, B:85:0x021f, B:87:0x0225, B:89:0x022d, B:73:0x01cb, B:77:0x01d4, B:76:0x01d2, B:92:0x0249, B:93:0x0251, B:95:0x0257, B:100:0x0279, B:102:0x027e, B:104:0x0284, B:107:0x028b, B:108:0x0292, B:110:0x0298, B:111:0x02a2, B:113:0x02a8, B:120:0x02c0, B:123:0x02cd, B:126:0x02d4, B:127:0x02d7, B:129:0x02dd, B:105:0x0287, B:101:0x027c, B:130:0x02e0, B:132:0x02e7, B:135:0x02f9, B:138:0x0303, B:195:0x045b, B:141:0x031e, B:145:0x0343, B:147:0x034c, B:149:0x035a, B:155:0x036d, B:157:0x0375, B:158:0x037a, B:160:0x0393, B:161:0x0399, B:150:0x035f, B:154:0x0368, B:153:0x0366, B:164:0x03a4, B:167:0x03ab, B:169:0x03b0, B:171:0x03b7, B:173:0x03c3, B:175:0x03cd, B:176:0x03d0, B:178:0x03d8, B:192:0x0429, B:181:0x03ed, B:185:0x03fd, B:187:0x0413, B:188:0x0416, B:190:0x041e, B:184:0x03fb, B:193:0x043a, B:168:0x03ae, B:165:0x03a7, B:194:0x044d, B:196:0x046e, B:199:0x0480, B:201:0x0496, B:203:0x04af, B:205:0x04ba, B:207:0x04c8, B:208:0x04da, B:210:0x04e5, B:212:0x04f3, B:213:0x0505, B:215:0x050b, B:217:0x0511, B:219:0x0517, B:220:0x0525, B:202:0x04aa), top: B:225:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x0249 A[Catch: Exception -> 0x0543, TryCatch #0 {Exception -> 0x0543, blocks: (B:3:0x0004, B:5:0x0012, B:6:0x0022, B:8:0x005d, B:10:0x0072, B:12:0x007e, B:14:0x0082, B:15:0x0085, B:17:0x0089, B:18:0x008c, B:20:0x0090, B:21:0x0093, B:23:0x0097, B:24:0x009a, B:26:0x009e, B:27:0x00a1, B:29:0x00a5, B:30:0x00a8, B:32:0x00ac, B:33:0x00af, B:35:0x00c1, B:37:0x00d2, B:39:0x00d9, B:41:0x00dd, B:43:0x00e3, B:45:0x0102, B:47:0x0116, B:50:0x0126, B:52:0x0134, B:54:0x014c, B:58:0x0170, B:57:0x0161, B:61:0x017f, B:63:0x0188, B:67:0x01a3, B:66:0x0195, B:68:0x01a6, B:70:0x01b4, B:72:0x01c6, B:78:0x01d9, B:80:0x01e3, B:82:0x01ef, B:83:0x0207, B:85:0x021f, B:87:0x0225, B:89:0x022d, B:73:0x01cb, B:77:0x01d4, B:76:0x01d2, B:92:0x0249, B:93:0x0251, B:95:0x0257, B:100:0x0279, B:102:0x027e, B:104:0x0284, B:107:0x028b, B:108:0x0292, B:110:0x0298, B:111:0x02a2, B:113:0x02a8, B:120:0x02c0, B:123:0x02cd, B:126:0x02d4, B:127:0x02d7, B:129:0x02dd, B:105:0x0287, B:101:0x027c, B:130:0x02e0, B:132:0x02e7, B:135:0x02f9, B:138:0x0303, B:195:0x045b, B:141:0x031e, B:145:0x0343, B:147:0x034c, B:149:0x035a, B:155:0x036d, B:157:0x0375, B:158:0x037a, B:160:0x0393, B:161:0x0399, B:150:0x035f, B:154:0x0368, B:153:0x0366, B:164:0x03a4, B:167:0x03ab, B:169:0x03b0, B:171:0x03b7, B:173:0x03c3, B:175:0x03cd, B:176:0x03d0, B:178:0x03d8, B:192:0x0429, B:181:0x03ed, B:185:0x03fd, B:187:0x0413, B:188:0x0416, B:190:0x041e, B:184:0x03fb, B:193:0x043a, B:168:0x03ae, B:165:0x03a7, B:194:0x044d, B:196:0x046e, B:199:0x0480, B:201:0x0496, B:203:0x04af, B:205:0x04ba, B:207:0x04c8, B:208:0x04da, B:210:0x04e5, B:212:0x04f3, B:213:0x0505, B:215:0x050b, B:217:0x0511, B:219:0x0517, B:220:0x0525, B:202:0x04aa), top: B:225:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x0277  */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x0292  */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x0301 A[Catch: Exception -> 0x056e, TryCatch #0 {Exception -> 0x056e, blocks: (B:3:0x0004, B:5:0x0012, B:6:0x0022, B:8:0x005d, B:10:0x0072, B:12:0x007e, B:14:0x0082, B:15:0x0085, B:17:0x0089, B:18:0x008c, B:20:0x0090, B:21:0x0093, B:23:0x0097, B:24:0x009a, B:26:0x009e, B:27:0x00a1, B:29:0x00a5, B:30:0x00a8, B:32:0x00ac, B:33:0x00af, B:35:0x00b3, B:37:0x00ba, B:38:0x00bd, B:40:0x00cf, B:42:0x00e0, B:44:0x00e7, B:46:0x00eb, B:48:0x00f1, B:50:0x0110, B:52:0x0124, B:55:0x0134, B:57:0x0142, B:59:0x015a, B:63:0x017e, B:62:0x016f, B:67:0x0190, B:69:0x0199, B:73:0x01b4, B:72:0x01a6, B:74:0x01b7, B:76:0x01c7, B:78:0x01db, B:84:0x01ee, B:86:0x01f8, B:88:0x0204, B:89:0x021c, B:91:0x0234, B:93:0x023a, B:96:0x0244, B:79:0x01e0, B:83:0x01e9, B:82:0x01e7, B:99:0x0262, B:100:0x026a, B:102:0x0270, B:107:0x0294, B:109:0x0299, B:111:0x029f, B:114:0x02a6, B:115:0x02ad, B:117:0x02b3, B:118:0x02bd, B:120:0x02c3, B:127:0x02db, B:130:0x02e8, B:133:0x02ef, B:134:0x02f2, B:136:0x02f7, B:112:0x02a2, B:108:0x0297, B:137:0x02fa, B:139:0x0301, B:142:0x0313, B:145:0x031d, B:201:0x0477, B:148:0x0337, B:151:0x035e, B:153:0x0367, B:155:0x0376, B:161:0x0389, B:163:0x0391, B:164:0x0396, B:166:0x03af, B:167:0x03b5, B:156:0x037b, B:160:0x0384, B:159:0x0382, B:170:0x03c1, B:173:0x03c8, B:175:0x03cd, B:177:0x03d4, B:179:0x03e2, B:181:0x03ec, B:182:0x03ef, B:184:0x03f7, B:198:0x0448, B:187:0x040c, B:191:0x041c, B:193:0x0432, B:194:0x0435, B:196:0x043d, B:190:0x041a, B:199:0x0456, B:174:0x03cb, B:171:0x03c4, B:200:0x046a, B:202:0x048b, B:205:0x049f, B:207:0x04b5, B:209:0x04ce, B:211:0x04db, B:213:0x04e9, B:214:0x04ff, B:216:0x050c, B:218:0x051a, B:219:0x052c, B:221:0x0532, B:223:0x0538, B:225:0x053e, B:226:0x0552, B:208:0x04c9), top: B:231:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:140:0x030d  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x0313 A[Catch: Exception -> 0x056e, TryCatch #0 {Exception -> 0x056e, blocks: (B:3:0x0004, B:5:0x0012, B:6:0x0022, B:8:0x005d, B:10:0x0072, B:12:0x007e, B:14:0x0082, B:15:0x0085, B:17:0x0089, B:18:0x008c, B:20:0x0090, B:21:0x0093, B:23:0x0097, B:24:0x009a, B:26:0x009e, B:27:0x00a1, B:29:0x00a5, B:30:0x00a8, B:32:0x00ac, B:33:0x00af, B:35:0x00b3, B:37:0x00ba, B:38:0x00bd, B:40:0x00cf, B:42:0x00e0, B:44:0x00e7, B:46:0x00eb, B:48:0x00f1, B:50:0x0110, B:52:0x0124, B:55:0x0134, B:57:0x0142, B:59:0x015a, B:63:0x017e, B:62:0x016f, B:67:0x0190, B:69:0x0199, B:73:0x01b4, B:72:0x01a6, B:74:0x01b7, B:76:0x01c7, B:78:0x01db, B:84:0x01ee, B:86:0x01f8, B:88:0x0204, B:89:0x021c, B:91:0x0234, B:93:0x023a, B:96:0x0244, B:79:0x01e0, B:83:0x01e9, B:82:0x01e7, B:99:0x0262, B:100:0x026a, B:102:0x0270, B:107:0x0294, B:109:0x0299, B:111:0x029f, B:114:0x02a6, B:115:0x02ad, B:117:0x02b3, B:118:0x02bd, B:120:0x02c3, B:127:0x02db, B:130:0x02e8, B:133:0x02ef, B:134:0x02f2, B:136:0x02f7, B:112:0x02a2, B:108:0x0297, B:137:0x02fa, B:139:0x0301, B:142:0x0313, B:145:0x031d, B:201:0x0477, B:148:0x0337, B:151:0x035e, B:153:0x0367, B:155:0x0376, B:161:0x0389, B:163:0x0391, B:164:0x0396, B:166:0x03af, B:167:0x03b5, B:156:0x037b, B:160:0x0384, B:159:0x0382, B:170:0x03c1, B:173:0x03c8, B:175:0x03cd, B:177:0x03d4, B:179:0x03e2, B:181:0x03ec, B:182:0x03ef, B:184:0x03f7, B:198:0x0448, B:187:0x040c, B:191:0x041c, B:193:0x0432, B:194:0x0435, B:196:0x043d, B:190:0x041a, B:199:0x0456, B:174:0x03cb, B:171:0x03c4, B:200:0x046a, B:202:0x048b, B:205:0x049f, B:207:0x04b5, B:209:0x04ce, B:211:0x04db, B:213:0x04e9, B:214:0x04ff, B:216:0x050c, B:218:0x051a, B:219:0x052c, B:221:0x0532, B:223:0x0538, B:225:0x053e, B:226:0x0552, B:208:0x04c9), top: B:231:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x0319  */
+    /* JADX WARN: Removed duplicated region for block: B:145:0x031d A[Catch: Exception -> 0x056e, TryCatch #0 {Exception -> 0x056e, blocks: (B:3:0x0004, B:5:0x0012, B:6:0x0022, B:8:0x005d, B:10:0x0072, B:12:0x007e, B:14:0x0082, B:15:0x0085, B:17:0x0089, B:18:0x008c, B:20:0x0090, B:21:0x0093, B:23:0x0097, B:24:0x009a, B:26:0x009e, B:27:0x00a1, B:29:0x00a5, B:30:0x00a8, B:32:0x00ac, B:33:0x00af, B:35:0x00b3, B:37:0x00ba, B:38:0x00bd, B:40:0x00cf, B:42:0x00e0, B:44:0x00e7, B:46:0x00eb, B:48:0x00f1, B:50:0x0110, B:52:0x0124, B:55:0x0134, B:57:0x0142, B:59:0x015a, B:63:0x017e, B:62:0x016f, B:67:0x0190, B:69:0x0199, B:73:0x01b4, B:72:0x01a6, B:74:0x01b7, B:76:0x01c7, B:78:0x01db, B:84:0x01ee, B:86:0x01f8, B:88:0x0204, B:89:0x021c, B:91:0x0234, B:93:0x023a, B:96:0x0244, B:79:0x01e0, B:83:0x01e9, B:82:0x01e7, B:99:0x0262, B:100:0x026a, B:102:0x0270, B:107:0x0294, B:109:0x0299, B:111:0x029f, B:114:0x02a6, B:115:0x02ad, B:117:0x02b3, B:118:0x02bd, B:120:0x02c3, B:127:0x02db, B:130:0x02e8, B:133:0x02ef, B:134:0x02f2, B:136:0x02f7, B:112:0x02a2, B:108:0x0297, B:137:0x02fa, B:139:0x0301, B:142:0x0313, B:145:0x031d, B:201:0x0477, B:148:0x0337, B:151:0x035e, B:153:0x0367, B:155:0x0376, B:161:0x0389, B:163:0x0391, B:164:0x0396, B:166:0x03af, B:167:0x03b5, B:156:0x037b, B:160:0x0384, B:159:0x0382, B:170:0x03c1, B:173:0x03c8, B:175:0x03cd, B:177:0x03d4, B:179:0x03e2, B:181:0x03ec, B:182:0x03ef, B:184:0x03f7, B:198:0x0448, B:187:0x040c, B:191:0x041c, B:193:0x0432, B:194:0x0435, B:196:0x043d, B:190:0x041a, B:199:0x0456, B:174:0x03cb, B:171:0x03c4, B:200:0x046a, B:202:0x048b, B:205:0x049f, B:207:0x04b5, B:209:0x04ce, B:211:0x04db, B:213:0x04e9, B:214:0x04ff, B:216:0x050c, B:218:0x051a, B:219:0x052c, B:221:0x0532, B:223:0x0538, B:225:0x053e, B:226:0x0552, B:208:0x04c9), top: B:231:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x0329  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0199 A[Catch: Exception -> 0x056e, TryCatch #0 {Exception -> 0x056e, blocks: (B:3:0x0004, B:5:0x0012, B:6:0x0022, B:8:0x005d, B:10:0x0072, B:12:0x007e, B:14:0x0082, B:15:0x0085, B:17:0x0089, B:18:0x008c, B:20:0x0090, B:21:0x0093, B:23:0x0097, B:24:0x009a, B:26:0x009e, B:27:0x00a1, B:29:0x00a5, B:30:0x00a8, B:32:0x00ac, B:33:0x00af, B:35:0x00b3, B:37:0x00ba, B:38:0x00bd, B:40:0x00cf, B:42:0x00e0, B:44:0x00e7, B:46:0x00eb, B:48:0x00f1, B:50:0x0110, B:52:0x0124, B:55:0x0134, B:57:0x0142, B:59:0x015a, B:63:0x017e, B:62:0x016f, B:67:0x0190, B:69:0x0199, B:73:0x01b4, B:72:0x01a6, B:74:0x01b7, B:76:0x01c7, B:78:0x01db, B:84:0x01ee, B:86:0x01f8, B:88:0x0204, B:89:0x021c, B:91:0x0234, B:93:0x023a, B:96:0x0244, B:79:0x01e0, B:83:0x01e9, B:82:0x01e7, B:99:0x0262, B:100:0x026a, B:102:0x0270, B:107:0x0294, B:109:0x0299, B:111:0x029f, B:114:0x02a6, B:115:0x02ad, B:117:0x02b3, B:118:0x02bd, B:120:0x02c3, B:127:0x02db, B:130:0x02e8, B:133:0x02ef, B:134:0x02f2, B:136:0x02f7, B:112:0x02a2, B:108:0x0297, B:137:0x02fa, B:139:0x0301, B:142:0x0313, B:145:0x031d, B:201:0x0477, B:148:0x0337, B:151:0x035e, B:153:0x0367, B:155:0x0376, B:161:0x0389, B:163:0x0391, B:164:0x0396, B:166:0x03af, B:167:0x03b5, B:156:0x037b, B:160:0x0384, B:159:0x0382, B:170:0x03c1, B:173:0x03c8, B:175:0x03cd, B:177:0x03d4, B:179:0x03e2, B:181:0x03ec, B:182:0x03ef, B:184:0x03f7, B:198:0x0448, B:187:0x040c, B:191:0x041c, B:193:0x0432, B:194:0x0435, B:196:0x043d, B:190:0x041a, B:199:0x0456, B:174:0x03cb, B:171:0x03c4, B:200:0x046a, B:202:0x048b, B:205:0x049f, B:207:0x04b5, B:209:0x04ce, B:211:0x04db, B:213:0x04e9, B:214:0x04ff, B:216:0x050c, B:218:0x051a, B:219:0x052c, B:221:0x0532, B:223:0x0538, B:225:0x053e, B:226:0x0552, B:208:0x04c9), top: B:231:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x01c7 A[Catch: Exception -> 0x056e, TryCatch #0 {Exception -> 0x056e, blocks: (B:3:0x0004, B:5:0x0012, B:6:0x0022, B:8:0x005d, B:10:0x0072, B:12:0x007e, B:14:0x0082, B:15:0x0085, B:17:0x0089, B:18:0x008c, B:20:0x0090, B:21:0x0093, B:23:0x0097, B:24:0x009a, B:26:0x009e, B:27:0x00a1, B:29:0x00a5, B:30:0x00a8, B:32:0x00ac, B:33:0x00af, B:35:0x00b3, B:37:0x00ba, B:38:0x00bd, B:40:0x00cf, B:42:0x00e0, B:44:0x00e7, B:46:0x00eb, B:48:0x00f1, B:50:0x0110, B:52:0x0124, B:55:0x0134, B:57:0x0142, B:59:0x015a, B:63:0x017e, B:62:0x016f, B:67:0x0190, B:69:0x0199, B:73:0x01b4, B:72:0x01a6, B:74:0x01b7, B:76:0x01c7, B:78:0x01db, B:84:0x01ee, B:86:0x01f8, B:88:0x0204, B:89:0x021c, B:91:0x0234, B:93:0x023a, B:96:0x0244, B:79:0x01e0, B:83:0x01e9, B:82:0x01e7, B:99:0x0262, B:100:0x026a, B:102:0x0270, B:107:0x0294, B:109:0x0299, B:111:0x029f, B:114:0x02a6, B:115:0x02ad, B:117:0x02b3, B:118:0x02bd, B:120:0x02c3, B:127:0x02db, B:130:0x02e8, B:133:0x02ef, B:134:0x02f2, B:136:0x02f7, B:112:0x02a2, B:108:0x0297, B:137:0x02fa, B:139:0x0301, B:142:0x0313, B:145:0x031d, B:201:0x0477, B:148:0x0337, B:151:0x035e, B:153:0x0367, B:155:0x0376, B:161:0x0389, B:163:0x0391, B:164:0x0396, B:166:0x03af, B:167:0x03b5, B:156:0x037b, B:160:0x0384, B:159:0x0382, B:170:0x03c1, B:173:0x03c8, B:175:0x03cd, B:177:0x03d4, B:179:0x03e2, B:181:0x03ec, B:182:0x03ef, B:184:0x03f7, B:198:0x0448, B:187:0x040c, B:191:0x041c, B:193:0x0432, B:194:0x0435, B:196:0x043d, B:190:0x041a, B:199:0x0456, B:174:0x03cb, B:171:0x03c4, B:200:0x046a, B:202:0x048b, B:205:0x049f, B:207:0x04b5, B:209:0x04ce, B:211:0x04db, B:213:0x04e9, B:214:0x04ff, B:216:0x050c, B:218:0x051a, B:219:0x052c, B:221:0x0532, B:223:0x0538, B:225:0x053e, B:226:0x0552, B:208:0x04c9), top: B:231:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x0262 A[Catch: Exception -> 0x056e, TryCatch #0 {Exception -> 0x056e, blocks: (B:3:0x0004, B:5:0x0012, B:6:0x0022, B:8:0x005d, B:10:0x0072, B:12:0x007e, B:14:0x0082, B:15:0x0085, B:17:0x0089, B:18:0x008c, B:20:0x0090, B:21:0x0093, B:23:0x0097, B:24:0x009a, B:26:0x009e, B:27:0x00a1, B:29:0x00a5, B:30:0x00a8, B:32:0x00ac, B:33:0x00af, B:35:0x00b3, B:37:0x00ba, B:38:0x00bd, B:40:0x00cf, B:42:0x00e0, B:44:0x00e7, B:46:0x00eb, B:48:0x00f1, B:50:0x0110, B:52:0x0124, B:55:0x0134, B:57:0x0142, B:59:0x015a, B:63:0x017e, B:62:0x016f, B:67:0x0190, B:69:0x0199, B:73:0x01b4, B:72:0x01a6, B:74:0x01b7, B:76:0x01c7, B:78:0x01db, B:84:0x01ee, B:86:0x01f8, B:88:0x0204, B:89:0x021c, B:91:0x0234, B:93:0x023a, B:96:0x0244, B:79:0x01e0, B:83:0x01e9, B:82:0x01e7, B:99:0x0262, B:100:0x026a, B:102:0x0270, B:107:0x0294, B:109:0x0299, B:111:0x029f, B:114:0x02a6, B:115:0x02ad, B:117:0x02b3, B:118:0x02bd, B:120:0x02c3, B:127:0x02db, B:130:0x02e8, B:133:0x02ef, B:134:0x02f2, B:136:0x02f7, B:112:0x02a2, B:108:0x0297, B:137:0x02fa, B:139:0x0301, B:142:0x0313, B:145:0x031d, B:201:0x0477, B:148:0x0337, B:151:0x035e, B:153:0x0367, B:155:0x0376, B:161:0x0389, B:163:0x0391, B:164:0x0396, B:166:0x03af, B:167:0x03b5, B:156:0x037b, B:160:0x0384, B:159:0x0382, B:170:0x03c1, B:173:0x03c8, B:175:0x03cd, B:177:0x03d4, B:179:0x03e2, B:181:0x03ec, B:182:0x03ef, B:184:0x03f7, B:198:0x0448, B:187:0x040c, B:191:0x041c, B:193:0x0432, B:194:0x0435, B:196:0x043d, B:190:0x041a, B:199:0x0456, B:174:0x03cb, B:171:0x03c4, B:200:0x046a, B:202:0x048b, B:205:0x049f, B:207:0x04b5, B:209:0x04ce, B:211:0x04db, B:213:0x04e9, B:214:0x04ff, B:216:0x050c, B:218:0x051a, B:219:0x052c, B:221:0x0532, B:223:0x0538, B:225:0x053e, B:226:0x0552, B:208:0x04c9), top: B:231:0x0004 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$checkLoadedRemoteFilters$52(TLRPC$Vector tLRPC$Vector) {
+    public /* synthetic */ void lambda$checkLoadedRemoteFilters$52(TLRPC$Vector tLRPC$Vector, Runnable runnable) {
         TLRPC$messages_Dialogs tLRPC$TL_messages_dialogs;
         int i;
         int i2;
         SparseArray<MessagesController.DialogFilter> sparseArray;
         int i3;
-        HashMap<Integer, HashSet<Long>> hashMap;
-        HashMap<Long, TLRPC$InputPeer> hashMap2;
-        ArrayList<Long> arrayList;
+        HashMap<Long, TLRPC$InputPeer> hashMap;
+        HashMap<Integer, HashSet<Long>> hashMap2;
+        HashSet<Integer> hashSet;
         HashMap<Long, TLRPC$InputPeer> hashMap3;
+        ArrayList<Long> arrayList;
+        HashSet<Integer> hashSet2;
         ArrayList<Long> arrayList2;
-        ArrayList<TLRPC$InputPeer> arrayList3;
-        ArrayList<Long> arrayList4;
-        HashMap<Long, TLRPC$InputPeer> hashMap4;
         TLRPC$DialogFilter tLRPC$DialogFilter;
-        HashMap<Long, TLRPC$InputPeer> hashMap5;
-        HashMap<Long, TLRPC$InputPeer> hashMap6;
-        ArrayList<Long> arrayList5;
+        HashMap<Long, TLRPC$InputPeer> hashMap4;
+        ArrayList<Long> arrayList3;
         Long valueOf;
         boolean z;
         boolean z2;
-        ArrayList<Long> arrayList6;
-        HashMap<Long, TLRPC$InputPeer> hashMap7;
+        ArrayList<Long> arrayList4;
+        HashMap<Long, TLRPC$InputPeer> hashMap5;
         LinkedHashMap linkedHashMap;
         int size;
         int i4;
         int size2;
         int i5;
         int i6;
-        HashMap<Integer, HashSet<Long>> hashMap8;
+        HashMap<Integer, HashSet<Long>> hashMap6;
+        HashSet<Integer> hashSet3;
         Long valueOf2;
-        ArrayList arrayList7;
         int i7;
+        ArrayList arrayList5;
         TLRPC$Vector tLRPC$Vector2 = tLRPC$Vector;
         try {
             SparseArray<MessagesController.DialogFilter> sparseArray2 = new SparseArray<>();
@@ -4394,21 +4394,21 @@ public class MessagesStorage extends BaseController {
                 MessagesController.DialogFilter dialogFilter = this.dialogFilters.get(i8);
                 sparseArray2.put(dialogFilter.id, dialogFilter);
             }
-            ArrayList<Integer> arrayList8 = new ArrayList<>();
-            ArrayList<Long> arrayList9 = new ArrayList<>();
+            ArrayList<Integer> arrayList6 = new ArrayList<>();
+            ArrayList<Long> arrayList7 = new ArrayList<>();
+            HashMap<Long, TLRPC$InputPeer> hashMap7 = new HashMap<>();
+            ArrayList<Long> arrayList8 = new ArrayList<>();
+            HashMap<Long, TLRPC$InputPeer> hashMap8 = new HashMap<>();
+            ArrayList arrayList9 = new ArrayList();
             HashMap<Long, TLRPC$InputPeer> hashMap9 = new HashMap<>();
-            ArrayList<Long> arrayList10 = new ArrayList<>();
-            HashMap<Long, TLRPC$InputPeer> hashMap10 = new HashMap<>();
-            ArrayList arrayList11 = new ArrayList();
-            HashMap<Long, TLRPC$InputPeer> hashMap11 = new HashMap<>();
-            ArrayList<MessagesController.DialogFilter> arrayList12 = new ArrayList<>();
-            HashMap<Integer, HashSet<Long>> hashMap12 = new HashMap<>();
-            HashSet<Integer> hashSet = new HashSet<>();
+            ArrayList<MessagesController.DialogFilter> arrayList10 = new ArrayList<>();
+            HashMap<Integer, HashSet<Long>> hashMap10 = new HashMap<>();
+            HashSet<Integer> hashSet4 = new HashSet<>();
             int size4 = tLRPC$Vector2.objects.size();
             int i9 = 0;
             while (i9 < size4) {
                 TLRPC$DialogFilter tLRPC$DialogFilter2 = (TLRPC$DialogFilter) tLRPC$Vector2.objects.get(i9);
-                arrayList8.add(Integer.valueOf(tLRPC$DialogFilter2.id));
+                arrayList6.add(Integer.valueOf(tLRPC$DialogFilter2.id));
                 if (tLRPC$DialogFilter2.contacts) {
                     i2 = MessagesController.DIALOG_FILTER_FLAG_CONTACTS | 0;
                     i = size4;
@@ -4437,7 +4437,13 @@ public class MessagesStorage extends BaseController {
                 if (tLRPC$DialogFilter2.exclude_archived) {
                     i2 |= MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_ARCHIVED;
                 }
-                ArrayList<Integer> arrayList13 = arrayList8;
+                if (tLRPC$DialogFilter2 instanceof TLRPC$TL_dialogFilterChatlist) {
+                    i2 |= MessagesController.DIALOG_FILTER_FLAG_CHATLIST;
+                    if (tLRPC$DialogFilter2.has_my_invites) {
+                        i2 |= MessagesController.DIALOG_FILTER_FLAG_CHATLIST_ADMIN;
+                    }
+                }
+                ArrayList<Integer> arrayList11 = arrayList6;
                 MessagesController.DialogFilter dialogFilter2 = this.dialogFiltersMap.get(tLRPC$DialogFilter2.id);
                 boolean z3 = true;
                 if (dialogFilter2 != null) {
@@ -4457,15 +4463,15 @@ public class MessagesStorage extends BaseController {
                         z2 = false;
                     }
                     boolean z4 = z2;
-                    HashSet hashSet2 = new HashSet(dialogFilter2.alwaysShow);
-                    hashSet2.addAll(dialogFilter2.neverShow);
-                    HashSet<Long> hashSet3 = new HashSet<>();
+                    HashSet hashSet5 = new HashSet(dialogFilter2.alwaysShow);
+                    hashSet5.addAll(dialogFilter2.neverShow);
+                    HashSet<Long> hashSet6 = new HashSet<>();
                     boolean z5 = z;
                     if (dialogFilter2.pinnedDialogs.size() != 0) {
-                        ArrayList arrayList14 = new ArrayList();
+                        ArrayList arrayList12 = new ArrayList();
                         i3 = i9;
                         int size5 = dialogFilter2.pinnedDialogs.size();
-                        arrayList6 = arrayList10;
+                        arrayList4 = arrayList8;
                         int i10 = 0;
                         boolean z6 = false;
                         while (i10 < size5) {
@@ -4474,15 +4480,15 @@ public class MessagesStorage extends BaseController {
                             if (DialogObject.isEncryptedDialog(keyAt)) {
                                 z6 = true;
                             }
-                            arrayList14.add(Long.valueOf(keyAt));
+                            arrayList12.add(Long.valueOf(keyAt));
                             i10++;
                             size5 = i11;
                         }
                         if (z6) {
                             linkedHashMap = new LinkedHashMap();
                             final LongSparseIntArray longSparseIntArray = dialogFilter2.pinnedDialogs;
-                            hashMap7 = hashMap10;
-                            Collections.sort(arrayList14, new Comparator() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda213
+                            hashMap5 = hashMap8;
+                            Collections.sort(arrayList12, new Comparator() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda213
                                 @Override // java.util.Comparator
                                 public final int compare(Object obj, Object obj2) {
                                     int lambda$checkLoadedRemoteFilters$51;
@@ -4490,37 +4496,39 @@ public class MessagesStorage extends BaseController {
                                     return lambda$checkLoadedRemoteFilters$51;
                                 }
                             });
-                            int size6 = arrayList14.size();
+                            int size6 = arrayList12.size();
                             int i12 = 0;
                             while (i12 < size6) {
-                                long longValue = ((Long) arrayList14.get(i12)).longValue();
+                                long longValue = ((Long) arrayList12.get(i12)).longValue();
                                 if (DialogObject.isEncryptedDialog(longValue)) {
-                                    arrayList7 = arrayList14;
                                     i7 = size6;
+                                    arrayList5 = arrayList12;
                                     linkedHashMap.put(Integer.valueOf(i12), Long.valueOf(longValue));
                                 } else {
-                                    arrayList7 = arrayList14;
                                     i7 = size6;
+                                    arrayList5 = arrayList12;
                                 }
                                 i12++;
                                 size6 = i7;
-                                arrayList14 = arrayList7;
+                                arrayList12 = arrayList5;
                             }
                             size = dialogFilter2.pinnedDialogs.size();
                             for (i4 = 0; i4 < size; i4++) {
                                 long keyAt2 = dialogFilter2.pinnedDialogs.keyAt(i4);
                                 if (!DialogObject.isEncryptedDialog(keyAt2)) {
-                                    hashSet3.add(Long.valueOf(keyAt2));
-                                    hashSet2.remove(Long.valueOf(keyAt2));
+                                    hashSet6.add(Long.valueOf(keyAt2));
+                                    hashSet5.remove(Long.valueOf(keyAt2));
                                 }
                             }
                             dialogFilter2.pinnedDialogs.clear();
                             size2 = tLRPC$DialogFilter2.pinned_peers.size();
+                            boolean z7 = z5;
                             i5 = 0;
                             while (i5 < size2) {
-                                TLRPC$InputPeer tLRPC$InputPeer = tLRPC$DialogFilter2.pinned_peers.get(i5);
-                                ArrayList<MessagesController.DialogFilter> arrayList15 = arrayList12;
                                 int i13 = size2;
+                                TLRPC$InputPeer tLRPC$InputPeer = tLRPC$DialogFilter2.pinned_peers.get(i5);
+                                ArrayList<MessagesController.DialogFilter> arrayList13 = arrayList10;
+                                boolean z8 = z7;
                                 long j = tLRPC$InputPeer.user_id;
                                 if (j != 0) {
                                     valueOf2 = Long.valueOf(j);
@@ -4532,7 +4540,7 @@ public class MessagesStorage extends BaseController {
                                     valueOf2 = Long.valueOf(-j2);
                                 }
                                 int size7 = dialogFilter2.pinnedDialogs.size();
-                                ArrayList<Long> arrayList16 = arrayList9;
+                                ArrayList<Long> arrayList14 = arrayList7;
                                 if (linkedHashMap != null) {
                                     while (true) {
                                         Long l = (Long) linkedHashMap.remove(Integer.valueOf(size7));
@@ -4541,45 +4549,49 @@ public class MessagesStorage extends BaseController {
                                         }
                                         dialogFilter2.pinnedDialogs.put(l.longValue(), size7);
                                         size7++;
-                                        hashMap9 = hashMap9;
-                                        hashMap12 = hashMap12;
-                                        hashSet = hashSet;
+                                        hashMap7 = hashMap7;
+                                        hashMap10 = hashMap10;
+                                        hashSet4 = hashSet4;
                                     }
                                 }
-                                HashMap<Integer, HashSet<Long>> hashMap13 = hashMap12;
-                                HashSet<Integer> hashSet4 = hashSet;
-                                HashMap<Long, TLRPC$InputPeer> hashMap14 = hashMap9;
+                                HashMap<Integer, HashSet<Long>> hashMap11 = hashMap10;
+                                HashSet<Integer> hashSet7 = hashSet4;
+                                HashMap<Long, TLRPC$InputPeer> hashMap12 = hashMap7;
                                 dialogFilter2.pinnedDialogs.put(valueOf2.longValue(), size7);
-                                hashSet2.remove(valueOf2);
-                                if (!hashSet3.remove(valueOf2)) {
-                                    if (!hashMap11.containsKey(valueOf2)) {
-                                        arrayList11.add(valueOf2);
-                                        hashMap11.put(valueOf2, tLRPC$InputPeer);
+                                hashSet5.remove(valueOf2);
+                                if (hashSet6.remove(valueOf2)) {
+                                    z7 = z8;
+                                } else {
+                                    if (!hashMap9.containsKey(valueOf2)) {
+                                        arrayList9.add(valueOf2);
+                                        hashMap9.put(valueOf2, tLRPC$InputPeer);
                                     }
-                                    z5 = true;
+                                    z7 = true;
                                 }
                                 i5++;
-                                arrayList12 = arrayList15;
                                 size2 = i13;
-                                arrayList9 = arrayList16;
-                                hashMap9 = hashMap14;
-                                hashMap12 = hashMap13;
-                                hashSet = hashSet4;
+                                arrayList10 = arrayList13;
+                                arrayList7 = arrayList14;
+                                hashMap7 = hashMap12;
+                                hashMap10 = hashMap11;
+                                hashSet4 = hashSet7;
                             }
-                            ArrayList<Long> arrayList17 = arrayList9;
-                            ArrayList<MessagesController.DialogFilter> arrayList18 = arrayList12;
-                            HashMap<Integer, HashSet<Long>> hashMap15 = hashMap12;
-                            HashSet<Integer> hashSet5 = hashSet;
-                            HashMap<Long, TLRPC$InputPeer> hashMap16 = hashMap9;
+                            ArrayList<Long> arrayList15 = arrayList7;
+                            ArrayList<MessagesController.DialogFilter> arrayList16 = arrayList10;
+                            boolean z9 = z7;
+                            HashMap<Integer, HashSet<Long>> hashMap13 = hashMap10;
+                            HashSet<Integer> hashSet8 = hashSet4;
+                            hashMap = hashMap7;
                             if (linkedHashMap != null) {
                                 for (Map.Entry entry : linkedHashMap.entrySet()) {
                                     dialogFilter2.pinnedDialogs.put(((Long) entry.getValue()).longValue(), dialogFilter2.pinnedDialogs.size());
                                 }
                             }
+                            boolean z10 = z9;
                             i6 = 0;
                             while (i6 < 2) {
                                 ArrayList<Long> peerIds = toPeerIds(i6 == 0 ? tLRPC$DialogFilter2.include_peers : tLRPC$DialogFilter2.exclude_peers);
-                                ArrayList<Long> arrayList19 = i6 == 0 ? dialogFilter2.alwaysShow : dialogFilter2.neverShow;
+                                ArrayList<Long> arrayList17 = i6 == 0 ? dialogFilter2.alwaysShow : dialogFilter2.neverShow;
                                 if (i6 == 0) {
                                     ArrayList<Long> peerIds2 = toPeerIds(tLRPC$DialogFilter2.pinned_peers);
                                     for (int i14 = 0; i14 < peerIds2.size(); i14++) {
@@ -4588,112 +4600,118 @@ public class MessagesStorage extends BaseController {
                                     peerIds.addAll(0, peerIds2);
                                 }
                                 int size8 = peerIds.size();
-                                boolean z7 = peerIds.size() != arrayList19.size();
-                                if (!z7) {
+                                boolean z11 = peerIds.size() != arrayList17.size();
+                                if (!z11) {
                                     int i15 = 0;
                                     while (true) {
                                         if (i15 >= size8) {
                                             break;
-                                        } else if (!arrayList19.contains(peerIds.get(i15))) {
-                                            z7 = true;
+                                        } else if (!arrayList17.contains(peerIds.get(i15))) {
+                                            z11 = true;
                                             break;
                                         } else {
                                             i15++;
                                         }
                                     }
                                 }
-                                if (z7) {
+                                if (z11) {
                                     if (i6 == 0) {
                                         dialogFilter2.alwaysShow = peerIds;
                                     } else {
                                         dialogFilter2.neverShow = peerIds;
                                     }
+                                    z10 = true;
                                     z4 = true;
-                                    z5 = true;
                                 }
                                 i6++;
                             }
-                            if (hashSet3.isEmpty()) {
-                                hashMap8 = hashMap15;
-                                hashMap8.put(Integer.valueOf(dialogFilter2.id), hashSet3);
+                            if (hashSet6.isEmpty()) {
+                                hashMap6 = hashMap13;
+                                hashMap6.put(Integer.valueOf(dialogFilter2.id), hashSet6);
                             } else {
-                                hashMap8 = hashMap15;
-                                z3 = z5;
+                                hashMap6 = hashMap13;
+                                z3 = z10;
                             }
                             if (z3) {
-                                arrayList12 = arrayList18;
+                                arrayList10 = arrayList16;
                             } else {
-                                arrayList12 = arrayList18;
-                                arrayList12.add(dialogFilter2);
+                                arrayList10 = arrayList16;
+                                arrayList10.add(dialogFilter2);
                             }
                             if (z4) {
-                                hashSet = hashSet5;
+                                hashSet3 = hashSet8;
                             } else {
-                                hashSet = hashSet5;
-                                hashSet.add(Integer.valueOf(dialogFilter2.id));
+                                hashSet3 = hashSet8;
+                                hashSet3.add(Integer.valueOf(dialogFilter2.id));
                             }
-                            hashMap = hashMap8;
-                            hashMap2 = hashMap11;
-                            arrayList = arrayList6;
-                            hashMap3 = hashMap7;
-                            arrayList2 = arrayList17;
-                            hashMap9 = hashMap16;
+                            hashMap2 = hashMap6;
+                            hashSet = hashSet3;
+                            arrayList8 = arrayList4;
+                            hashMap3 = hashMap5;
+                            arrayList = arrayList15;
+                        } else {
+                            hashMap5 = hashMap8;
                         }
                     } else {
-                        arrayList6 = arrayList10;
+                        arrayList4 = arrayList8;
+                        hashMap5 = hashMap8;
                         i3 = i9;
                     }
-                    hashMap7 = hashMap10;
                     linkedHashMap = null;
                     size = dialogFilter2.pinnedDialogs.size();
                     while (i4 < size) {
                     }
                     dialogFilter2.pinnedDialogs.clear();
                     size2 = tLRPC$DialogFilter2.pinned_peers.size();
+                    boolean z72 = z5;
                     i5 = 0;
                     while (i5 < size2) {
                     }
-                    ArrayList<Long> arrayList172 = arrayList9;
-                    ArrayList<MessagesController.DialogFilter> arrayList182 = arrayList12;
-                    HashMap<Integer, HashSet<Long>> hashMap152 = hashMap12;
-                    HashSet<Integer> hashSet52 = hashSet;
-                    HashMap<Long, TLRPC$InputPeer> hashMap162 = hashMap9;
+                    ArrayList<Long> arrayList152 = arrayList7;
+                    ArrayList<MessagesController.DialogFilter> arrayList162 = arrayList10;
+                    boolean z92 = z72;
+                    HashMap<Integer, HashSet<Long>> hashMap132 = hashMap10;
+                    HashSet<Integer> hashSet82 = hashSet4;
+                    hashMap = hashMap7;
                     if (linkedHashMap != null) {
                     }
+                    boolean z102 = z92;
                     i6 = 0;
                     while (i6 < 2) {
                     }
-                    if (hashSet3.isEmpty()) {
+                    if (hashSet6.isEmpty()) {
                     }
                     if (z3) {
                     }
                     if (z4) {
                     }
-                    hashMap = hashMap8;
-                    hashMap2 = hashMap11;
-                    arrayList = arrayList6;
-                    hashMap3 = hashMap7;
-                    arrayList2 = arrayList172;
-                    hashMap9 = hashMap162;
+                    hashMap2 = hashMap6;
+                    hashSet = hashSet3;
+                    arrayList8 = arrayList4;
+                    hashMap3 = hashMap5;
+                    arrayList = arrayList152;
                 } else {
-                    ArrayList<Long> arrayList20 = arrayList9;
-                    ArrayList<Long> arrayList21 = arrayList10;
+                    ArrayList<Long> arrayList18 = arrayList7;
+                    ArrayList<Long> arrayList19 = arrayList8;
+                    HashMap<Long, TLRPC$InputPeer> hashMap14 = hashMap8;
                     sparseArray = sparseArray2;
+                    HashSet<Integer> hashSet9 = hashSet4;
                     i3 = i9;
-                    HashMap<Long, TLRPC$InputPeer> hashMap17 = hashMap9;
-                    HashMap<Long, TLRPC$InputPeer> hashMap18 = hashMap10;
+                    hashMap = hashMap7;
+                    HashMap<Integer, HashSet<Long>> hashMap15 = hashMap10;
                     MessagesController.DialogFilter dialogFilter3 = new MessagesController.DialogFilter();
                     dialogFilter3.id = tLRPC$DialogFilter2.id;
                     dialogFilter3.flags = i2;
                     dialogFilter3.name = tLRPC$DialogFilter2.title;
                     dialogFilter3.pendingUnreadCount = -1;
                     int i16 = 0;
-                    while (i16 < 2) {
+                    for (int i17 = 2; i16 < i17; i17 = 2) {
                         if (i16 == 0) {
                             int size9 = tLRPC$DialogFilter2.pinned_peers.size();
-                            int i17 = 0;
-                            while (i17 < size9) {
-                                TLRPC$InputPeer tLRPC$InputPeer2 = tLRPC$DialogFilter2.pinned_peers.get(i17);
+                            int i18 = 0;
+                            while (i18 < size9) {
+                                TLRPC$InputPeer tLRPC$InputPeer2 = tLRPC$DialogFilter2.pinned_peers.get(i18);
+                                int i19 = size9;
                                 long j3 = tLRPC$InputPeer2.user_id;
                                 if (j3 != 0) {
                                     valueOf = Long.valueOf(j3);
@@ -4707,135 +4725,142 @@ public class MessagesStorage extends BaseController {
                                 if (!dialogFilter3.alwaysShow.contains(valueOf)) {
                                     dialogFilter3.alwaysShow.add(valueOf);
                                 }
-                                HashMap<Integer, HashSet<Long>> hashMap19 = hashMap12;
+                                HashMap<Integer, HashSet<Long>> hashMap16 = hashMap15;
                                 dialogFilter3.pinnedDialogs.put(valueOf.longValue(), dialogFilter3.pinnedDialogs.size() + 1);
-                                if (!hashMap11.containsKey(valueOf)) {
-                                    arrayList11.add(valueOf);
-                                    hashMap11.put(valueOf, tLRPC$InputPeer2);
+                                if (!hashMap9.containsKey(valueOf)) {
+                                    arrayList9.add(valueOf);
+                                    hashMap9.put(valueOf, tLRPC$InputPeer2);
                                 }
-                                i17++;
-                                hashMap12 = hashMap19;
+                                i18++;
+                                size9 = i19;
+                                hashMap15 = hashMap16;
                             }
                         }
-                        HashMap<Integer, HashSet<Long>> hashMap20 = hashMap12;
-                        ArrayList<TLRPC$InputPeer> arrayList22 = i16 == 0 ? tLRPC$DialogFilter2.include_peers : tLRPC$DialogFilter2.exclude_peers;
-                        ArrayList<Long> arrayList23 = i16 == 0 ? dialogFilter3.alwaysShow : dialogFilter3.neverShow;
-                        int size10 = arrayList22.size();
-                        int i18 = 0;
-                        while (i18 < size10) {
-                            TLRPC$InputPeer tLRPC$InputPeer3 = arrayList22.get(i18);
+                        HashMap<Integer, HashSet<Long>> hashMap17 = hashMap15;
+                        ArrayList<TLRPC$InputPeer> arrayList20 = i16 == 0 ? tLRPC$DialogFilter2.include_peers : tLRPC$DialogFilter2.exclude_peers;
+                        ArrayList<Long> arrayList21 = i16 == 0 ? dialogFilter3.alwaysShow : dialogFilter3.neverShow;
+                        int size10 = arrayList20.size();
+                        int i20 = 0;
+                        while (i20 < size10) {
+                            TLRPC$InputPeer tLRPC$InputPeer3 = arrayList20.get(i20);
+                            TLRPC$DialogFilter tLRPC$DialogFilter3 = tLRPC$DialogFilter2;
+                            ArrayList<TLRPC$InputPeer> arrayList22 = arrayList20;
                             long j5 = tLRPC$InputPeer3.user_id;
                             if (j5 != 0) {
                                 Long valueOf3 = Long.valueOf(j5);
-                                if (!arrayList23.contains(valueOf3)) {
-                                    arrayList23.add(valueOf3);
+                                if (!arrayList21.contains(valueOf3)) {
+                                    arrayList21.add(valueOf3);
                                 }
-                                hashMap4 = hashMap17;
-                                if (hashMap4.containsKey(valueOf3)) {
-                                    arrayList4 = arrayList20;
+                                HashMap<Long, TLRPC$InputPeer> hashMap18 = hashMap;
+                                if (hashMap18.containsKey(valueOf3)) {
+                                    arrayList2 = arrayList18;
                                 } else {
-                                    arrayList4 = arrayList20;
-                                    arrayList4.add(valueOf3);
-                                    hashMap4.put(valueOf3, tLRPC$InputPeer3);
+                                    arrayList2 = arrayList18;
+                                    arrayList2.add(valueOf3);
+                                    hashMap18.put(valueOf3, tLRPC$InputPeer3);
                                 }
-                                tLRPC$DialogFilter = tLRPC$DialogFilter2;
-                                arrayList3 = arrayList22;
-                                hashMap5 = hashMap11;
-                                arrayList5 = arrayList21;
-                                hashMap6 = hashMap18;
+                                hashMap = hashMap18;
+                                hashSet2 = hashSet9;
+                                arrayList3 = arrayList19;
+                                hashMap4 = hashMap14;
+                                tLRPC$DialogFilter = tLRPC$DialogFilter3;
                             } else {
-                                TLRPC$DialogFilter tLRPC$DialogFilter3 = tLRPC$DialogFilter2;
-                                arrayList3 = arrayList22;
-                                arrayList4 = arrayList20;
-                                hashMap4 = hashMap17;
+                                hashSet2 = hashSet9;
+                                arrayList2 = arrayList18;
+                                HashMap<Long, TLRPC$InputPeer> hashMap19 = hashMap;
                                 long j6 = tLRPC$InputPeer3.chat_id;
                                 if (j6 == 0) {
                                     j6 = tLRPC$InputPeer3.channel_id;
                                 }
                                 Long valueOf4 = Long.valueOf(j6);
                                 tLRPC$DialogFilter = tLRPC$DialogFilter3;
-                                hashMap5 = hashMap11;
+                                hashMap = hashMap19;
                                 Long valueOf5 = Long.valueOf(-valueOf4.longValue());
-                                if (!arrayList23.contains(valueOf5)) {
-                                    arrayList23.add(valueOf5);
+                                if (!arrayList21.contains(valueOf5)) {
+                                    arrayList21.add(valueOf5);
                                 }
-                                hashMap6 = hashMap18;
-                                if (hashMap6.containsKey(valueOf4)) {
-                                    arrayList5 = arrayList21;
+                                hashMap4 = hashMap14;
+                                if (hashMap4.containsKey(valueOf4)) {
+                                    arrayList3 = arrayList19;
                                 } else {
-                                    arrayList5 = arrayList21;
-                                    arrayList5.add(valueOf4);
-                                    hashMap6.put(valueOf4, tLRPC$InputPeer3);
+                                    arrayList3 = arrayList19;
+                                    arrayList3.add(valueOf4);
+                                    hashMap4.put(valueOf4, tLRPC$InputPeer3);
                                 }
                             }
-                            i18++;
-                            arrayList21 = arrayList5;
-                            hashMap18 = hashMap6;
-                            hashMap17 = hashMap4;
-                            arrayList20 = arrayList4;
+                            i20++;
+                            hashMap14 = hashMap4;
+                            arrayList19 = arrayList3;
                             tLRPC$DialogFilter2 = tLRPC$DialogFilter;
-                            hashMap11 = hashMap5;
-                            arrayList22 = arrayList3;
+                            arrayList20 = arrayList22;
+                            arrayList18 = arrayList2;
+                            hashSet9 = hashSet2;
                         }
                         i16++;
-                        hashMap12 = hashMap20;
-                        hashMap11 = hashMap11;
+                        tLRPC$DialogFilter2 = tLRPC$DialogFilter2;
+                        hashMap15 = hashMap17;
+                        hashSet9 = hashSet9;
                     }
-                    hashMap = hashMap12;
-                    hashMap2 = hashMap11;
-                    arrayList = arrayList21;
-                    hashMap3 = hashMap18;
-                    arrayList2 = arrayList20;
-                    hashMap9 = hashMap17;
-                    arrayList12.add(dialogFilter3);
+                    hashMap2 = hashMap15;
+                    hashSet = hashSet9;
+                    arrayList8 = arrayList19;
+                    hashMap3 = hashMap14;
+                    arrayList = arrayList18;
+                    arrayList10.add(dialogFilter3);
                 }
-                arrayList9 = arrayList2;
-                size4 = i;
-                arrayList8 = arrayList13;
-                sparseArray2 = sparseArray;
-                hashMap12 = hashMap;
-                hashMap10 = hashMap3;
-                hashMap11 = hashMap2;
-                arrayList10 = arrayList;
                 i9 = i3 + 1;
                 tLRPC$Vector2 = tLRPC$Vector;
+                hashMap8 = hashMap3;
+                arrayList7 = arrayList;
+                size4 = i;
+                sparseArray2 = sparseArray;
+                arrayList6 = arrayList11;
+                hashMap7 = hashMap;
+                hashMap10 = hashMap2;
+                hashSet4 = hashSet;
             }
-            ArrayList<Long> arrayList24 = arrayList10;
+            HashMap<Long, TLRPC$InputPeer> hashMap20 = hashMap8;
             SparseArray<MessagesController.DialogFilter> sparseArray3 = sparseArray2;
-            ArrayList<Integer> arrayList25 = arrayList8;
-            HashMap<Integer, HashSet<Long>> hashMap21 = hashMap12;
-            HashMap<Long, TLRPC$InputPeer> hashMap22 = hashMap11;
-            HashMap<Long, TLRPC$InputPeer> hashMap23 = hashMap10;
-            ArrayList<Long> arrayList26 = arrayList9;
-            if (!arrayList11.isEmpty()) {
-                tLRPC$TL_messages_dialogs = loadDialogsByIds(TextUtils.join(",", arrayList11), arrayList26, arrayList24, new ArrayList<>());
+            ArrayList<Integer> arrayList23 = arrayList6;
+            HashMap<Integer, HashSet<Long>> hashMap21 = hashMap10;
+            HashSet<Integer> hashSet10 = hashSet4;
+            HashMap<Long, TLRPC$InputPeer> hashMap22 = hashMap7;
+            ArrayList<Long> arrayList24 = arrayList7;
+            if (!arrayList9.isEmpty()) {
+                tLRPC$TL_messages_dialogs = loadDialogsByIds(TextUtils.join(",", arrayList9), arrayList24, arrayList8, new ArrayList<>());
                 int size11 = tLRPC$TL_messages_dialogs.dialogs.size();
-                for (int i19 = 0; i19 < size11; i19++) {
-                    hashMap22.remove(Long.valueOf(tLRPC$TL_messages_dialogs.dialogs.get(i19).id));
+                for (int i21 = 0; i21 < size11; i21++) {
+                    hashMap9.remove(Long.valueOf(tLRPC$TL_messages_dialogs.dialogs.get(i21).id));
                 }
             } else {
                 tLRPC$TL_messages_dialogs = new TLRPC$TL_messages_dialogs();
             }
-            ArrayList<TLRPC$User> arrayList27 = new ArrayList<>();
-            if (!arrayList26.isEmpty()) {
-                getUsersInternal(TextUtils.join(",", arrayList26), arrayList27);
-                int size12 = arrayList27.size();
-                for (int i20 = 0; i20 < size12; i20++) {
-                    hashMap9.remove(Long.valueOf(arrayList27.get(i20).id));
-                }
-            }
-            ArrayList<TLRPC$Chat> arrayList28 = new ArrayList<>();
+            TLRPC$messages_Dialogs tLRPC$messages_Dialogs = tLRPC$TL_messages_dialogs;
+            ArrayList<TLRPC$User> arrayList25 = new ArrayList<>();
             if (!arrayList24.isEmpty()) {
-                getChatsInternal(TextUtils.join(",", arrayList24), arrayList28);
-                int size13 = arrayList28.size();
-                for (int i21 = 0; i21 < size13; i21++) {
-                    hashMap23.remove(Long.valueOf(arrayList28.get(i21).id));
+                getUsersInternal(TextUtils.join(",", arrayList24), arrayList25);
+                int size12 = arrayList25.size();
+                int i22 = 0;
+                while (i22 < size12) {
+                    HashMap<Long, TLRPC$InputPeer> hashMap23 = hashMap22;
+                    hashMap23.remove(Long.valueOf(arrayList25.get(i22).id));
+                    i22++;
+                    hashMap22 = hashMap23;
                 }
             }
-            if (hashMap9.isEmpty() && hashMap23.isEmpty() && hashMap22.isEmpty()) {
-                lambda$processLoadedFilterPeers$54(tLRPC$TL_messages_dialogs, null, arrayList27, arrayList28, arrayList12, sparseArray3, arrayList25, hashMap21, hashSet);
+            HashMap<Long, TLRPC$InputPeer> hashMap24 = hashMap22;
+            ArrayList<TLRPC$Chat> arrayList26 = new ArrayList<>();
+            if (!arrayList8.isEmpty()) {
+                getChatsInternal(TextUtils.join(",", arrayList8), arrayList26);
+                int size13 = arrayList26.size();
+                for (int i23 = 0; i23 < size13; i23++) {
+                    hashMap20.remove(Long.valueOf(arrayList26.get(i23).id));
+                }
+            }
+            if (hashMap24.isEmpty() && hashMap20.isEmpty() && hashMap9.isEmpty()) {
+                lambda$processLoadedFilterPeers$54(tLRPC$messages_Dialogs, null, arrayList25, arrayList26, arrayList10, sparseArray3, arrayList23, hashMap21, hashSet10, runnable);
             } else {
-                getMessagesController().loadFilterPeers(hashMap22, hashMap9, hashMap23, tLRPC$TL_messages_dialogs, new TLRPC$TL_messages_dialogs(), arrayList27, arrayList28, arrayList12, sparseArray3, arrayList25, hashMap21, hashSet);
+                getMessagesController().loadFilterPeers(hashMap9, hashMap24, hashMap20, tLRPC$messages_Dialogs, new TLRPC$TL_messages_dialogs(), arrayList25, arrayList26, arrayList10, sparseArray3, arrayList23, hashMap21, hashSet10, runnable);
             }
         } catch (Exception e) {
             checkSQLException(e);
@@ -4854,7 +4879,7 @@ public class MessagesStorage extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: processLoadedFilterPeersInternal */
-    public void lambda$processLoadedFilterPeers$54(TLRPC$messages_Dialogs tLRPC$messages_Dialogs, TLRPC$messages_Dialogs tLRPC$messages_Dialogs2, ArrayList<TLRPC$User> arrayList, ArrayList<TLRPC$Chat> arrayList2, ArrayList<MessagesController.DialogFilter> arrayList3, SparseArray<MessagesController.DialogFilter> sparseArray, ArrayList<Integer> arrayList4, HashMap<Integer, HashSet<Long>> hashMap, HashSet<Integer> hashSet) {
+    public void lambda$processLoadedFilterPeers$54(TLRPC$messages_Dialogs tLRPC$messages_Dialogs, TLRPC$messages_Dialogs tLRPC$messages_Dialogs2, ArrayList<TLRPC$User> arrayList, ArrayList<TLRPC$Chat> arrayList2, ArrayList<MessagesController.DialogFilter> arrayList3, SparseArray<MessagesController.DialogFilter> sparseArray, ArrayList<Integer> arrayList4, HashMap<Integer, HashSet<Long>> hashMap, HashSet<Integer> hashSet, Runnable runnable) {
         putUsersAndChats(arrayList, arrayList2, true, false);
         int size = sparseArray.size();
         int i = 0;
@@ -4905,7 +4930,7 @@ public class MessagesStorage extends BaseController {
         }
         int i4 = z ? 1 : 2;
         calcUnreadCounters(true);
-        getMessagesController().processLoadedDialogFilters(new ArrayList<>(this.dialogFilters), tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, null, i4);
+        getMessagesController().processLoadedDialogFilters(new ArrayList<>(this.dialogFilters), tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, null, i4, runnable);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -4919,11 +4944,11 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public void processLoadedFilterPeers(final TLRPC$messages_Dialogs tLRPC$messages_Dialogs, final TLRPC$messages_Dialogs tLRPC$messages_Dialogs2, final ArrayList<TLRPC$User> arrayList, final ArrayList<TLRPC$Chat> arrayList2, final ArrayList<MessagesController.DialogFilter> arrayList3, final SparseArray<MessagesController.DialogFilter> sparseArray, final ArrayList<Integer> arrayList4, final HashMap<Integer, HashSet<Long>> hashMap, final HashSet<Integer> hashSet) {
+    public void processLoadedFilterPeers(final TLRPC$messages_Dialogs tLRPC$messages_Dialogs, final TLRPC$messages_Dialogs tLRPC$messages_Dialogs2, final ArrayList<TLRPC$User> arrayList, final ArrayList<TLRPC$Chat> arrayList2, final ArrayList<MessagesController.DialogFilter> arrayList3, final SparseArray<MessagesController.DialogFilter> sparseArray, final ArrayList<Integer> arrayList4, final HashMap<Integer, HashSet<Long>> hashMap, final HashSet<Integer> hashSet, final Runnable runnable) {
         this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda196
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesStorage.this.lambda$processLoadedFilterPeers$54(tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap, hashSet);
+                MessagesStorage.this.lambda$processLoadedFilterPeers$54(tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap, hashSet, runnable);
             }
         });
     }
@@ -5066,7 +5091,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:35:0x00f4 A[Catch: all -> 0x0101, Exception -> 0x0103, TRY_LEAVE, TryCatch #1 {Exception -> 0x0103, blocks: (B:22:0x0045, B:25:0x008c, B:27:0x0092, B:29:0x0098, B:31:0x00d3, B:33:0x00da, B:35:0x00f4, B:24:0x0069), top: B:49:0x0045, outer: #0 }] */
     /* JADX WARN: Type inference failed for: r14v10 */
     /* JADX WARN: Type inference failed for: r14v3 */
-    /* JADX WARN: Type inference failed for: r14v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r14v4, types: [boolean, int] */
     /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:23:0x0067 -> B:25:0x008c). Please submit an issue!!! */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5163,7 +5188,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:137:0x0326  */
     /* JADX WARN: Removed duplicated region for block: B:138:0x0329  */
     /* JADX WARN: Type inference failed for: r10v11 */
-    /* JADX WARN: Type inference failed for: r10v12, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r10v12, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r10v18 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5734,7 +5759,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:57:0x00fe  */
     /* JADX WARN: Removed duplicated region for block: B:74:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r13v0 */
-    /* JADX WARN: Type inference failed for: r13v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v8 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5975,10 +6000,10 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:214:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:92:0x02d5  */
     /* JADX WARN: Type inference failed for: r14v0 */
-    /* JADX WARN: Type inference failed for: r14v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r14v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r14v8 */
     /* JADX WARN: Type inference failed for: r8v21 */
-    /* JADX WARN: Type inference failed for: r8v22, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r8v22, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r8v29 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -7125,7 +7150,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:76:0x01c6 A[Catch: all -> 0x01dc, Exception -> 0x01e1, TryCatch #6 {Exception -> 0x01e1, all -> 0x01dc, blocks: (B:29:0x00d0, B:31:0x00d6, B:33:0x0112, B:38:0x011a, B:40:0x012c, B:42:0x0139, B:48:0x0144, B:52:0x0152, B:54:0x0162, B:56:0x017a, B:58:0x0180, B:62:0x0187, B:64:0x018f, B:66:0x01a0, B:68:0x01a7, B:70:0x01b0, B:72:0x01b9, B:74:0x01c1, B:76:0x01c6, B:77:0x01c9, B:71:0x01b6, B:67:0x01a4, B:61:0x0185, B:63:0x018b, B:55:0x0176, B:41:0x0132, B:78:0x01d0), top: B:114:0x00d0 }] */
     /* JADX WARN: Removed duplicated region for block: B:98:0x020b  */
     /* JADX WARN: Type inference failed for: r13v0 */
-    /* JADX WARN: Type inference failed for: r13v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -11551,7 +11576,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:288:0x0086 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:41:0x00ca A[Catch: all -> 0x0376, Exception -> 0x037c, TRY_ENTER, TRY_LEAVE, TryCatch #38 {Exception -> 0x037c, all -> 0x0376, blocks: (B:22:0x0080, B:41:0x00ca), top: B:278:0x0080 }] */
     /* JADX WARN: Type inference failed for: r5v0 */
-    /* JADX WARN: Type inference failed for: r5v34, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r5v34, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r5v35 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -13056,7 +13081,7 @@ public class MessagesStorage extends BaseController {
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Removed duplicated region for block: B:116:0x02bc  */
     /* JADX WARN: Type inference failed for: r13v2 */
-    /* JADX WARN: Type inference failed for: r13v3, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v3, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v8 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -23512,12 +23537,12 @@ public class MessagesStorage extends BaseController {
         TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message.media;
         if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaUnsupported_old) {
             if (tLRPC$MessageMedia.bytes.length == 0) {
-                tLRPC$MessageMedia.bytes = Utilities.intToBytes(157);
+                tLRPC$MessageMedia.bytes = Utilities.intToBytes(158);
             }
         } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaUnsupported) {
             TLRPC$TL_messageMediaUnsupported_old tLRPC$TL_messageMediaUnsupported_old = new TLRPC$TL_messageMediaUnsupported_old();
             tLRPC$Message.media = tLRPC$TL_messageMediaUnsupported_old;
-            tLRPC$TL_messageMediaUnsupported_old.bytes = Utilities.intToBytes(157);
+            tLRPC$TL_messageMediaUnsupported_old.bytes = Utilities.intToBytes(158);
             tLRPC$Message.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
         }
     }
@@ -30363,6 +30388,7 @@ public class MessagesStorage extends BaseController {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setDialogsFolderId$199(ArrayList arrayList, ArrayList arrayList2, int i, long j) {
         SQLitePreparedStatement executeFast;
+        boolean z;
         SQLitePreparedStatement sQLitePreparedStatement = null;
         try {
             try {
@@ -30377,11 +30403,15 @@ public class MessagesStorage extends BaseController {
         try {
             if (arrayList != null) {
                 int size = arrayList.size();
+                z = false;
                 for (int i2 = 0; i2 < size; i2++) {
                     TLRPC$TL_folderPeer tLRPC$TL_folderPeer = (TLRPC$TL_folderPeer) arrayList.get(i2);
                     long peerDialogId = DialogObject.getPeerDialogId(tLRPC$TL_folderPeer.peer);
                     executeFast.requery();
                     executeFast.bindInteger(1, tLRPC$TL_folderPeer.folder_id);
+                    if (tLRPC$TL_folderPeer.folder_id == 1) {
+                        z = true;
+                    }
                     executeFast.bindInteger(2, 0);
                     executeFast.bindLong(3, peerDialogId);
                     executeFast.step();
@@ -30389,11 +30419,15 @@ public class MessagesStorage extends BaseController {
                 }
             } else if (arrayList2 != null) {
                 int size2 = arrayList2.size();
+                z = false;
                 for (int i3 = 0; i3 < size2; i3++) {
                     TLRPC$TL_inputFolderPeer tLRPC$TL_inputFolderPeer = (TLRPC$TL_inputFolderPeer) arrayList2.get(i3);
                     long peerDialogId2 = DialogObject.getPeerDialogId(tLRPC$TL_inputFolderPeer.peer);
                     executeFast.requery();
                     executeFast.bindInteger(1, tLRPC$TL_inputFolderPeer.folder_id);
+                    if (tLRPC$TL_inputFolderPeer.folder_id == 1) {
+                        z = true;
+                    }
                     executeFast.bindInteger(2, 0);
                     executeFast.bindLong(3, peerDialogId2);
                     executeFast.step();
@@ -30402,13 +30436,17 @@ public class MessagesStorage extends BaseController {
             } else {
                 executeFast.requery();
                 executeFast.bindInteger(1, i);
+                boolean z2 = i == 1;
                 executeFast.bindInteger(2, 0);
                 executeFast.bindLong(3, j);
                 executeFast.step();
+                z = z2;
             }
             executeFast.dispose();
             this.database.commitTransaction();
-            lambda$checkIfFolderEmpty$201(1);
+            if (!z) {
+                lambda$checkIfFolderEmpty$201(1);
+            }
             resetAllUnreadCounters(false);
             SQLiteDatabase sQLiteDatabase = this.database;
             if (sQLiteDatabase != null) {
@@ -31055,58 +31093,58 @@ public class MessagesStorage extends BaseController {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:149:0x02d9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:149:0x02da, code lost:
         r6 = (org.telegram.ui.Adapters.DialogsSearchAdapter.DialogSearchResult) r9.get(r14.id);
         r7 = r14.status;
         r26 = r9;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:150:0x02e5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:150:0x02e6, code lost:
         if (r7 == null) goto L158;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:151:0x02e7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:151:0x02e8, code lost:
         r7.expires = r1.intValue(1);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:153:0x02ef, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:153:0x02f0, code lost:
         if (r10 != 1) goto L164;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:154:0x02f1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:154:0x02f2, code lost:
         r6.name = org.telegram.messenger.AndroidUtilities.generateSearchName(r14.first_name, r14.last_name, r4);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:155:0x02fc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:155:0x02fd, code lost:
         r6.name = org.telegram.messenger.AndroidUtilities.generateSearchName("@" + org.telegram.messenger.UserObject.getPublicUsername(r14), null, "@" + r4);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:156:0x0325, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:156:0x0326, code lost:
         r6.object = r14;
         r8 = r8 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:183:0x03e6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:183:0x03e7, code lost:
         if (r3.contains(" " + r7) != false) goto L205;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:81:0x0174, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:81:0x0175, code lost:
         if (r11.startsWith(r6) == false) goto L405;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:9:0x0052, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:9:0x0053, code lost:
         if (r15.length() == 0) goto L9;
      */
-    /* JADX WARN: Removed duplicated region for block: B:103:0x01d0 A[Catch: all -> 0x019f, Exception -> 0x01a4, TryCatch #7 {Exception -> 0x01a4, all -> 0x019f, blocks: (B:88:0x0183, B:96:0x01af, B:101:0x01bf, B:103:0x01d0, B:105:0x01e1), top: B:377:0x0183 }] */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x01e1 A[Catch: all -> 0x019f, Exception -> 0x01a4, TRY_LEAVE, TryCatch #7 {Exception -> 0x01a4, all -> 0x019f, blocks: (B:88:0x0183, B:96:0x01af, B:101:0x01bf, B:103:0x01d0, B:105:0x01e1), top: B:377:0x0183 }] */
-    /* JADX WARN: Removed duplicated region for block: B:110:0x0209 A[Catch: all -> 0x00ab, Exception -> 0x00b1, TRY_ENTER, TRY_LEAVE, TryCatch #8 {Exception -> 0x00b1, all -> 0x00ab, blocks: (B:28:0x0091, B:80:0x0170, B:110:0x0209, B:167:0x0373, B:221:0x0477, B:280:0x066f, B:282:0x0679, B:284:0x067d, B:290:0x0693), top: B:375:0x0091 }] */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x02ac A[Catch: all -> 0x07d7, Exception -> 0x07dd, TryCatch #11 {Exception -> 0x07dd, all -> 0x07d7, blocks: (B:36:0x00cb, B:38:0x00d1, B:41:0x00ef, B:44:0x00fa, B:46:0x0100, B:60:0x0118, B:62:0x0122, B:66:0x012e, B:68:0x0139, B:72:0x0146, B:74:0x0154, B:76:0x0161, B:112:0x0229, B:114:0x022f, B:117:0x0243, B:119:0x024a, B:123:0x025b, B:125:0x0265, B:128:0x027e, B:130:0x0284, B:134:0x029c, B:141:0x02ac, B:143:0x02b7, B:146:0x02ca, B:159:0x0335, B:149:0x02d9, B:151:0x02e7, B:154:0x02f1, B:156:0x0325, B:155:0x02fc, B:162:0x0357, B:168:0x038f, B:170:0x0395, B:175:0x03ae, B:177:0x03b6, B:180:0x03cd, B:182:0x03d3, B:203:0x0428, B:184:0x03e8, B:186:0x03ef, B:189:0x0400, B:196:0x0418, B:201:0x0422, B:205:0x0430, B:207:0x0434, B:209:0x043a, B:211:0x0440, B:214:0x0461, B:222:0x0495, B:224:0x049b, B:227:0x04af, B:229:0x04b8, B:233:0x04c4, B:235:0x04cc, B:238:0x04e3, B:240:0x04e9, B:244:0x0501, B:249:0x050c, B:251:0x0513, B:253:0x0522, B:255:0x0528, B:259:0x053a, B:261:0x05c9, B:262:0x05cb, B:264:0x05d7, B:267:0x05e1, B:269:0x0633, B:268:0x060a, B:270:0x063d, B:273:0x0659, B:301:0x06d0, B:303:0x06d6, B:306:0x06e2, B:309:0x06f6, B:311:0x06ff, B:315:0x070c, B:317:0x0714, B:320:0x072b, B:322:0x0731, B:326:0x0749, B:332:0x0757, B:334:0x0760, B:336:0x076f, B:339:0x0779, B:341:0x07b0, B:340:0x0786, B:342:0x07b5, B:346:0x07d1), top: B:369:0x00cb }] */
-    /* JADX WARN: Removed duplicated region for block: B:158:0x032d  */
-    /* JADX WARN: Removed duplicated region for block: B:164:0x0363  */
-    /* JADX WARN: Removed duplicated region for block: B:167:0x0373 A[Catch: all -> 0x00ab, Exception -> 0x00b1, TRY_ENTER, TRY_LEAVE, TryCatch #8 {Exception -> 0x00b1, all -> 0x00ab, blocks: (B:28:0x0091, B:80:0x0170, B:110:0x0209, B:167:0x0373, B:221:0x0477, B:280:0x066f, B:282:0x0679, B:284:0x067d, B:290:0x0693), top: B:375:0x0091 }] */
-    /* JADX WARN: Removed duplicated region for block: B:216:0x0469  */
-    /* JADX WARN: Removed duplicated region for block: B:219:0x0473  */
-    /* JADX WARN: Removed duplicated region for block: B:270:0x063d A[Catch: all -> 0x07d7, Exception -> 0x07dd, LOOP:6: B:232:0x04c2->B:270:0x063d, LOOP_END, TryCatch #11 {Exception -> 0x07dd, all -> 0x07d7, blocks: (B:36:0x00cb, B:38:0x00d1, B:41:0x00ef, B:44:0x00fa, B:46:0x0100, B:60:0x0118, B:62:0x0122, B:66:0x012e, B:68:0x0139, B:72:0x0146, B:74:0x0154, B:76:0x0161, B:112:0x0229, B:114:0x022f, B:117:0x0243, B:119:0x024a, B:123:0x025b, B:125:0x0265, B:128:0x027e, B:130:0x0284, B:134:0x029c, B:141:0x02ac, B:143:0x02b7, B:146:0x02ca, B:159:0x0335, B:149:0x02d9, B:151:0x02e7, B:154:0x02f1, B:156:0x0325, B:155:0x02fc, B:162:0x0357, B:168:0x038f, B:170:0x0395, B:175:0x03ae, B:177:0x03b6, B:180:0x03cd, B:182:0x03d3, B:203:0x0428, B:184:0x03e8, B:186:0x03ef, B:189:0x0400, B:196:0x0418, B:201:0x0422, B:205:0x0430, B:207:0x0434, B:209:0x043a, B:211:0x0440, B:214:0x0461, B:222:0x0495, B:224:0x049b, B:227:0x04af, B:229:0x04b8, B:233:0x04c4, B:235:0x04cc, B:238:0x04e3, B:240:0x04e9, B:244:0x0501, B:249:0x050c, B:251:0x0513, B:253:0x0522, B:255:0x0528, B:259:0x053a, B:261:0x05c9, B:262:0x05cb, B:264:0x05d7, B:267:0x05e1, B:269:0x0633, B:268:0x060a, B:270:0x063d, B:273:0x0659, B:301:0x06d0, B:303:0x06d6, B:306:0x06e2, B:309:0x06f6, B:311:0x06ff, B:315:0x070c, B:317:0x0714, B:320:0x072b, B:322:0x0731, B:326:0x0749, B:332:0x0757, B:334:0x0760, B:336:0x076f, B:339:0x0779, B:341:0x07b0, B:340:0x0786, B:342:0x07b5, B:346:0x07d1), top: B:369:0x00cb }] */
-    /* JADX WARN: Removed duplicated region for block: B:279:0x066d  */
-    /* JADX WARN: Removed duplicated region for block: B:290:0x0693 A[Catch: all -> 0x00ab, Exception -> 0x00b1, TRY_ENTER, TRY_LEAVE, TryCatch #8 {Exception -> 0x00b1, all -> 0x00ab, blocks: (B:28:0x0091, B:80:0x0170, B:110:0x0209, B:167:0x0373, B:221:0x0477, B:280:0x066f, B:282:0x0679, B:284:0x067d, B:290:0x0693), top: B:375:0x0091 }] */
-    /* JADX WARN: Removed duplicated region for block: B:294:0x06b9  */
-    /* JADX WARN: Removed duplicated region for block: B:303:0x06d6 A[Catch: all -> 0x07d7, Exception -> 0x07dd, TryCatch #11 {Exception -> 0x07dd, all -> 0x07d7, blocks: (B:36:0x00cb, B:38:0x00d1, B:41:0x00ef, B:44:0x00fa, B:46:0x0100, B:60:0x0118, B:62:0x0122, B:66:0x012e, B:68:0x0139, B:72:0x0146, B:74:0x0154, B:76:0x0161, B:112:0x0229, B:114:0x022f, B:117:0x0243, B:119:0x024a, B:123:0x025b, B:125:0x0265, B:128:0x027e, B:130:0x0284, B:134:0x029c, B:141:0x02ac, B:143:0x02b7, B:146:0x02ca, B:159:0x0335, B:149:0x02d9, B:151:0x02e7, B:154:0x02f1, B:156:0x0325, B:155:0x02fc, B:162:0x0357, B:168:0x038f, B:170:0x0395, B:175:0x03ae, B:177:0x03b6, B:180:0x03cd, B:182:0x03d3, B:203:0x0428, B:184:0x03e8, B:186:0x03ef, B:189:0x0400, B:196:0x0418, B:201:0x0422, B:205:0x0430, B:207:0x0434, B:209:0x043a, B:211:0x0440, B:214:0x0461, B:222:0x0495, B:224:0x049b, B:227:0x04af, B:229:0x04b8, B:233:0x04c4, B:235:0x04cc, B:238:0x04e3, B:240:0x04e9, B:244:0x0501, B:249:0x050c, B:251:0x0513, B:253:0x0522, B:255:0x0528, B:259:0x053a, B:261:0x05c9, B:262:0x05cb, B:264:0x05d7, B:267:0x05e1, B:269:0x0633, B:268:0x060a, B:270:0x063d, B:273:0x0659, B:301:0x06d0, B:303:0x06d6, B:306:0x06e2, B:309:0x06f6, B:311:0x06ff, B:315:0x070c, B:317:0x0714, B:320:0x072b, B:322:0x0731, B:326:0x0749, B:332:0x0757, B:334:0x0760, B:336:0x076f, B:339:0x0779, B:341:0x07b0, B:340:0x0786, B:342:0x07b5, B:346:0x07d1), top: B:369:0x00cb }] */
-    /* JADX WARN: Removed duplicated region for block: B:342:0x07b5 A[Catch: all -> 0x07d7, Exception -> 0x07dd, LOOP:10: B:314:0x070a->B:342:0x07b5, LOOP_END, TryCatch #11 {Exception -> 0x07dd, all -> 0x07d7, blocks: (B:36:0x00cb, B:38:0x00d1, B:41:0x00ef, B:44:0x00fa, B:46:0x0100, B:60:0x0118, B:62:0x0122, B:66:0x012e, B:68:0x0139, B:72:0x0146, B:74:0x0154, B:76:0x0161, B:112:0x0229, B:114:0x022f, B:117:0x0243, B:119:0x024a, B:123:0x025b, B:125:0x0265, B:128:0x027e, B:130:0x0284, B:134:0x029c, B:141:0x02ac, B:143:0x02b7, B:146:0x02ca, B:159:0x0335, B:149:0x02d9, B:151:0x02e7, B:154:0x02f1, B:156:0x0325, B:155:0x02fc, B:162:0x0357, B:168:0x038f, B:170:0x0395, B:175:0x03ae, B:177:0x03b6, B:180:0x03cd, B:182:0x03d3, B:203:0x0428, B:184:0x03e8, B:186:0x03ef, B:189:0x0400, B:196:0x0418, B:201:0x0422, B:205:0x0430, B:207:0x0434, B:209:0x043a, B:211:0x0440, B:214:0x0461, B:222:0x0495, B:224:0x049b, B:227:0x04af, B:229:0x04b8, B:233:0x04c4, B:235:0x04cc, B:238:0x04e3, B:240:0x04e9, B:244:0x0501, B:249:0x050c, B:251:0x0513, B:253:0x0522, B:255:0x0528, B:259:0x053a, B:261:0x05c9, B:262:0x05cb, B:264:0x05d7, B:267:0x05e1, B:269:0x0633, B:268:0x060a, B:270:0x063d, B:273:0x0659, B:301:0x06d0, B:303:0x06d6, B:306:0x06e2, B:309:0x06f6, B:311:0x06ff, B:315:0x070c, B:317:0x0714, B:320:0x072b, B:322:0x0731, B:326:0x0749, B:332:0x0757, B:334:0x0760, B:336:0x076f, B:339:0x0779, B:341:0x07b0, B:340:0x0786, B:342:0x07b5, B:346:0x07d1), top: B:369:0x00cb }] */
-    /* JADX WARN: Removed duplicated region for block: B:358:0x07f5  */
-    /* JADX WARN: Removed duplicated region for block: B:363:0x07fd  */
-    /* JADX WARN: Removed duplicated region for block: B:420:0x050c A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:433:0x0757 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x01d1 A[Catch: all -> 0x01a0, Exception -> 0x01a5, TryCatch #11 {Exception -> 0x01a5, all -> 0x01a0, blocks: (B:88:0x0184, B:96:0x01b0, B:101:0x01c0, B:103:0x01d1, B:105:0x01e2), top: B:369:0x0184 }] */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x01e2 A[Catch: all -> 0x01a0, Exception -> 0x01a5, TRY_LEAVE, TryCatch #11 {Exception -> 0x01a5, all -> 0x01a0, blocks: (B:88:0x0184, B:96:0x01b0, B:101:0x01c0, B:103:0x01d1, B:105:0x01e2), top: B:369:0x0184 }] */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x020a A[Catch: all -> 0x00ac, Exception -> 0x00b2, TRY_ENTER, TRY_LEAVE, TryCatch #7 {Exception -> 0x00b2, all -> 0x00ac, blocks: (B:28:0x0092, B:80:0x0171, B:110:0x020a, B:167:0x0374, B:221:0x0478, B:280:0x0670, B:282:0x067a, B:284:0x067e, B:290:0x0694), top: B:377:0x0092 }] */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x02ad A[Catch: all -> 0x07d8, Exception -> 0x07de, TryCatch #10 {Exception -> 0x07de, all -> 0x07d8, blocks: (B:36:0x00cc, B:38:0x00d2, B:41:0x00f0, B:44:0x00fb, B:46:0x0101, B:60:0x0119, B:62:0x0123, B:66:0x012f, B:68:0x013a, B:72:0x0147, B:74:0x0155, B:76:0x0162, B:112:0x022a, B:114:0x0230, B:117:0x0244, B:119:0x024b, B:123:0x025c, B:125:0x0266, B:128:0x027f, B:130:0x0285, B:134:0x029d, B:141:0x02ad, B:143:0x02b8, B:146:0x02cb, B:159:0x0336, B:149:0x02da, B:151:0x02e8, B:154:0x02f2, B:156:0x0326, B:155:0x02fd, B:162:0x0358, B:168:0x0390, B:170:0x0396, B:175:0x03af, B:177:0x03b7, B:180:0x03ce, B:182:0x03d4, B:203:0x0429, B:184:0x03e9, B:186:0x03f0, B:189:0x0401, B:196:0x0419, B:201:0x0423, B:205:0x0431, B:207:0x0435, B:209:0x043b, B:211:0x0441, B:214:0x0462, B:222:0x0496, B:224:0x049c, B:227:0x04b0, B:229:0x04b9, B:233:0x04c5, B:235:0x04cd, B:238:0x04e4, B:240:0x04ea, B:244:0x0502, B:249:0x050d, B:251:0x0514, B:253:0x0523, B:255:0x0529, B:259:0x053b, B:261:0x05ca, B:262:0x05cc, B:264:0x05d8, B:267:0x05e2, B:269:0x0634, B:268:0x060b, B:270:0x063e, B:273:0x065a, B:301:0x06d1, B:303:0x06d7, B:306:0x06e3, B:309:0x06f7, B:311:0x0700, B:315:0x070d, B:317:0x0715, B:320:0x072c, B:322:0x0732, B:326:0x074a, B:332:0x0758, B:334:0x0761, B:336:0x0770, B:339:0x077a, B:341:0x07b1, B:340:0x0787, B:342:0x07b6, B:346:0x07d2), top: B:371:0x00cc }] */
+    /* JADX WARN: Removed duplicated region for block: B:158:0x032e  */
+    /* JADX WARN: Removed duplicated region for block: B:164:0x0364  */
+    /* JADX WARN: Removed duplicated region for block: B:167:0x0374 A[Catch: all -> 0x00ac, Exception -> 0x00b2, TRY_ENTER, TRY_LEAVE, TryCatch #7 {Exception -> 0x00b2, all -> 0x00ac, blocks: (B:28:0x0092, B:80:0x0171, B:110:0x020a, B:167:0x0374, B:221:0x0478, B:280:0x0670, B:282:0x067a, B:284:0x067e, B:290:0x0694), top: B:377:0x0092 }] */
+    /* JADX WARN: Removed duplicated region for block: B:216:0x046a  */
+    /* JADX WARN: Removed duplicated region for block: B:219:0x0474  */
+    /* JADX WARN: Removed duplicated region for block: B:270:0x063e A[Catch: all -> 0x07d8, Exception -> 0x07de, LOOP:6: B:232:0x04c3->B:270:0x063e, LOOP_END, TryCatch #10 {Exception -> 0x07de, all -> 0x07d8, blocks: (B:36:0x00cc, B:38:0x00d2, B:41:0x00f0, B:44:0x00fb, B:46:0x0101, B:60:0x0119, B:62:0x0123, B:66:0x012f, B:68:0x013a, B:72:0x0147, B:74:0x0155, B:76:0x0162, B:112:0x022a, B:114:0x0230, B:117:0x0244, B:119:0x024b, B:123:0x025c, B:125:0x0266, B:128:0x027f, B:130:0x0285, B:134:0x029d, B:141:0x02ad, B:143:0x02b8, B:146:0x02cb, B:159:0x0336, B:149:0x02da, B:151:0x02e8, B:154:0x02f2, B:156:0x0326, B:155:0x02fd, B:162:0x0358, B:168:0x0390, B:170:0x0396, B:175:0x03af, B:177:0x03b7, B:180:0x03ce, B:182:0x03d4, B:203:0x0429, B:184:0x03e9, B:186:0x03f0, B:189:0x0401, B:196:0x0419, B:201:0x0423, B:205:0x0431, B:207:0x0435, B:209:0x043b, B:211:0x0441, B:214:0x0462, B:222:0x0496, B:224:0x049c, B:227:0x04b0, B:229:0x04b9, B:233:0x04c5, B:235:0x04cd, B:238:0x04e4, B:240:0x04ea, B:244:0x0502, B:249:0x050d, B:251:0x0514, B:253:0x0523, B:255:0x0529, B:259:0x053b, B:261:0x05ca, B:262:0x05cc, B:264:0x05d8, B:267:0x05e2, B:269:0x0634, B:268:0x060b, B:270:0x063e, B:273:0x065a, B:301:0x06d1, B:303:0x06d7, B:306:0x06e3, B:309:0x06f7, B:311:0x0700, B:315:0x070d, B:317:0x0715, B:320:0x072c, B:322:0x0732, B:326:0x074a, B:332:0x0758, B:334:0x0761, B:336:0x0770, B:339:0x077a, B:341:0x07b1, B:340:0x0787, B:342:0x07b6, B:346:0x07d2), top: B:371:0x00cc }] */
+    /* JADX WARN: Removed duplicated region for block: B:279:0x066e  */
+    /* JADX WARN: Removed duplicated region for block: B:290:0x0694 A[Catch: all -> 0x00ac, Exception -> 0x00b2, TRY_ENTER, TRY_LEAVE, TryCatch #7 {Exception -> 0x00b2, all -> 0x00ac, blocks: (B:28:0x0092, B:80:0x0171, B:110:0x020a, B:167:0x0374, B:221:0x0478, B:280:0x0670, B:282:0x067a, B:284:0x067e, B:290:0x0694), top: B:377:0x0092 }] */
+    /* JADX WARN: Removed duplicated region for block: B:294:0x06ba  */
+    /* JADX WARN: Removed duplicated region for block: B:303:0x06d7 A[Catch: all -> 0x07d8, Exception -> 0x07de, TryCatch #10 {Exception -> 0x07de, all -> 0x07d8, blocks: (B:36:0x00cc, B:38:0x00d2, B:41:0x00f0, B:44:0x00fb, B:46:0x0101, B:60:0x0119, B:62:0x0123, B:66:0x012f, B:68:0x013a, B:72:0x0147, B:74:0x0155, B:76:0x0162, B:112:0x022a, B:114:0x0230, B:117:0x0244, B:119:0x024b, B:123:0x025c, B:125:0x0266, B:128:0x027f, B:130:0x0285, B:134:0x029d, B:141:0x02ad, B:143:0x02b8, B:146:0x02cb, B:159:0x0336, B:149:0x02da, B:151:0x02e8, B:154:0x02f2, B:156:0x0326, B:155:0x02fd, B:162:0x0358, B:168:0x0390, B:170:0x0396, B:175:0x03af, B:177:0x03b7, B:180:0x03ce, B:182:0x03d4, B:203:0x0429, B:184:0x03e9, B:186:0x03f0, B:189:0x0401, B:196:0x0419, B:201:0x0423, B:205:0x0431, B:207:0x0435, B:209:0x043b, B:211:0x0441, B:214:0x0462, B:222:0x0496, B:224:0x049c, B:227:0x04b0, B:229:0x04b9, B:233:0x04c5, B:235:0x04cd, B:238:0x04e4, B:240:0x04ea, B:244:0x0502, B:249:0x050d, B:251:0x0514, B:253:0x0523, B:255:0x0529, B:259:0x053b, B:261:0x05ca, B:262:0x05cc, B:264:0x05d8, B:267:0x05e2, B:269:0x0634, B:268:0x060b, B:270:0x063e, B:273:0x065a, B:301:0x06d1, B:303:0x06d7, B:306:0x06e3, B:309:0x06f7, B:311:0x0700, B:315:0x070d, B:317:0x0715, B:320:0x072c, B:322:0x0732, B:326:0x074a, B:332:0x0758, B:334:0x0761, B:336:0x0770, B:339:0x077a, B:341:0x07b1, B:340:0x0787, B:342:0x07b6, B:346:0x07d2), top: B:371:0x00cc }] */
+    /* JADX WARN: Removed duplicated region for block: B:342:0x07b6 A[Catch: all -> 0x07d8, Exception -> 0x07de, LOOP:10: B:314:0x070b->B:342:0x07b6, LOOP_END, TryCatch #10 {Exception -> 0x07de, all -> 0x07d8, blocks: (B:36:0x00cc, B:38:0x00d2, B:41:0x00f0, B:44:0x00fb, B:46:0x0101, B:60:0x0119, B:62:0x0123, B:66:0x012f, B:68:0x013a, B:72:0x0147, B:74:0x0155, B:76:0x0162, B:112:0x022a, B:114:0x0230, B:117:0x0244, B:119:0x024b, B:123:0x025c, B:125:0x0266, B:128:0x027f, B:130:0x0285, B:134:0x029d, B:141:0x02ad, B:143:0x02b8, B:146:0x02cb, B:159:0x0336, B:149:0x02da, B:151:0x02e8, B:154:0x02f2, B:156:0x0326, B:155:0x02fd, B:162:0x0358, B:168:0x0390, B:170:0x0396, B:175:0x03af, B:177:0x03b7, B:180:0x03ce, B:182:0x03d4, B:203:0x0429, B:184:0x03e9, B:186:0x03f0, B:189:0x0401, B:196:0x0419, B:201:0x0423, B:205:0x0431, B:207:0x0435, B:209:0x043b, B:211:0x0441, B:214:0x0462, B:222:0x0496, B:224:0x049c, B:227:0x04b0, B:229:0x04b9, B:233:0x04c5, B:235:0x04cd, B:238:0x04e4, B:240:0x04ea, B:244:0x0502, B:249:0x050d, B:251:0x0514, B:253:0x0523, B:255:0x0529, B:259:0x053b, B:261:0x05ca, B:262:0x05cc, B:264:0x05d8, B:267:0x05e2, B:269:0x0634, B:268:0x060b, B:270:0x063e, B:273:0x065a, B:301:0x06d1, B:303:0x06d7, B:306:0x06e3, B:309:0x06f7, B:311:0x0700, B:315:0x070d, B:317:0x0715, B:320:0x072c, B:322:0x0732, B:326:0x074a, B:332:0x0758, B:334:0x0761, B:336:0x0770, B:339:0x077a, B:341:0x07b1, B:340:0x0787, B:342:0x07b6, B:346:0x07d2), top: B:371:0x00cc }] */
+    /* JADX WARN: Removed duplicated region for block: B:358:0x07f6  */
+    /* JADX WARN: Removed duplicated region for block: B:363:0x07fe  */
+    /* JADX WARN: Removed duplicated region for block: B:420:0x050d A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:433:0x0758 A[SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:435:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -31264,10 +31302,7 @@ public class MessagesStorage extends BaseController {
                     messagesStorage2 = this;
                     messagesStorage2.checkSQLException(exc);
                     if (sQLiteCursor == null) {
-                        sQLiteCursor.dispose();
-                        return;
                     }
-                    return;
                 } catch (Throwable th6) {
                     th = th6;
                     sQLiteCursor = queryFinalized;
@@ -31741,7 +31776,10 @@ public class MessagesStorage extends BaseController {
                 sQLiteCursor = null;
                 messagesStorage2.checkSQLException(exc);
                 if (sQLiteCursor == null) {
+                    sQLiteCursor.dispose();
+                    return;
                 }
+                return;
             } catch (Throwable th7) {
                 th = th7;
                 sQLiteCursor = null;

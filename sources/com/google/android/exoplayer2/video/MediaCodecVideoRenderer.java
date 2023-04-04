@@ -2425,8 +2425,8 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                             case 'q':
                             case 'r':
                             case 's':
-                            case MessagesStorage.LAST_DB_VERSION /* 116 */:
-                            case 'u':
+                            case 't':
+                            case MessagesStorage.LAST_DB_VERSION /* 117 */:
                             case 'v':
                             case 'w':
                             case 'x':

@@ -8,6 +8,13 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
+import android.graphics.LinearGradient;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.RectF;
+import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -47,6 +54,10 @@ public class AnimatedTextView extends View {
         private Part[] currentParts;
         private CharSequence currentText;
         private float currentWidth;
+        private boolean ellipsizeByGradient;
+        private LinearGradient ellipsizeGradient;
+        private Matrix ellipsizeGradientMatrix;
+        private Paint ellipsizePaint;
         private int gravity;
         public boolean ignoreRTL;
         private boolean isRTL;
@@ -124,15 +135,25 @@ public class AnimatedTextView extends View {
             this.allowCancel = z;
         }
 
+        public void setEllipsizeByGradient(boolean z) {
+            this.ellipsizeByGradient = z;
+            invalidateSelf();
+        }
+
         public void setOnAnimationFinishListener(Runnable runnable) {
             this.onAnimationFinishListener = runnable;
         }
 
+        /* JADX WARN: Removed duplicated region for block: B:113:0x01f7  */
         @Override // android.graphics.drawable.Drawable
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
         public void draw(Canvas canvas) {
             float f;
             float f2;
             float f3;
+            android.graphics.Rect rect;
             float f4;
             float f5;
             float f6;
@@ -140,10 +161,15 @@ public class AnimatedTextView extends View {
             float f8;
             float f9;
             canvas.save();
-            android.graphics.Rect rect = this.bounds;
-            canvas.translate(rect.left, rect.top);
+            android.graphics.Rect rect2 = this.bounds;
+            canvas.translate(rect2.left, rect2.top);
             int width = this.bounds.width();
             int height = this.bounds.height();
+            if (this.ellipsizeByGradient) {
+                RectF rectF = AndroidUtilities.rectTmp;
+                rectF.set(this.bounds);
+                canvas.saveLayerAlpha(rectF, 255, 31);
+            }
             if (this.currentParts != null && this.oldParts != null) {
                 float f10 = this.t;
                 if (f10 != 1.0f) {
@@ -242,27 +268,46 @@ public class AnimatedTextView extends View {
                         }
                         i4++;
                     }
+                    if (this.ellipsizeByGradient) {
+                        float dp = AndroidUtilities.dp(16.0f);
+                        if (this.ellipsizeGradient == null) {
+                            this.ellipsizeGradient = new LinearGradient(0.0f, 0.0f, dp, 0.0f, new int[]{16711680, -65536}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP);
+                            this.ellipsizeGradientMatrix = new Matrix();
+                            Paint paint = new Paint(1);
+                            this.ellipsizePaint = paint;
+                            paint.setShader(this.ellipsizeGradient);
+                            this.ellipsizePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+                        }
+                        this.ellipsizeGradientMatrix.reset();
+                        this.ellipsizeGradientMatrix.postTranslate(this.bounds.right - dp, 0.0f);
+                        this.ellipsizeGradient.setLocalMatrix(this.ellipsizeGradientMatrix);
+                        canvas.save();
+                        int i6 = this.bounds.right;
+                        canvas.drawRect(i6 - dp, rect.top, i6, rect.bottom, this.ellipsizePaint);
+                        canvas.restore();
+                        canvas.restore();
+                    }
                     canvas.restore();
                 }
             }
             canvas.translate(0.0f, (height - this.currentHeight) / 2.0f);
             if (this.currentParts != null) {
                 this.textPaint.setAlpha(this.alpha);
-                for (int i6 = 0; i6 < this.currentParts.length; i6++) {
+                for (int i7 = 0; i7 < this.currentParts.length; i7++) {
                     canvas.save();
-                    Part part4 = this.currentParts[i6];
+                    Part part4 = this.currentParts[i7];
                     float f20 = part4.offset;
                     boolean z3 = this.isRTL;
                     if (z3 && !this.ignoreRTL) {
                         f20 = this.currentWidth - (f20 + part4.width);
                     }
                     float f21 = f20 - part4.left;
-                    int i7 = this.gravity;
-                    if ((i7 | (-4)) != -1) {
-                        if ((i7 | (-6)) == -1) {
+                    int i8 = this.gravity;
+                    if ((i8 | (-4)) != -1) {
+                        if ((i8 | (-6)) == -1) {
                             f = width;
                             f2 = this.currentWidth;
-                        } else if ((i7 | (-2)) == -1) {
+                        } else if ((i8 | (-2)) == -1) {
                             f3 = (width - this.currentWidth) / 2.0f;
                             f21 += f3;
                         } else if (z3 && !this.ignoreRTL) {
@@ -276,6 +321,8 @@ public class AnimatedTextView extends View {
                     part4.layout.draw(canvas);
                     canvas.restore();
                 }
+            }
+            if (this.ellipsizeByGradient) {
             }
             canvas.restore();
         }
@@ -970,5 +1017,9 @@ public class AnimatedTextView extends View {
         super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
         accessibilityNodeInfo.setClassName("android.widget.TextView");
         accessibilityNodeInfo.setText(getText());
+    }
+
+    public void setEllipsizeByGradient(boolean z) {
+        this.drawable.setEllipsizeByGradient(z);
     }
 }

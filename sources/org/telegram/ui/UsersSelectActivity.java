@@ -89,6 +89,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
     private ArrayList<Long> initialIds;
     private boolean isInclude;
     private RecyclerListView listView;
+    public boolean noChatTypes;
     private ScrollView scrollView;
     private boolean searchWas;
     private boolean searching;
@@ -275,7 +276,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         public void addSpan(GroupCreateSpan groupCreateSpan, boolean z) {
             UsersSelectActivity.this.allSpans.add(groupCreateSpan);
             long uid = groupCreateSpan.getUid();
-            if (uid > -2147483641) {
+            if (uid > -9223372036854775801L) {
                 UsersSelectActivity.access$508(UsersSelectActivity.this);
             }
             UsersSelectActivity.this.selectedContacts.put(uid, groupCreateSpan);
@@ -311,7 +312,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         public void removeSpan(final GroupCreateSpan groupCreateSpan) {
             UsersSelectActivity.this.ignoreScrollEvent = true;
             long uid = groupCreateSpan.getUid();
-            if (uid > -2147483641) {
+            if (uid > -9223372036854775801L) {
                 UsersSelectActivity.access$510(UsersSelectActivity.this);
             }
             UsersSelectActivity.this.selectedContacts.remove(uid);
@@ -385,21 +386,21 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         if (groupCreateSpan.isDeleting()) {
             this.currentDeletingSpan = null;
             this.spansContainer.removeSpan(groupCreateSpan);
-            if (groupCreateSpan.getUid() == -2147483648L) {
+            if (groupCreateSpan.getUid() == Long.MIN_VALUE) {
                 this.filterFlags &= MessagesController.DIALOG_FILTER_FLAG_CONTACTS ^ (-1);
-            } else if (groupCreateSpan.getUid() == -2147483647L) {
+            } else if (groupCreateSpan.getUid() == -9223372036854775807L) {
                 this.filterFlags &= MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS ^ (-1);
-            } else if (groupCreateSpan.getUid() == -2147483646) {
+            } else if (groupCreateSpan.getUid() == -9223372036854775806L) {
                 this.filterFlags &= MessagesController.DIALOG_FILTER_FLAG_GROUPS ^ (-1);
-            } else if (groupCreateSpan.getUid() == -2147483645) {
+            } else if (groupCreateSpan.getUid() == -9223372036854775805L) {
                 this.filterFlags &= MessagesController.DIALOG_FILTER_FLAG_CHANNELS ^ (-1);
-            } else if (groupCreateSpan.getUid() == -2147483644) {
+            } else if (groupCreateSpan.getUid() == -9223372036854775804L) {
                 this.filterFlags &= MessagesController.DIALOG_FILTER_FLAG_BOTS ^ (-1);
-            } else if (groupCreateSpan.getUid() == -2147483643) {
+            } else if (groupCreateSpan.getUid() == -9223372036854775803L) {
                 this.filterFlags &= MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED ^ (-1);
-            } else if (groupCreateSpan.getUid() == -2147483642) {
+            } else if (groupCreateSpan.getUid() == -9223372036854775802L) {
                 this.filterFlags &= MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ ^ (-1);
-            } else if (groupCreateSpan.getUid() == -2147483641) {
+            } else if (groupCreateSpan.getUid() == -9223372036854775801L) {
                 this.filterFlags &= MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_ARCHIVED ^ (-1);
             }
             updateHint();
@@ -586,21 +587,21 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                     } else if (keyEvent.getAction() == 1 && this.wasEmpty && !UsersSelectActivity.this.allSpans.isEmpty()) {
                         GroupCreateSpan groupCreateSpan = (GroupCreateSpan) UsersSelectActivity.this.allSpans.get(UsersSelectActivity.this.allSpans.size() - 1);
                         UsersSelectActivity.this.spansContainer.removeSpan(groupCreateSpan);
-                        if (groupCreateSpan.getUid() == -2147483648L) {
+                        if (groupCreateSpan.getUid() == Long.MIN_VALUE) {
                             UsersSelectActivity.access$1972(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_CONTACTS ^ (-1));
-                        } else if (groupCreateSpan.getUid() == -2147483647L) {
+                        } else if (groupCreateSpan.getUid() == -9223372036854775807L) {
                             UsersSelectActivity.access$1972(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS ^ (-1));
-                        } else if (groupCreateSpan.getUid() == -2147483646) {
+                        } else if (groupCreateSpan.getUid() == -9223372036854775806L) {
                             UsersSelectActivity.access$1972(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_GROUPS ^ (-1));
-                        } else if (groupCreateSpan.getUid() == -2147483645) {
+                        } else if (groupCreateSpan.getUid() == -9223372036854775805L) {
                             UsersSelectActivity.access$1972(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_CHANNELS ^ (-1));
-                        } else if (groupCreateSpan.getUid() == -2147483644) {
+                        } else if (groupCreateSpan.getUid() == -9223372036854775804L) {
                             UsersSelectActivity.access$1972(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_BOTS ^ (-1));
-                        } else if (groupCreateSpan.getUid() == -2147483643) {
+                        } else if (groupCreateSpan.getUid() == -9223372036854775803L) {
                             UsersSelectActivity.access$1972(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED ^ (-1));
-                        } else if (groupCreateSpan.getUid() == -2147483642) {
+                        } else if (groupCreateSpan.getUid() == -9223372036854775802L) {
                             UsersSelectActivity.access$1972(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ ^ (-1));
-                        } else if (groupCreateSpan.getUid() == -2147483641) {
+                        } else if (groupCreateSpan.getUid() == -9223372036854775801L) {
                             UsersSelectActivity.access$1972(UsersSelectActivity.this, MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_ARCHIVED ^ (-1));
                         }
                         UsersSelectActivity.this.updateHint();
@@ -788,29 +789,29 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                 if (this.isInclude) {
                     if (i == 1) {
                         i2 = MessagesController.DIALOG_FILTER_FLAG_CONTACTS;
-                        j = -2147483648L;
+                        j = Long.MIN_VALUE;
                     } else if (i == 2) {
                         i2 = MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS;
-                        j = -2147483647L;
+                        j = -9223372036854775807L;
                     } else if (i == 3) {
                         i2 = MessagesController.DIALOG_FILTER_FLAG_GROUPS;
-                        j = -2147483646;
+                        j = -9223372036854775806L;
                     } else if (i == 4) {
                         i2 = MessagesController.DIALOG_FILTER_FLAG_CHANNELS;
-                        j = -2147483645;
+                        j = -9223372036854775805L;
                     } else {
                         i2 = MessagesController.DIALOG_FILTER_FLAG_BOTS;
-                        j = -2147483644;
+                        j = -9223372036854775804L;
                     }
                 } else if (i == 1) {
                     i2 = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED;
-                    j = -2147483643;
+                    j = -9223372036854775803L;
                 } else if (i == 2) {
                     i2 = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ;
-                    j = -2147483642;
+                    j = -9223372036854775802L;
                 } else {
                     i2 = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_ARCHIVED;
-                    j = -2147483641;
+                    j = -9223372036854775801L;
                 }
                 if (groupCreateUserCell.isChecked()) {
                     this.filterFlags = (i2 ^ (-1)) & this.filterFlags;
@@ -982,28 +983,28 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                     }
                     switch (c) {
                         case 0:
-                            j = -2147483648L;
+                            j = Long.MIN_VALUE;
                             break;
                         case 1:
-                            j = -2147483647L;
+                            j = -9223372036854775807L;
                             break;
                         case 2:
-                            j = -2147483646;
+                            j = -9223372036854775806L;
                             break;
                         case 3:
-                            j = -2147483645;
+                            j = -9223372036854775805L;
                             break;
                         case 4:
-                            j = -2147483644;
+                            j = -9223372036854775804L;
                             break;
                         case 5:
-                            j = -2147483643;
+                            j = -9223372036854775803L;
                             break;
                         case 6:
-                            j = -2147483642;
+                            j = -9223372036854775802L;
                             break;
                         default:
-                            j = -2147483641;
+                            j = -9223372036854775801L;
                             break;
                     }
                 } else if (object instanceof TLRPC$User) {
@@ -1023,7 +1024,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
     public boolean onDonePressed(boolean z) {
         ArrayList<Long> arrayList = new ArrayList<>();
         for (int i = 0; i < this.selectedContacts.size(); i++) {
-            if (this.selectedContacts.keyAt(i) > -2147483641) {
+            if (this.selectedContacts.keyAt(i) > -9223372036854775801L) {
                 arrayList.add(Long.valueOf(this.selectedContacts.keyAt(i)));
             }
         }
@@ -1103,10 +1104,10 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
 
         public GroupCreateAdapter(Context context) {
             int i;
-            if (UsersSelectActivity.this.type == 0) {
-                i = UsersSelectActivity.this.isInclude ? 7 : 5;
-            } else {
+            if (UsersSelectActivity.this.type != 0 || UsersSelectActivity.this.noChatTypes) {
                 i = 0;
+            } else {
+                i = UsersSelectActivity.this.isInclude ? 7 : 5;
             }
             this.usersStartRow = i;
             this.context = context;
@@ -1184,20 +1185,17 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemCount() {
-            int i;
-            int size;
             if (!this.searching) {
+                int i = 0;
                 if (UsersSelectActivity.this.type == 0) {
-                    i = UsersSelectActivity.this.isInclude ? 7 : 5;
-                } else {
-                    i = 0;
+                    UsersSelectActivity usersSelectActivity = UsersSelectActivity.this;
+                    if (!usersSelectActivity.noChatTypes) {
+                        i = usersSelectActivity.isInclude ? 7 : 5;
+                    }
                 }
-                size = this.contacts.size();
-            } else {
-                i = this.searchResult.size();
-                size = this.searchAdapterHelper.getLocalServerSearch().size() + this.searchAdapterHelper.getGlobalSearch().size();
+                return i + this.contacts.size();
             }
-            return i + size;
+            return this.searchResult.size() + this.searchAdapterHelper.getLocalServerSearch().size() + this.searchAdapterHelper.getGlobalSearch().size();
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -1212,16 +1210,16 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:105:0x0220  */
-        /* JADX WARN: Removed duplicated region for block: B:117:0x02a0  */
-        /* JADX WARN: Removed duplicated region for block: B:118:0x02a6  */
-        /* JADX WARN: Removed duplicated region for block: B:121:0x02b4  */
-        /* JADX WARN: Removed duplicated region for block: B:122:0x02b7  */
-        /* JADX WARN: Removed duplicated region for block: B:125:0x02c4  */
-        /* JADX WARN: Removed duplicated region for block: B:138:? A[RETURN, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:85:0x01c5  */
-        /* JADX WARN: Removed duplicated region for block: B:86:0x01cb  */
-        /* JADX WARN: Removed duplicated region for block: B:92:0x01df  */
+        /* JADX WARN: Removed duplicated region for block: B:107:0x0226  */
+        /* JADX WARN: Removed duplicated region for block: B:119:0x02a6  */
+        /* JADX WARN: Removed duplicated region for block: B:120:0x02ac  */
+        /* JADX WARN: Removed duplicated region for block: B:123:0x02ba  */
+        /* JADX WARN: Removed duplicated region for block: B:124:0x02bd  */
+        /* JADX WARN: Removed duplicated region for block: B:127:0x02ca  */
+        /* JADX WARN: Removed duplicated region for block: B:140:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:87:0x01cb  */
+        /* JADX WARN: Removed duplicated region for block: B:88:0x01d1  */
+        /* JADX WARN: Removed duplicated region for block: B:94:0x01e5  */
         /* JADX WARN: Type inference failed for: r6v0 */
         /* JADX WARN: Type inference failed for: r6v1 */
         /* JADX WARN: Type inference failed for: r6v13 */
@@ -1254,7 +1252,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                     return;
                 }
                 GraySectionCell graySectionCell = (GraySectionCell) viewHolder.itemView;
-                if (i == 0) {
+                if (i == 0 && !UsersSelectActivity.this.noChatTypes) {
                     graySectionCell.setText(LocaleController.getString("FilterChatTypes", R.string.FilterChatTypes));
                     return;
                 } else {
@@ -1454,7 +1452,12 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemViewType(int i) {
             if (!this.searching && UsersSelectActivity.this.type == 0) {
-                if (UsersSelectActivity.this.isInclude) {
+                UsersSelectActivity usersSelectActivity = UsersSelectActivity.this;
+                if (usersSelectActivity.noChatTypes) {
+                    if (i == 0) {
+                        return 2;
+                    }
+                } else if (usersSelectActivity.isInclude) {
                     if (i == 0 || i == 6) {
                         return 2;
                     }

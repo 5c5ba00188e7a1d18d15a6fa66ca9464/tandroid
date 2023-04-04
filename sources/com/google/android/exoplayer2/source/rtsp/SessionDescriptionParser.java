@@ -103,13 +103,13 @@ final class SessionDescriptionParser {
                             break;
                         }
                         break;
-                    case MessagesStorage.LAST_DB_VERSION /* 116 */:
+                    case 116:
                         if (str3.equals("t")) {
                             c = '\t';
                             break;
                         }
                         break;
-                    case 117:
+                    case MessagesStorage.LAST_DB_VERSION /* 117 */:
                         if (str3.equals("u")) {
                             c = 4;
                             break;

@@ -2365,7 +2365,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             AlertDialog create = builder.create();
             showDialog(create);
             if (z4) {
-                create.setItemColor(arrayList6.size() - 1, Theme.getColor("dialogTextRed"), Theme.getColor("dialogRedIcon"));
+                create.setItemColor(arrayList6.size() - 1, Theme.getColor("text_RedBold"), Theme.getColor("text_RedRegular"));
             }
             return true;
         }
@@ -2423,7 +2423,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             AlertDialog create2 = builder2.create();
             showDialog(create2);
             if (this.type == 1) {
-                create2.setItemColor(charSequenceArr.length - 1, Theme.getColor("dialogTextRed"), Theme.getColor("dialogRedIcon"));
+                create2.setItemColor(charSequenceArr.length - 1, Theme.getColor("text_RedBold"), Theme.getColor("text_RedRegular"));
                 return true;
             }
             return true;

@@ -232,7 +232,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
         stickersAlert.setCustomButtonDelegate(new StickersAlert.StickersAlertCustomButtonDelegate() { // from class: org.telegram.ui.GroupStickersActivity.4
             @Override // org.telegram.ui.Components.StickersAlert.StickersAlertCustomButtonDelegate
             public String getCustomButtonTextColorKey() {
-                return isChecked ? "dialogTextRed" : "featuredStickers_buttonText";
+                return isChecked ? "text_RedBold" : "featuredStickers_buttonText";
             }
 
             @Override // org.telegram.ui.Components.StickersAlert.StickersAlertCustomButtonDelegate

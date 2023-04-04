@@ -43,6 +43,10 @@ public class CheckBox2 extends View {
         this.checkBoxBase.setChecked(z, z2);
     }
 
+    public CheckBoxBase getCheckBoxBase() {
+        return this.checkBoxBase;
+    }
+
     public void setNum(int i) {
         this.checkBoxBase.setNum(i);
     }
@@ -111,6 +115,10 @@ public class CheckBox2 extends View {
             return;
         }
         this.checkBoxBase.draw(canvas);
+    }
+
+    public void setForbidden(boolean z) {
+        this.checkBoxBase.setForbidden(z);
     }
 
     @Override // android.view.View

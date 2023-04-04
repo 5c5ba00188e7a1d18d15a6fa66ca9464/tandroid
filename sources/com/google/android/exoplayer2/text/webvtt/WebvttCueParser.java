@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes.dex */
 public final class WebvttCueParser {
     public static final Pattern CUE_HEADER_PATTERN = Pattern.compile("^(\\S+)\\s+-->\\s+(\\S+)(.*)?$");
@@ -488,7 +489,7 @@ public final class WebvttCueParser {
                     break;
                 }
                 break;
-            case 117:
+            case MessagesStorage.LAST_DB_VERSION /* 117 */:
                 if (str.equals("u")) {
                     c = 3;
                     break;
@@ -565,7 +566,7 @@ public final class WebvttCueParser {
                     break;
                 }
                 break;
-            case 117:
+            case MessagesStorage.LAST_DB_VERSION /* 117 */:
                 if (str2.equals("u")) {
                     c = 4;
                     break;

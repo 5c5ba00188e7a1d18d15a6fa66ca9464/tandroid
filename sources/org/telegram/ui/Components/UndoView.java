@@ -70,6 +70,7 @@ public class UndoView extends FrameLayout {
     private Runnable currentCancelRunnable;
     private ArrayList<Long> currentDialogIds;
     private Object currentInfoObject;
+    private Object currentInfoObject2;
     float enterOffset;
     private int enterOffsetMargin;
     private boolean fromTop;
@@ -267,8 +268,9 @@ public class UndoView extends FrameLayout {
 
     private boolean hasSubInfo() {
         int i;
+        Object obj;
         int i2 = this.currentAction;
-        return i2 == 11 || i2 == 24 || i2 == 6 || i2 == 3 || i2 == 5 || i2 == 13 || i2 == 14 || i2 == 74 || (i2 == 7 && MessagesController.getInstance(this.currentAccount).dialogFilters.isEmpty()) || (i = this.currentAction) == ACTION_RINGTONE_ADDED || i == 85;
+        return i2 == 11 || i2 == 24 || i2 == 6 || i2 == 3 || i2 == 5 || i2 == 13 || i2 == 14 || i2 == 74 || (i2 == 7 && MessagesController.getInstance(this.currentAccount).dialogFilters.isEmpty()) || (i = this.currentAction) == ACTION_RINGTONE_ADDED || i == 85 || (i == 88 && (obj = this.currentInfoObject2) != null && ((Integer) obj).intValue() > 0);
     }
 
     public boolean isMultilineSubInfo() {
@@ -290,6 +292,7 @@ public class UndoView extends FrameLayout {
     public void hide(boolean z, int i) {
         if (getVisibility() == 0 && this.isShown) {
             this.currentInfoObject = null;
+            this.currentInfoObject2 = null;
             this.isShown = false;
             Runnable runnable = this.currentActionRunnable;
             if (runnable != null) {
@@ -369,13 +372,13 @@ public class UndoView extends FrameLayout {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:593:0x16f6  */
-    /* JADX WARN: Removed duplicated region for block: B:596:0x1716  */
-    /* JADX WARN: Removed duplicated region for block: B:599:0x173d  */
-    /* JADX WARN: Removed duplicated region for block: B:603:0x1782  */
-    /* JADX WARN: Removed duplicated region for block: B:634:0x1834  */
-    /* JADX WARN: Removed duplicated region for block: B:660:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Type inference failed for: r2v394, types: [java.lang.CharSequence] */
+    /* JADX WARN: Removed duplicated region for block: B:602:0x17be  */
+    /* JADX WARN: Removed duplicated region for block: B:605:0x17de  */
+    /* JADX WARN: Removed duplicated region for block: B:608:0x1805  */
+    /* JADX WARN: Removed duplicated region for block: B:612:0x184a  */
+    /* JADX WARN: Removed duplicated region for block: B:643:0x18fc  */
+    /* JADX WARN: Removed duplicated region for block: B:669:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Type inference failed for: r2v416, types: [java.lang.CharSequence] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -419,8 +422,9 @@ public class UndoView extends FrameLayout {
         this.currentAction = i;
         this.timeLeft = 5000L;
         this.currentInfoObject = obj;
+        this.currentInfoObject2 = obj2;
         this.lastUpdateTime = SystemClock.elapsedRealtime();
-        this.undoTextView.setText(LocaleController.getString("Undo", R.string.Undo).toUpperCase());
+        this.undoTextView.setText(LocaleController.getString("Undo", R.string.Undo));
         this.undoImageView.setVisibility(0);
         this.leftImageView.setPadding(0, 0, 0, 0);
         this.leftImageView.setScaleX(1.0f);
@@ -428,6 +432,7 @@ public class UndoView extends FrameLayout {
         this.infoTextView.setTextSize(1, 15.0f);
         this.avatarImageView.setVisibility(8);
         this.infoTextView.setGravity(51);
+        ((FrameLayout.LayoutParams) this.subinfoTextView.getLayoutParams()).leftMargin = AndroidUtilities.dp(58.0f);
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.infoTextView.getLayoutParams();
         layoutParams.height = -2;
         layoutParams.topMargin = AndroidUtilities.dp(13.0f);
@@ -1091,7 +1096,7 @@ public class UndoView extends FrameLayout {
                 this.subinfoTextView.setVisibility(0);
                 this.infoTextView.setTextSize(1, 14.0f);
                 this.infoTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-                this.undoTextView.setTextColor(getThemedColor("windowBackgroundWhiteRedText2"));
+                this.undoTextView.setTextColor(getThemedColor("text_RedRegular"));
                 this.undoImageView.setVisibility(8);
                 this.undoButton.setVisibility(0);
                 this.leftImageView.setVisibility(0);
@@ -1322,7 +1327,33 @@ public class UndoView extends FrameLayout {
                 this.subinfoTextView.setVisibility(8);
                 this.leftImageView.setVisibility(8);
                 int i19 = this.currentAction;
-                if (i19 == 81 || i19 == 0 || i19 == 26) {
+                if (i19 == 88) {
+                    String str13 = (String) obj;
+                    int intValue5 = ((Integer) obj2).intValue();
+                    if (intValue5 > 0) {
+                        int ceil2 = ((int) Math.ceil(this.undoTextView.getPaint().measureText(this.undoTextView.getText().toString()))) + AndroidUtilities.dp(26.0f);
+                        layoutParams.leftMargin = AndroidUtilities.dp(48.0f);
+                        layoutParams.rightMargin = ceil2;
+                        layoutParams.topMargin = AndroidUtilities.dp(6.0f);
+                        FrameLayout.LayoutParams layoutParams3 = (FrameLayout.LayoutParams) this.subinfoTextView.getLayoutParams();
+                        layoutParams3.leftMargin = AndroidUtilities.dp(48.0f);
+                        layoutParams3.rightMargin = ceil2;
+                        this.infoTextView.setText(LocaleController.formatString("FolderLinkDeletedTitle", R.string.FolderLinkDeletedTitle, str13));
+                        this.infoTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                        this.subinfoTextView.setVisibility(0);
+                        this.subinfoTextView.setText(LocaleController.formatPluralString("FolderLinkDeletedSubtitle", intValue5, new Object[0]));
+                    } else {
+                        this.infoTextView.setTypeface(Typeface.DEFAULT);
+                        TextView textView5 = this.infoTextView;
+                        int i20 = R.string.FolderLinkDeleted;
+                        Object[] objArr3 = new Object[1];
+                        if (str13 == null) {
+                            str13 = "";
+                        }
+                        objArr3[0] = str13.replace('*', (char) 10033);
+                        textView5.setText(AndroidUtilities.replaceTags(LocaleController.formatString("FolderLinkDeleted", i20, objArr3)));
+                    }
+                } else if (i19 == 81 || i19 == 0 || i19 == 26) {
                     this.infoTextView.setText(LocaleController.getString("HistoryClearedUndo", R.string.HistoryClearedUndo));
                 } else if (i19 == 27) {
                     this.infoTextView.setText(LocaleController.getString("ChatsDeletedUndo", R.string.ChatsDeletedUndo));
@@ -1337,11 +1368,11 @@ public class UndoView extends FrameLayout {
                     this.infoTextView.setText(LocaleController.getString("ChatDeletedUndo", R.string.ChatDeletedUndo));
                 }
                 if (this.currentAction != 81) {
-                    for (int i20 = 0; i20 < arrayList.size(); i20++) {
+                    for (int i21 = 0; i21 < arrayList.size(); i21++) {
                         MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
-                        long longValue2 = arrayList.get(i20).longValue();
-                        int i21 = this.currentAction;
-                        messagesController.addDialogAction(longValue2, i21 == 0 || i21 == 26);
+                        long longValue2 = arrayList.get(i21).longValue();
+                        int i22 = this.currentAction;
+                        messagesController.addDialogAction(longValue2, i22 == 0 || i22 == 26);
                     }
                 }
             }
@@ -1440,7 +1471,7 @@ public class UndoView extends FrameLayout {
             this.backgroundDrawable.draw(canvas);
         }
         int i = this.currentAction;
-        if (i == 1 || i == 0 || i == 27 || i == 26 || i == 81) {
+        if (i == 1 || i == 0 || i == 27 || i == 26 || i == 81 || i == 88) {
             long j = this.timeLeft;
             int ceil = j > 0 ? (int) Math.ceil(((float) j) / 1000.0f) : 0;
             if (this.prevSeconds != ceil) {

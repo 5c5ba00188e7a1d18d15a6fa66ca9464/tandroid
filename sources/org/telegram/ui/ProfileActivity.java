@@ -2428,7 +2428,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             });
             TextView textView = new TextView(context);
-            textView.setTextColor(getThemedColor("windowBackgroundWhiteRedText"));
+            textView.setTextColor(getThemedColor("text_RedRegular"));
             textView.setTextSize(1, 15.0f);
             textView.setGravity(17);
             textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
@@ -2935,7 +2935,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         ProfileActivity.this.showDialog(create);
                         TextView textView = (TextView) create.getButton(-1);
                         if (textView != null) {
-                            textView.setTextColor(ProfileActivity.this.getThemedColor("dialogTextRed"));
+                            textView.setTextColor(ProfileActivity.this.getThemedColor("text_RedBold"));
                         }
                     }
                 } else if (ProfileActivity.this.userBlocked) {
@@ -2995,7 +2995,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 ProfileActivity.this.showDialog(create2);
                 TextView textView2 = (TextView) create2.getButton(-1);
                 if (textView2 != null) {
-                    textView2.setTextColor(ProfileActivity.this.getThemedColor("dialogTextRed"));
+                    textView2.setTextColor(ProfileActivity.this.getThemedColor("text_RedBold"));
                 }
             } else if (i == 7) {
                 ProfileActivity.this.leaveChatPressed();
@@ -3040,7 +3040,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 create3.show();
                 TextView textView3 = (TextView) create3.getButton(-1);
                 if (textView3 != null) {
-                    textView3.setTextColor(Theme.getColor("dialogTextRed"));
+                    textView3.setTextColor(Theme.getColor("text_RedBold"));
                 }
             } else if (i == 12) {
                 if (ProfileActivity.this.isTopic) {
@@ -3284,7 +3284,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 ProfileActivity.this.showDialog(create4);
                 TextView textView4 = (TextView) create4.getButton(-1);
                 if (textView4 != null) {
-                    textView4.setTextColor(ProfileActivity.this.getThemedColor("dialogTextRed"));
+                    textView4.setTextColor(ProfileActivity.this.getThemedColor("text_RedBold"));
                 }
             }
         }
@@ -4108,7 +4108,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             });
             TextView textView = (TextView) builder.show().getButton(-1);
             if (textView != null) {
-                textView.setTextColor(Theme.getColor("dialogTextRed"));
+                textView.setTextColor(Theme.getColor("text_RedBold"));
             }
         }
         if (i == this.settingsKeyRow) {
@@ -4549,7 +4549,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             } else if (i == 6) {
                 ProfileActivity.this.getMessagesStorage().clearSentMedia();
                 SharedConfig.setNoSoundHintShowed(false);
-                MessagesController.getGlobalMainSettings().edit().remove("archivehint").remove("proximityhint").remove("archivehint_l").remove("speedhint").remove("gifhint").remove("reminderhint").remove("soundHint").remove("themehint").remove("bganimationhint").remove("filterhint").commit();
+                MessagesController.getGlobalMainSettings().edit().remove("archivehint").remove("proximityhint").remove("archivehint_l").remove("speedhint").remove("gifhint").remove("reminderhint").remove("soundHint").remove("themehint").remove("bganimationhint").remove("filterhint").remove("n_0").commit();
                 MessagesController.getEmojiSettings(((BaseFragment) ProfileActivity.this).currentAccount).edit().remove("featured_hidden").remove("emoji_featured_hidden").commit();
                 SharedConfig.textSelectionHintShows = 0;
                 SharedConfig.lockRecordAudioVideoHint = 0;
@@ -4934,7 +4934,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         showDialog(create);
         TextView textView = (TextView) create.getButton(-1);
         if (textView != null) {
-            textView.setTextColor(Theme.getColor("dialogTextRed"));
+            textView.setTextColor(Theme.getColor("text_RedBold"));
             return true;
         }
         return true;
@@ -5711,7 +5711,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             AlertDialog create = builder.create();
             showDialog(create);
             if (z7) {
-                create.setItemColor(arrayList.size() - 1, getThemedColor("dialogTextRed"), getThemedColor("dialogRedIcon"));
+                create.setItemColor(arrayList.size() - 1, getThemedColor("text_RedBold"), getThemedColor("text_RedRegular"));
             }
         } else if (tLRPC$ChatParticipant.user_id == getUserConfig().getClientUserId()) {
             return false;
@@ -8421,12 +8421,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 this.dataRow = i20;
                 this.rowCount = i21 + 1;
                 this.liteModeRow = i21;
-                if (getMessagesController().filtersEnabled || !getMessagesController().dialogFilters.isEmpty()) {
-                    int i22 = this.rowCount;
-                    this.rowCount = i22 + 1;
-                    this.filtersRow = i22;
+                if (!getMessagesController().filtersEnabled) {
+                    getMessagesController().dialogFilters.isEmpty();
                 }
-                int i23 = this.rowCount;
+                int i22 = this.rowCount;
+                int i23 = i22 + 1;
+                this.rowCount = i23;
+                this.filtersRow = i22;
                 int i24 = i23 + 1;
                 this.rowCount = i24;
                 this.devicesRow = i23;
@@ -10086,7 +10087,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                     if (this.isBot) {
                         if (!this.userBlocked) {
-                            this.otherItem.addSubItem(2, R.drawable.msg_block2, LocaleController.getString(R.string.DeleteAndBlock)).setColors(getThemedColor("dialogTextRed"), getThemedColor("dialogTextRed"));
+                            this.otherItem.addSubItem(2, R.drawable.msg_block2, LocaleController.getString(R.string.DeleteAndBlock)).setColors(getThemedColor("text_RedRegular"), getThemedColor("text_RedRegular"));
                         } else {
                             this.otherItem.addSubItem(2, R.drawable.msg_retry, LocaleController.getString("BotRestart", R.string.BotRestart));
                         }
@@ -11440,8 +11441,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                                 } else {
                                                     textCell.setText(LocaleController.getString("ReportReaction", R.string.ReportReaction), false);
                                                 }
-                                                textCell.setColors(null, "windowBackgroundWhiteRedText5");
-                                                textCell.setColors(null, "windowBackgroundWhiteRedText5");
+                                                textCell.setColors(null, "text_RedRegular");
+                                                textCell.setColors(null, "text_RedRegular");
                                                 return;
                                             } else if (i != ProfileActivity.this.reportRow) {
                                                 if (i != ProfileActivity.this.languageRow) {
@@ -11532,8 +11533,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                                 return;
                                             } else {
                                                 textCell.setText(LocaleController.getString("ReportUserLocation", R.string.ReportUserLocation), false);
-                                                textCell.setColors(null, "windowBackgroundWhiteRedText5");
-                                                textCell.setColors(null, "windowBackgroundWhiteRedText5");
+                                                textCell.setColors(null, "text_RedRegular");
+                                                textCell.setColors(null, "text_RedRegular");
                                                 return;
                                             }
                                         }
@@ -11564,7 +11565,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         return;
                     }
                     textCell.setText(LocaleController.getString("Unblock", R.string.Unblock), false);
-                    textCell.setColors(null, "windowBackgroundWhiteRedText5");
+                    textCell.setColors(null, "text_RedRegular");
                     return;
                 }
                 int i6 = ProfileActivity.this.getMessagesController().getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(ProfileActivity.this.dialogId))).ttl;
@@ -12214,13 +12215,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     ProfileActivity.SearchAdapter.this.lambda$onCreateSearchArray$36();
                 }
             });
-            searchResultArr[36] = new SearchResult(this, MessagesStorage.LAST_DB_VERSION, LocaleController.getString("SyncContacts", R.string.SyncContacts), "contactsSyncRow", LocaleController.getString("PrivacySettings", i3), i6, new Runnable() { // from class: org.telegram.ui.ProfileActivity$SearchAdapter$$ExternalSyntheticLambda117
+            searchResultArr[36] = new SearchResult(this, 116, LocaleController.getString("SyncContacts", R.string.SyncContacts), "contactsSyncRow", LocaleController.getString("PrivacySettings", i3), i6, new Runnable() { // from class: org.telegram.ui.ProfileActivity$SearchAdapter$$ExternalSyntheticLambda117
                 @Override // java.lang.Runnable
                 public final void run() {
                     ProfileActivity.SearchAdapter.this.lambda$onCreateSearchArray$37();
                 }
             });
-            searchResultArr[37] = new SearchResult(this, 117, LocaleController.getString("SuggestContacts", R.string.SuggestContacts), "contactsSuggestRow", LocaleController.getString("PrivacySettings", i3), i6, new Runnable() { // from class: org.telegram.ui.ProfileActivity$SearchAdapter$$ExternalSyntheticLambda49
+            searchResultArr[37] = new SearchResult(this, MessagesStorage.LAST_DB_VERSION, LocaleController.getString("SuggestContacts", R.string.SuggestContacts), "contactsSuggestRow", LocaleController.getString("PrivacySettings", i3), i6, new Runnable() { // from class: org.telegram.ui.ProfileActivity$SearchAdapter$$ExternalSyntheticLambda49
                 @Override // java.lang.Runnable
                 public final void run() {
                     ProfileActivity.SearchAdapter.this.lambda$onCreateSearchArray$38();
@@ -13947,7 +13948,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         arrayList.add(new ThemeDescription(this.writeButton, ThemeDescription.FLAG_DRAWABLESELECTEDSTATE | ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "profile_actionPressedBackground"));
         arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlackText"));
         arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteGreenText2"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteRedText5"));
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "text_RedRegular"));
         arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlueText2"));
         arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlueButton"));
         arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{TextCell.class}, new String[]{"valueTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteValueText"));

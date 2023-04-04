@@ -931,7 +931,7 @@ public class AlertsCreator {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createLanguageAlert$8(LaunchActivity launchActivity, DialogInterface dialogInterface, int i) {
-        launchActivity.lambda$runLinkRequest$77(new LanguageSelectActivity());
+        launchActivity.lambda$runLinkRequest$79(new LanguageSelectActivity());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1107,7 +1107,7 @@ public class AlertsCreator {
         chatActivity.showDialog(create);
         TextView textView = (TextView) create.getButton(-1);
         if (textView != null) {
-            textView.setTextColor(Theme.getColor("dialogTextRed"));
+            textView.setTextColor(Theme.getColor("text_RedBold"));
         }
     }
 
@@ -1252,7 +1252,7 @@ public class AlertsCreator {
                 baseFragment.showDialog(create);
                 textView = (TextView) create.getButton(-1);
                 if (textView == null) {
-                    textView.setTextColor(Theme.getColor("dialogTextRed"));
+                    textView.setTextColor(Theme.getColor("text_RedBold"));
                     return;
                 }
                 return;
@@ -1311,7 +1311,7 @@ public class AlertsCreator {
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r8v0 */
-    /* JADX WARN: Type inference failed for: r8v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r8v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r8v3 */
     public static void showCustomNotificationsDialog(final BaseFragment baseFragment, final long j, final int i, final int i2, final ArrayList<NotificationsSettingsActivity.NotificationException> arrayList, final int i3, final MessagesStorage.IntCallback intCallback, final MessagesStorage.IntCallback intCallback2) {
         int i4;
@@ -1354,8 +1354,8 @@ public class AlertsCreator {
                 TextView textView = new TextView(baseFragment.getParentActivity());
                 Drawable drawable3 = baseFragment.getParentActivity().getResources().getDrawable(iArr2[i7]);
                 if (i7 == i6) {
-                    textView.setTextColor(Theme.getColor("dialogTextRed"));
-                    drawable3.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogRedIcon"), PorterDuff.Mode.MULTIPLY));
+                    textView.setTextColor(Theme.getColor("text_RedBold"));
+                    drawable3.setColorFilter(new PorterDuffColorFilter(Theme.getColor("text_RedRegular"), PorterDuff.Mode.MULTIPLY));
                 } else {
                     textView.setTextColor(Theme.getColor("dialogTextBlack"));
                     drawable3.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogIcon"), PorterDuff.Mode.MULTIPLY));
@@ -2189,7 +2189,7 @@ public class AlertsCreator {
                     baseFragment.showDialog(create);
                     textView = (TextView) create.getButton(-1);
                     if (textView == null) {
-                        textView.setTextColor(Theme.getColor("dialogTextRed"));
+                        textView.setTextColor(Theme.getColor("text_RedBold"));
                         return;
                     }
                     return;
@@ -2386,7 +2386,7 @@ public class AlertsCreator {
         baseFragment.showDialog(create);
         TextView textView3 = (TextView) create.getButton(-1);
         if (textView3 != null) {
-            textView3.setTextColor(Theme.getColor("dialogTextRed"));
+            textView3.setTextColor(Theme.getColor("text_RedBold"));
         }
     }
 
@@ -3000,7 +3000,7 @@ public class AlertsCreator {
         baseFragment.showDialog(create);
         TextView textView = (TextView) create.getButton(-1);
         if (textView != null) {
-            textView.setTextColor(Theme.getColor("dialogTextRed"));
+            textView.setTextColor(Theme.getColor("text_RedBold"));
         }
     }
 
@@ -5660,7 +5660,7 @@ public class AlertsCreator {
         View view = new View(context);
         view.setBackground(new BitmapDrawable(SvgHelper.getBitmap(readRes, AndroidUtilities.dp(320.0f), AndroidUtilities.dp(184.61539f), false)));
         frameLayout.addView(view, LayoutHelper.createFrame(-1, -1.0f, 0, -1.0f, -1.0f, -1.0f, -1.0f));
-        frameLayout.addView(groupCallPipButton, LayoutHelper.createFrame(117, 117.0f));
+        frameLayout.addView(groupCallPipButton, LayoutHelper.createFrame(MessagesStorage.LAST_DB_VERSION, 117.0f));
         builder.setTopView(frameLayout);
         builder.setTitle(LocaleController.getString("PermissionDrawAboveOtherAppsGroupCallTitle", R.string.PermissionDrawAboveOtherAppsGroupCallTitle));
         builder.setMessage(LocaleController.getString("PermissionDrawAboveOtherAppsGroupCall", R.string.PermissionDrawAboveOtherAppsGroupCall));
@@ -5730,7 +5730,7 @@ public class AlertsCreator {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createFreeSpaceDialog$113(LaunchActivity launchActivity, DialogInterface dialogInterface, int i) {
-        launchActivity.lambda$runLinkRequest$77(new CacheControlActivity());
+        launchActivity.lambda$runLinkRequest$79(new CacheControlActivity());
     }
 
     public static Dialog createPrioritySelectDialog(Activity activity, long j, int i, int i2, Runnable runnable) {
@@ -6539,7 +6539,7 @@ public class AlertsCreator {
             baseFragment.showDialog(create);
             textView = (TextView) create.getButton(-1);
             if (textView == null) {
-                textView.setTextColor(Theme.getColor("dialogTextRed"));
+                textView.setTextColor(Theme.getColor("text_RedBold"));
                 return;
             }
             return;
@@ -6794,7 +6794,7 @@ public class AlertsCreator {
         Activity parentActivity = baseFragment.getParentActivity();
         final EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(parentActivity);
         editTextBoldCursor.setBackground(null);
-        editTextBoldCursor.setLineColors(Theme.getColor("dialogInputField"), Theme.getColor("dialogInputFieldActivated"), Theme.getColor("dialogTextRed"));
+        editTextBoldCursor.setLineColors(Theme.getColor("dialogInputField"), Theme.getColor("dialogInputFieldActivated"), Theme.getColor("text_RedBold"));
         AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
         builder.setTitle(LocaleController.getString("NewTheme", R.string.NewTheme));
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);

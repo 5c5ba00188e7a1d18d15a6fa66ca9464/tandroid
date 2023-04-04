@@ -104,6 +104,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
     boolean drawOverlay;
     float extraHeight;
     private boolean firstLocationsLoaded;
+    private boolean flickOnAttach;
     private BaseFragment fragment;
     private FrameLayout frameLayout;
     private Paint gradientPaint;
@@ -418,7 +419,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         addView(clippingTextViewSwitcher2, LayoutHelper.createFrame(-1, 36.0f, 51, 35.0f, 10.0f, 36.0f, 0.0f));
         CellFlickerDrawable cellFlickerDrawable = new CellFlickerDrawable();
         this.joinButtonFlicker = cellFlickerDrawable;
-        cellFlickerDrawable.setProgress(2.0f);
+        cellFlickerDrawable.setProgress(1.0f);
         this.joinButtonFlicker.repeatEnabled = false;
         TextView textView = new TextView(context) { // from class: org.telegram.ui.Components.FragmentContextView.6
             @Override // android.view.View
@@ -429,10 +430,6 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 float f = dp;
                 rectF.set(f, f, getWidth() - dp, getHeight() - dp);
                 FragmentContextView.this.joinButtonFlicker.draw(canvas, rectF, AndroidUtilities.dp(16.0f), this);
-                if (FragmentContextView.this.joinButtonFlicker.getProgress() >= 1.0f || FragmentContextView.this.joinButtonFlicker.repeatEnabled) {
-                    return;
-                }
-                invalidate();
             }
 
             @Override // android.view.View
@@ -478,6 +475,9 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 FragmentContextView.this.lambda$checkCreateView$1(view3);
             }
         });
+        if (this.flickOnAttach) {
+            startJoinFlickerAnimation();
+        }
         this.silentButton = new FrameLayout(context);
         ImageView imageView3 = new ImageView(context);
         this.silentButtonImage = imageView3;
@@ -747,7 +747,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             builder.show();
             TextView textView = (TextView) create.getButton(-1);
             if (textView != null) {
-                textView.setTextColor(getThemedColor("dialogTextRed"));
+                textView.setTextColor(getThemedColor("text_RedBold"));
                 return;
             }
             return;
@@ -1099,7 +1099,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 FragmentContextView.lambda$openSharingLocation$14(LocationController.SharingLocationInfo.this, dialogId, tLRPC$MessageMedia, i, z, i2);
             }
         });
-        launchActivity.lambda$runLinkRequest$77(locationActivity);
+        launchActivity.lambda$runLinkRequest$79(locationActivity);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2408,15 +2408,17 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
     /* JADX INFO: Access modifiers changed from: private */
     public void startJoinFlickerAnimation() {
         CellFlickerDrawable cellFlickerDrawable = this.joinButtonFlicker;
-        if (cellFlickerDrawable == null || cellFlickerDrawable.getProgress() <= 1.0f) {
+        if (cellFlickerDrawable != null && cellFlickerDrawable.getProgress() >= 1.0f) {
+            this.flickOnAttach = false;
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.FragmentContextView$$ExternalSyntheticLambda10
+                @Override // java.lang.Runnable
+                public final void run() {
+                    FragmentContextView.this.lambda$startJoinFlickerAnimation$15();
+                }
+            }, 150L);
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.FragmentContextView$$ExternalSyntheticLambda10
-            @Override // java.lang.Runnable
-            public final void run() {
-                FragmentContextView.this.lambda$startJoinFlickerAnimation$15();
-            }
-        }, 150L);
+        this.flickOnAttach = true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

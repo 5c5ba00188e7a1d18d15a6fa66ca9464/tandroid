@@ -285,6 +285,7 @@ import org.telegram.tgnet.TLRPC$TL_secureValueTypePhone;
 import org.telegram.tgnet.TLRPC$TL_secureValueTypeRentalAgreement;
 import org.telegram.tgnet.TLRPC$TL_secureValueTypeTemporaryRegistration;
 import org.telegram.tgnet.TLRPC$TL_secureValueTypeUtilityBill;
+import org.telegram.tgnet.TLRPC$TL_stickerPack;
 import org.telegram.tgnet.TLRPC$TL_stickerSetFullCovered;
 import org.telegram.tgnet.TLRPC$TL_textWithEntities;
 import org.telegram.tgnet.TLRPC$TL_webPage;
@@ -1743,13 +1744,13 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:190:0x04d1  */
     /* JADX WARN: Removed duplicated region for block: B:194:0x04d7 A[LOOP:0: B:170:0x048a->B:194:0x04d7, LOOP_END] */
     /* JADX WARN: Removed duplicated region for block: B:473:0x0cd0  */
-    /* JADX WARN: Removed duplicated region for block: B:821:0x1670  */
-    /* JADX WARN: Removed duplicated region for block: B:824:0x16c1  */
-    /* JADX WARN: Removed duplicated region for block: B:826:0x16c4  */
-    /* JADX WARN: Removed duplicated region for block: B:838:0x1746  */
-    /* JADX WARN: Removed duplicated region for block: B:842:0x174d  */
-    /* JADX WARN: Removed duplicated region for block: B:868:0x04f0 A[EDGE_INSN: B:868:0x04f0->B:196:0x04f0 ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:877:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:824:0x1684  */
+    /* JADX WARN: Removed duplicated region for block: B:827:0x16d5  */
+    /* JADX WARN: Removed duplicated region for block: B:829:0x16d8  */
+    /* JADX WARN: Removed duplicated region for block: B:841:0x175a  */
+    /* JADX WARN: Removed duplicated region for block: B:845:0x1761  */
+    /* JADX WARN: Removed duplicated region for block: B:871:0x04f0 A[EDGE_INSN: B:871:0x04f0->B:196:0x04f0 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:880:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2753,8 +2754,11 @@ public class MessageObject {
                                         this.messageText = replaceWithLink(LocaleController.getString("EventLogVoiceChatAllowedToSpeak", R.string.EventLogVoiceChatAllowedToSpeak), "un1", user2);
                                     }
                                 } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite) {
-                                    TLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite tLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite = (TLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite) tLRPC$ChannelAdminLogEventAction;
-                                    this.messageText = replaceWithLink(LocaleController.getString("ActionInviteUser", R.string.ActionInviteUser), "un1", user2);
+                                    if (((TLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite) tLRPC$ChannelAdminLogEventAction).via_chatlist) {
+                                        this.messageText = replaceWithLink(LocaleController.getString("ActionInviteUserFolder", R.string.ActionInviteUserFolder), "un1", user2);
+                                    } else {
+                                        this.messageText = replaceWithLink(LocaleController.getString("ActionInviteUser", R.string.ActionInviteUser), "un1", user2);
+                                    }
                                 } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionToggleNoForwards) {
                                     TLRPC$TL_channelAdminLogEventActionToggleNoForwards tLRPC$TL_channelAdminLogEventActionToggleNoForwards = (TLRPC$TL_channelAdminLogEventActionToggleNoForwards) tLRPC$ChannelAdminLogEventAction;
                                     boolean z5 = ChatObject.isChannel(tLRPC$Chat) && !tLRPC$Chat.megagroup;
@@ -7855,6 +7859,10 @@ public class MessageObject {
     }
 
     public static String findAnimatedEmojiEmoticon(TLRPC$Document tLRPC$Document, String str) {
+        return findAnimatedEmojiEmoticon(tLRPC$Document, str, null);
+    }
+
+    public static String findAnimatedEmojiEmoticon(TLRPC$Document tLRPC$Document, String str, Integer num) {
         if (tLRPC$Document == null) {
             return str;
         }
@@ -7862,6 +7870,21 @@ public class MessageObject {
         for (int i = 0; i < size; i++) {
             TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$Document.attributes.get(i);
             if ((tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeCustomEmoji) || (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeSticker)) {
+                if (num != null) {
+                    TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(num.intValue()).getStickerSet(tLRPC$DocumentAttribute.stickerset, true);
+                    StringBuilder sb = new StringBuilder("");
+                    if (stickerSet != null && stickerSet.packs != null) {
+                        for (int i2 = 0; i2 < stickerSet.packs.size(); i2++) {
+                            TLRPC$TL_stickerPack tLRPC$TL_stickerPack = stickerSet.packs.get(i2);
+                            if (tLRPC$TL_stickerPack.documents.contains(Long.valueOf(tLRPC$Document.id))) {
+                                sb.append(tLRPC$TL_stickerPack.emoticon);
+                            }
+                        }
+                    }
+                    if (!TextUtils.isEmpty(sb)) {
+                        return sb.toString();
+                    }
+                }
                 return tLRPC$DocumentAttribute.alt;
             }
         }

@@ -50,7 +50,6 @@ import org.telegram.messenger.KeepAliveJob;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.StatsController;
@@ -288,7 +287,7 @@ public class ConnectionsManager extends BaseController {
             sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig" + this.currentAccount, 0);
         }
         this.forceTryIpV6 = sharedPreferences.getBoolean("forceTryIpV6", false);
-        init(BuildVars.BUILD_VERSION, 157, BuildVars.APP_ID, str9, str10, str2, str4, str8, file2, FileLog.getNetworkLogPath(), regId, certificateSHA256Fingerprint, rawOffset, getUserConfig().getClientUserId(), isPushConnectionEnabled);
+        init(BuildVars.BUILD_VERSION, 158, BuildVars.APP_ID, str9, str10, str2, str4, str8, file2, FileLog.getNetworkLogPath(), regId, certificateSHA256Fingerprint, rawOffset, getUserConfig().getClientUserId(), isPushConnectionEnabled);
     }
 
     private String getRegId() {
@@ -1205,7 +1204,7 @@ public class ConnectionsManager extends BaseController {
                 String str = i == 0 ? "www.google.com" : i == 1 ? "www.google.ru" : "google.com";
                 try {
                     String str2 = ConnectionsManager.native_isTestBackend(this.currentAccount) != 0 ? "tapv3.stel.com" : AccountInstance.getInstance(this.currentAccount).getMessagesController().dcDomainName;
-                    int nextInt = Utilities.random.nextInt(MessagesStorage.LAST_DB_VERSION) + 13;
+                    int nextInt = Utilities.random.nextInt(116) + 13;
                     StringBuilder sb = new StringBuilder(nextInt);
                     for (int i2 = 0; i2 < nextInt; i2++) {
                         sb.append("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".charAt(Utilities.random.nextInt(62)));
@@ -1348,7 +1347,7 @@ public class ConnectionsManager extends BaseController {
             boolean z = false;
             try {
                 String str = ConnectionsManager.native_isTestBackend(this.currentAccount) != 0 ? "tapv3.stel.com" : AccountInstance.getInstance(this.currentAccount).getMessagesController().dcDomainName;
-                int nextInt = Utilities.random.nextInt(MessagesStorage.LAST_DB_VERSION) + 13;
+                int nextInt = Utilities.random.nextInt(116) + 13;
                 StringBuilder sb = new StringBuilder(nextInt);
                 for (int i = 0; i < nextInt; i++) {
                     sb.append("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".charAt(Utilities.random.nextInt(62)));
@@ -1505,7 +1504,7 @@ public class ConnectionsManager extends BaseController {
             int read;
             try {
                 String str = ConnectionsManager.native_isTestBackend(this.currentAccount) != 0 ? "tapv3.stel.com" : AccountInstance.getInstance(this.currentAccount).getMessagesController().dcDomainName;
-                int nextInt = Utilities.random.nextInt(MessagesStorage.LAST_DB_VERSION) + 13;
+                int nextInt = Utilities.random.nextInt(116) + 13;
                 StringBuilder sb = new StringBuilder(nextInt);
                 for (int i = 0; i < nextInt; i++) {
                     sb.append("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".charAt(Utilities.random.nextInt(62)));

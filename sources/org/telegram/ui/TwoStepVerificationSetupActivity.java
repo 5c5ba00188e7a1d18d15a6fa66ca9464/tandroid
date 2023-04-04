@@ -1209,7 +1209,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 TwoStepVerificationSetupActivity.this.showDialog(create);
                 TextView textView = (TextView) create.getButton(-1);
                 if (textView != null) {
-                    textView.setTextColor(Theme.getColor("dialogTextRed"));
+                    textView.setTextColor(Theme.getColor("text_RedBold"));
                 }
             }
         }
@@ -1257,7 +1257,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             showDialog(create);
             TextView textView = (TextView) create.getButton(-1);
             if (textView != null) {
-                textView.setTextColor(Theme.getColor("dialogTextRed"));
+                textView.setTextColor(Theme.getColor("text_RedBold"));
             }
         }
     }
@@ -1758,7 +1758,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         needHideProgress();
         if ("PASSWORD_HASH_INVALID".equals(tLRPC$TL_error.text)) {
             this.descriptionText.setText(LocaleController.getString("CheckPasswordWrong", R.string.CheckPasswordWrong));
-            this.descriptionText.setTextColor(Theme.getColor("windowBackgroundWhiteRedText4"));
+            this.descriptionText.setTextColor(Theme.getColor("text_RedRegular"));
             onFieldError(this.outlineTextFirstRow, this.editTextFirstRow, true);
             showDoneButton(false);
         } else if (tLRPC$TL_error.text.startsWith("FLOOD_WAIT")) {
@@ -2686,7 +2686,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 TwoStepVerificationSetupActivity.this.lambda$showSetForcePasswordAlert$51(dialogInterface, i);
             }
         });
-        ((TextView) builder.show().getButton(-2)).setTextColor(Theme.getColor("dialogTextRed"));
+        ((TextView) builder.show().getButton(-2)).setTextColor(Theme.getColor("text_RedBold"));
     }
 
     /* JADX INFO: Access modifiers changed from: private */

@@ -130,6 +130,7 @@ public abstract class TLRPC$Update extends TLObject {
                     public TLRPC$ChannelParticipant prev_participant;
                     public int qts;
                     public long user_id;
+                    public boolean via_chatlist;
 
                     @Override // org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
@@ -147,13 +148,16 @@ public abstract class TLRPC$Update extends TLObject {
                         if ((this.flags & 4) != 0) {
                             this.invite = TLRPC$ExportedChatInvite.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
+                        this.via_chatlist = (this.flags & 8) != 0;
                         this.qts = abstractSerializedData2.readInt32(z2);
                     }
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
                         abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt32(this.flags);
+                        int i2 = this.via_chatlist ? this.flags | 8 : this.flags & 8;
+                        this.flags = i2;
+                        abstractSerializedData2.writeInt32(i2);
                         abstractSerializedData2.writeInt64(this.channel_id);
                         abstractSerializedData2.writeInt32(this.date);
                         abstractSerializedData2.writeInt64(this.actor_id);
@@ -404,31 +408,7 @@ public abstract class TLRPC$Update extends TLObject {
                 tLRPC$TL_updateTheme = new TLRPC$TL_updatePhoneCallSignalingData();
                 break;
             case 654302845:
-                tLRPC$TL_updateTheme = new TLRPC$Update() { // from class: org.telegram.tgnet.TLRPC$TL_updateDialogFilter
-                    public static int constructor = 654302845;
-                    public TLRPC$DialogFilter filter;
-                    public int flags;
-                    public int id;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.flags = abstractSerializedData2.readInt32(z2);
-                        this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & 1) != 0) {
-                            this.filter = TLRPC$DialogFilter.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        }
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt32(this.flags);
-                        abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & 1) != 0) {
-                            this.filter.serializeToStream(abstractSerializedData2);
-                        }
-                    }
-                };
+                tLRPC$TL_updateTheme = new TLRPC$TL_updateDialogFilter();
                 break;
             case 674706841:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateUserEmojiStatus();

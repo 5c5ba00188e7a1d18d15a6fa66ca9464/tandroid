@@ -143,6 +143,14 @@ public class GroupCreateUserCell extends FrameLayout {
         update(0);
     }
 
+    public void setForbiddenCheck(boolean z) {
+        this.checkBox.setForbidden(z);
+    }
+
+    public CheckBox2 getCheckBox() {
+        return this.checkBox;
+    }
+
     public void setChecked(boolean z, boolean z2) {
         CheckBox2 checkBox2 = this.checkBox;
         if (checkBox2 != null) {
@@ -366,9 +374,9 @@ public class GroupCreateUserCell extends FrameLayout {
             if (checkBox22 != null) {
                 ((FrameLayout.LayoutParams) checkBox22.getLayoutParams()).topMargin = AndroidUtilities.dp(29.0f) + this.padding;
                 if (LocaleController.isRTL) {
-                    ((FrameLayout.LayoutParams) this.checkBox.getLayoutParams()).rightMargin = AndroidUtilities.dp(39.0f) + this.padding;
+                    ((FrameLayout.LayoutParams) this.checkBox.getLayoutParams()).rightMargin = AndroidUtilities.dp(40.0f) + this.padding;
                 } else {
-                    ((FrameLayout.LayoutParams) this.checkBox.getLayoutParams()).leftMargin = AndroidUtilities.dp(45.0f) + this.padding;
+                    ((FrameLayout.LayoutParams) this.checkBox.getLayoutParams()).leftMargin = AndroidUtilities.dp(40.0f) + this.padding;
                 }
             }
             Object obj2 = this.currentObject;

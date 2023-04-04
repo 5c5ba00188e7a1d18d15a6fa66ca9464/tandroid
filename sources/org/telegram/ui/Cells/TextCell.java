@@ -49,6 +49,10 @@ public class TextCell extends FrameLayout {
     private CharSequence valueText;
     public final AnimatedTextView valueTextView;
 
+    protected int getOffsetFromImage(boolean z) {
+        return z ? 65 : 71;
+    }
+
     public TextCell(Context context) {
         this(context, 23, false, false, null);
     }
@@ -284,7 +288,7 @@ public class TextCell extends FrameLayout {
 
     public void setTextAndIcon(String str, int i, boolean z) {
         this.imageLeft = 21;
-        this.offsetFromImage = 71;
+        this.offsetFromImage = getOffsetFromImage(false);
         this.textView.setText(str);
         AnimatedTextView animatedTextView = this.valueTextView;
         this.valueText = null;
@@ -330,7 +334,7 @@ public class TextCell extends FrameLayout {
 
     public void setTextAndValue(String str, String str2, boolean z, boolean z2) {
         this.imageLeft = 21;
-        this.offsetFromImage = 71;
+        this.offsetFromImage = getOffsetFromImage(false);
         this.textView.setText(str);
         AnimatedTextView animatedTextView = this.valueTextView;
         this.valueText = str2;
@@ -341,15 +345,15 @@ public class TextCell extends FrameLayout {
         this.valueImageView.setVisibility(8);
         this.needDivider = z2;
         setWillNotDraw(!z2);
-        Switch r4 = this.checkBox;
-        if (r4 != null) {
-            r4.setVisibility(8);
+        Switch r5 = this.checkBox;
+        if (r5 != null) {
+            r5.setVisibility(8);
         }
     }
 
     public void setTextAndValueAndColorfulIcon(String str, CharSequence charSequence, boolean z, int i, int i2, boolean z2) {
         this.imageLeft = 21;
-        this.offsetFromImage = 71;
+        this.offsetFromImage = getOffsetFromImage(false);
         this.textView.setText(str);
         AnimatedTextView animatedTextView = this.valueTextView;
         this.valueText = charSequence;
@@ -360,15 +364,15 @@ public class TextCell extends FrameLayout {
         this.valueImageView.setVisibility(8);
         this.needDivider = z2;
         setWillNotDraw(!z2);
-        Switch r4 = this.checkBox;
-        if (r4 != null) {
-            r4.setVisibility(8);
+        Switch r5 = this.checkBox;
+        if (r5 != null) {
+            r5.setVisibility(8);
         }
     }
 
     public void setTextAndSpoilersValueAndIcon(String str, CharSequence charSequence, int i, boolean z) {
         this.imageLeft = 21;
-        this.offsetFromImage = 71;
+        this.offsetFromImage = getOffsetFromImage(false);
         this.textView.setText(str);
         this.valueSpoilersTextView.setVisibility(0);
         this.valueSpoilersTextView.setText(charSequence);
@@ -393,7 +397,7 @@ public class TextCell extends FrameLayout {
 
     public void setTextAndValueAndIcon(String str, String str2, boolean z, int i, boolean z2) {
         this.imageLeft = 21;
-        this.offsetFromImage = 71;
+        this.offsetFromImage = getOffsetFromImage(false);
         this.textView.setText(str);
         AnimatedTextView animatedTextView = this.valueTextView;
         this.valueText = str2;
@@ -408,14 +412,14 @@ public class TextCell extends FrameLayout {
         this.imageView.setImageResource(i);
         this.needDivider = z2;
         setWillNotDraw(!z2);
-        Switch r4 = this.checkBox;
-        if (r4 != null) {
-            r4.setVisibility(8);
+        Switch r5 = this.checkBox;
+        if (r5 != null) {
+            r5.setVisibility(8);
         }
     }
 
     public void setColorfulIcon(int i, int i2) {
-        this.offsetFromImage = 65;
+        this.offsetFromImage = getOffsetFromImage(true);
         this.imageView.setVisibility(0);
         this.imageView.setPadding(AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f));
         this.imageView.setTranslationX(AndroidUtilities.dp(LocaleController.isRTL ? 0.0f : -3.0f));
@@ -427,14 +431,14 @@ public class TextCell extends FrameLayout {
 
     public void setTextAndCheck(CharSequence charSequence, boolean z, boolean z2) {
         this.imageLeft = 21;
-        this.offsetFromImage = 71;
+        this.offsetFromImage = getOffsetFromImage(false);
         this.textView.setText(charSequence);
         this.imageView.setVisibility(8);
         this.valueImageView.setVisibility(8);
         this.needDivider = z2;
-        Switch r2 = this.checkBox;
-        if (r2 != null) {
-            r2.setVisibility(0);
+        Switch r3 = this.checkBox;
+        if (r3 != null) {
+            r3.setVisibility(0);
             this.checkBox.setChecked(z, false);
         }
         this.needDivider = z2;
@@ -443,14 +447,14 @@ public class TextCell extends FrameLayout {
 
     public void setTextAndCheckAndIcon(CharSequence charSequence, boolean z, int i, boolean z2) {
         this.imageLeft = 21;
-        this.offsetFromImage = 71;
+        this.offsetFromImage = getOffsetFromImage(false);
         this.textView.setText(charSequence);
         this.valueTextView.setVisibility(8);
         this.valueSpoilersTextView.setVisibility(8);
         this.valueImageView.setVisibility(8);
-        Switch r2 = this.checkBox;
-        if (r2 != null) {
-            r2.setVisibility(0);
+        Switch r3 = this.checkBox;
+        if (r3 != null) {
+            r3.setVisibility(0);
             this.checkBox.setChecked(z, false);
         }
         this.imageView.setVisibility(0);
@@ -462,7 +466,7 @@ public class TextCell extends FrameLayout {
 
     public void setTextAndValueDrawable(String str, Drawable drawable, boolean z) {
         this.imageLeft = 21;
-        this.offsetFromImage = 71;
+        this.offsetFromImage = getOffsetFromImage(false);
         this.textView.setText(str);
         AnimatedTextView animatedTextView = this.valueTextView;
         this.valueText = null;

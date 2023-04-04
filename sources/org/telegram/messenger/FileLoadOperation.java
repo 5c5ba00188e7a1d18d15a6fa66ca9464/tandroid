@@ -937,30 +937,30 @@ public class FileLoadOperation {
         return start(this.stream, this.streamOffset, this.streamPriority);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:116:0x03ec, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:116:0x03ed, code lost:
         if (r6 != r28.cacheFileFinal.length()) goto L57;
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:104:0x038f  */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x03b5  */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x03d6  */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x0404  */
-    /* JADX WARN: Removed duplicated region for block: B:221:0x061e  */
-    /* JADX WARN: Removed duplicated region for block: B:236:0x064b  */
-    /* JADX WARN: Removed duplicated region for block: B:249:0x06c0  */
-    /* JADX WARN: Removed duplicated region for block: B:252:0x06ea  */
-    /* JADX WARN: Removed duplicated region for block: B:265:0x0743  */
-    /* JADX WARN: Removed duplicated region for block: B:272:0x076e  */
-    /* JADX WARN: Removed duplicated region for block: B:278:0x079a  */
-    /* JADX WARN: Removed duplicated region for block: B:283:0x07e3  */
-    /* JADX WARN: Removed duplicated region for block: B:314:0x0858  */
-    /* JADX WARN: Removed duplicated region for block: B:322:0x087d A[Catch: Exception -> 0x0883, TRY_LEAVE, TryCatch #14 {Exception -> 0x0883, blocks: (B:320:0x086c, B:322:0x087d), top: B:386:0x086c }] */
-    /* JADX WARN: Removed duplicated region for block: B:335:0x08af  */
-    /* JADX WARN: Removed duplicated region for block: B:337:0x08b3  */
-    /* JADX WARN: Removed duplicated region for block: B:338:0x08c0  */
-    /* JADX WARN: Removed duplicated region for block: B:377:0x0629 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x03b6  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x03d7  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x0405  */
+    /* JADX WARN: Removed duplicated region for block: B:221:0x061f  */
+    /* JADX WARN: Removed duplicated region for block: B:236:0x064c  */
+    /* JADX WARN: Removed duplicated region for block: B:249:0x06c1  */
+    /* JADX WARN: Removed duplicated region for block: B:252:0x06eb  */
+    /* JADX WARN: Removed duplicated region for block: B:265:0x0744  */
+    /* JADX WARN: Removed duplicated region for block: B:272:0x076f  */
+    /* JADX WARN: Removed duplicated region for block: B:278:0x079b  */
+    /* JADX WARN: Removed duplicated region for block: B:283:0x07e4  */
+    /* JADX WARN: Removed duplicated region for block: B:314:0x0859  */
+    /* JADX WARN: Removed duplicated region for block: B:322:0x087e A[Catch: Exception -> 0x0884, TRY_LEAVE, TryCatch #13 {Exception -> 0x0884, blocks: (B:320:0x086d, B:322:0x087e), top: B:385:0x086d }] */
+    /* JADX WARN: Removed duplicated region for block: B:335:0x08b0  */
+    /* JADX WARN: Removed duplicated region for block: B:337:0x08b4  */
+    /* JADX WARN: Removed duplicated region for block: B:338:0x08c1  */
+    /* JADX WARN: Removed duplicated region for block: B:377:0x062a A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r1v41 */
-    /* JADX WARN: Type inference failed for: r1v42, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r1v42, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r1v46 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -989,6 +989,7 @@ public class FileLoadOperation {
         long j2;
         long j3;
         RandomAccessFile randomAccessFile;
+        RandomAccessFile randomAccessFile2;
         this.startTime = System.currentTimeMillis();
         updateParams();
         if (this.currentDownloadChunkSize == 0) {
@@ -1088,7 +1089,7 @@ public class FileLoadOperation {
                 if (this.encryptFile) {
                     File file = new File(FileLoader.getInternalCacheDir(), str2 + ".key");
                     try {
-                        RandomAccessFile randomAccessFile2 = new RandomAccessFile(file, "rws");
+                        randomAccessFile2 = new RandomAccessFile(file, "rws");
                         long length = file.length();
                         byte[] bArr = new byte[32];
                         this.encryptKey = bArr;
@@ -1104,63 +1105,63 @@ public class FileLoadOperation {
                             randomAccessFile2.write(this.encryptIv);
                             z3 = true;
                         }
+                    } catch (Exception e) {
+                        e = e;
+                        z3 = false;
+                    }
+                    try {
                         try {
-                            try {
-                                randomAccessFile2.getChannel().close();
-                            } catch (Exception e) {
-                                FileLog.e(e);
-                            }
-                            randomAccessFile2.close();
+                            randomAccessFile2.getChannel().close();
                         } catch (Exception e2) {
-                            e = e2;
-                            if (AndroidUtilities.isENOSPC(e)) {
-                                LaunchActivity.checkFreeDiscSpaceStatic(1);
-                                FileLog.e((Throwable) e, false);
-                            } else if (AndroidUtilities.isEROFS(e)) {
-                                SharedConfig.checkSdCard(this.cacheFileFinal);
-                                FileLog.e((Throwable) e, false);
-                            } else {
-                                FileLog.e(e);
-                            }
-                            i2 = 1;
-                            final boolean[] zArr = new boolean[i2];
-                            zArr[0] = false;
-                            long j7 = 8;
-                            if (this.supportsPreloading) {
-                            }
-                            str8 = str3;
-                            str9 = str4;
-                            z4 = z3;
-                            str10 = "rws";
-                            if (str9 != null) {
-                            }
-                            if (this.fileMetadata != null) {
-                            }
-                            if (!this.cacheFileTemp.exists()) {
-                            }
-                            arrayList = this.notLoadedBytesRanges;
-                            if (arrayList != null) {
-                            }
-                            if (BuildVars.LOGS_ENABLED) {
-                            }
-                            if (str8 != null) {
-                            }
-                            if (!this.isPreloadVideoOperation) {
-                            }
-                            updateProgress();
-                            RandomAccessFile randomAccessFile3 = new RandomAccessFile(this.cacheFileTemp, str10);
-                            this.fileOutputStream = randomAccessFile3;
-                            j2 = this.downloadedBytes;
-                            if (j2 != 0) {
-                            }
-                            r1 = 0;
-                            z5 = true;
-                            if (this.fileOutputStream != null) {
-                            }
+                            FileLog.e(e2);
                         }
+                        randomAccessFile2.close();
                     } catch (Exception e3) {
                         e = e3;
-                        z3 = false;
+                        if (AndroidUtilities.isENOSPC(e)) {
+                            LaunchActivity.checkFreeDiscSpaceStatic(1);
+                            FileLog.e((Throwable) e, false);
+                        } else if (AndroidUtilities.isEROFS(e)) {
+                            SharedConfig.checkSdCard(this.cacheFileFinal);
+                            FileLog.e((Throwable) e, false);
+                        } else {
+                            FileLog.e(e);
+                        }
+                        i2 = 1;
+                        final boolean[] zArr = new boolean[i2];
+                        zArr[0] = false;
+                        long j7 = 8;
+                        if (this.supportsPreloading) {
+                        }
+                        str8 = str3;
+                        str9 = str4;
+                        z4 = z3;
+                        str10 = "rws";
+                        if (str9 != null) {
+                        }
+                        if (this.fileMetadata != null) {
+                        }
+                        if (!this.cacheFileTemp.exists()) {
+                        }
+                        arrayList = this.notLoadedBytesRanges;
+                        if (arrayList != null) {
+                        }
+                        if (BuildVars.LOGS_ENABLED) {
+                        }
+                        if (str8 != null) {
+                        }
+                        if (!this.isPreloadVideoOperation) {
+                        }
+                        updateProgress();
+                        RandomAccessFile randomAccessFile3 = new RandomAccessFile(this.cacheFileTemp, str10);
+                        this.fileOutputStream = randomAccessFile3;
+                        j2 = this.downloadedBytes;
+                        if (j2 != 0) {
+                        }
+                        r1 = 0;
+                        z5 = true;
+                        if (this.fileOutputStream != null) {
+                        }
                     }
                     i2 = 1;
                 } else {
@@ -2753,7 +2754,7 @@ public class FileLoadOperation {
     /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r11v0 */
-    /* JADX WARN: Type inference failed for: r11v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r11v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r11v7 */
     public void startDownloadRequest() {
         int i;

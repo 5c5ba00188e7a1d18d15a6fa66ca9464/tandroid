@@ -1122,7 +1122,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 ThemeActivity.this.showDialog(create);
                 TextView textView = (TextView) create.getButton(-1);
                 if (textView != null) {
-                    textView.setTextColor(Theme.getColor("dialogTextRed"));
+                    textView.setTextColor(Theme.getColor("text_RedBold"));
                 }
             } else if (i == 5) {
                 SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0);
@@ -2017,7 +2017,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     AlertDialog create = builder.create();
                     ThemeActivity.this.showDialog(create);
                     if (z) {
-                        create.setItemColor(create.getItemsCount() - 1, Theme.getColor("dialogTextRed"), Theme.getColor("dialogRedIcon"));
+                        create.setItemColor(create.getItemsCount() - 1, Theme.getColor("text_RedBold"), Theme.getColor("text_RedRegular"));
                     }
                 }
             }
@@ -2155,7 +2155,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 ThemeActivity.this.showDialog(create);
                 TextView textView = (TextView) create.getButton(-1);
                 if (textView != null) {
-                    textView.setTextColor(Theme.getColor("dialogTextRed"));
+                    textView.setTextColor(Theme.getColor("text_RedBold"));
                 }
             }
         }
@@ -2239,7 +2239,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     });
                     AlertDialog create = builder.create();
                     ThemeActivity.this.showDialog(create);
-                    create.setItemColor(create.getItemsCount() - 1, Theme.getColor("dialogTextRed"), Theme.getColor("dialogRedIcon"));
+                    create.setItemColor(create.getItemsCount() - 1, Theme.getColor("text_RedBold"), Theme.getColor("text_RedRegular"));
                     return true;
                 }
             }
@@ -2279,7 +2279,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 ThemeActivity.this.showDialog(create);
                 TextView textView = (TextView) create.getButton(-1);
                 if (textView != null) {
-                    textView.setTextColor(Theme.getColor("dialogTextRed"));
+                    textView.setTextColor(Theme.getColor("text_RedBold"));
                 }
             }
         }

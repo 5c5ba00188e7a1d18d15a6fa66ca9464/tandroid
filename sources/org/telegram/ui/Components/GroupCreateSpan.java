@@ -60,9 +60,9 @@ public class GroupCreateSpan extends View {
         if (r1.equals("non_contacts") != false) goto L8;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0216  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x021e  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x026a  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0223  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x022b  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0277  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -145,42 +145,42 @@ public class GroupCreateSpan extends View {
             switch (c) {
                 case 0:
                     this.avatarDrawable.setAvatarType(4);
-                    this.uid = -2147483648L;
+                    this.uid = Long.MIN_VALUE;
                     str = LocaleController.getString("FilterContacts", R.string.FilterContacts);
                     break;
                 case 1:
                     this.avatarDrawable.setAvatarType(5);
-                    this.uid = -2147483647L;
+                    this.uid = -9223372036854775807L;
                     str = LocaleController.getString("FilterNonContacts", R.string.FilterNonContacts);
                     break;
                 case 2:
                     this.avatarDrawable.setAvatarType(6);
-                    this.uid = -2147483646L;
+                    this.uid = -9223372036854775806L;
                     str = LocaleController.getString("FilterGroups", R.string.FilterGroups);
                     break;
                 case 3:
                     this.avatarDrawable.setAvatarType(7);
-                    this.uid = -2147483645L;
+                    this.uid = -9223372036854775805L;
                     str = LocaleController.getString("FilterChannels", R.string.FilterChannels);
                     break;
                 case 4:
                     this.avatarDrawable.setAvatarType(8);
-                    this.uid = -2147483644L;
+                    this.uid = -9223372036854775804L;
                     str = LocaleController.getString("FilterBots", R.string.FilterBots);
                     break;
                 case 5:
                     this.avatarDrawable.setAvatarType(9);
-                    this.uid = -2147483643L;
+                    this.uid = -9223372036854775803L;
                     str = LocaleController.getString("FilterMuted", R.string.FilterMuted);
                     break;
                 case 6:
                     this.avatarDrawable.setAvatarType(10);
-                    this.uid = -2147483642L;
+                    this.uid = -9223372036854775802L;
                     str = LocaleController.getString("FilterRead", R.string.FilterRead);
                     break;
                 default:
                     this.avatarDrawable.setAvatarType(11);
-                    this.uid = -2147483641L;
+                    this.uid = -9223372036854775801L;
                     str = LocaleController.getString("FilterArchived", R.string.FilterArchived);
                     break;
             }

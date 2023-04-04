@@ -25,6 +25,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
+import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$InputStickerSet;
@@ -34,6 +35,7 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.Bulletin;
+import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
 /* loaded from: classes3.dex */
@@ -326,6 +328,65 @@ public final class BulletinFactory {
                     ((ViewGroup.MarginLayoutParams) usersLayout.textView.getLayoutParams()).leftMargin = dp2;
                 }
             }
+        }
+        return create(usersLayout, 5000);
+    }
+
+    public Bulletin createChatsBulletin(List<TLObject> list, CharSequence charSequence, CharSequence charSequence2) {
+        int i;
+        Bulletin.UsersLayout usersLayout = new Bulletin.UsersLayout(getContext(), charSequence2 != null, this.resourcesProvider);
+        if (list != null) {
+            i = 0;
+            for (int i2 = 0; i2 < list.size() && i < 3; i2++) {
+                TLObject tLObject = list.get(i2);
+                if (tLObject != null) {
+                    i++;
+                    usersLayout.avatarsImageView.setCount(i);
+                    usersLayout.avatarsImageView.setObject(i - 1, UserConfig.selectedAccount, tLObject);
+                }
+            }
+            if (list.size() == 1) {
+                usersLayout.avatarsImageView.setTranslationX(AndroidUtilities.dp(4.0f));
+                usersLayout.avatarsImageView.setScaleX(1.2f);
+                usersLayout.avatarsImageView.setScaleY(1.2f);
+            } else {
+                usersLayout.avatarsImageView.setScaleX(1.0f);
+                usersLayout.avatarsImageView.setScaleY(1.0f);
+            }
+        } else {
+            i = 0;
+        }
+        usersLayout.avatarsImageView.commitTransition(false);
+        if (charSequence2 != null) {
+            usersLayout.textView.setSingleLine(true);
+            usersLayout.textView.setMaxLines(1);
+            usersLayout.textView.setText(charSequence);
+            usersLayout.subtitleView.setText(charSequence2);
+            usersLayout.subtitleView.setSingleLine(true);
+            usersLayout.subtitleView.setMaxLines(1);
+            if (usersLayout.linearLayout.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+                int dp = AndroidUtilities.dp(74 - ((3 - i) * 12));
+                if (LocaleController.isRTL) {
+                    ((ViewGroup.MarginLayoutParams) usersLayout.linearLayout.getLayoutParams()).rightMargin = dp;
+                } else {
+                    ((ViewGroup.MarginLayoutParams) usersLayout.linearLayout.getLayoutParams()).leftMargin = dp;
+                }
+            }
+        } else {
+            usersLayout.textView.setSingleLine(false);
+            usersLayout.textView.setMaxLines(2);
+            usersLayout.textView.setText(charSequence);
+            if (usersLayout.textView.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+                int dp2 = AndroidUtilities.dp(74 - ((3 - i) * 12));
+                if (LocaleController.isRTL) {
+                    ((ViewGroup.MarginLayoutParams) usersLayout.textView.getLayoutParams()).rightMargin = dp2;
+                } else {
+                    ((ViewGroup.MarginLayoutParams) usersLayout.textView.getLayoutParams()).leftMargin = dp2;
+                }
+            }
+        }
+        if (LocaleController.isRTL) {
+            usersLayout.avatarsImageView.setTranslationX(AndroidUtilities.dp(32 - ((i - 1) * 12)));
         }
         return create(usersLayout, 5000);
     }
@@ -646,7 +707,7 @@ public final class BulletinFactory {
     }
 
     public static Bulletin createMuteBulletin(BaseFragment baseFragment, int i) {
-        return createMuteBulletin(baseFragment, i, 0, null);
+        return createMuteBulletin(baseFragment, i, 0, (Theme.ResourcesProvider) null);
     }
 
     /* JADX WARN: Removed duplicated region for block: B:24:0x0082  */
@@ -697,6 +758,24 @@ public final class BulletinFactory {
         if (z2) {
         }
         lottieLayout.textView.setText(formatString);
+        return Bulletin.make(baseFragment, lottieLayout, 1500);
+    }
+
+    public static Bulletin createMuteBulletin(BaseFragment baseFragment, boolean z, int i, Theme.ResourcesProvider resourcesProvider) {
+        String formatPluralString;
+        Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), resourcesProvider);
+        LinkSpanDrawable.LinksTextView linksTextView = lottieLayout.textView;
+        if (z) {
+            formatPluralString = LocaleController.formatPluralString("NotificationsMutedHintChats", i, new Object[0]);
+        } else {
+            formatPluralString = LocaleController.formatPluralString("NotificationsUnmutedHintChats", i, new Object[0]);
+        }
+        linksTextView.setText(formatPluralString);
+        if (z) {
+            lottieLayout.setAnimation(R.raw.ic_mute, "Body Main", "Body Top", "Line", "Curve Big", "Curve Small");
+        } else {
+            lottieLayout.setAnimation(R.raw.ic_unmute, "BODY", "Wibe Big", "Wibe Big 3", "Wibe Small");
+        }
         return Bulletin.make(baseFragment, lottieLayout, 1500);
     }
 

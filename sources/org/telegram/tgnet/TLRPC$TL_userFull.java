@@ -4,7 +4,7 @@ import org.telegram.messenger.CharacterCompat;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_userFull extends TLRPC$UserFull {
-    public static int constructor = -120378643;
+    public static int constructor = -1813324973;
 
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
@@ -75,6 +75,9 @@ public class TLRPC$TL_userFull extends TLRPC$UserFull {
                 this.premium_gifts.add(TLdeserialize);
             }
         }
+        if ((this.flags & ConnectionsManager.FileTypePhoto) != 0) {
+            this.wallpaper = TLRPC$WallPaper.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+        }
     }
 
     @Override // org.telegram.tgnet.TLObject
@@ -144,6 +147,9 @@ public class TLRPC$TL_userFull extends TLRPC$UserFull {
             for (int i9 = 0; i9 < size; i9++) {
                 this.premium_gifts.get(i9).serializeToStream(abstractSerializedData);
             }
+        }
+        if ((this.flags & ConnectionsManager.FileTypePhoto) != 0) {
+            this.wallpaper.serializeToStream(abstractSerializedData);
         }
     }
 }

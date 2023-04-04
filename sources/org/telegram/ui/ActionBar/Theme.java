@@ -90,7 +90,7 @@ import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.MessagesController$$ExternalSyntheticLambda238;
+import org.telegram.messenger.MessagesController$$ExternalSyntheticLambda242;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
@@ -3368,14 +3368,14 @@ public class Theme {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:149:0x33ed A[Catch: Exception -> 0x35d3, TryCatch #4 {Exception -> 0x35d3, blocks: (B:38:0x30a4, B:40:0x30bc, B:51:0x30ff, B:53:0x310d, B:61:0x313a, B:63:0x313e, B:65:0x3146, B:66:0x3158, B:67:0x3164, B:69:0x316a, B:71:0x3174, B:73:0x3178, B:75:0x31a6, B:77:0x31aa, B:147:0x33e7, B:149:0x33ed, B:150:0x33f6, B:152:0x33fa, B:154:0x3402, B:156:0x3406, B:158:0x340a, B:159:0x340c, B:161:0x3416, B:132:0x32df, B:135:0x32fe, B:136:0x3306, B:138:0x3312, B:140:0x331e, B:144:0x332a, B:146:0x33cf, B:141:0x3324, B:166:0x342b, B:167:0x3431, B:171:0x343c, B:173:0x3493, B:175:0x34a1, B:177:0x34af, B:179:0x34bd, B:178:0x34b6, B:174:0x349a, B:54:0x311d, B:56:0x3125, B:58:0x312e, B:60:0x3138, B:41:0x30cb, B:43:0x30d3, B:45:0x30db, B:47:0x30e5, B:49:0x30ed, B:79:0x31bb, B:125:0x32c8, B:126:0x32cd), top: B:223:0x30a4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x3406 A[Catch: Exception -> 0x35d3, TryCatch #4 {Exception -> 0x35d3, blocks: (B:38:0x30a4, B:40:0x30bc, B:51:0x30ff, B:53:0x310d, B:61:0x313a, B:63:0x313e, B:65:0x3146, B:66:0x3158, B:67:0x3164, B:69:0x316a, B:71:0x3174, B:73:0x3178, B:75:0x31a6, B:77:0x31aa, B:147:0x33e7, B:149:0x33ed, B:150:0x33f6, B:152:0x33fa, B:154:0x3402, B:156:0x3406, B:158:0x340a, B:159:0x340c, B:161:0x3416, B:132:0x32df, B:135:0x32fe, B:136:0x3306, B:138:0x3312, B:140:0x331e, B:144:0x332a, B:146:0x33cf, B:141:0x3324, B:166:0x342b, B:167:0x3431, B:171:0x343c, B:173:0x3493, B:175:0x34a1, B:177:0x34af, B:179:0x34bd, B:178:0x34b6, B:174:0x349a, B:54:0x311d, B:56:0x3125, B:58:0x312e, B:60:0x3138, B:41:0x30cb, B:43:0x30d3, B:45:0x30db, B:47:0x30e5, B:49:0x30ed, B:79:0x31bb, B:125:0x32c8, B:126:0x32cd), top: B:223:0x30a4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x3409  */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x3416 A[Catch: Exception -> 0x35d3, TryCatch #4 {Exception -> 0x35d3, blocks: (B:38:0x30a4, B:40:0x30bc, B:51:0x30ff, B:53:0x310d, B:61:0x313a, B:63:0x313e, B:65:0x3146, B:66:0x3158, B:67:0x3164, B:69:0x316a, B:71:0x3174, B:73:0x3178, B:75:0x31a6, B:77:0x31aa, B:147:0x33e7, B:149:0x33ed, B:150:0x33f6, B:152:0x33fa, B:154:0x3402, B:156:0x3406, B:158:0x340a, B:159:0x340c, B:161:0x3416, B:132:0x32df, B:135:0x32fe, B:136:0x3306, B:138:0x3312, B:140:0x331e, B:144:0x332a, B:146:0x33cf, B:141:0x3324, B:166:0x342b, B:167:0x3431, B:171:0x343c, B:173:0x3493, B:175:0x34a1, B:177:0x34af, B:179:0x34bd, B:178:0x34b6, B:174:0x349a, B:54:0x311d, B:56:0x3125, B:58:0x312e, B:60:0x3138, B:41:0x30cb, B:43:0x30d3, B:45:0x30db, B:47:0x30e5, B:49:0x30ed, B:79:0x31bb, B:125:0x32c8, B:126:0x32cd), top: B:223:0x30a4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:232:0x3420 A[SYNTHETIC] */
-    /* JADX WARN: Type inference failed for: r2v755, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r2v765 */
-    /* JADX WARN: Type inference failed for: r2v768 */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x3390 A[Catch: Exception -> 0x3576, TryCatch #4 {Exception -> 0x3576, blocks: (B:38:0x3047, B:40:0x305f, B:51:0x30a2, B:53:0x30b0, B:61:0x30dd, B:63:0x30e1, B:65:0x30e9, B:66:0x30fb, B:67:0x3107, B:69:0x310d, B:71:0x3117, B:73:0x311b, B:75:0x3149, B:77:0x314d, B:147:0x338a, B:149:0x3390, B:150:0x3399, B:152:0x339d, B:154:0x33a5, B:156:0x33a9, B:158:0x33ad, B:159:0x33af, B:161:0x33b9, B:132:0x3282, B:135:0x32a1, B:136:0x32a9, B:138:0x32b5, B:140:0x32c1, B:144:0x32cd, B:146:0x3372, B:141:0x32c7, B:166:0x33ce, B:167:0x33d4, B:171:0x33df, B:173:0x3436, B:175:0x3444, B:177:0x3452, B:179:0x3460, B:178:0x3459, B:174:0x343d, B:54:0x30c0, B:56:0x30c8, B:58:0x30d1, B:60:0x30db, B:41:0x306e, B:43:0x3076, B:45:0x307e, B:47:0x3088, B:49:0x3090, B:79:0x315e, B:125:0x326b, B:126:0x3270), top: B:223:0x3047 }] */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x33a9 A[Catch: Exception -> 0x3576, TryCatch #4 {Exception -> 0x3576, blocks: (B:38:0x3047, B:40:0x305f, B:51:0x30a2, B:53:0x30b0, B:61:0x30dd, B:63:0x30e1, B:65:0x30e9, B:66:0x30fb, B:67:0x3107, B:69:0x310d, B:71:0x3117, B:73:0x311b, B:75:0x3149, B:77:0x314d, B:147:0x338a, B:149:0x3390, B:150:0x3399, B:152:0x339d, B:154:0x33a5, B:156:0x33a9, B:158:0x33ad, B:159:0x33af, B:161:0x33b9, B:132:0x3282, B:135:0x32a1, B:136:0x32a9, B:138:0x32b5, B:140:0x32c1, B:144:0x32cd, B:146:0x3372, B:141:0x32c7, B:166:0x33ce, B:167:0x33d4, B:171:0x33df, B:173:0x3436, B:175:0x3444, B:177:0x3452, B:179:0x3460, B:178:0x3459, B:174:0x343d, B:54:0x30c0, B:56:0x30c8, B:58:0x30d1, B:60:0x30db, B:41:0x306e, B:43:0x3076, B:45:0x307e, B:47:0x3088, B:49:0x3090, B:79:0x315e, B:125:0x326b, B:126:0x3270), top: B:223:0x3047 }] */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x33ac  */
+    /* JADX WARN: Removed duplicated region for block: B:161:0x33b9 A[Catch: Exception -> 0x3576, TryCatch #4 {Exception -> 0x3576, blocks: (B:38:0x3047, B:40:0x305f, B:51:0x30a2, B:53:0x30b0, B:61:0x30dd, B:63:0x30e1, B:65:0x30e9, B:66:0x30fb, B:67:0x3107, B:69:0x310d, B:71:0x3117, B:73:0x311b, B:75:0x3149, B:77:0x314d, B:147:0x338a, B:149:0x3390, B:150:0x3399, B:152:0x339d, B:154:0x33a5, B:156:0x33a9, B:158:0x33ad, B:159:0x33af, B:161:0x33b9, B:132:0x3282, B:135:0x32a1, B:136:0x32a9, B:138:0x32b5, B:140:0x32c1, B:144:0x32cd, B:146:0x3372, B:141:0x32c7, B:166:0x33ce, B:167:0x33d4, B:171:0x33df, B:173:0x3436, B:175:0x3444, B:177:0x3452, B:179:0x3460, B:178:0x3459, B:174:0x343d, B:54:0x30c0, B:56:0x30c8, B:58:0x30d1, B:60:0x30db, B:41:0x306e, B:43:0x3076, B:45:0x307e, B:47:0x3088, B:49:0x3090, B:79:0x315e, B:125:0x326b, B:126:0x3270), top: B:223:0x3047 }] */
+    /* JADX WARN: Removed duplicated region for block: B:232:0x33c3 A[SYNTHETIC] */
+    /* JADX WARN: Type inference failed for: r2v753, types: [boolean] */
+    /* JADX WARN: Type inference failed for: r2v763 */
+    /* JADX WARN: Type inference failed for: r2v766 */
     static {
         ThemeInfo themeInfo;
         ThemeInfo themeInfo2;
@@ -3416,7 +3416,6 @@ public class Theme {
         defaultColors.put("dialogTextBlack", -14540254);
         defaultColors.put("dialogTextLink", -14255946);
         defaultColors.put("dialogLinkSelection", 862104035);
-        defaultColors.put("dialogTextRed", -3319206);
         defaultColors.put("dialogTextBlue", -13660983);
         defaultColors.put("dialogTextBlue2", -12937771);
         defaultColors.put("dialogTextBlue4", -15095832);
@@ -3426,7 +3425,6 @@ public class Theme {
         defaultColors.put("dialogTextGray4", -5000269);
         defaultColors.put("dialogTextHint", -6842473);
         defaultColors.put("dialogIcon", -9999504);
-        defaultColors.put("dialogRedIcon", -2011827);
         defaultColors.put("dialogGrayLine", -2960686);
         defaultColors.put("dialogTopBackground", -9456923);
         defaultColors.put("dialogInputField", -2368549);
@@ -3478,11 +3476,9 @@ public class Theme {
         defaultColors.put("windowBackgroundWhiteBlueIcon", -13132315);
         defaultColors.put("windowBackgroundWhiteGreenText", -14248148);
         defaultColors.put("windowBackgroundWhiteGreenText2", -13129704);
-        defaultColors.put("windowBackgroundWhiteRedText", -3319206);
-        defaultColors.put("windowBackgroundWhiteRedText2", -2404015);
-        defaultColors.put("windowBackgroundWhiteRedText3", -2995895);
-        defaultColors.put("windowBackgroundWhiteRedText4", -3198928);
-        defaultColors.put("windowBackgroundWhiteRedText5", -1230535);
+        defaultColors.put("text_RedRegular", -3397335);
+        defaultColors.put("text_RedBold", -3389625);
+        defaultColors.put("fill_RedNormal", -1352098);
         defaultColors.put("windowBackgroundWhiteGrayText", -8156010);
         defaultColors.put("windowBackgroundWhiteGrayText2", -8223094);
         defaultColors.put("windowBackgroundWhiteGrayText3", -6710887);
@@ -3667,7 +3663,6 @@ public class Theme {
         defaultColors.put("chat_outPollWrongAnswer", -1351584);
         defaultColors.put("chat_status", -2758409);
         defaultColors.put("chat_inDownCall", -16725933);
-        defaultColors.put("chat_inUpCall", -47032);
         defaultColors.put("chat_outUpCall", -16725933);
         defaultColors.put("chat_lockIcon", -1);
         defaultColors.put("chat_muteIcon", -5124893);
@@ -3887,7 +3882,6 @@ public class Theme {
         defaultColors.put("chat_topPanelLine", -9658414);
         defaultColors.put("chat_topPanelTitle", -12940081);
         defaultColors.put("chat_topPanelMessage", -7893359);
-        defaultColors.put("chat_reportSpam", -3188393);
         defaultColors.put("chat_addContact", -11894091);
         defaultColors.put("chat_inLoader", -9259544);
         defaultColors.put("chat_inLoaderSelected", -10114080);
@@ -4183,7 +4177,6 @@ public class Theme {
         fallbackKeys.put("checkboxDisabled", "chats_unreadCounterMuted");
         fallbackKeys.put("chat_status", "actionBarDefaultSubtitle");
         fallbackKeys.put("chat_inDownCall", "calls_callReceivedGreenIcon");
-        fallbackKeys.put("chat_inUpCall", "calls_callReceivedRedIcon");
         fallbackKeys.put("chat_outUpCall", "calls_callReceivedGreenIcon");
         fallbackKeys.put("actionBarTabActiveText", "actionBarDefaultTitle");
         fallbackKeys.put("actionBarTabUnactiveText", "actionBarDefaultSubtitle");
@@ -4818,7 +4811,7 @@ public class Theme {
                 themeInfo = currentNightTheme;
             }
             applyTheme(themeInfo, false, false, needSwitchToTheme == 2);
-            AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda238.INSTANCE);
+            AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda242.INSTANCE);
             ambientSensorListener = new SensorEventListener() { // from class: org.telegram.ui.ActionBar.Theme.9
                 @Override // android.hardware.SensorEventListener
                 public void onAccuracyChanged(Sensor sensor, int i7) {
@@ -6028,7 +6021,7 @@ public class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda238.INSTANCE, 2100L);
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda242.INSTANCE, 2100L);
                 }
             }
             currentTheme = themeInfo;
@@ -6161,7 +6154,7 @@ public class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda238.INSTANCE, 2100L);
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda242.INSTANCE, 2100L);
                 }
             }
             currentTheme = themeInfo;
@@ -6270,7 +6263,7 @@ public class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda238.INSTANCE, 2100L);
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda242.INSTANCE, 2100L);
                 }
             }
             currentTheme = themeInfo;
@@ -9528,11 +9521,11 @@ public class Theme {
             setDrawableColorByKey(chat_msgOutCallSelectedDrawable[i], "chat_outInstantSelected");
         }
         setDrawableColorByKey(chat_msgCallUpGreenDrawable, "chat_outUpCall");
-        setDrawableColorByKey(chat_msgCallDownRedDrawable, "chat_inUpCall");
+        setDrawableColorByKey(chat_msgCallDownRedDrawable, "fill_RedNormal");
         setDrawableColorByKey(chat_msgCallDownGreenDrawable, "chat_inDownCall");
-        setDrawableColorByKey(calllog_msgCallUpRedDrawable, "calls_callReceivedRedIcon");
+        setDrawableColorByKey(calllog_msgCallUpRedDrawable, "fill_RedNormal");
         setDrawableColorByKey(calllog_msgCallUpGreenDrawable, "calls_callReceivedGreenIcon");
-        setDrawableColorByKey(calllog_msgCallDownRedDrawable, "calls_callReceivedRedIcon");
+        setDrawableColorByKey(calllog_msgCallDownRedDrawable, "fill_RedNormal");
         setDrawableColorByKey(calllog_msgCallDownGreenDrawable, "calls_callReceivedGreenIcon");
         int i2 = 0;
         while (true) {

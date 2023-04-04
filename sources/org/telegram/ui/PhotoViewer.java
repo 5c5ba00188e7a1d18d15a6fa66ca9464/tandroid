@@ -5913,7 +5913,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         /* JADX WARN: Removed duplicated region for block: B:453:? A[RETURN, SYNTHETIC] */
         /* JADX WARN: Type inference failed for: r10v30 */
         /* JADX WARN: Type inference failed for: r10v32 */
-        /* JADX WARN: Type inference failed for: r10v33, types: [int, boolean] */
+        /* JADX WARN: Type inference failed for: r10v33, types: [boolean, int] */
         /* JADX WARN: Type inference failed for: r10v34 */
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
         /*
@@ -6035,8 +6035,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 create.show();
                 View button = create.getButton(-3);
                 if (button instanceof TextView) {
-                    ((TextView) button).setTextColor(PhotoViewer.this.getThemedColor("dialogTextRed"));
-                    button.setBackground(Theme.getRoundRectSelectorDrawable(PhotoViewer.this.getThemedColor("dialogTextRed")));
+                    ((TextView) button).setTextColor(PhotoViewer.this.getThemedColor("text_RedBold"));
+                    button.setBackground(Theme.getRoundRectSelectorDrawable(PhotoViewer.this.getThemedColor("text_RedBold")));
                     if ((create.getButtonsLayout() instanceof LinearLayout) && ((LinearLayout) create.getButtonsLayout()).getOrientation() == 1) {
                         button.bringToFront();
                     }
@@ -6129,8 +6129,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             create2.show();
                             View button2 = create2.getButton(-3);
                             if (button2 instanceof TextView) {
-                                ((TextView) button2).setTextColor(PhotoViewer.this.getThemedColor("dialogTextRed"));
-                                button2.setBackground(Theme.getRoundRectSelectorDrawable(PhotoViewer.this.getThemedColor("dialogTextRed")));
+                                ((TextView) button2).setTextColor(PhotoViewer.this.getThemedColor("text_RedBold"));
+                                button2.setBackground(Theme.getRoundRectSelectorDrawable(PhotoViewer.this.getThemedColor("text_RedBold")));
                                 if ((create2.getButtonsLayout() instanceof LinearLayout) && ((LinearLayout) create2.getButtonsLayout()).getOrientation() == 1) {
                                     button2.bringToFront();
                                 }
@@ -6436,7 +6436,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         PhotoViewer.this.showAlertDialog(builder);
                         textView = (TextView) create3.getButton(-1);
                         if (textView == null) {
-                            textView.setTextColor(PhotoViewer.this.getThemedColor("dialogTextRed"));
+                            textView.setTextColor(PhotoViewer.this.getThemedColor("text_RedBold"));
                             return;
                         }
                         return;
@@ -18968,7 +18968,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* JADX WARN: Type inference failed for: r15v28 */
     /* JADX WARN: Type inference failed for: r15v3 */
     /* JADX WARN: Type inference failed for: r15v31 */
-    /* JADX WARN: Type inference failed for: r15v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r15v4, types: [boolean, int] */
     @SuppressLint({"NewApi", "DrawAllocation"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.

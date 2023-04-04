@@ -1928,7 +1928,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                 this.text = LocaleController.getString(R.string.Close);
             } else if (c != 4) {
                 if (c == 5) {
-                    this.textColorKey = "dialogTextRed";
+                    this.textColorKey = "text_RedBold";
                 }
                 if (z) {
                     return;

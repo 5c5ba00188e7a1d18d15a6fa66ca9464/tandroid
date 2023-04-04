@@ -588,7 +588,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Removed duplicated region for block: B:672:0x1bb0  */
     /* JADX WARN: Type inference failed for: r0v89, types: [org.telegram.ui.Cells.RecurrentPaymentsAcceptCell] */
     /* JADX WARN: Type inference failed for: r13v3 */
-    /* JADX WARN: Type inference failed for: r13v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v4, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v7 */
     /* JADX WARN: Type inference failed for: r1v122, types: [org.telegram.ui.ActionBar.ActionBarMenuItem, android.widget.FrameLayout] */
     /* JADX WARN: Type inference failed for: r1v141, types: [android.text.SpannableStringBuilder, java.lang.CharSequence] */
@@ -1691,7 +1691,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                             int i22 = z7 ? 2022 : calendar.get(1);
                                             int i23 = z7 ? 1 : calendar.get(2) + 1;
                                             if (intValue2 < i22 || (intValue2 == i22 && intValue < i23)) {
-                                                PaymentFormActivity.this.inputFields[1].setTextColor(PaymentFormActivity.this.getThemedColor("windowBackgroundWhiteRedText4"));
+                                                PaymentFormActivity.this.inputFields[1].setTextColor(PaymentFormActivity.this.getThemedColor("text_RedRegular"));
                                                 if (!z6) {
                                                 }
                                                 if (sb.length() != 2) {
@@ -1715,7 +1715,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                         }
                                         int intValue3 = Utilities.parseInt((CharSequence) strArr[0]).intValue();
                                         if (intValue3 > 12 || intValue3 == 0) {
-                                            PaymentFormActivity.this.inputFields[1].setTextColor(PaymentFormActivity.this.getThemedColor("windowBackgroundWhiteRedText4"));
+                                            PaymentFormActivity.this.inputFields[1].setTextColor(PaymentFormActivity.this.getThemedColor("text_RedRegular"));
                                             if (!z6 && sb.length() == 4) {
                                                 PaymentFormActivity.this.inputFields[PaymentFormActivity.this.need_card_name ? (char) 2 : (char) 3].requestFocus();
                                             }
@@ -1758,7 +1758,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                     } else if (sb.length() == 2) {
                                         int intValue5 = Utilities.parseInt((CharSequence) sb.toString()).intValue();
                                         if (intValue5 > 12 || intValue5 == 0) {
-                                            PaymentFormActivity.this.inputFields[1].setTextColor(PaymentFormActivity.this.getThemedColor("windowBackgroundWhiteRedText4"));
+                                            PaymentFormActivity.this.inputFields[1].setTextColor(PaymentFormActivity.this.getThemedColor("text_RedRegular"));
                                         } else {
                                             z6 = false;
                                         }
@@ -2674,8 +2674,8 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 });
                 this.settingsCell[0] = new TextSettingsCell(context, this.resourcesProvider);
                 this.settingsCell[0].setBackgroundDrawable(Theme.getSelectorDrawable(true));
-                this.settingsCell[0].setTag("windowBackgroundWhiteRedText3");
-                this.settingsCell[0].setTextColor(getThemedColor("windowBackgroundWhiteRedText3"));
+                this.settingsCell[0].setTag("text_RedRegular");
+                this.settingsCell[0].setTextColor(getThemedColor("text_RedRegular"));
                 this.settingsCell[0].setText(LocaleController.getString("AbortPassword", R.string.AbortPassword), false);
                 this.linearLayout2.addView(this.settingsCell[0], LayoutHelper.createLinear(-1, -2));
                 this.settingsCell[0].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda17
@@ -3254,7 +3254,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         showDialog(create);
         TextView textView = (TextView) create.getButton(-1);
         if (textView != null) {
-            textView.setTextColor(getThemedColor("dialogTextRed"));
+            textView.setTextColor(getThemedColor("text_RedBold"));
         }
     }
 

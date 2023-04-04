@@ -1,5 +1,5 @@
 package org.telegram.ui.Components.FloatingDebug;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public final /* synthetic */ class FloatingDebugView$$ExternalSyntheticLambda7 implements Runnable {
     public static final /* synthetic */ FloatingDebugView$$ExternalSyntheticLambda7 INSTANCE = new FloatingDebugView$$ExternalSyntheticLambda7();
 

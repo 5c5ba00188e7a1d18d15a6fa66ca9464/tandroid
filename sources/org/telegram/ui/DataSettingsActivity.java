@@ -335,7 +335,7 @@ public class DataSettingsActivity extends BaseFragment {
             @Override // org.telegram.ui.Components.RecyclerListView
             public Integer getSelectorColor(int i) {
                 if (i == DataSettingsActivity.this.resetDownloadRow) {
-                    return Integer.valueOf(Theme.multAlpha(getThemedColor("windowBackgroundWhiteRedText2"), 0.1f));
+                    return Integer.valueOf(Theme.multAlpha(getThemedColor("text_RedRegular"), 0.1f));
                 }
                 return Integer.valueOf(getThemedColor("listSelectorSDK21"));
             }
@@ -476,7 +476,7 @@ public class DataSettingsActivity extends BaseFragment {
             showDialog(create);
             TextView textView = (TextView) create.getButton(-1);
             if (textView != null) {
-                textView.setTextColor(Theme.getColor("dialogTextRed"));
+                textView.setTextColor(Theme.getColor("text_RedBold"));
             }
         } else if (i == this.storageUsageRow) {
             presentFragment(new CacheControlActivity());
@@ -624,7 +624,7 @@ public class DataSettingsActivity extends BaseFragment {
             showDialog(create2);
             TextView textView2 = (TextView) create2.getButton(-1);
             if (textView2 != null) {
-                textView2.setTextColor(Theme.getColor("dialogTextRed"));
+                textView2.setTextColor(Theme.getColor("text_RedBold"));
             }
         }
     }
@@ -853,7 +853,7 @@ public class DataSettingsActivity extends BaseFragment {
                             }
                             textSettingsCell.setIcon(0);
                             textSettingsCell.setCanDisable(true);
-                            textSettingsCell.setTextColor(Theme.getColor("windowBackgroundWhiteRedText"));
+                            textSettingsCell.setTextColor(Theme.getColor("text_RedRegular"));
                             textSettingsCell.setText(LocaleController.getString("ResetAutomaticMediaDownload", R.string.ResetAutomaticMediaDownload), false);
                             return;
                         }

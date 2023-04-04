@@ -17,7 +17,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class CropRotationWheel extends FrameLayout {
     private ImageView aspectRatioButton;
     private Paint bluePaint;
@@ -31,7 +31,7 @@ public class CropRotationWheel extends FrameLayout {
     private RectF tempRect;
     private Paint whitePaint;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface RotationWheelListener {
         void aspectRatioPressed();
 

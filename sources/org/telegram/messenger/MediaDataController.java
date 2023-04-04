@@ -7481,7 +7481,7 @@ public class MediaDataController extends BaseController {
     /* JADX WARN: Type inference failed for: r3v1, types: [java.lang.Object[]] */
     /* JADX WARN: Type inference failed for: r4v1 */
     /* JADX WARN: Type inference failed for: r4v11 */
-    /* JADX WARN: Type inference failed for: r4v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r4v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v1, types: [java.lang.String] */
     /* JADX WARN: Type inference failed for: r7v13, types: [java.lang.StringBuilder] */
     /* JADX WARN: Type inference failed for: r7v2 */
@@ -7993,7 +7993,7 @@ public class MediaDataController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Type inference failed for: r15v4 */
-    /* JADX WARN: Type inference failed for: r15v5, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r15v5, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r15v7 */
     public /* synthetic */ void lambda$loadReplyMessagesForMessages$165(final LongSparseArray longSparseArray, LongSparseArray longSparseArray2, final boolean z, final long j, final Runnable runnable) {
         ArrayList<TLRPC$User> arrayList;
@@ -10541,46 +10541,51 @@ public class MediaDataController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:208:0x00ef A[EDGE_INSN: B:208:0x00ef->B:56:0x00ef ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x00ea A[LOOP:1: B:35:0x0099->B:54:0x00ea, LOOP_END] */
+    /* JADX WARN: Code restructure failed: missing block: B:148:0x0260, code lost:
+        if (r2.equals(r11) != false) goto L239;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:265:0x00f4 A[EDGE_INSN: B:265:0x00f4->B:58:0x00f4 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x00ef A[LOOP:1: B:35:0x009c->B:56:0x00ef, LOOP_END] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$fillWithAnimatedEmoji$209(Integer num, ArrayList arrayList, boolean z, ArrayList[] arrayListArr, Runnable runnable) {
         String str;
-        ArrayList arrayList2;
+        ArrayList<TLRPC$StickerSetCovered> arrayList2;
         int i;
         String str2;
-        int i2;
-        ArrayList<TLRPC$StickerSetCovered> arrayList3;
-        String str3;
-        boolean z2;
-        ArrayList arrayList4;
-        int i3;
-        ArrayList arrayList5;
-        ArrayList<TLRPC$Document> arrayList6;
+        ArrayList arrayList3;
+        TLRPC$StickerSetCovered tLRPC$StickerSetCovered;
+        ArrayList<TLRPC$Document> arrayList4;
         TLRPC$TL_documentAttributeCustomEmoji tLRPC$TL_documentAttributeCustomEmoji;
-        boolean z3;
+        boolean z2;
         TLRPC$StickerSet tLRPC$StickerSet;
-        String str4;
+        String str3;
+        int i2;
         TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet;
         TLRPC$TL_documentAttributeCustomEmoji tLRPC$TL_documentAttributeCustomEmoji2;
-        boolean z4;
-        TLRPC$StickerSet tLRPC$StickerSet2;
+        boolean z3;
+        ArrayList<TLRPC$StickerSetCovered> arrayList5;
+        int i3;
+        int i4;
+        String str4;
+        ArrayList arrayList6;
         String str5;
-        TLRPC$Document findDocument;
+        TLRPC$Document tLRPC$Document;
+        boolean z4;
         TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet2;
         MediaDataController mediaDataController = this;
+        ArrayList arrayList7 = arrayList;
         ArrayList<TLRPC$StickerSetCovered> featuredEmojiSets = getFeaturedEmojiSets();
-        ArrayList arrayList7 = new ArrayList();
         ArrayList arrayList8 = new ArrayList();
-        int i4 = 2;
+        ArrayList arrayList9 = new ArrayList();
+        int i5 = 2;
         if (num != null) {
-            i4 = num.intValue();
+            i5 = num.intValue();
         } else if (arrayList.size() > 5) {
-            i4 = 1;
+            i5 = 1;
         } else if (arrayList.size() <= 2) {
-            i4 = 3;
+            i5 = 3;
         }
         int min = num == null ? Math.min(15, arrayList.size()) : arrayList.size();
         boolean isPremium = UserConfig.getInstance(mediaDataController.currentAccount).isPremium();
@@ -10602,276 +10607,350 @@ public class MediaDataController extends BaseController {
         } else {
             str = null;
         }
-        int i5 = 0;
-        while (i5 < min) {
-            String str6 = ((KeywordResult) arrayList.get(i5)).emoji;
-            if (str6 == null) {
-                arrayList3 = featuredEmojiSets;
-                arrayList4 = arrayList7;
-                i = min;
-                str3 = str;
-                i3 = i5;
-                z2 = isPremium;
-            } else {
-                arrayList8.clear();
-                if (Emoji.recentEmoji != null) {
-                    for (int i6 = 0; i6 < Emoji.recentEmoji.size(); i6++) {
-                        if (Emoji.recentEmoji.get(i6).startsWith("animated_")) {
-                            try {
-                                findDocument = AnimatedEmojiDrawable.findDocument(mediaDataController.currentAccount, Long.parseLong(Emoji.recentEmoji.get(i6).substring(9)));
-                            } catch (Exception unused) {
-                            }
-                            if (findDocument != null) {
-                                try {
-                                    if (str6.equals(MessageObject.findAnimatedEmojiEmoticon(findDocument, null)) && (isPremium || MessageObject.isFreeEmoji(findDocument))) {
-                                        arrayList8.add(findDocument);
-                                    }
-                                } catch (Exception unused2) {
-                                }
-                                if (arrayList8.size() < i4) {
-                                    break;
-                                }
-                            }
-                        }
-                        if (arrayList8.size() < i4) {
-                        }
-                    }
-                }
-                if (arrayList8.size() < i4) {
-                    if (arrayListArr[0] != null) {
-                        int i7 = 0;
-                        for (char c = 0; i7 < arrayListArr[c].size(); c = 0) {
-                            TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet3 = (TLRPC$TL_messages_stickerSet) arrayListArr[c].get(i7);
-                            if (tLRPC$TL_messages_stickerSet3 != null && tLRPC$TL_messages_stickerSet3.documents != null) {
-                                int i8 = 0;
-                                while (i8 < tLRPC$TL_messages_stickerSet3.documents.size()) {
-                                    TLRPC$Document tLRPC$Document = tLRPC$TL_messages_stickerSet3.documents.get(i8);
-                                    if (tLRPC$Document == null || tLRPC$Document.attributes == null || arrayList8.contains(tLRPC$Document)) {
-                                        arrayList2 = arrayList7;
-                                        tLRPC$TL_messages_stickerSet = tLRPC$TL_messages_stickerSet3;
-                                        i = min;
-                                    } else {
-                                        i = min;
-                                        int i9 = 0;
-                                        while (true) {
-                                            if (i9 >= tLRPC$Document.attributes.size()) {
-                                                arrayList2 = arrayList7;
-                                                tLRPC$TL_documentAttributeCustomEmoji2 = null;
-                                                break;
-                                            }
-                                            TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$Document.attributes.get(i9);
-                                            arrayList2 = arrayList7;
-                                            if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeCustomEmoji) {
-                                                tLRPC$TL_documentAttributeCustomEmoji2 = (TLRPC$TL_documentAttributeCustomEmoji) tLRPC$DocumentAttribute;
-                                                break;
-                                            } else {
-                                                i9++;
-                                                arrayList7 = arrayList2;
-                                            }
-                                        }
-                                        if (tLRPC$TL_documentAttributeCustomEmoji2 != null && str6.equals(tLRPC$TL_documentAttributeCustomEmoji2.alt) && (isPremium || tLRPC$TL_documentAttributeCustomEmoji2.free || !((tLRPC$StickerSet2 = tLRPC$TL_messages_stickerSet3.set) == null || (str5 = tLRPC$StickerSet2.short_name) == null || !str5.equals(str)))) {
-                                            int i10 = 0;
-                                            while (true) {
-                                                if (i10 >= arrayList8.size()) {
-                                                    tLRPC$TL_messages_stickerSet = tLRPC$TL_messages_stickerSet3;
-                                                    str2 = str;
-                                                    i2 = i5;
-                                                    z4 = false;
-                                                    break;
-                                                }
-                                                tLRPC$TL_messages_stickerSet = tLRPC$TL_messages_stickerSet3;
-                                                str2 = str;
-                                                i2 = i5;
-                                                if (((TLRPC$Document) arrayList8.get(i10)).id == tLRPC$Document.id) {
-                                                    z4 = true;
-                                                    break;
-                                                }
-                                                i10++;
-                                                tLRPC$TL_messages_stickerSet3 = tLRPC$TL_messages_stickerSet;
-                                                str = str2;
-                                                i5 = i2;
-                                            }
-                                            if (!z4) {
-                                                arrayList8.add(tLRPC$Document);
-                                                if (arrayList8.size() >= i4) {
-                                                    break;
-                                                }
-                                            } else {
-                                                continue;
-                                            }
-                                            i8++;
-                                            tLRPC$TL_messages_stickerSet3 = tLRPC$TL_messages_stickerSet;
-                                            str = str2;
-                                            min = i;
-                                            arrayList7 = arrayList2;
-                                            i5 = i2;
-                                        } else {
-                                            tLRPC$TL_messages_stickerSet = tLRPC$TL_messages_stickerSet3;
-                                        }
-                                    }
-                                    str2 = str;
-                                    i2 = i5;
-                                    i8++;
-                                    tLRPC$TL_messages_stickerSet3 = tLRPC$TL_messages_stickerSet;
-                                    str = str2;
-                                    min = i;
-                                    arrayList7 = arrayList2;
-                                    i5 = i2;
-                                }
-                            }
-                            arrayList2 = arrayList7;
-                            i = min;
-                            str2 = str;
-                            i2 = i5;
-                            if (arrayList8.size() >= i4) {
-                                break;
-                            }
-                            i7++;
-                            str = str2;
-                            min = i;
-                            arrayList7 = arrayList2;
-                            i5 = i2;
-                        }
-                    }
-                }
-                arrayList2 = arrayList7;
+        int i6 = 0;
+        while (i6 < min) {
+            String str6 = ((KeywordResult) arrayList7.get(i6)).emoji;
+            if (TextUtils.isEmpty(str6)) {
+                arrayList3 = arrayList7;
+                arrayList2 = featuredEmojiSets;
                 i = min;
                 str2 = str;
-                i2 = i5;
-                if (arrayList8.size() < i4 && featuredEmojiSets != null) {
-                    int i11 = 0;
-                    while (i11 < featuredEmojiSets.size()) {
-                        TLRPC$StickerSetCovered tLRPC$StickerSetCovered = featuredEmojiSets.get(i11);
-                        if (tLRPC$StickerSetCovered != null) {
-                            ArrayList<TLRPC$Document> arrayList9 = tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetFullCovered ? ((TLRPC$TL_stickerSetFullCovered) tLRPC$StickerSetCovered).documents : tLRPC$StickerSetCovered.covers;
-                            if (arrayList9 != null) {
-                                int i12 = 0;
-                                while (true) {
-                                    if (i12 >= arrayList9.size()) {
-                                        arrayList3 = featuredEmojiSets;
-                                        str3 = str2;
-                                        z2 = isPremium;
-                                        break;
+            } else {
+                arrayList9.clear();
+                if (Emoji.recentEmoji != null) {
+                    for (int i7 = 0; i7 < Emoji.recentEmoji.size(); i7++) {
+                        if (Emoji.recentEmoji.get(i7).startsWith("animated_")) {
+                            try {
+                                TLRPC$Document findDocument = AnimatedEmojiDrawable.findDocument(mediaDataController.currentAccount, Long.parseLong(Emoji.recentEmoji.get(i7).substring(9)));
+                                try {
+                                    String findAnimatedEmojiEmoticon = MessageObject.findAnimatedEmojiEmoticon(findDocument, null);
+                                    if (findDocument != null && findAnimatedEmojiEmoticon != null && findAnimatedEmojiEmoticon.contains(str6) && (isPremium || MessageObject.isFreeEmoji(findDocument))) {
+                                        arrayList9.add(findDocument);
                                     }
-                                    TLRPC$Document tLRPC$Document2 = arrayList9.get(i12);
-                                    if (tLRPC$Document2 != null && tLRPC$Document2.attributes != null && !arrayList8.contains(tLRPC$Document2)) {
-                                        int i13 = 0;
+                                } catch (Exception unused) {
+                                }
+                            } catch (Exception unused2) {
+                            }
+                            if (arrayList9.size() < i5) {
+                                break;
+                            }
+                        }
+                        if (arrayList9.size() < i5) {
+                        }
+                    }
+                }
+                if (arrayList9.size() < i5) {
+                    if (arrayListArr[0] != null) {
+                        int i8 = 0;
+                        for (char c = 0; i8 < arrayListArr[c].size(); c = 0) {
+                            TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet3 = (TLRPC$TL_messages_stickerSet) arrayListArr[c].get(i8);
+                            if (tLRPC$TL_messages_stickerSet3 != null && tLRPC$TL_messages_stickerSet3.packs != null) {
+                                int i9 = 0;
+                                while (i9 < tLRPC$TL_messages_stickerSet3.packs.size()) {
+                                    TLRPC$TL_stickerPack tLRPC$TL_stickerPack = tLRPC$TL_messages_stickerSet3.packs.get(i9);
+                                    if (tLRPC$TL_stickerPack == null || (str5 = tLRPC$TL_stickerPack.emoticon) == null || !str5.contains(str6)) {
+                                        arrayList5 = featuredEmojiSets;
+                                        i3 = min;
+                                        i4 = i8;
+                                        str4 = str;
+                                        arrayList6 = arrayList8;
+                                    } else {
+                                        i3 = min;
+                                        int i10 = 0;
                                         while (true) {
-                                            if (i13 >= tLRPC$Document2.attributes.size()) {
-                                                tLRPC$TL_documentAttributeCustomEmoji = null;
+                                            if (i10 >= tLRPC$TL_stickerPack.documents.size()) {
+                                                arrayList5 = featuredEmojiSets;
+                                                arrayList6 = arrayList8;
+                                                i4 = i8;
+                                                str4 = str;
                                                 break;
                                             }
-                                            TLRPC$DocumentAttribute tLRPC$DocumentAttribute2 = tLRPC$Document2.attributes.get(i13);
-                                            if (tLRPC$DocumentAttribute2 instanceof TLRPC$TL_documentAttributeCustomEmoji) {
-                                                tLRPC$TL_documentAttributeCustomEmoji = (TLRPC$TL_documentAttributeCustomEmoji) tLRPC$DocumentAttribute2;
-                                                break;
-                                            }
-                                            i13++;
-                                        }
-                                        if (tLRPC$TL_documentAttributeCustomEmoji != null && str6.equals(tLRPC$TL_documentAttributeCustomEmoji.alt) && (isPremium || tLRPC$TL_documentAttributeCustomEmoji.free || ((tLRPC$StickerSet = tLRPC$StickerSetCovered.set) != null && (str4 = tLRPC$StickerSet.short_name) != null && str4.equals(str2)))) {
-                                            int i14 = 0;
+                                            long longValue = tLRPC$TL_stickerPack.documents.get(i10).longValue();
+                                            TLRPC$TL_stickerPack tLRPC$TL_stickerPack2 = tLRPC$TL_stickerPack;
+                                            int i11 = 0;
                                             while (true) {
-                                                if (i14 >= arrayList8.size()) {
-                                                    arrayList3 = featuredEmojiSets;
-                                                    str3 = str2;
-                                                    arrayList6 = arrayList9;
-                                                    z2 = isPremium;
-                                                    z3 = false;
+                                                if (i11 >= tLRPC$TL_messages_stickerSet3.documents.size()) {
+                                                    arrayList5 = featuredEmojiSets;
+                                                    tLRPC$Document = null;
                                                     break;
                                                 }
-                                                arrayList3 = featuredEmojiSets;
-                                                str3 = str2;
-                                                arrayList6 = arrayList9;
-                                                z2 = isPremium;
-                                                if (((TLRPC$Document) arrayList8.get(i14)).id == tLRPC$Document2.id) {
-                                                    z3 = true;
+                                                tLRPC$Document = tLRPC$TL_messages_stickerSet3.documents.get(i11);
+                                                arrayList5 = featuredEmojiSets;
+                                                if (tLRPC$Document != null && tLRPC$Document.id == longValue) {
+                                                    break;
+                                                }
+                                                i11++;
+                                                featuredEmojiSets = arrayList5;
+                                            }
+                                            if (tLRPC$Document != null && tLRPC$Document.attributes != null && !arrayList9.contains(tLRPC$Document)) {
+                                                int i12 = 0;
+                                                while (true) {
+                                                    if (i12 >= arrayList9.size()) {
+                                                        arrayList6 = arrayList8;
+                                                        i4 = i8;
+                                                        str4 = str;
+                                                        z4 = false;
+                                                        break;
+                                                    }
+                                                    arrayList6 = arrayList8;
+                                                    i4 = i8;
+                                                    str4 = str;
+                                                    if (((TLRPC$Document) arrayList9.get(i12)).id == tLRPC$Document.id) {
+                                                        z4 = true;
+                                                        break;
+                                                    }
+                                                    i12++;
+                                                    arrayList8 = arrayList6;
+                                                    str = str4;
+                                                    i8 = i4;
+                                                }
+                                                if (!z4) {
+                                                    arrayList9.add(tLRPC$Document);
+                                                    if (arrayList9.size() >= i5) {
+                                                        break;
+                                                    }
+                                                } else {
+                                                    continue;
+                                                }
+                                            } else {
+                                                arrayList6 = arrayList8;
+                                                i4 = i8;
+                                                str4 = str;
+                                            }
+                                            i10++;
+                                            tLRPC$TL_stickerPack = tLRPC$TL_stickerPack2;
+                                            arrayList8 = arrayList6;
+                                            str = str4;
+                                            i8 = i4;
+                                            featuredEmojiSets = arrayList5;
+                                        }
+                                    }
+                                    i9++;
+                                    arrayList8 = arrayList6;
+                                    min = i3;
+                                    str = str4;
+                                    i8 = i4;
+                                    featuredEmojiSets = arrayList5;
+                                }
+                                arrayList2 = featuredEmojiSets;
+                                i = min;
+                                i2 = i8;
+                            } else {
+                                arrayList2 = featuredEmojiSets;
+                                i = min;
+                                i2 = i8;
+                                String str7 = str;
+                                ArrayList arrayList10 = arrayList8;
+                                if (tLRPC$TL_messages_stickerSet3 != null && tLRPC$TL_messages_stickerSet3.documents != null) {
+                                    int i13 = 0;
+                                    while (i13 < tLRPC$TL_messages_stickerSet3.documents.size()) {
+                                        TLRPC$Document tLRPC$Document2 = tLRPC$TL_messages_stickerSet3.documents.get(i13);
+                                        if (tLRPC$Document2 != null && tLRPC$Document2.attributes != null && !arrayList9.contains(tLRPC$Document2)) {
+                                            int i14 = 0;
+                                            while (true) {
+                                                if (i14 >= tLRPC$Document2.attributes.size()) {
+                                                    tLRPC$TL_documentAttributeCustomEmoji2 = null;
+                                                    break;
+                                                }
+                                                TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$Document2.attributes.get(i14);
+                                                if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeCustomEmoji) {
+                                                    tLRPC$TL_documentAttributeCustomEmoji2 = (TLRPC$TL_documentAttributeCustomEmoji) tLRPC$DocumentAttribute;
                                                     break;
                                                 }
                                                 i14++;
-                                                arrayList9 = arrayList6;
-                                                isPremium = z2;
-                                                featuredEmojiSets = arrayList3;
-                                                str2 = str3;
                                             }
-                                            if (!z3) {
-                                                arrayList8.add(tLRPC$Document2);
-                                                if (arrayList8.size() >= i4) {
+                                            if (tLRPC$TL_documentAttributeCustomEmoji2 != null && !TextUtils.isEmpty(tLRPC$TL_documentAttributeCustomEmoji2.alt) && tLRPC$TL_documentAttributeCustomEmoji2.alt.contains(str6)) {
+                                                if (isPremium || tLRPC$TL_documentAttributeCustomEmoji2.free) {
+                                                    str = str7;
+                                                } else {
+                                                    TLRPC$StickerSet tLRPC$StickerSet2 = tLRPC$TL_messages_stickerSet3.set;
+                                                    if (tLRPC$StickerSet2 == null || (r2 = tLRPC$StickerSet2.short_name) == null) {
+                                                        str = str7;
+                                                    } else {
+                                                        str = str7;
+                                                    }
+                                                    tLRPC$TL_messages_stickerSet = tLRPC$TL_messages_stickerSet3;
+                                                    arrayList8 = arrayList10;
+                                                    i13++;
+                                                    tLRPC$TL_messages_stickerSet3 = tLRPC$TL_messages_stickerSet;
+                                                    arrayList10 = arrayList8;
+                                                    str7 = str;
+                                                }
+                                                int i15 = 0;
+                                                while (true) {
+                                                    if (i15 >= arrayList9.size()) {
+                                                        tLRPC$TL_messages_stickerSet = tLRPC$TL_messages_stickerSet3;
+                                                        arrayList8 = arrayList10;
+                                                        z3 = false;
+                                                        break;
+                                                    }
+                                                    tLRPC$TL_messages_stickerSet = tLRPC$TL_messages_stickerSet3;
+                                                    arrayList8 = arrayList10;
+                                                    if (((TLRPC$Document) arrayList9.get(i15)).id == tLRPC$Document2.id) {
+                                                        z3 = true;
+                                                        break;
+                                                    }
+                                                    i15++;
+                                                    tLRPC$TL_messages_stickerSet3 = tLRPC$TL_messages_stickerSet;
+                                                    arrayList10 = arrayList8;
+                                                }
+                                                if (!z3) {
+                                                    arrayList9.add(tLRPC$Document2);
+                                                    if (arrayList9.size() >= i5) {
+                                                        break;
+                                                    }
+                                                } else {
+                                                    continue;
+                                                }
+                                                i13++;
+                                                tLRPC$TL_messages_stickerSet3 = tLRPC$TL_messages_stickerSet;
+                                                arrayList10 = arrayList8;
+                                                str7 = str;
+                                            }
+                                        }
+                                        tLRPC$TL_messages_stickerSet = tLRPC$TL_messages_stickerSet3;
+                                        arrayList8 = arrayList10;
+                                        str = str7;
+                                        i13++;
+                                        tLRPC$TL_messages_stickerSet3 = tLRPC$TL_messages_stickerSet;
+                                        arrayList10 = arrayList8;
+                                        str7 = str;
+                                    }
+                                }
+                                arrayList8 = arrayList10;
+                                str = str7;
+                            }
+                            if (arrayList9.size() >= i5) {
+                                break;
+                            }
+                            i8 = i2 + 1;
+                            min = i;
+                            featuredEmojiSets = arrayList2;
+                        }
+                    }
+                }
+                arrayList2 = featuredEmojiSets;
+                i = min;
+                if (arrayList9.size() < i5 && arrayList2 != null) {
+                    int i16 = 0;
+                    while (i16 < arrayList2.size()) {
+                        ArrayList<TLRPC$StickerSetCovered> arrayList11 = arrayList2;
+                        TLRPC$StickerSetCovered tLRPC$StickerSetCovered2 = arrayList11.get(i16);
+                        if (tLRPC$StickerSetCovered2 != null) {
+                            ArrayList<TLRPC$Document> arrayList12 = tLRPC$StickerSetCovered2 instanceof TLRPC$TL_stickerSetFullCovered ? ((TLRPC$TL_stickerSetFullCovered) tLRPC$StickerSetCovered2).documents : tLRPC$StickerSetCovered2.covers;
+                            if (arrayList12 != null) {
+                                int i17 = 0;
+                                while (true) {
+                                    if (i17 >= arrayList12.size()) {
+                                        arrayList2 = arrayList11;
+                                        str2 = str;
+                                        break;
+                                    }
+                                    TLRPC$Document tLRPC$Document3 = arrayList12.get(i17);
+                                    if (tLRPC$Document3 == null || tLRPC$Document3.attributes == null || arrayList9.contains(tLRPC$Document3)) {
+                                        arrayList2 = arrayList11;
+                                    } else {
+                                        int i18 = 0;
+                                        while (true) {
+                                            if (i18 >= tLRPC$Document3.attributes.size()) {
+                                                arrayList2 = arrayList11;
+                                                tLRPC$TL_documentAttributeCustomEmoji = null;
+                                                break;
+                                            }
+                                            TLRPC$DocumentAttribute tLRPC$DocumentAttribute2 = tLRPC$Document3.attributes.get(i18);
+                                            arrayList2 = arrayList11;
+                                            if (tLRPC$DocumentAttribute2 instanceof TLRPC$TL_documentAttributeCustomEmoji) {
+                                                tLRPC$TL_documentAttributeCustomEmoji = (TLRPC$TL_documentAttributeCustomEmoji) tLRPC$DocumentAttribute2;
+                                                break;
+                                            } else {
+                                                i18++;
+                                                arrayList11 = arrayList2;
+                                            }
+                                        }
+                                        if (tLRPC$TL_documentAttributeCustomEmoji != null && !TextUtils.isEmpty(tLRPC$TL_documentAttributeCustomEmoji.alt) && tLRPC$TL_documentAttributeCustomEmoji.alt.contains(str6) && (isPremium || tLRPC$TL_documentAttributeCustomEmoji.free || ((tLRPC$StickerSet = tLRPC$StickerSetCovered2.set) != null && (str3 = tLRPC$StickerSet.short_name) != null && str3.equals(str)))) {
+                                            int i19 = 0;
+                                            while (true) {
+                                                if (i19 >= arrayList9.size()) {
+                                                    tLRPC$StickerSetCovered = tLRPC$StickerSetCovered2;
+                                                    arrayList4 = arrayList12;
+                                                    str2 = str;
+                                                    z2 = false;
+                                                    break;
+                                                }
+                                                tLRPC$StickerSetCovered = tLRPC$StickerSetCovered2;
+                                                arrayList4 = arrayList12;
+                                                str2 = str;
+                                                if (((TLRPC$Document) arrayList9.get(i19)).id == tLRPC$Document3.id) {
+                                                    z2 = true;
+                                                    break;
+                                                }
+                                                i19++;
+                                                tLRPC$StickerSetCovered2 = tLRPC$StickerSetCovered;
+                                                arrayList12 = arrayList4;
+                                                str = str2;
+                                            }
+                                            if (!z2) {
+                                                arrayList9.add(tLRPC$Document3);
+                                                if (arrayList9.size() >= i5) {
                                                     break;
                                                 }
                                             } else {
                                                 continue;
                                             }
-                                            i12++;
-                                            arrayList9 = arrayList6;
-                                            isPremium = z2;
-                                            featuredEmojiSets = arrayList3;
-                                            str2 = str3;
+                                            i17++;
+                                            tLRPC$StickerSetCovered2 = tLRPC$StickerSetCovered;
+                                            arrayList12 = arrayList4;
+                                            str = str2;
+                                            arrayList11 = arrayList2;
                                         }
                                     }
-                                    arrayList3 = featuredEmojiSets;
-                                    str3 = str2;
-                                    arrayList6 = arrayList9;
-                                    z2 = isPremium;
-                                    i12++;
-                                    arrayList9 = arrayList6;
-                                    isPremium = z2;
-                                    featuredEmojiSets = arrayList3;
-                                    str2 = str3;
+                                    tLRPC$StickerSetCovered = tLRPC$StickerSetCovered2;
+                                    arrayList4 = arrayList12;
+                                    str2 = str;
+                                    i17++;
+                                    tLRPC$StickerSetCovered2 = tLRPC$StickerSetCovered;
+                                    arrayList12 = arrayList4;
+                                    str = str2;
+                                    arrayList11 = arrayList2;
                                 }
-                                if (arrayList8.size() >= i4) {
+                                if (arrayList9.size() >= i5) {
                                     break;
                                 }
-                                i11++;
-                                isPremium = z2;
-                                featuredEmojiSets = arrayList3;
-                                str2 = str3;
+                                i16++;
+                                str = str2;
                             }
                         }
-                        arrayList3 = featuredEmojiSets;
-                        str3 = str2;
-                        z2 = isPremium;
-                        i11++;
-                        isPremium = z2;
-                        featuredEmojiSets = arrayList3;
-                        str2 = str3;
+                        arrayList2 = arrayList11;
+                        str2 = str;
+                        i16++;
+                        str = str2;
                     }
                 }
-                arrayList3 = featuredEmojiSets;
-                str3 = str2;
-                z2 = isPremium;
-                if (arrayList8.isEmpty()) {
-                    arrayList4 = arrayList2;
-                    i3 = i2;
+                str2 = str;
+                if (arrayList9.isEmpty()) {
+                    arrayList3 = arrayList;
                 } else {
-                    i3 = i2;
-                    String str7 = ((KeywordResult) arrayList.get(i3)).keyword;
-                    int i15 = 0;
-                    while (i15 < arrayList8.size()) {
-                        TLRPC$Document tLRPC$Document3 = (TLRPC$Document) arrayList8.get(i15);
-                        if (tLRPC$Document3 != null) {
+                    arrayList3 = arrayList;
+                    String str8 = ((KeywordResult) arrayList3.get(i6)).keyword;
+                    for (int i20 = 0; i20 < arrayList9.size(); i20++) {
+                        TLRPC$Document tLRPC$Document4 = (TLRPC$Document) arrayList9.get(i20);
+                        if (tLRPC$Document4 != null) {
                             KeywordResult keywordResult = new KeywordResult();
-                            keywordResult.emoji = "animated_" + tLRPC$Document3.id;
-                            keywordResult.keyword = str7;
-                            arrayList5 = arrayList2;
-                            arrayList5.add(keywordResult);
-                        } else {
-                            arrayList5 = arrayList2;
+                            keywordResult.emoji = "animated_" + tLRPC$Document4.id;
+                            keywordResult.keyword = str8;
+                            arrayList8.add(keywordResult);
                         }
-                        i15++;
-                        arrayList2 = arrayList5;
                     }
-                    arrayList4 = arrayList2;
                 }
             }
-            arrayList7 = arrayList4;
-            isPremium = z2;
-            featuredEmojiSets = arrayList3;
+            i6++;
+            arrayList7 = arrayList3;
             min = i;
-            str = str3;
-            i5 = i3 + 1;
+            str = str2;
+            featuredEmojiSets = arrayList2;
             mediaDataController = this;
         }
-        arrayList.addAll(0, arrayList7);
+        arrayList7.addAll(0, arrayList8);
         if (runnable != null) {
             runnable.run();
         }

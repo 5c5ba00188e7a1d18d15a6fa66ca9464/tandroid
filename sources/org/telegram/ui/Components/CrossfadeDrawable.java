@@ -45,17 +45,23 @@ public class CrossfadeDrawable extends Drawable {
         if (drawable2 != null) {
             drawable2.setCallback(new Drawable.Callback() { // from class: org.telegram.ui.Components.CrossfadeDrawable.2
                 @Override // android.graphics.drawable.Drawable.Callback
+                public void invalidateDrawable(Drawable drawable3) {
+                    if (CrossfadeDrawable.this.progress > 0.0f) {
+                        CrossfadeDrawable.this.invalidateSelf();
+                    }
+                }
+
+                @Override // android.graphics.drawable.Drawable.Callback
                 public void scheduleDrawable(Drawable drawable3, Runnable runnable, long j) {
+                    if (CrossfadeDrawable.this.progress > 0.0f) {
+                        CrossfadeDrawable.this.scheduleSelf(runnable, j);
+                    }
                 }
 
                 @Override // android.graphics.drawable.Drawable.Callback
                 public void unscheduleDrawable(Drawable drawable3, Runnable runnable) {
-                }
-
-                @Override // android.graphics.drawable.Drawable.Callback
-                public void invalidateDrawable(Drawable drawable3) {
                     if (CrossfadeDrawable.this.progress > 0.0f) {
-                        CrossfadeDrawable.this.invalidateSelf();
+                        CrossfadeDrawable.this.unscheduleSelf(runnable);
                     }
                 }
             });

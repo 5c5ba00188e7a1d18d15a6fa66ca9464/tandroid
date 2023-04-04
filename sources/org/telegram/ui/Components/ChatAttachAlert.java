@@ -209,6 +209,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     private ChatAttachAlertPhotoLayout photoLayout;
     private ChatAttachAlertPhotoLayoutPreview photoPreviewLayout;
     private boolean photosEnabled;
+    public boolean pinnedToTop;
     private boolean plainTextEnabled;
     private ChatAttachAlertPollLayout pollLayout;
     private boolean pollsEnabled;
@@ -2970,7 +2971,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 ChatAttachAlert.this.captionLimitView.animate().setListener(null).cancel();
                 ChatAttachAlert.this.captionLimitView.animate().alpha(1.0f).scaleX(1.0f).scaleY(1.0f).setDuration(100L).start();
                 if (i < 0) {
-                    ChatAttachAlert.this.captionLimitView.setTextColor(ChatAttachAlert.this.getThemedColor("windowBackgroundWhiteRedText"));
+                    ChatAttachAlert.this.captionLimitView.setTextColor(ChatAttachAlert.this.getThemedColor("text_RedRegular"));
                     z = false;
                     chatAttachAlert = ChatAttachAlert.this;
                     if (chatAttachAlert.sendButtonEnabled == z) {
@@ -4542,7 +4543,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:89:0x0063, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:89:0x0065, code lost:
         if (((androidx.dynamicanimation.animation.SpringAnimation) r8).isRunning() != false) goto L33;
      */
     @SuppressLint({"NewApi"})
@@ -4556,6 +4557,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
         boolean z2 = true;
         boolean z3 = attachAlertLayout == this.currentAttachLayout && currentItemTop <= attachAlertLayout.getButtonsHideOffset();
+        this.pinnedToTop = z3;
         AttachAlertLayout attachAlertLayout2 = this.currentAttachLayout;
         if (attachAlertLayout2 != this.photoPreviewLayout && this.keyboardVisible && z && !(attachAlertLayout2 instanceof ChatAttachAlertBotWebViewLayout)) {
             z = false;
@@ -5246,7 +5248,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             create.show();
             TextView textView = (TextView) create.getButton(-1);
             if (textView != null) {
-                textView.setTextColor(getThemedColor("dialogTextRed"));
+                textView.setTextColor(getThemedColor("text_RedBold"));
                 return;
             }
             return;
