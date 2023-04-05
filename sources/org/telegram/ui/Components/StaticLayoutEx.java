@@ -8,7 +8,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class StaticLayoutEx {
     public static Layout.Alignment[] alignments = Layout.Alignment.values();
 

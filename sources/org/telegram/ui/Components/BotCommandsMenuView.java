@@ -26,7 +26,7 @@ import org.telegram.tgnet.TLRPC$TL_botCommand;
 import org.telegram.ui.ActionBar.MenuDrawable;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class BotCommandsMenuView extends View {
     final MenuDrawable backDrawable;
     Drawable backgroundDrawable;
@@ -274,7 +274,7 @@ public class BotCommandsMenuView extends View {
         return this.isOpened;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class BotCommandsAdapter extends RecyclerListView.SelectionAdapter {
         ArrayList<String> newResult = new ArrayList<>();
         ArrayList<String> newResultHelp = new ArrayList<>();
@@ -341,7 +341,7 @@ public class BotCommandsMenuView extends View {
         this.backDrawable.setRotation(z ? 1.0f : 0.0f, true);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class BotCommandView extends LinearLayout {
         TextView command;
         String commandStr;

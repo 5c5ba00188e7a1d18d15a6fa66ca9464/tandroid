@@ -89,7 +89,7 @@ import org.telegram.ui.Components.Premium.LimitReachedBottomSheet;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.FilteredSearchView;
 import org.telegram.ui.PhotoPickerActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLayout {
     private float additionalTranslationY;
     private boolean allowMusic;
@@ -125,10 +125,10 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
     private boolean sortByName;
     private ActionBarMenuItem sortItem;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface DocumentSelectActivityDelegate {
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static void $default$didSelectPhotos(DocumentSelectActivityDelegate documentSelectActivityDelegate, ArrayList arrayList, boolean z, int i) {
             }
@@ -155,7 +155,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         return 1;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ListItem {
         public String ext;
         public File file;
@@ -174,7 +174,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class HistoryEntry {
         File dir;
         String title;
@@ -187,7 +187,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 1 extends BroadcastReceiver {
         1() {
             ChatAttachAlertDocumentLayout.this = r1;
@@ -1471,7 +1471,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         this.listAdapter.notifyDataSetChanged();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
         private ArrayList<ListItem> items = new ArrayList<>();
@@ -1578,7 +1578,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SearchAdapter extends RecyclerListView.SectionsAdapter {
         private String currentDataQuery;
         private long currentSearchDialogId;

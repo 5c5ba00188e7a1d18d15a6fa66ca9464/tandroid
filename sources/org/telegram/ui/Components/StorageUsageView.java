@@ -19,7 +19,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class StorageUsageView extends FrameLayout {
     private Paint bgPaint;
     private boolean calculating;
@@ -275,7 +275,7 @@ public class StorageUsageView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ProgressView extends View {
         public ProgressView(Context context) {
             super(context);

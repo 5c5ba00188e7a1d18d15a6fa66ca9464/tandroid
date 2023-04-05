@@ -10,7 +10,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class StickerImageView extends BackupImageView implements NotificationCenter.NotificationCenterDelegate {
     int currentAccount;
     int stickerNum;

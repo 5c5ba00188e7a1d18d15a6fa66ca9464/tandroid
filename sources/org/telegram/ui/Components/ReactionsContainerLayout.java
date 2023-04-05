@@ -76,7 +76,7 @@ import org.telegram.ui.Components.Reactions.ReactionsEffectOverlay;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.ReactionsContainerLayout;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ReactionsContainerLayout extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     public static final Property<ReactionsContainerLayout, Float> TRANSITION_PROGRESS_VALUE = new Property<ReactionsContainerLayout, Float>(Float.class, "transitionProgress") { // from class: org.telegram.ui.Components.ReactionsContainerLayout.1
         @Override // android.util.Property
@@ -152,7 +152,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     private List<ReactionsLayoutInBubble.VisibleReaction> visibleReactionsList;
     private long waitingLoadingChatId;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ReactionsContainerDelegate {
         void onReactionClicked(View view, ReactionsLayoutInBubble.VisibleReaction visibleReaction, boolean z, boolean z2);
     }
@@ -375,7 +375,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 5 extends AdapterWithDiffUtils {
         ArrayList<InnerItem> items = new ArrayList<>();
         ArrayList<InnerItem> oldItems = new ArrayList<>();
@@ -485,7 +485,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             setItems(this.oldItems, this.items);
         }
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         class InnerItem extends AdapterWithDiffUtils.Item {
             ReactionsLayoutInBubble.VisibleReaction reaction;
 
@@ -1325,7 +1325,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public final class LeftRightShadowsListener extends RecyclerView.OnScrollListener {
         private ValueAnimator leftAnimator;
         private boolean leftVisible;
@@ -1423,7 +1423,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public final class ReactionHolderView extends FrameLayout {
         public ReactionsLayoutInBubble.VisibleReaction currentReaction;
         public boolean drawSelected;
@@ -1508,7 +1508,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class 2 extends BackupImageView {
             2(Context context, ReactionsContainerLayout reactionsContainerLayout) {
                 super(context);
@@ -1856,7 +1856,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class InternalImageView extends ImageView {
         ValueAnimator valueAnimator;
 
@@ -1909,7 +1909,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class CustomReactionsContainer extends FrameLayout {
         Paint backgroundPaint;
 

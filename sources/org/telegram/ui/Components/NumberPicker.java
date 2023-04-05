@@ -23,7 +23,7 @@ import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class NumberPicker extends LinearLayout {
     private static final CubicBezierInterpolator interpolator = new CubicBezierInterpolator(0.0f, 0.5f, 0.5f, 1.0f);
     private int SELECTOR_MIDDLE_ITEM_INDEX;
@@ -82,17 +82,17 @@ public class NumberPicker extends LinearLayout {
     private final Theme.ResourcesProvider resourcesProvider;
     private int textOffset;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface Formatter {
         String format(int i);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface OnScrollListener {
         void onScrollStateChange(NumberPicker numberPicker, int i);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface OnValueChangeListener {
         void onValueChange(NumberPicker numberPicker, int i, int i2);
     }
@@ -107,14 +107,14 @@ public class NumberPicker extends LinearLayout {
         return 0.9f;
     }
 
-    /* JADX WARN: Type inference failed for: r2v2, types: [byte, boolean] */
+    /* JADX WARN: Type inference failed for: r2v2, types: [boolean, byte] */
     static /* synthetic */ boolean access$280(NumberPicker numberPicker, int i) {
         ?? r2 = (byte) (i ^ (numberPicker.mIncrementVirtualButtonPressed ? 1 : 0));
         numberPicker.mIncrementVirtualButtonPressed = r2;
         return r2;
     }
 
-    /* JADX WARN: Type inference failed for: r2v2, types: [byte, boolean] */
+    /* JADX WARN: Type inference failed for: r2v2, types: [boolean, byte] */
     static /* synthetic */ boolean access$480(NumberPicker numberPicker, int i) {
         ?? r2 = (byte) (i ^ (numberPicker.mDecrementVirtualButtonPressed ? 1 : 0));
         numberPicker.mDecrementVirtualButtonPressed = r2;
@@ -1052,7 +1052,7 @@ public class NumberPicker extends LinearLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class PressedStateHelper implements Runnable {
         private int mManagedButton;
         private int mMode;
@@ -1129,7 +1129,7 @@ public class NumberPicker extends LinearLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ChangeCurrentByOneFromLongPressCommand implements Runnable {
         private boolean mIncrement;
 

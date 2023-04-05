@@ -29,7 +29,7 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.utils.BitmapsCache;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.ui.Components.AnimatedFileDrawable;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, BitmapsCache.Cacheable {
     private RectF actualDrawRect;
     private boolean applyTransformation;
@@ -146,7 +146,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 2 implements Runnable {
         2() {
         }

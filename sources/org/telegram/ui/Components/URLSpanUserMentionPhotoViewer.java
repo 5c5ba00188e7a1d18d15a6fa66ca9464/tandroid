@@ -1,7 +1,7 @@
 package org.telegram.ui.Components;
 
 import android.text.TextPaint;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class URLSpanUserMentionPhotoViewer extends URLSpanUserMention {
     public URLSpanUserMentionPhotoViewer(String str, boolean z) {
         super(str, 2);

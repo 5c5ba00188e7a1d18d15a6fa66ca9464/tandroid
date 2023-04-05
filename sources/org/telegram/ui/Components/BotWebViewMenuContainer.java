@@ -64,7 +64,7 @@ import org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.PaymentFormActivity;
 import org.telegram.ui.TopicsFragment;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class BotWebViewMenuContainer extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private static final SimpleFloatPropertyCompat<BotWebViewMenuContainer> ACTION_BAR_TRANSITION_PROGRESS_VALUE = new SimpleFloatPropertyCompat("actionBarTransitionProgress", BotWebViewMenuContainer$$ExternalSyntheticLambda21.INSTANCE, BotWebViewMenuContainer$$ExternalSyntheticLambda22.INSTANCE).setMultiplier(100.0f);
     private ActionBar.ActionBarMenuOnItemClick actionBarOnItemClick;
@@ -270,7 +270,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 1 implements BotWebViewContainer.Delegate {
         final /* synthetic */ ActionBar val$actionBar;
         final /* synthetic */ ChatActivityEnterView val$parentEnterView;
@@ -864,7 +864,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 6 implements View.OnLayoutChangeListener {
         6() {
         }

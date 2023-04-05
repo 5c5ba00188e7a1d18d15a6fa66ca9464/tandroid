@@ -1,7 +1,7 @@
 package org.telegram.ui.Components;
 
 import android.webkit.ValueCallback;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class BotWebViewContainer$$ExternalSyntheticLambda6 implements ValueCallback {
     public static final /* synthetic */ BotWebViewContainer$$ExternalSyntheticLambda6 INSTANCE = new BotWebViewContainer$$ExternalSyntheticLambda6();
 

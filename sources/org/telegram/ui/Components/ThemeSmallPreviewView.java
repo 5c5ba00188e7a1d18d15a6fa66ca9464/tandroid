@@ -46,7 +46,7 @@ import org.telegram.tgnet.TLRPC$WallPaperSettings;
 import org.telegram.ui.ActionBar.EmojiThemes;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.ChatThemeBottomSheet;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ThemeSmallPreviewView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private final float BUBBLE_HEIGHT;
     private final float BUBBLE_WIDTH;
@@ -598,7 +598,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ThemeDrawable {
         private final Paint inBubblePaint;
         private final Paint outBubblePaintSecond;

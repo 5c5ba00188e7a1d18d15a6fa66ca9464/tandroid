@@ -1,7 +1,7 @@
 package org.telegram.ui.Components;
 
 import android.view.View;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class PipVideoOverlay$$ExternalSyntheticLambda3 implements View.OnClickListener {
     public static final /* synthetic */ PipVideoOverlay$$ExternalSyntheticLambda3 INSTANCE = new PipVideoOverlay$$ExternalSyntheticLambda3();
 

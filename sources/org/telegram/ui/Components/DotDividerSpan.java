@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.text.style.ReplacementSpan;
 import org.telegram.messenger.AndroidUtilities;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class DotDividerSpan extends ReplacementSpan {
     int color;
     Paint p = new Paint(1);

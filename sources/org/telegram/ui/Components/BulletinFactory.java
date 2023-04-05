@@ -38,7 +38,7 @@ import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final class BulletinFactory {
     private final FrameLayout containerLayout;
     private final BaseFragment fragment;
@@ -74,7 +74,7 @@ public final class BulletinFactory {
     	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
      */
     /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static final class FileType {
         private static final /* synthetic */ FileType[] $VALUES;
         public static final FileType AUDIO;
@@ -162,7 +162,7 @@ public final class BulletinFactory {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public enum Icon {
             SAVED_TO_DOWNLOADS(R.raw.ic_download, 2, "Box", "Arrow"),
             SAVED_TO_GALLERY(R.raw.ic_save_to_gallery, 0, "Box", "Arrow", "Mask", "Arrow 2", "Splash"),

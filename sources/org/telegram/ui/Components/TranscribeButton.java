@@ -40,7 +40,7 @@ import org.telegram.tgnet.TLRPC$TL_messages_transcribeAudio;
 import org.telegram.tgnet.TLRPC$TL_messages_transcribedAudio;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class TranscribeButton {
     private static final int[] pressedState = {16842910, 16842919};
     private static HashMap<Integer, MessageObject> transcribeOperationsByDialogPosition;
@@ -513,7 +513,7 @@ public class TranscribeButton {
         path.addArc(AndroidUtilities.rectTmp, ((i4 * 90) - 180) + (clamp * 90.0f), clamp2 * 90.0f);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class LoadingPointsSpan extends ImageSpan {
         private static LoadingPointsDrawable drawable;
 
@@ -542,7 +542,7 @@ public class TranscribeButton {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private static class LoadingPointsDrawable extends Drawable {
         private int lastColor;
         private RLottieDrawable lottie;

@@ -25,7 +25,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class AnimatedEmojiSpan extends ReplacementSpan {
     public int cacheType;
     public TLRPC$Document document;
@@ -44,7 +44,7 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
     public boolean standard;
     public boolean top;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface InvalidateHolder {
         void invalidate();
     }
@@ -263,7 +263,7 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
         return false;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class AnimatedEmojiHolder implements InvalidateHolder {
         public float alpha;
         private ImageReceiver.BackgroundThreadDrawHolder[] backgroundDrawHolder = new ImageReceiver.BackgroundThreadDrawHolder[2];
@@ -587,7 +587,7 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
         emojiGroupedSpans.release();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class EmojiGroupedSpans {
         private int rawIndex;
         public ArrayList<AnimatedEmojiHolder> holders = new ArrayList<>();
@@ -667,7 +667,7 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class SpansChunk {
         private boolean allowBackgroundRendering;
         DrawingInBackgroundThreadDrawable backgroundThreadDrawable;
@@ -848,7 +848,7 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
         return charSequence;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class TextViewEmojis extends TextView {
         EmojiGroupedSpans stack;
 

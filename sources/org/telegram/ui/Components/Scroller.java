@@ -5,7 +5,7 @@ import android.view.ViewConfiguration;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import org.telegram.messenger.FileLoader;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class Scroller {
     private static float sViscousFluidNormalize;
     private static float sViscousFluidScale;

@@ -45,7 +45,7 @@ import org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.ReactionsContainerLayout;
 import org.telegram.ui.SelectAnimatedEmojiDialog;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class CustomEmojiReactionsWindow {
     private int account;
     int animationIndex;
@@ -173,7 +173,7 @@ public class CustomEmojiReactionsWindow {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class 2 extends SelectAnimatedEmojiDialog {
         final /* synthetic */ BaseFragment val$baseFragment;
         final /* synthetic */ ReactionsContainerLayout val$reactionsContainerLayout;
@@ -568,7 +568,7 @@ public class CustomEmojiReactionsWindow {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class ContainerView extends FrameLayout {
         Paint backgroundPaint;
         int[] radiusTmp;

@@ -23,7 +23,7 @@ import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.VideoEditedInfo;
 import org.telegram.ui.Components.Paint.Views.EditTextOutline;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PaintingOverlay extends FrameLayout {
     private Drawable backgroundDrawable;
     private boolean ignoreLayout;

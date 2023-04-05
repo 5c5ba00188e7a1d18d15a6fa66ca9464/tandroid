@@ -14,7 +14,7 @@ import androidx.annotation.Keep;
 import java.util.ArrayList;
 import java.util.Locale;
 import org.telegram.messenger.AndroidUtilities;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class NumberTextView extends View {
     private boolean addNumber;
     private ObjectAnimator animator;
@@ -28,7 +28,7 @@ public class NumberTextView extends View {
     private TextPaint textPaint;
     private float textWidth;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface OnTextWidthProgressChangedListener {
         void onTextWidthProgress(float f, float f2, float f3);
     }

@@ -26,7 +26,7 @@ import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ArticleViewer;
 import org.telegram.ui.Components.LinkSpanDrawable;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class LinkSpanDrawable<S extends CharacterStyle> {
     private static final ArrayList<LinkPath> pathCache = new ArrayList<>();
     private final Path circlePath;
@@ -210,7 +210,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
         return interpolation < 1.0f || this.mReleaseStart >= 0 || (this.mSupportsLongPress && elapsedRealtime - this.mStart < this.mLongPressDuration + this.mDuration);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class LinkCollector {
         private ArrayList<Pair<LinkSpanDrawable, Object>> mLinks = new ArrayList<>();
         private int mLinksCount = 0;
@@ -479,7 +479,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class LinksTextView extends TextView {
         private boolean disablePaddingsOffset;
         private boolean disablePaddingsOffsetX;
@@ -491,7 +491,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
         private LinkSpanDrawable<ClickableSpan> pressedLink;
         private Theme.ResourcesProvider resourcesProvider;
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public interface OnLinkPress {
             void run(ClickableSpan clickableSpan);
         }
@@ -628,7 +628,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ClickableSmallTextView extends SimpleTextView {
         private Paint linkBackgroundPaint;
         private LinkCollector links;

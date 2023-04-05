@@ -11,7 +11,7 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.tgnet.TLRPC$Document;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class TextPaintImageReceiverSpan extends ReplacementSpan {
     private boolean alignTop;
     private int height;

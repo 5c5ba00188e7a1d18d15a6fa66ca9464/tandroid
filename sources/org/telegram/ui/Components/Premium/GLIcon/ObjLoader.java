@@ -4,7 +4,7 @@ import android.content.Context;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public final class ObjLoader {
     public float[] normals;
     public int numFaces;

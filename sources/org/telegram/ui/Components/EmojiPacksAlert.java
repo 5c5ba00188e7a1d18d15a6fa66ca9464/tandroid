@@ -97,7 +97,7 @@ import org.telegram.ui.ContentPreviewViewer;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
 import org.telegram.ui.ProfileActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     private static Pattern urlPattern;
     private Adapter adapter;
@@ -147,7 +147,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 1 implements ContentPreviewViewer.ContentPreviewViewerDelegate {
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
         public boolean can() {
@@ -700,7 +700,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ContentView extends FrameLayout {
         boolean attached;
         private Boolean lastOpen;
@@ -899,7 +899,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             return super.dispatchTouchEvent(motionEvent);
         }
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         class DrawingInBackgroundLine extends DrawingInBackgroundThreadDrawable {
             ArrayList<EmojiImageView> drawInBackgroundViews = new ArrayList<>();
             ArrayList<EmojiImageView> imageViewEmojis;
@@ -1416,7 +1416,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         return measuredHeight + (viewGroup != null ? viewGroup.getPaddingTop() : 0) + AndroidUtilities.navigationBarHeight + AndroidUtilities.dp(8.0f);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     class SeparatorView extends View {
         public SeparatorView(EmojiPacksAlert emojiPacksAlert, Context context) {
             super(context);
@@ -1428,7 +1428,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Adapter extends RecyclerListView.SelectionAdapter {
         private Adapter() {
         }
@@ -1674,7 +1674,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 8 extends ShareAlert {
         8(Context context, ArrayList arrayList, String str, boolean z, String str2, boolean z2, Theme.ResourcesProvider resourcesProvider) {
             super(context, arrayList, str, z, str2, z2, resourcesProvider);
@@ -1703,7 +1703,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class EmojiImageView extends View {
         ValueAnimator backAnimator;
         public ImageReceiver.BackgroundThreadDrawHolder[] backgroundThreadDrawHolder;
@@ -1791,7 +1791,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class EmojiPackHeader extends FrameLayout {
         public TextView addButtonView;
         private ValueAnimator animator;
@@ -2171,7 +2171,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class LinkMovementMethodMy extends LinkMovementMethod {
         private LinkMovementMethodMy() {
         }
@@ -2196,7 +2196,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class EmojiPacksLoader implements NotificationCenter.NotificationCenterDelegate {
         private int currentAccount;
         public ArrayList<EmojiView.CustomEmoji>[] data;

@@ -89,6 +89,7 @@ public class SharedConfig {
     public static int lockRecordAudioVideoHint = 0;
     public static int mediaColumnsCount = 0;
     public static int messageSeenHintCount = 0;
+    public static boolean nextMediaTap = false;
     public static boolean noSoundHintShowed = false;
     public static final boolean noStatusBar = true;
     public static boolean noiseSupression = false;
@@ -207,6 +208,7 @@ public class SharedConfig {
         chatBubbles = Build.VERSION.SDK_INT >= 30;
         raiseToSpeak = false;
         raiseToListen = true;
+        nextMediaTap = true;
         recordViaSco = false;
         customTabs = true;
         directShare = true;
@@ -360,12 +362,12 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x017e A[Catch: Exception -> 0x01a0, all -> 0x03e5, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:83:0x012f, outer: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0182 A[Catch: Exception -> 0x01a0, all -> 0x03e5, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:83:0x012f, outer: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x021b  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x021e  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x022e  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0230  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x017d A[Catch: Exception -> 0x019f, all -> 0x03e6, TryCatch #0 {Exception -> 0x019f, blocks: (B:22:0x012e, B:24:0x0136, B:26:0x0146, B:27:0x015a, B:38:0x017d, B:40:0x0181, B:41:0x0183, B:43:0x0187, B:45:0x018d, B:47:0x0193, B:49:0x0197, B:36:0x0177), top: B:83:0x012e, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0181 A[Catch: Exception -> 0x019f, all -> 0x03e6, TryCatch #0 {Exception -> 0x019f, blocks: (B:22:0x012e, B:24:0x0136, B:26:0x0146, B:27:0x015a, B:38:0x017d, B:40:0x0181, B:41:0x0183, B:43:0x0187, B:45:0x018d, B:47:0x0193, B:49:0x0197, B:36:0x0177), top: B:83:0x012e, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0220  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0223  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0233  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0235  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -451,6 +453,7 @@ public class SharedConfig {
                             mapPreviewType = sharedPreferences2.getInt("mapPreviewType", 2);
                             raiseToListen = sharedPreferences2.getBoolean("raise_to_listen", true);
                             raiseToSpeak = sharedPreferences2.getBoolean("raise_to_speak", false);
+                            nextMediaTap = sharedPreferences2.getBoolean("next_media_on_tap", true);
                             recordViaSco = sharedPreferences2.getBoolean("record_via_sco", false);
                             customTabs = sharedPreferences2.getBoolean("custom_tabs", true);
                             directShare = sharedPreferences2.getBoolean("direct_share", true);
@@ -534,6 +537,7 @@ public class SharedConfig {
                 mapPreviewType = sharedPreferences22.getInt("mapPreviewType", 2);
                 raiseToListen = sharedPreferences22.getBoolean("raise_to_listen", true);
                 raiseToSpeak = sharedPreferences22.getBoolean("raise_to_speak", false);
+                nextMediaTap = sharedPreferences22.getBoolean("next_media_on_tap", true);
                 recordViaSco = sharedPreferences22.getBoolean("record_via_sco", false);
                 customTabs = sharedPreferences22.getBoolean("custom_tabs", true);
                 directShare = sharedPreferences22.getBoolean("direct_share", true);
@@ -1058,6 +1062,13 @@ public class SharedConfig {
         raiseToListen = !raiseToListen;
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putBoolean("raise_to_listen", raiseToListen);
+        edit.commit();
+    }
+
+    public static void toggleNextMediaTap() {
+        nextMediaTap = !nextMediaTap;
+        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+        edit.putBoolean("next_media_on_tap", nextMediaTap);
         edit.commit();
     }
 

@@ -39,7 +39,7 @@ import org.telegram.ui.Cells.GroupCallUserCell;
 import org.telegram.ui.Components.AnimationProperties;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.UsersAlertBase;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class UsersAlertBase extends BottomSheet {
     private int backgroundColor;
     private float colorProgress;
@@ -204,7 +204,7 @@ public class UsersAlertBase extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SearchField extends FrameLayout {
         private final ImageView clearSearchImageView;
         private final CloseProgressDrawable2 progressDrawable;
@@ -508,7 +508,7 @@ public class UsersAlertBase extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ContainerView extends FrameLayout {
         private boolean ignoreLayout;
         float snapToTopOffset;

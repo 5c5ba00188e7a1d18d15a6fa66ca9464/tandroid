@@ -3,7 +3,7 @@ package org.telegram.ui.Components.ListView;
 import androidx.recyclerview.widget.DiffUtil;
 import java.util.ArrayList;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public abstract class AdapterWithDiffUtils extends RecyclerListView.SelectionAdapter {
     DiffUtilsCallback callback = new DiffUtilsCallback();
 
@@ -15,7 +15,7 @@ public abstract class AdapterWithDiffUtils extends RecyclerListView.SelectionAda
         DiffUtil.calculateDiff(this.callback).dispatchUpdatesTo(this);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static abstract class Item {
         public final int viewType;
 
@@ -29,7 +29,7 @@ public abstract class AdapterWithDiffUtils extends RecyclerListView.SelectionAda
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class DiffUtilsCallback extends DiffUtil.Callback {
         ArrayList<? extends Item> newItems;
         ArrayList<? extends Item> oldItems;

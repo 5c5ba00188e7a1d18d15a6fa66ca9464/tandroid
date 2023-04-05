@@ -43,7 +43,7 @@ import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AvatarsDrawable;
 import org.telegram.ui.Components.CounterView;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class ReactionsLayoutInBubble {
     private static int animationUniq;
     private int animateFromTotalHeight;
@@ -484,7 +484,7 @@ public class ReactionsLayoutInBubble {
         this.scrimViewReaction = str;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class ReactionButton {
         public int animateFromWidth;
         public int animateFromX;
@@ -879,7 +879,7 @@ public class ReactionsLayoutInBubble {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class ButtonsComparator implements Comparator<ReactionButton> {
         int currentAccount;
         long dialogId;
@@ -953,7 +953,7 @@ public class ReactionsLayoutInBubble {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class VisibleReaction {
         public long documentId;
         public String emojicon;

@@ -68,7 +68,7 @@ import org.telegram.ui.Cells.ThemesHorizontalListCell;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.ChatThemeBottomSheet;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChatThemeBottomSheet extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     private final Adapter adapter;
     private final View applyButton;
@@ -750,7 +750,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     }
 
     @SuppressLint({"NotifyDataSetChanged"})
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private final int currentAccount;
         private final int currentViewType;
@@ -1091,7 +1091,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ChatThemeItem {
         public float animationProgress;
         public final EmojiThemes chatTheme;

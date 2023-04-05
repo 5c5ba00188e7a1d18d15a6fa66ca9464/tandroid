@@ -16,7 +16,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.ui.Components.SeekBar;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SeekBarWaveform {
     private static Paint paintInner;
     private static Paint paintOuter;

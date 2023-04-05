@@ -17,7 +17,7 @@ public class ForegroundDetector implements Application.ActivityLifecycleCallback
     private long enterBackgroundTime = 0;
     private CopyOnWriteArrayList<Listener> listeners = new CopyOnWriteArrayList<>();
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface Listener {
         void onBecameBackground();
 

@@ -31,7 +31,7 @@ import java.util.Arrays;
 import java.util.stream.IntStream;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.AnimatedTextView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class AnimatedTextView extends View {
     public boolean adaptWidth;
     private AnimatedTextDrawable drawable;
@@ -41,7 +41,7 @@ public class AnimatedTextView extends View {
     private boolean toSetMoveDown;
     private CharSequence toSetText;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class AnimatedTextDrawable extends Drawable {
         private boolean allowCancel;
         private int alpha;
@@ -77,7 +77,7 @@ public class AnimatedTextView extends View {
         private boolean toSetTextMoveDown;
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public interface RegionCallback {
             void run(CharSequence charSequence, int i, int i2);
         }
@@ -89,7 +89,7 @@ public class AnimatedTextView extends View {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class Part {
             StaticLayout layout;
             float left;
@@ -539,7 +539,7 @@ public class AnimatedTextView extends View {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public static class WordSequence implements CharSequence {
             private final int length;
             private CharSequence[] words;

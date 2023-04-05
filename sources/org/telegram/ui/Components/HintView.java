@@ -23,7 +23,7 @@ import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.HintView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class HintView extends FrameLayout {
     private AnimatorSet animatorSet;
     private ImageView arrowImageView;
@@ -268,7 +268,7 @@ public class HintView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 1 extends AnimatorListenerAdapter {
         1() {
         }
@@ -325,7 +325,7 @@ public class HintView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 2 extends AnimatorListenerAdapter {
         2() {
         }

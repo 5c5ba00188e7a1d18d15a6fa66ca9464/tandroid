@@ -1,7 +1,7 @@
 package org.telegram.ui.Components;
 
 import android.view.ViewTreeObserver;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class EmojiColorPickerWindow$$ExternalSyntheticLambda1 implements ViewTreeObserver.OnScrollChangedListener {
     public static final /* synthetic */ EmojiColorPickerWindow$$ExternalSyntheticLambda1 INSTANCE = new EmojiColorPickerWindow$$ExternalSyntheticLambda1();
 

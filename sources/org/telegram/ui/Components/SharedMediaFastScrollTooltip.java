@@ -17,7 +17,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SharedMediaFastScrollTooltip extends FrameLayout {
     public SharedMediaFastScrollTooltip(Context context) {
         super(context);
@@ -36,7 +36,7 @@ public class SharedMediaFastScrollTooltip extends FrameLayout {
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(Math.min(AndroidUtilities.dp(300.0f), View.MeasureSpec.getSize(i) - AndroidUtilities.dp(32.0f)), Integer.MIN_VALUE), i2);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class TooltipDrawableView extends View {
         Paint fadePaint;
         Paint fadePaintBack;

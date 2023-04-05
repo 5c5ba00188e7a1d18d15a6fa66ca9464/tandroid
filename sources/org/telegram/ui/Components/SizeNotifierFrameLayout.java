@@ -32,7 +32,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.BlurSettingsBottomSheet;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.WallpaperParallaxEffect;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SizeNotifierFrameLayout extends FrameLayout {
     private static DispatchQueue blurQueue;
     public AdjustPanLayoutHelper adjustPanLayoutHelper;
@@ -81,7 +81,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
     private float translationY;
     public ArrayList<BlurBitmap> unusedBitmaps;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface SizeNotifierFrameLayoutDelegate {
         void onSizeChanged(int i, boolean z);
     }
@@ -150,7 +150,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         checkLayerType();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class BackgroundView extends View {
         public BackgroundView(Context context) {
             super(context);
@@ -575,7 +575,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BlurBackgroundTask implements Runnable {
         BlurBitmap finalBitmap;
         int radius;
@@ -842,7 +842,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class BlurBitmap {
         Bitmap bottomBitmap;
         Canvas bottomCanvas;

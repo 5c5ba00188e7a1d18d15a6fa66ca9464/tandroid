@@ -16,7 +16,7 @@ import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.MediaActionDrawable;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class RadialProgress2 {
     private int backgroundStroke;
     private float circleCheckProgress;

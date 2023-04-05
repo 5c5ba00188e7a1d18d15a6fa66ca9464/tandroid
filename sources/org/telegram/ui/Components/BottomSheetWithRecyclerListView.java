@@ -19,7 +19,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
     protected ActionBar actionBar;
     private BaseFragment baseFragment;

@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import androidx.annotation.Keep;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.Paint.Swatch;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class ColorPicker extends FrameLayout {
     private static final int[] COLORS = {-1431751, -2409774, -13610525, -11942419, -8337308, -205211, -223667, -16777216, -1};
     private static final float[] LOCATIONS = {0.0f, 0.14f, 0.24f, 0.39f, 0.49f, 0.62f, 0.73f, 0.85f, 1.0f};
@@ -40,7 +40,7 @@ public class ColorPicker extends FrameLayout {
     private boolean wasChangingWeight;
     private float weight;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public interface ColorPickerDelegate {
         void onBeganColorPicking();
 

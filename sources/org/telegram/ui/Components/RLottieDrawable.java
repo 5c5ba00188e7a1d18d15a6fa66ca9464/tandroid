@@ -35,7 +35,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.utils.BitmapsCache;
 import org.telegram.ui.Components.RLottieDrawable;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class RLottieDrawable extends BitmapDrawable implements Animatable, BitmapsCache.Cacheable {
     public static Gson gson;
     public static DispatchQueue lottieCacheGenerateQueue;
@@ -122,7 +122,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     private static final DispatchQueuePool loadFrameRunnableQueue = new DispatchQueuePool(4);
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class LottieMetadata {
         float fr;
         float ip;
@@ -153,7 +153,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 3 implements Runnable {
         3() {
         }
@@ -2237,7 +2237,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class NativePtrArgs {
         public int[] colorReplacement;
         File file;

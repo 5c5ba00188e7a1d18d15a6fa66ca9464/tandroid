@@ -19,7 +19,7 @@ import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 import org.telegram.tgnet.TLRPC$TL_stickerSetFullCovered;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarConstructorFragment;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class AvatarConstructorPreviewCell extends FrameLayout {
     private AnimatedEmojiDrawable animatedEmojiDrawable;
     int backgroundIndex;

@@ -2,7 +2,7 @@ package org.telegram.ui.Components;
 
 import android.view.MotionEvent;
 import android.view.View;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class UndoView$$ExternalSyntheticLambda4 implements View.OnTouchListener {
     public static final /* synthetic */ UndoView$$ExternalSyntheticLambda4 INSTANCE = new UndoView$$ExternalSyntheticLambda4();
 

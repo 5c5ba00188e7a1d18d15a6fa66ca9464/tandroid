@@ -3,7 +3,7 @@ package org.telegram.ui.Components;
 import android.view.KeyEvent;
 import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class AlertsCreator$$ExternalSyntheticLambda89 implements TextView.OnEditorActionListener {
     public static final /* synthetic */ AlertsCreator$$ExternalSyntheticLambda89 INSTANCE = new AlertsCreator$$ExternalSyntheticLambda89();
 

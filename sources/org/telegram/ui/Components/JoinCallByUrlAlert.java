@@ -14,7 +14,7 @@ import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class JoinCallByUrlAlert extends BottomSheet {
     private boolean joinAfterDismiss;
 
@@ -22,7 +22,7 @@ public class JoinCallByUrlAlert extends BottomSheet {
         throw null;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class BottomSheetCell extends FrameLayout {
         private View background;
         private TextView textView;

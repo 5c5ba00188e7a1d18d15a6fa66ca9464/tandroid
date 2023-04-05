@@ -12,7 +12,7 @@ import android.view.View;
 import androidx.annotation.Keep;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class RadioButton extends View {
     private static Paint checkedPaint;
     private static Paint eraser;

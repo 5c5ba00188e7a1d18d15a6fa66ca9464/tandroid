@@ -13,7 +13,7 @@ import androidx.core.graphics.ColorUtils;
 import androidx.core.math.MathUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SlideChooseView extends View {
     private final SeekBarAccessibilityDelegate accessibilityDelegate;
     private Callback callback;
@@ -39,10 +39,10 @@ public class SlideChooseView extends View {
     private float xTouchDown;
     private float yTouchDown;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface Callback {
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static void $default$onTouchEnd(Callback callback) {
             }

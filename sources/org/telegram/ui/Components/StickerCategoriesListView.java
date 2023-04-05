@@ -54,7 +54,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StickerCategoriesListView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class StickerCategoriesListView extends RecyclerListView {
     private static EmojiGroupFetcher fetcher = new EmojiGroupFetcher();
     public static Fetcher<String, TLRPC$TL_emojiList> search = new EmojiSearch();
@@ -516,7 +516,7 @@ public class StickerCategoriesListView extends RecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Adapter extends RecyclerListView.SelectionAdapter {
         private int lastItemCount;
 
@@ -598,7 +598,7 @@ public class StickerCategoriesListView extends RecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class CategoryButton extends RLottieImageView {
         ValueAnimator backAnimator;
         private int imageColor;
@@ -864,7 +864,7 @@ public class StickerCategoriesListView extends RecyclerListView {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class EmojiCategory {
         public boolean animated;
         public long documentId;
@@ -882,7 +882,7 @@ public class StickerCategoriesListView extends RecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class EmojiGroupFetcher extends Fetcher<Integer, TLRPC$TL_messages_emojiGroups> {
         private EmojiGroupFetcher() {
         }
@@ -1035,7 +1035,7 @@ public class StickerCategoriesListView extends RecyclerListView {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private static class EmojiSearch extends Fetcher<String, TLRPC$TL_emojiList> {
         private EmojiSearch() {
         }

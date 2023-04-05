@@ -16,7 +16,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ContactsEmptyView extends LinearLayout implements NotificationCenter.NotificationCenterDelegate {
     private int currentAccount;
     private LoadingStickerDrawable drawable;

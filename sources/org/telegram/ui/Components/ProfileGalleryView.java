@@ -47,7 +47,7 @@ import org.telegram.ui.Components.CircularViewPager;
 import org.telegram.ui.Components.ProfileGalleryView;
 import org.telegram.ui.PinchToZoomHelper;
 import org.telegram.ui.ProfileActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ProfileGalleryView extends CircularViewPager implements NotificationCenter.NotificationCenterDelegate {
     private ViewPagerAdapter adapter;
     private final Callback callback;
@@ -97,7 +97,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
     private ArrayList<String> videoFileNames;
     private ArrayList<ImageLocation> videoLocations;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface Callback {
         void onDown(boolean z);
 
@@ -129,7 +129,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class Item {
         private AvatarImageView imageView;
         boolean isActiveVideo;
@@ -1087,7 +1087,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ViewPagerAdapter extends CircularViewPager.Adapter {
         private final Context context;
         private BackupImageView parentAvatarImageView;
@@ -1360,7 +1360,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class AvatarImageView extends BackupImageView {
         private long firstDrawTime;
         public boolean isVideo;
@@ -1503,7 +1503,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TextureStubView extends View {
         public TextureStubView(ProfileGalleryView profileGalleryView, Context context) {
             super(context);

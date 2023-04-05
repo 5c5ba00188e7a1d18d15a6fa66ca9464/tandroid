@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.telegram.tgnet.ConnectionsManager;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SideMenultItemAnimator extends SimpleItemAnimator {
     private static TimeInterpolator sDefaultInterpolator;
     private RecyclerListView parentRecyclerView;
@@ -41,7 +41,7 @@ public class SideMenultItemAnimator extends SimpleItemAnimator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class MoveInfo {
         public int fromX;
         public int fromY;
@@ -59,7 +59,7 @@ public class SideMenultItemAnimator extends SimpleItemAnimator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ChangeInfo {
         public int fromX;
         public int fromY;

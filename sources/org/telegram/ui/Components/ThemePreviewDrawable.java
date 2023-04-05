@@ -19,7 +19,7 @@ import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ThemePreviewDrawable extends BitmapDrawable {
     public ThemePreviewDrawable(File file, DocumentObject.ThemeDocument themeDocument) {
         super(createPreview(file, themeDocument));

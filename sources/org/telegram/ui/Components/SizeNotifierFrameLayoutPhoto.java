@@ -5,14 +5,14 @@ import android.content.Context;
 import android.view.View;
 import android.widget.FrameLayout;
 import org.telegram.messenger.AndroidUtilities;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SizeNotifierFrameLayoutPhoto extends FrameLayout {
     private SizeNotifierFrameLayoutPhotoDelegate delegate;
     private int keyboardHeight;
     private android.graphics.Rect rect;
     private boolean withoutWindow;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface SizeNotifierFrameLayoutPhotoDelegate {
         void onSizeChanged(int i, boolean z);
     }

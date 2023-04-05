@@ -41,7 +41,7 @@ import org.telegram.ui.Components.FloatingDebug.FloatingDebugProvider;
 import org.telegram.ui.Components.Paint.ShapeDetector;
 import org.telegram.ui.Components.SharedMediaLayout;
 import org.telegram.ui.ProfileActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class MediaActivity extends BaseFragment implements SharedMediaLayout.SharedMediaPreloaderDelegate, FloatingDebugProvider {
     ProfileActivity.AvatarImageView avatarImageView;
     private TLRPC$ChatFull currentChatInfo;

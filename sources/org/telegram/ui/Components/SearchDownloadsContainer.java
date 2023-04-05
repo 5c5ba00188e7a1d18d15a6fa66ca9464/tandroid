@@ -46,7 +46,7 @@ import org.telegram.ui.Cells.SharedDocumentCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.FilteredSearchView;
 import org.telegram.ui.PhotoViewer;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SearchDownloadsContainer extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     DownloadsAdapter adapter;
     boolean checkingFilesExist;
@@ -532,7 +532,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class DownloadsAdapter extends RecyclerListView.SelectionAdapter {
         private DownloadsAdapter() {
         }
@@ -784,7 +784,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Cell extends FrameLayout {
         SharedDocumentCell sharedDocumentCell;
 
@@ -811,7 +811,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
         this.emptyView.setKeyboardHeight(i, z);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TouchHelperCallback extends ItemTouchHelper.Callback {
         @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int i) {

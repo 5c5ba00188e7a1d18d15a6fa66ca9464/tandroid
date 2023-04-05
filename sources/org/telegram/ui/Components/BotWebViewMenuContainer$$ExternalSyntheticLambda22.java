@@ -1,7 +1,7 @@
 package org.telegram.ui.Components;
 
 import org.telegram.ui.Components.SimpleFloatPropertyCompat;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class BotWebViewMenuContainer$$ExternalSyntheticLambda22 implements SimpleFloatPropertyCompat.Setter {
     public static final /* synthetic */ BotWebViewMenuContainer$$ExternalSyntheticLambda22 INSTANCE = new BotWebViewMenuContainer$$ExternalSyntheticLambda22();
 

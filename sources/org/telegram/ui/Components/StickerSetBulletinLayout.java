@@ -29,7 +29,7 @@ import org.telegram.ui.Components.Premium.LimitReachedBottomSheet;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
 @SuppressLint({"ViewConstructor"})
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
     public StickerSetBulletinLayout(Context context, TLObject tLObject, int i) {
         this(context, tLObject, 1, i, null, null);

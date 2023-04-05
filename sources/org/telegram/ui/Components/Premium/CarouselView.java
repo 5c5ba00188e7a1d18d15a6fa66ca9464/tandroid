@@ -15,7 +15,7 @@ import java.util.Comparator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.Components.Premium.CarouselView;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class CarouselView extends View implements PagerHeaderView {
     boolean autoPlayEnabled;
     ValueAnimator autoScrollAnimation;
@@ -35,7 +35,7 @@ public class CarouselView extends View implements PagerHeaderView {
     OverScroller overScroller;
     boolean scrolled;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class DrawingObject {
         public double angle;
         public float x;
@@ -96,7 +96,7 @@ public class CarouselView extends View implements PagerHeaderView {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class 3 extends AnimatorListenerAdapter {
         final /* synthetic */ float val$scrollTo;
 

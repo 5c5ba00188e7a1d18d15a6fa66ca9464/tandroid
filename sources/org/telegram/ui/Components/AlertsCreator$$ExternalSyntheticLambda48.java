@@ -2,7 +2,7 @@ package org.telegram.ui.Components;
 
 import android.content.DialogInterface;
 import org.telegram.messenger.SharedConfig;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class AlertsCreator$$ExternalSyntheticLambda48 implements DialogInterface.OnDismissListener {
     public static final /* synthetic */ AlertsCreator$$ExternalSyntheticLambda48 INSTANCE = new AlertsCreator$$ExternalSyntheticLambda48();
 

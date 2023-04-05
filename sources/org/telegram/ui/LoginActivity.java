@@ -2968,19 +2968,12 @@ public class LoginActivity extends BaseFragment {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:31:0x008d, code lost:
-            if (r7 == (-1)) goto L29;
-         */
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
         public void invalidateCountryHint() {
             int i;
             String str = this.countryCodeForHint;
             String replace = this.phoneField.getText() != null ? this.phoneField.getText().toString().replace(" ", "") : "";
             if (this.phoneFormatMap.get(str) != null && !this.phoneFormatMap.get(str).isEmpty()) {
                 List<String> list = this.phoneFormatMap.get(str);
-                int i2 = 0;
                 if (!replace.isEmpty()) {
                     i = 0;
                     while (i < list.size()) {
@@ -2992,22 +2985,25 @@ public class LoginActivity extends BaseFragment {
                 }
                 i = -1;
                 if (i == -1) {
-                    for (int i3 = 0; i3 < list.size(); i3++) {
-                        String str2 = list.get(i3);
+                    for (int i2 = 0; i2 < list.size(); i2++) {
+                        String str2 = list.get(i2);
                         if (str2.startsWith("X") || str2.startsWith("0")) {
-                            i = i3;
+                            i = i2;
                             break;
                         }
                     }
+                    if (i == -1) {
+                        i = 0;
+                    }
                 }
-                i2 = i;
-                if (this.wasCountryHintIndex != i2) {
-                    String str3 = this.phoneFormatMap.get(str).get(i2);
+                if (this.wasCountryHintIndex != i) {
+                    String str3 = this.phoneFormatMap.get(str).get(i);
                     int selectionStart = this.phoneField.getSelectionStart();
                     int selectionEnd = this.phoneField.getSelectionEnd();
                     this.phoneField.setHintText(str3 != null ? str3.replace('X', '0') : null);
-                    this.phoneField.setSelection(selectionStart, selectionEnd);
-                    this.wasCountryHintIndex = i2;
+                    AnimatedPhoneNumberEditText animatedPhoneNumberEditText = this.phoneField;
+                    animatedPhoneNumberEditText.setSelection(Math.max(0, Math.min(animatedPhoneNumberEditText.length(), selectionStart)), Math.max(0, Math.min(this.phoneField.length(), selectionEnd)));
+                    this.wasCountryHintIndex = i;
                 }
             } else if (this.wasCountryHintIndex != -1) {
                 int selectionStart2 = this.phoneField.getSelectionStart();
@@ -6115,6 +6111,9 @@ public class LoginActivity extends BaseFragment {
             LoginActivity.this.needHideProgress(false);
             if (tLRPC$TL_error == null) {
                 final TLRPC$TL_auth_passwordRecovery tLRPC$TL_auth_passwordRecovery = (TLRPC$TL_auth_passwordRecovery) tLObject;
+                if (LoginActivity.this.getParentActivity() == null) {
+                    return;
+                }
                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this.getParentActivity());
                 String str = tLRPC$TL_auth_passwordRecovery.email_pattern;
                 SpannableStringBuilder valueOf = SpannableStringBuilder.valueOf(str);

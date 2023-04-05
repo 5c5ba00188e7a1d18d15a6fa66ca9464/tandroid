@@ -37,7 +37,7 @@ import org.telegram.ui.Cells.JoinSheetUserCell;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class JoinGroupAlert extends BottomSheet {
     private TLRPC$ChatInvite chatInvite;
     private TLRPC$Chat currentChat;
@@ -416,6 +416,13 @@ public class JoinGroupAlert extends BottomSheet {
 
     public static void showBulletin(Context context, BaseFragment baseFragment, boolean z) {
         String string;
+        if (context == null) {
+            if (baseFragment != null) {
+                baseFragment.getContext();
+                return;
+            }
+            return;
+        }
         Bulletin.TwoLineLottieLayout twoLineLottieLayout = new Bulletin.TwoLineLottieLayout(context, baseFragment.getResourceProvider());
         twoLineLottieLayout.imageView.setAnimation(R.raw.timer_3, 28, 28);
         twoLineLottieLayout.titleTextView.setText(LocaleController.getString("RequestToJoinSent", R.string.RequestToJoinSent));
@@ -428,7 +435,7 @@ public class JoinGroupAlert extends BottomSheet {
         Bulletin.make(baseFragment, twoLineLottieLayout, 2750).show();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class UsersAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
 

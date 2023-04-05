@@ -16,7 +16,7 @@ import android.view.animation.OvershootInterpolator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CounterView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class CounterView extends View {
     public CounterDrawable counterDrawable;
     private final Theme.ResourcesProvider resourcesProvider;
@@ -58,7 +58,7 @@ public class CounterView extends View {
         this.counterDrawable.setCount(i, z);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class CounterDrawable {
         public boolean addServiceGradient;
         private int circleColor;

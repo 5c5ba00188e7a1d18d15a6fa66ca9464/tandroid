@@ -153,7 +153,7 @@ import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.TopicsFragment;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SharedMediaLayout extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private ActionBar actionBar;
     private AnimatorSet actionModeAnimation;
@@ -259,7 +259,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     private static final int[] supportedFastScrollTypes = {0, 1, 2, 4};
     private static final Interpolator interpolator = SharedMediaLayout$$ExternalSyntheticLambda5.INSTANCE;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface Delegate {
         boolean canSearchMembers();
 
@@ -276,7 +276,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         void updateSelectedMediaTabText();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface SharedMediaPreloaderDelegate {
         void mediaCountUpdated();
     }
@@ -535,7 +535,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class MediaPage extends FrameLayout {
         private ClippingImageView animatingImageView;
         private GridLayoutManager animationSupportingLayoutManager;
@@ -630,7 +630,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         hideFloatingDateView(true);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class SharedMediaPreloader implements NotificationCenter.NotificationCenterDelegate {
         private long dialogId;
         private boolean mediaWasLoaded;
@@ -1074,7 +1074,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class SharedMediaData {
         private int endLoadingStubs;
         public boolean fastScrollDataLoaded;
@@ -1223,7 +1223,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class Period {
         int date;
         public String formatedDate;
@@ -2406,7 +2406,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 5 implements View.OnClickListener {
         final /* synthetic */ Context val$context;
 
@@ -4721,7 +4721,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 27 implements ViewTreeObserver.OnPreDrawListener {
         final /* synthetic */ SparseBooleanArray val$addedMesages;
         final /* synthetic */ RecyclerListView val$finalListView;
@@ -5545,7 +5545,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 30 implements SharedLinkCell.SharedLinkCellDelegate {
         30() {
         }
@@ -5593,7 +5593,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SharedLinksAdapter extends RecyclerListView.SectionsAdapter {
         private Context mContext;
 
@@ -5726,7 +5726,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SharedDocumentsAdapter extends RecyclerListView.FastScrollAdapter {
         private int currentType;
         private boolean inFastScrollMode;
@@ -5968,7 +5968,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class EmptyStubView extends LinearLayout {
         final ImageView emptyImageView;
         final TextView emptyTextView;
@@ -6015,7 +6015,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SharedPhotoVideoAdapter extends RecyclerListView.FastScrollAdapter {
         private boolean inFastScrollMode;
         private Context mContext;
@@ -6274,7 +6274,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class MediaSearchAdapter extends RecyclerListView.SelectionAdapter {
         private int currentType;
         private int lastReqId;
@@ -6634,7 +6634,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class GifAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
@@ -6710,7 +6710,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class CommonGroupsAdapter extends RecyclerListView.SelectionAdapter {
         private ArrayList<TLRPC$Chat> chats = new ArrayList<>();
         private boolean endReached;
@@ -6843,7 +6843,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ChatUsersAdapter extends RecyclerListView.SelectionAdapter {
         private TLRPC$ChatFull chatInfo;
         private Context mContext;
@@ -6926,7 +6926,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class GroupUsersSearchAdapter extends RecyclerListView.SelectionAdapter {
         private TLRPC$Chat currentChat;
         private Context mContext;
@@ -7411,7 +7411,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ScrollSlidingTextTabStripInner extends ScrollSlidingTextTabStrip {
         public int backgroundColor;
         protected Paint backgroundPaint;

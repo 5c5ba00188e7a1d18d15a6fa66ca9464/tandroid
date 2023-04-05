@@ -1,7 +1,7 @@
 package org.telegram.ui.Components;
 
 import java.util.Comparator;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class PasscodeView$$ExternalSyntheticLambda12 implements Comparator {
     public static final /* synthetic */ PasscodeView$$ExternalSyntheticLambda12 INSTANCE = new PasscodeView$$ExternalSyntheticLambda12();
 

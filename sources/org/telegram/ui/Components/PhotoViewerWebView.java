@@ -47,7 +47,7 @@ import org.telegram.tgnet.TLRPC$WebPage;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.PhotoViewerWebView;
 import org.telegram.ui.PhotoViewer;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PhotoViewerWebView extends FrameLayout {
     private float bufferedPosition;
     private int currentAccount;
@@ -95,7 +95,7 @@ public class PhotoViewerWebView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class YoutubeProxy {
         private YoutubeProxy() {
         }
@@ -341,7 +341,7 @@ public class PhotoViewerWebView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 2 extends WebViewClient {
         2() {
         }

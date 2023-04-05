@@ -6,7 +6,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChatActivityEnterTopView extends FrameLayout {
     private boolean editMode;
     private EditView editView;
@@ -47,7 +47,7 @@ public class ChatActivityEnterTopView extends FrameLayout {
         return this.editView;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class EditView extends LinearLayout {
         private EditViewButton[] buttons;
 
@@ -75,7 +75,7 @@ public class ChatActivityEnterTopView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static abstract class EditViewButton extends LinearLayout {
         private boolean editButton;
         private ImageView imageView;

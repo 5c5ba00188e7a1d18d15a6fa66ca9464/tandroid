@@ -26,7 +26,7 @@ import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.AnimatedColor;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.StaticLayoutEx;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class MessageTopicButton {
     private Context context;
     private boolean isGeneralTopic;

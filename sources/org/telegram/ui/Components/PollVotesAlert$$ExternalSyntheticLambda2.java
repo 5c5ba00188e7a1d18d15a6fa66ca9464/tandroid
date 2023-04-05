@@ -2,7 +2,7 @@ package org.telegram.ui.Components;
 
 import java.util.Comparator;
 import org.telegram.ui.Components.PollVotesAlert;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class PollVotesAlert$$ExternalSyntheticLambda2 implements Comparator {
     public static final /* synthetic */ PollVotesAlert$$ExternalSyntheticLambda2 INSTANCE = new PollVotesAlert$$ExternalSyntheticLambda2();
 

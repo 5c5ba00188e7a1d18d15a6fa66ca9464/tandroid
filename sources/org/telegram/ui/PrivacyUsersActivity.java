@@ -1,8 +1,8 @@
 package org.telegram.ui;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +15,7 @@ import java.util.Iterator;
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DialogObject;
+import org.telegram.messenger.GenericProvider;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
@@ -34,6 +35,7 @@ import org.telegram.ui.Cells.TextCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.EmptyTextProgressView;
+import org.telegram.ui.Components.ItemOptions;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.ContactsActivity;
@@ -143,7 +145,15 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
         frameLayout2.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
         RecyclerListView recyclerListView = new RecyclerListView(context);
         this.listView = recyclerListView;
-        recyclerListView.setEmptyView(this.emptyView);
+        recyclerListView.setItemSelectorColorProvider(new GenericProvider() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda3
+            @Override // org.telegram.messenger.GenericProvider
+            public final Object provide(Object obj) {
+                Integer lambda$createView$0;
+                lambda$createView$0 = PrivacyUsersActivity.this.lambda$createView$0((Integer) obj);
+                return lambda$createView$0;
+            }
+        });
+        this.listView.setEmptyView(this.emptyView);
         RecyclerListView recyclerListView2 = this.listView;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, false);
         this.layoutManager = linearLayoutManager;
@@ -155,18 +165,18 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
         recyclerListView3.setAdapter(listAdapter);
         this.listView.setVerticalScrollbarPosition(LocaleController.isRTL ? 1 : 2);
         frameLayout2.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda3
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i2) {
-                PrivacyUsersActivity.this.lambda$createView$2(view, i2);
+                PrivacyUsersActivity.this.lambda$createView$3(view, i2);
             }
         });
-        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda4
+        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda6
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
             public final boolean onItemClick(View view, int i2) {
-                boolean lambda$createView$3;
-                lambda$createView$3 = PrivacyUsersActivity.this.lambda$createView$3(view, i2);
-                return lambda$createView$3;
+                boolean lambda$createView$4;
+                lambda$createView$4 = PrivacyUsersActivity.this.lambda$createView$4(view, i2);
+                return lambda$createView$4;
             }
         });
         if (this.currentType == 1) {
@@ -195,12 +205,20 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$2(View view, int i) {
+    public /* synthetic */ Integer lambda$createView$0(Integer num) {
+        if (num.intValue() == this.deleteAllRow) {
+            return Integer.valueOf(Theme.multAlpha(Theme.getColor("text_RedRegular"), 0.12f));
+        }
+        return null;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$3(View view, int i) {
         if (i == this.deleteAllRow) {
-            AlertDialog create = AlertsCreator.createSimpleAlert(getContext(), LocaleController.getString(R.string.NotificationsDeleteAllExceptionTitle), LocaleController.getString(R.string.NotificationsDeleteAllExceptionAlert), LocaleController.getString(R.string.Delete), new Runnable() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda1
+            AlertDialog create = AlertsCreator.createSimpleAlert(getContext(), LocaleController.getString(R.string.NotificationsDeleteAllExceptionTitle), LocaleController.getString(R.string.NotificationsDeleteAllExceptionAlert), LocaleController.getString(R.string.Delete), new Runnable() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PrivacyUsersActivity.this.lambda$createView$0();
+                    PrivacyUsersActivity.this.lambda$createView$1();
                 }
             }, null).create();
             create.show();
@@ -218,10 +236,10 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
                 bundle.putInt("chatAddType", 2);
             }
             GroupCreateActivity groupCreateActivity = new GroupCreateActivity(bundle);
-            groupCreateActivity.setDelegate(new GroupCreateActivity.GroupCreateActivityDelegate() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda5
+            groupCreateActivity.setDelegate(new GroupCreateActivity.GroupCreateActivityDelegate() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda7
                 @Override // org.telegram.ui.GroupCreateActivity.GroupCreateActivityDelegate
                 public final void didSelectUsers(ArrayList arrayList) {
-                    PrivacyUsersActivity.this.lambda$createView$1(arrayList);
+                    PrivacyUsersActivity.this.lambda$createView$2(arrayList);
                 }
             });
             presentFragment(groupCreateActivity);
@@ -245,7 +263,7 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$0() {
+    public /* synthetic */ void lambda$createView$1() {
         this.uidArray.clear();
         updateRows();
         finishFragment();
@@ -256,7 +274,7 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$1(ArrayList arrayList) {
+    public /* synthetic */ void lambda$createView$2(ArrayList arrayList) {
         Iterator it = arrayList.iterator();
         while (it.hasNext()) {
             Long l = (Long) it.next();
@@ -272,15 +290,15 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$createView$3(View view, int i) {
+    public /* synthetic */ boolean lambda$createView$4(View view, int i) {
         int i2 = this.usersStartRow;
         if (i < i2 || i >= this.usersEndRow) {
             return false;
         }
         if (this.currentType == 1) {
-            showUnblockAlert(Long.valueOf(getMessagesController().blockePeers.keyAt(i - this.usersStartRow)));
+            showUnblockAlert(Long.valueOf(getMessagesController().blockePeers.keyAt(i - this.usersStartRow)), view);
         } else {
-            showUnblockAlert(this.uidArray.get(i - i2));
+            showUnblockAlert(this.uidArray.get(i - i2), view);
         }
         return true;
     }
@@ -290,36 +308,40 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public void showUnblockAlert(final Long l) {
+    public void showUnblockAlert(final Long l, View view) {
         if (getParentActivity() == null) {
             return;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setItems(this.currentType == 1 ? new CharSequence[]{LocaleController.getString("Unblock", R.string.Unblock)} : new CharSequence[]{LocaleController.getString("Delete", R.string.Delete)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda0
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                PrivacyUsersActivity.this.lambda$showUnblockAlert$4(l, dialogInterface, i);
+        ItemOptions addIf = ItemOptions.makeOptions(this, view).setScrimViewBackground(new ColorDrawable(Theme.getColor("windowBackgroundWhite"))).addIf(this.currentType == 1, 0, LocaleController.getString("Unblock", R.string.Unblock), new Runnable() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                PrivacyUsersActivity.this.lambda$showUnblockAlert$5(l);
             }
         });
-        showDialog(builder.create());
+        int i = this.currentType;
+        addIf.addIf(i != 1, i == 0 ? R.drawable.msg_user_remove : 0, LocaleController.getString("Remove", R.string.Remove), true, new Runnable() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                PrivacyUsersActivity.this.lambda$showUnblockAlert$6(l);
+            }
+        }).setMinWidth(190).show();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showUnblockAlert$4(Long l, DialogInterface dialogInterface, int i) {
-        if (i == 0) {
-            if (this.currentType == 1) {
-                getMessagesController().unblockPeer(l.longValue());
-                return;
-            }
-            this.uidArray.remove(l);
-            updateRows();
-            PrivacyActivityDelegate privacyActivityDelegate = this.delegate;
-            if (privacyActivityDelegate != null) {
-                privacyActivityDelegate.didUpdateUserList(this.uidArray, false);
-            }
-            if (this.uidArray.isEmpty()) {
-                finishFragment();
-            }
+    public /* synthetic */ void lambda$showUnblockAlert$5(Long l) {
+        getMessagesController().unblockPeer(l.longValue());
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$showUnblockAlert$6(Long l) {
+        this.uidArray.remove(l);
+        updateRows();
+        PrivacyActivityDelegate privacyActivityDelegate = this.delegate;
+        if (privacyActivityDelegate != null) {
+            privacyActivityDelegate.didUpdateUserList(this.uidArray, false);
+        }
+        if (this.uidArray.isEmpty()) {
+            finishFragment();
         }
     }
 
@@ -445,7 +467,7 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ boolean lambda$onCreateViewHolder$0(ManageChatUserCell manageChatUserCell, boolean z) {
             if (z) {
-                PrivacyUsersActivity.this.showUnblockAlert((Long) manageChatUserCell.getTag());
+                PrivacyUsersActivity.this.showUnblockAlert((Long) manageChatUserCell.getTag(), manageChatUserCell);
                 return true;
             }
             return true;
@@ -605,10 +627,10 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda2
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda4
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
-                PrivacyUsersActivity.this.lambda$getThemeDescriptions$5();
+                PrivacyUsersActivity.this.lambda$getThemeDescriptions$7();
             }
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
@@ -647,7 +669,7 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getThemeDescriptions$5() {
+    public /* synthetic */ void lambda$getThemeDescriptions$7() {
         RecyclerListView recyclerListView = this.listView;
         if (recyclerListView != null) {
             int childCount = recyclerListView.getChildCount();

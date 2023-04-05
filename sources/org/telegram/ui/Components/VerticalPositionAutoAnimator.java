@@ -4,7 +4,7 @@ import android.view.View;
 import androidx.dynamicanimation.animation.DynamicAnimation;
 import androidx.dynamicanimation.animation.SpringAnimation;
 import org.telegram.messenger.AndroidUtilities;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final class VerticalPositionAutoAnimator {
     private final AnimatorLayoutChangeListener animatorLayoutChangeListener;
     private SpringAnimation floatingButtonAnimator;
@@ -47,7 +47,7 @@ public final class VerticalPositionAutoAnimator {
         this.animatorLayoutChangeListener.ignoreNextLayout = true;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class AnimatorLayoutChangeListener implements View.OnLayoutChangeListener {
         private boolean ignoreNextLayout;
         private Boolean orientation;

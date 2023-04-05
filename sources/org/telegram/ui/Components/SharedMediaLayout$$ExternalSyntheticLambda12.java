@@ -2,7 +2,7 @@ package org.telegram.ui.Components;
 
 import java.util.Comparator;
 import org.telegram.ui.Components.SharedMediaLayout;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class SharedMediaLayout$$ExternalSyntheticLambda12 implements Comparator {
     public static final /* synthetic */ SharedMediaLayout$$ExternalSyntheticLambda12 INSTANCE = new SharedMediaLayout$$ExternalSyntheticLambda12();
 

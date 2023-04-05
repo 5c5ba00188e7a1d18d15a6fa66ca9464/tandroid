@@ -25,7 +25,7 @@ import org.telegram.tgnet.TLRPC$InputStickerSet;
 import org.telegram.tgnet.TLRPC$StickerSet;
 import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class MessageContainsEmojiButton extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     public boolean checkWidth;
     private int currentAccount;
@@ -54,7 +54,7 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
     private StaticLayout secondPartTextLayout;
     private TextPaint textPaint;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class BoldAndAccent extends CharacterStyle {
         private BoldAndAccent() {
         }

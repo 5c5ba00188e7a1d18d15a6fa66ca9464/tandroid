@@ -3,7 +3,7 @@ package org.telegram.ui.Components.Paint;
 import android.view.KeyEvent;
 import android.widget.TextView;
 import org.telegram.ui.Components.Paint.ColorPickerBottomSheet;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class ColorPickerBottomSheet$SliderCell$$ExternalSyntheticLambda1 implements TextView.OnEditorActionListener {
     public static final /* synthetic */ ColorPickerBottomSheet$SliderCell$$ExternalSyntheticLambda1 INSTANCE = new ColorPickerBottomSheet$SliderCell$$ExternalSyntheticLambda1();
 

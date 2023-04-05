@@ -19,7 +19,7 @@ import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.RLottieDrawable;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class AnimatedEmojiEffect {
     public AnimatedEmojiDrawable animatedEmojiDrawable;
     int currentAccount;
@@ -154,7 +154,7 @@ public class AnimatedEmojiEffect {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class Particle {
         long duration;
         float fromSize;

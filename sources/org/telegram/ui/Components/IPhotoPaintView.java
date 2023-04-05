@@ -10,7 +10,7 @@ import org.telegram.messenger.VideoEditedInfo;
 import org.telegram.tgnet.TLRPC$InputDocument;
 import org.telegram.ui.Components.Paint.RenderView;
 import org.telegram.ui.PhotoViewer;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public interface IPhotoPaintView {
     float adjustPanLayoutHelperProgress();
 
@@ -60,7 +60,7 @@ public interface IPhotoPaintView {
 
     void updateZoom(boolean z);
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public final /* synthetic */ class -CC {
         public static View $default$getView(IPhotoPaintView _this) {
             if (_this instanceof View) {

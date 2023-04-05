@@ -31,7 +31,7 @@ import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Components.SlideChooseView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ClearHistoryAlert extends BottomSheet {
     private boolean autoDeleteOnly;
     private CheckBoxCell cell;
@@ -45,10 +45,10 @@ public class ClearHistoryAlert extends BottomSheet {
     private BottomSheetCell setTimerButton;
     private Drawable shadowDrawable;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ClearHistoryAlertDelegate {
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static void $default$onClearHistory(ClearHistoryAlertDelegate clearHistoryAlertDelegate, boolean z) {
             }
@@ -64,7 +64,7 @@ public class ClearHistoryAlert extends BottomSheet {
         return false;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class BottomSheetCell extends FrameLayout {
         private View background;
         private final Theme.ResourcesProvider resourcesProvider;

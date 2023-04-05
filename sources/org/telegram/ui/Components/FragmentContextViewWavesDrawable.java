@@ -18,7 +18,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.TLRPC$TL_groupCallParticipant;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class FragmentContextViewWavesDrawable {
     private float amplitude;
     private float amplitude2;
@@ -272,7 +272,7 @@ public class FragmentContextViewWavesDrawable {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class WeavingState {
         int color1;
         int color2;

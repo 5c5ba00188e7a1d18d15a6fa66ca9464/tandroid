@@ -37,7 +37,7 @@ import org.telegram.messenger.utils.CopyUtilities;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.TextStyleSpan;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class EditTextCaption extends EditTextBoldCursor {
     private boolean allowTextEntitiesIntersection;
     private String caption;
@@ -55,7 +55,7 @@ public class EditTextCaption extends EditTextBoldCursor {
     private int xOffset;
     private int yOffset;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface EditTextCaptionDelegate {
         void onSpansChanged();
     }

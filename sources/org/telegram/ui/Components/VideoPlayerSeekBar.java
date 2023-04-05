@@ -24,7 +24,7 @@ import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.Utilities;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class VideoPlayerSeekBar {
     private static Paint paint;
     private static Paint strokePaint;
@@ -76,7 +76,7 @@ public class VideoPlayerSeekBar {
     private float timestampChangeT = 1.0f;
     private float lastWidth = -1.0f;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface SeekBarDelegate {
         void onSeekBarContinuousDrag(float f);
 

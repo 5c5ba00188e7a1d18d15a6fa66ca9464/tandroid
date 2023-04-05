@@ -19,7 +19,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class PremiumGradient {
     private static PremiumGradient instance;
     private int lastStarColor;
@@ -101,7 +101,7 @@ public class PremiumGradient {
         return this.lockedPremiumPaint;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class InternalDrawable extends BitmapDrawable {
         public int[] colors;
         Drawable originDrawable;
@@ -134,7 +134,7 @@ public class PremiumGradient {
         return this.mainGradientPaint;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class PremiumGradientTools {
         final String colorKey1;
         final String colorKey2;

@@ -1,5 +1,5 @@
 package org.telegram.ui.Components.Crop;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class CropTransform {
     private float cropAreaX;
     private float cropAreaY;

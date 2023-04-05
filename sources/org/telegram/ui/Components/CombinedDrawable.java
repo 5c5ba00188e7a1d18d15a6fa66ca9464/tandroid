@@ -3,7 +3,7 @@ package org.telegram.ui.Components;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class CombinedDrawable extends Drawable implements Drawable.Callback {
     private int backHeight;
     private int backWidth;

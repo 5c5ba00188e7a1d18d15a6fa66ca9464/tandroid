@@ -30,7 +30,7 @@ import org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.ReactionsContainerLayout;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class ChatSelectionReactionMenuOverlay extends FrameLayout {
     private float currentOffsetY;
     private MessageObject currentPrimaryObject;
@@ -124,7 +124,7 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class 3 implements ReactionsContainerLayout.ReactionsContainerDelegate {
         3() {
         }

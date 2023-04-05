@@ -46,7 +46,7 @@ import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.ChatAttachAlertContactsLayout;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLayout implements NotificationCenter.NotificationCenterDelegate {
     private PhonebookShareAlertDelegate delegate;
     private EmptyTextProgressView emptyView;
@@ -60,12 +60,12 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
     private View shadow;
     private AnimatorSet shadowAnimation;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface PhonebookShareAlertDelegate {
         void didSelectContact(TLRPC$User tLRPC$User, boolean z, int i);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class UserCell extends FrameLayout {
         private AvatarDrawable avatarDrawable;
         private BackupImageView avatarImageView;
@@ -83,7 +83,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         private final Theme.ResourcesProvider resourcesProvider;
         private SimpleTextView statusTextView;
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public interface CharSequenceCallback {
             CharSequence run();
         }
@@ -679,7 +679,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         updateEmptyViewPosition();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ShareAdapter extends RecyclerListView.SectionsAdapter {
         private int currentAccount = UserConfig.selectedAccount;
         private Context mContext;
@@ -829,7 +829,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ShareSearchAdapter extends RecyclerListView.SelectionAdapter {
         private int lastSearchId;
         private Context mContext;

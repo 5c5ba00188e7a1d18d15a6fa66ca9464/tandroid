@@ -42,7 +42,7 @@ import org.telegram.ui.Components.EditTextEmoji;
 import org.telegram.ui.Components.EmojiView;
 import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class EditTextEmoji extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate {
     AdjustPanLayoutHelper adjustPanLayoutHelper;
     private boolean allowAnimatedEmoji;
@@ -70,7 +70,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
     private SizeNotifierFrameLayout sizeNotifierLayout;
     private boolean waitingForKeyboardOpen;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface EditTextEmojiDelegate {
         void onWindowSizeChanged(int i);
     }
@@ -549,7 +549,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 5 implements EmojiView.EmojiViewDelegate {
         @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
         public /* synthetic */ boolean canSchedule() {

@@ -104,7 +104,7 @@ import org.telegram.ui.Components.voip.CellFlickerDrawable;
 import org.webrtc.EglBase;
 import org.webrtc.MediaStreamTrack;
 @TargetApi(18)
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class InstantCameraView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private static final int[] ALLOW_BIG_CAMERA_WHITELIST = {285904780, -1394191079};
     private float animationTranslationY;
@@ -1229,7 +1229,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 11 extends TimerTask {
         11() {
         }
@@ -1303,7 +1303,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         this.isMessageTransition = z;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class CameraGLThread extends DispatchQueue {
         private Integer cameraId;
         private SurfaceTexture cameraSurface;
@@ -1684,7 +1684,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class EncoderHandler extends Handler {
         private WeakReference<VideoRecorder> mWeakEncoder;
 
@@ -1728,7 +1728,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class AudioBufferInfo {
         public boolean last;
         public int lastWroteBuffer;
@@ -1746,7 +1746,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class VideoRecorder implements Runnable {
         private int alphaHandle;
         private MediaCodec.BufferInfo audioBufferInfo;
@@ -1824,7 +1824,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class 1 implements Runnable {
             1() {
             }
@@ -2306,7 +2306,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class GenerateKeyframeThumbTask implements Runnable {
             private GenerateKeyframeThumbTask() {
             }
@@ -2898,7 +2898,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         return (!allowBigSizeCamera() || ((float) Math.max(size.getHeight(), size.getWidth())) * 0.7f < ((float) MessagesController.getInstance(this.currentAccount).roundVideoSize)) ? "#extension GL_OES_EGL_image_external : require\nprecision highp float;\nvarying vec2 vTextureCoord;\nuniform float alpha;\nuniform vec2 preview;\nuniform vec2 resolution;\nuniform samplerExternalOES sTexture;\nvoid main() {\n   vec4 textColor = texture2D(sTexture, vTextureCoord);\n   vec2 coord = resolution * 0.5;\n   float radius = 0.51 * resolution.x;\n   float d = length(coord - gl_FragCoord.xy) - radius;\n   float t = clamp(d, 0.0, 1.0);\n   vec3 color = mix(textColor.rgb, vec3(1, 1, 1), t);\n   gl_FragColor = vec4(color * alpha, alpha);\n}\n" : "#extension GL_OES_EGL_image_external : require\nprecision highp float;\nvarying vec2 vTextureCoord;\nuniform vec2 resolution;\nuniform vec2 preview;\nuniform float alpha;\nuniform samplerExternalOES sTexture;\nvoid main() {\n   vec2 coord = resolution * 0.5;\n   float radius = 0.51 * resolution.x;\n   float d = length(coord - gl_FragCoord.xy) - radius;\n   float t = clamp(d, 0.0, 1.0);\n   if (t == 0.0) {\n       float pixelSizeX = 1.0 / preview.x;\n       float pixelSizeY = 1.0 / preview.y;\n       vec3 accumulation = vec3(0);\n       for (float x = 0.0; x < 2.0; x++){\n           for (float y = 0.0; y < 2.0; y++){\n               accumulation += texture2D(sTexture, vTextureCoord + vec2(x * pixelSizeX, y * pixelSizeY)).xyz;\n           }\n       }\n       vec4 textColor = vec4(accumulation / vec3(4, 4, 4), 1);\n       gl_FragColor = textColor * alpha;\n   } else {\n       gl_FragColor = vec4(1, 1, 1, alpha);\n   }\n}\n";
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class InstantViewCameraContainer extends FrameLayout {
         float imageProgress;
         ImageReceiver imageReceiver;

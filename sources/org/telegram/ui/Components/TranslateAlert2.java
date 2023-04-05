@@ -65,7 +65,7 @@ import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.TranslateAlert2;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class TranslateAlert2 extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     private static HashMap<String, Locale> localesByCode;
     private PaddedAdapter adapter;
@@ -520,7 +520,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class LoadingTextView extends TextView {
         private final LoadingDrawable loadingDrawable;
         private final LinkPath path;
@@ -576,7 +576,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class PaddedAdapter extends RecyclerView.Adapter {
         private Context mContext;
         private View mMainView;
@@ -652,7 +652,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class HeaderView extends FrameLayout {
         private ImageView arrowView;
         private ImageView backButton;
@@ -923,7 +923,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class ContainerView extends FrameLayout {
         private Paint bgPaint;
         private Path bgPath;

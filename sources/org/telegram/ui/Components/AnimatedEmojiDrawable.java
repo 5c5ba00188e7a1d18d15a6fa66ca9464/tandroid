@@ -52,7 +52,7 @@ import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.Premium.PremiumLockIconView;
 import org.telegram.ui.SelectAnimatedEmojiDialog;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class AnimatedEmojiDrawable extends Drawable {
     private static boolean LOG_MEMORY_LEAK = false;
     public static int attachedCount;
@@ -76,7 +76,7 @@ public class AnimatedEmojiDrawable extends Drawable {
     private Boolean canOverrideColorCached = null;
     private Boolean isDefaultStatusEmojiCached = null;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ReceivedDocument {
         void run(TLRPC$Document tLRPC$Document);
     }
@@ -177,7 +177,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         return emojiDocumentFetcher;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class EmojiDocumentFetcher {
         private final int currentAccount;
         private HashMap<Long, TLRPC$Document> emojiDocumentsCache;
@@ -937,7 +937,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         return num.intValue();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class WrapSizeDrawable extends Drawable {
         private int alpha = 255;
         private Drawable drawable;
@@ -1001,7 +1001,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class SwapAnimatedEmojiDrawable extends Drawable implements AnimatedEmojiSpan.InvalidateHolder {
         private int alpha;
         boolean attached;

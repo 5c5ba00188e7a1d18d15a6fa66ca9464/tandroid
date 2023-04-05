@@ -11,7 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import androidx.core.view.ViewCompat;
 import java.util.ArrayList;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class FadingTextViewLayout extends FrameLayout {
     private final ValueAnimator animator;
     private TextView currentView;

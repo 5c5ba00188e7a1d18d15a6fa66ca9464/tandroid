@@ -58,7 +58,7 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.PaymentFormActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class UndoView extends FrameLayout {
     public static int ACTION_RINGTONE_ADDED = 83;
     private float additionalTranslationY;
@@ -118,7 +118,7 @@ public class UndoView extends FrameLayout {
     protected void onRemoveDialogAction(long j, int i) {
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class LinkMovementMethodMy extends LinkMovementMethod {
         public LinkMovementMethodMy() {
         }

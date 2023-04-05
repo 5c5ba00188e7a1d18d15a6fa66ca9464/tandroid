@@ -2,7 +2,7 @@ package org.telegram.ui.Components;
 
 import android.text.TextPaint;
 import org.telegram.messenger.AndroidUtilities;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class URLSpanNoUnderlineBold extends URLSpanNoUnderline {
     public URLSpanNoUnderlineBold(String str) {
         super(str != null ? str.replace((char) 8238, ' ') : str);

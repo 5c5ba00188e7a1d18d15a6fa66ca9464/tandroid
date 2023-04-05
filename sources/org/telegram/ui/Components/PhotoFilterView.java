@@ -39,7 +39,7 @@ import org.telegram.ui.Components.PhotoFilterView;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.VideoEditTextureView;
 @SuppressLint({"NewApi"})
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PhotoFilterView extends FrameLayout implements FilterShaders.FilterShadersDelegate {
     private Bitmap bitmapToEdit;
     private float blurAngle;
@@ -104,7 +104,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
     private int warmthTool;
     private float warmthValue;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class CurvesValue {
         public float[] cachedDataPoints;
         public float blacksLevel = 0.0f;
@@ -193,7 +193,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class CurvesToolValue {
         public int activeType;
         public ByteBuffer curveBuffer;
@@ -557,7 +557,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 1 implements TextureView.SurfaceTextureListener {
         @Override // android.view.TextureView.SurfaceTextureListener
         public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
@@ -1117,7 +1117,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         return color != null ? color.intValue() : Theme.getColor(str);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ToolsAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 

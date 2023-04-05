@@ -213,7 +213,7 @@ import org.telegram.ui.PremiumPreviewFragment;
 import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.StickersActivity;
 import org.telegram.ui.TopicsFragment;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChatActivityEnterView extends BlurredFrameLayout implements NotificationCenter.NotificationCenterDelegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate, StickersAlert.StickersAlertDelegate {
     private AccountInstance accountInstance;
     private AdjustPanLayoutHelper adjustPanLayoutHelper;
@@ -435,17 +435,17 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     private PowerManager.WakeLock wakeLock;
     private boolean wasSendTyping;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public enum BotMenuButtonType {
         NO_BUTTON,
         COMMANDS,
         WEB_VIEW
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ChatActivityEnterViewDelegate {
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static void $default$bottomPanelTranslationYChanged(ChatActivityEnterViewDelegate chatActivityEnterViewDelegate, float f) {
             }
@@ -580,7 +580,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         return true;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SeekBarWaveformView extends View {
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public SeekBarWaveformView(Context context) {
@@ -657,7 +657,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class RecordDot extends View {
         private float alpha;
         boolean attachedToWindow;
@@ -771,7 +771,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class RecordCircle extends View {
         private float amplitude;
         private float animateAmplitudeDiff;
@@ -1881,7 +1881,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class VirtualViewHelper extends ExploreByTouchHelper {
             private int[] coords;
 
@@ -2707,7 +2707,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 14 extends FrameLayout {
         final /* synthetic */ Theme.ResourcesProvider val$resourcesProvider;
 
@@ -3621,7 +3621,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }), new SpringAnimation(simpleAvatarView, viewProperty).setSpring(new SpringForce(dp3).setStiffness(1000.0f).setDampingRatio(1.0f)), new SpringAnimation(simpleAvatarView, viewProperty2).setSpring(new SpringForce(dp3).setStiffness(1000.0f).setDampingRatio(1.0f)));
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 21 implements ViewTreeObserver.OnDrawListener {
         final /* synthetic */ SimpleAvatarView val$avatar;
         final /* synthetic */ SenderSelectPopup.SenderView val$senderView;
@@ -4155,7 +4155,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         updateBotCommandsMenuContainerTopPadding();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 28 implements RecyclerListView.OnItemClickListener {
         28() {
             ChatActivityEnterView.this = r1;
@@ -4253,7 +4253,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ChatActivityEditTextCaption extends EditTextCaption {
         CanvasButton canvasButton;
 
@@ -4737,7 +4737,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 33 implements TextWatcher {
         boolean heightShouldBeChanged;
         private boolean ignorePrevTextChange;
@@ -9650,7 +9650,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         checkChannelRights();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 58 implements EmojiView.EmojiViewDelegate {
         58() {
             ChatActivityEnterView.this = r1;
@@ -11282,7 +11282,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         return this.animatedTop;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ScrimDrawable extends Drawable {
         private Paint paint;
 
@@ -11319,7 +11319,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SlideTextView extends View {
         Paint arrowPaint;
         Path arrowPath;
@@ -11574,7 +11574,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TimerView extends View {
         StaticLayout inLayout;
         boolean isRunning;

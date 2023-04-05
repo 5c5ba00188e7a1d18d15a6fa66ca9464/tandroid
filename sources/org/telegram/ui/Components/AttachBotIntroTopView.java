@@ -18,7 +18,7 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC$TL_attachMenuBot;
 import org.telegram.tgnet.TLRPC$TL_attachMenuBotIcon;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class AttachBotIntroTopView extends View {
     private Drawable attachDrawable;
     private Paint backgroundPaint;

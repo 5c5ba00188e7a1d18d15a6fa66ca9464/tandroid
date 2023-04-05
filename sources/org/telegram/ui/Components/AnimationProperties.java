@@ -7,7 +7,7 @@ import android.util.Property;
 import android.view.animation.OvershootInterpolator;
 import org.telegram.ui.Cells.DialogCell;
 import org.telegram.ui.PhotoViewer;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class AnimationProperties {
     public static final Property<ClippingImageView, Float> CLIPPING_IMAGE_VIEW_PROGRESS;
     public static final Property<DialogCell, Float> CLIP_DIALOG_CELL_PROGRESS;
@@ -96,7 +96,7 @@ public class AnimationProperties {
         };
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static abstract class FloatProperty<T> extends Property<T, Float> {
         public abstract void setValue(T t, float f);
 
@@ -115,7 +115,7 @@ public class AnimationProperties {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static abstract class IntProperty<T> extends Property<T, Integer> {
         public abstract void setValue(T t, int i);
 

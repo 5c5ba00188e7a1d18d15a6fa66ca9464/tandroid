@@ -203,12 +203,4 @@ public abstract /* synthetic */ class a {
             listIterator.set(obj);
         }
     }
-
-    public static Comparator w(Comparator comparator, Comparator comparator2) {
-        if (comparator instanceof e) {
-            return ((f) ((e) comparator)).thenComparing(comparator2);
-        }
-        Objects.requireNonNull(comparator2);
-        return new c(comparator, comparator2);
-    }
 }

@@ -48,7 +48,7 @@ import org.telegram.ui.Components.Paint.ColorPickerBottomSheet;
 import org.telegram.ui.Components.Paint.Views.PaintColorsListView;
 import org.telegram.ui.Components.Paint.Views.PipettePickerView;
 import org.telegram.ui.Components.ViewPagerFixed;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class ColorPickerBottomSheet extends BottomSheet {
     private AlphaPickerView alphaPickerView;
     private Consumer<Integer> colorListener;
@@ -60,7 +60,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
     private PipetteDelegate pipetteDelegate;
     private ImageView pipetteView;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public interface PipetteDelegate {
         ViewGroup getContainerView();
 
@@ -242,7 +242,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public final class ColorPickerView extends LinearLayout {
         private GradientPickerView gradientPickerView;
         private GridPickerView gridPickerView;
@@ -309,7 +309,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public final class GridPickerView extends View {
         private Map<Long, Integer> colorMap;
         private final int[] colors;
@@ -485,7 +485,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public final class GradientPickerView extends View {
         private Paint gradientPaint;
         private float[] hsv;
@@ -593,7 +593,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public final class SlidersPickerView extends LinearLayout {
         private SliderCell blue;
         private SliderCell green;
@@ -739,7 +739,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public final class SliderCell extends FrameLayout {
         private boolean isInvalidatingColor;
         private int mode;
@@ -857,7 +857,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public final class AlphaPickerView extends View {
         private float alpha;
         private Paint colorPaint;
@@ -943,7 +943,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public final class ColorSliderView extends View {
         private Paint colorPaint;
         private int filledColor;

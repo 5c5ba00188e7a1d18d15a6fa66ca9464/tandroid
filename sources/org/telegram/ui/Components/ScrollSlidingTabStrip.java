@@ -43,7 +43,7 @@ import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.ScrollSlidingTabStrip;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ScrollSlidingTabStrip extends HorizontalScrollView {
     public static float EXPANDED_WIDTH = 64.0f;
     boolean animateToExpanded;
@@ -98,12 +98,12 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
     private int underlineColor;
     private int underlineHeight;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ScrollSlidingTabStripDelegate {
         void onPageSelected(int i);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public enum Type {
         LINE,
         TAB
@@ -257,7 +257,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static /* synthetic */ class 7 {
         static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$Components$ScrollSlidingTabStrip$Type;
 
@@ -291,7 +291,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 3 extends Transition {
         @Override // android.transition.Transition
         public void captureEndValues(TransitionValues transitionValues) {

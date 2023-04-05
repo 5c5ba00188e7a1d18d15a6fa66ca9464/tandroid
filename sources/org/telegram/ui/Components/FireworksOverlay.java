@@ -18,7 +18,7 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class FireworksOverlay extends View {
     private static int[] colors;
     private static final int fallParticlesCount;
@@ -65,7 +65,7 @@ public class FireworksOverlay extends View {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Particle {
         byte colorType;
         byte finishedStart;

@@ -2,7 +2,7 @@ package org.telegram.ui.Components;
 
 import android.graphics.PointF;
 import android.view.animation.Interpolator;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class CubicBezierInterpolator implements Interpolator {
     protected PointF a;
     protected PointF b;

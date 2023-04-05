@@ -1,7 +1,7 @@
 package org.telegram.ui.Components;
 
 import android.view.animation.Interpolator;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class ViewPagerFixed$$ExternalSyntheticLambda2 implements Interpolator {
     public static final /* synthetic */ ViewPagerFixed$$ExternalSyntheticLambda2 INSTANCE = new ViewPagerFixed$$ExternalSyntheticLambda2();
 

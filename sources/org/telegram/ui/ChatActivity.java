@@ -16262,7 +16262,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             int[] iArr2 = this.minMessageId;
             i = i11;
             messagesController2.markDialogAsRead(j2, iArr2[0], iArr2[0], this.maxDate[0], false, i, 0, true, 0);
-            if (this.isTopic) {
+            if (this.isTopic && this.replyOriginalChat != null) {
                 getMessagesStorage().updateRepliesMaxReadId(this.replyOriginalChat.id, this.replyOriginalMessageId, Math.max(i31, this.replyMaxReadId), 0, true);
             }
             this.firstUnreadSent = true;
@@ -16270,7 +16270,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             i = i11;
             c = 0;
         }
-        if (i == 0 || i31 <= 0 || this.replyMaxReadId == i31) {
+        if (i == 0 || i31 <= 0 || this.replyMaxReadId == i31 || this.replyOriginalChat == null) {
             return;
         }
         this.replyMaxReadId = i31;
@@ -29611,7 +29611,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createMenu$202(int i, int i2, boolean z, ReactionsContainerLayout reactionsContainerLayout) {
         ActionBarPopupWindow actionBarPopupWindow = this.scrimPopupWindow;
-        if (actionBarPopupWindow == null || this.fragmentView == null || actionBarPopupWindow.isShowing()) {
+        if (actionBarPopupWindow == null || this.fragmentView == null || actionBarPopupWindow.isShowing() || !AndroidUtilities.isActivityRunning(getParentActivity())) {
             return;
         }
         this.scrimPopupWindow.showAtLocation(this.chatListView, 51, i, i2);

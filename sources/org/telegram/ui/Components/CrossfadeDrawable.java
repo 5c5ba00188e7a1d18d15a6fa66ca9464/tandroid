@@ -3,7 +3,7 @@ package org.telegram.ui.Components;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class CrossfadeDrawable extends Drawable {
     private final Drawable bottomDrawable;
     float globalAlpha = 255.0f;

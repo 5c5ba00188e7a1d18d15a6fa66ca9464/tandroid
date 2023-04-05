@@ -11,7 +11,7 @@ import android.view.View;
 import androidx.annotation.Keep;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class CheckBoxSquare extends View {
     private boolean attachedToWindow;
     private ObjectAnimator checkAnimator;

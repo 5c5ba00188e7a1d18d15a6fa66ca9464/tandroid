@@ -2,7 +2,7 @@ package org.telegram.ui.Components;
 
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.ChatActivityEnterView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class ChatActivityEnterView$14$$ExternalSyntheticLambda4 implements AlertsCreator.ScheduleDatePickerDelegate {
     public static final /* synthetic */ ChatActivityEnterView$14$$ExternalSyntheticLambda4 INSTANCE = new ChatActivityEnterView$14$$ExternalSyntheticLambda4();
 

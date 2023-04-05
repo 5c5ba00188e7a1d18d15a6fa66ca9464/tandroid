@@ -616,9 +616,9 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         return "image".equals(attributeValue) ? 4 : -1;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:49:0x00ba  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x00c1  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x011f  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x00b9  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x00c0  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x011e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

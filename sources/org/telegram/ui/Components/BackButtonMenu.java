@@ -34,10 +34,10 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.TopicsFragment;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class BackButtonMenu {
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class PulledDialog<T> {
         Class<T> activity;
         TLRPC$Chat chat;

@@ -16,7 +16,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.AutoDeletePopupWrapper;
 import org.telegram.ui.Components.LinkSpanDrawable;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class AutoDeletePopupWrapper {
     View backItem;
     Callback callback;
@@ -25,10 +25,10 @@ public class AutoDeletePopupWrapper {
     TextView textView;
     public ActionBarPopupWindow.ActionBarPopupWindowLayout windowLayout;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface Callback {
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static void $default$showGlobalAutoDeleteScreen(Callback callback) {
             }

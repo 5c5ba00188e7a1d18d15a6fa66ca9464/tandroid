@@ -12,7 +12,7 @@ import android.graphics.drawable.Drawable;
 import androidx.core.content.ContextCompat;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class CrossOutDrawable extends Drawable {
     int color;
     String colorKey;

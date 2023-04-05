@@ -2,7 +2,7 @@ package org.telegram.ui.Components;
 
 import android.view.View;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class AudioPlayerAlert$$ExternalSyntheticLambda13 implements RecyclerListView.OnItemClickListener {
     public static final /* synthetic */ AudioPlayerAlert$$ExternalSyntheticLambda13 INSTANCE = new AudioPlayerAlert$$ExternalSyntheticLambda13();
 

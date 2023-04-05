@@ -194,35 +194,35 @@ import org.telegram.ui.NotificationsSettingsActivity;
 import org.telegram.ui.ProfileNotificationsActivity;
 import org.telegram.ui.ThemePreviewActivity;
 import org.telegram.ui.TooManyCommunitiesActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class AlertsCreator {
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface AccountSelectDelegate {
         void didSelectAccount(int i);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface BlockDialogCallback {
         void run(boolean z, boolean z2);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface DatePickerDelegate {
         void didSelectDate(int i, int i2, int i3);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ScheduleDatePickerDelegate {
         void didSelectDate(boolean z, int i);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface SoundFrequencyDelegate {
         void didSelectValues(int i, int i2);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface StatusUntilDatePickerDelegate {
         void didSelectDate(int i);
     }
@@ -3247,7 +3247,7 @@ public class AlertsCreator {
         return timeInMillis - currentTimeMillis > 60000;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ScheduleDatePickerColors {
         public final int backgroundColor;
         public final int buttonBackgroundColor;

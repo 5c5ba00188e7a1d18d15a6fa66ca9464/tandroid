@@ -4,7 +4,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class RecyclerViewItemRangeSelector implements RecyclerView.OnItemTouchListener {
     private int autoScrollVelocity;
     private RecyclerViewItemRangeSelectorDelegate delegate;
@@ -37,7 +37,7 @@ public class RecyclerViewItemRangeSelector implements RecyclerView.OnItemTouchLi
         }
     };
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface RecyclerViewItemRangeSelectorDelegate {
         boolean isIndexSelectable(int i);
 

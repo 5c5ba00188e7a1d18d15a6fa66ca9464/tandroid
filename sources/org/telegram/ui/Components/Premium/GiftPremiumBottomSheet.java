@@ -60,7 +60,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
 import org.telegram.ui.ProfileActivity;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
     private int buttonRow;
     private PremiumGiftTierCell dummyCell;
@@ -434,7 +434,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class 1 extends RecyclerListView.SelectionAdapter {
         1() {
         }
@@ -569,7 +569,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         return new 1();
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     private final class LinkSpan extends ClickableSpan {
         private LinkSpan() {
         }
@@ -591,7 +591,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static final class GiftTier {
         private int discount;
         public final TLRPC$TL_premiumGiftOption giftOption;

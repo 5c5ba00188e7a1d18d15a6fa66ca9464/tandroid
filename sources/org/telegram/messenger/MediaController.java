@@ -1525,7 +1525,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x007b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x007a, code lost:
         if (r10 != 0) goto L15;
      */
     /*
@@ -5565,7 +5565,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:76:0x00c6 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x00c5 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:65:0x00bf -> B:76:0x00c2). Please submit an issue!!! */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5628,22 +5629,22 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     }
                 }
                 fileInputStream.close();
-            } catch (Exception e5) {
-                FileLog.e(e5);
-            }
-            return null;
-        } catch (Throwable th2) {
-            th = th2;
-            inputStream = fileInputStream;
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (Exception e6) {
-                    FileLog.e(e6);
+            } catch (Throwable th2) {
+                th = th2;
+                inputStream = fileInputStream;
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    } catch (Exception e5) {
+                        FileLog.e(e5);
+                    }
                 }
+                throw th;
             }
-            throw th;
+        } catch (Exception e6) {
+            FileLog.e(e6);
         }
+        return null;
     }
 
     public static boolean isWebp(Uri uri) {
@@ -5669,12 +5670,12 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     inputStream.close();
                 } catch (Exception e2) {
                     FileLog.e(e2);
+                    if (inputStream != null) {
+                        inputStream.close();
+                    }
                 }
             } catch (Exception e3) {
                 FileLog.e(e3);
-                if (inputStream != null) {
-                    inputStream.close();
-                }
             }
             return false;
         } catch (Throwable th) {

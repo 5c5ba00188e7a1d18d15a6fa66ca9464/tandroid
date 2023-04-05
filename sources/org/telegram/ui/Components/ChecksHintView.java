@@ -17,7 +17,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.ChecksHintView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChecksHintView extends FrameLayout {
     private AnimatorSet animatorSet;
     private ImageView arrowImageView;
@@ -154,7 +154,7 @@ public class ChecksHintView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 1 extends AnimatorListenerAdapter {
         1() {
         }

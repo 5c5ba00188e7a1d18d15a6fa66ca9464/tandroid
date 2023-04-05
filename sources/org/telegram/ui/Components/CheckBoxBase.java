@@ -21,7 +21,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.GenericProvider;
 import org.telegram.messenger.LocaleController;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class CheckBoxBase {
     private static Paint eraser;
     private static Paint forbidPaint;
@@ -55,7 +55,7 @@ public class CheckBoxBase {
     private GenericProvider<Void, Paint> circlePaintProvider = CheckBoxBase$$ExternalSyntheticLambda0.INSTANCE;
     public long animationDuration = 200;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ProgressDelegate {
         void setProgress(float f);
     }

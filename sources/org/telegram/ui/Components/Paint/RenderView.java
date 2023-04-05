@@ -28,7 +28,7 @@ import org.telegram.ui.Components.Paint.Brush;
 import org.telegram.ui.Components.Paint.Painting;
 import org.telegram.ui.Components.Paint.RenderView;
 import org.telegram.ui.Components.Size;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class RenderView extends TextureView {
     private Bitmap bitmap;
     private Brush brush;
@@ -45,7 +45,7 @@ public class RenderView extends TextureView {
     private UndoStore undoStore;
     private float weight;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public interface RenderViewDelegate {
         void invalidateInputView();
 
@@ -99,7 +99,7 @@ public class RenderView extends TextureView {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class 1 implements TextureView.SurfaceTextureListener {
         @Override // android.view.TextureView.SurfaceTextureListener
         public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
@@ -367,7 +367,7 @@ public class RenderView extends TextureView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class CanvasInternal extends DispatchQueue {
         private int bufferHeight;
         private int bufferWidth;
@@ -499,7 +499,7 @@ public class RenderView extends TextureView {
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes.dex */
+        /* loaded from: classes4.dex */
         public class 1 implements Runnable {
             1() {
             }

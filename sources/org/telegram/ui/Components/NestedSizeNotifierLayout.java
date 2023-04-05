@@ -7,7 +7,7 @@ import androidx.core.view.NestedScrollingParentHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.ui.ActionBar.BottomSheet;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class NestedSizeNotifierLayout extends SizeNotifierFrameLayout implements NestedScrollingParent3, View.OnLayoutChangeListener {
     boolean attached;
     BottomSheet.ContainerView bottomSheetContainerView;
@@ -16,7 +16,7 @@ public class NestedSizeNotifierLayout extends SizeNotifierFrameLayout implements
     private NestedScrollingParentHelper nestedScrollingParentHelper;
     View targetListView;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ChildLayout {
         void addOnLayoutChangeListener(View.OnLayoutChangeListener onLayoutChangeListener);
 

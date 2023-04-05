@@ -58,7 +58,7 @@ import org.telegram.ui.Components.WebPlayerView;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PhotoViewer;
 @SuppressLint({"WrongConstant"})
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class EmbedBottomSheet extends BottomSheet {
     @SuppressLint({"StaticFieldLeak"})
     private static EmbedBottomSheet instance;
@@ -101,7 +101,7 @@ public class EmbedBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class YoutubeProxy {
         private YoutubeProxy() {
         }

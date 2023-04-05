@@ -23,7 +23,7 @@ import org.telegram.ui.Components.Paint.Swatch;
 import org.telegram.ui.Components.Paint.Views.EntityView;
 import org.telegram.ui.Components.Point;
 import org.telegram.ui.Components.Rect;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class TextPaintView extends EntityView {
     private int align;
     private int baseFontSize;
@@ -287,7 +287,7 @@ public class TextPaintView extends EntityView {
         return new TextViewSelectionView(this, getContext());
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class TextViewSelectionView extends EntityView.SelectionView {
         private Path path;
 

@@ -52,7 +52,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.GroupCreateUserCell;
 import org.telegram.ui.Cells.ShareDialogCell;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class JoinCallAlert extends BottomSheet {
     private static ArrayList<TLRPC$Peer> cachedChats;
     private static long lastCacheDid;
@@ -74,7 +74,7 @@ public class JoinCallAlert extends BottomSheet {
     private Drawable shadowDrawable;
     private TextView textView;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface JoinCallAlertDelegate {
         void didSelectChat(TLRPC$InputPeer tLRPC$InputPeer, boolean z, boolean z2);
     }
@@ -110,7 +110,7 @@ public class JoinCallAlert extends BottomSheet {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BottomSheetCell extends FrameLayout {
         private View background;
         private boolean hasBackground;
@@ -756,7 +756,7 @@ public class JoinCallAlert extends BottomSheet {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
 

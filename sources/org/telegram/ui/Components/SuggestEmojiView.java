@@ -50,7 +50,7 @@ import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SuggestEmojiView;
 import org.telegram.ui.ContentPreviewViewer;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SuggestEmojiView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private Adapter adapter;
     private Integer arrowToEnd;
@@ -86,7 +86,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
     private Runnable updateRunnable;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 1 implements ContentPreviewViewer.ContentPreviewViewerDelegate {
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
         public boolean can() {
@@ -968,7 +968,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class EmojiImageView extends View {
         private boolean attached;
         public Drawable drawable;
@@ -1067,7 +1067,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class Adapter extends RecyclerListView.SelectionAdapter {
         SuggestEmojiView suggestEmojiView;
 

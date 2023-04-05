@@ -19,7 +19,7 @@ import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.Utilities;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SeekBar {
     private static Paint paint;
     private static int thumbWidth;
@@ -56,10 +56,10 @@ public class SeekBar {
     private int currentTimestamp = -1;
     private float timestampChangeT = 1.0f;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface SeekBarDelegate {
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static void $default$onSeekBarContinuousDrag(SeekBarDelegate seekBarDelegate, float f) {
             }

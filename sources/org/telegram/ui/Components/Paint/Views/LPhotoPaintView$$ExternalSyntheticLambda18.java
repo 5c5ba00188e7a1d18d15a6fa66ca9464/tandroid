@@ -1,7 +1,7 @@
 package org.telegram.ui.Components.Paint.Views;
 
 import android.view.View;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class LPhotoPaintView$$ExternalSyntheticLambda18 implements View.OnClickListener {
     public static final /* synthetic */ LPhotoPaintView$$ExternalSyntheticLambda18 INSTANCE = new LPhotoPaintView$$ExternalSyntheticLambda18();
 

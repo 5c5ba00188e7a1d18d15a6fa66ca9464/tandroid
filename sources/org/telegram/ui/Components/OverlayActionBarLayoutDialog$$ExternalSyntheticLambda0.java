@@ -2,7 +2,7 @@ package org.telegram.ui.Components;
 
 import android.view.View;
 import android.view.WindowInsets;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class OverlayActionBarLayoutDialog$$ExternalSyntheticLambda0 implements View.OnApplyWindowInsetsListener {
     public static final /* synthetic */ OverlayActionBarLayoutDialog$$ExternalSyntheticLambda0 INSTANCE = new OverlayActionBarLayoutDialog$$ExternalSyntheticLambda0();
 

@@ -31,7 +31,7 @@ import org.telegram.ui.Adapters.MentionsAdapter;
 import org.telegram.ui.Adapters.PaddedListAdapter;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.ContentPreviewViewer;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class MentionsContainerView extends BlurredFrameLayout {
     private MentionsAdapter adapter;
     ChatActivity chatActivity;
@@ -581,7 +581,7 @@ public class MentionsContainerView extends BlurredFrameLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class MentionsListView extends RecyclerListView {
         private boolean isDragging;
         private boolean isScrolling;

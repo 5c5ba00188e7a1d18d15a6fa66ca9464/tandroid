@@ -39,7 +39,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ColorPicker extends FrameLayout {
     private ImageView addButton;
     private Drawable circleDrawable;
@@ -78,10 +78,10 @@ public class ColorPicker extends FrameLayout {
     private RectF sliderRect;
     private Paint valueSliderPaint;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ColorPickerDelegate {
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static void $default$deleteTheme(ColorPickerDelegate colorPickerDelegate) {
             }
@@ -108,7 +108,7 @@ public class ColorPicker extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class RadioButton extends View {
         private ObjectAnimator checkAnimator;
         private boolean checked;

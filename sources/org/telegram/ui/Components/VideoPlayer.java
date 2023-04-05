@@ -61,7 +61,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.secretmedia.ExtendedDefaultDataSourceFactory;
 import org.telegram.ui.Components.VideoPlayer;
 @SuppressLint({"NewApi"})
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsListener, NotificationCenter.NotificationCenterDelegate {
     private ExoPlayer audioPlayer;
     private boolean audioPlayerReady;
@@ -95,17 +95,17 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     private String videoType;
     private Uri videoUri;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface AudioVisualizerDelegate {
         boolean needUpdate();
 
         void onVisualizerUpdate(boolean z, boolean z2, float[] fArr);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface VideoPlayerDelegate {
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static void $default$onRenderedFirstFrame(VideoPlayerDelegate videoPlayerDelegate, AnalyticsListener.EventTime eventTime) {
             }
@@ -1293,7 +1293,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
         this.lastReportedPlaybackState = playbackState;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class AudioVisualizerRenderersFactory extends DefaultRenderersFactory {
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public AudioVisualizerRenderersFactory(Context context) {
@@ -1307,7 +1307,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class VisualizerBufferSink implements TeeAudioProcessor.AudioBufferSink {
         ByteBuffer byteBuffer;
         long lastUpdateTime;

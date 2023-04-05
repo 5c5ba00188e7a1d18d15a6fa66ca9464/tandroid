@@ -22,7 +22,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.PhotoAlbumPickerActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class WallpaperUpdater {
     private String currentPicturePath;
     private File currentWallpaperPath;
@@ -30,7 +30,7 @@ public class WallpaperUpdater {
     private Activity parentActivity;
     private BaseFragment parentFragment;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface WallpaperUpdaterDelegate {
         void didSelectWallpaper(File file, Bitmap bitmap, boolean z);
 

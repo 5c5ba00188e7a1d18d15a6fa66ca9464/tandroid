@@ -57,7 +57,7 @@ import org.telegram.ui.Components.AutoDeletePopupWrapper;
 import org.telegram.ui.Components.SharedMediaLayout;
 import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.TopicsFragment;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChatAvatarContainer extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     public boolean allowShorterStatus;
     private AvatarDrawable avatarDrawable;
@@ -95,7 +95,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         return false;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class SimpleTextConnectedView extends SimpleTextView {
         private AtomicReference<SimpleTextView> reference;
 

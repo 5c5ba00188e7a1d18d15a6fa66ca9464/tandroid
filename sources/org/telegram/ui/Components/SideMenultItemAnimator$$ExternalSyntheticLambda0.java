@@ -1,7 +1,7 @@
 package org.telegram.ui.Components;
 
 import androidx.recyclerview.widget.RecyclerView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class SideMenultItemAnimator$$ExternalSyntheticLambda0 implements RecyclerView.ChildDrawingOrderCallback {
     public static final /* synthetic */ SideMenultItemAnimator$$ExternalSyntheticLambda0 INSTANCE = new SideMenultItemAnimator$$ExternalSyntheticLambda0();
 

@@ -56,7 +56,7 @@ import org.telegram.ui.PhotoAlbumPickerActivity;
 import org.telegram.ui.PhotoCropActivity;
 import org.telegram.ui.PhotoPickerActivity;
 import org.telegram.ui.PhotoViewer;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ImageUpdater implements NotificationCenter.NotificationCenterDelegate, PhotoCropActivity.PhotoEditActivityDelegate {
     private TLRPC$PhotoSize bigPhoto;
     private boolean canSelectVideo;
@@ -92,10 +92,10 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
     private boolean uploadAfterSelect = true;
     private ImageReceiver imageReceiver = new ImageReceiver(null);
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ImageUpdaterDelegate {
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static boolean $default$canFinishFragment(ImageUpdaterDelegate imageUpdaterDelegate) {
                 return true;
@@ -1081,7 +1081,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         return this.currentImageProgress;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class AvatarFor {
         public TLRPC$User fromObject;
         public boolean isVideo;

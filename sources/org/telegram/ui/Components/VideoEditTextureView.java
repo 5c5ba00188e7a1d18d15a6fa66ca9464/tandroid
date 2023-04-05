@@ -5,7 +5,7 @@ import android.graphics.SurfaceTexture;
 import android.view.Surface;
 import android.view.TextureView;
 import org.telegram.ui.Components.FilterGLThread;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class VideoEditTextureView extends TextureView implements TextureView.SurfaceTextureListener {
     private VideoPlayer currentVideoPlayer;
     private VideoEditTextureViewDelegate delegate;
@@ -14,7 +14,7 @@ public class VideoEditTextureView extends TextureView implements TextureView.Sur
     private int videoWidth;
     private Rect viewRect;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface VideoEditTextureViewDelegate {
         void onEGLThreadAvailable(FilterGLThread filterGLThread);
     }

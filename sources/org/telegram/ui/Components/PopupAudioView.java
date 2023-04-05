@@ -20,7 +20,7 @@ import org.telegram.tgnet.TLRPC$TL_documentAttributeAudio;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.BaseCell;
 import org.telegram.ui.Components.SeekBar;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PopupAudioView extends BaseCell implements SeekBar.SeekBarDelegate, DownloadController.FileDownloadProgressListener {
     private int TAG;
     private int buttonPressed;

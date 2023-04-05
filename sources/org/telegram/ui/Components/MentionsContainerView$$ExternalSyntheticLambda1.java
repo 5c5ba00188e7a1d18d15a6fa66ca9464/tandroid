@@ -1,7 +1,7 @@
 package org.telegram.ui.Components;
 
 import androidx.dynamicanimation.animation.DynamicAnimation;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class MentionsContainerView$$ExternalSyntheticLambda1 implements DynamicAnimation.OnAnimationEndListener {
     public static final /* synthetic */ MentionsContainerView$$ExternalSyntheticLambda1 INSTANCE = new MentionsContainerView$$ExternalSyntheticLambda1();
 

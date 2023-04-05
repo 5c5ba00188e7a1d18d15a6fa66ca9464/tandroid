@@ -25,7 +25,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC$TL_document;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeFilename;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeVideo;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class VideoSeekPreviewImage extends View {
     private Paint bitmapPaint;
     private RectF bitmapRect;
@@ -59,7 +59,7 @@ public class VideoSeekPreviewImage extends View {
     private int ytImageY;
     private Path ytPath;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface VideoSeekPreviewImageDelegate {
         void onReady();
     }

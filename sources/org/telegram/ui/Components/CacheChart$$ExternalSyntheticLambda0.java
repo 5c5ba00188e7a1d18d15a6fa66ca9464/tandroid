@@ -2,7 +2,7 @@ package org.telegram.ui.Components;
 
 import java.util.Comparator;
 import org.telegram.ui.Components.CacheChart;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class CacheChart$$ExternalSyntheticLambda0 implements Comparator {
     public static final /* synthetic */ CacheChart$$ExternalSyntheticLambda0 INSTANCE = new CacheChart$$ExternalSyntheticLambda0();
 

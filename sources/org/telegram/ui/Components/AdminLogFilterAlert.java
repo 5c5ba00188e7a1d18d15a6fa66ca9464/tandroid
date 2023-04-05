@@ -30,7 +30,7 @@ import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Cells.TextCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.ContentPreviewViewer;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class AdminLogFilterAlert extends BottomSheet {
     private ListAdapter adapter;
     private int adminsRow;
@@ -55,7 +55,7 @@ public class AdminLogFilterAlert extends BottomSheet {
     private LongSparseArray<TLRPC$User> selectedAdmins;
     private Drawable shadowDrawable;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface AdminLogFilterAlertDelegate {
         void didSelectRights(TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter, LongSparseArray<TLRPC$User> longSparseArray);
     }
@@ -444,7 +444,7 @@ public class AdminLogFilterAlert extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
 

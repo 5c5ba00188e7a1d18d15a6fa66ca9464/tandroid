@@ -17,7 +17,7 @@ import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class GigagroupConvertAlert extends BottomSheet {
     protected void onCancel() {
         throw null;
@@ -27,7 +27,7 @@ public class GigagroupConvertAlert extends BottomSheet {
         throw null;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class BottomSheetCell extends FrameLayout {
         private View background;
         private TextView textView;

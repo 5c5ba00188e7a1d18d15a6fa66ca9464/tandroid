@@ -44,7 +44,7 @@ import org.telegram.tgnet.TLRPC$TL_readParticipantDate;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$Vector;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ReactedHeaderView extends FrameLayout {
     private AvatarsImageView avatarsImageView;
     private int currentAccount;
@@ -103,7 +103,7 @@ public class ReactedHeaderView extends FrameLayout {
         this.seenCallback = consumer;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class UserSeen {
         public int date;
         public TLRPC$User user;

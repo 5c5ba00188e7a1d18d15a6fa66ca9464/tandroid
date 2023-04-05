@@ -99,7 +99,7 @@ import org.telegram.ui.Components.RecyclerViewItemRangeSelector;
 import org.telegram.ui.Components.ShutterButton;
 import org.telegram.ui.Components.ZoomControlView;
 import org.telegram.ui.PhotoViewer;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayout implements NotificationCenter.NotificationCenterDelegate {
     private static boolean mediaFromExternalCamera;
     private PhotoAttachAdapter adapter;
@@ -218,7 +218,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         this.showAvatarConstructor = this.parentAlert.avatarPicker != 0;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class BasePhotoProvider extends PhotoViewer.EmptyPhotoViewerProvider {
         private BasePhotoProvider() {
         }
@@ -343,7 +343,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 1 extends BasePhotoProvider {
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
         public boolean cancelButtonPressed() {
@@ -1149,7 +1149,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 10 implements ShutterButton.ShutterButtonDelegate {
         private File outputFile;
         final /* synthetic */ FrameLayout val$container;
@@ -1928,7 +1928,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 15 extends BasePhotoProvider {
         final /* synthetic */ boolean val$sameTakePictureOrientation;
 
@@ -4362,7 +4362,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class PhotoAttachAdapter extends RecyclerListView.FastScrollAdapter {
         private int itemsCount;
         private Context mContext;
@@ -4691,7 +4691,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
 
         @Override // org.telegram.ui.Components.RecyclerListView.FastScrollAdapter
         public boolean fastScrollIsVisible(RecyclerListView recyclerListView) {
-            return !(ChatAttachAlertPhotoLayout.cameraPhotos.isEmpty() && ChatAttachAlertPhotoLayout.this.selectedAlbumEntry.photos.isEmpty()) && ChatAttachAlertPhotoLayout.this.parentAlert.pinnedToTop;
+            return !(ChatAttachAlertPhotoLayout.cameraPhotos.isEmpty() && (ChatAttachAlertPhotoLayout.this.selectedAlbumEntry == null || ChatAttachAlertPhotoLayout.this.selectedAlbumEntry.photos.isEmpty())) && ChatAttachAlertPhotoLayout.this.parentAlert.pinnedToTop;
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.FastScrollAdapter

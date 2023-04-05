@@ -28,7 +28,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView;
 import org.telegram.ui.Components.Premium.StarParticlesView;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class GLIconTextureView extends TextureView implements TextureView.SurfaceTextureListener {
     ArrayList<Integer> animationIndexes;
     int animationPointer;
@@ -121,7 +121,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class 1 implements GestureDetector.OnGestureListener {
         @Override // android.view.GestureDetector.OnGestureListener
         public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
@@ -305,7 +305,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class RenderThread extends Thread {
         private RenderThread() {
         }

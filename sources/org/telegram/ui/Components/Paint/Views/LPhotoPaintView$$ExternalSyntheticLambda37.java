@@ -1,5 +1,5 @@
 package org.telegram.ui.Components.Paint.Views;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class LPhotoPaintView$$ExternalSyntheticLambda37 implements Runnable {
     public static final /* synthetic */ LPhotoPaintView$$ExternalSyntheticLambda37 INSTANCE = new LPhotoPaintView$$ExternalSyntheticLambda37();
 

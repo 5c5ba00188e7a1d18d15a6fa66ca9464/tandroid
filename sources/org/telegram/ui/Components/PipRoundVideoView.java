@@ -40,7 +40,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PipRoundVideoView implements NotificationCenter.NotificationCenterDelegate {
     @SuppressLint({"StaticFieldLeak"})
     private static PipRoundVideoView instance;

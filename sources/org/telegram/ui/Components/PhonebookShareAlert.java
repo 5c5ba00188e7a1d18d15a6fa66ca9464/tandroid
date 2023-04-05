@@ -54,7 +54,7 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.ChatAttachAlertContactsLayout;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PhonebookShareAlert extends BottomSheet {
     private ActionBar actionBar;
     private AnimatorSet actionBarAnimation;
@@ -86,7 +86,7 @@ public class PhonebookShareAlert extends BottomSheet {
         return false;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class UserCell extends LinearLayout {
         public UserCell(PhonebookShareAlert phonebookShareAlert, Context context) {
             super(context);
@@ -127,7 +127,7 @@ public class PhonebookShareAlert extends BottomSheet {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TextCheckBoxCell extends FrameLayout {
         private Switch checkBox;
         private ImageView imageView;
@@ -1404,7 +1404,7 @@ public class PhonebookShareAlert extends BottomSheet {
         this.vcardEndRow = size2;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class ListAdapter {
         private ListAdapter() {
         }

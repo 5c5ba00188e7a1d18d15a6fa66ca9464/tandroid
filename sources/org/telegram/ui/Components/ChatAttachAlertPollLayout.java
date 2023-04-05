@@ -56,7 +56,7 @@ import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.ChatAttachAlertPollLayout;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChatAttachAlertPollLayout extends ChatAttachAlert.AttachAlertLayout {
     private int addAnswerRow;
     private boolean allowNesterScroll;
@@ -96,7 +96,7 @@ public class ChatAttachAlertPollLayout extends ChatAttachAlert.AttachAlertLayout
     private CharSequence solutionString;
     private int topPadding;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface PollCreateActivityDelegate {
         void sendPoll(TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll, HashMap<String, String> hashMap, boolean z, int i);
     }
@@ -112,14 +112,14 @@ public class ChatAttachAlertPollLayout extends ChatAttachAlert.AttachAlertLayout
         return i;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private static class EmptyView extends View {
         public EmptyView(Context context) {
             super(context);
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TouchHelperCallback extends ItemTouchHelper.Callback {
         @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
         public boolean isLongPressDragEnabled() {
@@ -732,6 +732,10 @@ public class ChatAttachAlertPollLayout extends ChatAttachAlert.AttachAlertLayout
 
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     void onShow(ChatAttachAlert.AttachAlertLayout attachAlertLayout) {
+        try {
+            this.parentAlert.actionBar.getTitleTextView().setBuildFullLayout(true);
+        } catch (Exception unused) {
+        }
         if (this.quizOnly == 1) {
             this.parentAlert.actionBar.setTitle(LocaleController.getString("NewQuiz", R.string.NewQuiz));
         } else {
@@ -842,7 +846,7 @@ public class ChatAttachAlertPollLayout extends ChatAttachAlert.AttachAlertLayout
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 

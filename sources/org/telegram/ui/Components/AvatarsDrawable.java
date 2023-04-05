@@ -27,7 +27,7 @@ import org.telegram.tgnet.TLRPC$TL_groupCallParticipant;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.GroupCallUserCell;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class AvatarsDrawable {
     private boolean attached;
     boolean centered;
@@ -237,7 +237,7 @@ public class AvatarsDrawable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class DrawingState {
         private int animationType;
         private AvatarDrawable avatarDrawable;

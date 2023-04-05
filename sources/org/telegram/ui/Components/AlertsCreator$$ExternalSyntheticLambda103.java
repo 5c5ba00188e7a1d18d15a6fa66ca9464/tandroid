@@ -3,7 +3,7 @@ package org.telegram.ui.Components;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_error;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class AlertsCreator$$ExternalSyntheticLambda103 implements RequestDelegate {
     public static final /* synthetic */ AlertsCreator$$ExternalSyntheticLambda103 INSTANCE = new AlertsCreator$$ExternalSyntheticLambda103();
 

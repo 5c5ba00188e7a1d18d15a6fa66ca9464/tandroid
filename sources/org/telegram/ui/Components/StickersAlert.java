@@ -111,7 +111,7 @@ import org.telegram.ui.ContentPreviewViewer;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
 import org.telegram.ui.ProfileActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class StickersAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     private GridAdapter adapter;
     private List<ThemeDescription> animatingDescriptions;
@@ -165,7 +165,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
     private HashMap<String, SendMessagesHelper.ImportingSticker> uploadImportStickers;
     private Pattern urlPattern;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface StickersAlertCustomButtonDelegate {
         String getCustomButtonColorKey();
 
@@ -178,7 +178,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         boolean onCustomButtonPressed();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface StickersAlertDelegate {
         boolean canSchedule();
 
@@ -187,7 +187,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         void onStickerSelected(TLRPC$Document tLRPC$Document, String str, Object obj, MessageObject.SendAnimationData sendAnimationData, boolean z, boolean z2, int i);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface StickersAlertInstallDelegate {
         void onStickerSetInstalled();
 
@@ -856,7 +856,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 2 extends Transition {
         2() {
         }
@@ -1598,7 +1598,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 10 extends ShareAlert {
         10(Context context, ArrayList arrayList, String str, boolean z, String str2, boolean z2, Theme.ResourcesProvider resourcesProvider) {
             super(context, arrayList, str, z, str2, z2, resourcesProvider);
@@ -2598,7 +2598,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class GridAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
         private int stickersPerRow;

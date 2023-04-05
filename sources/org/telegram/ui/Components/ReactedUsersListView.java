@@ -56,7 +56,7 @@ import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.ReactedHeaderView;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ReactedUsersListView extends FrameLayout {
     private RecyclerView.Adapter adapter;
     public boolean canLoadMore;
@@ -79,17 +79,17 @@ public class ReactedUsersListView extends FrameLayout {
     Theme.ResourcesProvider resourcesProvider;
     private List<TLRPC$MessagePeerReaction> userReactions;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface OnCustomEmojiSelectedListener {
         void showCustomEmojiAlert(ReactedUsersListView reactedUsersListView, ArrayList<TLRPC$InputStickerSet> arrayList);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface OnHeightChangedListener {
         void onHeightChanged(ReactedUsersListView reactedUsersListView, int i);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface OnProfileSelectedListener {
         void onProfileSelected(ReactedUsersListView reactedUsersListView, long j, TLRPC$MessagePeerReaction tLRPC$MessagePeerReaction);
     }
@@ -469,7 +469,7 @@ public class ReactedUsersListView extends FrameLayout {
         return this.filter == null ? 100 : 50;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private static final class ReactedUserHolderView extends FrameLayout {
         AvatarDrawable avatarDrawable;
         BackupImageView avatarView;
@@ -662,7 +662,7 @@ public class ReactedUsersListView extends FrameLayout {
         this.loadingView.setItemsCount(i);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ContainerLinerLayout extends LinearLayout {
         public boolean hasHeader;
 

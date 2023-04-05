@@ -20,7 +20,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class EmojiColorPickerWindow extends PopupWindow {
     private static final ViewTreeObserver.OnScrollChangedListener NOP = EmojiColorPickerWindow$$ExternalSyntheticLambda1.INSTANCE;
     private static Field superListenerField;
@@ -128,7 +128,7 @@ public class EmojiColorPickerWindow extends PopupWindow {
         this.pickerView.setOnSelectionUpdateListener(callback2);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class EmojiColorPickerView extends View {
         private Drawable arrowDrawable;
         private int arrowX;

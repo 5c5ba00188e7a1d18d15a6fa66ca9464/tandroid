@@ -2,7 +2,7 @@ package org.telegram.ui.Components;
 
 import android.view.MotionEvent;
 import android.view.View;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class ChatAttachAlertLocationLayout$$ExternalSyntheticLambda4 implements View.OnTouchListener {
     public static final /* synthetic */ ChatAttachAlertLocationLayout$$ExternalSyntheticLambda4 INSTANCE = new ChatAttachAlertLocationLayout$$ExternalSyntheticLambda4();
 

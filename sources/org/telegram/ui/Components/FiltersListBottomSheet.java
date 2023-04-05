@@ -35,7 +35,7 @@ import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.DialogsActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class FiltersListBottomSheet extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     private ListAdapter adapter;
     private FiltersListBottomSheetDelegate delegate;
@@ -47,7 +47,7 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
     private AnimatorSet shadowAnimation;
     private TextView titleTextView;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface FiltersListBottomSheetDelegate {
         void didSelectFilter(MessagesController.DialogFilter dialogFilter);
     }
@@ -410,7 +410,7 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
 

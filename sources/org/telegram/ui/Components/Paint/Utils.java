@@ -4,7 +4,7 @@ import android.graphics.RectF;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.util.Log;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class Utils {
     public static void HasGLError() {
         int glGetError = GLES20.glGetError();

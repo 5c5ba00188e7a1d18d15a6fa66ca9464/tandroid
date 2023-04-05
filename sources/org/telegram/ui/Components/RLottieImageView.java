@@ -17,7 +17,7 @@ import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$PhotoSize;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class RLottieImageView extends ImageView {
     private boolean attachedToWindow;
     private boolean autoRepeat;

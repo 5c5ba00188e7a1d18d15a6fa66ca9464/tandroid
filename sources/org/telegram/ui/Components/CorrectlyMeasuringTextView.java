@@ -3,7 +3,7 @@ package org.telegram.ui.Components;
 import android.content.Context;
 import android.text.Layout;
 import android.widget.TextView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class CorrectlyMeasuringTextView extends TextView {
     public CorrectlyMeasuringTextView(Context context) {
         super(context);

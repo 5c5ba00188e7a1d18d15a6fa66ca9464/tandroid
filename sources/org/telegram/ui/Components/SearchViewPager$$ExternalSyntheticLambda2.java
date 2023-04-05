@@ -2,7 +2,7 @@ package org.telegram.ui.Components;
 
 import android.view.MotionEvent;
 import android.view.View;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class SearchViewPager$$ExternalSyntheticLambda2 implements View.OnTouchListener {
     public static final /* synthetic */ SearchViewPager$$ExternalSyntheticLambda2 INSTANCE = new SearchViewPager$$ExternalSyntheticLambda2();
 

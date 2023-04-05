@@ -5,7 +5,7 @@ import android.graphics.Paint;
 import android.text.Layout;
 import android.text.Spanned;
 import android.text.style.LeadingMarginSpan;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class BulletSpan implements LeadingMarginSpan {
     private final int mBulletRadius;
     private final int mColor;

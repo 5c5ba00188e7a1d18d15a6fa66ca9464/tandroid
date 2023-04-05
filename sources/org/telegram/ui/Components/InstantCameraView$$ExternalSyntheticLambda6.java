@@ -1,7 +1,7 @@
 package org.telegram.ui.Components;
 
 import java.util.Comparator;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class InstantCameraView$$ExternalSyntheticLambda6 implements Comparator {
     public static final /* synthetic */ InstantCameraView$$ExternalSyntheticLambda6 INSTANCE = new InstantCameraView$$ExternalSyntheticLambda6();
 

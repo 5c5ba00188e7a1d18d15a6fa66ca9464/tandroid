@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class PaintDoneView extends View {
     private Paint paint;
     private float progress;

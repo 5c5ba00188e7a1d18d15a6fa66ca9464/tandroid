@@ -1,7 +1,7 @@
 package org.telegram.ui.Components;
 
 import android.content.DialogInterface;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class AlertsCreator$$ExternalSyntheticLambda40 implements DialogInterface.OnClickListener {
     public static final /* synthetic */ AlertsCreator$$ExternalSyntheticLambda40 INSTANCE = new AlertsCreator$$ExternalSyntheticLambda40();
 

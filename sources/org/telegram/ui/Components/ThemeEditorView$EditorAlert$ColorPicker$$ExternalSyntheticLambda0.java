@@ -3,7 +3,7 @@ package org.telegram.ui.Components;
 import android.view.KeyEvent;
 import android.widget.TextView;
 import org.telegram.ui.Components.ThemeEditorView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class ThemeEditorView$EditorAlert$ColorPicker$$ExternalSyntheticLambda0 implements TextView.OnEditorActionListener {
     public static final /* synthetic */ ThemeEditorView$EditorAlert$ColorPicker$$ExternalSyntheticLambda0 INSTANCE = new ThemeEditorView$EditorAlert$ColorPicker$$ExternalSyntheticLambda0();
 

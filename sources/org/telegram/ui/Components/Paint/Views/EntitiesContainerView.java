@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import org.telegram.ui.Components.Paint.Views.RotationGestureDetector;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class EntitiesContainerView extends FrameLayout implements ScaleGestureDetector.OnScaleGestureListener, RotationGestureDetector.OnRotationGestureListener {
     private EntitiesContainerViewDelegate delegate;
     private ScaleGestureDetector gestureDetector;
@@ -16,7 +16,7 @@ public class EntitiesContainerView extends FrameLayout implements ScaleGestureDe
     private float previousScale;
     private RotationGestureDetector rotationGestureDetector;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public interface EntitiesContainerViewDelegate {
         void onEntityDeselect();
 

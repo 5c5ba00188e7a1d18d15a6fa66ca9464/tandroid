@@ -8,7 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.view.animation.Interpolator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageReceiver;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ReorderingHintDrawable extends Drawable {
     private final RectDrawable primaryRectDrawable;
     private float scaleX;
@@ -174,7 +174,7 @@ public class ReorderingHintDrawable extends Drawable {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class RectDrawable extends Drawable {
         private final RectF tempRect = new RectF();
         private final Paint paint = new Paint(1);

@@ -60,7 +60,7 @@ import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.PasscodeView;
 import org.telegram.ui.LaunchActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PasscodeView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private static final int[] ids = {R.id.passcode_btn_0, R.id.passcode_btn_1, R.id.passcode_btn_2, R.id.passcode_btn_3, R.id.passcode_btn_4, R.id.passcode_btn_5, R.id.passcode_btn_6, R.id.passcode_btn_7, R.id.passcode_btn_8, R.id.passcode_btn_9, R.id.passcode_btn_backspace, R.id.passcode_btn_fingerprint};
     private SpringAnimation backgroundAnimationSpring;
@@ -96,7 +96,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
     private TextView retryTextView;
     private boolean selfCancelled;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface PasscodeViewDelegate {
         void didAcceptedPassword(PasscodeView passcodeView);
     }
@@ -124,7 +124,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class AnimatingTextView extends FrameLayout {
         private ArrayList<TextView> characterTextViews;
         private AnimatorSet currentAnimation;
@@ -437,7 +437,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class InnerAnimator {
         private AnimatorSet animatorSet;
         private float startRadius;
@@ -734,7 +734,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 2 implements TextWatcher {
         @Override // android.text.TextWatcher
         public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
@@ -1523,7 +1523,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 9 implements ViewTreeObserver.OnGlobalLayoutListener {
         final /* synthetic */ Runnable val$onShow;
         final /* synthetic */ int val$x;

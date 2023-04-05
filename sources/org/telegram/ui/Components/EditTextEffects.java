@@ -20,7 +20,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.Components.spoilers.SpoilersClickDetector;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class EditTextEffects extends EditText {
     private static final int SPOILER_TIMEOUT = 10000;
     private AnimatedEmojiSpan.EmojiGroupedSpans animatedEmojiDrawables;

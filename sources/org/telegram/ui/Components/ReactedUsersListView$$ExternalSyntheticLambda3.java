@@ -2,7 +2,7 @@ package org.telegram.ui.Components;
 
 import j$.util.function.ToIntFunction;
 import org.telegram.tgnet.TLRPC$MessagePeerReaction;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class ReactedUsersListView$$ExternalSyntheticLambda3 implements ToIntFunction {
     public static final /* synthetic */ ReactedUsersListView$$ExternalSyntheticLambda3 INSTANCE = new ReactedUsersListView$$ExternalSyntheticLambda3();
 

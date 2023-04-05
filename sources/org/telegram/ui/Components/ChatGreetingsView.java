@@ -21,7 +21,7 @@ import org.telegram.tgnet.TLRPC$DocumentAttribute;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeImageSize;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChatGreetingsView extends LinearLayout {
     private final int currentAccount;
     private TextView descriptionView;
@@ -33,7 +33,7 @@ public class ChatGreetingsView extends LinearLayout {
     private TextView titleView;
     boolean wasDraw;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface Listener {
         void onGreetings(TLRPC$Document tLRPC$Document);
     }

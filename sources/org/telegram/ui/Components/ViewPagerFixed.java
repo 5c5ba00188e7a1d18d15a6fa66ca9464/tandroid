@@ -49,7 +49,7 @@ import org.telegram.tgnet.TLRPC$TL_messages_updateDialogFiltersOrder;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ViewPagerFixed;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ViewPagerFixed extends FrameLayout {
     private static final Interpolator interpolator = ViewPagerFixed$$ExternalSyntheticLambda2.INSTANCE;
     private Adapter adapter;
@@ -78,7 +78,7 @@ public class ViewPagerFixed extends FrameLayout {
     private int[] viewTypes;
     protected SparseArray<View> viewsByType;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static abstract class Adapter {
         public abstract void bindView(View view, int i, int i2);
 
@@ -858,7 +858,7 @@ public class ViewPagerFixed extends FrameLayout {
         return this.currentPosition;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class TabsView extends FrameLayout {
         private String activeTextColorKey;
         private ListAdapter adapter;
@@ -912,7 +912,7 @@ public class ViewPagerFixed extends FrameLayout {
         private TextPaint textPaint;
         private String unactiveTextColorKey;
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public interface TabsViewDelegate {
             boolean canPerformActions();
 
@@ -940,7 +940,7 @@ public class ViewPagerFixed extends FrameLayout {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public static class Tab {
             public float alpha = 1.0f;
             public int counter;
@@ -960,7 +960,7 @@ public class ViewPagerFixed extends FrameLayout {
             }
         }
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class TabView extends View {
             private int currentPosition;
             private Tab currentTab;
@@ -1728,7 +1728,7 @@ public class ViewPagerFixed extends FrameLayout {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class ListAdapter extends RecyclerListView.SelectionAdapter {
             private Context mContext;
 

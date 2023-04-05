@@ -18,7 +18,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.Utilities;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class PaintTypeface {
     public static final List<PaintTypeface> BUILT_IN_FONTS;
     public static final PaintTypeface COURIER_NEW_BOLD;
@@ -144,7 +144,7 @@ public class PaintTypeface {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class Family {
         ArrayList<FontData> fonts = new ArrayList<>();
 
@@ -170,7 +170,7 @@ public class PaintTypeface {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class FontData {
         String family;
         Font font;
@@ -188,7 +188,7 @@ public class PaintTypeface {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class NameRecord {
         final int encodingID;
         final int nameID;

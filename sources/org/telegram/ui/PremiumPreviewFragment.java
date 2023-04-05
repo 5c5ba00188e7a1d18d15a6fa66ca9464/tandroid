@@ -782,6 +782,8 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
     }
 
     public static void buyPremium(final BaseFragment baseFragment, final SubscriptionTier subscriptionTier, String str, final boolean z, final BillingFlowParams.SubscriptionUpdateParams subscriptionUpdateParams) {
+        TLRPC$TL_premiumSubscriptionOption tLRPC$TL_premiumSubscriptionOption;
+        String str2;
         if (BuildVars.IS_BILLING_UNAVAILABLE) {
             baseFragment.showDialog(new PremiumNotAvailableBottomSheet(baseFragment));
             return;
@@ -808,8 +810,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
             Activity parentActivity = baseFragment.getParentActivity();
             if (parentActivity instanceof LaunchActivity) {
                 LaunchActivity launchActivity = (LaunchActivity) parentActivity;
-                String str2 = subscriptionTier.subscriptionOption.bot_url;
-                if (str2 == null) {
+                if (subscriptionTier == null || (tLRPC$TL_premiumSubscriptionOption = subscriptionTier.subscriptionOption) == null || (str2 = tLRPC$TL_premiumSubscriptionOption.bot_url) == null) {
                     if (!TextUtils.isEmpty(baseFragment.getMessagesController().premiumBotUsername)) {
                         launchActivity.setNavigateToPremiumBot(true);
                         launchActivity.onNewIntent(new Intent("android.intent.action.VIEW", Uri.parse("https://t.me/" + baseFragment.getMessagesController().premiumBotUsername + "?start=" + str)));

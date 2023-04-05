@@ -395,16 +395,16 @@ public class Emoji {
         return parseEmojis(charSequence, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:108:0x0183  */
-    /* JADX WARN: Removed duplicated region for block: B:113:0x018c A[Catch: Exception -> 0x0256, TryCatch #0 {Exception -> 0x0256, blocks: (B:9:0x0029, B:28:0x0064, B:86:0x0114, B:88:0x011a, B:90:0x0125, B:94:0x0133, B:113:0x018c, B:115:0x0190, B:119:0x019d, B:121:0x01a3, B:146:0x01e9, B:135:0x01cf, B:137:0x01d3, B:150:0x01f4, B:152:0x01fb, B:154:0x01ff, B:156:0x020a, B:160:0x0218, B:163:0x0228, B:164:0x022f, B:95:0x0140, B:97:0x0147, B:99:0x0151, B:103:0x0160, B:105:0x017a, B:107:0x0180, B:17:0x003f, B:19:0x004a, B:30:0x0073, B:38:0x0087, B:39:0x008a, B:43:0x0096, B:45:0x009f, B:49:0x00a9, B:57:0x00bd, B:75:0x00f6, B:68:0x00de, B:73:0x00ee), top: B:175:0x0029 }] */
-    /* JADX WARN: Removed duplicated region for block: B:149:0x01f2 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x01fb A[Catch: Exception -> 0x0256, TryCatch #0 {Exception -> 0x0256, blocks: (B:9:0x0029, B:28:0x0064, B:86:0x0114, B:88:0x011a, B:90:0x0125, B:94:0x0133, B:113:0x018c, B:115:0x0190, B:119:0x019d, B:121:0x01a3, B:146:0x01e9, B:135:0x01cf, B:137:0x01d3, B:150:0x01f4, B:152:0x01fb, B:154:0x01ff, B:156:0x020a, B:160:0x0218, B:163:0x0228, B:164:0x022f, B:95:0x0140, B:97:0x0147, B:99:0x0151, B:103:0x0160, B:105:0x017a, B:107:0x0180, B:17:0x003f, B:19:0x004a, B:30:0x0073, B:38:0x0087, B:39:0x008a, B:43:0x0096, B:45:0x009f, B:49:0x00a9, B:57:0x00bd, B:75:0x00f6, B:68:0x00de, B:73:0x00ee), top: B:175:0x0029 }] */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x0226  */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x024a  */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x017f  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x0188 A[Catch: Exception -> 0x0257, TryCatch #0 {Exception -> 0x0257, blocks: (B:9:0x0029, B:28:0x0064, B:84:0x0110, B:86:0x0116, B:88:0x0121, B:92:0x012f, B:111:0x0188, B:113:0x018c, B:117:0x0199, B:119:0x019f, B:144:0x01e5, B:133:0x01cb, B:135:0x01cf, B:148:0x01f0, B:150:0x01f7, B:152:0x01fb, B:154:0x0206, B:158:0x0214, B:161:0x0224, B:163:0x022d, B:165:0x0230, B:166:0x0241, B:93:0x013c, B:95:0x0143, B:97:0x014d, B:101:0x015c, B:103:0x0176, B:105:0x017c, B:17:0x003f, B:19:0x004a, B:30:0x0073, B:42:0x0094, B:40:0x008b, B:47:0x00a5, B:55:0x00b9, B:73:0x00f2, B:66:0x00da, B:71:0x00ea), top: B:177:0x0029 }] */
+    /* JADX WARN: Removed duplicated region for block: B:147:0x01ee A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:150:0x01f7 A[Catch: Exception -> 0x0257, TryCatch #0 {Exception -> 0x0257, blocks: (B:9:0x0029, B:28:0x0064, B:84:0x0110, B:86:0x0116, B:88:0x0121, B:92:0x012f, B:111:0x0188, B:113:0x018c, B:117:0x0199, B:119:0x019f, B:144:0x01e5, B:133:0x01cb, B:135:0x01cf, B:148:0x01f0, B:150:0x01f7, B:152:0x01fb, B:154:0x0206, B:158:0x0214, B:161:0x0224, B:163:0x022d, B:165:0x0230, B:166:0x0241, B:93:0x013c, B:95:0x0143, B:97:0x014d, B:101:0x015c, B:103:0x0176, B:105:0x017c, B:17:0x003f, B:19:0x004a, B:30:0x0073, B:42:0x0094, B:40:0x008b, B:47:0x00a5, B:55:0x00b9, B:73:0x00f2, B:66:0x00da, B:71:0x00ea), top: B:177:0x0029 }] */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x0222  */
+    /* JADX WARN: Removed duplicated region for block: B:168:0x024b  */
     /* JADX WARN: Removed duplicated region for block: B:27:0x0063  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x00f6 A[Catch: Exception -> 0x0256, TryCatch #0 {Exception -> 0x0256, blocks: (B:9:0x0029, B:28:0x0064, B:86:0x0114, B:88:0x011a, B:90:0x0125, B:94:0x0133, B:113:0x018c, B:115:0x0190, B:119:0x019d, B:121:0x01a3, B:146:0x01e9, B:135:0x01cf, B:137:0x01d3, B:150:0x01f4, B:152:0x01fb, B:154:0x01ff, B:156:0x020a, B:160:0x0218, B:163:0x0228, B:164:0x022f, B:95:0x0140, B:97:0x0147, B:99:0x0151, B:103:0x0160, B:105:0x017a, B:107:0x0180, B:17:0x003f, B:19:0x004a, B:30:0x0073, B:38:0x0087, B:39:0x008a, B:43:0x0096, B:45:0x009f, B:49:0x00a9, B:57:0x00bd, B:75:0x00f6, B:68:0x00de, B:73:0x00ee), top: B:175:0x0029 }] */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x0100  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x0114 A[Catch: Exception -> 0x0256, TryCatch #0 {Exception -> 0x0256, blocks: (B:9:0x0029, B:28:0x0064, B:86:0x0114, B:88:0x011a, B:90:0x0125, B:94:0x0133, B:113:0x018c, B:115:0x0190, B:119:0x019d, B:121:0x01a3, B:146:0x01e9, B:135:0x01cf, B:137:0x01d3, B:150:0x01f4, B:152:0x01fb, B:154:0x01ff, B:156:0x020a, B:160:0x0218, B:163:0x0228, B:164:0x022f, B:95:0x0140, B:97:0x0147, B:99:0x0151, B:103:0x0160, B:105:0x017a, B:107:0x0180, B:17:0x003f, B:19:0x004a, B:30:0x0073, B:38:0x0087, B:39:0x008a, B:43:0x0096, B:45:0x009f, B:49:0x00a9, B:57:0x00bd, B:75:0x00f6, B:68:0x00de, B:73:0x00ee), top: B:175:0x0029 }] */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x00f2 A[Catch: Exception -> 0x0257, TryCatch #0 {Exception -> 0x0257, blocks: (B:9:0x0029, B:28:0x0064, B:84:0x0110, B:86:0x0116, B:88:0x0121, B:92:0x012f, B:111:0x0188, B:113:0x018c, B:117:0x0199, B:119:0x019f, B:144:0x01e5, B:133:0x01cb, B:135:0x01cf, B:148:0x01f0, B:150:0x01f7, B:152:0x01fb, B:154:0x0206, B:158:0x0214, B:161:0x0224, B:163:0x022d, B:165:0x0230, B:166:0x0241, B:93:0x013c, B:95:0x0143, B:97:0x014d, B:101:0x015c, B:103:0x0176, B:105:0x017c, B:17:0x003f, B:19:0x004a, B:30:0x0073, B:42:0x0094, B:40:0x008b, B:47:0x00a5, B:55:0x00b9, B:73:0x00f2, B:66:0x00da, B:71:0x00ea), top: B:177:0x0029 }] */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x00fc  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x0110 A[Catch: Exception -> 0x0257, TryCatch #0 {Exception -> 0x0257, blocks: (B:9:0x0029, B:28:0x0064, B:84:0x0110, B:86:0x0116, B:88:0x0121, B:92:0x012f, B:111:0x0188, B:113:0x018c, B:117:0x0199, B:119:0x019f, B:144:0x01e5, B:133:0x01cb, B:135:0x01cf, B:148:0x01f0, B:150:0x01f7, B:152:0x01fb, B:154:0x0206, B:158:0x0214, B:161:0x0224, B:163:0x022d, B:165:0x0230, B:166:0x0241, B:93:0x013c, B:95:0x0143, B:97:0x014d, B:101:0x015c, B:103:0x0176, B:105:0x017c, B:17:0x003f, B:19:0x004a, B:30:0x0073, B:42:0x0094, B:40:0x008b, B:47:0x00a5, B:55:0x00b9, B:73:0x00f2, B:66:0x00da, B:71:0x00ea), top: B:177:0x0029 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -418,6 +418,7 @@ public class Emoji {
         int i4;
         int i5;
         int i6;
+        int i7;
         char charAt2;
         long j;
         ArrayList<EmojiSpanRange> arrayList = new ArrayList<>();
@@ -427,60 +428,62 @@ public class Emoji {
             long j2 = 0;
             int[] iArr2 = iArr;
             long j3 = 0;
-            int i7 = 0;
-            int i8 = -1;
-            int i9 = 0;
+            int i8 = 0;
+            int i9 = -1;
             int i10 = 0;
+            int i11 = 0;
             boolean z3 = false;
-            while (i7 < length) {
+            while (i8 < length) {
                 try {
-                    char charAt3 = charSequence.charAt(i7);
+                    char charAt3 = charSequence.charAt(i8);
                     if (charAt3 >= 55356) {
                         if (charAt3 > 55358) {
                         }
-                        if (i8 == -1) {
-                            i8 = i7;
+                        if (i9 == -1) {
+                            i9 = i8;
                         }
                         sb.append(charAt3);
-                        i9++;
+                        i10++;
                         i = length;
                         j3 = (j3 << 16) | charAt3;
                         z = false;
                         if (z3) {
-                            int i11 = i7 + 2;
                             i2 = i;
-                            if (i11 < i2) {
-                                int i12 = i7 + 1;
-                                char charAt4 = charSequence.charAt(i12);
+                        } else {
+                            int i12 = i8 + 2;
+                            i2 = i;
+                            if (i12 < i2) {
+                                int i13 = i8 + 1;
+                                char charAt4 = charSequence.charAt(i13);
                                 if (charAt4 == 55356) {
-                                    char charAt5 = charSequence.charAt(i11);
+                                    char charAt5 = charSequence.charAt(i12);
                                     if (charAt5 >= 57339 && charAt5 <= 57343) {
-                                        sb.append(charSequence.subSequence(i12, i7 + 3));
-                                        i9 += 2;
-                                        i10 = i11;
+                                        sb.append(charSequence.subSequence(i13, i8 + 3));
+                                        i10 += 2;
+                                        i11 = i12;
                                         z2 = z;
-                                        i3 = i10;
+                                        i3 = i11;
                                         i4 = 0;
                                         while (i4 < 3) {
-                                            int i13 = i3 + 1;
-                                            if (i13 < i2) {
-                                                char charAt6 = charSequence.charAt(i13);
+                                            int i14 = i3 + 1;
+                                            if (i14 < i2) {
+                                                char charAt6 = charSequence.charAt(i14);
                                                 j = j3;
                                                 if (i4 == 1) {
                                                     if (charAt6 == 8205 && sb.length() > 0) {
                                                         sb.append(charAt6);
-                                                        i9++;
-                                                        i3 = i13;
+                                                        i10++;
+                                                        i3 = i14;
                                                         z2 = false;
                                                         z3 = false;
                                                     }
-                                                } else if ((i8 != -1 || charAt3 == '*' || charAt3 == '#' || (charAt3 >= MAX_RECENT_EMOJI_COUNT && charAt3 <= '9')) && charAt6 >= 65024) {
+                                                } else if ((i9 != -1 || charAt3 == '*' || charAt3 == '#' || (charAt3 >= MAX_RECENT_EMOJI_COUNT && charAt3 <= '9')) && charAt6 >= 65024) {
                                                     if (charAt6 <= 65039) {
-                                                        i9++;
+                                                        i10++;
                                                         if (!z3) {
-                                                            z3 = i13 + 1 >= i2;
+                                                            z3 = i14 + 1 >= i2;
                                                         }
-                                                        i3 = i13;
+                                                        i3 = i14;
                                                     }
                                                 }
                                                 i4++;
@@ -496,48 +499,48 @@ public class Emoji {
                                             iArr2[0] = 0;
                                             iArr2 = null;
                                         }
-                                        if (z3 && (i5 = i3 + 2) < i2) {
-                                            i6 = i3 + 1;
-                                            if (charSequence.charAt(i6) == 55356 && (charAt2 = charSequence.charAt(i5)) >= 57339 && charAt2 <= 57343) {
-                                                sb.append(charSequence.subSequence(i6, i3 + 3));
-                                                i9 += 2;
-                                                i3 = i5;
+                                        if (z3 && (i6 = i3 + 2) < i2) {
+                                            i7 = i3 + 1;
+                                            if (charSequence.charAt(i7) == 55356 && (charAt2 = charSequence.charAt(i6)) >= 57339 && charAt2 <= 57343) {
+                                                sb.append(charSequence.subSequence(i7, i3 + 3));
+                                                i10 += 2;
+                                                i3 = i6;
                                             }
                                         }
                                         if (z3) {
                                             if (iArr2 != null) {
                                                 iArr2[0] = iArr2[0] + 1;
                                             }
-                                            arrayList.add(new EmojiSpanRange(i8, i9 + i8, sb.subSequence(0, sb.length())));
+                                            if (i9 >= 0 && (i5 = i10 + i9) <= i2) {
+                                                arrayList.add(new EmojiSpanRange(i9, i5, sb.subSequence(0, sb.length())));
+                                            }
                                             sb.setLength(0);
-                                            i8 = -1;
-                                            i9 = 0;
+                                            i9 = -1;
+                                            i10 = 0;
                                             z3 = false;
                                         }
-                                        i7 = i3 + 1;
+                                        i8 = i3 + 1;
                                         length = i2;
                                         j3 = j4;
                                         j2 = 0;
                                     }
                                 } else if (sb.length() >= 2 && sb.charAt(0) == 55356 && sb.charAt(1) == 57332 && charAt4 == 56128) {
                                     do {
-                                        sb.append(charSequence.charAt(i12));
-                                        sb.append(charSequence.charAt(i12 + 1));
-                                        i9 += 2;
-                                        i12 += 2;
-                                        if (i12 >= charSequence.length()) {
+                                        sb.append(charSequence.charAt(i13));
+                                        sb.append(charSequence.charAt(i13 + 1));
+                                        i10 += 2;
+                                        i13 += 2;
+                                        if (i13 >= charSequence.length()) {
                                             break;
                                         }
-                                    } while (charSequence.charAt(i12) == 56128);
-                                    i7 = i12 - 1;
+                                    } while (charSequence.charAt(i13) == 56128);
+                                    i8 = i13 - 1;
                                 }
                             }
-                        } else {
-                            i2 = i;
                         }
-                        i10 = i7;
+                        i11 = i8;
                         z2 = z;
-                        i3 = i10;
+                        i3 = i11;
                         i4 = 0;
                         while (i4 < 3) {
                         }
@@ -547,33 +550,33 @@ public class Emoji {
                             iArr2 = null;
                         }
                         if (z3) {
-                            i6 = i3 + 1;
-                            if (charSequence.charAt(i6) == 55356) {
-                                sb.append(charSequence.subSequence(i6, i3 + 3));
-                                i9 += 2;
-                                i3 = i5;
+                            i7 = i3 + 1;
+                            if (charSequence.charAt(i7) == 55356) {
+                                sb.append(charSequence.subSequence(i7, i3 + 3));
+                                i10 += 2;
+                                i3 = i6;
                             }
                         }
                         if (z3) {
                         }
-                        i7 = i3 + 1;
+                        i8 = i3 + 1;
                         length = i2;
                         j3 = j42;
                         j2 = 0;
                     }
                     if (j3 != j2 && (j3 & (-4294967296L)) == j2 && (j3 & 65535) == 55356 && charAt3 >= 56806 && charAt3 <= 56831) {
-                        if (i8 == -1) {
+                        if (i9 == -1) {
                         }
                         sb.append(charAt3);
-                        i9++;
+                        i10++;
                         i = length;
                         j3 = (j3 << 16) | charAt3;
                         z = false;
                         if (z3) {
                         }
-                        i10 = i7;
+                        i11 = i8;
                         z2 = z;
-                        i3 = i10;
+                        i3 = i11;
                         i4 = 0;
                         while (i4 < 3) {
                         }
@@ -584,34 +587,32 @@ public class Emoji {
                         }
                         if (z3) {
                         }
-                        i7 = i3 + 1;
+                        i8 = i3 + 1;
                         length = i2;
                         j3 = j422;
                         j2 = 0;
                     } else {
                         i = length;
-                        if (sb.length() > 0 && (charAt3 == 9792 || charAt3 == 9794 || charAt3 == 9877)) {
-                            sb.append(charAt3);
-                        } else if (j3 <= j2 || (61440 & charAt3) != 53248) {
+                        if ((sb.length() <= 0 || !(charAt3 == 9792 || charAt3 == 9794 || charAt3 == 9877)) && (j3 <= j2 || (61440 & charAt3) != 53248)) {
                             if (charAt3 != 8419) {
                                 if (charAt3 != 169) {
                                     if (charAt3 != 174) {
                                         if (charAt3 >= 8252 && charAt3 <= 12953) {
                                         }
-                                        if (i8 == -1) {
+                                        if (i9 == -1) {
                                             sb.setLength(0);
                                             z = false;
-                                            i8 = -1;
-                                            i9 = 0;
+                                            i9 = -1;
+                                            i10 = 0;
                                             z3 = false;
                                         } else if (charAt3 != 65039 && charAt3 != '\n' && charAt3 != ' ' && charAt3 != '\t') {
                                             z = true;
                                         }
                                         if (z3) {
                                         }
-                                        i10 = i7;
+                                        i11 = i8;
                                         z2 = z;
-                                        i3 = i10;
+                                        i3 = i11;
                                         i4 = 0;
                                         while (i4 < 3) {
                                         }
@@ -622,113 +623,92 @@ public class Emoji {
                                         }
                                         if (z3) {
                                         }
-                                        i7 = i3 + 1;
+                                        i8 = i3 + 1;
                                         length = i2;
                                         j3 = j4222;
                                         j2 = 0;
                                     }
                                 }
                                 if (EmojiData.dataCharsMap.containsKey(Character.valueOf(charAt3))) {
-                                    if (i8 == -1) {
-                                        i8 = i7;
+                                    if (i9 == -1) {
+                                        i9 = i8;
                                     }
-                                    i9++;
+                                    i10++;
                                     sb.append(charAt3);
-                                    z = false;
-                                    z3 = true;
-                                    if (z3) {
-                                    }
-                                    i10 = i7;
-                                    z2 = z;
-                                    i3 = i10;
-                                    i4 = 0;
-                                    while (i4 < 3) {
-                                    }
-                                    long j42222 = j3;
-                                    if (z2) {
-                                    }
-                                    if (z3) {
-                                    }
-                                    if (z3) {
-                                    }
-                                    i7 = i3 + 1;
-                                    length = i2;
-                                    j3 = j42222;
-                                    j2 = 0;
                                 }
-                                if (i8 == -1) {
+                                if (i9 == -1) {
                                 }
                                 if (z3) {
                                 }
-                                i10 = i7;
+                                i11 = i8;
                                 z2 = z;
-                                i3 = i10;
+                                i3 = i11;
                                 i4 = 0;
                                 while (i4 < 3) {
                                 }
-                                long j422222 = j3;
+                                long j42222 = j3;
                                 if (z2) {
                                 }
                                 if (z3) {
                                 }
                                 if (z3) {
                                 }
-                                i7 = i3 + 1;
+                                i8 = i3 + 1;
                                 length = i2;
-                                j3 = j422222;
+                                j3 = j42222;
                                 j2 = 0;
-                            } else if (i7 > 0 && (((charAt = charSequence.charAt(i10)) >= MAX_RECENT_EMOJI_COUNT && charAt <= '9') || charAt == '#' || charAt == '*')) {
-                                i9 = (i7 - i10) + 1;
+                            } else if (i8 > 0 && (((charAt = charSequence.charAt(i11)) >= MAX_RECENT_EMOJI_COUNT && charAt <= '9') || charAt == '#' || charAt == '*')) {
+                                i10 = (i8 - i11) + 1;
                                 sb.append(charAt);
                                 sb.append(charAt3);
-                                i8 = i10;
+                                i9 = i11;
                                 z3 = true;
                             }
                             z = false;
                             if (z3) {
                             }
-                            i10 = i7;
+                            i11 = i8;
                             z2 = z;
-                            i3 = i10;
+                            i3 = i11;
                             i4 = 0;
                             while (i4 < 3) {
                             }
-                            long j4222222 = j3;
+                            long j422222 = j3;
                             if (z2) {
                             }
                             if (z3) {
                             }
                             if (z3) {
                             }
-                            i7 = i3 + 1;
+                            i8 = i3 + 1;
                             length = i2;
-                            j3 = j4222222;
+                            j3 = j422222;
                             j2 = 0;
                         } else {
                             sb.append(charAt3);
+                            i10++;
+                            j3 = j2;
                         }
-                        i9++;
-                        j3 = j2;
                         z = false;
                         z3 = true;
                         if (z3) {
                         }
-                        i10 = i7;
+                        i11 = i8;
                         z2 = z;
-                        i3 = i10;
+                        i3 = i11;
                         i4 = 0;
                         while (i4 < 3) {
                         }
-                        long j42222222 = j3;
+                        long j4222222 = j3;
                         if (z2) {
                         }
                         if (z3) {
                         }
                         if (z3) {
                         }
-                        i7 = i3 + 1;
+                        i8 = i3 + 1;
                         length = i2;
-                        j3 = j42222222;
+                        j3 = j4222222;
                         j2 = 0;
                     }
                 } catch (Exception e) {

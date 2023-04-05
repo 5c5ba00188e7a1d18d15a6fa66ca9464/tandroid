@@ -39,7 +39,7 @@ import org.telegram.ui.Components.Paint.Views.TextPaintView;
 import org.telegram.ui.Components.PaintingOverlay;
 import org.telegram.ui.Components.Point;
 import org.telegram.ui.Components.VideoEditTextureView;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class CropView extends FrameLayout implements CropAreaView.AreaViewListener, CropGestureDetector.CropGestureListener {
     private boolean animating;
     public CropAreaView areaView;
@@ -66,7 +66,7 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
     float[] values;
     private VideoEditTextureView videoEditTextureView;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public interface CropViewListener {
         void onAspectLock(boolean z);
 
@@ -90,7 +90,7 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
         this.areaView.setSubtitle(str);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class CropState {
         public float baseRotation;
         public float height;
@@ -601,7 +601,7 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class CropRectangle {
         float[] coords = new float[8];
 

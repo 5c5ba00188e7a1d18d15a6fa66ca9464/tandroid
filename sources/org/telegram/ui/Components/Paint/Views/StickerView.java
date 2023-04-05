@@ -21,7 +21,7 @@ import org.telegram.ui.Components.Point;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.Rect;
 import org.telegram.ui.Components.Size;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class StickerView extends EntityView {
     private int anchor;
     private Size baseSize;
@@ -35,7 +35,7 @@ public class StickerView extends EntityView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class FrameLayoutDrawer extends FrameLayout {
         public FrameLayoutDrawer(Context context) {
             super(context);
@@ -207,7 +207,7 @@ public class StickerView extends EntityView {
         return this.baseSize;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class StickerViewSelectionView extends EntityView.SelectionView {
         private RectF arcRect;
 

@@ -1,7 +1,7 @@
 package org.telegram.ui.Components;
 
 import org.telegram.ui.Components.SimpleFloatPropertyCompat;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class PipVideoOverlay$$ExternalSyntheticLambda13 implements SimpleFloatPropertyCompat.Setter {
     public static final /* synthetic */ PipVideoOverlay$$ExternalSyntheticLambda13 INSTANCE = new PipVideoOverlay$$ExternalSyntheticLambda13();
 

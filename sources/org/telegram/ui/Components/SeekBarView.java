@@ -30,7 +30,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SeekBarView extends FrameLayout {
     private static Path tmpPath;
     private static float[] tmpRadii;
@@ -74,10 +74,10 @@ public class SeekBarView extends FrameLayout {
     private int transitionThumbX;
     private boolean twoSided;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface SeekBarViewDelegate {
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static CharSequence $default$getContentDescription(SeekBarViewDelegate seekBarViewDelegate) {
                 return null;

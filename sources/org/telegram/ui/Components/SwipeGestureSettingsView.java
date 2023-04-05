@@ -19,7 +19,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.NumberPicker;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SwipeGestureSettingsView extends FrameLayout {
     String[] backgroundKeys;
     float colorProgress;

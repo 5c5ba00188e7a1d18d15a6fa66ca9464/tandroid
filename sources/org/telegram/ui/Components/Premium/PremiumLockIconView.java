@@ -17,7 +17,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.Premium.StarParticlesView;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class PremiumLockIconView extends ImageView {
     public static int TYPE_REACTIONS = 0;
     public static int TYPE_STICKERS_PREMIUM_LOCKED = 1;

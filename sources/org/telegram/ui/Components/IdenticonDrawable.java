@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.tgnet.TLRPC$EncryptedChat;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class IdenticonDrawable extends Drawable {
     private byte[] data;
     private Paint paint = new Paint();

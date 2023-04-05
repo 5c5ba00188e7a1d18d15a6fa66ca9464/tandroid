@@ -61,7 +61,7 @@ import org.telegram.ui.Components.Premium.StarParticlesView;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.PremiumFeatureCell;
 import org.telegram.ui.PremiumPreviewFragment;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView implements NotificationCenter.NotificationCenterDelegate {
     boolean animateConfetti;
     FrameLayout bulletinContainer;
@@ -470,7 +470,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
         return new Adapter();
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     private class Adapter extends RecyclerListView.SelectionAdapter {
         private Adapter() {
         }
@@ -846,7 +846,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class 4 extends AnimatorListenerAdapter {
         4() {
         }

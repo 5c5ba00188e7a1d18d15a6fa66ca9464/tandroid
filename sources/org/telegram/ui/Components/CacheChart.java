@@ -28,7 +28,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.Premium.StarParticlesView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class CacheChart extends View {
     private static final String[] DEFAULT_COLORS = {"statisticChartLine_lightblue", "statisticChartLine_blue", "statisticChartLine_green", "statisticChartLine_red", "statisticChartLine_lightgreen", "statisticChartLine_orange", "statisticChartLine_cyan", "statisticChartLine_purple", "statisticChartLine_golden"};
     private static final int[] DEFAULT_PARTICLES;
@@ -91,7 +91,7 @@ public class CacheChart extends View {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Sector {
         float angleCenter;
         AnimatedFloat angleCenterAnimated;
@@ -592,7 +592,7 @@ public class CacheChart extends View {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class SegmentSize {
         int index;
         public boolean selected;

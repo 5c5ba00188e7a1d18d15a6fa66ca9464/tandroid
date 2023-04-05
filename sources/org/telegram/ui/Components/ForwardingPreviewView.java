@@ -51,7 +51,7 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.ForwardingPreviewView;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.PinchToZoomHelper;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ForwardingPreviewView extends FrameLayout {
     ActionBar actionBar;
     ArrayList<ActionBarMenuSubItem> actionItems;
@@ -90,7 +90,7 @@ public class ForwardingPreviewView extends FrameLayout {
     boolean updateAfterAnimations;
     float yOffset;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ResourcesDelegate extends Theme.ResourcesProvider {
         Drawable getWallpaperDrawable();
 
@@ -623,7 +623,7 @@ public class ForwardingPreviewView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 5 extends ChatListItemAnimator {
         Runnable finishRunnable;
         int scrollAnimationIndex;
@@ -721,7 +721,7 @@ public class ForwardingPreviewView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 8 extends GridLayoutManagerFixed {
         final /* synthetic */ ForwardingMessagesParams val$params;
 
@@ -1147,7 +1147,7 @@ public class ForwardingPreviewView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Adapter extends RecyclerView.Adapter {
         private Adapter() {
         }

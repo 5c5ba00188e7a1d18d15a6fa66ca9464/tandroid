@@ -42,7 +42,7 @@ import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.Premium.PremiumGradient;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.PremiumPreviewFragment;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class PremiumFeatureBottomSheet extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     ActionBar actionBar;
     private final BaseFragment baseFragment;
@@ -331,7 +331,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class 5 implements ViewPager.OnPageChangeListener {
         float progress;
         int selectedPosition;
@@ -549,7 +549,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class ViewPage extends LinearLayout {
         TextView description;
         public int position;

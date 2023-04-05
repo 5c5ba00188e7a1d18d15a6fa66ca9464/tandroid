@@ -54,7 +54,7 @@ import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.SizeNotifierFrameLayoutPhoto;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PhotoViewer;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class PhotoViewerCaptionEnterView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, SizeNotifierFrameLayoutPhoto.SizeNotifierFrameLayoutPhotoDelegate {
     private NumberTextView captionLimitView;
     private float chatActivityEnterViewAnimateFromTop;
@@ -95,7 +95,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
     ValueAnimator topBackgroundAnimator;
     private View windowView;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface PhotoViewerCaptionEnterViewDelegate {
         void onCaptionEnter();
 
@@ -344,7 +344,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 2 implements TextWatcher {
         boolean heightShouldBeChanged;
         boolean processChange = false;
@@ -670,7 +670,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         return editTextCaption.getSelectionStart();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class DarkTheme implements Theme.ResourcesProvider {
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
         public /* synthetic */ void applyServiceShaderMatrix(int i, int i2, float f, float f2) {
@@ -1007,7 +1007,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
                 return true;
             }
 
-            /* loaded from: classes3.dex */
+            /* loaded from: classes4.dex */
             class 1 extends BaseFragment {
                 1() {
                 }

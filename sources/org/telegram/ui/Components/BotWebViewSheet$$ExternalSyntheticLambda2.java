@@ -2,7 +2,7 @@ package org.telegram.ui.Components;
 
 import android.view.View;
 import android.view.WindowInsets;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class BotWebViewSheet$$ExternalSyntheticLambda2 implements View.OnApplyWindowInsetsListener {
     public static final /* synthetic */ BotWebViewSheet$$ExternalSyntheticLambda2 INSTANCE = new BotWebViewSheet$$ExternalSyntheticLambda2();
 

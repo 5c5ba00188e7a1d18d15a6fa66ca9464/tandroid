@@ -83,7 +83,7 @@ import org.telegram.ui.CameraScanActivity;
 import org.telegram.ui.Components.BotWebViewContainer;
 import org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class BotWebViewContainer extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private static final List<String> WHITELISTED_SCHEMES = Arrays.asList("http", "https");
     private TLRPC$User botUser;
@@ -122,10 +122,10 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
     private Consumer<Float> webViewProgressListener;
     private WebViewScrollListener webViewScrollListener;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface Delegate {
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static boolean $default$isClipboardAvailable(Delegate delegate) {
                 return false;
@@ -163,7 +163,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
         void onWebAppSwitchInlineQuery(TLRPC$User tLRPC$User, String str, List<String> list);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface WebViewScrollListener {
         void onWebViewScrolled(WebView webView, int i, int i2);
     }
@@ -191,7 +191,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
             }
 
             /* JADX INFO: Access modifiers changed from: package-private */
-            /* loaded from: classes3.dex */
+            /* loaded from: classes4.dex */
             public class 1 extends ImageReceiver {
                 1(View view) {
                     super(view);
@@ -365,7 +365,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 4 extends WebChromeClient {
         private Dialog lastPermissionsDialog;
 
@@ -1844,7 +1844,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class WebViewProxy {
         private WebViewProxy() {
         }
@@ -1865,7 +1865,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static final class PopupButton {
         public String id;
         public String text;

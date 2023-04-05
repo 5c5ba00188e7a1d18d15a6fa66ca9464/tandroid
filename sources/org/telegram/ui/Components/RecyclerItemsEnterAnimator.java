@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.HashSet;
 import org.telegram.ui.Components.RecyclerItemsEnterAnimator;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class RecyclerItemsEnterAnimator {
     boolean alwaysCheckItemsAlpha;
     boolean invalidateAlpha;
@@ -74,7 +74,7 @@ public class RecyclerItemsEnterAnimator {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 2 implements ViewTreeObserver.OnPreDrawListener {
         final /* synthetic */ int val$finalFrom;
         final /* synthetic */ View val$finalProgressView;

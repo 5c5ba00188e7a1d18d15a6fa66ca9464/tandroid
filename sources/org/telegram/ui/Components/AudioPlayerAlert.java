@@ -100,7 +100,7 @@ import org.telegram.ui.Components.SeekBarView;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.TopicsFragment;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate, DownloadController.FileDownloadProgressListener {
     private static final float[] speeds = {0.5f, 1.0f, 1.2f, 1.5f, 1.7f, 2.0f};
     private int TAG;
@@ -990,7 +990,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 9 extends ClippingTextViewSwitcher {
         final /* synthetic */ Context val$context;
 
@@ -1127,7 +1127,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         updateRepeatButton();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     class 13 extends RLottieImageView {
         private final Runnable backSeek;
         long lastTime;
@@ -1288,7 +1288,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     class 14 extends RLottieImageView {
         boolean pressed;
         private final Runnable pressedRunnable;
@@ -2286,7 +2286,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
         private ArrayList<MessageObject> searchResult = new ArrayList<>();
@@ -2584,7 +2584,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static abstract class CoverContainer extends FrameLayout {
         private int activeIndex;
         private AnimatorSet animatorSet;
@@ -2715,7 +2715,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static abstract class ClippingTextViewSwitcher extends FrameLayout {
         private int activeIndex;
         private AnimatorSet animatorSet;

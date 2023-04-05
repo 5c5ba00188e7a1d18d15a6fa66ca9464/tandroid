@@ -2,7 +2,7 @@ package org.telegram.ui.Components;
 
 import android.text.TextPaint;
 import android.text.style.MetricAffectingSpan;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class AnchorSpan extends MetricAffectingSpan {
     private String name;
 

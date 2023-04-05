@@ -21,7 +21,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class VideoTimelineView extends View {
     private static final Object sync = new Object();
     private final Paint backgroundGrayPaint;
@@ -52,7 +52,7 @@ public class VideoTimelineView extends View {
     private TimeHintView timeHintView;
     private long videoLength;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface VideoTimelineViewDelegate {
         void didStartDragging();
 
@@ -503,7 +503,7 @@ public class VideoTimelineView extends View {
         this.timeHintView = timeHintView;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class TimeHintView extends View {
         private float cx;
         private long lastTime;

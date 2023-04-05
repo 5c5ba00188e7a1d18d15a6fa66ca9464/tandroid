@@ -20,7 +20,7 @@ import org.telegram.ui.Components.Paint.Brush;
 import org.telegram.ui.Components.Paint.PersistColorPalette;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class PaintToolsView extends LinearLayout {
     private final int brushesCount;
     private RLottieImageView[] buttons;
@@ -32,7 +32,7 @@ public class PaintToolsView extends LinearLayout {
     private int selectedIndex;
     private Paint selectorPaint;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public interface Delegate {
         void onAddButtonPressed(View view);
 

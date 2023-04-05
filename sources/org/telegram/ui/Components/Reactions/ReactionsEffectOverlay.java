@@ -39,7 +39,7 @@ import org.telegram.ui.Components.Reactions.ReactionsEffectOverlay;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.ReactionsContainerLayout;
 import org.telegram.ui.SelectAnimatedEmojiDialog;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class ReactionsEffectOverlay {
     @SuppressLint({"StaticFieldLeak"})
     public static ReactionsEffectOverlay currentOverlay;
@@ -518,7 +518,7 @@ public class ReactionsEffectOverlay {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class 1 extends FrameLayout {
         final /* synthetic */ int val$animationType;
         final /* synthetic */ ChatMessageCell val$cell;
@@ -936,10 +936,10 @@ public class ReactionsEffectOverlay {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x0064, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:24:0x0063, code lost:
         if (r24 != 2) goto L38;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x006e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x006d, code lost:
         if (r1.isShowing() == false) goto L38;
      */
     /*
@@ -1056,7 +1056,7 @@ public class ReactionsEffectOverlay {
         return false;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     private class AnimationView extends BackupImageView {
         AnimatedEmojiDrawable animatedEmojiDrawable;
         boolean attached;
@@ -1177,7 +1177,7 @@ public class ReactionsEffectOverlay {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     private class AvatarParticle {
         float currentRotation;
         float fromX;

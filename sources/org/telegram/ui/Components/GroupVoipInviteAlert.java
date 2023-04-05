@@ -49,7 +49,7 @@ import org.telegram.ui.Cells.ManageChatTextCell;
 import org.telegram.ui.Cells.ManageChatUserCell;
 import org.telegram.ui.Components.GroupVoipInviteAlert;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class GroupVoipInviteAlert extends UsersAlertBase {
     private int addNewRow;
     private ArrayList<TLObject> contacts;
@@ -78,7 +78,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
     private final SearchAdapter searchAdapter;
     private boolean showContacts;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface GroupVoipInviteAlertDelegate {
         void copyInviteLink();
 
@@ -525,7 +525,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private int emptyRow;
         private int globalStartRow;
@@ -956,7 +956,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 

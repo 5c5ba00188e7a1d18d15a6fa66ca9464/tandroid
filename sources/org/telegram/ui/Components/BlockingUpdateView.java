@@ -43,7 +43,7 @@ import org.telegram.tgnet.TLRPC$TL_help_appUpdate;
 import org.telegram.tgnet.TLRPC$TL_help_getAppUpdate;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class BlockingUpdateView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private FrameLayout acceptButton;
     private TextView acceptTextView;

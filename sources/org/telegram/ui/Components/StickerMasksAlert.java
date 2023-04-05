@@ -67,7 +67,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ScrollSlidingTabStrip;
 import org.telegram.ui.Components.StickerMasksAlert;
 import org.telegram.ui.ContentPreviewViewer;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class StickerMasksAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     private FrameLayout bottomTabContainer;
     private ContentPreviewViewer.ContentPreviewViewerDelegate contentPreviewViewerDelegate;
@@ -99,7 +99,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
     private ScrollSlidingTabStrip stickersTab;
     private int stickersTabOffset;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface StickerMasksAlertDelegate {
         void onStickerSelected(Object obj, TLRPC$Document tLRPC$Document);
     }
@@ -118,7 +118,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SearchField extends FrameLayout {
         private ImageView clearSearchImageView;
         private CloseProgressDrawable2 progressDrawable;
@@ -1007,7 +1007,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
         checkPanels();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class DrawingInBackgroundLine extends DrawingInBackgroundThreadDrawable {
         ArrayList<ImageViewEmoji> drawInBackgroundViews;
         ArrayList<ImageViewEmoji> imageViewEmojis;
@@ -1296,7 +1296,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class StickersGridAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
         private int stickersPerRow;
@@ -1633,7 +1633,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ImageViewEmoji extends BackupImageView {
         ValueAnimator backAnimator;
         private ImageReceiver.BackgroundThreadDrawHolder[] backgroundThreadDrawHolder;
@@ -1755,7 +1755,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class StickersSearchGridAdapter extends RecyclerListView.SelectionAdapter {
         boolean cleared;
         private Context context;
@@ -1782,7 +1782,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class 1 implements Runnable {
             1() {
             }

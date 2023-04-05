@@ -11,7 +11,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.Components.Paint.Brush;
 import org.telegram.ui.Components.Size;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class ShapeInput {
     private Point center;
     private Runnable invalidate;
@@ -636,7 +636,7 @@ public class ShapeInput {
         canvas.drawCircle((point.x / size.width) * canvas.getWidth(), (point.y / size.height) * canvas.getHeight(), AndroidUtilities.dp(5.0f), point.green ? this.centerPointStrokePaint : this.controlPointStrokePaint);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     private class CornerPoint extends Point {
         public float rx;
         public float ry;
@@ -693,7 +693,7 @@ public class ShapeInput {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public class Point {
         boolean green;
         float x;

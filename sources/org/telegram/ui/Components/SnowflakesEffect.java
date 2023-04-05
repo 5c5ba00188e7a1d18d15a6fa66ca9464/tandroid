@@ -10,7 +10,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SnowflakesEffect {
     private int color;
     private long lastAnimationTime;
@@ -24,7 +24,7 @@ public class SnowflakesEffect {
     private ArrayList<Particle> freeParticles = new ArrayList<>();
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Particle {
         float alpha;
         float currentTime;

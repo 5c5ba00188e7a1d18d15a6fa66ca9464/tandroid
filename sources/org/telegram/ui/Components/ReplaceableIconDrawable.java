@@ -9,7 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ReplaceableIconDrawable extends Drawable implements Animator.AnimatorListener {
     private ValueAnimator animation;
     private ColorFilter colorFilter;

@@ -11423,8 +11423,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Removed duplicated region for block: B:119:0x030d  */
     /* JADX WARN: Removed duplicated region for block: B:230:0x066f  */
     /* JADX WARN: Removed duplicated region for block: B:231:0x0677  */
-    /* JADX WARN: Removed duplicated region for block: B:234:0x0688  */
-    /* JADX WARN: Removed duplicated region for block: B:468:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:234:0x067d A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:235:0x067e  */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -11438,6 +11438,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         GroupCallActivity groupCallActivity;
         BaseFragment baseFragment2;
         boolean z;
+        INavigationLayout iNavigationLayout;
         boolean z2;
         View childAt;
         BaseFragment baseFragment3;
@@ -11628,8 +11629,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             articleViewer.setParentActivity(this, arrayList6.get(arrayList6.size() - 1));
             ArticleViewer.getInstance().open((TLRPC$TL_webPage) objArr[0], (String) objArr[1]);
         } else if (i == NotificationCenter.hasNewContactsToImport) {
-            INavigationLayout iNavigationLayout = this.actionBarLayout;
-            if (iNavigationLayout == null || iNavigationLayout.getFragmentStack().isEmpty()) {
+            INavigationLayout iNavigationLayout2 = this.actionBarLayout;
+            if (iNavigationLayout2 == null || iNavigationLayout2.getFragmentStack().isEmpty()) {
                 return;
             }
             ((Integer) objArr[0]).intValue();
@@ -11786,12 +11787,17 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 Theme.ThemeInfo themeInfo = (Theme.ThemeInfo) objArr[0];
                 boolean booleanValue5 = ((Boolean) objArr[1]).booleanValue();
                 int intValue = ((Integer) objArr[3]).intValue();
-                this.actionBarLayout.animateThemedValues(themeInfo, intValue, booleanValue5, z, objArr.length <= 7 ? (Runnable) objArr[7] : null);
-                if (AndroidUtilities.isTablet()) {
+                Runnable runnable = objArr.length <= 7 ? (Runnable) objArr[7] : null;
+                iNavigationLayout = this.actionBarLayout;
+                if (iNavigationLayout != null) {
                     return;
                 }
-                this.layersActionBarLayout.animateThemedValues(themeInfo, intValue, booleanValue5, z);
-                this.rightActionBarLayout.animateThemedValues(themeInfo, intValue, booleanValue5, z);
+                iNavigationLayout.animateThemedValues(themeInfo, intValue, booleanValue5, z, runnable);
+                if (AndroidUtilities.isTablet()) {
+                    this.layersActionBarLayout.animateThemedValues(themeInfo, intValue, booleanValue5, z);
+                    this.rightActionBarLayout.animateThemedValues(themeInfo, intValue, booleanValue5, z);
+                    return;
+                }
                 return;
             }
             DrawerProfileCell.switchingTheme = false;
@@ -11799,8 +11805,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             Theme.ThemeInfo themeInfo2 = (Theme.ThemeInfo) objArr[0];
             boolean booleanValue52 = ((Boolean) objArr[1]).booleanValue();
             int intValue2 = ((Integer) objArr[3]).intValue();
-            this.actionBarLayout.animateThemedValues(themeInfo2, intValue2, booleanValue52, z, objArr.length <= 7 ? (Runnable) objArr[7] : null);
-            if (AndroidUtilities.isTablet()) {
+            if (objArr.length <= 7) {
+            }
+            iNavigationLayout = this.actionBarLayout;
+            if (iNavigationLayout != null) {
             }
         } else if (i == NotificationCenter.notificationsCountUpdated) {
             RecyclerListView recyclerListView3 = this.sideMenu;

@@ -61,7 +61,7 @@ import org.telegram.ui.Components.ChatAttachAlertPhotoLayoutPreview;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.PhotoViewer;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAlertLayout {
     private static HashMap<MediaController.PhotoEntry, Boolean> photoRotate = new HashMap<>();
     private ValueAnimator draggingAnimator;
@@ -341,7 +341,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class GroupCalculator {
         float height;
         int maxX;
@@ -352,7 +352,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
         int width;
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class MessageGroupedLayoutAttempt {
             public float[] heights;
             public int[] lineCounts;
@@ -1073,7 +1073,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class PreviewGroupsView extends ViewGroup {
         private HashMap<Object, Object> deletedPhotos;
         private float draggingT;
@@ -1526,7 +1526,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
             invalidate();
         }
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         class GroupingPhotoViewerProvider extends PhotoViewer.EmptyPhotoViewerProvider {
             private ArrayList<MediaController.PhotoEntry> photos = new ArrayList<>();
 
@@ -2123,7 +2123,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class PreviewGroupCell {
             private Theme.MessageDrawable.PathDrawParams backgroundCacheParams;
             private float bottom;
@@ -2166,7 +2166,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            /* loaded from: classes3.dex */
+            /* loaded from: classes4.dex */
             public class MediaCell {
                 private Paint bitmapPaint;
                 public ImageReceiver blurredImage;

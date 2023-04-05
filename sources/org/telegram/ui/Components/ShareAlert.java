@@ -120,7 +120,7 @@ import org.telegram.ui.Components.ShareAlert;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.MessageStatisticActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ShareAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     private AnimatorSet animatorSet;
     private float captionEditTextTopOffset;
@@ -187,7 +187,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     private boolean updateSearchAdapter;
     private FrameLayout writeButtonContainer;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class DialogSearchResult {
         public int date;
         public TLRPC$Dialog dialog = new TLRPC$TL_dialog();
@@ -195,10 +195,10 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         public TLObject object;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ShareAlertDelegate {
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static void $default$didShare(ShareAlertDelegate shareAlertDelegate) {
             }
@@ -221,7 +221,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     protected void onSend(LongSparseArray<TLRPC$Dialog> longSparseArray, int i, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SwitchView extends FrameLayout {
         private AnimatorSet animator;
         private int currentTab;
@@ -362,7 +362,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SearchField extends FrameLayout {
         private ImageView clearSearchImageView;
         private CloseProgressDrawable2 progressDrawable;
@@ -1675,7 +1675,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         this.parentFragment.presentFragment(new MessageStatisticActivity(messageObject));
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 16 extends FrameLayout {
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         16(Context context) {
@@ -1737,7 +1737,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 17 extends EditTextEmoji {
         private ValueAnimator messageEditTextAnimator;
         private int messageEditTextPredrawHeigth;
@@ -1938,7 +1938,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         categoryAdapterRecycler.notifyItemRangeChanged(0, categoryAdapterRecycler.getItemCount());
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 22 implements NotificationCenter.NotificationCenterDelegate {
         final /* synthetic */ ShareDialogCell val$cell;
         final /* synthetic */ TLRPC$Dialog val$dialog;
@@ -2855,7 +2855,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.dialogsNeedReload);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ShareDialogsAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
         private ArrayList<TLRPC$Dialog> dialogs = new ArrayList<>();
@@ -2972,7 +2972,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ShareTopicsAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
         private List<TLRPC$TL_forumTopic> topics;
@@ -3033,7 +3033,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ShareSearchAdapter extends RecyclerListView.SelectionAdapter {
         DialogsSearchAdapter.CategoryAdapterRecycler categoryAdapter;
         private Context context;

@@ -47,7 +47,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.Easings;
 import org.telegram.ui.Components.TextStyleSpan;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class SpoilerEffect extends Drawable {
     private static Paint xRefPaint;
     public boolean drawPoints;
@@ -737,7 +737,7 @@ public class SpoilerEffect extends Drawable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class Particle {
         private int alpha;
         private float currentTime;

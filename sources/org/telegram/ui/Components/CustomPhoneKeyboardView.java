@@ -19,7 +19,7 @@ import androidx.core.view.GestureDetectorCompat;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class CustomPhoneKeyboardView extends ViewGroup {
     private ImageView backButton;
     private Runnable detectLongClick;
@@ -288,7 +288,7 @@ public class CustomPhoneKeyboardView extends ViewGroup {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private static final class NumberButtonView extends View {
         private String mNumber;
         private String mSymbols;

@@ -48,7 +48,7 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.PremiumPreviewFragment;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SenderSelectPopup extends ActionBarPopupWindow {
     private FrameLayout bulletinContainer;
     private Runnable bulletinHideCallback;
@@ -71,7 +71,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
     private TLRPC$TL_channels_sendAsPeers sendAsPeers;
     protected List<SpringAnimation> springAnimations;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface OnSelectCallback {
         void onPeerSelected(RecyclerView recyclerView, SenderView senderView, TLRPC$Peer tLRPC$Peer);
     }
@@ -560,7 +560,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
         dynamicAnimation.cancel();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static final class SenderView extends LinearLayout {
         public final SimpleAvatarView avatar;
         public final TextView subtitle;
@@ -598,7 +598,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class BackButtonFrameLayout extends FrameLayout {
         public BackButtonFrameLayout(Context context) {
             super(context);

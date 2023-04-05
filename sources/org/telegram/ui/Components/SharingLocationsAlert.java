@@ -25,7 +25,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.SharingLiveLocationCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.ContentPreviewViewer;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SharingLocationsAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     private ListAdapter adapter;
     private SharingLocationsAlertDelegate delegate;
@@ -35,7 +35,7 @@ public class SharingLocationsAlert extends BottomSheet implements NotificationCe
     private Drawable shadowDrawable;
     private TextView textView;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface SharingLocationsAlertDelegate {
         void didSelectLocation(LocationController.SharingLocationInfo sharingLocationInfo);
     }
@@ -262,7 +262,7 @@ public class SharingLocationsAlert extends BottomSheet implements NotificationCe
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.liveLocationsChanged);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
 

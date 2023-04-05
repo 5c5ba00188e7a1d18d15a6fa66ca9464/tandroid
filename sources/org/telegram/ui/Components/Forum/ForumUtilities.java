@@ -42,7 +42,7 @@ import org.telegram.ui.Components.ColoredImageSpan;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.LetterDrawable;
 import org.telegram.ui.TopicsFragment;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class ForumUtilities {
     public static void setTopicIcon(BackupImageView backupImageView, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
         setTopicIcon(backupImageView, tLRPC$TL_forumTopic, false, false, null);
@@ -76,7 +76,7 @@ public class ForumUtilities {
         return new GeneralTopicDrawable(context, f, i);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class GeneralTopicDrawable extends Drawable {
         int color;
         Drawable icon;

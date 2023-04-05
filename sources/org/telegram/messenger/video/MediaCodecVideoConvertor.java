@@ -38,7 +38,7 @@ public class MediaCodecVideoConvertor {
     }
 
     /*  JADX ERROR: JadxRuntimeException in pass: BlockProcessor
-        jadx.core.utils.exceptions.JadxRuntimeException: Unreachable block: B:373:0x0817
+        jadx.core.utils.exceptions.JadxRuntimeException: Unreachable block: B:373:0x0816
         	at jadx.core.dex.visitors.blocks.BlockProcessor.checkForUnreachableBlocks(BlockProcessor.java:81)
         	at jadx.core.dex.visitors.blocks.BlockProcessor.processBlocksTree(BlockProcessor.java:47)
         	at jadx.core.dex.visitors.blocks.BlockProcessor.visit(BlockProcessor.java:39)
@@ -46,7 +46,7 @@ public class MediaCodecVideoConvertor {
     @android.annotation.TargetApi(18)
     private boolean convertVideoInternal(java.lang.String r76, java.io.File r77, int r78, boolean r79, int r80, int r81, int r82, int r83, int r84, int r85, int r86, long r87, long r89, long r91, long r93, boolean r95, boolean r96, org.telegram.messenger.MediaController.SavedFilterState r97, java.lang.String r98, java.util.ArrayList<org.telegram.messenger.VideoEditedInfo.MediaEntity> r99, boolean r100, org.telegram.messenger.MediaController.CropState r101, boolean r102) {
         /*
-            Method dump skipped, instructions count: 6189
+            Method dump skipped, instructions count: 6187
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.messenger.video.MediaCodecVideoConvertor.convertVideoInternal(java.lang.String, java.io.File, int, boolean, int, int, int, int, int, int, int, long, long, long, long, boolean, boolean, org.telegram.messenger.MediaController$SavedFilterState, java.lang.String, java.util.ArrayList, boolean, org.telegram.messenger.MediaController$CropState, boolean):boolean");

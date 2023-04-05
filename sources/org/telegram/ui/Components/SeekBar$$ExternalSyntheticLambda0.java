@@ -2,7 +2,7 @@ package org.telegram.ui.Components;
 
 import android.util.Pair;
 import java.util.Comparator;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public final /* synthetic */ class SeekBar$$ExternalSyntheticLambda0 implements Comparator {
     public static final /* synthetic */ SeekBar$$ExternalSyntheticLambda0 INSTANCE = new SeekBar$$ExternalSyntheticLambda0();
 

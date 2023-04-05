@@ -29,7 +29,7 @@ import org.telegram.messenger.SvgHelper;
 import org.telegram.tgnet.TLRPC$TL_help_appUpdate;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class UpdateAppAlertDialog extends BottomSheet {
     private int accountNum;
     private boolean animationInProgress;
@@ -47,7 +47,7 @@ public class UpdateAppAlertDialog extends BottomSheet {
         return false;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class BottomSheetCell extends FrameLayout {
         private View background;
         private boolean hasBackground;

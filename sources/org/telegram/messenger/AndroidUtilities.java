@@ -3621,13 +3621,13 @@ public class AndroidUtilities {
         return accessibilityManager.isEnabled() && accessibilityManager.isTouchExplorationEnabled();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0114 A[Catch: Exception -> 0x0131, TRY_LEAVE, TryCatch #0 {Exception -> 0x0131, blocks: (B:5:0x000a, B:8:0x0014, B:10:0x001a, B:12:0x0022, B:15:0x0037, B:18:0x0040, B:20:0x0049, B:23:0x005c, B:25:0x0062, B:27:0x0068, B:29:0x006e, B:31:0x008c, B:32:0x0090, B:52:0x010e, B:54:0x0114, B:67:0x012d, B:33:0x00a6, B:35:0x00b7, B:37:0x00c0, B:39:0x00c9, B:41:0x00cf, B:43:0x00d7, B:45:0x00df, B:47:0x00e9, B:48:0x00ed), top: B:71:0x000a }] */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x011e  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0120  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0123  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0125  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0128  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x012a  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0112 A[Catch: Exception -> 0x012f, TRY_LEAVE, TryCatch #0 {Exception -> 0x012f, blocks: (B:5:0x000a, B:8:0x0014, B:10:0x001a, B:12:0x0022, B:15:0x0035, B:18:0x003e, B:20:0x0047, B:23:0x005a, B:25:0x0060, B:27:0x0066, B:29:0x006c, B:31:0x008a, B:32:0x008e, B:52:0x010c, B:54:0x0112, B:67:0x012b, B:33:0x00a4, B:35:0x00b5, B:37:0x00be, B:39:0x00c7, B:41:0x00cd, B:43:0x00d5, B:45:0x00dd, B:47:0x00e7, B:48:0x00eb), top: B:71:0x000a }] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x011c  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x011e  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0121  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0123  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0126  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0128  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5051,5 +5051,15 @@ public class AndroidUtilities {
             }
         }
         return null;
+    }
+
+    public static boolean isActivityRunning(Activity activity) {
+        if (activity == null) {
+            return false;
+        }
+        if (Build.VERSION.SDK_INT >= 17) {
+            return (activity.isDestroyed() || activity.isFinishing()) ? false : true;
+        }
+        return !activity.isFinishing();
     }
 }

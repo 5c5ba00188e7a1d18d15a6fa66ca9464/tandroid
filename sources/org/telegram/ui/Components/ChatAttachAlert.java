@@ -129,7 +129,7 @@ import org.telegram.ui.PhotoPickerActivity;
 import org.telegram.ui.PhotoPickerSearchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
 import org.telegram.ui.TopicsFragment;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ChatAttachAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate, BottomSheet.BottomSheetDelegateInterface {
     public final Property<AttachAlertLayout, Float> ATTACH_ALERT_LAYOUT_TRANSLATION;
     private final Property<ChatAttachAlert, Float> ATTACH_ALERT_PROGRESS;
@@ -284,7 +284,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 1 implements BotWebViewContainer.Delegate {
         private ValueAnimator botButtonAnimator;
         final /* synthetic */ String val$startCommand;
@@ -588,7 +588,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         this.parentImageUpdater = imageUpdater;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface ChatAttachViewDelegate {
         void didPressedButton(int i, boolean z, boolean z2, int i2, boolean z3);
 
@@ -602,7 +602,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
 
         void openAvatarsSearch();
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static void $default$didSelectBot(ChatAttachViewDelegate chatAttachViewDelegate, TLRPC$User tLRPC$User) {
             }
@@ -620,7 +620,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class AttachAlertLayout extends FrameLayout {
         protected ChatAttachAlert parentAlert;
         protected final Theme.ResourcesProvider resourcesProvider;
@@ -769,7 +769,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class AttachButton extends FrameLayout {
         private String backgroundKey;
         private Animator checkAnimator;
@@ -904,7 +904,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class AttachBotButton extends FrameLayout {
         private TLRPC$TL_attachMenuBot attachMenuBot;
         private AvatarDrawable avatarDrawable;
@@ -947,7 +947,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class 1 extends BackupImageView {
             /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
             1(Context context, ChatAttachAlert chatAttachAlert) {
@@ -1779,7 +1779,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         this.containerView.addView(passcodeView, LayoutHelper.createFrame(-1, -1.0f));
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 3 extends SizeNotifierFrameLayout {
         AdjustPanLayoutHelper adjustPanLayoutHelper;
         private boolean ignoreLayout;
@@ -2734,7 +2734,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         chatAttachAlertBotWebViewLayout.getWebViewContainer().onMainButtonPressed();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 10 extends FrameLayout {
         private int color;
         private final Paint p;
@@ -2808,7 +2808,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 11 extends EditTextEmoji {
         private ValueAnimator messageEditTextAnimator;
         private int messageEditTextPredrawHeigth;
@@ -2909,7 +2909,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 12 implements TextWatcher {
         private boolean processChange;
 
@@ -3542,7 +3542,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         iArr[0] = iArr[1];
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 17 extends AnimatorListenerAdapter {
         final /* synthetic */ Runnable val$onEnd;
 
@@ -4926,7 +4926,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         return this.photoLayout;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class ButtonsAdapter extends RecyclerListView.SelectionAdapter {
         private int attachBotsEndRow;
         private int attachBotsStartRow;

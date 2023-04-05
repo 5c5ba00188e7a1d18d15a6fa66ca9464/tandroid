@@ -158,7 +158,7 @@ import org.telegram.ui.Components.StickerCategoriesListView;
 import org.telegram.ui.Components.TrendingStickersLayout;
 import org.telegram.ui.ContentPreviewViewer;
 import org.telegram.ui.StickersActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class EmojiView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private ArrayList<Tab> allTabs;
     private boolean allowAnimatedEmoji;
@@ -312,7 +312,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     private PagerSlidingTabStrip typeTabs;
     private Runnable updateStickersLoadedDelayed;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface DragListener {
         void onDrag(int i);
 
@@ -323,7 +323,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         void onDragStart();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class EmojiPack {
         public ArrayList<TLRPC$Document> documents = new ArrayList<>();
         public boolean expanded;
@@ -333,10 +333,10 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         public TLRPC$StickerSet set;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public interface EmojiViewDelegate {
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
             public static boolean $default$canSchedule(EmojiViewDelegate emojiViewDelegate) {
                 return false;
@@ -494,7 +494,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 2 implements ContentPreviewViewer.ContentPreviewViewerDelegate {
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
         public boolean needCopy() {
@@ -724,7 +724,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class SearchField extends FrameLayout {
         private View backgroundView;
         private FrameLayout box;
@@ -1142,7 +1142,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class TypedScrollListener extends RecyclerView.OnScrollListener {
         private boolean smoothScrolling;
         private final int type;
@@ -1210,7 +1210,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class DraggableScrollSlidingTabStrip extends ScrollSlidingTabStrip {
         private float downX;
         private float downY;
@@ -1446,7 +1446,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 3 extends ChatActivity {
         3(EmojiView emojiView, Bundle bundle) {
             super(bundle);
@@ -1476,7 +1476,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ImageViewEmoji extends ImageView {
         ValueAnimator backAnimator;
         private ImageReceiver.BackgroundThreadDrawHolder[] backgroundThreadDrawHolder;
@@ -2684,7 +2684,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 18 extends DraggableScrollSlidingTabStrip {
         final /* synthetic */ BaseFragment val$fragment;
 
@@ -2878,7 +2878,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class EmojiGridView extends RecyclerListView {
         private boolean ignoreLayout;
         private int lastChildCount;
@@ -3167,7 +3167,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class TouchDownInfo {
             long time;
             View view;
@@ -3231,7 +3231,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             return Math.max(400L, Math.min(45, EmojiView.this.animateExpandToPosition - EmojiView.this.animateExpandFromPosition) * 35);
         }
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         class DrawingInBackgroundLine extends DrawingInBackgroundThreadDrawable {
             ArrayList<ImageViewEmoji> imageViewEmojis;
             public int position;
@@ -3551,7 +3551,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class EmojiPackButton extends FrameLayout {
         AnimatedTextView addButtonTextView;
         FrameLayout addButtonView;
@@ -3585,7 +3585,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class EmojiPackHeader extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
         TextView addButtonView;
         FrameLayout buttonsView;
@@ -4113,7 +4113,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         }.show();
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class EmojiGridSpacing extends RecyclerView.ItemDecoration {
         public EmojiGridSpacing() {
         }
@@ -6307,7 +6307,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TrendingAdapter extends RecyclerListView.SelectionAdapter {
         private boolean emoji;
 
@@ -6423,7 +6423,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     private class TrendingListView extends RecyclerListView {
         public TrendingListView(Context context, RecyclerView.Adapter adapter) {
             super(context);
@@ -6455,7 +6455,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class StickersGridAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
         private int stickersPerRow;
@@ -6931,7 +6931,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class EmojiPackExpand extends FrameLayout {
         public TextView textView;
 
@@ -6948,7 +6948,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class CustomEmoji {
         public long documentId;
         public TLRPC$TL_messages_stickerSet stickerSet;
@@ -6968,7 +6968,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class EmojiGridAdapter extends RecyclerListView.SelectionAdapter {
         private int firstTrendingRow;
         private ArrayList<TLRPC$TL_messages_stickerSet> frozenEmojiPacks;
@@ -7633,7 +7633,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class EmojiSearchAdapter extends RecyclerListView.SelectionAdapter {
         private ArrayList<Long> addedSets;
         private String lastSearchAlias;
@@ -7743,7 +7743,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     }
 
                     /* JADX INFO: Access modifiers changed from: package-private */
-                    /* loaded from: classes3.dex */
+                    /* loaded from: classes4.dex */
                     public class 1 implements View.OnClickListener {
                         final /* synthetic */ BottomSheet.Builder val$builder;
                         final /* synthetic */ boolean[] val$loadingUrl;
@@ -8058,7 +8058,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class EmojiPagesAdapter extends PagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
         @Override // org.telegram.ui.Components.PagerSlidingTabStrip.IconTabProvider
         public void customOnDraw(Canvas canvas, View view, int i) {
@@ -8137,7 +8137,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class GifAdapter extends RecyclerListView.SelectionAdapter {
         private boolean addSearch;
         private TLRPC$User bot;
@@ -8580,7 +8580,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class GifSearchPreloader {
         private final List<String> loadingKeys;
 
@@ -8654,7 +8654,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class GifLayoutManager extends ExtendedGridLayoutManager {
         private Size size;
 
@@ -8786,7 +8786,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class GifProgressEmptyView extends FrameLayout {
         private final ImageView imageView;
         private boolean loadingState;
@@ -8837,7 +8837,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class StickersSearchGridAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
         private int emojiSearchId;
@@ -8871,7 +8871,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class 1 implements Runnable {
             int lastId;
             String query;
@@ -9561,7 +9561,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static abstract class ChooseStickerActionTracker {
         private final int currentAccount;
         private final long dialogId;
@@ -9609,7 +9609,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class Tab {
         int type;
         View view;

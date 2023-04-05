@@ -8,7 +8,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class DoubleLimitsPageView extends FrameLayout implements PagerHeaderView {
     DoubledLimitsBottomSheet$Adapter adapter;
     final LinearLayoutManager layoutManager;
