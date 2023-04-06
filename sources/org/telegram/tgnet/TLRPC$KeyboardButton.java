@@ -1,4 +1,6 @@
 package org.telegram.tgnet;
+
+import java.util.ArrayList;
 /* loaded from: classes.dex */
 public abstract class TLRPC$KeyboardButton extends TLObject {
     public TLRPC$InputUser bot;
@@ -7,6 +9,7 @@ public abstract class TLRPC$KeyboardButton extends TLObject {
     public int flags;
     public String fwd_text;
     public TLRPC$InputUser inputUser;
+    public ArrayList<TLRPC$InlineQueryPeerType> peer_types = new ArrayList<>();
     public String query;
     public boolean quiz;
     public boolean request_write_access;
@@ -19,6 +22,55 @@ public abstract class TLRPC$KeyboardButton extends TLObject {
     public static TLRPC$KeyboardButton TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$KeyboardButton tLRPC$KeyboardButton;
         switch (i) {
+            case -1816527947:
+                tLRPC$KeyboardButton = new TLRPC$KeyboardButton() { // from class: org.telegram.tgnet.TLRPC$TL_keyboardButtonSwitchInline
+                    public static int constructor = -1816527947;
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                        int readInt32 = abstractSerializedData2.readInt32(z2);
+                        this.flags = readInt32;
+                        this.same_peer = (readInt32 & 1) != 0;
+                        this.text = abstractSerializedData2.readString(z2);
+                        this.query = abstractSerializedData2.readString(z2);
+                        if ((this.flags & 2) != 0) {
+                            int readInt322 = abstractSerializedData2.readInt32(z2);
+                            if (readInt322 != 481674261) {
+                                if (z2) {
+                                    throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt322)));
+                                }
+                                return;
+                            }
+                            int readInt323 = abstractSerializedData2.readInt32(z2);
+                            for (int i2 = 0; i2 < readInt323; i2++) {
+                                TLRPC$InlineQueryPeerType TLdeserialize = TLRPC$InlineQueryPeerType.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                                if (TLdeserialize == null) {
+                                    return;
+                                }
+                                this.peer_types.add(TLdeserialize);
+                            }
+                        }
+                    }
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(constructor);
+                        int i2 = this.same_peer ? this.flags | 1 : this.flags & (-2);
+                        this.flags = i2;
+                        abstractSerializedData2.writeInt32(i2);
+                        abstractSerializedData2.writeString(this.text);
+                        abstractSerializedData2.writeString(this.query);
+                        if ((this.flags & 2) != 0) {
+                            abstractSerializedData2.writeInt32(481674261);
+                            int size = this.peer_types.size();
+                            abstractSerializedData2.writeInt32(size);
+                            for (int i3 = 0; i3 < size; i3++) {
+                                this.peer_types.get(i3).serializeToStream(abstractSerializedData2);
+                            }
+                        }
+                    }
+                };
+                break;
             case -1598009252:
                 tLRPC$KeyboardButton = new TLRPC$KeyboardButton() { // from class: org.telegram.tgnet.TLRPC$TL_keyboardButtonSimpleWebView
                     public static int constructor = -1598009252;
@@ -177,7 +229,7 @@ public abstract class TLRPC$KeyboardButton extends TLObject {
                 };
                 break;
             case 90744648:
-                tLRPC$KeyboardButton = new TLRPC$KeyboardButton() { // from class: org.telegram.tgnet.TLRPC$TL_keyboardButtonSwitchInline
+                tLRPC$KeyboardButton = new TLRPC$KeyboardButton() { // from class: org.telegram.tgnet.TLRPC$TL_keyboardButtonSwitchInline_layer157
                     public static int constructor = 90744648;
 
                     @Override // org.telegram.tgnet.TLObject
