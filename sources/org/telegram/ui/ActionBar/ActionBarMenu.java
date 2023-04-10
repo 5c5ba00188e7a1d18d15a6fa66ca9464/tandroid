@@ -16,6 +16,7 @@ public class ActionBarMenu extends LinearLayout {
     public boolean drawBlur;
     private ArrayList<Integer> ids;
     protected boolean isActionMode;
+    private Runnable onLayoutListener;
     protected ActionBar parentActionBar;
 
     public ActionBarMenu(Context context, ActionBar actionBar) {
@@ -552,6 +553,19 @@ public class ActionBarMenu extends LinearLayout {
             if (childAt instanceof ActionBarMenuItem) {
                 ((ActionBarMenuItem) childAt).setTransitionOffset(f);
             }
+        }
+    }
+
+    public void setOnLayoutListener(Runnable runnable) {
+        this.onLayoutListener = runnable;
+    }
+
+    @Override // android.widget.LinearLayout, android.view.ViewGroup, android.view.View
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        super.onLayout(z, i, i2, i3, i4);
+        Runnable runnable = this.onLayoutListener;
+        if (runnable != null) {
+            runnable.run();
         }
     }
 }

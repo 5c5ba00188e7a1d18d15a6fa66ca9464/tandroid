@@ -43,6 +43,10 @@ public abstract class JsonElement {
         throw new IllegalStateException("Not a JSON Primitive: " + this);
     }
 
+    public String getAsString() {
+        throw new UnsupportedOperationException(getClass().getSimpleName());
+    }
+
     public String toString() {
         try {
             StringWriter stringWriter = new StringWriter();

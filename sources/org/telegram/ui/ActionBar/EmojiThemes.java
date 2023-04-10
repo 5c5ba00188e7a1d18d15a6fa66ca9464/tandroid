@@ -34,8 +34,9 @@ public class EmojiThemes {
     public String emoji;
     public ArrayList<ThemeItem> items = new ArrayList<>();
     public boolean showAsDefaultStub;
+    public TLRPC$WallPaper wallpaper;
 
-    private EmojiThemes() {
+    public EmojiThemes() {
     }
 
     public EmojiThemes(TLRPC$TL_theme tLRPC$TL_theme, boolean z) {
@@ -313,28 +314,31 @@ public class EmojiThemes {
         return this.items.get(i).themeInfo;
     }
 
-    public void loadWallpaper(int i, final ResultCallback<Pair<Long, Bitmap>> resultCallback) {
-        final TLRPC$WallPaper wallpaper = getWallpaper(i);
+    public void loadWallpaper(int i, ResultCallback<Pair<Long, Bitmap>> resultCallback) {
+        TLRPC$WallPaper wallpaper = getWallpaper(i);
         if (wallpaper != null) {
-            final long j = getTlTheme(i).id;
-            ChatThemeController.getWallpaperBitmap(j, new ResultCallback() { // from class: org.telegram.ui.ActionBar.EmojiThemes$$ExternalSyntheticLambda3
-                @Override // org.telegram.tgnet.ResultCallback
-                public final void onComplete(Object obj) {
-                    EmojiThemes.lambda$loadWallpaper$1(ResultCallback.this, j, wallpaper, (Bitmap) obj);
-                }
-
-                @Override // org.telegram.tgnet.ResultCallback
-                public /* synthetic */ void onError(TLRPC$TL_error tLRPC$TL_error) {
-                    ResultCallback.-CC.$default$onError(this, tLRPC$TL_error);
-                }
-            });
+            loadWallpaperImage(getTlTheme(i).id, wallpaper, resultCallback);
         } else if (resultCallback != null) {
             resultCallback.onComplete(null);
         }
     }
 
+    public static void loadWallpaperImage(final long j, final TLRPC$WallPaper tLRPC$WallPaper, final ResultCallback<Pair<Long, Bitmap>> resultCallback) {
+        ChatThemeController.getWallpaperBitmap(j, new ResultCallback() { // from class: org.telegram.ui.ActionBar.EmojiThemes$$ExternalSyntheticLambda3
+            @Override // org.telegram.tgnet.ResultCallback
+            public final void onComplete(Object obj) {
+                EmojiThemes.lambda$loadWallpaperImage$1(ResultCallback.this, j, tLRPC$WallPaper, (Bitmap) obj);
+            }
+
+            @Override // org.telegram.tgnet.ResultCallback
+            public /* synthetic */ void onError(TLRPC$TL_error tLRPC$TL_error) {
+                ResultCallback.-CC.$default$onError(this, tLRPC$TL_error);
+            }
+        });
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$loadWallpaper$1(final ResultCallback resultCallback, final long j, TLRPC$WallPaper tLRPC$WallPaper, Bitmap bitmap) {
+    public static /* synthetic */ void lambda$loadWallpaperImage$1(final ResultCallback resultCallback, final long j, TLRPC$WallPaper tLRPC$WallPaper, Bitmap bitmap) {
         if (bitmap != null && resultCallback != null) {
             resultCallback.onComplete(new Pair(Long.valueOf(j), bitmap));
             return;
@@ -350,7 +354,7 @@ public class EmojiThemes {
         imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.ActionBar.EmojiThemes$$ExternalSyntheticLambda1
             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
             public final void didSetImage(ImageReceiver imageReceiver2, boolean z, boolean z2, boolean z3) {
-                EmojiThemes.lambda$loadWallpaper$0(ResultCallback.this, j, imageReceiver2, z, z2, z3);
+                EmojiThemes.lambda$loadWallpaperImage$0(ResultCallback.this, j, imageReceiver2, z, z2, z3);
             }
 
             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
@@ -362,7 +366,7 @@ public class EmojiThemes {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$loadWallpaper$0(ResultCallback resultCallback, long j, ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
+    public static /* synthetic */ void lambda$loadWallpaperImage$0(ResultCallback resultCallback, long j, ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
         ImageReceiver.BitmapHolder bitmapSafe = imageReceiver.getBitmapSafe();
         if (!z || bitmapSafe == null) {
             return;

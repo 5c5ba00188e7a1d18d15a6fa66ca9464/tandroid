@@ -22,6 +22,7 @@ import android.view.Window;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.FrameLayout;
 import androidx.core.graphics.ColorUtils;
+import androidx.core.util.Supplier;
 import java.util.ArrayList;
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
@@ -42,6 +43,7 @@ import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
+import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
@@ -59,11 +61,20 @@ public abstract class BaseFragment {
     protected INavigationLayout parentLayout;
     private PreviewDelegate previewDelegate;
     private boolean removingFromStack;
+    private Theme.ResourcesProvider resourceProvider;
     protected Dialog visibleDialog;
     protected int currentAccount = UserConfig.selectedAccount;
     protected boolean hasOwnBackground = false;
     protected boolean isPaused = true;
     protected int classGuid = ConnectionsManager.generateClassGuid();
+
+    /* loaded from: classes3.dex */
+    public static class BottomSheetParams {
+        public boolean allowNestedScroll;
+        public Runnable onDismiss;
+        public Runnable onOpenAnimationFinished;
+        public boolean transitionFromLeft;
+    }
 
     /* loaded from: classes3.dex */
     public interface PreviewDelegate {
@@ -105,10 +116,6 @@ public abstract class BaseFragment {
 
     public int getPreviewHeight() {
         return -1;
-    }
-
-    public Theme.ResourcesProvider getResourceProvider() {
-        return null;
     }
 
     public boolean hasForceLightStatusBar() {
@@ -730,20 +737,37 @@ public abstract class BaseFragment {
     }
 
     public INavigationLayout[] showAsSheet(BaseFragment baseFragment) {
+        return showAsSheet(baseFragment, null);
+    }
+
+    public INavigationLayout[] showAsSheet(BaseFragment baseFragment, BottomSheetParams bottomSheetParams) {
         if (getParentActivity() == null) {
             return null;
         }
-        INavigationLayout[] iNavigationLayoutArr = {INavigationLayout.-CC.newLayout(getParentActivity())};
-        1 r7 = new 1(this, getParentActivity(), true, iNavigationLayoutArr, baseFragment);
-        baseFragment.setParentDialog(r7);
-        r7.show();
+        INavigationLayout[] iNavigationLayoutArr = {INavigationLayout.-CC.newLayout(getParentActivity(), new Supplier() { // from class: org.telegram.ui.ActionBar.BaseFragment$$ExternalSyntheticLambda1
+            @Override // androidx.core.util.Supplier
+            public final Object get() {
+                BottomSheet lambda$showAsSheet$1;
+                lambda$showAsSheet$1 = BaseFragment.lambda$showAsSheet$1(r1);
+                return lambda$showAsSheet$1;
+            }
+        })};
+        final BottomSheet[] bottomSheetArr = {new 1(this, getParentActivity(), true, iNavigationLayoutArr, baseFragment, bottomSheetParams)};
+        if (bottomSheetParams != null) {
+            bottomSheetArr[0].setAllowNestedScroll(bottomSheetParams.allowNestedScroll);
+            bottomSheetArr[0].transitionFromRight(bottomSheetParams.transitionFromLeft);
+        }
+        baseFragment.setParentDialog(bottomSheetArr[0]);
+        bottomSheetArr[0].show();
         return iNavigationLayoutArr;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
-    class 1 extends BottomSheet {
+    public class 1 extends BottomSheet {
         final /* synthetic */ INavigationLayout[] val$actionBarLayout;
         final /* synthetic */ BaseFragment val$fragment;
+        final /* synthetic */ BottomSheetParams val$params;
 
         @Override // org.telegram.ui.ActionBar.BottomSheet
         protected boolean canDismissWithSwipe() {
@@ -751,10 +775,11 @@ public abstract class BaseFragment {
         }
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        1(BaseFragment baseFragment, Context context, boolean z, INavigationLayout[] iNavigationLayoutArr, final BaseFragment baseFragment2) {
+        1(BaseFragment baseFragment, Context context, boolean z, INavigationLayout[] iNavigationLayoutArr, final BaseFragment baseFragment2, final BottomSheetParams bottomSheetParams) {
             super(context, z);
             this.val$actionBarLayout = iNavigationLayoutArr;
             this.val$fragment = baseFragment2;
+            this.val$params = bottomSheetParams;
             iNavigationLayoutArr[0].setFragmentStack(new ArrayList());
             iNavigationLayoutArr[0].addFragmentToStack(baseFragment2);
             iNavigationLayoutArr[0].showLastFragment();
@@ -763,13 +788,22 @@ public abstract class BaseFragment {
             view.setPadding(i, 0, i, 0);
             this.containerView = iNavigationLayoutArr[0].getView();
             setApplyBottomPadding(false);
-            setApplyBottomPadding(false);
             setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ActionBar.BaseFragment$1$$ExternalSyntheticLambda0
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
-                    BaseFragment.this.onFragmentDestroy();
+                    BaseFragment.1.lambda$new$0(BaseFragment.this, bottomSheetParams, dialogInterface);
                 }
             });
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ void lambda$new$0(BaseFragment baseFragment, BottomSheetParams bottomSheetParams, DialogInterface dialogInterface) {
+            Runnable runnable;
+            baseFragment.onFragmentDestroy();
+            if (bottomSheetParams == null || (runnable = bottomSheetParams.onDismiss) == null) {
+                return;
+            }
+            runnable.run();
         }
 
         @Override // android.app.Dialog
@@ -787,6 +821,21 @@ public abstract class BaseFragment {
             super.dismiss();
             this.val$actionBarLayout[0] = null;
         }
+
+        @Override // org.telegram.ui.ActionBar.BottomSheet
+        public void onOpenAnimationEnd() {
+            Runnable runnable;
+            BottomSheetParams bottomSheetParams = this.val$params;
+            if (bottomSheetParams == null || (runnable = bottomSheetParams.onOpenAnimationFinished) == null) {
+                return;
+            }
+            runnable.run();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ BottomSheet lambda$showAsSheet$1(BottomSheet[] bottomSheetArr) {
+        return bottomSheetArr[0];
     }
 
     public int getThemedColor(String str) {
@@ -819,6 +868,10 @@ public abstract class BaseFragment {
 
     private void setParentDialog(Dialog dialog) {
         this.parentDialog = dialog;
+    }
+
+    public Theme.ResourcesProvider getResourceProvider() {
+        return this.resourceProvider;
     }
 
     public boolean isRemovingFromStack() {
@@ -855,5 +908,9 @@ public abstract class BaseFragment {
             this.isFinished = false;
             this.finishing = false;
         }
+    }
+
+    public void setResourceProvider(Theme.ResourcesProvider resourcesProvider) {
+        this.resourceProvider = resourcesProvider;
     }
 }

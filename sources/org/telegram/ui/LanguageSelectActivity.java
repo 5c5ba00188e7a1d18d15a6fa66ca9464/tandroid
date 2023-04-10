@@ -2,7 +2,6 @@ package org.telegram.ui;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
@@ -200,9 +199,9 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Removed duplicated region for block: B:118:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0018 A[Catch: Exception -> 0x01f4, TryCatch #0 {Exception -> 0x01f4, blocks: (B:2:0x0000, B:4:0x0006, B:6:0x000c, B:12:0x0018, B:16:0x0021, B:26:0x0083, B:28:0x0089, B:34:0x0095, B:38:0x00a0, B:39:0x00a2, B:41:0x00aa, B:43:0x00b8, B:45:0x00bc, B:46:0x00bf, B:48:0x00c4, B:50:0x00c9, B:51:0x00d0, B:19:0x0042, B:21:0x0049, B:23:0x0053, B:25:0x005e, B:53:0x00d7, B:55:0x00db, B:57:0x00e4, B:59:0x00ea, B:61:0x00ee, B:64:0x00f4, B:69:0x0103, B:71:0x0109, B:75:0x0112, B:77:0x011e, B:89:0x015c, B:92:0x0167, B:94:0x0173, B:95:0x0178, B:97:0x018e, B:98:0x0196, B:100:0x01ad, B:102:0x01b3, B:104:0x01bd, B:106:0x01c5, B:107:0x01c8, B:78:0x0127, B:81:0x0131, B:83:0x0139, B:84:0x0142, B:86:0x014a, B:87:0x0152), top: B:113:0x0000 }] */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0018 A[Catch: Exception -> 0x01e0, TryCatch #0 {Exception -> 0x01e0, blocks: (B:2:0x0000, B:4:0x0006, B:6:0x000c, B:12:0x0018, B:16:0x0021, B:26:0x007b, B:28:0x0081, B:34:0x008d, B:38:0x0098, B:39:0x009a, B:41:0x00a2, B:43:0x00b0, B:45:0x00b4, B:46:0x00b7, B:48:0x00bc, B:50:0x00c1, B:51:0x00c8, B:19:0x0042, B:21:0x0049, B:23:0x0053, B:25:0x005e, B:53:0x00cf, B:55:0x00d3, B:57:0x00dc, B:59:0x00e2, B:61:0x00e6, B:64:0x00ec, B:69:0x00fb, B:71:0x0101, B:75:0x010a, B:77:0x0116, B:89:0x0154, B:92:0x015f, B:94:0x016b, B:95:0x0170, B:97:0x0186, B:98:0x018e, B:100:0x01a1, B:102:0x01a7, B:104:0x01b1, B:106:0x01b9, B:107:0x01bc, B:78:0x011f, B:81:0x0129, B:83:0x0131, B:84:0x013a, B:86:0x0142, B:87:0x014a), top: B:113:0x0000 }] */
     /* JADX WARN: Removed duplicated region for block: B:17:0x003f  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0095 A[Catch: Exception -> 0x01f4, TryCatch #0 {Exception -> 0x01f4, blocks: (B:2:0x0000, B:4:0x0006, B:6:0x000c, B:12:0x0018, B:16:0x0021, B:26:0x0083, B:28:0x0089, B:34:0x0095, B:38:0x00a0, B:39:0x00a2, B:41:0x00aa, B:43:0x00b8, B:45:0x00bc, B:46:0x00bf, B:48:0x00c4, B:50:0x00c9, B:51:0x00d0, B:19:0x0042, B:21:0x0049, B:23:0x0053, B:25:0x005e, B:53:0x00d7, B:55:0x00db, B:57:0x00e4, B:59:0x00ea, B:61:0x00ee, B:64:0x00f4, B:69:0x0103, B:71:0x0109, B:75:0x0112, B:77:0x011e, B:89:0x015c, B:92:0x0167, B:94:0x0173, B:95:0x0178, B:97:0x018e, B:98:0x0196, B:100:0x01ad, B:102:0x01b3, B:104:0x01bd, B:106:0x01c5, B:107:0x01c8, B:78:0x0127, B:81:0x0131, B:83:0x0139, B:84:0x0142, B:86:0x014a, B:87:0x0152), top: B:113:0x0000 }] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x008d A[Catch: Exception -> 0x01e0, TryCatch #0 {Exception -> 0x01e0, blocks: (B:2:0x0000, B:4:0x0006, B:6:0x000c, B:12:0x0018, B:16:0x0021, B:26:0x007b, B:28:0x0081, B:34:0x008d, B:38:0x0098, B:39:0x009a, B:41:0x00a2, B:43:0x00b0, B:45:0x00b4, B:46:0x00b7, B:48:0x00bc, B:50:0x00c1, B:51:0x00c8, B:19:0x0042, B:21:0x0049, B:23:0x0053, B:25:0x005e, B:53:0x00cf, B:55:0x00d3, B:57:0x00dc, B:59:0x00e2, B:61:0x00e6, B:64:0x00ec, B:69:0x00fb, B:71:0x0101, B:75:0x010a, B:77:0x0116, B:89:0x0154, B:92:0x015f, B:94:0x016b, B:95:0x0170, B:97:0x0186, B:98:0x018e, B:100:0x01a1, B:102:0x01a7, B:104:0x01b1, B:106:0x01b9, B:107:0x01bc, B:78:0x011f, B:81:0x0129, B:83:0x0131, B:84:0x013a, B:86:0x0142, B:87:0x014a), top: B:113:0x0000 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -225,7 +224,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                             showDialog(new PremiumFeatureBottomSheet(this, 13, false));
                             return;
                         }
-                        MessagesController.getMainSettings(this.currentAccount).edit().putBoolean("translate_chat_button", z4).apply();
+                        getMessagesController().getTranslateController().setChatTranslateEnabled(z4);
                         NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.updateSearchSettings, new Object[0]);
                         ((TextCheckCell) view).setChecked(z4);
                     }
@@ -308,7 +307,6 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                     }
                     String str = localeInfo.pluralLangCode;
                     final String str2 = currentLocaleInfo.pluralLangCode;
-                    SharedPreferences globalMainSettings = MessagesController.getGlobalMainSettings();
                     HashSet<String> restrictedLanguages = RestrictedLanguagesSelectActivity.getRestrictedLanguages();
                     HashSet hashSet = new HashSet(restrictedLanguages);
                     if (restrictedLanguages.contains(str2) && !restrictedLanguages.contains(str)) {
@@ -339,7 +337,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                     if (str != null && !"null".equals(str)) {
                         hashSet.add(str);
                     }
-                    globalMainSettings.edit().putStringSet("translate_button_restricted_languages", hashSet).apply();
+                    RestrictedLanguagesSelectActivity.updateRestrictedLanguages(hashSet, Boolean.FALSE);
                     MessagesController.getInstance(this.currentAccount).getTranslateController().checkRestrictedLanguagesUpdate();
                     MessagesController.getInstance(this.currentAccount).getTranslateController().cleanup();
                     TranslateController.invalidateSuggestedLanguageCodes();

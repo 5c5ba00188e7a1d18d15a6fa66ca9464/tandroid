@@ -11,8 +11,8 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda117 impl
 
     @Override // android.view.View.OnTouchListener
     public final boolean onTouch(View view, MotionEvent motionEvent) {
-        boolean lambda$createView$42;
-        lambda$createView$42 = ChatActivity.lambda$createView$42(view, motionEvent);
-        return lambda$createView$42;
+        boolean lambda$createView$43;
+        lambda$createView$43 = ChatActivity.lambda$createView$43(view, motionEvent);
+        return lambda$createView$43;
     }
 }

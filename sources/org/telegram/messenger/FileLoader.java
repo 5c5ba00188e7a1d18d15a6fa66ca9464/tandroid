@@ -118,25 +118,25 @@ public class FileLoader extends BaseController {
         File getFile();
     }
 
-    static /* synthetic */ int access$1008(FileLoader fileLoader) {
+    static /* synthetic */ int access$1108(FileLoader fileLoader) {
         int i = fileLoader.currentUploadOperationsCount;
         fileLoader.currentUploadOperationsCount = i + 1;
         return i;
     }
 
-    static /* synthetic */ int access$1010(FileLoader fileLoader) {
+    static /* synthetic */ int access$1110(FileLoader fileLoader) {
         int i = fileLoader.currentUploadOperationsCount;
         fileLoader.currentUploadOperationsCount = i - 1;
         return i;
     }
 
-    static /* synthetic */ int access$808(FileLoader fileLoader) {
+    static /* synthetic */ int access$908(FileLoader fileLoader) {
         int i = fileLoader.currentUploadSmallOperationsCount;
         fileLoader.currentUploadSmallOperationsCount = i + 1;
         return i;
     }
 
-    static /* synthetic */ int access$810(FileLoader fileLoader) {
+    static /* synthetic */ int access$910(FileLoader fileLoader) {
         int i = fileLoader.currentUploadSmallOperationsCount;
         fileLoader.currentUploadSmallOperationsCount = i - 1;
         return i;
@@ -575,15 +575,15 @@ public class FileLoader extends BaseController {
                 FileLoader.this.uploadOperationPaths.remove(str);
             }
             if (z2) {
-                FileLoader.access$810(FileLoader.this);
+                FileLoader.access$910(FileLoader.this);
                 if (FileLoader.this.currentUploadSmallOperationsCount < 1 && (fileUploadOperation3 = (FileUploadOperation) FileLoader.this.uploadSmallOperationQueue.poll()) != null) {
-                    FileLoader.access$808(FileLoader.this);
+                    FileLoader.access$908(FileLoader.this);
                     fileUploadOperation3.start();
                 }
             } else {
-                FileLoader.access$1010(FileLoader.this);
+                FileLoader.access$1110(FileLoader.this);
                 if (FileLoader.this.currentUploadOperationsCount < 1 && (fileUploadOperation2 = (FileUploadOperation) FileLoader.this.uploadOperationQueue.poll()) != null) {
-                    FileLoader.access$1008(FileLoader.this);
+                    FileLoader.access$1108(FileLoader.this);
                     fileUploadOperation2.start();
                 }
             }
@@ -619,19 +619,19 @@ public class FileLoader extends BaseController {
                 FileLoader.this.delegate.fileDidFailedUpload(str, z);
             }
             if (z2) {
-                FileLoader.access$810(FileLoader.this);
+                FileLoader.access$910(FileLoader.this);
                 if (FileLoader.this.currentUploadSmallOperationsCount >= 1 || (fileUploadOperation2 = (FileUploadOperation) FileLoader.this.uploadSmallOperationQueue.poll()) == null) {
                     return;
                 }
-                FileLoader.access$808(FileLoader.this);
+                FileLoader.access$908(FileLoader.this);
                 fileUploadOperation2.start();
                 return;
             }
-            FileLoader.access$1010(FileLoader.this);
+            FileLoader.access$1110(FileLoader.this);
             if (FileLoader.this.currentUploadOperationsCount >= 1 || (fileUploadOperation = (FileUploadOperation) FileLoader.this.uploadOperationQueue.poll()) == null) {
                 return;
             }
-            FileLoader.access$1008(FileLoader.this);
+            FileLoader.access$1108(FileLoader.this);
             fileUploadOperation.start();
         }
 
@@ -1077,7 +1077,6 @@ public class FileLoader extends BaseController {
                     FileLoader.2.this.lambda$didPreFinishLoading$0(str, queue);
                 }
             });
-            FileLoader.this.checkDownloadQueue(fileLoadOperation.getQueue(), this.val$fileName);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -1109,7 +1108,7 @@ public class FileLoader extends BaseController {
                         FileLoader.this.delegate.fileDidLoaded(this.val$fileName, file, this.val$parentObject, this.val$finalType);
                     }
                 }
-                FileLoader.this.checkDownloadQueue(fileLoadOperation.getQueue(), this.val$fileName);
+                FileLoader.this.checkDownloadQueue(fileLoadOperation.getQueue(), this.val$fileName, 100L);
             }
         }
 
@@ -1284,13 +1283,18 @@ public class FileLoader extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public void checkDownloadQueue(final FileLoaderPriorityQueue fileLoaderPriorityQueue, final String str) {
+    public void checkDownloadQueue(FileLoaderPriorityQueue fileLoaderPriorityQueue, String str) {
+        checkDownloadQueue(fileLoaderPriorityQueue, str, 0L);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void checkDownloadQueue(final FileLoaderPriorityQueue fileLoaderPriorityQueue, final String str, long j) {
         fileLoaderQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoader$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 FileLoader.this.lambda$checkDownloadQueue$12(str, fileLoaderPriorityQueue);
             }
-        });
+        }, j);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

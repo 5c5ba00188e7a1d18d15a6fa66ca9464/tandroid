@@ -27,6 +27,7 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
+import android.view.Window;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -169,6 +170,11 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     }
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout
+    public /* bridge */ /* synthetic */ BottomSheet getBottomSheet() {
+        return INavigationLayout.-CC.$default$getBottomSheet(this);
+    }
+
+    @Override // org.telegram.ui.ActionBar.INavigationLayout
     public FrameLayout getOverlayContainerView() {
         return this;
     }
@@ -181,6 +187,10 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     @Override // org.telegram.ui.ActionBar.INavigationLayout
     public /* bridge */ /* synthetic */ ViewGroup getView() {
         return INavigationLayout.-CC.$default$getView(this);
+    }
+
+    public /* bridge */ /* synthetic */ Window getWindow() {
+        return INavigationLayout.-CC.$default$getWindow(this);
     }
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout
@@ -1308,6 +1318,9 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         final ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = navigationParams.menuView;
         if (baseFragment2 == null || checkTransitionAnimation() || !(((iNavigationLayoutDelegate = this.delegate) == null || !z3 || iNavigationLayoutDelegate.needPresentFragment(this, navigationParams)) && baseFragment2.onFragmentCreate())) {
             return false;
+        }
+        if (BuildVars.LOGS_ENABLED) {
+            FileLog.d("present fragment " + baseFragment2.getClass().getSimpleName());
         }
         if (this.inPreviewMode && this.transitionAnimationPreviewMode) {
             Runnable runnable = this.delayedOpenAnimationRunnable;

@@ -18,6 +18,19 @@ public final class JsonArray extends JsonElement implements Iterable<JsonElement
         return this.elements.iterator();
     }
 
+    private JsonElement getAsSingleElement() {
+        int size = this.elements.size();
+        if (size == 1) {
+            return this.elements.get(0);
+        }
+        throw new IllegalStateException("Array must have size 1, but has size " + size);
+    }
+
+    @Override // com.google.gson.JsonElement
+    public String getAsString() {
+        return getAsSingleElement().getAsString();
+    }
+
     public boolean equals(Object obj) {
         return obj == this || ((obj instanceof JsonArray) && ((JsonArray) obj).elements.equals(this.elements));
     }

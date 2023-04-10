@@ -68,7 +68,9 @@ public class AnimatedTextView extends View {
         private CharSequence oldText;
         private float oldWidth;
         private Runnable onAnimationFinishListener;
+        private int overrideFullWidth;
         private boolean preserveIndex;
+        private float rightPadding;
         private boolean splitByWords;
         private boolean startFromEnd;
         private float t;
@@ -144,7 +146,8 @@ public class AnimatedTextView extends View {
             this.onAnimationFinishListener = runnable;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:113:0x01f7  */
+        /* JADX WARN: Removed duplicated region for block: B:113:0x0201  */
+        /* JADX WARN: Removed duplicated region for block: B:131:? A[RETURN, SYNTHETIC] */
         @Override // android.graphics.drawable.Drawable
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -160,16 +163,17 @@ public class AnimatedTextView extends View {
             float f7;
             float f8;
             float f9;
+            if (this.ellipsizeByGradient) {
+                RectF rectF = AndroidUtilities.rectTmp;
+                rectF.set(this.bounds);
+                rectF.right -= this.rightPadding;
+                canvas.saveLayerAlpha(rectF, 255, 31);
+            }
             canvas.save();
             android.graphics.Rect rect2 = this.bounds;
             canvas.translate(rect2.left, rect2.top);
             int width = this.bounds.width();
             int height = this.bounds.height();
-            if (this.ellipsizeByGradient) {
-                RectF rectF = AndroidUtilities.rectTmp;
-                rectF.set(this.bounds);
-                canvas.saveLayerAlpha(rectF, 255, 31);
-            }
             if (this.currentParts != null && this.oldParts != null) {
                 float f10 = this.t;
                 if (f10 != 1.0f) {
@@ -268,26 +272,29 @@ public class AnimatedTextView extends View {
                         }
                         i4++;
                     }
-                    if (this.ellipsizeByGradient) {
-                        float dp = AndroidUtilities.dp(16.0f);
-                        if (this.ellipsizeGradient == null) {
-                            this.ellipsizeGradient = new LinearGradient(0.0f, 0.0f, dp, 0.0f, new int[]{16711680, -65536}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP);
-                            this.ellipsizeGradientMatrix = new Matrix();
-                            Paint paint = new Paint(1);
-                            this.ellipsizePaint = paint;
-                            paint.setShader(this.ellipsizeGradient);
-                            this.ellipsizePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
-                        }
-                        this.ellipsizeGradientMatrix.reset();
-                        this.ellipsizeGradientMatrix.postTranslate(this.bounds.right - dp, 0.0f);
-                        this.ellipsizeGradient.setLocalMatrix(this.ellipsizeGradientMatrix);
-                        canvas.save();
-                        int i6 = this.bounds.right;
-                        canvas.drawRect(i6 - dp, rect.top, i6, rect.bottom, this.ellipsizePaint);
-                        canvas.restore();
-                        canvas.restore();
-                    }
                     canvas.restore();
+                    if (this.ellipsizeByGradient) {
+                        return;
+                    }
+                    float dp = AndroidUtilities.dp(16.0f);
+                    if (this.ellipsizeGradient == null) {
+                        this.ellipsizeGradient = new LinearGradient(0.0f, 0.0f, dp, 0.0f, new int[]{16711680, -65536}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP);
+                        this.ellipsizeGradientMatrix = new Matrix();
+                        Paint paint = new Paint(1);
+                        this.ellipsizePaint = paint;
+                        paint.setShader(this.ellipsizeGradient);
+                        this.ellipsizePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+                    }
+                    this.ellipsizeGradientMatrix.reset();
+                    this.ellipsizeGradientMatrix.postTranslate((this.bounds.right - this.rightPadding) - dp, 0.0f);
+                    this.ellipsizeGradient.setLocalMatrix(this.ellipsizeGradientMatrix);
+                    canvas.save();
+                    int i6 = this.bounds.right;
+                    float f20 = this.rightPadding;
+                    canvas.drawRect((i6 - f20) - dp, rect.top, i6 - f20, rect.bottom, this.ellipsizePaint);
+                    canvas.restore();
+                    canvas.restore();
+                    return;
                 }
             }
             canvas.translate(0.0f, (height - this.currentHeight) / 2.0f);
@@ -296,12 +303,12 @@ public class AnimatedTextView extends View {
                 for (int i7 = 0; i7 < this.currentParts.length; i7++) {
                     canvas.save();
                     Part part4 = this.currentParts[i7];
-                    float f20 = part4.offset;
+                    float f21 = part4.offset;
                     boolean z3 = this.isRTL;
                     if (z3 && !this.ignoreRTL) {
-                        f20 = this.currentWidth - (f20 + part4.width);
+                        f21 = this.currentWidth - (f21 + part4.width);
                     }
-                    float f21 = f20 - part4.left;
+                    float f22 = f21 - part4.left;
                     int i8 = this.gravity;
                     if ((i8 | (-4)) != -1) {
                         if ((i8 | (-6)) == -1) {
@@ -309,22 +316,27 @@ public class AnimatedTextView extends View {
                             f2 = this.currentWidth;
                         } else if ((i8 | (-2)) == -1) {
                             f3 = (width - this.currentWidth) / 2.0f;
-                            f21 += f3;
+                            f22 += f3;
                         } else if (z3 && !this.ignoreRTL) {
                             f = width;
                             f2 = this.currentWidth;
                         }
                         f3 = f - f2;
-                        f21 += f3;
+                        f22 += f3;
                     }
-                    canvas.translate(f21, 0.0f);
+                    canvas.translate(f22, 0.0f);
                     part4.layout.draw(canvas);
                     canvas.restore();
                 }
             }
+            canvas.restore();
             if (this.ellipsizeByGradient) {
             }
-            canvas.restore();
+        }
+
+        public void setRightPadding(float f) {
+            this.rightPadding = f;
+            invalidateSelf();
         }
 
         public void cancelAnimation() {
@@ -352,6 +364,10 @@ public class AnimatedTextView extends View {
             if (charSequence == null) {
                 charSequence = "";
             }
+            final int i = this.overrideFullWidth;
+            if (i <= 0) {
+                i = this.bounds.width();
+            }
             if (z) {
                 if (this.allowCancel) {
                     ValueAnimator valueAnimator = this.animator;
@@ -378,18 +394,18 @@ public class AnimatedTextView extends View {
                 this.isRTL = AndroidUtilities.isRTL(this.currentText);
                 diff(this.splitByWords ? new WordSequence(this.oldText) : this.oldText, this.splitByWords ? new WordSequence(this.currentText) : this.currentText, new RegionCallback() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda3
                     @Override // org.telegram.ui.Components.AnimatedTextView.AnimatedTextDrawable.RegionCallback
-                    public final void run(CharSequence charSequence2, int i, int i2) {
-                        AnimatedTextView.AnimatedTextDrawable.this.lambda$setText$0(arrayList2, arrayList, charSequence2, i, i2);
-                    }
-                }, new RegionCallback() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda1
-                    @Override // org.telegram.ui.Components.AnimatedTextView.AnimatedTextDrawable.RegionCallback
-                    public final void run(CharSequence charSequence2, int i, int i2) {
-                        AnimatedTextView.AnimatedTextDrawable.this.lambda$setText$1(arrayList, charSequence2, i, i2);
+                    public final void run(CharSequence charSequence2, int i2, int i3) {
+                        AnimatedTextView.AnimatedTextDrawable.this.lambda$setText$0(i, arrayList2, arrayList, charSequence2, i2, i3);
                     }
                 }, new RegionCallback() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda2
                     @Override // org.telegram.ui.Components.AnimatedTextView.AnimatedTextDrawable.RegionCallback
-                    public final void run(CharSequence charSequence2, int i, int i2) {
-                        AnimatedTextView.AnimatedTextDrawable.this.lambda$setText$2(arrayList2, charSequence2, i, i2);
+                    public final void run(CharSequence charSequence2, int i2, int i3) {
+                        AnimatedTextView.AnimatedTextDrawable.this.lambda$setText$1(i, arrayList, charSequence2, i2, i3);
+                    }
+                }, new RegionCallback() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda1
+                    @Override // org.telegram.ui.Components.AnimatedTextView.AnimatedTextDrawable.RegionCallback
+                    public final void run(CharSequence charSequence2, int i2, int i3) {
+                        AnimatedTextView.AnimatedTextDrawable.this.lambda$setText$2(i, arrayList2, charSequence2, i2, i3);
                     }
                 });
                 Part[] partArr = this.currentParts;
@@ -454,9 +470,9 @@ public class AnimatedTextView extends View {
             this.toSetTextMoveDown = false;
             this.t = 0.0f;
             if (!charSequence.equals(this.currentText)) {
-                this.currentParts = r11;
+                this.currentParts = r12;
                 this.currentText = charSequence;
-                Part[] partArr3 = {new Part(this, makeLayout(charSequence, this.bounds.width()), 0.0f, -1)};
+                Part[] partArr3 = {new Part(this, makeLayout(charSequence, i), 0.0f, -1)};
                 Part[] partArr4 = this.currentParts;
                 this.currentWidth = partArr4[0].width;
                 this.currentHeight = partArr4[0].layout.getHeight();
@@ -470,8 +486,8 @@ public class AnimatedTextView extends View {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$setText$0(ArrayList arrayList, ArrayList arrayList2, CharSequence charSequence, int i, int i2) {
-            StaticLayout makeLayout = makeLayout(charSequence, this.bounds.width() - ((int) Math.ceil(Math.min(this.currentWidth, this.oldWidth))));
+        public /* synthetic */ void lambda$setText$0(int i, ArrayList arrayList, ArrayList arrayList2, CharSequence charSequence, int i2, int i3) {
+            StaticLayout makeLayout = makeLayout(charSequence, i - ((int) Math.ceil(Math.min(this.currentWidth, this.oldWidth))));
             Part part = new Part(this, makeLayout, this.currentWidth, arrayList.size());
             Part part2 = new Part(this, makeLayout, this.oldWidth, arrayList.size());
             arrayList2.add(part);
@@ -484,18 +500,18 @@ public class AnimatedTextView extends View {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$setText$1(ArrayList arrayList, CharSequence charSequence, int i, int i2) {
+        public /* synthetic */ void lambda$setText$1(int i, ArrayList arrayList, CharSequence charSequence, int i2, int i3) {
             StaticLayout makeLayout;
-            Part part = new Part(this, makeLayout(charSequence, this.bounds.width() - ((int) Math.ceil(this.currentWidth))), this.currentWidth, -1);
+            Part part = new Part(this, makeLayout(charSequence, i - ((int) Math.ceil(this.currentWidth))), this.currentWidth, -1);
             arrayList.add(part);
             this.currentWidth += part.width;
             this.currentHeight = Math.max(this.currentHeight, makeLayout.getHeight());
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$setText$2(ArrayList arrayList, CharSequence charSequence, int i, int i2) {
+        public /* synthetic */ void lambda$setText$2(int i, ArrayList arrayList, CharSequence charSequence, int i2, int i3) {
             StaticLayout makeLayout;
-            Part part = new Part(this, makeLayout(charSequence, this.bounds.width() - ((int) Math.ceil(this.oldWidth))), this.oldWidth, -1);
+            Part part = new Part(this, makeLayout(charSequence, i - ((int) Math.ceil(this.oldWidth))), this.oldWidth, -1);
             arrayList.add(part);
             this.oldWidth += part.width;
             this.oldHeight = Math.max(this.oldHeight, makeLayout.getHeight());
@@ -1021,5 +1037,9 @@ public class AnimatedTextView extends View {
 
     public void setEllipsizeByGradient(boolean z) {
         this.drawable.setEllipsizeByGradient(z);
+    }
+
+    public void setRightPadding(float f) {
+        this.drawable.setRightPadding(f);
     }
 }

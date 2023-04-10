@@ -1,7 +1,8 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_photos_uploadProfilePhoto extends TLObject {
-    public static int constructor = 154966609;
+    public static int constructor = 59286453;
+    public TLRPC$InputUser bot;
     public boolean fallback;
     public TLRPC$InputFile file;
     public int flags;
@@ -20,6 +21,9 @@ public class TLRPC$TL_photos_uploadProfilePhoto extends TLObject {
         int i = this.fallback ? this.flags | 8 : this.flags & (-9);
         this.flags = i;
         abstractSerializedData.writeInt32(i);
+        if ((this.flags & 32) != 0) {
+            this.bot.serializeToStream(abstractSerializedData);
+        }
         if ((this.flags & 1) != 0) {
             this.file.serializeToStream(abstractSerializedData);
         }

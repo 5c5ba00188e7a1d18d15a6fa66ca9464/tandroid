@@ -2150,8 +2150,8 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Removed duplicated region for block: B:19:0x0050  */
-        /* JADX WARN: Removed duplicated region for block: B:25:0x006a  */
+        /* JADX WARN: Removed duplicated region for block: B:19:0x004e  */
+        /* JADX WARN: Removed duplicated region for block: B:25:0x0068  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -2165,7 +2165,6 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 FileLog.e(e);
             }
             if (!this.lastCameraId.equals(num)) {
-                this.lastTimestamp = -1L;
                 this.lastCameraId = num;
             }
             long j3 = this.lastTimestamp;

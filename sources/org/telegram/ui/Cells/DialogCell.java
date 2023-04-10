@@ -3197,7 +3197,7 @@ public class DialogCell extends BaseCell {
                 return "no created topics";
             } else {
                 MessagesController.getInstance(this.currentAccount).getTopicsController().preloadTopics(this.chat.id);
-                return "Loading...";
+                return LocaleController.getString("Loading", R.string.Loading);
             }
         }
         return null;

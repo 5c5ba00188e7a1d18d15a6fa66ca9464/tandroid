@@ -629,14 +629,19 @@ public class SimpleTextView extends View {
         }
         if (z || charSequence2 == null || !charSequence2.equals(charSequence)) {
             this.text = charSequence;
-            if ((charSequence != null || charSequence != null) && (charSequence == null || !charSequence.equals(charSequence))) {
-                this.scrollingOffset = 0.0f;
-            }
             this.currentScrollDelay = 500;
             recreateLayoutMaybe();
             return true;
         }
         return false;
+    }
+
+    public void resetScrolling() {
+        this.scrollingOffset = 0.0f;
+    }
+
+    public void copyScrolling(SimpleTextView simpleTextView) {
+        this.scrollingOffset = simpleTextView.scrollingOffset;
     }
 
     public void setDrawablePadding(int i) {
@@ -860,7 +865,7 @@ public class SimpleTextView extends View {
             }
         }
         if (this.layout != null) {
-            if (this.rightDrawableOutside || this.ellipsizeByGradient) {
+            if (this.rightDrawableOutside || this.ellipsizeByGradient || this.paddingRight > 0) {
                 canvas.save();
                 int maxTextWidth = getMaxTextWidth() - this.paddingRight;
                 Drawable drawable7 = this.rightDrawable;
@@ -942,7 +947,7 @@ public class SimpleTextView extends View {
             }
             updateScrollAnimation();
             Emoji.emojiDrawingUseAlpha = true;
-            if (this.rightDrawableOutside) {
+            if (this.rightDrawableOutside || this.ellipsizeByGradient || this.paddingRight > 0) {
                 canvas.restore();
             }
         }

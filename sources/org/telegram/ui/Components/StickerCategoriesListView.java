@@ -140,7 +140,6 @@ public class StickerCategoriesListView extends RecyclerListView {
         setLayoutManager(linearLayoutManager);
         this.layoutManager.setOrientation(0);
         this.selectedPaint.setColor(getThemedColor("listSelectorSDK21"));
-        setSelectorDrawableColor(0);
         setWillNotDraw(false);
         setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.StickerCategoriesListView$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
@@ -175,6 +174,11 @@ public class StickerCategoriesListView extends RecyclerListView {
             setCategoriesShownT(0.0f);
             updateCategoriesShown(this.categoriesShouldShow, System.currentTimeMillis() - j > 16);
         }
+    }
+
+    @Override // org.telegram.ui.Components.RecyclerListView
+    public Integer getSelectorColor(int i) {
+        return 0;
     }
 
     public void setShownButtonsAtStart(float f) {

@@ -52,6 +52,7 @@ public final class JsonPrimitive extends JsonElement {
         return this.value instanceof String;
     }
 
+    @Override // com.google.gson.JsonElement
     public String getAsString() {
         Object obj = this.value;
         if (obj instanceof String) {

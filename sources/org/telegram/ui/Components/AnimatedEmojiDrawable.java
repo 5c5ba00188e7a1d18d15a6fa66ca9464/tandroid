@@ -60,6 +60,8 @@ public class AnimatedEmojiDrawable extends Drawable {
     private static HashMap<Long, Integer> dominantColors;
     private static HashMap<Integer, EmojiDocumentFetcher> fetchers;
     private static SparseArray<LongSparseArray<AnimatedEmojiDrawable>> globalEmojiCache;
+    private static boolean liteModeKeyboard;
+    private static boolean liteModeReactions;
     private String absolutePath;
     private boolean attached;
     private int cacheType;
@@ -399,6 +401,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         public void processDocuments(ArrayList<?> arrayList) {
             ArrayList<ReceivedDocument> remove;
             if (checkThread()) {
+                AnimatedEmojiDrawable.updateLiteModeValues();
                 for (int i = 0; i < arrayList.size(); i++) {
                     if (arrayList.get(i) instanceof TLRPC$Document) {
                         TLRPC$Document tLRPC$Document = (TLRPC$Document) arrayList.get(i);
@@ -483,6 +486,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         this.currentAccount = i2;
         this.document = tLRPC$Document;
         updateSize();
+        updateLiteModeValues();
         initDocument(false);
     }
 
@@ -506,24 +510,31 @@ public class AnimatedEmojiDrawable extends Drawable {
         return tLRPC$Document != null ? tLRPC$Document.id : this.documentId;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public static void updateLiteModeValues() {
+        liteModeKeyboard = LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD);
+        liteModeReactions = LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS);
+    }
+
     public TLRPC$Document getDocument() {
         return this.document;
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r1v20, types: [org.telegram.messenger.ImageReceiver] */
+    /* JADX WARN: Type inference failed for: r1v17, types: [org.telegram.messenger.ImageReceiver] */
+    /* JADX WARN: Type inference failed for: r1v18, types: [org.telegram.messenger.ImageReceiver] */
+    /* JADX WARN: Type inference failed for: r1v19, types: [org.telegram.messenger.ImageReceiver] */
     /* JADX WARN: Type inference failed for: r1v21, types: [org.telegram.messenger.ImageReceiver] */
-    /* JADX WARN: Type inference failed for: r1v22, types: [org.telegram.messenger.ImageReceiver] */
-    /* JADX WARN: Type inference failed for: r1v24, types: [org.telegram.messenger.ImageReceiver] */
-    /* JADX WARN: Type inference failed for: r1v26, types: [org.telegram.messenger.ImageReceiver] */
-    /* JADX WARN: Type inference failed for: r23v0, types: [android.graphics.drawable.Drawable] */
-    /* JADX WARN: Type inference failed for: r23v1, types: [android.graphics.drawable.Drawable] */
-    /* JADX WARN: Type inference failed for: r25v0, types: [android.graphics.drawable.Drawable] */
-    /* JADX WARN: Type inference failed for: r25v1, types: [android.graphics.drawable.Drawable] */
-    /* JADX WARN: Type inference failed for: r25v2, types: [android.graphics.drawable.Drawable] */
+    /* JADX WARN: Type inference failed for: r1v23, types: [org.telegram.messenger.ImageReceiver] */
+    /* JADX WARN: Type inference failed for: r22v0, types: [android.graphics.drawable.Drawable] */
+    /* JADX WARN: Type inference failed for: r22v1, types: [android.graphics.drawable.Drawable] */
+    /* JADX WARN: Type inference failed for: r24v0, types: [android.graphics.drawable.Drawable] */
+    /* JADX WARN: Type inference failed for: r24v1, types: [android.graphics.drawable.Drawable] */
+    /* JADX WARN: Type inference failed for: r24v2, types: [android.graphics.drawable.Drawable] */
     /* JADX WARN: Type inference failed for: r3v2, types: [org.telegram.messenger.SvgHelper$SvgDrawable] */
     /* JADX WARN: Type inference failed for: r3v3, types: [org.telegram.messenger.SvgHelper$SvgDrawable] */
     private void initDocument(boolean z) {
+        int i;
         String str;
         Object obj;
         if (this.document != null) {
@@ -539,9 +550,9 @@ public class AnimatedEmojiDrawable extends Drawable {
 
                         /* JADX INFO: Access modifiers changed from: protected */
                         @Override // org.telegram.messenger.ImageReceiver
-                        public boolean setImageBitmapByKey(Drawable drawable, String str2, int i, boolean z2, int i2) {
+                        public boolean setImageBitmapByKey(Drawable drawable, String str2, int i2, boolean z2, int i3) {
                             AnimatedEmojiDrawable.this.invalidate();
-                            return super.setImageBitmapByKey(drawable, str2, i, z2, i2);
+                            return super.setImageBitmapByKey(drawable, str2, i2, z2, i3);
                         }
                     };
                     this.imageReceiver = imageReceiver2;
@@ -553,15 +564,15 @@ public class AnimatedEmojiDrawable extends Drawable {
                 if (this.colorFilterToSet != null && canOverrideColor()) {
                     this.imageReceiver.setColorFilter(this.colorFilterToSet);
                 }
-                int i = this.cacheType;
-                if (i != 0) {
-                    if (i == 12) {
-                        i = 2;
+                int i2 = this.cacheType;
+                if (i2 != 0) {
+                    if (i2 == 12) {
+                        i2 = 2;
                     }
-                    this.imageReceiver.setUniqKeyPrefix(i + "_");
+                    this.imageReceiver.setUniqKeyPrefix(i2 + "_");
                 }
                 this.imageReceiver.setVideoThumbIsSame(true);
-                boolean z2 = (SharedConfig.getDevicePerformanceClass() == 0 && this.cacheType == 5) || (this.cacheType == 2 && !LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD)) || (this.cacheType == 3 && !LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS));
+                boolean z2 = (SharedConfig.getDevicePerformanceClass() == 0 && this.cacheType == 5) || ((i = this.cacheType) == 2 && !liteModeKeyboard) || (i == 3 && !liteModeReactions);
                 if (this.cacheType == 13) {
                     z2 = true;
                 }
@@ -569,12 +580,12 @@ public class AnimatedEmojiDrawable extends Drawable {
                 if (this.cacheType == 12) {
                     str2 = str2 + "_d_nostream";
                 }
-                int i2 = this.cacheType;
-                if (i2 != 15 && i2 != 14 && i2 != 8 && ((i2 != 1 || SharedConfig.getDevicePerformanceClass() < 2) && this.cacheType != 12)) {
+                int i3 = this.cacheType;
+                if (i3 != 15 && i3 != 14 && i3 != 8 && ((i3 != 1 || SharedConfig.getDevicePerformanceClass() < 2) && this.cacheType != 12)) {
                     str2 = str2 + "_pcache";
                 }
-                int i3 = this.cacheType;
-                if (i3 != 0 && i3 != 1 && i3 != 14 && i3 != 15) {
+                int i4 = this.cacheType;
+                if (i4 != 0 && i4 != 1 && i4 != 14 && i4 != 15) {
                     str2 = str2 + "_compress";
                 }
                 if (this.cacheType == 8) {
@@ -621,36 +632,39 @@ public class AnimatedEmojiDrawable extends Drawable {
                 }
                 if (this.absolutePath != null) {
                     this.imageReceiver.setImageBitmap(new AnimatedFileDrawable(new File(this.absolutePath), true, 0L, 0, null, null, null, 0L, this.currentAccount, true, LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS, null));
-                } else if (this.cacheType == 8) {
-                    ?? r1 = this.imageReceiver;
-                    TLRPC$Document tLRPC$Document = this.document;
-                    r1.setImage(null, null, obj2, str2, null, null, obj, tLRPC$Document.size, null, tLRPC$Document, 1);
-                } else if (z2 || (!LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD) && this.cacheType != 14)) {
-                    if ("video/webm".equals(this.document.mime_type)) {
-                        TLRPC$Document tLRPC$Document2 = this.document;
-                        this.imageReceiver.setImage(null, null, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, obj, tLRPC$Document2.size, null, tLRPC$Document2, 1);
-                    } else if (MessageObject.isAnimatedStickerDocument(this.document, true)) {
-                        TLRPC$Document tLRPC$Document3 = this.document;
-                        this.imageReceiver.setImage(obj2, str2 + "_firstframe", null, null, obj, tLRPC$Document3.size, null, tLRPC$Document3, 1);
-                    } else {
-                        TLRPC$Document tLRPC$Document4 = this.document;
-                        this.imageReceiver.setImage(ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, obj, tLRPC$Document4.size, null, tLRPC$Document4, 1);
-                    }
                 } else {
-                    TLRPC$Document tLRPC$Document5 = this.document;
-                    this.imageReceiver.setImage(obj2, str2, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, obj, tLRPC$Document5.size, null, tLRPC$Document5, 1);
+                    int i5 = this.cacheType;
+                    if (i5 == 8) {
+                        ?? r1 = this.imageReceiver;
+                        TLRPC$Document tLRPC$Document = this.document;
+                        r1.setImage(null, null, obj2, str2, null, null, obj, tLRPC$Document.size, null, tLRPC$Document, 1);
+                    } else if (z2 || (!liteModeKeyboard && i5 != 14)) {
+                        if ("video/webm".equals(this.document.mime_type)) {
+                            TLRPC$Document tLRPC$Document2 = this.document;
+                            this.imageReceiver.setImage(null, null, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, obj, tLRPC$Document2.size, null, tLRPC$Document2, 1);
+                        } else if (MessageObject.isAnimatedStickerDocument(this.document, true)) {
+                            TLRPC$Document tLRPC$Document3 = this.document;
+                            this.imageReceiver.setImage(obj2, str2 + "_firstframe", null, null, obj, tLRPC$Document3.size, null, tLRPC$Document3, 1);
+                        } else {
+                            TLRPC$Document tLRPC$Document4 = this.document;
+                            this.imageReceiver.setImage(ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, obj, tLRPC$Document4.size, null, tLRPC$Document4, 1);
+                        }
+                    } else {
+                        TLRPC$Document tLRPC$Document5 = this.document;
+                        this.imageReceiver.setImage(obj2, str2, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, obj, tLRPC$Document5.size, null, tLRPC$Document5, 1);
+                    }
                 }
                 updateAutoRepeat(this.imageReceiver);
-                int i4 = this.cacheType;
-                if (i4 == 13 || i4 == 3 || i4 == 5 || i4 == 4) {
+                int i6 = this.cacheType;
+                if (i6 == 13 || i6 == 3 || i6 == 5 || i6 == 4) {
                     this.imageReceiver.setLayerNum(7);
                 }
                 if (this.cacheType == 9) {
                     this.imageReceiver.setLayerNum(6656);
                 }
                 this.imageReceiver.setAspectFit(true);
-                int i5 = this.cacheType;
-                if (i5 == 12 || i5 == 8 || i5 == 6 || i5 == 5) {
+                int i7 = this.cacheType;
+                if (i7 == 12 || i7 == 8 || i7 == 6 || i7 == 5) {
                     this.imageReceiver.setAllowStartAnimation(false);
                     this.imageReceiver.setAllowStartLottieAnimation(false);
                     this.imageReceiver.setAutoRepeat(0);
@@ -660,8 +674,8 @@ public class AnimatedEmojiDrawable extends Drawable {
                     this.imageReceiver.setAutoRepeat(1);
                 }
                 this.imageReceiver.setAllowDecodeSingleFrame(true);
-                int i6 = this.cacheType;
-                this.imageReceiver.setRoundRadius((i6 == 5 || i6 == 6) ? AndroidUtilities.dp(6.0f) : 0);
+                int i8 = this.cacheType;
+                this.imageReceiver.setRoundRadius((i8 == 5 || i8 == 6) ? AndroidUtilities.dp(6.0f) : 0);
                 updateAttachState();
                 invalidate();
             }
@@ -1331,6 +1345,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         if (globalEmojiCache == null) {
             return;
         }
+        updateLiteModeValues();
         for (int i = 0; i < globalEmojiCache.size(); i++) {
             LongSparseArray<AnimatedEmojiDrawable> valueAt = globalEmojiCache.valueAt(i);
             for (int i2 = 0; i2 < valueAt.size(); i2++) {

@@ -2102,8 +2102,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
 
             @Override // org.telegram.ui.Components.SharedMediaLayout
-            protected boolean onMemberClick(TLRPC$ChatParticipant tLRPC$ChatParticipant, boolean z2) {
-                return ProfileActivity.this.onMemberClick(tLRPC$ChatParticipant, z2, (View) null);
+            protected boolean onMemberClick(TLRPC$ChatParticipant tLRPC$ChatParticipant, boolean z2, View view) {
+                return ProfileActivity.this.onMemberClick(tLRPC$ChatParticipant, z2, view);
             }
 
             @Override // org.telegram.ui.Components.SharedMediaLayout
@@ -3053,9 +3053,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     return;
                 }
                 Bundle bundle4 = new Bundle();
-                bundle4.putLong("chat_id", ProfileActivity.this.chatId);
+                if (ProfileActivity.this.chatId != 0) {
+                    bundle4.putLong("chat_id", ProfileActivity.this.chatId);
+                } else if (ProfileActivity.this.isBot) {
+                    bundle4.putLong("user_id", ProfileActivity.this.userId);
+                }
                 ChatEditActivity chatEditActivity = new ChatEditActivity(bundle4);
-                chatEditActivity.setInfo(ProfileActivity.this.chatInfo);
+                if (ProfileActivity.this.chatInfo != null) {
+                    chatEditActivity.setInfo(ProfileActivity.this.chatInfo);
+                } else {
+                    chatEditActivity.setInfo(ProfileActivity.this.userInfo);
+                }
                 ProfileActivity.this.presentFragment(chatEditActivity);
             } else if (i == 9) {
                 final TLRPC$User user4 = ProfileActivity.this.getMessagesController().getUser(Long.valueOf(ProfileActivity.this.userId));
@@ -5624,10 +5632,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     @Override // org.telegram.ui.Components.SharedMediaLayout.Delegate
-    public boolean onMemberClick(TLRPC$ChatParticipant tLRPC$ChatParticipant, boolean z, boolean z2) {
-        return onMemberClick(tLRPC$ChatParticipant, z, z2, null);
-    }
-
     public boolean onMemberClick(final TLRPC$ChatParticipant tLRPC$ChatParticipant, boolean z, boolean z2, View view) {
         boolean z3;
         TLRPC$ChannelParticipant tLRPC$ChannelParticipant;
@@ -9878,24 +9882,27 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         goToForum();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:217:0x042f  */
-    /* JADX WARN: Removed duplicated region for block: B:218:0x046a  */
-    /* JADX WARN: Removed duplicated region for block: B:221:0x0483  */
-    /* JADX WARN: Removed duplicated region for block: B:223:0x048a  */
-    /* JADX WARN: Removed duplicated region for block: B:226:0x049f  */
-    /* JADX WARN: Removed duplicated region for block: B:229:0x04c2  */
-    /* JADX WARN: Removed duplicated region for block: B:265:0x0578  */
-    /* JADX WARN: Removed duplicated region for block: B:268:0x058f  */
-    /* JADX WARN: Removed duplicated region for block: B:271:0x05a6  */
-    /* JADX WARN: Removed duplicated region for block: B:274:0x05bd  */
-    /* JADX WARN: Removed duplicated region for block: B:277:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:222:0x042d  */
+    /* JADX WARN: Removed duplicated region for block: B:223:0x0468  */
+    /* JADX WARN: Removed duplicated region for block: B:226:0x0481  */
+    /* JADX WARN: Removed duplicated region for block: B:228:0x0488  */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x049d  */
+    /* JADX WARN: Removed duplicated region for block: B:234:0x04c0  */
+    /* JADX WARN: Removed duplicated region for block: B:270:0x0576  */
+    /* JADX WARN: Removed duplicated region for block: B:273:0x058d  */
+    /* JADX WARN: Removed duplicated region for block: B:276:0x05a4  */
+    /* JADX WARN: Removed duplicated region for block: B:279:0x05bb  */
+    /* JADX WARN: Removed duplicated region for block: B:282:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void createActionBarMenu(boolean z) {
         TLRPC$ChatFull tLRPC$ChatFull;
+        int i;
         PagerIndicatorView pagerIndicatorView;
         SharedMediaLayout sharedMediaLayout;
+        int i2;
+        int i3;
         ActionBar actionBar = this.actionBar;
         if (actionBar == null || this.otherItem == null) {
             return;
@@ -9996,11 +10003,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
                 return;
             }
+            if (user.bot && user.bot_can_edit) {
+                this.editItemVisible = true;
+            }
             TLRPC$UserFull tLRPC$UserFull = this.userInfo;
             if (tLRPC$UserFull != null && tLRPC$UserFull.phone_calls_available) {
                 this.callItemVisible = true;
                 this.videoCallItemVisible = Build.VERSION.SDK_INT >= 18 && tLRPC$UserFull.video_calls_available;
             }
+            String str = "Unblock";
             if (this.isBot || getContactsController().contactsDict.get(Long.valueOf(this.userId)) == null) {
                 if (MessagesController.isSupportUser(user)) {
                     if (this.userBlocked) {
@@ -10027,7 +10038,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             this.otherItem.addSubItem(2, R.drawable.msg_retry, LocaleController.getString("BotRestart", R.string.BotRestart));
                         }
                     } else {
-                        this.otherItem.addSubItem(2, R.drawable.msg_block, !this.userBlocked ? LocaleController.getString("BlockContact", R.string.BlockContact) : LocaleController.getString("Unblock", R.string.Unblock));
+                        ActionBarMenuItem actionBarMenuItem = this.otherItem;
+                        boolean z3 = this.userBlocked;
+                        int i4 = R.drawable.msg_block;
+                        if (z3) {
+                            i2 = R.string.Unblock;
+                        } else {
+                            i2 = R.string.BlockContact;
+                            str = "BlockContact";
+                        }
+                        actionBarMenuItem.addSubItem(2, i4, LocaleController.getString(str, i2));
                     }
                 }
             } else {
@@ -10037,7 +10057,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (!TextUtils.isEmpty(user.phone)) {
                     this.otherItem.addSubItem(3, R.drawable.msg_share, LocaleController.getString("ShareContact", R.string.ShareContact));
                 }
-                this.otherItem.addSubItem(2, R.drawable.msg_block, !this.userBlocked ? LocaleController.getString("BlockContact", R.string.BlockContact) : LocaleController.getString("Unblock", R.string.Unblock));
+                ActionBarMenuItem actionBarMenuItem2 = this.otherItem;
+                boolean z4 = this.userBlocked;
+                int i5 = R.drawable.msg_block;
+                if (z4) {
+                    i3 = R.string.Unblock;
+                } else {
+                    i3 = R.string.BlockContact;
+                    str = "BlockContact";
+                }
+                actionBarMenuItem2.addSubItem(2, i5, LocaleController.getString(str, i3));
                 this.otherItem.addSubItem(4, R.drawable.msg_edit, LocaleController.getString("EditContact", R.string.EditContact));
                 this.otherItem.addSubItem(5, R.drawable.msg_delete, LocaleController.getString("DeleteContact", R.string.DeleteContact));
             }
@@ -10059,6 +10088,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (this.topicId == 0 && ChatObject.canUserDoAdminAction(chat, 13)) {
                 createAutoDeleteItem(context);
             }
+            String str2 = "StartVoipChat";
             if (ChatObject.isChannel(chat)) {
                 if (this.isTopic) {
                     if (ChatObject.canManageTopic(this.currentAccount, chat, this.topicId)) {
@@ -10069,7 +10099,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
                 if (this.chatInfo != null) {
                     if (ChatObject.canManageCalls(chat) && this.chatInfo.call == null) {
-                        this.otherItem.addSubItem(15, R.drawable.msg_voicechat, (!chat.megagroup || chat.gigagroup) ? LocaleController.getString("StartVoipChannel", R.string.StartVoipChannel) : LocaleController.getString("StartVoipChat", R.string.StartVoipChat));
+                        ActionBarMenuItem actionBarMenuItem3 = this.otherItem;
+                        int i6 = R.drawable.msg_voicechat;
+                        if (!chat.megagroup || chat.gigagroup) {
+                            i = R.string.StartVoipChannel;
+                            str2 = "StartVoipChannel";
+                        } else {
+                            i = R.string.StartVoipChat;
+                        }
+                        actionBarMenuItem3.addSubItem(15, i6, LocaleController.getString(str2, i));
                         this.hasVoiceChatItem = true;
                     }
                     if (this.chatInfo.can_view_stats && this.topicId == 0) {

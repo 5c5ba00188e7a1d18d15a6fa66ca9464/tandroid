@@ -15,8 +15,8 @@ public class NativeLoader {
     private static final String LIB_SO_NAME = "libtmessages.44.so";
     private static final int LIB_VERSION = 44;
     private static final String LOCALE_LIB_SO_NAME = "libtmessages.44loc.so";
+    public static StringBuilder log = new StringBuilder();
     private static volatile boolean nativeLoaded = false;
-    private String crashPath = "";
 
     private static native void init(String str, boolean z);
 
@@ -161,9 +161,9 @@ public class NativeLoader {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0061 A[Catch: all -> 0x001d, TryCatch #4 {, blocks: (B:4:0x0003, B:35:0x0080, B:38:0x008a, B:9:0x000a, B:11:0x0016, B:17:0x0020, B:19:0x0042, B:21:0x0046, B:22:0x004b, B:27:0x005d, B:29:0x0061, B:30:0x0075, B:26:0x0057), top: B:50:0x0003, inners: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x007c A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0080 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x007b A[Catch: all -> 0x001d, TryCatch #1 {, blocks: (B:4:0x0003, B:35:0x00c4, B:38:0x00ce, B:9:0x000a, B:11:0x0016, B:17:0x0021, B:19:0x0052, B:21:0x0056, B:22:0x005b, B:27:0x0077, B:29:0x007b, B:30:0x00aa, B:26:0x0067), top: B:44:0x0003, inners: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00b1 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00c4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     @SuppressLint({"UnsafeDynamicallyLoadedCode"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -181,6 +181,10 @@ public class NativeLoader {
                 }
             } catch (Error e) {
                 FileLog.e(e);
+                StringBuilder sb = log;
+                sb.append("129: ");
+                sb.append(e);
+                sb.append("\n");
                 String abiFolder = getAbiFolder();
                 File file = new File(context.getFilesDir(), "lib");
                 file.mkdirs();
@@ -194,24 +198,36 @@ public class NativeLoader {
                         nativeLoaded = true;
                         return;
                     } catch (Error e2) {
+                        StringBuilder sb2 = log;
+                        sb2.append(e2);
+                        sb2.append("\n");
                         FileLog.e(e2);
                         file2.delete();
                         if (BuildVars.LOGS_ENABLED) {
+                            FileLog.e("Library not found, arch = " + abiFolder);
+                            StringBuilder sb3 = log;
+                            sb3.append("Library not found, arch = " + abiFolder);
+                            sb3.append("\n");
                         }
                         if (loadFromZip(context, file, file2, abiFolder)) {
+                            try {
+                                System.loadLibrary(LIB_NAME);
+                                nativeLoaded = true;
+                            } catch (Error e3) {
+                                FileLog.e(e3);
+                                StringBuilder sb4 = log;
+                                sb4.append("185: ");
+                                sb4.append(e3);
+                                sb4.append("\n");
+                            }
+                            return;
                         }
+                        return;
                     }
                 }
                 if (BuildVars.LOGS_ENABLED) {
-                    FileLog.e("Library not found, arch = " + abiFolder);
                 }
                 if (loadFromZip(context, file, file2, abiFolder)) {
-                    try {
-                        System.loadLibrary(LIB_NAME);
-                        nativeLoaded = true;
-                    } catch (Error e3) {
-                        FileLog.e(e3);
-                    }
                 }
             }
         }

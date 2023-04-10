@@ -382,14 +382,14 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0098 A[Catch: Exception -> 0x00d2, TryCatch #0 {Exception -> 0x00d2, blocks: (B:16:0x003c, B:18:0x0043, B:19:0x005a, B:21:0x005e, B:23:0x0062, B:24:0x007b, B:26:0x007f, B:28:0x0085, B:33:0x0098, B:35:0x00a6, B:37:0x00ac, B:38:0x00c5), top: B:45:0x003c }] */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x0099 A[Catch: Exception -> 0x00d3, TryCatch #0 {Exception -> 0x00d3, blocks: (B:16:0x003d, B:18:0x0044, B:19:0x005b, B:21:0x005f, B:23:0x0063, B:24:0x007c, B:26:0x0080, B:28:0x0086, B:33:0x0099, B:35:0x00a7, B:37:0x00ad, B:38:0x00c6), top: B:45:0x003d }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$createView$1(Context context, View view, int i) {
         File file;
         if (i == this.uploadRow) {
-            ChatAttachAlert chatAttachAlert = new ChatAttachAlert(context, this, false, false, this.resourcesProvider);
+            ChatAttachAlert chatAttachAlert = new ChatAttachAlert(context, this, false, false, true, this.resourcesProvider);
             this.chatAttachAlert = chatAttachAlert;
             chatAttachAlert.setSoundPicker();
             this.chatAttachAlert.init();

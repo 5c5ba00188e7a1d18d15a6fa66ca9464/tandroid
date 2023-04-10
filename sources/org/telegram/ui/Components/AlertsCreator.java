@@ -1570,18 +1570,25 @@ public class AlertsCreator {
     }
 
     public static void showOpenUrlAlert(BaseFragment baseFragment, String str, boolean z, boolean z2) {
-        showOpenUrlAlert(baseFragment, str, z, true, z2, null, null);
+        showOpenUrlAlert(baseFragment, str, z, true, z2, false, null, null);
     }
 
     public static void showOpenUrlAlert(BaseFragment baseFragment, String str, boolean z, boolean z2, Theme.ResourcesProvider resourcesProvider) {
-        showOpenUrlAlert(baseFragment, str, z, true, z2, null, resourcesProvider);
+        showOpenUrlAlert(baseFragment, str, z, true, z2, false, null, resourcesProvider);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:23:0x008f  */
+    public static void showOpenUrlAlert(BaseFragment baseFragment, String str, boolean z, boolean z2, boolean z3, Browser.Progress progress, Theme.ResourcesProvider resourcesProvider) {
+        showOpenUrlAlert(baseFragment, str, z, z2, z3, false, progress, resourcesProvider);
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x002e, code lost:
+        if (org.telegram.messenger.browser.Browser.isInternalUrl(r13, null) == false) goto L13;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x009a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static void showOpenUrlAlert(final BaseFragment baseFragment, final String str, boolean z, final boolean z2, boolean z3, final Browser.Progress progress, Theme.ResourcesProvider resourcesProvider) {
+    public static void showOpenUrlAlert(final BaseFragment baseFragment, final String str, boolean z, final boolean z2, boolean z3, boolean z4, final Browser.Progress progress, Theme.ResourcesProvider resourcesProvider) {
         Uri parse;
         String str2;
         int indexOf;
@@ -1589,58 +1596,64 @@ public class AlertsCreator {
             return;
         }
         final long inlineReturn = baseFragment instanceof ChatActivity ? ((ChatActivity) baseFragment).getInlineReturn() : 0L;
-        if (Browser.isInternalUrl(str, null) || !z3) {
-            Browser.openUrl(baseFragment.getParentActivity(), Uri.parse(str), inlineReturn == 0, z2, progress);
-            return;
-        }
-        if (z) {
-            try {
-                str2 = parse.getScheme() + "://" + IDN.toASCII(Uri.parse(str).getHost(), 1) + parse.getPath();
-            } catch (Exception e) {
-                FileLog.e((Throwable) e, false);
+        String str3 = (z4 && checkInternalBotApp(str)) ? str : str;
+        if (z3) {
+            if (z) {
+                try {
+                    str2 = parse.getScheme() + "://" + IDN.toASCII(Uri.parse(str).getHost(), 1) + parse.getPath();
+                } catch (Exception e) {
+                    FileLog.e((Throwable) e, false);
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(baseFragment.getParentActivity(), resourcesProvider);
+                builder.setTitle(LocaleController.getString("OpenUrlTitle", R.string.OpenUrlTitle));
+                String string = LocaleController.getString("OpenUrlAlert2", R.string.OpenUrlAlert2);
+                indexOf = string.indexOf("%");
+                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(String.format(string, str2));
+                if (indexOf >= 0) {
+                    spannableStringBuilder.setSpan(new URLSpan(str2), indexOf, str2.length() + indexOf, 33);
+                }
+                builder.setMessage(spannableStringBuilder);
+                builder.setMessageTextViewClickable(false);
+                builder.setPositiveButton(LocaleController.getString("Open", R.string.Open), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda30
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public final void onClick(DialogInterface dialogInterface, int i) {
+                        AlertsCreator.lambda$showOpenUrlAlert$19(BaseFragment.this, str, inlineReturn, z2, progress, dialogInterface, i);
+                    }
+                });
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                baseFragment.showDialog(builder.create());
+                return;
             }
-            AlertDialog.Builder builder = new AlertDialog.Builder(baseFragment.getParentActivity(), resourcesProvider);
-            builder.setTitle(LocaleController.getString("OpenUrlTitle", R.string.OpenUrlTitle));
-            String string = LocaleController.getString("OpenUrlAlert2", R.string.OpenUrlAlert2);
-            indexOf = string.indexOf("%");
-            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(String.format(string, str2));
+            str2 = str3;
+            AlertDialog.Builder builder2 = new AlertDialog.Builder(baseFragment.getParentActivity(), resourcesProvider);
+            builder2.setTitle(LocaleController.getString("OpenUrlTitle", R.string.OpenUrlTitle));
+            String string2 = LocaleController.getString("OpenUrlAlert2", R.string.OpenUrlAlert2);
+            indexOf = string2.indexOf("%");
+            SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(String.format(string2, str2));
             if (indexOf >= 0) {
-                spannableStringBuilder.setSpan(new URLSpan(str2), indexOf, str2.length() + indexOf, 33);
             }
-            builder.setMessage(spannableStringBuilder);
-            builder.setMessageTextViewClickable(false);
-            builder.setPositiveButton(LocaleController.getString("Open", R.string.Open), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda30
+            builder2.setMessage(spannableStringBuilder2);
+            builder2.setMessageTextViewClickable(false);
+            builder2.setPositiveButton(LocaleController.getString("Open", R.string.Open), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda30
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     AlertsCreator.lambda$showOpenUrlAlert$19(BaseFragment.this, str, inlineReturn, z2, progress, dialogInterface, i);
                 }
             });
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-            baseFragment.showDialog(builder.create());
+            builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            baseFragment.showDialog(builder2.create());
+            return;
         }
-        str2 = str;
-        AlertDialog.Builder builder2 = new AlertDialog.Builder(baseFragment.getParentActivity(), resourcesProvider);
-        builder2.setTitle(LocaleController.getString("OpenUrlTitle", R.string.OpenUrlTitle));
-        String string2 = LocaleController.getString("OpenUrlAlert2", R.string.OpenUrlAlert2);
-        indexOf = string2.indexOf("%");
-        SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(String.format(string2, str2));
-        if (indexOf >= 0) {
-        }
-        builder2.setMessage(spannableStringBuilder2);
-        builder2.setMessageTextViewClickable(false);
-        builder2.setPositiveButton(LocaleController.getString("Open", R.string.Open), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda30
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                AlertsCreator.lambda$showOpenUrlAlert$19(BaseFragment.this, str, inlineReturn, z2, progress, dialogInterface, i);
-            }
-        });
-        builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        baseFragment.showDialog(builder2.create());
+        Browser.openUrl(baseFragment.getParentActivity(), Uri.parse(str), inlineReturn == 0, z2, progress);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$showOpenUrlAlert$19(BaseFragment baseFragment, String str, long j, boolean z, Browser.Progress progress, DialogInterface dialogInterface, int i) {
         Browser.openUrl(baseFragment.getParentActivity(), Uri.parse(str), j == 0, z, progress);
+    }
+
+    private static boolean checkInternalBotApp(String str) {
+        return Uri.parse(str).getPath().matches("^/\\w*/[^\\d]*(?:\\?startapp=.*?|)$");
     }
 
     public static AlertDialog createSupportAlert(final BaseFragment baseFragment, Theme.ResourcesProvider resourcesProvider) {

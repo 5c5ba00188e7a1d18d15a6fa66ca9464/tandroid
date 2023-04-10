@@ -9,7 +9,9 @@ import android.graphics.drawable.Drawable;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.FrameLayout;
+import androidx.core.util.Supplier;
 import java.util.HashMap;
 import java.util.List;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
@@ -58,6 +60,8 @@ public interface INavigationLayout {
     boolean extendActionMode(Menu menu);
 
     void finishPreviewFragment();
+
+    BottomSheet getBottomSheet();
 
     float getCurrentPreviewFragmentAlpha();
 
@@ -176,6 +180,10 @@ public interface INavigationLayout {
 
     /* loaded from: classes3.dex */
     public final /* synthetic */ class -CC {
+        public static BottomSheet $default$getBottomSheet(INavigationLayout iNavigationLayout) {
+            return null;
+        }
+
         public static boolean $default$hasIntegratedBlurInPreview(INavigationLayout iNavigationLayout) {
             return false;
         }
@@ -186,6 +194,15 @@ public interface INavigationLayout {
 
         public static INavigationLayout newLayout(Context context) {
             return new ActionBarLayout(context);
+        }
+
+        public static INavigationLayout newLayout(Context context, final Supplier<BottomSheet> supplier) {
+            return new ActionBarLayout(context) { // from class: org.telegram.ui.ActionBar.INavigationLayout.1
+                @Override // org.telegram.ui.ActionBar.ActionBarLayout, org.telegram.ui.ActionBar.INavigationLayout
+                public BottomSheet getBottomSheet() {
+                    return (BottomSheet) supplier.get();
+                }
+            };
         }
 
         public static void $default$rebuildFragments(INavigationLayout _this, int i) {
@@ -232,6 +249,13 @@ public interface INavigationLayout {
                 return;
             }
             fragmentStack.get(fragmentStack.size() - 1).dismissCurrentDialog();
+        }
+
+        public static Window $default$getWindow(INavigationLayout _this) {
+            if (_this.getParentActivity() != null) {
+                return _this.getParentActivity().getWindow();
+            }
+            return null;
         }
     }
 

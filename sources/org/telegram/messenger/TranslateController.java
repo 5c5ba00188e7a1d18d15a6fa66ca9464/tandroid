@@ -1,5 +1,6 @@
 package org.telegram.messenger;
 
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.icu.text.Collator;
 import android.os.Build;
@@ -46,6 +47,8 @@ public class TranslateController extends BaseController {
     private static final float REQUIRED_PERCENTAGE_MESSAGES_TRANSLATABLE = 0.6f;
     private static final int REQUIRED_TOTAL_MESSAGES_CHECKED = 8;
     public static final String UNKNOWN_LANGUAGE = "und";
+    private Boolean chatTranslateEnabled;
+    private Boolean contextTranslateEnabled;
     private final HashMap<Long, String> detectedDialogLanguage;
     private final Set<Long> hideTranslateDialogs;
     private final HashMap<Long, HashMap<Integer, MessageObject>> keptReplyMessageObjects;
@@ -71,7 +74,7 @@ public class TranslateController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public class TranslatableDecision {
+    public static class TranslatableDecision {
         Set<Integer> certainlyTranslatable = new HashSet();
         Set<Integer> unknown = new HashSet();
         Set<Integer> certainlyNotTranslatable = new HashSet();
@@ -102,19 +105,35 @@ public class TranslateController extends BaseController {
     }
 
     public boolean isFeatureAvailable() {
-        return UserConfig.getInstance(this.currentAccount).isPremium() && isChatTranslateEnabled();
+        return isChatTranslateEnabled() && UserConfig.getInstance(this.currentAccount).isPremium();
     }
 
     public boolean isChatTranslateEnabled() {
-        return MessagesController.getMainSettings(this.currentAccount).getBoolean("translate_chat_button", true);
+        if (this.chatTranslateEnabled == null) {
+            this.chatTranslateEnabled = Boolean.valueOf(this.messagesController.getMainSettings().getBoolean("translate_chat_button", true));
+        }
+        return this.chatTranslateEnabled.booleanValue();
     }
 
     public boolean isContextTranslateEnabled() {
-        return MessagesController.getMainSettings(this.currentAccount).getBoolean("translate_button", MessagesController.getGlobalMainSettings().getBoolean("translate_button", false));
+        if (this.contextTranslateEnabled == null) {
+            this.contextTranslateEnabled = Boolean.valueOf(this.messagesController.getMainSettings().getBoolean("translate_button", MessagesController.getGlobalMainSettings().getBoolean("translate_button", false)));
+        }
+        return this.contextTranslateEnabled.booleanValue();
     }
 
     public void setContextTranslateEnabled(boolean z) {
-        MessagesController.getMainSettings(this.currentAccount).edit().putBoolean("translate_button", z).apply();
+        SharedPreferences.Editor edit = this.messagesController.getMainSettings().edit();
+        Boolean valueOf = Boolean.valueOf(z);
+        this.contextTranslateEnabled = valueOf;
+        edit.putBoolean("translate_button", valueOf.booleanValue()).apply();
+    }
+
+    public void setChatTranslateEnabled(boolean z) {
+        SharedPreferences.Editor edit = this.messagesController.getMainSettings().edit();
+        Boolean valueOf = Boolean.valueOf(z);
+        this.chatTranslateEnabled = valueOf;
+        edit.putBoolean("translate_chat_button", valueOf.booleanValue()).apply();
     }
 
     public static boolean isTranslatable(MessageObject messageObject) {
@@ -577,19 +596,25 @@ public class TranslateController extends BaseController {
         NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.messageTranslated, messageObject, Boolean.valueOf(isTranslatingDialog(j)));
     }
 
-    public void checkDialogMessages(final long j) {
+    public void checkDialogMessage(long j) {
         if (isFeatureAvailable()) {
+            checkDialogMessageSure(j);
+        }
+    }
+
+    public void checkDialogMessageSure(final long j) {
+        if (this.translatingDialogs.contains(Long.valueOf(j))) {
             getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.TranslateController$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
-                    TranslateController.this.lambda$checkDialogMessages$7(j);
+                    TranslateController.this.lambda$checkDialogMessageSure$7(j);
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkDialogMessages$7(long j) {
+    public /* synthetic */ void lambda$checkDialogMessageSure$7(long j) {
         final ArrayList<MessageObject> arrayList = this.messagesController.dialogMessage.get(j);
         if (arrayList == null) {
             return;
@@ -606,13 +631,13 @@ public class TranslateController extends BaseController {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TranslateController$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
-                TranslateController.this.lambda$checkDialogMessages$6(arrayList2, arrayList);
+                TranslateController.this.lambda$checkDialogMessageSure$6(arrayList2, arrayList);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkDialogMessages$6(ArrayList arrayList, ArrayList arrayList2) {
+    public /* synthetic */ void lambda$checkDialogMessageSure$6(ArrayList arrayList, ArrayList arrayList2) {
         TLRPC$Message tLRPC$Message;
         boolean z = false;
         for (int i = 0; i < Math.min(arrayList.size(), arrayList2.size()); i++) {

@@ -15,25 +15,30 @@ import java.util.Iterator;
 import java.util.Map;
 /* loaded from: classes.dex */
 public final class JsonTreeReader extends JsonReader {
-    private static final Object SENTINEL_CLOSED;
     private int[] pathIndices;
     private String[] pathNames;
     private Object[] stack;
     private int stackSize;
+    private static final Reader UNREADABLE_READER = new Reader() { // from class: com.google.gson.internal.bind.JsonTreeReader.1
+        @Override // java.io.Reader
+        public int read(char[] cArr, int i, int i2) throws IOException {
+            throw new AssertionError();
+        }
 
-    static {
-        new Reader() { // from class: com.google.gson.internal.bind.JsonTreeReader.1
-            @Override // java.io.Reader
-            public int read(char[] cArr, int i, int i2) throws IOException {
-                throw new AssertionError();
-            }
+        @Override // java.io.Reader, java.io.Closeable, java.lang.AutoCloseable
+        public void close() throws IOException {
+            throw new AssertionError();
+        }
+    };
+    private static final Object SENTINEL_CLOSED = new Object();
 
-            @Override // java.io.Reader, java.io.Closeable, java.lang.AutoCloseable
-            public void close() throws IOException {
-                throw new AssertionError();
-            }
-        };
-        SENTINEL_CLOSED = new Object();
+    public JsonTreeReader(JsonElement jsonElement) {
+        super(UNREADABLE_READER);
+        this.stack = new Object[32];
+        this.stackSize = 0;
+        this.pathNames = new String[32];
+        this.pathIndices = new int[32];
+        push(jsonElement);
     }
 
     @Override // com.google.gson.stream.JsonReader

@@ -15,8 +15,16 @@ public final class JsonObject extends JsonElement {
         linkedTreeMap.put(str, jsonElement);
     }
 
+    public JsonElement remove(String str) {
+        return this.members.remove(str);
+    }
+
     public Set<Map.Entry<String, JsonElement>> entrySet() {
         return this.members.entrySet();
+    }
+
+    public boolean has(String str) {
+        return this.members.containsKey(str);
     }
 
     public boolean equals(Object obj) {

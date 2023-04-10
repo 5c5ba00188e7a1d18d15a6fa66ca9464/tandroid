@@ -71,6 +71,7 @@ public class RecyclerListView extends RecyclerView {
     private int currentVisible;
     private boolean disableHighlightState;
     private boolean disallowInterceptTouchEvents;
+    private boolean drawSelection;
     private boolean drawSelectorBehind;
     private View emptyView;
     int emptyViewAnimateToVisibility;
@@ -1421,6 +1422,7 @@ public class RecyclerListView extends RecyclerView {
     @SuppressLint({"PrivateApi"})
     public RecyclerListView(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.drawSelection = true;
         this.allowItemsInteractionDuringAnimation = true;
         this.currentFirst = -1;
         this.currentVisible = -1;
@@ -2593,7 +2595,7 @@ public class RecyclerListView extends RecyclerView {
         if (recyclerItemsEnterAnimator != null) {
             recyclerItemsEnterAnimator.dispatchDraw();
         }
-        if (this.drawSelectorBehind && !this.selectorRect.isEmpty()) {
+        if (this.drawSelection && this.drawSelectorBehind && !this.selectorRect.isEmpty()) {
             this.selectorDrawable.setBounds(this.selectorRect);
             canvas.save();
             Consumer<Canvas> consumer = this.selectorTransformer;
@@ -2604,7 +2606,7 @@ public class RecyclerListView extends RecyclerView {
             canvas.restore();
         }
         super.dispatchDraw(canvas);
-        if (!this.drawSelectorBehind && !this.selectorRect.isEmpty()) {
+        if (this.drawSelection && !this.drawSelectorBehind && !this.selectorRect.isEmpty()) {
             this.selectorDrawable.setBounds(this.selectorRect);
             canvas.save();
             Consumer<Canvas> consumer2 = this.selectorTransformer;
@@ -2949,5 +2951,9 @@ public class RecyclerListView extends RecyclerView {
 
     public void setAllowStopHeaveOperations(boolean z) {
         this.allowStopHeaveOperations = z;
+    }
+
+    public void setDrawSelection(boolean z) {
+        this.drawSelection = z;
     }
 }

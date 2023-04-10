@@ -269,7 +269,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
         boolean isFragmentOpened();
 
-        boolean onMemberClick(TLRPC$ChatParticipant tLRPC$ChatParticipant, boolean z, boolean z2);
+        boolean onMemberClick(TLRPC$ChatParticipant tLRPC$ChatParticipant, boolean z, boolean z2, View view);
 
         void scrollToSharedMedia();
 
@@ -340,7 +340,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     protected void invalidateBlur() {
     }
 
-    protected boolean onMemberClick(TLRPC$ChatParticipant tLRPC$ChatParticipant, boolean z) {
+    protected boolean onMemberClick(TLRPC$ChatParticipant tLRPC$ChatParticipant, boolean z, View view) {
         return false;
     }
 
@@ -2650,13 +2650,15 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 this.profileActivity.presentFragment(new ProfileActivity(bundle2));
             }
         } else {
-            onMemberClick(!this.chatUsersAdapter.sortedUsers.isEmpty() ? this.chatUsersAdapter.chatInfo.participants.participants.get(((Integer) this.chatUsersAdapter.sortedUsers.get(i)).intValue()) : this.chatUsersAdapter.chatInfo.participants.participants.get(i), false);
+            onMemberClick(!this.chatUsersAdapter.sortedUsers.isEmpty() ? this.chatUsersAdapter.chatInfo.participants.participants.get(((Integer) this.chatUsersAdapter.sortedUsers.get(i)).intValue()) : this.chatUsersAdapter.chatInfo.participants.participants.get(i), false, view);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$7(MediaPage mediaPage, View view, int i) {
         MessageObject messageObject;
+        int i2;
+        int i3 = 0;
         if (this.photoVideoChangeColumnsAnimation) {
             return false;
         }
@@ -2684,16 +2686,30 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             }
             return onItemLongClick(((SharedDocumentCell) view).getMessage(), view, 0);
         } else {
-            if (!this.chatUsersAdapter.sortedUsers.isEmpty()) {
-                if (i >= this.chatUsersAdapter.sortedUsers.size()) {
-                    return false;
-                }
-                i = ((Integer) this.chatUsersAdapter.sortedUsers.get(i)).intValue();
+            if (this.chatUsersAdapter.sortedUsers.isEmpty()) {
+                i2 = i;
+            } else if (i >= this.chatUsersAdapter.sortedUsers.size()) {
+                return false;
+            } else {
+                i2 = ((Integer) this.chatUsersAdapter.sortedUsers.get(i)).intValue();
             }
-            if (i < 0 || i >= this.chatUsersAdapter.chatInfo.participants.participants.size()) {
+            if (i2 < 0 || i2 >= this.chatUsersAdapter.chatInfo.participants.participants.size()) {
                 return false;
             }
-            return onMemberClick(this.chatUsersAdapter.chatInfo.participants.participants.get(i), true);
+            TLRPC$ChatParticipant tLRPC$ChatParticipant = this.chatUsersAdapter.chatInfo.participants.participants.get(i2);
+            RecyclerListView recyclerListView = (RecyclerListView) view.getParent();
+            while (true) {
+                if (i3 >= recyclerListView.getChildCount()) {
+                    break;
+                }
+                View childAt = recyclerListView.getChildAt(i3);
+                if (recyclerListView.getChildAdapterPosition(childAt) == i) {
+                    view = childAt;
+                    break;
+                }
+                i3++;
+            }
+            return onMemberClick(tLRPC$ChatParticipant, true, view);
         }
     }
 
@@ -6995,7 +7011,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             }
         }
 
-        private boolean createMenuForParticipant(TLObject tLObject, boolean z) {
+        private boolean createMenuForParticipant(TLObject tLObject, boolean z, View view) {
             if (tLObject instanceof TLRPC$ChannelParticipant) {
                 TLRPC$ChannelParticipant tLRPC$ChannelParticipant = (TLRPC$ChannelParticipant) tLObject;
                 TLRPC$TL_chatChannelParticipant tLRPC$TL_chatChannelParticipant = new TLRPC$TL_chatChannelParticipant();
@@ -7005,7 +7021,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 tLRPC$TL_chatChannelParticipant.date = tLRPC$ChannelParticipant.date;
                 tLObject = tLRPC$TL_chatChannelParticipant;
             }
-            return SharedMediaLayout.this.delegate.onMemberClick((TLRPC$ChatParticipant) tLObject, true, z);
+            return SharedMediaLayout.this.delegate.onMemberClick((TLRPC$ChatParticipant) tLObject, true, z, view);
         }
 
         public void search(final String str, boolean z) {
@@ -7231,7 +7247,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         public /* synthetic */ boolean lambda$onCreateViewHolder$5(ManageChatUserCell manageChatUserCell, boolean z) {
             TLObject item = getItem(((Integer) manageChatUserCell.getTag()).intValue());
             if (item instanceof TLRPC$ChannelParticipant) {
-                return createMenuForParticipant((TLRPC$ChannelParticipant) item, !z);
+                return createMenuForParticipant((TLRPC$ChannelParticipant) item, !z, manageChatUserCell);
             }
             return false;
         }

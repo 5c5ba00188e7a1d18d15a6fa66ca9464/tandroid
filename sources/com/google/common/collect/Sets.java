@@ -36,6 +36,12 @@ public final class Sets {
         return new HashSet<>();
     }
 
+    public static <E> HashSet<E> newHashSet(E... eArr) {
+        HashSet<E> newHashSetWithExpectedSize = newHashSetWithExpectedSize(eArr.length);
+        Collections.addAll(newHashSetWithExpectedSize, eArr);
+        return newHashSetWithExpectedSize;
+    }
+
     public static <E> HashSet<E> newHashSetWithExpectedSize(int i) {
         return new HashSet<>(Maps.capacity(i));
     }

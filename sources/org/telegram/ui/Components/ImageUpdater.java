@@ -448,6 +448,11 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                     return false;
                 }
 
+                @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
+                public /* synthetic */ void onWallpaperSelected(Object obj) {
+                    ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$onWallpaperSelected(this, obj);
+                }
+
                 {
                     ImageUpdater.this = this;
                 }
