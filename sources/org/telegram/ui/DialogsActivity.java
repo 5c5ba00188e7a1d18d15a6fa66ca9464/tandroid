@@ -866,7 +866,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     } else if (!(childAt instanceof ViewPage)) {
                         if (childAt == DialogsActivity.this.searchViewPager) {
                             DialogsActivity.this.searchViewPager.setTranslationY(0.0f);
-                            childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(Math.max(AndroidUtilities.dp(10.0f), ((((View.MeasureSpec.getSize(i2) + measureKeyboardHeight) - this.inputFieldHeight) + AndroidUtilities.dp(2.0f)) - (DialogsActivity.this.onlySelect ? 0 : ((BaseFragment) DialogsActivity.this).actionBar.getMeasuredHeight())) - DialogsActivity.this.topPadding) - (DialogsActivity.this.searchTabsView == null ? 0 : AndroidUtilities.dp(44.0f)), 1073741824));
+                            childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(Math.max(AndroidUtilities.dp(10.0f), ((((View.MeasureSpec.getSize(i2) + measureKeyboardHeight) - this.inputFieldHeight) + AndroidUtilities.dp(2.0f)) - ((!DialogsActivity.this.onlySelect || DialogsActivity.this.initialDialogsType == 3) ? ((BaseFragment) DialogsActivity.this).actionBar.getMeasuredHeight() : 0)) - DialogsActivity.this.topPadding) - (DialogsActivity.this.searchTabsView == null ? 0 : AndroidUtilities.dp(44.0f)), 1073741824));
                             childAt.setPivotX(childAt.getMeasuredWidth() / 2);
                         } else if (DialogsActivity.this.commentView != null && DialogsActivity.this.commentView.isPopupView(childAt)) {
                             if (AndroidUtilities.isInMultiwindow) {
@@ -1003,7 +1003,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                     i10 = ((BaseFragment) DialogsActivity.this).actionBar.getMeasuredHeight();
                                 } else {
                                     if (childAt == DialogsActivity.this.searchViewPager) {
-                                        i10 = (DialogsActivity.this.onlySelect ? 0 : ((BaseFragment) DialogsActivity.this).actionBar.getMeasuredHeight()) + DialogsActivity.this.topPadding;
+                                        i10 = ((!DialogsActivity.this.onlySelect || DialogsActivity.this.initialDialogsType == 3) ? ((BaseFragment) DialogsActivity.this).actionBar.getMeasuredHeight() : 0) + DialogsActivity.this.topPadding;
                                         measuredHeight = DialogsActivity.this.searchTabsView == null ? 0 : AndroidUtilities.dp(44.0f);
                                     } else if (childAt instanceof DatabaseMigrationHint) {
                                         i10 = ((BaseFragment) DialogsActivity.this).actionBar.getMeasuredHeight();
@@ -1095,7 +1095,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             float f2;
             float measuredWidth;
             int measuredWidth2;
-            if (((BaseFragment) DialogsActivity.this).parentLayout == null || DialogsActivity.this.filterTabsView == null || DialogsActivity.this.filterTabsView.isEditing() || DialogsActivity.this.searching || DialogsActivity.this.rightSlidingDialogContainer.hasFragment() || ((BaseFragment) DialogsActivity.this).parentLayout.checkTransitionAnimation() || ((BaseFragment) DialogsActivity.this).parentLayout.isInPreviewMode() || ((BaseFragment) DialogsActivity.this).parentLayout.isPreviewOpenAnimationInProgress() || ((BaseFragment) DialogsActivity.this).parentLayout.getDrawerLayoutContainer().isDrawerOpened() || !((motionEvent == null || DialogsActivity.this.startedTracking || motionEvent.getY() > ((BaseFragment) DialogsActivity.this).actionBar.getMeasuredHeight() + ((BaseFragment) DialogsActivity.this).actionBar.getTranslationY()) && (SharedConfig.getChatSwipeAction(((BaseFragment) DialogsActivity.this).currentAccount) == 5 || (SharedConfig.getChatSwipeAction(((BaseFragment) DialogsActivity.this).currentAccount) == 2 && DialogsActivity.this.viewPages[0] != null && (DialogsActivity.this.viewPages[0].dialogsAdapter.getDialogsType() == 7 || DialogsActivity.this.viewPages[0].dialogsAdapter.getDialogsType() == 8))))) {
+            if (((BaseFragment) DialogsActivity.this).parentLayout == null || DialogsActivity.this.filterTabsView == null || DialogsActivity.this.filterTabsView.isEditing() || DialogsActivity.this.searching || DialogsActivity.this.rightSlidingDialogContainer.hasFragment() || ((BaseFragment) DialogsActivity.this).parentLayout.checkTransitionAnimation() || ((BaseFragment) DialogsActivity.this).parentLayout.isInPreviewMode() || ((BaseFragment) DialogsActivity.this).parentLayout.isPreviewOpenAnimationInProgress() || ((BaseFragment) DialogsActivity.this).parentLayout.getDrawerLayoutContainer().isDrawerOpened() || !((motionEvent == null || DialogsActivity.this.startedTracking || motionEvent.getY() > ((BaseFragment) DialogsActivity.this).actionBar.getMeasuredHeight() + ((BaseFragment) DialogsActivity.this).actionBar.getTranslationY()) && (DialogsActivity.this.initialDialogsType == 3 || SharedConfig.getChatSwipeAction(((BaseFragment) DialogsActivity.this).currentAccount) == 5 || (SharedConfig.getChatSwipeAction(((BaseFragment) DialogsActivity.this).currentAccount) == 2 && DialogsActivity.this.viewPages[0] != null && (DialogsActivity.this.viewPages[0].dialogsAdapter.getDialogsType() == 7 || DialogsActivity.this.viewPages[0].dialogsAdapter.getDialogsType() == 8))))) {
                 return false;
             }
             if (motionEvent != null) {
@@ -2723,10 +2723,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Removed duplicated region for block: B:286:0x0d0e  */
     /* JADX WARN: Removed duplicated region for block: B:294:0x0d38  */
     /* JADX WARN: Type inference failed for: r13v0 */
-    /* JADX WARN: Type inference failed for: r13v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v5 */
     /* JADX WARN: Type inference failed for: r7v0 */
-    /* JADX WARN: Type inference failed for: r7v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r7v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v5 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -12846,6 +12846,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean canBeginSlide() {
-        return !this.rightSlidingDialogContainer.hasFragment();
+        FilterTabsView filterTabsView;
+        if (this.rightSlidingDialogContainer.hasFragment()) {
+            return false;
+        }
+        if (this.initialDialogsType == 3 && (filterTabsView = this.filterTabsView) != null && filterTabsView.getVisibility() == 0) {
+            return this.filterTabsView.isFirstTab();
+        }
+        return true;
     }
 }

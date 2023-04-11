@@ -362,9 +362,9 @@ public class HintView extends FrameLayout {
     /* JADX WARN: Removed duplicated region for block: B:46:0x0115  */
     /* JADX WARN: Removed duplicated region for block: B:54:0x0130  */
     /* JADX WARN: Removed duplicated region for block: B:60:0x014c  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0176  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x018a  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x01a9  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0179  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x018b  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x01aa  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -450,7 +450,7 @@ public class HintView extends FrameLayout {
                     measuredWidth2 = (i3 - (getMeasuredWidth() / 2)) - this.arrowImageView.getMeasuredWidth();
                 }
                 setTranslationX(i8);
-                float measuredWidth4 = (i3 - (i4 + i8)) - (this.arrowImageView.getMeasuredWidth() / 2);
+                float measuredWidth4 = (i3 - (i4 + i8)) - (this.arrowImageView.getMeasuredWidth() / 2.0f);
                 if (this.currentType == 7) {
                     measuredWidth4 += AndroidUtilities.dp(2.0f);
                 }
@@ -504,7 +504,7 @@ public class HintView extends FrameLayout {
         if (i3 <= view2.getMeasuredWidth() / 2) {
         }
         setTranslationX(i82);
-        float measuredWidth42 = (i3 - (i4 + i82)) - (this.arrowImageView.getMeasuredWidth() / 2);
+        float measuredWidth42 = (i3 - (i4 + i82)) - (this.arrowImageView.getMeasuredWidth() / 2.0f);
         if (this.currentType == 7) {
         }
         this.arrowImageView.setTranslationX(measuredWidth42);

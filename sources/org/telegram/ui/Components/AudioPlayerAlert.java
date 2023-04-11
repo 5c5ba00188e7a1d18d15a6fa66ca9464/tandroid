@@ -95,6 +95,7 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AudioPlayerAlert;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.BulletinFactory;
+import org.telegram.ui.Components.Forum.ForumUtilities;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SeekBarView;
 import org.telegram.ui.DialogsActivity;
@@ -1609,7 +1610,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x0066, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x006b, code lost:
         if (r12.exists() == false) goto L89;
      */
     /*
@@ -1631,6 +1632,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             Bundle bundle = new Bundle();
             bundle.putBoolean("onlySelect", true);
             bundle.putInt("dialogsType", 3);
+            bundle.putBoolean("canSelectTopics", true);
             DialogsActivity dialogsActivity = new DialogsActivity(bundle);
             final ArrayList arrayList = new ArrayList();
             arrayList.add(playingMessageObject);
@@ -1746,7 +1748,8 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             }
             dialogsActivity.finishFragment();
         } else {
-            long j3 = ((MessagesStorage.TopicKey) arrayList2.get(0)).dialogId;
+            MessagesStorage.TopicKey topicKey = (MessagesStorage.TopicKey) arrayList2.get(0);
+            long j3 = topicKey.dialogId;
             Bundle bundle = new Bundle();
             bundle.putBoolean("scrollToTopOnResume", true);
             if (DialogObject.isEncryptedDialog(j3)) {
@@ -1756,10 +1759,15 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             } else {
                 bundle.putLong("chat_id", -j3);
             }
-            NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.closeChats, new Object[0]);
             ChatActivity chatActivity = new ChatActivity(bundle);
+            if (topicKey.topicId != 0) {
+                ForumUtilities.applyTopic(chatActivity, topicKey);
+            }
             if (this.parentActivity.presentFragment(chatActivity, true, false)) {
                 chatActivity.showFieldPanelForForward(true, arrayList);
+                if (topicKey.topicId != 0) {
+                    dialogsActivity.removeSelfFromStack();
+                }
             } else {
                 dialogsActivity.finishFragment();
             }

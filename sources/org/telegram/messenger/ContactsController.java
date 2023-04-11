@@ -2704,20 +2704,24 @@ public class ContactsController extends BaseController {
         return false;
     }
 
+    private boolean hasContactsWritePermission() {
+        return Build.VERSION.SDK_INT < 23 || ApplicationLoader.applicationContext.checkSelfPermission("android.permission.WRITE_CONTACTS") == 0;
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x00ee, code lost:
-        if (r3 != null) goto L47;
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x00f4, code lost:
+        if (r3 != null) goto L49;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:48:0x00fe, code lost:
-        if (r3 == null) goto L45;
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x0104, code lost:
+        if (r3 == null) goto L47;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:49:0x0100, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x0106, code lost:
         r3.close();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:50:0x0103, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:52:0x0109, code lost:
         org.telegram.messenger.FileLog.d("performWriteContactsToPhoneBookInternal " + (java.lang.System.currentTimeMillis() - r1));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:51:0x011c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x0122, code lost:
         return;
      */
     /* renamed from: performWriteContactsToPhoneBookInternal */
@@ -2730,7 +2734,7 @@ public class ContactsController extends BaseController {
         try {
             try {
                 Account account = this.systemAccount;
-                if (hasContactsPermission() && account != null) {
+                if (hasContactsPermission() && account != null && hasContactsWritePermission()) {
                     SharedPreferences mainSettings = MessagesController.getMainSettings(this.currentAccount);
                     boolean z = !mainSettings.getBoolean("contacts_updated_v7", false);
                     if (z) {

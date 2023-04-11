@@ -6089,7 +6089,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         /* JADX WARN: Removed duplicated region for block: B:457:? A[RETURN, SYNTHETIC] */
         /* JADX WARN: Type inference failed for: r10v30 */
         /* JADX WARN: Type inference failed for: r10v32 */
-        /* JADX WARN: Type inference failed for: r10v33, types: [int, boolean] */
+        /* JADX WARN: Type inference failed for: r10v33, types: [boolean, int] */
         /* JADX WARN: Type inference failed for: r10v34 */
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
         /*
@@ -11737,7 +11737,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
-    private void switchToEditMode(final int i) {
+    public void switchToEditMode(final int i) {
         ActionBar actionBar;
         int i2;
         ActionBar actionBar2;
@@ -13527,9 +13527,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:341:0x0818  */
-    /* JADX WARN: Removed duplicated region for block: B:363:0x08b0  */
-    /* JADX WARN: Removed duplicated region for block: B:382:0x08f9  */
+    /* JADX WARN: Removed duplicated region for block: B:345:0x081f  */
+    /* JADX WARN: Removed duplicated region for block: B:367:0x08b7  */
+    /* JADX WARN: Removed duplicated region for block: B:386:0x0900  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -13896,7 +13896,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
             MessageObject messageObject5 = this.imagesArr.get(i);
             if (!messageObject5.scheduled && ((chatActivity = this.parentChatActivity) == null || !chatActivity.isThreadChat())) {
-                this.opennedFromMedia = true;
+                this.opennedFromMedia = this.parentChatActivity == null;
                 if (this.parentFragment instanceof ProfileActivity) {
                     this.openedFromProfile = true;
                 }
@@ -14076,9 +14076,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:282:0x0532  */
-    /* JADX WARN: Removed duplicated region for block: B:283:0x0538  */
-    /* JADX WARN: Removed duplicated region for block: B:533:0x0a52  */
+    /* JADX WARN: Removed duplicated region for block: B:282:0x0526  */
+    /* JADX WARN: Removed duplicated region for block: B:283:0x052c  */
+    /* JADX WARN: Removed duplicated region for block: B:533:0x0a46  */
     /* JADX WARN: Type inference failed for: r11v12 */
     /* JADX WARN: Type inference failed for: r11v14 */
     /*
@@ -14166,7 +14166,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     this.menuItem.hideSubItem(11);
                     charSequence = MessageObject.getMedia(messageObject3.messageOwner).description;
                     this.allowShare = false;
-                    this.captionTextViewSwitcher.setTranslationY(AndroidUtilities.dp(48.0f));
                 } else {
                     this.allowShare = !z18;
                     if (messageObject3.isNewGif() && this.allowShare && !DialogObject.isEncryptedDialog(messageObject3.getDialogId())) {
@@ -19058,7 +19057,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* JADX WARN: Type inference failed for: r15v28 */
     /* JADX WARN: Type inference failed for: r15v3 */
     /* JADX WARN: Type inference failed for: r15v31 */
-    /* JADX WARN: Type inference failed for: r15v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r15v4, types: [boolean, int] */
     @SuppressLint({"NewApi", "DrawAllocation"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.

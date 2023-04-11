@@ -156,6 +156,9 @@ public abstract class BaseFragment {
     public void onDialogDismiss(Dialog dialog) {
     }
 
+    public void onFragmentClosed() {
+    }
+
     public boolean onFragmentCreate() {
         return true;
     }

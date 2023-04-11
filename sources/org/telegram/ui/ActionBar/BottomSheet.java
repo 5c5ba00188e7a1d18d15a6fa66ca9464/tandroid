@@ -59,6 +59,7 @@ public class BottomSheet extends Dialog {
     private boolean allowCustomAnimation;
     private boolean allowDrawContent;
     protected boolean allowNestedScroll;
+    private int animationIndex;
     private boolean applyBottomPadding;
     private boolean applyTopPadding;
     protected ColorDrawable backDrawable;
@@ -1677,6 +1678,8 @@ public class BottomSheet extends Dialog {
         }
         this.currentSheetAnimation.setStartDelay(this.waitingKeyboard ? 0L : 20L);
         this.currentSheetAnimation.setInterpolator(this.openInterpolator);
+        final int i = this.currentAccount;
+        this.animationIndex = NotificationCenter.getInstance(i).setAnimationInProgress(this.animationIndex, null);
         this.currentSheetAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.BottomSheet.6
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
@@ -1703,6 +1706,7 @@ public class BottomSheet extends Dialog {
                 if (BottomSheet.this.pauseAllHeavyOperations) {
                     NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
                 }
+                NotificationCenter.getInstance(i).onAnimationFinish(BottomSheet.this.animationIndex);
             }
 
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener

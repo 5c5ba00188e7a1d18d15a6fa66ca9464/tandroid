@@ -215,6 +215,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         TLRPC$TL_chatlists_chatlistUpdates chatlistUpdates;
         TLRPC$TL_contact contact;
         TLRPC$Dialog dialog;
+        private int emptyType;
         private boolean isFolder;
         boolean isForumCell;
         private boolean pinned;
@@ -249,6 +250,12 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
 
         public ItemInternal(DialogsAdapter dialogsAdapter, int i) {
             super(i, true);
+            this.emptyType = this.emptyType;
+        }
+
+        public ItemInternal(DialogsAdapter dialogsAdapter, int i, int i2) {
+            super(i, true);
+            this.emptyType = i2;
         }
 
         public ItemInternal(DialogsAdapter dialogsAdapter, int i, TLRPC$TL_contact tLRPC$TL_contact) {
@@ -274,11 +281,11 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             } else if (i == 4) {
                 TLRPC$RecentMeUrl tLRPC$RecentMeUrl = this.recentMeUrl;
                 return (tLRPC$RecentMeUrl == null || itemInternal.recentMeUrl == null || (str = tLRPC$RecentMeUrl.url) == null || !str.equals(str)) ? false : true;
-            } else if (i == 6) {
+            } else if (i != 6) {
+                return i != 5 || this.emptyType == itemInternal.emptyType;
+            } else {
                 TLRPC$TL_contact tLRPC$TL_contact2 = this.contact;
                 return (tLRPC$TL_contact2 == null || (tLRPC$TL_contact = itemInternal.contact) == null || tLRPC$TL_contact2.user_id != tLRPC$TL_contact.user_id) ? false : true;
-            } else {
-                return true;
             }
         }
 
@@ -1250,10 +1257,10 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:109:0x0286  */
-    /* JADX WARN: Removed duplicated region for block: B:146:0x0329 A[LOOP:2: B:146:0x0329->B:155:0x0350, LOOP_START, PHI: r3 
-      PHI: (r3v3 int) = (r3v2 int), (r3v5 int) binds: [B:145:0x0327, B:155:0x0350] A[DONT_GENERATE, DONT_INLINE]] */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x0353 A[ORIG_RETURN, RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x02a1  */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x0350 A[LOOP:2: B:146:0x0350->B:155:0x0377, LOOP_START, PHI: r3 
+      PHI: (r3v3 int) = (r3v2 int), (r3v5 int) binds: [B:145:0x034e, B:155:0x0377] A[DONT_GENERATE, DONT_INLINE]] */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x0379 A[ORIG_RETURN, RETURN] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1321,7 +1328,11 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         }
         if (this.dialogsCount == 0 && this.forceUpdatingContacts) {
             this.isEmpty = true;
-            this.itemInternals.add(new ItemInternal(this, this.requestPeerType == null ? 5 : 16));
+            if (this.requestPeerType != null) {
+                this.itemInternals.add(new ItemInternal(this, 16));
+            } else {
+                this.itemInternals.add(new ItemInternal(this, 5, dialogsEmptyType()));
+            }
             this.itemInternals.add(new ItemInternal(this, 8));
             this.itemInternals.add(new ItemInternal(this, 7));
             this.itemInternals.add(new ItemInternal(this, 13));
@@ -1330,7 +1341,11 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             if (arrayList != null && !arrayList.isEmpty() && (i = this.dialogsType) != 7 && i != 8) {
                 if (this.dialogsCount == 0) {
                     this.isEmpty = true;
-                    this.itemInternals.add(new ItemInternal(this, this.requestPeerType == null ? 5 : 16));
+                    if (this.requestPeerType != null) {
+                        this.itemInternals.add(new ItemInternal(this, 16));
+                    } else {
+                        this.itemInternals.add(new ItemInternal(this, 5, dialogsEmptyType()));
+                    }
                     this.itemInternals.add(new ItemInternal(this, 8));
                     this.itemInternals.add(new ItemInternal(this, 7));
                 } else {
@@ -1365,7 +1380,11 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                         int i11 = this.dialogsCount;
                         if (i11 == 0) {
                             this.isEmpty = true;
-                            this.itemInternals.add(new ItemInternal(this, this.requestPeerType == null ? 5 : 16));
+                            if (this.requestPeerType != null) {
+                                this.itemInternals.add(new ItemInternal(this, 16));
+                            } else {
+                                this.itemInternals.add(new ItemInternal(this, 5, dialogsEmptyType()));
+                            }
                         } else {
                             if (this.folderId == 0 && i11 > 10 && this.dialogsType == 0) {
                                 this.itemInternals.add(new ItemInternal(this, 11));

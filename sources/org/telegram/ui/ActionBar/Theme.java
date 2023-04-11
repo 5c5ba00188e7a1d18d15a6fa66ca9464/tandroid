@@ -2343,8 +2343,11 @@ public class Theme {
         public String originalFileName;
         public ThemeAccent parentAccent;
         public ThemeInfo parentTheme;
+        public TLRPC$WallPaper prevUserWallpaper;
+        public ArrayList<Integer> requestIds;
         public int rotation;
         public String slug;
+        public float uploadingProgress;
         public long wallpaperId;
 
         public OverrideWallpaperInfo() {

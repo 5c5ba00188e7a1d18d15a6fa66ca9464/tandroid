@@ -8,6 +8,6 @@ public final /* synthetic */ class ThemePreviewActivity$$ExternalSyntheticLambda
 
     @Override // java.lang.Runnable
     public final void run() {
-        ThemePreviewActivity.lambda$createView$6();
+        ThemePreviewActivity.lambda$createView$7();
     }
 }
