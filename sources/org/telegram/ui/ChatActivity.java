@@ -3432,16 +3432,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:341:0x0f35  */
     /* JADX WARN: Removed duplicated region for block: B:349:0x0ffb  */
     /* JADX WARN: Removed duplicated region for block: B:353:0x112c  */
-    /* JADX WARN: Removed duplicated region for block: B:368:0x1394  */
-    /* JADX WARN: Removed duplicated region for block: B:369:0x13b1  */
-    /* JADX WARN: Removed duplicated region for block: B:372:0x13f6  */
-    /* JADX WARN: Removed duplicated region for block: B:385:0x149f  */
-    /* JADX WARN: Removed duplicated region for block: B:388:0x14b9  */
-    /* JADX WARN: Removed duplicated region for block: B:394:0x14ef  */
-    /* JADX WARN: Removed duplicated region for block: B:397:0x14f8  */
-    /* JADX WARN: Removed duplicated region for block: B:398:0x1507  */
-    /* JADX WARN: Removed duplicated region for block: B:401:0x1545  */
-    /* JADX WARN: Removed duplicated region for block: B:402:0x1550  */
+    /* JADX WARN: Removed duplicated region for block: B:370:0x139a  */
+    /* JADX WARN: Removed duplicated region for block: B:371:0x13b7  */
+    /* JADX WARN: Removed duplicated region for block: B:374:0x13fc  */
+    /* JADX WARN: Removed duplicated region for block: B:387:0x14a5  */
+    /* JADX WARN: Removed duplicated region for block: B:390:0x14bf  */
+    /* JADX WARN: Removed duplicated region for block: B:396:0x14f5  */
+    /* JADX WARN: Removed duplicated region for block: B:399:0x14fe  */
+    /* JADX WARN: Removed duplicated region for block: B:400:0x150d  */
+    /* JADX WARN: Removed duplicated region for block: B:403:0x154b  */
+    /* JADX WARN: Removed duplicated region for block: B:404:0x1556  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -4994,7 +4994,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 });
                 this.bottomOverlayChat.addView(this.bottomOverlayStartButton, LayoutHelper.createFrame(-1, -1.0f, 17, 8.0f, 8.0f, 8.0f, 8.0f));
                 tLRPC$User = this.currentUser;
-                if (tLRPC$User != null && tLRPC$User.bot) {
+                if (tLRPC$User != null && tLRPC$User.bot && !UserObject.isReplyUser(tLRPC$User)) {
                     this.bottomOverlayStartButton.setVisibility(0);
                     this.bottomOverlayChat.setVisibility(0);
                 }
@@ -20761,7 +20761,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r4v29 */
     /* JADX WARN: Type inference failed for: r4v31 */
     /* JADX WARN: Type inference failed for: r7v14 */
-    /* JADX WARN: Type inference failed for: r7v15, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r7v15, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v18 */
     /* JADX WARN: Type inference failed for: r7v19 */
     /*
@@ -21839,7 +21839,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:90:0x0175  */
     /* JADX WARN: Removed duplicated region for block: B:93:0x0181  */
     /* JADX WARN: Type inference failed for: r14v4 */
-    /* JADX WARN: Type inference failed for: r14v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r14v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r14v9 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -26883,7 +26883,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r12v6, types: [org.telegram.ui.Components.AnimatedEmojiSpan[]] */
     /* JADX WARN: Type inference failed for: r13v46 */
     /* JADX WARN: Type inference failed for: r13v5 */
-    /* JADX WARN: Type inference failed for: r13v6, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r13v6, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r19v5 */
     /* JADX WARN: Type inference failed for: r19v6, types: [java.lang.String] */
     /* JADX WARN: Type inference failed for: r19v7 */

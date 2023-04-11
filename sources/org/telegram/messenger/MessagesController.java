@@ -1715,6 +1715,7 @@ public class MessagesController extends BaseController implements NotificationCe
         public ArrayList<Long> neverShow = new ArrayList<>();
         public LongSparseIntArray pinnedDialogs = new LongSparseIntArray();
         public ArrayList<TLRPC$Dialog> dialogs = new ArrayList<>();
+        public ArrayList<TLRPC$Dialog> dialogsForward = new ArrayList<>();
         public ArrayList<TLRPC$TL_exportedChatlistInvite> invites = null;
 
         public DialogFilter() {
@@ -3129,6 +3130,7 @@ public class MessagesController extends BaseController implements NotificationCe
             sortDialogs(null);
         } else if (dialogFilter2 != null) {
             dialogFilter2.dialogs.clear();
+            dialogFilter2.dialogsForward.clear();
         }
     }
 
@@ -9680,6 +9682,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
             if (dialogFilterArr[i] != null) {
                 dialogFilterArr[i].dialogs.remove(tLRPC$Dialog);
+                this.selectedDialogFilter[i].dialogsForward.remove(tLRPC$Dialog);
             }
             i++;
         }
@@ -9796,7 +9799,7 @@ public class MessagesController extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:411:0x03e0  */
     /* JADX WARN: Removed duplicated region for block: B:421:0x0419  */
     /* JADX WARN: Type inference failed for: r2v11 */
-    /* JADX WARN: Type inference failed for: r2v12, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r2v12, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r2v59 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -13679,7 +13682,7 @@ public class MessagesController extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:446:0x03e6  */
     /* JADX WARN: Removed duplicated region for block: B:449:0x0413  */
     /* JADX WARN: Type inference failed for: r13v1 */
-    /* JADX WARN: Type inference failed for: r13v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r13v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r13v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -24688,8 +24691,8 @@ public class MessagesController extends BaseController implements NotificationCe
         return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:486:0x048e  */
-    /* JADX WARN: Removed duplicated region for block: B:488:0x0493  */
+    /* JADX WARN: Removed duplicated region for block: B:486:0x0497  */
+    /* JADX WARN: Removed duplicated region for block: B:488:0x049c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -24791,6 +24794,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                     if (dialogFilterArr[i2] != null) {
                         dialogFilterArr[i2].dialogs.remove(tLRPC$TL_dialog);
+                        messagesController.selectedDialogFilter[i2].dialogsForward.remove(tLRPC$TL_dialog);
                     }
                     i2++;
                 }
@@ -25014,14 +25018,16 @@ public class MessagesController extends BaseController implements NotificationCe
         if (dialogFilter == null) {
             return;
         }
-        dialogFilter.dialogs.clear();
+        ArrayList<TLRPC$Dialog> arrayList = dialogFilter.dialogs;
+        ArrayList<TLRPC$Dialog> arrayList2 = dialogFilter.dialogsForward;
+        arrayList.clear();
+        arrayList2.clear();
         this.sortingDialogFilter = dialogFilter;
         try {
             Collections.sort(this.allDialogs, this.dialogDateComparator);
         } catch (Exception e) {
             FileLog.e(e);
         }
-        ArrayList<TLRPC$Dialog> arrayList = dialogFilter.dialogs;
         int size = this.allDialogs.size();
         for (int i = 0; i < size; i++) {
             TLRPC$Dialog tLRPC$Dialog = this.allDialogs.get(i);
@@ -25031,6 +25037,9 @@ public class MessagesController extends BaseController implements NotificationCe
                     j = encryptedChat.user_id;
                 }
                 if (dialogFilter.includesDialog(getAccountInstance(), j, tLRPC$Dialog)) {
+                    if (canAddToForward(tLRPC$Dialog)) {
+                        arrayList2.add(tLRPC$Dialog);
+                    }
                     arrayList.add(tLRPC$Dialog);
                 }
             }
@@ -25041,18 +25050,40 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(19:7|(4:10|(2:12|13)(1:15)|14|8)|16|17|(15:186|(2:187|(3:189|(1:215)(6:191|192|193|194|(3:196|(4:198|(1:202)|203|(2:205|206)(1:208))(1:209)|207)|210)|211)(0))|22|23|(2:25|(1:31))|32|(6:34|(6:36|(4:38|(4:41|(2:47|48)|49|39)|53|(2:57|58))|59|(2:61|(4:63|(1:(2:93|(1:95)(1:96))(1:92))|(3:112|(1:114)|104)(2:100|(1:102))|(2:108|(1:110)(1:111)))(2:116|(1:(3:126|(2:134|(1:136)(1:137))|140)(4:123|124|125|58))(2:141|(2:143|(1:145)))))|146|(3:106|108|(0)(0)))|147|(1:162)|151|(3:158|159|58)(4:157|124|125|58))|163|164|(1:168)|(1:172)|173|(4:176|(2:178|179)(1:181)|180|174)|182|183)(0)|21|22|23|(0)|32|(0)|163|164|(2:166|168)|(2:170|172)|173|(1:174)|182|183) */
-    /* JADX WARN: Code restructure failed: missing block: B:344:0x01bb, code lost:
-        if (org.telegram.messenger.ChatObject.hasAdminRights(r7) == false) goto L104;
+    /* JADX WARN: Code restructure failed: missing block: B:44:0x002d, code lost:
+        if (org.telegram.messenger.ChatObject.hasAdminRights(r1) == false) goto L18;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:350:0x01d1, code lost:
-        if (org.telegram.messenger.ChatObject.canPost(r7) != false) goto L146;
+    /* JADX WARN: Code restructure failed: missing block: B:49:0x003f, code lost:
+        if (org.telegram.messenger.ChatObject.canPost(r1) != false) goto L20;
      */
-    /* JADX WARN: Removed duplicated region for block: B:271:0x00dc  */
-    /* JADX WARN: Removed duplicated region for block: B:280:0x00fd  */
-    /* JADX WARN: Removed duplicated region for block: B:386:0x0245  */
-    /* JADX WARN: Removed duplicated region for block: B:387:0x024c  */
-    /* JADX WARN: Removed duplicated region for block: B:416:0x02d2  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    private boolean canAddToForward(TLRPC$Dialog tLRPC$Dialog) {
+        boolean z = false;
+        if (tLRPC$Dialog == null) {
+            return false;
+        }
+        if (!DialogObject.isEncryptedDialog(tLRPC$Dialog.id) && DialogObject.isChannel(tLRPC$Dialog)) {
+            TLRPC$Chat chat = getChat(Long.valueOf(-tLRPC$Dialog.id));
+            if (chat != null && chat.megagroup) {
+                if (chat.gigagroup) {
+                }
+                z = true;
+            } else {
+                this.dialogsChannelsOnly.add(tLRPC$Dialog);
+                if (ChatObject.hasAdminRights(chat)) {
+                }
+            }
+            return z;
+        }
+        return true;
+    }
+
+    /* JADX WARN: Can't wrap try/catch for region: R(19:7|(4:10|(2:12|13)(1:15)|14|8)|16|17|(15:179|(2:180|(3:182|(1:211)(6:184|185|186|187|(3:189|(4:191|(1:195)|196|(1:204)(4:198|(1:200)|201|202))(1:205)|203)|206)|207)(0))|22|23|(2:25|(1:31))|32|(6:34|(6:36|(4:38|(4:41|(2:47|48)|49|39)|53|(2:57|58))|59|(2:61|(3:63|(1:(2:93|(1:95)(1:96))(1:92))|(1:101)(1:100))(2:102|(1:(3:112|(2:120|(1:122)(1:123))|126)(4:109|110|111|58))(2:127|(2:129|(1:131)))))|132|(2:136|(1:138)(1:139)))|140|(1:155)|144|(3:151|152|58)(4:150|110|111|58))|156|157|(1:161)|(1:165)|166|(4:169|(2:171|172)(1:174)|173|167)|175|176)(0)|21|22|23|(0)|32|(0)|156|157|(2:159|161)|(2:163|165)|166|(1:167)|175|176) */
+    /* JADX WARN: Removed duplicated region for block: B:268:0x00e6  */
+    /* JADX WARN: Removed duplicated region for block: B:277:0x0107  */
+    /* JADX WARN: Removed duplicated region for block: B:404:0x02c6  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -25064,12 +25095,11 @@ public class MessagesController extends BaseController implements NotificationCe
         int i;
         TLRPC$Dialog tLRPC$Dialog2;
         TLRPC$User currentUser;
-        boolean z2;
         TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights;
         TLRPC$Chat tLRPC$Chat;
+        boolean z2;
         boolean z3;
         boolean z4;
-        boolean z5;
         TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights2;
         TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights3;
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights;
@@ -25105,13 +25135,15 @@ public class MessagesController extends BaseController implements NotificationCe
                     DialogFilter dialogFilter = dialogFilterArr2[i4];
                     this.sortingDialogFilter = dialogFilter;
                     if (dialogFilter != null) {
-                        dialogFilter.dialogs.clear();
+                        ArrayList<TLRPC$Dialog> arrayList = dialogFilter.dialogs;
+                        ArrayList<TLRPC$Dialog> arrayList2 = dialogFilter.dialogsForward;
+                        arrayList.clear();
+                        arrayList2.clear();
                         try {
                             Collections.sort(this.allDialogs, this.dialogDateComparator);
                         } catch (Exception e) {
                             FileLog.e(e);
                         }
-                        ArrayList<TLRPC$Dialog> arrayList = this.sortingDialogFilter.dialogs;
                         int size2 = this.allDialogs.size();
                         for (int i5 = 0; i5 < size2; i5++) {
                             TLRPC$Dialog tLRPC$Dialog3 = this.allDialogs.get(i5);
@@ -25121,6 +25153,9 @@ public class MessagesController extends BaseController implements NotificationCe
                                     j = encryptedChat.user_id;
                                 }
                                 if (this.sortingDialogFilter.includesDialog(getAccountInstance(), j, tLRPC$Dialog3)) {
+                                    if (canAddToForward(tLRPC$Dialog3)) {
+                                        arrayList2.add(tLRPC$Dialog3);
+                                    }
                                     arrayList.add(tLRPC$Dialog3);
                                 }
                             }
@@ -25143,11 +25178,11 @@ public class MessagesController extends BaseController implements NotificationCe
             while (i < size) {
                 TLRPC$Dialog tLRPC$Dialog4 = this.allDialogs.get(i);
                 if (tLRPC$Dialog4 instanceof TLRPC$TL_dialog) {
-                    ArrayList<MessageObject> arrayList2 = this.dialogMessage.get(tLRPC$Dialog4.id);
-                    if (arrayList2 != null) {
+                    ArrayList<MessageObject> arrayList3 = this.dialogMessage.get(tLRPC$Dialog4.id);
+                    if (arrayList3 != null) {
                         int i6 = Integer.MIN_VALUE;
-                        for (int i7 = 0; i7 < arrayList2.size(); i7++) {
-                            MessageObject messageObject = arrayList2.get(i7);
+                        for (int i7 = 0; i7 < arrayList3.size(); i7++) {
+                            MessageObject messageObject = arrayList3.get(i7);
                             if (messageObject != null && (tLRPC$Message = messageObject.messageOwner) != null && (i2 = tLRPC$Message.date) > i6) {
                                 i6 = i2;
                             }
@@ -25158,8 +25193,8 @@ public class MessagesController extends BaseController implements NotificationCe
                         this.dialogsServerOnly.add(tLRPC$Dialog4);
                         if (DialogObject.isChannel(tLRPC$Dialog4)) {
                             TLRPC$Chat chat2 = getChat(Long.valueOf(-tLRPC$Dialog4.id));
-                            if (chat2 != null && ((z3 = chat2.creator) || (((z5 = chat2.megagroup) && (((tLRPC$TL_chatAdminRights3 = chat2.admin_rights) != null && (tLRPC$TL_chatAdminRights3.post_messages || tLRPC$TL_chatAdminRights3.add_admins)) || (tLRPC$TL_chatBannedRights = chat2.default_banned_rights) == null || !tLRPC$TL_chatBannedRights.invite_users)) || (!z5 && (tLRPC$TL_chatAdminRights2 = chat2.admin_rights) != null && tLRPC$TL_chatAdminRights2.add_admins)))) {
-                                if (z3 || (((z4 = chat2.megagroup) && chat2.admin_rights != null) || (!z4 && chat2.admin_rights != null))) {
+                            if (chat2 != null && ((z2 = chat2.creator) || (((z4 = chat2.megagroup) && (((tLRPC$TL_chatAdminRights3 = chat2.admin_rights) != null && (tLRPC$TL_chatAdminRights3.post_messages || tLRPC$TL_chatAdminRights3.add_admins)) || (tLRPC$TL_chatBannedRights = chat2.default_banned_rights) == null || !tLRPC$TL_chatBannedRights.invite_users)) || (!z4 && (tLRPC$TL_chatAdminRights2 = chat2.admin_rights) != null && tLRPC$TL_chatAdminRights2.add_admins)))) {
+                                if (z2 || (((z3 = chat2.megagroup) && chat2.admin_rights != null) || (!z3 && chat2.admin_rights != null))) {
                                     if (chat2.megagroup) {
                                         this.dialogsMyGroups.add(tLRPC$Dialog4);
                                     } else {
@@ -25171,21 +25206,8 @@ public class MessagesController extends BaseController implements NotificationCe
                             }
                             if (chat2 != null && chat2.megagroup) {
                                 this.dialogsGroupsOnly.add(tLRPC$Dialog4);
-                                if (chat2.gigagroup) {
-                                }
                             } else {
                                 this.dialogsChannelsOnly.add(tLRPC$Dialog4);
-                                if (ChatObject.hasAdminRights(chat2)) {
-                                }
-                                z2 = false;
-                            }
-                            if (z2 && tLRPC$Dialog4.folder_id == 0) {
-                                if (tLRPC$Dialog4.id != clientUserId) {
-                                    this.dialogsForward.add(0, tLRPC$Dialog4);
-                                    z = true;
-                                } else {
-                                    this.dialogsForward.add(tLRPC$Dialog4);
-                                }
                             }
                         } else {
                             long j3 = tLRPC$Dialog4.id;
@@ -25213,9 +25235,12 @@ public class MessagesController extends BaseController implements NotificationCe
                             }
                         }
                     }
-                    z2 = true;
-                    if (z2) {
-                        if (tLRPC$Dialog4.id != clientUserId) {
+                    if (canAddToForward(tLRPC$Dialog4) && tLRPC$Dialog4.folder_id == 0) {
+                        if (tLRPC$Dialog4.id == clientUserId) {
+                            this.dialogsForward.add(0, tLRPC$Dialog4);
+                            z = true;
+                        } else {
+                            this.dialogsForward.add(tLRPC$Dialog4);
                         }
                     }
                 }
