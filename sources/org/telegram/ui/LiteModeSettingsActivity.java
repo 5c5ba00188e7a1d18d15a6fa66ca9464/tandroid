@@ -60,6 +60,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
     private int FLAGS_CHAT;
     Adapter adapter;
     FrameLayout contentView;
+    LinearLayoutManager layoutManager;
     RecyclerListView listView;
     Bulletin restrictBulletin;
     private Utilities.Callback<Boolean> onPowerAppliedChange = new Utilities.Callback() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda0
@@ -90,7 +91,9 @@ public class LiteModeSettingsActivity extends BaseFragment {
         frameLayout.setBackgroundColor(Theme.getColor("windowBackgroundGray"));
         RecyclerListView recyclerListView = new RecyclerListView(context);
         this.listView = recyclerListView;
-        recyclerListView.setLayoutManager(new LinearLayoutManager(context));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        this.layoutManager = linearLayoutManager;
+        recyclerListView.setLayoutManager(linearLayoutManager);
         RecyclerListView recyclerListView2 = this.listView;
         Adapter adapter = new Adapter();
         this.adapter = adapter;
@@ -102,7 +105,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
         defaultItemAnimator.setSupportsChangeAnimations(false);
         this.listView.setItemAnimator(defaultItemAnimator);
         this.contentView.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda1
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ boolean hasDoubleTap(View view, int i) {
                 return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i);
@@ -144,7 +147,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
                 LiteMode.toggleFlag(item.flags, !LiteMode.isEnabledSetting(item.flags));
                 updateValues();
             }
-        } else if (i2 == 5 && item.type == 0) {
+        } else if (i2 == 5 && item.type == 1) {
             SharedPreferences globalMainSettings = MessagesController.getGlobalMainSettings();
             boolean z = globalMainSettings.getBoolean("view_animations", true);
             SharedPreferences.Editor edit = globalMainSettings.edit();
@@ -181,6 +184,51 @@ public class LiteModeSettingsActivity extends BaseFragment {
             return 1;
         }
         return i == this.FLAGS_CHAT ? 2 : -1;
+    }
+
+    public void setExpanded(int i, boolean z) {
+        int expandedIndex = getExpandedIndex(i);
+        if (expandedIndex == -1) {
+            return;
+        }
+        this.expanded[expandedIndex] = z;
+        updateValues();
+        updateItems();
+    }
+
+    public void scrollToType(int i) {
+        for (int i2 = 0; i2 < this.items.size(); i2++) {
+            if (this.items.get(i2).type == i) {
+                highlightRow(i2);
+                return;
+            }
+        }
+    }
+
+    public void scrollToFlags(int i) {
+        for (int i2 = 0; i2 < this.items.size(); i2++) {
+            if (this.items.get(i2).flags == i) {
+                highlightRow(i2);
+                return;
+            }
+        }
+    }
+
+    private void highlightRow(final int i) {
+        this.listView.highlightRow(new RecyclerListView.IntReturnCallback() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda1
+            @Override // org.telegram.ui.Components.RecyclerListView.IntReturnCallback
+            public final int run() {
+                int lambda$highlightRow$2;
+                lambda$highlightRow$2 = LiteModeSettingsActivity.this.lambda$highlightRow$2(i);
+                return lambda$highlightRow$2;
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ int lambda$highlightRow$2(int i) {
+        this.layoutManager.scrollToPositionWithOffset(i, AndroidUtilities.dp(60.0f));
+        return i;
     }
 
     private void updateItems() {
@@ -228,7 +276,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
         this.items.add(Item.asSwitch(R.drawable.msg2_videocall, LocaleController.getString("LiteOptionsAutoplayVideo"), 1024));
         this.items.add(Item.asSwitch(R.drawable.msg2_gif, LocaleController.getString("LiteOptionsAutoplayGifs"), LiteMode.FLAG_AUTOPLAY_GIFS));
         this.items.add(Item.asInfo(""));
-        this.items.add(Item.asSwitch(LocaleController.getString("LiteSmoothTransitions"), 0));
+        this.items.add(Item.asSwitch(LocaleController.getString("LiteSmoothTransitions"), 1));
         this.items.add(Item.asInfo(LocaleController.getString("LiteSmoothTransitionsInfo")));
         this.adapter.setItems(this.oldItems, this.items);
     }
@@ -342,7 +390,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
                     ((SwitchCell) viewHolder.itemView).set(item, (i2 >= LiteModeSettingsActivity.this.items.size() || ((Item) LiteModeSettingsActivity.this.items.get(i2)).viewType == 2) ? false : false);
                 } else if (itemViewType == 5) {
                     TextCell textCell = (TextCell) viewHolder.itemView;
-                    if (item.type == 0) {
+                    if (item.type == 1) {
                         textCell.setTextAndCheck(item.text, MessagesController.getGlobalMainSettings().getBoolean("view_animations", true), false);
                     }
                 }

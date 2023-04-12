@@ -16407,11 +16407,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         scrollToMessageId(i, i2, z, i3, z2, i4, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:120:0x0263  */
-    /* JADX WARN: Removed duplicated region for block: B:132:0x014e A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x00b9  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x018d A[LOOP:0: B:68:0x010c->B:92:0x018d, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x01d9  */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x01df  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x0269  */
+    /* JADX WARN: Removed duplicated region for block: B:134:0x0154 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x00bf  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x0193 A[LOOP:0: B:70:0x0112->B:94:0x0193, LOOP_END] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -16460,7 +16460,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         ChatActivityAdapter chatActivityAdapter = this.chatAdapter;
                         if (findFirstVisibleItemPosition >= chatActivityAdapter.messagesStartRow && findFirstVisibleItemPosition < chatActivityAdapter.messagesEndRow) {
                             MessageObject messageObject3 = this.messages.get(findFirstVisibleItemPosition - this.chatAdapter.messagesStartRow);
-                            if (messageObject3.getId() != 0) {
+                            if (messageObject3.getId() != 0 && !messageObject3.isSponsored()) {
                                 i6 = findFirstVisibleItemPosition - this.chatAdapter.messagesStartRow;
                                 int i9 = messageObject3.getId() < i7 ? 1 : 0;
                                 if (isSecretChat()) {
@@ -35894,6 +35894,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
         public void didPressInstantButton(ChatMessageCell chatMessageCell, int i) {
             TLRPC$WebPage tLRPC$WebPage;
+            int i2;
             TLRPC$WebPage tLRPC$WebPage2;
             MessageObject messageObject = chatMessageCell.getMessageObject();
             if (i == 8) {
@@ -35924,14 +35925,18 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         return;
                     }
                     long peerId = MessageObject.getPeerId(messageObject.messageOwner.from_id);
+                    if (peerId == ChatActivity.this.getDialogId() && (i2 = messageObject.sponsoredChannelPost) != 0) {
+                        ChatActivity.this.scrollToMessageId(i2, 0, true, 0, false, 0);
+                        return;
+                    }
                     if (peerId < 0) {
                         bundle.putLong("chat_id", -peerId);
                     } else {
                         bundle.putLong("user_id", peerId);
                     }
-                    int i2 = messageObject.sponsoredChannelPost;
-                    if (i2 != 0) {
-                        bundle.putInt("message_id", i2);
+                    int i3 = messageObject.sponsoredChannelPost;
+                    if (i3 != 0) {
+                        bundle.putInt("message_id", i3);
                     }
                     String str2 = messageObject.botStartParam;
                     if (str2 != null) {

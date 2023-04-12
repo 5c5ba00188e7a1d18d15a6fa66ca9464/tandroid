@@ -1532,6 +1532,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     public static class PhotoCountView extends View {
         Paint backgroundPaint;
         StaticLayout center;
+        float centerTop;
         float centerWidth;
         AnimatedTextView.AnimatedTextDrawable left;
         private String lng;
@@ -1579,10 +1580,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             this.center = staticLayout;
             if (staticLayout.getLineCount() >= 1) {
                 this.centerWidth = this.center.getLineWidth(0);
-                this.center.getLineTop(0);
+                this.centerTop = this.center.getLineDescent(0);
                 return;
             }
             this.centerWidth = 0.0f;
+            this.centerTop = 0.0f;
         }
 
         private String getOf() {
@@ -1595,7 +1597,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
 
         public void set(int i, int i2, boolean z) {
-            if (!TextUtils.equals(this.lng, LocaleController.getInstance().getCurrentLocaleInfo().shortName)) {
+            if (LocaleController.getInstance().getCurrentLocaleInfo() != null && !TextUtils.equals(this.lng, LocaleController.getInstance().getCurrentLocaleInfo().shortName)) {
                 setCenterText();
             }
             AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = this.left;
@@ -1663,7 +1665,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             this.left.draw(canvas);
             canvas.translate(this.left.getCurrentWidth(), 0.0f);
             canvas.save();
-            canvas.translate((-(this.center.getWidth() - this.centerWidth)) / 2.0f, AndroidUtilities.dp(1.0f) + ((AndroidUtilities.dp(23.0f) - this.center.getHeight()) / 2.0f));
+            canvas.translate((-(this.center.getWidth() - this.centerWidth)) / 2.0f, ((AndroidUtilities.dp(23.0f) - this.center.getHeight()) + (this.centerTop / 2.0f)) / 2.0f);
             this.paint.setAlpha(i);
             this.center.draw(canvas);
             canvas.restore();
@@ -13374,6 +13376,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
     /* JADX INFO: Access modifiers changed from: private */
     public void toggleVideoPlayer() {
+        VideoPlayer videoPlayer;
+        VideoPlayer videoPlayer2;
         PhotoViewerWebView photoViewerWebView;
         if (this.videoPlayer != null || ((photoViewerWebView = this.photoViewerWebView) != null && photoViewerWebView.isControllable())) {
             boolean isPlaying = this.videoPlayer != null ? this.isPlaying : this.photoViewerWebView.isPlaying();
@@ -13383,11 +13387,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 pauseVideoOrWeb();
             } else {
                 if (this.isCurrentVideo) {
-                    if (Math.abs(this.videoTimelineView.getProgress() - this.videoTimelineView.getRightProgress()) < 0.01f || this.videoPlayer.getCurrentPosition() == this.videoPlayer.getDuration()) {
+                    if (Math.abs(this.videoTimelineView.getProgress() - this.videoTimelineView.getRightProgress()) < 0.01f || ((videoPlayer2 = this.videoPlayer) != null && videoPlayer2.getCurrentPosition() == this.videoPlayer.getDuration())) {
                         seekVideoOrWebToProgress(this.videoTimelineView.getLeftProgress());
                     }
                 } else {
-                    if (Math.abs(this.videoPlayerSeekbar.getProgress() - this.videoTimelineView.getRightProgress()) < 0.01f || this.videoPlayer.getCurrentPosition() == this.videoPlayer.getDuration()) {
+                    if (Math.abs(this.videoPlayerSeekbar.getProgress() - this.videoTimelineView.getRightProgress()) < 0.01f || ((videoPlayer = this.videoPlayer) != null && videoPlayer.getCurrentPosition() == this.videoPlayer.getDuration())) {
                         seekVideoOrWebToProgress(0.0f);
                     }
                     scheduleActionBarHide();

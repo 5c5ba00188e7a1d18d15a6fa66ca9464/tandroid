@@ -328,6 +328,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         return (int) (f * 2000.0f * 1000.0f * 1.13f);
     }
 
+    public static native byte[] getWaveform(String str);
+
     public static native int isOpusFile(String str);
 
     private static boolean isRecognizedFormat(int i) {
@@ -350,8 +352,6 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
     /* JADX INFO: Access modifiers changed from: private */
     public native int writeFrame(ByteBuffer byteBuffer, int i);
-
-    public native byte[] getWaveform(String str);
 
     public native byte[] getWaveform2(short[] sArr, int i);
 

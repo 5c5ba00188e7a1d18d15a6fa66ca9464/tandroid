@@ -74,6 +74,7 @@ import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$PollResults;
 import org.telegram.tgnet.TLRPC$Reaction;
 import org.telegram.tgnet.TLRPC$ReactionCount;
+import org.telegram.tgnet.TLRPC$ReplyMarkup;
 import org.telegram.tgnet.TLRPC$SecureValueType;
 import org.telegram.tgnet.TLRPC$StickerSet;
 import org.telegram.tgnet.TLRPC$StickerSetCovered;
@@ -3886,6 +3887,17 @@ public class MessageObject {
                 serializedData.cleanup();
             }
         }
+    }
+
+    public boolean hasInlineBotButtons() {
+        TLRPC$Message tLRPC$Message;
+        if (!this.isRestrictedMessage && (tLRPC$Message = this.messageOwner) != null) {
+            TLRPC$ReplyMarkup tLRPC$ReplyMarkup = tLRPC$Message.reply_markup;
+            if ((tLRPC$ReplyMarkup instanceof TLRPC$TL_replyInlineMarkup) && !tLRPC$ReplyMarkup.rows.isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void measureInlineBotButtons() {

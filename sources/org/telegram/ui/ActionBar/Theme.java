@@ -520,6 +520,7 @@ public class Theme {
         private Drawable[][] backgroundDrawable;
         private int[][] backgroundDrawableColor;
         private Rect backupRect;
+        private boolean botButtonsBottom;
         private Bitmap crosfadeFromBitmap;
         private Shader crosfadeFromBitmapShader;
         public MessageDrawable crossfadeFromDrawable;
@@ -584,9 +585,9 @@ public class Theme {
             this.shadowDrawableBitmap = new Bitmap[4];
             this.shadowDrawable = new Drawable[4];
             this.shadowDrawableColor = new int[]{-1, -1, -1, -1};
-            this.currentBackgroundDrawableRadius = new int[][]{new int[]{-1, -1, -1, -1}, new int[]{-1, -1, -1, -1}};
-            this.backgroundDrawable = (Drawable[][]) Array.newInstance(Drawable.class, 2, 4);
-            this.backgroundDrawableColor = new int[][]{new int[]{-1, -1, -1, -1}, new int[]{-1, -1, -1, -1}};
+            this.currentBackgroundDrawableRadius = new int[][]{new int[]{-1, -1, -1, -1}, new int[]{-1, -1, -1, -1}, new int[]{-1, -1, -1, -1}, new int[]{-1, -1, -1, -1}};
+            this.backgroundDrawable = (Drawable[][]) Array.newInstance(Drawable.class, 4, 4);
+            this.backgroundDrawableColor = new int[][]{new int[]{-1, -1, -1, -1}, new int[]{-1, -1, -1, -1}, new int[]{-1, -1, -1, -1}, new int[]{-1, -1, -1, -1}};
             this.resourcesProvider = resourcesProvider;
             this.isOut = z;
             this.currentType = i;
@@ -642,6 +643,10 @@ public class Theme {
             }
             ResourcesProvider resourcesProvider = this.resourcesProvider;
             return resourcesProvider != null ? resourcesProvider.getCurrentColor(str) : (Integer) Theme.currentColors.get(str);
+        }
+
+        public void setBotButtonsBottom(boolean z) {
+            this.botButtonsBottom = z;
         }
 
         public void setTop(int i, int i2, int i3, boolean z, boolean z2) {
@@ -853,6 +858,7 @@ public class Theme {
                 i = this.overrideRounding > 0.0f ? 0 : AndroidUtilities.dp(SharedConfig.bubbleRadius);
             }
             boolean z2 = this.isTopNear;
+            char c2 = 3;
             if (z2 && this.isBottomNear) {
                 c = 3;
             } else if (z2) {
@@ -861,10 +867,17 @@ public class Theme {
                 c = this.isBottomNear ? (char) 1 : (char) 0;
             }
             boolean z3 = this.isSelected;
+            if (!z3 || !this.botButtonsBottom) {
+                if (z3) {
+                    c2 = 1;
+                } else {
+                    c2 = this.botButtonsBottom ? (char) 2 : (char) 0;
+                }
+            }
             boolean z4 = (this.gradientShader != null || z3 || this.isCrossfadeBackground) ? false : true;
             int color2 = getColor(this.isOut ? "chat_outBubbleShadow" : "chat_inBubbleShadow");
-            if (this.lastDrawWithShadow != z4 || this.currentBackgroundDrawableRadius[z3 ? 1 : 0][c] != i || (z4 && this.shadowDrawableColor[c] != color2)) {
-                this.currentBackgroundDrawableRadius[z3 ? 1 : 0][c] = i;
+            if (this.lastDrawWithShadow != z4 || this.currentBackgroundDrawableRadius[c2][c] != i || (z4 && this.shadowDrawableColor[c] != color2)) {
+                this.currentBackgroundDrawableRadius[c2][c] = i;
                 try {
                     Bitmap createBitmap = Bitmap.createBitmap(dp(50.0f), dp(40.0f), Bitmap.Config.ARGB_8888);
                     Canvas canvas = new Canvas(createBitmap);
@@ -893,7 +906,7 @@ public class Theme {
                     paint2.setColor(-1);
                     setBounds(0, 0, createBitmap.getWidth(), createBitmap.getHeight());
                     draw(canvas, paint2);
-                    this.backgroundDrawable[z3 ? 1 : 0][c] = new NinePatchDrawable(createBitmap, getByteBuffer((createBitmap.getWidth() / 2) - 1, (createBitmap.getWidth() / 2) + 1, (createBitmap.getHeight() / 2) - 1, (createBitmap.getHeight() / 2) + 1).array(), new Rect(), null);
+                    this.backgroundDrawable[c2][c] = new NinePatchDrawable(createBitmap, getByteBuffer((createBitmap.getWidth() / 2) - 1, (createBitmap.getWidth() / 2) + 1, (createBitmap.getHeight() / 2) - 1, (createBitmap.getHeight() / 2) + 1).array(), new Rect(), null);
                     try {
                         setBounds(this.backupRect);
                     } catch (Throwable unused) {
@@ -909,11 +922,11 @@ public class Theme {
                 color = getColor(this.isOut ? "chat_outBubble" : "chat_inBubble");
             }
             Drawable[][] drawableArr = this.backgroundDrawable;
-            if (drawableArr[z3 ? 1 : 0][c] != null && (this.backgroundDrawableColor[z3 ? 1 : 0][c] != color || z)) {
-                drawableArr[z3 ? 1 : 0][c].setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
-                this.backgroundDrawableColor[z3 ? 1 : 0][c] = color;
+            if (drawableArr[c2][c] != null && (this.backgroundDrawableColor[c2][c] != color || z)) {
+                drawableArr[c2][c].setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
+                this.backgroundDrawableColor[c2][c] = color;
             }
-            return this.backgroundDrawable[z3 ? 1 : 0][c];
+            return this.backgroundDrawable[c2][c];
         }
 
         public Drawable getTransitionDrawable(int i) {
@@ -1074,7 +1087,7 @@ public class Theme {
             draw(canvas, null);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:116:0x0369  */
+        /* JADX WARN: Removed duplicated region for block: B:120:0x0371  */
         /* JADX WARN: Removed duplicated region for block: B:53:0x0100  */
         /* JADX WARN: Removed duplicated region for block: B:54:0x0107  */
         /* JADX WARN: Removed duplicated region for block: B:60:0x011b  */
@@ -1092,10 +1105,11 @@ public class Theme {
             int height;
             int i;
             Drawable backgroundDrawable;
+            Canvas canvas2 = canvas;
             Rect bounds = getBounds();
             if (paint == null && this.gradientShader == null && this.overrideRoundRadius == 0 && this.overrideRounding <= 0.0f && (backgroundDrawable = getBackgroundDrawable()) != null) {
                 backgroundDrawable.setBounds(bounds);
-                backgroundDrawable.draw(canvas);
+                backgroundDrawable.draw(canvas2);
                 return;
             }
             int dp2 = dp(2.0f);
@@ -1141,18 +1155,19 @@ public class Theme {
                         }
                         if (!this.isOut) {
                             if (this.drawFullBubble || this.currentType == 2 || paint != null || z) {
+                                int i3 = this.botButtonsBottom ? dp : i2;
                                 if (this.currentType == 1) {
-                                    path.moveTo((bounds.right - dp(8.0f)) - i2, bounds.bottom - dp2);
+                                    path.moveTo((bounds.right - dp(8.0f)) - i3, bounds.bottom - dp2);
                                 } else {
                                     path.moveTo(bounds.right - dp(2.6f), bounds.bottom - dp2);
                                 }
-                                path.lineTo(bounds.left + dp2 + i2, bounds.bottom - dp2);
+                                path.lineTo(bounds.left + dp2 + i3, bounds.bottom - dp2);
                                 RectF rectF = this.rect;
-                                int i3 = bounds.left;
-                                int i4 = bounds.bottom;
-                                int i5 = i2 * 2;
+                                int i4 = bounds.left;
                                 i = dp;
-                                rectF.set(i3 + dp2, (i4 - dp2) - i5, i3 + dp2 + i5, i4 - dp2);
+                                int i5 = bounds.bottom;
+                                int i6 = i3 * 2;
+                                rectF.set(i4 + dp2, (i5 - dp2) - i6, i4 + dp2 + i6, i5 - dp2);
                                 path.arcTo(this.rect, 90.0f, 90.0f, false);
                             } else {
                                 path.moveTo(bounds.right - dp(8.0f), (max - this.topY) + this.currentBackgroundHeight);
@@ -1162,23 +1177,23 @@ public class Theme {
                             if (this.drawFullBubble || this.currentType == 2 || paint != null || z2) {
                                 path.lineTo(bounds.left + dp2, bounds.top + dp2 + i2);
                                 RectF rectF2 = this.rect;
-                                int i6 = bounds.left;
-                                int i7 = bounds.top;
-                                int i8 = i2 * 2;
-                                rectF2.set(i6 + dp2, i7 + dp2, i6 + dp2 + i8, i7 + dp2 + i8);
+                                int i7 = bounds.left;
+                                int i8 = bounds.top;
+                                int i9 = i2 * 2;
+                                rectF2.set(i7 + dp2, i8 + dp2, i7 + dp2 + i9, i8 + dp2 + i9);
                                 path.arcTo(this.rect, 180.0f, 90.0f, false);
-                                int i9 = this.isTopNear ? i : i2;
+                                int i10 = this.isTopNear ? i : i2;
                                 if (this.currentType == 1) {
-                                    path.lineTo((bounds.right - dp2) - i9, bounds.top + dp2);
+                                    path.lineTo((bounds.right - dp2) - i10, bounds.top + dp2);
                                     RectF rectF3 = this.rect;
-                                    int i10 = bounds.right;
-                                    int i11 = i9 * 2;
-                                    int i12 = bounds.top;
-                                    rectF3.set((i10 - dp2) - i11, i12 + dp2, i10 - dp2, i12 + dp2 + i11);
+                                    int i11 = bounds.right;
+                                    int i12 = i10 * 2;
+                                    int i13 = bounds.top;
+                                    rectF3.set((i11 - dp2) - i12, i13 + dp2, i11 - dp2, i13 + dp2 + i12);
                                 } else {
-                                    path.lineTo((bounds.right - dp(8.0f)) - i9, bounds.top + dp2);
-                                    int i13 = i9 * 2;
-                                    this.rect.set((bounds.right - dp(8.0f)) - i13, bounds.top + dp2, bounds.right - dp(8.0f), bounds.top + dp2 + i13);
+                                    path.lineTo((bounds.right - dp(8.0f)) - i10, bounds.top + dp2);
+                                    int i14 = i10 * 2;
+                                    this.rect.set((bounds.right - dp(8.0f)) - i14, bounds.top + dp2, bounds.right - dp(8.0f), bounds.top + dp2 + i14);
                                 }
                                 path.arcTo(this.rect, 270.0f, 90.0f, false);
                             } else {
@@ -1189,42 +1204,43 @@ public class Theme {
                                     path.lineTo(bounds.right - dp(8.0f), (max - this.topY) - dp(2.0f));
                                 }
                             }
-                            int i14 = this.currentType;
-                            if (i14 == 1) {
+                            int i15 = this.currentType;
+                            if (i15 == 1) {
                                 if (paint != null || z) {
-                                    int i15 = this.isBottomNear ? i : i2;
-                                    path.lineTo(bounds.right - dp2, (bounds.bottom - dp2) - i15);
+                                    int i16 = this.isBottomNear ? i : i2;
+                                    path.lineTo(bounds.right - dp2, (bounds.bottom - dp2) - i16);
                                     RectF rectF4 = this.rect;
-                                    int i16 = bounds.right;
-                                    int i17 = i15 * 2;
-                                    int i18 = bounds.bottom;
-                                    rectF4.set((i16 - dp2) - i17, (i18 - dp2) - i17, i16 - dp2, i18 - dp2);
+                                    int i17 = bounds.right;
+                                    int i18 = i16 * 2;
+                                    int i19 = bounds.bottom;
+                                    rectF4.set((i17 - dp2) - i18, (i19 - dp2) - i18, i17 - dp2, i19 - dp2);
                                     path.arcTo(this.rect, 0.0f, 90.0f, false);
                                 } else {
                                     path.lineTo(bounds.right - dp2, (max - this.topY) + this.currentBackgroundHeight);
                                 }
-                            } else if (this.drawFullBubble || i14 == 2 || paint != null || z) {
+                            } else if (this.drawFullBubble || i15 == 2 || paint != null || z) {
                                 path.lineTo(bounds.right - dp(8.0f), ((bounds.bottom - dp2) - dp3) - dp(3.0f));
-                                int i19 = dp3 * 2;
-                                this.rect.set(bounds.right - dp(8.0f), ((bounds.bottom - dp2) - i19) - dp(9.0f), (bounds.right - dp(7.0f)) + i19, (bounds.bottom - dp2) - dp(1.0f));
+                                int i20 = dp3 * 2;
+                                this.rect.set(bounds.right - dp(8.0f), ((bounds.bottom - dp2) - i20) - dp(9.0f), (bounds.right - dp(7.0f)) + i20, (bounds.bottom - dp2) - dp(1.0f));
                                 path.arcTo(this.rect, 180.0f, -83.0f, false);
                             } else {
                                 path.lineTo(bounds.right - dp(8.0f), (max - this.topY) + this.currentBackgroundHeight);
                             }
                         } else {
-                            int i20 = dp;
+                            int i21 = dp;
                             if (this.drawFullBubble || this.currentType == 2 || paint != null || z) {
+                                int i22 = this.botButtonsBottom ? i21 : i2;
                                 if (this.currentType == 1) {
-                                    path.moveTo(bounds.left + dp(8.0f) + i2, bounds.bottom - dp2);
+                                    path.moveTo(bounds.left + dp(8.0f) + i22, bounds.bottom - dp2);
                                 } else {
                                     path.moveTo(bounds.left + dp(2.6f), bounds.bottom - dp2);
                                 }
-                                path.lineTo((bounds.right - dp2) - i2, bounds.bottom - dp2);
+                                path.lineTo((bounds.right - dp2) - i22, bounds.bottom - dp2);
                                 RectF rectF5 = this.rect;
-                                int i21 = bounds.right;
-                                int i22 = i2 * 2;
-                                int i23 = bounds.bottom;
-                                rectF5.set((i21 - dp2) - i22, (i23 - dp2) - i22, i21 - dp2, i23 - dp2);
+                                int i23 = bounds.right;
+                                int i24 = i22 * 2;
+                                int i25 = bounds.bottom;
+                                rectF5.set((i23 - dp2) - i24, (i25 - dp2) - i24, i23 - dp2, i25 - dp2);
                                 path.arcTo(this.rect, 90.0f, -90.0f, false);
                             } else {
                                 path.moveTo(bounds.left + dp(8.0f), (max - this.topY) + this.currentBackgroundHeight);
@@ -1233,23 +1249,23 @@ public class Theme {
                             if (this.drawFullBubble || this.currentType == 2 || paint != null || z2) {
                                 path.lineTo(bounds.right - dp2, bounds.top + dp2 + i2);
                                 RectF rectF6 = this.rect;
-                                int i24 = bounds.right;
-                                int i25 = i2 * 2;
-                                int i26 = bounds.top;
-                                rectF6.set((i24 - dp2) - i25, i26 + dp2, i24 - dp2, i26 + dp2 + i25);
+                                int i26 = bounds.right;
+                                int i27 = i2 * 2;
+                                int i28 = bounds.top;
+                                rectF6.set((i26 - dp2) - i27, i28 + dp2, i26 - dp2, i28 + dp2 + i27);
                                 path.arcTo(this.rect, 0.0f, -90.0f, false);
-                                int i27 = this.isTopNear ? i20 : i2;
+                                int i29 = this.isTopNear ? i21 : i2;
                                 if (this.currentType == 1) {
-                                    path.lineTo(bounds.left + dp2 + i27, bounds.top + dp2);
+                                    path.lineTo(bounds.left + dp2 + i29, bounds.top + dp2);
                                     RectF rectF7 = this.rect;
-                                    int i28 = bounds.left;
-                                    int i29 = bounds.top;
-                                    int i30 = i27 * 2;
-                                    rectF7.set(i28 + dp2, i29 + dp2, i28 + dp2 + i30, i29 + dp2 + i30);
+                                    int i30 = bounds.left;
+                                    int i31 = bounds.top;
+                                    int i32 = i29 * 2;
+                                    rectF7.set(i30 + dp2, i31 + dp2, i30 + dp2 + i32, i31 + dp2 + i32);
                                 } else {
-                                    path.lineTo(bounds.left + dp(8.0f) + i27, bounds.top + dp2);
-                                    int i31 = i27 * 2;
-                                    this.rect.set(bounds.left + dp(8.0f), bounds.top + dp2, bounds.left + dp(8.0f) + i31, bounds.top + dp2 + i31);
+                                    path.lineTo(bounds.left + dp(8.0f) + i29, bounds.top + dp2);
+                                    int i33 = i29 * 2;
+                                    this.rect.set(bounds.left + dp(8.0f), bounds.top + dp2, bounds.left + dp(8.0f) + i33, bounds.top + dp2 + i33);
                                 }
                                 path.arcTo(this.rect, 270.0f, -90.0f, false);
                             } else {
@@ -1260,36 +1276,37 @@ public class Theme {
                                     path.lineTo(bounds.left + dp(8.0f), (max - this.topY) - dp(2.0f));
                                 }
                             }
-                            int i32 = this.currentType;
-                            if (i32 == 1) {
+                            int i34 = this.currentType;
+                            if (i34 == 1) {
                                 if (paint != null || z) {
-                                    int i33 = this.isBottomNear ? i20 : i2;
-                                    path.lineTo(bounds.left + dp2, (bounds.bottom - dp2) - i33);
+                                    int i35 = this.isBottomNear ? i21 : i2;
+                                    path.lineTo(bounds.left + dp2, (bounds.bottom - dp2) - i35);
                                     RectF rectF8 = this.rect;
-                                    int i34 = bounds.left;
-                                    int i35 = bounds.bottom;
-                                    int i36 = i33 * 2;
-                                    rectF8.set(i34 + dp2, (i35 - dp2) - i36, i34 + dp2 + i36, i35 - dp2);
+                                    int i36 = bounds.left;
+                                    int i37 = bounds.bottom;
+                                    int i38 = i35 * 2;
+                                    rectF8.set(i36 + dp2, (i37 - dp2) - i38, i36 + dp2 + i38, i37 - dp2);
                                     path.arcTo(this.rect, 180.0f, -90.0f, false);
                                 } else {
                                     path.lineTo(bounds.left + dp2, (max - this.topY) + this.currentBackgroundHeight);
                                 }
-                            } else if (this.drawFullBubble || i32 == 2 || paint != null || z) {
+                            } else if (this.drawFullBubble || i34 == 2 || paint != null || z) {
                                 path.lineTo(bounds.left + dp(8.0f), ((bounds.bottom - dp2) - dp3) - dp(3.0f));
-                                int i37 = dp3 * 2;
-                                this.rect.set((bounds.left + dp(7.0f)) - i37, ((bounds.bottom - dp2) - i37) - dp(9.0f), bounds.left + dp(8.0f), (bounds.bottom - dp2) - dp(1.0f));
+                                int i39 = dp3 * 2;
+                                this.rect.set((bounds.left + dp(7.0f)) - i39, ((bounds.bottom - dp2) - i39) - dp(9.0f), bounds.left + dp(8.0f), (bounds.bottom - dp2) - dp(1.0f));
                                 path.arcTo(this.rect, 0.0f, 83.0f, false);
                             } else {
                                 path.lineTo(bounds.left + dp(8.0f), (max - this.topY) + this.currentBackgroundHeight);
                             }
                         }
                         path.close();
+                        canvas2 = canvas;
                     }
-                    canvas.drawPath(path, paint2);
+                    canvas2.drawPath(path, paint2);
                     if (this.gradientShader == null && this.isSelected && paint == null) {
                         int color = getColor("chat_outBubbleGradientSelectedOverlay");
                         this.selectedPaint.setColor(ColorUtils.setAlphaComponent(color, (int) ((Color.alpha(color) * this.alpha) / 255.0f)));
-                        canvas.drawPath(path, this.selectedPaint);
+                        canvas2.drawPath(path, this.selectedPaint);
                         return;
                     }
                     return;
@@ -1310,7 +1327,8 @@ public class Theme {
             if (!this.isOut) {
             }
             path.close();
-            canvas.drawPath(path, paint2);
+            canvas2 = canvas;
+            canvas2.drawPath(path, paint2);
             if (this.gradientShader == null) {
             }
         }

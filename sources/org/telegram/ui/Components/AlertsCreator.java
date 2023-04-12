@@ -141,6 +141,7 @@ import org.telegram.tgnet.TLRPC$TL_messageActionPinMessage;
 import org.telegram.tgnet.TLRPC$TL_messageActionSetChatTheme;
 import org.telegram.tgnet.TLRPC$TL_messageActionUserJoined;
 import org.telegram.tgnet.TLRPC$TL_messages_addChatUser;
+import org.telegram.tgnet.TLRPC$TL_messages_botApp;
 import org.telegram.tgnet.TLRPC$TL_messages_checkHistoryImport;
 import org.telegram.tgnet.TLRPC$TL_messages_checkHistoryImportPeer;
 import org.telegram.tgnet.TLRPC$TL_messages_createChat;
@@ -228,62 +229,62 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$createAutoDeleteDatePickerDialog$74(View view, MotionEvent motionEvent) {
+    public static /* synthetic */ boolean lambda$createAutoDeleteDatePickerDialog$79(View view, MotionEvent motionEvent) {
         return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$createCalendarPickerDialog$87(View view, MotionEvent motionEvent) {
+    public static /* synthetic */ boolean lambda$createCalendarPickerDialog$92(View view, MotionEvent motionEvent) {
         return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createChangeBioAlert$32(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$createChangeBioAlert$37(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createChangeNameAlert$36(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$createChangeNameAlert$41(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$createDatePickerDialog$61(View view, MotionEvent motionEvent) {
+    public static /* synthetic */ boolean lambda$createDatePickerDialog$66(View view, MotionEvent motionEvent) {
         return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createDeleteMessagesAlert$127(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$createDeleteMessagesAlert$132(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$createMuteForPickerDialog$84(View view, MotionEvent motionEvent) {
+    public static /* synthetic */ boolean lambda$createMuteForPickerDialog$89(View view, MotionEvent motionEvent) {
         return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createReportAlert$97(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$createReportAlert$102(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$createScheduleDatePickerDialog$52(View view, MotionEvent motionEvent) {
+    public static /* synthetic */ boolean lambda$createScheduleDatePickerDialog$57(View view, MotionEvent motionEvent) {
         return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$createSoundFrequencyPickerDialog$80(View view, MotionEvent motionEvent) {
+    public static /* synthetic */ boolean lambda$createSoundFrequencyPickerDialog$85(View view, MotionEvent motionEvent) {
         return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$createStatusUntilDatePickerDialog$67(View view, MotionEvent motionEvent) {
+    public static /* synthetic */ boolean lambda$createStatusUntilDatePickerDialog$72(View view, MotionEvent motionEvent) {
         return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createThemeCreateDialog$130(DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$createThemeCreateDialog$135(DialogInterface dialogInterface, int i) {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$sendReport$95(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$sendReport$100(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
     }
 
     public static Dialog createForgotPasscodeDialog(Context context) {
@@ -330,7 +331,7 @@ public class AlertsCreator {
             public final void onClick(DialogInterface dialogInterface, int i2) {
                 AlertsCreator.lambda$createBackgroundActivityDialog$1(context, dialogInterface, i2);
             }
-        }).setNegativeButton(LocaleController.getString("ContactsPermissionAlertNotNow", R.string.ContactsPermissionAlertNotNow), null).setOnDismissListener(AlertsCreator$$ExternalSyntheticLambda48.INSTANCE).create();
+        }).setNegativeButton(LocaleController.getString("ContactsPermissionAlertNotNow", R.string.ContactsPermissionAlertNotNow), null).setOnDismissListener(AlertsCreator$$ExternalSyntheticLambda51.INSTANCE).create();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -361,17 +362,17 @@ public class AlertsCreator {
         if (z) {
             str = str2;
         }
-        return topAnimation.setMessage(AndroidUtilities.replaceTags(str)).setPositiveButton(LocaleController.getString(z ? R.string.PermissionOpenSettings : R.string.BotWebViewRequestAllow), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda35
+        return topAnimation.setMessage(AndroidUtilities.replaceTags(str)).setPositiveButton(LocaleController.getString(z ? R.string.PermissionOpenSettings : R.string.BotWebViewRequestAllow), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda37
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i2) {
                 AlertsCreator.lambda$createWebViewPermissionsRequestDialog$3(z, context, atomicBoolean, consumer, dialogInterface, i2);
             }
-        }).setNegativeButton(LocaleController.getString(R.string.BotWebViewRequestDontAllow), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda19
+        }).setNegativeButton(LocaleController.getString(R.string.BotWebViewRequestDontAllow), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda21
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i2) {
                 AlertsCreator.lambda$createWebViewPermissionsRequestDialog$4(atomicBoolean, consumer, dialogInterface, i2);
             }
-        }).setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda47
+        }).setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda50
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
                 AlertsCreator.lambda$createWebViewPermissionsRequestDialog$5(atomicBoolean, consumer, dialogInterface);
@@ -411,7 +412,7 @@ public class AlertsCreator {
     }
 
     public static Dialog createApkRestrictedDialog(final Context context, Theme.ResourcesProvider resourcesProvider) {
-        return new AlertDialog.Builder(context, resourcesProvider).setMessage(LocaleController.getString("ApkRestricted", R.string.ApkRestricted)).setTopAnimation(R.raw.permission_request_apk, 72, false, Theme.getColor("dialogTopBackground")).setPositiveButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda11
+        return new AlertDialog.Builder(context, resourcesProvider).setMessage(LocaleController.getString("ApkRestricted", R.string.ApkRestricted)).setTopAnimation(R.raw.permission_request_apk, 72, false, Theme.getColor("dialogTopBackground")).setPositiveButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda10
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 AlertsCreator.lambda$createApkRestrictedDialog$6(context, dialogInterface, i);
@@ -871,7 +872,7 @@ public class AlertsCreator {
             builder.setTitle(LocaleController.getString("Language", R.string.Language));
             formatString = LocaleController.formatString("LanguageSame", R.string.LanguageSame, tLRPC$TL_langPackLanguage.name);
             builder.setNegativeButton(LocaleController.getString("OK", R.string.OK), null);
-            builder.setNeutralButton(LocaleController.getString("SETTINGS", R.string.SETTINGS), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda34
+            builder.setNeutralButton(LocaleController.getString("SETTINGS", R.string.SETTINGS), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda36
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i2) {
                     AlertsCreator.lambda$createLanguageAlert$8(LaunchActivity.this, dialogInterface, i2);
@@ -888,7 +889,7 @@ public class AlertsCreator {
             } else {
                 formatString = LocaleController.formatString("LanguageCustomAlert", R.string.LanguageCustomAlert, tLRPC$TL_langPackLanguage.name, Integer.valueOf((int) Math.ceil((tLRPC$TL_langPackLanguage.translated_count / tLRPC$TL_langPackLanguage.strings_count) * 100.0f)));
             }
-            builder.setPositiveButton(LocaleController.getString("Change", R.string.Change), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda25
+            builder.setPositiveButton(LocaleController.getString("Change", R.string.Change), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda27
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i2) {
                     AlertsCreator.lambda$createLanguageAlert$9(TLRPC$TL_langPackLanguage.this, launchActivity, dialogInterface, i2);
@@ -931,7 +932,7 @@ public class AlertsCreator {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createLanguageAlert$8(LaunchActivity launchActivity, DialogInterface dialogInterface, int i) {
-        launchActivity.lambda$runLinkRequest$79(new LanguageSelectActivity());
+        launchActivity.lambda$runLinkRequest$77(new LanguageSelectActivity());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1068,7 +1069,7 @@ public class AlertsCreator {
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(chatActivity.getParentActivity(), resourcesProvider);
         builder.setDimEnabled(runnable == null);
-        builder.setOnPreDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda45
+        builder.setOnPreDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda48
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
                 AlertsCreator.lambda$showBlockReportSpamReplyAlert$11(runnable, dialogInterface);
@@ -1088,7 +1089,7 @@ public class AlertsCreator {
         checkBoxCellArr[0].setText(LocaleController.getString("DeleteReportSpam", R.string.DeleteReportSpam), "", true, false);
         checkBoxCellArr[0].setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(8.0f), 0, LocaleController.isRTL ? AndroidUtilities.dp(8.0f) : AndroidUtilities.dp(16.0f), 0);
         linearLayout.addView(checkBoxCellArr[0], LayoutHelper.createLinear(-1, -2));
-        checkBoxCellArr[0].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda68
+        checkBoxCellArr[0].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda73
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 AlertsCreator.lambda$showBlockReportSpamReplyAlert$12(checkBoxCellArr, view);
@@ -1096,7 +1097,7 @@ public class AlertsCreator {
         });
         builder.setView(linearLayout);
         final TLRPC$User tLRPC$User = user;
-        builder.setPositiveButton(LocaleController.getString("BlockAndDeleteReplies", R.string.BlockAndDeleteReplies), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda26
+        builder.setPositiveButton(LocaleController.getString("BlockAndDeleteReplies", R.string.BlockAndDeleteReplies), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda28
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 AlertsCreator.lambda$showBlockReportSpamReplyAlert$14(TLRPC$User.this, accountInstance, chatActivity, chat, messageObject, checkBoxCellArr, resourcesProvider, dialogInterface, i);
@@ -1142,7 +1143,7 @@ public class AlertsCreator {
                 undoView.showWithAction(0L, 74, (Runnable) null);
             }
         }
-        accountInstance.getConnectionsManager().sendRequest(tLRPC$TL_contacts_blockFromReplies, new RequestDelegate() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda100
+        accountInstance.getConnectionsManager().sendRequest(tLRPC$TL_contacts_blockFromReplies, new RequestDelegate() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda105
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 AlertsCreator.lambda$showBlockReportSpamReplyAlert$13(AccountInstance.this, tLObject, tLRPC$TL_error);
@@ -1203,7 +1204,7 @@ public class AlertsCreator {
                             }
                             checkBoxCellArr2[i2].setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(8.0f), 0, LocaleController.isRTL ? AndroidUtilities.dp(8.0f) : AndroidUtilities.dp(16.0f), 0);
                             linearLayout.addView(checkBoxCellArr2[i2], LayoutHelper.createLinear(-1, -2));
-                            checkBoxCellArr2[i2].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda69
+                            checkBoxCellArr2[i2].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda74
                                 @Override // android.view.View.OnClickListener
                                 public final void onClick(View view) {
                                     AlertsCreator.lambda$showBlockReportSpamAlert$15(checkBoxCellArr2, view);
@@ -1241,7 +1242,7 @@ public class AlertsCreator {
                     string = LocaleController.getString("ReportChat", R.string.ReportChat);
                     checkBoxCellArr = null;
                 }
-                builder.setPositiveButton(string, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda27
+                builder.setPositiveButton(string, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda29
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i4) {
                         AlertsCreator.lambda$showBlockReportSpamAlert$16(TLRPC$User.this, accountInstance, checkBoxCellArr, j, tLRPC$Chat, tLRPC$EncryptedChat, z, intCallback, dialogInterface, i4);
@@ -1261,7 +1262,7 @@ public class AlertsCreator {
         z2 = true;
         if (tLRPC$User == null) {
         }
-        builder.setPositiveButton(string, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda27
+        builder.setPositiveButton(string, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda29
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i4) {
                 AlertsCreator.lambda$showBlockReportSpamAlert$16(TLRPC$User.this, accountInstance, checkBoxCellArr, j, tLRPC$Chat, tLRPC$EncryptedChat, z, intCallback, dialogInterface, i4);
@@ -1380,7 +1381,7 @@ public class AlertsCreator {
                 drawable = drawable2;
                 strArr = strArr2;
                 z = isGlobalNotificationsEnabled;
-                textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda50
+                textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda53
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         AlertsCreator.lambda$showCustomNotificationsDialog$17(j, i3, z2, i, intCallback2, i2, baseFragment, arrayList, intCallback, builder, view);
@@ -1517,7 +1518,7 @@ public class AlertsCreator {
             radioColorCell.setTextAndValue((CharSequence) arrayList.get(i3), SharedConfig.mapPreviewType == ((Integer) arrayList2.get(i3)).intValue());
             radioColorCell.setBackground(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21"), 2));
             linearLayout.addView(radioColorCell);
-            radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda53
+            radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda56
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     AlertsCreator.lambda$showSecretLocationAlert$18(arrayList2, runnable, builder, view);
@@ -1614,7 +1615,7 @@ public class AlertsCreator {
                 }
                 builder.setMessage(spannableStringBuilder);
                 builder.setMessageTextViewClickable(false);
-                builder.setPositiveButton(LocaleController.getString("Open", R.string.Open), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda30
+                builder.setPositiveButton(LocaleController.getString("Open", R.string.Open), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda32
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i) {
                         AlertsCreator.lambda$showOpenUrlAlert$19(BaseFragment.this, str, inlineReturn, z2, progress, dialogInterface, i);
@@ -1634,7 +1635,7 @@ public class AlertsCreator {
             }
             builder2.setMessage(spannableStringBuilder2);
             builder2.setMessageTextViewClickable(false);
-            builder2.setPositiveButton(LocaleController.getString("Open", R.string.Open), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda30
+            builder2.setPositiveButton(LocaleController.getString("Open", R.string.Open), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda32
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     AlertsCreator.lambda$showOpenUrlAlert$19(BaseFragment.this, str, inlineReturn, z2, progress, dialogInterface, i);
@@ -1685,7 +1686,7 @@ public class AlertsCreator {
         AlertDialog.Builder builder = new AlertDialog.Builder(baseFragment.getParentActivity(), resourcesProvider);
         builder.setView(linksTextView);
         builder.setTitle(LocaleController.getString("AskAQuestion", R.string.AskAQuestion));
-        builder.setPositiveButton(LocaleController.getString("AskButton", R.string.AskButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda29
+        builder.setPositiveButton(LocaleController.getString("AskButton", R.string.AskButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda30
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 AlertsCreator.performAskAQuestion(BaseFragment.this);
@@ -1738,7 +1739,7 @@ public class AlertsCreator {
                 public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                     abstractSerializedData.writeInt32(constructor);
                 }
-            }, new RequestDelegate() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda99
+            }, new RequestDelegate() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda104
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     AlertsCreator.lambda$performAskAQuestion$23(mainSettings, alertDialog, currentAccount, baseFragment, tLObject, tLRPC$TL_error);
@@ -1756,7 +1757,7 @@ public class AlertsCreator {
     public static /* synthetic */ void lambda$performAskAQuestion$23(final SharedPreferences sharedPreferences, final AlertDialog alertDialog, final int i, final BaseFragment baseFragment, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
             final TLRPC$TL_help_support tLRPC$TL_help_support = (TLRPC$TL_help_support) tLObject;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda91
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda96
                 @Override // java.lang.Runnable
                 public final void run() {
                     AlertsCreator.lambda$performAskAQuestion$21(sharedPreferences, tLRPC$TL_help_support, alertDialog, i, baseFragment);
@@ -1764,7 +1765,7 @@ public class AlertsCreator {
             });
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda92
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda97
             @Override // java.lang.Runnable
             public final void run() {
                 AlertsCreator.lambda$performAskAQuestion$22(AlertDialog.this);
@@ -1858,7 +1859,7 @@ public class AlertsCreator {
             backupImageView.setForUserOrChat(tLRPC$Chat, avatarDrawable);
         }
         textView.setText(AndroidUtilities.replaceTags(str2));
-        builder.setPositiveButton(LocaleController.getString("Import", R.string.Import), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda14
+        builder.setPositiveButton(LocaleController.getString("Import", R.string.Import), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda16
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 AlertsCreator.lambda$createImportDialogAlert$24(runnable, dialogInterface, i);
@@ -1873,6 +1874,191 @@ public class AlertsCreator {
         if (runnable != null) {
             runnable.run();
         }
+    }
+
+    public static void createBotLaunchAlert(BaseFragment baseFragment, TLRPC$User tLRPC$User, final Runnable runnable, final Runnable runnable2) {
+        Context context = baseFragment.getContext();
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        TextView textView = new TextView(context) { // from class: org.telegram.ui.Components.AlertsCreator.3
+            @Override // android.widget.TextView
+            public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
+                super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), false), bufferType);
+            }
+        };
+        NotificationCenter.listenEmojiLoading(textView);
+        textView.setTextColor(Theme.getColor("dialogTextBlack"));
+        textView.setTextSize(1, 16.0f);
+        textView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
+        textView.setText(LocaleController.getString(R.string.BotWebViewStartPermission));
+        FrameLayout frameLayout = new FrameLayout(context);
+        builder.setCustomViewOffset(6);
+        builder.setView(frameLayout);
+        AvatarDrawable avatarDrawable = new AvatarDrawable();
+        avatarDrawable.setTextSize(AndroidUtilities.dp(18.0f));
+        BackupImageView backupImageView = new BackupImageView(context);
+        backupImageView.setRoundRadius(AndroidUtilities.dp(20.0f));
+        frameLayout.addView(backupImageView, LayoutHelper.createFrame(40, 40.0f, (LocaleController.isRTL ? 5 : 3) | 48, 22.0f, 5.0f, 22.0f, 0.0f));
+        TextView textView2 = new TextView(context);
+        textView2.setTextColor(Theme.getColor("actionBarDefaultSubmenuItem"));
+        textView2.setTextSize(1, 20.0f);
+        textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        textView2.setLines(1);
+        textView2.setMaxLines(1);
+        textView2.setSingleLine(true);
+        textView2.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
+        textView2.setEllipsize(TextUtils.TruncateAt.END);
+        textView2.setText(tLRPC$User.first_name);
+        boolean z = LocaleController.isRTL;
+        frameLayout.addView(textView2, LayoutHelper.createFrame(-1, -2.0f, (z ? 5 : 3) | 48, z ? 21 : 76, 11.0f, z ? 76 : 21, 0.0f));
+        frameLayout.addView(textView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 5 : 3) | 48, 24.0f, 57.0f, 24.0f, 1.0f));
+        if (UserObject.isReplyUser(tLRPC$User)) {
+            avatarDrawable.setScaleSize(0.8f);
+            avatarDrawable.setAvatarType(12);
+            backupImageView.setImage((ImageLocation) null, (String) null, avatarDrawable, tLRPC$User);
+        } else {
+            avatarDrawable.setScaleSize(1.0f);
+            avatarDrawable.setInfo(tLRPC$User);
+            backupImageView.setForUserOrChat(tLRPC$User, avatarDrawable);
+        }
+        builder.setPositiveButton(LocaleController.getString(R.string.Start), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda14
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                runnable.run();
+            }
+        });
+        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+        baseFragment.showDialog(builder.create(), false, new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda47
+            @Override // android.content.DialogInterface.OnDismissListener
+            public final void onDismiss(DialogInterface dialogInterface) {
+                runnable2.run();
+            }
+        });
+    }
+
+    public static void createBotLaunchAlert(final BaseFragment baseFragment, TLRPC$TL_messages_botApp tLRPC$TL_messages_botApp, final TLRPC$User tLRPC$User, final AtomicBoolean atomicBoolean, final Runnable runnable) {
+        float f;
+        int dp;
+        Context context = baseFragment.getContext();
+        final CheckBoxCell[] checkBoxCellArr = new CheckBoxCell[1];
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        TextView textView = new TextView(context) { // from class: org.telegram.ui.Components.AlertsCreator.4
+            @Override // android.widget.TextView
+            public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
+                super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), false), bufferType);
+            }
+        };
+        NotificationCenter.listenEmojiLoading(textView);
+        textView.setTextColor(Theme.getColor("dialogTextBlack"));
+        textView.setTextSize(1, 16.0f);
+        textView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
+        textView.setText(LocaleController.getString(R.string.BotWebViewStartPermission));
+        FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.AlertsCreator.5
+            @Override // android.widget.FrameLayout, android.view.View
+            protected void onMeasure(int i, int i2) {
+                super.onMeasure(i, i2);
+                if (checkBoxCellArr[0] != null) {
+                    setMeasuredDimension(getMeasuredWidth(), getMeasuredHeight() + checkBoxCellArr[0].getMeasuredHeight() + AndroidUtilities.dp(7.0f));
+                }
+            }
+        };
+        builder.setCustomViewOffset(6);
+        builder.setView(frameLayout);
+        AvatarDrawable avatarDrawable = new AvatarDrawable();
+        avatarDrawable.setTextSize(AndroidUtilities.dp(18.0f));
+        BackupImageView backupImageView = new BackupImageView(context);
+        backupImageView.setRoundRadius(AndroidUtilities.dp(20.0f));
+        frameLayout.addView(backupImageView, LayoutHelper.createFrame(40, 40.0f, (LocaleController.isRTL ? 5 : 3) | 48, 22.0f, 5.0f, 22.0f, 0.0f));
+        TextView textView2 = new TextView(context);
+        textView2.setTextColor(Theme.getColor("actionBarDefaultSubmenuItem"));
+        textView2.setTextSize(1, 20.0f);
+        textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        textView2.setLines(1);
+        textView2.setMaxLines(1);
+        textView2.setSingleLine(true);
+        textView2.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
+        textView2.setEllipsize(TextUtils.TruncateAt.END);
+        textView2.setText(tLRPC$User.first_name);
+        TextView textView3 = new TextView(context);
+        textView3.setTextColor(Theme.getColor("dialogTextBlue"));
+        textView3.setTextSize(1, 14.0f);
+        textView3.setLines(1);
+        textView3.setMaxLines(1);
+        textView3.setSingleLine(true);
+        textView3.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
+        textView3.setEllipsize(TextUtils.TruncateAt.END);
+        textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda58
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                AlertsCreator.lambda$createBotLaunchAlert$27(TLRPC$User.this, baseFragment, builder, view);
+            }
+        });
+        SpannableString valueOf = SpannableString.valueOf(LocaleController.getString(R.string.MoreAboutThisBot) + "  ");
+        ColoredImageSpan coloredImageSpan = new ColoredImageSpan(R.drawable.attach_arrow_right);
+        coloredImageSpan.setTopOffset(1);
+        coloredImageSpan.setSize(AndroidUtilities.dp(10.0f));
+        valueOf.setSpan(coloredImageSpan, valueOf.length() - 1, valueOf.length(), 33);
+        textView3.setText(valueOf);
+        boolean z = LocaleController.isRTL;
+        frameLayout.addView(textView2, LayoutHelper.createFrame(-1, -2.0f, (z ? 5 : 3) | 48, z ? 21 : 76, 0.0f, z ? 76 : 21, 0.0f));
+        boolean z2 = LocaleController.isRTL;
+        frameLayout.addView(textView3, LayoutHelper.createFrame(-1, -2.0f, (z2 ? 5 : 3) | 48, z2 ? 21 : 76, 28.0f, z2 ? 76 : 21, 0.0f));
+        frameLayout.addView(textView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 5 : 3) | 48, 24.0f, 57.0f, 24.0f, 1.0f));
+        if (tLRPC$TL_messages_botApp.request_write_access) {
+            atomicBoolean.set(true);
+            checkBoxCellArr[0] = new CheckBoxCell(context, 1, baseFragment.getResourceProvider());
+            checkBoxCellArr[0].setBackgroundDrawable(Theme.getSelectorDrawable(false));
+            checkBoxCellArr[0].setText(AndroidUtilities.replaceTags(LocaleController.formatString("OpenUrlOption2", R.string.OpenUrlOption2, UserObject.getUserName(tLRPC$User))), "", true, false);
+            CheckBoxCell checkBoxCell = checkBoxCellArr[0];
+            if (LocaleController.isRTL) {
+                f = 16.0f;
+                dp = AndroidUtilities.dp(16.0f);
+            } else {
+                f = 16.0f;
+                dp = AndroidUtilities.dp(8.0f);
+            }
+            checkBoxCell.setPadding(dp, 0, LocaleController.isRTL ? AndroidUtilities.dp(8.0f) : AndroidUtilities.dp(f), 0);
+            checkBoxCellArr[0].setChecked(true, false);
+            frameLayout.addView(checkBoxCellArr[0], LayoutHelper.createFrame(-1, 48.0f, 83, 0.0f, 0.0f, 0.0f, 0.0f));
+            checkBoxCellArr[0].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda57
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    AlertsCreator.lambda$createBotLaunchAlert$28(atomicBoolean, view);
+                }
+            });
+        }
+        if (UserObject.isReplyUser(tLRPC$User)) {
+            avatarDrawable.setScaleSize(0.8f);
+            avatarDrawable.setAvatarType(12);
+            backupImageView.setImage((ImageLocation) null, (String) null, avatarDrawable, tLRPC$User);
+        } else {
+            avatarDrawable.setScaleSize(1.0f);
+            avatarDrawable.setInfo(tLRPC$User);
+            backupImageView.setForUserOrChat(tLRPC$User, avatarDrawable);
+        }
+        builder.setPositiveButton(LocaleController.getString(R.string.Start), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda15
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                runnable.run();
+            }
+        });
+        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+        baseFragment.showDialog(builder.create());
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$createBotLaunchAlert$27(TLRPC$User tLRPC$User, BaseFragment baseFragment, AlertDialog.Builder builder, View view) {
+        Bundle bundle = new Bundle();
+        bundle.putLong("user_id", tLRPC$User.id);
+        if (baseFragment.getMessagesController().checkCanOpenChat(bundle, baseFragment)) {
+            baseFragment.presentFragment(new ChatActivity(bundle));
+        }
+        builder.getDismissRunnable().run();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$createBotLaunchAlert$28(AtomicBoolean atomicBoolean, View view) {
+        atomicBoolean.set(!atomicBoolean.get());
+        ((CheckBoxCell) view).setChecked(atomicBoolean.get(), true);
     }
 
     public static void createClearOrDeleteDialogAlert(BaseFragment baseFragment, boolean z, TLRPC$Chat tLRPC$Chat, TLRPC$User tLRPC$User, boolean z2, boolean z3, MessagesStorage.BooleanCallback booleanCallback) {
@@ -1932,7 +2118,7 @@ public class AlertsCreator {
         AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity, resourcesProvider);
         long clientUserId = UserConfig.getInstance(currentAccount).getClientUserId();
         final CheckBoxCell[] checkBoxCellArr = new CheckBoxCell[1];
-        TextView textView2 = new TextView(parentActivity) { // from class: org.telegram.ui.Components.AlertsCreator.3
+        TextView textView2 = new TextView(parentActivity) { // from class: org.telegram.ui.Components.AlertsCreator.6
             @Override // android.widget.TextView
             public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
                 super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), false), bufferType);
@@ -1943,7 +2129,7 @@ public class AlertsCreator {
         textView2.setTextSize(1, 16.0f);
         textView2.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
         boolean z10 = !z6 && ChatObject.isChannel(tLRPC$Chat) && ChatObject.isPublic(tLRPC$Chat);
-        FrameLayout frameLayout = new FrameLayout(parentActivity) { // from class: org.telegram.ui.Components.AlertsCreator.4
+        FrameLayout frameLayout = new FrameLayout(parentActivity) { // from class: org.telegram.ui.Components.AlertsCreator.7
             @Override // android.widget.FrameLayout, android.view.View
             protected void onMeasure(int i2, int i3) {
                 super.onMeasure(i2, i3);
@@ -2047,10 +2233,10 @@ public class AlertsCreator {
                     checkBoxCell2.setChecked(true, false);
                     frameLayout.addView(checkBoxCellArr[0], LayoutHelper.createFrame(-1, 48.0f, 83, 0.0f, 0.0f, 0.0f, 0.0f));
                     zArr2 = zArr;
-                    checkBoxCellArr[0].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda70
+                    checkBoxCellArr[0].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda76
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
-                            AlertsCreator.lambda$createClearOrDeleteDialogAlert$25(zArr2, view);
+                            AlertsCreator.lambda$createClearOrDeleteDialogAlert$30(zArr2, view);
                         }
                     });
                 } else {
@@ -2082,10 +2268,10 @@ public class AlertsCreator {
                     }
                     checkBoxCell3.setPadding(dp, 0, LocaleController.isRTL ? AndroidUtilities.dp(f2) : AndroidUtilities.dp(f), 0);
                     frameLayout.addView(checkBoxCellArr[0], LayoutHelper.createFrame(-1, 48.0f, 83, 0.0f, 0.0f, 0.0f, 0.0f));
-                    checkBoxCellArr[0].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda74
+                    checkBoxCellArr[0].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda80
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
-                            AlertsCreator.lambda$createClearOrDeleteDialogAlert$26(zArr2, view);
+                            AlertsCreator.lambda$createClearOrDeleteDialogAlert$31(zArr2, view);
                         }
                     });
                     if (tLRPC$User == null) {
@@ -2191,10 +2377,10 @@ public class AlertsCreator {
                     }
                     final boolean z13 = z10;
                     final boolean[] zArr4 = zArr2;
-                    builder.setPositiveButton(string, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda37
+                    builder.setPositiveButton(string, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda39
                         @Override // android.content.DialogInterface.OnClickListener
                         public final void onClick(DialogInterface dialogInterface, int i2) {
-                            AlertsCreator.lambda$createClearOrDeleteDialogAlert$28(z13, z3, z4, tLRPC$User, baseFragment, z, z2, tLRPC$Chat, z5, z6, booleanCallback, resourcesProvider, zArr4, dialogInterface, i2);
+                            AlertsCreator.lambda$createClearOrDeleteDialogAlert$33(z13, z3, z4, tLRPC$User, baseFragment, z, z2, tLRPC$Chat, z5, z6, booleanCallback, resourcesProvider, zArr4, dialogInterface, i2);
                         }
                     });
                     builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -2216,10 +2402,10 @@ public class AlertsCreator {
                 }
                 final boolean z132 = z10;
                 final boolean[] zArr42 = zArr2;
-                builder.setPositiveButton(string, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda37
+                builder.setPositiveButton(string, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda39
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i2) {
-                        AlertsCreator.lambda$createClearOrDeleteDialogAlert$28(z132, z3, z4, tLRPC$User, baseFragment, z, z2, tLRPC$Chat, z5, z6, booleanCallback, resourcesProvider, zArr42, dialogInterface, i2);
+                        AlertsCreator.lambda$createClearOrDeleteDialogAlert$33(z132, z3, z4, tLRPC$User, baseFragment, z, z2, tLRPC$Chat, z5, z6, booleanCallback, resourcesProvider, zArr42, dialogInterface, i2);
                     }
                 });
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -2248,29 +2434,29 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createClearOrDeleteDialogAlert$25(boolean[] zArr, View view) {
+    public static /* synthetic */ void lambda$createClearOrDeleteDialogAlert$30(boolean[] zArr, View view) {
         zArr[0] = !zArr[0];
         ((CheckBoxCell) view).setChecked(zArr[0], true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createClearOrDeleteDialogAlert$26(boolean[] zArr, View view) {
+    public static /* synthetic */ void lambda$createClearOrDeleteDialogAlert$31(boolean[] zArr, View view) {
         zArr[0] = !zArr[0];
         ((CheckBoxCell) view).setChecked(zArr[0], true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createClearOrDeleteDialogAlert$28(boolean z, boolean z2, boolean z3, final TLRPC$User tLRPC$User, final BaseFragment baseFragment, final boolean z4, final boolean z5, final TLRPC$Chat tLRPC$Chat, final boolean z6, final boolean z7, final MessagesStorage.BooleanCallback booleanCallback, final Theme.ResourcesProvider resourcesProvider, final boolean[] zArr, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$createClearOrDeleteDialogAlert$33(boolean z, boolean z2, boolean z3, final TLRPC$User tLRPC$User, final BaseFragment baseFragment, final boolean z4, final boolean z5, final TLRPC$Chat tLRPC$Chat, final boolean z6, final boolean z7, final MessagesStorage.BooleanCallback booleanCallback, final Theme.ResourcesProvider resourcesProvider, final boolean[] zArr, DialogInterface dialogInterface, int i) {
         boolean z8 = false;
         if (!z && !z2 && !z3) {
             if (UserObject.isUserSelf(tLRPC$User)) {
                 createClearOrDeleteDialogAlert(baseFragment, z4, z5, true, tLRPC$Chat, tLRPC$User, false, z6, z7, booleanCallback, resourcesProvider);
                 return;
             } else if (tLRPC$User != null && zArr[0]) {
-                MessagesStorage.getInstance(baseFragment.getCurrentAccount()).getMessagesCount(tLRPC$User.id, new MessagesStorage.IntCallback() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda98
+                MessagesStorage.getInstance(baseFragment.getCurrentAccount()).getMessagesCount(tLRPC$User.id, new MessagesStorage.IntCallback() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda103
                     @Override // org.telegram.messenger.MessagesStorage.IntCallback
                     public final void run(int i2) {
-                        AlertsCreator.lambda$createClearOrDeleteDialogAlert$27(BaseFragment.this, z4, z5, tLRPC$Chat, tLRPC$User, z6, z7, booleanCallback, resourcesProvider, zArr, i2);
+                        AlertsCreator.lambda$createClearOrDeleteDialogAlert$32(BaseFragment.this, z4, z5, tLRPC$Chat, tLRPC$User, z6, z7, booleanCallback, resourcesProvider, zArr, i2);
                     }
                 });
                 return;
@@ -2282,7 +2468,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createClearOrDeleteDialogAlert$27(BaseFragment baseFragment, boolean z, boolean z2, TLRPC$Chat tLRPC$Chat, TLRPC$User tLRPC$User, boolean z3, boolean z4, MessagesStorage.BooleanCallback booleanCallback, Theme.ResourcesProvider resourcesProvider, boolean[] zArr, int i) {
+    public static /* synthetic */ void lambda$createClearOrDeleteDialogAlert$32(BaseFragment baseFragment, boolean z, boolean z2, TLRPC$Chat tLRPC$Chat, TLRPC$User tLRPC$User, boolean z3, boolean z4, MessagesStorage.BooleanCallback booleanCallback, Theme.ResourcesProvider resourcesProvider, boolean[] zArr, int i) {
         if (i >= 50) {
             createClearOrDeleteDialogAlert(baseFragment, z, z2, true, tLRPC$Chat, tLRPC$User, false, z3, z4, booleanCallback, resourcesProvider);
         } else if (booleanCallback != null) {
@@ -2304,7 +2490,7 @@ public class AlertsCreator {
         AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity, resourcesProvider);
         long clientUserId = UserConfig.getInstance(currentAccount).getClientUserId();
         final CheckBoxCell[] checkBoxCellArr = new CheckBoxCell[1];
-        TextView textView = new TextView(parentActivity) { // from class: org.telegram.ui.Components.AlertsCreator.5
+        TextView textView = new TextView(parentActivity) { // from class: org.telegram.ui.Components.AlertsCreator.8
             @Override // android.widget.TextView
             public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
                 super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), false), bufferType);
@@ -2314,7 +2500,7 @@ public class AlertsCreator {
         textView.setTextColor(Theme.getColor("dialogTextBlack"));
         textView.setTextSize(1, 16.0f);
         textView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
-        FrameLayout frameLayout = new FrameLayout(parentActivity) { // from class: org.telegram.ui.Components.AlertsCreator.6
+        FrameLayout frameLayout = new FrameLayout(parentActivity) { // from class: org.telegram.ui.Components.AlertsCreator.9
             @Override // android.widget.FrameLayout, android.view.View
             protected void onMeasure(int i2, int i3) {
                 super.onMeasure(i2, i3);
@@ -2377,10 +2563,10 @@ public class AlertsCreator {
             checkBoxCell.setPadding(dp, 0, LocaleController.isRTL ? AndroidUtilities.dp(8.0f) : AndroidUtilities.dp(f), 0);
             frameLayout.addView(checkBoxCellArr[0], LayoutHelper.createFrame(-1, 48.0f, 83, 0.0f, 0.0f, 0.0f, 0.0f));
             checkBoxCellArr[0].setChecked(false, false);
-            checkBoxCellArr[0].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda72
+            checkBoxCellArr[0].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda77
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    AlertsCreator.lambda$createClearDaysDialogAlert$29(zArr, view);
+                    AlertsCreator.lambda$createClearDaysDialogAlert$34(zArr, view);
                 }
             });
         }
@@ -2388,10 +2574,10 @@ public class AlertsCreator {
         if (tLRPC$Chat != null && z && ChatObject.isPublic(tLRPC$Chat) && !ChatObject.isChannelAndNotMegaGroup(tLRPC$Chat)) {
             string = LocaleController.getString("ClearForAll", R.string.ClearForAll);
         }
-        builder.setPositiveButton(string, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda21
+        builder.setPositiveButton(string, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda23
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i2) {
-                AlertsCreator.lambda$createClearDaysDialogAlert$30(MessagesStorage.BooleanCallback.this, zArr, dialogInterface, i2);
+                AlertsCreator.lambda$createClearDaysDialogAlert$35(MessagesStorage.BooleanCallback.this, zArr, dialogInterface, i2);
             }
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -2404,13 +2590,13 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createClearDaysDialogAlert$29(boolean[] zArr, View view) {
+    public static /* synthetic */ void lambda$createClearDaysDialogAlert$34(boolean[] zArr, View view) {
         zArr[0] = !zArr[0];
         ((CheckBoxCell) view).setChecked(zArr[0], true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createClearDaysDialogAlert$30(MessagesStorage.BooleanCallback booleanCallback, boolean[] zArr, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$createClearDaysDialogAlert$35(MessagesStorage.BooleanCallback booleanCallback, boolean[] zArr, DialogInterface dialogInterface, int i) {
         booleanCallback.run(zArr[0]);
     }
 
@@ -2430,7 +2616,7 @@ public class AlertsCreator {
             string = LocaleController.getString("CallAlertTitle", R.string.CallAlertTitle);
             formatString = LocaleController.formatString("CallAlert", R.string.CallAlert, UserObject.getUserName(tLRPC$User));
         }
-        TextView textView = new TextView(parentActivity) { // from class: org.telegram.ui.Components.AlertsCreator.7
+        TextView textView = new TextView(parentActivity) { // from class: org.telegram.ui.Components.AlertsCreator.10
             @Override // android.widget.TextView
             public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
                 super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), false), bufferType);
@@ -2462,16 +2648,16 @@ public class AlertsCreator {
         boolean z2 = LocaleController.isRTL;
         frameLayout.addView(textView2, LayoutHelper.createFrame(-1, -2.0f, (z2 ? 5 : 3) | 48, z2 ? 21 : 76, 11.0f, z2 ? 76 : 21, 0.0f));
         frameLayout.addView(textView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 5 : 3) | 48, 24.0f, 57.0f, 24.0f, 9.0f));
-        baseFragment.showDialog(new AlertDialog.Builder(parentActivity).setView(frameLayout).setPositiveButton(LocaleController.getString("Call", R.string.Call), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda31
+        baseFragment.showDialog(new AlertDialog.Builder(parentActivity).setView(frameLayout).setPositiveButton(LocaleController.getString("Call", R.string.Call), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda33
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
-                AlertsCreator.lambda$createCallDialogAlert$31(BaseFragment.this, tLRPC$User, z, dialogInterface, i);
+                AlertsCreator.lambda$createCallDialogAlert$36(BaseFragment.this, tLRPC$User, z, dialogInterface, i);
             }
         }).setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null).create());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createCallDialogAlert$31(BaseFragment baseFragment, TLRPC$User tLRPC$User, boolean z, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$createCallDialogAlert$36(BaseFragment baseFragment, TLRPC$User tLRPC$User, boolean z, DialogInterface dialogInterface, int i) {
         TLRPC$UserFull userFull = baseFragment.getMessagesController().getUserFull(tLRPC$User.id);
         VoIPHelper.startCall(tLRPC$User, z, userFull != null && userFull.video_calls_available, baseFragment.getParentActivity(), userFull, baseFragment.getAccountInstance());
     }
@@ -2508,7 +2694,7 @@ public class AlertsCreator {
         editText.setImeOptions(6);
         InputFilter[] inputFilterArr = new InputFilter[1];
         final int i3 = j > 0 ? 70 : 255;
-        inputFilterArr[0] = new CodepointsLengthInputFilter(i3) { // from class: org.telegram.ui.Components.AlertsCreator.8
+        inputFilterArr[0] = new CodepointsLengthInputFilter(i3) { // from class: org.telegram.ui.Components.AlertsCreator.11
             @Override // org.telegram.ui.Components.CodepointsLengthInputFilter, android.text.InputFilter
             public CharSequence filter(CharSequence charSequence, int i4, int i5, Spanned spanned, int i6, int i7) {
                 CharSequence filter = super.filter(charSequence, i4, i5, spanned, i6, i7);
@@ -2529,7 +2715,7 @@ public class AlertsCreator {
         numberTextView.setImportantForAccessibility(2);
         frameLayout.addView(numberTextView, LayoutHelper.createFrame(20, 20.0f, LocaleController.isRTL ? 3 : 5, 0.0f, 14.0f, 21.0f, 0.0f));
         editText.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(24.0f) : 0, AndroidUtilities.dp(8.0f), LocaleController.isRTL ? 0 : AndroidUtilities.dp(24.0f), AndroidUtilities.dp(8.0f));
-        editText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.Components.AlertsCreator.9
+        editText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.Components.AlertsCreator.12
             @Override // android.text.TextWatcher
             public void beforeTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
             }
@@ -2557,12 +2743,12 @@ public class AlertsCreator {
         final DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda1
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i4) {
-                AlertsCreator.lambda$createChangeBioAlert$33(j, i, editText, dialogInterface, i4);
+                AlertsCreator.lambda$createChangeBioAlert$38(j, i, editText, dialogInterface, i4);
             }
         };
         builder.setPositiveButton(LocaleController.getString("Save", R.string.Save), onClickListener);
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        builder.setOnPreDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda41
+        builder.setOnPreDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda43
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
                 AndroidUtilities.hideKeyboard(editText);
@@ -2572,12 +2758,12 @@ public class AlertsCreator {
         editText.requestFocus();
         AndroidUtilities.showKeyboard(editText);
         final AlertDialog create = builder.create();
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda87
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda92
             @Override // android.widget.TextView.OnEditorActionListener
             public final boolean onEditorAction(TextView textView, int i4, KeyEvent keyEvent) {
-                boolean lambda$createChangeBioAlert$35;
-                lambda$createChangeBioAlert$35 = AlertsCreator.lambda$createChangeBioAlert$35(j, create, onClickListener, textView, i4, keyEvent);
-                return lambda$createChangeBioAlert$35;
+                boolean lambda$createChangeBioAlert$40;
+                lambda$createChangeBioAlert$40 = AlertsCreator.lambda$createChangeBioAlert$40(j, create, onClickListener, textView, i4, keyEvent);
+                return lambda$createChangeBioAlert$40;
             }
         });
         create.setBackgroundColor(Theme.getColor("voipgroup_dialogBackground"));
@@ -2586,7 +2772,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createChangeBioAlert$33(long j, int i, EditText editText, DialogInterface dialogInterface, int i2) {
+    public static /* synthetic */ void lambda$createChangeBioAlert$38(long j, int i, EditText editText, DialogInterface dialogInterface, int i2) {
         if (j > 0) {
             TLRPC$UserFull userFull = MessagesController.getInstance(i).getUserFull(UserConfig.getInstance(i).getClientUserId());
             String trim = editText.getText().toString().replace("\n", " ").replaceAll(" +", " ").trim();
@@ -2604,7 +2790,7 @@ public class AlertsCreator {
             tLRPC$TL_account_updateProfile.about = trim;
             tLRPC$TL_account_updateProfile.flags = 4 | tLRPC$TL_account_updateProfile.flags;
             NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 2, Long.valueOf(j));
-            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_account_updateProfile, AlertsCreator$$ExternalSyntheticLambda103.INSTANCE, 2);
+            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_account_updateProfile, AlertsCreator$$ExternalSyntheticLambda108.INSTANCE, 2);
         } else {
             long j2 = -j;
             TLRPC$ChatFull chatFull = MessagesController.getInstance(i).getChatFull(j2);
@@ -2629,7 +2815,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$createChangeBioAlert$35(long j, AlertDialog alertDialog, DialogInterface.OnClickListener onClickListener, TextView textView, int i, KeyEvent keyEvent) {
+    public static /* synthetic */ boolean lambda$createChangeBioAlert$40(long j, AlertDialog alertDialog, DialogInterface.OnClickListener onClickListener, TextView textView, int i, KeyEvent keyEvent) {
         if ((i == 6 || (j > 0 && keyEvent.getKeyCode() == 66)) && alertDialog.isShowing()) {
             onClickListener.onClick(alertDialog, 0);
             return true;
@@ -2716,27 +2902,27 @@ public class AlertsCreator {
         final DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda12
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i4) {
-                AlertsCreator.lambda$createChangeNameAlert$37(editText2, j, i, editText3, dialogInterface, i4);
+                AlertsCreator.lambda$createChangeNameAlert$42(editText2, j, i, editText3, dialogInterface, i4);
             }
         };
         builder.setPositiveButton(LocaleController.getString("Save", R.string.Save), onClickListener);
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        builder.setOnPreDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda42
+        builder.setOnPreDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda44
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
-                AlertsCreator.lambda$createChangeNameAlert$38(editText2, editText, dialogInterface);
+                AlertsCreator.lambda$createChangeNameAlert$43(editText2, editText, dialogInterface);
             }
         });
         final AlertDialog create = builder.create();
         create.setBackgroundColor(Theme.getColor("voipgroup_dialogBackground"));
         create.show();
         create.setTextColor(Theme.getColor("voipgroup_actionBarItems"));
-        TextView.OnEditorActionListener onEditorActionListener = new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda88
+        TextView.OnEditorActionListener onEditorActionListener = new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda93
             @Override // android.widget.TextView.OnEditorActionListener
             public final boolean onEditorAction(TextView textView, int i4, KeyEvent keyEvent) {
-                boolean lambda$createChangeNameAlert$39;
-                lambda$createChangeNameAlert$39 = AlertsCreator.lambda$createChangeNameAlert$39(AlertDialog.this, onClickListener, textView, i4, keyEvent);
-                return lambda$createChangeNameAlert$39;
+                boolean lambda$createChangeNameAlert$44;
+                lambda$createChangeNameAlert$44 = AlertsCreator.lambda$createChangeNameAlert$44(AlertDialog.this, onClickListener, textView, i4, keyEvent);
+                return lambda$createChangeNameAlert$44;
             }
         };
         if (editText != null) {
@@ -2747,7 +2933,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createChangeNameAlert$37(EditText editText, long j, int i, EditText editText2, DialogInterface dialogInterface, int i2) {
+    public static /* synthetic */ void lambda$createChangeNameAlert$42(EditText editText, long j, int i, EditText editText2, DialogInterface dialogInterface, int i2) {
         if (editText.getText() == null) {
             return;
         }
@@ -2781,7 +2967,7 @@ public class AlertsCreator {
             UserConfig.getInstance(i).saveConfig(true);
             NotificationCenter.getInstance(i).postNotificationName(NotificationCenter.mainUserInfoChanged, new Object[0]);
             NotificationCenter.getInstance(i).postNotificationName(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_NAME));
-            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_account_updateProfile, AlertsCreator$$ExternalSyntheticLambda105.INSTANCE);
+            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_account_updateProfile, AlertsCreator$$ExternalSyntheticLambda110.INSTANCE);
             NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 3, Long.valueOf(j));
         } else {
             long j2 = -j;
@@ -2801,13 +2987,13 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createChangeNameAlert$38(EditText editText, EditText editText2, DialogInterface dialogInterface) {
+    public static /* synthetic */ void lambda$createChangeNameAlert$43(EditText editText, EditText editText2, DialogInterface dialogInterface) {
         AndroidUtilities.hideKeyboard(editText);
         AndroidUtilities.hideKeyboard(editText2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$createChangeNameAlert$39(AlertDialog alertDialog, DialogInterface.OnClickListener onClickListener, TextView textView, int i, KeyEvent keyEvent) {
+    public static /* synthetic */ boolean lambda$createChangeNameAlert$44(AlertDialog alertDialog, DialogInterface.OnClickListener onClickListener, TextView textView, int i, KeyEvent keyEvent) {
         if ((i == 6 || keyEvent.getKeyCode() == 66) && alertDialog.isShowing()) {
             onClickListener.onClick(alertDialog, 0);
             return true;
@@ -2848,7 +3034,7 @@ public class AlertsCreator {
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, 48, 0, 16, 12, 16, 8));
         builder.setCustomView(linearLayout);
         final BottomSheet show = builder.show();
-        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda57
+        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda62
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 BottomSheet.this.dismiss();
@@ -2861,17 +3047,17 @@ public class AlertsCreator {
         builder.setTitle(LocaleController.getString("ContactNotRegisteredTitle", R.string.ContactNotRegisteredTitle));
         builder.setMessage(LocaleController.formatString("ContactNotRegistered", R.string.ContactNotRegistered, ContactsController.formatName(str, str2)));
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        builder.setPositiveButton(LocaleController.getString("Invite", R.string.Invite), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda17
+        builder.setPositiveButton(LocaleController.getString("Invite", R.string.Invite), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda19
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
-                AlertsCreator.lambda$createContactInviteDialog$41(str3, baseFragment, dialogInterface, i);
+                AlertsCreator.lambda$createContactInviteDialog$46(str3, baseFragment, dialogInterface, i);
             }
         });
         baseFragment.showDialog(builder.create());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createContactInviteDialog$41(String str, BaseFragment baseFragment, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$createContactInviteDialog$46(String str, BaseFragment baseFragment, DialogInterface dialogInterface, int i) {
         try {
             Intent intent = new Intent("android.intent.action.VIEW", Uri.fromParts("sms", str, null));
             intent.putExtra("sms_body", ContactsController.getInstance(baseFragment.getCurrentAccount()).getInviteText(1));
@@ -2926,17 +3112,17 @@ public class AlertsCreator {
             }
         }
         if (arrayList != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda90
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda95
                 @Override // java.lang.Runnable
                 public final void run() {
-                    AlertsCreator.lambda$checkRestrictedInviteUsers$42(i, tLRPC$Chat, arrayList);
+                    AlertsCreator.lambda$checkRestrictedInviteUsers$47(i, tLRPC$Chat, arrayList);
                 }
             }, 200L);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$checkRestrictedInviteUsers$42(int i, TLRPC$Chat tLRPC$Chat, ArrayList arrayList) {
+    public static /* synthetic */ void lambda$checkRestrictedInviteUsers$47(int i, TLRPC$Chat tLRPC$Chat, ArrayList arrayList) {
         BaseFragment lastFragment = LaunchActivity.getLastFragment();
         if (lastFragment == null || lastFragment.getParentActivity() == null) {
             return;
@@ -2993,19 +3179,19 @@ public class AlertsCreator {
                 }
                 checkBoxCellArr[i3].setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(8.0f), 0, LocaleController.isRTL ? AndroidUtilities.dp(8.0f) : AndroidUtilities.dp(16.0f), 0);
                 linearLayout.addView(checkBoxCellArr[i3], LayoutHelper.createLinear(-1, 48));
-                checkBoxCellArr[i3].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda76
+                checkBoxCellArr[i3].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda81
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
-                        AlertsCreator.lambda$createBlockDialogAlert$43(zArr, i3, view);
+                        AlertsCreator.lambda$createBlockDialogAlert$48(zArr, i3, view);
                     }
                 });
             }
             i3++;
         }
-        builder.setPositiveButton(string, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda32
+        builder.setPositiveButton(string, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda34
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i5) {
-                AlertsCreator.lambda$createBlockDialogAlert$44(AlertsCreator.BlockDialogCallback.this, zArr, dialogInterface, i5);
+                AlertsCreator.lambda$createBlockDialogAlert$49(AlertsCreator.BlockDialogCallback.this, zArr, dialogInterface, i5);
             }
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -3018,13 +3204,13 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createBlockDialogAlert$43(boolean[] zArr, int i, View view) {
+    public static /* synthetic */ void lambda$createBlockDialogAlert$48(boolean[] zArr, int i, View view) {
         zArr[i] = !zArr[i];
         ((CheckBoxCell) view).setChecked(zArr[i], true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createBlockDialogAlert$44(BlockDialogCallback blockDialogCallback, boolean[] zArr, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$createBlockDialogAlert$49(BlockDialogCallback blockDialogCallback, boolean[] zArr, DialogInterface dialogInterface, int i) {
         blockDialogCallback.run(zArr[0], zArr[1]);
     }
 
@@ -3039,26 +3225,26 @@ public class AlertsCreator {
         final NumberPicker numberPicker2 = new NumberPicker(context);
         final NumberPicker numberPicker3 = new NumberPicker(context);
         linearLayout.addView(numberPicker2, LayoutHelper.createLinear(0, -2, 0.3f));
-        numberPicker2.setOnScrollListener(new NumberPicker.OnScrollListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda128
+        numberPicker2.setOnScrollListener(new NumberPicker.OnScrollListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda134
             @Override // org.telegram.ui.Components.NumberPicker.OnScrollListener
             public final void onScrollStateChange(NumberPicker numberPicker4, int i7) {
-                AlertsCreator.lambda$createDatePickerDialog$45(z, numberPicker2, numberPicker, numberPicker3, numberPicker4, i7);
+                AlertsCreator.lambda$createDatePickerDialog$50(z, numberPicker2, numberPicker, numberPicker3, numberPicker4, i7);
             }
         });
         numberPicker.setMinValue(0);
         numberPicker.setMaxValue(11);
         linearLayout.addView(numberPicker, LayoutHelper.createLinear(0, -2, 0.3f));
-        numberPicker.setFormatter(AlertsCreator$$ExternalSyntheticLambda121.INSTANCE);
-        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda137
+        numberPicker.setFormatter(AlertsCreator$$ExternalSyntheticLambda129.INSTANCE);
+        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda142
             @Override // org.telegram.ui.Components.NumberPicker.OnValueChangeListener
             public final void onValueChange(NumberPicker numberPicker4, int i7, int i8) {
                 AlertsCreator.updateDayPicker(NumberPicker.this, numberPicker, numberPicker3);
             }
         });
-        numberPicker.setOnScrollListener(new NumberPicker.OnScrollListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda127
+        numberPicker.setOnScrollListener(new NumberPicker.OnScrollListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda133
             @Override // org.telegram.ui.Components.NumberPicker.OnScrollListener
             public final void onScrollStateChange(NumberPicker numberPicker4, int i7) {
-                AlertsCreator.lambda$createDatePickerDialog$48(z, numberPicker2, numberPicker, numberPicker3, numberPicker4, i7);
+                AlertsCreator.lambda$createDatePickerDialog$53(z, numberPicker2, numberPicker, numberPicker3, numberPicker4, i7);
             }
         });
         Calendar calendar = Calendar.getInstance();
@@ -3068,16 +3254,16 @@ public class AlertsCreator {
         numberPicker3.setMaxValue(i7 + i2);
         numberPicker3.setValue(i7 + i3);
         linearLayout.addView(numberPicker3, LayoutHelper.createLinear(0, -2, 0.4f));
-        numberPicker3.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda138
+        numberPicker3.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda143
             @Override // org.telegram.ui.Components.NumberPicker.OnValueChangeListener
             public final void onValueChange(NumberPicker numberPicker4, int i8, int i9) {
                 AlertsCreator.updateDayPicker(NumberPicker.this, numberPicker, numberPicker3);
             }
         });
-        numberPicker3.setOnScrollListener(new NumberPicker.OnScrollListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda129
+        numberPicker3.setOnScrollListener(new NumberPicker.OnScrollListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda132
             @Override // org.telegram.ui.Components.NumberPicker.OnScrollListener
             public final void onScrollStateChange(NumberPicker numberPicker4, int i8) {
-                AlertsCreator.lambda$createDatePickerDialog$50(z, numberPicker2, numberPicker, numberPicker3, numberPicker4, i8);
+                AlertsCreator.lambda$createDatePickerDialog$55(z, numberPicker2, numberPicker, numberPicker3, numberPicker4, i8);
             }
         });
         updateDayPicker(numberPicker2, numberPicker, numberPicker3);
@@ -3092,36 +3278,14 @@ public class AlertsCreator {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(str);
         builder.setView(linearLayout);
-        builder.setPositiveButton(LocaleController.getString("Set", R.string.Set), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda36
+        builder.setPositiveButton(LocaleController.getString("Set", R.string.Set), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda38
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i8) {
-                AlertsCreator.lambda$createDatePickerDialog$51(z, numberPicker2, numberPicker, numberPicker3, datePickerDelegate, dialogInterface, i8);
+                AlertsCreator.lambda$createDatePickerDialog$56(z, numberPicker2, numberPicker, numberPicker3, datePickerDelegate, dialogInterface, i8);
             }
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
         return builder;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createDatePickerDialog$45(boolean z, NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, NumberPicker numberPicker4, int i) {
-        if (z && i == 0) {
-            checkPickerDate(numberPicker, numberPicker2, numberPicker3);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$createDatePickerDialog$46(int i) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(5, 1);
-        calendar.set(2, i);
-        return calendar.getDisplayName(2, 1, Locale.getDefault());
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createDatePickerDialog$48(boolean z, NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, NumberPicker numberPicker4, int i) {
-        if (z && i == 0) {
-            checkPickerDate(numberPicker, numberPicker2, numberPicker3);
-        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -3132,7 +3296,29 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createDatePickerDialog$51(boolean z, NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, DatePickerDelegate datePickerDelegate, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ String lambda$createDatePickerDialog$51(int i) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(5, 1);
+        calendar.set(2, i);
+        return calendar.getDisplayName(2, 1, Locale.getDefault());
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$createDatePickerDialog$53(boolean z, NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, NumberPicker numberPicker4, int i) {
+        if (z && i == 0) {
+            checkPickerDate(numberPicker, numberPicker2, numberPicker3);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$createDatePickerDialog$55(boolean z, NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, NumberPicker numberPicker4, int i) {
+        if (z && i == 0) {
+            checkPickerDate(numberPicker, numberPicker2, numberPicker3);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$createDatePickerDialog$56(boolean z, NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, DatePickerDelegate datePickerDelegate, DialogInterface dialogInterface, int i) {
         if (z) {
             checkPickerDate(numberPicker, numberPicker2, numberPicker3);
         }
@@ -3339,7 +3525,7 @@ public class AlertsCreator {
         numberPicker2.setTextColor(scheduleDatePickerColors.textColor);
         numberPicker2.setTextOffset(AndroidUtilities.dp(10.0f));
         numberPicker2.setItemCount(5);
-        final NumberPicker numberPicker3 = new NumberPicker(context, resourcesProvider) { // from class: org.telegram.ui.Components.AlertsCreator.12
+        final NumberPicker numberPicker3 = new NumberPicker(context, resourcesProvider) { // from class: org.telegram.ui.Components.AlertsCreator.15
             @Override // org.telegram.ui.Components.NumberPicker
             protected CharSequence getContentDescription(int i) {
                 return LocaleController.formatPluralString("Hours", i, new Object[0]);
@@ -3350,7 +3536,7 @@ public class AlertsCreator {
         numberPicker3.setItemCount(5);
         numberPicker3.setTextColor(scheduleDatePickerColors.textColor);
         numberPicker3.setTextOffset(-AndroidUtilities.dp(10.0f));
-        final NumberPicker numberPicker4 = new NumberPicker(context, resourcesProvider) { // from class: org.telegram.ui.Components.AlertsCreator.13
+        final NumberPicker numberPicker4 = new NumberPicker(context, resourcesProvider) { // from class: org.telegram.ui.Components.AlertsCreator.16
             @Override // org.telegram.ui.Components.NumberPicker
             protected CharSequence getContentDescription(int i) {
                 return LocaleController.formatPluralString("Minutes", i, new Object[0]);
@@ -3361,7 +3547,7 @@ public class AlertsCreator {
         numberPicker4.setItemCount(5);
         numberPicker4.setTextColor(scheduleDatePickerColors.textColor);
         numberPicker4.setTextOffset(-AndroidUtilities.dp(34.0f));
-        LinearLayout linearLayout2 = new LinearLayout(context) { // from class: org.telegram.ui.Components.AlertsCreator.14
+        LinearLayout linearLayout2 = new LinearLayout(context) { // from class: org.telegram.ui.Components.AlertsCreator.17
             boolean ignoreLayout = false;
 
             @Override // android.widget.LinearLayout, android.view.View
@@ -3400,7 +3586,7 @@ public class AlertsCreator {
         textView.setTextSize(1, 20.0f);
         textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         frameLayout.addView(textView, LayoutHelper.createFrame(-2, -2.0f, 51, 0.0f, 12.0f, 0.0f, 0.0f));
-        textView.setOnTouchListener(AlertsCreator$$ExternalSyntheticLambda81.INSTANCE);
+        textView.setOnTouchListener(AlertsCreator$$ExternalSyntheticLambda90.INSTANCE);
         if (!DialogObject.isUserDialog(j) || j == clientUserId || (user = MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(j))) == null || user.bot || (tLRPC$UserStatus = user.status) == null || tLRPC$UserStatus.expires <= 0) {
             linearLayout = linearLayout2;
             numberPicker = numberPicker4;
@@ -3418,16 +3604,16 @@ public class AlertsCreator {
             actionBarMenuItem.setBackgroundDrawable(Theme.createSelectorDrawable(scheduleDatePickerColors.iconSelectorColor, 1));
             frameLayout.addView(actionBarMenuItem, LayoutHelper.createFrame(40, 40.0f, 53, 0.0f, 8.0f, 5.0f, 0.0f));
             actionBarMenuItem.addSubItem(1, LocaleController.formatString("ScheduleWhenOnline", R.string.ScheduleWhenOnline, firstName));
-            actionBarMenuItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda54
+            actionBarMenuItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda59
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    AlertsCreator.lambda$createScheduleDatePickerDialog$53(ActionBarMenuItem.this, scheduleDatePickerColors, view);
+                    AlertsCreator.lambda$createScheduleDatePickerDialog$58(ActionBarMenuItem.this, scheduleDatePickerColors, view);
                 }
             });
-            actionBarMenuItem.setDelegate(new ActionBarMenuItem.ActionBarMenuItemDelegate() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda107
+            actionBarMenuItem.setDelegate(new ActionBarMenuItem.ActionBarMenuItemDelegate() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda112
                 @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemDelegate
                 public final void onItemClick(int i) {
-                    AlertsCreator.lambda$createScheduleDatePickerDialog$54(AlertsCreator.ScheduleDatePickerDelegate.this, builder, i);
+                    AlertsCreator.lambda$createScheduleDatePickerDialog$59(AlertsCreator.ScheduleDatePickerDelegate.this, builder, i);
                 }
             });
             actionBarMenuItem.setContentDescription(LocaleController.getString("AccDescrMoreOptions", R.string.AccDescrMoreOptions));
@@ -3441,7 +3627,7 @@ public class AlertsCreator {
         final Calendar calendar2 = Calendar.getInstance();
         calendar2.setTimeInMillis(currentTimeMillis);
         final int i = calendar2.get(1);
-        final TextView textView2 = new TextView(context) { // from class: org.telegram.ui.Components.AlertsCreator.15
+        final TextView textView2 = new TextView(context) { // from class: org.telegram.ui.Components.AlertsCreator.18
             @Override // android.widget.TextView, android.view.View
             public CharSequence getAccessibilityClassName() {
                 return Button.class.getName();
@@ -3451,32 +3637,32 @@ public class AlertsCreator {
         numberPicker2.setMinValue(0);
         numberPicker2.setMaxValue(365);
         numberPicker2.setWrapSelectorWheel(false);
-        numberPicker2.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda108
+        numberPicker2.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda113
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i2) {
-                String lambda$createScheduleDatePickerDialog$55;
-                lambda$createScheduleDatePickerDialog$55 = AlertsCreator.lambda$createScheduleDatePickerDialog$55(currentTimeMillis, calendar2, i, i2);
-                return lambda$createScheduleDatePickerDialog$55;
+                String lambda$createScheduleDatePickerDialog$60;
+                lambda$createScheduleDatePickerDialog$60 = AlertsCreator.lambda$createScheduleDatePickerDialog$60(currentTimeMillis, calendar2, i, i2);
+                return lambda$createScheduleDatePickerDialog$60;
             }
         });
         final NumberPicker numberPicker5 = numberPicker;
-        NumberPicker.OnValueChangeListener onValueChangeListener = new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda133
+        NumberPicker.OnValueChangeListener onValueChangeListener = new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda138
             @Override // org.telegram.ui.Components.NumberPicker.OnValueChangeListener
             public final void onValueChange(NumberPicker numberPicker6, int i2, int i3) {
-                AlertsCreator.lambda$createScheduleDatePickerDialog$56(linearLayout4, textView2, clientUserId, j, numberPicker2, numberPicker3, numberPicker5, numberPicker6, i2, i3);
+                AlertsCreator.lambda$createScheduleDatePickerDialog$61(linearLayout4, textView2, clientUserId, j, numberPicker2, numberPicker3, numberPicker5, numberPicker6, i2, i3);
             }
         };
         numberPicker2.setOnValueChangedListener(onValueChangeListener);
         numberPicker3.setMinValue(0);
         numberPicker3.setMaxValue(23);
         linearLayout3.addView(numberPicker3, LayoutHelper.createLinear(0, 270, 0.2f));
-        numberPicker3.setFormatter(AlertsCreator$$ExternalSyntheticLambda125.INSTANCE);
+        numberPicker3.setFormatter(AlertsCreator$$ExternalSyntheticLambda127.INSTANCE);
         numberPicker3.setOnValueChangedListener(onValueChangeListener);
         final NumberPicker numberPicker6 = numberPicker;
         numberPicker6.setMinValue(0);
         numberPicker6.setMaxValue(59);
         numberPicker6.setValue(0);
-        numberPicker6.setFormatter(AlertsCreator$$ExternalSyntheticLambda117.INSTANCE);
+        numberPicker6.setFormatter(AlertsCreator$$ExternalSyntheticLambda126.INSTANCE);
         linearLayout3.addView(numberPicker6, LayoutHelper.createLinear(0, 270, 0.3f));
         numberPicker6.setOnValueChangedListener(onValueChangeListener);
         if (j2 <= 0 || j2 == 2147483646) {
@@ -3504,20 +3690,20 @@ public class AlertsCreator {
         textView2.setTextColor(scheduleDatePickerColors.buttonTextColor);
         textView2.setTextSize(1, 14.0f);
         textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        textView2.setBackground(Theme.AdaptiveRipple.filledRect(scheduleDatePickerColors.buttonBackgroundColor, 4.0f));
+        textView2.setBackground(Theme.AdaptiveRipple.filledRect(scheduleDatePickerColors.buttonBackgroundColor, 8.0f));
         linearLayout4.addView(textView2, LayoutHelper.createLinear(-1, 48, 83, 16, 15, 16, 16));
-        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda77
+        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda82
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                AlertsCreator.lambda$createScheduleDatePickerDialog$59(zArr, clientUserId, j, numberPicker2, numberPicker3, numberPicker6, calendar, scheduleDatePickerDelegate, builder, view);
+                AlertsCreator.lambda$createScheduleDatePickerDialog$64(zArr, clientUserId, j, numberPicker2, numberPicker3, numberPicker6, calendar, scheduleDatePickerDelegate, builder, view);
             }
         });
         builder.setCustomView(linearLayout4);
         BottomSheet show = builder.show();
-        show.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda46
+        show.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda49
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
-                AlertsCreator.lambda$createScheduleDatePickerDialog$60(runnable, zArr, dialogInterface);
+                AlertsCreator.lambda$createScheduleDatePickerDialog$65(runnable, zArr, dialogInterface);
             }
         });
         show.setBackgroundColor(scheduleDatePickerColors.backgroundColor);
@@ -3526,7 +3712,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createScheduleDatePickerDialog$53(ActionBarMenuItem actionBarMenuItem, ScheduleDatePickerColors scheduleDatePickerColors, View view) {
+    public static /* synthetic */ void lambda$createScheduleDatePickerDialog$58(ActionBarMenuItem actionBarMenuItem, ScheduleDatePickerColors scheduleDatePickerColors, View view) {
         actionBarMenuItem.toggleSubMenu();
         actionBarMenuItem.setPopupItemsColor(scheduleDatePickerColors.subMenuTextColor, false);
         actionBarMenuItem.setupPopupRadialSelectors(scheduleDatePickerColors.subMenuSelectorColor);
@@ -3534,7 +3720,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createScheduleDatePickerDialog$54(ScheduleDatePickerDelegate scheduleDatePickerDelegate, BottomSheet.Builder builder, int i) {
+    public static /* synthetic */ void lambda$createScheduleDatePickerDialog$59(ScheduleDatePickerDelegate scheduleDatePickerDelegate, BottomSheet.Builder builder, int i) {
         if (i == 1) {
             scheduleDatePickerDelegate.didSelectDate(true, 2147483646);
             builder.getDismissRunnable().run();
@@ -3542,20 +3728,20 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$createScheduleDatePickerDialog$55(long j, Calendar calendar, int i, int i2) {
+    public static /* synthetic */ String lambda$createScheduleDatePickerDialog$60(long j, Calendar calendar, int i, int i2) {
         if (i2 == 0) {
             return LocaleController.getString("MessageScheduleToday", R.string.MessageScheduleToday);
         }
         long j2 = j + (i2 * 86400000);
         calendar.setTimeInMillis(j2);
         if (calendar.get(1) == i) {
-            return LocaleController.getInstance().formatterScheduleDay.format(j2);
+            return LocaleController.getInstance().formatterWeek.format(j2) + ", " + LocaleController.getInstance().formatterScheduleDay.format(j2);
         }
         return LocaleController.getInstance().formatterScheduleYear.format(j2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createScheduleDatePickerDialog$56(LinearLayout linearLayout, TextView textView, long j, long j2, NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, NumberPicker numberPicker4, int i, int i2) {
+    public static /* synthetic */ void lambda$createScheduleDatePickerDialog$61(LinearLayout linearLayout, TextView textView, long j, long j2, NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, NumberPicker numberPicker4, int i, int i2) {
         try {
             linearLayout.performHapticFeedback(3, 2);
         } catch (Exception unused) {
@@ -3564,17 +3750,17 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$createScheduleDatePickerDialog$57(int i) {
+    public static /* synthetic */ String lambda$createScheduleDatePickerDialog$62(int i) {
         return String.format("%02d", Integer.valueOf(i));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$createScheduleDatePickerDialog$58(int i) {
+    public static /* synthetic */ String lambda$createScheduleDatePickerDialog$63(int i) {
         return String.format("%02d", Integer.valueOf(i));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createScheduleDatePickerDialog$59(boolean[] zArr, long j, long j2, NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, Calendar calendar, ScheduleDatePickerDelegate scheduleDatePickerDelegate, BottomSheet.Builder builder, View view) {
+    public static /* synthetic */ void lambda$createScheduleDatePickerDialog$64(boolean[] zArr, long j, long j2, NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, Calendar calendar, ScheduleDatePickerDelegate scheduleDatePickerDelegate, BottomSheet.Builder builder, View view) {
         zArr[0] = false;
         boolean checkScheduleDate = checkScheduleDate(null, null, j == j2 ? 1 : 0, numberPicker, numberPicker2, numberPicker3);
         calendar.setTimeInMillis(System.currentTimeMillis() + (numberPicker.getValue() * 24 * 3600 * 1000));
@@ -3588,7 +3774,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createScheduleDatePickerDialog$60(Runnable runnable, boolean[] zArr, DialogInterface dialogInterface) {
+    public static /* synthetic */ void lambda$createScheduleDatePickerDialog$65(Runnable runnable, boolean[] zArr, DialogInterface dialogInterface) {
         if (runnable == null || !zArr[0]) {
             return;
         }
@@ -3607,7 +3793,7 @@ public class AlertsCreator {
         numberPicker.setTextColor(scheduleDatePickerColors.textColor);
         numberPicker.setTextOffset(AndroidUtilities.dp(10.0f));
         numberPicker.setItemCount(5);
-        final NumberPicker numberPicker2 = new NumberPicker(context) { // from class: org.telegram.ui.Components.AlertsCreator.16
+        final NumberPicker numberPicker2 = new NumberPicker(context) { // from class: org.telegram.ui.Components.AlertsCreator.19
             @Override // org.telegram.ui.Components.NumberPicker
             protected CharSequence getContentDescription(int i) {
                 return LocaleController.formatPluralString("Hours", i, new Object[0]);
@@ -3616,7 +3802,7 @@ public class AlertsCreator {
         numberPicker2.setItemCount(5);
         numberPicker2.setTextColor(scheduleDatePickerColors.textColor);
         numberPicker2.setTextOffset(-AndroidUtilities.dp(10.0f));
-        final NumberPicker numberPicker3 = new NumberPicker(context) { // from class: org.telegram.ui.Components.AlertsCreator.17
+        final NumberPicker numberPicker3 = new NumberPicker(context) { // from class: org.telegram.ui.Components.AlertsCreator.20
             @Override // org.telegram.ui.Components.NumberPicker
             protected CharSequence getContentDescription(int i) {
                 return LocaleController.formatPluralString("Minutes", i, new Object[0]);
@@ -3625,7 +3811,7 @@ public class AlertsCreator {
         numberPicker3.setItemCount(5);
         numberPicker3.setTextColor(scheduleDatePickerColors.textColor);
         numberPicker3.setTextOffset(-AndroidUtilities.dp(34.0f));
-        final LinearLayout linearLayout2 = new LinearLayout(context) { // from class: org.telegram.ui.Components.AlertsCreator.18
+        final LinearLayout linearLayout2 = new LinearLayout(context) { // from class: org.telegram.ui.Components.AlertsCreator.21
             boolean ignoreLayout = false;
 
             @Override // android.widget.LinearLayout, android.view.View
@@ -3660,7 +3846,7 @@ public class AlertsCreator {
         textView.setTextSize(1, 20.0f);
         textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         frameLayout.addView(textView, LayoutHelper.createFrame(-2, -2.0f, 51, 0.0f, 12.0f, 0.0f, 0.0f));
-        textView.setOnTouchListener(AlertsCreator$$ExternalSyntheticLambda82.INSTANCE);
+        textView.setOnTouchListener(AlertsCreator$$ExternalSyntheticLambda88.INSTANCE);
         LinearLayout linearLayout3 = new LinearLayout(context);
         linearLayout3.setOrientation(0);
         linearLayout3.setWeightSum(1.0f);
@@ -3669,7 +3855,7 @@ public class AlertsCreator {
         final Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(currentTimeMillis);
         final int i = calendar.get(1);
-        TextView textView2 = new TextView(context) { // from class: org.telegram.ui.Components.AlertsCreator.19
+        TextView textView2 = new TextView(context) { // from class: org.telegram.ui.Components.AlertsCreator.22
             @Override // android.widget.TextView, android.view.View
             public CharSequence getAccessibilityClassName() {
                 return Button.class.getName();
@@ -3679,30 +3865,30 @@ public class AlertsCreator {
         numberPicker.setMinValue(0);
         numberPicker.setMaxValue(365);
         numberPicker.setWrapSelectorWheel(false);
-        numberPicker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda109
+        numberPicker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda114
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i2) {
-                String lambda$createDatePickerDialog$62;
-                lambda$createDatePickerDialog$62 = AlertsCreator.lambda$createDatePickerDialog$62(currentTimeMillis, calendar, i, i2);
-                return lambda$createDatePickerDialog$62;
+                String lambda$createDatePickerDialog$67;
+                lambda$createDatePickerDialog$67 = AlertsCreator.lambda$createDatePickerDialog$67(currentTimeMillis, calendar, i, i2);
+                return lambda$createDatePickerDialog$67;
             }
         });
-        NumberPicker.OnValueChangeListener onValueChangeListener = new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda134
+        NumberPicker.OnValueChangeListener onValueChangeListener = new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda140
             @Override // org.telegram.ui.Components.NumberPicker.OnValueChangeListener
             public final void onValueChange(NumberPicker numberPicker4, int i2, int i3) {
-                AlertsCreator.lambda$createDatePickerDialog$63(linearLayout2, numberPicker, numberPicker2, numberPicker3, numberPicker4, i2, i3);
+                AlertsCreator.lambda$createDatePickerDialog$68(linearLayout2, numberPicker, numberPicker2, numberPicker3, numberPicker4, i2, i3);
             }
         };
         numberPicker.setOnValueChangedListener(onValueChangeListener);
         numberPicker2.setMinValue(0);
         numberPicker2.setMaxValue(23);
         linearLayout3.addView(numberPicker2, LayoutHelper.createLinear(0, 270, 0.2f));
-        numberPicker2.setFormatter(AlertsCreator$$ExternalSyntheticLambda120.INSTANCE);
+        numberPicker2.setFormatter(AlertsCreator$$ExternalSyntheticLambda124.INSTANCE);
         numberPicker2.setOnValueChangedListener(onValueChangeListener);
         numberPicker3.setMinValue(0);
         numberPicker3.setMaxValue(59);
         numberPicker3.setValue(0);
-        numberPicker3.setFormatter(AlertsCreator$$ExternalSyntheticLambda118.INSTANCE);
+        numberPicker3.setFormatter(AlertsCreator$$ExternalSyntheticLambda120.INSTANCE);
         linearLayout3.addView(numberPicker3, LayoutHelper.createLinear(0, 270, 0.3f));
         numberPicker3.setOnValueChangedListener(onValueChangeListener);
         if (j <= 0 || j == 2147483646) {
@@ -3733,10 +3919,10 @@ public class AlertsCreator {
         textView2.setText(LocaleController.getString("SetTimeLimit", R.string.SetTimeLimit));
         LinearLayout linearLayout4 = linearLayout;
         linearLayout4.addView(textView2, LayoutHelper.createLinear(-1, 48, 83, 16, 15, 16, 16));
-        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda59
+        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda64
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                AlertsCreator.lambda$createDatePickerDialog$66(NumberPicker.this, numberPicker2, numberPicker3, calendar, scheduleDatePickerDelegate, builder, view);
+                AlertsCreator.lambda$createDatePickerDialog$71(NumberPicker.this, numberPicker2, numberPicker3, calendar, scheduleDatePickerDelegate, builder, view);
             }
         });
         builder.setCustomView(linearLayout4);
@@ -3747,7 +3933,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$createDatePickerDialog$62(long j, Calendar calendar, int i, int i2) {
+    public static /* synthetic */ String lambda$createDatePickerDialog$67(long j, Calendar calendar, int i, int i2) {
         if (i2 == 0) {
             return LocaleController.getString("MessageScheduleToday", R.string.MessageScheduleToday);
         }
@@ -3760,7 +3946,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createDatePickerDialog$63(LinearLayout linearLayout, NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, NumberPicker numberPicker4, int i, int i2) {
+    public static /* synthetic */ void lambda$createDatePickerDialog$68(LinearLayout linearLayout, NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, NumberPicker numberPicker4, int i, int i2) {
         try {
             linearLayout.performHapticFeedback(3, 2);
         } catch (Exception unused) {
@@ -3769,17 +3955,17 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$createDatePickerDialog$64(int i) {
+    public static /* synthetic */ String lambda$createDatePickerDialog$69(int i) {
         return String.format("%02d", Integer.valueOf(i));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$createDatePickerDialog$65(int i) {
+    public static /* synthetic */ String lambda$createDatePickerDialog$70(int i) {
         return String.format("%02d", Integer.valueOf(i));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createDatePickerDialog$66(NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, Calendar calendar, ScheduleDatePickerDelegate scheduleDatePickerDelegate, BottomSheet.Builder builder, View view) {
+    public static /* synthetic */ void lambda$createDatePickerDialog$71(NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, Calendar calendar, ScheduleDatePickerDelegate scheduleDatePickerDelegate, BottomSheet.Builder builder, View view) {
         boolean checkScheduleDate = checkScheduleDate(null, null, 0, numberPicker, numberPicker2, numberPicker3);
         calendar.setTimeInMillis(System.currentTimeMillis() + (numberPicker.getValue() * 24 * 3600 * 1000));
         calendar.set(11, numberPicker2.getValue());
@@ -3803,7 +3989,7 @@ public class AlertsCreator {
         numberPicker.setTextColor(scheduleDatePickerColors.textColor);
         numberPicker.setTextOffset(AndroidUtilities.dp(10.0f));
         numberPicker.setItemCount(5);
-        final NumberPicker numberPicker2 = new NumberPicker(context) { // from class: org.telegram.ui.Components.AlertsCreator.20
+        final NumberPicker numberPicker2 = new NumberPicker(context) { // from class: org.telegram.ui.Components.AlertsCreator.23
             @Override // org.telegram.ui.Components.NumberPicker
             protected CharSequence getContentDescription(int i) {
                 return LocaleController.formatPluralString("Hours", i, new Object[0]);
@@ -3812,7 +3998,7 @@ public class AlertsCreator {
         numberPicker2.setItemCount(5);
         numberPicker2.setTextColor(scheduleDatePickerColors.textColor);
         numberPicker2.setTextOffset(-AndroidUtilities.dp(10.0f));
-        final NumberPicker numberPicker3 = new NumberPicker(context) { // from class: org.telegram.ui.Components.AlertsCreator.21
+        final NumberPicker numberPicker3 = new NumberPicker(context) { // from class: org.telegram.ui.Components.AlertsCreator.24
             @Override // org.telegram.ui.Components.NumberPicker
             protected CharSequence getContentDescription(int i) {
                 return LocaleController.formatPluralString("Minutes", i, new Object[0]);
@@ -3821,7 +4007,7 @@ public class AlertsCreator {
         numberPicker3.setItemCount(5);
         numberPicker3.setTextColor(scheduleDatePickerColors.textColor);
         numberPicker3.setTextOffset(-AndroidUtilities.dp(34.0f));
-        final LinearLayout linearLayout2 = new LinearLayout(context) { // from class: org.telegram.ui.Components.AlertsCreator.22
+        final LinearLayout linearLayout2 = new LinearLayout(context) { // from class: org.telegram.ui.Components.AlertsCreator.25
             boolean ignoreLayout = false;
 
             @Override // android.widget.LinearLayout, android.view.View
@@ -3856,7 +4042,7 @@ public class AlertsCreator {
         textView.setTextSize(1, 20.0f);
         textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         frameLayout.addView(textView, LayoutHelper.createFrame(-2, -2.0f, 51, 0.0f, 12.0f, 0.0f, 0.0f));
-        textView.setOnTouchListener(AlertsCreator$$ExternalSyntheticLambda80.INSTANCE);
+        textView.setOnTouchListener(AlertsCreator$$ExternalSyntheticLambda85.INSTANCE);
         LinearLayout linearLayout3 = new LinearLayout(context);
         linearLayout3.setOrientation(0);
         linearLayout3.setWeightSum(1.0f);
@@ -3866,7 +4052,7 @@ public class AlertsCreator {
         calendar.setTimeInMillis(currentTimeMillis);
         final int i = calendar.get(1);
         final int i2 = calendar.get(6);
-        TextView textView2 = new TextView(context) { // from class: org.telegram.ui.Components.AlertsCreator.23
+        TextView textView2 = new TextView(context) { // from class: org.telegram.ui.Components.AlertsCreator.26
             @Override // android.widget.TextView, android.view.View
             public CharSequence getAccessibilityClassName() {
                 return Button.class.getName();
@@ -3876,30 +4062,30 @@ public class AlertsCreator {
         numberPicker.setMinValue(0);
         numberPicker.setMaxValue(365);
         numberPicker.setWrapSelectorWheel(false);
-        numberPicker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda110
+        numberPicker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda115
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i3) {
-                String lambda$createStatusUntilDatePickerDialog$68;
-                lambda$createStatusUntilDatePickerDialog$68 = AlertsCreator.lambda$createStatusUntilDatePickerDialog$68(currentTimeMillis, calendar, i, i2, i3);
-                return lambda$createStatusUntilDatePickerDialog$68;
+                String lambda$createStatusUntilDatePickerDialog$73;
+                lambda$createStatusUntilDatePickerDialog$73 = AlertsCreator.lambda$createStatusUntilDatePickerDialog$73(currentTimeMillis, calendar, i, i2, i3);
+                return lambda$createStatusUntilDatePickerDialog$73;
             }
         });
-        NumberPicker.OnValueChangeListener onValueChangeListener = new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda135
+        NumberPicker.OnValueChangeListener onValueChangeListener = new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda139
             @Override // org.telegram.ui.Components.NumberPicker.OnValueChangeListener
             public final void onValueChange(NumberPicker numberPicker4, int i3, int i4) {
-                AlertsCreator.lambda$createStatusUntilDatePickerDialog$69(linearLayout2, numberPicker, numberPicker2, numberPicker3, numberPicker4, i3, i4);
+                AlertsCreator.lambda$createStatusUntilDatePickerDialog$74(linearLayout2, numberPicker, numberPicker2, numberPicker3, numberPicker4, i3, i4);
             }
         };
         numberPicker.setOnValueChangedListener(onValueChangeListener);
         numberPicker2.setMinValue(0);
         numberPicker2.setMaxValue(23);
         linearLayout3.addView(numberPicker2, LayoutHelper.createLinear(0, 270, 0.2f));
-        numberPicker2.setFormatter(AlertsCreator$$ExternalSyntheticLambda126.INSTANCE);
+        numberPicker2.setFormatter(AlertsCreator$$ExternalSyntheticLambda122.INSTANCE);
         numberPicker2.setOnValueChangedListener(onValueChangeListener);
         numberPicker3.setMinValue(0);
         numberPicker3.setMaxValue(59);
         numberPicker3.setValue(0);
-        numberPicker3.setFormatter(AlertsCreator$$ExternalSyntheticLambda115.INSTANCE);
+        numberPicker3.setFormatter(AlertsCreator$$ExternalSyntheticLambda131.INSTANCE);
         linearLayout3.addView(numberPicker3, LayoutHelper.createLinear(0, 270, 0.3f));
         numberPicker3.setOnValueChangedListener(onValueChangeListener);
         if (j <= 0 || j == 2147483646) {
@@ -3930,10 +4116,10 @@ public class AlertsCreator {
         textView2.setText(LocaleController.getString("SetEmojiStatusUntilButton", R.string.SetEmojiStatusUntilButton));
         LinearLayout linearLayout4 = linearLayout;
         linearLayout4.addView(textView2, LayoutHelper.createLinear(-1, 48, 83, 16, 15, 16, 16));
-        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda60
+        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda65
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                AlertsCreator.lambda$createStatusUntilDatePickerDialog$72(NumberPicker.this, numberPicker2, numberPicker3, calendar, statusUntilDatePickerDelegate, builder, view);
+                AlertsCreator.lambda$createStatusUntilDatePickerDialog$77(NumberPicker.this, numberPicker2, numberPicker3, calendar, statusUntilDatePickerDelegate, builder, view);
             }
         });
         builder.setCustomView(linearLayout4);
@@ -3944,7 +4130,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$createStatusUntilDatePickerDialog$68(long j, Calendar calendar, int i, int i2, int i3) {
+    public static /* synthetic */ String lambda$createStatusUntilDatePickerDialog$73(long j, Calendar calendar, int i, int i2, int i3) {
         if (i3 == 0) {
             return LocaleController.getString("MessageScheduleToday", R.string.MessageScheduleToday);
         }
@@ -3962,7 +4148,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createStatusUntilDatePickerDialog$69(LinearLayout linearLayout, NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, NumberPicker numberPicker4, int i, int i2) {
+    public static /* synthetic */ void lambda$createStatusUntilDatePickerDialog$74(LinearLayout linearLayout, NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, NumberPicker numberPicker4, int i, int i2) {
         try {
             linearLayout.performHapticFeedback(3, 2);
         } catch (Exception unused) {
@@ -3971,17 +4157,17 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$createStatusUntilDatePickerDialog$70(int i) {
+    public static /* synthetic */ String lambda$createStatusUntilDatePickerDialog$75(int i) {
         return String.format("%02d", Integer.valueOf(i));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$createStatusUntilDatePickerDialog$71(int i) {
+    public static /* synthetic */ String lambda$createStatusUntilDatePickerDialog$76(int i) {
         return String.format("%02d", Integer.valueOf(i));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createStatusUntilDatePickerDialog$72(NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, Calendar calendar, StatusUntilDatePickerDelegate statusUntilDatePickerDelegate, BottomSheet.Builder builder, View view) {
+    public static /* synthetic */ void lambda$createStatusUntilDatePickerDialog$77(NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, Calendar calendar, StatusUntilDatePickerDelegate statusUntilDatePickerDelegate, BottomSheet.Builder builder, View view) {
         boolean checkScheduleDate = checkScheduleDate(null, null, 0, numberPicker, numberPicker2, numberPicker3);
         calendar.setTimeInMillis(System.currentTimeMillis() + (numberPicker.getValue() * 24 * 3600 * 1000));
         calendar.set(11, numberPicker2.getValue());
@@ -4001,7 +4187,7 @@ public class AlertsCreator {
         final BottomSheet.Builder builder = new BottomSheet.Builder(context, false, resourcesProvider);
         builder.setApplyBottomPadding(false);
         final int[] iArr = {0, 1440, 2880, 4320, 5760, 7200, 8640, 10080, 20160, 30240, 44640, 89280, 133920, 178560, 223200, 267840, 525600};
-        final NumberPicker numberPicker = new NumberPicker(context, resourcesProvider) { // from class: org.telegram.ui.Components.AlertsCreator.24
+        final NumberPicker numberPicker = new NumberPicker(context, resourcesProvider) { // from class: org.telegram.ui.Components.AlertsCreator.27
             @Override // org.telegram.ui.Components.NumberPicker
             protected CharSequence getContentDescription(int i2) {
                 int[] iArr2 = iArr;
@@ -4024,15 +4210,15 @@ public class AlertsCreator {
         numberPicker.setMaxValue(16);
         numberPicker.setTextColor(scheduleDatePickerColors.textColor);
         numberPicker.setValue(0);
-        numberPicker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda112
+        numberPicker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda116
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i2) {
-                String lambda$createAutoDeleteDatePickerDialog$73;
-                lambda$createAutoDeleteDatePickerDialog$73 = AlertsCreator.lambda$createAutoDeleteDatePickerDialog$73(iArr, i2);
-                return lambda$createAutoDeleteDatePickerDialog$73;
+                String lambda$createAutoDeleteDatePickerDialog$78;
+                lambda$createAutoDeleteDatePickerDialog$78 = AlertsCreator.lambda$createAutoDeleteDatePickerDialog$78(iArr, i2);
+                return lambda$createAutoDeleteDatePickerDialog$78;
             }
         });
-        final LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.Components.AlertsCreator.25
+        final LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.Components.AlertsCreator.28
             boolean ignoreLayout = false;
 
             @Override // android.widget.LinearLayout, android.view.View
@@ -4063,12 +4249,12 @@ public class AlertsCreator {
         textView.setTextSize(1, 20.0f);
         textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         frameLayout.addView(textView, LayoutHelper.createFrame(-2, -2.0f, 51, 0.0f, 12.0f, 0.0f, 0.0f));
-        textView.setOnTouchListener(AlertsCreator$$ExternalSyntheticLambda83.INSTANCE);
+        textView.setOnTouchListener(AlertsCreator$$ExternalSyntheticLambda86.INSTANCE);
         LinearLayout linearLayout2 = new LinearLayout(context);
         linearLayout2.setOrientation(0);
         linearLayout2.setWeightSum(1.0f);
         linearLayout.addView(linearLayout2, LayoutHelper.createLinear(-1, -2, 1.0f, 0, 0, 12, 0, 12));
-        final AnimatedTextView animatedTextView = new AnimatedTextView(context, true, true, false) { // from class: org.telegram.ui.Components.AlertsCreator.26
+        final AnimatedTextView animatedTextView = new AnimatedTextView(context, true, true, false) { // from class: org.telegram.ui.Components.AlertsCreator.29
             @Override // android.view.View
             public CharSequence getAccessibilityClassName() {
                 return Button.class.getName();
@@ -4083,16 +4269,16 @@ public class AlertsCreator {
         animatedTextView.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), scheduleDatePickerColors.buttonBackgroundColor, scheduleDatePickerColors.buttonBackgroundPressedColor));
         linearLayout.addView(animatedTextView, LayoutHelper.createLinear(-1, 48, 83, 16, 15, 16, 16));
         animatedTextView.setText(LocaleController.getString("DisableAutoDeleteTimer", R.string.DisableAutoDeleteTimer));
-        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda136
+        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda141
             @Override // org.telegram.ui.Components.NumberPicker.OnValueChangeListener
             public final void onValueChange(NumberPicker numberPicker2, int i2, int i3) {
-                AlertsCreator.lambda$createAutoDeleteDatePickerDialog$75(AnimatedTextView.this, linearLayout, numberPicker2, i2, i3);
+                AlertsCreator.lambda$createAutoDeleteDatePickerDialog$80(AnimatedTextView.this, linearLayout, numberPicker2, i2, i3);
             }
         });
-        animatedTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda65
+        animatedTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda71
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                AlertsCreator.lambda$createAutoDeleteDatePickerDialog$76(iArr, numberPicker, scheduleDatePickerDelegate, builder, view);
+                AlertsCreator.lambda$createAutoDeleteDatePickerDialog$81(iArr, numberPicker, scheduleDatePickerDelegate, builder, view);
             }
         });
         builder.setCustomView(linearLayout);
@@ -4103,7 +4289,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$createAutoDeleteDatePickerDialog$73(int[] iArr, int i) {
+    public static /* synthetic */ String lambda$createAutoDeleteDatePickerDialog$78(int[] iArr, int i) {
         if (iArr[i] == 0) {
             return LocaleController.getString("AutoDeleteNever", R.string.AutoDeleteNever);
         }
@@ -4120,7 +4306,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createAutoDeleteDatePickerDialog$75(AnimatedTextView animatedTextView, LinearLayout linearLayout, NumberPicker numberPicker, int i, int i2) {
+    public static /* synthetic */ void lambda$createAutoDeleteDatePickerDialog$80(AnimatedTextView animatedTextView, LinearLayout linearLayout, NumberPicker numberPicker, int i, int i2) {
         try {
             if (i2 == 0) {
                 animatedTextView.setText(LocaleController.getString("DisableAutoDeleteTimer", R.string.DisableAutoDeleteTimer));
@@ -4133,7 +4319,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createAutoDeleteDatePickerDialog$76(int[] iArr, NumberPicker numberPicker, ScheduleDatePickerDelegate scheduleDatePickerDelegate, BottomSheet.Builder builder, View view) {
+    public static /* synthetic */ void lambda$createAutoDeleteDatePickerDialog$81(int[] iArr, NumberPicker numberPicker, ScheduleDatePickerDelegate scheduleDatePickerDelegate, BottomSheet.Builder builder, View view) {
         scheduleDatePickerDelegate.didSelectDate(true, iArr[numberPicker.getValue()]);
         builder.getDismissRunnable().run();
     }
@@ -4145,7 +4331,7 @@ public class AlertsCreator {
         ScheduleDatePickerColors scheduleDatePickerColors = new ScheduleDatePickerColors(resourcesProvider);
         final BottomSheet.Builder builder = new BottomSheet.Builder(context, false, resourcesProvider);
         builder.setApplyBottomPadding(false);
-        final NumberPicker numberPicker = new NumberPicker(context, resourcesProvider) { // from class: org.telegram.ui.Components.AlertsCreator.27
+        final NumberPicker numberPicker = new NumberPicker(context, resourcesProvider) { // from class: org.telegram.ui.Components.AlertsCreator.30
             @Override // org.telegram.ui.Components.NumberPicker
             protected CharSequence getContentDescription(int i3) {
                 return LocaleController.formatPluralString("Times", i3 + 1, new Object[0]);
@@ -4156,8 +4342,8 @@ public class AlertsCreator {
         numberPicker.setTextColor(scheduleDatePickerColors.textColor);
         numberPicker.setValue(i - 1);
         numberPicker.setWrapSelectorWheel(false);
-        numberPicker.setFormatter(AlertsCreator$$ExternalSyntheticLambda122.INSTANCE);
-        final NumberPicker numberPicker2 = new NumberPicker(context, resourcesProvider) { // from class: org.telegram.ui.Components.AlertsCreator.28
+        numberPicker.setFormatter(AlertsCreator$$ExternalSyntheticLambda123.INSTANCE);
+        final NumberPicker numberPicker2 = new NumberPicker(context, resourcesProvider) { // from class: org.telegram.ui.Components.AlertsCreator.31
             @Override // org.telegram.ui.Components.NumberPicker
             protected CharSequence getContentDescription(int i3) {
                 return LocaleController.formatPluralString("Times", i3 + 1, new Object[0]);
@@ -4168,15 +4354,15 @@ public class AlertsCreator {
         numberPicker2.setTextColor(scheduleDatePickerColors.textColor);
         numberPicker2.setValue((i2 / 60) - 1);
         numberPicker2.setWrapSelectorWheel(false);
-        numberPicker2.setFormatter(AlertsCreator$$ExternalSyntheticLambda116.INSTANCE);
+        numberPicker2.setFormatter(AlertsCreator$$ExternalSyntheticLambda130.INSTANCE);
         final NumberPicker numberPicker3 = new NumberPicker(context, resourcesProvider);
         numberPicker3.setMinValue(0);
         numberPicker3.setMaxValue(0);
         numberPicker3.setTextColor(scheduleDatePickerColors.textColor);
         numberPicker3.setValue(0);
         numberPicker3.setWrapSelectorWheel(false);
-        numberPicker3.setFormatter(AlertsCreator$$ExternalSyntheticLambda124.INSTANCE);
-        final LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.Components.AlertsCreator.29
+        numberPicker3.setFormatter(AlertsCreator$$ExternalSyntheticLambda121.INSTANCE);
+        final LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.Components.AlertsCreator.32
             boolean ignoreLayout = false;
 
             @Override // android.widget.LinearLayout, android.view.View
@@ -4211,12 +4397,12 @@ public class AlertsCreator {
         textView.setTextSize(1, 20.0f);
         textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         frameLayout.addView(textView, LayoutHelper.createFrame(-2, -2.0f, 51, 0.0f, 12.0f, 0.0f, 0.0f));
-        textView.setOnTouchListener(AlertsCreator$$ExternalSyntheticLambda84.INSTANCE);
+        textView.setOnTouchListener(AlertsCreator$$ExternalSyntheticLambda89.INSTANCE);
         LinearLayout linearLayout2 = new LinearLayout(context);
         linearLayout2.setOrientation(0);
         linearLayout2.setWeightSum(1.0f);
         linearLayout.addView(linearLayout2, LayoutHelper.createLinear(-1, -2, 1.0f, 0, 0, 12, 0, 12));
-        TextView textView2 = new TextView(context) { // from class: org.telegram.ui.Components.AlertsCreator.30
+        TextView textView2 = new TextView(context) { // from class: org.telegram.ui.Components.AlertsCreator.33
             @Override // android.widget.TextView, android.view.View
             public CharSequence getAccessibilityClassName() {
                 return Button.class.getName();
@@ -4233,18 +4419,18 @@ public class AlertsCreator {
         textView2.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), scheduleDatePickerColors.buttonBackgroundColor, scheduleDatePickerColors.buttonBackgroundPressedColor));
         textView2.setText(LocaleController.getString("AutoDeleteConfirm", R.string.AutoDeleteConfirm));
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, 48, 83, 16, 15, 16, 16));
-        NumberPicker.OnValueChangeListener onValueChangeListener = new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda131
+        NumberPicker.OnValueChangeListener onValueChangeListener = new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda135
             @Override // org.telegram.ui.Components.NumberPicker.OnValueChangeListener
             public final void onValueChange(NumberPicker numberPicker4, int i3, int i4) {
-                AlertsCreator.lambda$createSoundFrequencyPickerDialog$81(linearLayout, numberPicker4, i3, i4);
+                AlertsCreator.lambda$createSoundFrequencyPickerDialog$86(linearLayout, numberPicker4, i3, i4);
             }
         };
         numberPicker.setOnValueChangedListener(onValueChangeListener);
         numberPicker2.setOnValueChangedListener(onValueChangeListener);
-        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda58
+        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda63
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                AlertsCreator.lambda$createSoundFrequencyPickerDialog$82(NumberPicker.this, numberPicker2, soundFrequencyDelegate, builder, view);
+                AlertsCreator.lambda$createSoundFrequencyPickerDialog$87(NumberPicker.this, numberPicker2, soundFrequencyDelegate, builder, view);
             }
         });
         builder.setCustomView(linearLayout);
@@ -4255,22 +4441,22 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$createSoundFrequencyPickerDialog$77(int i) {
+    public static /* synthetic */ String lambda$createSoundFrequencyPickerDialog$82(int i) {
         return LocaleController.formatPluralString("Times", i + 1, new Object[0]);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$createSoundFrequencyPickerDialog$78(int i) {
+    public static /* synthetic */ String lambda$createSoundFrequencyPickerDialog$83(int i) {
         return LocaleController.formatPluralString("Minutes", i + 1, new Object[0]);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$createSoundFrequencyPickerDialog$79(int i) {
+    public static /* synthetic */ String lambda$createSoundFrequencyPickerDialog$84(int i) {
         return LocaleController.getString("NotificationsFrequencyDivider", R.string.NotificationsFrequencyDivider);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createSoundFrequencyPickerDialog$81(LinearLayout linearLayout, NumberPicker numberPicker, int i, int i2) {
+    public static /* synthetic */ void lambda$createSoundFrequencyPickerDialog$86(LinearLayout linearLayout, NumberPicker numberPicker, int i, int i2) {
         try {
             linearLayout.performHapticFeedback(3, 2);
         } catch (Exception unused) {
@@ -4278,7 +4464,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createSoundFrequencyPickerDialog$82(NumberPicker numberPicker, NumberPicker numberPicker2, SoundFrequencyDelegate soundFrequencyDelegate, BottomSheet.Builder builder, View view) {
+    public static /* synthetic */ void lambda$createSoundFrequencyPickerDialog$87(NumberPicker numberPicker, NumberPicker numberPicker2, SoundFrequencyDelegate soundFrequencyDelegate, BottomSheet.Builder builder, View view) {
         soundFrequencyDelegate.didSelectValues(numberPicker.getValue() + 1, (numberPicker2.getValue() + 1) * 60);
         builder.getDismissRunnable().run();
     }
@@ -4291,7 +4477,7 @@ public class AlertsCreator {
         final BottomSheet.Builder builder = new BottomSheet.Builder(context, false, resourcesProvider);
         builder.setApplyBottomPadding(false);
         final int[] iArr = {30, 60, 120, 180, 480, 1440, 2880, 4320, 5760, 7200, 8640, 10080, 20160, 30240, 44640, 89280, 133920, 178560, 223200, 267840, 525600};
-        final NumberPicker numberPicker = new NumberPicker(context, resourcesProvider) { // from class: org.telegram.ui.Components.AlertsCreator.31
+        final NumberPicker numberPicker = new NumberPicker(context, resourcesProvider) { // from class: org.telegram.ui.Components.AlertsCreator.34
             @Override // org.telegram.ui.Components.NumberPicker
             protected CharSequence getContentDescription(int i) {
                 int[] iArr2 = iArr;
@@ -4320,15 +4506,15 @@ public class AlertsCreator {
         numberPicker.setMaxValue(20);
         numberPicker.setTextColor(scheduleDatePickerColors.textColor);
         numberPicker.setValue(0);
-        numberPicker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda111
+        numberPicker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda117
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i) {
-                String lambda$createMuteForPickerDialog$83;
-                lambda$createMuteForPickerDialog$83 = AlertsCreator.lambda$createMuteForPickerDialog$83(iArr, i);
-                return lambda$createMuteForPickerDialog$83;
+                String lambda$createMuteForPickerDialog$88;
+                lambda$createMuteForPickerDialog$88 = AlertsCreator.lambda$createMuteForPickerDialog$88(iArr, i);
+                return lambda$createMuteForPickerDialog$88;
             }
         });
-        final LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.Components.AlertsCreator.32
+        final LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.Components.AlertsCreator.35
             boolean ignoreLayout = false;
 
             @Override // android.widget.LinearLayout, android.view.View
@@ -4359,22 +4545,22 @@ public class AlertsCreator {
         textView.setTextSize(1, 20.0f);
         textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         frameLayout.addView(textView, LayoutHelper.createFrame(-2, -2.0f, 51, 0.0f, 12.0f, 0.0f, 0.0f));
-        textView.setOnTouchListener(AlertsCreator$$ExternalSyntheticLambda85.INSTANCE);
+        textView.setOnTouchListener(AlertsCreator$$ExternalSyntheticLambda87.INSTANCE);
         LinearLayout linearLayout2 = new LinearLayout(context);
         linearLayout2.setOrientation(0);
         linearLayout2.setWeightSum(1.0f);
         linearLayout.addView(linearLayout2, LayoutHelper.createLinear(-1, -2, 1.0f, 0, 0, 12, 0, 12));
-        TextView textView2 = new TextView(context) { // from class: org.telegram.ui.Components.AlertsCreator.33
+        TextView textView2 = new TextView(context) { // from class: org.telegram.ui.Components.AlertsCreator.36
             @Override // android.widget.TextView, android.view.View
             public CharSequence getAccessibilityClassName() {
                 return Button.class.getName();
             }
         };
         linearLayout2.addView(numberPicker, LayoutHelper.createLinear(0, 270, 1.0f));
-        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda130
+        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda136
             @Override // org.telegram.ui.Components.NumberPicker.OnValueChangeListener
             public final void onValueChange(NumberPicker numberPicker2, int i, int i2) {
-                AlertsCreator.lambda$createMuteForPickerDialog$85(linearLayout, numberPicker2, i, i2);
+                AlertsCreator.lambda$createMuteForPickerDialog$90(linearLayout, numberPicker2, i, i2);
             }
         });
         textView2.setPadding(AndroidUtilities.dp(34.0f), 0, AndroidUtilities.dp(34.0f), 0);
@@ -4385,10 +4571,10 @@ public class AlertsCreator {
         textView2.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), scheduleDatePickerColors.buttonBackgroundColor, scheduleDatePickerColors.buttonBackgroundPressedColor));
         textView2.setText(LocaleController.getString("AutoDeleteConfirm", R.string.AutoDeleteConfirm));
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, 48, 83, 16, 15, 16, 16));
-        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda66
+        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda70
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                AlertsCreator.lambda$createMuteForPickerDialog$86(iArr, numberPicker, scheduleDatePickerDelegate, builder, view);
+                AlertsCreator.lambda$createMuteForPickerDialog$91(iArr, numberPicker, scheduleDatePickerDelegate, builder, view);
             }
         });
         builder.setCustomView(linearLayout);
@@ -4399,7 +4585,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$createMuteForPickerDialog$83(int[] iArr, int i) {
+    public static /* synthetic */ String lambda$createMuteForPickerDialog$88(int[] iArr, int i) {
         if (iArr[i] == 0) {
             return LocaleController.getString("MuteNever", R.string.MuteNever);
         }
@@ -4422,7 +4608,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createMuteForPickerDialog$85(LinearLayout linearLayout, NumberPicker numberPicker, int i, int i2) {
+    public static /* synthetic */ void lambda$createMuteForPickerDialog$90(LinearLayout linearLayout, NumberPicker numberPicker, int i, int i2) {
         try {
             linearLayout.performHapticFeedback(3, 2);
         } catch (Exception unused) {
@@ -4430,7 +4616,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createMuteForPickerDialog$86(int[] iArr, NumberPicker numberPicker, ScheduleDatePickerDelegate scheduleDatePickerDelegate, BottomSheet.Builder builder, View view) {
+    public static /* synthetic */ void lambda$createMuteForPickerDialog$91(int[] iArr, NumberPicker numberPicker, ScheduleDatePickerDelegate scheduleDatePickerDelegate, BottomSheet.Builder builder, View view) {
         scheduleDatePickerDelegate.didSelectDate(true, iArr[numberPicker.getValue()] * 60);
         builder.getDismissRunnable().run();
     }
@@ -4480,7 +4666,7 @@ public class AlertsCreator {
         final NumberPicker numberPicker3 = new NumberPicker(context, resourcesProvider);
         numberPicker3.setItemCount(5);
         numberPicker3.setTextOffset(-AndroidUtilities.dp(24.0f));
-        final LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.Components.AlertsCreator.34
+        final LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.Components.AlertsCreator.37
             boolean ignoreLayout = false;
 
             @Override // android.widget.LinearLayout, android.view.View
@@ -4515,13 +4701,13 @@ public class AlertsCreator {
         textView.setTextSize(1, 20.0f);
         textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         frameLayout.addView(textView, LayoutHelper.createFrame(-2, -2.0f, 51, 0.0f, 12.0f, 0.0f, 0.0f));
-        textView.setOnTouchListener(AlertsCreator$$ExternalSyntheticLambda86.INSTANCE);
+        textView.setOnTouchListener(AlertsCreator$$ExternalSyntheticLambda91.INSTANCE);
         LinearLayout linearLayout2 = new LinearLayout(context);
         linearLayout2.setOrientation(0);
         linearLayout2.setWeightSum(1.0f);
         linearLayout.addView(linearLayout2, LayoutHelper.createLinear(-1, -2, 1.0f, 0, 0, 12, 0, 12));
         System.currentTimeMillis();
-        TextView textView2 = new TextView(context) { // from class: org.telegram.ui.Components.AlertsCreator.35
+        TextView textView2 = new TextView(context) { // from class: org.telegram.ui.Components.AlertsCreator.38
             @Override // android.widget.TextView, android.view.View
             public CharSequence getAccessibilityClassName() {
                 return Button.class.getName();
@@ -4532,10 +4718,10 @@ public class AlertsCreator {
         numberPicker.setMaxValue(31);
         numberPicker.setWrapSelectorWheel(false);
         numberPicker.setFormatter(AlertsCreator$$ExternalSyntheticLambda119.INSTANCE);
-        NumberPicker.OnValueChangeListener onValueChangeListener = new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda132
+        NumberPicker.OnValueChangeListener onValueChangeListener = new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda137
             @Override // org.telegram.ui.Components.NumberPicker.OnValueChangeListener
             public final void onValueChange(NumberPicker numberPicker4, int i, int i2) {
-                AlertsCreator.lambda$createCalendarPickerDialog$89(linearLayout, j, numberPicker, numberPicker2, numberPicker3, numberPicker4, i, i2);
+                AlertsCreator.lambda$createCalendarPickerDialog$94(linearLayout, j, numberPicker, numberPicker2, numberPicker3, numberPicker4, i, i2);
             }
         };
         numberPicker.setOnValueChangedListener(onValueChangeListener);
@@ -4543,7 +4729,7 @@ public class AlertsCreator {
         numberPicker2.setMaxValue(11);
         numberPicker2.setWrapSelectorWheel(false);
         linearLayout2.addView(numberPicker2, LayoutHelper.createLinear(0, 270, 0.5f));
-        numberPicker2.setFormatter(AlertsCreator$$ExternalSyntheticLambda123.INSTANCE);
+        numberPicker2.setFormatter(AlertsCreator$$ExternalSyntheticLambda128.INSTANCE);
         numberPicker2.setOnValueChangedListener(onValueChangeListener);
         final Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(j);
@@ -4553,7 +4739,7 @@ public class AlertsCreator {
         numberPicker3.setMinValue(i);
         numberPicker3.setMaxValue(i2);
         numberPicker3.setWrapSelectorWheel(false);
-        numberPicker3.setFormatter(AlertsCreator$$ExternalSyntheticLambda113.INSTANCE);
+        numberPicker3.setFormatter(AlertsCreator$$ExternalSyntheticLambda118.INSTANCE);
         linearLayout2.addView(numberPicker3, LayoutHelper.createLinear(0, 270, 0.25f));
         numberPicker3.setOnValueChangedListener(onValueChangeListener);
         numberPicker.setValue(31);
@@ -4568,10 +4754,10 @@ public class AlertsCreator {
         textView2.setText(LocaleController.getString("JumpToDate", R.string.JumpToDate));
         textView2.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), Theme.getColor("featuredStickers_addButton", resourcesProvider), Theme.getColor("featuredStickers_addButtonPressed", resourcesProvider)));
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, 48, 83, 16, 15, 16, 16));
-        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda51
+        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda54
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                AlertsCreator.lambda$createCalendarPickerDialog$92(j, numberPicker, numberPicker2, numberPicker3, calendar, intCallback, builder, view);
+                AlertsCreator.lambda$createCalendarPickerDialog$97(j, numberPicker, numberPicker2, numberPicker3, calendar, intCallback, builder, view);
             }
         });
         builder.setCustomView(linearLayout);
@@ -4579,12 +4765,12 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$createCalendarPickerDialog$88(int i) {
+    public static /* synthetic */ String lambda$createCalendarPickerDialog$93(int i) {
         return "" + i;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createCalendarPickerDialog$89(LinearLayout linearLayout, long j, NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, NumberPicker numberPicker4, int i, int i2) {
+    public static /* synthetic */ void lambda$createCalendarPickerDialog$94(LinearLayout linearLayout, long j, NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, NumberPicker numberPicker4, int i, int i2) {
         try {
             linearLayout.performHapticFeedback(3, 2);
         } catch (Exception unused) {
@@ -4593,7 +4779,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$createCalendarPickerDialog$90(int i) {
+    public static /* synthetic */ String lambda$createCalendarPickerDialog$95(int i) {
         switch (i) {
             case 0:
                 return LocaleController.getString("January", R.string.January);
@@ -4623,12 +4809,12 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$createCalendarPickerDialog$91(int i) {
+    public static /* synthetic */ String lambda$createCalendarPickerDialog$96(int i) {
         return String.format("%02d", Integer.valueOf(i));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createCalendarPickerDialog$92(long j, NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, Calendar calendar, MessagesStorage.IntCallback intCallback, BottomSheet.Builder builder, View view) {
+    public static /* synthetic */ void lambda$createCalendarPickerDialog$97(long j, NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, Calendar calendar, MessagesStorage.IntCallback intCallback, BottomSheet.Builder builder, View view) {
         checkCalendarDate(j, numberPicker, numberPicker2, numberPicker3);
         calendar.set(1, numberPicker3.getValue());
         calendar.set(2, numberPicker2.getValue());
@@ -4650,14 +4836,14 @@ public class AlertsCreator {
         builder.setItems(new CharSequence[]{LocaleController.formatString("MuteFor", i2, LocaleController.formatPluralString("Hours", 1, new Object[0])), LocaleController.formatString("MuteFor", i2, LocaleController.formatPluralString("Hours", 8, new Object[0])), LocaleController.formatString("MuteFor", i2, LocaleController.formatPluralString("Days", 2, new Object[0])), LocaleController.getString("MuteDisable", R.string.MuteDisable)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda3
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i3) {
-                AlertsCreator.lambda$createMuteAlert$93(j, i, baseFragment, resourcesProvider, dialogInterface, i3);
+                AlertsCreator.lambda$createMuteAlert$98(j, i, baseFragment, resourcesProvider, dialogInterface, i3);
             }
         });
         return builder.create();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createMuteAlert$93(long j, int i, BaseFragment baseFragment, Theme.ResourcesProvider resourcesProvider, DialogInterface dialogInterface, int i2) {
+    public static /* synthetic */ void lambda$createMuteAlert$98(long j, int i, BaseFragment baseFragment, Theme.ResourcesProvider resourcesProvider, DialogInterface dialogInterface, int i2) {
         int i3 = 2;
         if (i2 == 0) {
             i3 = 0;
@@ -4679,17 +4865,17 @@ public class AlertsCreator {
         BottomSheet.Builder builder = new BottomSheet.Builder(baseFragment.getParentActivity(), false, resourcesProvider);
         builder.setTitle(LocaleController.getString("Notifications", R.string.Notifications), true);
         int i2 = R.string.MuteFor;
-        builder.setItems(new CharSequence[]{LocaleController.formatString("MuteFor", i2, LocaleController.formatPluralString("Hours", 1, new Object[0])), LocaleController.formatString("MuteFor", i2, LocaleController.formatPluralString("Hours", 8, new Object[0])), LocaleController.formatString("MuteFor", i2, LocaleController.formatPluralString("Days", 2, new Object[0])), LocaleController.getString("MuteDisable", R.string.MuteDisable)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda18
+        builder.setItems(new CharSequence[]{LocaleController.formatString("MuteFor", i2, LocaleController.formatPluralString("Hours", 1, new Object[0])), LocaleController.formatString("MuteFor", i2, LocaleController.formatPluralString("Hours", 8, new Object[0])), LocaleController.formatString("MuteFor", i2, LocaleController.formatPluralString("Days", 2, new Object[0])), LocaleController.getString("MuteDisable", R.string.MuteDisable)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda20
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i3) {
-                AlertsCreator.lambda$createMuteAlert$94(arrayList, i, baseFragment, resourcesProvider, dialogInterface, i3);
+                AlertsCreator.lambda$createMuteAlert$99(arrayList, i, baseFragment, resourcesProvider, dialogInterface, i3);
             }
         });
         return builder.create();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createMuteAlert$94(ArrayList arrayList, int i, BaseFragment baseFragment, Theme.ResourcesProvider resourcesProvider, DialogInterface dialogInterface, int i2) {
+    public static /* synthetic */ void lambda$createMuteAlert$99(ArrayList arrayList, int i, BaseFragment baseFragment, Theme.ResourcesProvider resourcesProvider, DialogInterface dialogInterface, int i2) {
         int i3 = 2;
         if (i2 == 0) {
             i3 = 0;
@@ -4737,7 +4923,7 @@ public class AlertsCreator {
                 }
             };
         }
-        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_report, AlertsCreator$$ExternalSyntheticLambda102.INSTANCE);
+        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_report, AlertsCreator$$ExternalSyntheticLambda107.INSTANCE);
     }
 
     public static void createReportAlert(final Context context, final long j, final int i, final BaseFragment baseFragment, final Theme.ResourcesProvider resourcesProvider, final Runnable runnable) {
@@ -4749,10 +4935,10 @@ public class AlertsCreator {
         }
         BottomSheet.Builder builder = new BottomSheet.Builder(context, true, resourcesProvider);
         builder.setDimBehind(runnable == null);
-        builder.setOnPreDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda43
+        builder.setOnPreDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda45
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
-                AlertsCreator.lambda$createReportAlert$96(runnable, dialogInterface);
+                AlertsCreator.lambda$createReportAlert$101(runnable, dialogInterface);
             }
         });
         builder.setTitle(LocaleController.getString("ReportChat", R.string.ReportChat), true);
@@ -4766,17 +4952,17 @@ public class AlertsCreator {
             iArr2 = new int[]{0, 6, 1, 2, 3, 4, 5, 100};
         }
         final int[] iArr3 = iArr2;
-        builder.setItems(charSequenceArr, iArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda38
+        builder.setItems(charSequenceArr, iArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda40
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i2) {
-                AlertsCreator.lambda$createReportAlert$98(iArr3, i, baseFragment, context, j, resourcesProvider, dialogInterface, i2);
+                AlertsCreator.lambda$createReportAlert$103(iArr3, i, baseFragment, context, j, resourcesProvider, dialogInterface, i2);
             }
         });
         baseFragment.showDialog(builder.create());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createReportAlert$96(Runnable runnable, DialogInterface dialogInterface) {
+    public static /* synthetic */ void lambda$createReportAlert$101(Runnable runnable, DialogInterface dialogInterface) {
         if (runnable != null) {
             runnable.run();
         }
@@ -4784,7 +4970,7 @@ public class AlertsCreator {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
-    public static /* synthetic */ void lambda$createReportAlert$98(int[] iArr, final int i, final BaseFragment baseFragment, Context context, final long j, Theme.ResourcesProvider resourcesProvider, DialogInterface dialogInterface, int i2) {
+    public static /* synthetic */ void lambda$createReportAlert$103(int[] iArr, final int i, final BaseFragment baseFragment, Context context, final long j, Theme.ResourcesProvider resourcesProvider, DialogInterface dialogInterface, int i2) {
         TLRPC$TL_account_reportPeer tLRPC$TL_account_reportPeer;
         int i3 = iArr[i2];
         if (i == 0 && ((i3 == 0 || i3 == 1 || i3 == 2 || i3 == 5 || i3 == 3 || i3 == 4) && (baseFragment instanceof ChatActivity))) {
@@ -4793,7 +4979,7 @@ public class AlertsCreator {
             if (baseFragment instanceof ChatActivity) {
                 AndroidUtilities.requestAdjustNothing(baseFragment.getParentActivity(), baseFragment.getClassGuid());
             }
-            baseFragment.showDialog(new ReportAlert(context, i3) { // from class: org.telegram.ui.Components.AlertsCreator.36
+            baseFragment.showDialog(new ReportAlert(context, i3) { // from class: org.telegram.ui.Components.AlertsCreator.39
                 @Override // org.telegram.ui.ActionBar.BottomSheet
                 public void dismissInternal() {
                     super.dismissInternal();
@@ -4874,7 +5060,7 @@ public class AlertsCreator {
                     tLRPC$TL_account_reportPeer = tLRPC$TL_account_reportPeer2;
                 }
             }
-            ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_account_reportPeer, AlertsCreator$$ExternalSyntheticLambda106.INSTANCE);
+            ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_account_reportPeer, AlertsCreator$$ExternalSyntheticLambda111.INSTANCE);
             if (baseFragment instanceof ChatActivity) {
                 UndoView undoView = ((ChatActivity) baseFragment).getUndoView();
                 if (undoView != null) {
@@ -5127,10 +5313,10 @@ public class AlertsCreator {
                 break;
             case 5:
                 builder.setMessage(LocaleController.getString("NobodyLikesSpam2", R.string.NobodyLikesSpam2));
-                builder.setNegativeButton(LocaleController.getString("MoreInfo", R.string.MoreInfo), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda28
+                builder.setNegativeButton(LocaleController.getString("MoreInfo", R.string.MoreInfo), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda31
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i) {
-                        AlertsCreator.lambda$showAddUserAlert$99(BaseFragment.this, dialogInterface, i);
+                        AlertsCreator.lambda$showAddUserAlert$104(BaseFragment.this, dialogInterface, i);
                     }
                 });
                 break;
@@ -5218,7 +5404,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showAddUserAlert$99(BaseFragment baseFragment, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$showAddUserAlert$104(BaseFragment baseFragment, DialogInterface dialogInterface, int i) {
         MessagesController.getInstance(baseFragment.getCurrentAccount()).openByUserName("spambot", baseFragment, 1);
     }
 
@@ -5258,10 +5444,10 @@ public class AlertsCreator {
             radioColorCell.setCheckColor(iArr2[i4], iArr2[i4]);
             radioColorCell.setTextAndValue(strArr[i4], i3 == TextColorCell.colorsToSave[i4]);
             linearLayout.addView(radioColorCell);
-            radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda52
+            radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda55
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    AlertsCreator.lambda$createColorSelectDialog$100(linearLayout, iArr, view);
+                    AlertsCreator.lambda$createColorSelectDialog$105(linearLayout, iArr, view);
                 }
             });
             i4++;
@@ -5272,20 +5458,20 @@ public class AlertsCreator {
         builder.setPositiveButton(LocaleController.getString("Set", R.string.Set), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda4
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i6) {
-                AlertsCreator.lambda$createColorSelectDialog$101(j, sharedPrefKey, iArr, i, i2, runnable, dialogInterface, i6);
+                AlertsCreator.lambda$createColorSelectDialog$106(j, sharedPrefKey, iArr, i, i2, runnable, dialogInterface, i6);
             }
         });
         builder.setNeutralButton(LocaleController.getString("LedDisabled", R.string.LedDisabled), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda2
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i6) {
-                AlertsCreator.lambda$createColorSelectDialog$102(j, i2, runnable, dialogInterface, i6);
+                AlertsCreator.lambda$createColorSelectDialog$107(j, i2, runnable, dialogInterface, i6);
             }
         });
         if (j != 0) {
-            builder.setNegativeButton(LocaleController.getString("Default", R.string.Default), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda16
+            builder.setNegativeButton(LocaleController.getString("Default", R.string.Default), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda18
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i6) {
-                    AlertsCreator.lambda$createColorSelectDialog$103(sharedPrefKey, runnable, dialogInterface, i6);
+                    AlertsCreator.lambda$createColorSelectDialog$108(sharedPrefKey, runnable, dialogInterface, i6);
                 }
             });
         }
@@ -5293,7 +5479,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createColorSelectDialog$100(LinearLayout linearLayout, int[] iArr, View view) {
+    public static /* synthetic */ void lambda$createColorSelectDialog$105(LinearLayout linearLayout, int[] iArr, View view) {
         int childCount = linearLayout.getChildCount();
         for (int i = 0; i < childCount; i++) {
             RadioColorCell radioColorCell = (RadioColorCell) linearLayout.getChildAt(i);
@@ -5303,7 +5489,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createColorSelectDialog$101(long j, String str, int[] iArr, int i, int i2, Runnable runnable, DialogInterface dialogInterface, int i3) {
+    public static /* synthetic */ void lambda$createColorSelectDialog$106(long j, String str, int[] iArr, int i, int i2, Runnable runnable, DialogInterface dialogInterface, int i3) {
         SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(UserConfig.selectedAccount).edit();
         if (j != 0) {
             edit.putInt("color_" + str, iArr[0]);
@@ -5325,7 +5511,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createColorSelectDialog$102(long j, int i, Runnable runnable, DialogInterface dialogInterface, int i2) {
+    public static /* synthetic */ void lambda$createColorSelectDialog$107(long j, int i, Runnable runnable, DialogInterface dialogInterface, int i2) {
         SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(UserConfig.selectedAccount).edit();
         if (j != 0) {
             edit.putInt("color_" + j, 0);
@@ -5343,7 +5529,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createColorSelectDialog$103(String str, Runnable runnable, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$createColorSelectDialog$108(String str, Runnable runnable, DialogInterface dialogInterface, int i) {
         SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(UserConfig.selectedAccount).edit();
         edit.remove("color_" + str);
         edit.commit();
@@ -5405,10 +5591,10 @@ public class AlertsCreator {
             linearLayout.addView(radioColorCell);
             int i4 = i3;
             final AlertDialog.Builder builder2 = builder;
-            radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda63
+            radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda68
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    AlertsCreator.lambda$createVibrationSelectDialog$104(iArr, j, str, i, builder2, runnable, view);
+                    AlertsCreator.lambda$createVibrationSelectDialog$109(iArr, j, str, i, builder2, runnable, view);
                 }
             });
             i3 = i4 + 1;
@@ -5424,7 +5610,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createVibrationSelectDialog$104(int[] iArr, long j, String str, int i, AlertDialog.Builder builder, Runnable runnable, View view) {
+    public static /* synthetic */ void lambda$createVibrationSelectDialog$109(int[] iArr, long j, String str, int i, AlertDialog.Builder builder, Runnable runnable, View view) {
         iArr[0] = ((Integer) view.getTag()).intValue();
         SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(UserConfig.selectedAccount).edit();
         if (j != 0) {
@@ -5488,10 +5674,10 @@ public class AlertsCreator {
             radioColorCell.setCheckColor(resourcesProvider != null ? resourcesProvider.getColorOrDefault("radioBackground") : Theme.getColor("radioBackground"), resourcesProvider != null ? resourcesProvider.getColorOrDefault("dialogRadioBackgroundChecked") : Theme.getColor("dialogRadioBackgroundChecked"));
             radioColorCell.setTextAndValue(strArr[i], iArr[0] == i);
             linearLayout.addView(radioColorCell);
-            radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda64
+            radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda69
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    AlertsCreator.lambda$createLocationUpdateDialog$105(iArr, linearLayout, view);
+                    AlertsCreator.lambda$createLocationUpdateDialog$110(iArr, linearLayout, view);
                 }
             });
             i++;
@@ -5499,10 +5685,10 @@ public class AlertsCreator {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity, resourcesProvider);
         builder.setTopImage(new ShareLocationDrawable(activity, 0), resourcesProvider != null ? resourcesProvider.getColorOrDefault("dialogTopBackground") : Theme.getColor("dialogTopBackground"));
         builder.setView(linearLayout);
-        builder.setPositiveButton(LocaleController.getString("ShareFile", R.string.ShareFile), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda39
+        builder.setPositiveButton(LocaleController.getString("ShareFile", R.string.ShareFile), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda41
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i2) {
-                AlertsCreator.lambda$createLocationUpdateDialog$106(iArr, intCallback, dialogInterface, i2);
+                AlertsCreator.lambda$createLocationUpdateDialog$111(iArr, intCallback, dialogInterface, i2);
             }
         });
         builder.setNeutralButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -5510,7 +5696,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createLocationUpdateDialog$105(int[] iArr, LinearLayout linearLayout, View view) {
+    public static /* synthetic */ void lambda$createLocationUpdateDialog$110(int[] iArr, LinearLayout linearLayout, View view) {
         iArr[0] = ((Integer) view.getTag()).intValue();
         int childCount = linearLayout.getChildCount();
         for (int i = 0; i < childCount; i++) {
@@ -5522,7 +5708,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createLocationUpdateDialog$106(int[] iArr, MessagesStorage.IntCallback intCallback, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$createLocationUpdateDialog$111(int[] iArr, MessagesStorage.IntCallback intCallback, DialogInterface dialogInterface, int i) {
         int i2;
         if (iArr[0] == 0) {
             i2 = 900;
@@ -5541,7 +5727,7 @@ public class AlertsCreator {
         String readRes2 = RLottieDrawable.readRes(null, Theme.getCurrentTheme().isDark() ? R.raw.permission_pin_dark : R.raw.permission_pin);
         FrameLayout frameLayout = new FrameLayout(activity);
         frameLayout.setClipToOutline(true);
-        frameLayout.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.AlertsCreator.37
+        frameLayout.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.AlertsCreator.40
             @Override // android.view.ViewOutlineProvider
             public void getOutline(View view, Outline outline) {
                 outline.setRoundRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight() + AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f));
@@ -5560,13 +5746,13 @@ public class AlertsCreator {
         builder.setTopView(frameLayout);
         builder.setTopViewAspectRatio(0.37820512f);
         builder.setMessage(AndroidUtilities.replaceTags(LocaleController.getString(R.string.PermissionBackgroundLocation)));
-        builder.setPositiveButton(LocaleController.getString(R.string.Continue), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda6
+        builder.setPositiveButton(LocaleController.getString(R.string.Continue), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda5
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
-                AlertsCreator.lambda$createBackgroundLocationPermissionDialog$107(activity, dialogInterface, i);
+                AlertsCreator.lambda$createBackgroundLocationPermissionDialog$112(activity, dialogInterface, i);
             }
         });
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda15
+        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda17
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 runnable.run();
@@ -5576,7 +5762,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createBackgroundLocationPermissionDialog$107(Activity activity, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$createBackgroundLocationPermissionDialog$112(Activity activity, DialogInterface dialogInterface, int i) {
         if (activity.checkSelfPermission("android.permission.ACCESS_BACKGROUND_LOCATION") != 0) {
             activity.requestPermissions(new String[]{"android.permission.ACCESS_BACKGROUND_LOCATION"}, 30);
         }
@@ -5588,7 +5774,7 @@ public class AlertsCreator {
         FrameLayout frameLayout = new FrameLayout(activity);
         if (Build.VERSION.SDK_INT >= 21) {
             frameLayout.setClipToOutline(true);
-            frameLayout.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.AlertsCreator.38
+            frameLayout.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.AlertsCreator.41
                 @Override // android.view.ViewOutlineProvider
                 public void getOutline(View view, Outline outline) {
                     outline.setRoundRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight() + AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f));
@@ -5613,7 +5799,7 @@ public class AlertsCreator {
         FrameLayout frameLayout = new FrameLayout(activity);
         frameLayout.setBackground(new GradientDrawable(GradientDrawable.Orientation.BL_TR, new int[]{-14535089, -14527894}));
         frameLayout.setClipToOutline(true);
-        frameLayout.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.AlertsCreator.39
+        frameLayout.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.AlertsCreator.42
             @Override // android.view.ViewOutlineProvider
             public void getOutline(View view, Outline outline) {
                 outline.setRoundRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight() + AndroidUtilities.dp(6.0f), AndroidUtilities.dpf2(6.0f));
@@ -5625,10 +5811,10 @@ public class AlertsCreator {
         builder.setTopView(frameLayout);
         builder.setTitle(LocaleController.getString("PermissionDrawAboveOtherAppsTitle", R.string.PermissionDrawAboveOtherAppsTitle));
         builder.setMessage(LocaleController.getString("PermissionDrawAboveOtherApps", R.string.PermissionDrawAboveOtherApps));
-        builder.setPositiveButton(LocaleController.getString("Enable", R.string.Enable), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda5
+        builder.setPositiveButton(LocaleController.getString("Enable", R.string.Enable), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda6
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
-                AlertsCreator.lambda$createDrawOverlayPermissionDialog$109(activity, dialogInterface, i);
+                AlertsCreator.lambda$createDrawOverlayPermissionDialog$114(activity, dialogInterface, i);
             }
         });
         builder.notDrawBackgroundOnTopView(true);
@@ -5638,7 +5824,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createDrawOverlayPermissionDialog$109(Activity activity, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$createDrawOverlayPermissionDialog$114(Activity activity, DialogInterface dialogInterface, int i) {
         if (activity == null || Build.VERSION.SDK_INT < 23) {
             return;
         }
@@ -5654,7 +5840,7 @@ public class AlertsCreator {
         String readRes = RLottieDrawable.readRes(null, R.raw.pip_voice_request);
         final GroupCallPipButton groupCallPipButton = new GroupCallPipButton(context, 0, true);
         groupCallPipButton.setImportantForAccessibility(2);
-        FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.AlertsCreator.40
+        FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.AlertsCreator.43
             @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
                 super.onLayout(z, i, i2, i3, i4);
@@ -5664,7 +5850,7 @@ public class AlertsCreator {
         };
         frameLayout.setBackground(new GradientDrawable(GradientDrawable.Orientation.BL_TR, new int[]{-15128003, -15118002}));
         frameLayout.setClipToOutline(true);
-        frameLayout.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.AlertsCreator.41
+        frameLayout.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.AlertsCreator.44
             @Override // android.view.ViewOutlineProvider
             public void getOutline(View view, Outline outline) {
                 outline.setRoundRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight() + AndroidUtilities.dp(6.0f), AndroidUtilities.dpf2(6.0f));
@@ -5677,10 +5863,10 @@ public class AlertsCreator {
         builder.setTopView(frameLayout);
         builder.setTitle(LocaleController.getString("PermissionDrawAboveOtherAppsGroupCallTitle", R.string.PermissionDrawAboveOtherAppsGroupCallTitle));
         builder.setMessage(LocaleController.getString("PermissionDrawAboveOtherAppsGroupCall", R.string.PermissionDrawAboveOtherAppsGroupCall));
-        builder.setPositiveButton(LocaleController.getString("Enable", R.string.Enable), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda10
+        builder.setPositiveButton(LocaleController.getString("Enable", R.string.Enable), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda11
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
-                AlertsCreator.lambda$createDrawOverlayGroupCallPermissionDialog$110(context, dialogInterface, i);
+                AlertsCreator.lambda$createDrawOverlayGroupCallPermissionDialog$115(context, dialogInterface, i);
             }
         });
         builder.notDrawBackgroundOnTopView(true);
@@ -5690,7 +5876,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createDrawOverlayGroupCallPermissionDialog$110(Context context, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$createDrawOverlayGroupCallPermissionDialog$115(Context context, DialogInterface dialogInterface, int i) {
         if (context != null) {
             try {
                 if (Build.VERSION.SDK_INT >= 23) {
@@ -5712,13 +5898,13 @@ public class AlertsCreator {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTopAnimation(R.raw.permission_request_contacts, 72, false, Theme.getColor("dialogTopBackground"));
         builder.setMessage(AndroidUtilities.replaceTags(LocaleController.getString("ContactsPermissionAlert", R.string.ContactsPermissionAlert)));
-        builder.setPositiveButton(LocaleController.getString("ContactsPermissionAlertContinue", R.string.ContactsPermissionAlertContinue), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda22
+        builder.setPositiveButton(LocaleController.getString("ContactsPermissionAlertContinue", R.string.ContactsPermissionAlertContinue), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda24
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 MessagesStorage.IntCallback.this.run(1);
             }
         });
-        builder.setNegativeButton(LocaleController.getString("ContactsPermissionAlertNotNow", R.string.ContactsPermissionAlertNotNow), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda23
+        builder.setNegativeButton(LocaleController.getString("ContactsPermissionAlertNotNow", R.string.ContactsPermissionAlertNotNow), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda25
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 MessagesStorage.IntCallback.this.run(0);
@@ -5732,18 +5918,18 @@ public class AlertsCreator {
         builder.setTitle(LocaleController.getString("LowDiskSpaceTitle", R.string.LowDiskSpaceTitle));
         builder.setMessage(LocaleController.getString("LowDiskSpaceMessage2", R.string.LowDiskSpaceMessage2));
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        builder.setPositiveButton(LocaleController.getString("LowDiskSpaceButton", R.string.LowDiskSpaceButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda33
+        builder.setPositiveButton(LocaleController.getString("LowDiskSpaceButton", R.string.LowDiskSpaceButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda35
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
-                AlertsCreator.lambda$createFreeSpaceDialog$113(LaunchActivity.this, dialogInterface, i);
+                AlertsCreator.lambda$createFreeSpaceDialog$118(LaunchActivity.this, dialogInterface, i);
             }
         });
         return builder.create();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createFreeSpaceDialog$113(LaunchActivity launchActivity, DialogInterface dialogInterface, int i) {
-        launchActivity.lambda$runLinkRequest$79(new CacheControlActivity());
+    public static /* synthetic */ void lambda$createFreeSpaceDialog$118(LaunchActivity launchActivity, DialogInterface dialogInterface, int i) {
+        launchActivity.lambda$runLinkRequest$77(new CacheControlActivity());
     }
 
     public static Dialog createPrioritySelectDialog(Activity activity, long j, int i, int i2, Runnable runnable) {
@@ -5824,10 +6010,10 @@ public class AlertsCreator {
             linearLayout.addView(radioColorCell);
             final int[] iArr2 = iArr;
             final AlertDialog.Builder builder2 = builder;
-            radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda62
+            radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda67
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    AlertsCreator.lambda$createPrioritySelectDialog$114(iArr2, j, i, i2, notificationsSettings, builder2, runnable, view);
+                    AlertsCreator.lambda$createPrioritySelectDialog$119(iArr2, j, i, i2, notificationsSettings, builder2, runnable, view);
                 }
             });
             i6++;
@@ -5846,7 +6032,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createPrioritySelectDialog$114(int[] iArr, long j, int i, int i2, SharedPreferences sharedPreferences, AlertDialog.Builder builder, Runnable runnable, View view) {
+    public static /* synthetic */ void lambda$createPrioritySelectDialog$119(int[] iArr, long j, int i, int i2, SharedPreferences sharedPreferences, AlertDialog.Builder builder, Runnable runnable, View view) {
         int i3 = 0;
         iArr[0] = ((Integer) view.getTag()).intValue();
         SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(UserConfig.selectedAccount).edit();
@@ -5910,10 +6096,10 @@ public class AlertsCreator {
             radioColorCell.setCheckColor(Theme.getColor("radioBackground"), Theme.getColor("dialogRadioBackgroundChecked"));
             radioColorCell.setTextAndValue(strArr[i2], iArr[0] == i2);
             linearLayout.addView(radioColorCell);
-            radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda61
+            radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda66
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    AlertsCreator.lambda$createPopupSelectDialog$115(iArr, i, builder, runnable, view);
+                    AlertsCreator.lambda$createPopupSelectDialog$120(iArr, i, builder, runnable, view);
                 }
             });
             i2++;
@@ -5925,7 +6111,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createPopupSelectDialog$115(int[] iArr, int i, AlertDialog.Builder builder, Runnable runnable, View view) {
+    public static /* synthetic */ void lambda$createPopupSelectDialog$120(int[] iArr, int i, AlertDialog.Builder builder, Runnable runnable, View view) {
         iArr[0] = ((Integer) view.getTag()).intValue();
         SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(UserConfig.selectedAccount).edit();
         if (i == 1) {
@@ -5954,10 +6140,10 @@ public class AlertsCreator {
             radioColorCell.setCheckColor(Theme.getColor("radioBackground"), Theme.getColor("dialogRadioBackgroundChecked"));
             radioColorCell.setTextAndValue(strArr[i2], i == i2);
             linearLayout.addView(radioColorCell);
-            radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda55
+            radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda60
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    AlertsCreator.lambda$createSingleChoiceDialog$116(AlertDialog.Builder.this, onClickListener, view);
+                    AlertsCreator.lambda$createSingleChoiceDialog$121(AlertDialog.Builder.this, onClickListener, view);
                 }
             });
             i2++;
@@ -5969,7 +6155,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createSingleChoiceDialog$116(AlertDialog.Builder builder, DialogInterface.OnClickListener onClickListener, View view) {
+    public static /* synthetic */ void lambda$createSingleChoiceDialog$121(AlertDialog.Builder builder, DialogInterface.OnClickListener onClickListener, View view) {
         int intValue = ((Integer) view.getTag()).intValue();
         builder.getDismissRunnable().run();
         onClickListener.onClick(null, intValue);
@@ -5997,19 +6183,19 @@ public class AlertsCreator {
         } else if (i == 0) {
             numberPicker.setValue(0);
         }
-        numberPicker.setFormatter(AlertsCreator$$ExternalSyntheticLambda114.INSTANCE);
+        numberPicker.setFormatter(AlertsCreator$$ExternalSyntheticLambda125.INSTANCE);
         builder.setView(numberPicker);
-        builder.setNegativeButton(LocaleController.getString("Done", R.string.Done), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda24
+        builder.setNegativeButton(LocaleController.getString("Done", R.string.Done), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda26
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i2) {
-                AlertsCreator.lambda$createTTLAlert$118(TLRPC$EncryptedChat.this, numberPicker, dialogInterface, i2);
+                AlertsCreator.lambda$createTTLAlert$123(TLRPC$EncryptedChat.this, numberPicker, dialogInterface, i2);
             }
         });
         return builder;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$createTTLAlert$117(int i) {
+    public static /* synthetic */ String lambda$createTTLAlert$122(int i) {
         if (i == 0) {
             return LocaleController.getString("ShortMessageLifetimeForever", R.string.ShortMessageLifetimeForever);
         }
@@ -6032,7 +6218,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createTTLAlert$118(TLRPC$EncryptedChat tLRPC$EncryptedChat, NumberPicker numberPicker, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$createTTLAlert$123(TLRPC$EncryptedChat tLRPC$EncryptedChat, NumberPicker numberPicker, DialogInterface dialogInterface, int i) {
         int i2 = tLRPC$EncryptedChat.ttl;
         int value = numberPicker.getValue();
         if (value >= 0 && value < 16) {
@@ -6070,10 +6256,10 @@ public class AlertsCreator {
                 accountSelectCell.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(14.0f), 0);
                 accountSelectCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
                 linearLayout.addView(accountSelectCell, LayoutHelper.createLinear(-1, 50));
-                accountSelectCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda67
+                accountSelectCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda72
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
-                        AlertsCreator.lambda$createAccountSelectDialog$119(alertDialogArr, dismissRunnable, accountSelectDelegate, view);
+                        AlertsCreator.lambda$createAccountSelectDialog$124(alertDialogArr, dismissRunnable, accountSelectDelegate, view);
                     }
                 });
             }
@@ -6087,7 +6273,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createAccountSelectDialog$119(AlertDialog[] alertDialogArr, Runnable runnable, AccountSelectDelegate accountSelectDelegate, View view) {
+    public static /* synthetic */ void lambda$createAccountSelectDialog$124(AlertDialog[] alertDialogArr, Runnable runnable, AccountSelectDelegate accountSelectDelegate, View view) {
         if (alertDialogArr[0] != null) {
             alertDialogArr[0].setOnDismissListener(null);
         }
@@ -6297,10 +6483,10 @@ public class AlertsCreator {
                         checkBoxCell.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(8.0f), 0, LocaleController.isRTL ? AndroidUtilities.dp(8.0f) : AndroidUtilities.dp(16.0f), 0);
                         frameLayout.addView(checkBoxCell, LayoutHelper.createFrame(-1, 48.0f, 51, 0.0f, 0.0f, 0.0f, 0.0f));
                         zArr9 = zArr8;
-                        checkBoxCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda75
+                        checkBoxCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda79
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view) {
-                                AlertsCreator.lambda$createDeleteMessagesAlert$125(zArr9, view);
+                                AlertsCreator.lambda$createDeleteMessagesAlert$130(zArr9, view);
                             }
                         });
                         builder2.setView(frameLayout);
@@ -6313,16 +6499,16 @@ public class AlertsCreator {
                     TLRPC$TL_channels_getParticipant tLRPC$TL_channels_getParticipant = new TLRPC$TL_channels_getParticipant();
                     tLRPC$TL_channels_getParticipant.channel = MessagesController.getInputChannel(tLRPC$Chat);
                     tLRPC$TL_channels_getParticipant.participant = MessagesController.getInputPeer(tLRPC$User3);
-                    final int sendRequest = ConnectionsManager.getInstance(currentAccount).sendRequest(tLRPC$TL_channels_getParticipant, new RequestDelegate() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda101
+                    final int sendRequest = ConnectionsManager.getInstance(currentAccount).sendRequest(tLRPC$TL_channels_getParticipant, new RequestDelegate() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda106
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                            AlertsCreator.lambda$createDeleteMessagesAlert$121(alertDialogArr, baseFragment, tLRPC$User, tLRPC$Chat, tLRPC$EncryptedChat, tLRPC$ChatFull, j, messageObject, sparseArrayArr, groupedMessages, z, runnable, runnable2, resourcesProvider, tLObject, tLRPC$TL_error);
+                            AlertsCreator.lambda$createDeleteMessagesAlert$126(alertDialogArr, baseFragment, tLRPC$User, tLRPC$Chat, tLRPC$EncryptedChat, tLRPC$ChatFull, j, messageObject, sparseArrayArr, groupedMessages, z, runnable, runnable2, resourcesProvider, tLObject, tLRPC$TL_error);
                         }
                     });
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda96
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda101
                         @Override // java.lang.Runnable
                         public final void run() {
-                            AlertsCreator.lambda$createDeleteMessagesAlert$123(alertDialogArr, currentAccount, sendRequest, baseFragment);
+                            AlertsCreator.lambda$createDeleteMessagesAlert$128(alertDialogArr, currentAccount, sendRequest, baseFragment);
                         }
                     }, 1000L);
                     return;
@@ -6357,10 +6543,10 @@ public class AlertsCreator {
                             }
                             checkBoxCell2.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(8.0f), 0, LocaleController.isRTL ? AndroidUtilities.dp(8.0f) : AndroidUtilities.dp(16.0f), 0);
                             frameLayout2.addView(checkBoxCell2, LayoutHelper.createFrame(-1, 48.0f, 51, 0.0f, i23 * 48, 0.0f, 0.0f));
-                            checkBoxCell2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda71
+                            checkBoxCell2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda75
                                 @Override // android.view.View.OnClickListener
                                 public final void onClick(View view) {
-                                    AlertsCreator.lambda$createDeleteMessagesAlert$124(zArr, view);
+                                    AlertsCreator.lambda$createDeleteMessagesAlert$129(zArr, view);
                                 }
                             });
                             i23++;
@@ -6458,10 +6644,10 @@ public class AlertsCreator {
                         checkBoxCell3.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(8.0f), 0, LocaleController.isRTL ? AndroidUtilities.dp(8.0f) : AndroidUtilities.dp(16.0f), 0);
                         frameLayout3.addView(checkBoxCell3, LayoutHelper.createFrame(-1, 48.0f, 51, 0.0f, 0.0f, 0.0f, 0.0f));
                         zArr5 = zArr6;
-                        checkBoxCell3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda73
+                        checkBoxCell3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda78
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view) {
-                                AlertsCreator.lambda$createDeleteMessagesAlert$126(zArr5, view);
+                                AlertsCreator.lambda$createDeleteMessagesAlert$131(zArr5, view);
                             }
                         });
                         builder = builder2;
@@ -6493,10 +6679,10 @@ public class AlertsCreator {
             boolean z12 = z3;
             final TLRPC$User tLRPC$User7 = tLRPC$User2;
             final TLRPC$Chat tLRPC$Chat5 = tLRPC$Chat2;
-            builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda20
+            builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda22
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i31) {
-                    AlertsCreator.lambda$createDeleteMessagesAlert$128(MessageObject.this, groupedMessages, tLRPC$EncryptedChat, i29, j3, zArr11, z, sparseArrayArr, tLRPC$User7, tLRPC$Chat5, zArr12, tLRPC$Chat, runnable, dialogInterface, i31);
+                    AlertsCreator.lambda$createDeleteMessagesAlert$133(MessageObject.this, groupedMessages, tLRPC$EncryptedChat, i29, j3, zArr11, z, sparseArrayArr, tLRPC$User7, tLRPC$Chat5, zArr12, tLRPC$Chat, runnable, dialogInterface, i31);
                 }
             });
             if (i10 != 1) {
@@ -6542,10 +6728,10 @@ public class AlertsCreator {
                 builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("DeleteMessagesText", i33, objArr3)));
             }
             builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-            builder.setOnPreDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda44
+            builder.setOnPreDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda46
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
-                    AlertsCreator.lambda$createDeleteMessagesAlert$129(runnable2, dialogInterface);
+                    AlertsCreator.lambda$createDeleteMessagesAlert$134(runnable2, dialogInterface);
                 }
             });
             AlertDialog create = builder.create();
@@ -6598,10 +6784,10 @@ public class AlertsCreator {
         boolean z122 = z3;
         final TLRPC$User tLRPC$User72 = tLRPC$User2;
         final TLRPC$Chat tLRPC$Chat52 = tLRPC$Chat2;
-        builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda20
+        builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda22
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i312) {
-                AlertsCreator.lambda$createDeleteMessagesAlert$128(MessageObject.this, groupedMessages, tLRPC$EncryptedChat, i292, j32, zArr112, z, sparseArrayArr, tLRPC$User72, tLRPC$Chat52, zArr122, tLRPC$Chat, runnable, dialogInterface, i312);
+                AlertsCreator.lambda$createDeleteMessagesAlert$133(MessageObject.this, groupedMessages, tLRPC$EncryptedChat, i292, j32, zArr112, z, sparseArrayArr, tLRPC$User72, tLRPC$Chat52, zArr122, tLRPC$Chat, runnable, dialogInterface, i312);
             }
         });
         if (i10 != 1) {
@@ -6615,10 +6801,10 @@ public class AlertsCreator {
         if (i10 != 1) {
         }
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        builder.setOnPreDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda44
+        builder.setOnPreDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda46
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
-                AlertsCreator.lambda$createDeleteMessagesAlert$129(runnable2, dialogInterface);
+                AlertsCreator.lambda$createDeleteMessagesAlert$134(runnable2, dialogInterface);
             }
         });
         AlertDialog create2 = builder.create();
@@ -6629,17 +6815,17 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createDeleteMessagesAlert$121(final AlertDialog[] alertDialogArr, final BaseFragment baseFragment, final TLRPC$User tLRPC$User, final TLRPC$Chat tLRPC$Chat, final TLRPC$EncryptedChat tLRPC$EncryptedChat, final TLRPC$ChatFull tLRPC$ChatFull, final long j, final MessageObject messageObject, final SparseArray[] sparseArrayArr, final MessageObject.GroupedMessages groupedMessages, final boolean z, final Runnable runnable, final Runnable runnable2, final Theme.ResourcesProvider resourcesProvider, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda97
+    public static /* synthetic */ void lambda$createDeleteMessagesAlert$126(final AlertDialog[] alertDialogArr, final BaseFragment baseFragment, final TLRPC$User tLRPC$User, final TLRPC$Chat tLRPC$Chat, final TLRPC$EncryptedChat tLRPC$EncryptedChat, final TLRPC$ChatFull tLRPC$ChatFull, final long j, final MessageObject messageObject, final SparseArray[] sparseArrayArr, final MessageObject.GroupedMessages groupedMessages, final boolean z, final Runnable runnable, final Runnable runnable2, final Theme.ResourcesProvider resourcesProvider, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda102
             @Override // java.lang.Runnable
             public final void run() {
-                AlertsCreator.lambda$createDeleteMessagesAlert$120(alertDialogArr, tLObject, tLRPC$TL_error, baseFragment, tLRPC$User, tLRPC$Chat, tLRPC$EncryptedChat, tLRPC$ChatFull, j, messageObject, sparseArrayArr, groupedMessages, z, runnable, runnable2, resourcesProvider);
+                AlertsCreator.lambda$createDeleteMessagesAlert$125(alertDialogArr, tLObject, tLRPC$TL_error, baseFragment, tLRPC$User, tLRPC$Chat, tLRPC$EncryptedChat, tLRPC$ChatFull, j, messageObject, sparseArrayArr, groupedMessages, z, runnable, runnable2, resourcesProvider);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createDeleteMessagesAlert$120(AlertDialog[] alertDialogArr, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error, BaseFragment baseFragment, TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat, TLRPC$EncryptedChat tLRPC$EncryptedChat, TLRPC$ChatFull tLRPC$ChatFull, long j, MessageObject messageObject, SparseArray[] sparseArrayArr, MessageObject.GroupedMessages groupedMessages, boolean z, Runnable runnable, Runnable runnable2, Theme.ResourcesProvider resourcesProvider) {
+    public static /* synthetic */ void lambda$createDeleteMessagesAlert$125(AlertDialog[] alertDialogArr, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error, BaseFragment baseFragment, TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat, TLRPC$EncryptedChat tLRPC$EncryptedChat, TLRPC$ChatFull tLRPC$ChatFull, long j, MessageObject messageObject, SparseArray[] sparseArrayArr, MessageObject.GroupedMessages groupedMessages, boolean z, Runnable runnable, Runnable runnable2, Theme.ResourcesProvider resourcesProvider) {
         int i;
         int i2 = 0;
         try {
@@ -6657,26 +6843,26 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createDeleteMessagesAlert$123(AlertDialog[] alertDialogArr, final int i, final int i2, BaseFragment baseFragment) {
+    public static /* synthetic */ void lambda$createDeleteMessagesAlert$128(AlertDialog[] alertDialogArr, final int i, final int i2, BaseFragment baseFragment) {
         if (alertDialogArr[0] == null) {
             return;
         }
         alertDialogArr[0].setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda0
             @Override // android.content.DialogInterface.OnCancelListener
             public final void onCancel(DialogInterface dialogInterface) {
-                AlertsCreator.lambda$createDeleteMessagesAlert$122(i, i2, dialogInterface);
+                AlertsCreator.lambda$createDeleteMessagesAlert$127(i, i2, dialogInterface);
             }
         });
         baseFragment.showDialog(alertDialogArr[0]);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createDeleteMessagesAlert$122(int i, int i2, DialogInterface dialogInterface) {
+    public static /* synthetic */ void lambda$createDeleteMessagesAlert$127(int i, int i2, DialogInterface dialogInterface) {
         ConnectionsManager.getInstance(i).cancelRequest(i2, true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createDeleteMessagesAlert$124(boolean[] zArr, View view) {
+    public static /* synthetic */ void lambda$createDeleteMessagesAlert$129(boolean[] zArr, View view) {
         if (view.isEnabled()) {
             CheckBoxCell checkBoxCell = (CheckBoxCell) view;
             Integer num = (Integer) checkBoxCell.getTag();
@@ -6686,20 +6872,20 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createDeleteMessagesAlert$125(boolean[] zArr, View view) {
+    public static /* synthetic */ void lambda$createDeleteMessagesAlert$130(boolean[] zArr, View view) {
         zArr[0] = !zArr[0];
         ((CheckBoxCell) view).setChecked(zArr[0], true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createDeleteMessagesAlert$126(boolean[] zArr, View view) {
+    public static /* synthetic */ void lambda$createDeleteMessagesAlert$131(boolean[] zArr, View view) {
         zArr[0] = !zArr[0];
         ((CheckBoxCell) view).setChecked(zArr[0], true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
-    public static /* synthetic */ void lambda$createDeleteMessagesAlert$128(MessageObject messageObject, MessageObject.GroupedMessages groupedMessages, TLRPC$EncryptedChat tLRPC$EncryptedChat, int i, long j, boolean[] zArr, boolean z, SparseArray[] sparseArrayArr, TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat, boolean[] zArr2, TLRPC$Chat tLRPC$Chat2, Runnable runnable, DialogInterface dialogInterface, int i2) {
+    public static /* synthetic */ void lambda$createDeleteMessagesAlert$133(MessageObject messageObject, MessageObject.GroupedMessages groupedMessages, TLRPC$EncryptedChat tLRPC$EncryptedChat, int i, long j, boolean[] zArr, boolean z, SparseArray[] sparseArrayArr, TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat, boolean[] zArr2, TLRPC$Chat tLRPC$Chat2, Runnable runnable, DialogInterface dialogInterface, int i2) {
         int i3;
         ArrayList<Integer> arrayList;
         ArrayList arrayList2;
@@ -6782,7 +6968,7 @@ public class AlertsCreator {
                     tLRPC$TL_channels_reportSpam.participant = MessagesController.getInputPeer(tLRPC$Chat);
                 }
                 tLRPC$TL_channels_reportSpam.id = arrayList;
-                ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_channels_reportSpam, AlertsCreator$$ExternalSyntheticLambda104.INSTANCE);
+                ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_channels_reportSpam, AlertsCreator$$ExternalSyntheticLambda109.INSTANCE);
             }
             if (zArr2[2]) {
                 MessagesController.getInstance(i).deleteUserChannelHistory(tLRPC$Chat2, tLRPC$User, tLRPC$Chat, i3);
@@ -6794,7 +6980,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createDeleteMessagesAlert$129(Runnable runnable, DialogInterface dialogInterface) {
+    public static /* synthetic */ void lambda$createDeleteMessagesAlert$134(Runnable runnable, DialogInterface dialogInterface) {
         if (runnable != null) {
             runnable.run();
         }
@@ -6811,7 +6997,7 @@ public class AlertsCreator {
         AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
         builder.setTitle(LocaleController.getString("NewTheme", R.string.NewTheme));
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        builder.setPositiveButton(LocaleController.getString("Create", R.string.Create), AlertsCreator$$ExternalSyntheticLambda40.INSTANCE);
+        builder.setPositiveButton(LocaleController.getString("Create", R.string.Create), AlertsCreator$$ExternalSyntheticLambda42.INSTANCE);
         LinearLayout linearLayout = new LinearLayout(parentActivity);
         linearLayout.setOrientation(1);
         builder.setView(linearLayout);
@@ -6838,44 +7024,44 @@ public class AlertsCreator {
         editTextBoldCursor.setCursorWidth(1.5f);
         editTextBoldCursor.setPadding(0, AndroidUtilities.dp(4.0f), 0, 0);
         linearLayout.addView(editTextBoldCursor, LayoutHelper.createLinear(-1, 36, 51, 24, 6, 24, 0));
-        editTextBoldCursor.setOnEditorActionListener(AlertsCreator$$ExternalSyntheticLambda89.INSTANCE);
+        editTextBoldCursor.setOnEditorActionListener(AlertsCreator$$ExternalSyntheticLambda94.INSTANCE);
         editTextBoldCursor.setText(generateThemeName(themeAccent));
         editTextBoldCursor.setSelection(editTextBoldCursor.length());
         final AlertDialog create = builder.create();
-        create.setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda49
+        create.setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda52
             @Override // android.content.DialogInterface.OnShowListener
             public final void onShow(DialogInterface dialogInterface) {
-                AlertsCreator.lambda$createThemeCreateDialog$133(EditTextBoldCursor.this, dialogInterface);
+                AlertsCreator.lambda$createThemeCreateDialog$138(EditTextBoldCursor.this, dialogInterface);
             }
         });
         baseFragment.showDialog(create);
         editTextBoldCursor.requestFocus();
-        create.getButton(-1).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda56
+        create.getButton(-1).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda61
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                AlertsCreator.lambda$createThemeCreateDialog$136(BaseFragment.this, editTextBoldCursor, themeAccent, themeInfo, create, view);
+                AlertsCreator.lambda$createThemeCreateDialog$141(BaseFragment.this, editTextBoldCursor, themeAccent, themeInfo, create, view);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createThemeCreateDialog$133(final EditTextBoldCursor editTextBoldCursor, DialogInterface dialogInterface) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda93
+    public static /* synthetic */ void lambda$createThemeCreateDialog$138(final EditTextBoldCursor editTextBoldCursor, DialogInterface dialogInterface) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda98
             @Override // java.lang.Runnable
             public final void run() {
-                AlertsCreator.lambda$createThemeCreateDialog$132(EditTextBoldCursor.this);
+                AlertsCreator.lambda$createThemeCreateDialog$137(EditTextBoldCursor.this);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createThemeCreateDialog$132(EditTextBoldCursor editTextBoldCursor) {
+    public static /* synthetic */ void lambda$createThemeCreateDialog$137(EditTextBoldCursor editTextBoldCursor) {
         editTextBoldCursor.requestFocus();
         AndroidUtilities.showKeyboard(editTextBoldCursor);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createThemeCreateDialog$136(final BaseFragment baseFragment, final EditTextBoldCursor editTextBoldCursor, Theme.ThemeAccent themeAccent, Theme.ThemeInfo themeInfo, final AlertDialog alertDialog, View view) {
+    public static /* synthetic */ void lambda$createThemeCreateDialog$141(final BaseFragment baseFragment, final EditTextBoldCursor editTextBoldCursor, Theme.ThemeAccent themeAccent, Theme.ThemeInfo themeInfo, final AlertDialog alertDialog, View view) {
         if (baseFragment.getParentActivity() == null) {
             return;
         }
@@ -6894,10 +7080,10 @@ public class AlertsCreator {
         if (themeAccent != null) {
             themeInfo.setCurrentAccentId(themeAccent.id);
             Theme.refreshThemeColors();
-            Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda94
+            Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda100
                 @Override // java.lang.Runnable
                 public final void run() {
-                    AlertsCreator.lambda$createThemeCreateDialog$135(EditTextBoldCursor.this, alertDialog, baseFragment);
+                    AlertsCreator.lambda$createThemeCreateDialog$140(EditTextBoldCursor.this, alertDialog, baseFragment);
                 }
             });
             return;
@@ -6906,8 +7092,8 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createThemeCreateDialog$135(final EditTextBoldCursor editTextBoldCursor, final AlertDialog alertDialog, final BaseFragment baseFragment) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda95
+    public static /* synthetic */ void lambda$createThemeCreateDialog$140(final EditTextBoldCursor editTextBoldCursor, final AlertDialog alertDialog, final BaseFragment baseFragment) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda99
             @Override // java.lang.Runnable
             public final void run() {
                 AlertsCreator.processCreate(EditTextBoldCursor.this, alertDialog, baseFragment);
@@ -7085,31 +7271,31 @@ public class AlertsCreator {
         actionBarPopupWindow.setSoftInputMode(0);
         actionBarPopupWindow.setFocusable(true);
         actionBarPopupWindowLayout.setFocusableInTouchMode(true);
-        actionBarPopupWindowLayout.setOnKeyListener(new View.OnKeyListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda78
+        actionBarPopupWindowLayout.setOnKeyListener(new View.OnKeyListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda83
             @Override // android.view.View.OnKeyListener
             public final boolean onKey(View view2, int i3, KeyEvent keyEvent) {
-                boolean lambda$showPopupMenu$137;
-                lambda$showPopupMenu$137 = AlertsCreator.lambda$showPopupMenu$137(ActionBarPopupWindow.this, view2, i3, keyEvent);
-                return lambda$showPopupMenu$137;
+                boolean lambda$showPopupMenu$142;
+                lambda$showPopupMenu$142 = AlertsCreator.lambda$showPopupMenu$142(ActionBarPopupWindow.this, view2, i3, keyEvent);
+                return lambda$showPopupMenu$142;
             }
         });
         actionBarPopupWindowLayout.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.displaySize.x - AndroidUtilities.dp(40.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.displaySize.y, Integer.MIN_VALUE));
         actionBarPopupWindow.showAsDropDown(view, i, i2);
         actionBarPopupWindowLayout.updateRadialSelectors();
         actionBarPopupWindow.startAnimation();
-        actionBarPopupWindowLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda79
+        actionBarPopupWindowLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda84
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view2, MotionEvent motionEvent) {
-                boolean lambda$showPopupMenu$138;
-                lambda$showPopupMenu$138 = AlertsCreator.lambda$showPopupMenu$138(ActionBarPopupWindow.this, rect, view2, motionEvent);
-                return lambda$showPopupMenu$138;
+                boolean lambda$showPopupMenu$143;
+                lambda$showPopupMenu$143 = AlertsCreator.lambda$showPopupMenu$143(ActionBarPopupWindow.this, rect, view2, motionEvent);
+                return lambda$showPopupMenu$143;
             }
         });
         return actionBarPopupWindow;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$showPopupMenu$137(ActionBarPopupWindow actionBarPopupWindow, View view, int i, KeyEvent keyEvent) {
+    public static /* synthetic */ boolean lambda$showPopupMenu$142(ActionBarPopupWindow actionBarPopupWindow, View view, int i, KeyEvent keyEvent) {
         if (i == 82 && keyEvent.getRepeatCount() == 0 && keyEvent.getAction() == 1 && actionBarPopupWindow.isShowing()) {
             actionBarPopupWindow.dismiss();
             return true;
@@ -7118,7 +7304,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$showPopupMenu$138(ActionBarPopupWindow actionBarPopupWindow, android.graphics.Rect rect, View view, MotionEvent motionEvent) {
+    public static /* synthetic */ boolean lambda$showPopupMenu$143(ActionBarPopupWindow actionBarPopupWindow, android.graphics.Rect rect, View view, MotionEvent motionEvent) {
         if (motionEvent.getActionMasked() == 0 && actionBarPopupWindow != null && actionBarPopupWindow.isShowing()) {
             view.getHitRect(rect);
             if (rect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
