@@ -101,7 +101,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
-import com.google.android.exoplayer2.util.Log;
 import j$.util.Comparator$-CC;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -37377,6 +37376,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     private void setChatThemeEmoticon(String str) {
         TLRPC$UserFull userFull;
+        if (this.themeDelegate == null) {
+            return;
+        }
         ChatThemeController.getInstance(this.currentAccount).setDialogTheme(this.dialog_id, str, false);
         if (!TextUtils.isEmpty(str)) {
             ChatThemeController.requestChatTheme(str, new ResultCallback() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda265
@@ -37817,10 +37819,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
             if (tLRPC$WallPaper != null) {
                 this.backgroundDrawable = ChatBackgroundDrawable.getOrCreate(this.backgroundDrawable, tLRPC$WallPaper, this.isDark);
-                if (tLRPC$WallPaper.uploadingImage == null) {
-                    Log.d("kek", ":(");
-                }
-                Log.d("kek", "create new background " + tLRPC$WallPaper.uploadingImage);
             } else {
                 this.backgroundDrawable = getBackgroundDrawableFromTheme(emojiThemes, phase);
             }

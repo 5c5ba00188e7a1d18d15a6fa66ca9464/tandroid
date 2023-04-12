@@ -298,6 +298,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     private TLRPC$TL_wallPaper selectedPattern;
     MessageObject serverWallpaper;
     private Drawable sheetDrawable;
+    private boolean shouldShowBrightnessControll;
     private boolean shouldShowDayNightIcon;
     private boolean showColor;
     private RLottieDrawable sunDrawable;
@@ -657,57 +658,57 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         this.isMotion = z2;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:88:0x0301, code lost:
-        if ("d".equals(((org.telegram.ui.WallpapersListActivity.ColorWallpaper) r1).slug) == false) goto L341;
+    /* JADX WARN: Code restructure failed: missing block: B:92:0x0308, code lost:
+        if ("d".equals(((org.telegram.ui.WallpapersListActivity.ColorWallpaper) r1).slug) == false) goto L344;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:90:0x0307, code lost:
-        if ((r32.currentWallpaper instanceof org.telegram.tgnet.TLRPC$TL_wallPaper) != false) goto L341;
+    /* JADX WARN: Code restructure failed: missing block: B:94:0x030e, code lost:
+        if ((r32.currentWallpaper instanceof org.telegram.tgnet.TLRPC$TL_wallPaper) != false) goto L344;
      */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x0539  */
-    /* JADX WARN: Removed duplicated region for block: B:125:0x0549  */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x057d  */
-    /* JADX WARN: Removed duplicated region for block: B:131:0x057f  */
-    /* JADX WARN: Removed duplicated region for block: B:134:0x0587  */
-    /* JADX WARN: Removed duplicated region for block: B:135:0x05ad  */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x05ea A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x0609  */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x07a7  */
-    /* JADX WARN: Removed duplicated region for block: B:173:0x07c7  */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x07e0  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0032  */
-    /* JADX WARN: Removed duplicated region for block: B:210:0x08cf  */
-    /* JADX WARN: Removed duplicated region for block: B:213:0x08d5  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0044  */
-    /* JADX WARN: Removed duplicated region for block: B:263:0x09c8  */
-    /* JADX WARN: Removed duplicated region for block: B:302:0x0aff  */
-    /* JADX WARN: Removed duplicated region for block: B:309:0x0b10  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00e7  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x00e9  */
-    /* JADX WARN: Removed duplicated region for block: B:357:0x0e6a  */
-    /* JADX WARN: Removed duplicated region for block: B:360:0x0e75  */
-    /* JADX WARN: Removed duplicated region for block: B:365:0x0edf  */
-    /* JADX WARN: Removed duplicated region for block: B:366:0x0ee4  */
-    /* JADX WARN: Removed duplicated region for block: B:369:0x0f1b  */
-    /* JADX WARN: Removed duplicated region for block: B:372:0x104a  */
-    /* JADX WARN: Removed duplicated region for block: B:379:0x1071  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x00f3  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00f6  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x013a  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x0187  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x01ee  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x01f3  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x01f9  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x01fc  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0204  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0206  */
+    /* JADX WARN: Removed duplicated region for block: B:128:0x0540  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x0550  */
+    /* JADX WARN: Removed duplicated region for block: B:134:0x0584  */
+    /* JADX WARN: Removed duplicated region for block: B:135:0x0586  */
+    /* JADX WARN: Removed duplicated region for block: B:138:0x058e  */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x05b4  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x05f1 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:147:0x0610  */
+    /* JADX WARN: Removed duplicated region for block: B:166:0x07ae  */
+    /* JADX WARN: Removed duplicated region for block: B:177:0x07ce  */
+    /* JADX WARN: Removed duplicated region for block: B:183:0x07e7  */
+    /* JADX WARN: Removed duplicated region for block: B:214:0x08d6  */
+    /* JADX WARN: Removed duplicated region for block: B:217:0x08dc  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0039  */
+    /* JADX WARN: Removed duplicated region for block: B:267:0x09cf  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x004b  */
+    /* JADX WARN: Removed duplicated region for block: B:306:0x0b06  */
+    /* JADX WARN: Removed duplicated region for block: B:313:0x0b17  */
+    /* JADX WARN: Removed duplicated region for block: B:361:0x0e71  */
+    /* JADX WARN: Removed duplicated region for block: B:364:0x0e7c  */
+    /* JADX WARN: Removed duplicated region for block: B:369:0x0ee6  */
+    /* JADX WARN: Removed duplicated region for block: B:370:0x0eeb  */
+    /* JADX WARN: Removed duplicated region for block: B:373:0x0f22  */
+    /* JADX WARN: Removed duplicated region for block: B:376:0x1051  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x00ee  */
+    /* JADX WARN: Removed duplicated region for block: B:383:0x1078  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00f0  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x00fa  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00fd  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0141  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x018e  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x01f5  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x01fa  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0200  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0203  */
     /* JADX WARN: Removed duplicated region for block: B:58:0x020b  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x020e  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0214  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0217  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0248  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0283  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x029e  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x02ba  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x020d  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0212  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0215  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x021b  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x021e  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x024f  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x028a  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x02a5  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x02c1  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     @SuppressLint({"Recycle"})
     /*
@@ -734,11 +735,13 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         Theme.ThemeAccent themeAccent;
         this.hasOwnBackground = true;
         DayNightSwitchDelegate dayNightSwitchDelegate = this.onSwitchDayNightDelegate;
-        if (dayNightSwitchDelegate != null && this.dialogId != 0) {
+        boolean z2 = (dayNightSwitchDelegate == null || this.dialogId == 0) ? false : true;
+        this.shouldShowDayNightIcon = z2;
+        if (z2) {
             Object obj2 = this.currentWallpaper;
             if ((obj2 instanceof WallpapersListActivity.FileWallpaper) || ((obj2 instanceof TLRPC$TL_wallPaper) && ((TLRPC$TL_wallPaper) obj2).document != null && !((TLRPC$TL_wallPaper) obj2).pattern)) {
                 z = true;
-                this.shouldShowDayNightIcon = z;
+                this.shouldShowBrightnessControll = z;
                 if (z) {
                     this.progressToDarkTheme = dayNightSwitchDelegate.isDark() ? 1.0f : 0.0f;
                 }
@@ -746,7 +749,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     this.actionBar.setOccupyStatusBar(false);
                 }
                 this.page1 = new FrameLayout(context);
-                if (this.shouldShowDayNightIcon && SharedConfig.dayNightWallpaperSwitchHint < 3) {
+                if (this.shouldShowBrightnessControll && SharedConfig.dayNightWallpaperSwitchHint < 3) {
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda15
                         @Override // java.lang.Runnable
                         public final void run() {
@@ -847,8 +850,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 ImageView imageView3 = this.floatingButton;
                 int i12 = i < 21 ? 56 : 60;
                 float f = i < 21 ? 56.0f : 60.0f;
-                boolean z2 = LocaleController.isRTL;
-                frameLayout2.addView(imageView3, LayoutHelper.createFrame(i12, f, (!z2 ? 3 : 5) | 80, !z2 ? 14.0f : 0.0f, 0.0f, !z2 ? 0.0f : 14.0f, 14.0f));
+                boolean z3 = LocaleController.isRTL;
+                frameLayout2.addView(imageView3, LayoutHelper.createFrame(i12, f, (!z3 ? 3 : 5) | 80, !z3 ? 14.0f : 0.0f, 0.0f, !z3 ? 0.0f : 14.0f, 14.0f));
                 DialogsAdapter dialogsAdapter = new DialogsAdapter(context);
                 this.dialogsAdapter = dialogsAdapter;
                 this.listView.setAdapter(dialogsAdapter);
@@ -1038,8 +1041,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 if (this.screenType == 2) {
                     this.backgroundImage.getImageReceiver().setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda21
                         @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
-                        public final void didSetImage(ImageReceiver imageReceiver, boolean z3, boolean z4, boolean z5) {
-                            ThemePreviewActivity.this.lambda$createView$3(imageReceiver, z3, z4, z5);
+                        public final void didSetImage(ImageReceiver imageReceiver, boolean z4, boolean z5, boolean z6) {
+                            ThemePreviewActivity.this.lambda$createView$3(imageReceiver, z4, z5, z6);
                         }
 
                         @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
@@ -1240,11 +1243,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
                             /* JADX INFO: Access modifiers changed from: protected */
                             @Override // org.telegram.ui.Components.RecyclerListView
-                            public void onChildPressed(View view, float f2, float f3, boolean z3) {
-                                if (z3 && (view instanceof ChatMessageCell) && !((ChatMessageCell) view).isInsideBackground(f2, f3)) {
+                            public void onChildPressed(View view, float f2, float f3, boolean z4) {
+                                if (z4 && (view instanceof ChatMessageCell) && !((ChatMessageCell) view).isInsideBackground(f2, f3)) {
                                     return;
                                 }
-                                super.onChildPressed(view, f2, f3, z3);
+                                super.onChildPressed(view, f2, f3, z4);
                             }
 
                             /* JADX INFO: Access modifiers changed from: protected */
@@ -1374,7 +1377,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                         Theme.chat_composeShadowDrawable.draw(canvas);
                                         this.backgroundPaint.setColor(ThemePreviewActivity.this.getThemedColor("chat_messagePanelBackground"));
                                         canvas.drawRect(0.0f, intrinsicHeight, getMeasuredWidth(), getMeasuredHeight(), this.backgroundPaint);
-                                        if (ThemePreviewActivity.this.shouldShowDayNightIcon) {
+                                        if (ThemePreviewActivity.this.shouldShowBrightnessControll) {
                                             this.dividerPaint.setColor(ThemePreviewActivity.this.getThemedColor("divider"));
                                             Paint paint = this.dividerPaint;
                                             paint.setAlpha((int) (paint.getAlpha() * ThemePreviewActivity.this.progressToDarkTheme));
@@ -1417,7 +1420,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 });
                                 AndroidUtilities.updateViewVisibilityAnimated(this.buttonProgressView, false, 0.5f, false);
                                 AndroidUtilities.updateViewVisibilityAnimated(this.bottomOverlayChatText, true, 0.8f, false);
-                                if (this.shouldShowDayNightIcon) {
+                                if (this.shouldShowBrightnessControll) {
                                     HeaderCell headerCell = new HeaderCell(getContext(), getResourceProvider());
                                     this.dimmingHeaderCell = headerCell;
                                     headerCell.setText(LocaleController.getString("BackgroundDimming", R.string.BackgroundDimming));
@@ -1815,11 +1818,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                                         }
 
                                                         @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
-                                                        public void onSeekBarPressed(boolean z3) {
+                                                        public void onSeekBarPressed(boolean z4) {
                                                         }
 
                                                         @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
-                                                        public void onSeekBarDrag(boolean z3, float f2) {
+                                                        public void onSeekBarDrag(boolean z4, float f2) {
                                                             ThemePreviewActivity.this.currentIntensity = f2;
                                                             ThemePreviewActivity.this.backgroundImage.getImageReceiver().setAlpha(Math.abs(ThemePreviewActivity.this.currentIntensity));
                                                             ThemePreviewActivity.this.backgroundImage.invalidate();
@@ -2211,11 +2214,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
                     /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.RecyclerListView
-                    public void onChildPressed(View view3, float f2, float f3, boolean z3) {
-                        if (z3 && (view3 instanceof ChatMessageCell) && !((ChatMessageCell) view3).isInsideBackground(f2, f3)) {
+                    public void onChildPressed(View view3, float f2, float f3, boolean z4) {
+                        if (z4 && (view3 instanceof ChatMessageCell) && !((ChatMessageCell) view3).isInsideBackground(f2, f3)) {
                             return;
                         }
-                        super.onChildPressed(view3, f2, f3, z3);
+                        super.onChildPressed(view3, f2, f3, z4);
                     }
 
                     /* JADX INFO: Access modifiers changed from: protected */
@@ -2454,13 +2457,13 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             }
         }
         z = false;
-        this.shouldShowDayNightIcon = z;
+        this.shouldShowBrightnessControll = z;
         if (z) {
         }
         if (AndroidUtilities.isTablet()) {
         }
         this.page1 = new FrameLayout(context);
-        if (this.shouldShowDayNightIcon) {
+        if (this.shouldShowBrightnessControll) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda15
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -2545,8 +2548,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
         if (i < 21) {
         }
-        boolean z22 = LocaleController.isRTL;
-        frameLayout22.addView(imageView32, LayoutHelper.createFrame(i12, f, (!z22 ? 3 : 5) | 80, !z22 ? 14.0f : 0.0f, 0.0f, !z22 ? 0.0f : 14.0f, 14.0f));
+        boolean z32 = LocaleController.isRTL;
+        frameLayout22.addView(imageView32, LayoutHelper.createFrame(i12, f, (!z32 ? 3 : 5) | 80, !z32 ? 14.0f : 0.0f, 0.0f, !z32 ? 0.0f : 14.0f, 14.0f));
         DialogsAdapter dialogsAdapter2 = new DialogsAdapter(context);
         this.dialogsAdapter = dialogsAdapter2;
         this.listView.setAdapter(dialogsAdapter2);
@@ -2825,11 +2828,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView
-            public void onChildPressed(View view3, float f2, float f3, boolean z3) {
-                if (z3 && (view3 instanceof ChatMessageCell) && !((ChatMessageCell) view3).isInsideBackground(f2, f3)) {
+            public void onChildPressed(View view3, float f2, float f3, boolean z4) {
+                if (z4 && (view3 instanceof ChatMessageCell) && !((ChatMessageCell) view3).isInsideBackground(f2, f3)) {
                     return;
                 }
-                super.onChildPressed(view3, f2, f3, z3);
+                super.onChildPressed(view3, f2, f3, z4);
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
@@ -3068,6 +3071,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1() {
+        if (getParentActivity() == null || getContext() == null) {
+            return;
+        }
         SharedConfig.increaseDayNightWallpaperSiwtchHint();
         HintView hintView = new HintView(getContext(), 7, true);
         hintView.setAlpha(0.0f);
@@ -3180,39 +3186,41 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 DayNightSwitchDelegate dayNightSwitchDelegate = ThemePreviewActivity.this.onSwitchDayNightDelegate;
                 if (dayNightSwitchDelegate != null) {
                     dayNightSwitchDelegate.switchDayNight();
-                    if (ThemePreviewActivity.this.onSwitchDayNightDelegate.isDark()) {
+                    if (ThemePreviewActivity.this.onSwitchDayNightDelegate.isDark() && ThemePreviewActivity.this.shouldShowBrightnessControll) {
                         ThemePreviewActivity.this.dimmingHeaderCell.setVisibility(0);
                         ThemePreviewActivity.this.brightnessControlCell.setVisibility(0);
                     }
                 }
-                if (ThemePreviewActivity.this.changeDayNightViewAnimator != null) {
-                    ThemePreviewActivity.this.changeDayNightViewAnimator.removeAllListeners();
-                    ThemePreviewActivity.this.changeDayNightViewAnimator.cancel();
-                }
-                ThemePreviewActivity themePreviewActivity = ThemePreviewActivity.this;
-                float[] fArr = new float[2];
-                fArr[0] = themePreviewActivity.progressToDarkTheme;
-                fArr[1] = ThemePreviewActivity.this.onSwitchDayNightDelegate.isDark() ? 1.0f : 0.0f;
-                themePreviewActivity.changeDayNightViewAnimator = ValueAnimator.ofFloat(fArr);
-                ThemePreviewActivity.this.changeDayNightViewAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ThemePreviewActivity$8$$ExternalSyntheticLambda0
-                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                    public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        ThemePreviewActivity.8.this.lambda$onItemClick$0(valueAnimator);
+                if (ThemePreviewActivity.this.shouldShowBrightnessControll) {
+                    if (ThemePreviewActivity.this.changeDayNightViewAnimator != null) {
+                        ThemePreviewActivity.this.changeDayNightViewAnimator.removeAllListeners();
+                        ThemePreviewActivity.this.changeDayNightViewAnimator.cancel();
                     }
-                });
-                ThemePreviewActivity.this.changeDayNightViewAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.8.2
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        if (ThemePreviewActivity.this.onSwitchDayNightDelegate.isDark()) {
-                            return;
+                    ThemePreviewActivity themePreviewActivity = ThemePreviewActivity.this;
+                    float[] fArr = new float[2];
+                    fArr[0] = themePreviewActivity.progressToDarkTheme;
+                    fArr[1] = ThemePreviewActivity.this.onSwitchDayNightDelegate.isDark() ? 1.0f : 0.0f;
+                    themePreviewActivity.changeDayNightViewAnimator = ValueAnimator.ofFloat(fArr);
+                    ThemePreviewActivity.this.changeDayNightViewAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ThemePreviewActivity$8$$ExternalSyntheticLambda0
+                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                            ThemePreviewActivity.8.this.lambda$onItemClick$0(valueAnimator);
                         }
-                        ThemePreviewActivity.this.dimmingHeaderCell.setVisibility(8);
-                        ThemePreviewActivity.this.brightnessControlCell.setVisibility(8);
-                    }
-                });
-                ThemePreviewActivity.this.changeDayNightViewAnimator.setDuration(250L);
-                ThemePreviewActivity.this.changeDayNightViewAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                ThemePreviewActivity.this.changeDayNightViewAnimator.start();
+                    });
+                    ThemePreviewActivity.this.changeDayNightViewAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.8.2
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            if (ThemePreviewActivity.this.onSwitchDayNightDelegate.isDark()) {
+                                return;
+                            }
+                            ThemePreviewActivity.this.dimmingHeaderCell.setVisibility(8);
+                            ThemePreviewActivity.this.brightnessControlCell.setVisibility(8);
+                        }
+                    });
+                    ThemePreviewActivity.this.changeDayNightViewAnimator.setDuration(250L);
+                    ThemePreviewActivity.this.changeDayNightViewAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
+                    ThemePreviewActivity.this.changeDayNightViewAnimator.start();
+                }
             } else if (ThemePreviewActivity.this.getParentActivity() == null) {
             } else {
                 StringBuilder sb = new StringBuilder();
@@ -3358,8 +3366,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     /* JADX WARN: Removed duplicated region for block: B:174:0x036d  */
     /* JADX WARN: Removed duplicated region for block: B:179:0x0385  */
     /* JADX WARN: Removed duplicated region for block: B:185:0x039b  */
-    /* JADX WARN: Removed duplicated region for block: B:209:0x04d6  */
-    /* JADX WARN: Removed duplicated region for block: B:211:0x04d9  */
+    /* JADX WARN: Removed duplicated region for block: B:209:0x04de  */
+    /* JADX WARN: Removed duplicated region for block: B:211:0x04e1  */
     /* JADX WARN: Removed duplicated region for block: B:216:0x0224 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:234:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:26:0x0078  */
@@ -3535,7 +3543,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     overrideWallpaperInfo.gradientColor2 = i4;
                     overrideWallpaperInfo.gradientColor3 = i6;
                     overrideWallpaperInfo.rotation = i;
-                    if (this.shouldShowDayNightIcon) {
+                    if (this.shouldShowBrightnessControll) {
                         float f2 = this.dimAmount;
                         if (f2 >= 0.0f) {
                             overrideWallpaperInfo.intensity = f2;
@@ -3567,6 +3575,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                     TLRPC$TL_wallPaperSettings tLRPC$TL_wallPaperSettings = new TLRPC$TL_wallPaperSettings();
                                     tLRPC$TL_wallPaper2.settings = tLRPC$TL_wallPaperSettings;
                                     tLRPC$TL_wallPaperSettings.intensity = (int) (overrideWallpaperInfo.intensity * 100.0f);
+                                    tLRPC$TL_wallPaperSettings.blur = overrideWallpaperInfo.isBlurred;
+                                    tLRPC$TL_wallPaperSettings.motion = overrideWallpaperInfo.isMotion;
                                     tLRPC$TL_wallPaper2.uploadingImage = file.getAbsolutePath();
                                     Bitmap createBitmap2 = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888);
                                     Canvas canvas2 = new Canvas(createBitmap2);
@@ -3653,7 +3663,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 overrideWallpaperInfo2.gradientColor2 = i4;
                 overrideWallpaperInfo2.gradientColor3 = i6;
                 overrideWallpaperInfo2.rotation = i;
-                if (this.shouldShowDayNightIcon) {
+                if (this.shouldShowBrightnessControll) {
                 }
                 overrideWallpaperInfo2.intensity = this.currentIntensity;
                 obj2 = this.currentWallpaper;
@@ -3731,7 +3741,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             overrideWallpaperInfo22.gradientColor2 = i4;
                             overrideWallpaperInfo22.gradientColor3 = i6;
                             overrideWallpaperInfo22.rotation = i;
-                            if (this.shouldShowDayNightIcon) {
+                            if (this.shouldShowBrightnessControll) {
                             }
                             overrideWallpaperInfo22.intensity = this.currentIntensity;
                             obj2 = this.currentWallpaper;
@@ -3773,7 +3783,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     overrideWallpaperInfo222.gradientColor2 = i4;
                     overrideWallpaperInfo222.gradientColor3 = i6;
                     overrideWallpaperInfo222.rotation = i;
-                    if (this.shouldShowDayNightIcon) {
+                    if (this.shouldShowBrightnessControll) {
                     }
                     overrideWallpaperInfo222.intensity = this.currentIntensity;
                     obj2 = this.currentWallpaper;
@@ -3809,7 +3819,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 overrideWallpaperInfo2222.gradientColor2 = i4;
                 overrideWallpaperInfo2222.gradientColor3 = i6;
                 overrideWallpaperInfo2222.rotation = i;
-                if (this.shouldShowDayNightIcon) {
+                if (this.shouldShowBrightnessControll) {
                 }
                 overrideWallpaperInfo2222.intensity = this.currentIntensity;
                 obj2 = this.currentWallpaper;
@@ -3864,7 +3874,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         overrideWallpaperInfo22222.gradientColor2 = i4;
         overrideWallpaperInfo22222.gradientColor3 = i6;
         overrideWallpaperInfo22222.rotation = i;
-        if (this.shouldShowDayNightIcon) {
+        if (this.shouldShowBrightnessControll) {
         }
         overrideWallpaperInfo22222.intensity = this.currentIntensity;
         obj2 = this.currentWallpaper;

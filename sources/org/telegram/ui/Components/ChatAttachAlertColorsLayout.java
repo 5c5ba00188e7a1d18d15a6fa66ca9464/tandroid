@@ -229,10 +229,16 @@ public class ChatAttachAlertColorsLayout extends ChatAttachAlert.AttachAlertLayo
         this.wallpaperConsumer = consumer;
     }
 
+    public void updateColors(boolean z) {
+        this.adapter.wallpapers.clear();
+        WallpapersListActivity.fillDefaultColors(this.adapter.wallpapers, z);
+        this.adapter.notifyDataSetChanged();
+    }
+
     /* loaded from: classes4.dex */
     private class Adapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
-        private final ArrayList<Object> wallpapers;
+        private final ArrayList<Object> wallpapers = new ArrayList<>();
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemViewType(int i) {
@@ -240,10 +246,7 @@ public class ChatAttachAlertColorsLayout extends ChatAttachAlert.AttachAlertLayo
         }
 
         public Adapter(Context context) {
-            ArrayList<Object> arrayList = new ArrayList<>();
-            this.wallpapers = arrayList;
             this.mContext = context;
-            WallpapersListActivity.fillDefaultColors(arrayList);
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
