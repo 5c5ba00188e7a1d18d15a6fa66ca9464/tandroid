@@ -4039,9 +4039,9 @@ public class MessageObject {
                         }
                         if (user != null) {
                             if (user.id == UserConfig.getInstance(this.currentAccount).clientUserId) {
-                                this.messageText = LocaleController.formatString("ActionSetSameWallpeprForThisChatSelf", R.string.ActionSetSameWallpeprForThisChatSelf, new Object[0]);
+                                this.messageText = LocaleController.formatString("ActionSetSameWallpaperForThisChatSelf", R.string.ActionSetSameWallpaperForThisChatSelf, new Object[0]);
                             } else {
-                                this.messageText = LocaleController.formatString("ActionSetSameWallpeprForThisChat", R.string.ActionSetSameWallpeprForThisChat, user.first_name);
+                                this.messageText = LocaleController.formatString("ActionSetSameWallpaperForThisChat", R.string.ActionSetSameWallpaperForThisChat, user.first_name);
                             }
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionSetChatWallPaper) {
@@ -4058,9 +4058,9 @@ public class MessageObject {
                         TLRPC$User user2 = getUser(abstractMap, longSparseArray, isOutOwner() ? 0L : getDialogId());
                         if (user2 != null) {
                             if (user2.id == UserConfig.getInstance(this.currentAccount).clientUserId) {
-                                this.messageText = LocaleController.formatString("ActionSetWallpeprForThisChatSelf", R.string.ActionSetWallpeprForThisChatSelf, new Object[0]);
+                                this.messageText = LocaleController.formatString("ActionSetWallpaperForThisChatSelf", R.string.ActionSetWallpaperForThisChatSelf, new Object[0]);
                             } else {
-                                this.messageText = LocaleController.formatString("ActionSetWallpeprForThisChat", R.string.ActionSetWallpeprForThisChat, user2.first_name);
+                                this.messageText = LocaleController.formatString("ActionSetWallpaperForThisChat", R.string.ActionSetWallpaperForThisChat, user2.first_name);
                             }
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionGroupCallScheduled) {

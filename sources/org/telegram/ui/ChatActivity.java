@@ -3428,16 +3428,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:341:0x0f35  */
     /* JADX WARN: Removed duplicated region for block: B:349:0x0ffb  */
     /* JADX WARN: Removed duplicated region for block: B:353:0x112c  */
-    /* JADX WARN: Removed duplicated region for block: B:370:0x139a  */
-    /* JADX WARN: Removed duplicated region for block: B:371:0x13b7  */
-    /* JADX WARN: Removed duplicated region for block: B:374:0x13fc  */
-    /* JADX WARN: Removed duplicated region for block: B:387:0x14a5  */
-    /* JADX WARN: Removed duplicated region for block: B:390:0x14bf  */
-    /* JADX WARN: Removed duplicated region for block: B:396:0x14f5  */
-    /* JADX WARN: Removed duplicated region for block: B:399:0x14fe  */
-    /* JADX WARN: Removed duplicated region for block: B:400:0x150d  */
-    /* JADX WARN: Removed duplicated region for block: B:403:0x154b  */
-    /* JADX WARN: Removed duplicated region for block: B:404:0x1556  */
+    /* JADX WARN: Removed duplicated region for block: B:372:0x13a0  */
+    /* JADX WARN: Removed duplicated region for block: B:373:0x13bd  */
+    /* JADX WARN: Removed duplicated region for block: B:376:0x1402  */
+    /* JADX WARN: Removed duplicated region for block: B:389:0x14ab  */
+    /* JADX WARN: Removed duplicated region for block: B:392:0x14c5  */
+    /* JADX WARN: Removed duplicated region for block: B:398:0x14fb  */
+    /* JADX WARN: Removed duplicated region for block: B:401:0x1504  */
+    /* JADX WARN: Removed duplicated region for block: B:402:0x1513  */
+    /* JADX WARN: Removed duplicated region for block: B:405:0x1551  */
+    /* JADX WARN: Removed duplicated region for block: B:406:0x155c  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -4990,7 +4990,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 });
                 this.bottomOverlayChat.addView(this.bottomOverlayStartButton, LayoutHelper.createFrame(-1, -1.0f, 17, 8.0f, 8.0f, 8.0f, 8.0f));
                 tLRPC$User = this.currentUser;
-                if (tLRPC$User != null && tLRPC$User.bot && !UserObject.isReplyUser(tLRPC$User)) {
+                if (tLRPC$User != null && tLRPC$User.bot && !UserObject.isReplyUser(tLRPC$User) && !isInScheduleMode()) {
                     this.bottomOverlayStartButton.setVisibility(0);
                     this.bottomOverlayChat.setVisibility(0);
                 }
@@ -10495,6 +10495,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             return;
         }
         createTopPanel();
+        if (this.topChatPanelView == null) {
+            return;
+        }
         TranslateButton translateButton = new TranslateButton(getContext(), this, this.themeDelegate) { // from class: org.telegram.ui.ChatActivity.45
             @Override // org.telegram.ui.Components.TranslateButton
             protected void onButtonClick() {
@@ -20757,7 +20760,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r4v29 */
     /* JADX WARN: Type inference failed for: r4v31 */
     /* JADX WARN: Type inference failed for: r7v14 */
-    /* JADX WARN: Type inference failed for: r7v15, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r7v15, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v18 */
     /* JADX WARN: Type inference failed for: r7v19 */
     /*
@@ -21841,7 +21844,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:90:0x0175  */
     /* JADX WARN: Removed duplicated region for block: B:93:0x0181  */
     /* JADX WARN: Type inference failed for: r14v4 */
-    /* JADX WARN: Type inference failed for: r14v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r14v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r14v9 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -23193,6 +23196,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         } else {
             showBottomOverlayProgress(false, true);
             if (this.userBlocked) {
+                this.bottomOverlayStartButton.setVisibility(8);
                 if (this.currentUser.bot) {
                     this.bottomOverlayChatText.setText(LocaleController.getString("BotUnblock", R.string.BotUnblock));
                 } else {
@@ -26885,7 +26889,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r12v6, types: [org.telegram.ui.Components.AnimatedEmojiSpan[]] */
     /* JADX WARN: Type inference failed for: r13v46 */
     /* JADX WARN: Type inference failed for: r13v5 */
-    /* JADX WARN: Type inference failed for: r13v6, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r13v6, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r19v5 */
     /* JADX WARN: Type inference failed for: r19v6, types: [java.lang.String] */
     /* JADX WARN: Type inference failed for: r19v7 */
@@ -37061,10 +37065,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             suggestEmojiView.updateColors();
         }
         ChatAvatarContainer chatAvatarContainer2 = this.avatarContainer;
-        if (chatAvatarContainer2 == null || chatAvatarContainer2.getTimeItem() == null) {
-            return;
+        if (chatAvatarContainer2 != null && chatAvatarContainer2.getTimeItem() != null) {
+            this.avatarContainer.getTimeItem().invalidate();
         }
-        this.avatarContainer.getTimeItem().invalidate();
+        TranslateButton translateButton = this.translateButton;
+        if (translateButton != null) {
+            translateButton.updateColors();
+        }
     }
 
     @Override // org.telegram.ui.Components.ChatActivityInterface

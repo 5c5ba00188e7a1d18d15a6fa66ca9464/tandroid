@@ -38,6 +38,7 @@ public class TranslateButton extends FrameLayout {
     private ImageView menuView;
     private Theme.ResourcesProvider resourcesProvider;
     private AnimatedTextView textView;
+    private final Drawable translateDrawable;
     public final SpannableString translateIcon;
 
     protected void onButtonClick() {
@@ -62,7 +63,6 @@ public class TranslateButton extends FrameLayout {
         AnimatedTextView animatedTextView = new AnimatedTextView(context, true, true, false);
         this.textView = animatedTextView;
         animatedTextView.setAnimationProperties(0.3f, 0L, 450L, CubicBezierInterpolator.EASE_OUT_QUINT);
-        this.textView.setTextColor(Theme.getColor("chat_addContact", resourcesProvider));
         this.textView.setTextSize(AndroidUtilities.dp(15.0f));
         this.textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.textView.setPadding(AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f), 0);
@@ -70,8 +70,7 @@ public class TranslateButton extends FrameLayout {
         this.textView.setIgnoreRTL(!LocaleController.isRTL);
         AnimatedTextView animatedTextView2 = this.textView;
         animatedTextView2.adaptWidth = false;
-        animatedTextView2.setBackground(Theme.createSelectorDrawable(Theme.getColor("chat_addContact", resourcesProvider) & 436207615, 3));
-        this.textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TranslateButton$$ExternalSyntheticLambda2
+        animatedTextView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TranslateButton$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 TranslateButton.this.lambda$new$0(view);
@@ -79,7 +78,7 @@ public class TranslateButton extends FrameLayout {
         });
         addView(this.textView, LayoutHelper.createFrame(-1, -1.0f));
         Drawable mutate = getContext().getResources().getDrawable(R.drawable.msg_translate).mutate();
-        mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chat_addContact", resourcesProvider), PorterDuff.Mode.MULTIPLY));
+        this.translateDrawable = mutate;
         mutate.setBounds(0, AndroidUtilities.dp(-8.0f), AndroidUtilities.dp(20.0f), AndroidUtilities.dp(12.0f));
         SpannableString spannableString = new SpannableString("x");
         this.translateIcon = spannableString;
@@ -88,8 +87,6 @@ public class TranslateButton extends FrameLayout {
         this.menuView = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         this.menuView.setImageResource(R.drawable.msg_mini_customize);
-        this.menuView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chat_addContact", resourcesProvider), PorterDuff.Mode.MULTIPLY));
-        this.menuView.setBackground(Theme.createSelectorDrawable(Theme.getColor("chat_addContact", resourcesProvider) & 436207615, 7));
         this.menuView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TranslateButton$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
@@ -97,6 +94,7 @@ public class TranslateButton extends FrameLayout {
             }
         });
         addView(this.menuView, LayoutHelper.createFrame(32, 32.0f, 21, 0.0f, 0.0f, 8.0f, 0.0f));
+        updateColors();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -111,6 +109,14 @@ public class TranslateButton extends FrameLayout {
         } else {
             onCloseClick();
         }
+    }
+
+    public void updateColors() {
+        this.textView.setTextColor(Theme.getColor("chat_addContact", this.resourcesProvider));
+        this.textView.setBackground(Theme.createSelectorDrawable(Theme.getColor("chat_addContact", this.resourcesProvider) & 436207615, 3));
+        this.menuView.setBackground(Theme.createSelectorDrawable(Theme.getColor("chat_addContact", this.resourcesProvider) & 436207615, 7));
+        this.menuView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chat_addContact", this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
+        this.translateDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chat_addContact", this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
     }
 
     protected void onMenuClick() {

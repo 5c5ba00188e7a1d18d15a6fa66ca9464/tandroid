@@ -7982,7 +7982,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 return;
             }
             SharedPreferences.Editor edit = this.notificationsPreferences.edit();
-            boolean z2 = (tLRPC$TL_peerSettings.report_spam || tLRPC$TL_peerSettings.add_contact || tLRPC$TL_peerSettings.block_contact || tLRPC$TL_peerSettings.share_contact || tLRPC$TL_peerSettings.report_geo || tLRPC$TL_peerSettings.invite_members) ? false : true;
+            boolean z2 = tLRPC$TL_peerSettings.flags == 0;
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.d("peer settings loaded for " + j + " add = " + tLRPC$TL_peerSettings.add_contact + " block = " + tLRPC$TL_peerSettings.block_contact + " spam = " + tLRPC$TL_peerSettings.report_spam + " share = " + tLRPC$TL_peerSettings.share_contact + " geo = " + tLRPC$TL_peerSettings.report_geo + " hide = " + z2 + " distance = " + tLRPC$TL_peerSettings.geo_distance + " invite = " + tLRPC$TL_peerSettings.invite_members);
             }
@@ -9812,7 +9812,7 @@ public class MessagesController extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:411:0x03e0  */
     /* JADX WARN: Removed duplicated region for block: B:421:0x0419  */
     /* JADX WARN: Type inference failed for: r2v11 */
-    /* JADX WARN: Type inference failed for: r2v12, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r2v12, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r2v59 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -13695,7 +13695,7 @@ public class MessagesController extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:446:0x03e6  */
     /* JADX WARN: Removed duplicated region for block: B:449:0x0413  */
     /* JADX WARN: Type inference failed for: r13v1 */
-    /* JADX WARN: Type inference failed for: r13v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r13v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r13v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
