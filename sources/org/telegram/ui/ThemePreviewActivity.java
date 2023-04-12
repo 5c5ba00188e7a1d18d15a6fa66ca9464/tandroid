@@ -658,38 +658,38 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         this.isMotion = z2;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:92:0x0308, code lost:
-        if ("d".equals(((org.telegram.ui.WallpapersListActivity.ColorWallpaper) r1).slug) == false) goto L344;
+    /* JADX WARN: Code restructure failed: missing block: B:96:0x031c, code lost:
+        if ("d".equals(((org.telegram.ui.WallpapersListActivity.ColorWallpaper) r1).slug) == false) goto L347;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:94:0x030e, code lost:
-        if ((r32.currentWallpaper instanceof org.telegram.tgnet.TLRPC$TL_wallPaper) != false) goto L344;
+    /* JADX WARN: Code restructure failed: missing block: B:98:0x0322, code lost:
+        if ((r32.currentWallpaper instanceof org.telegram.tgnet.TLRPC$TL_wallPaper) != false) goto L347;
      */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x0540  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x0550  */
-    /* JADX WARN: Removed duplicated region for block: B:134:0x0584  */
-    /* JADX WARN: Removed duplicated region for block: B:135:0x0586  */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x058e  */
-    /* JADX WARN: Removed duplicated region for block: B:139:0x05b4  */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x05f1 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x0610  */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x07ae  */
-    /* JADX WARN: Removed duplicated region for block: B:177:0x07ce  */
-    /* JADX WARN: Removed duplicated region for block: B:183:0x07e7  */
-    /* JADX WARN: Removed duplicated region for block: B:214:0x08d6  */
-    /* JADX WARN: Removed duplicated region for block: B:217:0x08dc  */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x0554  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x0564  */
+    /* JADX WARN: Removed duplicated region for block: B:138:0x0598  */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x059a  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x05a2  */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x05c8  */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x0605 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:151:0x0624  */
+    /* JADX WARN: Removed duplicated region for block: B:170:0x07c2  */
+    /* JADX WARN: Removed duplicated region for block: B:181:0x07e2  */
+    /* JADX WARN: Removed duplicated region for block: B:187:0x07fb  */
+    /* JADX WARN: Removed duplicated region for block: B:218:0x08ea  */
+    /* JADX WARN: Removed duplicated region for block: B:221:0x08f0  */
     /* JADX WARN: Removed duplicated region for block: B:22:0x0039  */
-    /* JADX WARN: Removed duplicated region for block: B:267:0x09cf  */
+    /* JADX WARN: Removed duplicated region for block: B:271:0x09e3  */
     /* JADX WARN: Removed duplicated region for block: B:29:0x004b  */
-    /* JADX WARN: Removed duplicated region for block: B:306:0x0b06  */
-    /* JADX WARN: Removed duplicated region for block: B:313:0x0b17  */
-    /* JADX WARN: Removed duplicated region for block: B:361:0x0e71  */
-    /* JADX WARN: Removed duplicated region for block: B:364:0x0e7c  */
-    /* JADX WARN: Removed duplicated region for block: B:369:0x0ee6  */
-    /* JADX WARN: Removed duplicated region for block: B:370:0x0eeb  */
-    /* JADX WARN: Removed duplicated region for block: B:373:0x0f22  */
-    /* JADX WARN: Removed duplicated region for block: B:376:0x1051  */
+    /* JADX WARN: Removed duplicated region for block: B:310:0x0b1a  */
+    /* JADX WARN: Removed duplicated region for block: B:317:0x0b2b  */
+    /* JADX WARN: Removed duplicated region for block: B:365:0x0e89  */
+    /* JADX WARN: Removed duplicated region for block: B:368:0x0e94  */
+    /* JADX WARN: Removed duplicated region for block: B:373:0x0efe  */
+    /* JADX WARN: Removed duplicated region for block: B:374:0x0f03  */
+    /* JADX WARN: Removed duplicated region for block: B:377:0x0f3a  */
     /* JADX WARN: Removed duplicated region for block: B:37:0x00ee  */
-    /* JADX WARN: Removed duplicated region for block: B:383:0x1078  */
+    /* JADX WARN: Removed duplicated region for block: B:380:0x1069  */
+    /* JADX WARN: Removed duplicated region for block: B:387:0x1090  */
     /* JADX WARN: Removed duplicated region for block: B:38:0x00f0  */
     /* JADX WARN: Removed duplicated region for block: B:41:0x00fa  */
     /* JADX WARN: Removed duplicated region for block: B:42:0x00fd  */
@@ -1057,7 +1057,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 } else {
                     int i13 = this.screenType;
                     if (i13 == 2) {
-                        this.actionBar2.setTitle(LocaleController.getString("BackgroundPreview", R.string.BackgroundPreview));
+                        if (this.dialogId != 0) {
+                            this.actionBar2.setTitle(LocaleController.getString("WallpaperPreview", R.string.WallpaperPreview));
+                        } else {
+                            this.actionBar2.setTitle(LocaleController.getString("BackgroundPreview", R.string.BackgroundPreview));
+                        }
                         ActionBarMenu createMenu = this.actionBar2.createMenu();
                         if (this.currentWallpaper instanceof WallpapersListActivity.FileWallpaper) {
                             createMenu.addItem(7, R.drawable.msg_header_draw);
@@ -1695,13 +1699,16 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                                 }
                                                 this.page2.addView(this.patternLayout[i11], createFrame);
                                                 if (i11 == 1 || this.screenType == 2) {
-                                                    this.patternsButtonsContainer[i11] = new FrameLayout(this, context) { // from class: org.telegram.ui.ThemePreviewActivity.21
+                                                    this.patternsButtonsContainer[i11] = new FrameLayout(context) { // from class: org.telegram.ui.ThemePreviewActivity.21
+                                                        Paint paint = new Paint();
+
                                                         @Override // android.view.View
                                                         public void onDraw(Canvas canvas) {
                                                             int intrinsicHeight = Theme.chat_composeShadowDrawable.getIntrinsicHeight();
                                                             Theme.chat_composeShadowDrawable.setBounds(0, 0, getMeasuredWidth(), intrinsicHeight);
                                                             Theme.chat_composeShadowDrawable.draw(canvas);
-                                                            canvas.drawRect(0.0f, intrinsicHeight, getMeasuredWidth(), getMeasuredHeight(), Theme.chat_composeBackgroundPaint);
+                                                            this.paint.setColor(ThemePreviewActivity.this.getThemedColor("chat_messagePanelBackground"));
+                                                            canvas.drawRect(0.0f, intrinsicHeight, getMeasuredWidth(), getMeasuredHeight(), this.paint);
                                                         }
                                                     };
                                                     this.patternsButtonsContainer[i11].setWillNotDraw(false);
@@ -1794,7 +1801,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                                     this.intensityCell = headerCell2;
                                                     headerCell2.setText(LocaleController.getString("BackgroundIntensity", R.string.BackgroundIntensity));
                                                     this.patternLayout[i11].addView(this.intensityCell, LayoutHelper.createFrame(-1, -2.0f, 51, 0.0f, 175.0f, 0.0f, 0.0f));
-                                                    SeekBarView seekBarView = new SeekBarView(this, context) { // from class: org.telegram.ui.ThemePreviewActivity.24
+                                                    SeekBarView seekBarView = new SeekBarView(this, context, getResourceProvider()) { // from class: org.telegram.ui.ThemePreviewActivity.24
                                                         @Override // org.telegram.ui.Components.SeekBarView, android.view.View
                                                         public boolean onTouchEvent(MotionEvent motionEvent) {
                                                             if (motionEvent.getAction() == 0) {
@@ -5343,7 +5350,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
                     this.radialProgress.setIcon(10, z, z2);
                 }
-                if (this.screenType == 2) {
+                if (this.screenType == 2 && this.dialogId == 0) {
                     this.actionBar2.setSubtitle(LocaleController.getString("LoadingFullImage", R.string.LoadingFullImage));
                 }
                 this.backgroundImage.invalidate();

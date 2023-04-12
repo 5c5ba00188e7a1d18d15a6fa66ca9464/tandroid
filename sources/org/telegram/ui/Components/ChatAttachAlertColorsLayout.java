@@ -261,7 +261,7 @@ public class ChatAttachAlertColorsLayout extends ChatAttachAlert.AttachAlertLayo
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            return new RecyclerListView.Holder(new WallpaperCell(this.mContext, 1) { // from class: org.telegram.ui.Components.ChatAttachAlertColorsLayout.Adapter.1
+            WallpaperCell wallpaperCell = new WallpaperCell(this.mContext, 1) { // from class: org.telegram.ui.Components.ChatAttachAlertColorsLayout.Adapter.1
                 @Override // org.telegram.ui.Cells.WallpaperCell
                 protected void onWallpaperClick(Object obj, int i2) {
                     Consumer<Object> consumer = ChatAttachAlertColorsLayout.this.wallpaperConsumer;
@@ -269,7 +269,9 @@ public class ChatAttachAlertColorsLayout extends ChatAttachAlert.AttachAlertLayo
                         consumer.accept(obj);
                     }
                 }
-            });
+            };
+            wallpaperCell.drawStubBackground = false;
+            return new RecyclerListView.Holder(wallpaperCell);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

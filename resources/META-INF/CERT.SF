@@ -1,10 +1,10 @@
 Signature-Version: 1.0
 Created-By: Android Gradle 7.0.3
-SHA-256-Digest-Manifest: PXIQq73WjvUK6Mxz2QNi67UjPOOBkUv+0efZksUYbCE=
+SHA-256-Digest-Manifest: pIq8UVxajYrwtm4s3tzo+VpExzZsf1lpMosR6T3X9xQ=
 X-Android-APK-Signed: 2
 
 Name: AndroidManifest.xml
-SHA-256-Digest: d6NDDE9S/2Us4kjOugwGlGj65PXNelbUnLqrVl9RhNg=
+SHA-256-Digest: E2Wpv3RUcSKMvPLiyusXnm2R6g93lE/bXy3v8k8B8nM=
 
 Name: META-INF/androidx.annotation_annotation-experimental.version
 SHA-256-Digest: EzM0+E5iHHuwy1qvYlX203WLBvPdKME6UghaYpvIwfw=
@@ -10893,36 +10893,6 @@ SHA-256-Digest: C3h2dLlJvqYWes5PeQyXUSZ60vug+8AuVWS/60phDUQ=
 Name: assets/emoji/compound/0_4_1.png
 SHA-256-Digest: aUiH5rzCzTxTmBir9D/3jPUTzTSH68nNJpCcjAWnOFY=
 
-Name: assets/emoji/compound/man 1.png
-SHA-256-Digest: 7PwFNnOGiGMxmicohajG8LfnzXgbsXFouP9SS4eslrQ=
-
-Name: assets/emoji/compound/man 2.png
-SHA-256-Digest: dDMpGB+xiFvQ9+DwQyOJ9xxVCUXvk2mSnr7UwdJQ9v8=
-
-Name: assets/emoji/compound/man 3.png
-SHA-256-Digest: KzIQ6BL/6fKELMd9ZXHt2lJM6MfwxiyHwYYnyR7zPEk=
-
-Name: assets/emoji/compound/man 4.png
-SHA-256-Digest: WbQjlX6aOeRa2oook0fkwJVTpnHOz0UASlwMkaByYKw=
-
-Name: assets/emoji/compound/man 5.png
-SHA-256-Digest: FREwvb1pE+7VqdIG+C7dJC0Qp412FDb/70erRiFEIog=
-
-Name: assets/emoji/compound/woman 1.png
-SHA-256-Digest: /TOsgKDZMKl8ePEq1qCON+8XDqkeL99ZW9MtZ8Bjm6g=
-
-Name: assets/emoji/compound/woman 2.png
-SHA-256-Digest: U8bD4+p1k8elifddSQaCd4FaDTAq6IdS57UNepaB53M=
-
-Name: assets/emoji/compound/woman 3.png
-SHA-256-Digest: gv1eHS08EontyyTUkkdVjVK6nOGuVhtIGl9rw8wregk=
-
-Name: assets/emoji/compound/woman 4.png
-SHA-256-Digest: 6p8rz4B7URVYFU6XjFo+gtnKQiZ905ITIUsvnnnRtZc=
-
-Name: assets/emoji/compound/woman 5.png
-SHA-256-Digest: FkXWwF0uIvZ5Hw8KCwez16sVGujxVbpLAi2I7rya5j0=
-
 Name: assets/flecks.png
 SHA-256-Digest: zeTpXtUY0pw/9bQe1UQg8g5izQZQxT6UWWQdi1WNr78=
 
@@ -10978,16 +10948,16 @@ Name: builddef.lst
 SHA-256-Digest: nV5pCcT+/FvcW5d37qA0E7yBBIkqNsX7vFJzDLqlDuY=
 
 Name: classes.dex
-SHA-256-Digest: Wf3bicWXySNc0Dxw7ZDAGF3PBHcFu71VIdiQ56Z5ud4=
+SHA-256-Digest: SX7pQWxsDrW3gbk0MTrVPzD6IxFUS/ndNEcr6vCja9o=
 
 Name: classes2.dex
 SHA-256-Digest: CEaMvE3P4mkzG8ieyCqxfFb7wbRBghZVOAbyIEAVipw=
 
 Name: classes3.dex
-SHA-256-Digest: phILDzZAMSw2SCpXqLjTapTl4xTp1N3DG5luE/6Ghag=
+SHA-256-Digest: fbhK9QIKquLGAgmBv3diaA22Y+ya6X5gfkm+H1E6Boc=
 
 Name: classes4.dex
-SHA-256-Digest: Sf1ivORQMvSBGiSc/mzEhSeSq0C+EjIJxwG8HKmSaOg=
+SHA-256-Digest: Ri9Yw2daqCOZUKbJQr4/a0rqh2sotaIcZ/eMWRjEP8E=
 
 Name: com/google/android/search/verification/client/R.java
 SHA-256-Digest: EsMVPn34QVRran564KJSlepygKDiuNN7iY8qEXPZd6k=
@@ -11074,25 +11044,25 @@ Name: lib/arm64-v8a/liblanguage_id_jni.so
 SHA-256-Digest: cJEwzvQ/G/fMDINaeu99xoSAjfFesRofNfevS+/85pU=
 
 Name: lib/arm64-v8a/libtmessages.44.so
-SHA-256-Digest: p+WTpFkNle0nUqM23Rz86fBxlQPRhlRHCoKr3LIcYHY=
+SHA-256-Digest: sR7F8MvlGAtZshCg9WO0iSiME6sG0nWyHmzcZSW6VLI=
 
 Name: lib/armeabi-v7a/liblanguage_id_jni.so
 SHA-256-Digest: agv5sDivXY7KtXNADWR0KCoc3lO+0rR4GCnVuvJ//ts=
 
 Name: lib/armeabi-v7a/libtmessages.44.so
-SHA-256-Digest: JBKUpP0Fzfv0jfkyh9GkQr1mTe5wDCCTWOd2jYaWye4=
+SHA-256-Digest: KxaP3j2cwYftVUowYiIlgEAv7zm0bsAc6kCB5htU3Y4=
 
 Name: lib/x86/liblanguage_id_jni.so
 SHA-256-Digest: SKPDaWbKbnPNCk42D48B0bGJ9tefy68ycSIyB7rWreg=
 
 Name: lib/x86/libtmessages.44.so
-SHA-256-Digest: itCitZoEo/7lzh2Z8BcTfUHkxsBRsrFmJLzTJdJB3+Y=
+SHA-256-Digest: fZlJj4o8yUzm/u/VXF8Gznsoc8c/mD8stdA5A8hon5I=
 
 Name: lib/x86_64/liblanguage_id_jni.so
 SHA-256-Digest: NuCPlobvjqMklo3NntmvFZbDqboTlxUuc515tg1poVs=
 
 Name: lib/x86_64/libtmessages.44.so
-SHA-256-Digest: 84M+uiP068ZblTl0vIdzbyRa4fyIl5d4OmKV0/QXaZY=
+SHA-256-Digest: 0Dsf7092RYY3r/Mw/Yts2u+A2a2Byms6HCFJdN7WF1M=
 
 Name: play-services-auth-api-phone.properties
 SHA-256-Digest: /45kuv2EHXDaVmufMqkR9AdyYVMnrYDsZdVKBZPEXbw=
@@ -24148,7 +24118,7 @@ Name: res/zyk.png
 SHA-256-Digest: vMLi+FKhhG7qGCJgIq3Wm4YOCaWN754M6vZAvlhXfes=
 
 Name: resources.arsc
-SHA-256-Digest: iwf0jKwteIKKXUE+xoFpmBw4HlugyeHq7OSiOAZX7d0=
+SHA-256-Digest: OVjxLh11yycsqk9OkzkBntyQnc2v8TKRMzhXZe2d1dE=
 
 Name: transport-api.properties
 SHA-256-Digest: rg9AddD1sd6fAR+GAu81u8Hzm/wJMfHnm9vKhV/4Fn4=
