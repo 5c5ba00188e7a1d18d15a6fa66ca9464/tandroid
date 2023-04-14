@@ -16,18 +16,13 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.Theme;
-import org.telegram.ui.Components.AnimatedTextView;
-import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
-import org.telegram.ui.Components.RLottieImageView;
 /* loaded from: classes3.dex */
 public class DrawerActionCell extends FrameLayout {
     private int currentId;
-    private int currentLottieId;
     private ImageView imageView;
-    private RLottieImageView lottieImageView;
     private RectF rect;
-    private AnimatedTextView textView;
+    private TextView textView;
 
     public DrawerActionCell(Context context) {
         super(context);
@@ -36,18 +31,12 @@ public class DrawerActionCell extends FrameLayout {
         this.imageView = imageView;
         imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chats_menuItemIcon"), PorterDuff.Mode.SRC_IN));
         addView(this.imageView, LayoutHelper.createFrame(24, 24.0f, 51, 19.0f, 12.0f, 0.0f, 0.0f));
-        RLottieImageView rLottieImageView = new RLottieImageView(context);
-        this.lottieImageView = rLottieImageView;
-        rLottieImageView.setAutoRepeat(false);
-        this.lottieImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chats_menuItemIcon"), PorterDuff.Mode.SRC_IN));
-        addView(this.lottieImageView, LayoutHelper.createFrame(28, 28.0f, 51, 17.0f, 10.0f, 0.0f, 0.0f));
-        AnimatedTextView animatedTextView = new AnimatedTextView(context, true, true, true);
-        this.textView = animatedTextView;
-        animatedTextView.setAnimationProperties(0.6f, 0L, 350L, CubicBezierInterpolator.EASE_OUT_QUINT);
-        this.textView.setTextColor(Theme.getColor("chats_menuItemText"));
-        this.textView.setTextSize(AndroidUtilities.dp(15.0f));
+        TextView textView = new TextView(context);
+        this.textView = textView;
+        textView.setTextColor(Theme.getColor("chats_menuItemText"));
+        this.textView.setTextSize(1, 15.0f);
         this.textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        this.textView.setIgnoreRTL(true);
+        this.textView.setGravity(16);
         addView(this.textView, LayoutHelper.createFrame(-1, -1.0f, 51, 72.0f, 0.0f, 16.0f, 0.0f));
         setWillNotDraw(false);
     }
@@ -85,51 +74,23 @@ public class DrawerActionCell extends FrameLayout {
         this.textView.setTextColor(Theme.getColor("chats_menuItemText"));
     }
 
-    public void setTextAndIcon(int i, String str, int i2, int i3) {
+    public void setTextAndIcon(int i, String str, int i2) {
         this.currentId = i;
         try {
-            this.textView.setText(str, false);
-            if (i3 != 0) {
-                this.imageView.setImageDrawable(null);
-                RLottieImageView rLottieImageView = this.lottieImageView;
-                this.currentLottieId = i3;
-                rLottieImageView.setAnimation(i3, 28, 28);
-            } else {
-                this.imageView.setImageResource(i2);
-                this.lottieImageView.clearAnimationDrawable();
-                this.currentLottieId = 0;
-            }
+            this.textView.setText(str);
+            this.imageView.setImageResource(i2);
         } catch (Throwable th) {
             FileLog.e(th);
         }
     }
 
-    public void updateText(String str) {
-        this.textView.setText(str);
-    }
-
-    public void updateIcon(final int i) {
+    public void updateTextAndIcon(String str, int i) {
         try {
-            if (i != this.currentLottieId) {
-                this.lottieImageView.setOnAnimationEndListener(new Runnable() { // from class: org.telegram.ui.Cells.DrawerActionCell$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        DrawerActionCell.this.lambda$updateIcon$0(i);
-                    }
-                });
-                this.lottieImageView.playAnimation();
-            }
+            this.textView.setText(str);
+            this.imageView.setImageResource(i);
         } catch (Throwable th) {
             FileLog.e(th);
         }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateIcon$0(int i) {
-        RLottieImageView rLottieImageView = this.lottieImageView;
-        this.currentLottieId = i;
-        rLottieImageView.setAnimation(i, 28, 28);
-        this.lottieImageView.setOnAnimationEndListener(null);
     }
 
     @Override // android.view.View

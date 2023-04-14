@@ -1471,7 +1471,9 @@ public class MessageObject {
         }
         updateMessageText(abstractMap, abstractMap2, longSparseArray, longSparseArray2);
         setType();
-        updateTranslation(false);
+        if (z) {
+            updateTranslation(false);
+        }
         measureInlineBotButtons();
         GregorianCalendar gregorianCalendar = new GregorianCalendar();
         gregorianCalendar.setTimeInMillis(this.messageOwner.date * 1000);
@@ -3219,7 +3221,8 @@ public class MessageObject {
         TLRPC$Message tLRPC$Message;
         MessageObject messageObject = this.replyMessageObject;
         boolean z2 = messageObject != null && messageObject.updateTranslation(z);
-        if (TranslateController.isTranslatable(this) && MessagesController.getInstance(this.currentAccount).getTranslateController().isTranslatingDialog(getDialogId()) && (tLRPC$Message = this.messageOwner) != null && tLRPC$Message.translatedText != null && TextUtils.equals(MessagesController.getInstance(this.currentAccount).getTranslateController().getDialogTranslateTo(getDialogId()), this.messageOwner.translatedToLanguage)) {
+        TranslateController translateController = MessagesController.getInstance(this.currentAccount).getTranslateController();
+        if (TranslateController.isTranslatable(this) && translateController.isTranslatingDialog(getDialogId()) && (tLRPC$Message = this.messageOwner) != null && tLRPC$Message.translatedText != null && TextUtils.equals(translateController.getDialogTranslateTo(getDialogId()), this.messageOwner.translatedToLanguage)) {
             if (this.translated) {
                 return z2;
             }

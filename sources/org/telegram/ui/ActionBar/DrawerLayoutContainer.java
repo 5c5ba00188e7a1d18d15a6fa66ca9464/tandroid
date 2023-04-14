@@ -42,6 +42,7 @@ public class DrawerLayoutContainer extends FrameLayout {
     private AnimatorSet currentAnimation;
     private boolean drawCurrentPreviewFragmentAbove;
     private FrameLayout drawerLayout;
+    private View drawerListView;
     private boolean drawerOpened;
     private float drawerPosition;
     private boolean firstLayout;
@@ -160,13 +161,21 @@ public class DrawerLayoutContainer extends FrameLayout {
         marginLayoutParams.bottomMargin = windowInsets.getSystemWindowInsetBottom();
     }
 
-    public void setDrawerLayout(FrameLayout frameLayout) {
+    public void setDrawerLayout(FrameLayout frameLayout, final View view) {
         this.drawerLayout = frameLayout;
+        this.drawerListView = view;
         addView(frameLayout);
         this.drawerLayout.setVisibility(4);
+        view.setVisibility(8);
         if (Build.VERSION.SDK_INT >= 21) {
             this.drawerLayout.setFitsSystemWindows(true);
         }
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.DrawerLayoutContainer$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                view.setVisibility(0);
+            }
+        }, 2500L);
     }
 
     public void moveDrawerByX(float f) {
@@ -175,6 +184,7 @@ public class DrawerLayoutContainer extends FrameLayout {
 
     @Keep
     public void setDrawerPosition(float f) {
+        View view;
         FrameLayout frameLayout = this.drawerLayout;
         if (frameLayout == null) {
             return;
@@ -186,6 +196,9 @@ public class DrawerLayoutContainer extends FrameLayout {
             this.drawerPosition = 0.0f;
         }
         this.drawerLayout.setTranslationX(this.drawerPosition);
+        if (this.drawerPosition > 0.0f && (view = this.drawerListView) != null && view.getVisibility() != 0) {
+            this.drawerListView.setVisibility(0);
+        }
         int i = this.drawerPosition > 0.0f ? 0 : 4;
         if (this.drawerLayout.getVisibility() != i) {
             this.drawerLayout.setVisibility(i);
