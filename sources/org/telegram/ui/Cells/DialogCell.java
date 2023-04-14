@@ -6261,6 +6261,7 @@ public class DialogCell extends BaseCell {
         public Integer lastDrawnPrintingType;
         public long lastDrawnReadState;
         public int lastDrawnSizeHash;
+        public boolean lastDrawnTranslated;
         public int lastKnownTypingType;
         public int lastTopicsCount;
         long startWaitingTime;
@@ -6273,17 +6274,17 @@ public class DialogCell extends BaseCell {
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:45:0x0131, code lost:
-            if (org.telegram.messenger.MessagesController.getInstance(r17.this$0.currentAccount).getTopicsController().endIsReached(-r17.this$0.currentDialogId) != false) goto L111;
+            if (org.telegram.messenger.MessagesController.getInstance(r17.this$0.currentAccount).getTopicsController().endIsReached(-r17.this$0.currentDialogId) != false) goto L112;
          */
-        /* JADX WARN: Removed duplicated region for block: B:114:0x023c  */
-        /* JADX WARN: Removed duplicated region for block: B:115:0x023f  */
-        /* JADX WARN: Removed duplicated region for block: B:117:0x0244  */
+        /* JADX WARN: Removed duplicated region for block: B:114:0x0254  */
+        /* JADX WARN: Removed duplicated region for block: B:115:0x0258  */
+        /* JADX WARN: Removed duplicated region for block: B:117:0x025d  */
         /* JADX WARN: Removed duplicated region for block: B:49:0x013c  */
         /* JADX WARN: Removed duplicated region for block: B:55:0x0163  */
         /* JADX WARN: Removed duplicated region for block: B:59:0x0181  */
         /* JADX WARN: Removed duplicated region for block: B:60:0x0183  */
-        /* JADX WARN: Removed duplicated region for block: B:93:0x01fb  */
-        /* JADX WARN: Removed duplicated region for block: B:97:0x0207  */
+        /* JADX WARN: Removed duplicated region for block: B:95:0x0217  */
+        /* JADX WARN: Removed duplicated region for block: B:99:0x0223  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -6291,8 +6292,7 @@ public class DialogCell extends BaseCell {
             int i;
             int hashCode;
             boolean z;
-            boolean z2;
-            int i2;
+            boolean isTranslatingDialog;
             TLRPC$Dialog tLRPC$Dialog = MessagesController.getInstance(DialogCell.this.currentAccount).dialogs_dict.get(DialogCell.this.currentDialogId);
             if (tLRPC$Dialog == null) {
                 if (DialogCell.this.dialogsType != 3 || this.lastDrawnDialogId == DialogCell.this.currentDialogId) {
@@ -6321,72 +6321,43 @@ public class DialogCell extends BaseCell {
                 }
                 hashCode = tLRPC$DraftMessage != null ? 0 : tLRPC$DraftMessage.message.hashCode() + (tLRPC$DraftMessage.reply_to_msg_id << 16);
                 z = DialogCell.this.chat == null && DialogCell.this.chat.call_active && DialogCell.this.chat.call_not_empty;
-                if (this.lastDrawnSizeHash != measuredWidth && this.lastDrawnMessageId == id && this.lastDrawnDialogId == DialogCell.this.currentDialogId && this.lastDrawnDialogIsFolder == tLRPC$Dialog.isFolder && this.lastDrawnReadState == j && Objects.equals(this.lastDrawnPrintingType, printingStringType) && this.lastTopicsCount == i && hashCode == this.lastDrawnDraftHash && this.lastDrawnPinned == DialogCell.this.drawPin && this.lastDrawnHasCall == z) {
+                isTranslatingDialog = MessagesController.getInstance(DialogCell.this.currentAccount).getTranslateController().isTranslatingDialog(DialogCell.this.currentDialogId);
+                if (this.lastDrawnSizeHash != measuredWidth && this.lastDrawnMessageId == id && this.lastDrawnTranslated == isTranslatingDialog && this.lastDrawnDialogId == DialogCell.this.currentDialogId && this.lastDrawnDialogIsFolder == tLRPC$Dialog.isFolder && this.lastDrawnReadState == j && Objects.equals(this.lastDrawnPrintingType, printingStringType) && this.lastTopicsCount == i && hashCode == this.lastDrawnDraftHash && this.lastDrawnPinned == DialogCell.this.drawPin && this.lastDrawnHasCall == z) {
                     return false;
                 }
                 if (this.lastDrawnDialogId == DialogCell.this.currentDialogId) {
                     this.typingProgres = printingStringType == null ? 0.0f : 1.0f;
                     this.waitngNewMessageFroTypingAnimation = false;
                 } else if (!Objects.equals(this.lastDrawnPrintingType, printingStringType) || this.waitngNewMessageFroTypingAnimation) {
-                    boolean z3 = this.waitngNewMessageFroTypingAnimation;
-                    if (!z3 && printingStringType == null) {
+                    boolean z2 = this.waitngNewMessageFroTypingAnimation;
+                    if (!z2 && printingStringType == null) {
                         this.waitngNewMessageFroTypingAnimation = true;
                         this.startWaitingTime = System.currentTimeMillis();
-                    } else if (z3 && this.lastDrawnMessageId != id) {
-                        z2 = false;
+                    } else if (z2 && this.lastDrawnMessageId != id) {
                         this.waitngNewMessageFroTypingAnimation = false;
-                        i2 = measuredWidth;
                         if (this.lastDrawnMessageId == id) {
-                            this.typingOutToTop = z2;
+                            this.typingOutToTop = false;
                         } else {
                             this.typingOutToTop = true;
                         }
-                        if (printingStringType != null) {
-                            this.lastKnownTypingType = printingStringType.intValue();
-                        }
-                        this.lastDrawnDialogId = DialogCell.this.currentDialogId;
-                        this.lastDrawnMessageId = id;
-                        this.lastDrawnDialogIsFolder = tLRPC$Dialog.isFolder;
-                        this.lastDrawnReadState = j;
-                        this.lastDrawnPrintingType = printingStringType;
-                        this.lastDrawnSizeHash = i2;
-                        this.lastDrawnDraftHash = hashCode;
-                        this.lastTopicsCount = i;
-                        this.lastDrawnPinned = DialogCell.this.drawPin;
-                        this.lastDrawnHasCall = z;
-                        return true;
                     }
-                    z2 = false;
-                    i2 = measuredWidth;
                     if (this.lastDrawnMessageId == id) {
                     }
-                    if (printingStringType != null) {
-                    }
-                    this.lastDrawnDialogId = DialogCell.this.currentDialogId;
-                    this.lastDrawnMessageId = id;
-                    this.lastDrawnDialogIsFolder = tLRPC$Dialog.isFolder;
-                    this.lastDrawnReadState = j;
-                    this.lastDrawnPrintingType = printingStringType;
-                    this.lastDrawnSizeHash = i2;
-                    this.lastDrawnDraftHash = hashCode;
-                    this.lastTopicsCount = i;
-                    this.lastDrawnPinned = DialogCell.this.drawPin;
-                    this.lastDrawnHasCall = z;
-                    return true;
                 }
-                i2 = measuredWidth;
                 if (printingStringType != null) {
+                    this.lastKnownTypingType = printingStringType.intValue();
                 }
                 this.lastDrawnDialogId = DialogCell.this.currentDialogId;
                 this.lastDrawnMessageId = id;
                 this.lastDrawnDialogIsFolder = tLRPC$Dialog.isFolder;
                 this.lastDrawnReadState = j;
                 this.lastDrawnPrintingType = printingStringType;
-                this.lastDrawnSizeHash = i2;
+                this.lastDrawnSizeHash = measuredWidth;
                 this.lastDrawnDraftHash = hashCode;
                 this.lastTopicsCount = i;
                 this.lastDrawnPinned = DialogCell.this.drawPin;
                 this.lastDrawnHasCall = z;
+                this.lastDrawnTranslated = isTranslatingDialog;
                 return true;
             }
             i = 0;
@@ -6396,11 +6367,11 @@ public class DialogCell extends BaseCell {
             }
             if (DialogCell.this.chat == null) {
             }
+            isTranslatingDialog = MessagesController.getInstance(DialogCell.this.currentAccount).getTranslateController().isTranslatingDialog(DialogCell.this.currentDialogId);
             if (this.lastDrawnSizeHash != measuredWidth) {
             }
             if (this.lastDrawnDialogId == DialogCell.this.currentDialogId) {
             }
-            i2 = measuredWidth;
             if (printingStringType != null) {
             }
             this.lastDrawnDialogId = DialogCell.this.currentDialogId;
@@ -6408,11 +6379,12 @@ public class DialogCell extends BaseCell {
             this.lastDrawnDialogIsFolder = tLRPC$Dialog.isFolder;
             this.lastDrawnReadState = j;
             this.lastDrawnPrintingType = printingStringType;
-            this.lastDrawnSizeHash = i2;
+            this.lastDrawnSizeHash = measuredWidth;
             this.lastDrawnDraftHash = hashCode;
             this.lastTopicsCount = i;
             this.lastDrawnPinned = DialogCell.this.drawPin;
             this.lastDrawnHasCall = z;
+            this.lastDrawnTranslated = isTranslatingDialog;
             return true;
         }
 

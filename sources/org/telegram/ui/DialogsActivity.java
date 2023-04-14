@@ -2473,6 +2473,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         getNotificationCenter().addObserver(this, NotificationCenter.onDatabaseReset);
         if (this.initialDialogsType == 0) {
             getNotificationCenter().addObserver(this, NotificationCenter.chatlistFolderUpdate);
+            getNotificationCenter().addObserver(this, NotificationCenter.dialogTranslate);
         }
         loadDialogs(getAccountInstance());
         getMessagesController().loadPinnedDialogs(this.folderId, 0L, null);
@@ -2635,6 +2636,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         getNotificationCenter().removeObserver(this, NotificationCenter.onDatabaseReset);
         if (this.initialDialogsType == 0) {
             getNotificationCenter().removeObserver(this, NotificationCenter.chatlistFolderUpdate);
+            getNotificationCenter().removeObserver(this, NotificationCenter.dialogTranslate);
         }
         ChatActivityEnterView chatActivityEnterView = this.commentView;
         if (chatActivityEnterView != null) {
@@ -10710,6 +10712,33 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     return;
                 }
                 i3++;
+            }
+        } else if (i == NotificationCenter.dialogTranslate) {
+            long longValue3 = ((Long) objArr[0]).longValue();
+            int i10 = 0;
+            while (true) {
+                ViewPage[] viewPageArr8 = this.viewPages;
+                if (i10 >= viewPageArr8.length) {
+                    return;
+                }
+                ViewPage viewPage5 = viewPageArr8[i10];
+                if (viewPage5.listView != null) {
+                    int i11 = 0;
+                    while (true) {
+                        if (i11 < viewPage5.listView.getChildCount()) {
+                            View childAt2 = viewPage5.listView.getChildAt(i11);
+                            if (childAt2 instanceof DialogCell) {
+                                DialogCell dialogCell = (DialogCell) childAt2;
+                                if (longValue3 == dialogCell.getDialogId()) {
+                                    dialogCell.buildLayout();
+                                    break;
+                                }
+                            }
+                            i11++;
+                        }
+                    }
+                }
+                i10++;
             }
         }
     }
