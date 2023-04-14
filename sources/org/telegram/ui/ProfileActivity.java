@@ -92,6 +92,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
@@ -3326,8 +3327,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onItemClick$2(TLRPC$User tLRPC$User, boolean z) {
-            if (ProfileActivity.this.getParentLayout().getFragmentStack().get(ProfileActivity.this.getParentLayout().getFragmentStack().size() - 2) instanceof ChatActivity) {
-                ProfileActivity.this.getParentLayout().removeFragmentFromStack(ProfileActivity.this.getParentLayout().getFragmentStack().size() - 2);
+            List<BaseFragment> fragmentStack = ProfileActivity.this.getParentLayout().getFragmentStack();
+            if (((fragmentStack == null || fragmentStack.size() < 2) ? null : fragmentStack.get(fragmentStack.size() - 2)) instanceof ChatActivity) {
+                ProfileActivity.this.getParentLayout().removeFragmentFromStack(fragmentStack.size() - 2);
             }
             ProfileActivity.this.finishFragment();
             ProfileActivity.this.getNotificationCenter().postNotificationName(NotificationCenter.needDeleteDialog, Long.valueOf(ProfileActivity.this.dialogId), tLRPC$User, ProfileActivity.this.currentChat, Boolean.valueOf(z));

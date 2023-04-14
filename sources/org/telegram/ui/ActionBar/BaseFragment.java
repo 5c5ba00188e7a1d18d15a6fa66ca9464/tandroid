@@ -756,7 +756,7 @@ public abstract class BaseFragment {
                 return lambda$showAsSheet$1;
             }
         })};
-        final BottomSheet[] bottomSheetArr = {new 1(this, getParentActivity(), true, iNavigationLayoutArr, baseFragment, bottomSheetParams)};
+        final BottomSheet[] bottomSheetArr = {new 1(this, getParentActivity(), true, baseFragment.getResourceProvider(), iNavigationLayoutArr, baseFragment, bottomSheetParams)};
         if (bottomSheetParams != null) {
             bottomSheetArr[0].setAllowNestedScroll(bottomSheetParams.allowNestedScroll);
             bottomSheetArr[0].transitionFromRight(bottomSheetParams.transitionFromLeft);
@@ -779,11 +779,12 @@ public abstract class BaseFragment {
         }
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        1(BaseFragment baseFragment, Context context, boolean z, INavigationLayout[] iNavigationLayoutArr, final BaseFragment baseFragment2, final BottomSheetParams bottomSheetParams) {
-            super(context, z);
+        1(BaseFragment baseFragment, Context context, boolean z, Theme.ResourcesProvider resourcesProvider, INavigationLayout[] iNavigationLayoutArr, final BaseFragment baseFragment2, final BottomSheetParams bottomSheetParams) {
+            super(context, z, resourcesProvider);
             this.val$actionBarLayout = iNavigationLayoutArr;
             this.val$fragment = baseFragment2;
             this.val$params = bottomSheetParams;
+            this.drawNavigationBar = true;
             iNavigationLayoutArr[0].setFragmentStack(new ArrayList());
             iNavigationLayoutArr[0].addFragmentToStack(baseFragment2);
             iNavigationLayoutArr[0].showLastFragment();
@@ -803,11 +804,18 @@ public abstract class BaseFragment {
         /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$new$0(BaseFragment baseFragment, BottomSheetParams bottomSheetParams, DialogInterface dialogInterface) {
             Runnable runnable;
+            baseFragment.onPause();
             baseFragment.onFragmentDestroy();
             if (bottomSheetParams == null || (runnable = bottomSheetParams.onDismiss) == null) {
                 return;
             }
             runnable.run();
+        }
+
+        @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
+        protected void onCreate(Bundle bundle) {
+            super.onCreate(bundle);
+            fixNavigationBar(Theme.getColor("dialogBackgroundGray", this.val$fragment.getResourceProvider()));
         }
 
         @Override // android.app.Dialog
@@ -822,12 +830,12 @@ public abstract class BaseFragment {
 
         @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
         public void dismiss() {
+            BottomSheetParams bottomSheetParams;
             Runnable runnable;
-            super.dismiss();
-            BottomSheetParams bottomSheetParams = this.val$params;
-            if (bottomSheetParams != null && (runnable = bottomSheetParams.onPreFinished) != null) {
+            if (!isDismissed() && (bottomSheetParams = this.val$params) != null && (runnable = bottomSheetParams.onPreFinished) != null) {
                 runnable.run();
             }
+            super.dismiss();
             this.val$actionBarLayout[0] = null;
         }
 

@@ -157,7 +157,6 @@ import org.telegram.ui.Components.HintView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.MotionBackgroundDrawable;
 import org.telegram.ui.Components.RLottieDrawable;
-import org.telegram.ui.Components.RadialProgress2;
 import org.telegram.ui.Components.RadialProgressView;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SeekBarView;
@@ -184,7 +183,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     private int backgroundGradientColor2;
     private int backgroundGradientColor3;
     private BackgroundGradientDrawable.Disposable backgroundGradientDisposable;
-    private BackupImageView backgroundImage;
+    private BackgroundView backgroundImage;
+    private BackgroundView[] backgroundImages;
     private ImageView backgroundPlayAnimationImageView;
     private FrameLayout backgroundPlayAnimationView;
     private AnimatorSet backgroundPlayViewAnimator;
@@ -288,7 +288,6 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     private TLRPC$TL_wallPaper previousSelectedPattern;
     private float progressToDarkTheme;
     private boolean progressVisible;
-    private RadialProgress2 radialProgress;
     private boolean removeBackgroundOverride;
     private boolean rotatePreview;
     private FrameLayout saveButtonsContainer;
@@ -305,6 +304,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     private List<ThemeDescription> themeDescriptions;
     private UndoView undoView;
     public boolean useDefaultThemeForButtons;
+    private ValueAnimator valueAnimator;
     private ViewPager viewPager;
     private boolean wasScroll;
     private long watchForKeyboardEndTime;
@@ -332,6 +332,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean isSwipeBackEnabled(MotionEvent motionEvent) {
         return false;
+    }
+
+    @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
+    public void onProgressDownload(String str, long j, long j2) {
     }
 
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
@@ -379,7 +383,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             };
             TLRPC$WallPaperSettings tLRPC$WallPaperSettings3 = tLRPC$WallPaper2.settings;
             if (tLRPC$WallPaperSettings3 != null) {
-                themePreviewActivity.setInitialModes(tLRPC$WallPaperSettings3.blur, tLRPC$WallPaperSettings3.motion);
+                themePreviewActivity.setInitialModes(tLRPC$WallPaperSettings3.blur, tLRPC$WallPaperSettings3.motion, tLRPC$WallPaperSettings3.intensity / 100.0f);
             }
             themePreviewActivity.setCurrentServerWallpaper(messageObject);
             themePreviewActivity.setDialogId(messageObject.getDialogId());
@@ -441,6 +445,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 ThemePreviewActivity.this.lambda$new$0();
             }
         };
+        this.backgroundImages = new BackgroundView[2];
         this.patternLayout = new FrameLayout[2];
         this.patternsCancelButton = new TextView[2];
         this.patternsSaveButton = new TextView[2];
@@ -543,6 +548,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 ThemePreviewActivity.this.lambda$new$0();
             }
         };
+        this.backgroundImages = new BackgroundView[2];
         this.patternLayout = new FrameLayout[2];
         this.patternsCancelButton = new TextView[2];
         this.patternsSaveButton = new TextView[2];
@@ -653,44 +659,46 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         this.msgOutMediaDrawableSelected.themePreview = true;
     }
 
-    public void setInitialModes(boolean z, boolean z2) {
+    public void setInitialModes(boolean z, boolean z2, float f) {
         this.isBlurred = z;
         this.isMotion = z2;
+        this.dimAmount = f;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:96:0x031c, code lost:
-        if ("d".equals(((org.telegram.ui.WallpapersListActivity.ColorWallpaper) r1).slug) == false) goto L347;
+    /* JADX WARN: Code restructure failed: missing block: B:101:0x0344, code lost:
+        if ((r33.currentWallpaper instanceof org.telegram.tgnet.TLRPC$TL_wallPaper) != false) goto L355;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:98:0x0322, code lost:
-        if ((r32.currentWallpaper instanceof org.telegram.tgnet.TLRPC$TL_wallPaper) != false) goto L347;
+    /* JADX WARN: Code restructure failed: missing block: B:99:0x033e, code lost:
+        if ("d".equals(((org.telegram.ui.WallpapersListActivity.ColorWallpaper) r1).slug) == false) goto L355;
      */
-    /* JADX WARN: Removed duplicated region for block: B:132:0x0554  */
-    /* JADX WARN: Removed duplicated region for block: B:133:0x0564  */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x0598  */
-    /* JADX WARN: Removed duplicated region for block: B:139:0x059a  */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x05a2  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x05c8  */
-    /* JADX WARN: Removed duplicated region for block: B:146:0x0605 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:151:0x0624  */
-    /* JADX WARN: Removed duplicated region for block: B:170:0x07c2  */
-    /* JADX WARN: Removed duplicated region for block: B:181:0x07e2  */
-    /* JADX WARN: Removed duplicated region for block: B:187:0x07fb  */
-    /* JADX WARN: Removed duplicated region for block: B:218:0x08ea  */
-    /* JADX WARN: Removed duplicated region for block: B:221:0x08f0  */
+    /* JADX WARN: Removed duplicated region for block: B:135:0x0576  */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x0586  */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x05ba  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x05bc  */
+    /* JADX WARN: Removed duplicated region for block: B:145:0x05c4  */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x05ea  */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x0627 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x0630  */
+    /* JADX WARN: Removed duplicated region for block: B:172:0x07cf  */
+    /* JADX WARN: Removed duplicated region for block: B:183:0x07ef  */
+    /* JADX WARN: Removed duplicated region for block: B:189:0x0808  */
+    /* JADX WARN: Removed duplicated region for block: B:220:0x08f7  */
+    /* JADX WARN: Removed duplicated region for block: B:223:0x08fd  */
     /* JADX WARN: Removed duplicated region for block: B:22:0x0039  */
-    /* JADX WARN: Removed duplicated region for block: B:271:0x09e3  */
+    /* JADX WARN: Removed duplicated region for block: B:273:0x09f2  */
     /* JADX WARN: Removed duplicated region for block: B:29:0x004b  */
-    /* JADX WARN: Removed duplicated region for block: B:310:0x0b1a  */
-    /* JADX WARN: Removed duplicated region for block: B:317:0x0b2b  */
-    /* JADX WARN: Removed duplicated region for block: B:365:0x0e89  */
-    /* JADX WARN: Removed duplicated region for block: B:368:0x0e94  */
-    /* JADX WARN: Removed duplicated region for block: B:373:0x0efe  */
-    /* JADX WARN: Removed duplicated region for block: B:374:0x0f03  */
-    /* JADX WARN: Removed duplicated region for block: B:377:0x0f3a  */
+    /* JADX WARN: Removed duplicated region for block: B:312:0x0b2f  */
+    /* JADX WARN: Removed duplicated region for block: B:319:0x0b40  */
+    /* JADX WARN: Removed duplicated region for block: B:367:0x0ea0  */
+    /* JADX WARN: Removed duplicated region for block: B:370:0x0eab  */
+    /* JADX WARN: Removed duplicated region for block: B:375:0x0f15  */
+    /* JADX WARN: Removed duplicated region for block: B:376:0x0f1a  */
+    /* JADX WARN: Removed duplicated region for block: B:379:0x0f51  */
     /* JADX WARN: Removed duplicated region for block: B:37:0x00ee  */
-    /* JADX WARN: Removed duplicated region for block: B:380:0x1069  */
-    /* JADX WARN: Removed duplicated region for block: B:387:0x1090  */
+    /* JADX WARN: Removed duplicated region for block: B:382:0x1082  */
+    /* JADX WARN: Removed duplicated region for block: B:389:0x10a9  */
     /* JADX WARN: Removed duplicated region for block: B:38:0x00f0  */
+    /* JADX WARN: Removed duplicated region for block: B:392:0x10bb  */
     /* JADX WARN: Removed duplicated region for block: B:41:0x00fa  */
     /* JADX WARN: Removed duplicated region for block: B:42:0x00fd  */
     /* JADX WARN: Removed duplicated region for block: B:45:0x0141  */
@@ -706,9 +714,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     /* JADX WARN: Removed duplicated region for block: B:66:0x021b  */
     /* JADX WARN: Removed duplicated region for block: B:67:0x021e  */
     /* JADX WARN: Removed duplicated region for block: B:70:0x024f  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x028a  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x02a5  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x02c1  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x026b A[LOOP:0: B:72:0x0269->B:73:0x026b, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x02ac  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x02c7  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x02e3  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     @SuppressLint({"Recycle"})
     /*
@@ -723,16 +732,18 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         int i5;
         int i6;
         int i7;
-        Object obj;
         int i8;
-        String str;
+        Object obj;
         int i9;
-        final int i10;
+        String str;
+        int i10;
         final int i11;
+        final int i12;
         FrameLayout.LayoutParams createFrame;
         String str2;
         String str3;
         Theme.ThemeAccent themeAccent;
+        INavigationLayout iNavigationLayout;
         this.hasOwnBackground = true;
         DayNightSwitchDelegate dayNightSwitchDelegate = this.onSwitchDayNightDelegate;
         boolean z2 = (dayNightSwitchDelegate == null || this.dialogId == 0) ? false : true;
@@ -780,18 +791,18 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 this.actionBar.setTitle(LocaleController.getString("ThemePreview", R.string.ThemePreview));
                 FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.ThemePreviewActivity.5
                     @Override // android.widget.FrameLayout, android.view.View
-                    protected void onMeasure(int i12, int i13) {
-                        int size = View.MeasureSpec.getSize(i12);
-                        int size2 = View.MeasureSpec.getSize(i13);
+                    protected void onMeasure(int i13, int i14) {
+                        int size = View.MeasureSpec.getSize(i13);
+                        int size2 = View.MeasureSpec.getSize(i14);
                         setMeasuredDimension(size, size2);
-                        measureChildWithMargins(((BaseFragment) ThemePreviewActivity.this).actionBar, i12, 0, i13, 0);
+                        measureChildWithMargins(((BaseFragment) ThemePreviewActivity.this).actionBar, i13, 0, i14, 0);
                         int measuredHeight = ((BaseFragment) ThemePreviewActivity.this).actionBar.getMeasuredHeight();
                         if (((BaseFragment) ThemePreviewActivity.this).actionBar.getVisibility() == 0) {
                             size2 -= measuredHeight;
                         }
                         ((FrameLayout.LayoutParams) ThemePreviewActivity.this.listView.getLayoutParams()).topMargin = measuredHeight;
                         ThemePreviewActivity.this.listView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 1073741824));
-                        measureChildWithMargins(ThemePreviewActivity.this.floatingButton, i12, 0, i13, 0);
+                        measureChildWithMargins(ThemePreviewActivity.this.floatingButton, i13, 0, i14, 0);
                     }
 
                     @Override // android.view.ViewGroup
@@ -848,10 +859,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 }
                 FrameLayout frameLayout2 = this.page1;
                 ImageView imageView3 = this.floatingButton;
-                int i12 = i < 21 ? 56 : 60;
+                int i13 = i < 21 ? 56 : 60;
                 float f = i < 21 ? 56.0f : 60.0f;
                 boolean z3 = LocaleController.isRTL;
-                frameLayout2.addView(imageView3, LayoutHelper.createFrame(i12, f, (!z3 ? 3 : 5) | 80, !z3 ? 14.0f : 0.0f, 0.0f, !z3 ? 0.0f : 14.0f, 14.0f));
+                frameLayout2.addView(imageView3, LayoutHelper.createFrame(i13, f, (!z3 ? 3 : 5) | 80, !z3 ? 14.0f : 0.0f, 0.0f, !z3 ? 0.0f : 14.0f, 14.0f));
                 DialogsAdapter dialogsAdapter = new DialogsAdapter(context);
                 this.dialogsAdapter = dialogsAdapter;
                 this.listView.setAdapter(dialogsAdapter);
@@ -859,9 +870,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     private boolean ignoreLayout;
 
                     @Override // android.widget.FrameLayout, android.view.View
-                    protected void onMeasure(int i13, int i14) {
-                        int size = View.MeasureSpec.getSize(i13);
-                        int size2 = View.MeasureSpec.getSize(i14);
+                    protected void onMeasure(int i14, int i15) {
+                        int size = View.MeasureSpec.getSize(i14);
+                        int size2 = View.MeasureSpec.getSize(i15);
                         setMeasuredDimension(size, size2);
                         if (ThemePreviewActivity.this.dropDownContainer != null) {
                             this.ignoreLayout = true;
@@ -877,7 +888,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             }
                             this.ignoreLayout = false;
                         }
-                        measureChildWithMargins(ThemePreviewActivity.this.actionBar2, i13, 0, i14, 0);
+                        measureChildWithMargins(ThemePreviewActivity.this.actionBar2, i14, 0, i15, 0);
                         int measuredHeight = ThemePreviewActivity.this.actionBar2.getMeasuredHeight();
                         if (ThemePreviewActivity.this.actionBar2.getVisibility() == 0) {
                             size2 -= measuredHeight;
@@ -888,11 +899,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         ((FrameLayout.LayoutParams) ThemePreviewActivity.this.backgroundImage.getLayoutParams()).topMargin = measuredHeight;
                         ThemePreviewActivity.this.backgroundImage.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 1073741824));
                         if (ThemePreviewActivity.this.bottomOverlayChat != null) {
-                            measureChildWithMargins(ThemePreviewActivity.this.bottomOverlayChat, i13, 0, i14, 0);
+                            measureChildWithMargins(ThemePreviewActivity.this.bottomOverlayChat, i14, 0, i15, 0);
                         }
-                        for (int i15 = 0; i15 < ThemePreviewActivity.this.patternLayout.length; i15++) {
-                            if (ThemePreviewActivity.this.patternLayout[i15] != null) {
-                                measureChildWithMargins(ThemePreviewActivity.this.patternLayout[i15], i13, 0, i14, 0);
+                        for (int i16 = 0; i16 < ThemePreviewActivity.this.patternLayout.length; i16++) {
+                            if (ThemePreviewActivity.this.patternLayout[i16] != null) {
+                                measureChildWithMargins(ThemePreviewActivity.this.patternLayout[i16], i14, 0, i15, 0);
                             }
                         }
                     }
@@ -921,123 +932,14 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 }
                 this.actionBar2.setBackButtonDrawable(new BackDrawable(false));
                 this.actionBar2.setActionBarMenuOnItemClick(new 8());
-                BackupImageView backupImageView = new BackupImageView(context) { // from class: org.telegram.ui.ThemePreviewActivity.9
-                    private Drawable background;
-
-                    @Override // android.view.View
-                    protected void onMeasure(int i13, int i14) {
-                        super.onMeasure(i13, i14);
-                        ThemePreviewActivity themePreviewActivity = ThemePreviewActivity.this;
-                        themePreviewActivity.parallaxScale = themePreviewActivity.parallaxEffect.getScale(getMeasuredWidth(), getMeasuredHeight());
-                        if (ThemePreviewActivity.this.isMotion) {
-                            setScaleX(ThemePreviewActivity.this.parallaxScale);
-                            setScaleY(ThemePreviewActivity.this.parallaxScale);
-                        }
-                        if (ThemePreviewActivity.this.radialProgress != null) {
-                            int dp = AndroidUtilities.dp(44.0f);
-                            int measuredWidth = (getMeasuredWidth() - dp) / 2;
-                            int measuredHeight = (getMeasuredHeight() - dp) / 2;
-                            ThemePreviewActivity.this.radialProgress.setProgressRect(measuredWidth, measuredHeight, measuredWidth + dp, dp + measuredHeight);
-                        }
-                        ThemePreviewActivity themePreviewActivity2 = ThemePreviewActivity.this;
-                        themePreviewActivity2.progressVisible = themePreviewActivity2.screenType == 2 && getMeasuredWidth() <= getMeasuredHeight();
-                        int measuredWidth2 = getMeasuredWidth() + (getMeasuredHeight() << 16);
-                        if (ThemePreviewActivity.this.lastSizeHash != measuredWidth2) {
-                            ThemePreviewActivity.this.hasScrollingBackground = false;
-                            if (ThemePreviewActivity.this.currentWallpaperBitmap != null) {
-                                int width = (int) (ThemePreviewActivity.this.currentWallpaperBitmap.getWidth() * (getMeasuredHeight() / ThemePreviewActivity.this.currentWallpaperBitmap.getHeight()));
-                                if (width - getMeasuredWidth() > 100) {
-                                    ThemePreviewActivity.this.hasScrollingBackground = true;
-                                    ThemePreviewActivity.this.croppedWidth = (int) (getMeasuredWidth() * (ThemePreviewActivity.this.currentWallpaperBitmap.getHeight() / getMeasuredHeight()));
-                                    ThemePreviewActivity themePreviewActivity3 = ThemePreviewActivity.this;
-                                    float measuredWidth3 = (width - getMeasuredWidth()) / 2.0f;
-                                    themePreviewActivity3.currentScrollOffset = measuredWidth3;
-                                    themePreviewActivity3.defaultScrollOffset = measuredWidth3;
-                                    ThemePreviewActivity themePreviewActivity4 = ThemePreviewActivity.this;
-                                    themePreviewActivity4.maxScrollOffset = themePreviewActivity4.currentScrollOffset * 2.0f;
-                                    setSize(width, getMeasuredHeight());
-                                    this.drawFromStart = true;
-                                }
-                            }
-                            if (!ThemePreviewActivity.this.hasScrollingBackground) {
-                                setSize(-1, -1);
-                                this.drawFromStart = false;
-                            }
-                        }
-                        ThemePreviewActivity.this.lastSizeHash = measuredWidth2;
-                    }
-
-                    /* JADX INFO: Access modifiers changed from: protected */
-                    @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-                    public void onDraw(Canvas canvas) {
-                        DayNightSwitchDelegate dayNightSwitchDelegate2;
-                        Drawable drawable = this.background;
-                        if ((drawable instanceof ColorDrawable) || (drawable instanceof GradientDrawable) || (drawable instanceof MotionBackgroundDrawable)) {
-                            drawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                            this.background.draw(canvas);
-                        } else if (drawable instanceof BitmapDrawable) {
-                            if (((BitmapDrawable) drawable).getTileModeX() == Shader.TileMode.REPEAT) {
-                                canvas.save();
-                                float f2 = 2.0f / AndroidUtilities.density;
-                                canvas.scale(f2, f2);
-                                this.background.setBounds(0, 0, (int) Math.ceil(getMeasuredWidth() / f2), (int) Math.ceil(getMeasuredHeight() / f2));
-                                this.background.draw(canvas);
-                                canvas.restore();
-                            } else {
-                                int measuredHeight = getMeasuredHeight();
-                                float max = Math.max(getMeasuredWidth() / this.background.getIntrinsicWidth(), measuredHeight / this.background.getIntrinsicHeight());
-                                int ceil = (int) Math.ceil(this.background.getIntrinsicWidth() * max * ThemePreviewActivity.this.parallaxScale);
-                                int ceil2 = (int) Math.ceil(this.background.getIntrinsicHeight() * max * ThemePreviewActivity.this.parallaxScale);
-                                int measuredWidth = (getMeasuredWidth() - ceil) / 2;
-                                int i13 = (measuredHeight - ceil2) / 2;
-                                this.background.setBounds(measuredWidth, i13, ceil + measuredWidth, ceil2 + i13);
-                                this.background.draw(canvas);
-                            }
-                        }
-                        if (ThemePreviewActivity.this.hasScrollingBackground) {
-                            if (!ThemePreviewActivity.this.scroller.isFinished() && ThemePreviewActivity.this.scroller.computeScrollOffset()) {
-                                ThemePreviewActivity themePreviewActivity = ThemePreviewActivity.this;
-                                if (ThemePreviewActivity.this.scroller.getStartX() < themePreviewActivity.maxScrollOffset && themePreviewActivity.scroller.getStartX() > 0) {
-                                    ThemePreviewActivity themePreviewActivity2 = ThemePreviewActivity.this;
-                                    themePreviewActivity2.currentScrollOffset = themePreviewActivity2.scroller.getCurrX();
-                                }
-                                invalidate();
-                            }
-                            canvas.save();
-                            canvas.translate(-ThemePreviewActivity.this.currentScrollOffset, 0.0f);
-                            super.onDraw(canvas);
-                            canvas.restore();
-                        } else {
-                            super.onDraw(canvas);
-                        }
-                        if (ThemePreviewActivity.this.dimAmount > 0.0f && (dayNightSwitchDelegate2 = ThemePreviewActivity.this.onSwitchDayNightDelegate) != null && dayNightSwitchDelegate2.isDark()) {
-                            canvas.drawColor(ColorUtils.setAlphaComponent(-16777216, (int) (ThemePreviewActivity.this.dimAmount * 255.0f * ThemePreviewActivity.this.progressToDarkTheme)));
-                        }
-                        if (!ThemePreviewActivity.this.progressVisible || ThemePreviewActivity.this.radialProgress == null) {
-                            return;
-                        }
-                        ThemePreviewActivity.this.radialProgress.draw(canvas);
-                    }
-
-                    @Override // android.view.View
-                    public Drawable getBackground() {
-                        return this.background;
-                    }
-
-                    @Override // android.view.View
-                    public void setBackground(Drawable drawable) {
-                        this.background = drawable;
-                    }
-
-                    @Override // android.view.View
-                    public void setAlpha(float f2) {
-                        if (ThemePreviewActivity.this.radialProgress != null) {
-                            ThemePreviewActivity.this.radialProgress.setOverrideAlpha(f2);
-                        }
-                    }
-                };
-                this.backgroundImage = backupImageView;
-                this.page2.addView(backupImageView, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 0.0f, 0.0f, 48.0f));
+                for (i2 = 0; i2 < 2; i2++) {
+                    this.backgroundImages[i2] = new BackgroundView(getContext());
+                    this.page2.addView(this.backgroundImages[i2], LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 0.0f, 0.0f, 48.0f));
+                }
+                BackgroundView backgroundView = this.backgroundImages[0];
+                this.backgroundImage = backgroundView;
+                backgroundView.setVisibility(0);
+                this.backgroundImages[1].setVisibility(8);
                 if (this.screenType == 2) {
                     this.backgroundImage.getImageReceiver().setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda21
                         @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
@@ -1055,8 +957,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     this.actionBar2.setTitle("Telegram Beta Chat");
                     this.actionBar2.setSubtitle(LocaleController.formatPluralString("Members", 505, new Object[0]));
                 } else {
-                    int i13 = this.screenType;
-                    if (i13 == 2) {
+                    int i14 = this.screenType;
+                    if (i14 == 2) {
                         if (this.dialogId != 0) {
                             this.actionBar2.setTitle(LocaleController.getString("WallpaperPreview", R.string.WallpaperPreview));
                         } else {
@@ -1075,8 +977,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             createMenu.addItem(5, R.drawable.msg_share_filled);
                         }
                         if (this.dialogId != 0 && this.shouldShowDayNightIcon) {
-                            int i14 = R.raw.sun;
-                            RLottieDrawable rLottieDrawable = new RLottieDrawable(i14, "" + i14, AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
+                            int i15 = R.raw.sun;
+                            RLottieDrawable rLottieDrawable = new RLottieDrawable(i15, "" + i15, AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
                             this.sunDrawable = rLottieDrawable;
                             this.dayNightItem = createMenu.addItem(6, rLottieDrawable);
                             this.sunDrawable.setPlayInDirectionOfCustomEndFrame(true);
@@ -1097,12 +999,12 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             this.sunDrawable.commitApplyLayerColors();
                         }
                     } else {
-                        if (i13 == 1) {
+                        if (i14 == 1) {
                             ActionBarMenu createMenu2 = this.actionBar2.createMenu();
                             this.saveItem = createMenu2.addItem(4, LocaleController.getString("Save", R.string.Save).toUpperCase());
-                            i3 = 51;
-                            i2 = 2;
-                            ActionBarMenuItem actionBarMenuItem = new ActionBarMenuItem(context, createMenu2, 0, 0) { // from class: org.telegram.ui.ThemePreviewActivity.10
+                            i4 = 51;
+                            i3 = 2;
+                            ActionBarMenuItem actionBarMenuItem = new ActionBarMenuItem(context, createMenu2, 0, 0) { // from class: org.telegram.ui.ThemePreviewActivity.9
                                 @Override // org.telegram.ui.ActionBar.ActionBarMenuItem, android.view.View
                                 public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
                                     super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
@@ -1113,8 +1015,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             actionBarMenuItem.setSubMenuOpenSide(1);
                             this.dropDownContainer.addSubItem(2, LocaleController.getString("ColorPickerBackground", R.string.ColorPickerBackground));
                             ActionBarMenuItem actionBarMenuItem2 = this.dropDownContainer;
-                            int i15 = R.string.ColorPickerMainColor;
-                            actionBarMenuItem2.addSubItem(1, LocaleController.getString("ColorPickerMainColor", i15));
+                            int i16 = R.string.ColorPickerMainColor;
+                            actionBarMenuItem2.addSubItem(1, LocaleController.getString("ColorPickerMainColor", i16));
                             this.dropDownContainer.addSubItem(3, LocaleController.getString("ColorPickerMyMessages", R.string.ColorPickerMyMessages));
                             this.dropDownContainer.setAllowCloseAnimation(false);
                             this.dropDownContainer.setForceSmoothKeyboard(true);
@@ -1135,7 +1037,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             this.dropDown.setEllipsize(TextUtils.TruncateAt.END);
                             this.dropDown.setTextColor(getThemedColor("actionBarDefaultTitle"));
                             this.dropDown.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-                            this.dropDown.setText(LocaleController.getString("ColorPickerMainColor", i15));
+                            this.dropDown.setText(LocaleController.getString("ColorPickerMainColor", i16));
                             Drawable mutate2 = context.getResources().getDrawable(R.drawable.ic_arrow_drop_down).mutate();
                             mutate2.setColorFilter(new PorterDuffColorFilter(getThemedColor("actionBarDefaultTitle"), PorterDuff.Mode.MULTIPLY));
                             this.dropDown.setCompoundDrawablesWithIntrinsicBounds((Drawable) null, (Drawable) null, mutate2, (Drawable) null);
@@ -1143,8 +1045,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             this.dropDown.setPadding(0, 0, AndroidUtilities.dp(10.0f), 0);
                             this.dropDownContainer.addView(this.dropDown, LayoutHelper.createFrame(-2, -2.0f, 16, 16.0f, 0.0f, 0.0f, 1.0f));
                         } else {
-                            i2 = 2;
-                            i3 = 51;
+                            i3 = 2;
+                            i4 = 51;
                             Theme.ThemeInfo themeInfo = this.applyingTheme;
                             TLRPC$TL_theme tLRPC$TL_theme = themeInfo.info;
                             String name = tLRPC$TL_theme != null ? tLRPC$TL_theme.title : themeInfo.getName();
@@ -1154,13 +1056,13 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             }
                             this.actionBar2.setTitle(name);
                             TLRPC$TL_theme tLRPC$TL_theme2 = this.applyingTheme.info;
-                            if (tLRPC$TL_theme2 != null && (i4 = tLRPC$TL_theme2.installs_count) > 0) {
-                                this.actionBar2.setSubtitle(LocaleController.formatPluralString("ThemeInstallCount", i4, new Object[0]));
+                            if (tLRPC$TL_theme2 != null && (i5 = tLRPC$TL_theme2.installs_count) > 0) {
+                                this.actionBar2.setSubtitle(LocaleController.formatPluralString("ThemeInstallCount", i5, new Object[0]));
                             } else {
                                 this.actionBar2.setSubtitle(LocaleController.formatDateOnline((System.currentTimeMillis() / 1000) - 3600, null));
                             }
                         }
-                        this.listView2 = new RecyclerListView(context) { // from class: org.telegram.ui.ThemePreviewActivity.11
+                        this.listView2 = new RecyclerListView(context) { // from class: org.telegram.ui.ThemePreviewActivity.10
                             boolean scrollingBackground;
                             float startX;
 
@@ -1188,9 +1090,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                             top2 = measuredHeight;
                                         }
                                         if (chatMessageCell.isPinnedTop() && (r9 = ThemePreviewActivity.this.listView2.getChildViewHolder(view)) != null) {
-                                            int i16 = 0;
-                                            while (i16 < 20) {
-                                                i16++;
+                                            int i17 = 0;
+                                            while (i17 < 20) {
+                                                i17++;
                                                 RecyclerView.ViewHolder childViewHolder2 = ThemePreviewActivity.this.listView2.findViewHolderForAdapterPosition(childViewHolder2.getAdapterPosition() + 1);
                                                 if (childViewHolder2 == null) {
                                                     break;
@@ -1228,13 +1130,13 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             public void setTranslationY(float f2) {
                                 super.setTranslationY(f2);
                                 if (ThemePreviewActivity.this.backgroundCheckBoxView != null) {
-                                    for (int i16 = 0; i16 < ThemePreviewActivity.this.backgroundCheckBoxView.length; i16++) {
-                                        ThemePreviewActivity.this.backgroundCheckBoxView[i16].invalidate();
+                                    for (int i17 = 0; i17 < ThemePreviewActivity.this.backgroundCheckBoxView.length; i17++) {
+                                        ThemePreviewActivity.this.backgroundCheckBoxView[i17].invalidate();
                                     }
                                 }
                                 if (ThemePreviewActivity.this.messagesCheckBoxView != null) {
-                                    for (int i17 = 0; i17 < ThemePreviewActivity.this.messagesCheckBoxView.length; i17++) {
-                                        ThemePreviewActivity.this.messagesCheckBoxView[i17].invalidate();
+                                    for (int i18 = 0; i18 < ThemePreviewActivity.this.messagesCheckBoxView.length; i18++) {
+                                        ThemePreviewActivity.this.messagesCheckBoxView[i18].invalidate();
                                     }
                                 }
                                 if (ThemePreviewActivity.this.backgroundPlayAnimationView != null) {
@@ -1294,7 +1196,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 }
                             }
                         };
-                        DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator() { // from class: org.telegram.ui.ThemePreviewActivity.12
+                        DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator() { // from class: org.telegram.ui.ThemePreviewActivity.11
                             /* JADX INFO: Access modifiers changed from: protected */
                             @Override // androidx.recyclerview.widget.DefaultItemAnimator
                             public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
@@ -1304,11 +1206,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         defaultItemAnimator.setDelayAnimations(false);
                         this.listView2.setItemAnimator(defaultItemAnimator);
                         this.listView2.setVerticalScrollBarEnabled(true);
-                        this.listView2.setOverScrollMode(i2);
-                        i5 = this.screenType;
-                        if (i5 == i2) {
+                        this.listView2.setOverScrollMode(i3);
+                        i6 = this.screenType;
+                        if (i6 == i3) {
                             this.listView2.setPadding(0, AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(52.0f));
-                        } else if (i5 == 1) {
+                        } else if (i6 == 1) {
                             this.listView2.setPadding(0, AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(16.0f));
                         } else {
                             this.listView2.setPadding(0, AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f));
@@ -1320,56 +1222,53 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             this.page2.addView(this.listView2, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 0.0f, 0.0f, 273.0f));
                             this.listView2.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda27
                                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-                                public /* synthetic */ boolean hasDoubleTap(View view, int i16) {
-                                    return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i16);
+                                public /* synthetic */ boolean hasDoubleTap(View view, int i17) {
+                                    return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i17);
                                 }
 
                                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-                                public /* synthetic */ void onDoubleTap(View view, int i16, float f2, float f3) {
-                                    RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i16, f2, f3);
+                                public /* synthetic */ void onDoubleTap(View view, int i17, float f2, float f3) {
+                                    RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i17, f2, f3);
                                 }
 
                                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-                                public final void onItemClick(View view, int i16, float f2, float f3) {
-                                    ThemePreviewActivity.this.lambda$createView$5(view, i16, f2, f3);
+                                public final void onItemClick(View view, int i17, float f2, float f3) {
+                                    ThemePreviewActivity.this.lambda$createView$5(view, i17, f2, f3);
                                 }
                             });
-                            i6 = -1;
+                            i7 = -1;
                         } else {
-                            i6 = -1;
-                            this.page2.addView(this.listView2, LayoutHelper.createFrame(-1, -1, i3));
+                            i7 = -1;
+                            this.page2.addView(this.listView2, LayoutHelper.createFrame(-1, -1, i4));
                         }
-                        this.listView2.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.ThemePreviewActivity.13
+                        this.listView2.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.ThemePreviewActivity.12
                             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-                            public void onScrolled(RecyclerView recyclerView, int i16, int i17) {
+                            public void onScrolled(RecyclerView recyclerView, int i17, int i18) {
                                 ThemePreviewActivity.this.listView2.invalidateViews();
                                 ThemePreviewActivity.this.wasScroll = true;
                             }
 
                             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-                            public void onScrollStateChanged(RecyclerView recyclerView, int i16) {
-                                if (i16 == 0) {
+                            public void onScrollStateChanged(RecyclerView recyclerView, int i17) {
+                                if (i17 == 0) {
                                     ThemePreviewActivity.this.wasScroll = false;
                                 }
                             }
                         });
-                        this.page2.addView(this.actionBar2, LayoutHelper.createFrame(i6, -2.0f));
+                        this.page2.addView(this.actionBar2, LayoutHelper.createFrame(i7, -2.0f));
                         WallpaperParallaxEffect wallpaperParallaxEffect = new WallpaperParallaxEffect(context);
                         this.parallaxEffect = wallpaperParallaxEffect;
                         wallpaperParallaxEffect.setCallback(new WallpaperParallaxEffect.Callback() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda28
                             @Override // org.telegram.ui.Components.WallpaperParallaxEffect.Callback
-                            public final void onOffsetsChanged(int i16, int i17, float f2) {
-                                ThemePreviewActivity.this.lambda$createView$6(i16, i17, f2);
+                            public final void onOffsetsChanged(int i17, int i18, float f2) {
+                                ThemePreviewActivity.this.lambda$createView$6(i17, i18, f2);
                             }
                         });
-                        i7 = this.screenType;
+                        i8 = this.screenType;
                         String str4 = "chat_fieldOverlayText";
-                        if (i7 != 1 || i7 == i2) {
-                            RadialProgress2 radialProgress2 = new RadialProgress2(this.backgroundImage);
-                            this.radialProgress = radialProgress2;
-                            radialProgress2.setColors("chat_serviceBackground", "chat_serviceBackground", "chat_serviceText", "chat_serviceText");
-                            if (this.screenType == i2) {
-                                FrameLayout frameLayout3 = new FrameLayout(context) { // from class: org.telegram.ui.ThemePreviewActivity.14
+                        if (i8 != 1 || i8 == i3) {
+                            if (i8 == i3) {
+                                FrameLayout frameLayout3 = new FrameLayout(context) { // from class: org.telegram.ui.ThemePreviewActivity.13
                                     final Paint dividerPaint = new Paint();
                                     final Paint backgroundPaint = new Paint();
 
@@ -1428,7 +1327,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                     HeaderCell headerCell = new HeaderCell(getContext(), getResourceProvider());
                                     this.dimmingHeaderCell = headerCell;
                                     headerCell.setText(LocaleController.getString("BackgroundDimming", R.string.BackgroundDimming));
-                                    BrightnessControlCell brightnessControlCell = new BrightnessControlCell(getContext(), 1, getResourceProvider()) { // from class: org.telegram.ui.ThemePreviewActivity.15
+                                    BrightnessControlCell brightnessControlCell = new BrightnessControlCell(getContext(), 1, getResourceProvider()) { // from class: org.telegram.ui.ThemePreviewActivity.14
                                         @Override // org.telegram.ui.Cells.BrightnessControlCell
                                         protected void didChangedValue(float f2) {
                                             ThemePreviewActivity.this.dimAmount = f2;
@@ -1436,7 +1335,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                         }
                                     };
                                     this.brightnessControlCell = brightnessControlCell;
-                                    brightnessControlCell.setProgress(0.0f);
+                                    brightnessControlCell.setProgress(this.dimAmount);
                                     this.bottomOverlayChat.addView(this.dimmingHeaderCell, LayoutHelper.createFrame(-1, -2, 48));
                                     this.bottomOverlayChat.addView(this.brightnessControlCell, LayoutHelper.createFrame(-1, 88.0f, 80, 0.0f, 0.0f, 0.0f, 56.0f));
                                     DayNightSwitchDelegate dayNightSwitchDelegate3 = this.onSwitchDayNightDelegate;
@@ -1459,30 +1358,30 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 Object obj4 = this.currentWallpaper;
                                 if (!(obj4 instanceof WallpapersListActivity.ColorWallpaper)) {
                                     if (!(obj4 instanceof WallpapersListActivity.FileWallpaper) || !"t".equals(((WallpapersListActivity.FileWallpaper) obj4).slug)) {
-                                        i8 = 2;
-                                        String[] strArr = new String[i8];
-                                        int[] iArr = new int[i8];
-                                        this.backgroundCheckBoxView = new WallpaperCheckBoxView[i8];
-                                        if (i8 == 0) {
+                                        i9 = 2;
+                                        String[] strArr = new String[i9];
+                                        int[] iArr = new int[i9];
+                                        this.backgroundCheckBoxView = new WallpaperCheckBoxView[i9];
+                                        if (i9 == 0) {
                                             this.backgroundButtonsContainer = new FrameLayout(context);
                                             if (this.screenType == 1 || (this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper)) {
                                                 strArr[0] = LocaleController.getString("BackgroundColors", R.string.BackgroundColors);
                                                 strArr[1] = LocaleController.getString("BackgroundPattern", R.string.BackgroundPattern);
-                                                strArr[i2] = LocaleController.getString("BackgroundMotion", R.string.BackgroundMotion);
+                                                strArr[i3] = LocaleController.getString("BackgroundMotion", R.string.BackgroundMotion);
                                             } else {
                                                 strArr[0] = LocaleController.getString("BackgroundBlurred", R.string.BackgroundBlurred);
                                                 strArr[1] = LocaleController.getString("BackgroundMotion", R.string.BackgroundMotion);
                                             }
-                                            int i16 = 0;
-                                            i9 = 0;
-                                            while (i16 < i8) {
-                                                iArr[i16] = (int) Math.ceil(textPaint.measureText(strArr[i16]));
-                                                i9 = Math.max(i9, iArr[i16]);
-                                                i16++;
+                                            int i17 = 0;
+                                            i10 = 0;
+                                            while (i17 < i9) {
+                                                iArr[i17] = (int) Math.ceil(textPaint.measureText(strArr[i17]));
+                                                i10 = Math.max(i10, iArr[i17]);
+                                                i17++;
                                                 str4 = str4;
                                             }
                                             str = str4;
-                                            FrameLayout frameLayout5 = new FrameLayout(context) { // from class: org.telegram.ui.ThemePreviewActivity.16
+                                            FrameLayout frameLayout5 = new FrameLayout(context) { // from class: org.telegram.ui.ThemePreviewActivity.15
                                                 private RectF rect = new RectF();
 
                                                 @Override // android.view.View
@@ -1503,7 +1402,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                             this.backgroundPlayAnimationView.setAlpha(this.backgroundGradientColor1 != 0 ? 1.0f : 0.0f);
                                             this.backgroundPlayAnimationView.setTag(this.backgroundGradientColor1 != 0 ? 1 : null);
                                             this.backgroundButtonsContainer.addView(this.backgroundPlayAnimationView, LayoutHelper.createFrame(48, 48, 17));
-                                            this.backgroundPlayAnimationView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemePreviewActivity.17
+                                            this.backgroundPlayAnimationView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemePreviewActivity.16
                                                 int rotation = 0;
 
                                                 @Override // android.view.View.OnClickListener
@@ -1526,61 +1425,61 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                             this.backgroundPlayAnimationView.addView(this.backgroundPlayAnimationImageView, LayoutHelper.createFrame(-2, -2, 17));
                                         } else {
                                             str = "chat_fieldOverlayText";
-                                            i9 = 0;
+                                            i10 = 0;
                                         }
-                                        i10 = 0;
-                                        while (i10 < i8) {
-                                            this.backgroundCheckBoxView[i10] = new WallpaperCheckBoxView(context, ((this.screenType == 1 || (this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper)) && i10 == 0) ? false : true, this.backgroundImage);
-                                            this.backgroundCheckBoxView[i10].setBackgroundColor(this.backgroundColor);
-                                            this.backgroundCheckBoxView[i10].setText(strArr[i10], iArr[i10], i9);
+                                        i11 = 0;
+                                        while (i11 < i9) {
+                                            this.backgroundCheckBoxView[i11] = new WallpaperCheckBoxView(context, ((this.screenType == 1 || (this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper)) && i11 == 0) ? false : true, this.backgroundImage, getResourceProvider());
+                                            this.backgroundCheckBoxView[i11].setBackgroundColor(this.backgroundColor);
+                                            this.backgroundCheckBoxView[i11].setText(strArr[i11], iArr[i11], i10);
                                             if (this.screenType != 1 && !(this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper)) {
-                                                this.backgroundCheckBoxView[i10].setChecked(i10 == 0 ? this.isBlurred : this.isMotion, false);
-                                            } else if (i10 == 1) {
-                                                this.backgroundCheckBoxView[i10].setChecked((this.selectedPattern == null && ((themeAccent = this.accent) == null || TextUtils.isEmpty(themeAccent.patternSlug))) ? false : true, false);
-                                            } else if (i10 == 2) {
-                                                this.backgroundCheckBoxView[i10].setChecked(this.isMotion, false);
+                                                this.backgroundCheckBoxView[i11].setChecked(i11 == 0 ? this.isBlurred : this.isMotion, false);
+                                            } else if (i11 == 1) {
+                                                this.backgroundCheckBoxView[i11].setChecked((this.selectedPattern == null && ((themeAccent = this.accent) == null || TextUtils.isEmpty(themeAccent.patternSlug))) ? false : true, false);
+                                            } else if (i11 == 2) {
+                                                this.backgroundCheckBoxView[i11].setChecked(this.isMotion, false);
                                             }
-                                            int dp = AndroidUtilities.dp(56.0f) + i9;
+                                            int dp = AndroidUtilities.dp(56.0f) + i10;
                                             FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(dp, -2);
                                             layoutParams.gravity = 17;
-                                            if (i8 == 3) {
-                                                if (i10 == 0 || i10 == 2) {
+                                            if (i9 == 3) {
+                                                if (i11 == 0 || i11 == 2) {
                                                     layoutParams.leftMargin = (dp / 2) + AndroidUtilities.dp(10.0f);
                                                 } else {
                                                     layoutParams.rightMargin = (dp / 2) + AndroidUtilities.dp(10.0f);
                                                 }
-                                            } else if (i10 == 1) {
+                                            } else if (i11 == 1) {
                                                 layoutParams.leftMargin = (dp / 2) + AndroidUtilities.dp(10.0f);
                                             } else {
                                                 layoutParams.rightMargin = (dp / 2) + AndroidUtilities.dp(10.0f);
                                             }
-                                            this.backgroundButtonsContainer.addView(this.backgroundCheckBoxView[i10], layoutParams);
+                                            this.backgroundButtonsContainer.addView(this.backgroundCheckBoxView[i11], layoutParams);
                                             WallpaperCheckBoxView[] wallpaperCheckBoxViewArr = this.backgroundCheckBoxView;
-                                            final WallpaperCheckBoxView wallpaperCheckBoxView = wallpaperCheckBoxViewArr[i10];
-                                            wallpaperCheckBoxViewArr[i10].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda12
+                                            final WallpaperCheckBoxView wallpaperCheckBoxView = wallpaperCheckBoxViewArr[i11];
+                                            wallpaperCheckBoxViewArr[i11].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda12
                                                 @Override // android.view.View.OnClickListener
                                                 public final void onClick(View view) {
-                                                    ThemePreviewActivity.this.lambda$createView$9(i10, wallpaperCheckBoxView, view);
+                                                    ThemePreviewActivity.this.lambda$createView$9(i11, wallpaperCheckBoxView, view);
                                                 }
                                             });
-                                            if (i10 == 2) {
-                                                this.backgroundCheckBoxView[i10].setAlpha(0.0f);
-                                                this.backgroundCheckBoxView[i10].setVisibility(4);
+                                            if (i11 == 2) {
+                                                this.backgroundCheckBoxView[i11].setAlpha(0.0f);
+                                                this.backgroundCheckBoxView[i11].setVisibility(4);
                                             }
-                                            i10++;
+                                            i11++;
                                         }
                                         if (this.screenType == 1) {
                                             int[] iArr2 = new int[2];
                                             this.messagesCheckBoxView = new WallpaperCheckBoxView[2];
                                             this.messagesButtonsContainer = new FrameLayout(context);
                                             String[] strArr2 = {LocaleController.getString("BackgroundAnimate", R.string.BackgroundAnimate), LocaleController.getString("BackgroundColors", R.string.BackgroundColors)};
-                                            int i17 = 0;
-                                            for (int i18 = 0; i18 < 2; i18++) {
-                                                iArr2[i18] = (int) Math.ceil(textPaint.measureText(strArr2[i18]));
-                                                i17 = Math.max(i17, iArr2[i18]);
+                                            int i18 = 0;
+                                            for (int i19 = 0; i19 < 2; i19++) {
+                                                iArr2[i19] = (int) Math.ceil(textPaint.measureText(strArr2[i19]));
+                                                i18 = Math.max(i18, iArr2[i19]);
                                             }
                                             if (this.accent != null) {
-                                                FrameLayout frameLayout6 = new FrameLayout(context) { // from class: org.telegram.ui.ThemePreviewActivity.18
+                                                FrameLayout frameLayout6 = new FrameLayout(context) { // from class: org.telegram.ui.ThemePreviewActivity.17
                                                     private RectF rect = new RectF();
 
                                                     @Override // android.view.View
@@ -1600,7 +1499,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                                 this.messagesPlayAnimationView.setScaleY(this.accent.myMessagesGradientAccentColor1 != 0 ? 1.0f : 0.1f);
                                                 this.messagesPlayAnimationView.setAlpha(this.accent.myMessagesGradientAccentColor1 != 0 ? 1.0f : 0.0f);
                                                 this.messagesButtonsContainer.addView(this.messagesPlayAnimationView, LayoutHelper.createFrame(48, 48, 17));
-                                                this.messagesPlayAnimationView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemePreviewActivity.19
+                                                this.messagesPlayAnimationView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemePreviewActivity.18
                                                     int rotation = 0;
 
                                                     @Override // android.view.View.OnClickListener
@@ -1610,16 +1509,16 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                                         ThemePreviewActivity.this.messagesPlayAnimationImageView.animate().rotationBy(-45.0f).setDuration(300L).setInterpolator(CubicBezierInterpolator.EASE_OUT).start();
                                                         if (!ThemePreviewActivity.this.accent.myMessagesAnimated) {
                                                             if (ThemePreviewActivity.this.accent.myMessagesGradientAccentColor3 != 0) {
-                                                                int i19 = ThemePreviewActivity.this.accent.myMessagesAccentColor != 0 ? ThemePreviewActivity.this.accent.myMessagesAccentColor : ThemePreviewActivity.this.accent.accentColor;
-                                                                ThemePreviewActivity.this.accent.myMessagesAccentColor = ThemePreviewActivity.this.accent.myMessagesGradientAccentColor1;
-                                                                ThemePreviewActivity.this.accent.myMessagesGradientAccentColor1 = ThemePreviewActivity.this.accent.myMessagesGradientAccentColor2;
-                                                                ThemePreviewActivity.this.accent.myMessagesGradientAccentColor2 = ThemePreviewActivity.this.accent.myMessagesGradientAccentColor3;
-                                                                ThemePreviewActivity.this.accent.myMessagesGradientAccentColor3 = i19;
-                                                            } else {
                                                                 int i20 = ThemePreviewActivity.this.accent.myMessagesAccentColor != 0 ? ThemePreviewActivity.this.accent.myMessagesAccentColor : ThemePreviewActivity.this.accent.accentColor;
                                                                 ThemePreviewActivity.this.accent.myMessagesAccentColor = ThemePreviewActivity.this.accent.myMessagesGradientAccentColor1;
                                                                 ThemePreviewActivity.this.accent.myMessagesGradientAccentColor1 = ThemePreviewActivity.this.accent.myMessagesGradientAccentColor2;
-                                                                ThemePreviewActivity.this.accent.myMessagesGradientAccentColor2 = i20;
+                                                                ThemePreviewActivity.this.accent.myMessagesGradientAccentColor2 = ThemePreviewActivity.this.accent.myMessagesGradientAccentColor3;
+                                                                ThemePreviewActivity.this.accent.myMessagesGradientAccentColor3 = i20;
+                                                            } else {
+                                                                int i21 = ThemePreviewActivity.this.accent.myMessagesAccentColor != 0 ? ThemePreviewActivity.this.accent.myMessagesAccentColor : ThemePreviewActivity.this.accent.accentColor;
+                                                                ThemePreviewActivity.this.accent.myMessagesAccentColor = ThemePreviewActivity.this.accent.myMessagesGradientAccentColor1;
+                                                                ThemePreviewActivity.this.accent.myMessagesGradientAccentColor1 = ThemePreviewActivity.this.accent.myMessagesGradientAccentColor2;
+                                                                ThemePreviewActivity.this.accent.myMessagesGradientAccentColor2 = i21;
                                                             }
                                                             ThemePreviewActivity.this.colorPicker.setColor(ThemePreviewActivity.this.accent.myMessagesGradientAccentColor3, 3);
                                                             ThemePreviewActivity.this.colorPicker.setColor(ThemePreviewActivity.this.accent.myMessagesGradientAccentColor2, 2);
@@ -1641,42 +1540,42 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                                 imageView5.setScaleType(ImageView.ScaleType.CENTER);
                                                 this.messagesPlayAnimationImageView.setImageResource(R.drawable.bg_rotate_large);
                                                 this.messagesPlayAnimationView.addView(this.messagesPlayAnimationImageView, LayoutHelper.createFrame(-2, -2, 17));
-                                                final int i19 = 0;
-                                                while (i19 < 2) {
-                                                    this.messagesCheckBoxView[i19] = new WallpaperCheckBoxView(context, i19 == 0, this.backgroundImage);
-                                                    this.messagesCheckBoxView[i19].setText(strArr2[i19], iArr2[i19], i17);
-                                                    if (i19 == 0) {
-                                                        this.messagesCheckBoxView[i19].setChecked(this.accent.myMessagesAnimated, false);
+                                                final int i20 = 0;
+                                                while (i20 < 2) {
+                                                    this.messagesCheckBoxView[i20] = new WallpaperCheckBoxView(context, i20 == 0, this.backgroundImage, getResourceProvider());
+                                                    this.messagesCheckBoxView[i20].setText(strArr2[i20], iArr2[i20], i18);
+                                                    if (i20 == 0) {
+                                                        this.messagesCheckBoxView[i20].setChecked(this.accent.myMessagesAnimated, false);
                                                     }
-                                                    int dp2 = AndroidUtilities.dp(56.0f) + i17;
+                                                    int dp2 = AndroidUtilities.dp(56.0f) + i18;
                                                     FrameLayout.LayoutParams layoutParams2 = new FrameLayout.LayoutParams(dp2, -2);
                                                     layoutParams2.gravity = 17;
-                                                    if (i19 == 1) {
+                                                    if (i20 == 1) {
                                                         layoutParams2.leftMargin = (dp2 / 2) + AndroidUtilities.dp(10.0f);
                                                     } else {
                                                         layoutParams2.rightMargin = (dp2 / 2) + AndroidUtilities.dp(10.0f);
                                                     }
-                                                    this.messagesButtonsContainer.addView(this.messagesCheckBoxView[i19], layoutParams2);
+                                                    this.messagesButtonsContainer.addView(this.messagesCheckBoxView[i20], layoutParams2);
                                                     WallpaperCheckBoxView[] wallpaperCheckBoxViewArr2 = this.messagesCheckBoxView;
-                                                    final WallpaperCheckBoxView wallpaperCheckBoxView2 = wallpaperCheckBoxViewArr2[i19];
-                                                    wallpaperCheckBoxViewArr2[i19].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda11
+                                                    final WallpaperCheckBoxView wallpaperCheckBoxView2 = wallpaperCheckBoxViewArr2[i20];
+                                                    wallpaperCheckBoxViewArr2[i20].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda11
                                                         @Override // android.view.View.OnClickListener
                                                         public final void onClick(View view) {
-                                                            ThemePreviewActivity.this.lambda$createView$10(i19, wallpaperCheckBoxView2, view);
+                                                            ThemePreviewActivity.this.lambda$createView$10(i20, wallpaperCheckBoxView2, view);
                                                         }
                                                     });
-                                                    i19++;
+                                                    i20++;
                                                 }
                                             }
                                         }
                                         if (this.screenType != 1 || (this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper)) {
                                             this.isBlurred = false;
-                                            i11 = 0;
-                                            while (i11 < 2) {
-                                                this.patternLayout[i11] = new FrameLayout(context) { // from class: org.telegram.ui.ThemePreviewActivity.20
+                                            i12 = 0;
+                                            while (i12 < 2) {
+                                                this.patternLayout[i12] = new FrameLayout(context) { // from class: org.telegram.ui.ThemePreviewActivity.19
                                                     @Override // android.view.View
                                                     public void onDraw(Canvas canvas) {
-                                                        if (i11 == 0) {
+                                                        if (i12 == 0) {
                                                             ThemePreviewActivity.this.sheetDrawable.setBounds(ThemePreviewActivity.this.colorPicker.getLeft() - rect.left, 0, ThemePreviewActivity.this.colorPicker.getRight() + rect.right, getMeasuredHeight());
                                                         } else {
                                                             ThemePreviewActivity.this.sheetDrawable.setBounds(-rect.left, 0, getMeasuredWidth() + rect.right, getMeasuredHeight());
@@ -1684,22 +1583,22 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                                         ThemePreviewActivity.this.sheetDrawable.draw(canvas);
                                                     }
                                                 };
-                                                if (i11 == 1 || this.screenType == 2) {
-                                                    this.patternLayout[i11].setVisibility(4);
+                                                if (i12 == 1 || this.screenType == 2) {
+                                                    this.patternLayout[i12].setVisibility(4);
                                                 }
-                                                this.patternLayout[i11].setWillNotDraw(false);
+                                                this.patternLayout[i12].setWillNotDraw(false);
                                                 if (this.screenType == 2) {
-                                                    createFrame = LayoutHelper.createFrame(-1, i11 == 0 ? 321 : 316, 83);
+                                                    createFrame = LayoutHelper.createFrame(-1, i12 == 0 ? 321 : 316, 83);
                                                 } else {
-                                                    createFrame = LayoutHelper.createFrame(-1, i11 == 0 ? 273 : 316, 83);
+                                                    createFrame = LayoutHelper.createFrame(-1, i12 == 0 ? 273 : 316, 83);
                                                 }
-                                                if (i11 == 0) {
+                                                if (i12 == 0) {
                                                     createFrame.height += AndroidUtilities.dp(12.0f) + rect.top;
-                                                    this.patternLayout[i11].setPadding(0, AndroidUtilities.dp(12.0f) + rect.top, 0, 0);
+                                                    this.patternLayout[i12].setPadding(0, AndroidUtilities.dp(12.0f) + rect.top, 0, 0);
                                                 }
-                                                this.page2.addView(this.patternLayout[i11], createFrame);
-                                                if (i11 == 1 || this.screenType == 2) {
-                                                    this.patternsButtonsContainer[i11] = new FrameLayout(context) { // from class: org.telegram.ui.ThemePreviewActivity.21
+                                                this.page2.addView(this.patternLayout[i12], createFrame);
+                                                if (i12 == 1 || this.screenType == 2) {
+                                                    this.patternsButtonsContainer[i12] = new FrameLayout(context) { // from class: org.telegram.ui.ThemePreviewActivity.20
                                                         Paint paint = new Paint();
 
                                                         @Override // android.view.View
@@ -1711,45 +1610,45 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                                             canvas.drawRect(0.0f, intrinsicHeight, getMeasuredWidth(), getMeasuredHeight(), this.paint);
                                                         }
                                                     };
-                                                    this.patternsButtonsContainer[i11].setWillNotDraw(false);
-                                                    this.patternsButtonsContainer[i11].setPadding(0, AndroidUtilities.dp(3.0f), 0, 0);
-                                                    this.patternsButtonsContainer[i11].setClickable(true);
-                                                    this.patternLayout[i11].addView(this.patternsButtonsContainer[i11], LayoutHelper.createFrame(-1, 51, 80));
-                                                    this.patternsCancelButton[i11] = new TextView(context);
-                                                    this.patternsCancelButton[i11].setTextSize(1, 15.0f);
-                                                    this.patternsCancelButton[i11].setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                                                    this.patternsButtonsContainer[i12].setWillNotDraw(false);
+                                                    this.patternsButtonsContainer[i12].setPadding(0, AndroidUtilities.dp(3.0f), 0, 0);
+                                                    this.patternsButtonsContainer[i12].setClickable(true);
+                                                    this.patternLayout[i12].addView(this.patternsButtonsContainer[i12], LayoutHelper.createFrame(-1, 51, 80));
+                                                    this.patternsCancelButton[i12] = new TextView(context);
+                                                    this.patternsCancelButton[i12].setTextSize(1, 15.0f);
+                                                    this.patternsCancelButton[i12].setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                                                     str2 = str;
-                                                    this.patternsCancelButton[i11].setTextColor(getThemedColor(str2));
-                                                    this.patternsCancelButton[i11].setText(LocaleController.getString("Cancel", R.string.Cancel).toUpperCase());
-                                                    this.patternsCancelButton[i11].setGravity(17);
-                                                    this.patternsCancelButton[i11].setPadding(AndroidUtilities.dp(21.0f), 0, AndroidUtilities.dp(21.0f), 0);
-                                                    this.patternsCancelButton[i11].setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor("listSelectorSDK21"), 0));
-                                                    this.patternsButtonsContainer[i11].addView(this.patternsCancelButton[i11], LayoutHelper.createFrame(-2, -1, 51));
-                                                    this.patternsCancelButton[i11].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda9
+                                                    this.patternsCancelButton[i12].setTextColor(getThemedColor(str2));
+                                                    this.patternsCancelButton[i12].setText(LocaleController.getString("Cancel", R.string.Cancel).toUpperCase());
+                                                    this.patternsCancelButton[i12].setGravity(17);
+                                                    this.patternsCancelButton[i12].setPadding(AndroidUtilities.dp(21.0f), 0, AndroidUtilities.dp(21.0f), 0);
+                                                    this.patternsCancelButton[i12].setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor("listSelectorSDK21"), 0));
+                                                    this.patternsButtonsContainer[i12].addView(this.patternsCancelButton[i12], LayoutHelper.createFrame(-2, -1, 51));
+                                                    this.patternsCancelButton[i12].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda9
                                                         @Override // android.view.View.OnClickListener
                                                         public final void onClick(View view) {
-                                                            ThemePreviewActivity.this.lambda$createView$11(i11, view);
+                                                            ThemePreviewActivity.this.lambda$createView$11(i12, view);
                                                         }
                                                     });
-                                                    this.patternsSaveButton[i11] = new TextView(context);
-                                                    this.patternsSaveButton[i11].setTextSize(1, 15.0f);
-                                                    this.patternsSaveButton[i11].setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-                                                    this.patternsSaveButton[i11].setTextColor(getThemedColor(str2));
-                                                    this.patternsSaveButton[i11].setText(LocaleController.getString("ApplyTheme", R.string.ApplyTheme).toUpperCase());
-                                                    this.patternsSaveButton[i11].setGravity(17);
-                                                    this.patternsSaveButton[i11].setPadding(AndroidUtilities.dp(21.0f), 0, AndroidUtilities.dp(21.0f), 0);
-                                                    this.patternsSaveButton[i11].setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor("listSelectorSDK21"), 0));
-                                                    this.patternsButtonsContainer[i11].addView(this.patternsSaveButton[i11], LayoutHelper.createFrame(-2, -1, 53));
-                                                    this.patternsSaveButton[i11].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda10
+                                                    this.patternsSaveButton[i12] = new TextView(context);
+                                                    this.patternsSaveButton[i12].setTextSize(1, 15.0f);
+                                                    this.patternsSaveButton[i12].setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                                                    this.patternsSaveButton[i12].setTextColor(getThemedColor(str2));
+                                                    this.patternsSaveButton[i12].setText(LocaleController.getString("ApplyTheme", R.string.ApplyTheme).toUpperCase());
+                                                    this.patternsSaveButton[i12].setGravity(17);
+                                                    this.patternsSaveButton[i12].setPadding(AndroidUtilities.dp(21.0f), 0, AndroidUtilities.dp(21.0f), 0);
+                                                    this.patternsSaveButton[i12].setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor("listSelectorSDK21"), 0));
+                                                    this.patternsButtonsContainer[i12].addView(this.patternsSaveButton[i12], LayoutHelper.createFrame(-2, -1, 53));
+                                                    this.patternsSaveButton[i12].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda10
                                                         @Override // android.view.View.OnClickListener
                                                         public final void onClick(View view) {
-                                                            ThemePreviewActivity.this.lambda$createView$12(i11, view);
+                                                            ThemePreviewActivity.this.lambda$createView$12(i12, view);
                                                         }
                                                     });
                                                 } else {
                                                     str2 = str;
                                                 }
-                                                if (i11 == 1) {
+                                                if (i12 == 1) {
                                                     TextView textView3 = new TextView(context);
                                                     textView3.setLines(1);
                                                     textView3.setSingleLine(true);
@@ -1760,8 +1659,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                                     textView3.setPadding(AndroidUtilities.dp(21.0f), AndroidUtilities.dp(6.0f), AndroidUtilities.dp(21.0f), AndroidUtilities.dp(8.0f));
                                                     textView3.setEllipsize(TextUtils.TruncateAt.MIDDLE);
                                                     textView3.setGravity(16);
-                                                    this.patternLayout[i11].addView(textView3, LayoutHelper.createFrame(-1, 48.0f, 51, 0.0f, 21.0f, 0.0f, 0.0f));
-                                                    RecyclerListView recyclerListView2 = new RecyclerListView(this, context) { // from class: org.telegram.ui.ThemePreviewActivity.22
+                                                    this.patternLayout[i12].addView(textView3, LayoutHelper.createFrame(-1, 48.0f, 51, 0.0f, 21.0f, 0.0f, 0.0f));
+                                                    RecyclerListView recyclerListView2 = new RecyclerListView(this, context) { // from class: org.telegram.ui.ThemePreviewActivity.21
                                                         @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
                                                         public boolean onTouchEvent(MotionEvent motionEvent) {
                                                             if (motionEvent.getAction() == 0) {
@@ -1778,7 +1677,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                                     PatternsAdapter patternsAdapter = new PatternsAdapter(context);
                                                     this.patternsAdapter = patternsAdapter;
                                                     recyclerListView3.setAdapter(patternsAdapter);
-                                                    this.patternsListView.addItemDecoration(new RecyclerView.ItemDecoration(this) { // from class: org.telegram.ui.ThemePreviewActivity.23
+                                                    this.patternsListView.addItemDecoration(new RecyclerView.ItemDecoration(this) { // from class: org.telegram.ui.ThemePreviewActivity.22
                                                         @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
                                                         public void getItemOffsets(Rect rect2, View view, RecyclerView recyclerView, RecyclerView.State state) {
                                                             int childAdapterPosition = recyclerView.getChildAdapterPosition(view);
@@ -1790,18 +1689,18 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                                             }
                                                         }
                                                     });
-                                                    this.patternLayout[i11].addView(this.patternsListView, LayoutHelper.createFrame(-1, 100.0f, 51, 0.0f, 76.0f, 0.0f, 0.0f));
+                                                    this.patternLayout[i12].addView(this.patternsListView, LayoutHelper.createFrame(-1, 100.0f, 51, 0.0f, 76.0f, 0.0f, 0.0f));
                                                     this.patternsListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda25
                                                         @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-                                                        public final void onItemClick(View view, int i20) {
-                                                            ThemePreviewActivity.this.lambda$createView$13(view, i20);
+                                                        public final void onItemClick(View view, int i21) {
+                                                            ThemePreviewActivity.this.lambda$createView$13(view, i21);
                                                         }
                                                     });
                                                     HeaderCell headerCell2 = new HeaderCell(context);
                                                     this.intensityCell = headerCell2;
                                                     headerCell2.setText(LocaleController.getString("BackgroundIntensity", R.string.BackgroundIntensity));
-                                                    this.patternLayout[i11].addView(this.intensityCell, LayoutHelper.createFrame(-1, -2.0f, 51, 0.0f, 175.0f, 0.0f, 0.0f));
-                                                    SeekBarView seekBarView = new SeekBarView(this, context, getResourceProvider()) { // from class: org.telegram.ui.ThemePreviewActivity.24
+                                                    this.patternLayout[i12].addView(this.intensityCell, LayoutHelper.createFrame(-1, -2.0f, 51, 0.0f, 175.0f, 0.0f, 0.0f));
+                                                    SeekBarView seekBarView = new SeekBarView(this, context, getResourceProvider()) { // from class: org.telegram.ui.ThemePreviewActivity.23
                                                         @Override // org.telegram.ui.Components.SeekBarView, android.view.View
                                                         public boolean onTouchEvent(MotionEvent motionEvent) {
                                                             if (motionEvent.getAction() == 0) {
@@ -1813,7 +1712,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                                     this.intensitySeekBar = seekBarView;
                                                     seekBarView.setProgress(this.currentIntensity);
                                                     this.intensitySeekBar.setReportChanges(true);
-                                                    this.intensitySeekBar.setDelegate(new SeekBarView.SeekBarViewDelegate() { // from class: org.telegram.ui.ThemePreviewActivity.25
+                                                    this.intensitySeekBar.setDelegate(new SeekBarView.SeekBarViewDelegate() { // from class: org.telegram.ui.ThemePreviewActivity.24
                                                         @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
                                                         public /* synthetic */ CharSequence getContentDescription() {
                                                             return SeekBarView.SeekBarViewDelegate.-CC.$default$getContentDescription(this);
@@ -1831,30 +1730,15 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                                         @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
                                                         public void onSeekBarDrag(boolean z4, float f2) {
                                                             ThemePreviewActivity.this.currentIntensity = f2;
-                                                            ThemePreviewActivity.this.backgroundImage.getImageReceiver().setAlpha(Math.abs(ThemePreviewActivity.this.currentIntensity));
-                                                            ThemePreviewActivity.this.backgroundImage.invalidate();
-                                                            ThemePreviewActivity.this.patternsListView.invalidateViews();
-                                                            if (ThemePreviewActivity.this.currentIntensity >= 0.0f) {
-                                                                if (Build.VERSION.SDK_INT >= 29 && (ThemePreviewActivity.this.backgroundImage.getBackground() instanceof MotionBackgroundDrawable)) {
-                                                                    ThemePreviewActivity.this.backgroundImage.getImageReceiver().setBlendMode(BlendMode.SOFT_LIGHT);
-                                                                }
-                                                                ThemePreviewActivity.this.backgroundImage.getImageReceiver().setGradientBitmap(null);
-                                                                return;
-                                                            }
-                                                            if (Build.VERSION.SDK_INT >= 29) {
-                                                                ThemePreviewActivity.this.backgroundImage.getImageReceiver().setBlendMode(null);
-                                                            }
-                                                            if (ThemePreviewActivity.this.backgroundImage.getBackground() instanceof MotionBackgroundDrawable) {
-                                                                ThemePreviewActivity.this.backgroundImage.getImageReceiver().setGradientBitmap(((MotionBackgroundDrawable) ThemePreviewActivity.this.backgroundImage.getBackground()).getBitmap());
-                                                            }
+                                                            ThemePreviewActivity.this.updateIntensity();
                                                         }
                                                     });
-                                                    this.patternLayout[i11].addView(this.intensitySeekBar, LayoutHelper.createFrame(-1, 38.0f, 51, 5.0f, 211.0f, 5.0f, 0.0f));
+                                                    this.patternLayout[i12].addView(this.intensitySeekBar, LayoutHelper.createFrame(-1, 38.0f, 51, 5.0f, 211.0f, 5.0f, 0.0f));
                                                 } else {
-                                                    ColorPicker colorPicker = new ColorPicker(context, this.editingTheme, new 26());
+                                                    ColorPicker colorPicker = new ColorPicker(context, this.editingTheme, new 25());
                                                     this.colorPicker = colorPicker;
                                                     if (this.screenType == 1) {
-                                                        this.patternLayout[i11].addView(colorPicker, LayoutHelper.createFrame(-1, -1, 1));
+                                                        this.patternLayout[i12].addView(colorPicker, LayoutHelper.createFrame(-1, -1, 1));
                                                         if (this.applyingTheme.isDark()) {
                                                             this.colorPicker.setMinBrightness(0.2f);
                                                         } else {
@@ -1865,16 +1749,16 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                                         if (themeAccent2 != null) {
                                                             this.colorPicker.setType(1, hasChanges(1), 2, themeAccent2.accentColor2 != 0 ? 2 : 1, false, 0, false);
                                                             this.colorPicker.setColor(this.accent.accentColor, 0);
-                                                            int i20 = this.accent.accentColor2;
-                                                            if (i20 != 0) {
-                                                                this.colorPicker.setColor(i20, 1);
+                                                            int i21 = this.accent.accentColor2;
+                                                            if (i21 != 0) {
+                                                                this.colorPicker.setColor(i21, 1);
                                                             }
                                                         }
                                                     } else {
-                                                        this.patternLayout[i11].addView(colorPicker, LayoutHelper.createFrame(-1, -1.0f, 1, 0.0f, 0.0f, 0.0f, 48.0f));
+                                                        this.patternLayout[i12].addView(colorPicker, LayoutHelper.createFrame(-1, -1.0f, 1, 0.0f, 0.0f, 0.0f, 48.0f));
                                                     }
                                                 }
-                                                i11++;
+                                                i12++;
                                                 str = str2;
                                             }
                                         }
@@ -1887,22 +1771,22 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                             this.backgroundImage.getImageReceiver().setCrossfadeWithOldImage(true);
                                         }
                                     }
-                                    i8 = 0;
-                                    String[] strArr3 = new String[i8];
-                                    int[] iArr3 = new int[i8];
-                                    this.backgroundCheckBoxView = new WallpaperCheckBoxView[i8];
-                                    if (i8 == 0) {
+                                    i9 = 0;
+                                    String[] strArr3 = new String[i9];
+                                    int[] iArr3 = new int[i9];
+                                    this.backgroundCheckBoxView = new WallpaperCheckBoxView[i9];
+                                    if (i9 == 0) {
                                     }
-                                    i10 = 0;
-                                    while (i10 < i8) {
+                                    i11 = 0;
+                                    while (i11 < i9) {
                                     }
                                     if (this.screenType == 1) {
                                     }
                                     if (this.screenType != 1) {
                                     }
                                     this.isBlurred = false;
-                                    i11 = 0;
-                                    while (i11 < 2) {
+                                    i12 = 0;
+                                    while (i12 < 2) {
                                     }
                                     str3 = str;
                                     updateButtonState(false, false);
@@ -1915,22 +1799,22 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             }
                             obj = this.currentWallpaper;
                             if ((obj instanceof WallpapersListActivity.ColorWallpaper) || !"d".equals(((WallpapersListActivity.ColorWallpaper) obj).slug)) {
-                                i8 = 3;
-                                String[] strArr32 = new String[i8];
-                                int[] iArr32 = new int[i8];
-                                this.backgroundCheckBoxView = new WallpaperCheckBoxView[i8];
-                                if (i8 == 0) {
+                                i9 = 3;
+                                String[] strArr32 = new String[i9];
+                                int[] iArr32 = new int[i9];
+                                this.backgroundCheckBoxView = new WallpaperCheckBoxView[i9];
+                                if (i9 == 0) {
                                 }
-                                i10 = 0;
-                                while (i10 < i8) {
+                                i11 = 0;
+                                while (i11 < i9) {
                                 }
                                 if (this.screenType == 1) {
                                 }
                                 if (this.screenType != 1) {
                                 }
                                 this.isBlurred = false;
-                                i11 = 0;
-                                while (i11 < 2) {
+                                i12 = 0;
+                                while (i12 < 2) {
                                 }
                                 str3 = str;
                                 updateButtonState(false, false);
@@ -1939,22 +1823,22 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 if (this.screenType != 1) {
                                 }
                             }
-                            i8 = 0;
-                            String[] strArr322 = new String[i8];
-                            int[] iArr322 = new int[i8];
-                            this.backgroundCheckBoxView = new WallpaperCheckBoxView[i8];
-                            if (i8 == 0) {
+                            i9 = 0;
+                            String[] strArr322 = new String[i9];
+                            int[] iArr322 = new int[i9];
+                            this.backgroundCheckBoxView = new WallpaperCheckBoxView[i9];
+                            if (i9 == 0) {
                             }
-                            i10 = 0;
-                            while (i10 < i8) {
+                            i11 = 0;
+                            while (i11 < i9) {
                             }
                             if (this.screenType == 1) {
                             }
                             if (this.screenType != 1) {
                             }
                             this.isBlurred = false;
-                            i11 = 0;
-                            while (i11 < 2) {
+                            i12 = 0;
+                            while (i12 < 2) {
                             }
                             str3 = str;
                             updateButtonState(false, false);
@@ -1966,7 +1850,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             str3 = "chat_fieldOverlayText";
                         }
                         this.listView2.setAdapter(this.messagesAdapter);
-                        FrameLayout frameLayout7 = new FrameLayout(context) { // from class: org.telegram.ui.ThemePreviewActivity.27
+                        FrameLayout frameLayout7 = new FrameLayout(context) { // from class: org.telegram.ui.ThemePreviewActivity.26
                             private int[] loc = new int[2];
 
                             @Override // android.view.View
@@ -2011,21 +1895,21 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         viewTreeObserver.addOnGlobalLayoutListener(onGlobalLayoutListener);
                         ViewPager viewPager = new ViewPager(context);
                         this.viewPager = viewPager;
-                        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() { // from class: org.telegram.ui.ThemePreviewActivity.28
+                        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() { // from class: org.telegram.ui.ThemePreviewActivity.27
                             @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-                            public void onPageScrollStateChanged(int i21) {
+                            public void onPageScrollStateChanged(int i22) {
                             }
 
                             @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-                            public void onPageScrolled(int i21, float f2, int i22) {
+                            public void onPageScrolled(int i22, float f2, int i23) {
                             }
 
                             @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-                            public void onPageSelected(int i21) {
+                            public void onPageSelected(int i22) {
                                 ThemePreviewActivity.this.dotsContainer.invalidate();
                             }
                         });
-                        this.viewPager.setAdapter(new PagerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.29
+                        this.viewPager.setAdapter(new PagerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.28
                             @Override // androidx.viewpager.widget.PagerAdapter
                             public int getItemPosition(Object obj5) {
                                 return -1;
@@ -2042,14 +1926,14 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             }
 
                             @Override // androidx.viewpager.widget.PagerAdapter
-                            public Object instantiateItem(ViewGroup viewGroup, int i21) {
-                                FrameLayout frameLayout9 = i21 == 0 ? ThemePreviewActivity.this.page2 : ThemePreviewActivity.this.page1;
+                            public Object instantiateItem(ViewGroup viewGroup, int i22) {
+                                FrameLayout frameLayout9 = i22 == 0 ? ThemePreviewActivity.this.page2 : ThemePreviewActivity.this.page1;
                                 viewGroup.addView(frameLayout9);
                                 return frameLayout9;
                             }
 
                             @Override // androidx.viewpager.widget.PagerAdapter
-                            public void destroyItem(ViewGroup viewGroup, int i21, Object obj5) {
+                            public void destroyItem(ViewGroup viewGroup, int i22, Object obj5) {
                                 viewGroup.removeView((View) obj5);
                             }
                         });
@@ -2069,18 +1953,18 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             this.saveButtonsContainer = frameLayout9;
                             frameLayout9.setBackgroundColor(getButtonsColor("windowBackgroundWhite"));
                             this.frameLayout.addView(this.saveButtonsContainer, LayoutHelper.createFrame(-1, 48, 83));
-                            View view2 = new View(context) { // from class: org.telegram.ui.ThemePreviewActivity.30
+                            View view2 = new View(context) { // from class: org.telegram.ui.ThemePreviewActivity.29
                                 private Paint paint = new Paint(1);
 
                                 @Override // android.view.View
                                 protected void onDraw(Canvas canvas) {
                                     int currentItem = ThemePreviewActivity.this.viewPager.getCurrentItem();
                                     this.paint.setColor(ThemePreviewActivity.this.getButtonsColor("chat_fieldOverlayText"));
-                                    int i21 = 0;
-                                    while (i21 < 2) {
-                                        this.paint.setAlpha(i21 == currentItem ? 255 : 127);
-                                        canvas.drawCircle(AndroidUtilities.dp((i21 * 15) + 3), AndroidUtilities.dp(4.0f), AndroidUtilities.dp(3.0f), this.paint);
-                                        i21++;
+                                    int i22 = 0;
+                                    while (i22 < 2) {
+                                        this.paint.setAlpha(i22 == currentItem ? 255 : 127);
+                                        canvas.drawCircle(AndroidUtilities.dp((i22 * 15) + 3), AndroidUtilities.dp(4.0f), AndroidUtilities.dp(3.0f), this.paint);
+                                        i22++;
                                     }
                                 }
                             };
@@ -2129,12 +2013,16 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             showPatternsView(0, true, false);
                         }
                         this.scroller = new Scroller(getContext());
+                        iNavigationLayout = this.parentLayout;
+                        if (iNavigationLayout != null && iNavigationLayout.getBottomSheet() != null) {
+                            this.parentLayout.getBottomSheet().fixNavigationBar(getThemedColor("dialogBackground"));
+                        }
                         return this.fragmentView;
                     }
                 }
-                i2 = 2;
-                i3 = 51;
-                this.listView2 = new RecyclerListView(context) { // from class: org.telegram.ui.ThemePreviewActivity.11
+                i3 = 2;
+                i4 = 51;
+                this.listView2 = new RecyclerListView(context) { // from class: org.telegram.ui.ThemePreviewActivity.10
                     boolean scrollingBackground;
                     float startX;
 
@@ -2162,9 +2050,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                     top2 = measuredHeight;
                                 }
                                 if (chatMessageCell.isPinnedTop() && (childViewHolder2 = ThemePreviewActivity.this.listView2.getChildViewHolder(view3)) != null) {
-                                    int i162 = 0;
-                                    while (i162 < 20) {
-                                        i162++;
+                                    int i172 = 0;
+                                    while (i172 < 20) {
+                                        i172++;
                                         RecyclerView.ViewHolder childViewHolder2 = ThemePreviewActivity.this.listView2.findViewHolderForAdapterPosition(childViewHolder2.getAdapterPosition() + 1);
                                         if (childViewHolder2 == null) {
                                             break;
@@ -2202,13 +2090,13 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     public void setTranslationY(float f2) {
                         super.setTranslationY(f2);
                         if (ThemePreviewActivity.this.backgroundCheckBoxView != null) {
-                            for (int i162 = 0; i162 < ThemePreviewActivity.this.backgroundCheckBoxView.length; i162++) {
-                                ThemePreviewActivity.this.backgroundCheckBoxView[i162].invalidate();
+                            for (int i172 = 0; i172 < ThemePreviewActivity.this.backgroundCheckBoxView.length; i172++) {
+                                ThemePreviewActivity.this.backgroundCheckBoxView[i172].invalidate();
                             }
                         }
                         if (ThemePreviewActivity.this.messagesCheckBoxView != null) {
-                            for (int i172 = 0; i172 < ThemePreviewActivity.this.messagesCheckBoxView.length; i172++) {
-                                ThemePreviewActivity.this.messagesCheckBoxView[i172].invalidate();
+                            for (int i182 = 0; i182 < ThemePreviewActivity.this.messagesCheckBoxView.length; i182++) {
+                                ThemePreviewActivity.this.messagesCheckBoxView[i182].invalidate();
                             }
                         }
                         if (ThemePreviewActivity.this.backgroundPlayAnimationView != null) {
@@ -2268,7 +2156,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         }
                     }
                 };
-                DefaultItemAnimator defaultItemAnimator2 = new DefaultItemAnimator() { // from class: org.telegram.ui.ThemePreviewActivity.12
+                DefaultItemAnimator defaultItemAnimator2 = new DefaultItemAnimator() { // from class: org.telegram.ui.ThemePreviewActivity.11
                     /* JADX INFO: Access modifiers changed from: protected */
                     @Override // androidx.recyclerview.widget.DefaultItemAnimator
                     public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
@@ -2278,46 +2166,43 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 defaultItemAnimator2.setDelayAnimations(false);
                 this.listView2.setItemAnimator(defaultItemAnimator2);
                 this.listView2.setVerticalScrollBarEnabled(true);
-                this.listView2.setOverScrollMode(i2);
-                i5 = this.screenType;
-                if (i5 == i2) {
+                this.listView2.setOverScrollMode(i3);
+                i6 = this.screenType;
+                if (i6 == i3) {
                 }
                 this.listView2.setClipToPadding(false);
                 this.listView2.setLayoutManager(new LinearLayoutManager(context, 1, true));
                 this.listView2.setVerticalScrollbarPosition(LocaleController.isRTL ? 1 : 2);
                 if (this.screenType == 1) {
                 }
-                this.listView2.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.ThemePreviewActivity.13
+                this.listView2.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.ThemePreviewActivity.12
                     @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-                    public void onScrolled(RecyclerView recyclerView, int i162, int i172) {
+                    public void onScrolled(RecyclerView recyclerView, int i172, int i182) {
                         ThemePreviewActivity.this.listView2.invalidateViews();
                         ThemePreviewActivity.this.wasScroll = true;
                     }
 
                     @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-                    public void onScrollStateChanged(RecyclerView recyclerView, int i162) {
-                        if (i162 == 0) {
+                    public void onScrollStateChanged(RecyclerView recyclerView, int i172) {
+                        if (i172 == 0) {
                             ThemePreviewActivity.this.wasScroll = false;
                         }
                     }
                 });
-                this.page2.addView(this.actionBar2, LayoutHelper.createFrame(i6, -2.0f));
+                this.page2.addView(this.actionBar2, LayoutHelper.createFrame(i7, -2.0f));
                 WallpaperParallaxEffect wallpaperParallaxEffect2 = new WallpaperParallaxEffect(context);
                 this.parallaxEffect = wallpaperParallaxEffect2;
                 wallpaperParallaxEffect2.setCallback(new WallpaperParallaxEffect.Callback() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda28
                     @Override // org.telegram.ui.Components.WallpaperParallaxEffect.Callback
-                    public final void onOffsetsChanged(int i162, int i172, float f2) {
-                        ThemePreviewActivity.this.lambda$createView$6(i162, i172, f2);
+                    public final void onOffsetsChanged(int i172, int i182, float f2) {
+                        ThemePreviewActivity.this.lambda$createView$6(i172, i182, f2);
                     }
                 });
-                i7 = this.screenType;
+                i8 = this.screenType;
                 String str42 = "chat_fieldOverlayText";
-                if (i7 != 1) {
+                if (i8 != 1) {
                 }
-                RadialProgress2 radialProgress22 = new RadialProgress2(this.backgroundImage);
-                this.radialProgress = radialProgress22;
-                radialProgress22.setColors("chat_serviceBackground", "chat_serviceBackground", "chat_serviceText", "chat_serviceText");
-                if (this.screenType == i2) {
+                if (i8 == i3) {
                 }
                 final Rect rect2 = new Rect();
                 Drawable mutate32 = context.getResources().getDrawable(R.drawable.sheet_shadow_round).mutate();
@@ -2332,22 +2217,22 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 obj = this.currentWallpaper;
                 if (obj instanceof WallpapersListActivity.ColorWallpaper) {
                 }
-                i8 = 3;
-                String[] strArr3222 = new String[i8];
-                int[] iArr3222 = new int[i8];
-                this.backgroundCheckBoxView = new WallpaperCheckBoxView[i8];
-                if (i8 == 0) {
+                i9 = 3;
+                String[] strArr3222 = new String[i9];
+                int[] iArr3222 = new int[i9];
+                this.backgroundCheckBoxView = new WallpaperCheckBoxView[i9];
+                if (i9 == 0) {
                 }
-                i10 = 0;
-                while (i10 < i8) {
+                i11 = 0;
+                while (i11 < i9) {
                 }
                 if (this.screenType == 1) {
                 }
                 if (this.screenType != 1) {
                 }
                 this.isBlurred = false;
-                i11 = 0;
-                while (i11 < 2) {
+                i12 = 0;
+                while (i12 < 2) {
                 }
                 str3 = str;
                 updateButtonState(false, false);
@@ -2356,7 +2241,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 if (this.screenType != 1) {
                 }
                 this.listView2.setAdapter(this.messagesAdapter);
-                FrameLayout frameLayout72 = new FrameLayout(context) { // from class: org.telegram.ui.ThemePreviewActivity.27
+                FrameLayout frameLayout72 = new FrameLayout(context) { // from class: org.telegram.ui.ThemePreviewActivity.26
                     private int[] loc = new int[2];
 
                     @Override // android.view.View
@@ -2401,21 +2286,21 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 viewTreeObserver2.addOnGlobalLayoutListener(onGlobalLayoutListener2);
                 ViewPager viewPager2 = new ViewPager(context);
                 this.viewPager = viewPager2;
-                viewPager2.addOnPageChangeListener(new ViewPager.OnPageChangeListener() { // from class: org.telegram.ui.ThemePreviewActivity.28
+                viewPager2.addOnPageChangeListener(new ViewPager.OnPageChangeListener() { // from class: org.telegram.ui.ThemePreviewActivity.27
                     @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-                    public void onPageScrollStateChanged(int i21) {
+                    public void onPageScrollStateChanged(int i22) {
                     }
 
                     @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-                    public void onPageScrolled(int i21, float f2, int i22) {
+                    public void onPageScrolled(int i22, float f2, int i23) {
                     }
 
                     @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-                    public void onPageSelected(int i21) {
+                    public void onPageSelected(int i22) {
                         ThemePreviewActivity.this.dotsContainer.invalidate();
                     }
                 });
-                this.viewPager.setAdapter(new PagerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.29
+                this.viewPager.setAdapter(new PagerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.28
                     @Override // androidx.viewpager.widget.PagerAdapter
                     public int getItemPosition(Object obj5) {
                         return -1;
@@ -2432,14 +2317,14 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
 
                     @Override // androidx.viewpager.widget.PagerAdapter
-                    public Object instantiateItem(ViewGroup viewGroup, int i21) {
-                        FrameLayout frameLayout92 = i21 == 0 ? ThemePreviewActivity.this.page2 : ThemePreviewActivity.this.page1;
+                    public Object instantiateItem(ViewGroup viewGroup, int i22) {
+                        FrameLayout frameLayout92 = i22 == 0 ? ThemePreviewActivity.this.page2 : ThemePreviewActivity.this.page1;
                         viewGroup.addView(frameLayout92);
                         return frameLayout92;
                     }
 
                     @Override // androidx.viewpager.widget.PagerAdapter
-                    public void destroyItem(ViewGroup viewGroup, int i21, Object obj5) {
+                    public void destroyItem(ViewGroup viewGroup, int i22, Object obj5) {
                         viewGroup.removeView((View) obj5);
                     }
                 });
@@ -2460,6 +2345,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 if (this.showColor) {
                 }
                 this.scroller = new Scroller(getContext());
+                iNavigationLayout = this.parentLayout;
+                if (iNavigationLayout != null) {
+                    this.parentLayout.getBottomSheet().fixNavigationBar(getThemedColor("dialogBackground"));
+                }
                 return this.fragmentView;
             }
         }
@@ -2501,18 +2390,18 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         this.actionBar.setTitle(LocaleController.getString("ThemePreview", R.string.ThemePreview));
         FrameLayout frameLayout10 = new FrameLayout(context) { // from class: org.telegram.ui.ThemePreviewActivity.5
             @Override // android.widget.FrameLayout, android.view.View
-            protected void onMeasure(int i122, int i132) {
-                int size = View.MeasureSpec.getSize(i122);
-                int size2 = View.MeasureSpec.getSize(i132);
+            protected void onMeasure(int i132, int i142) {
+                int size = View.MeasureSpec.getSize(i132);
+                int size2 = View.MeasureSpec.getSize(i142);
                 setMeasuredDimension(size, size2);
-                measureChildWithMargins(((BaseFragment) ThemePreviewActivity.this).actionBar, i122, 0, i132, 0);
+                measureChildWithMargins(((BaseFragment) ThemePreviewActivity.this).actionBar, i132, 0, i142, 0);
                 int measuredHeight = ((BaseFragment) ThemePreviewActivity.this).actionBar.getMeasuredHeight();
                 if (((BaseFragment) ThemePreviewActivity.this).actionBar.getVisibility() == 0) {
                     size2 -= measuredHeight;
                 }
                 ((FrameLayout.LayoutParams) ThemePreviewActivity.this.listView.getLayoutParams()).topMargin = measuredHeight;
                 ThemePreviewActivity.this.listView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 1073741824));
-                measureChildWithMargins(ThemePreviewActivity.this.floatingButton, i122, 0, i132, 0);
+                measureChildWithMargins(ThemePreviewActivity.this.floatingButton, i132, 0, i142, 0);
             }
 
             @Override // android.view.ViewGroup
@@ -2556,7 +2445,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         if (i < 21) {
         }
         boolean z32 = LocaleController.isRTL;
-        frameLayout22.addView(imageView32, LayoutHelper.createFrame(i12, f, (!z32 ? 3 : 5) | 80, !z32 ? 14.0f : 0.0f, 0.0f, !z32 ? 0.0f : 14.0f, 14.0f));
+        frameLayout22.addView(imageView32, LayoutHelper.createFrame(i13, f, (!z32 ? 3 : 5) | 80, !z32 ? 14.0f : 0.0f, 0.0f, !z32 ? 0.0f : 14.0f, 14.0f));
         DialogsAdapter dialogsAdapter2 = new DialogsAdapter(context);
         this.dialogsAdapter = dialogsAdapter2;
         this.listView.setAdapter(dialogsAdapter2);
@@ -2564,9 +2453,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             private boolean ignoreLayout;
 
             @Override // android.widget.FrameLayout, android.view.View
-            protected void onMeasure(int i132, int i142) {
-                int size = View.MeasureSpec.getSize(i132);
-                int size2 = View.MeasureSpec.getSize(i142);
+            protected void onMeasure(int i142, int i152) {
+                int size = View.MeasureSpec.getSize(i142);
+                int size2 = View.MeasureSpec.getSize(i152);
                 setMeasuredDimension(size, size2);
                 if (ThemePreviewActivity.this.dropDownContainer != null) {
                     this.ignoreLayout = true;
@@ -2582,7 +2471,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
                     this.ignoreLayout = false;
                 }
-                measureChildWithMargins(ThemePreviewActivity.this.actionBar2, i132, 0, i142, 0);
+                measureChildWithMargins(ThemePreviewActivity.this.actionBar2, i142, 0, i152, 0);
                 int measuredHeight = ThemePreviewActivity.this.actionBar2.getMeasuredHeight();
                 if (ThemePreviewActivity.this.actionBar2.getVisibility() == 0) {
                     size2 -= measuredHeight;
@@ -2593,11 +2482,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 ((FrameLayout.LayoutParams) ThemePreviewActivity.this.backgroundImage.getLayoutParams()).topMargin = measuredHeight;
                 ThemePreviewActivity.this.backgroundImage.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 1073741824));
                 if (ThemePreviewActivity.this.bottomOverlayChat != null) {
-                    measureChildWithMargins(ThemePreviewActivity.this.bottomOverlayChat, i132, 0, i142, 0);
+                    measureChildWithMargins(ThemePreviewActivity.this.bottomOverlayChat, i142, 0, i152, 0);
                 }
-                for (int i152 = 0; i152 < ThemePreviewActivity.this.patternLayout.length; i152++) {
-                    if (ThemePreviewActivity.this.patternLayout[i152] != null) {
-                        measureChildWithMargins(ThemePreviewActivity.this.patternLayout[i152], i132, 0, i142, 0);
+                for (int i162 = 0; i162 < ThemePreviewActivity.this.patternLayout.length; i162++) {
+                    if (ThemePreviewActivity.this.patternLayout[i162] != null) {
+                        measureChildWithMargins(ThemePreviewActivity.this.patternLayout[i162], i142, 0, i152, 0);
                     }
                 }
             }
@@ -2625,130 +2514,19 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
         this.actionBar2.setBackButtonDrawable(new BackDrawable(false));
         this.actionBar2.setActionBarMenuOnItemClick(new 8());
-        BackupImageView backupImageView2 = new BackupImageView(context) { // from class: org.telegram.ui.ThemePreviewActivity.9
-            private Drawable background;
-
-            @Override // android.view.View
-            protected void onMeasure(int i132, int i142) {
-                super.onMeasure(i132, i142);
-                ThemePreviewActivity themePreviewActivity = ThemePreviewActivity.this;
-                themePreviewActivity.parallaxScale = themePreviewActivity.parallaxEffect.getScale(getMeasuredWidth(), getMeasuredHeight());
-                if (ThemePreviewActivity.this.isMotion) {
-                    setScaleX(ThemePreviewActivity.this.parallaxScale);
-                    setScaleY(ThemePreviewActivity.this.parallaxScale);
-                }
-                if (ThemePreviewActivity.this.radialProgress != null) {
-                    int dp3 = AndroidUtilities.dp(44.0f);
-                    int measuredWidth = (getMeasuredWidth() - dp3) / 2;
-                    int measuredHeight = (getMeasuredHeight() - dp3) / 2;
-                    ThemePreviewActivity.this.radialProgress.setProgressRect(measuredWidth, measuredHeight, measuredWidth + dp3, dp3 + measuredHeight);
-                }
-                ThemePreviewActivity themePreviewActivity2 = ThemePreviewActivity.this;
-                themePreviewActivity2.progressVisible = themePreviewActivity2.screenType == 2 && getMeasuredWidth() <= getMeasuredHeight();
-                int measuredWidth2 = getMeasuredWidth() + (getMeasuredHeight() << 16);
-                if (ThemePreviewActivity.this.lastSizeHash != measuredWidth2) {
-                    ThemePreviewActivity.this.hasScrollingBackground = false;
-                    if (ThemePreviewActivity.this.currentWallpaperBitmap != null) {
-                        int width = (int) (ThemePreviewActivity.this.currentWallpaperBitmap.getWidth() * (getMeasuredHeight() / ThemePreviewActivity.this.currentWallpaperBitmap.getHeight()));
-                        if (width - getMeasuredWidth() > 100) {
-                            ThemePreviewActivity.this.hasScrollingBackground = true;
-                            ThemePreviewActivity.this.croppedWidth = (int) (getMeasuredWidth() * (ThemePreviewActivity.this.currentWallpaperBitmap.getHeight() / getMeasuredHeight()));
-                            ThemePreviewActivity themePreviewActivity3 = ThemePreviewActivity.this;
-                            float measuredWidth3 = (width - getMeasuredWidth()) / 2.0f;
-                            themePreviewActivity3.currentScrollOffset = measuredWidth3;
-                            themePreviewActivity3.defaultScrollOffset = measuredWidth3;
-                            ThemePreviewActivity themePreviewActivity4 = ThemePreviewActivity.this;
-                            themePreviewActivity4.maxScrollOffset = themePreviewActivity4.currentScrollOffset * 2.0f;
-                            setSize(width, getMeasuredHeight());
-                            this.drawFromStart = true;
-                        }
-                    }
-                    if (!ThemePreviewActivity.this.hasScrollingBackground) {
-                        setSize(-1, -1);
-                        this.drawFromStart = false;
-                    }
-                }
-                ThemePreviewActivity.this.lastSizeHash = measuredWidth2;
-            }
-
-            /* JADX INFO: Access modifiers changed from: protected */
-            @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-            public void onDraw(Canvas canvas) {
-                DayNightSwitchDelegate dayNightSwitchDelegate22;
-                Drawable drawable = this.background;
-                if ((drawable instanceof ColorDrawable) || (drawable instanceof GradientDrawable) || (drawable instanceof MotionBackgroundDrawable)) {
-                    drawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                    this.background.draw(canvas);
-                } else if (drawable instanceof BitmapDrawable) {
-                    if (((BitmapDrawable) drawable).getTileModeX() == Shader.TileMode.REPEAT) {
-                        canvas.save();
-                        float f2 = 2.0f / AndroidUtilities.density;
-                        canvas.scale(f2, f2);
-                        this.background.setBounds(0, 0, (int) Math.ceil(getMeasuredWidth() / f2), (int) Math.ceil(getMeasuredHeight() / f2));
-                        this.background.draw(canvas);
-                        canvas.restore();
-                    } else {
-                        int measuredHeight = getMeasuredHeight();
-                        float max = Math.max(getMeasuredWidth() / this.background.getIntrinsicWidth(), measuredHeight / this.background.getIntrinsicHeight());
-                        int ceil = (int) Math.ceil(this.background.getIntrinsicWidth() * max * ThemePreviewActivity.this.parallaxScale);
-                        int ceil2 = (int) Math.ceil(this.background.getIntrinsicHeight() * max * ThemePreviewActivity.this.parallaxScale);
-                        int measuredWidth = (getMeasuredWidth() - ceil) / 2;
-                        int i132 = (measuredHeight - ceil2) / 2;
-                        this.background.setBounds(measuredWidth, i132, ceil + measuredWidth, ceil2 + i132);
-                        this.background.draw(canvas);
-                    }
-                }
-                if (ThemePreviewActivity.this.hasScrollingBackground) {
-                    if (!ThemePreviewActivity.this.scroller.isFinished() && ThemePreviewActivity.this.scroller.computeScrollOffset()) {
-                        ThemePreviewActivity themePreviewActivity = ThemePreviewActivity.this;
-                        if (ThemePreviewActivity.this.scroller.getStartX() < themePreviewActivity.maxScrollOffset && themePreviewActivity.scroller.getStartX() > 0) {
-                            ThemePreviewActivity themePreviewActivity2 = ThemePreviewActivity.this;
-                            themePreviewActivity2.currentScrollOffset = themePreviewActivity2.scroller.getCurrX();
-                        }
-                        invalidate();
-                    }
-                    canvas.save();
-                    canvas.translate(-ThemePreviewActivity.this.currentScrollOffset, 0.0f);
-                    super.onDraw(canvas);
-                    canvas.restore();
-                } else {
-                    super.onDraw(canvas);
-                }
-                if (ThemePreviewActivity.this.dimAmount > 0.0f && (dayNightSwitchDelegate22 = ThemePreviewActivity.this.onSwitchDayNightDelegate) != null && dayNightSwitchDelegate22.isDark()) {
-                    canvas.drawColor(ColorUtils.setAlphaComponent(-16777216, (int) (ThemePreviewActivity.this.dimAmount * 255.0f * ThemePreviewActivity.this.progressToDarkTheme)));
-                }
-                if (!ThemePreviewActivity.this.progressVisible || ThemePreviewActivity.this.radialProgress == null) {
-                    return;
-                }
-                ThemePreviewActivity.this.radialProgress.draw(canvas);
-            }
-
-            @Override // android.view.View
-            public Drawable getBackground() {
-                return this.background;
-            }
-
-            @Override // android.view.View
-            public void setBackground(Drawable drawable) {
-                this.background = drawable;
-            }
-
-            @Override // android.view.View
-            public void setAlpha(float f2) {
-                if (ThemePreviewActivity.this.radialProgress != null) {
-                    ThemePreviewActivity.this.radialProgress.setOverrideAlpha(f2);
-                }
-            }
-        };
-        this.backgroundImage = backupImageView2;
-        this.page2.addView(backupImageView2, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 0.0f, 0.0f, 48.0f));
+        while (i2 < 2) {
+        }
+        BackgroundView backgroundView2 = this.backgroundImages[0];
+        this.backgroundImage = backgroundView2;
+        backgroundView2.setVisibility(0);
+        this.backgroundImages[1].setVisibility(8);
         if (this.screenType == 2) {
         }
         if (!this.messagesAdapter.showSecretMessages) {
         }
-        i2 = 2;
-        i3 = 51;
-        this.listView2 = new RecyclerListView(context) { // from class: org.telegram.ui.ThemePreviewActivity.11
+        i3 = 2;
+        i4 = 51;
+        this.listView2 = new RecyclerListView(context) { // from class: org.telegram.ui.ThemePreviewActivity.10
             boolean scrollingBackground;
             float startX;
 
@@ -2776,9 +2554,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             top2 = measuredHeight;
                         }
                         if (chatMessageCell.isPinnedTop() && (childViewHolder2 = ThemePreviewActivity.this.listView2.getChildViewHolder(view3)) != null) {
-                            int i162 = 0;
-                            while (i162 < 20) {
-                                i162++;
+                            int i172 = 0;
+                            while (i172 < 20) {
+                                i172++;
                                 RecyclerView.ViewHolder childViewHolder2 = ThemePreviewActivity.this.listView2.findViewHolderForAdapterPosition(childViewHolder2.getAdapterPosition() + 1);
                                 if (childViewHolder2 == null) {
                                     break;
@@ -2816,13 +2594,13 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             public void setTranslationY(float f2) {
                 super.setTranslationY(f2);
                 if (ThemePreviewActivity.this.backgroundCheckBoxView != null) {
-                    for (int i162 = 0; i162 < ThemePreviewActivity.this.backgroundCheckBoxView.length; i162++) {
-                        ThemePreviewActivity.this.backgroundCheckBoxView[i162].invalidate();
+                    for (int i172 = 0; i172 < ThemePreviewActivity.this.backgroundCheckBoxView.length; i172++) {
+                        ThemePreviewActivity.this.backgroundCheckBoxView[i172].invalidate();
                     }
                 }
                 if (ThemePreviewActivity.this.messagesCheckBoxView != null) {
-                    for (int i172 = 0; i172 < ThemePreviewActivity.this.messagesCheckBoxView.length; i172++) {
-                        ThemePreviewActivity.this.messagesCheckBoxView[i172].invalidate();
+                    for (int i182 = 0; i182 < ThemePreviewActivity.this.messagesCheckBoxView.length; i182++) {
+                        ThemePreviewActivity.this.messagesCheckBoxView[i182].invalidate();
                     }
                 }
                 if (ThemePreviewActivity.this.backgroundPlayAnimationView != null) {
@@ -2882,7 +2660,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 }
             }
         };
-        DefaultItemAnimator defaultItemAnimator22 = new DefaultItemAnimator() { // from class: org.telegram.ui.ThemePreviewActivity.12
+        DefaultItemAnimator defaultItemAnimator22 = new DefaultItemAnimator() { // from class: org.telegram.ui.ThemePreviewActivity.11
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
             public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
@@ -2892,46 +2670,43 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         defaultItemAnimator22.setDelayAnimations(false);
         this.listView2.setItemAnimator(defaultItemAnimator22);
         this.listView2.setVerticalScrollBarEnabled(true);
-        this.listView2.setOverScrollMode(i2);
-        i5 = this.screenType;
-        if (i5 == i2) {
+        this.listView2.setOverScrollMode(i3);
+        i6 = this.screenType;
+        if (i6 == i3) {
         }
         this.listView2.setClipToPadding(false);
         this.listView2.setLayoutManager(new LinearLayoutManager(context, 1, true));
         this.listView2.setVerticalScrollbarPosition(LocaleController.isRTL ? 1 : 2);
         if (this.screenType == 1) {
         }
-        this.listView2.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.ThemePreviewActivity.13
+        this.listView2.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.ThemePreviewActivity.12
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrolled(RecyclerView recyclerView, int i162, int i172) {
+            public void onScrolled(RecyclerView recyclerView, int i172, int i182) {
                 ThemePreviewActivity.this.listView2.invalidateViews();
                 ThemePreviewActivity.this.wasScroll = true;
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrollStateChanged(RecyclerView recyclerView, int i162) {
-                if (i162 == 0) {
+            public void onScrollStateChanged(RecyclerView recyclerView, int i172) {
+                if (i172 == 0) {
                     ThemePreviewActivity.this.wasScroll = false;
                 }
             }
         });
-        this.page2.addView(this.actionBar2, LayoutHelper.createFrame(i6, -2.0f));
+        this.page2.addView(this.actionBar2, LayoutHelper.createFrame(i7, -2.0f));
         WallpaperParallaxEffect wallpaperParallaxEffect22 = new WallpaperParallaxEffect(context);
         this.parallaxEffect = wallpaperParallaxEffect22;
         wallpaperParallaxEffect22.setCallback(new WallpaperParallaxEffect.Callback() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda28
             @Override // org.telegram.ui.Components.WallpaperParallaxEffect.Callback
-            public final void onOffsetsChanged(int i162, int i172, float f2) {
-                ThemePreviewActivity.this.lambda$createView$6(i162, i172, f2);
+            public final void onOffsetsChanged(int i172, int i182, float f2) {
+                ThemePreviewActivity.this.lambda$createView$6(i172, i182, f2);
             }
         });
-        i7 = this.screenType;
+        i8 = this.screenType;
         String str422 = "chat_fieldOverlayText";
-        if (i7 != 1) {
+        if (i8 != 1) {
         }
-        RadialProgress2 radialProgress222 = new RadialProgress2(this.backgroundImage);
-        this.radialProgress = radialProgress222;
-        radialProgress222.setColors("chat_serviceBackground", "chat_serviceBackground", "chat_serviceText", "chat_serviceText");
-        if (this.screenType == i2) {
+        if (i8 == i3) {
         }
         final Rect rect22 = new Rect();
         Drawable mutate322 = context.getResources().getDrawable(R.drawable.sheet_shadow_round).mutate();
@@ -2946,22 +2721,22 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         obj = this.currentWallpaper;
         if (obj instanceof WallpapersListActivity.ColorWallpaper) {
         }
-        i8 = 3;
-        String[] strArr32222 = new String[i8];
-        int[] iArr32222 = new int[i8];
-        this.backgroundCheckBoxView = new WallpaperCheckBoxView[i8];
-        if (i8 == 0) {
+        i9 = 3;
+        String[] strArr32222 = new String[i9];
+        int[] iArr32222 = new int[i9];
+        this.backgroundCheckBoxView = new WallpaperCheckBoxView[i9];
+        if (i9 == 0) {
         }
-        i10 = 0;
-        while (i10 < i8) {
+        i11 = 0;
+        while (i11 < i9) {
         }
         if (this.screenType == 1) {
         }
         if (this.screenType != 1) {
         }
         this.isBlurred = false;
-        i11 = 0;
-        while (i11 < 2) {
+        i12 = 0;
+        while (i12 < 2) {
         }
         str3 = str;
         updateButtonState(false, false);
@@ -2970,7 +2745,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         if (this.screenType != 1) {
         }
         this.listView2.setAdapter(this.messagesAdapter);
-        FrameLayout frameLayout722 = new FrameLayout(context) { // from class: org.telegram.ui.ThemePreviewActivity.27
+        FrameLayout frameLayout722 = new FrameLayout(context) { // from class: org.telegram.ui.ThemePreviewActivity.26
             private int[] loc = new int[2];
 
             @Override // android.view.View
@@ -3015,21 +2790,21 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         viewTreeObserver22.addOnGlobalLayoutListener(onGlobalLayoutListener22);
         ViewPager viewPager22 = new ViewPager(context);
         this.viewPager = viewPager22;
-        viewPager22.addOnPageChangeListener(new ViewPager.OnPageChangeListener() { // from class: org.telegram.ui.ThemePreviewActivity.28
+        viewPager22.addOnPageChangeListener(new ViewPager.OnPageChangeListener() { // from class: org.telegram.ui.ThemePreviewActivity.27
             @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-            public void onPageScrollStateChanged(int i21) {
+            public void onPageScrollStateChanged(int i22) {
             }
 
             @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-            public void onPageScrolled(int i21, float f2, int i22) {
+            public void onPageScrolled(int i22, float f2, int i23) {
             }
 
             @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-            public void onPageSelected(int i21) {
+            public void onPageSelected(int i22) {
                 ThemePreviewActivity.this.dotsContainer.invalidate();
             }
         });
-        this.viewPager.setAdapter(new PagerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.29
+        this.viewPager.setAdapter(new PagerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.28
             @Override // androidx.viewpager.widget.PagerAdapter
             public int getItemPosition(Object obj5) {
                 return -1;
@@ -3046,14 +2821,14 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             }
 
             @Override // androidx.viewpager.widget.PagerAdapter
-            public Object instantiateItem(ViewGroup viewGroup, int i21) {
-                FrameLayout frameLayout92 = i21 == 0 ? ThemePreviewActivity.this.page2 : ThemePreviewActivity.this.page1;
+            public Object instantiateItem(ViewGroup viewGroup, int i22) {
+                FrameLayout frameLayout92 = i22 == 0 ? ThemePreviewActivity.this.page2 : ThemePreviewActivity.this.page1;
                 viewGroup.addView(frameLayout92);
                 return frameLayout92;
             }
 
             @Override // androidx.viewpager.widget.PagerAdapter
-            public void destroyItem(ViewGroup viewGroup, int i21, Object obj5) {
+            public void destroyItem(ViewGroup viewGroup, int i22, Object obj5) {
                 viewGroup.removeView((View) obj5);
             }
         });
@@ -3073,6 +2848,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         if (this.showColor) {
         }
         this.scroller = new Scroller(getContext());
+        iNavigationLayout = this.parentLayout;
+        if (iNavigationLayout != null) {
+        }
         return this.fragmentView;
     }
 
@@ -3171,6 +2949,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                     ThemePreviewActivity.this.lastSizeHash = 0;
                                     ThemePreviewActivity.this.backgroundImage.requestLayout();
                                     ThemePreviewActivity.this.setCurrentImage(false);
+                                    ThemePreviewActivity.this.blurredBitmap = null;
+                                    ThemePreviewActivity.this.updateBlurred();
                                 }
                             }
                         }, null);
@@ -3322,10 +3102,6 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 this.messagesButtonsContainer.getChildAt(i2).invalidate();
             }
         }
-        RadialProgress2 radialProgress2 = this.radialProgress;
-        if (radialProgress2 != null) {
-            radialProgress2.setColors("chat_serviceBackground", "chat_serviceBackground", "chat_serviceText", "chat_serviceText");
-        }
         if (!z2 && this.isBlurred && this.blurredBitmap == null) {
             this.backgroundImage.getImageReceiver().setCrossfadeWithOldImage(false);
             updateBlurred();
@@ -3374,9 +3150,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     /* JADX WARN: Removed duplicated region for block: B:179:0x0385  */
     /* JADX WARN: Removed duplicated region for block: B:185:0x039b  */
     /* JADX WARN: Removed duplicated region for block: B:209:0x04de  */
-    /* JADX WARN: Removed duplicated region for block: B:211:0x04e1  */
-    /* JADX WARN: Removed duplicated region for block: B:216:0x0224 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:234:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:212:0x04e2  */
+    /* JADX WARN: Removed duplicated region for block: B:217:0x0224 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:235:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:26:0x0078  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -3574,70 +3350,71 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 overrideWallpaperInfo.prevUserWallpaper = userFull.wallpaper;
                             }
                             MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
-                            if (!z) {
-                                z3 = true;
-                            } else if (this.dialogId != 0) {
-                                if (file != null && getMessagesController().uploadingWallpaperInfo == overrideWallpaperInfo) {
-                                    TLRPC$TL_wallPaper tLRPC$TL_wallPaper2 = new TLRPC$TL_wallPaper();
-                                    TLRPC$TL_wallPaperSettings tLRPC$TL_wallPaperSettings = new TLRPC$TL_wallPaperSettings();
-                                    tLRPC$TL_wallPaper2.settings = tLRPC$TL_wallPaperSettings;
-                                    tLRPC$TL_wallPaperSettings.intensity = (int) (overrideWallpaperInfo.intensity * 100.0f);
-                                    tLRPC$TL_wallPaperSettings.blur = overrideWallpaperInfo.isBlurred;
-                                    tLRPC$TL_wallPaperSettings.motion = overrideWallpaperInfo.isMotion;
-                                    tLRPC$TL_wallPaper2.uploadingImage = file.getAbsolutePath();
-                                    Bitmap createBitmap2 = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888);
-                                    Canvas canvas2 = new Canvas(createBitmap2);
-                                    float max = Math.max(50.0f / this.backgroundImage.getMeasuredWidth(), 50.0f / this.backgroundImage.getMeasuredHeight());
-                                    canvas2.scale(max, max);
-                                    if (this.backgroundImage.getMeasuredHeight() > this.backgroundImage.getMeasuredWidth()) {
-                                        f = 0.0f;
-                                        canvas2.translate(0.0f, (-(this.backgroundImage.getMeasuredHeight() - this.backgroundImage.getMeasuredWidth())) / 2.0f);
+                            if (z) {
+                                if (this.dialogId != 0) {
+                                    if (file != null && getMessagesController().uploadingWallpaperInfo == overrideWallpaperInfo) {
+                                        TLRPC$TL_wallPaper tLRPC$TL_wallPaper2 = new TLRPC$TL_wallPaper();
+                                        TLRPC$TL_wallPaperSettings tLRPC$TL_wallPaperSettings = new TLRPC$TL_wallPaperSettings();
+                                        tLRPC$TL_wallPaper2.settings = tLRPC$TL_wallPaperSettings;
+                                        tLRPC$TL_wallPaperSettings.intensity = (int) (overrideWallpaperInfo.intensity * 100.0f);
+                                        tLRPC$TL_wallPaperSettings.blur = overrideWallpaperInfo.isBlurred;
+                                        tLRPC$TL_wallPaperSettings.motion = overrideWallpaperInfo.isMotion;
+                                        tLRPC$TL_wallPaper2.uploadingImage = file.getAbsolutePath();
+                                        Bitmap createBitmap2 = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888);
+                                        Canvas canvas2 = new Canvas(createBitmap2);
+                                        float max = Math.max(50.0f / this.backgroundImage.getMeasuredWidth(), 50.0f / this.backgroundImage.getMeasuredHeight());
+                                        canvas2.scale(max, max);
+                                        if (this.backgroundImage.getMeasuredHeight() > this.backgroundImage.getMeasuredWidth()) {
+                                            f = 0.0f;
+                                            canvas2.translate(0.0f, (-(this.backgroundImage.getMeasuredHeight() - this.backgroundImage.getMeasuredWidth())) / 2.0f);
+                                        } else {
+                                            f = 0.0f;
+                                            canvas2.translate((-(this.backgroundImage.getMeasuredWidth() - this.backgroundImage.getMeasuredHeight())) / 2.0f, 0.0f);
+                                        }
+                                        float f4 = this.dimAmount;
+                                        this.dimAmount = f;
+                                        this.backgroundImage.draw(canvas2);
+                                        this.dimAmount = f4;
+                                        Utilities.blurBitmap(createBitmap2, 3, 1, createBitmap2.getWidth(), createBitmap2.getHeight(), createBitmap2.getRowBytes());
+                                        tLRPC$TL_wallPaper2.stripedThumb = createBitmap2;
+                                        createServiceMessageLocal(tLRPC$TL_wallPaper2);
+                                        TLRPC$UserFull userFull2 = getMessagesController().getUserFull(this.dialogId);
+                                        if (userFull2 != null) {
+                                            userFull2.wallpaper = tLRPC$TL_wallPaper2;
+                                            NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.userInfoDidLoad, Long.valueOf(this.dialogId), userFull2);
+                                        }
                                     } else {
-                                        f = 0.0f;
-                                        canvas2.translate((-(this.backgroundImage.getMeasuredWidth() - this.backgroundImage.getMeasuredHeight())) / 2.0f, 0.0f);
+                                        ChatThemeController.getInstance(this.currentAccount).setWallpaperToUser(this.dialogId, null, overrideWallpaperInfo, this.serverWallpaper, ThemePreviewActivity$$ExternalSyntheticLambda19.INSTANCE);
                                     }
-                                    float f4 = this.dimAmount;
-                                    this.dimAmount = f;
-                                    this.backgroundImage.draw(canvas2);
-                                    this.dimAmount = f4;
-                                    Utilities.blurBitmap(createBitmap2, 3, 1, createBitmap2.getWidth(), createBitmap2.getHeight(), createBitmap2.getRowBytes());
-                                    tLRPC$TL_wallPaper2.stripedThumb = createBitmap2;
-                                    createServiceMessageLocal(tLRPC$TL_wallPaper2);
-                                    TLRPC$UserFull userFull2 = getMessagesController().getUserFull(this.dialogId);
-                                    if (userFull2 != null) {
-                                        userFull2.wallpaper = tLRPC$TL_wallPaper2;
-                                        NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.userInfoDidLoad, Long.valueOf(this.dialogId), userFull2);
+                                    WallpaperActivityDelegate wallpaperActivityDelegate = this.delegate;
+                                    if (wallpaperActivityDelegate != null) {
+                                        wallpaperActivityDelegate.didSetNewBackground();
                                     }
-                                } else {
-                                    ChatThemeController.getInstance(this.currentAccount).setWallpaperToUser(this.dialogId, null, overrideWallpaperInfo, this.serverWallpaper, ThemePreviewActivity$$ExternalSyntheticLambda19.INSTANCE);
+                                    finishFragment();
+                                    z3 = false;
+                                    if (z3) {
+                                        return;
+                                    }
+                                    WallpaperActivityDelegate wallpaperActivityDelegate2 = this.delegate;
+                                    if (wallpaperActivityDelegate2 != null) {
+                                        wallpaperActivityDelegate2.didSetNewBackground();
+                                    }
+                                    finishFragment();
+                                    return;
                                 }
-                                WallpaperActivityDelegate wallpaperActivityDelegate = this.delegate;
-                                if (wallpaperActivityDelegate != null) {
-                                    wallpaperActivityDelegate.didSetNewBackground();
-                                }
-                                finishFragment();
-                                z3 = false;
-                            } else {
-                                z3 = true;
                                 Theme.serviceMessageColorBackup = getThemedColor("chat_serviceBackground");
                                 if ("t".equals(overrideWallpaperInfo.slug)) {
                                     overrideWallpaperInfo = null;
                                 }
                                 Theme.getActiveTheme().setOverrideWallpaper(overrideWallpaperInfo);
-                                Theme.reloadWallpaper();
+                                Theme.reloadWallpaper(true);
                                 if (!z2) {
                                     ImageLoader.getInstance().removeImage(ImageLoader.getHttpFileName(file3.getAbsolutePath()) + "@100_100");
                                 }
                             }
+                            z3 = true;
                             if (z3) {
-                                WallpaperActivityDelegate wallpaperActivityDelegate2 = this.delegate;
-                                if (wallpaperActivityDelegate2 != null) {
-                                    wallpaperActivityDelegate2.didSetNewBackground();
-                                }
-                                finishFragment();
-                                return;
                             }
-                            return;
                         }
                     }
                     overrideWallpaperInfo.intensity = this.currentIntensity;
@@ -3650,8 +3427,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         overrideWallpaperInfo.prevUserWallpaper = userFull.wallpaper;
                     }
                     MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
-                    if (!z) {
+                    if (z) {
                     }
+                    z3 = true;
                     if (z3) {
                     }
                 }
@@ -3681,8 +3459,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 if (j != 0) {
                 }
                 MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file, overrideWallpaperInfo2, str == null && this.dialogId == 0, 0L);
-                if (!z) {
+                if (z) {
                 }
+                z3 = true;
                 if (z3) {
                 }
             } else {
@@ -3759,8 +3538,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             if (j != 0) {
                             }
                             MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file, overrideWallpaperInfo22, str == null && this.dialogId == 0, 0L);
-                            if (!z) {
+                            if (z) {
                             }
+                            z3 = true;
                             if (z3) {
                             }
                         }
@@ -3801,8 +3581,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     if (j != 0) {
                     }
                     MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file, overrideWallpaperInfo222, str == null && this.dialogId == 0, 0L);
-                    if (!z) {
+                    if (z) {
                     }
+                    z3 = true;
                     if (z3) {
                     }
                 }
@@ -3837,8 +3618,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 if (j != 0) {
                 }
                 MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file, overrideWallpaperInfo2222, str == null && this.dialogId == 0, 0L);
-                if (!z) {
+                if (z) {
                 }
+                z3 = true;
                 if (z3) {
                 }
             }
@@ -3892,8 +3674,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         if (j != 0) {
         }
         MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file, overrideWallpaperInfo22222, str == null && this.dialogId == 0, 0L);
-        if (!z) {
+        if (z) {
         }
+        z3 = true;
         if (z3) {
         }
     }
@@ -3985,11 +3768,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             if (tLRPC$TL_wallPaper == null) {
                 this.backgroundImage.setImageDrawable(null);
             } else {
-                BackupImageView backupImageView = this.backgroundImage;
+                BackgroundView backgroundView = this.backgroundImage;
                 ImageLocation forDocument = ImageLocation.getForDocument(tLRPC$TL_wallPaper.document);
                 String str = this.imageFilter;
                 TLRPC$TL_wallPaper tLRPC$TL_wallPaper2 = this.selectedPattern;
-                backupImageView.setImage(forDocument, str, null, null, "jpg", tLRPC$TL_wallPaper2.document.size, 1, tLRPC$TL_wallPaper2);
+                backgroundView.setImage(forDocument, str, null, null, "jpg", tLRPC$TL_wallPaper2.document.size, 1, tLRPC$TL_wallPaper2);
             }
             this.backgroundCheckBoxView[1].setChecked(this.selectedPattern != null, false);
             float f = this.previousIntensity;
@@ -4054,8 +3837,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
-    public class 26 implements ColorPicker.ColorPickerDelegate {
-        26() {
+    public class 25 implements ColorPicker.ColorPickerDelegate {
+        25() {
         }
 
         @Override // org.telegram.ui.Components.ColorPicker.ColorPickerDelegate
@@ -4091,10 +3874,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             AlertDialog.Builder builder = new AlertDialog.Builder(ThemePreviewActivity.this.getParentActivity());
             builder.setTitle(LocaleController.getString("DeleteThemeTitle", R.string.DeleteThemeTitle));
             builder.setMessage(LocaleController.getString("DeleteThemeAlert", R.string.DeleteThemeAlert));
-            builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$26$$ExternalSyntheticLambda0
+            builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$25$$ExternalSyntheticLambda0
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
-                    ThemePreviewActivity.26.this.lambda$deleteTheme$0(dialogInterface, i);
+                    ThemePreviewActivity.25.this.lambda$deleteTheme$0(dialogInterface, i);
                 }
             });
             builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -4171,6 +3954,26 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didApplyNewTheme, previousTheme, accent, Boolean.valueOf(this.deleteOnCancel));
         }
         Theme.turnOffAutoNight(baseFragment);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void updateIntensity() {
+        this.backgroundImage.getImageReceiver().setAlpha(Math.abs(this.currentIntensity));
+        this.backgroundImage.invalidate();
+        this.patternsListView.invalidateViews();
+        if (this.currentIntensity >= 0.0f) {
+            if (Build.VERSION.SDK_INT >= 29 && (this.backgroundImage.getBackground() instanceof MotionBackgroundDrawable)) {
+                this.backgroundImage.getImageReceiver().setBlendMode(BlendMode.SOFT_LIGHT);
+            }
+            this.backgroundImage.getImageReceiver().setGradientBitmap(null);
+            return;
+        }
+        if (Build.VERSION.SDK_INT >= 29) {
+            this.backgroundImage.getImageReceiver().setBlendMode(null);
+        }
+        if (this.backgroundImage.getBackground() instanceof MotionBackgroundDrawable) {
+            this.backgroundImage.getImageReceiver().setGradientBitmap(((MotionBackgroundDrawable) this.backgroundImage.getBackground()).getBitmap());
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -4468,6 +4271,46 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         if (tLRPC$TL_wallPaper == null) {
             return;
         }
+        BackgroundView[] backgroundViewArr = this.backgroundImages;
+        BackgroundView backgroundView = backgroundViewArr[0];
+        backgroundViewArr[0] = backgroundViewArr[1];
+        backgroundViewArr[1] = backgroundView;
+        this.page2.removeView(backgroundViewArr[0]);
+        this.page2.addView(this.backgroundImages[0], this.page2.indexOfChild(this.backgroundImages[1]) + 1);
+        BackgroundView[] backgroundViewArr2 = this.backgroundImages;
+        BackgroundView backgroundView2 = backgroundViewArr2[0];
+        this.backgroundImage = backgroundView2;
+        backgroundView2.setBackground(backgroundViewArr2[1].getBackground());
+        updateIntensity();
+        this.backgroundImages[1].setVisibility(0);
+        this.backgroundImages[1].setAlpha(1.0f);
+        this.backgroundImage.setVisibility(0);
+        ValueAnimator valueAnimator = this.valueAnimator;
+        if (valueAnimator != null) {
+            valueAnimator.removeAllListeners();
+            this.valueAnimator.cancel();
+        }
+        ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
+        this.valueAnimator = ofFloat;
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ThemePreviewActivity.30
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                ThemePreviewActivity.this.backgroundImage.setAlpha(((Float) valueAnimator2.getAnimatedValue()).floatValue());
+            }
+        });
+        this.valueAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.31
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                super.onAnimationEnd(animator);
+                ThemePreviewActivity.this.backgroundImage.invalidate();
+                ThemePreviewActivity.this.backgroundImages[1].setVisibility(8);
+            }
+        });
+        this.valueAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
+        this.valueAnimator.setDuration(300L);
+        this.valueAnimator.start();
+        this.backgroundImage.getImageReceiver().setCrossfadeDuration(300);
+        this.backgroundImage.getImageReceiver().setForceCrossfade(true);
         this.backgroundImage.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_wallPaper.document), this.imageFilter, null, null, ChatBackgroundDrawable.createThumb(tLRPC$TL_wallPaper), tLRPC$TL_wallPaper.document.size, "jpg", tLRPC$TL_wallPaper, 1);
         this.backgroundImage.onNewImageSet();
         this.selectedPattern = tLRPC$TL_wallPaper;
@@ -4758,8 +4601,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         if (this.isMotion) {
             this.parallaxEffect.setEnabled(true);
         }
-        AndroidUtilities.requestAdjustResize(getParentActivity(), this.classGuid);
-        AndroidUtilities.removeAdjustResize(getParentActivity(), this.classGuid);
+        Theme.disallowChangeServiceMessageColor = true;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -4768,6 +4610,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         if (this.isMotion) {
             this.parallaxEffect.setEnabled(false);
         }
+        Theme.disallowChangeServiceMessageColor = false;
     }
 
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
@@ -4777,22 +4620,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
     public void onSuccessDownload(String str) {
-        RadialProgress2 radialProgress2 = this.radialProgress;
-        if (radialProgress2 != null) {
-            radialProgress2.setProgress(1.0f, this.progressVisible);
-        }
         updateButtonState(false, true);
-    }
-
-    @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
-    public void onProgressDownload(String str, long j, long j2) {
-        RadialProgress2 radialProgress2 = this.radialProgress;
-        if (radialProgress2 != null) {
-            radialProgress2.setProgress(Math.min(1.0f, ((float) j) / ((float) j2)), this.progressVisible);
-            if (this.radialProgress.getIcon() != 10) {
-                updateButtonState(false, true);
-            }
-        }
     }
 
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
@@ -4800,7 +4628,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         return this.TAG;
     }
 
-    private void updateBlurred() {
+    /* JADX INFO: Access modifiers changed from: private */
+    public void updateBlurred() {
         if (this.isBlurred && this.blurredBitmap == null) {
             Bitmap bitmap = this.currentWallpaperBitmap;
             if (bitmap != null) {
@@ -5281,8 +5110,6 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         String name;
         int i;
         long j;
-        File file;
-        String str;
         FrameLayout frameLayout;
         Object obj = this.selectedPattern;
         if (obj == null) {
@@ -5290,16 +5117,13 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
         boolean z3 = obj instanceof TLRPC$TL_wallPaper;
         if (z3 || (obj instanceof MediaController.SearchImage)) {
-            if (z2 && !this.progressVisible) {
-                z2 = false;
-            }
             if (z3) {
                 TLRPC$TL_wallPaper tLRPC$TL_wallPaper = (TLRPC$TL_wallPaper) obj;
-                str = FileLoader.getAttachFileName(tLRPC$TL_wallPaper.document);
-                if (TextUtils.isEmpty(str)) {
+                name = FileLoader.getAttachFileName(tLRPC$TL_wallPaper.document);
+                if (TextUtils.isEmpty(name)) {
                     return;
                 }
-                file = FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$TL_wallPaper.document, true);
+                httpFilePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$TL_wallPaper.document, true);
                 j = tLRPC$TL_wallPaper.document.size;
             } else {
                 MediaController.SearchImage searchImage = (MediaController.SearchImage) obj;
@@ -5315,21 +5139,13 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     i = searchImage.size;
                 }
                 j = i;
-                String str2 = name;
-                file = httpFilePath;
-                str = str2;
-                if (TextUtils.isEmpty(str)) {
+                if (TextUtils.isEmpty(name)) {
                     return;
                 }
             }
-            boolean exists = file.exists();
+            boolean exists = httpFilePath.exists();
             if (exists) {
                 DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
-                RadialProgress2 radialProgress2 = this.radialProgress;
-                if (radialProgress2 != null) {
-                    radialProgress2.setProgress(1.0f, z2);
-                    this.radialProgress.setIcon(4, z, z2);
-                }
                 this.backgroundImage.invalidate();
                 if (this.screenType == 2) {
                     if (j != 0 && this.dialogId == 0) {
@@ -5339,17 +5155,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
                 }
             } else {
-                DownloadController.getInstance(this.currentAccount).addLoadingFileObserver(str, null, this);
-                if (this.radialProgress != null) {
-                    FileLoader.getInstance(this.currentAccount).isLoadingFile(str);
-                    Float fileProgress = ImageLoader.getInstance().getFileProgress(str);
-                    if (fileProgress != null) {
-                        this.radialProgress.setProgress(fileProgress.floatValue(), z2);
-                    } else {
-                        this.radialProgress.setProgress(0.0f, z2);
-                    }
-                    this.radialProgress.setIcon(10, z, z2);
-                }
+                DownloadController.getInstance(this.currentAccount).addLoadingFileObserver(name, null, this);
                 if (this.screenType == 2 && this.dialogId == 0) {
                     this.actionBar2.setSubtitle(LocaleController.getString("LoadingFullImage", R.string.LoadingFullImage));
                 }
@@ -5362,20 +5168,13 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             if (i2 == 0) {
                 this.doneButton.setEnabled(exists);
                 this.doneButton.setAlpha(exists ? 1.0f : 0.5f);
-                return;
             } else if (i2 == 2) {
                 this.bottomOverlayChat.setEnabled(exists);
                 this.bottomOverlayChatText.setAlpha(exists ? 1.0f : 0.5f);
-                return;
             } else {
                 this.saveItem.setEnabled(exists);
                 this.saveItem.setAlpha(exists ? 1.0f : 0.5f);
-                return;
             }
-        }
-        RadialProgress2 radialProgress22 = this.radialProgress;
-        if (radialProgress22 != null) {
-            radialProgress22.setIcon(4, z, z2);
         }
     }
 
@@ -5471,7 +5270,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             fArr2[0] = this.selectedPattern != null ? 0.0f : 1.0f;
             animatorArr[1] = ObjectAnimator.ofFloat(wallpaperCheckBoxView2, property2, fArr2);
             animatorSet.playTogether(animatorArr);
-            animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.31
+            animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.32
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     ThemePreviewActivity.this.backgroundCheckBoxView[ThemePreviewActivity.this.selectedPattern != null ? (char) 0 : (char) 2].setVisibility(4);
@@ -5519,7 +5318,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         animatorSet2.playTogether(animatorArr4);
         animatorSet2.setInterpolator(CubicBezierInterpolator.EASE_OUT);
         animatorSet2.setDuration(200L);
-        animatorSet2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.32
+        animatorSet2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.33
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 if (ThemePreviewActivity.this.selectedPattern == null) {
@@ -5650,7 +5449,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             }
             this.patternViewAnimation.playTogether(arrayList2);
             final int i9 = i7;
-            this.patternViewAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.33
+            this.patternViewAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.34
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     ThemePreviewActivity.this.patternViewAnimation = null;
@@ -5743,7 +5542,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             animatorSet2.playTogether(ObjectAnimator.ofFloat(this.backgroundImage, View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(this.backgroundImage, View.SCALE_Y, 1.0f), ObjectAnimator.ofFloat(this.backgroundImage, View.TRANSLATION_X, 0.0f), ObjectAnimator.ofFloat(this.backgroundImage, View.TRANSLATION_Y, 0.0f));
         }
         this.motionAnimation.setInterpolator(CubicBezierInterpolator.EASE_OUT);
-        this.motionAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.34
+        this.motionAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.35
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 ThemePreviewActivity.this.motionAnimation = null;
@@ -5861,7 +5660,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     animatorArr[5] = ObjectAnimator.ofFloat(wallpaperCheckBoxView3, property6, fArr6);
                     animatorSet2.playTogether(animatorArr);
                     this.backgroundPlayViewAnimator.setDuration(180L);
-                    this.backgroundPlayViewAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.35
+                    this.backgroundPlayViewAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.36
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
                             if (ThemePreviewActivity.this.backgroundPlayAnimationView.getTag() == null) {
@@ -5897,7 +5696,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     this.messagesPlayViewAnimator = animatorSet4;
                     animatorSet4.playTogether(ObjectAnimator.ofFloat(this.messagesPlayAnimationView, View.ALPHA, 1.0f), ObjectAnimator.ofFloat(this.messagesPlayAnimationView, View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(this.messagesPlayAnimationView, View.SCALE_Y, 1.0f), ObjectAnimator.ofFloat(this.messagesCheckBoxView[0], View.TRANSLATION_X, -AndroidUtilities.dp(34.0f)), ObjectAnimator.ofFloat(this.messagesCheckBoxView[1], View.TRANSLATION_X, AndroidUtilities.dp(34.0f)));
                     this.messagesPlayViewAnimator.setDuration(180L);
-                    this.messagesPlayViewAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.36
+                    this.messagesPlayViewAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.37
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
                             if (ThemePreviewActivity.this.messagesPlayAnimationView.getTag() == null) {
@@ -5989,9 +5788,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         if (imageView2 != null) {
             imageView2.setColorFilter(new PorterDuffColorFilter(getThemedColor("chat_serviceText"), PorterDuff.Mode.MULTIPLY));
         }
-        BackupImageView backupImageView = this.backgroundImage;
-        if (backupImageView != null) {
-            backupImageView.getImageReceiver().setColorFilter(new PorterDuffColorFilter(this.patternColor, this.blendMode));
+        BackgroundView backgroundView = this.backgroundImage;
+        if (backgroundView != null) {
+            backgroundView.getImageReceiver().setColorFilter(new PorterDuffColorFilter(this.patternColor, this.blendMode));
             this.backgroundImage.getImageReceiver().setAlpha(Math.abs(this.currentIntensity));
             this.backgroundImage.invalidate();
             if (Theme.getActiveTheme().isDark() && (this.backgroundImage.getBackground() instanceof MotionBackgroundDrawable)) {
@@ -6032,10 +5831,6 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 this.messagesButtonsContainer.getChildAt(i6).invalidate();
             }
         }
-        RadialProgress2 radialProgress2 = this.radialProgress;
-        if (radialProgress2 != null) {
-            radialProgress2.setColors("chat_serviceBackground", "chat_serviceBackground", "chat_serviceText", "chat_serviceText");
-        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -6063,11 +5858,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 setBackgroundColor(colorWallpaper.gradientColor3, 3, true, false);
                 TLRPC$TL_wallPaper tLRPC$TL_wallPaper2 = this.selectedPattern;
                 if (tLRPC$TL_wallPaper2 != null) {
-                    BackupImageView backupImageView = this.backgroundImage;
+                    BackgroundView backgroundView = this.backgroundImage;
                     ImageLocation forDocument = ImageLocation.getForDocument(tLRPC$TL_wallPaper2.document);
                     String str = this.imageFilter;
                     TLRPC$TL_wallPaper tLRPC$TL_wallPaper3 = this.selectedPattern;
-                    backupImageView.setImage(forDocument, str, null, null, "jpg", tLRPC$TL_wallPaper3.document.size, 1, tLRPC$TL_wallPaper3);
+                    backgroundView.setImage(forDocument, str, null, null, "jpg", tLRPC$TL_wallPaper3.document.size, 1, tLRPC$TL_wallPaper3);
                 } else if ("d".equals(colorWallpaper.slug)) {
                     Point point = AndroidUtilities.displaySize;
                     int min = Math.min(point.x, point.y);
@@ -6088,8 +5883,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         if (file2 != null) {
                             this.backgroundImage.setImage(file2.getAbsolutePath(), this.imageFilter, null);
                         } else if ("t".equals(fileWallpaper.slug)) {
-                            BackupImageView backupImageView2 = this.backgroundImage;
-                            backupImageView2.setImageDrawable(Theme.getThemedWallpaper(false, backupImageView2));
+                            BackgroundView backgroundView2 = this.backgroundImage;
+                            backgroundView2.setImageDrawable(Theme.getThemedWallpaper(false, backgroundView2));
                         } else {
                             int i3 = fileWallpaper.resId;
                             if (i3 != 0) {
@@ -6164,7 +5959,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     motionBackgroundDrawable = motionBackgroundDrawable2;
                 } else if (defaultAccentColor2 != 0) {
                     BackgroundGradientDrawable backgroundGradientDrawable = new BackgroundGradientDrawable(BackgroundGradientDrawable.getGradientOrientation(this.accent.backgroundRotation), new int[]{defaultAccentColor, defaultAccentColor2});
-                    this.backgroundGradientDisposable = backgroundGradientDrawable.startDithering(BackgroundGradientDrawable.Sizes.ofDeviceScreen(), new BackgroundGradientDrawable.ListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.37
+                    this.backgroundGradientDisposable = backgroundGradientDrawable.startDithering(BackgroundGradientDrawable.Sizes.ofDeviceScreen(), new BackgroundGradientDrawable.ListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.38
                         @Override // org.telegram.ui.Components.BackgroundGradientDrawable.ListenerAdapter, org.telegram.ui.Components.BackgroundGradientDrawable.Listener
                         public void onSizeReady(int i8, int i9) {
                             Point point3 = AndroidUtilities.displaySize;
@@ -6180,11 +5975,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 this.backgroundImage.setBackground(motionBackgroundDrawable);
                 TLRPC$TL_wallPaper tLRPC$TL_wallPaper4 = this.selectedPattern;
                 if (tLRPC$TL_wallPaper4 != null) {
-                    BackupImageView backupImageView3 = this.backgroundImage;
+                    BackgroundView backgroundView3 = this.backgroundImage;
                     ImageLocation forDocument2 = ImageLocation.getForDocument(tLRPC$TL_wallPaper4.document);
                     String str2 = this.imageFilter;
                     TLRPC$TL_wallPaper tLRPC$TL_wallPaper5 = this.selectedPattern;
-                    backupImageView3.setImage(forDocument2, str2, null, null, "jpg", tLRPC$TL_wallPaper5.document.size, 1, tLRPC$TL_wallPaper5);
+                    backgroundView3.setImage(forDocument2, str2, null, null, "jpg", tLRPC$TL_wallPaper5.document.size, 1, tLRPC$TL_wallPaper5);
                 }
             } else {
                 Drawable cachedWallpaperNonBlocking = Theme.getCachedWallpaperNonBlocking();
@@ -6207,9 +6002,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 this.checkColor = patternColor2;
                 this.patternColor = patternColor2;
             }
-            BackupImageView backupImageView4 = this.backgroundImage;
-            if (backupImageView4 != null) {
-                backupImageView4.getImageReceiver().setColorFilter(new PorterDuffColorFilter(this.patternColor, this.blendMode));
+            BackgroundView backgroundView4 = this.backgroundImage;
+            if (backgroundView4 != null) {
+                backgroundView4.getImageReceiver().setColorFilter(new PorterDuffColorFilter(this.patternColor, this.blendMode));
                 this.backgroundImage.getImageReceiver().setAlpha(Math.abs(this.currentIntensity));
                 this.backgroundImage.invalidate();
                 if (Theme.getActiveTheme().isDark() && (this.backgroundImage.getBackground() instanceof MotionBackgroundDrawable)) {
@@ -7575,6 +7370,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getThemeDescriptionsInternal$28() {
         ActionBarMenuItem actionBarMenuItem = this.dropDownContainer;
+        int i = 0;
         if (actionBarMenuItem != null) {
             actionBarMenuItem.redrawPopup(getThemedColor("actionBarDefaultSubmenuBackground"));
             this.dropDownContainer.setPopupItemsColor(getThemedColor("actionBarDefaultSubmenuItem"), false);
@@ -7599,6 +7395,32 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             } else {
                 setNavigationBarColor(getThemedColor("dialogBackground"));
             }
+        }
+        if (this.backgroundCheckBoxView != null) {
+            int i2 = 0;
+            while (true) {
+                WallpaperCheckBoxView[] wallpaperCheckBoxViewArr = this.backgroundCheckBoxView;
+                if (i2 >= wallpaperCheckBoxViewArr.length) {
+                    break;
+                }
+                if (wallpaperCheckBoxViewArr[i2] != null) {
+                    wallpaperCheckBoxViewArr[i2].invalidate();
+                }
+                i2++;
+            }
+        }
+        if (this.messagesCheckBoxView == null) {
+            return;
+        }
+        while (true) {
+            WallpaperCheckBoxView[] wallpaperCheckBoxViewArr2 = this.messagesCheckBoxView;
+            if (i >= wallpaperCheckBoxViewArr2.length) {
+                return;
+            }
+            if (wallpaperCheckBoxViewArr2[i] != null) {
+                wallpaperCheckBoxViewArr2[i].invalidate();
+            }
+            i++;
         }
     }
 
@@ -7634,5 +7456,115 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         arrayList.add(new MessageObject(this.currentAccount, tLRPC$TL_messageService, false, false));
         new ArrayList().add(tLRPC$TL_messageService);
         MessagesController.getInstance(this.currentAccount).updateInterfaceWithMessages(this.dialogId, arrayList, false);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes3.dex */
+    public class BackgroundView extends BackupImageView {
+        private Drawable background;
+        boolean drawBackground;
+
+        public BackgroundView(Context context) {
+            super(context);
+            this.drawBackground = true;
+        }
+
+        @Override // android.view.View
+        protected void onMeasure(int i, int i2) {
+            super.onMeasure(i, i2);
+            ThemePreviewActivity themePreviewActivity = ThemePreviewActivity.this;
+            themePreviewActivity.parallaxScale = themePreviewActivity.parallaxEffect.getScale(getMeasuredWidth(), getMeasuredHeight());
+            if (ThemePreviewActivity.this.isMotion) {
+                setScaleX(ThemePreviewActivity.this.parallaxScale);
+                setScaleY(ThemePreviewActivity.this.parallaxScale);
+            }
+            ThemePreviewActivity themePreviewActivity2 = ThemePreviewActivity.this;
+            themePreviewActivity2.progressVisible = themePreviewActivity2.screenType == 2 && getMeasuredWidth() <= getMeasuredHeight();
+            int measuredWidth = getMeasuredWidth() + (getMeasuredHeight() << 16);
+            if (ThemePreviewActivity.this.lastSizeHash != measuredWidth) {
+                ThemePreviewActivity.this.hasScrollingBackground = false;
+                if (ThemePreviewActivity.this.currentWallpaperBitmap != null) {
+                    int width = (int) (ThemePreviewActivity.this.currentWallpaperBitmap.getWidth() * (getMeasuredHeight() / ThemePreviewActivity.this.currentWallpaperBitmap.getHeight()));
+                    if (width - getMeasuredWidth() > 100) {
+                        ThemePreviewActivity.this.hasScrollingBackground = true;
+                        ThemePreviewActivity.this.croppedWidth = (int) (getMeasuredWidth() * (ThemePreviewActivity.this.currentWallpaperBitmap.getHeight() / getMeasuredHeight()));
+                        ThemePreviewActivity themePreviewActivity3 = ThemePreviewActivity.this;
+                        float measuredWidth2 = (width - getMeasuredWidth()) / 2.0f;
+                        themePreviewActivity3.currentScrollOffset = measuredWidth2;
+                        themePreviewActivity3.defaultScrollOffset = measuredWidth2;
+                        ThemePreviewActivity themePreviewActivity4 = ThemePreviewActivity.this;
+                        themePreviewActivity4.maxScrollOffset = themePreviewActivity4.currentScrollOffset * 2.0f;
+                        setSize(width, getMeasuredHeight());
+                        this.drawFromStart = true;
+                    }
+                }
+                if (!ThemePreviewActivity.this.hasScrollingBackground) {
+                    setSize(-1, -1);
+                    this.drawFromStart = false;
+                }
+            }
+            ThemePreviewActivity.this.lastSizeHash = measuredWidth;
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // org.telegram.ui.Components.BackupImageView, android.view.View
+        public void onDraw(Canvas canvas) {
+            DayNightSwitchDelegate dayNightSwitchDelegate;
+            if (this.drawBackground) {
+                Drawable drawable = this.background;
+                if ((drawable instanceof ColorDrawable) || (drawable instanceof GradientDrawable) || (drawable instanceof MotionBackgroundDrawable)) {
+                    drawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
+                    this.background.draw(canvas);
+                } else if (drawable instanceof BitmapDrawable) {
+                    if (((BitmapDrawable) drawable).getTileModeX() == Shader.TileMode.REPEAT) {
+                        canvas.save();
+                        float f = 2.0f / AndroidUtilities.density;
+                        canvas.scale(f, f);
+                        this.background.setBounds(0, 0, (int) Math.ceil(getMeasuredWidth() / f), (int) Math.ceil(getMeasuredHeight() / f));
+                        this.background.draw(canvas);
+                        canvas.restore();
+                    } else {
+                        int measuredHeight = getMeasuredHeight();
+                        float max = Math.max(getMeasuredWidth() / this.background.getIntrinsicWidth(), measuredHeight / this.background.getIntrinsicHeight());
+                        int ceil = (int) Math.ceil(this.background.getIntrinsicWidth() * max * ThemePreviewActivity.this.parallaxScale);
+                        int ceil2 = (int) Math.ceil(this.background.getIntrinsicHeight() * max * ThemePreviewActivity.this.parallaxScale);
+                        int measuredWidth = (getMeasuredWidth() - ceil) / 2;
+                        int i = (measuredHeight - ceil2) / 2;
+                        this.background.setBounds(measuredWidth, i, ceil + measuredWidth, ceil2 + i);
+                        this.background.draw(canvas);
+                    }
+                }
+            }
+            if (ThemePreviewActivity.this.hasScrollingBackground) {
+                if (!ThemePreviewActivity.this.scroller.isFinished() && ThemePreviewActivity.this.scroller.computeScrollOffset()) {
+                    ThemePreviewActivity themePreviewActivity = ThemePreviewActivity.this;
+                    if (ThemePreviewActivity.this.scroller.getStartX() < themePreviewActivity.maxScrollOffset && themePreviewActivity.scroller.getStartX() > 0) {
+                        ThemePreviewActivity themePreviewActivity2 = ThemePreviewActivity.this;
+                        themePreviewActivity2.currentScrollOffset = themePreviewActivity2.scroller.getCurrX();
+                    }
+                    invalidate();
+                }
+                canvas.save();
+                canvas.translate(-ThemePreviewActivity.this.currentScrollOffset, 0.0f);
+                super.onDraw(canvas);
+                canvas.restore();
+            } else {
+                super.onDraw(canvas);
+            }
+            if (!ThemePreviewActivity.this.shouldShowBrightnessControll || ThemePreviewActivity.this.dimAmount <= 0.0f || (dayNightSwitchDelegate = ThemePreviewActivity.this.onSwitchDayNightDelegate) == null || !dayNightSwitchDelegate.isDark()) {
+                return;
+            }
+            canvas.drawColor(ColorUtils.setAlphaComponent(-16777216, (int) (ThemePreviewActivity.this.dimAmount * 255.0f * ThemePreviewActivity.this.progressToDarkTheme)));
+        }
+
+        @Override // android.view.View
+        public Drawable getBackground() {
+            return this.background;
+        }
+
+        @Override // android.view.View
+        public void setBackground(Drawable drawable) {
+            this.background = drawable;
+        }
     }
 }

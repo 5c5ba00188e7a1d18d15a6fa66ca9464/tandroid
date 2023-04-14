@@ -1217,7 +1217,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     globalInstance.postNotificationName(i2, objArr);
                     ThemeActivity.this.listAdapter.notifyItemChanged(ThemeActivity.this.themeAccentListRow);
                 } else {
-                    Theme.reloadWallpaper();
+                    Theme.reloadWallpaper(true);
                 }
             }
         }

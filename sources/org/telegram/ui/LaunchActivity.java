@@ -660,7 +660,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             }
         });
         this.actionBarLayout.setDelegate(this);
-        Theme.loadWallpaper();
+        Theme.loadWallpaper(true);
         checkCurrentAccount();
         updateCurrentConnectionState(this.currentAccount);
         NotificationCenter globalInstance = NotificationCenter.getGlobalInstance();
@@ -9891,7 +9891,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             }
             ThemePreviewActivity themePreviewActivity = new ThemePreviewActivity(tLRPC$TL_wallPaper2, null, true, false);
             TLRPC$WallPaperSettings tLRPC$WallPaperSettings3 = tLRPC$TL_wallPaper.settings;
-            themePreviewActivity.setInitialModes(tLRPC$WallPaperSettings3.blur, tLRPC$WallPaperSettings3.motion);
+            themePreviewActivity.setInitialModes(tLRPC$WallPaperSettings3.blur, tLRPC$WallPaperSettings3.motion, tLRPC$WallPaperSettings3.intensity);
             lambda$runLinkRequest$77(themePreviewActivity);
             return;
         }

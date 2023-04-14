@@ -274,7 +274,7 @@ public class LiteMode {
             SvgHelper.SvgDrawable.updateLiteValues();
         }
         if (i4 > 0) {
-            Theme.reloadWallpaper();
+            Theme.reloadWallpaper(true);
         }
     }
 

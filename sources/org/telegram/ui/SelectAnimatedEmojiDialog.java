@@ -51,6 +51,7 @@ import androidx.core.graphics.ColorUtils;
 import androidx.core.math.MathUtils;
 import androidx.core.util.Consumer;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScrollerCustom;
 import androidx.recyclerview.widget.RecyclerView;
@@ -461,9 +462,9 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
     /* JADX WARN: Removed duplicated region for block: B:57:0x02c7  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x0430  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x044b  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x0457  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x042a  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0445  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x0451  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -766,8 +767,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 this.emojiGridView.setPadding(AndroidUtilities.dp(5.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(5.0f), AndroidUtilities.dp(38.0f));
                 Adapter adapter = new Adapter();
                 this.adapter = adapter;
-                adapter.setHasStableIds(true);
-                this.emojiGridView.setAdapter(this.adapter);
+                this.emojiGridView.setAdapter(adapter);
                 EmojiListView emojiListView2 = this.emojiGridView;
                 GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 40) { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.7
                     @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
@@ -1010,8 +1010,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         this.emojiGridView.setPadding(AndroidUtilities.dp(5.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(5.0f), AndroidUtilities.dp(38.0f));
         Adapter adapter2 = new Adapter();
         this.adapter = adapter2;
-        adapter2.setHasStableIds(true);
-        this.emojiGridView.setAdapter(this.adapter);
+        this.emojiGridView.setAdapter(adapter2);
         EmojiListView emojiListView22 = this.emojiGridView;
         GridLayoutManager gridLayoutManager3 = new GridLayoutManager(context, 40) { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.7
             @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
@@ -3565,7 +3564,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x0629  */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x062c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3573,26 +3572,27 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet;
         boolean z4;
         boolean z5;
+        long j;
+        int i;
         boolean z6;
         ArrayList<TLRPC$Document> arrayList;
         boolean isPremiumEmojiPack;
-        ArrayList arrayList2;
         TLRPC$StickerSet tLRPC$StickerSet;
         boolean z7;
-        int i;
-        ArrayList<Long> arrayList3;
+        int i2;
+        ArrayList<Long> arrayList2;
         boolean z8 = !this.animationsEnabled ? false : z2;
-        int i2 = currentAccount;
-        MediaDataController mediaDataController = MediaDataController.getInstance(i2);
+        int i3 = currentAccount;
+        MediaDataController mediaDataController = MediaDataController.getInstance(i3);
         if (mediaDataController == null) {
             return;
         }
         if (z || this.frozenEmojiPacks == null) {
             this.frozenEmojiPacks = new ArrayList<>(mediaDataController.getStickerSets(this.showStickers ? 0 : 5));
         }
-        ArrayList<TLRPC$TL_messages_stickerSet> arrayList4 = this.frozenEmojiPacks;
-        ArrayList arrayList5 = new ArrayList(mediaDataController.getFeaturedEmojiSets());
-        new ArrayList(this.rowHashCodes);
+        ArrayList<TLRPC$TL_messages_stickerSet> arrayList3 = this.frozenEmojiPacks;
+        ArrayList arrayList4 = new ArrayList(mediaDataController.getFeaturedEmojiSets());
+        final ArrayList arrayList5 = new ArrayList(this.rowHashCodes);
         this.totalCount = 0;
         this.recentReactionsSectionRow = -1;
         this.recentReactionsStartRow = -1;
@@ -3613,48 +3613,50 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         this.positionToButton.clear();
         this.stickerSets.clear();
         this.recentStickers.clear();
-        if (!arrayList4.isEmpty() || this.type == 4) {
-            int i3 = this.totalCount;
-            this.totalCount = i3 + 1;
-            this.searchRow = i3;
+        if (!arrayList3.isEmpty() || this.type == 4) {
+            int i4 = this.totalCount;
+            this.totalCount = i4 + 1;
+            this.searchRow = i4;
             this.rowHashCodes.add(9L);
         } else {
             this.searchRow = -1;
         }
-        int i4 = this.type;
-        if (i4 == 4) {
+        int i5 = this.type;
+        if (i5 == 4) {
             if (this.showStickers) {
-                this.recentStickers.addAll(MediaDataController.getInstance(i2).getRecentStickersNoCopy(0));
-                for (int i5 = 0; i5 < this.recentStickers.size(); i5++) {
-                    this.rowHashCodes.add(Long.valueOf((this.recentStickers.get(i5).id * 13) + 62425));
+                this.recentStickers.addAll(MediaDataController.getInstance(i3).getRecentStickersNoCopy(0));
+                for (int i6 = 0; i6 < this.recentStickers.size(); i6++) {
+                    this.rowHashCodes.add(Long.valueOf((this.recentStickers.get(i6).id * 13) + 62425));
                     this.totalCount++;
                 }
             } else {
-                TLRPC$TL_emojiList tLRPC$TL_emojiList = this.forUser ? MediaDataController.getInstance(i2).profileAvatarConstructorDefault : MediaDataController.getInstance(i2).groupAvatarConstructorDefault;
-                if (tLRPC$TL_emojiList != null && (arrayList3 = tLRPC$TL_emojiList.document_id) != null && !arrayList3.isEmpty()) {
-                    for (int i6 = 0; i6 < tLRPC$TL_emojiList.document_id.size(); i6++) {
-                        this.recent.add(new AnimatedEmojiSpan(tLRPC$TL_emojiList.document_id.get(i6).longValue(), (Paint.FontMetricsInt) null));
+                boolean z9 = this.forUser;
+                MediaDataController mediaDataController2 = MediaDataController.getInstance(i3);
+                TLRPC$TL_emojiList tLRPC$TL_emojiList = z9 ? mediaDataController2.profileAvatarConstructorDefault : mediaDataController2.groupAvatarConstructorDefault;
+                if (tLRPC$TL_emojiList != null && (arrayList2 = tLRPC$TL_emojiList.document_id) != null && !arrayList2.isEmpty()) {
+                    for (int i7 = 0; i7 < tLRPC$TL_emojiList.document_id.size(); i7++) {
+                        this.recent.add(new AnimatedEmojiSpan(tLRPC$TL_emojiList.document_id.get(i7).longValue(), (Paint.FontMetricsInt) null));
                     }
-                    for (int i7 = 0; i7 < this.recent.size(); i7++) {
-                        this.rowHashCodes.add(Long.valueOf((this.recent.get(i7).getDocumentId() * 13) + 43223));
+                    for (int i8 = 0; i8 < this.recent.size(); i8++) {
+                        this.rowHashCodes.add(Long.valueOf((this.recent.get(i8).getDocumentId() * 13) + 43223));
                         this.totalCount++;
                     }
                 }
             }
-        } else if (i4 == 3) {
-            int i8 = this.totalCount;
-            this.totalCount = i8 + 1;
-            this.topicEmojiHeaderRow = i8;
-            this.rowHashCodes.add(12L);
+        } else if (i5 == 3) {
             int i9 = this.totalCount;
             this.totalCount = i9 + 1;
-            this.defaultTopicIconRow = i9;
+            this.topicEmojiHeaderRow = i9;
+            this.rowHashCodes.add(12L);
+            int i10 = this.totalCount;
+            this.totalCount = i10 + 1;
+            this.defaultTopicIconRow = i10;
             this.rowHashCodes.add(7L);
-            String str = UserConfig.getInstance(i2).defaultTopicIcons;
+            String str = UserConfig.getInstance(i3).defaultTopicIcons;
             if (str != null) {
-                tLRPC$TL_messages_stickerSet = MediaDataController.getInstance(i2).getStickerSetByName(str);
+                tLRPC$TL_messages_stickerSet = MediaDataController.getInstance(i3).getStickerSetByName(str);
                 if (tLRPC$TL_messages_stickerSet == null) {
-                    tLRPC$TL_messages_stickerSet = MediaDataController.getInstance(i2).getStickerSetByEmojiOrName(str);
+                    tLRPC$TL_messages_stickerSet = MediaDataController.getInstance(i3).getStickerSetByEmojiOrName(str);
                 }
             } else {
                 tLRPC$TL_messages_stickerSet = null;
@@ -3666,85 +3668,88 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 }
                 ArrayList<TLRPC$Document> arrayList6 = tLRPC$TL_messages_stickerSet.documents;
                 if (arrayList6 != null && !arrayList6.isEmpty()) {
-                    for (int i10 = 0; i10 < tLRPC$TL_messages_stickerSet.documents.size(); i10++) {
-                        this.recent.add(new AnimatedEmojiSpan(tLRPC$TL_messages_stickerSet.documents.get(i10), (Paint.FontMetricsInt) null));
+                    for (int i11 = 0; i11 < tLRPC$TL_messages_stickerSet.documents.size(); i11++) {
+                        this.recent.add(new AnimatedEmojiSpan(tLRPC$TL_messages_stickerSet.documents.get(i11), (Paint.FontMetricsInt) null));
                     }
                 }
-                for (int i11 = 0; i11 < this.recent.size(); i11++) {
-                    this.rowHashCodes.add(Long.valueOf((this.recent.get(i11).getDocumentId() * 13) + 43223));
+                for (int i12 = 0; i12 < this.recent.size(); i12++) {
+                    this.rowHashCodes.add(Long.valueOf((this.recent.get(i12).getDocumentId() * 13) + 43223));
                     this.totalCount++;
                 }
             }
         }
-        if (this.includeHint && (i = this.type) != 2 && i != 3 && i != 4) {
-            int i12 = this.totalCount;
-            this.totalCount = i12 + 1;
-            this.longtapHintRow = i12;
+        if (this.includeHint && (i2 = this.type) != 2 && i2 != 3 && i2 != 4) {
+            int i13 = this.totalCount;
+            this.totalCount = i13 + 1;
+            this.longtapHintRow = i13;
             this.rowHashCodes.add(6L);
         }
         if (this.recentReactionsToSet != null) {
             this.topReactionsStartRow = this.totalCount;
             ArrayList arrayList7 = new ArrayList(this.recentReactionsToSet);
-            for (int i13 = 0; i13 < 16; i13++) {
+            for (int i14 = 0; i14 < 16; i14++) {
                 if (!arrayList7.isEmpty()) {
                     this.topReactions.add((ReactionsLayoutInBubble.VisibleReaction) arrayList7.remove(0));
                 }
             }
-            for (int i14 = 0; i14 < this.topReactions.size(); i14++) {
-                this.rowHashCodes.add(Long.valueOf((this.topReactions.get(i14).hashCode() * 13) - 5632));
+            for (int i15 = 0; i15 < this.topReactions.size(); i15++) {
+                this.rowHashCodes.add(Long.valueOf((this.topReactions.get(i15).hashCode() * 13) - 5632));
             }
             int size = this.totalCount + this.topReactions.size();
             this.totalCount = size;
             this.topReactionsEndRow = size;
             if (!arrayList7.isEmpty()) {
-                int i15 = 0;
+                int i16 = 0;
                 while (true) {
-                    if (i15 >= arrayList7.size()) {
+                    if (i16 >= arrayList7.size()) {
                         z7 = true;
                         break;
-                    } else if (((ReactionsLayoutInBubble.VisibleReaction) arrayList7.get(i15)).documentId != 0) {
+                    } else if (((ReactionsLayoutInBubble.VisibleReaction) arrayList7.get(i16)).documentId != 0) {
                         z7 = false;
                         break;
                     } else {
-                        i15++;
+                        i16++;
                     }
                 }
                 if (z7) {
                     if (UserConfig.getInstance(currentAccount).isPremium()) {
-                        int i16 = this.totalCount;
-                        this.totalCount = i16 + 1;
-                        this.popularSectionRow = i16;
+                        int i17 = this.totalCount;
+                        this.totalCount = i17 + 1;
+                        this.popularSectionRow = i17;
                         this.rowHashCodes.add(5L);
                     }
                 } else {
-                    int i17 = this.totalCount;
-                    this.totalCount = i17 + 1;
-                    this.recentReactionsSectionRow = i17;
+                    int i18 = this.totalCount;
+                    this.totalCount = i18 + 1;
+                    this.recentReactionsSectionRow = i18;
                     this.rowHashCodes.add(4L);
                 }
                 this.recentReactionsStartRow = this.totalCount;
                 this.recentReactions.addAll(arrayList7);
-                for (int i18 = 0; i18 < this.recentReactions.size(); i18++) {
-                    this.rowHashCodes.add(Long.valueOf((z7 ? 4235 : -3142) + (this.recentReactions.get(i18).hash * 13)));
+                int i19 = 0;
+                while (i19 < this.recentReactions.size()) {
+                    this.rowHashCodes.add(Long.valueOf((z7 ? 4235 : -3142) + (this.recentReactions.get(i19).hash * 13)));
+                    i19++;
+                    z7 = z7;
                 }
                 int size2 = this.totalCount + this.recentReactions.size();
                 this.totalCount = size2;
                 this.recentReactionsEndRow = size2;
             }
         } else if (this.type == 0) {
-            int i19 = currentAccount;
-            ArrayList<TLRPC$EmojiStatus> recentEmojiStatuses = MediaDataController.getInstance(i19).getRecentEmojiStatuses();
-            TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(i19).getStickerSet(new TLRPC$TL_inputStickerSetEmojiDefaultStatuses(), true);
+            int i20 = currentAccount;
+            ArrayList<TLRPC$EmojiStatus> recentEmojiStatuses = MediaDataController.getInstance(i20).getRecentEmojiStatuses();
+            TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(i20).getStickerSet(new TLRPC$TL_inputStickerSetEmojiDefaultStatuses(), true);
             if (stickerSet != null) {
                 if (this.includeEmpty) {
                     this.totalCount++;
                     this.rowHashCodes.add(2L);
                 }
-                ArrayList<TLRPC$EmojiStatus> defaultEmojiStatuses = MediaDataController.getInstance(i19).getDefaultEmojiStatuses();
+                ArrayList<TLRPC$EmojiStatus> defaultEmojiStatuses = MediaDataController.getInstance(i20).getDefaultEmojiStatuses();
                 ArrayList<TLRPC$Document> arrayList8 = stickerSet.documents;
                 if (arrayList8 != null && !arrayList8.isEmpty()) {
-                    for (int i20 = 0; i20 < Math.min(7, stickerSet.documents.size()); i20++) {
-                        this.recent.add(new AnimatedEmojiSpan(stickerSet.documents.get(i20), (Paint.FontMetricsInt) null));
+                    for (int i21 = 0; i21 < Math.min(7, stickerSet.documents.size()); i21++) {
+                        this.recent.add(new AnimatedEmojiSpan(stickerSet.documents.get(i21), (Paint.FontMetricsInt) null));
                         if (this.recent.size() + (this.includeEmpty ? 1 : 0) >= 104) {
                             break;
                         }
@@ -3755,16 +3760,16 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     while (it.hasNext()) {
                         Long emojiStatusDocumentId = UserObject.getEmojiStatusDocumentId(it.next());
                         if (emojiStatusDocumentId != null) {
-                            int i21 = 0;
+                            int i22 = 0;
                             while (true) {
-                                if (i21 >= this.recent.size()) {
+                                if (i22 >= this.recent.size()) {
                                     z5 = false;
                                     break;
-                                } else if (this.recent.get(i21).getDocumentId() == emojiStatusDocumentId.longValue()) {
+                                } else if (this.recent.get(i22).getDocumentId() == emojiStatusDocumentId.longValue()) {
                                     z5 = true;
                                     break;
                                 } else {
-                                    i21++;
+                                    i22++;
                                 }
                             }
                             if (!z5) {
@@ -3783,16 +3788,16 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     while (it2.hasNext()) {
                         Long emojiStatusDocumentId2 = UserObject.getEmojiStatusDocumentId(it2.next());
                         if (emojiStatusDocumentId2 != null) {
-                            int i22 = 0;
+                            int i23 = 0;
                             while (true) {
-                                if (i22 >= this.recent.size()) {
+                                if (i23 >= this.recent.size()) {
                                     z4 = false;
                                     break;
-                                } else if (this.recent.get(i22).getDocumentId() == emojiStatusDocumentId2.longValue()) {
+                                } else if (this.recent.get(i23).getDocumentId() == emojiStatusDocumentId2.longValue()) {
                                     z4 = true;
                                     break;
                                 } else {
-                                    i22++;
+                                    i23++;
                                 }
                             }
                             if (!z4) {
@@ -3806,10 +3811,10 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                         }
                     }
                 }
-                int i23 = 40 - (this.includeEmpty ? 1 : 0);
-                if (this.recent.size() > i23 && !this.recentExpanded) {
-                    for (int i24 = 0; i24 < i23 - 1; i24++) {
-                        this.rowHashCodes.add(Long.valueOf((this.recent.get(i24).getDocumentId() * 13) + 43223));
+                int i24 = 40 - (this.includeEmpty ? 1 : 0);
+                if (this.recent.size() > i24 && !this.recentExpanded) {
+                    for (int i25 = 0; i25 < i24 - 1; i25++) {
+                        this.rowHashCodes.add(Long.valueOf((this.recent.get(i25).getDocumentId() * 13) + 43223));
                         this.totalCount++;
                     }
                     this.rowHashCodes.add(Long.valueOf(((((this.recent.size() - 40) + (this.includeEmpty ? 1 : 0)) + 1) * 13) - 5531));
@@ -3820,15 +3825,20 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     this.positionToExpand.put(this.totalCount, -1);
                     this.totalCount++;
                 } else {
-                    for (int i25 = 0; i25 < this.recent.size(); i25++) {
-                        this.rowHashCodes.add(Long.valueOf((this.recent.get(i25).getDocumentId() * 13) + 43223));
+                    for (int i26 = 0; i26 < this.recent.size(); i26++) {
+                        this.rowHashCodes.add(Long.valueOf((this.recent.get(i26).getDocumentId() * 13) + 43223));
                         this.totalCount++;
                     }
                 }
             }
         }
-        for (int i26 = 0; i26 < arrayList4.size(); i26++) {
-            TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet2 = arrayList4.get(i26);
+        int i27 = 0;
+        while (true) {
+            j = 9211;
+            if (i27 >= arrayList3.size()) {
+                break;
+            }
+            TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet2 = arrayList3.get(i27);
             if (tLRPC$TL_messages_stickerSet2 != null && (tLRPC$StickerSet = tLRPC$TL_messages_stickerSet2.set) != null && ((tLRPC$StickerSet.emojis || this.showStickers) && !this.installedEmojiSets.contains(Long.valueOf(tLRPC$StickerSet.id)))) {
                 this.positionToSection.put(this.totalCount, this.packs.size());
                 this.sectionToPosition.put(this.packs.size(), this.totalCount);
@@ -3844,26 +3854,27 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 this.packs.size();
                 this.packs.add(emojiPack);
                 this.totalCount += emojiPack.documents.size();
-                for (int i27 = 0; i27 < emojiPack.documents.size(); i27++) {
-                    this.rowHashCodes.add(Long.valueOf((emojiPack.documents.get(i27).id * 13) + 3212));
+                for (int i28 = 0; i28 < emojiPack.documents.size(); i28++) {
+                    this.rowHashCodes.add(Long.valueOf((emojiPack.documents.get(i28).id * 13) + 3212));
                 }
             }
+            i27++;
         }
         if (!this.showStickers) {
-            int i28 = 0;
-            while (i28 < arrayList5.size()) {
-                TLRPC$StickerSetCovered tLRPC$StickerSetCovered = (TLRPC$StickerSetCovered) arrayList5.get(i28);
+            int i29 = 0;
+            while (i29 < arrayList4.size()) {
+                TLRPC$StickerSetCovered tLRPC$StickerSetCovered = (TLRPC$StickerSetCovered) arrayList4.get(i29);
                 TLRPC$StickerSet tLRPC$StickerSet2 = tLRPC$StickerSetCovered.set;
-                int i29 = 0;
+                int i30 = 0;
                 while (true) {
-                    if (i29 >= this.packs.size()) {
+                    if (i30 >= this.packs.size()) {
                         z6 = false;
                         break;
-                    } else if (this.packs.get(i29).set.id == tLRPC$StickerSet2.id) {
+                    } else if (this.packs.get(i30).set.id == tLRPC$StickerSet2.id) {
                         z6 = true;
                         break;
                     } else {
-                        i29++;
+                        i30++;
                     }
                 }
                 if (!z6) {
@@ -3876,7 +3887,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                                 this.positionToSection.put(this.totalCount, this.packs.size());
                                 this.sectionToPosition.put(this.packs.size(), this.totalCount);
                                 this.totalCount++;
-                                this.rowHashCodes.add(Long.valueOf((tLRPC$StickerSet2.id * 13) + 9211));
+                                this.rowHashCodes.add(Long.valueOf((tLRPC$StickerSet2.id * 13) + j));
                                 EmojiView.EmojiPack emojiPack2 = new EmojiView.EmojiPack();
                                 emojiPack2.installed = this.installedEmojiSets.contains(Long.valueOf(tLRPC$StickerSet2.id));
                                 emojiPack2.featured = true;
@@ -3887,32 +3898,29 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                                 emojiPack2.expanded = this.expandedEmojiSets.contains(Long.valueOf(emojiPack2.set.id));
                                 if (emojiPack2.documents.size() > 24 && !emojiPack2.expanded) {
                                     this.totalCount += 24;
-                                    for (int i30 = 0; i30 < 23; i30++) {
-                                        this.rowHashCodes.add(Long.valueOf((emojiPack2.documents.get(i30).id * 13) + 3212));
+                                    for (int i31 = 0; i31 < 23; i31++) {
+                                        this.rowHashCodes.add(Long.valueOf((emojiPack2.documents.get(i31).id * 13) + 3212));
                                     }
                                     this.rowHashCodes.add(Long.valueOf(((tLRPC$StickerSet2.id * 13) - 5531) + (((emojiPack2.documents.size() - 24) + 1) * 169)));
                                     this.positionToExpand.put(this.totalCount - 1, this.packs.size());
                                 } else {
                                     this.totalCount += emojiPack2.documents.size();
-                                    for (int i31 = 0; i31 < emojiPack2.documents.size(); i31++) {
-                                        this.rowHashCodes.add(Long.valueOf((emojiPack2.documents.get(i31).id * 13) + 3212));
+                                    for (int i32 = 0; i32 < emojiPack2.documents.size(); i32++) {
+                                        this.rowHashCodes.add(Long.valueOf((emojiPack2.documents.get(i32).id * 13) + 3212));
                                     }
                                 }
-                                if (emojiPack2.installed || this.type == 4) {
-                                    arrayList2 = arrayList5;
-                                } else {
+                                if (!emojiPack2.installed && this.type != 4) {
                                     this.positionToButton.put(this.totalCount, this.packs.size());
                                     this.totalCount++;
-                                    arrayList2 = arrayList5;
                                     this.rowHashCodes.add(Long.valueOf((tLRPC$StickerSet2.id * 13) + 3321));
                                 }
                                 this.packs.add(emojiPack2);
-                                i28++;
-                                arrayList5 = arrayList2;
+                                i29++;
+                                j = 9211;
                             }
                         }
-                        arrayList = null;
                         isPremiumEmojiPack = false;
+                        arrayList = null;
                         if (arrayList != null) {
                         }
                     } else {
@@ -3922,15 +3930,14 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                             if (arrayList != null) {
                             }
                         }
-                        arrayList = null;
                         isPremiumEmojiPack = false;
+                        arrayList = null;
                         if (arrayList != null) {
                         }
                     }
                 }
-                arrayList2 = arrayList5;
-                i28++;
-                arrayList5 = arrayList2;
+                i29++;
+                j = 9211;
             }
         }
         this.emojiTabs.updateEmojiPacks(this.packs);
@@ -3939,12 +3946,38 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         } else {
             this.emojiGridView.setItemAnimator(null);
         }
-        this.adapter.notifyDataSetChanged();
+        if (z3) {
+            i = 0;
+            DiffUtil.calculateDiff(new DiffUtil.Callback() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.20
+                @Override // androidx.recyclerview.widget.DiffUtil.Callback
+                public boolean areContentsTheSame(int i33, int i34) {
+                    return true;
+                }
+
+                @Override // androidx.recyclerview.widget.DiffUtil.Callback
+                public int getOldListSize() {
+                    return arrayList5.size();
+                }
+
+                @Override // androidx.recyclerview.widget.DiffUtil.Callback
+                public int getNewListSize() {
+                    return SelectAnimatedEmojiDialog.this.rowHashCodes.size();
+                }
+
+                @Override // androidx.recyclerview.widget.DiffUtil.Callback
+                public boolean areItemsTheSame(int i33, int i34) {
+                    return ((Long) arrayList5.get(i33)).equals(SelectAnimatedEmojiDialog.this.rowHashCodes.get(i34));
+                }
+            }, false).dispatchUpdatesTo(this.adapter);
+        } else {
+            i = 0;
+            this.adapter.notifyDataSetChanged();
+        }
         EmojiListView emojiListView = this.emojiGridView;
         if (emojiListView.scrolledByUserOnce) {
             return;
         }
-        emojiListView.scrollToPosition(0);
+        emojiListView.scrollToPosition(i);
     }
 
     public void expand(int i, View view) {
@@ -4692,14 +4725,14 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     SelectAnimatedEmojiDialog.this.lambda$onShow$28(valueAnimator3);
                 }
             });
-            this.showAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.20
+            this.showAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.21
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
                     NotificationCenter.getGlobalInstance().onAnimationFinish(SelectAnimatedEmojiDialog.this.animationIndex);
                     final NotificationCenter globalInstance = NotificationCenter.getGlobalInstance();
                     Objects.requireNonNull(globalInstance);
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$20$$ExternalSyntheticLambda0
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$21$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
                             NotificationCenter.this.runDelayedNotifications();
@@ -5168,7 +5201,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 SelectAnimatedEmojiDialog.this.lambda$onDismiss$29(valueAnimator2);
             }
         });
-        this.hideAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.21
+        this.hideAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.22
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 runnable.run();

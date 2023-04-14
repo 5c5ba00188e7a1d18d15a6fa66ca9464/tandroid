@@ -606,7 +606,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
                     if (str != null && str.equals(WallpapersListActivity.this.selectedBackgroundSlug)) {
                         WallpapersListActivity.this.selectedBackgroundSlug = Theme.hasWallpaperFromTheme() ? "t" : "d";
                         Theme.getActiveTheme().setOverrideWallpaper(null);
-                        Theme.reloadWallpaper();
+                        Theme.reloadWallpaper(true);
                     }
                     ConnectionsManager.getInstance(((BaseFragment) WallpapersListActivity.this).currentAccount).sendRequest(tLRPC$TL_account_saveWallPaper, new RequestDelegate() { // from class: org.telegram.ui.WallpapersListActivity$2$$ExternalSyntheticLambda2
                         @Override // org.telegram.tgnet.RequestDelegate
@@ -946,7 +946,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
             themePreviewActivity.setDelegate(new WallpapersListActivity$$ExternalSyntheticLambda8(this));
         }
         if (this.selectedBackgroundSlug.equals(wallPaperSlug)) {
-            themePreviewActivity.setInitialModes(this.selectedBackgroundBlurred, this.selectedBackgroundMotion);
+            themePreviewActivity.setInitialModes(this.selectedBackgroundBlurred, this.selectedBackgroundMotion, this.selectedIntensity);
         }
         themePreviewActivity.setPatterns(this.patterns);
         themePreviewActivity.setDialogId(this.dialogId);

@@ -24394,6 +24394,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 canvas.drawPath(this.botButtonPath, Theme.chat_actionBackgroundGradientDarkenPaint);
             }
             boolean z = (((botButton2.button instanceof TLRPC$TL_keyboardButtonCallback) || (botButton2.button instanceof TLRPC$TL_keyboardButtonGame) || (botButton2.button instanceof TLRPC$TL_keyboardButtonBuy) || (botButton2.button instanceof TLRPC$TL_keyboardButtonUrlAuth)) && SendMessagesHelper.getInstance(this.currentAccount).isSendingCallback(this.currentMessageObject, botButton2.button)) || ((botButton2.button instanceof TLRPC$TL_keyboardButtonRequestGeoLocation) && SendMessagesHelper.getInstance(this.currentAccount).isSendingCurrentLocation(this.currentMessageObject, botButton2.button)) || ((botButton2.button instanceof TLRPC$TL_keyboardButtonUrl) && (chatMessageCellDelegate = this.delegate) != null && chatMessageCellDelegate.isProgressLoading(this, 3) && this.delegate.getProgressLoadingBotButtonUrl(this) == botButton2.button.url);
+            canvas.save();
+            canvas.clipPath(this.botButtonPath);
             if (z) {
                 if (botButton2.loadingDrawable == null) {
                     botButton2.loadingDrawable = new LoadingDrawable();
@@ -24409,6 +24411,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             }
             if (botButton2.loadingDrawable != null && (z || botButton2.loadingDrawable.isDisappearing())) {
                 this.rect.inset(AndroidUtilities.dpf2(0.625f), AndroidUtilities.dpf2(0.625f));
+                botButton2.loadingDrawable.setRadii(this.botButtonRadii);
                 botButton2.loadingDrawable.setBounds(this.rect);
                 botButton2.loadingDrawable.setColors(Theme.multAlpha(Theme.getColor("chat_serviceBackgroundSelector", this.resourcesProvider), f), Theme.multAlpha(Theme.getColor("chat_serviceBackgroundSelector", this.resourcesProvider), 2.5f), Theme.multAlpha(Theme.getColor("chat_serviceBackgroundSelector", this.resourcesProvider), 3.0f), Theme.multAlpha(Theme.getColor("chat_serviceBackgroundSelector", this.resourcesProvider), 10.0f));
                 botButton2.loadingDrawable.setAlpha(255);
@@ -24421,6 +24424,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 botButton2.selectorDrawable.setAlpha(255);
                 botButton2.selectorDrawable.draw(canvas);
             }
+            canvas.restore();
             canvas.save();
             canvas.translate(botButton2.x + dp + AndroidUtilities.dp(5.0f), ((AndroidUtilities.dp(44.0f) - botButton2.title.getLineBottom(botButton2.title.getLineCount() - 1)) / 2) + dp3);
             botButton2.title.draw(canvas);

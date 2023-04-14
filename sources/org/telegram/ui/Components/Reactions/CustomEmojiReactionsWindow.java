@@ -47,7 +47,6 @@ import org.telegram.ui.Components.ReactionsContainerLayout;
 import org.telegram.ui.SelectAnimatedEmojiDialog;
 /* loaded from: classes4.dex */
 public class CustomEmojiReactionsWindow {
-    private int account;
     int animationIndex;
     BaseFragment baseFragment;
     private boolean cascadeAnimation;
@@ -316,8 +315,7 @@ public class CustomEmojiReactionsWindow {
         }
         this.selectAnimatedEmojiDialog.setEnterAnimationInProgress(true);
         int i = UserConfig.selectedAccount;
-        this.account = i;
-        this.animationIndex = NotificationCenter.getInstance(i).setAnimationInProgress(this.animationIndex, null);
+        this.animationIndex = NotificationCenter.getGlobalInstance().setAnimationInProgress(this.animationIndex, null);
         float[] fArr = new float[2];
         fArr[0] = this.enterTransitionProgress;
         fArr[1] = z ? 1.0f : 0.0f;
@@ -470,7 +468,7 @@ public class CustomEmojiReactionsWindow {
     /* JADX INFO: Access modifiers changed from: private */
     public void checkAnimationEnd() {
         if (this.animators.isEmpty()) {
-            NotificationCenter.getInstance(this.account).onAnimationFinish(this.animationIndex);
+            NotificationCenter.getGlobalInstance().onAnimationFinish(this.animationIndex);
             this.selectAnimatedEmojiDialog.setEnterAnimationInProgress(false);
         }
     }

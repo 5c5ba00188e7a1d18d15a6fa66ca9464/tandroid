@@ -1923,16 +1923,30 @@ public class AlertsCreator {
         builder.setPositiveButton(LocaleController.getString(R.string.Start), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda14
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
-                runnable.run();
+                AlertsCreator.lambda$createBotLaunchAlert$25(runnable, dialogInterface, i);
             }
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
         baseFragment.showDialog(builder.create(), false, new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda47
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
-                runnable2.run();
+                AlertsCreator.lambda$createBotLaunchAlert$26(runnable2, dialogInterface);
             }
         });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$createBotLaunchAlert$25(Runnable runnable, DialogInterface dialogInterface, int i) {
+        if (runnable != null) {
+            runnable.run();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$createBotLaunchAlert$26(Runnable runnable, DialogInterface dialogInterface) {
+        if (runnable != null) {
+            runnable.run();
+        }
     }
 
     public static void createBotLaunchAlert(final BaseFragment baseFragment, TLRPC$TL_messages_botApp tLRPC$TL_messages_botApp, final TLRPC$User tLRPC$User, final AtomicBoolean atomicBoolean, final Runnable runnable) {

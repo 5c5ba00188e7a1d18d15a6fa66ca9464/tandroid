@@ -975,40 +975,46 @@ public class BottomSheet extends Dialog {
             } else {
                 this.backgroundPaint.setColor(-16777216);
             }
-            BottomSheet bottomSheet2 = BottomSheet.this;
-            float f2 = 0.0f;
-            if ((!bottomSheet2.drawNavigationBar || bottomSheet2.bottomInset == 0) && BottomSheet.this.currentPanTranslationY == 0.0f) {
-                return;
-            }
-            BottomSheet bottomSheet3 = BottomSheet.this;
-            int bottomInset = bottomSheet3.drawNavigationBar ? bottomSheet3.getBottomInset() : 0;
-            BottomSheet bottomSheet4 = BottomSheet.this;
-            if (bottomSheet4.scrollNavBar || (i >= 29 && bottomSheet4.getAdditionalMandatoryOffsets() > 0)) {
-                BottomSheet bottomSheet5 = BottomSheet.this;
-                if (bottomSheet5.drawDoubleNavigationBar) {
-                    max = Math.max(0.0f, Math.min(bottomInset - bottomSheet5.currentPanTranslationY, BottomSheet.this.containerView.getTranslationY()));
-                } else {
-                    max = Math.max(0.0f, BottomSheet.this.getBottomInset() - (bottomSheet5.containerView.getMeasuredHeight() - BottomSheet.this.containerView.getTranslationY()));
+            if (!BottomSheet.this.transitionFromRight || BottomSheet.this.containerView.getVisibility() == 0) {
+                BottomSheet bottomSheet2 = BottomSheet.this;
+                float f2 = 0.0f;
+                if ((!bottomSheet2.drawNavigationBar || bottomSheet2.bottomInset == 0) && BottomSheet.this.currentPanTranslationY == 0.0f) {
+                    return;
                 }
-            } else {
-                max = 0.0f;
-            }
-            int alpha = this.backgroundPaint.getAlpha();
-            if (f < 1.0f) {
-                this.backgroundPaint.setAlpha((int) (alpha * f));
-            }
-            canvas.drawRect(BottomSheet.this.containerView.getLeft() + BottomSheet.this.backgroundPaddingLeft, ((getMeasuredHeight() - bottomInset) + max) - BottomSheet.this.currentPanTranslationY, BottomSheet.this.containerView.getRight() - BottomSheet.this.backgroundPaddingLeft, getMeasuredHeight() + max, this.backgroundPaint);
-            this.backgroundPaint.setAlpha(alpha);
-            if (BottomSheet.this.overlayDrawNavBarColor != 0) {
-                this.backgroundPaint.setColor(BottomSheet.this.overlayDrawNavBarColor);
-                int alpha2 = this.backgroundPaint.getAlpha();
+                BottomSheet bottomSheet3 = BottomSheet.this;
+                int bottomInset = bottomSheet3.drawNavigationBar ? bottomSheet3.getBottomInset() : 0;
+                BottomSheet bottomSheet4 = BottomSheet.this;
+                if (bottomSheet4.scrollNavBar || (i >= 29 && bottomSheet4.getAdditionalMandatoryOffsets() > 0)) {
+                    BottomSheet bottomSheet5 = BottomSheet.this;
+                    if (bottomSheet5.drawDoubleNavigationBar) {
+                        max = Math.max(0.0f, Math.min(bottomInset - bottomSheet5.currentPanTranslationY, BottomSheet.this.containerView.getTranslationY()));
+                    } else {
+                        max = Math.max(0.0f, BottomSheet.this.getBottomInset() - (bottomSheet5.containerView.getMeasuredHeight() - BottomSheet.this.containerView.getTranslationY()));
+                    }
+                } else {
+                    max = 0.0f;
+                }
+                int alpha = this.backgroundPaint.getAlpha();
+                if (BottomSheet.this.transitionFromRight) {
+                    f *= BottomSheet.this.containerView.getAlpha();
+                }
+                int x = BottomSheet.this.transitionFromRight ? (int) BottomSheet.this.containerView.getX() : BottomSheet.this.containerView.getLeft();
                 if (f < 1.0f) {
-                    this.backgroundPaint.setAlpha((int) (alpha2 * f));
-                } else {
-                    f2 = max;
+                    this.backgroundPaint.setAlpha((int) (alpha * f));
                 }
-                canvas.drawRect(BottomSheet.this.containerView.getLeft() + BottomSheet.this.backgroundPaddingLeft, ((getMeasuredHeight() - bottomInset) + f2) - BottomSheet.this.currentPanTranslationY, BottomSheet.this.containerView.getRight() - BottomSheet.this.backgroundPaddingLeft, getMeasuredHeight() + f2, this.backgroundPaint);
-                this.backgroundPaint.setAlpha(alpha2);
+                canvas.drawRect(BottomSheet.this.backgroundPaddingLeft + x, ((getMeasuredHeight() - bottomInset) + max) - BottomSheet.this.currentPanTranslationY, BottomSheet.this.containerView.getRight() - BottomSheet.this.backgroundPaddingLeft, getMeasuredHeight() + max, this.backgroundPaint);
+                this.backgroundPaint.setAlpha(alpha);
+                if (BottomSheet.this.overlayDrawNavBarColor != 0) {
+                    this.backgroundPaint.setColor(BottomSheet.this.overlayDrawNavBarColor);
+                    int alpha2 = this.backgroundPaint.getAlpha();
+                    if (f < 1.0f) {
+                        this.backgroundPaint.setAlpha((int) (alpha2 * f));
+                    } else {
+                        f2 = max;
+                    }
+                    canvas.drawRect(x + BottomSheet.this.backgroundPaddingLeft, ((getMeasuredHeight() - bottomInset) + f2) - BottomSheet.this.currentPanTranslationY, BottomSheet.this.containerView.getRight() - BottomSheet.this.backgroundPaddingLeft, getMeasuredHeight() + f2, this.backgroundPaint);
+                    this.backgroundPaint.setAlpha(alpha2);
+                }
             }
         }
     }
@@ -1308,7 +1314,7 @@ public class BottomSheet extends Dialog {
     }
 
     public void fixNavigationBar() {
-        fixNavigationBar(getThemedColor("dialogBackground"));
+        fixNavigationBar(getThemedColor("windowBackgroundGray"));
     }
 
     public void fixNavigationBar(int i) {
@@ -1688,7 +1694,8 @@ public class BottomSheet extends Dialog {
                     BottomSheet bottomSheet = BottomSheet.this;
                     bottomSheet.currentSheetAnimation = null;
                     bottomSheet.currentSheetAnimationType = 0;
-                    BottomSheetDelegateInterface bottomSheetDelegateInterface = bottomSheet.delegate;
+                    bottomSheet.onOpenAnimationEnd();
+                    BottomSheetDelegateInterface bottomSheetDelegateInterface = BottomSheet.this.delegate;
                     if (bottomSheetDelegateInterface != null) {
                         bottomSheetDelegateInterface.onOpenAnimationEnd();
                     }
@@ -1720,7 +1727,6 @@ public class BottomSheet extends Dialog {
                 bottomSheet.currentSheetAnimationType = 0;
             }
         });
-        onOpenAnimationEnd();
         if (this.pauseAllHeavyOperations) {
             NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
         }

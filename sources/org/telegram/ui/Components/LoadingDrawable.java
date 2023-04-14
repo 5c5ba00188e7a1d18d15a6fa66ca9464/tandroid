@@ -161,6 +161,26 @@ public class LoadingDrawable extends Drawable {
         this.path.addRoundRect(this.rectF, this.radii, Path.Direction.CW);
     }
 
+    public void setRadii(float[] fArr) {
+        if (fArr == null || fArr.length != 8) {
+            return;
+        }
+        boolean z = false;
+        for (int i = 0; i < 8; i++) {
+            float[] fArr2 = this.radii;
+            if (fArr2[i] != fArr[i]) {
+                fArr2[i] = fArr[i];
+                z = true;
+            }
+        }
+        if (this.lastBounds == null || !z) {
+            return;
+        }
+        this.path.rewind();
+        this.rectF.set(this.lastBounds);
+        this.path.addRoundRect(this.rectF, fArr, Path.Direction.CW);
+    }
+
     public void setBounds(RectF rectF) {
         super.setBounds((int) rectF.left, (int) rectF.top, (int) rectF.right, (int) rectF.bottom);
     }

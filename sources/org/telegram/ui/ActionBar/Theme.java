@@ -127,6 +127,7 @@ import org.telegram.tgnet.TLRPC$Vector;
 import org.telegram.tgnet.TLRPC$WallPaper;
 import org.telegram.tgnet.TLRPC$WallPaperSettings;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AudioVisualizerDrawable;
 import org.telegram.ui.Components.BackgroundGradientDrawable;
 import org.telegram.ui.Components.BulletinFactory;
@@ -147,6 +148,7 @@ import org.telegram.ui.Components.SendingFileDrawable;
 import org.telegram.ui.Components.StatusDrawable;
 import org.telegram.ui.Components.ThemeEditorView;
 import org.telegram.ui.Components.TypingDotsDrawable;
+import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.RoundVideoProgressShadow;
 import org.telegram.ui.ThemeActivity;
 /* loaded from: classes3.dex */
@@ -380,6 +382,7 @@ public class Theme {
     public static RLottieDrawable dialogs_unpinArchiveDrawable;
     public static Drawable dialogs_verifiedCheckDrawable;
     public static Drawable dialogs_verifiedDrawable;
+    public static boolean disallowChangeServiceMessageColor;
     public static Paint dividerExtraPaint;
     public static Paint dividerPaint;
     private static HashMap<String, String> fallbackKeys;
@@ -1581,7 +1584,7 @@ public class Theme {
         /* renamed from: checkCurrentWallpaperInternal */
         public void lambda$checkCurrentWallpaper$2(ArrayList<ThemeAccent> arrayList, boolean z) {
             if (arrayList != null && Theme.currentTheme.themeAccents != null && !Theme.currentTheme.themeAccents.isEmpty() && arrayList.contains(Theme.currentTheme.getAccent(false))) {
-                Theme.reloadWallpaper();
+                Theme.reloadWallpaper(true);
             }
             if (z) {
                 if (this.watingForLoad != null) {
@@ -5854,7 +5857,7 @@ public class Theme {
     public static void resetCustomWallpaper(boolean z) {
         if (z) {
             isApplyingAccent = false;
-            reloadWallpaper();
+            reloadWallpaper(true);
             return;
         }
         currentTheme.setOverrideWallpaper(null);
@@ -6008,7 +6011,7 @@ public class Theme {
     /* JADX WARN: Code restructure failed: missing block: B:20:0x003e, code lost:
         r0 = org.telegram.messenger.MessagesController.getGlobalMainSettings().edit();
         r0.putString("theme", r7.getKey());
-        r0.commit();
+        r0.apply();
      */
     /* JADX WARN: Removed duplicated region for block: B:89:0x01d1 A[Catch: Exception -> 0x01e8, TryCatch #2 {Exception -> 0x01e8, blocks: (B:8:0x000d, B:11:0x0014, B:16:0x001d, B:17:0x002b, B:85:0x01c5, B:87:0x01c9, B:89:0x01d1, B:90:0x01e2, B:20:0x003e, B:21:0x0050, B:23:0x0057, B:25:0x006b, B:27:0x0077, B:29:0x007d, B:31:0x0087, B:37:0x00c3, B:83:0x01bf, B:24:0x005e, B:38:0x00c5, B:40:0x00db, B:42:0x00e7, B:45:0x00eb, B:47:0x00ee, B:49:0x00f8, B:53:0x0107, B:50:0x00fb, B:52:0x0105, B:54:0x010a, B:55:0x011b, B:57:0x0127, B:59:0x013f, B:61:0x0149, B:62:0x0155, B:64:0x015d, B:66:0x0167, B:67:0x0174, B:69:0x017c, B:71:0x0186, B:72:0x0193, B:74:0x019f), top: B:106:0x000d }] */
     /*
@@ -6334,7 +6337,7 @@ public class Theme {
             shouldDrawGradientIcons = accent.fillAccentColors(currentColorsNoAccent, currentColors);
         }
         if (!z2) {
-            reloadWallpaper();
+            reloadWallpaper(!(LaunchActivity.getLastFragment() instanceof ChatActivity));
         }
         applyCommonTheme();
         applyDialogsTheme();
@@ -9580,7 +9583,7 @@ public class Theme {
         setDrawableColor(chat_pollCheckDrawable[1], color);
         setDrawableColor(chat_pollCrossDrawable[1], color);
         setDrawableColor(chat_attachEmptyDrawable, getColor("chat_attachEmptyImage"));
-        if (!z2) {
+        if (!z2 && !disallowChangeServiceMessageColor) {
             applyChatServiceMessageColor();
             applyChatMessageSelectedBackgroundColor();
         }
@@ -9588,7 +9591,10 @@ public class Theme {
     }
 
     public static void applyChatServiceMessageColor() {
-        applyChatServiceMessageColor(null, null, wallpaper);
+        Drawable drawable = wallpaper;
+        if (drawable != null) {
+            applyChatServiceMessageColor(null, null, drawable);
+        }
     }
 
     public static boolean hasGradientService() {
@@ -9596,6 +9602,10 @@ public class Theme {
     }
 
     public static void applyServiceShaderMatrixForView(View view, View view2) {
+        applyServiceShaderMatrixForView(view, view2, null);
+    }
+
+    public static void applyServiceShaderMatrixForView(View view, View view2, ResourcesProvider resourcesProvider) {
         if (view == null || view2 == null) {
             return;
         }
@@ -9604,7 +9614,11 @@ public class Theme {
         int i = iArr[0];
         int i2 = iArr[1];
         view2.getLocationOnScreen(iArr);
-        applyServiceShaderMatrix(view2.getMeasuredWidth(), view2.getMeasuredHeight(), i, i2 - viewPos[1]);
+        if (resourcesProvider != null) {
+            resourcesProvider.applyServiceShaderMatrix(view2.getMeasuredWidth(), view2.getMeasuredHeight(), i, i2 - viewPos[1]);
+        } else {
+            applyServiceShaderMatrix(view2.getMeasuredWidth(), view2.getMeasuredHeight(), i, i2 - viewPos[1]);
+        }
     }
 
     public static void applyServiceShaderMatrix(int i, int i2, float f, float f2) {
@@ -10012,7 +10026,7 @@ public class Theme {
             case 3:
             case 7:
             case '\b':
-                reloadWallpaper();
+                reloadWallpaper(true);
                 return;
             case 2:
                 if (Build.VERSION.SDK_INT >= 26) {
@@ -10062,7 +10076,7 @@ public class Theme {
         themedWallpaper = null;
         wallpaper = null;
         saveCurrentTheme(themeInfo, false, false, false);
-        reloadWallpaper();
+        reloadWallpaper(true);
     }
 
     public static void setDrawableColor(Drawable drawable, int i) {
@@ -10174,7 +10188,7 @@ public class Theme {
         return isCustomTheme;
     }
 
-    public static void reloadWallpaper() {
+    public static void reloadWallpaper(boolean z) {
         BackgroundGradientDrawable.Disposable disposable = backgroundGradientDisposable;
         if (disposable != null) {
             disposable.dispose();
@@ -10188,7 +10202,7 @@ public class Theme {
         }
         wallpaper = null;
         themedWallpaper = null;
-        loadWallpaper();
+        loadWallpaper(z);
     }
 
     private static void calcBackgroundColor(Drawable drawable, int i) {
@@ -10210,10 +10224,15 @@ public class Theme {
         return num == null ? serviceMessageColor : num.intValue();
     }
 
-    public static void loadWallpaper() {
+    /* JADX WARN: Removed duplicated region for block: B:37:0x0068  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0078  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public static void loadWallpaper(boolean z) {
         final File file;
         final TLRPC$Document tLRPC$Document;
-        final boolean z;
+        final boolean z2;
         float f;
         float f2;
         TLRPC$WallPaper tLRPC$WallPaper;
@@ -10221,73 +10240,65 @@ public class Theme {
             return;
         }
         ThemeInfo themeInfo = currentTheme;
-        final boolean z2 = themeInfo.firstAccentIsDefault && themeInfo.currentAccentId == DEFALT_THEME_ACCENT_ID;
+        boolean z3 = themeInfo.firstAccentIsDefault && themeInfo.currentAccentId == DEFALT_THEME_ACCENT_ID;
         ThemeAccent accent = themeInfo.getAccent(false);
-        TLRPC$Document tLRPC$Document2 = null;
         if (accent != null) {
             File pathToWallpaper = accent.getPathToWallpaper();
-            boolean z3 = accent.patternMotion;
+            boolean z4 = accent.patternMotion;
             TLRPC$TL_theme tLRPC$TL_theme = accent.info;
             TLRPC$ThemeSettings tLRPC$ThemeSettings = (tLRPC$TL_theme == null || tLRPC$TL_theme.settings.size() <= 0) ? null : accent.info.settings.get(0);
-            if (accent.info != null && tLRPC$ThemeSettings != null && (tLRPC$WallPaper = tLRPC$ThemeSettings.wallpaper) != null) {
-                tLRPC$Document2 = tLRPC$WallPaper.document;
-            }
-            tLRPC$Document = tLRPC$Document2;
+            z2 = z4;
+            tLRPC$Document = (accent.info == null || tLRPC$ThemeSettings == null || (tLRPC$WallPaper = tLRPC$ThemeSettings.wallpaper) == null) ? null : tLRPC$WallPaper.document;
             file = pathToWallpaper;
-            z = z3;
         } else {
             file = null;
             tLRPC$Document = null;
-            z = false;
+            z2 = false;
         }
         ThemeInfo themeInfo2 = currentTheme;
         final OverrideWallpaperInfo overrideWallpaperInfo = themeInfo2.overrideWallpaper;
         if (overrideWallpaperInfo != null) {
             f2 = overrideWallpaperInfo.intensity;
-        } else if (accent != null) {
-            f2 = accent.patternIntensity;
-        } else {
+        } else if (accent == null) {
             f = themeInfo2.patternIntensity;
             final int i = (int) f;
-            DispatchQueue dispatchQueue = Utilities.themeQueue;
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda7
-                @Override // java.lang.Runnable
-                public final void run() {
-                    Theme.lambda$loadWallpaper$12(Theme.OverrideWallpaperInfo.this, file, i, z2, z, tLRPC$Document);
-                }
-            };
-            wallpaperLoadTask = runnable;
-            dispatchQueue.postRunnable(runnable);
+            if (!z) {
+                DispatchQueue dispatchQueue = Utilities.themeQueue;
+                final boolean z5 = z3;
+                Runnable runnable = new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda7
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        Theme.lambda$loadWallpaper$12(Theme.OverrideWallpaperInfo.this, file, i, z2, tLRPC$Document, z5);
+                    }
+                };
+                wallpaperLoadTask = runnable;
+                dispatchQueue.postRunnable(runnable);
+                return;
+            }
+            Drawable loadWallpaperInternal = loadWallpaperInternal(overrideWallpaperInfo, file, i, z2, tLRPC$Document, z3);
+            createCommonChatResources();
+            if (!disallowChangeServiceMessageColor) {
+                applyChatServiceMessageColor(null, null, loadWallpaperInternal);
+                applyChatMessageSelectedBackgroundColor(null, loadWallpaperInternal);
+            }
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewWallpapper, new Object[0]);
+            return;
+        } else {
+            f2 = accent.patternIntensity;
         }
         f = f2 * 100.0f;
         final int i2 = (int) f;
-        DispatchQueue dispatchQueue2 = Utilities.themeQueue;
-        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda7
-            @Override // java.lang.Runnable
-            public final void run() {
-                Theme.lambda$loadWallpaper$12(Theme.OverrideWallpaperInfo.this, file, i2, z2, z, tLRPC$Document);
-            }
-        };
-        wallpaperLoadTask = runnable2;
-        dispatchQueue2.postRunnable(runnable2);
+        if (!z) {
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$loadWallpaper$12(OverrideWallpaperInfo overrideWallpaperInfo, File file, int i, boolean z, boolean z2, TLRPC$Document tLRPC$Document) {
-        BackgroundDrawableSettings createBackgroundDrawable = createBackgroundDrawable(currentTheme, overrideWallpaperInfo, currentColors, file, themedWallpaperLink, themedWallpaperFileOffset, i, previousPhase, z, hasPreviousTheme, isApplyingAccent, z2, tLRPC$Document);
-        Boolean bool = createBackgroundDrawable.isWallpaperMotion;
-        isWallpaperMotion = bool != null ? bool.booleanValue() : isWallpaperMotion;
-        Boolean bool2 = createBackgroundDrawable.isPatternWallpaper;
-        isPatternWallpaper = bool2 != null ? bool2.booleanValue() : isPatternWallpaper;
-        Boolean bool3 = createBackgroundDrawable.isCustomTheme;
-        isCustomTheme = bool3 != null ? bool3.booleanValue() : isCustomTheme;
-        final Drawable drawable = createBackgroundDrawable.wallpaper;
-        wallpaper = drawable != null ? drawable : wallpaper;
-        calcBackgroundColor(drawable, 1);
+    public static /* synthetic */ void lambda$loadWallpaper$12(OverrideWallpaperInfo overrideWallpaperInfo, File file, int i, boolean z, TLRPC$Document tLRPC$Document, boolean z2) {
+        final Drawable loadWallpaperInternal = loadWallpaperInternal(overrideWallpaperInfo, file, i, z, tLRPC$Document, z2);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
-                Theme.lambda$loadWallpaper$11(drawable);
+                Theme.lambda$loadWallpaper$11(loadWallpaperInternal);
             }
         });
     }
@@ -10296,9 +10307,25 @@ public class Theme {
     public static /* synthetic */ void lambda$loadWallpaper$11(Drawable drawable) {
         wallpaperLoadTask = null;
         createCommonChatResources();
-        applyChatServiceMessageColor(null, null, drawable);
-        applyChatMessageSelectedBackgroundColor(null, drawable);
+        if (!disallowChangeServiceMessageColor) {
+            applyChatServiceMessageColor(null, null, drawable);
+            applyChatMessageSelectedBackgroundColor(null, drawable);
+        }
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewWallpapper, new Object[0]);
+    }
+
+    private static Drawable loadWallpaperInternal(OverrideWallpaperInfo overrideWallpaperInfo, File file, int i, boolean z, TLRPC$Document tLRPC$Document, boolean z2) {
+        BackgroundDrawableSettings createBackgroundDrawable = createBackgroundDrawable(currentTheme, overrideWallpaperInfo, currentColors, file, themedWallpaperLink, themedWallpaperFileOffset, i, previousPhase, z2, hasPreviousTheme, isApplyingAccent, z, tLRPC$Document);
+        Boolean bool = createBackgroundDrawable.isWallpaperMotion;
+        isWallpaperMotion = bool != null ? bool.booleanValue() : isWallpaperMotion;
+        Boolean bool2 = createBackgroundDrawable.isPatternWallpaper;
+        isPatternWallpaper = bool2 != null ? bool2.booleanValue() : isPatternWallpaper;
+        Boolean bool3 = createBackgroundDrawable.isCustomTheme;
+        isCustomTheme = bool3 != null ? bool3.booleanValue() : isCustomTheme;
+        Drawable drawable = createBackgroundDrawable.wallpaper;
+        wallpaper = drawable != null ? drawable : wallpaper;
+        calcBackgroundColor(drawable, 1);
+        return drawable;
     }
 
     /* JADX WARN: Removed duplicated region for block: B:27:0x0047  */

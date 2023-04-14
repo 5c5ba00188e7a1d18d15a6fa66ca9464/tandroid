@@ -4252,9 +4252,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             return;
         }
         int childCount = recyclerListView.getChildCount();
-        int i = 0;
-        for (int i2 = 0; i2 < childCount; i2++) {
-            applyAttachButtonColors(this.buttonsRecyclerView.getChildAt(i2));
+        for (int i = 0; i < childCount; i++) {
+            applyAttachButtonColors(this.buttonsRecyclerView.getChildAt(i));
         }
         this.selectedTextView.setTextColor(this.forceDarkTheme ? getThemedColor("voipgroup_actionBarItems") : getThemedColor("dialogTextBlack"));
         this.mediaPreviewTextView.setTextColor(this.forceDarkTheme ? getThemedColor("voipgroup_actionBarItems") : getThemedColor("dialogTextBlack"));
@@ -4268,17 +4267,17 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         Theme.setDrawableColor(this.searchItem.getBackground(), this.forceDarkTheme ? getThemedColor("voipgroup_actionBarItemsSelector") : getThemedColor("dialogButtonSelector"));
         this.commentTextView.updateColors();
         if (this.sendPopupLayout != null) {
-            int i3 = 0;
+            int i2 = 0;
             while (true) {
                 ActionBarMenuSubItem[] actionBarMenuSubItemArr = this.itemCells;
-                if (i3 >= actionBarMenuSubItemArr.length) {
+                if (i2 >= actionBarMenuSubItemArr.length) {
                     break;
                 }
-                if (actionBarMenuSubItemArr[i3] != null) {
-                    actionBarMenuSubItemArr[i3].setColors(getThemedColor("actionBarDefaultSubmenuItem"), getThemedColor("actionBarDefaultSubmenuItemIcon"));
-                    this.itemCells[i3].setSelectorColor(this.forceDarkTheme ? getThemedColor("voipgroup_actionBarItemsSelector") : getThemedColor("dialogButtonSelector"));
+                if (actionBarMenuSubItemArr[i2] != null) {
+                    actionBarMenuSubItemArr[i2].setColors(getThemedColor("actionBarDefaultSubmenuItem"), getThemedColor("actionBarDefaultSubmenuItemIcon"));
+                    this.itemCells[i2].setSelectorColor(this.forceDarkTheme ? getThemedColor("voipgroup_actionBarItemsSelector") : getThemedColor("dialogButtonSelector"));
                 }
-                i3++;
+                i2++;
             }
             this.sendPopupLayout.setBackgroundColor(getThemedColor("actionBarDefaultSubmenuBackground"));
             ActionBarPopupWindow actionBarPopupWindow = this.sendPopupWindow;
@@ -4300,18 +4299,25 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         this.actionBar.setTitleColor(this.forceDarkTheme ? getThemedColor("voipgroup_actionBarItems") : getThemedColor("dialogTextBlack"));
         Theme.setDrawableColor(this.shadowDrawable, getThemedColor(this.forceDarkTheme ? "voipgroup_listViewBackground" : "dialogBackground"));
         this.containerView.invalidate();
+        int i3 = 0;
         while (true) {
             AttachAlertLayout[] attachAlertLayoutArr = this.layouts;
-            if (i < attachAlertLayoutArr.length) {
-                if (attachAlertLayoutArr[i] != null) {
-                    attachAlertLayoutArr[i].checkColors();
-                }
-                i++;
-            } else {
-                fixNavigationBar(getThemedColor("dialogBackground"));
-                return;
+            if (i3 >= attachAlertLayoutArr.length) {
+                break;
             }
+            if (attachAlertLayoutArr[i3] != null) {
+                attachAlertLayoutArr[i3].checkColors();
+            }
+            i3++;
         }
+        if (Build.VERSION.SDK_INT >= 30) {
+            this.navBarColorKey = null;
+            this.navBarColor = getThemedColor("dialogBackgroundGray");
+            AndroidUtilities.setNavigationBarColor(getWindow(), getThemedColor("dialogBackground"), false);
+            AndroidUtilities.setLightNavigationBar(getWindow(), ((double) AndroidUtilities.computePerceivedBrightness(this.navBarColor)) > 0.721d);
+            return;
+        }
+        fixNavigationBar(getThemedColor("dialogBackground"));
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet

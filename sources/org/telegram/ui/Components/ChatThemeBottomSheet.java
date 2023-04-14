@@ -17,6 +17,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -136,8 +137,14 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         setDimBehind(false);
         setCanDismissWithSwipe(false);
         setApplyBottomPadding(false);
-        this.drawNavigationBar = true;
-        fixNavigationBar();
+        if (Build.VERSION.SDK_INT >= 30) {
+            this.navBarColorKey = null;
+            this.navBarColor = getThemedColor("dialogBackgroundGray");
+            AndroidUtilities.setNavigationBarColor(getWindow(), getThemedColor("dialogBackgroundGray"), false);
+            AndroidUtilities.setLightNavigationBar(getWindow(), ((double) AndroidUtilities.computePerceivedBrightness(this.navBarColor)) > 0.721d);
+        } else {
+            fixNavigationBar(getThemedColor("dialogBackgroundGray"));
+        }
         FrameLayout frameLayout = new FrameLayout(getContext());
         this.rootLayout = frameLayout;
         setCustomView(frameLayout);
@@ -362,8 +369,8 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     public /* synthetic */ void lambda$new$4(ChatActivity chatActivity, View view) {
         if (this.currentWallpaper != null) {
             this.currentWallpaper = null;
-            ChatThemeController.getInstance(this.currentAccount).clearWallpaper(chatActivity.getDialogId());
             dismiss();
+            ChatThemeController.getInstance(this.currentAccount).clearWallpaper(chatActivity.getDialogId());
             return;
         }
         dismiss();
@@ -391,6 +398,9 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     }
 
     private void previewSelectedTheme() {
+        if (isDismissed() || this.isApplyClicked) {
+            return;
+        }
         this.isLightDarkChangeAnimation = false;
         this.chatActivity.forceDisallowApplyWallpeper = false;
         EmojiThemes emojiThemes = this.selectedItem.chatTheme;
@@ -468,7 +478,11 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         hintView.setVisibility(4);
         this.hintView.setShowingDuration(5000L);
         this.hintView.setBottomOffset(-AndroidUtilities.dp(8.0f));
-        this.hintView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("ChatThemeDayNightSwitchTooltip", R.string.ChatThemeDayNightSwitchTooltip, this.chatActivity.getCurrentUser().first_name)));
+        if (this.forceDark) {
+            this.hintView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("ChatThemeDaySwitchTooltip", R.string.ChatThemeDaySwitchTooltip, new Object[0])));
+        } else {
+            this.hintView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("ChatThemeNightSwitchTooltip", R.string.ChatThemeNightSwitchTooltip, new Object[0])));
+        }
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
@@ -648,6 +662,9 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
 
     @SuppressLint({"NotifyDataSetChanged"})
     public void setupLightDarkTheme(final boolean z) {
+        if (isDismissed()) {
+            return;
+        }
         ValueAnimator valueAnimator = this.changeDayNightViewAnimator;
         if (valueAnimator != null) {
             valueAnimator.cancel();
@@ -707,8 +724,6 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
                     return;
                 }
                 this.changedNavigationBarColor = true;
-                AndroidUtilities.setLightNavigationBar(ChatThemeBottomSheet.this.getWindow(), true ^ z);
-                AndroidUtilities.setNavigationBarColor(ChatThemeBottomSheet.this.getWindow(), ChatThemeBottomSheet.this.getThemedColor("windowBackgroundGray"));
             }
         });
         this.changeDayNightViewAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.9
@@ -739,7 +754,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setupLightDarkTheme$10(boolean z) {
         Adapter adapter = this.adapter;
-        if (adapter == null || adapter.items == null) {
+        if (adapter == null || adapter.items == null || isDismissed()) {
             return;
         }
         setForceDark(z, true);
@@ -902,9 +917,6 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         if (chatThemeItem != null && emojiThemes != this.currentTheme) {
             String emoticon = !emojiThemes.showAsDefaultStub ? emojiThemes.getEmoticon() : null;
             ChatThemeController.getInstance(this.currentAccount).setDialogTheme(this.chatActivity.getDialogId(), emoticon, true);
-            if (emojiThemes.showAsDefaultStub && emojiThemes.wallpaper == null) {
-                ChatThemeController.getInstance(this.currentAccount).clearWallpaper(this.chatActivity.getDialogId());
-            }
             if (!emojiThemes.showAsDefaultStub) {
                 ChatActivity.ThemeDelegate themeDelegate = this.themeDelegate;
                 themeDelegate.setCurrentTheme(emojiThemes, themeDelegate.getCurrentWallpaper(), true, Boolean.valueOf(this.originalIsDark));
@@ -1305,6 +1317,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         ChatActivity chatActivity = this.chatActivity;
         ChatAttachAlert chatAttachAlert = new ChatAttachAlert(parentActivity, chatActivity, false, false, false, chatActivity.getResourceProvider());
         this.chatAttachAlert = chatAttachAlert;
+        chatAttachAlert.drawNavigationBar = true;
         chatAttachAlert.setupPhotoPicker(LocaleController.getString("ChooseBackground", R.string.ChooseBackground));
         this.chatAttachAlert.setDelegate(new 10());
         this.chatAttachAlert.setMaxSelectedPhotos(1, false);
@@ -1449,6 +1462,10 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: fixColorsAfterAnotherWindow */
     public void lambda$showAsSheet$13() {
+        if (isDismissed() || this.isApplyClicked) {
+            return;
+        }
+        Theme.disallowChangeServiceMessageColor = false;
         EmojiThemes emojiThemes = this.selectedItem.chatTheme;
         if (emojiThemes.showAsDefaultStub) {
             ChatActivity.ThemeDelegate themeDelegate = this.themeDelegate;
@@ -1459,11 +1476,11 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         }
         ChatAttachAlert chatAttachAlert = this.chatAttachAlert;
         if (chatAttachAlert != null) {
-            chatAttachAlert.checkColors();
-            ChatAttachAlertColorsLayout chatAttachAlertColorsLayout = this.chatAttachAlert.colorsLayout;
+            ChatAttachAlertColorsLayout chatAttachAlertColorsLayout = chatAttachAlert.colorsLayout;
             if (chatAttachAlertColorsLayout != null) {
                 chatAttachAlertColorsLayout.updateColors(this.forceDark);
             }
+            this.chatAttachAlert.checkColors();
         }
         Adapter adapter = this.adapter;
         if (adapter == null || adapter.items == null) {

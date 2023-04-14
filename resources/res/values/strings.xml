@@ -1301,9 +1301,10 @@
     <string name="ChatThemeApplyHint">Theme will also be applied for %s</string>
     <string name="ChatThemeChangedTo">%1$s changed the chat theme to %2$s</string>
     <string name="ChatThemeChangedYou">You changed the chat theme to %1$s</string>
-    <string name="ChatThemeDayNightSwitchTooltip">Tap here to view how **%s** will see this theme when using night mode.</string>
+    <string name="ChatThemeDaySwitchTooltip">Tap to view this theme in the day mode.</string>
     <string name="ChatThemeDisabled">%1$s disabled the chat theme</string>
     <string name="ChatThemeDisabledYou">You disabled the chat theme</string>
+    <string name="ChatThemeNightSwitchTooltip">Tap to view this theme in the night mode.</string>
     <string name="ChatThemeSaveDialogApply">Apply</string>
     <string name="ChatThemeSaveDialogDiscard">Discard</string>
     <string name="ChatThemeSaveDialogText">Do you want to apply the new theme for this chat?</string>
@@ -5273,6 +5274,7 @@
     <string name="SetUserPhotoSelfAlertMessage">Do you want to set this photo for your profile?</string>
     <string name="SetUsernameHeader">Set username</string>
     <string name="SetVideo">Set Video</string>
+    <string name="SetWallpapers">Set Wallpaper</string>
     <string name="Settings">Settings</string>
     <string name="SettingsBrowseThemes">Browse Themes</string>
     <string name="SettingsDebug">Debug</string>

@@ -52,6 +52,7 @@ import org.telegram.tgnet.TLRPC$ChannelParticipantsFilter;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
 import org.telegram.tgnet.TLRPC$ChatParticipant;
+import org.telegram.tgnet.TLRPC$ChatParticipants;
 import org.telegram.tgnet.TLRPC$TL_channelFull;
 import org.telegram.tgnet.TLRPC$TL_channelParticipant;
 import org.telegram.tgnet.TLRPC$TL_channelParticipantAdmin;
@@ -664,7 +665,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             this.rowCount = i50 + 1;
             this.participantsInfoRow = i50;
         } else if (i == 2) {
-            if (!ChatObject.isChannelAndNotMegaGroup(this.currentChat) && !this.needOpenSearch) {
+            if (ChatObject.isChannel(this.currentChat) && !ChatObject.isChannelAndNotMegaGroup(this.currentChat) && !this.needOpenSearch) {
                 int i51 = this.rowCount;
                 int i52 = i51 + 1;
                 this.rowCount = i52;
@@ -1017,8 +1018,8 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:317:0x0663 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:318:0x0664  */
+    /* JADX WARN: Removed duplicated region for block: B:313:0x0663 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:314:0x0664  */
     /* JADX WARN: Type inference failed for: r19v1 */
     /* JADX WARN: Type inference failed for: r29v0, types: [org.telegram.ui.ActionBar.BaseFragment, org.telegram.ui.ChatUsersActivity] */
     /*
@@ -1179,7 +1180,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             } else if (i == this.antiSpamRow) {
                 final TextCell textCell = (TextCell) view;
                 TLRPC$ChatFull tLRPC$ChatFull3 = this.info;
-                if (tLRPC$ChatFull3 != null && !tLRPC$ChatFull3.antispam && tLRPC$ChatFull3.participants_count < getMessagesController().telegramAntispamGroupSizeMin) {
+                if (tLRPC$ChatFull3 != null && !tLRPC$ChatFull3.antispam && getParticipantsCount() < getMessagesController().telegramAntispamGroupSizeMin) {
                     BulletinFactory.of(this).createSimpleBulletin(R.raw.msg_antispam, AndroidUtilities.replaceTags(LocaleController.formatPluralString("ChannelAntiSpamForbidden", getMessagesController().telegramAntispamGroupSizeMin, new Object[0]))).show();
                     return;
                 } else if (this.info == null || !ChatObject.canUserDoAdminAction(this.currentChat, 13) || this.antiSpamToggleLoading) {
@@ -1195,7 +1196,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     tLRPC$TL_channels_toggleAntiSpam.enabled = z5;
                     textCell.setChecked(z5);
                     Switch checkBox = textCell.getCheckBox();
-                    if (!ChatObject.canUserDoAdminAction(this.currentChat, 13) || ((tLRPC$ChatFull2 = this.info) != null && !tLRPC$ChatFull2.antispam && tLRPC$ChatFull2.participants_count < getMessagesController().telegramAntispamGroupSizeMin)) {
+                    if (!ChatObject.canUserDoAdminAction(this.currentChat, 13) || ((tLRPC$ChatFull2 = this.info) != null && !tLRPC$ChatFull2.antispam && getParticipantsCount() < getMessagesController().telegramAntispamGroupSizeMin)) {
                         i3 = R.drawable.permission_locked;
                     }
                     checkBox.setIcon(i3);
@@ -1209,8 +1210,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 }
             } else if (i == this.hideMembersRow) {
                 final TextCell textCell2 = (TextCell) view;
-                TLRPC$ChatFull tLRPC$ChatFull5 = this.info;
-                if (tLRPC$ChatFull5 != null && !tLRPC$ChatFull5.participants_hidden && tLRPC$ChatFull5.participants_count < getMessagesController().hiddenMembersGroupSizeMin) {
+                if (getParticipantsCount() < getMessagesController().hiddenMembersGroupSizeMin) {
                     BulletinFactory.of(this).createSimpleBulletin(R.raw.contacts_sync_off, AndroidUtilities.replaceTags(LocaleController.formatPluralString("ChannelHiddenMembersForbidden", getMessagesController().hiddenMembersGroupSizeMin, new Object[0]))).show();
                     return;
                 } else if (this.info == null || !ChatObject.canUserDoAdminAction(this.currentChat, 2) || this.hideMembersToggleLoading) {
@@ -1220,13 +1220,13 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     final boolean z6 = this.info.participants_hidden;
                     TLRPC$TL_channels_toggleParticipantsHidden tLRPC$TL_channels_toggleParticipantsHidden = new TLRPC$TL_channels_toggleParticipantsHidden();
                     tLRPC$TL_channels_toggleParticipantsHidden.channel = getMessagesController().getInputChannel(this.chatId);
-                    TLRPC$ChatFull tLRPC$ChatFull6 = this.info;
-                    boolean z7 = true ^ tLRPC$ChatFull6.participants_hidden;
-                    tLRPC$ChatFull6.participants_hidden = z7;
+                    TLRPC$ChatFull tLRPC$ChatFull5 = this.info;
+                    boolean z7 = true ^ tLRPC$ChatFull5.participants_hidden;
+                    tLRPC$ChatFull5.participants_hidden = z7;
                     tLRPC$TL_channels_toggleParticipantsHidden.enabled = z7;
                     textCell2.setChecked(z7);
                     Switch checkBox2 = textCell2.getCheckBox();
-                    if (!ChatObject.canUserDoAdminAction(this.currentChat, 2) || ((tLRPC$ChatFull = this.info) != null && !tLRPC$ChatFull.participants_hidden && tLRPC$ChatFull.participants_count < getMessagesController().hiddenMembersGroupSizeMin)) {
+                    if (!ChatObject.canUserDoAdminAction(this.currentChat, 2) || ((tLRPC$ChatFull = this.info) != null && !tLRPC$ChatFull.participants_hidden && getParticipantsCount() < getMessagesController().hiddenMembersGroupSizeMin)) {
                         i3 = R.drawable.permission_locked;
                     }
                     checkBox2.setIcon(i3);
@@ -1251,8 +1251,8 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             } else if (i == this.addNew2Row) {
                 if (this.info != null) {
                     ManageLinksActivity manageLinksActivity = new ManageLinksActivity(this.chatId, 0L, 0);
-                    TLRPC$ChatFull tLRPC$ChatFull7 = this.info;
-                    manageLinksActivity.setInfo(tLRPC$ChatFull7, tLRPC$ChatFull7.exported_invite);
+                    TLRPC$ChatFull tLRPC$ChatFull6 = this.info;
+                    manageLinksActivity.setInfo(tLRPC$ChatFull6, tLRPC$ChatFull6.exported_invite);
                     presentFragment(manageLinksActivity);
                     return;
                 }
@@ -1701,7 +1701,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         }
         this.info.antispam = z;
         textCell.setChecked(z);
-        textCell.getCheckBox().setIcon((!ChatObject.canUserDoAdminAction(this.currentChat, 13) || ((tLRPC$ChatFull = this.info) != null && tLRPC$ChatFull.antispam && tLRPC$ChatFull.participants_count < getMessagesController().telegramAntispamGroupSizeMin)) ? R.drawable.permission_locked : 0);
+        textCell.getCheckBox().setIcon((!ChatObject.canUserDoAdminAction(this.currentChat, 13) || ((tLRPC$ChatFull = this.info) != null && tLRPC$ChatFull.antispam && getParticipantsCount() < getMessagesController().telegramAntispamGroupSizeMin)) ? R.drawable.permission_locked : 0);
         BulletinFactory.of(this).createSimpleBulletin(R.raw.error, LocaleController.getString("UnknownError", R.string.UnknownError)).show();
     }
 
@@ -1730,7 +1730,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         }
         this.info.participants_hidden = z;
         textCell.setChecked(z);
-        textCell.getCheckBox().setIcon((!ChatObject.canUserDoAdminAction(this.currentChat, 2) || ((tLRPC$ChatFull = this.info) != null && tLRPC$ChatFull.participants_hidden && tLRPC$ChatFull.participants_count < getMessagesController().hiddenMembersGroupSizeMin)) ? R.drawable.permission_locked : 0);
+        textCell.getCheckBox().setIcon((!ChatObject.canUserDoAdminAction(this.currentChat, 2) || ((tLRPC$ChatFull = this.info) != null && tLRPC$ChatFull.participants_hidden && getParticipantsCount() < getMessagesController().hiddenMembersGroupSizeMin)) ? R.drawable.permission_locked : 0);
         BulletinFactory.of(this).createSimpleBulletin(R.raw.error, LocaleController.getString("UnknownError", R.string.UnknownError)).show();
     }
 
@@ -1791,6 +1791,18 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             }
         }
         return false;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public int getParticipantsCount() {
+        ArrayList<TLRPC$ChatParticipant> arrayList;
+        TLRPC$ChatFull tLRPC$ChatFull = this.info;
+        if (tLRPC$ChatFull == null) {
+            return 0;
+        }
+        int i = tLRPC$ChatFull.participants_count;
+        TLRPC$ChatParticipants tLRPC$ChatParticipants = tLRPC$ChatFull.participants;
+        return (tLRPC$ChatParticipants == null || (arrayList = tLRPC$ChatParticipants.participants) == null) ? i : Math.max(i, arrayList.size());
     }
 
     private void setBannedRights(TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights) {
@@ -4174,17 +4186,17 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             ChatUsersActivity.this.listViewAdapter.notifyItemChanged(ChatUsersActivity.this.slowmodeInfoRow);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:345:0x090e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:345:0x090a, code lost:
             if (r22.this$0.currentChat.megagroup == false) goto L384;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:346:0x0910, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:346:0x090c, code lost:
             r7 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:354:0x093c, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:354:0x0938, code lost:
             if (r22.this$0.currentChat.megagroup == false) goto L384;
          */
-        /* JADX WARN: Removed duplicated region for block: B:403:0x0a4e  */
-        /* JADX WARN: Removed duplicated region for block: B:404:0x0a51  */
+        /* JADX WARN: Removed duplicated region for block: B:403:0x0a4a  */
+        /* JADX WARN: Removed duplicated region for block: B:404:0x0a4d  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -4593,11 +4605,11 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 case 12:
                     TextCell textCell = (TextCell) viewHolder.itemView;
                     if (i == ChatUsersActivity.this.antiSpamRow) {
-                        textCell.getCheckBox().setIcon((ChatObject.canUserDoAdminAction(ChatUsersActivity.this.currentChat, 13) && (ChatUsersActivity.this.info == null || ChatUsersActivity.this.info.antispam || ChatUsersActivity.this.info.participants_count >= ChatUsersActivity.this.getMessagesController().telegramAntispamGroupSizeMin)) ? 0 : R.drawable.permission_locked);
+                        textCell.getCheckBox().setIcon((ChatObject.canUserDoAdminAction(ChatUsersActivity.this.currentChat, 13) && (ChatUsersActivity.this.info == null || ChatUsersActivity.this.info.antispam || ChatUsersActivity.this.getParticipantsCount() >= ChatUsersActivity.this.getMessagesController().telegramAntispamGroupSizeMin)) ? 0 : R.drawable.permission_locked);
                         textCell.setTextAndCheckAndIcon(LocaleController.getString("ChannelAntiSpam", R.string.ChannelAntiSpam), (ChatUsersActivity.this.info == null || !ChatUsersActivity.this.info.antispam) ? false : false, R.drawable.msg_policy, false);
                         return;
                     } else if (i == ChatUsersActivity.this.hideMembersRow) {
-                        textCell.getCheckBox().setIcon((ChatObject.canUserDoAdminAction(ChatUsersActivity.this.currentChat, 2) && (ChatUsersActivity.this.info == null || ChatUsersActivity.this.info.participants_hidden || ChatUsersActivity.this.info.participants_count >= ChatUsersActivity.this.getMessagesController().hiddenMembersGroupSizeMin)) ? 0 : R.drawable.permission_locked);
+                        textCell.getCheckBox().setIcon((ChatObject.canUserDoAdminAction(ChatUsersActivity.this.currentChat, 2) && (ChatUsersActivity.this.info == null || ChatUsersActivity.this.info.participants_hidden || ChatUsersActivity.this.getParticipantsCount() >= ChatUsersActivity.this.getMessagesController().hiddenMembersGroupSizeMin)) ? 0 : R.drawable.permission_locked);
                         textCell.setTextAndCheck(LocaleController.getString("ChannelHideMembers", R.string.ChannelHideMembers), (ChatUsersActivity.this.info == null || !ChatUsersActivity.this.info.participants_hidden) ? false : false, false);
                         return;
                     } else {

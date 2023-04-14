@@ -18,6 +18,7 @@ import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.ResultCallback;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLObject;
+import org.telegram.tgnet.TLRPC$ChatFull;
 import org.telegram.tgnet.TLRPC$MessageAction;
 import org.telegram.tgnet.TLRPC$TL_account_getChatThemes;
 import org.telegram.tgnet.TLRPC$TL_account_themes;
@@ -122,8 +123,8 @@ public class ChatThemeController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x00a7  */
-    /* JADX WARN: Removed duplicated region for block: B:27:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x00b3  */
+    /* JADX WARN: Removed duplicated region for block: B:33:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -152,6 +153,10 @@ public class ChatThemeController extends BaseController {
             }
             edit.apply();
         } else if (tLObject instanceof TLRPC$TL_account_themesNotModified) {
+            List<EmojiThemes> list2 = allChatThemes;
+            if (list2 != null && !list2.isEmpty()) {
+                return;
+            }
             list = getAllChatThemesFromPrefs();
         } else {
             list = null;
@@ -286,6 +291,19 @@ public class ChatThemeController extends BaseController {
             this.dialogEmoticonsMap.delete(j);
         } else {
             this.dialogEmoticonsMap.put(j, str);
+        }
+        if (j >= 0) {
+            TLRPC$UserFull userFull = getMessagesController().getUserFull(j);
+            if (userFull != null) {
+                userFull.theme_emoticon = str;
+                getMessagesStorage().updateUserInfo(userFull, true);
+            }
+        } else {
+            TLRPC$ChatFull chatFull = getMessagesController().getChatFull(-j);
+            if (chatFull != null) {
+                chatFull.theme_emoticon = str;
+                getMessagesStorage().updateChatInfo(chatFull, true);
+            }
         }
         SharedPreferences.Editor edit = getEmojiSharedPreferences().edit();
         edit.putString("chatTheme_" + this.currentAccount + "_" + j, str).apply();
@@ -516,7 +534,22 @@ public class ChatThemeController extends BaseController {
                 int i4 = i3 | 32;
                 tLRPC$WallPaperSettings.flags = i4;
                 tLRPC$WallPaperSettings.flags = i4 | 64;
-                userFull.wallpaper = tLRPC$TL_messageActionSetChatWallPaper.wallpaper;
+                TLRPC$TL_wallPaper tLRPC$TL_wallPaper2 = new TLRPC$TL_wallPaper();
+                userFull.wallpaper = tLRPC$TL_wallPaper2;
+                TLRPC$WallPaper tLRPC$WallPaper3 = tLRPC$TL_messageActionSetChatWallPaper.wallpaper;
+                tLRPC$TL_wallPaper2.pattern = tLRPC$WallPaper3.pattern;
+                tLRPC$TL_wallPaper2.id = tLRPC$WallPaper3.id;
+                tLRPC$TL_wallPaper2.document = tLRPC$WallPaper3.document;
+                int i5 = tLRPC$WallPaper3.flags;
+                tLRPC$TL_wallPaper2.flags = i5;
+                tLRPC$TL_wallPaper2.creator = tLRPC$WallPaper3.creator;
+                tLRPC$TL_wallPaper2.dark = tLRPC$WallPaper3.dark;
+                tLRPC$TL_wallPaper2.isDefault = tLRPC$WallPaper3.isDefault;
+                tLRPC$TL_wallPaper2.slug = tLRPC$WallPaper3.slug;
+                tLRPC$TL_wallPaper2.access_hash = tLRPC$WallPaper3.access_hash;
+                tLRPC$TL_wallPaper2.stripedThumb = tLRPC$WallPaper3.stripedThumb;
+                tLRPC$TL_wallPaper2.settings = tLRPC$TL_wallPaper.settings;
+                tLRPC$TL_wallPaper2.flags = i5 | 4;
                 userFull.flags |= ConnectionsManager.FileTypePhoto;
                 getMessagesStorage().updateUserInfo(userFull, false);
                 NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.userInfoDidLoad, Long.valueOf(j), userFull);
