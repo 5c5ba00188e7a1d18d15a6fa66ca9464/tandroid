@@ -3084,9 +3084,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         if (!z || drawable == null) {
             return;
         }
-        if (!Theme.hasThemeKey("chat_serviceBackground") || (this.backgroundImage.getBackground() instanceof MotionBackgroundDrawable)) {
-            Theme.applyChatServiceMessageColor(AndroidUtilities.calcDrawableColor(drawable), drawable);
-        }
+        Theme.applyChatServiceMessageColor(AndroidUtilities.calcDrawableColor(drawable), drawable);
         this.listView2.invalidateViews();
         FrameLayout frameLayout = this.backgroundButtonsContainer;
         if (frameLayout != null) {

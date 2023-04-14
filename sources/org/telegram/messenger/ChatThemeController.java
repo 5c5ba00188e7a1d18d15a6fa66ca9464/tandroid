@@ -86,20 +86,17 @@ public class ChatThemeController extends BaseController {
         if (themesHash == 0 || lastReloadTimeMs == 0) {
             init();
         }
-        boolean z2 = System.currentTimeMillis() - lastReloadTimeMs > reloadTimeoutMs;
+        System.currentTimeMillis();
+        TLRPC$TL_account_getChatThemes tLRPC$TL_account_getChatThemes = new TLRPC$TL_account_getChatThemes();
+        tLRPC$TL_account_getChatThemes.hash = themesHash;
+        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_account_getChatThemes, new RequestDelegate() { // from class: org.telegram.messenger.ChatThemeController$$ExternalSyntheticLambda8
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                ChatThemeController.lambda$requestAllChatThemes$3(ResultCallback.this, z, tLObject, tLRPC$TL_error);
+            }
+        });
         List<EmojiThemes> list = allChatThemes;
-        if (list == null || list.isEmpty() || z2) {
-            TLRPC$TL_account_getChatThemes tLRPC$TL_account_getChatThemes = new TLRPC$TL_account_getChatThemes();
-            tLRPC$TL_account_getChatThemes.hash = themesHash;
-            ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_account_getChatThemes, new RequestDelegate() { // from class: org.telegram.messenger.ChatThemeController$$ExternalSyntheticLambda8
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ChatThemeController.lambda$requestAllChatThemes$3(ResultCallback.this, z, tLObject, tLRPC$TL_error);
-                }
-            });
-        }
-        List<EmojiThemes> list2 = allChatThemes;
-        if (list2 == null || list2.isEmpty()) {
+        if (list == null || list.isEmpty()) {
             return;
         }
         ArrayList<EmojiThemes> arrayList = new ArrayList(allChatThemes);
@@ -123,8 +120,8 @@ public class ChatThemeController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x00b3  */
-    /* JADX WARN: Removed duplicated region for block: B:33:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x00a7  */
+    /* JADX WARN: Removed duplicated region for block: B:27:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -153,10 +150,6 @@ public class ChatThemeController extends BaseController {
             }
             edit.apply();
         } else if (tLObject instanceof TLRPC$TL_account_themesNotModified) {
-            List<EmojiThemes> list2 = allChatThemes;
-            if (list2 != null && !list2.isEmpty()) {
-                return;
-            }
             list = getAllChatThemesFromPrefs();
         } else {
             list = null;

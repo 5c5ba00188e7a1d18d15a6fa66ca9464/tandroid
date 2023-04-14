@@ -572,6 +572,11 @@ public class MessageObject {
         return SharedConfig.getDevicePerformanceClass() == 2;
     }
 
+    public boolean isWallpaperAction() {
+        TLRPC$Message tLRPC$Message;
+        return this.type == 22 || ((tLRPC$Message = this.messageOwner) != null && (tLRPC$Message.action instanceof TLRPC$TL_messageActionSetSameChatWallPaper));
+    }
+
     public int getEmojiOnlyCount() {
         return this.emojiOnlyCount;
     }
