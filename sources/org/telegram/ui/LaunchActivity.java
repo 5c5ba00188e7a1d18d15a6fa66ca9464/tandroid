@@ -466,9 +466,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             this.themeSwitchImageView = imageView;
             imageView.setVisibility(8);
         }
-        3 r5 = new 3(this);
-        this.drawerLayoutContainer = r5;
-        r5.setBehindKeyboardColor(Theme.getColor("windowBackgroundWhite"));
+        3 r7 = new 3(this);
+        this.drawerLayoutContainer = r7;
+        r7.setBehindKeyboardColor(Theme.getColor("windowBackgroundWhite"));
         this.frameLayout.addView(this.drawerLayoutContainer, LayoutHelper.createFrame(-1, -1.0f));
         if (i2 >= 21) {
             View view = new View(this) { // from class: org.telegram.ui.LaunchActivity.4
@@ -800,7 +800,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
         checkLayout();
         checkSystemBarColors();
-        handleIntent(getIntent(), false, bundle != null, false, null, false);
+        handleIntent(getIntent(), false, bundle != null, false);
         try {
             String str = Build.DISPLAY;
             String str2 = Build.USER;
