@@ -1258,7 +1258,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         return this.customDate;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:290:0x0527  */
+    /* JADX WARN: Removed duplicated region for block: B:298:0x0537  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1270,6 +1270,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         float f;
         float dp;
         float f2;
+        float f3;
         float clamp;
         MessageObject messageObject = this.currentMessageObject;
         int i4 = this.stickerSize;
@@ -1279,14 +1280,14 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             int i5 = messageObject.type;
             if (i5 == 22) {
                 i4 = getImageSize(messageObject);
-                float f3 = i4;
-                this.imageReceiver.setImageCoords((this.previousWidth - i4) / 2.0f, this.textY + this.textHeight + AndroidUtilities.dp(12.0f) + AndroidUtilities.dp(16.0f), f3, f3);
+                float f4 = i4;
+                this.imageReceiver.setImageCoords((this.previousWidth - i4) / 2.0f, this.textY + this.textHeight + AndroidUtilities.dp(12.0f) + AndroidUtilities.dp(16.0f), f4, f4);
             } else if (i5 == 11) {
                 this.imageReceiver.setImageCoords((this.previousWidth - dp2) / 2.0f, this.textY + this.textHeight + (this.giftRectSize * 0.075f), dp2, dp2);
             } else {
                 i4 = (int) (dp2 * 0.7f);
-                float f4 = i4;
-                this.imageReceiver.setImageCoords((this.previousWidth - i4) / 2.0f, this.textY + this.textHeight + (this.giftRectSize * 0.075f) + AndroidUtilities.dp(8.0f), f4, f4);
+                float f5 = i4;
+                this.imageReceiver.setImageCoords((this.previousWidth - i4) / 2.0f, this.textY + this.textHeight + (this.giftRectSize * 0.075f) + AndroidUtilities.dp(8.0f), f5, f5);
             }
             TextPaint textPaint = (TextPaint) getThemedPaint("paintChatActionText");
             this.textPaint = textPaint;
@@ -1368,7 +1369,8 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             float dp3 = ((this.previousWidth - this.giftRectSize) / 2.0f) + AndroidUtilities.dp(8.0f);
             int i8 = messageObject.type;
             if (i8 == 22) {
-                f = this.backroundRect.top + (AndroidUtilities.dp(16.0f) * 2) + i;
+                RectF rectF = this.backroundRect;
+                f = (rectF != null ? rectF.top : this.textY + this.textHeight + AndroidUtilities.dp(12.0f)) + (AndroidUtilities.dp(16.0f) * 2) + i;
                 i3 = 21;
             } else {
                 i3 = 21;
@@ -1393,6 +1395,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             canvas.save();
             canvas.translate(dp3, dp + AndroidUtilities.dp(4.0f));
             if (messageObject.type == 22) {
+                f2 = 1.0f;
                 if (this.radialProgress.getTransitionProgress() != 1.0f || this.radialProgress.getIcon() != i2) {
                     if (this.settingWallpaperLayout == null) {
                         TextPaint textPaint4 = new TextPaint();
@@ -1409,23 +1412,23 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                     if (this.radialProgress.getIcon() == i2) {
                         float transitionProgress = this.radialProgress.getTransitionProgress();
                         int color = this.giftSubtitlePaint.getColor();
-                        float f5 = 1.0f - transitionProgress;
-                        this.settingWallpaperPaint.setAlpha((int) (Color.alpha(color) * f5));
+                        float f6 = 1.0f - transitionProgress;
+                        this.settingWallpaperPaint.setAlpha((int) (Color.alpha(color) * f6));
                         this.giftSubtitlePaint.setAlpha((int) (Color.alpha(color) * transitionProgress));
-                        float f6 = (transitionProgress * 0.2f) + 0.8f;
+                        float f7 = (transitionProgress * 0.2f) + 0.8f;
                         canvas.save();
-                        canvas.scale(f6, f6, this.giftPremiumSubtitleLayout.getWidth() / 2.0f, this.giftPremiumSubtitleLayout.getHeight() / 2.0f);
+                        canvas.scale(f7, f7, this.giftPremiumSubtitleLayout.getWidth() / 2.0f, this.giftPremiumSubtitleLayout.getHeight() / 2.0f);
                         this.giftPremiumSubtitleLayout.draw(canvas);
                         canvas.restore();
-                        this.giftSubtitlePaint.setAlpha((int) (Color.alpha(color) * f5));
-                        float f7 = (f5 * 0.2f) + 0.8f;
+                        this.giftSubtitlePaint.setAlpha((int) (Color.alpha(color) * f6));
+                        float f8 = (f6 * 0.2f) + 0.8f;
                         canvas.save();
-                        canvas.scale(f7, f7, this.settingWallpaperLayout.getWidth() / 2.0f, this.settingWallpaperLayout.getHeight() / 2.0f);
+                        canvas.scale(f8, f8, this.settingWallpaperLayout.getWidth() / 2.0f, this.settingWallpaperLayout.getHeight() / 2.0f);
                         this.settingWallpaperLayout.draw(canvas);
                         canvas.restore();
                         canvas.save();
                         canvas.translate(0.0f, this.settingWallpaperLayout.getHeight() + AndroidUtilities.dp(4.0f));
-                        canvas.scale(f7, f7, this.settingWallpaperProgressTextLayout.getWidth() / 2.0f, this.settingWallpaperProgressTextLayout.getHeight() / 2.0f);
+                        canvas.scale(f8, f8, this.settingWallpaperProgressTextLayout.getWidth() / 2.0f, this.settingWallpaperProgressTextLayout.getHeight() / 2.0f);
                         this.settingWallpaperProgressTextLayout.draw(canvas);
                         canvas.restore();
                         this.giftSubtitlePaint.setColor(color);
@@ -1440,14 +1443,15 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                     this.giftPremiumSubtitleLayout.draw(canvas);
                 }
             } else {
+                f2 = 1.0f;
                 this.giftPremiumSubtitleLayout.draw(canvas);
             }
             canvas.restore();
             if (this.giftPremiumTitleLayout == null) {
-                f2 = 8.0f;
+                f3 = 8.0f;
                 AndroidUtilities.dp(8.0f);
             } else {
-                f2 = 8.0f;
+                f3 = 8.0f;
             }
             this.giftPremiumSubtitleLayout.getHeight();
             StaticLayout staticLayout2 = this.giftPremiumButtonLayout;
@@ -1455,7 +1459,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 staticLayout2.getHeight();
             }
             getHeight();
-            AndroidUtilities.dp(f2);
+            AndroidUtilities.dp(f3);
             ThemeDelegate themeDelegate = this.themeDelegate;
             if (themeDelegate != null) {
                 themeDelegate.applyServiceShaderMatrix(getMeasuredWidth(), this.backgroundHeight, 0.0f, this.viewTop + AndroidUtilities.dp(4.0f));
@@ -1483,10 +1487,10 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             }
             boolean z = messageObject.settingAvatar;
             if (z) {
-                float f8 = this.progressToProgress;
-                if (f8 != 1.0f) {
-                    this.progressToProgress = f8 + 0.10666667f;
-                    clamp = Utilities.clamp(this.progressToProgress, 1.0f, 0.0f);
+                float f9 = this.progressToProgress;
+                if (f9 != f2) {
+                    this.progressToProgress = f9 + 0.10666667f;
+                    clamp = Utilities.clamp(this.progressToProgress, f2, 0.0f);
                     this.progressToProgress = clamp;
                     if (clamp != 0.0f) {
                         if (this.progressView == null) {
@@ -1494,18 +1498,18 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                         }
                         int dp5 = AndroidUtilities.dp(16.0f);
                         canvas.save();
-                        float f9 = this.progressToProgress;
-                        canvas.scale(f9, f9, this.giftButtonRect.centerX(), this.giftButtonRect.centerY());
+                        float f10 = this.progressToProgress;
+                        canvas.scale(f10, f10, this.giftButtonRect.centerX(), this.giftButtonRect.centerY());
                         this.progressView.setSize(dp5);
                         this.progressView.setProgressColor(Theme.getColor("chat_serviceText"));
                         this.progressView.draw(canvas, this.giftButtonRect.centerX(), this.giftButtonRect.centerY());
                         canvas.restore();
                     }
-                    if (this.progressToProgress != 1.0f || this.giftPremiumButtonLayout == null) {
+                    if (this.progressToProgress != f2 || this.giftPremiumButtonLayout == null) {
                     }
                     canvas.save();
-                    float f10 = 1.0f - this.progressToProgress;
-                    canvas.scale(f10, f10, this.giftButtonRect.centerX(), this.giftButtonRect.centerY());
+                    float f11 = f2 - this.progressToProgress;
+                    canvas.scale(f11, f11, this.giftButtonRect.centerX(), this.giftButtonRect.centerY());
                     canvas.translate(dp3, this.giftButtonRect.top + AndroidUtilities.dp(8.0f));
                     this.giftPremiumButtonLayout.draw(canvas);
                     canvas.restore();
@@ -1513,16 +1517,16 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 }
             }
             if (!z) {
-                float f11 = this.progressToProgress;
-                if (f11 != 0.0f) {
-                    this.progressToProgress = f11 - 0.10666667f;
+                float f12 = this.progressToProgress;
+                if (f12 != 0.0f) {
+                    this.progressToProgress = f12 - 0.10666667f;
                 }
             }
-            clamp = Utilities.clamp(this.progressToProgress, 1.0f, 0.0f);
+            clamp = Utilities.clamp(this.progressToProgress, f2, 0.0f);
             this.progressToProgress = clamp;
             if (clamp != 0.0f) {
             }
-            if (this.progressToProgress != 1.0f) {
+            if (this.progressToProgress != f2) {
             }
         }
     }

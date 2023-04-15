@@ -3924,7 +3924,7 @@ public class MessageObject {
                 sb.setLength(0);
             }
         }
-        if (!(this.messageOwner.reply_markup instanceof TLRPC$TL_replyInlineMarkup) || hasExtendedMedia()) {
+        if (!(this.messageOwner.reply_markup instanceof TLRPC$TL_replyInlineMarkup) || hasExtendedMedia() || this.messageOwner.reply_markup.rows == null) {
             return;
         }
         for (int i = 0; i < this.messageOwner.reply_markup.rows.size(); i++) {

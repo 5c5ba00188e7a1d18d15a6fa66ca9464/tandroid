@@ -1892,75 +1892,75 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:1107:0x2249, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1107:0x224f, code lost:
         if (r1.checkCanOpenChat(r0, r2.get(r2.size() - r3)) != false) goto L121;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:172:0x0339, code lost:
-        if (r90.sendingText == null) goto L316;
+    /* JADX WARN: Code restructure failed: missing block: B:172:0x033f, code lost:
+        if (r91.sendingText == null) goto L316;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:489:0x0b77, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:489:0x0b7d, code lost:
         if (r11.intValue() == 0) goto L787;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:60:0x0148, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:60:0x014e, code lost:
         if (r2.equals(r0) != false) goto L45;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:871:0x197a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:871:0x1980, code lost:
         if (r3.longValue() == 0) goto L1187;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1038:0x1f5f  */
-    /* JADX WARN: Removed duplicated region for block: B:1039:0x1f6f  */
-    /* JADX WARN: Removed duplicated region for block: B:1085:0x21e6  */
-    /* JADX WARN: Removed duplicated region for block: B:1098:0x2215  */
-    /* JADX WARN: Removed duplicated region for block: B:1118:0x2297  */
-    /* JADX WARN: Removed duplicated region for block: B:1220:0x24de  */
-    /* JADX WARN: Removed duplicated region for block: B:1221:0x24ed  */
-    /* JADX WARN: Removed duplicated region for block: B:1224:0x24fb  */
-    /* JADX WARN: Removed duplicated region for block: B:1225:0x250d  */
-    /* JADX WARN: Removed duplicated region for block: B:1303:0x27b6 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:1306:0x27bf  */
-    /* JADX WARN: Removed duplicated region for block: B:1317:0x280e  */
-    /* JADX WARN: Removed duplicated region for block: B:1327:0x2852  */
-    /* JADX WARN: Removed duplicated region for block: B:1331:0x2869  */
-    /* JADX WARN: Removed duplicated region for block: B:1333:0x2871  */
-    /* JADX WARN: Removed duplicated region for block: B:1365:0x14fb A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1404:0x1e82 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:171:0x0337  */
-    /* JADX WARN: Removed duplicated region for block: B:176:0x0340  */
-    /* JADX WARN: Removed duplicated region for block: B:206:0x0400  */
-    /* JADX WARN: Removed duplicated region for block: B:274:0x0532  */
-    /* JADX WARN: Removed duplicated region for block: B:359:0x0758  */
-    /* JADX WARN: Removed duplicated region for block: B:399:0x084e A[Catch: Exception -> 0x085c, TRY_LEAVE, TryCatch #12 {Exception -> 0x085c, blocks: (B:397:0x0842, B:399:0x084e), top: B:1377:0x0842 }] */
-    /* JADX WARN: Removed duplicated region for block: B:401:0x085b  */
-    /* JADX WARN: Removed duplicated region for block: B:494:0x0b81  */
-    /* JADX WARN: Removed duplicated region for block: B:495:0x0b86  */
-    /* JADX WARN: Removed duplicated region for block: B:498:0x0be8  */
-    /* JADX WARN: Removed duplicated region for block: B:500:0x0beb  */
-    /* JADX WARN: Removed duplicated region for block: B:512:0x0c32  */
-    /* JADX WARN: Removed duplicated region for block: B:513:0x0c59  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0144  */
-    /* JADX WARN: Removed duplicated region for block: B:827:0x1803  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x01b2  */
-    /* JADX WARN: Removed duplicated region for block: B:864:0x18e9 A[Catch: Exception -> 0x18f8, TRY_LEAVE, TryCatch #3 {Exception -> 0x18f8, blocks: (B:862:0x18dd, B:864:0x18e9), top: B:1359:0x18dd }] */
-    /* JADX WARN: Removed duplicated region for block: B:866:0x18f6  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x01dd  */
-    /* JADX WARN: Removed duplicated region for block: B:920:0x1c41  */
-    /* JADX WARN: Removed duplicated region for block: B:921:0x1c81  */
-    /* JADX WARN: Removed duplicated region for block: B:942:0x1d51  */
-    /* JADX WARN: Removed duplicated region for block: B:955:0x1d96  */
-    /* JADX WARN: Removed duplicated region for block: B:960:0x1db3 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x01eb  */
+    /* JADX WARN: Removed duplicated region for block: B:1038:0x1f65  */
+    /* JADX WARN: Removed duplicated region for block: B:1039:0x1f75  */
+    /* JADX WARN: Removed duplicated region for block: B:1085:0x21ec  */
+    /* JADX WARN: Removed duplicated region for block: B:1098:0x221b  */
+    /* JADX WARN: Removed duplicated region for block: B:1118:0x229d  */
+    /* JADX WARN: Removed duplicated region for block: B:1220:0x24e4  */
+    /* JADX WARN: Removed duplicated region for block: B:1221:0x24f3  */
+    /* JADX WARN: Removed duplicated region for block: B:1224:0x2501  */
+    /* JADX WARN: Removed duplicated region for block: B:1225:0x2513  */
+    /* JADX WARN: Removed duplicated region for block: B:1303:0x27bc A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:1306:0x27c5  */
+    /* JADX WARN: Removed duplicated region for block: B:1317:0x2814  */
+    /* JADX WARN: Removed duplicated region for block: B:1327:0x2858  */
+    /* JADX WARN: Removed duplicated region for block: B:1331:0x286f  */
+    /* JADX WARN: Removed duplicated region for block: B:1333:0x2877  */
+    /* JADX WARN: Removed duplicated region for block: B:1354:0x1501 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1383:0x1e88 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:171:0x033d  */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x0346  */
+    /* JADX WARN: Removed duplicated region for block: B:206:0x0406  */
+    /* JADX WARN: Removed duplicated region for block: B:274:0x0538  */
+    /* JADX WARN: Removed duplicated region for block: B:359:0x075e  */
+    /* JADX WARN: Removed duplicated region for block: B:399:0x0854 A[Catch: Exception -> 0x0862, TRY_LEAVE, TryCatch #13 {Exception -> 0x0862, blocks: (B:397:0x0848, B:399:0x0854), top: B:1375:0x0848 }] */
+    /* JADX WARN: Removed duplicated region for block: B:401:0x0861  */
+    /* JADX WARN: Removed duplicated region for block: B:494:0x0b87  */
+    /* JADX WARN: Removed duplicated region for block: B:495:0x0b8c  */
+    /* JADX WARN: Removed duplicated region for block: B:498:0x0bee  */
+    /* JADX WARN: Removed duplicated region for block: B:500:0x0bf1  */
+    /* JADX WARN: Removed duplicated region for block: B:512:0x0c38  */
+    /* JADX WARN: Removed duplicated region for block: B:513:0x0c5f  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x014a  */
+    /* JADX WARN: Removed duplicated region for block: B:827:0x1809  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x01b8  */
+    /* JADX WARN: Removed duplicated region for block: B:864:0x18ef A[Catch: Exception -> 0x18fe, TRY_LEAVE, TryCatch #21 {Exception -> 0x18fe, blocks: (B:862:0x18e3, B:864:0x18ef), top: B:1392:0x18e3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:866:0x18fc  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x01e3  */
+    /* JADX WARN: Removed duplicated region for block: B:920:0x1c47  */
+    /* JADX WARN: Removed duplicated region for block: B:921:0x1c87  */
+    /* JADX WARN: Removed duplicated region for block: B:942:0x1d57  */
+    /* JADX WARN: Removed duplicated region for block: B:955:0x1d9c  */
+    /* JADX WARN: Removed duplicated region for block: B:960:0x1db9 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x01f1  */
     /* JADX WARN: Type inference failed for: r12v195 */
     /* JADX WARN: Type inference failed for: r12v200 */
     /* JADX WARN: Type inference failed for: r12v21 */
     /* JADX WARN: Type inference failed for: r12v213 */
     /* JADX WARN: Type inference failed for: r12v214 */
-    /* JADX WARN: Type inference failed for: r12v9, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r12v9, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r3v29 */
     /* JADX WARN: Type inference failed for: r3v32 */
     /* JADX WARN: Type inference failed for: r3v33 */
     /* JADX WARN: Type inference failed for: r3v6 */
-    /* JADX WARN: Type inference failed for: r3v7, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v7, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v10, types: [android.os.Bundle, java.lang.String] */
     /* JADX WARN: Type inference failed for: r7v14 */
     /* JADX WARN: Type inference failed for: r7v19 */
@@ -2197,6 +2197,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 return false;
             }
         }
+        boolean booleanExtra = intent.getBooleanExtra("force_not_internal_apps", false);
         this.photoPathsArray = null;
         this.videoPath = null;
         this.voicePath = null;
@@ -6366,7 +6367,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 str2 = " ";
                                 str9 = str14;
                                 iArr3 = iArr;
-                                runLinkRequest(iArr[0], str16, str15, str19, str21, str20, str24, str23, str25, (str18 == null || !str18.startsWith("@")) ? str18 : " " + str18, str26, str27, z33, num, l, num2, num3, str29, hashMap, str28, str30, str34, str33, tLRPC$TL_wallPaper, str32, str31, str35, str36, 0, i10, str37, str38, str39, str40, str41, progress);
+                                runLinkRequest(iArr[0], str16, str15, str19, str21, str20, str24, str23, str25, (str18 == null || !str18.startsWith("@")) ? str18 : " " + str18, str26, str27, z33, num, l, num2, num3, str29, hashMap, str28, str30, str34, str33, tLRPC$TL_wallPaper, str32, str31, str35, str36, 0, i10, str37, str38, str39, str40, str41, progress, booleanExtra);
                                 launchActivity = this;
                             } else {
                                 try {
@@ -8129,13 +8130,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:126:0x056f  */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x0573  */
     /* JADX WARN: Removed duplicated region for block: B:142:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x0434  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x0438  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    private void runLinkRequest(final int i, final String str, final String str2, final String str3, final String str4, final String str5, final String str6, final String str7, final String str8, final String str9, final String str10, final String str11, final boolean z, final Integer num, final Long l, final Integer num2, final Integer num3, final String str12, final HashMap<String, String> hashMap, final String str13, final String str14, final String str15, final String str16, final TLRPC$TL_wallPaper tLRPC$TL_wallPaper, final String str17, final String str18, final String str19, final String str20, final int i2, final int i3, final String str21, final String str22, final String str23, final String str24, final String str25, final Browser.Progress progress) {
+    private void runLinkRequest(final int i, final String str, final String str2, final String str3, final String str4, final String str5, final String str6, final String str7, final String str8, final String str9, final String str10, final String str11, final boolean z, final Integer num, final Long l, final Integer num2, final Integer num3, final String str12, final HashMap<String, String> hashMap, final String str13, final String str14, final String str15, final String str16, final TLRPC$TL_wallPaper tLRPC$TL_wallPaper, final String str17, final String str18, final String str19, final String str20, final int i2, final int i3, final String str21, final String str22, final String str23, final String str24, final String str25, final Browser.Progress progress, final boolean z2) {
         final int i4;
         char c;
         Runnable runnable;
@@ -8151,7 +8152,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             AlertsCreator.createAccountSelectDialog(this, new AlertsCreator.AccountSelectDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda113
                 @Override // org.telegram.ui.Components.AlertsCreator.AccountSelectDelegate
                 public final void didSelectAccount(int i5) {
-                    LaunchActivity.this.lambda$runLinkRequest$35(i, str, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11, z, num, l, num2, num3, str12, hashMap, str13, str14, str15, str16, tLRPC$TL_wallPaper, str17, str18, str19, str20, i3, str21, str22, str23, str24, str25, progress, i5);
+                    LaunchActivity.this.lambda$runLinkRequest$35(i, str, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11, z, num, l, num2, num3, str12, hashMap, str13, str14, str15, str16, tLRPC$TL_wallPaper, str17, str18, str19, str20, i3, str21, str22, str23, str24, str25, progress, z2, i5);
                 }
             }).show();
             return;
@@ -8218,7 +8219,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     MessagesController.getInstance(i).getUserNameResolver().resolve(str, new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda24
                         @Override // com.google.android.exoplayer2.util.Consumer
                         public final void accept(Object obj) {
-                            LaunchActivity.this.lambda$runLinkRequest$62(str12, str19, str20, str24, i4, str, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11, z, num, l, num2, num3, hashMap, str13, str14, str15, str16, tLRPC$TL_wallPaper, str17, str18, i2, i3, str21, str22, str23, progress, runnable3, str25, iArr, (Long) obj);
+                            LaunchActivity.this.lambda$runLinkRequest$62(str12, str19, str20, str24, i4, str, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11, z, num, l, num2, num3, hashMap, str13, str14, str15, str16, tLRPC$TL_wallPaper, str17, str18, i2, i3, str21, str22, str23, progress, z2, runnable3, str25, iArr, (Long) obj);
                         }
                     });
                     iArr = iArr;
@@ -8310,9 +8311,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             DialogsActivity dialogsActivity = new DialogsActivity(bundle);
                             dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda123
                                 @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                                public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList4, CharSequence charSequence, boolean z2, TopicsFragment topicsFragment) {
+                                public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList4, CharSequence charSequence, boolean z3, TopicsFragment topicsFragment) {
                                     boolean lambda$runLinkRequest$68;
-                                    lambda$runLinkRequest$68 = LaunchActivity.this.lambda$runLinkRequest$68(z, i4, str9, dialogsActivity2, arrayList4, charSequence, z2, topicsFragment);
+                                    lambda$runLinkRequest$68 = LaunchActivity.this.lambda$runLinkRequest$68(z, i4, str9, dialogsActivity2, arrayList4, charSequence, z3, topicsFragment);
                                     return lambda$runLinkRequest$68;
                                 }
                             });
@@ -8516,11 +8517,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$runLinkRequest$35(int i, String str, String str2, String str3, String str4, String str5, String str6, String str7, String str8, String str9, String str10, String str11, boolean z, Integer num, Long l, Integer num2, Integer num3, String str12, HashMap hashMap, String str13, String str14, String str15, String str16, TLRPC$TL_wallPaper tLRPC$TL_wallPaper, String str17, String str18, String str19, String str20, int i2, String str21, String str22, String str23, String str24, String str25, Browser.Progress progress, int i3) {
+    public /* synthetic */ void lambda$runLinkRequest$35(int i, String str, String str2, String str3, String str4, String str5, String str6, String str7, String str8, String str9, String str10, String str11, boolean z, Integer num, Long l, Integer num2, Integer num3, String str12, HashMap hashMap, String str13, String str14, String str15, String str16, TLRPC$TL_wallPaper tLRPC$TL_wallPaper, String str17, String str18, String str19, String str20, int i2, String str21, String str22, String str23, String str24, String str25, Browser.Progress progress, boolean z2, int i3) {
         if (i3 != i) {
             switchToAccount(i3, true);
         }
-        runLinkRequest(i3, str, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11, z, num, l, num2, num3, str12, hashMap, str13, str14, str15, str16, tLRPC$TL_wallPaper, str17, str18, str19, str20, 1, i2, str21, str22, str23, str24, str25, progress);
+        runLinkRequest(i3, str, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11, z, num, l, num2, num3, str12, hashMap, str13, str14, str15, str16, tLRPC$TL_wallPaper, str17, str18, str19, str20, 1, i2, str21, str22, str23, str24, str25, progress, z2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -8690,15 +8691,15 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$runLinkRequest$62(final String str, final String str2, final String str3, String str4, final int i, final String str5, final String str6, final String str7, final String str8, final String str9, final String str10, final String str11, final String str12, final String str13, final String str14, final String str15, final boolean z, final Integer num, final Long l, final Integer num2, final Integer num3, final HashMap hashMap, final String str16, final String str17, final String str18, final String str19, final TLRPC$TL_wallPaper tLRPC$TL_wallPaper, final String str20, final String str21, final int i2, final int i3, final String str22, final String str23, final String str24, final Browser.Progress progress, final Runnable runnable, final String str25, int[] iArr, final Long l2) {
+    public /* synthetic */ void lambda$runLinkRequest$62(final String str, final String str2, final String str3, String str4, final int i, final String str5, final String str6, final String str7, final String str8, final String str9, final String str10, final String str11, final String str12, final String str13, final String str14, final String str15, final boolean z, final Integer num, final Long l, final Integer num2, final Integer num3, final HashMap hashMap, final String str16, final String str17, final String str18, final String str19, final TLRPC$TL_wallPaper tLRPC$TL_wallPaper, final String str20, final String str21, final int i2, final int i3, final String str22, final String str23, final String str24, final Browser.Progress progress, final boolean z2, final Runnable runnable, final String str25, int[] iArr, final Long l2) {
         long longValue;
-        boolean z2;
+        boolean z3;
         BaseFragment baseFragment;
         final TLRPC$User user;
         if (isFinishing()) {
             return;
         }
-        boolean z3 = true;
+        boolean z4 = true;
         if (l2 != null && this.actionBarLayout != null && ((str == null && str2 == null) || ((str != null && l2.longValue() > 0) || ((str2 != null && l2.longValue() > 0) || (str3 != null && l2.longValue() < 0))))) {
             if (!TextUtils.isEmpty(str4) && (user = MessagesController.getInstance(i).getUser(l2)) != null && user.bot) {
                 TLRPC$TL_messages_getBotApp tLRPC$TL_messages_getBotApp = new TLRPC$TL_messages_getBotApp();
@@ -8709,7 +8710,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getBotApp, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda103
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        LaunchActivity.this.lambda$runLinkRequest$47(str5, str6, str7, str8, str9, str10, str11, str12, str13, str14, str15, z, num, l, num2, num3, str, hashMap, str16, str17, str18, str19, tLRPC$TL_wallPaper, str20, str21, str2, str3, i2, i3, str22, str23, str24, progress, runnable, user, str25, tLObject, tLRPC$TL_error);
+                        LaunchActivity.this.lambda$runLinkRequest$47(str5, str6, str7, str8, str9, str10, str11, str12, str13, str14, str15, z, num, l, num2, num3, str, hashMap, str16, str17, str18, str19, tLRPC$TL_wallPaper, str20, str21, str2, str3, i2, i3, str22, str23, str24, progress, z2, runnable, user, str25, tLObject, tLRPC$TL_error);
                     }
                 });
                 return;
@@ -8737,7 +8738,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 if (num != null && ((num3 != null || num2 != null) && l2.longValue() < 0)) {
                     iArr[0] = runCommentRequest(i, runnable, num, num3, num2, MessagesController.getInstance(i).getChat(Long.valueOf(-l2.longValue())));
                     if (iArr[0] != 0) {
-                        z3 = false;
+                        z4 = false;
                     }
                 } else if (str != null) {
                     Bundle bundle = new Bundle();
@@ -8750,9 +8751,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     final TLRPC$User user3 = MessagesController.getInstance(i).getUser(l2);
                     dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda121
                         @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                        public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList3, CharSequence charSequence, boolean z4, TopicsFragment topicsFragment) {
+                        public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList3, CharSequence charSequence, boolean z5, TopicsFragment topicsFragment) {
                             boolean lambda$runLinkRequest$55;
-                            lambda$runLinkRequest$55 = LaunchActivity.this.lambda$runLinkRequest$55(str, i, user3, dialogsActivity2, arrayList3, charSequence, z4, topicsFragment);
+                            lambda$runLinkRequest$55 = LaunchActivity.this.lambda$runLinkRequest$55(str, i, user3, dialogsActivity2, arrayList3, charSequence, z5, topicsFragment);
                             return lambda$runLinkRequest$55;
                         }
                     });
@@ -8802,9 +8803,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     final String str27 = str26;
                     dialogsActivity2.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda120
                         @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
-                        public final boolean didSelectDialogs(DialogsActivity dialogsActivity3, ArrayList arrayList4, CharSequence charSequence, boolean z4, TopicsFragment topicsFragment) {
+                        public final boolean didSelectDialogs(DialogsActivity dialogsActivity3, ArrayList arrayList4, CharSequence charSequence, boolean z5, TopicsFragment topicsFragment) {
                             boolean lambda$runLinkRequest$60;
-                            lambda$runLinkRequest$60 = LaunchActivity.this.lambda$runLinkRequest$60(i, user4, str12, str27, dialogsActivity2, dialogsActivity3, arrayList4, charSequence, z4, topicsFragment);
+                            lambda$runLinkRequest$60 = LaunchActivity.this.lambda$runLinkRequest$60(i, user4, str12, str27, dialogsActivity2, dialogsActivity3, arrayList4, charSequence, z5, topicsFragment);
                             return lambda$runLinkRequest$60;
                         }
                     });
@@ -8820,10 +8821,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         longValue = l2.longValue();
                     }
                     if (str9 == null || user5 == null || !user5.bot) {
-                        z2 = false;
+                        z3 = false;
                     } else {
                         bundle3.putString("botUser", str9);
-                        z2 = true;
+                        z3 = true;
                     }
                     if (this.navigateToPremiumBot) {
                         this.navigateToPremiumBot = false;
@@ -8854,7 +8855,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         baseFragment = arrayList4.get(arrayList4.size() - 1);
                     }
                     if (baseFragment == null || MessagesController.getInstance(i).checkCanOpenChat(bundle3, baseFragment)) {
-                        if (z2 && (baseFragment instanceof ChatActivity)) {
+                        if (z3 && (baseFragment instanceof ChatActivity)) {
                             ChatActivity chatActivity = (ChatActivity) baseFragment;
                             if (chatActivity.getDialogId() == longValue) {
                                 chatActivity.setBotUser(str9);
@@ -8884,7 +8885,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         } else {
                             MessagesController.getInstance(i).ensureMessagesLoaded(longValue, num == null ? 0 : num.intValue(), new 18(runnable, str3, baseFragment, longValue, num, bundle3));
                         }
-                        z3 = false;
+                        z4 = false;
                     }
                 }
             }
@@ -8905,7 +8906,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 FileLog.e(e3);
             }
         }
-        if (z3) {
+        if (z4) {
             try {
                 runnable.run();
             } catch (Exception e4) {
@@ -8915,17 +8916,17 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$runLinkRequest$44(String str, String str2, String str3, String str4, String str5, String str6, String str7, String str8, String str9, String str10, String str11, boolean z, Integer num, Long l, Integer num2, Integer num3, String str12, HashMap hashMap, String str13, String str14, String str15, String str16, TLRPC$TL_wallPaper tLRPC$TL_wallPaper, String str17, String str18, String str19, String str20, int i, int i2, String str21, String str22, String str23, Browser.Progress progress) {
-        runLinkRequest(this.currentAccount, str, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11, z, num, l, num2, num3, str12, hashMap, str13, str14, str15, str16, tLRPC$TL_wallPaper, str17, str18, str19, str20, i, i2, str21, str22, str23, null, null, progress);
+    public /* synthetic */ void lambda$runLinkRequest$44(String str, String str2, String str3, String str4, String str5, String str6, String str7, String str8, String str9, String str10, String str11, boolean z, Integer num, Long l, Integer num2, Integer num3, String str12, HashMap hashMap, String str13, String str14, String str15, String str16, TLRPC$TL_wallPaper tLRPC$TL_wallPaper, String str17, String str18, String str19, String str20, int i, int i2, String str21, String str22, String str23, Browser.Progress progress, boolean z2) {
+        runLinkRequest(this.currentAccount, str, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11, z, num, l, num2, num3, str12, hashMap, str13, str14, str15, str16, tLRPC$TL_wallPaper, str17, str18, str19, str20, i, i2, str21, str22, str23, null, null, progress, z2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$runLinkRequest$47(final String str, final String str2, final String str3, final String str4, final String str5, final String str6, final String str7, final String str8, final String str9, final String str10, final String str11, final boolean z, final Integer num, final Long l, final Integer num2, final Integer num3, final String str12, final HashMap hashMap, final String str13, final String str14, final String str15, final String str16, final TLRPC$TL_wallPaper tLRPC$TL_wallPaper, final String str17, final String str18, final String str19, final String str20, final int i, final int i2, final String str21, final String str22, final String str23, final Browser.Progress progress, final Runnable runnable, final TLRPC$User tLRPC$User, final String str24, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$runLinkRequest$47(final String str, final String str2, final String str3, final String str4, final String str5, final String str6, final String str7, final String str8, final String str9, final String str10, final String str11, final boolean z, final Integer num, final Long l, final Integer num2, final Integer num3, final String str12, final HashMap hashMap, final String str13, final String str14, final String str15, final String str16, final TLRPC$TL_wallPaper tLRPC$TL_wallPaper, final String str17, final String str18, final String str19, final String str20, final int i, final int i2, final String str21, final String str22, final String str23, final Browser.Progress progress, final boolean z2, final Runnable runnable, final TLRPC$User tLRPC$User, final String str24, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error != null) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda57
                 @Override // java.lang.Runnable
                 public final void run() {
-                    LaunchActivity.this.lambda$runLinkRequest$44(str, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11, z, num, l, num2, num3, str12, hashMap, str13, str14, str15, str16, tLRPC$TL_wallPaper, str17, str18, str19, str20, i, i2, str21, str22, str23, progress);
+                    LaunchActivity.this.lambda$runLinkRequest$44(str, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11, z, num, l, num2, num3, str12, hashMap, str13, str14, str15, str16, tLRPC$TL_wallPaper, str17, str18, str19, str20, i, i2, str21, str22, str23, progress, z2);
                 }
             });
             return;
@@ -8934,13 +8935,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda55
             @Override // java.lang.Runnable
             public final void run() {
-                LaunchActivity.this.lambda$runLinkRequest$46(runnable, tLRPC$User, tLRPC$TL_messages_botApp, str24);
+                LaunchActivity.this.lambda$runLinkRequest$46(runnable, tLRPC$User, tLRPC$TL_messages_botApp, str24, z2);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$runLinkRequest$46(Runnable runnable, final TLRPC$User tLRPC$User, final TLRPC$TL_messages_botApp tLRPC$TL_messages_botApp, final String str) {
+    public /* synthetic */ void lambda$runLinkRequest$46(Runnable runnable, final TLRPC$User tLRPC$User, final TLRPC$TL_messages_botApp tLRPC$TL_messages_botApp, final String str, boolean z) {
         runnable.run();
         final AtomicBoolean atomicBoolean = new AtomicBoolean();
         ArrayList<BaseFragment> arrayList = mainFragmentsStack;
@@ -8951,8 +8952,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 LaunchActivity.this.lambda$runLinkRequest$45(baseFragment, tLRPC$User, tLRPC$TL_messages_botApp, atomicBoolean, str);
             }
         };
-        boolean z = tLRPC$TL_messages_botApp.inactive;
-        AlertsCreator.createBotLaunchAlert(baseFragment, tLRPC$TL_messages_botApp, tLRPC$User, atomicBoolean, runnable2);
+        if (tLRPC$TL_messages_botApp.inactive || z) {
+            AlertsCreator.createBotLaunchAlert(baseFragment, tLRPC$TL_messages_botApp, tLRPC$User, atomicBoolean, runnable2);
+        } else {
+            runnable2.run();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

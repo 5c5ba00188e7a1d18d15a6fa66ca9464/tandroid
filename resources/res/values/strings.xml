@@ -967,6 +967,7 @@
     <string name="BotUnblock">RESTART</string>
     <string name="BotUsernameHelp">This link cannot be edited. You can acquire additional usernames on *Fragment*.</string>
     <string name="BotUsernamesHelp">Drag and drop links to change the order in which they will be displayed on the bot info page.</string>
+    <string name="BotWebAppInstantViewOpen">Open App</string>
     <string name="BotWebViewChangesMayNotBeSaved">Changes that you made may not be saved.</string>
     <string name="BotWebViewCloseAnyway">Close anyway</string>
     <string name="BotWebViewDeleteBot">Delete bot</string>
