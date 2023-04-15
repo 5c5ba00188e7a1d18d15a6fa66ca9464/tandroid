@@ -278,6 +278,7 @@ import org.telegram.tgnet.TLRPC$TL_messageActionPinMessage;
 import org.telegram.tgnet.TLRPC$TL_messageActionSecureValuesSent;
 import org.telegram.tgnet.TLRPC$TL_messageActionSetChatTheme;
 import org.telegram.tgnet.TLRPC$TL_messageActionSetMessagesTTL;
+import org.telegram.tgnet.TLRPC$TL_messageActionSetSameChatWallPaper;
 import org.telegram.tgnet.TLRPC$TL_messageActionTopicCreate;
 import org.telegram.tgnet.TLRPC$TL_messageEmpty;
 import org.telegram.tgnet.TLRPC$TL_messageEncryptedAction;
@@ -1441,6 +1442,126 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes3.dex */
+    public class 10 implements RecyclerListView.OnItemClickListenerExtended {
+        10() {
+        }
+
+        @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+        public void onItemClick(View view, int i, float f, float f2) {
+            if (((BaseFragment) ChatActivity.this).inPreviewMode) {
+                return;
+            }
+            ChatActivity.this.wasManualScroll = true;
+            boolean z = view instanceof ChatActionCell;
+            boolean z2 = false;
+            if (z) {
+                ChatActionCell chatActionCell = (ChatActionCell) view;
+                if (chatActionCell.getMessageObject().isDateObject) {
+                    Bundle bundle = new Bundle();
+                    int i2 = chatActionCell.getMessageObject().messageOwner.date;
+                    bundle.putLong("dialog_id", ChatActivity.this.dialog_id);
+                    bundle.putInt("topic_id", ChatActivity.this.getTopicId());
+                    bundle.putInt("type", 0);
+                    ChatActivity.this.presentFragment(new CalendarActivity(bundle, 0, i2));
+                    return;
+                }
+            }
+            if (z) {
+                ChatActionCell chatActionCell2 = (ChatActionCell) view;
+                if (chatActionCell2.getMessageObject() != null && (chatActionCell2.getMessageObject().messageOwner.action instanceof TLRPC$TL_messageActionSetSameChatWallPaper)) {
+                    final int replyMsgId = chatActionCell2.getMessageObject().getReplyMsgId();
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$10$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            ChatActivity.10.this.lambda$onItemClick$0(replyMsgId);
+                        }
+                    }, 16L);
+                    return;
+                }
+            }
+            if (!((BaseFragment) ChatActivity.this).actionBar.isActionModeShowed() && ChatActivity.this.reportType < 0) {
+                ChatActivity.this.createMenu(view, true, false, f, f2);
+                return;
+            }
+            if (view instanceof ChatMessageCell) {
+                ChatMessageCell chatMessageCell = (ChatMessageCell) view;
+                if (ChatActivity.this.textSelectionHelper.isSelected(chatMessageCell.getMessageObject())) {
+                    return;
+                }
+                z2 = !chatMessageCell.isInsideBackground(f, f2);
+            }
+            ChatActivity.this.processRowSelect(view, z2, f, f2);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onItemClick$0(int i) {
+            ChatActivity.this.scrollToMessageId(i, 0, true, 0, true, 0);
+        }
+
+        @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+        public boolean hasDoubleTap(View view, int i) {
+            TLRPC$ChatFull tLRPC$ChatFull;
+            String doubleTapReaction = ChatActivity.this.getMediaDataController().getDoubleTapReaction();
+            TLRPC$TL_availableReaction tLRPC$TL_availableReaction = ChatActivity.this.getMediaDataController().getReactionsMap().get(doubleTapReaction);
+            if (tLRPC$TL_availableReaction != null || (doubleTapReaction != null && doubleTapReaction.startsWith("animated_"))) {
+                boolean z = ChatActivity.this.dialog_id >= 0;
+                if (!z && (tLRPC$ChatFull = ChatActivity.this.chatInfo) != null) {
+                    if (tLRPC$TL_availableReaction != null) {
+                        doubleTapReaction = tLRPC$TL_availableReaction.reaction;
+                    }
+                    z = ChatObject.reactionIsAvailable(tLRPC$ChatFull, doubleTapReaction);
+                }
+                if (z && (view instanceof ChatMessageCell)) {
+                    ChatMessageCell chatMessageCell = (ChatMessageCell) view;
+                    return (chatMessageCell.getMessageObject().isSending() || chatMessageCell.getMessageObject().isEditing() || chatMessageCell.getMessageObject().type == 16 || ((BaseFragment) ChatActivity.this).actionBar.isActionModeShowed() || ChatActivity.this.isSecretChat() || ChatActivity.this.isInScheduleMode() || chatMessageCell.getMessageObject().isSponsored()) ? false : true;
+                }
+                return false;
+            }
+            return false;
+        }
+
+        @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+        public void onDoubleTap(View view, int i, float f, float f2) {
+            boolean z;
+            TLRPC$ChatFull tLRPC$ChatFull;
+            TLRPC$ChatFull tLRPC$ChatFull2;
+            if (!(view instanceof ChatMessageCell) || ChatActivity.this.getParentActivity() == null || ChatActivity.this.isSecretChat() || ChatActivity.this.isInScheduleMode() || ChatActivity.this.isInPreviewMode()) {
+                return;
+            }
+            ChatMessageCell chatMessageCell = (ChatMessageCell) view;
+            MessageObject primaryMessageObject = chatMessageCell.getPrimaryMessageObject();
+            if (primaryMessageObject.isSecretMedia()) {
+                return;
+            }
+            ReactionsEffectOverlay.removeCurrent(false);
+            String doubleTapReaction = ChatActivity.this.getMediaDataController().getDoubleTapReaction();
+            if (doubleTapReaction.startsWith("animated_")) {
+                z = ChatActivity.this.dialog_id >= 0;
+                if (!z && (tLRPC$ChatFull2 = ChatActivity.this.chatInfo) != null) {
+                    z = ChatObject.reactionIsAvailable(tLRPC$ChatFull2, doubleTapReaction);
+                }
+                if (z) {
+                    ChatActivity.this.selectReaction(primaryMessageObject, null, null, f, f2, ReactionsLayoutInBubble.VisibleReaction.fromEmojicon(doubleTapReaction), true, false, false);
+                    return;
+                }
+                return;
+            }
+            TLRPC$TL_availableReaction tLRPC$TL_availableReaction = ChatActivity.this.getMediaDataController().getReactionsMap().get(doubleTapReaction);
+            if (tLRPC$TL_availableReaction == null || chatMessageCell.getMessageObject().isSponsored()) {
+                return;
+            }
+            z = ChatActivity.this.dialog_id >= 0;
+            if (!z && (tLRPC$ChatFull = ChatActivity.this.chatInfo) != null) {
+                z = ChatObject.reactionIsAvailable(tLRPC$ChatFull, tLRPC$TL_availableReaction.reaction);
+            }
+            if (z) {
+                ChatActivity.this.selectReaction(primaryMessageObject, null, null, f, f2, ReactionsLayoutInBubble.VisibleReaction.fromEmojicon(tLRPC$TL_availableReaction), true, false, false);
+            }
+        }
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ChatActivityEnterViewDelegate implements ChatActivityEnterView.ChatActivityEnterViewDelegate {
@@ -2256,7 +2377,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 RecyclerListView.OnItemLongClickListenerExtended.-CC.$default$onMove(this, f, f2);
             }
 
+            /* JADX WARN: Removed duplicated region for block: B:28:0x007a  */
+            /* JADX WARN: Removed duplicated region for block: B:32:0x008d  */
+            /* JADX WARN: Removed duplicated region for block: B:33:0x0093  */
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListenerExtended
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+            */
             public boolean onItemClick(View view, int i, float f, float f2) {
                 boolean z;
                 boolean z2;
@@ -2264,114 +2391,33 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     return false;
                 }
                 ChatActivity.this.wasManualScroll = true;
-                if (((BaseFragment) ChatActivity.this).actionBar.isActionModeShowed() || (ChatActivity.this.reportType >= 0 && ((!((z2 = view instanceof ChatActionCell)) || !(((ChatActionCell) view).getMessageObject().messageOwner.action instanceof TLRPC$TL_messageActionSetMessagesTTL)) && (!z2 || ((ChatActionCell) view).getMessageObject().type != 21)))) {
-                    ChatActivity.this.processRowSelect(view, view instanceof ChatMessageCell ? !((ChatMessageCell) view).isInsideBackground(f, f2) : false, f, f2);
-                    z = true;
-                } else {
-                    z = ChatActivity.this.createMenu(view, false, true, f, f2);
-                }
-                if (view instanceof ChatMessageCell) {
-                    ChatActivity.this.startMultiselect(i);
-                    return true;
-                }
-                return z;
-            }
-        };
-        this.onItemClickListener = new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.ChatActivity.10
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public void onItemClick(View view, int i, float f, float f2) {
-                if (((BaseFragment) ChatActivity.this).inPreviewMode) {
-                    return;
-                }
-                ChatActivity.this.wasManualScroll = true;
-                boolean z = false;
                 if (view instanceof ChatActionCell) {
                     ChatActionCell chatActionCell = (ChatActionCell) view;
-                    if (chatActionCell.getMessageObject().isDateObject) {
-                        Bundle bundle2 = new Bundle();
-                        int i2 = chatActionCell.getMessageObject().messageOwner.date;
-                        bundle2.putLong("dialog_id", ChatActivity.this.dialog_id);
-                        bundle2.putInt("topic_id", ChatActivity.this.getTopicId());
-                        bundle2.putInt("type", 0);
-                        ChatActivity.this.presentFragment(new CalendarActivity(bundle2, 0, i2));
-                        return;
-                    }
-                }
-                if (!((BaseFragment) ChatActivity.this).actionBar.isActionModeShowed() && ChatActivity.this.reportType < 0) {
-                    ChatActivity.this.createMenu(view, true, false, f, f2);
-                    return;
-                }
-                if (view instanceof ChatMessageCell) {
-                    ChatMessageCell chatMessageCell = (ChatMessageCell) view;
-                    if (ChatActivity.this.textSelectionHelper.isSelected(chatMessageCell.getMessageObject())) {
-                        return;
-                    }
-                    z = !chatMessageCell.isInsideBackground(f, f2);
-                }
-                ChatActivity.this.processRowSelect(view, z, f, f2);
-            }
-
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public boolean hasDoubleTap(View view, int i) {
-                TLRPC$ChatFull tLRPC$ChatFull;
-                String doubleTapReaction = ChatActivity.this.getMediaDataController().getDoubleTapReaction();
-                TLRPC$TL_availableReaction tLRPC$TL_availableReaction = ChatActivity.this.getMediaDataController().getReactionsMap().get(doubleTapReaction);
-                if (tLRPC$TL_availableReaction != null || (doubleTapReaction != null && doubleTapReaction.startsWith("animated_"))) {
-                    boolean z = ChatActivity.this.dialog_id >= 0;
-                    if (!z && (tLRPC$ChatFull = ChatActivity.this.chatInfo) != null) {
-                        if (tLRPC$TL_availableReaction != null) {
-                            doubleTapReaction = tLRPC$TL_availableReaction.reaction;
+                    if (!(chatActionCell.getMessageObject().messageOwner.action instanceof TLRPC$TL_messageActionSetMessagesTTL) && chatActionCell.getMessageObject().type != 21 && !chatActionCell.getMessageObject().isWallpaperAction()) {
+                        z = false;
+                        if (!((BaseFragment) ChatActivity.this).actionBar.isActionModeShowed() || (ChatActivity.this.reportType >= 0 && !z)) {
+                            ChatActivity.this.processRowSelect(view, view instanceof ChatMessageCell ? !((ChatMessageCell) view).isInsideBackground(f, f2) : false, f, f2);
+                            z2 = true;
+                        } else {
+                            z2 = ChatActivity.this.createMenu(view, false, true, f, f2);
                         }
-                        z = ChatObject.reactionIsAvailable(tLRPC$ChatFull, doubleTapReaction);
+                        if (view instanceof ChatMessageCell) {
+                            return z2;
+                        }
+                        ChatActivity.this.startMultiselect(i);
+                        return true;
                     }
-                    if (z && (view instanceof ChatMessageCell)) {
-                        ChatMessageCell chatMessageCell = (ChatMessageCell) view;
-                        return (chatMessageCell.getMessageObject().isSending() || chatMessageCell.getMessageObject().isEditing() || chatMessageCell.getMessageObject().type == 16 || ((BaseFragment) ChatActivity.this).actionBar.isActionModeShowed() || ChatActivity.this.isSecretChat() || ChatActivity.this.isInScheduleMode() || chatMessageCell.getMessageObject().isSponsored()) ? false : true;
-                    }
-                    return false;
                 }
-                return false;
-            }
-
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public void onDoubleTap(View view, int i, float f, float f2) {
-                boolean z;
-                TLRPC$ChatFull tLRPC$ChatFull;
-                TLRPC$ChatFull tLRPC$ChatFull2;
-                if (!(view instanceof ChatMessageCell) || ChatActivity.this.getParentActivity() == null || ChatActivity.this.isSecretChat() || ChatActivity.this.isInScheduleMode() || ChatActivity.this.isInPreviewMode()) {
-                    return;
+                z = true;
+                if (!((BaseFragment) ChatActivity.this).actionBar.isActionModeShowed()) {
                 }
-                ChatMessageCell chatMessageCell = (ChatMessageCell) view;
-                MessageObject primaryMessageObject = chatMessageCell.getPrimaryMessageObject();
-                if (primaryMessageObject.isSecretMedia()) {
-                    return;
-                }
-                ReactionsEffectOverlay.removeCurrent(false);
-                String doubleTapReaction = ChatActivity.this.getMediaDataController().getDoubleTapReaction();
-                if (doubleTapReaction.startsWith("animated_")) {
-                    z = ChatActivity.this.dialog_id >= 0;
-                    if (!z && (tLRPC$ChatFull2 = ChatActivity.this.chatInfo) != null) {
-                        z = ChatObject.reactionIsAvailable(tLRPC$ChatFull2, doubleTapReaction);
-                    }
-                    if (z) {
-                        ChatActivity.this.selectReaction(primaryMessageObject, null, null, f, f2, ReactionsLayoutInBubble.VisibleReaction.fromEmojicon(doubleTapReaction), true, false, false);
-                        return;
-                    }
-                    return;
-                }
-                TLRPC$TL_availableReaction tLRPC$TL_availableReaction = ChatActivity.this.getMediaDataController().getReactionsMap().get(doubleTapReaction);
-                if (tLRPC$TL_availableReaction == null || chatMessageCell.getMessageObject().isSponsored()) {
-                    return;
-                }
-                z = ChatActivity.this.dialog_id >= 0;
-                if (!z && (tLRPC$ChatFull = ChatActivity.this.chatInfo) != null) {
-                    z = ChatObject.reactionIsAvailable(tLRPC$ChatFull, tLRPC$TL_availableReaction.reaction);
-                }
-                if (z) {
-                    ChatActivity.this.selectReaction(primaryMessageObject, null, null, f, f2, ReactionsLayoutInBubble.VisibleReaction.fromEmojicon(tLRPC$TL_availableReaction), true, false, false);
+                ChatActivity.this.processRowSelect(view, view instanceof ChatMessageCell ? !((ChatMessageCell) view).isInsideBackground(f, f2) : false, f, f2);
+                z2 = true;
+                if (view instanceof ChatMessageCell) {
                 }
             }
         };
+        this.onItemClickListener = new 10();
         this.chatScrollHelperCallback = new ChatScrollCallback();
         this.showScheduledOrNoSoundRunnable = new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda172
             @Override // java.lang.Runnable
@@ -18641,7 +18687,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (i == 6) {
                     return -1;
                 }
-                if (i == 10 || i == 11 || i == 21) {
+                if (i == 10 || i == 11 || i == 21 || messageObject.isWallpaperAction()) {
                     return messageObject.getId() == 0 ? -1 : 1;
                 } else if (messageObject.isVoice()) {
                     return 2;
@@ -19145,9 +19191,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (messageType < 2 || messageType == 20 || messageType == 21) {
             return;
         }
-        addToSelectedMessages(messageObject, z);
-        updateActionModeTitle();
-        updateVisibleRows();
+        if (messageObject == null || !messageObject.isWallpaperAction()) {
+            addToSelectedMessages(messageObject, z);
+            updateActionModeTitle();
+            updateVisibleRows();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

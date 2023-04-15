@@ -1266,7 +1266,9 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                     ChatAttachAlert.this.currentAttachLayout.onHideShowProgress(1.0f - Math.min(1.0f, f / 0.7f));
                     ChatAttachAlert.this.currentAttachLayout.onContainerTranslationUpdated(ChatAttachAlert.this.currentPanTranslationY);
                 }
-                ChatAttachAlert.this.updateSelectedPosition(1);
+                if (ChatAttachAlert.this.viewChangeAnimator != null) {
+                    ChatAttachAlert.this.updateSelectedPosition(1);
+                }
                 ((BottomSheet) ChatAttachAlert.this).containerView.invalidate();
             }
 
@@ -3596,19 +3598,35 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             springAnimation.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.ChatAttachAlert$17$$ExternalSyntheticLambda0
                 @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
                 public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
-                    runnable.run();
+                    ChatAttachAlert.17.this.lambda$onAnimationEnd$1(runnable, dynamicAnimation, z, f, f2);
                 }
             });
             ChatAttachAlert.this.viewChangeAnimator = springAnimation;
             springAnimation.start();
         }
 
+        /* JADX WARN: Code restructure failed: missing block: B:18:0x0018, code lost:
+            if (r1.viewChangeAnimator != null) goto L10;
+         */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
         public /* synthetic */ void lambda$onAnimationEnd$0(DynamicAnimation dynamicAnimation, float f, float f2) {
-            if (ChatAttachAlert.this.nextAttachLayout == ChatAttachAlert.this.pollLayout || ChatAttachAlert.this.isPhotoPicker) {
-                ChatAttachAlert.this.updateSelectedPosition(1);
+            if (ChatAttachAlert.this.nextAttachLayout != ChatAttachAlert.this.pollLayout) {
+                ChatAttachAlert chatAttachAlert = ChatAttachAlert.this;
+                if (chatAttachAlert.isPhotoPicker) {
+                }
+                ChatAttachAlert.this.nextAttachLayout.onContainerTranslationUpdated(ChatAttachAlert.this.currentPanTranslationY);
+                ((BottomSheet) ChatAttachAlert.this).containerView.invalidate();
             }
+            ChatAttachAlert.this.updateSelectedPosition(1);
             ChatAttachAlert.this.nextAttachLayout.onContainerTranslationUpdated(ChatAttachAlert.this.currentPanTranslationY);
             ((BottomSheet) ChatAttachAlert.this).containerView.invalidate();
+        }
+
+        public /* synthetic */ void lambda$onAnimationEnd$1(Runnable runnable, DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
+            runnable.run();
+            ChatAttachAlert.this.updateSelectedPosition(0);
         }
     }
 
@@ -4398,6 +4416,9 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         ChatAttachAlertPollLayout chatAttachAlertPollLayout;
         int i3;
         AttachAlertLayout attachAlertLayout = i == 0 ? this.currentAttachLayout : this.nextAttachLayout;
+        if (attachAlertLayout == null || attachAlertLayout.getVisibility() != 0) {
+            return;
+        }
         int scrollOffsetY = getScrollOffsetY(i);
         int i4 = scrollOffsetY - this.backgroundPaddingTop;
         if (attachAlertLayout == this.pollLayout) {

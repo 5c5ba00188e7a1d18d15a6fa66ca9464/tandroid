@@ -552,7 +552,7 @@ public class Theme {
         private Path path;
         PathDrawParams pathDrawCacheParams;
         private RectF rect;
-        private final ResourcesProvider resourcesProvider;
+        private ResourcesProvider resourcesProvider;
         private Paint selectedPaint;
         private Drawable[] shadowDrawable;
         private Bitmap[] shadowDrawableBitmap;
@@ -1377,6 +1377,10 @@ public class Theme {
 
         public void setRoundingRadius(float f) {
             this.overrideRounding = f;
+        }
+
+        public void setResourceProvider(ResourcesProvider resourcesProvider) {
+            this.resourcesProvider = resourcesProvider;
         }
 
         /* loaded from: classes3.dex */

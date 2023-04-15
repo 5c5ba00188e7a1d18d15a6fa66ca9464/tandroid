@@ -11433,10 +11433,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (((org.telegram.ui.ProfileActivity) r1.get(r1.size() - 1)).isSettings() == false) goto L139;
      */
     /* JADX WARN: Removed duplicated region for block: B:119:0x030d  */
-    /* JADX WARN: Removed duplicated region for block: B:233:0x067c  */
-    /* JADX WARN: Removed duplicated region for block: B:234:0x0684  */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x068a A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:238:0x068b  */
+    /* JADX WARN: Removed duplicated region for block: B:233:0x067f  */
+    /* JADX WARN: Removed duplicated region for block: B:234:0x0687  */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x068d A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x068e  */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -11730,11 +11730,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         this.rippleAbove.getBackground().setAlpha(255);
                     }
                     this.frameLayout.removeView(this.themeSwitchImageView);
+                    ImageView imageView = new ImageView(this);
+                    this.themeSwitchImageView = imageView;
                     if (booleanValue4) {
-                        this.frameLayout.addView(this.themeSwitchImageView, 0, LayoutHelper.createFrame(-1, -1.0f));
+                        this.frameLayout.addView(imageView, 0, LayoutHelper.createFrame(-1, -1.0f));
                         this.themeSwitchSunView.setVisibility(8);
                     } else {
-                        this.frameLayout.addView(this.themeSwitchImageView, 1, LayoutHelper.createFrame(-1, -1.0f));
+                        this.frameLayout.addView(imageView, 1, LayoutHelper.createFrame(-1, -1.0f));
                         this.themeSwitchSunView.setTranslationX(iArr[0] - AndroidUtilities.dp(14.0f));
                         this.themeSwitchSunView.setTranslationY(iArr[1] - AndroidUtilities.dp(14.0f));
                         this.themeSwitchSunView.setVisibility(0);
