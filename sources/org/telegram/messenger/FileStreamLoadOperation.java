@@ -72,14 +72,12 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
         } else if (this.document.mime_type.startsWith(MediaStreamTrack.AUDIO_TRACK_KIND)) {
             this.document.attributes.add(new TLRPC$TL_documentAttributeAudio());
         }
-        if (this.loadOperation == null) {
-            FileLoader fileLoader = FileLoader.getInstance(this.currentAccount);
-            TLRPC$Document tLRPC$Document = this.document;
-            Object obj = this.parentObject;
-            long j = dataSpec.position;
-            this.currentOffset = j;
-            this.loadOperation = fileLoader.loadStreamFile(this, tLRPC$Document, null, obj, j, false, 3);
-        }
+        FileLoader fileLoader = FileLoader.getInstance(this.currentAccount);
+        TLRPC$Document tLRPC$Document = this.document;
+        Object obj = this.parentObject;
+        long j = dataSpec.position;
+        this.currentOffset = j;
+        this.loadOperation = fileLoader.loadStreamFile(this, tLRPC$Document, null, obj, j, false, 3);
         long j2 = dataSpec.length;
         if (j2 == -1) {
             j2 = this.document.size - dataSpec.position;

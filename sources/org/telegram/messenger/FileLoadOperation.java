@@ -2013,7 +2013,7 @@ public class FileLoadOperation {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Removed duplicated region for block: B:26:0x006c  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x0164  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x017c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2090,6 +2090,16 @@ public class FileLoadOperation {
                         z2 = file4.renameTo(this.cacheFileFinal);
                     } catch (Exception e2) {
                         FileLog.e(e2);
+                    }
+                }
+                if (!z2 && this.renameRetryCount == 3) {
+                    try {
+                        z2 = AndroidUtilities.copyFile(file4, this.cacheFileFinal);
+                        if (z2) {
+                            this.cacheFileFinal.delete();
+                        }
+                    } catch (Throwable th3) {
+                        FileLog.e(th3);
                     }
                 }
                 if (!z2) {

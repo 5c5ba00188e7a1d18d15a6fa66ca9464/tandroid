@@ -20769,7 +20769,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     private void rotateMotionBackgroundDrawable() {
         MotionBackgroundDrawable motionBackgroundDrawable;
-        Drawable wallpaperDrawable = this.themeDelegate.getWallpaperDrawable();
+        ThemeDelegate themeDelegate = this.themeDelegate;
+        if (themeDelegate == null) {
+            return;
+        }
+        Drawable wallpaperDrawable = themeDelegate.getWallpaperDrawable();
         View view = this.fragmentView;
         if (view != null) {
             wallpaperDrawable = ((SizeNotifierFrameLayout) view).getBackgroundImage();

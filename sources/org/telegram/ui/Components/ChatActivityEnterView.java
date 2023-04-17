@@ -182,8 +182,11 @@ import org.telegram.tgnet.TLRPC$TL_peerUser;
 import org.telegram.tgnet.TLRPC$TL_replyKeyboardMarkup;
 import org.telegram.tgnet.TLRPC$TL_stickerSetFullCovered;
 import org.telegram.tgnet.TLRPC$TL_stickerSetNoCovered;
+import org.telegram.tgnet.TLRPC$TL_userStatusEmpty;
+import org.telegram.tgnet.TLRPC$TL_userStatusOnline;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserFull;
+import org.telegram.tgnet.TLRPC$UserStatus;
 import org.telegram.tgnet.TLRPC$WebPage;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
@@ -403,6 +406,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     private android.graphics.Rect sendRect;
     private boolean sendRoundEnabled;
     private boolean sendVoiceEnabled;
+    private ActionBarMenuSubItem sendWhenOnlineButton;
     private SenderSelectPopup senderSelectPopupWindow;
     private SenderSelectView senderSelectView;
     private Runnable setTextFieldRunnable;
@@ -3964,7 +3968,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         canvas.drawRect(0.0f, i, getWidth(), getHeight(), getThemedPaint("paintChatComposeBackground"));
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(11:5|(1:59)(1:9)|10|(8:12|(1:40)(1:16)|(1:39)(1:22)|23|(4:25|(1:27)(1:33)|28|(1:32))|(1:35)|36|(1:38))|41|(4:43|(1:57)(1:47)|48|(5:50|51|52|53|54))|58|51|52|53|54) */
+    /* JADX WARN: Can't wrap try/catch for region: R(13:5|(1:69)(1:9)|10|(8:12|(1:40)(1:16)|(1:39)(1:22)|23|(4:25|(1:27)(1:33)|28|(1:32))|(1:35)|36|(1:38))|41|(3:43|(2:45|(1:49))|50)|51|(4:53|(1:67)(1:57)|58|(5:60|61|62|63|64))|68|61|62|63|64) */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4026,15 +4030,16 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 this.sendPopupLayout.addView((View) actionBarMenuSubItem, LayoutHelper.createLinear(-1, 48));
                 if (!z && this.dialog_id > 0) {
                     ActionBarMenuSubItem actionBarMenuSubItem2 = new ActionBarMenuSubItem(getContext(), true, !z3, this.resourcesProvider);
+                    this.sendWhenOnlineButton = actionBarMenuSubItem2;
                     actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString("SendWhenOnline", R.string.SendWhenOnline), R.drawable.msg_online);
-                    actionBarMenuSubItem2.setMinimumWidth(AndroidUtilities.dp(196.0f));
-                    actionBarMenuSubItem2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda9
+                    this.sendWhenOnlineButton.setMinimumWidth(AndroidUtilities.dp(196.0f));
+                    this.sendWhenOnlineButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda9
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view2) {
                             ChatActivityEnterView.this.lambda$onSendLongClick$27(view2);
                         }
                     });
-                    this.sendPopupLayout.addView((View) actionBarMenuSubItem2, LayoutHelper.createLinear(-1, 48));
+                    this.sendPopupLayout.addView((View) this.sendWhenOnlineButton, LayoutHelper.createLinear(-1, 48));
                 }
             }
             if (z3) {
@@ -4074,6 +4079,16 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             if (chatActivityEnterViewDelegate != null) {
                 chatActivityEnterViewDelegate.onSendLongClick();
             }
+        }
+        if (this.sendWhenOnlineButton != null) {
+            TLRPC$User currentUser = this.parentFragment.getCurrentUser();
+            if (currentUser != null) {
+                TLRPC$UserStatus tLRPC$UserStatus = currentUser.status;
+                if (!(tLRPC$UserStatus instanceof TLRPC$TL_userStatusEmpty) && !(tLRPC$UserStatus instanceof TLRPC$TL_userStatusOnline)) {
+                    this.sendWhenOnlineButton.setVisibility(0);
+                }
+            }
+            this.sendWhenOnlineButton.setVisibility(8);
         }
         this.sendPopupLayout.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE));
         this.sendPopupWindow.setFocusable(true);

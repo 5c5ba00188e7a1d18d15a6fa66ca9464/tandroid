@@ -3970,9 +3970,6 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         this.backgroundImage.invalidate();
         this.patternsListView.invalidateViews();
         if (this.currentIntensity >= 0.0f) {
-            if (Build.VERSION.SDK_INT >= 29 && (this.backgroundImage.getBackground() instanceof MotionBackgroundDrawable)) {
-                this.backgroundImage.getImageReceiver().setBlendMode(BlendMode.SOFT_LIGHT);
-            }
             this.backgroundImage.getImageReceiver().setGradientBitmap(null);
             return;
         }
@@ -4279,6 +4276,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         if (tLRPC$TL_wallPaper == null) {
             return;
         }
+        ValueAnimator valueAnimator = this.valueAnimator;
+        if (valueAnimator != null) {
+            valueAnimator.removeAllListeners();
+            this.valueAnimator.cancel();
+        }
         BackgroundView[] backgroundViewArr = this.backgroundImages;
         BackgroundView backgroundView = backgroundViewArr[0];
         backgroundViewArr[0] = backgroundViewArr[1];
@@ -4293,11 +4295,6 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         this.backgroundImages[1].setVisibility(0);
         this.backgroundImages[1].setAlpha(1.0f);
         this.backgroundImage.setVisibility(0);
-        ValueAnimator valueAnimator = this.valueAnimator;
-        if (valueAnimator != null) {
-            valueAnimator.removeAllListeners();
-            this.valueAnimator.cancel();
-        }
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.valueAnimator = ofFloat;
         ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ThemePreviewActivity.30
@@ -4312,14 +4309,14 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 super.onAnimationEnd(animator);
                 ThemePreviewActivity.this.backgroundImage.invalidate();
                 ThemePreviewActivity.this.backgroundImages[1].setVisibility(8);
+                ThemePreviewActivity.this.valueAnimator = null;
             }
         });
         this.valueAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
         this.valueAnimator.setDuration(300L);
         this.valueAnimator.start();
         this.backgroundImage.getImageReceiver().setCrossfadeDuration(300);
-        this.backgroundImage.getImageReceiver().setForceCrossfade(true);
-        this.backgroundImage.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_wallPaper.document), this.imageFilter, null, null, ChatBackgroundDrawable.createThumb(tLRPC$TL_wallPaper), tLRPC$TL_wallPaper.document.size, "jpg", tLRPC$TL_wallPaper, 1);
+        this.backgroundImage.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_wallPaper.document), this.imageFilter, null, null, null, tLRPC$TL_wallPaper.document.size, "jpg", tLRPC$TL_wallPaper, 1);
         this.backgroundImage.onNewImageSet();
         this.selectedPattern = tLRPC$TL_wallPaper;
         this.isMotion = this.backgroundCheckBoxView[2].isChecked();

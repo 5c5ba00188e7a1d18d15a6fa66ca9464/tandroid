@@ -91,7 +91,9 @@ import org.telegram.tgnet.TLRPC$TL_messageActionPaymentSent;
 import org.telegram.tgnet.TLRPC$TL_messageActionPhoneCall;
 import org.telegram.tgnet.TLRPC$TL_messageActionPinMessage;
 import org.telegram.tgnet.TLRPC$TL_messageActionSetChatTheme;
+import org.telegram.tgnet.TLRPC$TL_messageActionSetChatWallPaper;
 import org.telegram.tgnet.TLRPC$TL_messageActionSetMessagesTTL;
+import org.telegram.tgnet.TLRPC$TL_messageActionSetSameChatWallPaper;
 import org.telegram.tgnet.TLRPC$TL_messageActionUserJoined;
 import org.telegram.tgnet.TLRPC$TL_messageActionUserUpdatedPhoto;
 import org.telegram.tgnet.TLRPC$TL_messageEntitySpoiler;
@@ -1838,7 +1840,7 @@ public class NotificationsController extends BaseController {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:154:0x024f, code lost:
-        if (r12.getBoolean("EnablePreviewAll", true) == false) goto L773;
+        if (r12.getBoolean("EnablePreviewAll", true) == false) goto L781;
      */
     /* JADX WARN: Code restructure failed: missing block: B:161:0x025d, code lost:
         if (r12.getBoolean("EnablePreviewGroup", r15) != false) goto L135;
@@ -1850,1141 +1852,1153 @@ public class NotificationsController extends BaseController {
         r1 = r26.messageOwner;
      */
     /* JADX WARN: Code restructure failed: missing block: B:166:0x0279, code lost:
-        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageService) == false) goto L663;
+        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageService) == false) goto L671;
      */
     /* JADX WARN: Code restructure failed: missing block: B:167:0x027b, code lost:
         r27[0] = null;
         r2 = r1.action;
      */
     /* JADX WARN: Code restructure failed: missing block: B:168:0x0283, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGeoProximityReached) == false) goto L141;
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionSetSameChatWallPaper) == false) goto L141;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:170:0x028b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:170:0x028d, code lost:
+        return org.telegram.messenger.LocaleController.getString("WallpaperSameNotification", org.telegram.messenger.R.string.WallpaperSameNotification);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:172:0x0290, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionSetChatWallPaper) == false) goto L145;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:174:0x029a, code lost:
+        return org.telegram.messenger.LocaleController.getString("WallpaperNotification", org.telegram.messenger.R.string.WallpaperNotification);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:176:0x029d, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGeoProximityReached) == false) goto L149;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:178:0x02a5, code lost:
         return r26.messageText.toString();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:172:0x028e, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionUserJoined) != false) goto L661;
+    /* JADX WARN: Code restructure failed: missing block: B:180:0x02a8, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionUserJoined) != false) goto L669;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:174:0x0292, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionContactSignUp) == false) goto L145;
+    /* JADX WARN: Code restructure failed: missing block: B:182:0x02ac, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionContactSignUp) == false) goto L153;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:177:0x0298, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionUserUpdatedPhoto) == false) goto L149;
+    /* JADX WARN: Code restructure failed: missing block: B:185:0x02b2, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionUserUpdatedPhoto) == false) goto L157;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:179:0x02a8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:187:0x02c2, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationContactNewPhoto", org.telegram.messenger.R.string.NotificationContactNewPhoto, r7);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:181:0x02ac, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionLoginUnknownLocation) == false) goto L153;
+    /* JADX WARN: Code restructure failed: missing block: B:189:0x02c6, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionLoginUnknownLocation) == false) goto L161;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:182:0x02ae, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:190:0x02c8, code lost:
         r1 = org.telegram.messenger.LocaleController.formatString("formatDateAtTime", org.telegram.messenger.R.string.formatDateAtTime, org.telegram.messenger.LocaleController.getInstance().formatterYear.format(r26.messageOwner.date * 1000), org.telegram.messenger.LocaleController.getInstance().formatterDay.format(r26.messageOwner.date * 1000));
         r2 = org.telegram.messenger.R.string.NotificationUnrecognizedDevice;
         r0 = r26.messageOwner.action;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:183:0x030a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:191:0x0324, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationUnrecognizedDevice", r2, getUserConfig().getCurrentUser().first_name, r1, r0.title, r0.address);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:185:0x030d, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGameScore) != false) goto L659;
+    /* JADX WARN: Code restructure failed: missing block: B:193:0x0327, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGameScore) != false) goto L667;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:187:0x0311, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionPaymentSent) == false) goto L157;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:190:0x0317, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionPhoneCall) == false) goto L165;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:192:0x031b, code lost:
-        if (r2.video == false) goto L163;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:194:0x0325, code lost:
-        return org.telegram.messenger.LocaleController.getString("CallMessageVideoIncomingMissed", org.telegram.messenger.R.string.CallMessageVideoIncomingMissed);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:196:0x032e, code lost:
-        return org.telegram.messenger.LocaleController.getString("CallMessageIncomingMissed", org.telegram.messenger.R.string.CallMessageIncomingMissed);
+    /* JADX WARN: Code restructure failed: missing block: B:195:0x032b, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionPaymentSent) == false) goto L165;
      */
     /* JADX WARN: Code restructure failed: missing block: B:198:0x0331, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatAddUser) == false) goto L212;
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionPhoneCall) == false) goto L173;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:199:0x0333, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:200:0x0335, code lost:
+        if (r2.video == false) goto L171;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:202:0x033f, code lost:
+        return org.telegram.messenger.LocaleController.getString("CallMessageVideoIncomingMissed", org.telegram.messenger.R.string.CallMessageVideoIncomingMissed);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:204:0x0348, code lost:
+        return org.telegram.messenger.LocaleController.getString("CallMessageIncomingMissed", org.telegram.messenger.R.string.CallMessageIncomingMissed);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:206:0x034b, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatAddUser) == false) goto L220;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:207:0x034d, code lost:
         r3 = r2.user_id;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:200:0x0339, code lost:
-        if (r3 != 0) goto L172;
+    /* JADX WARN: Code restructure failed: missing block: B:208:0x0353, code lost:
+        if (r3 != 0) goto L180;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:202:0x0342, code lost:
-        if (r2.users.size() != 1) goto L172;
+    /* JADX WARN: Code restructure failed: missing block: B:210:0x035c, code lost:
+        if (r2.users.size() != 1) goto L180;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:203:0x0344, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:211:0x035e, code lost:
         r3 = r26.messageOwner.action.users.get(0).longValue();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:205:0x0359, code lost:
-        if (r3 == 0) goto L197;
+    /* JADX WARN: Code restructure failed: missing block: B:213:0x0373, code lost:
+        if (r3 == 0) goto L205;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:207:0x0363, code lost:
-        if (r26.messageOwner.peer_id.channel_id == 0) goto L180;
+    /* JADX WARN: Code restructure failed: missing block: B:215:0x037d, code lost:
+        if (r26.messageOwner.peer_id.channel_id == 0) goto L188;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:209:0x0367, code lost:
-        if (r8.megagroup != false) goto L180;
+    /* JADX WARN: Code restructure failed: missing block: B:217:0x0381, code lost:
+        if (r8.megagroup != false) goto L188;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:211:0x037c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:219:0x0396, code lost:
         return org.telegram.messenger.LocaleController.formatString("ChannelAddedByNotification", org.telegram.messenger.R.string.ChannelAddedByNotification, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:213:0x037f, code lost:
-        if (r3 != r19) goto L184;
+    /* JADX WARN: Code restructure failed: missing block: B:221:0x0399, code lost:
+        if (r3 != r19) goto L192;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:215:0x0394, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:223:0x03ae, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationInvitedToGroup", org.telegram.messenger.R.string.NotificationInvitedToGroup, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:216:0x0395, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:224:0x03af, code lost:
         r0 = getMessagesController().getUser(java.lang.Long.valueOf(r3));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:217:0x03a1, code lost:
-        if (r0 != null) goto L187;
+    /* JADX WARN: Code restructure failed: missing block: B:225:0x03bb, code lost:
+        if (r0 != null) goto L195;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:218:0x03a3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:226:0x03bd, code lost:
         return null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:221:0x03a9, code lost:
-        if (r9 != r0.id) goto L195;
+    /* JADX WARN: Code restructure failed: missing block: B:229:0x03c3, code lost:
+        if (r9 != r0.id) goto L203;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:223:0x03ad, code lost:
-        if (r8.megagroup == false) goto L193;
+    /* JADX WARN: Code restructure failed: missing block: B:231:0x03c7, code lost:
+        if (r8.megagroup == false) goto L201;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:225:0x03c2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:233:0x03dc, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationGroupAddSelfMega", org.telegram.messenger.R.string.NotificationGroupAddSelfMega, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:227:0x03d6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:235:0x03f0, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationGroupAddSelf", org.telegram.messenger.R.string.NotificationGroupAddSelf, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:229:0x03f0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:237:0x040a, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationGroupAddMember", org.telegram.messenger.R.string.NotificationGroupAddMember, r7, r8.title, org.telegram.messenger.UserObject.getUserName(r0));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:230:0x03f1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:238:0x040b, code lost:
         r1 = new java.lang.StringBuilder();
         r2 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:232:0x0401, code lost:
-        if (r2 >= r26.messageOwner.action.users.size()) goto L209;
+    /* JADX WARN: Code restructure failed: missing block: B:240:0x041b, code lost:
+        if (r2 >= r26.messageOwner.action.users.size()) goto L217;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:233:0x0403, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:241:0x041d, code lost:
         r3 = getMessagesController().getUser(r26.messageOwner.action.users.get(r2));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:234:0x0417, code lost:
-        if (r3 == null) goto L208;
+    /* JADX WARN: Code restructure failed: missing block: B:242:0x0431, code lost:
+        if (r3 == null) goto L216;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:235:0x0419, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:243:0x0433, code lost:
         r3 = org.telegram.messenger.UserObject.getUserName(r3);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:236:0x0421, code lost:
-        if (r1.length() == 0) goto L205;
+    /* JADX WARN: Code restructure failed: missing block: B:244:0x043b, code lost:
+        if (r1.length() == 0) goto L213;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:237:0x0423, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:245:0x043d, code lost:
         r1.append(", ");
      */
-    /* JADX WARN: Code restructure failed: missing block: B:238:0x0428, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:246:0x0442, code lost:
         r1.append(r3);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:239:0x042b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:247:0x0445, code lost:
         r2 = r2 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:241:0x0447, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:249:0x0461, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationGroupAddMember", org.telegram.messenger.R.string.NotificationGroupAddMember, r7, r8.title, r1.toString());
      */
-    /* JADX WARN: Code restructure failed: missing block: B:243:0x044b, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGroupCall) == false) goto L216;
+    /* JADX WARN: Code restructure failed: missing block: B:251:0x0465, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGroupCall) == false) goto L224;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:245:0x045f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:253:0x0479, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationGroupCreatedCall", org.telegram.messenger.R.string.NotificationGroupCreatedCall, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:247:0x0462, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGroupCallScheduled) == false) goto L220;
+    /* JADX WARN: Code restructure failed: missing block: B:255:0x047c, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGroupCallScheduled) == false) goto L228;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:249:0x046a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:257:0x0484, code lost:
         return r26.messageText.toString();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:251:0x046d, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionInviteToGroupCall) == false) goto L253;
+    /* JADX WARN: Code restructure failed: missing block: B:259:0x0487, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionInviteToGroupCall) == false) goto L261;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:252:0x046f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:260:0x0489, code lost:
         r3 = r2.user_id;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:253:0x0475, code lost:
-        if (r3 != 0) goto L227;
+    /* JADX WARN: Code restructure failed: missing block: B:261:0x048f, code lost:
+        if (r3 != 0) goto L235;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:255:0x047e, code lost:
-        if (r2.users.size() != 1) goto L227;
+    /* JADX WARN: Code restructure failed: missing block: B:263:0x0498, code lost:
+        if (r2.users.size() != 1) goto L235;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:256:0x0480, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:264:0x049a, code lost:
         r3 = r26.messageOwner.action.users.get(0).longValue();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:258:0x0495, code lost:
-        if (r3 == 0) goto L238;
+    /* JADX WARN: Code restructure failed: missing block: B:266:0x04af, code lost:
+        if (r3 == 0) goto L246;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:260:0x0499, code lost:
-        if (r3 != r19) goto L233;
+    /* JADX WARN: Code restructure failed: missing block: B:268:0x04b3, code lost:
+        if (r3 != r19) goto L241;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:262:0x04ae, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:270:0x04c8, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationGroupInvitedYouToCall", org.telegram.messenger.R.string.NotificationGroupInvitedYouToCall, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:263:0x04af, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:271:0x04c9, code lost:
         r0 = getMessagesController().getUser(java.lang.Long.valueOf(r3));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:264:0x04bb, code lost:
-        if (r0 != null) goto L236;
+    /* JADX WARN: Code restructure failed: missing block: B:272:0x04d5, code lost:
+        if (r0 != null) goto L244;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:265:0x04bd, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:273:0x04d7, code lost:
         return null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:268:0x04d8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:276:0x04f2, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationGroupInvitedToCall", org.telegram.messenger.R.string.NotificationGroupInvitedToCall, r7, r8.title, org.telegram.messenger.UserObject.getUserName(r0));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:269:0x04d9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:277:0x04f3, code lost:
         r1 = new java.lang.StringBuilder();
         r2 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:271:0x04e9, code lost:
-        if (r2 >= r26.messageOwner.action.users.size()) goto L250;
+    /* JADX WARN: Code restructure failed: missing block: B:279:0x0503, code lost:
+        if (r2 >= r26.messageOwner.action.users.size()) goto L258;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:272:0x04eb, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:280:0x0505, code lost:
         r3 = getMessagesController().getUser(r26.messageOwner.action.users.get(r2));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:273:0x04ff, code lost:
-        if (r3 == null) goto L249;
+    /* JADX WARN: Code restructure failed: missing block: B:281:0x0519, code lost:
+        if (r3 == null) goto L257;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:274:0x0501, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:282:0x051b, code lost:
         r3 = org.telegram.messenger.UserObject.getUserName(r3);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:275:0x0509, code lost:
-        if (r1.length() == 0) goto L246;
+    /* JADX WARN: Code restructure failed: missing block: B:283:0x0523, code lost:
+        if (r1.length() == 0) goto L254;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:276:0x050b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:284:0x0525, code lost:
         r1.append(", ");
      */
-    /* JADX WARN: Code restructure failed: missing block: B:277:0x0510, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:285:0x052a, code lost:
         r1.append(r3);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:278:0x0513, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:286:0x052d, code lost:
         r2 = r2 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:280:0x052f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:288:0x0549, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationGroupInvitedToCall", org.telegram.messenger.R.string.NotificationGroupInvitedToCall, r7, r8.title, r1.toString());
      */
-    /* JADX WARN: Code restructure failed: missing block: B:282:0x0533, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatJoinedByLink) == false) goto L257;
+    /* JADX WARN: Code restructure failed: missing block: B:290:0x054d, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatJoinedByLink) == false) goto L265;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:284:0x0548, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:292:0x0562, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationInvitedToGroupByLink", org.telegram.messenger.R.string.NotificationInvitedToGroupByLink, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:286:0x054e, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatEditTitle) == false) goto L261;
+    /* JADX WARN: Code restructure failed: missing block: B:294:0x0568, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatEditTitle) == false) goto L269;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:288:0x0560, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:296:0x057a, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationEditedGroupName", org.telegram.messenger.R.string.NotificationEditedGroupName, r7, r2.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:290:0x0563, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatEditPhoto) != false) goto L643;
+    /* JADX WARN: Code restructure failed: missing block: B:298:0x057d, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatEditPhoto) != false) goto L651;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:292:0x0567, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatDeletePhoto) == false) goto L265;
+    /* JADX WARN: Code restructure failed: missing block: B:300:0x0581, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatDeletePhoto) == false) goto L273;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:295:0x056d, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatDeleteUser) == false) goto L280;
+    /* JADX WARN: Code restructure failed: missing block: B:303:0x0587, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatDeleteUser) == false) goto L288;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:296:0x056f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:304:0x0589, code lost:
         r1 = r2.user_id;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:297:0x0573, code lost:
-        if (r1 != r19) goto L271;
+    /* JADX WARN: Code restructure failed: missing block: B:305:0x058d, code lost:
+        if (r1 != r19) goto L279;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:299:0x0588, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:307:0x05a2, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationGroupKickYou", org.telegram.messenger.R.string.NotificationGroupKickYou, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:301:0x058e, code lost:
-        if (r1 != r9) goto L275;
+    /* JADX WARN: Code restructure failed: missing block: B:309:0x05a8, code lost:
+        if (r1 != r9) goto L283;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:303:0x05a0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:311:0x05ba, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationGroupLeftMember", org.telegram.messenger.R.string.NotificationGroupLeftMember, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:304:0x05a1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:312:0x05bb, code lost:
         r0 = getMessagesController().getUser(java.lang.Long.valueOf(r26.messageOwner.action.user_id));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:305:0x05b3, code lost:
-        if (r0 != null) goto L278;
+    /* JADX WARN: Code restructure failed: missing block: B:313:0x05cd, code lost:
+        if (r0 != null) goto L286;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:306:0x05b5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:314:0x05cf, code lost:
         return null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:309:0x05d1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:317:0x05eb, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationGroupKickMember", org.telegram.messenger.R.string.NotificationGroupKickMember, r7, r8.title, org.telegram.messenger.UserObject.getUserName(r0));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:311:0x05d4, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatCreate) == false) goto L284;
+    /* JADX WARN: Code restructure failed: missing block: B:319:0x05ee, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatCreate) == false) goto L292;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:313:0x05dc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:321:0x05f6, code lost:
         return r26.messageText.toString();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:315:0x05df, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChannelCreate) == false) goto L288;
+    /* JADX WARN: Code restructure failed: missing block: B:323:0x05f9, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChannelCreate) == false) goto L296;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:317:0x05e7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:325:0x0601, code lost:
         return r26.messageText.toString();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:319:0x05ea, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatMigrateTo) == false) goto L292;
+    /* JADX WARN: Code restructure failed: missing block: B:327:0x0604, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatMigrateTo) == false) goto L300;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:321:0x05fc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:329:0x0616, code lost:
         return org.telegram.messenger.LocaleController.formatString("ActionMigrateFromGroupNotify", org.telegram.messenger.R.string.ActionMigrateFromGroupNotify, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:323:0x0601, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChannelMigrateFrom) == false) goto L296;
+    /* JADX WARN: Code restructure failed: missing block: B:331:0x061b, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChannelMigrateFrom) == false) goto L304;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:325:0x0611, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:333:0x062b, code lost:
         return org.telegram.messenger.LocaleController.formatString("ActionMigrateFromGroupNotify", org.telegram.messenger.R.string.ActionMigrateFromGroupNotify, r2.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:327:0x0614, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionScreenshotTaken) == false) goto L300;
+    /* JADX WARN: Code restructure failed: missing block: B:335:0x062e, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionScreenshotTaken) == false) goto L308;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:329:0x061c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:337:0x0636, code lost:
         return r26.messageText.toString();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:331:0x061f, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionPinMessage) == false) goto L622;
+    /* JADX WARN: Code restructure failed: missing block: B:339:0x0639, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionPinMessage) == false) goto L630;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:333:0x0625, code lost:
-        if (r8 == null) goto L412;
+    /* JADX WARN: Code restructure failed: missing block: B:341:0x063f, code lost:
+        if (r8 == null) goto L420;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:335:0x062b, code lost:
-        if (org.telegram.messenger.ChatObject.isChannel(r8) == false) goto L308;
+    /* JADX WARN: Code restructure failed: missing block: B:343:0x0645, code lost:
+        if (org.telegram.messenger.ChatObject.isChannel(r8) == false) goto L316;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:337:0x062f, code lost:
-        if (r8.megagroup == false) goto L412;
+    /* JADX WARN: Code restructure failed: missing block: B:345:0x0649, code lost:
+        if (r8.megagroup == false) goto L420;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:338:0x0631, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:346:0x064b, code lost:
         r0 = r26.replyMessageObject;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:339:0x0633, code lost:
-        if (r0 != null) goto L312;
+    /* JADX WARN: Code restructure failed: missing block: B:347:0x064d, code lost:
+        if (r0 != null) goto L320;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:341:0x0648, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:349:0x0662, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoText", org.telegram.messenger.R.string.NotificationActionPinnedNoText, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:343:0x0650, code lost:
-        if (r0.isMusic() == false) goto L316;
+    /* JADX WARN: Code restructure failed: missing block: B:351:0x066a, code lost:
+        if (r0.isMusic() == false) goto L324;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:345:0x0662, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:353:0x067c, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedMusic", org.telegram.messenger.R.string.NotificationActionPinnedMusic, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:347:0x0669, code lost:
-        if (r0.isVideo() == false) goto L326;
+    /* JADX WARN: Code restructure failed: missing block: B:355:0x0683, code lost:
+        if (r0.isVideo() == false) goto L334;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:349:0x066f, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L324;
+    /* JADX WARN: Code restructure failed: missing block: B:357:0x0689, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L332;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:351:0x0679, code lost:
-        if (android.text.TextUtils.isEmpty(r0.messageOwner.message) != false) goto L324;
+    /* JADX WARN: Code restructure failed: missing block: B:359:0x0693, code lost:
+        if (android.text.TextUtils.isEmpty(r0.messageOwner.message) != false) goto L332;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:353:0x06a2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:361:0x06bc, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", org.telegram.messenger.R.string.NotificationActionPinnedText, r7, "📹 " + r0.messageOwner.message, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:355:0x06b6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:363:0x06d0, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVideo", org.telegram.messenger.R.string.NotificationActionPinnedVideo, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:357:0x06bb, code lost:
-        if (r0.isGif() == false) goto L336;
+    /* JADX WARN: Code restructure failed: missing block: B:365:0x06d5, code lost:
+        if (r0.isGif() == false) goto L344;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:359:0x06c1, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L334;
+    /* JADX WARN: Code restructure failed: missing block: B:367:0x06db, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L342;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:361:0x06cb, code lost:
-        if (android.text.TextUtils.isEmpty(r0.messageOwner.message) != false) goto L334;
+    /* JADX WARN: Code restructure failed: missing block: B:369:0x06e5, code lost:
+        if (android.text.TextUtils.isEmpty(r0.messageOwner.message) != false) goto L342;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:363:0x06f4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:371:0x070e, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", org.telegram.messenger.R.string.NotificationActionPinnedText, r7, "🎬 " + r0.messageOwner.message, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:365:0x0708, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:373:0x0722, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGif", org.telegram.messenger.R.string.NotificationActionPinnedGif, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:367:0x0710, code lost:
-        if (r0.isVoice() == false) goto L340;
+    /* JADX WARN: Code restructure failed: missing block: B:375:0x072a, code lost:
+        if (r0.isVoice() == false) goto L348;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:369:0x0722, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:377:0x073c, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVoice", org.telegram.messenger.R.string.NotificationActionPinnedVoice, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:371:0x0727, code lost:
-        if (r0.isRoundVideo() == false) goto L344;
+    /* JADX WARN: Code restructure failed: missing block: B:379:0x0741, code lost:
+        if (r0.isRoundVideo() == false) goto L352;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:373:0x0739, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:381:0x0753, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedRound", org.telegram.messenger.R.string.NotificationActionPinnedRound, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:375:0x073e, code lost:
-        if (r0.isSticker() != false) goto L406;
+    /* JADX WARN: Code restructure failed: missing block: B:383:0x0758, code lost:
+        if (r0.isSticker() != false) goto L414;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:377:0x0744, code lost:
-        if (r0.isAnimatedSticker() == false) goto L348;
+    /* JADX WARN: Code restructure failed: missing block: B:385:0x075e, code lost:
+        if (r0.isAnimatedSticker() == false) goto L356;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:379:0x0748, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:387:0x0762, code lost:
         r3 = r0.messageOwner;
         r5 = r3.media;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:380:0x074e, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaDocument) == false) goto L358;
+    /* JADX WARN: Code restructure failed: missing block: B:388:0x0768, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaDocument) == false) goto L366;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:382:0x0754, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L356;
+    /* JADX WARN: Code restructure failed: missing block: B:390:0x076e, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L364;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:384:0x075c, code lost:
-        if (android.text.TextUtils.isEmpty(r3.message) != false) goto L356;
+    /* JADX WARN: Code restructure failed: missing block: B:392:0x0776, code lost:
+        if (android.text.TextUtils.isEmpty(r3.message) != false) goto L364;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:386:0x0785, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:394:0x079f, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", org.telegram.messenger.R.string.NotificationActionPinnedText, r7, "📎 " + r0.messageOwner.message, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:388:0x0799, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:396:0x07b3, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedFile", org.telegram.messenger.R.string.NotificationActionPinnedFile, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:390:0x079c, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L404;
+    /* JADX WARN: Code restructure failed: missing block: B:398:0x07b6, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L412;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:392:0x07a0, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaVenue) == false) goto L362;
+    /* JADX WARN: Code restructure failed: missing block: B:400:0x07ba, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaVenue) == false) goto L370;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:395:0x07a6, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive) == false) goto L366;
+    /* JADX WARN: Code restructure failed: missing block: B:403:0x07c0, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive) == false) goto L374;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:397:0x07bb, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:405:0x07d5, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoLive", org.telegram.messenger.R.string.NotificationActionPinnedGeoLive, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:399:0x07c0, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaContact) == false) goto L370;
+    /* JADX WARN: Code restructure failed: missing block: B:407:0x07da, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaContact) == false) goto L378;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:400:0x07c2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:408:0x07dc, code lost:
         r5 = (org.telegram.tgnet.TLRPC$TL_messageMediaContact) r5;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:401:0x07e0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:409:0x07fa, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedContact2", org.telegram.messenger.R.string.NotificationActionPinnedContact2, r7, r8.title, org.telegram.messenger.ContactsController.formatName(r5.first_name, r5.last_name));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:403:0x07e3, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPoll) == false) goto L378;
+    /* JADX WARN: Code restructure failed: missing block: B:411:0x07fd, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPoll) == false) goto L386;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:404:0x07e5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:412:0x07ff, code lost:
         r0 = ((org.telegram.tgnet.TLRPC$TL_messageMediaPoll) r5).poll;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:405:0x07eb, code lost:
-        if (r0.quiz == false) goto L376;
+    /* JADX WARN: Code restructure failed: missing block: B:413:0x0805, code lost:
+        if (r0.quiz == false) goto L384;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:407:0x0805, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:415:0x081f, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedQuiz2", org.telegram.messenger.R.string.NotificationActionPinnedQuiz2, r7, r8.title, r0.question);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:409:0x081e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:417:0x0838, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPoll2", org.telegram.messenger.R.string.NotificationActionPinnedPoll2, r7, r8.title, r0.question);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:411:0x0821, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPhoto) == false) goto L388;
+    /* JADX WARN: Code restructure failed: missing block: B:419:0x083b, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPhoto) == false) goto L396;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:413:0x0827, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L386;
+    /* JADX WARN: Code restructure failed: missing block: B:421:0x0841, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L394;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:415:0x082f, code lost:
-        if (android.text.TextUtils.isEmpty(r3.message) != false) goto L386;
+    /* JADX WARN: Code restructure failed: missing block: B:423:0x0849, code lost:
+        if (android.text.TextUtils.isEmpty(r3.message) != false) goto L394;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:417:0x0858, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:425:0x0872, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", org.telegram.messenger.R.string.NotificationActionPinnedText, r7, "🖼 " + r0.messageOwner.message, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:419:0x086c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:427:0x0886, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPhoto", org.telegram.messenger.R.string.NotificationActionPinnedPhoto, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:421:0x0872, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGame) == false) goto L392;
+    /* JADX WARN: Code restructure failed: missing block: B:429:0x088c, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGame) == false) goto L400;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:423:0x0884, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:431:0x089e, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGame", org.telegram.messenger.R.string.NotificationActionPinnedGame, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:424:0x0885, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:432:0x089f, code lost:
         r3 = r0.messageText;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:425:0x0887, code lost:
-        if (r3 == null) goto L402;
+    /* JADX WARN: Code restructure failed: missing block: B:433:0x08a1, code lost:
+        if (r3 == null) goto L410;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:427:0x088d, code lost:
-        if (r3.length() <= 0) goto L402;
+    /* JADX WARN: Code restructure failed: missing block: B:435:0x08a7, code lost:
+        if (r3.length() <= 0) goto L410;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:428:0x088f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:436:0x08a9, code lost:
         r0 = r0.messageText;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:429:0x0895, code lost:
-        if (r0.length() <= 20) goto L401;
+    /* JADX WARN: Code restructure failed: missing block: B:437:0x08af, code lost:
+        if (r0.length() <= 20) goto L409;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:430:0x0897, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:438:0x08b1, code lost:
         r3 = new java.lang.StringBuilder();
         r5 = 0;
         r3.append((java.lang.Object) r0.subSequence(0, 20));
         r3.append("...");
         r0 = r3.toString();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:431:0x08ac, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:439:0x08c6, code lost:
         r5 = 0;
         r0 = r0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:432:0x08ad, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:440:0x08c7, code lost:
         r1 = org.telegram.messenger.R.string.NotificationActionPinnedText;
         r2 = new java.lang.Object[3];
         r2[r5] = r7;
         r2[1] = r0;
         r2[2] = r8.title;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:433:0x08c0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:441:0x08da, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", r1, r2);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:435:0x08d4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:443:0x08ee, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoText", org.telegram.messenger.R.string.NotificationActionPinnedNoText, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:437:0x08e8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:445:0x0902, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeo", org.telegram.messenger.R.string.NotificationActionPinnedGeo, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:438:0x08e9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:446:0x0903, code lost:
         r0 = r0.getStickerEmoji();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:439:0x08ef, code lost:
-        if (r0 == null) goto L410;
+    /* JADX WARN: Code restructure failed: missing block: B:447:0x0909, code lost:
+        if (r0 == null) goto L418;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:441:0x0905, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:449:0x091f, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerEmoji", org.telegram.messenger.R.string.NotificationActionPinnedStickerEmoji, r7, r8.title, r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:443:0x0917, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:451:0x0931, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedSticker", org.telegram.messenger.R.string.NotificationActionPinnedSticker, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:445:0x0919, code lost:
-        if (r8 == null) goto L518;
+    /* JADX WARN: Code restructure failed: missing block: B:453:0x0933, code lost:
+        if (r8 == null) goto L526;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:446:0x091b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:454:0x0935, code lost:
         r0 = r26.replyMessageObject;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:447:0x091d, code lost:
-        if (r0 != null) goto L418;
+    /* JADX WARN: Code restructure failed: missing block: B:455:0x0937, code lost:
+        if (r0 != null) goto L426;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:449:0x092e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:457:0x0948, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoTextChannel", org.telegram.messenger.R.string.NotificationActionPinnedNoTextChannel, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:451:0x0934, code lost:
-        if (r0.isMusic() == false) goto L422;
+    /* JADX WARN: Code restructure failed: missing block: B:459:0x094e, code lost:
+        if (r0.isMusic() == false) goto L430;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:453:0x0944, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:461:0x095e, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedMusicChannel", org.telegram.messenger.R.string.NotificationActionPinnedMusicChannel, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:455:0x094b, code lost:
-        if (r0.isVideo() == false) goto L432;
+    /* JADX WARN: Code restructure failed: missing block: B:463:0x0965, code lost:
+        if (r0.isVideo() == false) goto L440;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:457:0x0951, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L430;
+    /* JADX WARN: Code restructure failed: missing block: B:465:0x096b, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L438;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:459:0x095b, code lost:
-        if (android.text.TextUtils.isEmpty(r0.messageOwner.message) != false) goto L430;
+    /* JADX WARN: Code restructure failed: missing block: B:467:0x0975, code lost:
+        if (android.text.TextUtils.isEmpty(r0.messageOwner.message) != false) goto L438;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:461:0x0981, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:469:0x099b, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", org.telegram.messenger.R.string.NotificationActionPinnedTextChannel, r8.title, "📹 " + r0.messageOwner.message);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:463:0x0992, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVideoChannel", org.telegram.messenger.R.string.NotificationActionPinnedVideoChannel, r8.title);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:465:0x0997, code lost:
-        if (r0.isGif() == false) goto L442;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:467:0x099d, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L440;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:469:0x09a7, code lost:
-        if (android.text.TextUtils.isEmpty(r0.messageOwner.message) != false) goto L440;
      */
     /* JADX WARN: Code restructure failed: missing block: B:46:0x00b3, code lost:
         if (r12.getBoolean("EnablePreviewGroup", true) != false) goto L45;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:471:0x09cd, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:471:0x09ac, code lost:
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVideoChannel", org.telegram.messenger.R.string.NotificationActionPinnedVideoChannel, r8.title);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:473:0x09b1, code lost:
+        if (r0.isGif() == false) goto L450;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:475:0x09b7, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L448;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:477:0x09c1, code lost:
+        if (android.text.TextUtils.isEmpty(r0.messageOwner.message) != false) goto L448;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:479:0x09e7, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", org.telegram.messenger.R.string.NotificationActionPinnedTextChannel, r8.title, "🎬 " + r0.messageOwner.message);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:473:0x09de, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:481:0x09f8, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGifChannel", org.telegram.messenger.R.string.NotificationActionPinnedGifChannel, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:475:0x09e5, code lost:
-        if (r0.isVoice() == false) goto L446;
+    /* JADX WARN: Code restructure failed: missing block: B:483:0x09ff, code lost:
+        if (r0.isVoice() == false) goto L454;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:477:0x09f5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:485:0x0a0f, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVoiceChannel", org.telegram.messenger.R.string.NotificationActionPinnedVoiceChannel, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:479:0x09fa, code lost:
-        if (r0.isRoundVideo() == false) goto L450;
+    /* JADX WARN: Code restructure failed: missing block: B:487:0x0a14, code lost:
+        if (r0.isRoundVideo() == false) goto L458;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:481:0x0a0a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:489:0x0a24, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedRoundChannel", org.telegram.messenger.R.string.NotificationActionPinnedRoundChannel, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:483:0x0a0f, code lost:
-        if (r0.isSticker() != false) goto L512;
+    /* JADX WARN: Code restructure failed: missing block: B:491:0x0a29, code lost:
+        if (r0.isSticker() != false) goto L520;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:485:0x0a15, code lost:
-        if (r0.isAnimatedSticker() == false) goto L454;
+    /* JADX WARN: Code restructure failed: missing block: B:493:0x0a2f, code lost:
+        if (r0.isAnimatedSticker() == false) goto L462;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:487:0x0a19, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:495:0x0a33, code lost:
         r3 = r0.messageOwner;
         r5 = r3.media;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:488:0x0a1f, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaDocument) == false) goto L464;
+    /* JADX WARN: Code restructure failed: missing block: B:496:0x0a39, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaDocument) == false) goto L472;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:490:0x0a25, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L462;
+    /* JADX WARN: Code restructure failed: missing block: B:498:0x0a3f, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L470;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:492:0x0a2d, code lost:
-        if (android.text.TextUtils.isEmpty(r3.message) != false) goto L462;
+    /* JADX WARN: Code restructure failed: missing block: B:500:0x0a47, code lost:
+        if (android.text.TextUtils.isEmpty(r3.message) != false) goto L470;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:494:0x0a53, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:502:0x0a6d, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", org.telegram.messenger.R.string.NotificationActionPinnedTextChannel, r8.title, "📎 " + r0.messageOwner.message);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:496:0x0a64, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:504:0x0a7e, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedFileChannel", org.telegram.messenger.R.string.NotificationActionPinnedFileChannel, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:498:0x0a67, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L510;
+    /* JADX WARN: Code restructure failed: missing block: B:506:0x0a81, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L518;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:500:0x0a6b, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaVenue) == false) goto L468;
+    /* JADX WARN: Code restructure failed: missing block: B:508:0x0a85, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaVenue) == false) goto L476;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:503:0x0a71, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive) == false) goto L472;
+    /* JADX WARN: Code restructure failed: missing block: B:511:0x0a8b, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive) == false) goto L480;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:505:0x0a83, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:513:0x0a9d, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoLiveChannel", org.telegram.messenger.R.string.NotificationActionPinnedGeoLiveChannel, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:507:0x0a87, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaContact) == false) goto L476;
+    /* JADX WARN: Code restructure failed: missing block: B:515:0x0aa1, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaContact) == false) goto L484;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:508:0x0a89, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:516:0x0aa3, code lost:
         r5 = (org.telegram.tgnet.TLRPC$TL_messageMediaContact) r5;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:509:0x0aa5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:517:0x0abf, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedContactChannel2", org.telegram.messenger.R.string.NotificationActionPinnedContactChannel2, r8.title, org.telegram.messenger.ContactsController.formatName(r5.first_name, r5.last_name));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:511:0x0aa8, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPoll) == false) goto L484;
+    /* JADX WARN: Code restructure failed: missing block: B:519:0x0ac2, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPoll) == false) goto L492;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:512:0x0aaa, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:520:0x0ac4, code lost:
         r0 = ((org.telegram.tgnet.TLRPC$TL_messageMediaPoll) r5).poll;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:513:0x0ab0, code lost:
-        if (r0.quiz == false) goto L482;
+    /* JADX WARN: Code restructure failed: missing block: B:521:0x0aca, code lost:
+        if (r0.quiz == false) goto L490;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:515:0x0ac7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:523:0x0ae1, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedQuizChannel2", org.telegram.messenger.R.string.NotificationActionPinnedQuizChannel2, r8.title, r0.question);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:517:0x0add, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:525:0x0af7, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPollChannel2", org.telegram.messenger.R.string.NotificationActionPinnedPollChannel2, r8.title, r0.question);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:519:0x0ae0, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPhoto) == false) goto L494;
+    /* JADX WARN: Code restructure failed: missing block: B:527:0x0afa, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPhoto) == false) goto L502;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:521:0x0ae6, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L492;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:523:0x0aee, code lost:
-        if (android.text.TextUtils.isEmpty(r3.message) != false) goto L492;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:525:0x0b14, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", org.telegram.messenger.R.string.NotificationActionPinnedTextChannel, r8.title, "🖼 " + r0.messageOwner.message);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:527:0x0b25, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPhotoChannel", org.telegram.messenger.R.string.NotificationActionPinnedPhotoChannel, r8.title);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:529:0x0b2a, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGame) == false) goto L498;
+    /* JADX WARN: Code restructure failed: missing block: B:529:0x0b00, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L500;
      */
     /* JADX WARN: Code restructure failed: missing block: B:52:0x00bf, code lost:
         if (r12.getBoolean("EnablePreviewChannel", r2) == false) goto L50;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:531:0x0b3a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:531:0x0b08, code lost:
+        if (android.text.TextUtils.isEmpty(r3.message) != false) goto L500;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:533:0x0b2e, code lost:
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", org.telegram.messenger.R.string.NotificationActionPinnedTextChannel, r8.title, "🖼 " + r0.messageOwner.message);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:535:0x0b3f, code lost:
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPhotoChannel", org.telegram.messenger.R.string.NotificationActionPinnedPhotoChannel, r8.title);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:537:0x0b44, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGame) == false) goto L506;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:539:0x0b54, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGameChannel", org.telegram.messenger.R.string.NotificationActionPinnedGameChannel, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:532:0x0b3b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:540:0x0b55, code lost:
         r3 = r0.messageText;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:533:0x0b3d, code lost:
-        if (r3 == null) goto L508;
+    /* JADX WARN: Code restructure failed: missing block: B:541:0x0b57, code lost:
+        if (r3 == null) goto L516;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:535:0x0b43, code lost:
-        if (r3.length() <= 0) goto L508;
+    /* JADX WARN: Code restructure failed: missing block: B:543:0x0b5d, code lost:
+        if (r3.length() <= 0) goto L516;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:536:0x0b45, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:544:0x0b5f, code lost:
         r0 = r0.messageText;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:537:0x0b4b, code lost:
-        if (r0.length() <= 20) goto L507;
+    /* JADX WARN: Code restructure failed: missing block: B:545:0x0b65, code lost:
+        if (r0.length() <= 20) goto L515;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:538:0x0b4d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:546:0x0b67, code lost:
         r3 = new java.lang.StringBuilder();
         r9 = 0;
         r3.append((java.lang.Object) r0.subSequence(0, 20));
         r3.append("...");
         r0 = r3.toString();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:539:0x0b62, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:547:0x0b7c, code lost:
         r9 = 0;
         r0 = r0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:540:0x0b63, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:548:0x0b7d, code lost:
         r1 = org.telegram.messenger.R.string.NotificationActionPinnedTextChannel;
         r2 = new java.lang.Object[2];
         r2[r9] = r8.title;
         r2[1] = r0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:541:0x0b73, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:549:0x0b8d, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", r1, r2);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:543:0x0b84, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:551:0x0b9e, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoTextChannel", org.telegram.messenger.R.string.NotificationActionPinnedNoTextChannel, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:545:0x0b95, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:553:0x0baf, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoChannel", org.telegram.messenger.R.string.NotificationActionPinnedGeoChannel, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:546:0x0b96, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:554:0x0bb0, code lost:
         r0 = r0.getStickerEmoji();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:547:0x0b9b, code lost:
-        if (r0 == null) goto L516;
+    /* JADX WARN: Code restructure failed: missing block: B:555:0x0bb5, code lost:
+        if (r0 == null) goto L524;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:549:0x0baf, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:557:0x0bc9, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerEmojiChannel", org.telegram.messenger.R.string.NotificationActionPinnedStickerEmojiChannel, r8.title, r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:551:0x0bbf, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:559:0x0bd9, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerChannel", org.telegram.messenger.R.string.NotificationActionPinnedStickerChannel, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:552:0x0bc0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:560:0x0bda, code lost:
         r0 = r26.replyMessageObject;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:553:0x0bc3, code lost:
-        if (r0 != null) goto L522;
+    /* JADX WARN: Code restructure failed: missing block: B:561:0x0bdd, code lost:
+        if (r0 != null) goto L530;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:555:0x0bd1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:563:0x0beb, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoTextUser", org.telegram.messenger.R.string.NotificationActionPinnedNoTextUser, r7);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:557:0x0bd6, code lost:
-        if (r0.isMusic() == false) goto L526;
+    /* JADX WARN: Code restructure failed: missing block: B:565:0x0bf0, code lost:
+        if (r0.isMusic() == false) goto L534;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:559:0x0be4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:567:0x0bfe, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedMusicUser", org.telegram.messenger.R.string.NotificationActionPinnedMusicUser, r7);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:561:0x0beb, code lost:
-        if (r0.isVideo() == false) goto L536;
+    /* JADX WARN: Code restructure failed: missing block: B:569:0x0c05, code lost:
+        if (r0.isVideo() == false) goto L544;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:563:0x0bf1, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L534;
+    /* JADX WARN: Code restructure failed: missing block: B:571:0x0c0b, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L542;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:565:0x0bfb, code lost:
-        if (android.text.TextUtils.isEmpty(r0.messageOwner.message) != false) goto L534;
+    /* JADX WARN: Code restructure failed: missing block: B:573:0x0c15, code lost:
+        if (android.text.TextUtils.isEmpty(r0.messageOwner.message) != false) goto L542;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:567:0x0c1f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:575:0x0c39, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextUser", org.telegram.messenger.R.string.NotificationActionPinnedTextUser, r7, "📹 " + r0.messageOwner.message);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:569:0x0c2e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:577:0x0c48, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVideoUser", org.telegram.messenger.R.string.NotificationActionPinnedVideoUser, r7);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:571:0x0c33, code lost:
-        if (r0.isGif() == false) goto L546;
+    /* JADX WARN: Code restructure failed: missing block: B:579:0x0c4d, code lost:
+        if (r0.isGif() == false) goto L554;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:573:0x0c39, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L544;
+    /* JADX WARN: Code restructure failed: missing block: B:581:0x0c53, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L552;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:575:0x0c43, code lost:
-        if (android.text.TextUtils.isEmpty(r0.messageOwner.message) != false) goto L544;
+    /* JADX WARN: Code restructure failed: missing block: B:583:0x0c5d, code lost:
+        if (android.text.TextUtils.isEmpty(r0.messageOwner.message) != false) goto L552;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:577:0x0c67, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:585:0x0c81, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextUser", org.telegram.messenger.R.string.NotificationActionPinnedTextUser, r7, "🎬 " + r0.messageOwner.message);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:579:0x0c76, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:587:0x0c90, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGifUser", org.telegram.messenger.R.string.NotificationActionPinnedGifUser, r7);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:581:0x0c7d, code lost:
-        if (r0.isVoice() == false) goto L550;
+    /* JADX WARN: Code restructure failed: missing block: B:589:0x0c97, code lost:
+        if (r0.isVoice() == false) goto L558;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:583:0x0c8b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:591:0x0ca5, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVoiceUser", org.telegram.messenger.R.string.NotificationActionPinnedVoiceUser, r7);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:585:0x0c90, code lost:
-        if (r0.isRoundVideo() == false) goto L554;
+    /* JADX WARN: Code restructure failed: missing block: B:593:0x0caa, code lost:
+        if (r0.isRoundVideo() == false) goto L562;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:587:0x0c9e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:595:0x0cb8, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedRoundUser", org.telegram.messenger.R.string.NotificationActionPinnedRoundUser, r7);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:589:0x0ca3, code lost:
-        if (r0.isSticker() != false) goto L616;
+    /* JADX WARN: Code restructure failed: missing block: B:597:0x0cbd, code lost:
+        if (r0.isSticker() != false) goto L624;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:591:0x0ca9, code lost:
-        if (r0.isAnimatedSticker() == false) goto L558;
+    /* JADX WARN: Code restructure failed: missing block: B:599:0x0cc3, code lost:
+        if (r0.isAnimatedSticker() == false) goto L566;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:593:0x0cad, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:601:0x0cc7, code lost:
         r3 = r0.messageOwner;
         r5 = r3.media;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:594:0x0cb3, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaDocument) == false) goto L568;
+    /* JADX WARN: Code restructure failed: missing block: B:602:0x0ccd, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaDocument) == false) goto L576;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:596:0x0cb9, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L566;
+    /* JADX WARN: Code restructure failed: missing block: B:604:0x0cd3, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L574;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:598:0x0cc1, code lost:
-        if (android.text.TextUtils.isEmpty(r3.message) != false) goto L566;
+    /* JADX WARN: Code restructure failed: missing block: B:606:0x0cdb, code lost:
+        if (android.text.TextUtils.isEmpty(r3.message) != false) goto L574;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:600:0x0ce5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:608:0x0cff, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextUser", org.telegram.messenger.R.string.NotificationActionPinnedTextUser, r7, "📎 " + r0.messageOwner.message);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:602:0x0cf4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:610:0x0d0e, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedFileUser", org.telegram.messenger.R.string.NotificationActionPinnedFileUser, r7);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:604:0x0cf7, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L614;
+    /* JADX WARN: Code restructure failed: missing block: B:612:0x0d11, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L622;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:606:0x0cfb, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaVenue) == false) goto L572;
+    /* JADX WARN: Code restructure failed: missing block: B:614:0x0d15, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaVenue) == false) goto L580;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:609:0x0d01, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive) == false) goto L576;
+    /* JADX WARN: Code restructure failed: missing block: B:617:0x0d1b, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive) == false) goto L584;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:611:0x0d11, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:619:0x0d2b, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoLiveUser", org.telegram.messenger.R.string.NotificationActionPinnedGeoLiveUser, r7);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:613:0x0d15, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaContact) == false) goto L580;
+    /* JADX WARN: Code restructure failed: missing block: B:621:0x0d2f, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaContact) == false) goto L588;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:614:0x0d17, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:622:0x0d31, code lost:
         r5 = (org.telegram.tgnet.TLRPC$TL_messageMediaContact) r5;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:615:0x0d31, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:623:0x0d4b, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedContactUser", org.telegram.messenger.R.string.NotificationActionPinnedContactUser, r7, org.telegram.messenger.ContactsController.formatName(r5.first_name, r5.last_name));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:617:0x0d34, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPoll) == false) goto L588;
+    /* JADX WARN: Code restructure failed: missing block: B:625:0x0d4e, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPoll) == false) goto L596;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:618:0x0d36, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:626:0x0d50, code lost:
         r0 = ((org.telegram.tgnet.TLRPC$TL_messageMediaPoll) r5).poll;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:619:0x0d3c, code lost:
-        if (r0.quiz == false) goto L586;
+    /* JADX WARN: Code restructure failed: missing block: B:627:0x0d56, code lost:
+        if (r0.quiz == false) goto L594;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:621:0x0d51, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:629:0x0d6b, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedQuizUser", org.telegram.messenger.R.string.NotificationActionPinnedQuizUser, r7, r0.question);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:623:0x0d65, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:631:0x0d7f, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPollUser", org.telegram.messenger.R.string.NotificationActionPinnedPollUser, r7, r0.question);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:625:0x0d68, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPhoto) == false) goto L598;
+    /* JADX WARN: Code restructure failed: missing block: B:633:0x0d82, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPhoto) == false) goto L606;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:627:0x0d6e, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L596;
+    /* JADX WARN: Code restructure failed: missing block: B:635:0x0d88, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L604;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:629:0x0d76, code lost:
-        if (android.text.TextUtils.isEmpty(r3.message) != false) goto L596;
+    /* JADX WARN: Code restructure failed: missing block: B:637:0x0d90, code lost:
+        if (android.text.TextUtils.isEmpty(r3.message) != false) goto L604;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:631:0x0d9a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:639:0x0db4, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextUser", org.telegram.messenger.R.string.NotificationActionPinnedTextUser, r7, "🖼 " + r0.messageOwner.message);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:633:0x0da9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:641:0x0dc3, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPhotoUser", org.telegram.messenger.R.string.NotificationActionPinnedPhotoUser, r7);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:635:0x0dae, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGame) == false) goto L602;
+    /* JADX WARN: Code restructure failed: missing block: B:643:0x0dc8, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGame) == false) goto L610;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:637:0x0dbc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:645:0x0dd6, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGameUser", org.telegram.messenger.R.string.NotificationActionPinnedGameUser, r7);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:638:0x0dbd, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:646:0x0dd7, code lost:
         r3 = r0.messageText;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:639:0x0dbf, code lost:
-        if (r3 == null) goto L612;
+    /* JADX WARN: Code restructure failed: missing block: B:647:0x0dd9, code lost:
+        if (r3 == null) goto L620;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:641:0x0dc5, code lost:
-        if (r3.length() <= 0) goto L612;
+    /* JADX WARN: Code restructure failed: missing block: B:649:0x0ddf, code lost:
+        if (r3.length() <= 0) goto L620;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:642:0x0dc7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:650:0x0de1, code lost:
         r0 = r0.messageText;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:643:0x0dcd, code lost:
-        if (r0.length() <= 20) goto L611;
+    /* JADX WARN: Code restructure failed: missing block: B:651:0x0de7, code lost:
+        if (r0.length() <= 20) goto L619;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:644:0x0dcf, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:652:0x0de9, code lost:
         r3 = new java.lang.StringBuilder();
         r5 = 0;
         r3.append((java.lang.Object) r0.subSequence(0, 20));
         r3.append("...");
         r0 = r3.toString();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:645:0x0de4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:653:0x0dfe, code lost:
         r5 = 0;
         r0 = r0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:646:0x0de5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:654:0x0dff, code lost:
         r1 = org.telegram.messenger.R.string.NotificationActionPinnedTextUser;
         r2 = new java.lang.Object[2];
         r2[r5] = r7;
         r2[1] = r0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:647:0x0df3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:655:0x0e0d, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextUser", r1, r2);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:649:0x0e02, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:657:0x0e1c, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoTextUser", org.telegram.messenger.R.string.NotificationActionPinnedNoTextUser, r7);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:651:0x0e11, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:659:0x0e2b, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoUser", org.telegram.messenger.R.string.NotificationActionPinnedGeoUser, r7);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:652:0x0e12, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:660:0x0e2c, code lost:
         r0 = r0.getStickerEmoji();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:653:0x0e18, code lost:
-        if (r0 == null) goto L620;
+    /* JADX WARN: Code restructure failed: missing block: B:661:0x0e32, code lost:
+        if (r0 == null) goto L628;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:655:0x0e29, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:663:0x0e43, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerEmojiUser", org.telegram.messenger.R.string.NotificationActionPinnedStickerEmojiUser, r7, r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:657:0x0e36, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:665:0x0e50, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerUser", org.telegram.messenger.R.string.NotificationActionPinnedStickerUser, r7);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:659:0x0e39, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionSetChatTheme) == false) goto L638;
+    /* JADX WARN: Code restructure failed: missing block: B:667:0x0e53, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionSetChatTheme) == false) goto L646;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:660:0x0e3b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:668:0x0e55, code lost:
         r0 = ((org.telegram.tgnet.TLRPC$TL_messageActionSetChatTheme) r2).emoticon;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:661:0x0e43, code lost:
-        if (android.text.TextUtils.isEmpty(r0) == false) goto L632;
+    /* JADX WARN: Code restructure failed: missing block: B:669:0x0e5d, code lost:
+        if (android.text.TextUtils.isEmpty(r0) == false) goto L640;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:663:0x0e47, code lost:
-        if (r3 != r19) goto L630;
+    /* JADX WARN: Code restructure failed: missing block: B:671:0x0e61, code lost:
+        if (r3 != r19) goto L638;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:667:0x0e6b, code lost:
-        if (r3 != r19) goto L636;
+    /* JADX WARN: Code restructure failed: missing block: B:675:0x0e85, code lost:
+        if (r3 != r19) goto L644;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:670:0x0e89, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:678:0x0ea3, code lost:
         return org.telegram.messenger.LocaleController.formatString("ChangedChatThemeTo", org.telegram.messenger.R.string.ChatThemeChangedTo, r7, r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:672:0x0e8c, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatJoinedByRequest) == false) goto L642;
+    /* JADX WARN: Code restructure failed: missing block: B:680:0x0ea6, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatJoinedByRequest) == false) goto L650;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:674:0x0e94, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:682:0x0eae, code lost:
         return r26.messageText.toString();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:675:0x0e95, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:683:0x0eaf, code lost:
         return null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:678:0x0e9f, code lost:
-        if (r1.peer_id.channel_id == 0) goto L653;
+    /* JADX WARN: Code restructure failed: missing block: B:686:0x0eb9, code lost:
+        if (r1.peer_id.channel_id == 0) goto L661;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:680:0x0ea3, code lost:
-        if (r8.megagroup != false) goto L653;
+    /* JADX WARN: Code restructure failed: missing block: B:688:0x0ebd, code lost:
+        if (r8.megagroup != false) goto L661;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:682:0x0ea9, code lost:
-        if (r26.isVideoAvatar() == false) goto L651;
+    /* JADX WARN: Code restructure failed: missing block: B:690:0x0ec3, code lost:
+        if (r26.isVideoAvatar() == false) goto L659;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:684:0x0ebb, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:692:0x0ed5, code lost:
         return org.telegram.messenger.LocaleController.formatString("ChannelVideoEditNotification", org.telegram.messenger.R.string.ChannelVideoEditNotification, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:686:0x0ecc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:694:0x0ee6, code lost:
         return org.telegram.messenger.LocaleController.formatString("ChannelPhotoEditNotification", org.telegram.messenger.R.string.ChannelPhotoEditNotification, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:688:0x0ed2, code lost:
-        if (r26.isVideoAvatar() == false) goto L657;
+    /* JADX WARN: Code restructure failed: missing block: B:696:0x0eec, code lost:
+        if (r26.isVideoAvatar() == false) goto L665;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:690:0x0ee6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:698:0x0f00, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationEditedGroupVideo", org.telegram.messenger.R.string.NotificationEditedGroupVideo, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:692:0x0ef9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:700:0x0f13, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationEditedGroupPhoto", org.telegram.messenger.R.string.NotificationEditedGroupPhoto, r7, r8.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:694:0x0f00, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:702:0x0f1a, code lost:
         return r26.messageText.toString();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:696:0x0f0f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:704:0x0f29, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationContactJoined", org.telegram.messenger.R.string.NotificationContactJoined, r7);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:698:0x0f14, code lost:
-        if (r26.isMediaEmpty() == false) goto L671;
+    /* JADX WARN: Code restructure failed: missing block: B:706:0x0f2e, code lost:
+        if (r26.isMediaEmpty() == false) goto L679;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:700:0x0f1e, code lost:
-        if (android.text.TextUtils.isEmpty(r26.messageOwner.message) != false) goto L669;
+    /* JADX WARN: Code restructure failed: missing block: B:708:0x0f38, code lost:
+        if (android.text.TextUtils.isEmpty(r26.messageOwner.message) != false) goto L677;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:702:0x0f24, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:710:0x0f3e, code lost:
         return replaceSpoilers(r26);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:704:0x0f2d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:712:0x0f47, code lost:
         return org.telegram.messenger.LocaleController.getString(r23, org.telegram.messenger.R.string.Message);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:705:0x0f2e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:713:0x0f48, code lost:
         r1 = r23;
         r2 = r26.messageOwner;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:706:0x0f36, code lost:
-        if ((r2.media instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPhoto) == false) goto L685;
+    /* JADX WARN: Code restructure failed: missing block: B:714:0x0f50, code lost:
+        if ((r2.media instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPhoto) == false) goto L693;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:708:0x0f3c, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L679;
+    /* JADX WARN: Code restructure failed: missing block: B:716:0x0f56, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L687;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:710:0x0f44, code lost:
-        if (android.text.TextUtils.isEmpty(r2.message) != false) goto L679;
+    /* JADX WARN: Code restructure failed: missing block: B:718:0x0f5e, code lost:
+        if (android.text.TextUtils.isEmpty(r2.message) != false) goto L687;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:712:0x0f59, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:720:0x0f73, code lost:
         return "🖼 " + replaceSpoilers(r26);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:714:0x0f60, code lost:
-        if (r26.messageOwner.media.ttl_seconds == 0) goto L683;
+    /* JADX WARN: Code restructure failed: missing block: B:722:0x0f7a, code lost:
+        if (r26.messageOwner.media.ttl_seconds == 0) goto L691;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:716:0x0f6a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:724:0x0f84, code lost:
         return org.telegram.messenger.LocaleController.getString("AttachDestructingPhoto", org.telegram.messenger.R.string.AttachDestructingPhoto);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:718:0x0f73, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:726:0x0f8d, code lost:
         return org.telegram.messenger.LocaleController.getString("AttachPhoto", org.telegram.messenger.R.string.AttachPhoto);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:720:0x0f78, code lost:
-        if (r26.isVideo() == false) goto L699;
+    /* JADX WARN: Code restructure failed: missing block: B:728:0x0f92, code lost:
+        if (r26.isVideo() == false) goto L707;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:722:0x0f7e, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L693;
+    /* JADX WARN: Code restructure failed: missing block: B:730:0x0f98, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L701;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:724:0x0f88, code lost:
-        if (android.text.TextUtils.isEmpty(r26.messageOwner.message) != false) goto L693;
+    /* JADX WARN: Code restructure failed: missing block: B:732:0x0fa2, code lost:
+        if (android.text.TextUtils.isEmpty(r26.messageOwner.message) != false) goto L701;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:726:0x0f9d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:734:0x0fb7, code lost:
         return "📹 " + replaceSpoilers(r26);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:728:0x0fa4, code lost:
-        if (r26.messageOwner.media.ttl_seconds == 0) goto L697;
+    /* JADX WARN: Code restructure failed: missing block: B:736:0x0fbe, code lost:
+        if (r26.messageOwner.media.ttl_seconds == 0) goto L705;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:730:0x0fae, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:738:0x0fc8, code lost:
         return org.telegram.messenger.LocaleController.getString("AttachDestructingVideo", org.telegram.messenger.R.string.AttachDestructingVideo);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:732:0x0fb7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:740:0x0fd1, code lost:
         return org.telegram.messenger.LocaleController.getString("AttachVideo", org.telegram.messenger.R.string.AttachVideo);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:734:0x0fbc, code lost:
-        if (r26.isGame() == false) goto L703;
+    /* JADX WARN: Code restructure failed: missing block: B:742:0x0fd6, code lost:
+        if (r26.isGame() == false) goto L711;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:736:0x0fc6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:744:0x0fe0, code lost:
         return org.telegram.messenger.LocaleController.getString("AttachGame", org.telegram.messenger.R.string.AttachGame);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:738:0x0fcb, code lost:
-        if (r26.isVoice() == false) goto L707;
+    /* JADX WARN: Code restructure failed: missing block: B:746:0x0fe5, code lost:
+        if (r26.isVoice() == false) goto L715;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:740:0x0fd5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:748:0x0fef, code lost:
         return org.telegram.messenger.LocaleController.getString("AttachAudio", org.telegram.messenger.R.string.AttachAudio);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:742:0x0fda, code lost:
-        if (r26.isRoundVideo() == false) goto L711;
+    /* JADX WARN: Code restructure failed: missing block: B:750:0x0ff4, code lost:
+        if (r26.isRoundVideo() == false) goto L719;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:744:0x0fe4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:752:0x0ffe, code lost:
         return org.telegram.messenger.LocaleController.getString("AttachRound", org.telegram.messenger.R.string.AttachRound);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:746:0x0fe9, code lost:
-        if (r26.isMusic() == false) goto L715;
+    /* JADX WARN: Code restructure failed: missing block: B:754:0x1003, code lost:
+        if (r26.isMusic() == false) goto L723;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:748:0x0ff3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:756:0x100d, code lost:
         return org.telegram.messenger.LocaleController.getString("AttachMusic", org.telegram.messenger.R.string.AttachMusic);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:749:0x0ff4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:757:0x100e, code lost:
         r2 = r26.messageOwner.media;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:750:0x0ffa, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaContact) == false) goto L719;
+    /* JADX WARN: Code restructure failed: missing block: B:758:0x1014, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaContact) == false) goto L727;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:752:0x1004, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:760:0x101e, code lost:
         return org.telegram.messenger.LocaleController.getString("AttachContact", org.telegram.messenger.R.string.AttachContact);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:754:0x1007, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPoll) == false) goto L727;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:756:0x100f, code lost:
-        if (((org.telegram.tgnet.TLRPC$TL_messageMediaPoll) r2).poll.quiz == false) goto L725;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:758:0x1019, code lost:
-        return org.telegram.messenger.LocaleController.getString("QuizPoll", org.telegram.messenger.R.string.QuizPoll);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:760:0x1022, code lost:
-        return org.telegram.messenger.LocaleController.getString("Poll", org.telegram.messenger.R.string.Poll);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:762:0x1025, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L771;
+    /* JADX WARN: Code restructure failed: missing block: B:762:0x1021, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPoll) == false) goto L735;
      */
     /* JADX WARN: Code restructure failed: missing block: B:764:0x1029, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaVenue) == false) goto L731;
+        if (((org.telegram.tgnet.TLRPC$TL_messageMediaPoll) r2).poll.quiz == false) goto L733;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:767:0x102f, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive) == false) goto L735;
+    /* JADX WARN: Code restructure failed: missing block: B:766:0x1033, code lost:
+        return org.telegram.messenger.LocaleController.getString("QuizPoll", org.telegram.messenger.R.string.QuizPoll);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:769:0x1039, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:768:0x103c, code lost:
+        return org.telegram.messenger.LocaleController.getString("Poll", org.telegram.messenger.R.string.Poll);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:770:0x103f, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L779;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:772:0x1043, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaVenue) == false) goto L739;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:775:0x1049, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive) == false) goto L743;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:777:0x1053, code lost:
         return org.telegram.messenger.LocaleController.getString("AttachLiveLocation", org.telegram.messenger.R.string.AttachLiveLocation);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:771:0x103c, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaDocument) == false) goto L765;
+    /* JADX WARN: Code restructure failed: missing block: B:779:0x1056, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaDocument) == false) goto L773;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:773:0x1042, code lost:
-        if (r26.isSticker() != false) goto L759;
+    /* JADX WARN: Code restructure failed: missing block: B:781:0x105c, code lost:
+        if (r26.isSticker() != false) goto L767;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:775:0x1048, code lost:
-        if (r26.isAnimatedSticker() == false) goto L741;
+    /* JADX WARN: Code restructure failed: missing block: B:783:0x1062, code lost:
+        if (r26.isAnimatedSticker() == false) goto L749;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:778:0x104f, code lost:
-        if (r26.isGif() == false) goto L751;
+    /* JADX WARN: Code restructure failed: missing block: B:786:0x1069, code lost:
+        if (r26.isGif() == false) goto L759;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:780:0x1055, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L749;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:782:0x105f, code lost:
-        if (android.text.TextUtils.isEmpty(r26.messageOwner.message) != false) goto L749;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:784:0x1074, code lost:
-        return "🎬 " + replaceSpoilers(r26);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:786:0x107d, code lost:
-        return org.telegram.messenger.LocaleController.getString("AttachGif", org.telegram.messenger.R.string.AttachGif);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:788:0x1082, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:788:0x106f, code lost:
         if (android.os.Build.VERSION.SDK_INT < 19) goto L757;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:790:0x108c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:790:0x1079, code lost:
         if (android.text.TextUtils.isEmpty(r26.messageOwner.message) != false) goto L757;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:792:0x10a1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:792:0x108e, code lost:
+        return "🎬 " + replaceSpoilers(r26);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:794:0x1097, code lost:
+        return org.telegram.messenger.LocaleController.getString("AttachGif", org.telegram.messenger.R.string.AttachGif);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:796:0x109c, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L765;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:798:0x10a6, code lost:
+        if (android.text.TextUtils.isEmpty(r26.messageOwner.message) != false) goto L765;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:800:0x10bb, code lost:
         return "📎 " + replaceSpoilers(r26);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:794:0x10aa, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:802:0x10c4, code lost:
         return org.telegram.messenger.LocaleController.getString("AttachDocument", org.telegram.messenger.R.string.AttachDocument);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:795:0x10ab, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:803:0x10c5, code lost:
         r0 = r26.getStickerEmoji();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:796:0x10af, code lost:
-        if (r0 == null) goto L763;
+    /* JADX WARN: Code restructure failed: missing block: B:804:0x10c9, code lost:
+        if (r0 == null) goto L771;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:798:0x10cd, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:806:0x10e7, code lost:
         return r0 + " " + org.telegram.messenger.LocaleController.getString("AttachSticker", org.telegram.messenger.R.string.AttachSticker);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:800:0x10d6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:808:0x10f0, code lost:
         return org.telegram.messenger.LocaleController.getString("AttachSticker", org.telegram.messenger.R.string.AttachSticker);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:802:0x10dd, code lost:
-        if (android.text.TextUtils.isEmpty(r26.messageText) != false) goto L769;
+    /* JADX WARN: Code restructure failed: missing block: B:810:0x10f7, code lost:
+        if (android.text.TextUtils.isEmpty(r26.messageText) != false) goto L777;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:804:0x10e3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:812:0x10fd, code lost:
         return replaceSpoilers(r26);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:806:0x10ea, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:814:0x1104, code lost:
         return org.telegram.messenger.LocaleController.getString(r1, org.telegram.messenger.R.string.Message);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:808:0x10f3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:816:0x110d, code lost:
         return org.telegram.messenger.LocaleController.getString("AttachLocation", org.telegram.messenger.R.string.AttachLocation);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:822:?, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:830:?, code lost:
         return org.telegram.messenger.LocaleController.formatString("ChatThemeDisabledYou", org.telegram.messenger.R.string.ChatThemeDisabledYou, new java.lang.Object[0]);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:823:?, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:831:?, code lost:
         return org.telegram.messenger.LocaleController.formatString("ChatThemeDisabled", org.telegram.messenger.R.string.ChatThemeDisabled, r7, r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:824:?, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:832:?, code lost:
         return org.telegram.messenger.LocaleController.formatString("ChangedChatThemeYou", org.telegram.messenger.R.string.ChatThemeChangedYou, r0);
      */
     /*
@@ -3171,592 +3185,592 @@ public class NotificationsController extends BaseController {
         return sb.toString();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:262:0x060a, code lost:
-        if (r12.getBoolean(r22, true) == false) goto L820;
+    /* JADX WARN: Code restructure failed: missing block: B:268:0x0626, code lost:
+        if (r12.getBoolean(r22, true) == false) goto L828;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:267:0x0616, code lost:
-        if (r12.getBoolean("EnablePreviewChannel", r15) != false) goto L275;
+    /* JADX WARN: Code restructure failed: missing block: B:273:0x0632, code lost:
+        if (r12.getBoolean("EnablePreviewChannel", r15) != false) goto L283;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:268:0x0618, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:274:0x0634, code lost:
         r6 = r29.messageOwner;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:269:0x061c, code lost:
-        if ((r6 instanceof org.telegram.tgnet.TLRPC$TL_messageService) == false) goto L611;
+    /* JADX WARN: Code restructure failed: missing block: B:275:0x0638, code lost:
+        if ((r6 instanceof org.telegram.tgnet.TLRPC$TL_messageService) == false) goto L619;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:270:0x061e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:276:0x063a, code lost:
         r7 = r6.action;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:271:0x0622, code lost:
-        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatAddUser) == false) goto L318;
+    /* JADX WARN: Code restructure failed: missing block: B:277:0x063e, code lost:
+        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatAddUser) == false) goto L326;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:272:0x0624, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:278:0x0640, code lost:
         r3 = r7.user_id;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:273:0x062a, code lost:
-        if (r3 != 0) goto L284;
+    /* JADX WARN: Code restructure failed: missing block: B:279:0x0646, code lost:
+        if (r3 != 0) goto L292;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:275:0x0633, code lost:
-        if (r7.users.size() != 1) goto L284;
+    /* JADX WARN: Code restructure failed: missing block: B:281:0x064f, code lost:
+        if (r7.users.size() != 1) goto L292;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:276:0x0635, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:282:0x0651, code lost:
         r3 = r29.messageOwner.action.users.get(0).longValue();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:278:0x064a, code lost:
-        if (r3 == 0) goto L304;
+    /* JADX WARN: Code restructure failed: missing block: B:284:0x0666, code lost:
+        if (r3 == 0) goto L312;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:280:0x0654, code lost:
-        if (r29.messageOwner.peer_id.channel_id == 0) goto L291;
+    /* JADX WARN: Code restructure failed: missing block: B:286:0x0670, code lost:
+        if (r29.messageOwner.peer_id.channel_id == 0) goto L299;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:282:0x0658, code lost:
-        if (r5.megagroup != false) goto L291;
+    /* JADX WARN: Code restructure failed: missing block: B:288:0x0674, code lost:
+        if (r5.megagroup != false) goto L299;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:283:0x065a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:289:0x0676, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("ChannelAddedByNotification", org.telegram.messenger.R.string.ChannelAddedByNotification, r2, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:285:0x0671, code lost:
-        if (r3 != r19) goto L294;
+    /* JADX WARN: Code restructure failed: missing block: B:291:0x068d, code lost:
+        if (r3 != r19) goto L302;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:286:0x0673, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:292:0x068f, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationInvitedToGroup", org.telegram.messenger.R.string.NotificationInvitedToGroup, r2, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:287:0x0688, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:293:0x06a4, code lost:
         r0 = getMessagesController().getUser(java.lang.Long.valueOf(r3));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:288:0x0694, code lost:
-        if (r0 != null) goto L297;
+    /* JADX WARN: Code restructure failed: missing block: B:294:0x06b0, code lost:
+        if (r0 != null) goto L305;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:289:0x0696, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:295:0x06b2, code lost:
         return null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:292:0x069c, code lost:
-        if (r9 != r0.id) goto L303;
+    /* JADX WARN: Code restructure failed: missing block: B:298:0x06b8, code lost:
+        if (r9 != r0.id) goto L311;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:294:0x06a0, code lost:
-        if (r5.megagroup == false) goto L302;
+    /* JADX WARN: Code restructure failed: missing block: B:300:0x06bc, code lost:
+        if (r5.megagroup == false) goto L310;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:295:0x06a2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:301:0x06be, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationGroupAddSelfMega", org.telegram.messenger.R.string.NotificationGroupAddSelfMega, r2, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:296:0x06b7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:302:0x06d3, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationGroupAddSelf", org.telegram.messenger.R.string.NotificationGroupAddSelf, r2, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:297:0x06cc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:303:0x06e8, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationGroupAddMember", org.telegram.messenger.R.string.NotificationGroupAddMember, r2, r5.title, org.telegram.messenger.UserObject.getUserName(r0));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:298:0x06e8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:304:0x0704, code lost:
         r1 = new java.lang.StringBuilder();
         r3 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:300:0x06f8, code lost:
-        if (r3 >= r29.messageOwner.action.users.size()) goto L316;
+    /* JADX WARN: Code restructure failed: missing block: B:306:0x0714, code lost:
+        if (r3 >= r29.messageOwner.action.users.size()) goto L324;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:301:0x06fa, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:307:0x0716, code lost:
         r4 = getMessagesController().getUser(r29.messageOwner.action.users.get(r3));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:302:0x070e, code lost:
-        if (r4 == null) goto L315;
+    /* JADX WARN: Code restructure failed: missing block: B:308:0x072a, code lost:
+        if (r4 == null) goto L323;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:303:0x0710, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:309:0x072c, code lost:
         r4 = org.telegram.messenger.UserObject.getUserName(r4);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:304:0x0718, code lost:
-        if (r1.length() == 0) goto L312;
+    /* JADX WARN: Code restructure failed: missing block: B:310:0x0734, code lost:
+        if (r1.length() == 0) goto L320;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:305:0x071a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:311:0x0736, code lost:
         r1.append(", ");
      */
-    /* JADX WARN: Code restructure failed: missing block: B:306:0x071f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:312:0x073b, code lost:
         r1.append(r4);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:307:0x0722, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:313:0x073e, code lost:
         r3 = r3 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:308:0x0725, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:314:0x0741, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationGroupAddMember", org.telegram.messenger.R.string.NotificationGroupAddMember, r2, r5.title, r1.toString());
      */
-    /* JADX WARN: Code restructure failed: missing block: B:310:0x0744, code lost:
-        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGroupCall) == false) goto L322;
+    /* JADX WARN: Code restructure failed: missing block: B:316:0x0760, code lost:
+        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGroupCall) == false) goto L330;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:313:0x075c, code lost:
-        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGroupCallScheduled) == false) goto L326;
+    /* JADX WARN: Code restructure failed: missing block: B:319:0x0778, code lost:
+        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGroupCallScheduled) == false) goto L334;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:316:0x0768, code lost:
-        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionInviteToGroupCall) == false) goto L356;
+    /* JADX WARN: Code restructure failed: missing block: B:322:0x0784, code lost:
+        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionInviteToGroupCall) == false) goto L364;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:317:0x076a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:323:0x0786, code lost:
         r3 = r7.user_id;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:318:0x0770, code lost:
-        if (r3 != 0) goto L333;
+    /* JADX WARN: Code restructure failed: missing block: B:324:0x078c, code lost:
+        if (r3 != 0) goto L341;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:320:0x0779, code lost:
-        if (r7.users.size() != 1) goto L333;
+    /* JADX WARN: Code restructure failed: missing block: B:326:0x0795, code lost:
+        if (r7.users.size() != 1) goto L341;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:321:0x077b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:327:0x0797, code lost:
         r3 = r29.messageOwner.action.users.get(0).longValue();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:323:0x0790, code lost:
-        if (r3 == 0) goto L342;
+    /* JADX WARN: Code restructure failed: missing block: B:329:0x07ac, code lost:
+        if (r3 == 0) goto L350;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:325:0x0794, code lost:
-        if (r3 != r19) goto L338;
+    /* JADX WARN: Code restructure failed: missing block: B:331:0x07b0, code lost:
+        if (r3 != r19) goto L346;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:326:0x0796, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:332:0x07b2, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationGroupInvitedYouToCall", org.telegram.messenger.R.string.NotificationGroupInvitedYouToCall, r2, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:327:0x07ab, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:333:0x07c7, code lost:
         r0 = getMessagesController().getUser(java.lang.Long.valueOf(r3));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:328:0x07b7, code lost:
-        if (r0 != null) goto L341;
+    /* JADX WARN: Code restructure failed: missing block: B:334:0x07d3, code lost:
+        if (r0 != null) goto L349;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:329:0x07b9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:335:0x07d5, code lost:
         return null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:331:0x07bb, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:337:0x07d7, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationGroupInvitedToCall", org.telegram.messenger.R.string.NotificationGroupInvitedToCall, r2, r5.title, org.telegram.messenger.UserObject.getUserName(r0));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:332:0x07d7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:338:0x07f3, code lost:
         r1 = new java.lang.StringBuilder();
         r3 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:334:0x07e7, code lost:
-        if (r3 >= r29.messageOwner.action.users.size()) goto L354;
+    /* JADX WARN: Code restructure failed: missing block: B:340:0x0803, code lost:
+        if (r3 >= r29.messageOwner.action.users.size()) goto L362;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:335:0x07e9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:341:0x0805, code lost:
         r4 = getMessagesController().getUser(r29.messageOwner.action.users.get(r3));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:336:0x07fd, code lost:
-        if (r4 == null) goto L353;
+    /* JADX WARN: Code restructure failed: missing block: B:342:0x0819, code lost:
+        if (r4 == null) goto L361;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:337:0x07ff, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:343:0x081b, code lost:
         r4 = org.telegram.messenger.UserObject.getUserName(r4);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:338:0x0807, code lost:
-        if (r1.length() == 0) goto L350;
+    /* JADX WARN: Code restructure failed: missing block: B:344:0x0823, code lost:
+        if (r1.length() == 0) goto L358;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:339:0x0809, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:345:0x0825, code lost:
         r1.append(", ");
      */
-    /* JADX WARN: Code restructure failed: missing block: B:340:0x080e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:346:0x082a, code lost:
         r1.append(r4);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:341:0x0811, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:347:0x082d, code lost:
         r3 = r3 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:342:0x0814, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:348:0x0830, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationGroupInvitedToCall", org.telegram.messenger.R.string.NotificationGroupInvitedToCall, r2, r5.title, r1.toString());
      */
-    /* JADX WARN: Code restructure failed: missing block: B:344:0x0833, code lost:
-        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatJoinedByLink) == false) goto L360;
+    /* JADX WARN: Code restructure failed: missing block: B:350:0x084f, code lost:
+        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatJoinedByLink) == false) goto L368;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:347:0x084c, code lost:
-        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatEditTitle) == false) goto L364;
+    /* JADX WARN: Code restructure failed: missing block: B:353:0x0868, code lost:
+        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatEditTitle) == false) goto L372;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:350:0x0863, code lost:
-        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatEditPhoto) != false) goto L595;
+    /* JADX WARN: Code restructure failed: missing block: B:356:0x087f, code lost:
+        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatEditPhoto) != false) goto L603;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:352:0x0867, code lost:
-        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatDeletePhoto) == false) goto L368;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:355:0x086d, code lost:
-        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatDeleteUser) == false) goto L383;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:356:0x086f, code lost:
-        r3 = r7.user_id;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:357:0x0873, code lost:
-        if (r3 != r19) goto L374;
+    /* JADX WARN: Code restructure failed: missing block: B:358:0x0883, code lost:
+        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatDeletePhoto) == false) goto L376;
      */
     /* JADX WARN: Code restructure failed: missing block: B:35:0x008f, code lost:
         if (r12.getBoolean("EnablePreviewGroup", true) != false) goto L37;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:360:0x088f, code lost:
-        if (r3 != r9) goto L378;
+    /* JADX WARN: Code restructure failed: missing block: B:361:0x0889, code lost:
+        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatDeleteUser) == false) goto L391;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:362:0x08a3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:362:0x088b, code lost:
+        r3 = r7.user_id;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:363:0x088f, code lost:
+        if (r3 != r19) goto L382;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:366:0x08ab, code lost:
+        if (r3 != r9) goto L386;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:368:0x08bf, code lost:
         r0 = getMessagesController().getUser(java.lang.Long.valueOf(r29.messageOwner.action.user_id));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:363:0x08b5, code lost:
-        if (r0 != null) goto L381;
+    /* JADX WARN: Code restructure failed: missing block: B:369:0x08d1, code lost:
+        if (r0 != null) goto L389;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:364:0x08b7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:370:0x08d3, code lost:
         return null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:367:0x08d5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:373:0x08f1, code lost:
         r9 = null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:368:0x08d8, code lost:
-        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatCreate) == false) goto L387;
+    /* JADX WARN: Code restructure failed: missing block: B:374:0x08f4, code lost:
+        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatCreate) == false) goto L395;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:371:0x08e4, code lost:
-        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChannelCreate) == false) goto L391;
+    /* JADX WARN: Code restructure failed: missing block: B:377:0x0900, code lost:
+        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChannelCreate) == false) goto L399;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:374:0x08f0, code lost:
-        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatMigrateTo) == false) goto L395;
+    /* JADX WARN: Code restructure failed: missing block: B:380:0x090c, code lost:
+        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatMigrateTo) == false) goto L403;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:377:0x0908, code lost:
-        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChannelMigrateFrom) == false) goto L399;
+    /* JADX WARN: Code restructure failed: missing block: B:383:0x0924, code lost:
+        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChannelMigrateFrom) == false) goto L407;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:380:0x091c, code lost:
-        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionScreenshotTaken) == false) goto L403;
+    /* JADX WARN: Code restructure failed: missing block: B:386:0x0938, code lost:
+        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionScreenshotTaken) == false) goto L411;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:383:0x0928, code lost:
-        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionPinMessage) == false) goto L575;
+    /* JADX WARN: Code restructure failed: missing block: B:389:0x0944, code lost:
+        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionPinMessage) == false) goto L583;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:385:0x0930, code lost:
-        if (org.telegram.messenger.ChatObject.isChannel(r5) == false) goto L492;
+    /* JADX WARN: Code restructure failed: missing block: B:391:0x094c, code lost:
+        if (org.telegram.messenger.ChatObject.isChannel(r5) == false) goto L500;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:387:0x0934, code lost:
-        if (r5.megagroup == false) goto L409;
+    /* JADX WARN: Code restructure failed: missing block: B:393:0x0950, code lost:
+        if (r5.megagroup == false) goto L417;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:389:0x0938, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:395:0x0954, code lost:
         r2 = r29.replyMessageObject;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:390:0x093a, code lost:
-        if (r2 != null) goto L413;
+    /* JADX WARN: Code restructure failed: missing block: B:396:0x0956, code lost:
+        if (r2 != null) goto L421;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:393:0x0954, code lost:
-        if (r2.isMusic() == false) goto L416;
+    /* JADX WARN: Code restructure failed: missing block: B:399:0x0970, code lost:
+        if (r2.isMusic() == false) goto L424;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:394:0x0956, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:400:0x0972, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedMusicChannel", org.telegram.messenger.R.string.NotificationActionPinnedMusicChannel, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:396:0x096c, code lost:
-        if (r2.isVideo() == false) goto L424;
+    /* JADX WARN: Code restructure failed: missing block: B:402:0x0988, code lost:
+        if (r2.isVideo() == false) goto L432;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:398:0x0972, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L423;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:400:0x097c, code lost:
-        if (android.text.TextUtils.isEmpty(r2.messageOwner.message) != false) goto L423;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:401:0x097e, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", org.telegram.messenger.R.string.NotificationActionPinnedTextChannel, r5.title, "📹 " + r2.messageOwner.message);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:402:0x09a4, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVideoChannel", org.telegram.messenger.R.string.NotificationActionPinnedVideoChannel, r5.title);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:404:0x09ba, code lost:
-        if (r2.isGif() == false) goto L432;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:406:0x09c0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:404:0x098e, code lost:
         if (android.os.Build.VERSION.SDK_INT < 19) goto L431;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:408:0x09ca, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:406:0x0998, code lost:
         if (android.text.TextUtils.isEmpty(r2.messageOwner.message) != false) goto L431;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:409:0x09cc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:407:0x099a, code lost:
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", org.telegram.messenger.R.string.NotificationActionPinnedTextChannel, r5.title, "📹 " + r2.messageOwner.message);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:408:0x09c0, code lost:
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVideoChannel", org.telegram.messenger.R.string.NotificationActionPinnedVideoChannel, r5.title);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:410:0x09d6, code lost:
+        if (r2.isGif() == false) goto L440;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:412:0x09dc, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L439;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:414:0x09e6, code lost:
+        if (android.text.TextUtils.isEmpty(r2.messageOwner.message) != false) goto L439;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:415:0x09e8, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", org.telegram.messenger.R.string.NotificationActionPinnedTextChannel, r5.title, "🎬 " + r2.messageOwner.message);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:410:0x09f2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:416:0x0a0e, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGifChannel", org.telegram.messenger.R.string.NotificationActionPinnedGifChannel, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:412:0x0a0a, code lost:
-        if (r2.isVoice() == false) goto L435;
+    /* JADX WARN: Code restructure failed: missing block: B:418:0x0a26, code lost:
+        if (r2.isVoice() == false) goto L443;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:413:0x0a0c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:419:0x0a28, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVoiceChannel", org.telegram.messenger.R.string.NotificationActionPinnedVoiceChannel, r5.title);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:415:0x0a20, code lost:
-        if (r2.isRoundVideo() == false) goto L438;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:416:0x0a22, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedRoundChannel", org.telegram.messenger.R.string.NotificationActionPinnedRoundChannel, r5.title);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:418:0x0a36, code lost:
-        if (r2.isSticker() != false) goto L488;
      */
     /* JADX WARN: Code restructure failed: missing block: B:41:0x009d, code lost:
         if (r12.getBoolean("EnablePreviewChannel", r3) == false) goto L42;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:420:0x0a3c, code lost:
-        if (r2.isAnimatedSticker() == false) goto L442;
+    /* JADX WARN: Code restructure failed: missing block: B:421:0x0a3c, code lost:
+        if (r2.isRoundVideo() == false) goto L446;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:422:0x0a40, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:422:0x0a3e, code lost:
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedRoundChannel", org.telegram.messenger.R.string.NotificationActionPinnedRoundChannel, r5.title);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:424:0x0a52, code lost:
+        if (r2.isSticker() != false) goto L496;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:426:0x0a58, code lost:
+        if (r2.isAnimatedSticker() == false) goto L450;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:428:0x0a5c, code lost:
         r1 = r2.messageOwner;
         r3 = r1.media;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:423:0x0a46, code lost:
-        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaDocument) == false) goto L450;
+    /* JADX WARN: Code restructure failed: missing block: B:429:0x0a62, code lost:
+        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaDocument) == false) goto L458;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:425:0x0a4c, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L449;
+    /* JADX WARN: Code restructure failed: missing block: B:431:0x0a68, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L457;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:427:0x0a54, code lost:
-        if (android.text.TextUtils.isEmpty(r1.message) != false) goto L449;
+    /* JADX WARN: Code restructure failed: missing block: B:433:0x0a70, code lost:
+        if (android.text.TextUtils.isEmpty(r1.message) != false) goto L457;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:428:0x0a56, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:434:0x0a72, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", org.telegram.messenger.R.string.NotificationActionPinnedTextChannel, r5.title, "📎 " + r2.messageOwner.message);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:429:0x0a7c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:435:0x0a98, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedFileChannel", org.telegram.messenger.R.string.NotificationActionPinnedFileChannel, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:431:0x0a90, code lost:
-        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L487;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:433:0x0a94, code lost:
-        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaVenue) == false) goto L454;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:436:0x0a9a, code lost:
-        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive) == false) goto L457;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:437:0x0a9c, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoLiveChannel", org.telegram.messenger.R.string.NotificationActionPinnedGeoLiveChannel, r5.title);
+    /* JADX WARN: Code restructure failed: missing block: B:437:0x0aac, code lost:
+        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L495;
      */
     /* JADX WARN: Code restructure failed: missing block: B:439:0x0ab0, code lost:
-        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaContact) == false) goto L460;
+        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaVenue) == false) goto L462;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:440:0x0ab2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:442:0x0ab6, code lost:
+        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive) == false) goto L465;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:443:0x0ab8, code lost:
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoLiveChannel", org.telegram.messenger.R.string.NotificationActionPinnedGeoLiveChannel, r5.title);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:445:0x0acc, code lost:
+        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaContact) == false) goto L468;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:446:0x0ace, code lost:
         r0 = (org.telegram.tgnet.TLRPC$TL_messageMediaContact) r29.messageOwner.media;
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedContactChannel2", org.telegram.messenger.R.string.NotificationActionPinnedContactChannel2, r5.title, org.telegram.messenger.ContactsController.formatName(r0.first_name, r0.last_name));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:442:0x0ad7, code lost:
-        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPoll) == false) goto L466;
+    /* JADX WARN: Code restructure failed: missing block: B:448:0x0af3, code lost:
+        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPoll) == false) goto L474;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:443:0x0ad9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:449:0x0af5, code lost:
         r0 = ((org.telegram.tgnet.TLRPC$TL_messageMediaPoll) r3).poll;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:444:0x0adf, code lost:
-        if (r0.quiz == false) goto L465;
+    /* JADX WARN: Code restructure failed: missing block: B:450:0x0afb, code lost:
+        if (r0.quiz == false) goto L473;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:445:0x0ae1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:451:0x0afd, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedQuizChannel2", org.telegram.messenger.R.string.NotificationActionPinnedQuizChannel2, r5.title, r0.question);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:446:0x0af8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:452:0x0b14, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPollChannel2", org.telegram.messenger.R.string.NotificationActionPinnedPollChannel2, r5.title, r0.question);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:448:0x0b11, code lost:
-        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPhoto) == false) goto L474;
+    /* JADX WARN: Code restructure failed: missing block: B:454:0x0b2d, code lost:
+        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPhoto) == false) goto L482;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:450:0x0b17, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L473;
+    /* JADX WARN: Code restructure failed: missing block: B:456:0x0b33, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L481;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:452:0x0b1f, code lost:
-        if (android.text.TextUtils.isEmpty(r1.message) != false) goto L473;
+    /* JADX WARN: Code restructure failed: missing block: B:458:0x0b3b, code lost:
+        if (android.text.TextUtils.isEmpty(r1.message) != false) goto L481;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:453:0x0b21, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:459:0x0b3d, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", org.telegram.messenger.R.string.NotificationActionPinnedTextChannel, r5.title, "🖼 " + r2.messageOwner.message);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:454:0x0b47, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:460:0x0b63, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPhotoChannel", org.telegram.messenger.R.string.NotificationActionPinnedPhotoChannel, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:456:0x0b5d, code lost:
-        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGame) == false) goto L477;
+    /* JADX WARN: Code restructure failed: missing block: B:462:0x0b79, code lost:
+        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGame) == false) goto L485;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:457:0x0b5f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:463:0x0b7b, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGameChannel", org.telegram.messenger.R.string.NotificationActionPinnedGameChannel, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:458:0x0b6f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:464:0x0b8b, code lost:
         r0 = r2.messageText;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:459:0x0b71, code lost:
-        if (r0 == null) goto L486;
+    /* JADX WARN: Code restructure failed: missing block: B:465:0x0b8d, code lost:
+        if (r0 == null) goto L494;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:461:0x0b77, code lost:
-        if (r0.length() <= 0) goto L486;
+    /* JADX WARN: Code restructure failed: missing block: B:467:0x0b93, code lost:
+        if (r0.length() <= 0) goto L494;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:462:0x0b79, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:468:0x0b95, code lost:
         r0 = r2.messageText;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:463:0x0b7f, code lost:
-        if (r0.length() <= 20) goto L485;
+    /* JADX WARN: Code restructure failed: missing block: B:469:0x0b9b, code lost:
+        if (r0.length() <= 20) goto L493;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:464:0x0b81, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:470:0x0b9d, code lost:
         r1 = new java.lang.StringBuilder();
         r3 = 0;
         r1.append((java.lang.Object) r0.subSequence(0, 20));
         r1.append("...");
         r0 = r1.toString();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:465:0x0b98, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:471:0x0bb4, code lost:
         r3 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:466:0x0b99, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:472:0x0bb5, code lost:
         r1 = org.telegram.messenger.R.string.NotificationActionPinnedTextChannel;
         r2 = new java.lang.Object[2];
         r2[r3] = r5.title;
         r2[1] = r0;
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedTextChannel", r1, r2);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:467:0x0bab, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:473:0x0bc7, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoTextChannel", org.telegram.messenger.R.string.NotificationActionPinnedNoTextChannel, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:468:0x0bbd, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:474:0x0bd9, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoChannel", org.telegram.messenger.R.string.NotificationActionPinnedGeoChannel, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:469:0x0bcf, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:475:0x0beb, code lost:
         r0 = r2.getStickerEmoji();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:470:0x0bd4, code lost:
-        if (r0 == null) goto L491;
+    /* JADX WARN: Code restructure failed: missing block: B:476:0x0bf0, code lost:
+        if (r0 == null) goto L499;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:471:0x0bd6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:477:0x0bf2, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerEmojiChannel", org.telegram.messenger.R.string.NotificationActionPinnedStickerEmojiChannel, r5.title, r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:472:0x0bea, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:478:0x0c06, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerChannel", org.telegram.messenger.R.string.NotificationActionPinnedStickerChannel, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:473:0x0bfb, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:479:0x0c17, code lost:
         r6 = r29.replyMessageObject;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:474:0x0bfe, code lost:
-        if (r6 != null) goto L496;
+    /* JADX WARN: Code restructure failed: missing block: B:480:0x0c1a, code lost:
+        if (r6 != null) goto L504;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:477:0x0c1a, code lost:
-        if (r6.isMusic() == false) goto L499;
+    /* JADX WARN: Code restructure failed: missing block: B:483:0x0c36, code lost:
+        if (r6.isMusic() == false) goto L507;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:478:0x0c1c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:484:0x0c38, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedMusic", org.telegram.messenger.R.string.NotificationActionPinnedMusic, r2, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:480:0x0c34, code lost:
-        if (r6.isVideo() == false) goto L507;
+    /* JADX WARN: Code restructure failed: missing block: B:486:0x0c50, code lost:
+        if (r6.isVideo() == false) goto L515;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:482:0x0c3a, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L506;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:484:0x0c44, code lost:
-        if (android.text.TextUtils.isEmpty(r6.messageOwner.message) != false) goto L506;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:485:0x0c46, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", org.telegram.messenger.R.string.NotificationActionPinnedText, r2, "📹 " + r6.messageOwner.message, r5.title);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:486:0x0c6f, code lost:
-        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVideo", org.telegram.messenger.R.string.NotificationActionPinnedVideo, r2, r5.title);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:488:0x0c88, code lost:
-        if (r6.isGif() == false) goto L515;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:490:0x0c8e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:488:0x0c56, code lost:
         if (android.os.Build.VERSION.SDK_INT < 19) goto L514;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:492:0x0c98, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:490:0x0c60, code lost:
         if (android.text.TextUtils.isEmpty(r6.messageOwner.message) != false) goto L514;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:493:0x0c9a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:491:0x0c62, code lost:
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", org.telegram.messenger.R.string.NotificationActionPinnedText, r2, "📹 " + r6.messageOwner.message, r5.title);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:492:0x0c8b, code lost:
+        r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVideo", org.telegram.messenger.R.string.NotificationActionPinnedVideo, r2, r5.title);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:494:0x0ca4, code lost:
+        if (r6.isGif() == false) goto L523;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:496:0x0caa, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L522;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:498:0x0cb4, code lost:
+        if (android.text.TextUtils.isEmpty(r6.messageOwner.message) != false) goto L522;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:499:0x0cb6, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", org.telegram.messenger.R.string.NotificationActionPinnedText, r2, "🎬 " + r6.messageOwner.message, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:494:0x0cc3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:500:0x0cdf, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGif", org.telegram.messenger.R.string.NotificationActionPinnedGif, r2, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:496:0x0cdf, code lost:
-        if (r6.isVoice() == false) goto L518;
+    /* JADX WARN: Code restructure failed: missing block: B:502:0x0cfb, code lost:
+        if (r6.isVoice() == false) goto L526;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:497:0x0ce1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:503:0x0cfd, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedVoice", org.telegram.messenger.R.string.NotificationActionPinnedVoice, r2, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:499:0x0cf7, code lost:
-        if (r6.isRoundVideo() == false) goto L521;
+    /* JADX WARN: Code restructure failed: missing block: B:505:0x0d13, code lost:
+        if (r6.isRoundVideo() == false) goto L529;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:500:0x0cf9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:506:0x0d15, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedRound", org.telegram.messenger.R.string.NotificationActionPinnedRound, r2, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:502:0x0d0f, code lost:
-        if (r6.isSticker() != false) goto L571;
+    /* JADX WARN: Code restructure failed: missing block: B:508:0x0d2b, code lost:
+        if (r6.isSticker() != false) goto L579;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:504:0x0d15, code lost:
-        if (r6.isAnimatedSticker() == false) goto L525;
+    /* JADX WARN: Code restructure failed: missing block: B:510:0x0d31, code lost:
+        if (r6.isAnimatedSticker() == false) goto L533;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:506:0x0d19, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:512:0x0d35, code lost:
         r1 = r6.messageOwner;
         r3 = r1.media;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:507:0x0d1f, code lost:
-        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaDocument) == false) goto L533;
+    /* JADX WARN: Code restructure failed: missing block: B:513:0x0d3b, code lost:
+        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaDocument) == false) goto L541;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:509:0x0d25, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L532;
+    /* JADX WARN: Code restructure failed: missing block: B:515:0x0d41, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L540;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:511:0x0d2d, code lost:
-        if (android.text.TextUtils.isEmpty(r1.message) != false) goto L532;
+    /* JADX WARN: Code restructure failed: missing block: B:517:0x0d49, code lost:
+        if (android.text.TextUtils.isEmpty(r1.message) != false) goto L540;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:512:0x0d2f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:518:0x0d4b, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", org.telegram.messenger.R.string.NotificationActionPinnedText, r2, "📎 " + r6.messageOwner.message, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:513:0x0d58, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:519:0x0d74, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedFile", org.telegram.messenger.R.string.NotificationActionPinnedFile, r2, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:515:0x0d6f, code lost:
-        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L570;
+    /* JADX WARN: Code restructure failed: missing block: B:521:0x0d8b, code lost:
+        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L578;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:517:0x0d73, code lost:
-        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaVenue) == false) goto L537;
+    /* JADX WARN: Code restructure failed: missing block: B:523:0x0d8f, code lost:
+        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaVenue) == false) goto L545;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:520:0x0d79, code lost:
-        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive) == false) goto L540;
+    /* JADX WARN: Code restructure failed: missing block: B:526:0x0d95, code lost:
+        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive) == false) goto L548;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:521:0x0d7b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:527:0x0d97, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeoLive", org.telegram.messenger.R.string.NotificationActionPinnedGeoLive, r2, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:523:0x0d92, code lost:
-        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaContact) == false) goto L543;
+    /* JADX WARN: Code restructure failed: missing block: B:529:0x0dae, code lost:
+        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaContact) == false) goto L551;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:524:0x0d94, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:530:0x0db0, code lost:
         r0 = (org.telegram.tgnet.TLRPC$TL_messageMediaContact) r29.messageOwner.media;
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedContact2", org.telegram.messenger.R.string.NotificationActionPinnedContact2, r2, r5.title, org.telegram.messenger.ContactsController.formatName(r0.first_name, r0.last_name));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:526:0x0dbc, code lost:
-        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPoll) == false) goto L549;
+    /* JADX WARN: Code restructure failed: missing block: B:532:0x0dd8, code lost:
+        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPoll) == false) goto L557;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:527:0x0dbe, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:533:0x0dda, code lost:
         r0 = ((org.telegram.tgnet.TLRPC$TL_messageMediaPoll) r3).poll;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:528:0x0dc4, code lost:
-        if (r0.quiz == false) goto L548;
+    /* JADX WARN: Code restructure failed: missing block: B:534:0x0de0, code lost:
+        if (r0.quiz == false) goto L556;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:529:0x0dc6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:535:0x0de2, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedQuiz2", org.telegram.messenger.R.string.NotificationActionPinnedQuiz2, r2, r5.title, r0.question);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:530:0x0de0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:536:0x0dfc, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPoll2", org.telegram.messenger.R.string.NotificationActionPinnedPoll2, r2, r5.title, r0.question);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:532:0x0dfc, code lost:
-        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPhoto) == false) goto L557;
+    /* JADX WARN: Code restructure failed: missing block: B:538:0x0e18, code lost:
+        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPhoto) == false) goto L565;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:534:0x0e02, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L556;
+    /* JADX WARN: Code restructure failed: missing block: B:540:0x0e1e, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L564;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:536:0x0e0a, code lost:
-        if (android.text.TextUtils.isEmpty(r1.message) != false) goto L556;
+    /* JADX WARN: Code restructure failed: missing block: B:542:0x0e26, code lost:
+        if (android.text.TextUtils.isEmpty(r1.message) != false) goto L564;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:537:0x0e0c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:543:0x0e28, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", org.telegram.messenger.R.string.NotificationActionPinnedText, r2, "🖼 " + r6.messageOwner.message, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:538:0x0e35, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:544:0x0e51, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedPhoto", org.telegram.messenger.R.string.NotificationActionPinnedPhoto, r2, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:540:0x0e4f, code lost:
-        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGame) == false) goto L560;
+    /* JADX WARN: Code restructure failed: missing block: B:546:0x0e6b, code lost:
+        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGame) == false) goto L568;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:541:0x0e51, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:547:0x0e6d, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGame", org.telegram.messenger.R.string.NotificationActionPinnedGame, r2, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:542:0x0e63, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:548:0x0e7f, code lost:
         r0 = r6.messageText;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:543:0x0e65, code lost:
-        if (r0 == null) goto L569;
+    /* JADX WARN: Code restructure failed: missing block: B:549:0x0e81, code lost:
+        if (r0 == null) goto L577;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:545:0x0e6b, code lost:
-        if (r0.length() <= 0) goto L569;
+    /* JADX WARN: Code restructure failed: missing block: B:551:0x0e87, code lost:
+        if (r0.length() <= 0) goto L577;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:546:0x0e6d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:552:0x0e89, code lost:
         r0 = r6.messageText;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:547:0x0e73, code lost:
-        if (r0.length() <= 20) goto L568;
+    /* JADX WARN: Code restructure failed: missing block: B:553:0x0e8f, code lost:
+        if (r0.length() <= 20) goto L576;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:548:0x0e75, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:554:0x0e91, code lost:
         r1 = new java.lang.StringBuilder();
         r3 = 0;
         r1.append((java.lang.Object) r0.subSequence(0, 20));
         r1.append("...");
         r0 = r1.toString();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:549:0x0e8c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:555:0x0ea8, code lost:
         r3 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:550:0x0e8d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:556:0x0ea9, code lost:
         r1 = org.telegram.messenger.R.string.NotificationActionPinnedText;
         r4 = new java.lang.Object[3];
         r4[r3] = r2;
@@ -3764,543 +3778,543 @@ public class NotificationsController extends BaseController {
         r4[2] = r5.title;
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedText", r1, r4);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:551:0x0ea2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:557:0x0ebe, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoText", org.telegram.messenger.R.string.NotificationActionPinnedNoText, r2, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:552:0x0eb7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:558:0x0ed3, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedGeo", org.telegram.messenger.R.string.NotificationActionPinnedGeo, r2, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:553:0x0ecc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:559:0x0ee8, code lost:
         r0 = r6.getStickerEmoji();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:554:0x0ed2, code lost:
-        if (r0 == null) goto L574;
+    /* JADX WARN: Code restructure failed: missing block: B:560:0x0eee, code lost:
+        if (r0 == null) goto L582;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:555:0x0ed4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:561:0x0ef0, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedStickerEmoji", org.telegram.messenger.R.string.NotificationActionPinnedStickerEmoji, r2, r5.title, r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:556:0x0eea, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:562:0x0f06, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedSticker", org.telegram.messenger.R.string.NotificationActionPinnedSticker, r2, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:558:0x0eff, code lost:
-        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGameScore) == false) goto L579;
+    /* JADX WARN: Code restructure failed: missing block: B:564:0x0f1b, code lost:
+        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGameScore) == false) goto L587;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:561:0x0f0b, code lost:
-        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionSetChatTheme) == false) goto L591;
+    /* JADX WARN: Code restructure failed: missing block: B:567:0x0f27, code lost:
+        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionSetChatTheme) == false) goto L599;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:562:0x0f0d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:568:0x0f29, code lost:
         r0 = ((org.telegram.tgnet.TLRPC$TL_messageActionSetChatTheme) r7).emoticon;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:563:0x0f15, code lost:
-        if (android.text.TextUtils.isEmpty(r0) == false) goto L587;
+    /* JADX WARN: Code restructure failed: missing block: B:569:0x0f31, code lost:
+        if (android.text.TextUtils.isEmpty(r0) == false) goto L595;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:565:0x0f19, code lost:
-        if (r3 != r19) goto L586;
+    /* JADX WARN: Code restructure failed: missing block: B:571:0x0f35, code lost:
+        if (r3 != r19) goto L594;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:566:0x0f1b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:572:0x0f37, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("ChatThemeDisabledYou", org.telegram.messenger.R.string.ChatThemeDisabledYou, new java.lang.Object[0]);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:567:0x0f28, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:573:0x0f44, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("ChatThemeDisabled", org.telegram.messenger.R.string.ChatThemeDisabled, r2, r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:569:0x0f3f, code lost:
-        if (r3 != r19) goto L590;
+    /* JADX WARN: Code restructure failed: missing block: B:575:0x0f5b, code lost:
+        if (r3 != r19) goto L598;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:570:0x0f41, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:576:0x0f5d, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("ChangedChatThemeYou", org.telegram.messenger.R.string.ChatThemeChangedYou, r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:571:0x0f4f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:577:0x0f6b, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("ChangedChatThemeTo", org.telegram.messenger.R.string.ChatThemeChangedTo, r2, r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:573:0x0f62, code lost:
-        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatJoinedByRequest) == false) goto L136;
+    /* JADX WARN: Code restructure failed: missing block: B:579:0x0f7e, code lost:
+        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChatJoinedByRequest) == false) goto L144;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:576:0x0f74, code lost:
-        if (r6.peer_id.channel_id == 0) goto L605;
+    /* JADX WARN: Code restructure failed: missing block: B:582:0x0f90, code lost:
+        if (r6.peer_id.channel_id == 0) goto L613;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:578:0x0f78, code lost:
-        if (r5.megagroup != false) goto L605;
+    /* JADX WARN: Code restructure failed: missing block: B:584:0x0f94, code lost:
+        if (r5.megagroup != false) goto L613;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:580:0x0f7e, code lost:
-        if (r29.isVideoAvatar() == false) goto L603;
+    /* JADX WARN: Code restructure failed: missing block: B:586:0x0f9a, code lost:
+        if (r29.isVideoAvatar() == false) goto L611;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:584:0x0fa9, code lost:
-        if (r29.isVideoAvatar() == false) goto L609;
+    /* JADX WARN: Code restructure failed: missing block: B:590:0x0fc5, code lost:
+        if (r29.isVideoAvatar() == false) goto L617;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:588:0x0fd7, code lost:
-        if (org.telegram.messenger.ChatObject.isChannel(r5) == false) goto L716;
+    /* JADX WARN: Code restructure failed: missing block: B:594:0x0ff3, code lost:
+        if (org.telegram.messenger.ChatObject.isChannel(r5) == false) goto L724;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:590:0x0fdb, code lost:
-        if (r5.megagroup != false) goto L716;
+    /* JADX WARN: Code restructure failed: missing block: B:596:0x0ff7, code lost:
+        if (r5.megagroup != false) goto L724;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:592:0x0fe1, code lost:
-        if (r29.isMediaEmpty() == false) goto L624;
+    /* JADX WARN: Code restructure failed: missing block: B:598:0x0ffd, code lost:
+        if (r29.isMediaEmpty() == false) goto L632;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:593:0x0fe3, code lost:
-        if (r30 != false) goto L622;
+    /* JADX WARN: Code restructure failed: missing block: B:599:0x0fff, code lost:
+        if (r30 != false) goto L630;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:595:0x0fed, code lost:
-        if (android.text.TextUtils.isEmpty(r29.messageOwner.message) != false) goto L622;
+    /* JADX WARN: Code restructure failed: missing block: B:601:0x1009, code lost:
+        if (android.text.TextUtils.isEmpty(r29.messageOwner.message) != false) goto L630;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:596:0x0fef, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:602:0x100b, code lost:
         r14 = org.telegram.messenger.LocaleController.formatString("NotificationMessageText", org.telegram.messenger.R.string.NotificationMessageText, r2, r29.messageOwner.message);
         r31[0] = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:598:0x1016, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:604:0x1032, code lost:
         r4 = r29.messageOwner;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:599:0x101e, code lost:
-        if ((r4.media instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPhoto) == false) goto L635;
+    /* JADX WARN: Code restructure failed: missing block: B:605:0x103a, code lost:
+        if ((r4.media instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPhoto) == false) goto L643;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:600:0x1020, code lost:
-        if (r30 != false) goto L633;
+    /* JADX WARN: Code restructure failed: missing block: B:606:0x103c, code lost:
+        if (r30 != false) goto L641;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:602:0x1026, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L633;
+    /* JADX WARN: Code restructure failed: missing block: B:608:0x1042, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L641;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:604:0x102e, code lost:
-        if (android.text.TextUtils.isEmpty(r4.message) != false) goto L633;
+    /* JADX WARN: Code restructure failed: missing block: B:610:0x104a, code lost:
+        if (android.text.TextUtils.isEmpty(r4.message) != false) goto L641;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:605:0x1030, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:611:0x104c, code lost:
         r1 = org.telegram.messenger.R.string.NotificationMessageText;
         r14 = org.telegram.messenger.LocaleController.formatString("NotificationMessageText", r1, r2, "🖼 " + r29.messageOwner.message);
         r31[0] = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:608:0x106a, code lost:
-        if (r29.isVideo() == false) goto L646;
+    /* JADX WARN: Code restructure failed: missing block: B:614:0x1086, code lost:
+        if (r29.isVideo() == false) goto L654;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:609:0x106c, code lost:
-        if (r30 != false) goto L644;
+    /* JADX WARN: Code restructure failed: missing block: B:615:0x1088, code lost:
+        if (r30 != false) goto L652;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:611:0x1072, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L644;
+    /* JADX WARN: Code restructure failed: missing block: B:617:0x108e, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L652;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:613:0x107c, code lost:
-        if (android.text.TextUtils.isEmpty(r29.messageOwner.message) != false) goto L644;
+    /* JADX WARN: Code restructure failed: missing block: B:619:0x1098, code lost:
+        if (android.text.TextUtils.isEmpty(r29.messageOwner.message) != false) goto L652;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:614:0x107e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:620:0x109a, code lost:
         r3 = org.telegram.messenger.R.string.NotificationMessageText;
         r14 = org.telegram.messenger.LocaleController.formatString("NotificationMessageText", r3, r2, "📹 " + r29.messageOwner.message);
         r31[0] = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:617:0x10ba, code lost:
-        if (r29.isVoice() == false) goto L650;
+    /* JADX WARN: Code restructure failed: missing block: B:623:0x10d6, code lost:
+        if (r29.isVoice() == false) goto L658;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:620:0x10ce, code lost:
-        if (r29.isRoundVideo() == false) goto L654;
+    /* JADX WARN: Code restructure failed: missing block: B:626:0x10ea, code lost:
+        if (r29.isRoundVideo() == false) goto L662;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:623:0x10e2, code lost:
-        if (r29.isMusic() == false) goto L658;
+    /* JADX WARN: Code restructure failed: missing block: B:629:0x10fe, code lost:
+        if (r29.isMusic() == false) goto L666;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:625:0x10f2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:631:0x110e, code lost:
         r1 = r29.messageOwner.media;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:626:0x10f8, code lost:
-        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaContact) == false) goto L662;
+    /* JADX WARN: Code restructure failed: missing block: B:632:0x1114, code lost:
+        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaContact) == false) goto L670;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:627:0x10fa, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:633:0x1116, code lost:
         r1 = (org.telegram.tgnet.TLRPC$TL_messageMediaContact) r1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:629:0x1118, code lost:
-        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPoll) == false) goto L668;
+    /* JADX WARN: Code restructure failed: missing block: B:635:0x1134, code lost:
+        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPoll) == false) goto L676;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:630:0x111a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:636:0x1136, code lost:
         r0 = ((org.telegram.tgnet.TLRPC$TL_messageMediaPoll) r1).poll;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:631:0x1120, code lost:
-        if (r0.quiz == false) goto L667;
+    /* JADX WARN: Code restructure failed: missing block: B:637:0x113c, code lost:
+        if (r0.quiz == false) goto L675;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:632:0x1122, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:638:0x113e, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("ChannelMessageQuiz2", org.telegram.messenger.R.string.ChannelMessageQuiz2, r2, r0.question);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:633:0x1137, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:639:0x1153, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("ChannelMessagePoll2", org.telegram.messenger.R.string.ChannelMessagePoll2, r2, r0.question);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:635:0x114e, code lost:
-        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L714;
+    /* JADX WARN: Code restructure failed: missing block: B:641:0x116a, code lost:
+        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L722;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:637:0x1152, code lost:
-        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaVenue) == false) goto L672;
+    /* JADX WARN: Code restructure failed: missing block: B:643:0x116e, code lost:
+        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaVenue) == false) goto L680;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:640:0x1158, code lost:
-        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive) == false) goto L676;
+    /* JADX WARN: Code restructure failed: missing block: B:646:0x1174, code lost:
+        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive) == false) goto L684;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:643:0x116c, code lost:
-        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaDocument) == false) goto L706;
+    /* JADX WARN: Code restructure failed: missing block: B:649:0x1188, code lost:
+        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaDocument) == false) goto L714;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:645:0x1172, code lost:
-        if (r29.isSticker() != false) goto L702;
+    /* JADX WARN: Code restructure failed: missing block: B:651:0x118e, code lost:
+        if (r29.isSticker() != false) goto L710;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:647:0x1178, code lost:
-        if (r29.isAnimatedSticker() == false) goto L682;
+    /* JADX WARN: Code restructure failed: missing block: B:653:0x1194, code lost:
+        if (r29.isAnimatedSticker() == false) goto L690;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:650:0x1180, code lost:
-        if (r29.isGif() == false) goto L693;
+    /* JADX WARN: Code restructure failed: missing block: B:656:0x119c, code lost:
+        if (r29.isGif() == false) goto L701;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:651:0x1182, code lost:
-        if (r30 != false) goto L691;
+    /* JADX WARN: Code restructure failed: missing block: B:657:0x119e, code lost:
+        if (r30 != false) goto L699;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:653:0x1188, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L691;
+    /* JADX WARN: Code restructure failed: missing block: B:659:0x11a4, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L699;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:655:0x1192, code lost:
-        if (android.text.TextUtils.isEmpty(r29.messageOwner.message) != false) goto L691;
+    /* JADX WARN: Code restructure failed: missing block: B:661:0x11ae, code lost:
+        if (android.text.TextUtils.isEmpty(r29.messageOwner.message) != false) goto L699;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:656:0x1194, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:662:0x11b0, code lost:
         r1 = org.telegram.messenger.R.string.NotificationMessageText;
         r14 = org.telegram.messenger.LocaleController.formatString("NotificationMessageText", r1, r2, "🎬 " + r29.messageOwner.message);
         r31[0] = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:658:0x11ca, code lost:
-        if (r30 != false) goto L700;
+    /* JADX WARN: Code restructure failed: missing block: B:664:0x11e6, code lost:
+        if (r30 != false) goto L708;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:660:0x11d0, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L700;
+    /* JADX WARN: Code restructure failed: missing block: B:666:0x11ec, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L708;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:662:0x11da, code lost:
-        if (android.text.TextUtils.isEmpty(r29.messageOwner.message) != false) goto L700;
+    /* JADX WARN: Code restructure failed: missing block: B:668:0x11f6, code lost:
+        if (android.text.TextUtils.isEmpty(r29.messageOwner.message) != false) goto L708;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:663:0x11dc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:669:0x11f8, code lost:
         r1 = org.telegram.messenger.R.string.NotificationMessageText;
         r14 = org.telegram.messenger.LocaleController.formatString("NotificationMessageText", r1, r2, "📎 " + r29.messageOwner.message);
         r31[0] = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:665:0x1212, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:671:0x122e, code lost:
         r0 = r29.getStickerEmoji();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:666:0x1218, code lost:
-        if (r0 == null) goto L705;
+    /* JADX WARN: Code restructure failed: missing block: B:672:0x1234, code lost:
+        if (r0 == null) goto L713;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:667:0x121a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:673:0x1236, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("ChannelMessageStickerEmoji", org.telegram.messenger.R.string.ChannelMessageStickerEmoji, r2, r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:668:0x122b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:674:0x1247, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("ChannelMessageSticker", org.telegram.messenger.R.string.ChannelMessageSticker, r2);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:670:0x123a, code lost:
-        if (r30 != false) goto L712;
+    /* JADX WARN: Code restructure failed: missing block: B:676:0x1256, code lost:
+        if (r30 != false) goto L720;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:672:0x1242, code lost:
-        if (android.text.TextUtils.isEmpty(r29.messageText) != false) goto L712;
+    /* JADX WARN: Code restructure failed: missing block: B:678:0x125e, code lost:
+        if (android.text.TextUtils.isEmpty(r29.messageText) != false) goto L720;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:673:0x1244, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:679:0x1260, code lost:
         r14 = org.telegram.messenger.LocaleController.formatString("NotificationMessageText", org.telegram.messenger.R.string.NotificationMessageText, r2, r29.messageText);
         r31[0] = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:677:0x127b, code lost:
-        if (r29.isMediaEmpty() == false) goto L725;
+    /* JADX WARN: Code restructure failed: missing block: B:683:0x1297, code lost:
+        if (r29.isMediaEmpty() == false) goto L733;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:678:0x127d, code lost:
-        if (r30 != false) goto L723;
+    /* JADX WARN: Code restructure failed: missing block: B:684:0x1299, code lost:
+        if (r30 != false) goto L731;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:680:0x1287, code lost:
-        if (android.text.TextUtils.isEmpty(r29.messageOwner.message) != false) goto L723;
+    /* JADX WARN: Code restructure failed: missing block: B:686:0x12a3, code lost:
+        if (android.text.TextUtils.isEmpty(r29.messageOwner.message) != false) goto L731;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:683:0x12b8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:689:0x12d4, code lost:
         r3 = r29.messageOwner;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:684:0x12c0, code lost:
-        if ((r3.media instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPhoto) == false) goto L736;
+    /* JADX WARN: Code restructure failed: missing block: B:690:0x12dc, code lost:
+        if ((r3.media instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPhoto) == false) goto L744;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:685:0x12c2, code lost:
-        if (r30 != false) goto L734;
+    /* JADX WARN: Code restructure failed: missing block: B:691:0x12de, code lost:
+        if (r30 != false) goto L742;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:687:0x12c8, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L734;
+    /* JADX WARN: Code restructure failed: missing block: B:693:0x12e4, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L742;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:689:0x12d0, code lost:
-        if (android.text.TextUtils.isEmpty(r3.message) != false) goto L734;
+    /* JADX WARN: Code restructure failed: missing block: B:695:0x12ec, code lost:
+        if (android.text.TextUtils.isEmpty(r3.message) != false) goto L742;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:690:0x12d2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:696:0x12ee, code lost:
         r1 = org.telegram.messenger.R.string.NotificationMessageGroupText;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:693:0x1314, code lost:
-        if (r29.isVideo() == false) goto L747;
+    /* JADX WARN: Code restructure failed: missing block: B:699:0x1330, code lost:
+        if (r29.isVideo() == false) goto L755;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:694:0x1316, code lost:
-        if (r30 != false) goto L745;
+    /* JADX WARN: Code restructure failed: missing block: B:700:0x1332, code lost:
+        if (r30 != false) goto L753;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:696:0x131c, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L745;
+    /* JADX WARN: Code restructure failed: missing block: B:702:0x1338, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L753;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:698:0x1326, code lost:
-        if (android.text.TextUtils.isEmpty(r29.messageOwner.message) != false) goto L745;
+    /* JADX WARN: Code restructure failed: missing block: B:704:0x1342, code lost:
+        if (android.text.TextUtils.isEmpty(r29.messageOwner.message) != false) goto L753;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:699:0x1328, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:705:0x1344, code lost:
         r3 = org.telegram.messenger.R.string.NotificationMessageGroupText;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:702:0x136d, code lost:
-        if (r29.isVoice() == false) goto L751;
+    /* JADX WARN: Code restructure failed: missing block: B:708:0x1389, code lost:
+        if (r29.isVoice() == false) goto L759;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:705:0x1385, code lost:
-        if (r29.isRoundVideo() == false) goto L755;
+    /* JADX WARN: Code restructure failed: missing block: B:711:0x13a1, code lost:
+        if (r29.isRoundVideo() == false) goto L763;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:708:0x139d, code lost:
-        if (r29.isMusic() == false) goto L759;
+    /* JADX WARN: Code restructure failed: missing block: B:714:0x13b9, code lost:
+        if (r29.isMusic() == false) goto L767;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:710:0x13b1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:716:0x13cd, code lost:
         r1 = r29.messageOwner.media;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:711:0x13b7, code lost:
-        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaContact) == false) goto L763;
+    /* JADX WARN: Code restructure failed: missing block: B:717:0x13d3, code lost:
+        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaContact) == false) goto L771;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:712:0x13b9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:718:0x13d5, code lost:
         r1 = (org.telegram.tgnet.TLRPC$TL_messageMediaContact) r1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:714:0x13dd, code lost:
-        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPoll) == false) goto L769;
+    /* JADX WARN: Code restructure failed: missing block: B:720:0x13f9, code lost:
+        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaPoll) == false) goto L777;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:715:0x13df, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:721:0x13fb, code lost:
         r0 = ((org.telegram.tgnet.TLRPC$TL_messageMediaPoll) r1).poll;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:716:0x13e5, code lost:
-        if (r0.quiz == false) goto L768;
+    /* JADX WARN: Code restructure failed: missing block: B:722:0x1401, code lost:
+        if (r0.quiz == false) goto L776;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:717:0x13e7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:723:0x1403, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupQuiz2", org.telegram.messenger.R.string.NotificationMessageGroupQuiz2, r2, r5.title, r0.question);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:718:0x1401, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:724:0x141d, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupPoll2", org.telegram.messenger.R.string.NotificationMessageGroupPoll2, r2, r5.title, r0.question);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:720:0x141d, code lost:
-        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGame) == false) goto L773;
+    /* JADX WARN: Code restructure failed: missing block: B:726:0x1439, code lost:
+        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGame) == false) goto L781;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:723:0x143d, code lost:
-        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L818;
+    /* JADX WARN: Code restructure failed: missing block: B:729:0x1459, code lost:
+        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L826;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:725:0x1441, code lost:
-        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaVenue) == false) goto L777;
+    /* JADX WARN: Code restructure failed: missing block: B:731:0x145d, code lost:
+        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaVenue) == false) goto L785;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:728:0x1447, code lost:
-        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive) == false) goto L781;
+    /* JADX WARN: Code restructure failed: missing block: B:734:0x1463, code lost:
+        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeoLive) == false) goto L789;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:731:0x1460, code lost:
-        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaDocument) == false) goto L811;
+    /* JADX WARN: Code restructure failed: missing block: B:737:0x147c, code lost:
+        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaDocument) == false) goto L819;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:733:0x1466, code lost:
-        if (r29.isSticker() != false) goto L807;
+    /* JADX WARN: Code restructure failed: missing block: B:739:0x1482, code lost:
+        if (r29.isSticker() != false) goto L815;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:735:0x146c, code lost:
-        if (r29.isAnimatedSticker() == false) goto L787;
+    /* JADX WARN: Code restructure failed: missing block: B:741:0x1488, code lost:
+        if (r29.isAnimatedSticker() == false) goto L795;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:738:0x1474, code lost:
-        if (r29.isGif() == false) goto L798;
+    /* JADX WARN: Code restructure failed: missing block: B:744:0x1490, code lost:
+        if (r29.isGif() == false) goto L806;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:739:0x1476, code lost:
-        if (r30 != false) goto L796;
+    /* JADX WARN: Code restructure failed: missing block: B:745:0x1492, code lost:
+        if (r30 != false) goto L804;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:741:0x147c, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L796;
+    /* JADX WARN: Code restructure failed: missing block: B:747:0x1498, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L804;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:743:0x1486, code lost:
-        if (android.text.TextUtils.isEmpty(r29.messageOwner.message) != false) goto L796;
+    /* JADX WARN: Code restructure failed: missing block: B:749:0x14a2, code lost:
+        if (android.text.TextUtils.isEmpty(r29.messageOwner.message) != false) goto L804;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:744:0x1488, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:750:0x14a4, code lost:
         r1 = org.telegram.messenger.R.string.NotificationMessageGroupText;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:746:0x14c6, code lost:
-        if (r30 != false) goto L805;
+    /* JADX WARN: Code restructure failed: missing block: B:752:0x14e2, code lost:
+        if (r30 != false) goto L813;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:748:0x14cc, code lost:
-        if (android.os.Build.VERSION.SDK_INT < 19) goto L805;
+    /* JADX WARN: Code restructure failed: missing block: B:754:0x14e8, code lost:
+        if (android.os.Build.VERSION.SDK_INT < 19) goto L813;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:750:0x14d6, code lost:
-        if (android.text.TextUtils.isEmpty(r29.messageOwner.message) != false) goto L805;
+    /* JADX WARN: Code restructure failed: missing block: B:756:0x14f2, code lost:
+        if (android.text.TextUtils.isEmpty(r29.messageOwner.message) != false) goto L813;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:751:0x14d8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:757:0x14f4, code lost:
         r1 = org.telegram.messenger.R.string.NotificationMessageGroupText;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:753:0x1516, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:759:0x1532, code lost:
         r0 = r29.getStickerEmoji();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:754:0x151c, code lost:
-        if (r0 == null) goto L810;
+    /* JADX WARN: Code restructure failed: missing block: B:760:0x1538, code lost:
+        if (r0 == null) goto L818;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:755:0x151e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:761:0x153a, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupStickerEmoji", org.telegram.messenger.R.string.NotificationMessageGroupStickerEmoji, r2, r5.title, r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:756:0x1534, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:762:0x1550, code lost:
         r0 = org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupSticker", org.telegram.messenger.R.string.NotificationMessageGroupSticker, r2, r5.title);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:757:0x1547, code lost:
-        if (r30 != false) goto L816;
+    /* JADX WARN: Code restructure failed: missing block: B:763:0x1563, code lost:
+        if (r30 != false) goto L824;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:759:0x154f, code lost:
-        if (android.text.TextUtils.isEmpty(r29.messageText) != false) goto L816;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:816:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationGroupCreatedCall", org.telegram.messenger.R.string.NotificationGroupCreatedCall, r2, r5.title);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:817:?, code lost:
-        return r29.messageText.toString();
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:818:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationInvitedToGroupByLink", org.telegram.messenger.R.string.NotificationInvitedToGroupByLink, r2, r5.title);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:819:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationEditedGroupName", org.telegram.messenger.R.string.NotificationEditedGroupName, r2, r7.title);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:820:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationGroupKickYou", org.telegram.messenger.R.string.NotificationGroupKickYou, r2, r5.title);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:821:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationGroupLeftMember", org.telegram.messenger.R.string.NotificationGroupLeftMember, r2, r5.title);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:822:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationGroupKickMember", org.telegram.messenger.R.string.NotificationGroupKickMember, r2, r5.title, org.telegram.messenger.UserObject.getUserName(r0));
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:823:?, code lost:
-        return r29.messageText.toString();
+    /* JADX WARN: Code restructure failed: missing block: B:765:0x156b, code lost:
+        if (android.text.TextUtils.isEmpty(r29.messageText) != false) goto L824;
      */
     /* JADX WARN: Code restructure failed: missing block: B:824:?, code lost:
-        return r29.messageText.toString();
+        return org.telegram.messenger.LocaleController.formatString("NotificationGroupCreatedCall", org.telegram.messenger.R.string.NotificationGroupCreatedCall, r2, r5.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:825:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ActionMigrateFromGroupNotify", org.telegram.messenger.R.string.ActionMigrateFromGroupNotify, r5.title);
+        return r29.messageText.toString();
      */
     /* JADX WARN: Code restructure failed: missing block: B:826:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ActionMigrateFromGroupNotify", org.telegram.messenger.R.string.ActionMigrateFromGroupNotify, r7.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationInvitedToGroupByLink", org.telegram.messenger.R.string.NotificationInvitedToGroupByLink, r2, r5.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:827:?, code lost:
-        return r29.messageText.toString();
+        return org.telegram.messenger.LocaleController.formatString("NotificationEditedGroupName", org.telegram.messenger.R.string.NotificationEditedGroupName, r2, r7.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:828:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoTextChannel", org.telegram.messenger.R.string.NotificationActionPinnedNoTextChannel, r5.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationGroupKickYou", org.telegram.messenger.R.string.NotificationGroupKickYou, r2, r5.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:829:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoText", org.telegram.messenger.R.string.NotificationActionPinnedNoText, r2, r5.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationGroupLeftMember", org.telegram.messenger.R.string.NotificationGroupLeftMember, r2, r5.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:830:?, code lost:
-        return r29.messageText.toString();
+        return org.telegram.messenger.LocaleController.formatString("NotificationGroupKickMember", org.telegram.messenger.R.string.NotificationGroupKickMember, r2, r5.title, org.telegram.messenger.UserObject.getUserName(r0));
      */
     /* JADX WARN: Code restructure failed: missing block: B:831:?, code lost:
         return r29.messageText.toString();
      */
     /* JADX WARN: Code restructure failed: missing block: B:832:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelVideoEditNotification", org.telegram.messenger.R.string.ChannelVideoEditNotification, r5.title);
+        return r29.messageText.toString();
      */
     /* JADX WARN: Code restructure failed: missing block: B:833:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelPhotoEditNotification", org.telegram.messenger.R.string.ChannelPhotoEditNotification, r5.title);
+        return org.telegram.messenger.LocaleController.formatString("ActionMigrateFromGroupNotify", org.telegram.messenger.R.string.ActionMigrateFromGroupNotify, r5.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:834:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationEditedGroupVideo", org.telegram.messenger.R.string.NotificationEditedGroupVideo, r2, r5.title);
+        return org.telegram.messenger.LocaleController.formatString("ActionMigrateFromGroupNotify", org.telegram.messenger.R.string.ActionMigrateFromGroupNotify, r7.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:835:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationEditedGroupPhoto", org.telegram.messenger.R.string.NotificationEditedGroupPhoto, r2, r5.title);
+        return r29.messageText.toString();
      */
     /* JADX WARN: Code restructure failed: missing block: B:836:?, code lost:
-        return r14;
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoTextChannel", org.telegram.messenger.R.string.NotificationActionPinnedNoTextChannel, r5.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:837:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessageNoText", org.telegram.messenger.R.string.ChannelMessageNoText, r2);
+        return org.telegram.messenger.LocaleController.formatString("NotificationActionPinnedNoText", org.telegram.messenger.R.string.NotificationActionPinnedNoText, r2, r5.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:838:?, code lost:
-        return r14;
+        return r29.messageText.toString();
      */
     /* JADX WARN: Code restructure failed: missing block: B:839:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessagePhoto", org.telegram.messenger.R.string.ChannelMessagePhoto, r2);
+        return r29.messageText.toString();
      */
     /* JADX WARN: Code restructure failed: missing block: B:840:?, code lost:
-        return r14;
+        return org.telegram.messenger.LocaleController.formatString("ChannelVideoEditNotification", org.telegram.messenger.R.string.ChannelVideoEditNotification, r5.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:841:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessageVideo", org.telegram.messenger.R.string.ChannelMessageVideo, r2);
+        return org.telegram.messenger.LocaleController.formatString("ChannelPhotoEditNotification", org.telegram.messenger.R.string.ChannelPhotoEditNotification, r5.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:842:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessageAudio", org.telegram.messenger.R.string.ChannelMessageAudio, r2);
+        return org.telegram.messenger.LocaleController.formatString("NotificationEditedGroupVideo", org.telegram.messenger.R.string.NotificationEditedGroupVideo, r2, r5.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:843:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessageRound", org.telegram.messenger.R.string.ChannelMessageRound, r2);
+        return org.telegram.messenger.LocaleController.formatString("NotificationEditedGroupPhoto", org.telegram.messenger.R.string.NotificationEditedGroupPhoto, r2, r5.title);
      */
     /* JADX WARN: Code restructure failed: missing block: B:844:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessageMusic", org.telegram.messenger.R.string.ChannelMessageMusic, r2);
+        return r14;
      */
     /* JADX WARN: Code restructure failed: missing block: B:845:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessageContact2", org.telegram.messenger.R.string.ChannelMessageContact2, r2, org.telegram.messenger.ContactsController.formatName(r1.first_name, r1.last_name));
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:846:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessageLiveLocation", org.telegram.messenger.R.string.ChannelMessageLiveLocation, r2);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:847:?, code lost:
-        return r14;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:848:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessageGIF", org.telegram.messenger.R.string.ChannelMessageGIF, r2);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:849:?, code lost:
-        return r14;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:850:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessageDocument", org.telegram.messenger.R.string.ChannelMessageDocument, r2);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:851:?, code lost:
-        return r14;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:852:?, code lost:
         return org.telegram.messenger.LocaleController.formatString("ChannelMessageNoText", org.telegram.messenger.R.string.ChannelMessageNoText, r2);
      */
+    /* JADX WARN: Code restructure failed: missing block: B:846:?, code lost:
+        return r14;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:847:?, code lost:
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessagePhoto", org.telegram.messenger.R.string.ChannelMessagePhoto, r2);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:848:?, code lost:
+        return r14;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:849:?, code lost:
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessageVideo", org.telegram.messenger.R.string.ChannelMessageVideo, r2);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:850:?, code lost:
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessageAudio", org.telegram.messenger.R.string.ChannelMessageAudio, r2);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:851:?, code lost:
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessageRound", org.telegram.messenger.R.string.ChannelMessageRound, r2);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:852:?, code lost:
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessageMusic", org.telegram.messenger.R.string.ChannelMessageMusic, r2);
+     */
     /* JADX WARN: Code restructure failed: missing block: B:853:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("ChannelMessageMap", org.telegram.messenger.R.string.ChannelMessageMap, r2);
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessageContact2", org.telegram.messenger.R.string.ChannelMessageContact2, r2, org.telegram.messenger.ContactsController.formatName(r1.first_name, r1.last_name));
      */
     /* JADX WARN: Code restructure failed: missing block: B:854:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", org.telegram.messenger.R.string.NotificationMessageGroupText, r2, r5.title, r29.messageOwner.message);
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessageLiveLocation", org.telegram.messenger.R.string.ChannelMessageLiveLocation, r2);
      */
     /* JADX WARN: Code restructure failed: missing block: B:855:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupNoText", org.telegram.messenger.R.string.NotificationMessageGroupNoText, r2, r5.title);
+        return r14;
      */
     /* JADX WARN: Code restructure failed: missing block: B:856:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", r1, r2, r5.title, "🖼 " + r29.messageOwner.message);
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessageGIF", org.telegram.messenger.R.string.ChannelMessageGIF, r2);
      */
     /* JADX WARN: Code restructure failed: missing block: B:857:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupPhoto", org.telegram.messenger.R.string.NotificationMessageGroupPhoto, r2, r5.title);
+        return r14;
      */
     /* JADX WARN: Code restructure failed: missing block: B:858:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", r3, r2, r5.title, "📹 " + r29.messageOwner.message);
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessageDocument", org.telegram.messenger.R.string.ChannelMessageDocument, r2);
      */
     /* JADX WARN: Code restructure failed: missing block: B:859:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString(" ", org.telegram.messenger.R.string.NotificationMessageGroupVideo, r2, r5.title);
+        return r14;
      */
     /* JADX WARN: Code restructure failed: missing block: B:860:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupAudio", org.telegram.messenger.R.string.NotificationMessageGroupAudio, r2, r5.title);
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessageNoText", org.telegram.messenger.R.string.ChannelMessageNoText, r2);
      */
     /* JADX WARN: Code restructure failed: missing block: B:861:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupRound", org.telegram.messenger.R.string.NotificationMessageGroupRound, r2, r5.title);
+        return org.telegram.messenger.LocaleController.formatString("ChannelMessageMap", org.telegram.messenger.R.string.ChannelMessageMap, r2);
      */
     /* JADX WARN: Code restructure failed: missing block: B:862:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupMusic", org.telegram.messenger.R.string.NotificationMessageGroupMusic, r2, r5.title);
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", org.telegram.messenger.R.string.NotificationMessageGroupText, r2, r5.title, r29.messageOwner.message);
      */
     /* JADX WARN: Code restructure failed: missing block: B:863:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupContact2", org.telegram.messenger.R.string.NotificationMessageGroupContact2, r2, r5.title, org.telegram.messenger.ContactsController.formatName(r1.first_name, r1.last_name));
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:864:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupGame", org.telegram.messenger.R.string.NotificationMessageGroupGame, r2, r5.title, r1.game.title);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:865:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupLiveLocation", org.telegram.messenger.R.string.NotificationMessageGroupLiveLocation, r2, r5.title);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:866:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", r1, r2, r5.title, "🎬 " + r29.messageOwner.message);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:867:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupGif", org.telegram.messenger.R.string.NotificationMessageGroupGif, r2, r5.title);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:868:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", r1, r2, r5.title, "📎 " + r29.messageOwner.message);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:869:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupDocument", org.telegram.messenger.R.string.NotificationMessageGroupDocument, r2, r5.title);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:870:?, code lost:
-        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", org.telegram.messenger.R.string.NotificationMessageGroupText, r2, r5.title, r29.messageText);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:871:?, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupNoText", org.telegram.messenger.R.string.NotificationMessageGroupNoText, r2, r5.title);
      */
+    /* JADX WARN: Code restructure failed: missing block: B:864:?, code lost:
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", r1, r2, r5.title, "🖼 " + r29.messageOwner.message);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:865:?, code lost:
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupPhoto", org.telegram.messenger.R.string.NotificationMessageGroupPhoto, r2, r5.title);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:866:?, code lost:
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", r3, r2, r5.title, "📹 " + r29.messageOwner.message);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:867:?, code lost:
+        return org.telegram.messenger.LocaleController.formatString(" ", org.telegram.messenger.R.string.NotificationMessageGroupVideo, r2, r5.title);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:868:?, code lost:
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupAudio", org.telegram.messenger.R.string.NotificationMessageGroupAudio, r2, r5.title);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:869:?, code lost:
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupRound", org.telegram.messenger.R.string.NotificationMessageGroupRound, r2, r5.title);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:870:?, code lost:
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupMusic", org.telegram.messenger.R.string.NotificationMessageGroupMusic, r2, r5.title);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:871:?, code lost:
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupContact2", org.telegram.messenger.R.string.NotificationMessageGroupContact2, r2, r5.title, org.telegram.messenger.ContactsController.formatName(r1.first_name, r1.last_name));
+     */
     /* JADX WARN: Code restructure failed: missing block: B:872:?, code lost:
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupGame", org.telegram.messenger.R.string.NotificationMessageGroupGame, r2, r5.title, r1.game.title);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:873:?, code lost:
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupLiveLocation", org.telegram.messenger.R.string.NotificationMessageGroupLiveLocation, r2, r5.title);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:874:?, code lost:
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", r1, r2, r5.title, "🎬 " + r29.messageOwner.message);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:875:?, code lost:
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupGif", org.telegram.messenger.R.string.NotificationMessageGroupGif, r2, r5.title);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:876:?, code lost:
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", r1, r2, r5.title, "📎 " + r29.messageOwner.message);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:877:?, code lost:
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupDocument", org.telegram.messenger.R.string.NotificationMessageGroupDocument, r2, r5.title);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:878:?, code lost:
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupText", org.telegram.messenger.R.string.NotificationMessageGroupText, r2, r5.title, r29.messageText);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:879:?, code lost:
+        return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupNoText", org.telegram.messenger.R.string.NotificationMessageGroupNoText, r2, r5.title);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:880:?, code lost:
         return org.telegram.messenger.LocaleController.formatString("NotificationMessageGroupMap", org.telegram.messenger.R.string.NotificationMessageGroupMap, r2, r5.title);
      */
-    /* JADX WARN: Removed duplicated region for block: B:260:0x0601  */
-    /* JADX WARN: Removed duplicated region for block: B:765:0x1595  */
+    /* JADX WARN: Removed duplicated region for block: B:266:0x061d  */
+    /* JADX WARN: Removed duplicated region for block: B:771:0x15b1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4440,6 +4454,12 @@ public class NotificationsController extends BaseController {
             TLRPC$Message tLRPC$Message2 = messageObject.messageOwner;
             if (tLRPC$Message2 instanceof TLRPC$TL_messageService) {
                 TLRPC$MessageAction tLRPC$MessageAction = tLRPC$Message2.action;
+                if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionSetSameChatWallPaper) {
+                    return LocaleController.getString("WallpaperSameNotification", R.string.WallpaperSameNotification);
+                }
+                if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionSetChatWallPaper) {
+                    return LocaleController.getString("WallpaperNotification", R.string.WallpaperNotification);
+                }
                 if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionGeoProximityReached) {
                     return messageObject.messageText.toString();
                 }
