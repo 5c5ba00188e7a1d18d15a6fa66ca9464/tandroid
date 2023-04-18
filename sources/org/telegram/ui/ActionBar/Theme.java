@@ -12620,7 +12620,7 @@ public class Theme {
         return createBackgroundDrawable(themeInfo, overrideWallpaperInfo, sparseIntArray, pathToWallpaper, str, currentColorsNoAccent.get(key_wallpaperFileOffset, -1), (int) f, i, z, false, false, z2, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:138:0x0309  */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x0302  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -12630,7 +12630,6 @@ public class Theme {
         Bitmap loadScreenSizedBitmap;
         Bitmap loadScreenSizedBitmap2;
         File file2;
-        Bitmap bitmap;
         BackgroundDrawableSettings backgroundDrawableSettings = new BackgroundDrawableSettings();
         backgroundDrawableSettings.wallpaper = wallpaper;
         boolean z5 = (!z2 || z3) && overrideWallpaperInfo != null;
@@ -12642,14 +12641,14 @@ public class Theme {
             backgroundDrawableSettings.isPatternWallpaper = Boolean.valueOf(themeInfo.patternBgColor != 0);
         }
         if (!z5) {
-            int intValue = (z ? null : Integer.valueOf(sparseIntArray.get(key_chat_wallpaper))).intValue();
-            int i5 = sparseIntArray.get(key_chat_wallpaper_gradient_to3);
-            int i6 = sparseIntArray.get(key_chat_wallpaper_gradient_to2);
-            int i7 = sparseIntArray.get(key_chat_wallpaper_gradient_to1);
+            int i5 = z ? 0 : sparseIntArray.get(key_chat_wallpaper);
+            int i6 = sparseIntArray.get(key_chat_wallpaper_gradient_to3);
+            int i7 = sparseIntArray.get(key_chat_wallpaper_gradient_to2);
+            int i8 = sparseIntArray.get(key_chat_wallpaper_gradient_to1);
             if (file != null && file.exists()) {
                 try {
-                    if (intValue != 0 && i7 != 0 && i6 != 0) {
-                        MotionBackgroundDrawable motionBackgroundDrawable = new MotionBackgroundDrawable(intValue, i7, i6, i5, false);
+                    if (i5 != 0 && i8 != 0 && i7 != 0) {
+                        MotionBackgroundDrawable motionBackgroundDrawable = new MotionBackgroundDrawable(i5, i8, i7, i6, false);
                         motionBackgroundDrawable.setPatternBitmap(i2, BitmapFactory.decodeFile(file.getAbsolutePath()));
                         motionBackgroundDrawable.setPatternColorFilter(motionBackgroundDrawable.getPatternColor());
                         backgroundDrawableSettings.wallpaper = motionBackgroundDrawable;
@@ -12663,40 +12662,40 @@ public class Theme {
                 } catch (Throwable th) {
                     FileLog.e(th);
                 }
-            } else if (intValue != 0) {
-                int i8 = sparseIntArray.get(key_chat_wallpaper_gradient_rotation, -1);
-                if (i8 == -1) {
-                    i8 = 45;
+            } else if (i5 != 0) {
+                int i9 = sparseIntArray.get(key_chat_wallpaper_gradient_rotation, -1);
+                if (i9 == -1) {
+                    i9 = 45;
                 }
-                if (i7 != 0 && i6 != 0) {
-                    MotionBackgroundDrawable motionBackgroundDrawable2 = new MotionBackgroundDrawable(intValue, i7, i6, i5, false);
-                    if (file == null || tLRPC$Document == null) {
-                        bitmap = null;
-                    } else {
-                        bitmap = SvgHelper.getBitmap(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$Document, true), AndroidUtilities.dp(360.0f), AndroidUtilities.dp(640.0f), false);
-                        if (bitmap != null) {
+                if (i8 != 0 && i7 != 0) {
+                    MotionBackgroundDrawable motionBackgroundDrawable2 = new MotionBackgroundDrawable(i5, i8, i7, i6, false);
+                    Bitmap bitmap = null;
+                    if (file != null && tLRPC$Document != null) {
+                        Bitmap bitmap2 = SvgHelper.getBitmap(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$Document, true), AndroidUtilities.dp(360.0f), AndroidUtilities.dp(640.0f), false);
+                        if (bitmap2 != null) {
                             try {
                                 FileOutputStream fileOutputStream = new FileOutputStream(file);
-                                bitmap.compress(Bitmap.CompressFormat.PNG, 90, fileOutputStream);
+                                bitmap2.compress(Bitmap.CompressFormat.PNG, 90, fileOutputStream);
                                 fileOutputStream.close();
                             } catch (Exception e) {
                                 FileLog.e(e);
                                 e.printStackTrace();
                             }
                         }
+                        bitmap = bitmap2;
                     }
                     motionBackgroundDrawable2.setPatternBitmap(i2, bitmap);
                     motionBackgroundDrawable2.setPhase(i3);
                     backgroundDrawableSettings.wallpaper = motionBackgroundDrawable2;
-                } else if (i7 == 0 || i7 == intValue) {
-                    backgroundDrawableSettings.wallpaper = new ColorDrawable(intValue);
+                } else if (i8 == 0 || i8 == i5) {
+                    backgroundDrawableSettings.wallpaper = new ColorDrawable(i5);
                 } else {
-                    BackgroundGradientDrawable backgroundGradientDrawable = new BackgroundGradientDrawable(BackgroundGradientDrawable.getGradientOrientation(i8), new int[]{intValue, i7});
+                    BackgroundGradientDrawable backgroundGradientDrawable = new BackgroundGradientDrawable(BackgroundGradientDrawable.getGradientOrientation(i9), new int[]{i5, i8});
                     backgroundGradientDisposable = backgroundGradientDrawable.startDithering(BackgroundGradientDrawable.Sizes.ofDeviceScreen(), new BackgroundGradientDrawable.ListenerAdapter() { // from class: org.telegram.ui.ActionBar.Theme.11
                         @Override // org.telegram.ui.Components.BackgroundGradientDrawable.ListenerAdapter, org.telegram.ui.Components.BackgroundGradientDrawable.Listener
-                        public void onSizeReady(int i9, int i10) {
+                        public void onSizeReady(int i10, int i11) {
                             Point point = AndroidUtilities.displaySize;
-                            if ((point.x <= point.y) == (i9 <= i10)) {
+                            if ((point.x <= point.y) == (i10 <= i11)) {
                                 NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewWallpapper, new Object[0]);
                             }
                         }
@@ -12737,11 +12736,11 @@ public class Theme {
             }
         }
         if (backgroundDrawableSettings.wallpaper == null) {
-            int i9 = overrideWallpaperInfo != null ? overrideWallpaperInfo.color : 0;
+            int i10 = overrideWallpaperInfo != null ? overrideWallpaperInfo.color : 0;
             if (overrideWallpaperInfo != null) {
                 if (!overrideWallpaperInfo.isDefault()) {
                     if (!overrideWallpaperInfo.isColor() || overrideWallpaperInfo.gradientColor1 != 0) {
-                        if (i9 != 0 && (!isPatternWallpaper || overrideWallpaperInfo.gradientColor2 != 0)) {
+                        if (i10 != 0 && (!isPatternWallpaper || overrideWallpaperInfo.gradientColor2 != 0)) {
                             if (overrideWallpaperInfo.gradientColor1 != 0 && overrideWallpaperInfo.gradientColor2 != 0) {
                                 MotionBackgroundDrawable motionBackgroundDrawable3 = new MotionBackgroundDrawable(overrideWallpaperInfo.color, overrideWallpaperInfo.gradientColor1, overrideWallpaperInfo.gradientColor2, overrideWallpaperInfo.gradientColor3, false);
                                 motionBackgroundDrawable3.setPhase(i3);
@@ -12762,21 +12761,21 @@ public class Theme {
                                     backgroundDrawableSettings.isCustomTheme = Boolean.TRUE;
                                 }
                             } else {
-                                int i10 = overrideWallpaperInfo.gradientColor1;
-                                if (i10 != 0) {
-                                    BackgroundGradientDrawable backgroundGradientDrawable2 = new BackgroundGradientDrawable(BackgroundGradientDrawable.getGradientOrientation(overrideWallpaperInfo.rotation), new int[]{i9, i10});
+                                int i11 = overrideWallpaperInfo.gradientColor1;
+                                if (i11 != 0) {
+                                    BackgroundGradientDrawable backgroundGradientDrawable2 = new BackgroundGradientDrawable(BackgroundGradientDrawable.getGradientOrientation(overrideWallpaperInfo.rotation), new int[]{i10, i11});
                                     backgroundGradientDisposable = backgroundGradientDrawable2.startDithering(BackgroundGradientDrawable.Sizes.ofDeviceScreen(), new BackgroundGradientDrawable.ListenerAdapter() { // from class: org.telegram.ui.ActionBar.Theme.12
                                         @Override // org.telegram.ui.Components.BackgroundGradientDrawable.ListenerAdapter, org.telegram.ui.Components.BackgroundGradientDrawable.Listener
-                                        public void onSizeReady(int i11, int i12) {
+                                        public void onSizeReady(int i12, int i13) {
                                             Point point = AndroidUtilities.displaySize;
-                                            if ((point.x <= point.y) == (i11 <= i12)) {
+                                            if ((point.x <= point.y) == (i12 <= i13)) {
                                                 NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewWallpapper, new Object[0]);
                                             }
                                         }
                                     }, 100L);
                                     backgroundDrawableSettings.wallpaper = backgroundGradientDrawable2;
                                 } else {
-                                    backgroundDrawableSettings.wallpaper = new ColorDrawable(i9);
+                                    backgroundDrawableSettings.wallpaper = new ColorDrawable(i10);
                                 }
                             }
                         } else {
@@ -12794,10 +12793,10 @@ public class Theme {
                         }
                     }
                     if (backgroundDrawableSettings.wallpaper == null) {
-                        if (i9 == 0) {
-                            i9 = -2693905;
+                        if (i10 == 0) {
+                            i10 = -2693905;
                         }
-                        backgroundDrawableSettings.wallpaper = new ColorDrawable(i9);
+                        backgroundDrawableSettings.wallpaper = new ColorDrawable(i10);
                     }
                 }
             }

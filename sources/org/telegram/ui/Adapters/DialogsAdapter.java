@@ -133,8 +133,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         this.hasHints = i2 == 0 && i == 0 && !z;
         this.selectedDialogs = arrayList;
         this.currentAccount = i3;
-        setHasStableIds(true);
-        if (this.folderId == 1) {
+        if (i2 == 1) {
             SharedPreferences globalMainSettings = MessagesController.getGlobalMainSettings();
             this.showArchiveHint = globalMainSettings.getBoolean("archivehint", true);
             globalMainSettings.edit().putBoolean("archivehint", false).commit();
@@ -246,7 +245,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             this.dialog = tLRPC$Dialog;
             if (tLRPC$Dialog != null) {
                 int i2 = dialogsAdapter.dialogsStableIds.get(tLRPC$Dialog.id, -1);
-                if (i2 > 0) {
+                if (i2 >= 0) {
                     this.stableId = i2;
                 } else {
                     int i3 = dialogsAdapter.stableIdPointer;
