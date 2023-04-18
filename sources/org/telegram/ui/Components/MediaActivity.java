@@ -69,7 +69,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r5v7 */
-    /* JADX WARN: Type inference failed for: r5v8, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r5v8, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r5v9 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(final Context context) {
@@ -162,7 +162,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
             @Override // org.telegram.ui.Components.AudioPlayerAlert.ClippingTextViewSwitcher
             protected TextView createTextView() {
                 TextView textView = new TextView(context);
-                textView.setTextColor(Theme.getColor("player_actionBarSubtitle"));
+                textView.setTextColor(Theme.getColor(Theme.key_player_actionBarSubtitle));
                 textView.setTextSize(1, 14.0f);
                 textView.setSingleLine(true);
                 textView.setEllipsize(TextUtils.TruncateAt.END);
@@ -361,11 +361,13 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
     /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: updateColors */
     public void lambda$getThemeDescriptions$0() {
-        this.actionBar.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-        this.actionBar.setItemsColor(Theme.getColor("actionBarActionModeDefaultIcon"), false);
-        this.actionBar.setItemsBackgroundColor(Theme.getColor("actionBarActionModeDefaultSelector"), false);
-        this.actionBar.setTitleColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-        this.nameTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+        this.actionBar.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+        this.actionBar.setItemsColor(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon), false);
+        this.actionBar.setItemsBackgroundColor(Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), false);
+        ActionBar actionBar = this.actionBar;
+        int i = Theme.key_windowBackgroundWhiteBlackText;
+        actionBar.setTitleColor(Theme.getColor(i));
+        this.nameTextView.setTextColor(Theme.getColor(i));
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -382,18 +384,18 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
             }
         };
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "windowBackgroundWhite"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "actionBarActionModeDefaultSelector"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "windowBackgroundWhiteBlackText"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_windowBackgroundWhite));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_actionBarActionModeDefaultSelector));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_windowBackgroundWhiteBlackText));
         arrayList.addAll(this.sharedMediaLayout.getThemeDescriptions());
         return arrayList;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean isLightStatusBar() {
-        int color = Theme.getColor("windowBackgroundWhite");
+        int color = Theme.getColor(Theme.key_windowBackgroundWhite);
         if (this.actionBar.isActionModeShowed()) {
-            color = Theme.getColor("actionBarActionModeDefault");
+            color = Theme.getColor(Theme.key_actionBarActionModeDefault);
         }
         return ColorUtils.calculateLuminance(color) > 0.699999988079071d;
     }

@@ -56,7 +56,7 @@ public class PhotoEditToolCell extends FrameLayout {
         addView(this.nameTextView, LayoutHelper.createFrame(80, -2.0f, 19, 0.0f, 0.0f, 0.0f, 0.0f));
         TextView textView2 = new TextView(context);
         this.valueTextView = textView2;
-        textView2.setTextColor(getThemedColor("dialogFloatingButton"));
+        textView2.setTextColor(getThemedColor(Theme.key_dialogFloatingButton));
         this.valueTextView.setTextSize(1, 12.0f);
         this.valueTextView.setGravity(5);
         this.valueTextView.setSingleLine(true);
@@ -143,9 +143,9 @@ public class PhotoEditToolCell extends FrameLayout {
         this.seekBar.setProgress((int) f, false);
     }
 
-    private int getThemedColor(String str) {
+    private int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 }

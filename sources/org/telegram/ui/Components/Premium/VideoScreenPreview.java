@@ -129,7 +129,7 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
         this.type = i2;
         this.svgIcon = svgDrawable;
         this.phoneFrame1.setColor(-16777216);
-        this.phoneFrame2.setColor(ColorUtils.blendARGB(Theme.getColor("premiumGradient2"), -16777216, 0.5f));
+        this.phoneFrame2.setColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_premiumGradient2), -16777216, 0.5f));
         this.imageReceiver.setLayerNum(ConnectionsManager.DEFAULT_DATACENTER_ID);
         setVideo();
         if (i2 == 1) {
@@ -154,7 +154,7 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
             drawable.k2 = 0.98f;
             drawable.k1 = 0.98f;
             drawable.speedScale = 4.0f;
-            drawable.colorKey = "premiumStartSmallStarsColor2";
+            drawable.colorKey = Theme.key_premiumStartSmallStarsColor2;
             drawable.init();
         } else if (i2 == 2) {
             SpeedLineParticles$Drawable speedLineParticles$Drawable = new SpeedLineParticles$Drawable(200);
@@ -173,7 +173,7 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
             }
             StarParticlesView.Drawable drawable3 = new StarParticlesView.Drawable(i3);
             this.starDrawable = drawable3;
-            drawable3.colorKey = "premiumStartSmallStarsColor2";
+            drawable3.colorKey = Theme.key_premiumStartSmallStarsColor2;
             drawable3.size1 = 8;
             drawable3.size1 = 6;
             drawable3.size1 = 4;
@@ -543,6 +543,7 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
             drawable.recycle();
             this.helloParticlesDrawable = null;
         }
+        stopVideoPlayer();
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate

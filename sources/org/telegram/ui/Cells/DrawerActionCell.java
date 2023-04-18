@@ -31,10 +31,10 @@ public class DrawerActionCell extends FrameLayout {
         this.rect = new RectF();
         ImageView imageView = new ImageView(context);
         this.imageView = imageView;
-        imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chats_menuItemIcon"), PorterDuff.Mode.SRC_IN));
+        imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_menuItemIcon), PorterDuff.Mode.SRC_IN));
         TextView textView = new TextView(context);
         this.textView = textView;
-        textView.setTextColor(Theme.getColor("chats_menuItemText"));
+        textView.setTextColor(Theme.getColor(Theme.key_chats_menuItemText));
         this.textView.setTextSize(1, 15.0f);
         this.textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.textView.setGravity(16);
@@ -67,7 +67,7 @@ public class DrawerActionCell extends FrameLayout {
             if (set.contains("VALIDATE_PHONE_NUMBER") || set.contains("VALIDATE_PASSWORD")) {
                 int dp2 = AndroidUtilities.dp(12.5f);
                 this.rect.set(((getMeasuredWidth() - AndroidUtilities.dp(9.0f)) - AndroidUtilities.dp(25.0f)) - AndroidUtilities.dp(5.5f), dp2, measuredWidth + dp + AndroidUtilities.dp(14.0f), dp2 + AndroidUtilities.dp(23.0f));
-                Theme.chat_docBackPaint.setColor(Theme.getColor("chats_archiveBackground"));
+                Theme.chat_docBackPaint.setColor(Theme.getColor(Theme.key_chats_archiveBackground));
                 RectF rectF = this.rect;
                 float f = AndroidUtilities.density;
                 canvas.drawRoundRect(rectF, f * 11.5f, f * 11.5f, Theme.chat_docBackPaint);
@@ -87,7 +87,7 @@ public class DrawerActionCell extends FrameLayout {
     @Override // android.view.ViewGroup, android.view.View
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        this.textView.setTextColor(Theme.getColor("chats_menuItemText"));
+        this.textView.setTextColor(Theme.getColor(Theme.key_chats_menuItemText));
     }
 
     public void setTextAndIcon(int i, String str, int i2) {

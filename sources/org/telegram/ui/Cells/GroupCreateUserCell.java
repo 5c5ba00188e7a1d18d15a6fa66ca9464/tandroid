@@ -92,7 +92,7 @@ public class GroupCreateUserCell extends FrameLayout {
         };
         this.nameTextView = simpleTextView;
         NotificationCenter.listenEmojiLoading(simpleTextView);
-        this.nameTextView.setTextColor(Theme.getColor(this.forceDarkTheme ? "voipgroup_nameText" : "windowBackgroundWhiteBlackText"));
+        this.nameTextView.setTextColor(Theme.getColor(this.forceDarkTheme ? Theme.key_voipgroup_nameText : Theme.key_windowBackgroundWhiteBlackText));
         this.nameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.nameTextView.setTextSize(16);
         this.nameTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
@@ -115,7 +115,7 @@ public class GroupCreateUserCell extends FrameLayout {
         if (i == 1) {
             CheckBox2 checkBox2 = new CheckBox2(context, 21);
             this.checkBox = checkBox2;
-            checkBox2.setColor(null, "windowBackgroundWhite", "checkboxCheck");
+            checkBox2.setColor(-1, Theme.key_windowBackgroundWhite, Theme.key_checkboxCheck);
             this.checkBox.setDrawUnchecked(false);
             this.checkBox.setDrawBackgroundAsArc(3);
             CheckBox2 checkBox22 = this.checkBox;
@@ -236,8 +236,8 @@ public class GroupCreateUserCell extends FrameLayout {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:45:0x00d7, code lost:
-        if (r14.equals("archived") == false) goto L15;
+    /* JADX WARN: Code restructure failed: missing block: B:45:0x00d3, code lost:
+        if (r12.equals("archived") == false) goto L15;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -277,58 +277,58 @@ public class GroupCreateUserCell extends FrameLayout {
                     break;
                 case -1237460524:
                     if (str4.equals("groups")) {
-                        r3 = 1;
+                        r2 = 1;
                         break;
                     }
-                    r3 = -1;
+                    r2 = -1;
                     break;
                 case -1197490811:
                     if (str4.equals("non_contacts")) {
-                        r3 = 2;
+                        r2 = 2;
                         break;
                     }
-                    r3 = -1;
+                    r2 = -1;
                     break;
                 case -567451565:
                     if (str4.equals("contacts")) {
-                        r3 = 3;
+                        r2 = 3;
                         break;
                     }
-                    r3 = -1;
+                    r2 = -1;
                     break;
                 case 3029900:
                     if (str4.equals("bots")) {
-                        r3 = 4;
+                        r2 = 4;
                         break;
                     }
-                    r3 = -1;
+                    r2 = -1;
                     break;
                 case 3496342:
                     if (str4.equals("read")) {
-                        r3 = 5;
+                        r2 = 5;
                         break;
                     }
-                    r3 = -1;
+                    r2 = -1;
                     break;
                 case 104264043:
                     if (str4.equals("muted")) {
-                        r3 = 6;
+                        r2 = 6;
                         break;
                     }
-                    r3 = -1;
+                    r2 = -1;
                     break;
                 case 1432626128:
                     if (str4.equals("channels")) {
-                        r3 = 7;
+                        r2 = 7;
                         break;
                     }
-                    r3 = -1;
+                    r2 = -1;
                     break;
                 default:
-                    r3 = -1;
+                    r2 = -1;
                     break;
             }
-            switch (r3) {
+            switch (r2) {
                 case 0:
                     this.avatarDrawable.setAvatarType(11);
                     break;
@@ -430,16 +430,34 @@ public class GroupCreateUserCell extends FrameLayout {
                 }
                 if (this.currentStatus == null) {
                     if (tLRPC$User.bot) {
-                        this.statusTextView.setTag("windowBackgroundWhiteGrayText");
-                        this.statusTextView.setTextColor(Theme.getColor(this.forceDarkTheme ? "voipgroup_lastSeenText" : "windowBackgroundWhiteGrayText"));
+                        SimpleTextView simpleTextView = this.statusTextView;
+                        int i2 = Theme.key_windowBackgroundWhiteGrayText;
+                        simpleTextView.setTag(Integer.valueOf(i2));
+                        SimpleTextView simpleTextView2 = this.statusTextView;
+                        if (this.forceDarkTheme) {
+                            i2 = Theme.key_voipgroup_lastSeenText;
+                        }
+                        simpleTextView2.setTextColor(Theme.getColor(i2));
                         this.statusTextView.setText(LocaleController.getString("Bot", R.string.Bot));
                     } else if (tLRPC$User.id == UserConfig.getInstance(this.currentAccount).getClientUserId() || (((tLRPC$UserStatus = tLRPC$User.status) != null && tLRPC$UserStatus.expires > ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) || MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(tLRPC$User.id)))) {
-                        this.statusTextView.setTag("windowBackgroundWhiteBlueText");
-                        this.statusTextView.setTextColor(Theme.getColor(this.forceDarkTheme ? "voipgroup_listeningText" : "windowBackgroundWhiteBlueText"));
+                        SimpleTextView simpleTextView3 = this.statusTextView;
+                        int i3 = Theme.key_windowBackgroundWhiteBlueText;
+                        simpleTextView3.setTag(Integer.valueOf(i3));
+                        SimpleTextView simpleTextView4 = this.statusTextView;
+                        if (this.forceDarkTheme) {
+                            i3 = Theme.key_voipgroup_listeningText;
+                        }
+                        simpleTextView4.setTextColor(Theme.getColor(i3));
                         this.statusTextView.setText(LocaleController.getString("Online", R.string.Online));
                     } else {
-                        this.statusTextView.setTag("windowBackgroundWhiteGrayText");
-                        this.statusTextView.setTextColor(Theme.getColor(this.forceDarkTheme ? "voipgroup_lastSeenText" : "windowBackgroundWhiteGrayText"));
+                        SimpleTextView simpleTextView5 = this.statusTextView;
+                        int i4 = Theme.key_windowBackgroundWhiteGrayText;
+                        simpleTextView5.setTag(Integer.valueOf(i4));
+                        SimpleTextView simpleTextView6 = this.statusTextView;
+                        if (this.forceDarkTheme) {
+                            i4 = Theme.key_voipgroup_lastSeenText;
+                        }
+                        simpleTextView6.setTextColor(Theme.getColor(i4));
                         this.statusTextView.setText(LocaleController.formatUserStatus(this.currentAccount, tLRPC$User));
                     }
                 }
@@ -477,8 +495,14 @@ public class GroupCreateUserCell extends FrameLayout {
                     this.nameTextView.setText(str);
                 }
                 if (this.currentStatus == null) {
-                    this.statusTextView.setTag("windowBackgroundWhiteGrayText");
-                    this.statusTextView.setTextColor(Theme.getColor(this.forceDarkTheme ? "voipgroup_lastSeenText" : "windowBackgroundWhiteGrayText"));
+                    SimpleTextView simpleTextView7 = this.statusTextView;
+                    int i5 = Theme.key_windowBackgroundWhiteGrayText;
+                    simpleTextView7.setTag(Integer.valueOf(i5));
+                    SimpleTextView simpleTextView8 = this.statusTextView;
+                    if (this.forceDarkTheme) {
+                        i5 = Theme.key_voipgroup_lastSeenText;
+                    }
+                    simpleTextView8.setTextColor(Theme.getColor(i5));
                     if (tLRPC$Chat2.participants_count != 0) {
                         if (ChatObject.isChannel(tLRPC$Chat2) && !tLRPC$Chat2.megagroup) {
                             this.statusTextView.setText(LocaleController.formatPluralString("Subscribers", tLRPC$Chat2.participants_count, new Object[0]));
@@ -507,8 +531,14 @@ public class GroupCreateUserCell extends FrameLayout {
         CharSequence charSequence4 = this.currentStatus;
         if (charSequence4 != null) {
             this.statusTextView.setText(charSequence4, true);
-            this.statusTextView.setTag("windowBackgroundWhiteGrayText");
-            this.statusTextView.setTextColor(Theme.getColor(this.forceDarkTheme ? "voipgroup_lastSeenText" : "windowBackgroundWhiteGrayText"));
+            SimpleTextView simpleTextView9 = this.statusTextView;
+            int i6 = Theme.key_windowBackgroundWhiteGrayText;
+            simpleTextView9.setTag(Integer.valueOf(i6));
+            SimpleTextView simpleTextView10 = this.statusTextView;
+            if (this.forceDarkTheme) {
+                i6 = Theme.key_voipgroup_lastSeenText;
+            }
+            simpleTextView10.setTextColor(Theme.getColor(i6));
         }
     }
 
@@ -516,14 +546,14 @@ public class GroupCreateUserCell extends FrameLayout {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (this.checkBoxType == 2 && (this.isChecked || this.checkProgress > 0.0f)) {
-            this.paint.setColor(Theme.getColor("checkboxSquareBackground"));
+            this.paint.setColor(Theme.getColor(Theme.key_checkboxSquareBackground));
             canvas.drawCircle(this.avatarImageView.getLeft() + (this.avatarImageView.getMeasuredWidth() / 2), this.avatarImageView.getTop() + (this.avatarImageView.getMeasuredHeight() / 2), AndroidUtilities.dp(18.0f) + (AndroidUtilities.dp(4.0f) * this.checkProgress), this.paint);
         }
         if (this.drawDivider) {
             int dp = AndroidUtilities.dp(LocaleController.isRTL ? 0.0f : this.padding + 72);
             int measuredWidth = getMeasuredWidth() - AndroidUtilities.dp(LocaleController.isRTL ? this.padding + 72 : 0.0f);
             if (this.forceDarkTheme) {
-                Theme.dividerExtraPaint.setColor(Theme.getColor("voipgroup_actionBar"));
+                Theme.dividerExtraPaint.setColor(Theme.getColor(Theme.key_voipgroup_actionBar));
                 canvas.drawRect(dp, getMeasuredHeight() - 1, measuredWidth, getMeasuredHeight(), Theme.dividerExtraPaint);
                 return;
             }

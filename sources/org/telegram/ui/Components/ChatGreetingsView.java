@@ -75,7 +75,7 @@ public class ChatGreetingsView extends LinearLayout {
         if (tLRPC$Document == null) {
             return;
         }
-        SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document, "chat_serviceBackground", 1.0f);
+        SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document, Theme.key_chat_serviceBackground, 1.0f);
         if (svgThumb != null) {
             this.stickerToSendView.setImage(ImageLocation.getForDocument(tLRPC$Document), createFilter(tLRPC$Document), svgThumb, 0, tLRPC$Document);
         } else {
@@ -147,8 +147,10 @@ public class ChatGreetingsView extends LinearLayout {
     }
 
     private void updateColors() {
-        this.titleView.setTextColor(getThemedColor("chat_serviceText"));
-        this.descriptionView.setTextColor(getThemedColor("chat_serviceText"));
+        TextView textView = this.titleView;
+        int i = Theme.key_chat_serviceText;
+        textView.setTextColor(getThemedColor(i));
+        this.descriptionView.setTextColor(getThemedColor(i));
     }
 
     public void setListener(Listener listener) {
@@ -210,9 +212,9 @@ public class ChatGreetingsView extends LinearLayout {
         }
     }
 
-    private int getThemedColor(String str) {
+    private int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 }

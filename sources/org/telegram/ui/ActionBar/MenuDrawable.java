@@ -177,11 +177,11 @@ public class MenuDrawable extends Drawable {
         canvas.translate(((getIntrinsicWidth() / 2) - AndroidUtilities.dp(9.0f)) - (AndroidUtilities.dp(1.0f) * this.currentRotation), getIntrinsicHeight() / 2);
         int i9 = this.iconColor;
         if (i9 == 0) {
-            i9 = Theme.getColor("actionBarDefaultIcon");
+            i9 = Theme.getColor(Theme.key_actionBarDefaultIcon);
         }
         int i10 = this.backColor;
         if (i10 == 0) {
-            i10 = Theme.getColor("actionBarDefault");
+            i10 = Theme.getColor(Theme.key_actionBarDefault);
         }
         int i11 = i10;
         int i12 = this.type;
@@ -221,8 +221,8 @@ public class MenuDrawable extends Drawable {
                         dp5 = AndroidUtilities.dpf2(5.0f) + (AndroidUtilities.dpf2(3.0f) * Math.abs(this.currentRotation));
                         dp6 = AndroidUtilities.dpf2(2.0f) + (AndroidUtilities.dpf2(7.0f) * Math.abs(this.currentRotation));
                     } else {
-                        int color = Theme.getColor("actionBarActionModeDefaultIcon");
-                        i11 = AndroidUtilities.getOffsetColor(i11, Theme.getColor("actionBarActionModeDefault"), this.currentRotation, 1.0f);
+                        int color = Theme.getColor(Theme.key_actionBarActionModeDefaultIcon);
+                        i11 = AndroidUtilities.getOffsetColor(i11, Theme.getColor(Theme.key_actionBarActionModeDefault), this.currentRotation, 1.0f);
                         this.paint.setColor(AndroidUtilities.getOffsetColor(i9, color, this.currentRotation, 1.0f));
                         this.paint.setAlpha(this.alpha);
                         canvas.drawLine(this.currentRotation * AndroidUtilities.dp(1.0f), 0.0f, (AndroidUtilities.dp(18.0f) - (AndroidUtilities.dp(1.0f) * this.currentRotation)) - f3, 0.0f, this.paint);

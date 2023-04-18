@@ -299,7 +299,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
             }
         };
         this.popupContainer = relativeLayout2;
-        relativeLayout2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+        relativeLayout2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         relativeLayout.addView(this.popupContainer, LayoutHelper.createRelative(-1, 240, 12, 0, 12, 0, 13));
         ChatActivityEnterView chatActivityEnterView = this.chatActivityEnterView;
         if (chatActivityEnterView != null) {
@@ -478,8 +478,8 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         this.actionBar = actionBar;
         actionBar.setOccupyStatusBar(false);
         this.actionBar.setBackButtonImage(R.drawable.ic_close_white);
-        this.actionBar.setBackgroundColor(Theme.getColor("actionBarDefault"));
-        this.actionBar.setItemsBackgroundColor(Theme.getColor("actionBarDefaultSelector"), false);
+        this.actionBar.setBackgroundColor(Theme.getColor(Theme.key_actionBarDefault));
+        this.actionBar.setItemsBackgroundColor(Theme.getColor(Theme.key_actionBarDefaultSelector), false);
         this.popupContainer.addView(this.actionBar);
         ViewGroup.LayoutParams layoutParams = this.actionBar.getLayoutParams();
         layoutParams.width = -1;
@@ -487,7 +487,8 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         ActionBarMenuItem addItemWithWidth = this.actionBar.createMenu().addItemWithWidth(2, 0, AndroidUtilities.dp(56.0f));
         TextView textView = new TextView(this);
         this.countText = textView;
-        textView.setTextColor(Theme.getColor("actionBarDefaultSubtitle"));
+        int i2 = Theme.key_actionBarDefaultSubtitle;
+        textView.setTextColor(Theme.getColor(i2));
         this.countText.setTextSize(1, 14.0f);
         this.countText.setGravity(17);
         addItemWithWidth.addView(this.countText, LayoutHelper.createFrame(56, -1.0f));
@@ -513,7 +514,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         this.avatarImageView.setLayoutParams(layoutParams3);
         TextView textView2 = new TextView(this);
         this.nameTextView = textView2;
-        textView2.setTextColor(Theme.getColor("actionBarDefaultTitle"));
+        textView2.setTextColor(Theme.getColor(Theme.key_actionBarDefaultTitle));
         this.nameTextView.setTextSize(1, 18.0f);
         this.nameTextView.setLines(1);
         this.nameTextView.setMaxLines(1);
@@ -531,7 +532,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         this.nameTextView.setLayoutParams(layoutParams4);
         TextView textView3 = new TextView(this);
         this.onlineTextView = textView3;
-        textView3.setTextColor(Theme.getColor("actionBarDefaultSubtitle"));
+        textView3.setTextColor(Theme.getColor(i2));
         this.onlineTextView.setTextSize(1, 14.0f);
         this.onlineTextView.setLines(1);
         this.onlineTextView.setMaxLines(1);
@@ -548,13 +549,13 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         this.onlineTextView.setLayoutParams(layoutParams5);
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.PopupNotificationActivity.4
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i2) {
-                if (i2 == -1) {
+            public void onItemClick(int i3) {
+                if (i3 == -1) {
                     PopupNotificationActivity.this.onFinish();
                     PopupNotificationActivity.this.finish();
-                } else if (i2 == 1) {
+                } else if (i3 == 1) {
                     PopupNotificationActivity.this.openCurrentMessage();
-                } else if (i2 == 2) {
+                } else if (i3 == 2) {
                     PopupNotificationActivity.this.switchToNextMessage();
                 }
             }
@@ -913,14 +914,14 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                             if (linearLayout == null) {
                                 linearLayout = new LinearLayout(this);
                                 linearLayout.setOrientation(i4);
-                                linearLayout.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                                linearLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                                 linearLayout.setWeightSum(100.0f);
                                 linearLayout.setTag("b");
                                 linearLayout.setOnTouchListener(PopupNotificationActivity$$ExternalSyntheticLambda5.INSTANCE);
                             }
                             TextView textView = new TextView(this);
                             textView.setTextSize(1, 16.0f);
-                            textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText"));
+                            textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText));
                             textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                             textView.setText(tLRPC$KeyboardButton.text.toUpperCase());
                             textView.setTag(tLRPC$KeyboardButton);
@@ -1006,7 +1007,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                     backupImageView.setTag(311);
                     frameLayout3.addView(backupImageView, LayoutHelper.createFrame(-1, -1.0f));
                     TextView textView = new TextView(this);
-                    textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+                    textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                     textView.setTextSize(1, 16.0f);
                     textView.setGravity(17);
                     textView.setTag(312);
@@ -1129,8 +1130,9 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                     TextView textView3 = new TextView(this);
                     textView3.setTextSize(1, 16.0f);
                     textView3.setTag(301);
-                    textView3.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-                    textView3.setLinkTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+                    int i6 = Theme.key_windowBackgroundWhiteBlackText;
+                    textView3.setTextColor(Theme.getColor(i6));
+                    textView3.setLinkTextColor(Theme.getColor(i6));
                     textView3.setGravity(17);
                     linearLayout.addView(textView3, LayoutHelper.createLinear(-1, -2, 17));
                     frameLayout2.setTag(1);
@@ -1150,12 +1152,12 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                 layoutParams.gravity = 51;
                 layoutParams.height = -1;
                 layoutParams.width = dp;
-                int i6 = this.currentMessageNum;
-                if (i3 == i6) {
+                int i7 = this.currentMessageNum;
+                if (i3 == i7) {
                     viewGroup.setTranslationX(0.0f);
-                } else if (i3 == i6 - 1) {
+                } else if (i3 == i7 - 1) {
                     viewGroup.setTranslationX(-dp);
-                } else if (i3 == i6 + 1) {
+                } else if (i3 == i7 + 1) {
                     viewGroup.setTranslationX(dp);
                 }
                 viewGroup.setLayoutParams(layoutParams);

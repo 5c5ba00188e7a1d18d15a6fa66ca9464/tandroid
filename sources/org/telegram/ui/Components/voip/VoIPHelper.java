@@ -472,7 +472,7 @@ public class VoIPHelper {
                 public final void onDismiss(DialogInterface dialogInterface) {
                     VoIPHelper.lambda$permissionDenied$8(runnable, dialogInterface);
                 }
-            }).setTopAnimation(z ? R.raw.permission_request_camera : R.raw.permission_request_microphone, 72, false, Theme.getColor("dialogTopBackground")).show();
+            }).setTopAnimation(z ? R.raw.permission_request_camera : R.raw.permission_request_microphone, 72, false, Theme.getColor(Theme.key_dialogTopBackground)).show();
         }
     }
 
@@ -542,7 +542,7 @@ public class VoIPHelper {
         linearLayout.setPadding(dp, dp, dp, 0);
         final TextView textView = new TextView(context);
         textView.setTextSize(2, 16.0f);
-        textView.setTextColor(Theme.getColor("dialogTextBlack"));
+        textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         textView.setGravity(17);
         textView.setText(LocaleController.getString("VoipRateCallAlert", R.string.VoipRateCallAlert));
         linearLayout.addView(textView);
@@ -612,10 +612,10 @@ public class VoIPHelper {
         final EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context);
         editTextBoldCursor.setHint(LocaleController.getString("VoipFeedbackCommentHint", R.string.VoipFeedbackCommentHint));
         editTextBoldCursor.setInputType(147457);
-        editTextBoldCursor.setTextColor(Theme.getColor("dialogTextBlack"));
-        editTextBoldCursor.setHintTextColor(Theme.getColor("dialogTextHint"));
+        editTextBoldCursor.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+        editTextBoldCursor.setHintTextColor(Theme.getColor(Theme.key_dialogTextHint));
         editTextBoldCursor.setBackground(null);
-        editTextBoldCursor.setLineColors(Theme.getColor("dialogInputField"), Theme.getColor("dialogInputFieldActivated"), Theme.getColor("text_RedBold"));
+        editTextBoldCursor.setLineColors(Theme.getColor(Theme.key_dialogInputField), Theme.getColor(Theme.key_dialogInputFieldActivated), Theme.getColor(Theme.key_text_RedBold));
         editTextBoldCursor.setPadding(0, AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f));
         editTextBoldCursor.setTextSize(1, 18.0f);
         editTextBoldCursor.setVisibility(8);
@@ -634,7 +634,7 @@ public class VoIPHelper {
         linearLayout.addView(checkBoxCell2, LayoutHelper.createLinear(-1, -2, -8.0f, 0.0f, -8.0f, 0.0f));
         final TextView textView2 = new TextView(context);
         textView2.setTextSize(2, 14.0f);
-        textView2.setTextColor(Theme.getColor("dialogTextGray3"));
+        textView2.setTextColor(Theme.getColor(Theme.key_dialogTextGray3));
         textView2.setText(LocaleController.getString("CallReportLogsExplain", R.string.CallReportLogsExplain));
         textView2.setPadding(AndroidUtilities.dp(8.0f), 0, AndroidUtilities.dp(8.0f), 0);
         textView2.setOnClickListener(onClickListener);
@@ -798,7 +798,7 @@ public class VoIPHelper {
         TextView textView = new TextView(context);
         textView.setTextSize(1, 15.0f);
         textView.setText("Please only change these settings if you know exactly what they do.");
-        textView.setTextColor(Theme.getColor("dialogTextBlack"));
+        textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2, 16.0f, 8.0f, 16.0f, 8.0f));
         final TextCheckCell textCheckCell = new TextCheckCell(context);
         textCheckCell.setTextAndCheck("Force TCP", globalMainSettings.getBoolean("dbg_force_tcp_in_calls", false), false);

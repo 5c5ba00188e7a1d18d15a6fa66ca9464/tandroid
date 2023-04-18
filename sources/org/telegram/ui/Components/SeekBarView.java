@@ -125,12 +125,13 @@ public class SeekBarView extends FrameLayout {
         this.innerPaint1 = new Paint(1);
         Paint paint = new Paint(1);
         this.outerPaint1 = paint;
-        paint.setColor(getThemedColor("player_progress"));
+        int i = Theme.key_player_progress;
+        paint.setColor(getThemedColor(i));
         this.selectorWidth = AndroidUtilities.dp(32.0f);
         this.thumbSize = AndroidUtilities.dp(24.0f);
         this.currentRadius = AndroidUtilities.dp(6.0f);
         if (Build.VERSION.SDK_INT >= 21) {
-            Drawable createSelectorDrawable = Theme.createSelectorDrawable(ColorUtils.setAlphaComponent(getThemedColor("player_progress"), 40), 1, AndroidUtilities.dp(16.0f));
+            Drawable createSelectorDrawable = Theme.createSelectorDrawable(ColorUtils.setAlphaComponent(getThemedColor(i), 40), 1, AndroidUtilities.dp(16.0f));
             this.hoverDrawable = createSelectorDrawable;
             createSelectorDrawable.setCallback(this);
             this.hoverDrawable.setVisible(true, false);
@@ -439,7 +440,7 @@ public class SeekBarView extends FrameLayout {
         }
         int i3 = i2;
         int measuredHeight = (getMeasuredHeight() - this.thumbSize) / 2;
-        this.innerPaint1.setColor(getThemedColor("player_progressBackground"));
+        this.innerPaint1.setColor(getThemedColor(Theme.key_player_progressBackground));
         float measuredHeight2 = getMeasuredHeight() / 2.0f;
         float f2 = this.selectorWidth / 2.0f;
         float dp = measuredHeight2 - (AndroidUtilities.dp(this.lineWidthDp) / 2.0f);
@@ -447,7 +448,7 @@ public class SeekBarView extends FrameLayout {
         this.rect.set(f2, dp, getMeasuredWidth() - (this.selectorWidth / 2), dp2);
         drawProgressBar(canvas, this.rect, this.innerPaint1);
         if (this.bufferedProgress > 0.0f) {
-            this.innerPaint1.setColor(getThemedColor("key_player_progressCachedBackground"));
+            this.innerPaint1.setColor(getThemedColor(Theme.key_player_progressCachedBackground));
             this.rect.set(f2, dp, (this.selectorWidth / 2.0f) + (this.bufferedProgress * (getMeasuredWidth() - this.selectorWidth)), dp2);
             drawProgressBar(canvas, this.rect, this.innerPaint1);
         }
@@ -831,7 +832,7 @@ public class SeekBarView extends FrameLayout {
         float interpolation = CubicBezierInterpolator.DEFAULT.getInterpolation(this.timestampChangeT);
         canvas.save();
         canvas.translate(f + AndroidUtilities.dp(25.0f), (getMeasuredHeight() / 2.0f) + AndroidUtilities.dp(14.0f));
-        this.timestampLabelPaint.setColor(getThemedColor("player_time"));
+        this.timestampLabelPaint.setColor(getThemedColor(Theme.key_player_time));
         if (this.timestampLabel[1] != null) {
             canvas.save();
             if (this.timestampChangeDirection != 0) {
@@ -861,7 +862,7 @@ public class SeekBarView extends FrameLayout {
             this.timestampLabelPaint = textPaint;
             textPaint.setTextSize(AndroidUtilities.dp(12.0f));
         }
-        this.timestampLabelPaint.setColor(getThemedColor("player_time"));
+        this.timestampLabelPaint.setColor(getThemedColor(Theme.key_player_time));
         String str = charSequence == null ? "" : charSequence;
         if (Build.VERSION.SDK_INT >= 23) {
             return StaticLayout.Builder.obtain(str, 0, str.length(), this.timestampLabelPaint, i).setMaxLines(1).setAlignment(Layout.Alignment.ALIGN_CENTER).setEllipsize(TextUtils.TruncateAt.END).setEllipsizedWidth(Math.min(AndroidUtilities.dp(400.0f), i)).build();
@@ -873,9 +874,9 @@ public class SeekBarView extends FrameLayout {
         return this.seekBarAccessibilityDelegate;
     }
 
-    private int getThemedColor(String str) {
+    private int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 }

@@ -2097,7 +2097,6 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             if ((this.accelerometerSensor == null && (this.gravitySensor == null || this.linearAcceleration == null)) || this.proximitySensor == null) {
                 return;
             }
-            this.raiseChat = chatActivity;
             if (!SharedConfig.enabledRaiseTo(true)) {
                 MessageObject messageObject = this.playingMessageObject;
                 if (messageObject == null) {
@@ -2107,6 +2106,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     return;
                 }
             }
+            this.raiseChat = chatActivity;
             if (this.sensorsStarted) {
                 return;
             }

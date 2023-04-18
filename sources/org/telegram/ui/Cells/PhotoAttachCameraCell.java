@@ -64,7 +64,7 @@ public class PhotoAttachCameraCell extends FrameLayout {
     @Override // android.view.ViewGroup, android.view.View
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        this.imageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogCameraIcon"), PorterDuff.Mode.MULTIPLY));
+        this.imageView.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_dialogCameraIcon), PorterDuff.Mode.MULTIPLY));
     }
 
     public void updateBitmap() {
@@ -85,9 +85,9 @@ public class PhotoAttachCameraCell extends FrameLayout {
         return this.backgroundView.getDrawable();
     }
 
-    protected int getThemedColor(String str) {
+    protected int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 }

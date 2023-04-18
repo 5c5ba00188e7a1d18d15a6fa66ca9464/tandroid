@@ -777,7 +777,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     Rect rect = AndroidUtilities.rectTmp2;
                     rect.set(0, 0, getMeasuredWidth(), i);
                     if (ProfileActivity.this.previousTransitionFragment.getActionBar() != null && !ProfileActivity.this.previousTransitionFragment.getContentView().blurWasDrawn() && ProfileActivity.this.previousTransitionFragment.getActionBar().getBackground() == null) {
-                        this.paint.setColor(Theme.getColor("actionBarDefault", ProfileActivity.this.previousTransitionFragment.getResourceProvider()));
+                        this.paint.setColor(Theme.getColor(Theme.key_actionBarDefault, ProfileActivity.this.previousTransitionFragment.getResourceProvider()));
                         canvas.drawRect(rect, this.paint);
                     } else {
                         ProfileActivity.this.previousTransitionFragment.getContentView().drawBlurRect(canvas, getY(), rect, ProfileActivity.this.previousTransitionFragment.getActionBar().blurScrimPaint, true);
@@ -797,7 +797,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             }
             if (i != currentActionBarHeight) {
-                this.paint.setColor(ProfileActivity.this.getThemedColor("windowBackgroundWhite"));
+                this.paint.setColor(ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundWhite));
                 Rect rect2 = AndroidUtilities.rectTmp2;
                 rect2.set(0, i, getMeasuredWidth(), (int) currentActionBarHeight);
                 ProfileActivity.this.contentView.drawBlurRect(canvas, getY(), rect2, this.paint, true);
@@ -1668,37 +1668,41 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             public void setValue(ActionBar actionBar, float f) {
                 ProfileActivity.this.mediaHeaderAnimationProgress = f;
                 ProfileActivity.this.topView.invalidate();
-                int themedColor = ProfileActivity.this.getThemedColor("profile_title");
-                int themedColor2 = ProfileActivity.this.getThemedColor("player_actionBarTitle");
+                int themedColor = ProfileActivity.this.getThemedColor(Theme.key_profile_title);
+                ProfileActivity profileActivity = ProfileActivity.this;
+                int i = Theme.key_player_actionBarTitle;
+                int themedColor2 = profileActivity.getThemedColor(i);
                 int offsetColor = AndroidUtilities.getOffsetColor(themedColor, themedColor2, f, 1.0f);
                 ProfileActivity.this.nameTextView[1].setTextColor(offsetColor);
                 if (ProfileActivity.this.lockIconDrawable != null) {
                     ProfileActivity.this.lockIconDrawable.setColorFilter(offsetColor, PorterDuff.Mode.MULTIPLY);
                 }
                 if (ProfileActivity.this.scamDrawable != null) {
-                    ProfileActivity.this.scamDrawable.setColor(AndroidUtilities.getOffsetColor(ProfileActivity.this.getThemedColor("avatar_subtitleInProfileBlue"), themedColor2, f, 1.0f));
+                    ProfileActivity.this.scamDrawable.setColor(AndroidUtilities.getOffsetColor(ProfileActivity.this.getThemedColor(Theme.key_avatar_subtitleInProfileBlue), themedColor2, f, 1.0f));
                 }
-                ((BaseFragment) ProfileActivity.this).actionBar.setItemsColor(AndroidUtilities.getOffsetColor(ProfileActivity.this.getThemedColor("actionBarDefaultIcon"), ProfileActivity.this.getThemedColor("actionBarActionModeDefaultIcon"), f, 1.0f), false);
-                ((BaseFragment) ProfileActivity.this).actionBar.setItemsBackgroundColor(AndroidUtilities.getOffsetColor(ProfileActivity.this.getThemedColor("avatar_actionBarSelectorBlue"), ProfileActivity.this.getThemedColor("actionBarActionModeDefaultSelector"), f, 1.0f), false);
+                ProfileActivity profileActivity2 = ProfileActivity.this;
+                int i2 = Theme.key_actionBarDefaultIcon;
+                ((BaseFragment) ProfileActivity.this).actionBar.setItemsColor(AndroidUtilities.getOffsetColor(profileActivity2.getThemedColor(i2), ProfileActivity.this.getThemedColor(Theme.key_actionBarActionModeDefaultIcon), f, 1.0f), false);
+                ((BaseFragment) ProfileActivity.this).actionBar.setItemsBackgroundColor(AndroidUtilities.getOffsetColor(ProfileActivity.this.getThemedColor(Theme.key_avatar_actionBarSelectorBlue), ProfileActivity.this.getThemedColor(Theme.key_actionBarActionModeDefaultSelector), f, 1.0f), false);
                 ProfileActivity.this.topView.invalidate();
-                ProfileActivity.this.otherItem.setIconColor(ProfileActivity.this.getThemedColor("actionBarDefaultIcon"));
-                ProfileActivity.this.callItem.setIconColor(ProfileActivity.this.getThemedColor("actionBarDefaultIcon"));
-                ProfileActivity.this.videoCallItem.setIconColor(ProfileActivity.this.getThemedColor("actionBarDefaultIcon"));
-                ProfileActivity.this.editItem.setIconColor(ProfileActivity.this.getThemedColor("actionBarDefaultIcon"));
+                ProfileActivity.this.otherItem.setIconColor(ProfileActivity.this.getThemedColor(i2));
+                ProfileActivity.this.callItem.setIconColor(ProfileActivity.this.getThemedColor(i2));
+                ProfileActivity.this.videoCallItem.setIconColor(ProfileActivity.this.getThemedColor(i2));
+                ProfileActivity.this.editItem.setIconColor(ProfileActivity.this.getThemedColor(i2));
                 if (ProfileActivity.this.verifiedDrawable != null) {
-                    ProfileActivity.this.verifiedDrawable.setColorFilter(AndroidUtilities.getOffsetColor(ProfileActivity.this.getThemedColor("profile_verifiedBackground"), ProfileActivity.this.getThemedColor("player_actionBarTitle"), f, 1.0f), PorterDuff.Mode.MULTIPLY);
+                    ProfileActivity.this.verifiedDrawable.setColorFilter(AndroidUtilities.getOffsetColor(ProfileActivity.this.getThemedColor(Theme.key_profile_verifiedBackground), ProfileActivity.this.getThemedColor(i), f, 1.0f), PorterDuff.Mode.MULTIPLY);
                 }
                 if (ProfileActivity.this.verifiedCheckDrawable != null) {
-                    ProfileActivity.this.verifiedCheckDrawable.setColorFilter(AndroidUtilities.getOffsetColor(ProfileActivity.this.getThemedColor("profile_verifiedCheck"), ProfileActivity.this.getThemedColor("windowBackgroundWhite"), f, 1.0f), PorterDuff.Mode.MULTIPLY);
+                    ProfileActivity.this.verifiedCheckDrawable.setColorFilter(AndroidUtilities.getOffsetColor(ProfileActivity.this.getThemedColor(Theme.key_profile_verifiedCheck), ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundWhite), f, 1.0f), PorterDuff.Mode.MULTIPLY);
                 }
                 if (ProfileActivity.this.premiumStarDrawable != null) {
-                    ProfileActivity.this.premiumStarDrawable.setColorFilter(AndroidUtilities.getOffsetColor(ProfileActivity.this.getThemedColor("profile_verifiedBackground"), ProfileActivity.this.getThemedColor("player_actionBarTitle"), f, 1.0f), PorterDuff.Mode.MULTIPLY);
+                    ProfileActivity.this.premiumStarDrawable.setColorFilter(AndroidUtilities.getOffsetColor(ProfileActivity.this.getThemedColor(Theme.key_profile_verifiedBackground), ProfileActivity.this.getThemedColor(i), f, 1.0f), PorterDuff.Mode.MULTIPLY);
                 }
                 ProfileActivity.this.updateEmojiStatusDrawableColor();
                 if (ProfileActivity.this.avatarsViewPagerIndicatorView.getSecondaryMenuItem() != null) {
                     if (ProfileActivity.this.videoCallItemVisible || ProfileActivity.this.editItemVisible || ProfileActivity.this.callItemVisible) {
-                        ProfileActivity profileActivity = ProfileActivity.this;
-                        profileActivity.needLayoutText(Math.min(1.0f, profileActivity.extraHeight / AndroidUtilities.dp(88.0f)));
+                        ProfileActivity profileActivity3 = ProfileActivity.this;
+                        profileActivity3.needLayoutText(Math.min(1.0f, profileActivity3.extraHeight / AndroidUtilities.dp(88.0f)));
                     }
                 }
             }
@@ -1989,8 +1993,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         boolean z = true;
         actionBar.setForceSkipTouches(true);
         actionBar.setBackgroundColor(0);
-        actionBar.setItemsBackgroundColor(getThemedColor("avatar_actionBarSelectorBlue"), false);
-        actionBar.setItemsColor(getThemedColor("actionBarDefaultIcon"), false);
+        actionBar.setItemsBackgroundColor(getThemedColor(Theme.key_avatar_actionBarSelectorBlue), false);
+        actionBar.setItemsColor(getThemedColor(Theme.key_actionBarDefaultIcon), false);
         actionBar.setBackButtonDrawable(new BackDrawable(false));
         actionBar.setCastShadows(false);
         actionBar.setAddToContainer(false);
@@ -2180,7 +2184,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.otherItem = createMenu.addItem(10, R.drawable.ic_ab_other, this.resourcesProvider);
         ImageView imageView = new ImageView(context);
         this.ttlIconView = imageView;
-        imageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("actionBarDefaultIcon"), PorterDuff.Mode.MULTIPLY));
+        imageView.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_actionBarDefaultIcon), PorterDuff.Mode.MULTIPLY));
         AndroidUtilities.updateViewVisibilityAnimated(this.ttlIconView, false, 0.8f, false);
         this.ttlIconView.setImageResource(R.drawable.msg_mini_autodelete_timer);
         this.otherItem.addView(this.ttlIconView, LayoutHelper.createFrame(12, 12.0f, 19, 8.0f, 2.0f, 0.0f, 0.0f));
@@ -2361,13 +2365,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             this.searchListView = recyclerListView2;
             recyclerListView2.setVerticalScrollBarEnabled(false);
             this.searchListView.setLayoutManager(new LinearLayoutManager(context, 1, false));
-            this.searchListView.setGlowColor(getThemedColor("avatar_backgroundActionBarBlue"));
+            this.searchListView.setGlowColor(getThemedColor(Theme.key_avatar_backgroundActionBarBlue));
             this.searchListView.setAdapter(this.searchAdapter);
             resourcesProvider = null;
             this.searchListView.setItemAnimator(null);
             this.searchListView.setVisibility(8);
             this.searchListView.setLayoutAnimation(null);
-            this.searchListView.setBackgroundColor(getThemedColor("windowBackgroundWhite"));
+            this.searchListView.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
             frameLayout.addView(this.searchListView, LayoutHelper.createFrame(-1, -1, 51));
             this.searchListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda53
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
@@ -2433,7 +2437,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             });
             TextView textView = new TextView(context);
-            textView.setTextColor(getThemedColor("text_RedRegular"));
+            textView.setTextColor(getThemedColor(Theme.key_text_RedRegular));
             textView.setTextSize(1, 15.0f);
             textView.setGravity(17);
             textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
@@ -2446,7 +2450,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         TopView topView = new TopView(context);
         this.topView = topView;
-        topView.setBackgroundColor(getThemedColor("avatar_backgroundActionBarBlue"));
+        topView.setBackgroundColor(getThemedColor(Theme.key_avatar_backgroundActionBarBlue));
         frameLayout.addView(this.topView);
         this.contentView.blurBehindViews.add(this.topView);
         DrawerProfileCell.AnimatedStatusView animatedStatusView = new DrawerProfileCell.AnimatedStatusView(context, 20, 60);
@@ -2603,9 +2607,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                 };
                 if (i4 == 1) {
-                    this.nameTextView[i4].setTextColor(getThemedColor("profile_title"));
+                    this.nameTextView[i4].setTextColor(getThemedColor(Theme.key_profile_title));
                 } else {
-                    this.nameTextView[i4].setTextColor(getThemedColor("actionBarDefaultTitle"));
+                    this.nameTextView[i4].setTextColor(getThemedColor(Theme.key_actionBarDefaultTitle));
                 }
                 this.nameTextView[i4].setPadding(0, AndroidUtilities.dp(6.0f), 0, AndroidUtilities.dp(i4 == 0 ? 12.0f : 4.0f));
                 this.nameTextView[i4].setTextSize(18);
@@ -2674,7 +2678,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 simpleTextViewArr2[i5] = new LinkSpanDrawable.ClickableSmallTextView(context);
             }
             this.onlineTextView[i5].setEllipsizeByGradient(true);
-            this.onlineTextView[i5].setTextColor(getThemedColor("avatar_subtitleInProfileBlue"));
+            this.onlineTextView[i5].setTextColor(getThemedColor(Theme.key_avatar_subtitleInProfileBlue));
             this.onlineTextView[i5].setTextSize(14);
             this.onlineTextView[i5].setGravity(3);
             this.onlineTextView[i5].setAlpha(i5 == 0 ? 0.0f : 1.0f);
@@ -2704,7 +2708,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             @Override // org.telegram.ui.Components.AudioPlayerAlert.ClippingTextViewSwitcher
             protected TextView createTextView() {
                 TextView textView2 = new TextView(context);
-                textView2.setTextColor(ProfileActivity.this.getThemedColor("player_actionBarSubtitle"));
+                textView2.setTextColor(ProfileActivity.this.getThemedColor(Theme.key_player_actionBarSubtitle));
                 textView2.setTextSize(1, 14.0f);
                 textView2.setSingleLine(true);
                 textView2.setEllipsize(TextUtils.TruncateAt.END);
@@ -2719,7 +2723,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.writeButton = new RLottieImageView(context);
         Drawable mutate = context.getResources().getDrawable(R.drawable.floating_shadow_profile).mutate();
         mutate.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
-        CombinedDrawable combinedDrawable = new CombinedDrawable(mutate, Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), getThemedColor("profile_actionBackground"), getThemedColor("profile_actionPressedBackground")), 0, 0);
+        CombinedDrawable combinedDrawable = new CombinedDrawable(mutate, Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), getThemedColor(Theme.key_profile_actionBackground), getThemedColor(Theme.key_profile_actionPressedBackground)), 0, 0);
         combinedDrawable.setIconSize(AndroidUtilities.dp(56.0f), AndroidUtilities.dp(56.0f));
         this.writeButton.setBackground(combinedDrawable);
         if (this.userId != 0) {
@@ -2738,7 +2742,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             this.writeButton.setImageResource(R.drawable.profile_discuss);
             this.writeButton.setContentDescription(LocaleController.getString("ViewDiscussion", R.string.ViewDiscussion));
         }
-        this.writeButton.setColorFilter(new PorterDuffColorFilter(getThemedColor("profile_actionIcon"), PorterDuff.Mode.MULTIPLY));
+        this.writeButton.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_profile_actionIcon), PorterDuff.Mode.MULTIPLY));
         this.writeButton.setScaleType(ImageView.ScaleType.CENTER);
         frameLayout.addView(this.writeButton, LayoutHelper.createFrame(60, 60.0f, 53, 0.0f, 0.0f, 16.0f, 0.0f));
         this.writeButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda9
@@ -2802,7 +2806,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
-                ((BaseFragment) ProfileActivity.this).actionBar.setItemsBackgroundColor(ProfileActivity.this.isPulledDown ? 1090519039 : ProfileActivity.this.getThemedColor("avatar_actionBarSelectorBlue"), false);
+                ((BaseFragment) ProfileActivity.this).actionBar.setItemsBackgroundColor(ProfileActivity.this.isPulledDown ? 1090519039 : ProfileActivity.this.getThemedColor(Theme.key_avatar_actionBarSelectorBlue), false);
                 ProfileActivity.this.avatarImage.clearForeground();
                 ProfileActivity.this.doNotSetForeground = false;
             }
@@ -2876,12 +2880,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
                 TopView topView2 = ProfileActivity.this.topView;
                 ProfileActivity profileActivity = ProfileActivity.this;
-                topView2.setBackgroundColor(ColorUtils.blendARGB(profileActivity.getAverageColor(profileActivity.pinchToZoomHelper.getPhotoImage()), ProfileActivity.this.getThemedColor("windowBackgroundWhite"), 0.1f));
+                topView2.setBackgroundColor(ColorUtils.blendARGB(profileActivity.getAverageColor(profileActivity.pinchToZoomHelper.getPhotoImage()), ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundWhite), 0.1f));
             }
         });
         this.avatarsViewPager.setPinchToZoomHelper(this.pinchToZoomHelper);
         this.scrimPaint.setAlpha(0);
-        this.actionBarBackgroundPaint.setColor(getThemedColor("listSelectorSDK21"));
+        this.actionBarBackgroundPaint.setColor(getThemedColor(Theme.key_listSelector));
         this.contentView.blurBehindViews.add(this.sharedMediaLayout);
         updateTtlIcon();
         return this.fragmentView;
@@ -2940,7 +2944,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         ProfileActivity.this.showDialog(create);
                         TextView textView = (TextView) create.getButton(-1);
                         if (textView != null) {
-                            textView.setTextColor(ProfileActivity.this.getThemedColor("text_RedBold"));
+                            textView.setTextColor(ProfileActivity.this.getThemedColor(Theme.key_text_RedBold));
                         }
                     }
                 } else if (ProfileActivity.this.userBlocked) {
@@ -3000,7 +3004,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 ProfileActivity.this.showDialog(create2);
                 TextView textView2 = (TextView) create2.getButton(-1);
                 if (textView2 != null) {
-                    textView2.setTextColor(ProfileActivity.this.getThemedColor("text_RedBold"));
+                    textView2.setTextColor(ProfileActivity.this.getThemedColor(Theme.key_text_RedBold));
                 }
             } else if (i == 7) {
                 ProfileActivity.this.leaveChatPressed();
@@ -3045,7 +3049,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 create3.show();
                 TextView textView3 = (TextView) create3.getButton(-1);
                 if (textView3 != null) {
-                    textView3.setTextColor(Theme.getColor("text_RedBold"));
+                    textView3.setTextColor(Theme.getColor(Theme.key_text_RedBold));
                 }
             } else if (i == 12) {
                 if (ProfileActivity.this.isTopic) {
@@ -3297,7 +3301,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 ProfileActivity.this.showDialog(create4);
                 TextView textView4 = (TextView) create4.getButton(-1);
                 if (textView4 != null) {
-                    textView4.setTextColor(ProfileActivity.this.getThemedColor("text_RedBold"));
+                    textView4.setTextColor(ProfileActivity.this.getThemedColor(Theme.key_text_RedBold));
                 }
             }
         }
@@ -3845,11 +3849,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             FragmentContextView fragmentContextView;
             boolean z;
             int i;
-            ProfileActivity.this.whitePaint.setColor(ProfileActivity.this.getThemedColor("windowBackgroundWhite"));
+            ProfileActivity.this.whitePaint.setColor(ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundWhite));
             if (ProfileActivity.this.listView.getVisibility() != 0) {
                 canvas.drawRect(0.0f, ProfileActivity.this.searchListView.getTop() + ProfileActivity.this.extraHeight + ProfileActivity.this.searchTransitionOffset, getMeasuredWidth(), top + getMeasuredHeight(), ProfileActivity.this.whitePaint);
             } else {
-                this.grayPaint.setColor(ProfileActivity.this.getThemedColor("windowBackgroundGray"));
+                this.grayPaint.setColor(ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundGray));
                 if (ProfileActivity.this.transitionAnimationInProress) {
                     ProfileActivity.this.whitePaint.setAlpha((int) (ProfileActivity.this.listView.getAlpha() * 255.0f));
                 }
@@ -4122,7 +4126,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             });
             TextView textView = (TextView) builder.show().getButton(-1);
             if (textView != null) {
-                textView.setTextColor(Theme.getColor("text_RedBold"));
+                textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
             }
         }
         if (i == this.settingsKeyRow) {
@@ -4861,7 +4865,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
             /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$onSend$0(LongSparseArray longSparseArray, int i) {
-                BulletinFactory.createInviteSentBulletin(ProfileActivity.this.getParentActivity(), ProfileActivity.this.contentView, longSparseArray.size(), longSparseArray.size() == 1 ? ((TLRPC$Dialog) longSparseArray.valueAt(0)).id : 0L, i, getThemedColor("undo_background"), getThemedColor("undo_infoColor")).show();
+                BulletinFactory.createInviteSentBulletin(ProfileActivity.this.getParentActivity(), ProfileActivity.this.contentView, longSparseArray.size(), longSparseArray.size() == 1 ? ((TLRPC$Dialog) longSparseArray.valueAt(0)).id : 0L, i, getThemedColor(Theme.key_undo_background), getThemedColor(Theme.key_undo_infoColor)).show();
             }
         }
 
@@ -4948,7 +4952,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         showDialog(create);
         TextView textView = (TextView) create.getButton(-1);
         if (textView != null) {
-            textView.setTextColor(Theme.getColor("text_RedBold"));
+            textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
             return true;
         }
         return true;
@@ -5213,11 +5217,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         ScamDrawable scamDrawable = this.scamDrawable;
         if (scamDrawable != null) {
-            scamDrawable.setColor(ColorUtils.blendARGB(getThemedColor("avatar_subtitleInProfileBlue"), Color.argb(179, 255, 255, 255), lerp));
+            scamDrawable.setColor(ColorUtils.blendARGB(getThemedColor(Theme.key_avatar_subtitleInProfileBlue), Color.argb(179, 255, 255, 255), lerp));
         }
         Drawable drawable = this.lockIconDrawable;
         if (drawable != null) {
-            drawable.setColorFilter(ColorUtils.blendARGB(getThemedColor("chat_lockIcon"), -1, lerp), PorterDuff.Mode.MULTIPLY);
+            drawable.setColorFilter(ColorUtils.blendARGB(getThemedColor(Theme.key_chat_lockIcon), -1, lerp), PorterDuff.Mode.MULTIPLY);
         }
         CrossfadeDrawable crossfadeDrawable = this.verifiedCrossfadeDrawable;
         if (crossfadeDrawable != null) {
@@ -5253,10 +5257,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.mediaCounterTextView.setTranslationX(f14);
         this.mediaCounterTextView.setTranslationY(f15);
         Object tag = this.onlineTextView[1].getTag();
-        if (tag instanceof String) {
-            themedColor = getThemedColor((String) tag);
+        if (tag instanceof Integer) {
+            themedColor = getThemedColor(((Integer) tag).intValue());
         } else {
-            themedColor = getThemedColor("avatar_subtitleInProfileBlue");
+            themedColor = getThemedColor(Theme.key_avatar_subtitleInProfileBlue);
         }
         this.onlineTextView[1].setTextColor(ColorUtils.blendARGB(themedColor, Color.argb(179, 255, 255, 255), lerp));
         if (this.extraHeight > AndroidUtilities.dp(88.0f)) {
@@ -5265,8 +5269,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             this.nameTextView[1].setScaleY(AndroidUtilities.lerp(1.12f, 1.67f, lerp));
         }
         needLayoutText(Math.min(1.0f, this.extraHeight / AndroidUtilities.dp(88.0f)));
-        this.nameTextView[1].setTextColor(ColorUtils.blendARGB(getThemedColor("profile_title"), -1, lerp));
-        this.actionBar.setItemsColor(ColorUtils.blendARGB(getThemedColor("actionBarDefaultIcon"), -1, lerp), false);
+        this.nameTextView[1].setTextColor(ColorUtils.blendARGB(getThemedColor(Theme.key_profile_title), -1, lerp));
+        this.actionBar.setItemsColor(ColorUtils.blendARGB(getThemedColor(Theme.key_actionBarDefaultIcon), -1, lerp), false);
         this.actionBar.setMenuOffsetSuppressed(true);
         this.avatarImage.setForegroundAlpha(lerp);
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.avatarContainer.getLayoutParams();
@@ -5682,7 +5686,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             ProfileActivity.this.lambda$onMemberClick$21(tLRPC$ChannelParticipant3, user, tLRPC$ChatParticipant, z10, (Integer) obj);
                         }
                     };
-                    ItemOptions scrimViewBackground = ItemOptions.makeOptions(this, view).setScrimViewBackground(new ColorDrawable(Theme.getColor("windowBackgroundWhite")));
+                    ItemOptions scrimViewBackground = ItemOptions.makeOptions(this, view).setScrimViewBackground(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundWhite)));
                     int i2 = R.drawable.msg_admins;
                     if (z10) {
                         i = R.string.EditAdminRights;
@@ -5974,14 +5978,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
             if (this.isFragmentPhoneNumber) {
                 FrameLayout frameLayout = new FrameLayout(getContext());
-                frameLayout.setBackgroundColor(Theme.getColor("actionBarDefaultSubmenuSeparator", this.resourcesProvider));
+                frameLayout.setBackgroundColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuSeparator, this.resourcesProvider));
                 actionBarPopupWindowLayout.addView((View) frameLayout, LayoutHelper.createLinear(-1, 8));
                 TextView textView = new TextView(getContext());
                 textView.setPadding(AndroidUtilities.dp(13.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(13.0f), AndroidUtilities.dp(8.0f));
                 textView.setTextSize(1, 13.0f);
-                textView.setTextColor(Theme.getColor("actionBarDefaultSubmenuItem", this.resourcesProvider));
-                textView.setLinkTextColor(Theme.getColor("windowBackgroundWhiteValueText", this.resourcesProvider));
-                textView.setBackground(Theme.createRadSelectorDrawable(Theme.getColor("dialogButtonSelector", this.resourcesProvider), 0, 6));
+                textView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem, this.resourcesProvider));
+                textView.setLinkTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteValueText, this.resourcesProvider));
+                textView.setBackground(Theme.createRadSelectorDrawable(Theme.getColor(Theme.key_dialogButtonSelector, this.resourcesProvider), 0, 6));
                 SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(AndroidUtilities.replaceTags(LocaleController.getString(R.string.AnonymousNumberNotice)));
                 int indexOf = TextUtils.indexOf((CharSequence) spannableStringBuilder, '*');
                 int lastIndexOf = TextUtils.lastIndexOf(spannableStringBuilder, '*');
@@ -6111,7 +6115,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onSend$0(LongSparseArray longSparseArray, int i) {
-            BulletinFactory.createInviteSentBulletin(ProfileActivity.this.getParentActivity(), ProfileActivity.this.contentView, longSparseArray.size(), longSparseArray.size() == 1 ? ((TLRPC$Dialog) longSparseArray.valueAt(0)).id : 0L, i, getThemedColor("undo_background"), getThemedColor("undo_infoColor")).show();
+            BulletinFactory.createInviteSentBulletin(ProfileActivity.this.getParentActivity(), ProfileActivity.this.contentView, longSparseArray.size(), longSparseArray.size() == 1 ? ((TLRPC$Dialog) longSparseArray.valueAt(0)).id : 0L, i, getThemedColor(Theme.key_undo_background), getThemedColor(Theme.key_undo_infoColor)).show();
         }
     }
 
@@ -6903,7 +6907,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         } else {
                             this.expandAnimator.setDuration(0L);
                         }
-                        this.topView.setBackgroundColor(getThemedColor("avatar_backgroundActionBarBlue"));
+                        this.topView.setBackgroundColor(getThemedColor(Theme.key_avatar_backgroundActionBarBlue));
                         if (!this.doNotSetForeground && (currentItemView = this.avatarsViewPager.getCurrentItemView()) != null) {
                             if (currentItemView.getImageReceiver().getDrawable() instanceof VectorAvatarThumbDrawable) {
                                 this.avatarImage.drawForeground(false);
@@ -6953,14 +6957,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 this.avatarContainer.setScaleX(this.avatarScale);
                 this.avatarContainer.setScaleY(this.avatarScale);
                 this.overlaysView.setAlphaValue(this.avatarAnimationProgress, false);
-                this.actionBar.setItemsColor(ColorUtils.blendARGB(getThemedColor("actionBarDefaultIcon"), -1, this.avatarAnimationProgress), false);
+                this.actionBar.setItemsColor(ColorUtils.blendARGB(getThemedColor(Theme.key_actionBarDefaultIcon), -1, this.avatarAnimationProgress), false);
                 ScamDrawable scamDrawable = this.scamDrawable;
                 if (scamDrawable != null) {
-                    scamDrawable.setColor(ColorUtils.blendARGB(getThemedColor("avatar_subtitleInProfileBlue"), Color.argb(179, 255, 255, 255), this.avatarAnimationProgress));
+                    scamDrawable.setColor(ColorUtils.blendARGB(getThemedColor(Theme.key_avatar_subtitleInProfileBlue), Color.argb(179, 255, 255, 255), this.avatarAnimationProgress));
                 }
                 Drawable drawable = this.lockIconDrawable;
                 if (drawable != null) {
-                    drawable.setColorFilter(ColorUtils.blendARGB(getThemedColor("chat_lockIcon"), -1, this.avatarAnimationProgress), PorterDuff.Mode.MULTIPLY);
+                    drawable.setColorFilter(ColorUtils.blendARGB(getThemedColor(Theme.key_chat_lockIcon), -1, this.avatarAnimationProgress), PorterDuff.Mode.MULTIPLY);
                 }
                 CrossfadeDrawable crossfadeDrawable = this.verifiedCrossfadeDrawable;
                 if (crossfadeDrawable != null) {
@@ -7722,13 +7726,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         int i = this.actionBarAnimationColorFrom;
         if (i == 0) {
-            i = getThemedColor("actionBarDefault");
+            i = getThemedColor(Theme.key_actionBarDefault);
         }
         this.topView.setBackgroundColor(ColorUtils.blendARGB(SharedConfig.chatBlurEnabled() ? ColorUtils.setAlphaComponent(i, 0) : i, profileBackColorForId, f));
         this.timerDrawable.setBackgroundColor(ColorUtils.blendARGB(i, profileBackColorForId, f));
-        this.actionBar.setItemsColor(ColorUtils.blendARGB(getThemedColor("actionBarDefaultIcon"), AvatarDrawable.getIconColorForId((this.userId != 0 || (ChatObject.isChannel(this.chatId, this.currentAccount) && !this.currentChat.megagroup)) ? 5L : this.chatId, this.resourcesProvider), f), false);
-        int themedColor = getThemedColor("profile_title");
-        int themedColor2 = getThemedColor("actionBarDefaultTitle");
+        this.actionBar.setItemsColor(ColorUtils.blendARGB(getThemedColor(Theme.key_actionBarDefaultIcon), AvatarDrawable.getIconColorForId((this.userId != 0 || (ChatObject.isChannel(this.chatId, this.currentAccount) && !this.currentChat.megagroup)) ? 5L : this.chatId, this.resourcesProvider), f), false);
+        int themedColor = getThemedColor(Theme.key_profile_title);
+        int themedColor2 = getThemedColor(Theme.key_actionBarDefaultTitle);
         for (int i2 = 0; i2 < 2; i2++) {
             SimpleTextView[] simpleTextViewArr = this.nameTextView;
             if (simpleTextViewArr[i2] != null && (i2 != 1 || this.playProfileAnimation != 2)) {
@@ -7736,14 +7740,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
         }
         if (this.isOnline[0]) {
-            profileTextColorForId = getThemedColor("profile_status");
+            profileTextColorForId = getThemedColor(Theme.key_profile_status);
         } else {
             if (this.userId == 0 && (!ChatObject.isChannel(this.chatId, this.currentAccount) || this.currentChat.megagroup)) {
                 j = this.chatId;
             }
             profileTextColorForId = AvatarDrawable.getProfileTextColorForId(j, this.resourcesProvider);
         }
-        int themedColor3 = getThemedColor(this.isOnline[0] ? "chat_status" : "actionBarDefaultSubtitle");
+        int themedColor3 = getThemedColor(this.isOnline[0] ? Theme.key_chat_status : Theme.key_actionBarDefaultSubtitle);
         for (int i3 = 0; i3 < 3; i3++) {
             SimpleTextView[] simpleTextViewArr2 = this.onlineTextView;
             if (simpleTextViewArr2[i3] != null && i3 != 1 && (i3 != 2 || this.playProfileAnimation != 2)) {
@@ -7783,7 +7787,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public int getNavigationBarColor() {
-        return Theme.getColor("windowBackgroundGray", this.resourcesProvider);
+        return Theme.getColor(Theme.key_windowBackgroundGray, this.resourcesProvider);
     }
 
     /* JADX WARN: Removed duplicated region for block: B:156:0x04d4  */
@@ -8776,7 +8780,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (this.scamDrawable == null) {
             ScamDrawable scamDrawable = new ScamDrawable(11, i);
             this.scamDrawable = scamDrawable;
-            scamDrawable.setColor(getThemedColor("avatar_subtitleInProfileBlue"));
+            scamDrawable.setColor(getThemedColor(Theme.key_avatar_subtitleInProfileBlue));
         }
         return this.scamDrawable;
     }
@@ -8802,7 +8806,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (this.premiumCrossfadeDrawable == null) {
             Drawable mutate = ContextCompat.getDrawable(getParentActivity(), R.drawable.msg_premium_liststar).mutate();
             this.premiumStarDrawable = mutate;
-            mutate.setColorFilter(getThemedColor("profile_verifiedBackground"), PorterDuff.Mode.MULTIPLY);
+            mutate.setColorFilter(getThemedColor(Theme.key_profile_verifiedBackground), PorterDuff.Mode.MULTIPLY);
             this.premiumCrossfadeDrawable = new CrossfadeDrawable(this.premiumStarDrawable, ContextCompat.getDrawable(getParentActivity(), R.drawable.msg_premium_prolfilestar).mutate());
         }
         return this.premiumCrossfadeDrawable;
@@ -8838,7 +8842,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     public void updateEmojiStatusDrawableColor(float f) {
-        int blendARGB = ColorUtils.blendARGB(AndroidUtilities.getOffsetColor(getThemedColor("profile_verifiedBackground"), getThemedColor("player_actionBarTitle"), this.mediaHeaderAnimationProgress, 1.0f), -1, f);
+        int blendARGB = ColorUtils.blendARGB(AndroidUtilities.getOffsetColor(getThemedColor(Theme.key_profile_verifiedBackground), getThemedColor(Theme.key_player_actionBarTitle), this.mediaHeaderAnimationProgress, 1.0f), -1, f);
         for (int i = 0; i < 2; i++) {
             AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable[] swapAnimatedEmojiDrawableArr = this.emojiStatusDrawable;
             if (swapAnimatedEmojiDrawableArr[i] != null) {
@@ -8858,54 +8862,54 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Can't wrap try/catch for region: R(33:16|(1:246)(1:20)|(1:22)(1:245)|23|(4:25|(1:243)(1:29)|30|(24:32|33|(1:35)|36|(1:(1:39)(1:(1:44)(1:43)))|45|(2:49|50)|(1:56)|57|(2:59|(2:61|(1:63))(1:210))(2:211|(1:238)(2:217|(1:219)(2:220|(1:222)(4:223|(1:225)(1:237)|226|(4:230|(1:232)(1:236)|233|(1:235))))))|64|(1:209)(1:68)|69|70|71|72|(4:75|(2:77|78)(10:(2:83|(8:97|(1:182)(1:100)|101|(1:103)(1:181)|104|(1:106)(1:180)|107|(10:109|(1:159)(2:113|(1:115)(11:136|(4:138|(2:140|(1:142))(1:157)|145|(8:147|148|118|(1:122)|123|(1:127)|128|(2:132|133))(4:149|(1:151)|152|(1:154)(2:155|156)))(1:158)|143|144|117|118|(1:122)|123|(2:125|127)|128|(1:135)(3:130|132|133)))|116|117|118|(0)|123|(0)|128|(0)(0))(11:160|(10:162|(1:179)(2:166|(1:168)(2:169|(9:178|144|117|118|(0)|123|(0)|128|(0)(0))(2:175|(8:177|148|118|(0)|123|(0)|128|(0)(0)))))|116|117|118|(0)|123|(0)|128|(0)(0))|156|116|117|118|(0)|123|(0)|128|(0)(0))))|183|(0)|182|101|(0)(0)|104|(0)(0)|107|(0)(0))|79|73)|184|185|(1:187)(2:199|(4:206|189|(1:191)|192)(1:205))|188|189|(0)|192))(1:244)|242|33|(0)|36|(0)|45|(21:47|49|50|(2:52|56)|57|(0)(0)|64|(1:66)|209|69|70|71|72|(1:73)|184|185|(0)(0)|188|189|(0)|192)|240|49|50|(0)|57|(0)(0)|64|(0)|209|69|70|71|72|(1:73)|184|185|(0)(0)|188|189|(0)|192) */
-    /* JADX WARN: Code restructure failed: missing block: B:272:0x059d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:272:0x05a1, code lost:
         if (r36.chatInfo.can_view_participants != false) goto L269;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:352:0x07c8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:352:0x07cc, code lost:
         if (r36.nameTextView[r10].setText(r1) != false) goto L385;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:360:0x07f2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:360:0x07f6, code lost:
         if (r36.nameTextView[r10].setText(r1) != false) goto L385;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:361:0x07f4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:361:0x07f8, code lost:
         r14 = true;
      */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x0222  */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x0247  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x02e6  */
-    /* JADX WARN: Removed duplicated region for block: B:153:0x02eb  */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x02f2  */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x02f4  */
-    /* JADX WARN: Removed duplicated region for block: B:160:0x02fa  */
-    /* JADX WARN: Removed duplicated region for block: B:192:0x03a9  */
-    /* JADX WARN: Removed duplicated region for block: B:219:0x040e A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x041d  */
-    /* JADX WARN: Removed duplicated region for block: B:229:0x0439  */
-    /* JADX WARN: Removed duplicated region for block: B:235:0x0465  */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x0486  */
-    /* JADX WARN: Removed duplicated region for block: B:247:0x0521  */
-    /* JADX WARN: Removed duplicated region for block: B:334:0x0775  */
-    /* JADX WARN: Removed duplicated region for block: B:424:0x0905  */
-    /* JADX WARN: Removed duplicated region for block: B:425:0x0912  */
-    /* JADX WARN: Removed duplicated region for block: B:428:0x0922  */
-    /* JADX WARN: Removed duplicated region for block: B:438:0x099a  */
-    /* JADX WARN: Removed duplicated region for block: B:441:0x09d9  */
-    /* JADX WARN: Removed duplicated region for block: B:442:0x09dc  */
-    /* JADX WARN: Removed duplicated region for block: B:445:0x09e5  */
-    /* JADX WARN: Removed duplicated region for block: B:448:0x09eb  */
-    /* JADX WARN: Removed duplicated region for block: B:449:0x09f8  */
-    /* JADX WARN: Removed duplicated region for block: B:453:0x0a27  */
-    /* JADX WARN: Removed duplicated region for block: B:456:0x0a2f  */
-    /* JADX WARN: Removed duplicated region for block: B:462:0x0a3b  */
-    /* JADX WARN: Removed duplicated region for block: B:463:0x0a49  */
-    /* JADX WARN: Removed duplicated region for block: B:466:0x0a6a A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:473:0x0a8d  */
-    /* JADX WARN: Removed duplicated region for block: B:479:0x0a9d  */
-    /* JADX WARN: Removed duplicated region for block: B:483:0x0ab2  */
-    /* JADX WARN: Removed duplicated region for block: B:492:0x0ae6  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x0226  */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x024b  */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x02ea  */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x02ef  */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x02f6  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x02f8  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x02fe  */
+    /* JADX WARN: Removed duplicated region for block: B:192:0x03ad  */
+    /* JADX WARN: Removed duplicated region for block: B:219:0x0412 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:224:0x0421  */
+    /* JADX WARN: Removed duplicated region for block: B:229:0x043d  */
+    /* JADX WARN: Removed duplicated region for block: B:235:0x0469  */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x048a  */
+    /* JADX WARN: Removed duplicated region for block: B:247:0x0525  */
+    /* JADX WARN: Removed duplicated region for block: B:334:0x0779  */
+    /* JADX WARN: Removed duplicated region for block: B:424:0x0909  */
+    /* JADX WARN: Removed duplicated region for block: B:425:0x0916  */
+    /* JADX WARN: Removed duplicated region for block: B:428:0x0926  */
+    /* JADX WARN: Removed duplicated region for block: B:438:0x099e  */
+    /* JADX WARN: Removed duplicated region for block: B:441:0x09dd  */
+    /* JADX WARN: Removed duplicated region for block: B:442:0x09e0  */
+    /* JADX WARN: Removed duplicated region for block: B:445:0x09e9  */
+    /* JADX WARN: Removed duplicated region for block: B:448:0x09ef  */
+    /* JADX WARN: Removed duplicated region for block: B:449:0x09fc  */
+    /* JADX WARN: Removed duplicated region for block: B:453:0x0a2b  */
+    /* JADX WARN: Removed duplicated region for block: B:456:0x0a33  */
+    /* JADX WARN: Removed duplicated region for block: B:462:0x0a3f  */
+    /* JADX WARN: Removed duplicated region for block: B:463:0x0a4d  */
+    /* JADX WARN: Removed duplicated region for block: B:466:0x0a6e A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:473:0x0a91  */
+    /* JADX WARN: Removed duplicated region for block: B:479:0x0aa1  */
+    /* JADX WARN: Removed duplicated region for block: B:483:0x0ab6  */
+    /* JADX WARN: Removed duplicated region for block: B:492:0x0aea  */
     /* JADX WARN: Removed duplicated region for block: B:49:0x00c0  */
-    /* JADX WARN: Removed duplicated region for block: B:510:0x0451 A[ADDED_TO_REGION, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:515:0x0a08 A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:510:0x0455 A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:515:0x0a0c A[ADDED_TO_REGION, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:52:0x00c9  */
     /* JADX WARN: Removed duplicated region for block: B:71:0x0126  */
     /* JADX WARN: Removed duplicated region for block: B:78:0x0159  */
@@ -9048,10 +9052,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             str19 = LocaleController.formatUserStatus(this.currentAccount, user, zArr, z7 ? new boolean[1] : null);
                             SimpleTextView[] simpleTextViewArr = this.onlineTextView;
                             if (simpleTextViewArr[1] != null && !this.mediaHeaderVisible) {
-                                String str20 = this.isOnline[0] ? "profile_status" : "avatar_subtitleInProfileBlue";
-                                simpleTextViewArr[1].setTag(str20);
+                                int i9 = this.isOnline[0] ? Theme.key_profile_status : Theme.key_avatar_subtitleInProfileBlue;
+                                simpleTextViewArr[1].setTag(Integer.valueOf(i9));
                                 if (!this.isPulledDown) {
-                                    this.onlineTextView[1].setTextColor(getThemedColor(str20));
+                                    this.onlineTextView[1].setTextColor(getThemedColor(i9));
                                 }
                             }
                         }
@@ -9370,9 +9374,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 chat = this.currentChat;
             }
             TLRPC$TL_forumTopic findTopic = this.isTopic ? getMessagesController().getTopicsController().findTopic(this.chatId, this.topicId) : null;
-            String str21 = "MegaPublic";
-            String str22 = "MegaPrivate";
-            String str23 = "MegaLocation";
+            String str20 = "MegaPublic";
+            String str21 = "MegaPrivate";
+            String str22 = "MegaLocation";
             if (ChatObject.isChannel(chat)) {
                 if (!this.isTopic) {
                     TLRPC$ChatFull tLRPC$ChatFull2 = this.chatInfo;
@@ -9407,31 +9411,31 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             str4 = formatPluralString;
                             str5 = spannableStringBuilder;
                             tLRPC$TL_forumTopic = findTopic;
-                            str12 = str21;
-                            str13 = str22;
-                            str14 = str23;
-                            String str24 = str;
+                            str12 = str20;
+                            str13 = str21;
+                            str14 = str22;
+                            String str23 = str;
                             str10 = str17;
                             str8 = str2;
                             str11 = str18;
-                            str9 = str24;
+                            str9 = str23;
                         } else {
                             str4 = formatPluralString;
                             if (this.isTopic) {
-                                String str25 = findTopic == null ? "" : findTopic.title;
+                                String str24 = findTopic == null ? "" : findTopic.title;
                                 try {
                                     str5 = spannableStringBuilder;
+                                } catch (Exception unused) {
+                                    str5 = spannableStringBuilder;
+                                }
+                                try {
+                                    tLRPC$TL_forumTopic = findTopic;
                                     try {
-                                        tLRPC$TL_forumTopic = findTopic;
-                                        try {
-                                            str25 = Emoji.replaceEmoji(str25, simpleTextViewArr4[i].getPaint().getFontMetricsInt(), AndroidUtilities.dp(24.0f), false);
-                                        } catch (Exception unused) {
-                                        }
+                                        str24 = Emoji.replaceEmoji(str24, simpleTextViewArr4[i].getPaint().getFontMetricsInt(), AndroidUtilities.dp(24.0f), false);
                                     } catch (Exception unused2) {
-                                        tLRPC$TL_forumTopic = findTopic;
                                     }
                                 } catch (Exception unused3) {
-                                    str5 = spannableStringBuilder;
+                                    tLRPC$TL_forumTopic = findTopic;
                                 }
                             } else {
                                 str5 = spannableStringBuilder;
@@ -9493,36 +9497,36 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                                     if (AndroidUtilities.isAccessibilityScreenReaderEnabled()) {
                                                         formatShortNumber = LocaleController.formatShortNumber(this.chatInfo.participants_count, iArr);
                                                     } else {
-                                                        int i9 = this.chatInfo.participants_count;
-                                                        iArr[0] = i9;
-                                                        formatShortNumber = String.valueOf(i9);
+                                                        int i10 = this.chatInfo.participants_count;
+                                                        iArr[0] = i10;
+                                                        formatShortNumber = String.valueOf(i10);
                                                     }
                                                     str10 = str6;
                                                     if (!this.currentChat.megagroup) {
                                                         if (this.chatInfo.participants_count == 0) {
                                                             if (chat.has_geo) {
-                                                                this.onlineTextView[i].setText(LocaleController.getString(str23, R.string.MegaLocation).toLowerCase());
+                                                                this.onlineTextView[i].setText(LocaleController.getString(str22, R.string.MegaLocation).toLowerCase());
                                                             } else if (ChatObject.isPublic(chat)) {
-                                                                this.onlineTextView[i].setText(LocaleController.getString(str21, R.string.MegaPublic).toLowerCase());
+                                                                this.onlineTextView[i].setText(LocaleController.getString(str20, R.string.MegaPublic).toLowerCase());
                                                             } else {
-                                                                this.onlineTextView[i].setText(LocaleController.getString(str22, R.string.MegaPrivate).toLowerCase());
+                                                                this.onlineTextView[i].setText(LocaleController.getString(str21, R.string.MegaPrivate).toLowerCase());
                                                             }
                                                             str11 = str7;
-                                                            str12 = str21;
-                                                            str13 = str22;
-                                                            str14 = str23;
+                                                            str12 = str20;
+                                                            str13 = str21;
+                                                            str14 = str22;
                                                         } else {
                                                             str11 = str7;
-                                                            str12 = str21;
-                                                            str13 = str22;
-                                                            str14 = str23;
+                                                            str12 = str20;
+                                                            str13 = str21;
+                                                            str14 = str22;
                                                             this.onlineTextView[i].setText(LocaleController.formatPluralString("Members", iArr[0], new Object[0]).replace(String.format("%d", Integer.valueOf(iArr[0])), formatShortNumber));
                                                         }
                                                     } else {
                                                         str11 = str7;
-                                                        str12 = str21;
-                                                        str13 = str22;
-                                                        str14 = str23;
+                                                        str12 = str20;
+                                                        str13 = str21;
+                                                        str14 = str22;
                                                         this.onlineTextView[i].setText(LocaleController.formatPluralString("Subscribers", iArr[0], new Object[0]).replace(String.format("%d", Integer.valueOf(iArr[0])), formatShortNumber));
                                                     }
                                                     if (i != 1 && this.isTopic) {
@@ -9542,9 +9546,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                             }
                                             str10 = str6;
                                             str11 = str7;
-                                            str12 = str21;
-                                            str13 = str22;
-                                            str14 = str23;
+                                            str12 = str20;
+                                            str13 = str21;
+                                            str14 = str22;
                                             this.onlineTextView[i].setText(i != 0 ? str4 : str5);
                                             if (i != 1) {
                                                 if (!z2) {
@@ -9554,9 +9558,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                     }
                                     str10 = str6;
                                     str11 = str7;
-                                    str12 = str21;
-                                    str13 = str22;
-                                    str14 = str23;
+                                    str12 = str20;
+                                    str13 = str21;
+                                    str14 = str22;
                                     if (i != 1) {
                                     }
                                 }
@@ -9584,9 +9588,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 }
                                 str10 = str6;
                                 str11 = str7;
-                                str12 = str21;
-                                str13 = str22;
-                                str14 = str23;
+                                str12 = str20;
+                                str13 = str21;
+                                str14 = str22;
                                 this.onlineTextView[i].setText(i != 0 ? str4 : str5);
                                 if (i != 1) {
                                 }
@@ -9596,15 +9600,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         formatPluralString = str4;
                         spannableStringBuilder = str5;
                         findTopic = tLRPC$TL_forumTopic;
-                        str21 = str12;
-                        str22 = str13;
-                        str23 = str14;
+                        str20 = str12;
+                        str21 = str13;
+                        str22 = str14;
                         i2 = 2;
-                        String str26 = str11;
+                        String str25 = str11;
                         str2 = str8;
                         str17 = str10;
                         str = str9;
-                        str18 = str26;
+                        str18 = str25;
                     }
                     TLRPC$TL_forumTopic tLRPC$TL_forumTopic2 = findTopic;
                     if (z3) {
@@ -9663,10 +9667,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         formatString = LocaleController.formatPluralString("messages", i5, objArr);
                     } else {
                         i6 = 0;
-                        int i10 = R.string.TopicProfileStatus;
+                        int i11 = R.string.TopicProfileStatus;
                         Object[] objArr2 = new Object[i4];
                         objArr2[0] = chat.title;
-                        formatString = LocaleController.formatString("TopicProfileStatus", i10, objArr2);
+                        formatString = LocaleController.formatString("TopicProfileStatus", i11, objArr2);
                     }
                     SpannableString spannableString = new SpannableString(">");
                     spannableString.setSpan(new ColoredImageSpan(R.drawable.arrow_newchat), i6, 1, 33);
@@ -9714,8 +9718,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (this.currentChat.megagroup) {
                     if (this.onlineCount <= 1 || (i3 = this.chatInfo.participants_count) == 0) {
                         str2 = "drawableMuteIcon";
-                        int i11 = this.chatInfo.participants_count;
-                        if (i11 == 0) {
+                        int i12 = this.chatInfo.participants_count;
+                        if (i12 == 0) {
                             if (chat.has_geo) {
                                 formatPluralString = LocaleController.getString("MegaLocation", R.string.MegaLocation).toLowerCase();
                             } else if (ChatObject.isPublic(chat)) {
@@ -9724,7 +9728,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 formatPluralString = LocaleController.getString("MegaPrivate", R.string.MegaPrivate).toLowerCase();
                             }
                         } else {
-                            formatPluralString = LocaleController.formatPluralString("Members", i11, new Object[0]);
+                            formatPluralString = LocaleController.formatPluralString("Members", i12, new Object[0]);
                             spannableStringBuilder = LocaleController.formatPluralStringComma("Members", this.chatInfo.participants_count);
                         }
                     } else {
@@ -9785,12 +9789,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             } else if (ChatObject.isLeftFromChat(chat)) {
                 formatPluralString = LocaleController.getString("YouLeft", R.string.YouLeft);
             } else {
-                int i12 = chat.participants_count;
+                int i13 = chat.participants_count;
                 TLRPC$ChatFull tLRPC$ChatFull3 = this.chatInfo;
                 if (tLRPC$ChatFull3 != null && (tLRPC$ChatParticipants = tLRPC$ChatFull3.participants) != null) {
-                    i12 = tLRPC$ChatParticipants.participants.size();
+                    i13 = tLRPC$ChatParticipants.participants.size();
                 }
-                formatPluralString = (i12 == 0 || this.onlineCount <= 1) ? LocaleController.formatPluralString("Members", i12, new Object[0]) : String.format("%s, %s", LocaleController.formatPluralString("Members", i12, new Object[0]), LocaleController.formatPluralString("OnlineCount", this.onlineCount, new Object[0]));
+                formatPluralString = (i13 == 0 || this.onlineCount <= 1) ? LocaleController.formatPluralString("Members", i13, new Object[0]) : String.format("%s, %s", LocaleController.formatPluralString("Members", i13, new Object[0]), LocaleController.formatPluralString("OnlineCount", this.onlineCount, new Object[0]));
             }
             spannableStringBuilder = formatPluralString;
             z2 = false;
@@ -9863,7 +9867,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (document != null) {
                 BackupImageView backupImageView = new BackupImageView(getContext());
                 String str = "160_160";
-                SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
+                SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(document.thumbs, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f);
                 TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 90);
                 if ("video/webm".equals(document.mime_type)) {
                     forDocument = ImageLocation.getForDocument(document);
@@ -9882,9 +9886,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 backupImageView.setRoundRadius(AndroidUtilities.dp(4.0f));
                 backupImageView.setImage(forDocument, str2, ImageLocation.getForDocument(closestPhotoSizeWithSize, document), "140_140", svgThumb, document);
                 if (AnimatedEmojiDrawable.isDefaultStatusEmoji(this.emojiStatusDrawable[1].getDrawable())) {
-                    backupImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("windowBackgroundWhiteBlueIcon"), PorterDuff.Mode.SRC_IN));
+                    backupImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_windowBackgroundWhiteBlueIcon), PorterDuff.Mode.SRC_IN));
                 } else if (((AnimatedEmojiDrawable) this.emojiStatusDrawable[1].getDrawable()).canOverrideColor()) {
-                    backupImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("windowBackgroundWhiteBlackText"), PorterDuff.Mode.SRC_IN));
+                    backupImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_windowBackgroundWhiteBlackText), PorterDuff.Mode.SRC_IN));
                     premiumPreviewBottomSheet.statusStickerSet = MessageObject.getInputStickerSet(document);
                 } else {
                     premiumPreviewBottomSheet.statusStickerSet = MessageObject.getInputStickerSet(document);
@@ -9901,16 +9905,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         goToForum();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:222:0x042d  */
-    /* JADX WARN: Removed duplicated region for block: B:223:0x0468  */
-    /* JADX WARN: Removed duplicated region for block: B:226:0x0481  */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x0488  */
-    /* JADX WARN: Removed duplicated region for block: B:231:0x049d  */
-    /* JADX WARN: Removed duplicated region for block: B:234:0x04c0  */
-    /* JADX WARN: Removed duplicated region for block: B:270:0x0576  */
-    /* JADX WARN: Removed duplicated region for block: B:273:0x058d  */
-    /* JADX WARN: Removed duplicated region for block: B:276:0x05a4  */
-    /* JADX WARN: Removed duplicated region for block: B:279:0x05bb  */
+    /* JADX WARN: Removed duplicated region for block: B:222:0x042b  */
+    /* JADX WARN: Removed duplicated region for block: B:223:0x0466  */
+    /* JADX WARN: Removed duplicated region for block: B:226:0x047f  */
+    /* JADX WARN: Removed duplicated region for block: B:228:0x0486  */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x049b  */
+    /* JADX WARN: Removed duplicated region for block: B:234:0x04be  */
+    /* JADX WARN: Removed duplicated region for block: B:270:0x0574  */
+    /* JADX WARN: Removed duplicated region for block: B:273:0x058b  */
+    /* JADX WARN: Removed duplicated region for block: B:276:0x05a2  */
+    /* JADX WARN: Removed duplicated region for block: B:279:0x05b9  */
     /* JADX WARN: Removed duplicated region for block: B:282:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -10052,21 +10056,23 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                     if (this.isBot) {
                         if (!this.userBlocked) {
-                            this.otherItem.addSubItem(2, R.drawable.msg_block2, LocaleController.getString(R.string.DeleteAndBlock)).setColors(getThemedColor("text_RedRegular"), getThemedColor("text_RedRegular"));
+                            ActionBarMenuSubItem addSubItem = this.otherItem.addSubItem(2, R.drawable.msg_block2, LocaleController.getString(R.string.DeleteAndBlock));
+                            int i4 = Theme.key_text_RedRegular;
+                            addSubItem.setColors(getThemedColor(i4), getThemedColor(i4));
                         } else {
                             this.otherItem.addSubItem(2, R.drawable.msg_retry, LocaleController.getString("BotRestart", R.string.BotRestart));
                         }
                     } else {
                         ActionBarMenuItem actionBarMenuItem = this.otherItem;
                         boolean z3 = this.userBlocked;
-                        int i4 = R.drawable.msg_block;
+                        int i5 = R.drawable.msg_block;
                         if (z3) {
                             i2 = R.string.Unblock;
                         } else {
                             i2 = R.string.BlockContact;
                             str = "BlockContact";
                         }
-                        actionBarMenuItem.addSubItem(2, i4, LocaleController.getString(str, i2));
+                        actionBarMenuItem.addSubItem(2, i5, LocaleController.getString(str, i2));
                     }
                 }
             } else {
@@ -10078,14 +10084,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
                 ActionBarMenuItem actionBarMenuItem2 = this.otherItem;
                 boolean z4 = this.userBlocked;
-                int i5 = R.drawable.msg_block;
+                int i6 = R.drawable.msg_block;
                 if (z4) {
                     i3 = R.string.Unblock;
                 } else {
                     i3 = R.string.BlockContact;
                     str = "BlockContact";
                 }
-                actionBarMenuItem2.addSubItem(2, i5, LocaleController.getString(str, i3));
+                actionBarMenuItem2.addSubItem(2, i6, LocaleController.getString(str, i3));
                 this.otherItem.addSubItem(4, R.drawable.msg_edit, LocaleController.getString("EditContact", R.string.EditContact));
                 this.otherItem.addSubItem(5, R.drawable.msg_delete, LocaleController.getString("DeleteContact", R.string.DeleteContact));
             }
@@ -10119,14 +10125,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (this.chatInfo != null) {
                     if (ChatObject.canManageCalls(chat) && this.chatInfo.call == null) {
                         ActionBarMenuItem actionBarMenuItem3 = this.otherItem;
-                        int i6 = R.drawable.msg_voicechat;
+                        int i7 = R.drawable.msg_voicechat;
                         if (!chat.megagroup || chat.gigagroup) {
                             i = R.string.StartVoipChannel;
                             str2 = "StartVoipChannel";
                         } else {
                             i = R.string.StartVoipChat;
                         }
-                        actionBarMenuItem3.addSubItem(15, i6, LocaleController.getString(str2, i));
+                        actionBarMenuItem3.addSubItem(15, i7, LocaleController.getString(str2, i));
                         this.hasVoiceChatItem = true;
                     }
                     if (this.chatInfo.can_view_stats && this.topicId == 0) {
@@ -10247,8 +10253,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public int getThemedColor(String str) {
-        return Theme.getColor(str, this.resourcesProvider);
+    public int getThemedColor(int i) {
+        return Theme.getColor(i, this.resourcesProvider);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -10990,7 +10996,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 default:
                     TextInfoPrivacyCell textInfoPrivacyCell = new TextInfoPrivacyCell(this.mContext, 10, ProfileActivity.this.resourcesProvider);
                     textInfoPrivacyCell.getTextView().setGravity(1);
-                    textInfoPrivacyCell.getTextView().setTextColor(ProfileActivity.this.getThemedColor("windowBackgroundWhiteGrayText3"));
+                    textInfoPrivacyCell.getTextView().setTextColor(ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundWhiteGrayText3));
                     textInfoPrivacyCell.getTextView().setMovementMethod(null);
                     try {
                         PackageInfo packageInfo = ApplicationLoader.applicationContext.getPackageManager().getPackageInfo(ApplicationLoader.applicationContext.getPackageName(), 0);
@@ -11009,7 +11015,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         FileLog.e(e);
                     }
                     textInfoPrivacyCell.getTextView().setPadding(0, AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(14.0f));
-                    textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, ProfileActivity.this.getThemedColor("windowBackgroundGrayShadow")));
+                    textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundGrayShadow)));
                     textDetailCell = textInfoPrivacyCell;
                     headerCell = textDetailCell;
                     break;
@@ -11121,9 +11127,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:124:0x0325 A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:127:0x0332  */
-        /* JADX WARN: Removed duplicated region for block: B:128:0x0337  */
+        /* JADX WARN: Removed duplicated region for block: B:123:0x032c A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:126:0x0339  */
+        /* JADX WARN: Removed duplicated region for block: B:127:0x033e  */
         /* JADX WARN: Type inference failed for: r0v26, types: [org.telegram.tgnet.TLRPC$ChatParticipant] */
         /* JADX WARN: Type inference failed for: r0v31, types: [org.telegram.tgnet.TLRPC$ChatParticipant] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -11141,17 +11147,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             String str5;
             String sb;
             String string3;
-            String string4;
             String str6;
             String formatTTLString;
             boolean z;
             int i2;
             String str7;
+            String string4;
+            String formatString;
             String string5;
-            String string6;
             TLRPC$TL_chatChannelParticipant tLRPC$TL_chatChannelParticipant;
+            String string6;
             String string7;
-            String string8;
             int itemViewType = viewHolder.getItemViewType();
             int i3 = 1;
             r6 = true;
@@ -11241,23 +11247,24 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 int currentTime = i6 - ProfileActivity.this.getConnectionsManager().getCurrentTime();
                                 if (currentTime <= 0) {
                                     if (z5) {
-                                        string6 = LocaleController.getString("NotificationsCustom", R.string.NotificationsCustom);
+                                        string5 = LocaleController.getString("NotificationsCustom", R.string.NotificationsCustom);
                                     } else {
-                                        string6 = LocaleController.getString("NotificationsOn", R.string.NotificationsOn);
+                                        string5 = LocaleController.getString("NotificationsOn", R.string.NotificationsOn);
                                     }
-                                    string5 = string6;
+                                    string4 = string5;
                                     z = true;
                                 } else {
                                     if (currentTime < 3600) {
-                                        string5 = LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Minutes", currentTime / 60, new Object[0]));
+                                        formatString = LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Minutes", currentTime / 60, new Object[0]));
                                     } else if (currentTime < 86400) {
-                                        string5 = LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Hours", (int) Math.ceil((currentTime / 60.0f) / 60.0f), new Object[0]));
+                                        formatString = LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Hours", (int) Math.ceil((currentTime / 60.0f) / 60.0f), new Object[0]));
                                     } else if (currentTime < 31536000) {
-                                        string5 = LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Days", (int) Math.ceil(((currentTime / 60.0f) / 60.0f) / 24.0f), new Object[0]));
+                                        formatString = LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Days", (int) Math.ceil(((currentTime / 60.0f) / 60.0f) / 24.0f), new Object[0]));
                                     } else {
                                         z = false;
-                                        string5 = null;
+                                        string4 = null;
                                     }
+                                    string4 = formatString;
                                     z = false;
                                 }
                             } else if (i5 == 0) {
@@ -11271,9 +11278,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                             i2 = R.string.NotificationsOn;
                                             str7 = "NotificationsOn";
                                         }
-                                        string5 = LocaleController.getString(str7, i2);
+                                        string4 = LocaleController.getString(str7, i2);
                                     } else {
-                                        string5 = LocaleController.getString("NotificationsCustom", R.string.NotificationsCustom);
+                                        string4 = LocaleController.getString("NotificationsCustom", R.string.NotificationsCustom);
                                     }
                                 }
                                 z = true;
@@ -11281,7 +11288,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 }
                                 if (z) {
                                 }
-                                string5 = LocaleController.getString(str7, i2);
+                                string4 = LocaleController.getString(str7, i2);
                             } else {
                                 if (i5 != 1) {
                                     z = false;
@@ -11289,24 +11296,24 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                     }
                                     if (z) {
                                     }
-                                    string5 = LocaleController.getString(str7, i2);
+                                    string4 = LocaleController.getString(str7, i2);
                                 }
                                 z = true;
                                 if (z) {
                                 }
                                 if (z) {
                                 }
-                                string5 = LocaleController.getString(str7, i2);
+                                string4 = LocaleController.getString(str7, i2);
                             }
-                            if (string5 == null) {
-                                string5 = LocaleController.getString("NotificationsOff", R.string.NotificationsOff);
+                            if (string4 == null) {
+                                string4 = LocaleController.getString("NotificationsOff", R.string.NotificationsOff);
                             }
                             HashSet<Integer> hashSet = ProfileActivity.this.notificationsExceptionTopics;
                             if (hashSet != null && !hashSet.isEmpty()) {
-                                string5 = String.format(Locale.US, LocaleController.getPluralString("NotificationTopicExceptionsDesctription", ProfileActivity.this.notificationsExceptionTopics.size()), string5, Integer.valueOf(ProfileActivity.this.notificationsExceptionTopics.size()));
+                                string4 = String.format(Locale.US, LocaleController.getPluralString("NotificationTopicExceptionsDesctription", ProfileActivity.this.notificationsExceptionTopics.size()), string4, Integer.valueOf(ProfileActivity.this.notificationsExceptionTopics.size()));
                             }
                             notificationsCheckCell.setAnimationsEnabled(ProfileActivity.this.fragmentOpened);
-                            notificationsCheckCell.setTextAndValueAndCheck(LocaleController.getString("Notifications", R.string.Notifications), string5, z, false);
+                            notificationsCheckCell.setTextAndValueAndCheck(LocaleController.getString("Notifications", R.string.Notifications), string4, z, false);
                             return;
                         }
                         return;
@@ -11314,10 +11321,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         View view = viewHolder.itemView;
                         view.setTag(Integer.valueOf(i));
                         if ((i == ProfileActivity.this.infoSectionRow && ProfileActivity.this.lastSectionRow == -1 && ProfileActivity.this.secretSettingsSectionRow == -1 && ProfileActivity.this.sharedMediaRow == -1 && ProfileActivity.this.membersSectionRow == -1) || i == ProfileActivity.this.secretSettingsSectionRow || i == ProfileActivity.this.lastSectionRow || (i == ProfileActivity.this.membersSectionRow && ProfileActivity.this.lastSectionRow == -1 && ProfileActivity.this.sharedMediaRow == -1)) {
-                            view.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, ProfileActivity.this.getThemedColor("windowBackgroundGrayShadow")));
+                            view.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundGrayShadow)));
                             return;
                         } else {
-                            view.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider, ProfileActivity.this.getThemedColor("windowBackgroundGrayShadow")));
+                            view.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider, ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundGrayShadow)));
                             return;
                         }
                     } else if (itemViewType == 8) {
@@ -11332,25 +11339,25 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             if (tLRPC$TL_chatChannelParticipant instanceof TLRPC$TL_chatChannelParticipant) {
                                 TLRPC$ChannelParticipant tLRPC$ChannelParticipant = tLRPC$TL_chatChannelParticipant.channelParticipant;
                                 if (!TextUtils.isEmpty(tLRPC$ChannelParticipant.rank)) {
-                                    string8 = tLRPC$ChannelParticipant.rank;
+                                    string7 = tLRPC$ChannelParticipant.rank;
                                 } else if (tLRPC$ChannelParticipant instanceof TLRPC$TL_channelParticipantCreator) {
-                                    string8 = LocaleController.getString("ChannelCreator", R.string.ChannelCreator);
+                                    string7 = LocaleController.getString("ChannelCreator", R.string.ChannelCreator);
                                 } else {
                                     if (tLRPC$ChannelParticipant instanceof TLRPC$TL_channelParticipantAdmin) {
-                                        string8 = LocaleController.getString("ChannelAdmin", R.string.ChannelAdmin);
+                                        string7 = LocaleController.getString("ChannelAdmin", R.string.ChannelAdmin);
                                     }
-                                    string7 = null;
+                                    string6 = null;
                                 }
-                                string7 = string8;
+                                string6 = string7;
                             } else if (tLRPC$TL_chatChannelParticipant instanceof TLRPC$TL_chatParticipantCreator) {
-                                string7 = LocaleController.getString("ChannelCreator", R.string.ChannelCreator);
+                                string6 = LocaleController.getString("ChannelCreator", R.string.ChannelCreator);
                             } else {
                                 if (tLRPC$TL_chatChannelParticipant instanceof TLRPC$TL_chatParticipantAdmin) {
-                                    string7 = LocaleController.getString("ChannelAdmin", R.string.ChannelAdmin);
+                                    string6 = LocaleController.getString("ChannelAdmin", R.string.ChannelAdmin);
                                 }
-                                string7 = null;
+                                string6 = null;
                             }
-                            userCell.setAdminRole(string7);
+                            userCell.setAdminRole(string6);
                             userCell.setData(ProfileActivity.this.getMessagesController().getUser(Long.valueOf(tLRPC$TL_chatChannelParticipant.user_id)), null, null, 0, i != ProfileActivity.this.membersEndRow - 1);
                             return;
                         }
@@ -11365,7 +11372,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         switch (itemViewType) {
                             case 17:
                                 TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
-                                textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider, ProfileActivity.this.getThemedColor("windowBackgroundGrayShadow")));
+                                textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider, ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundGrayShadow)));
                                 textInfoPrivacyCell.setText(LocaleController.getString("BotAddToGroupOrChannelInfo", R.string.BotAddToGroupOrChannelInfo));
                                 return;
                             case 18:
@@ -11381,8 +11388,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                 }
                 TextCell textCell = (TextCell) viewHolder.itemView;
-                textCell.setColors("windowBackgroundWhiteGrayIcon", "windowBackgroundWhiteBlackText");
-                textCell.setTag("windowBackgroundWhiteBlackText");
+                int i7 = Theme.key_windowBackgroundWhiteGrayIcon;
+                int i8 = Theme.key_windowBackgroundWhiteBlackText;
+                textCell.setColors(i7, i8);
+                textCell.setTag(Integer.valueOf(i8));
                 if (i != ProfileActivity.this.settingsTimerRow) {
                     if (i != ProfileActivity.this.unblockRow) {
                         if (i != ProfileActivity.this.settingsKeyRow) {
@@ -11435,8 +11444,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                                 } else {
                                                     textCell.setText(LocaleController.getString("ReportReaction", R.string.ReportReaction), false);
                                                 }
-                                                textCell.setColors(null, "text_RedRegular");
-                                                textCell.setColors(null, "text_RedRegular");
+                                                int i9 = Theme.key_text_RedRegular;
+                                                textCell.setColors(-1, i9);
+                                                textCell.setColors(-1, i9);
                                                 return;
                                             } else if (i != ProfileActivity.this.reportRow) {
                                                 if (i != ProfileActivity.this.languageRow) {
@@ -11461,7 +11471,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                                                                                                 ProfileActivity.this.cellCameraDrawable.setCustomEndFrame(86);
                                                                                                                 ProfileActivity.this.cellCameraDrawable.setCurrentFrame(85, false);
                                                                                                                 textCell.setTextAndIcon(LocaleController.getString("SetProfilePhoto", R.string.SetProfilePhoto), (Drawable) ProfileActivity.this.cellCameraDrawable, false);
-                                                                                                                textCell.setColors("windowBackgroundWhiteBlueIcon", "windowBackgroundWhiteBlueButton");
+                                                                                                                textCell.setColors(Theme.key_windowBackgroundWhiteBlueIcon, Theme.key_windowBackgroundWhiteBlueButton);
                                                                                                                 textCell.getImageView().setPadding(0, 0, 0, AndroidUtilities.dp(8.0f));
                                                                                                                 textCell.setImageLeft(12);
                                                                                                                 ProfileActivity.this.setAvatarCell = textCell;
@@ -11475,7 +11485,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                                                                                                 return;
                                                                                                             } else {
                                                                                                                 textCell.setTextAndIcon(LocaleController.getString("AddToGroupOrChannel", R.string.AddToGroupOrChannel), R.drawable.msg_groups_create, false);
-                                                                                                                textCell.setColors("windowBackgroundWhiteBlueIcon", "windowBackgroundWhiteBlueButton");
+                                                                                                                textCell.setColors(Theme.key_windowBackgroundWhiteBlueIcon, Theme.key_windowBackgroundWhiteBlueButton);
                                                                                                                 return;
                                                                                                             }
                                                                                                         }
@@ -11527,24 +11537,25 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                                 return;
                                             } else {
                                                 textCell.setText(LocaleController.getString("ReportUserLocation", R.string.ReportUserLocation), false);
-                                                textCell.setColors(null, "text_RedRegular");
-                                                textCell.setColors(null, "text_RedRegular");
+                                                int i10 = Theme.key_text_RedRegular;
+                                                textCell.setColors(-1, i10);
+                                                textCell.setColors(-1, i10);
                                                 return;
                                             }
                                         }
                                         textCell.setText(LocaleController.getString(R.string.AddToContacts), false);
-                                        textCell.setColors(null, "windowBackgroundWhiteBlackText");
+                                        textCell.setColors(-1, i8);
                                         return;
                                     }
                                     textCell.setText(LocaleController.getString("SendMessageLocation", R.string.SendMessageLocation), true);
                                     return;
                                 } else {
-                                    textCell.setColors("windowBackgroundWhiteBlueIcon", "windowBackgroundWhiteBlueButton");
+                                    textCell.setColors(Theme.key_windowBackgroundWhiteBlueIcon, Theme.key_windowBackgroundWhiteBlueButton);
                                     textCell.setTextAndIcon(LocaleController.getString("AddMember", R.string.AddMember), R.drawable.msg_contact_add, ProfileActivity.this.membersSectionRow == -1);
                                     return;
                                 }
                             }
-                            textCell.setColors(null, "windowBackgroundWhiteBlueText2");
+                            textCell.setColors(-1, Theme.key_windowBackgroundWhiteBlueText2);
                             if (ProfileActivity.this.currentChat.megagroup) {
                                 textCell.setText(LocaleController.getString("ProfileJoinGroup", R.string.ProfileJoinGroup), false);
                                 return;
@@ -11559,14 +11570,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         return;
                     }
                     textCell.setText(LocaleController.getString("Unblock", R.string.Unblock), false);
-                    textCell.setColors(null, "text_RedRegular");
+                    textCell.setColors(-1, Theme.key_text_RedRegular);
                     return;
                 }
-                int i7 = ProfileActivity.this.getMessagesController().getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(ProfileActivity.this.dialogId))).ttl;
-                if (i7 == 0) {
+                int i11 = ProfileActivity.this.getMessagesController().getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(ProfileActivity.this.dialogId))).ttl;
+                if (i11 == 0) {
                     formatTTLString = LocaleController.getString("ShortMessageLifetimeForever", R.string.ShortMessageLifetimeForever);
                 } else {
-                    formatTTLString = LocaleController.formatTTLString(i7);
+                    formatTTLString = LocaleController.formatTTLString(i11);
                 }
                 textCell.setTextAndValue(LocaleController.getString("MessageLifetime", R.string.MessageLifetime), formatTTLString, false, false);
                 return;
@@ -11575,17 +11586,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (i == ProfileActivity.this.phoneRow) {
                 TLRPC$User user2 = ProfileActivity.this.getMessagesController().getUser(Long.valueOf(ProfileActivity.this.userId));
                 if (user2 != null && !TextUtils.isEmpty(ProfileActivity.this.vcardPhone)) {
-                    string4 = PhoneFormat.getInstance().format("+" + ProfileActivity.this.vcardPhone);
+                    string3 = PhoneFormat.getInstance().format("+" + ProfileActivity.this.vcardPhone);
                     str6 = ProfileActivity.this.vcardPhone;
                 } else if (user2 != null && !TextUtils.isEmpty(user2.phone)) {
-                    string4 = PhoneFormat.getInstance().format("+" + user2.phone);
+                    string3 = PhoneFormat.getInstance().format("+" + user2.phone);
                     str6 = user2.phone;
                 } else {
-                    string4 = LocaleController.getString("PhoneHidden", R.string.PhoneHidden);
+                    string3 = LocaleController.getString("PhoneHidden", R.string.PhoneHidden);
                     str6 = null;
                 }
                 ProfileActivity.this.isFragmentPhoneNumber = (str6 == null || !str6.matches("888\\d{8}")) ? false : false;
-                textDetailCell.setTextAndValue(string4, LocaleController.getString(ProfileActivity.this.isFragmentPhoneNumber ? R.string.AnonymousNumber : R.string.PhoneMobile), false);
+                textDetailCell.setTextAndValue(string3, LocaleController.getString(ProfileActivity.this.isFragmentPhoneNumber ? R.string.AnonymousNumber : R.string.PhoneMobile), false);
             } else if (i != ProfileActivity.this.usernameRow) {
                 if (i == ProfileActivity.this.locationRow) {
                     if (ProfileActivity.this.chatInfo != null && (ProfileActivity.this.chatInfo.location instanceof TLRPC$TL_channelLocation)) {
@@ -11602,14 +11613,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     textDetailCell.setContentDescriptionValueFirst(false);
                 } else if (i == ProfileActivity.this.setUsernameRow) {
                     TLRPC$User currentUser2 = UserConfig.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).getCurrentUser();
-                    CharSequence string9 = LocaleController.getString("Username", R.string.Username);
+                    CharSequence string8 = LocaleController.getString("Username", R.string.Username);
                     if (currentUser2 != null && currentUser2.usernames.size() > 0) {
-                        int i8 = 0;
+                        int i12 = 0;
                         while (true) {
-                            if (i8 < currentUser2.usernames.size()) {
-                                TLRPC$TL_username tLRPC$TL_username = currentUser2.usernames.get(i8);
+                            if (i12 < currentUser2.usernames.size()) {
+                                TLRPC$TL_username tLRPC$TL_username = currentUser2.usernames.get(i12);
                                 if (tLRPC$TL_username == null || !tLRPC$TL_username.active || TextUtils.isEmpty(tLRPC$TL_username.username)) {
-                                    i8++;
+                                    i12++;
                                 } else {
                                     str = tLRPC$TL_username.username;
                                 }
@@ -11625,7 +11636,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         } else {
                             string = "@" + str;
                         }
-                        string9 = alsoUsernamesString(str, currentUser2.usernames, string9);
+                        string8 = alsoUsernamesString(str, currentUser2.usernames, string8);
                     } else {
                         String publicUsername = UserObject.getPublicUsername(currentUser2);
                         if (currentUser2 != null && !TextUtils.isEmpty(publicUsername)) {
@@ -11634,7 +11645,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             string = LocaleController.getString("UsernameEmpty", R.string.UsernameEmpty);
                         }
                     }
-                    textDetailCell.setTextAndValue(string, string9, true);
+                    textDetailCell.setTextAndValue(string, string8, true);
                     textDetailCell.setContentDescriptionValueFirst(true);
                 }
             } else {
@@ -11647,11 +11658,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                     str5 = (user3 == null || TextUtils.isEmpty(user3.username)) ? null : user3.username;
                     arrayList = user3 == null ? new ArrayList<>() : new ArrayList<>(user3.usernames);
-                    str4 = LocaleController.getString("Username", R.string.Username);
+                    str3 = LocaleController.getString("Username", R.string.Username);
                     if (str5 != null) {
-                        str3 = "@" + str5;
+                        str4 = "@" + str5;
                     } else {
-                        str3 = "—";
+                        str4 = "—";
                     }
                 } else if (ProfileActivity.this.currentChat != null) {
                     TLRPC$Chat chat2 = ProfileActivity.this.getMessagesController().getChat(Long.valueOf(ProfileActivity.this.chatId));
@@ -11667,7 +11678,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         }
                         sb2.append(str9);
                         sb = sb2.toString();
-                        string3 = LocaleController.getString("InviteLink", R.string.InviteLink);
+                        str3 = LocaleController.getString("InviteLink", R.string.InviteLink);
                     } else {
                         StringBuilder sb3 = new StringBuilder();
                         sb3.append(ProfileActivity.this.getMessagesController().linkPrefix);
@@ -11678,14 +11689,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         }
                         sb3.append(str9);
                         sb = sb3.toString();
-                        string3 = LocaleController.getString("InviteLinkPrivate", R.string.InviteLinkPrivate);
+                        str3 = LocaleController.getString("InviteLinkPrivate", R.string.InviteLinkPrivate);
                         i3 = 0;
                     }
                     String str10 = sb;
                     arrayList = arrayList2;
                     str5 = publicUsername2;
-                    str4 = string3;
-                    str3 = str10;
+                    str4 = str10;
                 } else {
                     str3 = "";
                     str4 = str3;
@@ -11705,12 +11715,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         }
                     }
                 }
-                textDetailCell.setTextAndValue(str3, alsoUsernamesString(str5, arrayList, str4), ProfileActivity.this.isTopic);
+                textDetailCell.setTextAndValue(str4, alsoUsernamesString(str5, arrayList, str3), ProfileActivity.this.isTopic);
                 i4 = i3;
             }
             if (i4 != 0) {
                 Drawable drawable = ContextCompat.getDrawable(textDetailCell.getContext(), R.drawable.msg_qr_mini);
-                drawable.setColorFilter(new PorterDuffColorFilter(ProfileActivity.this.getThemedColor("switch2TrackChecked"), PorterDuff.Mode.MULTIPLY));
+                drawable.setColorFilter(new PorterDuffColorFilter(ProfileActivity.this.getThemedColor(Theme.key_switch2TrackChecked), PorterDuff.Mode.MULTIPLY));
                 textDetailCell.setImage(drawable, LocaleController.getString("GetQRCode", R.string.GetQRCode));
                 final ProfileActivity profileActivity2 = ProfileActivity.this;
                 textDetailCell.setImageClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda0
@@ -11760,7 +11770,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             textPaint.setUnderlineText(false);
                         }
                     }, 0, spannableString.length(), 33);
-                    spannableString.setSpan(new ForegroundColorSpan(ProfileActivity.this.getThemedColor("chat_messageLinkIn")), 0, spannableString.length(), 33);
+                    spannableString.setSpan(new ForegroundColorSpan(ProfileActivity.this.getThemedColor(Theme.key_chat_messageLinkIn)), 0, spannableString.length(), 33);
                     spannableStringBuilder2.append((CharSequence) spannableString);
                     if (i2 < arrayList2.size() - 1) {
                         spannableStringBuilder2.append((CharSequence) ", ");
@@ -13953,7 +13963,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             String str2;
             int i;
             String str3;
-            SpannableStringBuilder spannableStringBuilder2;
             final ArrayList arrayList = new ArrayList();
             final ArrayList arrayList2 = new ArrayList();
             final ArrayList arrayList3 = new ArrayList();
@@ -13981,7 +13990,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 SearchResult searchResult = searchResultArr[i3];
                 if (searchResult != null) {
                     String str5 = " " + searchResult.searchTitle.toLowerCase();
-                    SpannableStringBuilder spannableStringBuilder3 = spannableStringBuilder;
+                    SpannableStringBuilder spannableStringBuilder2 = spannableStringBuilder;
                     int i4 = 0;
                     while (i4 < split.length) {
                         if (split[i4].length() != 0) {
@@ -13992,13 +14001,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 indexOf = str5.indexOf(" " + str6);
                             }
                             if (indexOf >= 0) {
-                                spannableStringBuilder2 = spannableStringBuilder3 == null ? new SpannableStringBuilder(searchResult.searchTitle) : spannableStringBuilder3;
+                                if (spannableStringBuilder2 == null) {
+                                    spannableStringBuilder2 = new SpannableStringBuilder(searchResult.searchTitle);
+                                }
                                 str3 = str5;
-                                spannableStringBuilder2.setSpan(new ForegroundColorSpan(ProfileActivity.this.getThemedColor("windowBackgroundWhiteBlueText4")), indexOf, str6.length() + indexOf, 33);
+                                spannableStringBuilder2.setSpan(new ForegroundColorSpan(ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundWhiteBlueText4)), indexOf, str6.length() + indexOf, 33);
                             }
                         } else {
                             str3 = str5;
-                            spannableStringBuilder2 = spannableStringBuilder3;
                         }
                         if (spannableStringBuilder2 != null && i4 == split.length - 1) {
                             if (searchResult.guid == 502) {
@@ -14021,7 +14031,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             arrayList3.add(spannableStringBuilder2);
                         }
                         i4++;
-                        spannableStringBuilder3 = spannableStringBuilder2;
                         str5 = str3;
                     }
                 }
@@ -14035,7 +14044,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     MessagesController.FaqSearchResult faqSearchResult = this.faqSearchArray.get(i7);
                     String str7 = str4 + faqSearchResult.title.toLowerCase();
                     int i8 = 0;
-                    SpannableStringBuilder spannableStringBuilder4 = null;
+                    SpannableStringBuilder spannableStringBuilder3 = null;
                     while (i8 < split.length) {
                         if (split[i8].length() != 0) {
                             String str8 = split[i8];
@@ -14045,22 +14054,20 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 indexOf2 = str7.indexOf(str4 + str8);
                             }
                             if (indexOf2 >= 0) {
-                                if (spannableStringBuilder4 == null) {
-                                    str2 = str4;
-                                    spannableStringBuilder4 = new SpannableStringBuilder(faqSearchResult.title);
-                                } else {
-                                    str2 = str4;
+                                if (spannableStringBuilder3 == null) {
+                                    spannableStringBuilder3 = new SpannableStringBuilder(faqSearchResult.title);
                                 }
+                                str2 = str4;
                                 i = size;
-                                spannableStringBuilder4.setSpan(new ForegroundColorSpan(ProfileActivity.this.getThemedColor("windowBackgroundWhiteBlueText4")), indexOf2, str8.length() + indexOf2, 33);
+                                spannableStringBuilder3.setSpan(new ForegroundColorSpan(ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundWhiteBlueText4)), indexOf2, str8.length() + indexOf2, 33);
                             }
                         } else {
                             str2 = str4;
                             i = size;
                         }
-                        if (spannableStringBuilder4 != null && i8 == split.length - 1) {
+                        if (spannableStringBuilder3 != null && i8 == split.length - 1) {
                             arrayList2.add(faqSearchResult);
-                            arrayList3.add(spannableStringBuilder4);
+                            arrayList3.add(spannableStringBuilder3);
                         }
                         i8++;
                         str4 = str2;
@@ -14190,94 +14197,115 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (sharedMediaLayout != null) {
             arrayList.addAll(sharedMediaLayout.getThemeDescriptions());
         }
-        arrayList.add(new ThemeDescription(this.listView, 0, null, null, null, null, "windowBackgroundWhite"));
-        arrayList.add(new ThemeDescription(this.searchListView, 0, null, null, null, null, "windowBackgroundWhite"));
-        arrayList.add(new ThemeDescription(this.listView, 0, null, null, null, null, "windowBackgroundGray"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_SUBMENUBACKGROUND, null, null, null, null, "actionBarDefaultSubmenuBackground"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_SUBMENUITEM, null, null, null, null, "actionBarDefaultSubmenuItem"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_SUBMENUITEM | ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, "actionBarDefaultSubmenuItemIcon"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "actionBarDefaultIcon"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_actionBarSelectorBlue"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "chat_lockIcon"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_subtitleInProfileBlue"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundActionBarBlue"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "profile_title"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "profile_status"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_subtitleInProfileBlue"));
+        RecyclerListView recyclerListView = this.listView;
+        int i = Theme.key_windowBackgroundWhite;
+        arrayList.add(new ThemeDescription(recyclerListView, 0, null, null, null, null, i));
+        arrayList.add(new ThemeDescription(this.searchListView, 0, null, null, null, null, i));
+        arrayList.add(new ThemeDescription(this.listView, 0, null, null, null, null, Theme.key_windowBackgroundGray));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_SUBMENUBACKGROUND, null, null, null, null, Theme.key_actionBarDefaultSubmenuBackground));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_SUBMENUITEM, null, null, null, null, Theme.key_actionBarDefaultSubmenuItem));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_SUBMENUITEM | ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, Theme.key_actionBarDefaultSubmenuItemIcon));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_actionBarDefaultIcon));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_avatar_actionBarSelectorBlue));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_chat_lockIcon));
+        int i2 = Theme.key_avatar_subtitleInProfileBlue;
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, i2));
+        int i3 = Theme.key_avatar_backgroundActionBarBlue;
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, i3));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_profile_title));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_profile_status));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, i2));
         if (this.mediaCounterTextView != null) {
-            arrayList.add(new ThemeDescription(this.mediaCounterTextView.getTextView(), ThemeDescription.FLAG_TEXTCOLOR, null, null, null, themeDescriptionDelegate, "player_actionBarSubtitle"));
-            arrayList.add(new ThemeDescription(this.mediaCounterTextView.getNextTextView(), ThemeDescription.FLAG_TEXTCOLOR, null, null, null, themeDescriptionDelegate, "player_actionBarSubtitle"));
+            TextView textView = this.mediaCounterTextView.getTextView();
+            int i4 = ThemeDescription.FLAG_TEXTCOLOR;
+            int i5 = Theme.key_player_actionBarSubtitle;
+            arrayList.add(new ThemeDescription(textView, i4, null, null, null, themeDescriptionDelegate, i5));
+            arrayList.add(new ThemeDescription(this.mediaCounterTextView.getNextTextView(), ThemeDescription.FLAG_TEXTCOLOR, null, null, null, themeDescriptionDelegate, i5));
         }
-        arrayList.add(new ThemeDescription(this.topView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "avatar_backgroundActionBarBlue"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_SELECTOR, null, null, null, null, "listSelectorSDK21"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{View.class}, Theme.dividerPaint, null, null, "divider"));
-        arrayList.add(new ThemeDescription(this.avatarImage, 0, null, null, Theme.avatarDrawables, null, "avatar_text"));
-        arrayList.add(new ThemeDescription(this.avatarImage, 0, null, null, new Drawable[]{this.avatarDrawable}, null, "avatar_backgroundInProfileBlue"));
-        arrayList.add(new ThemeDescription(this.writeButton, ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, "profile_actionIcon"));
-        arrayList.add(new ThemeDescription(this.writeButton, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "profile_actionBackground"));
-        arrayList.add(new ThemeDescription(this.writeButton, ThemeDescription.FLAG_DRAWABLESELECTEDSTATE | ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "profile_actionPressedBackground"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlackText"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteGreenText2"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "text_RedRegular"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlueText2"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlueButton"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{TextCell.class}, new String[]{"valueTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteValueText"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextCell.class}, new String[]{"imageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteGrayIcon"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextCell.class}, new String[]{"imageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlueIcon"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{TextDetailCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlackText"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{TextDetailCell.class}, new String[]{"valueTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteGrayText2"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{HeaderCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlueHeader"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{SettingsSuggestionCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlueHeader"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{SettingsSuggestionCell.class}, new String[]{"detailTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteGrayText2"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_LINKCOLOR, new Class[]{SettingsSuggestionCell.class}, new String[]{"detailTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteLinkText"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{SettingsSuggestionCell.class}, new String[]{"yesButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "featuredStickers_buttonText"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_USEBACKGROUNDDRAWABLE, new Class[]{SettingsSuggestionCell.class}, new String[]{"yesButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "featuredStickers_addButton"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_USEBACKGROUNDDRAWABLE | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, new Class[]{SettingsSuggestionCell.class}, new String[]{"yesButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "featuredStickers_addButtonPressed"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{SettingsSuggestionCell.class}, new String[]{"noButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "featuredStickers_buttonText"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_USEBACKGROUNDDRAWABLE, new Class[]{SettingsSuggestionCell.class}, new String[]{"noButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "featuredStickers_addButton"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_USEBACKGROUNDDRAWABLE | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, new Class[]{SettingsSuggestionCell.class}, new String[]{"noButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "featuredStickers_addButtonPressed"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{NotificationsCheckCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlackText"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{NotificationsCheckCell.class}, new String[]{"valueTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteGrayText2"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{NotificationsCheckCell.class}, new String[]{"checkBox"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "switchTrack"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{NotificationsCheckCell.class}, new String[]{"checkBox"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "switchTrackChecked"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{UserCell.class}, new String[]{"adminTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "profile_creatorIcon"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{UserCell.class}, new String[]{"imageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteGrayIcon"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{UserCell.class}, new String[]{"nameTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlackText"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{UserCell.class}, new String[]{"statusColor"}, (Paint[]) null, (Drawable[]) null, themeDescriptionDelegate, "windowBackgroundWhiteGrayText"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{UserCell.class}, new String[]{"statusOnlineColor"}, (Paint[]) null, (Drawable[]) null, themeDescriptionDelegate, "windowBackgroundWhiteBlueText"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{UserCell.class}, null, Theme.avatarDrawables, null, "avatar_text"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundRed"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundOrange"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundViolet"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundGreen"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundCyan"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundBlue"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundPink"));
-        arrayList.add(new ThemeDescription(this.undoView, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "undo_background"));
-        arrayList.add(new ThemeDescription(this.undoView, 0, new Class[]{UndoView.class}, new String[]{"undoImageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "undo_cancelColor"));
-        arrayList.add(new ThemeDescription(this.undoView, 0, new Class[]{UndoView.class}, new String[]{"undoTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "undo_cancelColor"));
-        arrayList.add(new ThemeDescription(this.undoView, 0, new Class[]{UndoView.class}, new String[]{"infoTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "undo_infoColor"));
-        arrayList.add(new ThemeDescription(this.undoView, 0, new Class[]{UndoView.class}, new String[]{"textPaint"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "undo_infoColor"));
-        arrayList.add(new ThemeDescription(this.undoView, 0, new Class[]{UndoView.class}, new String[]{"progressPaint"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "undo_infoColor"));
-        arrayList.add(new ThemeDescription(this.undoView, ThemeDescription.FLAG_IMAGECOLOR, new Class[]{UndoView.class}, new String[]{"leftImageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "undo_infoColor"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{AboutLinkCell.class}, Theme.profile_aboutTextPaint, null, null, "windowBackgroundWhiteBlackText"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_LINKCOLOR, new Class[]{AboutLinkCell.class}, Theme.profile_aboutTextPaint, null, null, "windowBackgroundWhiteLinkText"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{AboutLinkCell.class}, Theme.linkSelectionPaint, null, null, "windowBackgroundWhiteLinkSelection"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_BACKGROUNDFILTER, new Class[]{ShadowSectionCell.class}, null, null, null, "windowBackgroundGrayShadow"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_BACKGROUNDFILTER, new Class[]{TextInfoPrivacyCell.class}, null, null, null, "windowBackgroundGrayShadow"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{TextInfoPrivacyCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteGrayText4"));
-        arrayList.add(new ThemeDescription(this.searchListView, 0, new Class[]{HeaderCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlueHeader"));
-        arrayList.add(new ThemeDescription(this.searchListView, 0, new Class[]{GraySectionCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "key_graySectionText"));
-        arrayList.add(new ThemeDescription(this.searchListView, ThemeDescription.FLAG_CELLBACKGROUNDCOLOR, new Class[]{GraySectionCell.class}, null, null, null, "graySection"));
-        arrayList.add(new ThemeDescription(this.searchListView, 0, new Class[]{SettingsSearchCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlackText"));
-        arrayList.add(new ThemeDescription(this.searchListView, 0, new Class[]{SettingsSearchCell.class}, new String[]{"valueTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteGrayText2"));
-        arrayList.add(new ThemeDescription(this.searchListView, 0, new Class[]{SettingsSearchCell.class}, new String[]{"imageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteGrayIcon"));
+        arrayList.add(new ThemeDescription(this.topView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, i3));
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_SELECTOR, null, null, null, null, Theme.key_listSelector));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{View.class}, Theme.dividerPaint, null, null, Theme.key_divider));
+        AvatarImageView avatarImageView = this.avatarImage;
+        Drawable[] drawableArr = Theme.avatarDrawables;
+        int i6 = Theme.key_avatar_text;
+        arrayList.add(new ThemeDescription(avatarImageView, 0, null, null, drawableArr, null, i6));
+        arrayList.add(new ThemeDescription(this.avatarImage, 0, null, null, new Drawable[]{this.avatarDrawable}, null, Theme.key_avatar_backgroundInProfileBlue));
+        arrayList.add(new ThemeDescription(this.writeButton, ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, Theme.key_profile_actionIcon));
+        arrayList.add(new ThemeDescription(this.writeButton, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, Theme.key_profile_actionBackground));
+        arrayList.add(new ThemeDescription(this.writeButton, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, Theme.key_profile_actionPressedBackground));
+        int i7 = Theme.key_windowBackgroundWhiteBlackText;
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i7));
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_windowBackgroundWhiteGreenText2));
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_text_RedRegular));
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_windowBackgroundWhiteBlueText2));
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_windowBackgroundWhiteBlueButton));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{TextCell.class}, new String[]{"valueTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_windowBackgroundWhiteValueText));
+        int i8 = Theme.key_windowBackgroundWhiteGrayIcon;
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextCell.class}, new String[]{"imageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i8));
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextCell.class}, new String[]{"imageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_windowBackgroundWhiteBlueIcon));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{TextDetailCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i7));
+        int i9 = Theme.key_windowBackgroundWhiteGrayText2;
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{TextDetailCell.class}, new String[]{"valueTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i9));
+        int i10 = Theme.key_windowBackgroundWhiteBlueHeader;
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{HeaderCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i10));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{SettingsSuggestionCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i10));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{SettingsSuggestionCell.class}, new String[]{"detailTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i9));
+        int i11 = Theme.key_windowBackgroundWhiteLinkText;
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_LINKCOLOR, new Class[]{SettingsSuggestionCell.class}, new String[]{"detailTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i11));
+        int i12 = Theme.key_featuredStickers_buttonText;
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{SettingsSuggestionCell.class}, new String[]{"yesButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i12));
+        int i13 = Theme.key_featuredStickers_addButton;
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_USEBACKGROUNDDRAWABLE, new Class[]{SettingsSuggestionCell.class}, new String[]{"yesButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i13));
+        int i14 = Theme.key_featuredStickers_addButtonPressed;
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_USEBACKGROUNDDRAWABLE | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, new Class[]{SettingsSuggestionCell.class}, new String[]{"yesButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i14));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{SettingsSuggestionCell.class}, new String[]{"noButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i12));
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_USEBACKGROUNDDRAWABLE, new Class[]{SettingsSuggestionCell.class}, new String[]{"noButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i13));
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_USEBACKGROUNDDRAWABLE | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, new Class[]{SettingsSuggestionCell.class}, new String[]{"noButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i14));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{NotificationsCheckCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i7));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{NotificationsCheckCell.class}, new String[]{"valueTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i9));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{NotificationsCheckCell.class}, new String[]{"checkBox"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_switchTrack));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{NotificationsCheckCell.class}, new String[]{"checkBox"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_switchTrackChecked));
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{UserCell.class}, new String[]{"adminTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_profile_creatorIcon));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{UserCell.class}, new String[]{"imageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i8));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{UserCell.class}, new String[]{"nameTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i7));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{UserCell.class}, new String[]{"statusColor"}, (Paint[]) null, (Drawable[]) null, themeDescriptionDelegate, Theme.key_windowBackgroundWhiteGrayText));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{UserCell.class}, new String[]{"statusOnlineColor"}, (Paint[]) null, (Drawable[]) null, themeDescriptionDelegate, Theme.key_windowBackgroundWhiteBlueText));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{UserCell.class}, null, Theme.avatarDrawables, null, i6));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_avatar_backgroundRed));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_avatar_backgroundOrange));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_avatar_backgroundViolet));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_avatar_backgroundGreen));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_avatar_backgroundCyan));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_avatar_backgroundBlue));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_avatar_backgroundPink));
+        arrayList.add(new ThemeDescription(this.undoView, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, Theme.key_undo_background));
+        int i15 = Theme.key_undo_cancelColor;
+        arrayList.add(new ThemeDescription(this.undoView, 0, new Class[]{UndoView.class}, new String[]{"undoImageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i15));
+        arrayList.add(new ThemeDescription(this.undoView, 0, new Class[]{UndoView.class}, new String[]{"undoTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i15));
+        int i16 = Theme.key_undo_infoColor;
+        arrayList.add(new ThemeDescription(this.undoView, 0, new Class[]{UndoView.class}, new String[]{"infoTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i16));
+        arrayList.add(new ThemeDescription(this.undoView, 0, new Class[]{UndoView.class}, new String[]{"textPaint"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i16));
+        arrayList.add(new ThemeDescription(this.undoView, 0, new Class[]{UndoView.class}, new String[]{"progressPaint"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i16));
+        arrayList.add(new ThemeDescription(this.undoView, ThemeDescription.FLAG_IMAGECOLOR, new Class[]{UndoView.class}, new String[]{"leftImageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i16));
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{AboutLinkCell.class}, Theme.profile_aboutTextPaint, null, null, i7));
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_LINKCOLOR, new Class[]{AboutLinkCell.class}, Theme.profile_aboutTextPaint, null, null, i11));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{AboutLinkCell.class}, Theme.linkSelectionPaint, null, null, Theme.key_windowBackgroundWhiteLinkSelection));
+        int i17 = Theme.key_windowBackgroundGrayShadow;
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_BACKGROUNDFILTER, new Class[]{ShadowSectionCell.class}, null, null, null, i17));
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_BACKGROUNDFILTER, new Class[]{TextInfoPrivacyCell.class}, null, null, null, i17));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{TextInfoPrivacyCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_windowBackgroundWhiteGrayText4));
+        arrayList.add(new ThemeDescription(this.searchListView, 0, new Class[]{HeaderCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i10));
+        arrayList.add(new ThemeDescription(this.searchListView, 0, new Class[]{GraySectionCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_graySectionText));
+        arrayList.add(new ThemeDescription(this.searchListView, ThemeDescription.FLAG_CELLBACKGROUNDCOLOR, new Class[]{GraySectionCell.class}, null, null, null, Theme.key_graySection));
+        arrayList.add(new ThemeDescription(this.searchListView, 0, new Class[]{SettingsSearchCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i7));
+        arrayList.add(new ThemeDescription(this.searchListView, 0, new Class[]{SettingsSearchCell.class}, new String[]{"valueTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i9));
+        arrayList.add(new ThemeDescription(this.searchListView, 0, new Class[]{SettingsSearchCell.class}, new String[]{"imageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i8));
         if (this.mediaHeaderVisible) {
-            arrayList.add(new ThemeDescription(this.nameTextView[1], 0, null, null, new Drawable[]{this.verifiedCheckDrawable}, null, "player_actionBarTitle"));
-            arrayList.add(new ThemeDescription(this.nameTextView[1], 0, null, null, new Drawable[]{this.verifiedDrawable}, null, "windowBackgroundWhite"));
+            arrayList.add(new ThemeDescription(this.nameTextView[1], 0, null, null, new Drawable[]{this.verifiedCheckDrawable}, null, Theme.key_player_actionBarTitle));
+            arrayList.add(new ThemeDescription(this.nameTextView[1], 0, null, null, new Drawable[]{this.verifiedDrawable}, null, i));
         } else {
-            arrayList.add(new ThemeDescription(this.nameTextView[1], 0, null, null, new Drawable[]{this.verifiedCheckDrawable}, null, "profile_verifiedCheck"));
-            arrayList.add(new ThemeDescription(this.nameTextView[1], 0, null, null, new Drawable[]{this.verifiedDrawable}, null, "profile_verifiedBackground"));
+            arrayList.add(new ThemeDescription(this.nameTextView[1], 0, null, null, new Drawable[]{this.verifiedCheckDrawable}, null, Theme.key_profile_verifiedCheck));
+            arrayList.add(new ThemeDescription(this.nameTextView[1], 0, null, null, new Drawable[]{this.verifiedDrawable}, null, Theme.key_profile_verifiedBackground));
         }
         return arrayList;
     }
@@ -14299,29 +14327,29 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (simpleTextViewArr[1] != null) {
                 Object tag = simpleTextViewArr[1].getTag();
                 for (int i2 = 0; i2 < 2; i2++) {
-                    if (tag instanceof String) {
-                        this.onlineTextView[i2 + 1].setTextColor(getThemedColor((String) tag));
+                    if (tag instanceof Integer) {
+                        this.onlineTextView[i2 + 1].setTextColor(getThemedColor(((Integer) tag).intValue()));
                     } else {
-                        this.onlineTextView[i2 + 1].setTextColor(getThemedColor("avatar_subtitleInProfileBlue"));
+                        this.onlineTextView[i2 + 1].setTextColor(getThemedColor(Theme.key_avatar_subtitleInProfileBlue));
                     }
                 }
             }
             Drawable drawable = this.lockIconDrawable;
             if (drawable != null) {
-                drawable.setColorFilter(getThemedColor("chat_lockIcon"), PorterDuff.Mode.MULTIPLY);
+                drawable.setColorFilter(getThemedColor(Theme.key_chat_lockIcon), PorterDuff.Mode.MULTIPLY);
             }
             ScamDrawable scamDrawable = this.scamDrawable;
             if (scamDrawable != null) {
-                scamDrawable.setColor(getThemedColor("avatar_subtitleInProfileBlue"));
+                scamDrawable.setColor(getThemedColor(Theme.key_avatar_subtitleInProfileBlue));
             }
             SimpleTextView[] simpleTextViewArr2 = this.nameTextView;
             if (simpleTextViewArr2[1] != null) {
-                simpleTextViewArr2[1].setTextColor(getThemedColor("profile_title"));
+                simpleTextViewArr2[1].setTextColor(getThemedColor(Theme.key_profile_title));
             }
             ActionBar actionBar = this.actionBar;
             if (actionBar != null) {
-                actionBar.setItemsColor(getThemedColor("actionBarDefaultIcon"), false);
-                this.actionBar.setItemsBackgroundColor(getThemedColor("avatar_actionBarSelectorBlue"), false);
+                actionBar.setItemsColor(getThemedColor(Theme.key_actionBarDefaultIcon), false);
+                this.actionBar.setItemsBackgroundColor(getThemedColor(Theme.key_avatar_actionBarSelectorBlue), false);
             }
         }
         updateEmojiStatusDrawableColor();
@@ -14415,7 +14443,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         try {
             Drawable mutate = this.fragmentView.getContext().getResources().getDrawable(R.drawable.floating_shadow_profile).mutate();
             mutate.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
-            CombinedDrawable combinedDrawable = new CombinedDrawable(mutate, Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), getThemedColor("profile_actionBackground"), getThemedColor("profile_actionPressedBackground")), 0, 0);
+            CombinedDrawable combinedDrawable = new CombinedDrawable(mutate, Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), getThemedColor(Theme.key_profile_actionBackground), getThemedColor(Theme.key_profile_actionPressedBackground)), 0, 0);
             combinedDrawable.setIconSize(AndroidUtilities.dp(56.0f), AndroidUtilities.dp(56.0f));
             this.writeButton.setBackground(combinedDrawable);
         } catch (Exception unused) {
@@ -14556,11 +14584,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             return false;
         }
         if (this.actionBar.isActionModeShowed()) {
-            themedColor = getThemedColor("actionBarActionModeDefault");
+            themedColor = getThemedColor(Theme.key_actionBarActionModeDefault);
         } else if (this.mediaHeaderVisible) {
-            themedColor = getThemedColor("windowBackgroundWhite");
+            themedColor = getThemedColor(Theme.key_windowBackgroundWhite);
         } else {
-            themedColor = getThemedColor("actionBarDefault");
+            themedColor = getThemedColor(Theme.key_actionBarDefault);
         }
         return ColorUtils.calculateLuminance(themedColor) > 0.699999988079071d;
     }

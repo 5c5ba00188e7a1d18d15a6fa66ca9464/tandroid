@@ -423,7 +423,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         setTheme(R.style.Theme_TMessages);
         if (Build.VERSION.SDK_INT >= 21) {
             try {
-                setTaskDescription(new ActivityManager.TaskDescription((String) null, (Bitmap) null, Theme.getColor("actionBarDefault") | (-16777216)));
+                setTaskDescription(new ActivityManager.TaskDescription((String) null, (Bitmap) null, Theme.getColor(Theme.key_actionBarDefault) | (-16777216)));
             } catch (Throwable unused) {
             }
             try {
@@ -468,7 +468,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
         3 r7 = new 3(this);
         this.drawerLayoutContainer = r7;
-        r7.setBehindKeyboardColor(Theme.getColor("windowBackgroundWhite"));
+        r7.setBehindKeyboardColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         this.frameLayout.addView(this.drawerLayoutContainer, LayoutHelper.createFrame(-1, -1.0f));
         if (i2 >= 21) {
             View view = new View(this) { // from class: org.telegram.ui.LaunchActivity.4
@@ -529,14 +529,16 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         SideMenultItemAnimator sideMenultItemAnimator = new SideMenultItemAnimator(recyclerListView);
         this.itemAnimator = sideMenultItemAnimator;
         this.sideMenu.setItemAnimator(sideMenultItemAnimator);
-        this.sideMenu.setBackgroundColor(Theme.getColor("chats_menuBackground"));
-        this.sideMenuContainer.setBackgroundColor(Theme.getColor("chats_menuBackground"));
+        RecyclerListView recyclerListView2 = this.sideMenu;
+        int i3 = Theme.key_chats_menuBackground;
+        recyclerListView2.setBackgroundColor(Theme.getColor(i3));
+        this.sideMenuContainer.setBackgroundColor(Theme.getColor(i3));
         this.sideMenu.setLayoutManager(new LinearLayoutManager(this, 1, false));
         this.sideMenu.setAllowItemsInteractionDuringAnimation(false);
-        RecyclerListView recyclerListView2 = this.sideMenu;
+        RecyclerListView recyclerListView3 = this.sideMenu;
         DrawerLayoutAdapter drawerLayoutAdapter = new DrawerLayoutAdapter(this, this.itemAnimator, this.drawerLayoutContainer);
         this.drawerLayoutAdapter = drawerLayoutAdapter;
-        recyclerListView2.setAdapter(drawerLayoutAdapter);
+        recyclerListView3.setAdapter(drawerLayoutAdapter);
         this.drawerLayoutAdapter.setOnPremiumDrawableClick(new View.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda19
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
@@ -552,18 +554,18 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         this.sideMenuContainer.setLayoutParams(layoutParams);
         this.sideMenu.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda116
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public /* synthetic */ boolean hasDoubleTap(View view2, int i3) {
-                return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view2, i3);
+            public /* synthetic */ boolean hasDoubleTap(View view2, int i4) {
+                return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view2, i4);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public /* synthetic */ void onDoubleTap(View view2, int i3, float f, float f2) {
-                RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view2, i3, f, f2);
+            public /* synthetic */ void onDoubleTap(View view2, int i4, float f, float f2) {
+                RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view2, i4, f, f2);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public final void onItemClick(View view2, int i3, float f, float f2) {
-                LaunchActivity.this.lambda$onCreate$2(view2, i3, f, f2);
+            public final void onItemClick(View view2, int i4, float f, float f2) {
+                LaunchActivity.this.lambda$onCreate$2(view2, i4, f, f2);
             }
         });
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(3, 0) { // from class: org.telegram.ui.LaunchActivity.7
@@ -575,7 +577,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             }
 
             @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int i3) {
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int i4) {
             }
 
             @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
@@ -588,13 +590,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             }
 
             @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
-            public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int i3) {
+            public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int i4) {
                 clearSelectedViewHolder();
-                if (i3 != 0) {
+                if (i4 != 0) {
                     this.selectedViewHolder = viewHolder;
                     View view2 = viewHolder.itemView;
                     LaunchActivity.this.sideMenu.cancelClickRunnables(false);
-                    view2.setBackgroundColor(Theme.getColor("dialogBackground"));
+                    view2.setBackgroundColor(Theme.getColor(Theme.key_dialogBackground));
                     if (Build.VERSION.SDK_INT >= 21) {
                         ObjectAnimator.ofFloat(view2, "elevation", AndroidUtilities.dp(1.0f)).setDuration(150L).start();
                     }
@@ -627,7 +629,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             }
 
             @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
-            public void onChildDraw(Canvas canvas, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float f, float f2, int i3, boolean z2) {
+            public void onChildDraw(Canvas canvas, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float f, float f2, int i4, boolean z2) {
                 View view2;
                 View view3;
                 View view4 = viewHolder.itemView;
@@ -645,9 +647,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         itemTouchHelper.attachToRecyclerView(this.sideMenu);
         this.sideMenu.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda117
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
-            public final boolean onItemClick(View view2, int i3) {
+            public final boolean onItemClick(View view2, int i4) {
                 boolean lambda$onCreate$3;
-                lambda$onCreate$3 = LaunchActivity.this.lambda$onCreate$3(itemTouchHelper, view2, i3);
+                lambda$onCreate$3 = LaunchActivity.this.lambda$onCreate$3(itemTouchHelper, view2, i4);
                 return lambda$onCreate$3;
             }
         });
@@ -665,8 +667,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         checkCurrentAccount();
         updateCurrentConnectionState(this.currentAccount);
         NotificationCenter globalInstance = NotificationCenter.getGlobalInstance();
-        int i3 = NotificationCenter.closeOtherAppActivities;
-        globalInstance.postNotificationName(i3, this);
+        int i4 = NotificationCenter.closeOtherAppActivities;
+        globalInstance.postNotificationName(i4, this);
         this.currentConnectionState = ConnectionsManager.getInstance(this.currentAccount).getConnectionState();
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.needShowAlert);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.reloadInterface);
@@ -674,7 +676,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didSetNewTheme);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.needSetDayNightTheme);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.needCheckSystemBarColors);
-        NotificationCenter.getGlobalInstance().addObserver(this, i3);
+        NotificationCenter.getGlobalInstance().addObserver(this, i4);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didSetPasscode);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didSetNewWallpapper);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.notificationsCountUpdated);
@@ -828,15 +830,15 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         MediaController.getInstance().setBaseActivity(this, true);
         ApplicationLoader.startAppCenter(this);
         updateAppUpdateViews(false);
-        int i4 = Build.VERSION.SDK_INT;
-        if (i4 >= 23) {
+        int i5 = Build.VERSION.SDK_INT;
+        if (i5 >= 23) {
             FingerprintController.checkKeyReady();
         }
-        if (i4 >= 28 && ((ActivityManager) getSystemService("activity")).isBackgroundRestricted() && System.currentTimeMillis() - SharedConfig.BackgroundActivityPrefs.getLastCheckedBackgroundActivity() >= 86400000 && SharedConfig.BackgroundActivityPrefs.getDismissedCount() < 3) {
+        if (i5 >= 28 && ((ActivityManager) getSystemService("activity")).isBackgroundRestricted() && System.currentTimeMillis() - SharedConfig.BackgroundActivityPrefs.getLastCheckedBackgroundActivity() >= 86400000 && SharedConfig.BackgroundActivityPrefs.getDismissedCount() < 3) {
             AlertsCreator.createBackgroundActivityDialog(this).show();
             SharedConfig.BackgroundActivityPrefs.setLastCheckedBackgroundActivity(System.currentTimeMillis());
         }
-        if (i4 >= 31) {
+        if (i5 >= 31) {
             getWindow().getDecorView().addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() { // from class: org.telegram.ui.LaunchActivity.9
                 @Override // android.view.View.OnAttachStateChangeListener
                 public void onViewAttachedToWindow(View view2) {
@@ -1105,7 +1107,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (ArticleViewer.hasInstance() && ArticleViewer.getInstance().isVisible()) {
             ArticleViewer.getInstance().updateThemeColors(f);
         }
-        this.drawerLayoutContainer.setBehindKeyboardColor(Theme.getColor("windowBackgroundWhite"));
+        this.drawerLayoutContainer.setBehindKeyboardColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         if (PhotoViewer.hasInstance()) {
             PhotoViewer.getInstance().updateColors();
         }
@@ -1472,13 +1474,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 if (baseFragment != null) {
                     z4 = baseFragment.isLightStatusBar();
                 } else {
-                    z4 = ColorUtils.calculateLuminance(Theme.getColor("actionBarDefault", null, true)) > 0.699999988079071d;
+                    z4 = ColorUtils.calculateLuminance(Theme.getColor(Theme.key_actionBarDefault, null, true)) > 0.699999988079071d;
                 }
                 AndroidUtilities.setLightStatusBar(getWindow(), z4, z5);
             }
             if (i >= 26 && z3 && (!z || baseFragment == null || !baseFragment.isInPreviewMode())) {
                 Window window = getWindow();
-                int color = (baseFragment == null || !z) ? Theme.getColor("windowBackgroundGray", null, true) : baseFragment.getNavigationBarColor();
+                int color = (baseFragment == null || !z) ? Theme.getColor(Theme.key_windowBackgroundGray, null, true) : baseFragment.getNavigationBarColor();
                 if (window.getNavigationBarColor() != color) {
                     window.setNavigationBarColor(color);
                     AndroidUtilities.setLightNavigationBar(getWindow(), AndroidUtilities.computePerceivedBrightness(color) >= 0.721f);
@@ -1955,12 +1957,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r12v21 */
     /* JADX WARN: Type inference failed for: r12v213 */
     /* JADX WARN: Type inference failed for: r12v214 */
-    /* JADX WARN: Type inference failed for: r12v9, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r12v9, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r3v29 */
     /* JADX WARN: Type inference failed for: r3v32 */
     /* JADX WARN: Type inference failed for: r3v33 */
     /* JADX WARN: Type inference failed for: r3v6 */
-    /* JADX WARN: Type inference failed for: r3v7, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v7, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v10, types: [android.os.Bundle, java.lang.String] */
     /* JADX WARN: Type inference failed for: r7v14 */
     /* JADX WARN: Type inference failed for: r7v19 */
@@ -9037,8 +9039,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 }
             }
             AttachBotIntroTopView attachBotIntroTopView = new AttachBotIntroTopView(this);
-            attachBotIntroTopView.setColor(Theme.getColor("chat_attachIcon"));
-            attachBotIntroTopView.setBackgroundColor(Theme.getColor("dialogTopBackground"));
+            attachBotIntroTopView.setColor(Theme.getColor(Theme.key_chat_attachIcon));
+            attachBotIntroTopView.setBackgroundColor(Theme.getColor(Theme.key_dialogTopBackground));
             attachBotIntroTopView.setAttachBot(tLRPC$TL_attachMenuBot);
             final AtomicBoolean atomicBoolean = new AtomicBoolean();
             AlertDialog.Builder negativeButton = new AlertDialog.Builder(this).setTopView(attachBotIntroTopView).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("BotRequestAttachPermission", R.string.BotRequestAttachPermission, UserObject.getUserName(tLRPC$User)))).setPositiveButton(LocaleController.getString(R.string.BotAddToMenu), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda9
@@ -10985,7 +10987,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             return;
         }
         int batteryLevel = LiteMode.getBatteryLevel();
-        BulletinFactory.of(lastFragment).createSimpleBulletin(new BatteryDrawable(batteryLevel / 100.0f, -1, lastFragment.getThemedColor("dialogSwipeRemove"), 1.3f), LocaleController.getString("LowPowerEnabledTitle", R.string.LowPowerEnabledTitle), LocaleController.formatString("LowPowerEnabledSubtitle", R.string.LowPowerEnabledSubtitle, String.format("%d%%", Integer.valueOf(batteryLevel))), LocaleController.getString("Disable", R.string.Disable), new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda42
+        BulletinFactory.of(lastFragment).createSimpleBulletin(new BatteryDrawable(batteryLevel / 100.0f, -1, lastFragment.getThemedColor(Theme.key_dialogSwipeRemove), 1.3f), LocaleController.getString("LowPowerEnabledTitle", R.string.LowPowerEnabledTitle), LocaleController.formatString("LowPowerEnabledSubtitle", R.string.LowPowerEnabledSubtitle, String.format("%d%%", Integer.valueOf(batteryLevel))), LocaleController.getString("Disable", R.string.Disable), new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda42
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$onPowerSaver$100();
@@ -11437,10 +11439,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (((org.telegram.ui.ProfileActivity) r1.get(r1.size() - 1)).isSettings() == false) goto L139;
      */
     /* JADX WARN: Removed duplicated region for block: B:119:0x030d  */
-    /* JADX WARN: Removed duplicated region for block: B:233:0x067f  */
-    /* JADX WARN: Removed duplicated region for block: B:234:0x0687  */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x068d A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:238:0x068e  */
+    /* JADX WARN: Removed duplicated region for block: B:233:0x0682  */
+    /* JADX WARN: Removed duplicated region for block: B:234:0x068a  */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x0690 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x0691  */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -11502,16 +11504,17 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
                     if (baseFragment3 != null) {
                         Map<String, Integer> hashMap = new HashMap<>();
-                        hashMap.put("info1.**", Integer.valueOf(baseFragment3.getThemedColor("dialogTopBackground")));
-                        hashMap.put("info2.**", Integer.valueOf(baseFragment3.getThemedColor("dialogTopBackground")));
-                        builder.setTopAnimation(R.raw.not_available, 52, false, baseFragment3.getThemedColor("dialogTopBackground"), hashMap);
+                        int i5 = Theme.key_dialogTopBackground;
+                        hashMap.put("info1.**", Integer.valueOf(baseFragment3.getThemedColor(i5)));
+                        hashMap.put("info2.**", Integer.valueOf(baseFragment3.getThemedColor(i5)));
+                        builder.setTopAnimation(R.raw.not_available, 52, false, baseFragment3.getThemedColor(i5), hashMap);
                         builder.setTopAnimationIsNew(true);
                     }
                     if (num.intValue() != 2 && num.intValue() != 3) {
                         builder.setNegativeButton(LocaleController.getString("MoreInfo", R.string.MoreInfo), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda4
                             @Override // android.content.DialogInterface.OnClickListener
-                            public final void onClick(DialogInterface dialogInterface, int i5) {
-                                LaunchActivity.lambda$didReceivedNotification$104(i2, dialogInterface, i5);
+                            public final void onClick(DialogInterface dialogInterface, int i6) {
+                                LaunchActivity.lambda$didReceivedNotification$104(i2, dialogInterface, i6);
                             }
                         });
                     }
@@ -11530,10 +11533,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         if (str3.startsWith("PREMIUM_GIFT_SELF_REQUIRED_")) {
                             String str4 = (String) objArr[1];
                             int indexOf = str4.indexOf(42);
-                            int i5 = indexOf + 1;
-                            int indexOf2 = str4.indexOf(42, i5);
+                            int i6 = indexOf + 1;
+                            int indexOf2 = str4.indexOf(42, i6);
                             if (indexOf != -1 && indexOf2 != -1 && indexOf != indexOf2) {
-                                valueOf.replace(indexOf, indexOf2 + 1, (CharSequence) str4.substring(i5, indexOf2));
+                                valueOf.replace(indexOf, indexOf2 + 1, (CharSequence) str4.substring(i6, indexOf2));
                                 valueOf.setSpan(new ClickableSpan() { // from class: org.telegram.ui.LaunchActivity.22
                                     @Override // android.text.style.ClickableSpan
                                     public void onClick(View view) {
@@ -11553,8 +11556,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             builder.setPositiveButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                             builder.setNegativeButton(LocaleController.getString("LogOut", R.string.LogOut), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda8
                                 @Override // android.content.DialogInterface.OnClickListener
-                                public final void onClick(DialogInterface dialogInterface, int i6) {
-                                    LaunchActivity.this.lambda$didReceivedNotification$105(dialogInterface, i6);
+                                public final void onClick(DialogInterface dialogInterface, int i7) {
+                                    LaunchActivity.this.lambda$didReceivedNotification$105(dialogInterface, i7);
                                 }
                             });
                         } else if (str3.startsWith("PREMIUM_")) {
@@ -11584,8 +11587,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             builder2.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
             builder2.setNegativeButton(LocaleController.getString("ShareYouLocationUnableManually", R.string.ShareYouLocationUnableManually), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda11
                 @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i6) {
-                    LaunchActivity.this.lambda$didReceivedNotification$107(hashMap2, i2, dialogInterface, i6);
+                public final void onClick(DialogInterface dialogInterface, int i7) {
+                    LaunchActivity.this.lambda$didReceivedNotification$107(hashMap2, i2, dialogInterface, i7);
                 }
             });
             builder2.setMessage(LocaleController.getString("ShareYouLocationUnable", R.string.ShareYouLocationUnable));
@@ -11654,25 +11657,25 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             final boolean booleanValue = ((Boolean) objArr[2]).booleanValue();
             final boolean booleanValue2 = ((Boolean) objArr[3]).booleanValue();
             AlertDialog.Builder builder3 = new AlertDialog.Builder(this);
-            builder3.setTopAnimation(R.raw.permission_request_contacts, 72, false, Theme.getColor("dialogTopBackground"));
+            builder3.setTopAnimation(R.raw.permission_request_contacts, 72, false, Theme.getColor(Theme.key_dialogTopBackground));
             builder3.setTitle(LocaleController.getString("UpdateContactsTitle", R.string.UpdateContactsTitle));
             builder3.setMessage(LocaleController.getString("UpdateContactsMessage", R.string.UpdateContactsMessage));
             builder3.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda6
                 @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i6) {
-                    LaunchActivity.lambda$didReceivedNotification$108(i2, hashMap3, booleanValue, booleanValue2, dialogInterface, i6);
+                public final void onClick(DialogInterface dialogInterface, int i7) {
+                    LaunchActivity.lambda$didReceivedNotification$108(i2, hashMap3, booleanValue, booleanValue2, dialogInterface, i7);
                 }
             });
             builder3.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda7
                 @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i6) {
-                    LaunchActivity.lambda$didReceivedNotification$109(i2, hashMap3, booleanValue, booleanValue2, dialogInterface, i6);
+                public final void onClick(DialogInterface dialogInterface, int i7) {
+                    LaunchActivity.lambda$didReceivedNotification$109(i2, hashMap3, booleanValue, booleanValue2, dialogInterface, i7);
                 }
             });
             builder3.setOnBackButtonListener(new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda5
                 @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i6) {
-                    LaunchActivity.lambda$didReceivedNotification$110(i2, hashMap3, booleanValue, booleanValue2, dialogInterface, i6);
+                public final void onClick(DialogInterface dialogInterface, int i7) {
+                    LaunchActivity.lambda$didReceivedNotification$110(i2, hashMap3, booleanValue, booleanValue2, dialogInterface, i7);
                 }
             });
             AlertDialog create = builder3.create();
@@ -11683,21 +11686,23 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 if (this.sideMenu != null) {
                     FrameLayout frameLayout = this.sideMenuContainer;
                     if (frameLayout != null) {
-                        frameLayout.setBackgroundColor(Theme.getColor("chats_menuBackground"));
+                        frameLayout.setBackgroundColor(Theme.getColor(Theme.key_chats_menuBackground));
                     }
-                    this.sideMenu.setBackgroundColor(Theme.getColor("chats_menuBackground"));
-                    this.sideMenu.setGlowColor(Theme.getColor("chats_menuBackground"));
-                    this.sideMenu.setListSelectorColor(Integer.valueOf(Theme.getColor("listSelectorSDK21")));
+                    RecyclerListView recyclerListView2 = this.sideMenu;
+                    int i7 = Theme.key_chats_menuBackground;
+                    recyclerListView2.setBackgroundColor(Theme.getColor(i7));
+                    this.sideMenu.setGlowColor(Theme.getColor(i7));
+                    this.sideMenu.setListSelectorColor(Integer.valueOf(Theme.getColor(Theme.key_listSelector)));
                     this.sideMenu.getAdapter().notifyDataSetChanged();
                 }
                 if (Build.VERSION.SDK_INT >= 21) {
                     try {
-                        setTaskDescription(new ActivityManager.TaskDescription((String) null, (Bitmap) null, Theme.getColor("actionBarDefault") | (-16777216)));
+                        setTaskDescription(new ActivityManager.TaskDescription((String) null, (Bitmap) null, Theme.getColor(Theme.key_actionBarDefault) | (-16777216)));
                     } catch (Exception unused) {
                     }
                 }
             }
-            this.drawerLayoutContainer.setBehindKeyboardColor(Theme.getColor("windowBackgroundWhite"));
+            this.drawerLayoutContainer.setBehindKeyboardColor(Theme.getColor(Theme.key_windowBackgroundWhite));
             boolean booleanValue3 = objArr.length > 1 ? ((Boolean) objArr[1]).booleanValue() : true;
             boolean z6 = objArr.length > 2 && ((Boolean) objArr[2]).booleanValue();
             if (booleanValue3 && !this.isNavigationBarColorFrozen && !this.actionBarLayout.isTransitionAnimationInProgress()) {
@@ -11751,13 +11756,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     this.themeSwitchSunDrawable = rLottieImageView.getAnimatedDrawable();
                     float max = Math.max((float) Math.max(Math.sqrt(((measuredWidth - iArr[0]) * (measuredWidth - iArr[0])) + ((measuredHeight - iArr[1]) * (measuredHeight - iArr[1]))), Math.sqrt((iArr[0] * iArr[0]) + ((measuredHeight - iArr[1]) * (measuredHeight - iArr[1])))), (float) Math.max(Math.sqrt(((measuredWidth - iArr[0]) * (measuredWidth - iArr[0])) + (iArr[1] * iArr[1])), Math.sqrt((iArr[0] * iArr[0]) + (iArr[1] * iArr[1]))));
                     View view3 = booleanValue4 ? this.drawerLayoutContainer : this.themeSwitchImageView;
-                    int i6 = iArr[0];
-                    int i7 = iArr[1];
+                    int i8 = iArr[0];
+                    int i9 = iArr[1];
                     float f = booleanValue4 ? 0.0f : max;
                     if (!booleanValue4) {
                         max = 0.0f;
                     }
-                    Animator createCircularReveal = ViewAnimationUtils.createCircularReveal(view3, i6, i7, f, max);
+                    Animator createCircularReveal = ViewAnimationUtils.createCircularReveal(view3, i8, i9, f, max);
                     createCircularReveal.setDuration(400L);
                     createCircularReveal.setInterpolator(Easings.easeInOutQuad);
                     createCircularReveal.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.LaunchActivity.23
@@ -11832,12 +11837,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             if (iNavigationLayout != null) {
             }
         } else if (i == NotificationCenter.notificationsCountUpdated) {
-            RecyclerListView recyclerListView2 = this.sideMenu;
-            if (recyclerListView2 != null) {
+            RecyclerListView recyclerListView3 = this.sideMenu;
+            if (recyclerListView3 != null) {
                 Integer num2 = (Integer) objArr[0];
-                int childCount = recyclerListView2.getChildCount();
-                for (int i8 = 0; i8 < childCount; i8++) {
-                    View childAt2 = this.sideMenu.getChildAt(i8);
+                int childCount = recyclerListView3.getChildCount();
+                for (int i10 = 0; i10 < childCount; i10++) {
+                    View childAt2 = this.sideMenu.getChildAt(i10);
                     if ((childAt2 instanceof DrawerUserCell) && ((DrawerUserCell) childAt2).getAccountNumber() == num2.intValue()) {
                         childAt2.invalidate();
                         return;
@@ -11957,18 +11962,18 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             } else {
                 baseFragment = null;
             }
-            int i9 = 1500;
+            int i11 = 1500;
             switch (intValue3) {
                 case 0:
                     TLRPC$Document tLRPC$Document = (TLRPC$Document) objArr[1];
                     int intValue4 = ((Integer) objArr[2]).intValue();
                     StickerSetBulletinLayout stickerSetBulletinLayout = new StickerSetBulletinLayout(this, null, intValue4, tLRPC$Document, null);
-                    i9 = (intValue4 == 6 || intValue4 == 7) ? 3500 : 3500;
+                    i11 = (intValue4 == 6 || intValue4 == 7) ? 3500 : 3500;
                     if (baseFragment != null) {
-                        Bulletin.make(baseFragment, stickerSetBulletinLayout, i9).show();
+                        Bulletin.make(baseFragment, stickerSetBulletinLayout, i11).show();
                         return;
                     } else {
-                        Bulletin.make(container, stickerSetBulletinLayout, i9).show();
+                        Bulletin.make(container, stickerSetBulletinLayout, i11).show();
                         return;
                     }
                 case 1:
@@ -12027,53 +12032,48 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 default:
                     return;
             }
-        } else {
-            String[] strArr = null;
-            if (i == NotificationCenter.groupCallUpdated) {
-                checkWasMutedByAdmin(false);
-            } else if (i == NotificationCenter.fileLoadProgressChanged) {
-                if (this.updateTextView == null || !SharedConfig.isAppUpdateAvailable()) {
-                    return;
-                }
-                String str9 = (String) objArr[0];
-                String attachFileName = FileLoader.getAttachFileName(SharedConfig.pendingAppUpdate.document);
-                if (attachFileName == null || !attachFileName.equals(str9)) {
-                    return;
-                }
-                float longValue = ((float) ((Long) objArr[1]).longValue()) / ((float) ((Long) objArr[2]).longValue());
-                this.updateLayoutIcon.setProgress(longValue, true);
-                this.updateTextView.setText(LocaleController.formatString("AppUpdateDownloading", R.string.AppUpdateDownloading, Integer.valueOf((int) (longValue * 100.0f))));
-            } else if (i == NotificationCenter.appUpdateAvailable) {
-                updateAppUpdateViews(mainFragmentsStack.size() == 1);
-            } else if (i == NotificationCenter.currentUserShowLimitReachedDialog) {
-                if (mainFragmentsStack.isEmpty()) {
-                    return;
-                }
-                ArrayList<BaseFragment> arrayList10 = mainFragmentsStack;
-                BaseFragment baseFragment4 = arrayList10.get(arrayList10.size() - 1);
-                if (baseFragment4.getParentActivity() != null) {
-                    baseFragment4.showDialog(new LimitReachedBottomSheet(baseFragment4, baseFragment4.getParentActivity(), ((Integer) objArr[0]).intValue(), this.currentAccount));
-                }
-            } else if (i == NotificationCenter.currentUserPremiumStatusChanged) {
-                DrawerLayoutAdapter drawerLayoutAdapter = this.drawerLayoutAdapter;
-                if (drawerLayoutAdapter != null) {
-                    drawerLayoutAdapter.notifyDataSetChanged();
-                }
-                MessagesController.getMainSettings(this.currentAccount).edit().remove("transcribeButtonPressed").apply();
-            } else if (i == NotificationCenter.requestPermissions) {
-                int intValue5 = ((Integer) objArr[0]).intValue();
-                if (intValue5 == 0 && Build.VERSION.SDK_INT >= 31) {
-                    strArr = new String[]{"android.permission.BLUETOOTH_CONNECT"};
-                }
-                if (strArr != null) {
-                    int i10 = this.requsetPermissionsPointer + 1;
-                    this.requsetPermissionsPointer = i10;
-                    this.requestedPermissions.put(i10, intValue5);
-                    ActivityCompat.requestPermissions(this, strArr, this.requsetPermissionsPointer);
-                }
-            } else if (i == NotificationCenter.chatSwithcedToForum) {
-                ForumUtilities.switchAllFragmentsInStackToForum(((Long) objArr[0]).longValue(), this.actionBarLayout);
+        } else if (i == NotificationCenter.groupCallUpdated) {
+            checkWasMutedByAdmin(false);
+        } else if (i == NotificationCenter.fileLoadProgressChanged) {
+            if (this.updateTextView == null || !SharedConfig.isAppUpdateAvailable()) {
+                return;
             }
+            String str9 = (String) objArr[0];
+            String attachFileName = FileLoader.getAttachFileName(SharedConfig.pendingAppUpdate.document);
+            if (attachFileName == null || !attachFileName.equals(str9)) {
+                return;
+            }
+            float longValue = ((float) ((Long) objArr[1]).longValue()) / ((float) ((Long) objArr[2]).longValue());
+            this.updateLayoutIcon.setProgress(longValue, true);
+            this.updateTextView.setText(LocaleController.formatString("AppUpdateDownloading", R.string.AppUpdateDownloading, Integer.valueOf((int) (longValue * 100.0f))));
+        } else if (i == NotificationCenter.appUpdateAvailable) {
+            updateAppUpdateViews(mainFragmentsStack.size() == 1);
+        } else if (i == NotificationCenter.currentUserShowLimitReachedDialog) {
+            if (mainFragmentsStack.isEmpty()) {
+                return;
+            }
+            ArrayList<BaseFragment> arrayList10 = mainFragmentsStack;
+            BaseFragment baseFragment4 = arrayList10.get(arrayList10.size() - 1);
+            if (baseFragment4.getParentActivity() != null) {
+                baseFragment4.showDialog(new LimitReachedBottomSheet(baseFragment4, baseFragment4.getParentActivity(), ((Integer) objArr[0]).intValue(), this.currentAccount));
+            }
+        } else if (i == NotificationCenter.currentUserPremiumStatusChanged) {
+            DrawerLayoutAdapter drawerLayoutAdapter = this.drawerLayoutAdapter;
+            if (drawerLayoutAdapter != null) {
+                drawerLayoutAdapter.notifyDataSetChanged();
+            }
+            MessagesController.getMainSettings(this.currentAccount).edit().remove("transcribeButtonPressed").apply();
+        } else if (i == NotificationCenter.requestPermissions) {
+            int intValue5 = ((Integer) objArr[0]).intValue();
+            String[] strArr = (intValue5 != 0 || Build.VERSION.SDK_INT < 31) ? null : new String[]{"android.permission.BLUETOOTH_CONNECT"};
+            if (strArr != null) {
+                int i12 = this.requsetPermissionsPointer + 1;
+                this.requsetPermissionsPointer = i12;
+                this.requestedPermissions.put(i12, intValue5);
+                ActivityCompat.requestPermissions(this, strArr, this.requsetPermissionsPointer);
+            }
+        } else if (i == NotificationCenter.chatSwithcedToForum) {
+            ForumUtilities.switchAllFragmentsInStackToForum(((Long) objArr[0]).longValue(), this.actionBarLayout);
         }
     }
 
@@ -12383,7 +12383,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Removed duplicated region for block: B:17:0x005d  */
     /* JADX WARN: Removed duplicated region for block: B:20:0x0062  */
     /* JADX WARN: Removed duplicated region for block: B:21:0x0063  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x006c A[Catch: Exception -> 0x011e, TRY_ENTER, TryCatch #0 {Exception -> 0x011e, blocks: (B:3:0x0007, B:5:0x0010, B:10:0x001e, B:14:0x0056, B:18:0x005e, B:22:0x0065, B:26:0x006c, B:30:0x0080, B:34:0x00a0, B:35:0x00be), top: B:40:0x0007 }] */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x006a A[Catch: Exception -> 0x011e, TryCatch #0 {Exception -> 0x011e, blocks: (B:3:0x0007, B:5:0x0010, B:10:0x001e, B:14:0x0056, B:18:0x005e, B:22:0x0065, B:24:0x006a, B:28:0x007e, B:32:0x00a0, B:33:0x00bc), top: B:38:0x0007 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -12417,7 +12417,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     languageCellArr[i] = new LanguageCell(this);
                     languageCellArr[i].setLanguage(localeInfoArr2[i], localeInfoArr2[i] == localeInfo2 ? stringForLanguageAlert : null, true);
                     languageCellArr[i].setTag(Integer.valueOf(i));
-                    languageCellArr[i].setBackground(Theme.createSelectorDrawable(Theme.getColor("dialogButtonSelector"), 2));
+                    languageCellArr[i].setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_dialogButtonSelector), 2));
                     languageCellArr[i].setLanguageSelected(i == 0, false);
                     linearLayout.addView(languageCellArr[i], LayoutHelper.createLinear(-1, 50));
                     languageCellArr[i].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda20
@@ -12432,7 +12432,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 HashMap<String, String> hashMap2 = this.systemLocaleStrings;
                 int i3 = R.string.ChooseYourLanguageOther;
                 languageCell.setValue(getStringForLanguageAlert(hashMap2, "ChooseYourLanguageOther", i3), getStringForLanguageAlert(this.englishLocaleStrings, "ChooseYourLanguageOther", i3));
-                languageCell.setBackground(Theme.createSelectorDrawable(Theme.getColor("dialogButtonSelector"), 2));
+                languageCell.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_dialogButtonSelector), 2));
                 languageCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda17
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
@@ -12474,7 +12474,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             HashMap<String, String> hashMap22 = this.systemLocaleStrings;
             int i32 = R.string.ChooseYourLanguageOther;
             languageCell2.setValue(getStringForLanguageAlert(hashMap22, "ChooseYourLanguageOther", i32), getStringForLanguageAlert(this.englishLocaleStrings, "ChooseYourLanguageOther", i32));
-            languageCell2.setBackground(Theme.createSelectorDrawable(Theme.getColor("dialogButtonSelector"), 2));
+            languageCell2.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_dialogButtonSelector), 2));
             languageCell2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda17
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {

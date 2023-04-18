@@ -149,7 +149,7 @@ public class StarParticlesView extends View {
         public boolean forceMaxAlpha = false;
         public boolean roundEffect = true;
         public int type = -1;
-        public String colorKey = "premiumStartSmallStarsColor";
+        public int colorKey = Theme.key_premiumStartSmallStarsColor;
 
         public Drawable(int i) {
             this.count = i;

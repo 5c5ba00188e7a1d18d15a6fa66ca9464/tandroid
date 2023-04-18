@@ -66,6 +66,7 @@ public class ActionBar extends FrameLayout {
     private boolean addToContainer;
     private SimpleTextView additionalSubtitleTextView;
     private boolean allowOverlayTitle;
+    private boolean attachState;
     private boolean attached;
     private BackupImageView avatarSearchImageView;
     private Drawable backButtonDrawable;
@@ -109,6 +110,7 @@ public class ActionBar extends FrameLayout {
     private Rect rect;
     Rect rectTmp;
     private final Theme.ResourcesProvider resourcesProvider;
+    private boolean resumed;
     private View.OnClickListener rightDrawableOnClickListener;
     public float searchFieldVisibleAlpha;
     AnimatorSet searchVisibleAnimator;
@@ -397,7 +399,7 @@ public class ActionBar extends FrameLayout {
         this.subtitleTextView = simpleTextView;
         simpleTextView.setGravity(3);
         this.subtitleTextView.setVisibility(8);
-        this.subtitleTextView.setTextColor(getThemedColor("actionBarDefaultSubtitle"));
+        this.subtitleTextView.setTextColor(getThemedColor(Theme.key_actionBarDefaultSubtitle));
         addView(this.subtitleTextView, 0, LayoutHelper.createFrame(-2, -2, 51));
     }
 
@@ -409,7 +411,7 @@ public class ActionBar extends FrameLayout {
         this.additionalSubtitleTextView = simpleTextView;
         simpleTextView.setGravity(3);
         this.additionalSubtitleTextView.setVisibility(8);
-        this.additionalSubtitleTextView.setTextColor(getThemedColor("actionBarDefaultSubtitle"));
+        this.additionalSubtitleTextView.setTextColor(getThemedColor(Theme.key_actionBarDefaultSubtitle));
         addView(this.additionalSubtitleTextView, 0, LayoutHelper.createFrame(-2, -2, 51));
     }
 
@@ -460,7 +462,7 @@ public class ActionBar extends FrameLayout {
         if (i2 != 0) {
             this.titleTextView[i].setTextColor(i2);
         } else {
-            this.titleTextView[i].setTextColor(getThemedColor("actionBarDefaultTitle"));
+            this.titleTextView[i].setTextColor(getThemedColor(Theme.key_actionBarDefaultTitle));
         }
         this.titleTextView[i].setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.titleTextView[i].setDrawablePadding(AndroidUtilities.dp(4.0f));
@@ -696,7 +698,7 @@ public class ActionBar extends FrameLayout {
         this.actionMode = actionBarMenu2;
         actionBarMenu2.isActionMode = true;
         actionBarMenu2.setClickable(true);
-        this.actionMode.setBackgroundColor(getThemedColor("actionBarActionModeDefault"));
+        this.actionMode.setBackgroundColor(getThemedColor(Theme.key_actionBarActionModeDefault));
         addView(this.actionMode, indexOfChild(this.backButtonImageView));
         this.actionMode.setPadding(0, this.occupyStatusBar ? AndroidUtilities.statusBarHeight : 0, 0, 0);
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.actionMode.getLayoutParams();
@@ -1005,7 +1007,7 @@ public class ActionBar extends FrameLayout {
         if (this.occupyStatusBar && this.actionModeTop == null) {
             View view = new View(getContext());
             this.actionModeTop = view;
-            view.setBackgroundColor(getThemedColor("actionBarActionModeDefaultTop"));
+            view.setBackgroundColor(getThemedColor(Theme.key_actionBarActionModeDefaultTop));
             addView(this.actionModeTop);
             FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.actionModeTop.getLayoutParams();
             layoutParams.height = AndroidUtilities.statusBarHeight;
@@ -1544,8 +1546,15 @@ public class ActionBar extends FrameLayout {
         actionBarMenu.onMenuButtonPressed();
     }
 
+    public void onResume() {
+        this.resumed = true;
+        updateAttachState();
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
     public void onPause() {
+        this.resumed = false;
+        updateAttachState();
         ActionBarMenu actionBarMenu = this.menu;
         if (actionBarMenu != null) {
             actionBarMenu.hideAllPopupMenus();
@@ -1859,7 +1868,7 @@ public class ActionBar extends FrameLayout {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         this.attached = true;
-        this.ellipsizeSpanAnimator.onAttachedToWindow();
+        updateAttachState();
         if (this.actionModeVisible) {
             if (ColorUtils.calculateLuminance(this.actionModeColor) < 0.699999988079071d) {
                 AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), false);
@@ -1877,7 +1886,7 @@ public class ActionBar extends FrameLayout {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         this.attached = false;
-        this.ellipsizeSpanAnimator.onDetachedFromWindow();
+        updateAttachState();
         if (this.actionModeVisible) {
             int i = this.actionBarColor;
             if (i == 0) {
@@ -1891,6 +1900,18 @@ public class ActionBar extends FrameLayout {
         Drawable drawable = this.lastRightDrawable;
         if (drawable instanceof AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable) {
             ((AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable) drawable).setParentView(null);
+        }
+    }
+
+    private void updateAttachState() {
+        boolean z = this.attached && this.resumed;
+        if (this.attachState != z) {
+            this.attachState = z;
+            if (z) {
+                this.ellipsizeSpanAnimator.onAttachedToWindow();
+            } else {
+                this.ellipsizeSpanAnimator.onDetachedFromWindow();
+            }
         }
     }
 
@@ -1967,14 +1988,14 @@ public class ActionBar extends FrameLayout {
         TransitionManager.beginDelayedTransition(this, transitionSet);
     }
 
-    private int getThemedColor(String str) {
+    private int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        if (color == null) {
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        if (valueOf == null) {
             BaseFragment baseFragment = this.parentFragment;
-            color = baseFragment != null ? Integer.valueOf(baseFragment.getThemedColor(str)) : null;
+            valueOf = baseFragment != null ? Integer.valueOf(baseFragment.getThemedColor(i)) : null;
         }
-        return color != null ? color.intValue() : Theme.getColor(str);
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 
     public void setDrawBlurBackground(SizeNotifierFrameLayout sizeNotifierFrameLayout) {

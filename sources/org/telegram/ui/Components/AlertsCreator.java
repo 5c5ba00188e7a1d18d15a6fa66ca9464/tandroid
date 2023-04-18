@@ -299,7 +299,7 @@ public class AlertsCreator {
         } else {
             string = LocaleController.getString("PermissionNoLocationPeopleNearby", R.string.PermissionNoLocationPeopleNearby);
         }
-        return builder.setMessage(AndroidUtilities.replaceTags(string)).setTopAnimation(R.raw.permission_request_location, 72, false, Theme.getColor("dialogTopBackground")).setPositiveButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda8
+        return builder.setMessage(AndroidUtilities.replaceTags(string)).setTopAnimation(R.raw.permission_request_location, 72, false, Theme.getColor(Theme.key_dialogTopBackground)).setPositiveButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda8
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 AlertsCreator.lambda$createLocationRequiredDialog$0(context, dialogInterface, i);
@@ -326,7 +326,7 @@ public class AlertsCreator {
         } else {
             i = R.string.AllowBackgroundActivityInfo;
         }
-        return title.setMessage(AndroidUtilities.replaceTags(LocaleController.getString(i))).setTopAnimation(R.raw.permission_request_apk, 72, false, Theme.getColor("dialogTopBackground")).setPositiveButton(LocaleController.getString(R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda9
+        return title.setMessage(AndroidUtilities.replaceTags(LocaleController.getString(i))).setTopAnimation(R.raw.permission_request_apk, 72, false, Theme.getColor(Theme.key_dialogTopBackground)).setPositiveButton(LocaleController.getString(R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda9
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i2) {
                 AlertsCreator.lambda$createBackgroundActivityDialog$1(context, dialogInterface, i2);
@@ -358,7 +358,7 @@ public class AlertsCreator {
         }
         z = false;
         final AtomicBoolean atomicBoolean = new AtomicBoolean();
-        AlertDialog.Builder topAnimation = new AlertDialog.Builder(context, resourcesProvider).setTopAnimation(i, 72, false, Theme.getColor("dialogTopBackground"));
+        AlertDialog.Builder topAnimation = new AlertDialog.Builder(context, resourcesProvider).setTopAnimation(i, 72, false, Theme.getColor(Theme.key_dialogTopBackground));
         if (z) {
             str = str2;
         }
@@ -412,7 +412,7 @@ public class AlertsCreator {
     }
 
     public static Dialog createApkRestrictedDialog(final Context context, Theme.ResourcesProvider resourcesProvider) {
-        return new AlertDialog.Builder(context, resourcesProvider).setMessage(LocaleController.getString("ApkRestricted", R.string.ApkRestricted)).setTopAnimation(R.raw.permission_request_apk, 72, false, Theme.getColor("dialogTopBackground")).setPositiveButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda10
+        return new AlertDialog.Builder(context, resourcesProvider).setMessage(LocaleController.getString("ApkRestricted", R.string.ApkRestricted)).setTopAnimation(R.raw.permission_request_apk, 72, false, Theme.getColor(Theme.key_dialogTopBackground)).setPositiveButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda10
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 AlertsCreator.lambda$createApkRestrictedDialog$6(context, dialogInterface, i);
@@ -921,11 +921,11 @@ public class AlertsCreator {
         TextView textView = new TextView(launchActivity);
         textView.setText(spannableStringBuilder);
         textView.setTextSize(1, 16.0f);
-        textView.setLinkTextColor(Theme.getColor("dialogTextLink"));
-        textView.setHighlightColor(Theme.getColor("dialogLinkSelection"));
+        textView.setLinkTextColor(Theme.getColor(Theme.key_dialogTextLink));
+        textView.setHighlightColor(Theme.getColor(Theme.key_dialogLinkSelection));
         textView.setPadding(AndroidUtilities.dp(23.0f), 0, AndroidUtilities.dp(23.0f), 0);
         textView.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
-        textView.setTextColor(Theme.getColor("dialogTextBlack"));
+        textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         builder.setView(textView);
         return builder;
     }
@@ -987,9 +987,10 @@ public class AlertsCreator {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(str);
         HashMap hashMap = new HashMap();
-        hashMap.put("info1.**", Integer.valueOf(Theme.getColor("dialogTopBackground", resourcesProvider)));
-        hashMap.put("info2.**", Integer.valueOf(Theme.getColor("dialogTopBackground", resourcesProvider)));
-        builder.setTopAnimation(R.raw.not_available, 52, false, Theme.getColor("dialogTopBackground", resourcesProvider), hashMap);
+        int i = Theme.key_dialogTopBackground;
+        hashMap.put("info1.**", Integer.valueOf(Theme.getColor(i, resourcesProvider)));
+        hashMap.put("info2.**", Integer.valueOf(Theme.getColor(i, resourcesProvider)));
+        builder.setTopAnimation(R.raw.not_available, 52, false, Theme.getColor(i, resourcesProvider), hashMap);
         builder.setTopAnimationIsNew(true);
         builder.setPositiveButton(LocaleController.getString(R.string.Close), null);
         builder.setMessage(str2);
@@ -1108,7 +1109,7 @@ public class AlertsCreator {
         chatActivity.showDialog(create);
         TextView textView = (TextView) create.getButton(-1);
         if (textView != null) {
-            textView.setTextColor(Theme.getColor("text_RedBold"));
+            textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
         }
     }
 
@@ -1253,7 +1254,7 @@ public class AlertsCreator {
                 baseFragment.showDialog(create);
                 textView = (TextView) create.getButton(-1);
                 if (textView == null) {
-                    textView.setTextColor(Theme.getColor("text_RedBold"));
+                    textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
                     return;
                 }
                 return;
@@ -1312,7 +1313,7 @@ public class AlertsCreator {
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r8v0 */
-    /* JADX WARN: Type inference failed for: r8v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r8v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r8v3 */
     public static void showCustomNotificationsDialog(final BaseFragment baseFragment, final long j, final int i, final int i2, final ArrayList<NotificationsSettingsActivity.NotificationException> arrayList, final int i3, final MessagesStorage.IntCallback intCallback, final MessagesStorage.IntCallback intCallback2) {
         int i4;
@@ -1355,11 +1356,11 @@ public class AlertsCreator {
                 TextView textView = new TextView(baseFragment.getParentActivity());
                 Drawable drawable3 = baseFragment.getParentActivity().getResources().getDrawable(iArr2[i7]);
                 if (i7 == i6) {
-                    textView.setTextColor(Theme.getColor("text_RedBold"));
-                    drawable3.setColorFilter(new PorterDuffColorFilter(Theme.getColor("text_RedRegular"), PorterDuff.Mode.MULTIPLY));
+                    textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
+                    drawable3.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_text_RedRegular), PorterDuff.Mode.MULTIPLY));
                 } else {
-                    textView.setTextColor(Theme.getColor("dialogTextBlack"));
-                    drawable3.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogIcon"), PorterDuff.Mode.MULTIPLY));
+                    textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+                    drawable3.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_dialogIcon), PorterDuff.Mode.MULTIPLY));
                 }
                 textView.setTextSize(r8, 16.0f);
                 textView.setLines(r8);
@@ -1514,9 +1515,9 @@ public class AlertsCreator {
             RadioColorCell radioColorCell = new RadioColorCell(context, resourcesProvider);
             radioColorCell.setPadding(AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f), 0);
             radioColorCell.setTag(Integer.valueOf(i3));
-            radioColorCell.setCheckColor(Theme.getColor("radioBackground"), Theme.getColor("dialogRadioBackgroundChecked"));
+            radioColorCell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
             radioColorCell.setTextAndValue((CharSequence) arrayList.get(i3), SharedConfig.mapPreviewType == ((Integer) arrayList2.get(i3)).intValue());
-            radioColorCell.setBackground(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21"), 2));
+            radioColorCell.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 2));
             linearLayout.addView(radioColorCell);
             radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda56
                 @Override // android.view.View.OnClickListener
@@ -1673,11 +1674,11 @@ public class AlertsCreator {
         }
         linksTextView.setText(spannableString);
         linksTextView.setTextSize(1, 16.0f);
-        linksTextView.setLinkTextColor(Theme.getColor("dialogTextLink", resourcesProvider));
-        linksTextView.setHighlightColor(Theme.getColor("dialogLinkSelection", resourcesProvider));
+        linksTextView.setLinkTextColor(Theme.getColor(Theme.key_dialogTextLink, resourcesProvider));
+        linksTextView.setHighlightColor(Theme.getColor(Theme.key_dialogLinkSelection, resourcesProvider));
         linksTextView.setPadding(AndroidUtilities.dp(23.0f), 0, AndroidUtilities.dp(23.0f), 0);
         linksTextView.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
-        linksTextView.setTextColor(Theme.getColor("dialogTextBlack", resourcesProvider));
+        linksTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack, resourcesProvider));
         AlertDialog.Builder builder = new AlertDialog.Builder(baseFragment.getParentActivity(), resourcesProvider);
         builder.setView(linksTextView);
         builder.setTitle(LocaleController.getString("AskAQuestion", R.string.AskAQuestion));
@@ -1812,7 +1813,7 @@ public class AlertsCreator {
         AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
         long clientUserId = UserConfig.getInstance(currentAccount).getClientUserId();
         TextView textView = new TextView(parentActivity);
-        textView.setTextColor(Theme.getColor("dialogTextBlack"));
+        textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         textView.setTextSize(1, 16.0f);
         textView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
         FrameLayout frameLayout = new FrameLayout(parentActivity);
@@ -1823,7 +1824,7 @@ public class AlertsCreator {
         backupImageView.setRoundRadius(AndroidUtilities.dp(20.0f));
         frameLayout.addView(backupImageView, LayoutHelper.createFrame(40, 40.0f, (LocaleController.isRTL ? 5 : 3) | 48, 22.0f, 5.0f, 22.0f, 0.0f));
         TextView textView2 = new TextView(parentActivity);
-        textView2.setTextColor(Theme.getColor("actionBarDefaultSubmenuItem"));
+        textView2.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem));
         textView2.setTextSize(1, 20.0f);
         textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         textView2.setLines(1);
@@ -1881,7 +1882,7 @@ public class AlertsCreator {
             }
         };
         NotificationCenter.listenEmojiLoading(textView);
-        textView.setTextColor(Theme.getColor("dialogTextBlack"));
+        textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         textView.setTextSize(1, 16.0f);
         textView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
         textView.setText(LocaleController.getString(R.string.BotWebViewStartPermission));
@@ -1894,7 +1895,7 @@ public class AlertsCreator {
         backupImageView.setRoundRadius(AndroidUtilities.dp(20.0f));
         frameLayout.addView(backupImageView, LayoutHelper.createFrame(40, 40.0f, (LocaleController.isRTL ? 5 : 3) | 48, 22.0f, 5.0f, 22.0f, 0.0f));
         TextView textView2 = new TextView(context);
-        textView2.setTextColor(Theme.getColor("actionBarDefaultSubmenuItem"));
+        textView2.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem));
         textView2.setTextSize(1, 20.0f);
         textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         textView2.setLines(1);
@@ -1957,7 +1958,7 @@ public class AlertsCreator {
             }
         };
         NotificationCenter.listenEmojiLoading(textView);
-        textView.setTextColor(Theme.getColor("dialogTextBlack"));
+        textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         textView.setTextSize(1, 16.0f);
         textView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
         textView.setText(LocaleController.getString(R.string.BotWebViewStartPermission));
@@ -1978,7 +1979,7 @@ public class AlertsCreator {
         backupImageView.setRoundRadius(AndroidUtilities.dp(20.0f));
         frameLayout.addView(backupImageView, LayoutHelper.createFrame(40, 40.0f, (LocaleController.isRTL ? 5 : 3) | 48, 22.0f, 5.0f, 22.0f, 0.0f));
         TextView textView2 = new TextView(context);
-        textView2.setTextColor(Theme.getColor("actionBarDefaultSubmenuItem"));
+        textView2.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem));
         textView2.setTextSize(1, 20.0f);
         textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         textView2.setLines(1);
@@ -1988,7 +1989,7 @@ public class AlertsCreator {
         textView2.setEllipsize(TextUtils.TruncateAt.END);
         textView2.setText(tLRPC$User.first_name);
         TextView textView3 = new TextView(context);
-        textView3.setTextColor(Theme.getColor("dialogTextBlue"));
+        textView3.setTextColor(Theme.getColor(Theme.key_dialogTextBlue));
         textView3.setTextSize(1, 14.0f);
         textView3.setLines(1);
         textView3.setMaxLines(1);
@@ -2134,7 +2135,7 @@ public class AlertsCreator {
             }
         };
         NotificationCenter.listenEmojiLoading(textView2);
-        textView2.setTextColor(Theme.getColor("dialogTextBlack"));
+        textView2.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         textView2.setTextSize(1, 16.0f);
         textView2.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
         boolean z10 = !z6 && ChatObject.isChannel(tLRPC$Chat) && ChatObject.isPublic(tLRPC$Chat);
@@ -2155,7 +2156,7 @@ public class AlertsCreator {
         backupImageView.setRoundRadius(AndroidUtilities.dp(20.0f));
         frameLayout.addView(backupImageView, LayoutHelper.createFrame(40, 40.0f, (LocaleController.isRTL ? 5 : 3) | 48, 22.0f, 5.0f, 22.0f, 0.0f));
         TextView textView3 = new TextView(parentActivity);
-        textView3.setTextColor(Theme.getColor("actionBarDefaultSubmenuItem"));
+        textView3.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem));
         textView3.setTextSize(1, 20.0f);
         textView3.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         textView3.setLines(1);
@@ -2397,7 +2398,7 @@ public class AlertsCreator {
                     baseFragment.showDialog(create);
                     textView = (TextView) create.getButton(-1);
                     if (textView == null) {
-                        textView.setTextColor(Theme.getColor("text_RedBold"));
+                        textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
                         return;
                     }
                     return;
@@ -2506,7 +2507,7 @@ public class AlertsCreator {
             }
         };
         NotificationCenter.listenEmojiLoading(textView);
-        textView.setTextColor(Theme.getColor("dialogTextBlack"));
+        textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         textView.setTextSize(1, 16.0f);
         textView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
         FrameLayout frameLayout = new FrameLayout(parentActivity) { // from class: org.telegram.ui.Components.AlertsCreator.9
@@ -2520,7 +2521,7 @@ public class AlertsCreator {
         };
         builder.setView(frameLayout);
         TextView textView2 = new TextView(parentActivity);
-        textView2.setTextColor(Theme.getColor("actionBarDefaultSubmenuItem"));
+        textView2.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem));
         textView2.setTextSize(1, 20.0f);
         textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         textView2.setLines(1);
@@ -2594,7 +2595,7 @@ public class AlertsCreator {
         baseFragment.showDialog(create);
         TextView textView3 = (TextView) create.getButton(-1);
         if (textView3 != null) {
-            textView3.setTextColor(Theme.getColor("text_RedBold"));
+            textView3.setTextColor(Theme.getColor(Theme.key_text_RedBold));
         }
     }
 
@@ -2632,7 +2633,7 @@ public class AlertsCreator {
             }
         };
         NotificationCenter.listenEmojiLoading(textView);
-        textView.setTextColor(Theme.getColor("dialogTextBlack"));
+        textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         textView.setTextSize(1, 16.0f);
         textView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
         textView.setText(AndroidUtilities.replaceTags(formatString));
@@ -2645,7 +2646,7 @@ public class AlertsCreator {
         backupImageView.setForUserOrChat(tLRPC$User, avatarDrawable);
         frameLayout.addView(backupImageView, LayoutHelper.createFrame(40, 40.0f, (LocaleController.isRTL ? 5 : 3) | 48, 22.0f, 5.0f, 22.0f, 0.0f));
         TextView textView2 = new TextView(parentActivity);
-        textView2.setTextColor(Theme.getColor("actionBarDefaultSubmenuItem"));
+        textView2.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem));
         textView2.setTextSize(1, 20.0f);
         textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         textView2.setLines(1);
@@ -2694,7 +2695,8 @@ public class AlertsCreator {
         }
         final NumberTextView numberTextView = new NumberTextView(context);
         final EditText editText = new EditText(context);
-        editText.setTextColor(Theme.getColor("voipgroup_actionBarItems"));
+        int i3 = Theme.key_voipgroup_actionBarItems;
+        editText.setTextColor(Theme.getColor(i3));
         editText.setHint(j > 0 ? LocaleController.getString("UserBio", R.string.UserBio) : LocaleController.getString("DescriptionPlaceholder", R.string.DescriptionPlaceholder));
         editText.setTextSize(1, 16.0f);
         editText.setBackground(Theme.createEditTextDrawable(context, true));
@@ -2702,11 +2704,11 @@ public class AlertsCreator {
         editText.setRawInputType(147457);
         editText.setImeOptions(6);
         InputFilter[] inputFilterArr = new InputFilter[1];
-        final int i3 = j > 0 ? 70 : 255;
-        inputFilterArr[0] = new CodepointsLengthInputFilter(i3) { // from class: org.telegram.ui.Components.AlertsCreator.11
+        final int i4 = j > 0 ? 70 : 255;
+        inputFilterArr[0] = new CodepointsLengthInputFilter(i4) { // from class: org.telegram.ui.Components.AlertsCreator.11
             @Override // org.telegram.ui.Components.CodepointsLengthInputFilter, android.text.InputFilter
-            public CharSequence filter(CharSequence charSequence, int i4, int i5, Spanned spanned, int i6, int i7) {
-                CharSequence filter = super.filter(charSequence, i4, i5, spanned, i6, i7);
+            public CharSequence filter(CharSequence charSequence, int i5, int i6, Spanned spanned, int i7, int i8) {
+                CharSequence filter = super.filter(charSequence, i5, i6, spanned, i7, i8);
                 if (filter != null && charSequence != null && filter.length() != charSequence.length()) {
                     Vibrator vibrator = (Vibrator) context.getSystemService("vibrator");
                     if (vibrator != null) {
@@ -2720,22 +2722,22 @@ public class AlertsCreator {
         editText.setFilters(inputFilterArr);
         numberTextView.setCenterAlign(true);
         numberTextView.setTextSize(15);
-        numberTextView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText4"));
+        numberTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText4));
         numberTextView.setImportantForAccessibility(2);
         frameLayout.addView(numberTextView, LayoutHelper.createFrame(20, 20.0f, LocaleController.isRTL ? 3 : 5, 0.0f, 14.0f, 21.0f, 0.0f));
         editText.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(24.0f) : 0, AndroidUtilities.dp(8.0f), LocaleController.isRTL ? 0 : AndroidUtilities.dp(24.0f), AndroidUtilities.dp(8.0f));
         editText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.Components.AlertsCreator.12
             @Override // android.text.TextWatcher
-            public void beforeTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
+            public void beforeTextChanged(CharSequence charSequence, int i5, int i6, int i7) {
             }
 
             @Override // android.text.TextWatcher
-            public void onTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
+            public void onTextChanged(CharSequence charSequence, int i5, int i6, int i7) {
             }
 
             @Override // android.text.TextWatcher
             public void afterTextChanged(Editable editable) {
-                int codePointCount = i3 - Character.codePointCount(editable, 0, editable.length());
+                int codePointCount = i4 - Character.codePointCount(editable, 0, editable.length());
                 if (codePointCount < 30) {
                     NumberTextView numberTextView2 = numberTextView;
                     numberTextView2.setNumber(codePointCount, numberTextView2.getVisibility() == 0);
@@ -2751,8 +2753,8 @@ public class AlertsCreator {
         builder.setView(frameLayout);
         final DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda1
             @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i4) {
-                AlertsCreator.lambda$createChangeBioAlert$38(j, i, editText, dialogInterface, i4);
+            public final void onClick(DialogInterface dialogInterface, int i5) {
+                AlertsCreator.lambda$createChangeBioAlert$38(j, i, editText, dialogInterface, i5);
             }
         };
         builder.setPositiveButton(LocaleController.getString("Save", R.string.Save), onClickListener);
@@ -2769,15 +2771,15 @@ public class AlertsCreator {
         final AlertDialog create = builder.create();
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda92
             @Override // android.widget.TextView.OnEditorActionListener
-            public final boolean onEditorAction(TextView textView, int i4, KeyEvent keyEvent) {
+            public final boolean onEditorAction(TextView textView, int i5, KeyEvent keyEvent) {
                 boolean lambda$createChangeBioAlert$40;
-                lambda$createChangeBioAlert$40 = AlertsCreator.lambda$createChangeBioAlert$40(j, create, onClickListener, textView, i4, keyEvent);
+                lambda$createChangeBioAlert$40 = AlertsCreator.lambda$createChangeBioAlert$40(j, create, onClickListener, textView, i5, keyEvent);
                 return lambda$createChangeBioAlert$40;
             }
         });
-        create.setBackgroundColor(Theme.getColor("voipgroup_dialogBackground"));
+        create.setBackgroundColor(Theme.getColor(Theme.key_voipgroup_dialogBackground));
         create.show();
-        create.setTextColor(Theme.getColor("voipgroup_actionBarItems"));
+        create.setTextColor(Theme.getColor(i3));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2860,7 +2862,8 @@ public class AlertsCreator {
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(1);
         final EditText editText2 = new EditText(context);
-        editText2.setTextColor(Theme.getColor("voipgroup_actionBarItems"));
+        int i4 = Theme.key_voipgroup_actionBarItems;
+        editText2.setTextColor(Theme.getColor(i4));
         editText2.setTextSize(1, 16.0f);
         editText2.setMaxLines(1);
         editText2.setLines(1);
@@ -2881,7 +2884,7 @@ public class AlertsCreator {
         editText2.requestFocus();
         if (j > 0) {
             editText = new EditText(context);
-            editText.setTextColor(Theme.getColor("voipgroup_actionBarItems"));
+            editText.setTextColor(Theme.getColor(i4));
             editText.setTextSize(1, 16.0f);
             editText.setMaxLines(1);
             editText.setLines(1);
@@ -2910,8 +2913,8 @@ public class AlertsCreator {
         final EditText editText3 = editText;
         final DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda12
             @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i4) {
-                AlertsCreator.lambda$createChangeNameAlert$42(editText2, j, i, editText3, dialogInterface, i4);
+            public final void onClick(DialogInterface dialogInterface, int i5) {
+                AlertsCreator.lambda$createChangeNameAlert$42(editText2, j, i, editText3, dialogInterface, i5);
             }
         };
         builder.setPositiveButton(LocaleController.getString("Save", R.string.Save), onClickListener);
@@ -2923,14 +2926,14 @@ public class AlertsCreator {
             }
         });
         final AlertDialog create = builder.create();
-        create.setBackgroundColor(Theme.getColor("voipgroup_dialogBackground"));
+        create.setBackgroundColor(Theme.getColor(Theme.key_voipgroup_dialogBackground));
         create.show();
-        create.setTextColor(Theme.getColor("voipgroup_actionBarItems"));
+        create.setTextColor(Theme.getColor(i4));
         TextView.OnEditorActionListener onEditorActionListener = new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda93
             @Override // android.widget.TextView.OnEditorActionListener
-            public final boolean onEditorAction(TextView textView, int i4, KeyEvent keyEvent) {
+            public final boolean onEditorAction(TextView textView, int i5, KeyEvent keyEvent) {
                 boolean lambda$createChangeNameAlert$44;
-                lambda$createChangeNameAlert$44 = AlertsCreator.lambda$createChangeNameAlert$44(AlertDialog.this, onClickListener, textView, i4, keyEvent);
+                lambda$createChangeNameAlert$44 = AlertsCreator.lambda$createChangeNameAlert$44(AlertDialog.this, onClickListener, textView, i5, keyEvent);
                 return lambda$createChangeNameAlert$44;
             }
         };
@@ -3029,7 +3032,7 @@ public class AlertsCreator {
         linearLayout.setOrientation(1);
         TextView textView = new TextView(baseFragment.getParentActivity());
         linearLayout.addView(textView, LayoutHelper.createLinear(-1, -1, 0, 21, 0, 21, 8));
-        textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+        textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         textView.setTextSize(1, 16.0f);
         textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("ChatWithAdminMessage", R.string.ChatWithAdminMessage, str, LocaleController.formatDateAudio(i, false))));
         TextView textView2 = new TextView(baseFragment.getParentActivity());
@@ -3038,8 +3041,8 @@ public class AlertsCreator {
         textView2.setTextSize(1, 14.0f);
         textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         textView2.setText(LocaleController.getString("IUnderstand", R.string.IUnderstand));
-        textView2.setTextColor(Theme.getColor("featuredStickers_buttonText"));
-        textView2.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor("featuredStickers_addButton"), Theme.getColor("featuredStickers_addButtonPressed")));
+        textView2.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
+        textView2.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor(Theme.key_featuredStickers_addButton), Theme.getColor(Theme.key_featuredStickers_addButtonPressed)));
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, 48, 0, 16, 12, 16, 8));
         builder.setCustomView(linearLayout);
         final BottomSheet show = builder.show();
@@ -3208,7 +3211,7 @@ public class AlertsCreator {
         baseFragment.showDialog(create);
         TextView textView = (TextView) create.getButton(-1);
         if (textView != null) {
-            textView.setTextColor(Theme.getColor("text_RedBold"));
+            textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
         }
     }
 
@@ -3472,12 +3475,33 @@ public class AlertsCreator {
             this((Theme.ResourcesProvider) null);
         }
 
+        /* JADX WARN: Illegal instructions before constructor call */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
         private ScheduleDatePickerColors(Theme.ResourcesProvider resourcesProvider) {
-            this(resourcesProvider != null ? resourcesProvider.getColorOrDefault("dialogTextBlack") : Theme.getColor("dialogTextBlack"), resourcesProvider != null ? resourcesProvider.getColorOrDefault("dialogBackground") : Theme.getColor("dialogBackground"), resourcesProvider != null ? resourcesProvider.getColorOrDefault("key_sheet_other") : Theme.getColor("key_sheet_other"), resourcesProvider != null ? resourcesProvider.getColorOrDefault("player_actionBarSelector") : Theme.getColor("player_actionBarSelector"), resourcesProvider != null ? resourcesProvider.getColorOrDefault("actionBarDefaultSubmenuItem") : Theme.getColor("actionBarDefaultSubmenuItem"), resourcesProvider != null ? resourcesProvider.getColorOrDefault("actionBarDefaultSubmenuBackground") : Theme.getColor("actionBarDefaultSubmenuBackground"), resourcesProvider != null ? resourcesProvider.getColorOrDefault("listSelectorSDK21") : Theme.getColor("listSelectorSDK21"), resourcesProvider != null ? resourcesProvider.getColorOrDefault("featuredStickers_buttonText") : Theme.getColor("featuredStickers_buttonText"), resourcesProvider != null ? resourcesProvider.getColorOrDefault("featuredStickers_addButton") : Theme.getColor("featuredStickers_addButton"), resourcesProvider != null ? resourcesProvider.getColorOrDefault("featuredStickers_addButtonPressed") : Theme.getColor("featuredStickers_addButtonPressed"));
+            this(r2, r3, r4, r5, r6, r7, r8, r9, resourcesProvider != null ? resourcesProvider.getColorOrDefault(r0) : Theme.getColor(r0), resourcesProvider != null ? resourcesProvider.getColorOrDefault(Theme.key_featuredStickers_addButtonPressed) : Theme.getColor(Theme.key_featuredStickers_addButtonPressed));
+            int i = Theme.key_dialogTextBlack;
+            int colorOrDefault = resourcesProvider != null ? resourcesProvider.getColorOrDefault(i) : Theme.getColor(i);
+            int i2 = Theme.key_dialogBackground;
+            int colorOrDefault2 = resourcesProvider != null ? resourcesProvider.getColorOrDefault(i2) : Theme.getColor(i2);
+            int i3 = Theme.key_sheet_other;
+            int colorOrDefault3 = resourcesProvider != null ? resourcesProvider.getColorOrDefault(i3) : Theme.getColor(i3);
+            int i4 = Theme.key_player_actionBarSelector;
+            int colorOrDefault4 = resourcesProvider != null ? resourcesProvider.getColorOrDefault(i4) : Theme.getColor(i4);
+            int i5 = Theme.key_actionBarDefaultSubmenuItem;
+            int colorOrDefault5 = resourcesProvider != null ? resourcesProvider.getColorOrDefault(i5) : Theme.getColor(i5);
+            int i6 = Theme.key_actionBarDefaultSubmenuBackground;
+            int colorOrDefault6 = resourcesProvider != null ? resourcesProvider.getColorOrDefault(i6) : Theme.getColor(i6);
+            int i7 = Theme.key_listSelector;
+            int colorOrDefault7 = resourcesProvider != null ? resourcesProvider.getColorOrDefault(i7) : Theme.getColor(i7);
+            int i8 = Theme.key_featuredStickers_buttonText;
+            int colorOrDefault8 = resourcesProvider != null ? resourcesProvider.getColorOrDefault(i8) : Theme.getColor(i8);
+            int i9 = Theme.key_featuredStickers_addButton;
         }
 
         public ScheduleDatePickerColors(int i, int i2, int i3, int i4, int i5, int i6, int i7) {
-            this(i, i2, i3, i4, i5, i6, i7, Theme.getColor("featuredStickers_buttonText"), Theme.getColor("featuredStickers_addButton"), Theme.getColor("featuredStickers_addButtonPressed"));
+            this(i, i2, i3, i4, i5, i6, i7, Theme.getColor(Theme.key_featuredStickers_buttonText), Theme.getColor(Theme.key_featuredStickers_addButton), Theme.getColor(Theme.key_featuredStickers_addButtonPressed));
         }
 
         public ScheduleDatePickerColors(int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8, int i9, int i10) {
@@ -4706,7 +4730,7 @@ public class AlertsCreator {
         linearLayout.addView(frameLayout, LayoutHelper.createLinear(-1, -2, 51, 22, 0, 0, 4));
         TextView textView = new TextView(context);
         textView.setText(LocaleController.getString("ChooseDate", R.string.ChooseDate));
-        textView.setTextColor(Theme.getColor("dialogTextBlack", resourcesProvider));
+        textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack, resourcesProvider));
         textView.setTextSize(1, 20.0f);
         textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         frameLayout.addView(textView, LayoutHelper.createFrame(-2, -2.0f, 51, 0.0f, 12.0f, 0.0f, 0.0f));
@@ -4757,11 +4781,11 @@ public class AlertsCreator {
         checkCalendarDate(j, numberPicker, numberPicker2, numberPicker3);
         textView2.setPadding(AndroidUtilities.dp(34.0f), 0, AndroidUtilities.dp(34.0f), 0);
         textView2.setGravity(17);
-        textView2.setTextColor(Theme.getColor("featuredStickers_buttonText", resourcesProvider));
+        textView2.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText, resourcesProvider));
         textView2.setTextSize(1, 14.0f);
         textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         textView2.setText(LocaleController.getString("JumpToDate", R.string.JumpToDate));
-        textView2.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), Theme.getColor("featuredStickers_addButton", resourcesProvider), Theme.getColor("featuredStickers_addButtonPressed", resourcesProvider)));
+        textView2.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider), Theme.getColor(Theme.key_featuredStickers_addButtonPressed, resourcesProvider)));
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, 48, 83, 16, 15, 16, 16));
         textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda54
             @Override // android.view.View.OnClickListener
@@ -5595,7 +5619,7 @@ public class AlertsCreator {
             RadioColorCell radioColorCell = new RadioColorCell(activity2, resourcesProvider);
             radioColorCell.setPadding(AndroidUtilities.dp(4.0f), i2, AndroidUtilities.dp(4.0f), i2);
             radioColorCell.setTag(Integer.valueOf(i3));
-            radioColorCell.setCheckColor(Theme.getColor("radioBackground", resourcesProvider), Theme.getColor("dialogRadioBackgroundChecked", resourcesProvider));
+            radioColorCell.setCheckColor(Theme.getColor(Theme.key_radioBackground, resourcesProvider), Theme.getColor(Theme.key_dialogRadioBackgroundChecked, resourcesProvider));
             radioColorCell.setTextAndValue(strArr2[i3], iArr[i2] == i3);
             linearLayout.addView(radioColorCell);
             int i4 = i3;
@@ -5671,17 +5695,21 @@ public class AlertsCreator {
         } else {
             textView.setText(LocaleController.getString("LiveLocationAlertGroup", R.string.LiveLocationAlertGroup));
         }
-        textView.setTextColor(resourcesProvider != null ? resourcesProvider.getColorOrDefault("dialogTextBlack") : Theme.getColor("dialogTextBlack"));
+        int i = Theme.key_dialogTextBlack;
+        textView.setTextColor(resourcesProvider != null ? resourcesProvider.getColorOrDefault(i) : Theme.getColor(i));
         textView.setTextSize(1, 16.0f);
         textView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
         linearLayout.addView(textView, LayoutHelper.createLinear(-2, -2, (LocaleController.isRTL ? 5 : 3) | 48, 24, 0, 24, 8));
-        int i = 0;
-        while (i < 3) {
+        int i2 = 0;
+        while (i2 < 3) {
             RadioColorCell radioColorCell = new RadioColorCell(activity, resourcesProvider);
             radioColorCell.setPadding(AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f), 0);
-            radioColorCell.setTag(Integer.valueOf(i));
-            radioColorCell.setCheckColor(resourcesProvider != null ? resourcesProvider.getColorOrDefault("radioBackground") : Theme.getColor("radioBackground"), resourcesProvider != null ? resourcesProvider.getColorOrDefault("dialogRadioBackgroundChecked") : Theme.getColor("dialogRadioBackgroundChecked"));
-            radioColorCell.setTextAndValue(strArr[i], iArr[0] == i);
+            radioColorCell.setTag(Integer.valueOf(i2));
+            int i3 = Theme.key_radioBackground;
+            int colorOrDefault = resourcesProvider != null ? resourcesProvider.getColorOrDefault(i3) : Theme.getColor(i3);
+            int i4 = Theme.key_dialogRadioBackgroundChecked;
+            radioColorCell.setCheckColor(colorOrDefault, resourcesProvider != null ? resourcesProvider.getColorOrDefault(i4) : Theme.getColor(i4));
+            radioColorCell.setTextAndValue(strArr[i2], iArr[0] == i2);
             linearLayout.addView(radioColorCell);
             radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda69
                 @Override // android.view.View.OnClickListener
@@ -5689,15 +5717,15 @@ public class AlertsCreator {
                     AlertsCreator.lambda$createLocationUpdateDialog$110(iArr, linearLayout, view);
                 }
             });
-            i++;
+            i2++;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(activity, resourcesProvider);
-        builder.setTopImage(new ShareLocationDrawable(activity, 0), resourcesProvider != null ? resourcesProvider.getColorOrDefault("dialogTopBackground") : Theme.getColor("dialogTopBackground"));
+        builder.setTopImage(new ShareLocationDrawable(activity, 0), resourcesProvider != null ? resourcesProvider.getColorOrDefault(Theme.key_dialogTopBackground) : Theme.getColor(Theme.key_dialogTopBackground));
         builder.setView(linearLayout);
         builder.setPositiveButton(LocaleController.getString("ShareFile", R.string.ShareFile), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda41
             @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                AlertsCreator.lambda$createLocationUpdateDialog$111(iArr, intCallback, dialogInterface, i2);
+            public final void onClick(DialogInterface dialogInterface, int i5) {
+                AlertsCreator.lambda$createLocationUpdateDialog$111(iArr, intCallback, dialogInterface, i5);
             }
         });
         builder.setNeutralButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -5905,7 +5933,7 @@ public class AlertsCreator {
 
     public static AlertDialog.Builder createContactsPermissionDialog(Activity activity, final MessagesStorage.IntCallback intCallback) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTopAnimation(R.raw.permission_request_contacts, 72, false, Theme.getColor("dialogTopBackground"));
+        builder.setTopAnimation(R.raw.permission_request_contacts, 72, false, Theme.getColor(Theme.key_dialogTopBackground));
         builder.setMessage(AndroidUtilities.replaceTags(LocaleController.getString("ContactsPermissionAlert", R.string.ContactsPermissionAlert)));
         builder.setPositiveButton(LocaleController.getString("ContactsPermissionAlertContinue", R.string.ContactsPermissionAlertContinue), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda24
             @Override // android.content.DialogInterface.OnClickListener
@@ -6014,7 +6042,7 @@ public class AlertsCreator {
             RadioColorCell radioColorCell = new RadioColorCell(activity2, resourcesProvider);
             radioColorCell.setPadding(AndroidUtilities.dp(4.0f), i5, AndroidUtilities.dp(4.0f), i5);
             radioColorCell.setTag(Integer.valueOf(i6));
-            radioColorCell.setCheckColor(Theme.getColor("radioBackground", resourcesProvider), Theme.getColor("dialogRadioBackgroundChecked", resourcesProvider));
+            radioColorCell.setCheckColor(Theme.getColor(Theme.key_radioBackground, resourcesProvider), Theme.getColor(Theme.key_dialogRadioBackgroundChecked, resourcesProvider));
             radioColorCell.setTextAndValue(strArr[i6], iArr[i5] == i6);
             linearLayout.addView(radioColorCell);
             final int[] iArr2 = iArr;
@@ -6102,7 +6130,7 @@ public class AlertsCreator {
             RadioColorCell radioColorCell = new RadioColorCell(activity);
             radioColorCell.setTag(Integer.valueOf(i2));
             radioColorCell.setPadding(AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f), 0);
-            radioColorCell.setCheckColor(Theme.getColor("radioBackground"), Theme.getColor("dialogRadioBackgroundChecked"));
+            radioColorCell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
             radioColorCell.setTextAndValue(strArr[i2], iArr[0] == i2);
             linearLayout.addView(radioColorCell);
             radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda66
@@ -6146,7 +6174,7 @@ public class AlertsCreator {
             RadioColorCell radioColorCell = new RadioColorCell(activity);
             radioColorCell.setPadding(AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f), 0);
             radioColorCell.setTag(Integer.valueOf(i2));
-            radioColorCell.setCheckColor(Theme.getColor("radioBackground"), Theme.getColor("dialogRadioBackgroundChecked"));
+            radioColorCell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
             radioColorCell.setTextAndValue(strArr[i2], i == i2);
             linearLayout.addView(radioColorCell);
             radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda60
@@ -6747,7 +6775,7 @@ public class AlertsCreator {
             baseFragment.showDialog(create);
             textView = (TextView) create.getButton(-1);
             if (textView == null) {
-                textView.setTextColor(Theme.getColor("text_RedBold"));
+                textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
                 return;
             }
             return;
@@ -7002,7 +7030,7 @@ public class AlertsCreator {
         Activity parentActivity = baseFragment.getParentActivity();
         final EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(parentActivity);
         editTextBoldCursor.setBackground(null);
-        editTextBoldCursor.setLineColors(Theme.getColor("dialogInputField"), Theme.getColor("dialogInputFieldActivated"), Theme.getColor("text_RedBold"));
+        editTextBoldCursor.setLineColors(Theme.getColor(Theme.key_dialogInputField), Theme.getColor(Theme.key_dialogInputFieldActivated), Theme.getColor(Theme.key_text_RedBold));
         AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
         builder.setTitle(LocaleController.getString("NewTheme", R.string.NewTheme));
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -7018,17 +7046,18 @@ public class AlertsCreator {
         }
         textView.setTextSize(1, 16.0f);
         textView.setPadding(AndroidUtilities.dp(23.0f), AndroidUtilities.dp(12.0f), AndroidUtilities.dp(23.0f), AndroidUtilities.dp(6.0f));
-        textView.setTextColor(Theme.getColor("dialogTextBlack"));
+        int i2 = Theme.key_dialogTextBlack;
+        textView.setTextColor(Theme.getColor(i2));
         linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2));
         editTextBoldCursor.setTextSize(1, 16.0f);
-        editTextBoldCursor.setTextColor(Theme.getColor("dialogTextBlack"));
+        editTextBoldCursor.setTextColor(Theme.getColor(i2));
         editTextBoldCursor.setMaxLines(1);
         editTextBoldCursor.setLines(1);
         editTextBoldCursor.setInputType(16385);
         editTextBoldCursor.setGravity(51);
         editTextBoldCursor.setSingleLine(true);
         editTextBoldCursor.setImeOptions(6);
-        editTextBoldCursor.setCursorColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+        editTextBoldCursor.setCursorColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         editTextBoldCursor.setCursorSize(AndroidUtilities.dp(20.0f));
         editTextBoldCursor.setCursorWidth(1.5f);
         editTextBoldCursor.setPadding(0, AndroidUtilities.dp(4.0f), 0, 0);

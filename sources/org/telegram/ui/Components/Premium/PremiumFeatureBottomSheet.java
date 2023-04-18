@@ -123,7 +123,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         setApplyTopPadding(false);
         setApplyBottomPadding(false);
         this.useBackgroundTopPadding = false;
-        final PremiumGradient.PremiumGradientTools premiumGradientTools = new PremiumGradient.PremiumGradientTools("premiumGradientBottomSheet1", "premiumGradientBottomSheet2", "premiumGradientBottomSheet3", null);
+        final PremiumGradient.PremiumGradientTools premiumGradientTools = new PremiumGradient.PremiumGradientTools(Theme.key_premiumGradientBottomSheet1, Theme.key_premiumGradientBottomSheet2, Theme.key_premiumGradientBottomSheet3, -1);
         premiumGradientTools.x1 = 0.0f;
         premiumGradientTools.y1 = 1.1f;
         premiumGradientTools.x2 = 1.5f;
@@ -226,7 +226,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.addView(frameLayout);
         linearLayout.setOrientation(1);
-        bottomPagesView.setColor("chats_unreadCounterMuted", "chats_actionBackground");
+        bottomPagesView.setColor(Theme.key_chats_unreadCounterMuted, Theme.key_chats_actionBackground);
         if (!z) {
             linearLayout.addView(bottomPagesView, LayoutHelper.createLinear(this.premiumFeatures.size() * 11, 5, 1, 0, 0, 0, 10));
         }
@@ -247,7 +247,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         FrameLayout frameLayout2 = new FrameLayout(getContext());
         this.buttonContainer = frameLayout2;
         frameLayout2.addView(this.premiumButtonView, LayoutHelper.createFrame(-1, 48.0f, 16, 16.0f, 0.0f, 16.0f, 0.0f));
-        this.buttonContainer.setBackgroundColor(getThemedColor("dialogBackground"));
+        this.buttonContainer.setBackgroundColor(getThemedColor(Theme.key_dialogBackground));
         linearLayout.addView(this.buttonContainer, LayoutHelper.createLinear(-1, 68, 80));
         if (UserConfig.getInstance(i).isPremium()) {
             this.premiumButtonView.setOverlayText(LocaleController.getString("OK", R.string.OK), false, false);
@@ -507,10 +507,10 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
             }
         };
         this.actionBar = actionBar;
-        actionBar.setBackgroundColor(getThemedColor("dialogBackground"));
-        this.actionBar.setTitleColor(getThemedColor("windowBackgroundWhiteBlackText"));
-        this.actionBar.setItemsBackgroundColor(getThemedColor("actionBarActionModeDefaultSelector"), false);
-        this.actionBar.setItemsColor(getThemedColor("actionBarActionModeDefaultIcon"), false);
+        actionBar.setBackgroundColor(getThemedColor(Theme.key_dialogBackground));
+        this.actionBar.setTitleColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
+        this.actionBar.setItemsBackgroundColor(getThemedColor(Theme.key_actionBarActionModeDefaultSelector), false);
+        this.actionBar.setItemsColor(getThemedColor(Theme.key_actionBarActionModeDefaultIcon), false);
         this.actionBar.setCastShadows(true);
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setTitle(LocaleController.getString("DoubledLimits", R.string.DoubledLimits));
@@ -568,15 +568,17 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
             TextView textView = new TextView(context);
             this.title = textView;
             textView.setGravity(1);
-            this.title.setTextColor(Theme.getColor("dialogTextBlack"));
+            TextView textView2 = this.title;
+            int i2 = Theme.key_dialogTextBlack;
+            textView2.setTextColor(Theme.getColor(i2));
             this.title.setTextSize(1, 20.0f);
             this.title.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             addView(this.title, LayoutHelper.createFrame(-1, -2.0f, 0, 21.0f, 20.0f, 21.0f, 0.0f));
-            TextView textView2 = new TextView(context);
-            this.description = textView2;
-            textView2.setGravity(1);
+            TextView textView3 = new TextView(context);
+            this.description = textView3;
+            textView3.setGravity(1);
             this.description.setTextSize(1, 15.0f);
-            this.description.setTextColor(Theme.getColor("dialogTextBlack"));
+            this.description.setTextColor(Theme.getColor(i2));
             if (!PremiumFeatureBottomSheet.this.onlySelectedType) {
                 this.description.setLines(2);
             }
@@ -806,6 +808,6 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
     }
 
     private boolean isLightStatusBar() {
-        return ColorUtils.calculateLuminance(Theme.getColor("dialogBackground")) > 0.699999988079071d;
+        return ColorUtils.calculateLuminance(Theme.getColor(Theme.key_dialogBackground)) > 0.699999988079071d;
     }
 }

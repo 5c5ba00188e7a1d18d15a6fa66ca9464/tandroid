@@ -68,7 +68,7 @@ public class GroupCallUserCell extends FrameLayout {
     private TLRPC$User currentUser;
     private Paint dividerPaint;
     private SimpleTextView fullAboutTextView;
-    private String grayIconColor;
+    private int grayIconColor;
     private boolean hasAvatar;
     private boolean isSpeaking;
     private int lastMuteColor;
@@ -295,7 +295,7 @@ public class GroupCallUserCell extends FrameLayout {
                 GroupCallUserCell.this.lambda$new$1();
             }
         };
-        this.grayIconColor = "voipgroup_mutedIcon";
+        this.grayIconColor = Theme.key_voipgroup_mutedIcon;
         this.checkRaiseRunnable = new Runnable() { // from class: org.telegram.ui.Cells.GroupCallUserCell$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
@@ -316,7 +316,7 @@ public class GroupCallUserCell extends FrameLayout {
         };
         Paint paint = new Paint();
         this.dividerPaint = paint;
-        paint.setColor(Theme.getColor("voipgroup_actionBar"));
+        paint.setColor(Theme.getColor(Theme.key_voipgroup_actionBar));
         this.avatarDrawable = new AvatarDrawable();
         setClipChildren(false);
         BackupImageView backupImageView = new BackupImageView(context);
@@ -355,7 +355,7 @@ public class GroupCallUserCell extends FrameLayout {
         AndroidUtilities.updateViewVisibilityAnimated(this.avatarProgressView, false, 1.0f, false);
         SimpleTextView simpleTextView = new SimpleTextView(context);
         this.nameTextView = simpleTextView;
-        simpleTextView.setTextColor(Theme.getColor("voipgroup_nameText"));
+        simpleTextView.setTextColor(Theme.getColor(Theme.key_voipgroup_nameText));
         this.nameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.nameTextView.setTextSize(16);
         this.nameTextView.setDrawablePadding(AndroidUtilities.dp(6.0f));
@@ -366,7 +366,7 @@ public class GroupCallUserCell extends FrameLayout {
         this.rightDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this.nameTextView, AndroidUtilities.dp(20.0f), 9);
         Drawable drawable = context.getResources().getDrawable(R.drawable.voice_volume_mini);
         this.speakingDrawable = drawable;
-        drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("voipgroup_speakingText"), PorterDuff.Mode.MULTIPLY));
+        drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_voipgroup_speakingText), PorterDuff.Mode.MULTIPLY));
         final int i = 0;
         while (true) {
             SimpleTextView[] simpleTextViewArr = this.statusTextView;
@@ -420,23 +420,23 @@ public class GroupCallUserCell extends FrameLayout {
             this.statusTextView[i].setGravity((LocaleController.isRTL ? 5 : 3) | 48);
             if (i == 4) {
                 this.statusTextView[i].setBuildFullLayout(true);
-                this.statusTextView[i].setTextColor(Theme.getColor("voipgroup_mutedIcon"));
+                this.statusTextView[i].setTextColor(Theme.getColor(Theme.key_voipgroup_mutedIcon));
                 SimpleTextView simpleTextView3 = this.statusTextView[i];
                 boolean z4 = LocaleController.isRTL;
                 addView(simpleTextView3, LayoutHelper.createFrame(-1, -2.0f, (z4 ? 5 : 3) | 48, z4 ? 54.0f : 67.0f, 32.0f, z4 ? 67.0f : 54.0f, 0.0f));
             } else {
                 if (i == 0) {
-                    this.statusTextView[i].setTextColor(Theme.getColor("voipgroup_listeningText"));
+                    this.statusTextView[i].setTextColor(Theme.getColor(Theme.key_voipgroup_listeningText));
                     this.statusTextView[i].setText(LocaleController.getString("Listening", R.string.Listening));
                 } else if (i == 1) {
-                    this.statusTextView[i].setTextColor(Theme.getColor("voipgroup_speakingText"));
+                    this.statusTextView[i].setTextColor(Theme.getColor(Theme.key_voipgroup_speakingText));
                     this.statusTextView[i].setText(LocaleController.getString("Speaking", R.string.Speaking));
                     this.statusTextView[i].setDrawablePadding(AndroidUtilities.dp(2.0f));
                 } else if (i == 2) {
-                    this.statusTextView[i].setTextColor(Theme.getColor("voipgroup_mutedByAdminIcon"));
+                    this.statusTextView[i].setTextColor(Theme.getColor(Theme.key_voipgroup_mutedByAdminIcon));
                     this.statusTextView[i].setText(LocaleController.getString("VoipGroupMutedForMe", R.string.VoipGroupMutedForMe));
                 } else if (i == 3) {
-                    this.statusTextView[i].setTextColor(Theme.getColor("voipgroup_listeningText"));
+                    this.statusTextView[i].setTextColor(Theme.getColor(Theme.key_voipgroup_listeningText));
                     this.statusTextView[i].setText(LocaleController.getString("WantsToSpeak", R.string.WantsToSpeak));
                 }
                 SimpleTextView simpleTextView4 = this.statusTextView[i];
@@ -449,7 +449,7 @@ public class GroupCallUserCell extends FrameLayout {
         this.fullAboutTextView = simpleTextView5;
         simpleTextView5.setMaxLines(3);
         this.fullAboutTextView.setTextSize(15);
-        this.fullAboutTextView.setTextColor(Theme.getColor("voipgroup_mutedIcon"));
+        this.fullAboutTextView.setTextColor(Theme.getColor(Theme.key_voipgroup_mutedIcon));
         this.fullAboutTextView.setVisibility(8);
         addView(this.fullAboutTextView, LayoutHelper.createFrame(-1, 60.0f, (LocaleController.isRTL ? 5 : 3) | 48, 14.0f, 32.0f, 14.0f, 0.0f));
         int i2 = R.raw.voice_outlined2;
@@ -587,7 +587,7 @@ public class GroupCallUserCell extends FrameLayout {
                     this.rightDrawable.set((Drawable) null, z);
                 }
             }
-            this.rightDrawable.setColor(Integer.valueOf(Theme.getColor("premiumGradient1")));
+            this.rightDrawable.setColor(Integer.valueOf(Theme.getColor(Theme.key_premiumGradient1)));
             this.nameTextView.setRightDrawable(this.rightDrawable);
             this.avatarImageView.getImageReceiver().setCurrentAccount(accountInstance.getCurrentAccount());
             if (tLRPC$FileLocation != null) {
@@ -685,16 +685,16 @@ public class GroupCallUserCell extends FrameLayout {
         applyParticipantChanges(z, false);
     }
 
-    public void setGrayIconColor(String str, int i) {
-        if (!this.grayIconColor.equals(str)) {
+    public void setGrayIconColor(int i, int i2) {
+        if (this.grayIconColor != i) {
             if (this.currentIconGray) {
-                this.lastMuteColor = Theme.getColor(str);
+                this.lastMuteColor = Theme.getColor(i);
             }
-            this.grayIconColor = str;
+            this.grayIconColor = i;
         }
         if (this.currentIconGray) {
-            this.muteButton.setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.MULTIPLY));
-            Theme.setSelectorDrawableColor(this.muteButton.getDrawable(), i & 620756991, true);
+            this.muteButton.setColorFilter(new PorterDuffColorFilter(i2, PorterDuff.Mode.MULTIPLY));
+            Theme.setSelectorDrawableColor(this.muteButton.getDrawable(), i2 & 620756991, true);
         }
     }
 
@@ -716,37 +716,37 @@ public class GroupCallUserCell extends FrameLayout {
         invalidate();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:111:0x017a  */
-    /* JADX WARN: Removed duplicated region for block: B:114:0x018d  */
-    /* JADX WARN: Removed duplicated region for block: B:135:0x0268  */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x0291  */
-    /* JADX WARN: Removed duplicated region for block: B:149:0x029f A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:153:0x02aa  */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x02b2  */
-    /* JADX WARN: Removed duplicated region for block: B:158:0x02d0  */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x02ee  */
-    /* JADX WARN: Removed duplicated region for block: B:170:0x033b  */
-    /* JADX WARN: Removed duplicated region for block: B:171:0x0341  */
-    /* JADX WARN: Removed duplicated region for block: B:211:0x03d9  */
-    /* JADX WARN: Removed duplicated region for block: B:222:0x0410  */
-    /* JADX WARN: Removed duplicated region for block: B:226:0x042a  */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x0452  */
-    /* JADX WARN: Removed duplicated region for block: B:250:0x0482  */
-    /* JADX WARN: Removed duplicated region for block: B:254:0x0499  */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x016f  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x0182  */
+    /* JADX WARN: Removed duplicated region for block: B:134:0x025f  */
+    /* JADX WARN: Removed duplicated region for block: B:140:0x0288  */
+    /* JADX WARN: Removed duplicated region for block: B:148:0x0296 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x02a1  */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x02a9  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x02c8  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x02e6  */
+    /* JADX WARN: Removed duplicated region for block: B:169:0x0333  */
+    /* JADX WARN: Removed duplicated region for block: B:170:0x0339  */
+    /* JADX WARN: Removed duplicated region for block: B:210:0x03d1  */
+    /* JADX WARN: Removed duplicated region for block: B:221:0x0408  */
+    /* JADX WARN: Removed duplicated region for block: B:225:0x0422  */
+    /* JADX WARN: Removed duplicated region for block: B:236:0x044a  */
+    /* JADX WARN: Removed duplicated region for block: B:249:0x047a  */
+    /* JADX WARN: Removed duplicated region for block: B:253:0x0491  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void applyParticipantChanges(boolean z, boolean z2) {
         boolean z3;
-        String str;
         final int color;
-        final int i;
+        int i;
         boolean z4;
+        final int i2;
         AnimatorSet animatorSet;
         ArrayList arrayList;
         float dp;
         boolean customEndFrame;
-        int i2;
+        int i3;
         if (this.currentCall == null) {
             return;
         }
@@ -792,27 +792,25 @@ public class GroupCallUserCell extends FrameLayout {
             if (!z11 || z7) {
                 boolean z12 = (z11 || tLRPC$TL_groupCallParticipant3.raise_hand_rating == 0) ? false : true;
                 if (z12) {
-                    int color2 = Theme.getColor("voipgroup_listeningText");
+                    int color2 = Theme.getColor(Theme.key_voipgroup_listeningText);
                     long elapsedRealtime2 = SystemClock.elapsedRealtime();
-                    str = "voipgroup_listeningText";
                     long j = this.participant.lastRaiseHandDate;
                     long j2 = elapsedRealtime2 - j;
                     if (j == 0 || j2 > 5000) {
-                        i2 = z7 ? 2 : z10 ? 4 : 0;
+                        i3 = z7 ? 2 : z10 ? 4 : 0;
                     } else {
                         AndroidUtilities.runOnUIThread(this.checkRaiseRunnable, 5000 - j2);
-                        i2 = 3;
+                        i3 = 3;
                     }
-                    i = i2;
+                    i2 = i3;
                     z4 = z12;
                     color = color2;
                 } else {
-                    str = "voipgroup_listeningText";
-                    int color3 = Theme.getColor("voipgroup_mutedByAdminIcon");
-                    int i3 = z7 ? 2 : z10 ? 4 : 0;
+                    int color3 = Theme.getColor(Theme.key_voipgroup_mutedByAdminIcon);
+                    int i4 = z7 ? 2 : z10 ? 4 : 0;
                     z4 = z12;
                     color = color3;
-                    i = i3;
+                    i2 = i4;
                 }
                 if (!isSelfUser()) {
                 }
@@ -833,7 +831,7 @@ public class GroupCallUserCell extends FrameLayout {
                 color = Theme.getColor(this.grayIconColor);
                 this.currentIconGray = true;
                 i = z10 ? 4 : 0;
-                str = "voipgroup_listeningText";
+                i2 = i;
                 z4 = false;
                 if (!isSelfUser()) {
                 }
@@ -850,264 +848,261 @@ public class GroupCallUserCell extends FrameLayout {
                 }
                 if (!z) {
                 }
+            }
+        } else if (this.isSpeaking && z3) {
+            color = Theme.getColor(Theme.key_voipgroup_speakingText);
+            z4 = false;
+            i2 = 1;
+            if (!isSelfUser()) {
+            }
+            if (!isSelfUser()) {
+            }
+            animatorSet = this.animatorSet;
+            if (animatorSet == null) {
+            }
+            if (z) {
+            }
+            animatorSet.cancel();
+            this.animatorSet = null;
+            if (z) {
+            }
+            if (!z) {
             }
         } else {
-            str = "voipgroup_listeningText";
-            if (this.isSpeaking && z3) {
-                color = Theme.getColor("voipgroup_speakingText");
-                z4 = false;
-                i = 1;
-                if (!isSelfUser()) {
+            color = Theme.getColor(this.grayIconColor);
+            i = z10 ? 4 : 0;
+            this.currentIconGray = true;
+            i2 = i;
+            z4 = false;
+            if (!isSelfUser()) {
+                this.statusTextView[4].setTextColor(Theme.getColor(this.grayIconColor));
+            }
+            if (!isSelfUser()) {
+                if (!z10 && !this.hasAvatar) {
+                    if (this.currentUser != null) {
+                        this.statusTextView[4].setText(LocaleController.getString("TapToAddPhotoOrBio", R.string.TapToAddPhotoOrBio));
+                    } else {
+                        this.statusTextView[4].setText(LocaleController.getString("TapToAddPhotoOrDescription", R.string.TapToAddPhotoOrDescription));
+                    }
+                    this.statusTextView[4].setTextColor(Theme.getColor(this.grayIconColor));
+                } else if (!z10) {
+                    if (this.currentUser != null) {
+                        this.statusTextView[4].setText(LocaleController.getString("TapToAddBio", R.string.TapToAddBio));
+                    } else {
+                        this.statusTextView[4].setText(LocaleController.getString("TapToAddDescription", R.string.TapToAddDescription));
+                    }
+                    this.statusTextView[4].setTextColor(Theme.getColor(this.grayIconColor));
+                } else if (!this.hasAvatar) {
+                    this.statusTextView[4].setText(LocaleController.getString("TapToAddPhoto", R.string.TapToAddPhoto));
+                    this.statusTextView[4].setTextColor(Theme.getColor(this.grayIconColor));
+                } else {
+                    this.statusTextView[4].setText(LocaleController.getString("ThisIsYou", R.string.ThisIsYou));
+                    this.statusTextView[4].setTextColor(Theme.getColor(Theme.key_voipgroup_listeningText));
                 }
-                if (!isSelfUser()) {
+                if (z10) {
+                    this.fullAboutTextView.setText(AndroidUtilities.replaceNewLines(this.participant.about));
+                    this.fullAboutTextView.setTextColor(Theme.getColor(Theme.key_voipgroup_mutedIcon));
+                } else {
+                    this.fullAboutTextView.setText(this.statusTextView[i2].getText());
+                    this.fullAboutTextView.setTextColor(this.statusTextView[i2].getTextColor());
                 }
-                animatorSet = this.animatorSet;
-                if (animatorSet == null) {
-                }
-                if (z) {
-                }
+            } else if (z10) {
+                this.statusTextView[4].setText(AndroidUtilities.replaceNewLines(this.participant.about));
+                this.fullAboutTextView.setText("");
+            } else {
+                this.statusTextView[4].setText("");
+                this.fullAboutTextView.setText("");
+            }
+            animatorSet = this.animatorSet;
+            boolean z13 = animatorSet == null && !(i2 == this.currentStatus && this.lastMuteColor == color);
+            if ((z || z13) && animatorSet != null) {
                 animatorSet.cancel();
                 this.animatorSet = null;
-                if (z) {
-                }
+            }
+            if (z || this.lastMuteColor != color || z13) {
                 if (!z) {
-                }
-            } else {
-                color = Theme.getColor(this.grayIconColor);
-                int i4 = z10 ? 4 : 0;
-                this.currentIconGray = true;
-                i = i4;
-                z4 = false;
-                if (!isSelfUser()) {
-                    this.statusTextView[4].setTextColor(Theme.getColor(this.grayIconColor));
-                }
-                if (!isSelfUser()) {
-                    if (!z10 && !this.hasAvatar) {
-                        if (this.currentUser != null) {
-                            this.statusTextView[4].setText(LocaleController.getString("TapToAddPhotoOrBio", R.string.TapToAddPhotoOrBio));
-                        } else {
-                            this.statusTextView[4].setText(LocaleController.getString("TapToAddPhotoOrDescription", R.string.TapToAddPhotoOrDescription));
+                    arrayList = new ArrayList();
+                    final int i5 = this.lastMuteColor;
+                    this.lastMuteColor = color;
+                    ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
+                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.GroupCallUserCell$$ExternalSyntheticLambda0
+                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                            GroupCallUserCell.this.lambda$applyParticipantChanges$6(i5, color, valueAnimator);
                         }
-                        this.statusTextView[4].setTextColor(Theme.getColor(this.grayIconColor));
-                    } else if (!z10) {
-                        if (this.currentUser != null) {
-                            this.statusTextView[4].setText(LocaleController.getString("TapToAddBio", R.string.TapToAddBio));
+                    });
+                    arrayList.add(ofFloat);
+                    if (i2 == 1) {
+                        int participantVolume = ChatObject.getParticipantVolume(this.participant);
+                        int i6 = participantVolume / 100;
+                        if (i6 != 100) {
+                            this.statusTextView[1].setLeftDrawable(this.speakingDrawable);
+                            SimpleTextView simpleTextView = this.statusTextView[1];
+                            int i7 = R.string.SpeakingWithVolume;
+                            Object[] objArr = new Object[1];
+                            if (participantVolume < 100) {
+                                i6 = 1;
+                            }
+                            objArr[0] = Integer.valueOf(i6);
+                            simpleTextView.setText(LocaleController.formatString("SpeakingWithVolume", i7, objArr));
                         } else {
-                            this.statusTextView[4].setText(LocaleController.getString("TapToAddDescription", R.string.TapToAddDescription));
+                            this.statusTextView[1].setLeftDrawable((Drawable) null);
+                            this.statusTextView[1].setText(LocaleController.getString("Speaking", R.string.Speaking));
                         }
-                        this.statusTextView[4].setTextColor(Theme.getColor(this.grayIconColor));
-                    } else if (!this.hasAvatar) {
-                        this.statusTextView[4].setText(LocaleController.getString("TapToAddPhoto", R.string.TapToAddPhoto));
-                        this.statusTextView[4].setTextColor(Theme.getColor(this.grayIconColor));
-                    } else {
-                        this.statusTextView[4].setText(LocaleController.getString("ThisIsYou", R.string.ThisIsYou));
-                        this.statusTextView[4].setTextColor(Theme.getColor(str));
                     }
-                    if (z10) {
-                        this.fullAboutTextView.setText(AndroidUtilities.replaceNewLines(this.participant.about));
-                        this.fullAboutTextView.setTextColor(Theme.getColor("voipgroup_mutedIcon"));
-                    } else {
-                        this.fullAboutTextView.setText(this.statusTextView[i].getText());
-                        this.fullAboutTextView.setTextColor(this.statusTextView[i].getTextColor());
+                    if (!isSelfUser()) {
+                        applyStatus(4);
+                    } else if (!z || i2 != this.currentStatus || z13) {
+                        if (z) {
+                            if (arrayList == null) {
+                                arrayList = new ArrayList();
+                            }
+                            if (i2 != 0) {
+                                int i8 = 0;
+                                while (true) {
+                                    SimpleTextView[] simpleTextViewArr = this.statusTextView;
+                                    if (i8 >= simpleTextViewArr.length) {
+                                        break;
+                                    }
+                                    SimpleTextView simpleTextView2 = simpleTextViewArr[i8];
+                                    Property property = View.TRANSLATION_Y;
+                                    float[] fArr = new float[1];
+                                    if (i8 == i2) {
+                                        dp = 0.0f;
+                                    } else {
+                                        dp = AndroidUtilities.dp(i8 == 0 ? 2.0f : -2.0f);
+                                    }
+                                    fArr[0] = dp;
+                                    arrayList.add(ObjectAnimator.ofFloat(simpleTextView2, property, fArr));
+                                    SimpleTextView simpleTextView3 = this.statusTextView[i8];
+                                    Property property2 = View.ALPHA;
+                                    float[] fArr2 = new float[1];
+                                    fArr2[0] = i8 == i2 ? 1.0f : 0.0f;
+                                    arrayList.add(ObjectAnimator.ofFloat(simpleTextView3, property2, fArr2));
+                                    i8++;
+                                }
+                            } else {
+                                int i9 = 0;
+                                while (true) {
+                                    SimpleTextView[] simpleTextViewArr2 = this.statusTextView;
+                                    if (i9 >= simpleTextViewArr2.length) {
+                                        break;
+                                    }
+                                    SimpleTextView simpleTextView4 = simpleTextViewArr2[i9];
+                                    Property property3 = View.TRANSLATION_Y;
+                                    float[] fArr3 = new float[1];
+                                    fArr3[0] = i9 == i2 ? 0.0f : AndroidUtilities.dp(-2.0f);
+                                    arrayList.add(ObjectAnimator.ofFloat(simpleTextView4, property3, fArr3));
+                                    SimpleTextView simpleTextView5 = this.statusTextView[i9];
+                                    Property property4 = View.ALPHA;
+                                    float[] fArr4 = new float[1];
+                                    fArr4[0] = i9 == i2 ? 1.0f : 0.0f;
+                                    arrayList.add(ObjectAnimator.ofFloat(simpleTextView5, property4, fArr4));
+                                    i9++;
+                                }
+                            }
+                        } else {
+                            applyStatus(i2);
+                        }
+                        this.currentStatus = i2;
                     }
-                } else if (z10) {
-                    this.statusTextView[4].setText(AndroidUtilities.replaceNewLines(this.participant.about));
-                    this.fullAboutTextView.setText("");
-                } else {
-                    this.statusTextView[4].setText("");
-                    this.fullAboutTextView.setText("");
-                }
-                animatorSet = this.animatorSet;
-                boolean z13 = animatorSet == null && !(i == this.currentStatus && this.lastMuteColor == color);
-                if ((z || z13) && animatorSet != null) {
-                    animatorSet.cancel();
-                    this.animatorSet = null;
-                }
-                if (z || this.lastMuteColor != color || z13) {
-                    if (!z) {
-                        arrayList = new ArrayList();
-                        final int i5 = this.lastMuteColor;
-                        this.lastMuteColor = color;
-                        ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.GroupCallUserCell$$ExternalSyntheticLambda0
-                            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                                GroupCallUserCell.this.lambda$applyParticipantChanges$6(i5, color, valueAnimator);
+                    this.avatarWavesDrawable.setMuted(i2, z);
+                    if (arrayList != null) {
+                        AnimatorSet animatorSet2 = this.animatorSet;
+                        if (animatorSet2 != null) {
+                            animatorSet2.cancel();
+                            this.animatorSet = null;
+                        }
+                        AnimatorSet animatorSet3 = new AnimatorSet();
+                        this.animatorSet = animatorSet3;
+                        animatorSet3.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.GroupCallUserCell.4
+                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                            public void onAnimationEnd(Animator animator) {
+                                if (!GroupCallUserCell.this.isSelfUser()) {
+                                    GroupCallUserCell.this.applyStatus(i2);
+                                }
+                                GroupCallUserCell.this.animatorSet = null;
                             }
                         });
-                        arrayList.add(ofFloat);
-                        if (i == 1) {
-                            int participantVolume = ChatObject.getParticipantVolume(this.participant);
-                            int i6 = participantVolume / 100;
-                            if (i6 != 100) {
-                                this.statusTextView[1].setLeftDrawable(this.speakingDrawable);
-                                SimpleTextView simpleTextView = this.statusTextView[1];
-                                int i7 = R.string.SpeakingWithVolume;
-                                Object[] objArr = new Object[1];
-                                if (participantVolume < 100) {
-                                    i6 = 1;
-                                }
-                                objArr[0] = Integer.valueOf(i6);
-                                simpleTextView.setText(LocaleController.formatString("SpeakingWithVolume", i7, objArr));
-                            } else {
-                                this.statusTextView[1].setLeftDrawable((Drawable) null);
-                                this.statusTextView[1].setText(LocaleController.getString("Speaking", R.string.Speaking));
-                            }
-                        }
-                        if (!isSelfUser()) {
-                            applyStatus(4);
-                        } else if (!z || i != this.currentStatus || z13) {
-                            if (z) {
-                                if (arrayList == null) {
-                                    arrayList = new ArrayList();
-                                }
-                                if (i != 0) {
-                                    int i8 = 0;
-                                    while (true) {
-                                        SimpleTextView[] simpleTextViewArr = this.statusTextView;
-                                        if (i8 >= simpleTextViewArr.length) {
-                                            break;
-                                        }
-                                        SimpleTextView simpleTextView2 = simpleTextViewArr[i8];
-                                        Property property = View.TRANSLATION_Y;
-                                        float[] fArr = new float[1];
-                                        if (i8 == i) {
-                                            dp = 0.0f;
-                                        } else {
-                                            dp = AndroidUtilities.dp(i8 == 0 ? 2.0f : -2.0f);
-                                        }
-                                        fArr[0] = dp;
-                                        arrayList.add(ObjectAnimator.ofFloat(simpleTextView2, property, fArr));
-                                        SimpleTextView simpleTextView3 = this.statusTextView[i8];
-                                        Property property2 = View.ALPHA;
-                                        float[] fArr2 = new float[1];
-                                        fArr2[0] = i8 == i ? 1.0f : 0.0f;
-                                        arrayList.add(ObjectAnimator.ofFloat(simpleTextView3, property2, fArr2));
-                                        i8++;
-                                    }
-                                } else {
-                                    int i9 = 0;
-                                    while (true) {
-                                        SimpleTextView[] simpleTextViewArr2 = this.statusTextView;
-                                        if (i9 >= simpleTextViewArr2.length) {
-                                            break;
-                                        }
-                                        SimpleTextView simpleTextView4 = simpleTextViewArr2[i9];
-                                        Property property3 = View.TRANSLATION_Y;
-                                        float[] fArr3 = new float[1];
-                                        fArr3[0] = i9 == i ? 0.0f : AndroidUtilities.dp(-2.0f);
-                                        arrayList.add(ObjectAnimator.ofFloat(simpleTextView4, property3, fArr3));
-                                        SimpleTextView simpleTextView5 = this.statusTextView[i9];
-                                        Property property4 = View.ALPHA;
-                                        float[] fArr4 = new float[1];
-                                        fArr4[0] = i9 == i ? 1.0f : 0.0f;
-                                        arrayList.add(ObjectAnimator.ofFloat(simpleTextView5, property4, fArr4));
-                                        i9++;
-                                    }
-                                }
-                            } else {
-                                applyStatus(i);
-                            }
-                            this.currentStatus = i;
-                        }
-                        this.avatarWavesDrawable.setMuted(i, z);
-                        if (arrayList != null) {
-                            AnimatorSet animatorSet2 = this.animatorSet;
-                            if (animatorSet2 != null) {
-                                animatorSet2.cancel();
-                                this.animatorSet = null;
-                            }
-                            AnimatorSet animatorSet3 = new AnimatorSet();
-                            this.animatorSet = animatorSet3;
-                            animatorSet3.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.GroupCallUserCell.4
-                                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                                public void onAnimationEnd(Animator animator) {
-                                    if (!GroupCallUserCell.this.isSelfUser()) {
-                                        GroupCallUserCell.this.applyStatus(i);
-                                    }
-                                    GroupCallUserCell.this.animatorSet = null;
-                                }
-                            });
-                            this.animatorSet.playTogether(arrayList);
-                            this.animatorSet.setDuration(180L);
-                            this.animatorSet.start();
-                        }
-                        if (z || this.lastMuted != z8 || this.lastRaisedHand != z4) {
-                            if (!z4) {
-                                customEndFrame = this.muteDrawable.setCustomEndFrame(84);
-                                if (z) {
-                                    this.muteDrawable.setOnFinishCallback(this.raiseHandCallback, 83);
-                                } else {
-                                    this.muteDrawable.setOnFinishCallback(null, 0);
-                                }
-                            } else {
-                                this.muteButton.setAnimation(this.muteDrawable);
-                                this.muteDrawable.setOnFinishCallback(null, 0);
-                                if (z8 && this.lastRaisedHand) {
-                                    customEndFrame = this.muteDrawable.setCustomEndFrame(21);
-                                } else {
-                                    customEndFrame = this.muteDrawable.setCustomEndFrame(z8 ? 64 : 42);
-                                }
-                            }
-                            if (!z) {
-                                if (customEndFrame) {
-                                    if (i == 3) {
-                                        this.muteDrawable.setCurrentFrame(63);
-                                    } else if (z8 && this.lastRaisedHand && !z4) {
-                                        this.muteDrawable.setCurrentFrame(0);
-                                    } else if (z8) {
-                                        this.muteDrawable.setCurrentFrame(43);
-                                    } else {
-                                        this.muteDrawable.setCurrentFrame(21);
-                                    }
-                                }
-                                this.muteButton.playAnimation();
-                            } else {
-                                RLottieDrawable rLottieDrawable = this.muteDrawable;
-                                rLottieDrawable.setCurrentFrame(rLottieDrawable.getCustomEndFrame() - 1, false, true);
-                                this.muteButton.invalidate();
-                            }
-                            this.lastMuted = z8;
-                            this.lastRaisedHand = z4;
-                        }
-                        if (!this.isSpeaking) {
-                            this.avatarWavesDrawable.setAmplitude(0.0d);
-                        }
-                        AvatarWavesDrawable avatarWavesDrawable = this.avatarWavesDrawable;
-                        if (this.isSpeaking && this.progressToAvatarPreview == 0.0f) {
-                            z5 = true;
-                        }
-                        avatarWavesDrawable.setShowWaves(z5, this);
+                        this.animatorSet.playTogether(arrayList);
+                        this.animatorSet.setDuration(180L);
+                        this.animatorSet.start();
                     }
-                    RLottieImageView rLottieImageView = this.muteButton;
-                    this.lastMuteColor = color;
-                    rLottieImageView.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
-                    Theme.setSelectorDrawableColor(this.muteButton.getDrawable(), color & 620756991, true);
+                    if (z || this.lastMuted != z8 || this.lastRaisedHand != z4) {
+                        if (!z4) {
+                            customEndFrame = this.muteDrawable.setCustomEndFrame(84);
+                            if (z) {
+                                this.muteDrawable.setOnFinishCallback(this.raiseHandCallback, 83);
+                            } else {
+                                this.muteDrawable.setOnFinishCallback(null, 0);
+                            }
+                        } else {
+                            this.muteButton.setAnimation(this.muteDrawable);
+                            this.muteDrawable.setOnFinishCallback(null, 0);
+                            if (z8 && this.lastRaisedHand) {
+                                customEndFrame = this.muteDrawable.setCustomEndFrame(21);
+                            } else {
+                                customEndFrame = this.muteDrawable.setCustomEndFrame(z8 ? 64 : 42);
+                            }
+                        }
+                        if (!z) {
+                            if (customEndFrame) {
+                                if (i2 == 3) {
+                                    this.muteDrawable.setCurrentFrame(63);
+                                } else if (z8 && this.lastRaisedHand && !z4) {
+                                    this.muteDrawable.setCurrentFrame(0);
+                                } else if (z8) {
+                                    this.muteDrawable.setCurrentFrame(43);
+                                } else {
+                                    this.muteDrawable.setCurrentFrame(21);
+                                }
+                            }
+                            this.muteButton.playAnimation();
+                        } else {
+                            RLottieDrawable rLottieDrawable = this.muteDrawable;
+                            rLottieDrawable.setCurrentFrame(rLottieDrawable.getCustomEndFrame() - 1, false, true);
+                            this.muteButton.invalidate();
+                        }
+                        this.lastMuted = z8;
+                        this.lastRaisedHand = z4;
+                    }
+                    if (!this.isSpeaking) {
+                        this.avatarWavesDrawable.setAmplitude(0.0d);
+                    }
+                    AvatarWavesDrawable avatarWavesDrawable = this.avatarWavesDrawable;
+                    if (this.isSpeaking && this.progressToAvatarPreview == 0.0f) {
+                        z5 = true;
+                    }
+                    avatarWavesDrawable.setShowWaves(z5, this);
                 }
-                arrayList = null;
-                if (i == 1) {
-                }
-                if (!isSelfUser()) {
-                }
-                this.avatarWavesDrawable.setMuted(i, z);
-                if (arrayList != null) {
-                }
-                if (z) {
-                }
-                if (!z4) {
-                }
-                if (!z) {
-                }
-                this.lastMuted = z8;
-                this.lastRaisedHand = z4;
-                if (!this.isSpeaking) {
-                }
-                AvatarWavesDrawable avatarWavesDrawable2 = this.avatarWavesDrawable;
-                if (this.isSpeaking) {
-                    z5 = true;
-                }
-                avatarWavesDrawable2.setShowWaves(z5, this);
+                RLottieImageView rLottieImageView = this.muteButton;
+                this.lastMuteColor = color;
+                rLottieImageView.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
+                Theme.setSelectorDrawableColor(this.muteButton.getDrawable(), color & 620756991, true);
             }
+            arrayList = null;
+            if (i2 == 1) {
+            }
+            if (!isSelfUser()) {
+            }
+            this.avatarWavesDrawable.setMuted(i2, z);
+            if (arrayList != null) {
+            }
+            if (z) {
+            }
+            if (!z4) {
+            }
+            if (!z) {
+            }
+            this.lastMuted = z8;
+            this.lastRaisedHand = z4;
+            if (!this.isSpeaking) {
+            }
+            AvatarWavesDrawable avatarWavesDrawable2 = this.avatarWavesDrawable;
+            if (this.isSpeaking) {
+                z5 = true;
+            }
+            avatarWavesDrawable2.setShowWaves(z5, this);
         }
     }
 
@@ -1201,8 +1196,10 @@ public class GroupCallUserCell extends FrameLayout {
             blobDrawable.maxRadius = f2;
             blobDrawable2.generateBlob();
             this.blobDrawable2.generateBlob();
-            this.blobDrawable.paint.setColor(ColorUtils.setAlphaComponent(Theme.getColor("voipgroup_speakingText"), 38));
-            this.blobDrawable2.paint.setColor(ColorUtils.setAlphaComponent(Theme.getColor("voipgroup_speakingText"), 38));
+            Paint paint = this.blobDrawable.paint;
+            int i3 = Theme.key_voipgroup_speakingText;
+            paint.setColor(ColorUtils.setAlphaComponent(Theme.getColor(i3), 38));
+            this.blobDrawable2.paint.setColor(ColorUtils.setAlphaComponent(Theme.getColor(i3), 38));
         }
 
         public void update() {
@@ -1269,7 +1266,7 @@ public class GroupCallUserCell extends FrameLayout {
                                 }
                                 this.invalidateColor = true;
                                 if (this.invalidateColor) {
-                                    this.blobDrawable.paint.setColor(ColorUtils.setAlphaComponent(ColorUtils.blendARGB(Theme.getColor("voipgroup_speakingText"), Theme.getColor(this.isMuted == 2 ? "voipgroup_mutedByAdminIcon" : "voipgroup_listeningText"), this.progressToMuted), 38));
+                                    this.blobDrawable.paint.setColor(ColorUtils.setAlphaComponent(ColorUtils.blendARGB(Theme.getColor(Theme.key_voipgroup_speakingText), Theme.getColor(this.isMuted == 2 ? Theme.key_voipgroup_mutedByAdminIcon : Theme.key_voipgroup_listeningText), this.progressToMuted), 38));
                                 }
                             }
                         }

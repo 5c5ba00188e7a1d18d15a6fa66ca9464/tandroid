@@ -777,11 +777,11 @@ public class DrawerLayoutContainer extends FrameLayout {
         public PreviewForegroundDrawable() {
             GradientDrawable gradientDrawable = new GradientDrawable();
             this.topDrawable = gradientDrawable;
-            gradientDrawable.setStroke(AndroidUtilities.dp(1.0f), Theme.getColor("actionBarDefault"));
+            gradientDrawable.setStroke(AndroidUtilities.dp(1.0f), Theme.getColor(Theme.key_actionBarDefault));
             gradientDrawable.setCornerRadius(AndroidUtilities.dp(6.0f));
             GradientDrawable gradientDrawable2 = new GradientDrawable();
             this.bottomDrawable = gradientDrawable2;
-            gradientDrawable2.setStroke(1, Theme.getColor("divider"));
+            gradientDrawable2.setStroke(1, Theme.getColor(Theme.key_divider));
             gradientDrawable2.setCornerRadius(AndroidUtilities.dp(6.0f));
         }
 

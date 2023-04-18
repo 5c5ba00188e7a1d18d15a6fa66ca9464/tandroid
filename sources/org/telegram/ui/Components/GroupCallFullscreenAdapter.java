@@ -177,8 +177,8 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
             backupImageView.setRoundRadius(AndroidUtilities.dp(20.0f));
             addView(this.avatarImageView, LayoutHelper.createFrame(40, 40.0f, 1, 0.0f, 9.0f, 0.0f, 9.0f));
             setWillNotDraw(false);
-            this.backgroundPaint.setColor(Theme.getColor("voipgroup_listViewBackground"));
-            this.selectionPaint.setColor(Theme.getColor("voipgroup_speakingText"));
+            this.backgroundPaint.setColor(Theme.getColor(Theme.key_voipgroup_listViewBackground));
+            this.selectionPaint.setColor(Theme.getColor(Theme.key_voipgroup_speakingText));
             this.selectionPaint.setStyle(Paint.Style.STROKE);
             this.selectionPaint.setStrokeWidth(AndroidUtilities.dp(2.0f));
             this.textPaint.setColor(-1);
@@ -491,12 +491,12 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
             }
             groupCallStatusIcon.updateIcon(z);
             if (this.statusIcon.isMutedByMe()) {
-                color = Theme.getColor("voipgroup_mutedByAdminIcon");
+                color = Theme.getColor(Theme.key_voipgroup_mutedByAdminIcon);
             } else if (this.statusIcon.isSpeaking()) {
-                color = Theme.getColor("voipgroup_speakingText");
+                color = Theme.getColor(Theme.key_voipgroup_speakingText);
             } else {
-                color = Theme.getColor("voipgroup_nameText");
-                color2 = Theme.getColor("voipgroup_listeningText");
+                color = Theme.getColor(Theme.key_voipgroup_nameText);
+                color2 = Theme.getColor(Theme.key_voipgroup_listeningText);
                 if (z) {
                     ValueAnimator valueAnimator = this.colorAnimator;
                     if (valueAnimator != null) {

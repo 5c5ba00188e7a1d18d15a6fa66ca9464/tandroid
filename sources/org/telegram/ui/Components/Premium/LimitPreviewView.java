@@ -79,7 +79,7 @@ public class LimitPreviewView extends LinearLayout {
 
             @Override // android.view.ViewGroup, android.view.View
             protected void dispatchDraw(Canvas canvas) {
-                this.grayPaint.setColor(Theme.getColor("windowBackgroundGray"));
+                this.grayPaint.setColor(Theme.getColor(Theme.key_windowBackgroundGray));
                 RectF rectF = AndroidUtilities.rectTmp;
                 float f2 = 0.0f;
                 rectF.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
@@ -118,14 +118,15 @@ public class LimitPreviewView extends LinearLayout {
         textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         textView.setText(LocaleController.getString("LimitFree", R.string.LimitFree));
         textView.setGravity(16);
-        textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+        int i4 = Theme.key_windowBackgroundWhiteBlackText;
+        textView.setTextColor(Theme.getColor(i4));
         textView.setPadding(AndroidUtilities.dp(12.0f), 0, 0, 0);
         TextView textView2 = new TextView(context);
         this.defaultCount = textView2;
         textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.defaultCount.setText(String.format("%d", Integer.valueOf(i3)));
         this.defaultCount.setGravity(16);
-        this.defaultCount.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+        this.defaultCount.setTextColor(Theme.getColor(i4));
         if (clamp > 0.3f) {
             if (LocaleController.isRTL) {
                 frameLayout.addView(textView, LayoutHelper.createFrame(-1, 30.0f, 5, 36.0f, 0.0f, 12.0f, 0.0f));

@@ -96,7 +96,7 @@ public class ReactionsEffectOverlay {
     /* JADX WARN: Type inference failed for: r15v13 */
     /* JADX WARN: Type inference failed for: r15v14 */
     /* JADX WARN: Type inference failed for: r15v4 */
-    /* JADX WARN: Type inference failed for: r15v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r15v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r15v6 */
     /* JADX WARN: Type inference failed for: r15v7 */
     /*
@@ -120,9 +120,9 @@ public class ReactionsEffectOverlay {
         int i6;
         ?? r15;
         int i7;
-        String str;
+        int i8;
         boolean z;
-        String str2;
+        String str;
         Random random;
         ArrayList<TLRPC$MessagePeerReaction> arrayList;
         this.holderView = null;
@@ -134,14 +134,14 @@ public class ReactionsEffectOverlay {
         ReactionsLayoutInBubble.ReactionButton reactionButton = chatMessageCell.getReactionButton(visibleReaction);
         ChatActivity chatActivity = baseFragment instanceof ChatActivity ? (ChatActivity) baseFragment : null;
         if (reactionsContainerLayout != null) {
-            int i8 = 0;
+            int i9 = 0;
             while (true) {
-                if (i8 < reactionsContainerLayout.recyclerListView.getChildCount()) {
-                    if ((reactionsContainerLayout.recyclerListView.getChildAt(i8) instanceof ReactionsContainerLayout.ReactionHolderView) && ((ReactionsContainerLayout.ReactionHolderView) reactionsContainerLayout.recyclerListView.getChildAt(i8)).currentReaction.equals(this.reaction)) {
-                        this.holderView = (ReactionsContainerLayout.ReactionHolderView) reactionsContainerLayout.recyclerListView.getChildAt(i8);
+                if (i9 < reactionsContainerLayout.recyclerListView.getChildCount()) {
+                    if ((reactionsContainerLayout.recyclerListView.getChildAt(i9) instanceof ReactionsContainerLayout.ReactionHolderView) && ((ReactionsContainerLayout.ReactionHolderView) reactionsContainerLayout.recyclerListView.getChildAt(i9)).currentReaction.equals(this.reaction)) {
+                        this.holderView = (ReactionsContainerLayout.ReactionHolderView) reactionsContainerLayout.recyclerListView.getChildAt(i9);
                         break;
                     }
-                    i8++;
+                    i9++;
                 } else {
                     break;
                 }
@@ -151,13 +151,13 @@ public class ReactionsEffectOverlay {
             Random random2 = new Random();
             ArrayList<TLRPC$MessagePeerReaction> arrayList2 = chatMessageCell.getMessageObject().messageOwner.reactions != null ? chatMessageCell.getMessageObject().messageOwner.reactions.recent_reactions : null;
             if (arrayList2 != null && chatActivity != null && chatActivity.getDialogId() < 0) {
-                int i9 = 0;
-                while (i9 < arrayList2.size()) {
-                    if (this.reaction.equals(arrayList2.get(i9).reaction) && arrayList2.get(i9).unread) {
+                int i10 = 0;
+                while (i10 < arrayList2.size()) {
+                    if (this.reaction.equals(arrayList2.get(i10).reaction) && arrayList2.get(i10).unread) {
                         AvatarDrawable avatarDrawable = new AvatarDrawable();
                         ImageReceiver imageReceiver = new ImageReceiver();
                         arrayList = arrayList2;
-                        long peerId = MessageObject.getPeerId(arrayList2.get(i9).peer_id);
+                        long peerId = MessageObject.getPeerId(arrayList2.get(i10).peer_id);
                         if (peerId < 0) {
                             TLRPC$Chat chat = MessagesController.getInstance(i).getChat(Long.valueOf(-peerId));
                             if (chat != null) {
@@ -178,25 +178,25 @@ public class ReactionsEffectOverlay {
                                     avatarParticle.toY = (Math.abs(random2.nextInt() % 100) * 0.4f) / 100.0f;
                                     random = random2;
                                 } else {
-                                    int i10 = 0;
+                                    int i11 = 0;
                                     float f8 = 0.0f;
                                     float f9 = 0.0f;
                                     float f10 = 0.0f;
-                                    while (i10 < 10) {
+                                    while (i11 < 10) {
                                         float abs = ((Math.abs(random2.nextInt() % 100) * f7) / f6) + 0.2f;
                                         float abs2 = ((Math.abs(random2.nextInt() % 100) * 0.4f) / f6) + 0.2f;
                                         float f11 = 2.14748365E9f;
                                         Random random3 = random2;
-                                        int i11 = 0;
-                                        while (i11 < this.avatars.size()) {
-                                            float f12 = this.avatars.get(i11).toX - abs;
+                                        int i12 = 0;
+                                        while (i12 < this.avatars.size()) {
+                                            float f12 = this.avatars.get(i12).toX - abs;
                                             float f13 = abs;
-                                            float f14 = this.avatars.get(i11).toY - abs2;
+                                            float f14 = this.avatars.get(i12).toY - abs2;
                                             float f15 = (f12 * f12) + (f14 * f14);
                                             if (f15 < f11) {
                                                 f11 = f15;
                                             }
-                                            i11++;
+                                            i12++;
                                             abs = f13;
                                         }
                                         float f16 = abs;
@@ -205,7 +205,7 @@ public class ReactionsEffectOverlay {
                                             f10 = f11;
                                             f8 = f16;
                                         }
-                                        i10++;
+                                        i11++;
                                         random2 = random3;
                                         f7 = 0.6f;
                                         f6 = 100.0f;
@@ -242,7 +242,7 @@ public class ReactionsEffectOverlay {
                         random = random2;
                         arrayList = arrayList2;
                     }
-                    i9++;
+                    i10++;
                     arrayList2 = arrayList;
                     random2 = random;
                 }
@@ -306,13 +306,13 @@ public class ReactionsEffectOverlay {
                     i3 = round;
                 }
                 i4 = i3 >> 1;
-                int i12 = sizeForBigReaction >> 1;
+                int i13 = sizeForBigReaction >> 1;
                 this.animateInProgress = 0.0f;
                 this.animateOutProgress = 0.0f;
                 frameLayout = new FrameLayout(context);
                 this.container = frameLayout;
-                int i13 = sizeForBigReaction;
-                int i14 = i3;
+                int i14 = sizeForBigReaction;
+                int i15 = i3;
                 this.windowView = new 1(context, baseFragment, chatMessageCell, chatActivity, i4, i2, z2, f5 / i4, f4, f3, visibleReaction);
                 animationView = new AnimationView(context);
                 this.effectImageView = animationView;
@@ -329,21 +329,21 @@ public class ReactionsEffectOverlay {
                             if ((i5 == 1 && LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_CHAT)) || i5 == 0) {
                                 TLRPC$Document tLRPC$Document = i5 == 1 ? tLRPC$TL_availableReaction.around_animation : tLRPC$TL_availableReaction.effect_animation;
                                 if (i5 == 1) {
-                                    str2 = getFilterForAroundAnimation();
+                                    str = getFilterForAroundAnimation();
                                 } else {
-                                    str2 = i13 + "_" + i13;
+                                    str = i14 + "_" + i14;
                                 }
-                                String str3 = str2;
+                                String str2 = str;
                                 ImageReceiver imageReceiver5 = animationView.getImageReceiver();
                                 StringBuilder sb = new StringBuilder();
-                                int i15 = uniqPrefix;
-                                uniqPrefix = i15 + 1;
-                                sb.append(i15);
+                                int i16 = uniqPrefix;
+                                uniqPrefix = i16 + 1;
+                                sb.append(i16);
                                 sb.append("_");
                                 sb.append(chatMessageCell.getMessageObject().getId());
                                 sb.append("_");
                                 imageReceiver5.setUniqKeyPrefix(sb.toString());
-                                animationView.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, (ImageLocation) null, (String) null, 0, (Object) null);
+                                animationView.setImage(ImageLocation.getForDocument(tLRPC$Document), str2, (ImageLocation) null, (String) null, 0, (Object) null);
                                 z = false;
                                 animationView.getImageReceiver().setAutoRepeat(0);
                                 animationView.getImageReceiver().setAllowStartAnimation(false);
@@ -363,26 +363,26 @@ public class ReactionsEffectOverlay {
                             TLRPC$Document tLRPC$Document2 = tLRPC$TL_availableReaction.appear_animation;
                             ImageReceiver imageReceiver6 = animationView2.getImageReceiver();
                             StringBuilder sb2 = new StringBuilder();
-                            int i16 = uniqPrefix;
-                            uniqPrefix = i16 + 1;
-                            sb2.append(i16);
+                            int i17 = uniqPrefix;
+                            uniqPrefix = i17 + 1;
+                            sb2.append(i17);
                             sb2.append("_");
                             sb2.append(chatMessageCell.getMessageObject().getId());
                             sb2.append("_");
                             imageReceiver6.setUniqKeyPrefix(sb2.toString());
-                            animationView2.setImage(ImageLocation.getForDocument(tLRPC$Document2), i12 + "_" + i12, (ImageLocation) null, (String) null, 0, (Object) null);
+                            animationView2.setImage(ImageLocation.getForDocument(tLRPC$Document2), i13 + "_" + i13, (ImageLocation) null, (String) null, 0, (Object) null);
                         } else if (i5 == 0) {
                             TLRPC$Document tLRPC$Document3 = tLRPC$TL_availableReaction.activate_animation;
                             ImageReceiver imageReceiver7 = animationView2.getImageReceiver();
                             StringBuilder sb3 = new StringBuilder();
-                            int i17 = uniqPrefix;
-                            uniqPrefix = i17 + 1;
-                            sb3.append(i17);
+                            int i18 = uniqPrefix;
+                            uniqPrefix = i18 + 1;
+                            sb3.append(i18);
                             sb3.append("_");
                             sb3.append(chatMessageCell.getMessageObject().getId());
                             sb3.append("_");
                             imageReceiver7.setUniqKeyPrefix(sb3.toString());
-                            animationView2.setImage(ImageLocation.getForDocument(tLRPC$Document3), i12 + "_" + i12, (ImageLocation) null, (String) null, 0, (Object) null);
+                            animationView2.setImage(ImageLocation.getForDocument(tLRPC$Document3), i13 + "_" + i13, (ImageLocation) null, (String) null, 0, (Object) null);
                         }
                     } else {
                         i5 = i2;
@@ -401,11 +401,11 @@ public class ReactionsEffectOverlay {
                         if (i5 == 0 || i5 == 1) {
                             AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable(2, i7, visibleReaction.documentId);
                             if (chatMessageCell.getMessageObject().shouldDrawWithoutBackground()) {
-                                str = chatMessageCell.getMessageObject().isOutOwner() ? "chat_outReactionButtonBackground" : "chat_inReactionButtonBackground";
+                                i8 = chatMessageCell.getMessageObject().isOutOwner() ? Theme.key_chat_outReactionButtonBackground : Theme.key_chat_inReactionButtonBackground;
                             } else {
-                                str = chatMessageCell.getMessageObject().isOutOwner() ? "chat_outReactionButtonTextSelected" : "chat_inReactionButtonTextSelected";
+                                i8 = chatMessageCell.getMessageObject().isOutOwner() ? Theme.key_chat_outReactionButtonTextSelected : Theme.key_chat_inReactionButtonTextSelected;
                             }
-                            animatedEmojiDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(str, baseFragment.getResourceProvider()), PorterDuff.Mode.SRC_IN));
+                            animatedEmojiDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i8, baseFragment.getResourceProvider()), PorterDuff.Mode.SRC_IN));
                             animationView.setAnimatedEmojiEffect(AnimatedEmojiEffect.createFrom(animatedEmojiDrawable, i5 == 0, true));
                             this.windowView.setClipChildren(false);
                         }
@@ -420,14 +420,14 @@ public class ReactionsEffectOverlay {
                             animationView2.getImageReceiver().getLottieAnimation().start();
                         }
                     }
-                    int i18 = i14 - i4;
-                    int i19 = i18 >> 1;
-                    i18 = i5 == 1 ? i19 : i18;
+                    int i19 = i15 - i4;
+                    int i20 = i19 >> 1;
+                    i19 = i5 == 1 ? i20 : i19;
                     frameLayout.addView(animationView2);
                     animationView2.getLayoutParams().width = i4;
                     animationView2.getLayoutParams().height = i4;
-                    ((FrameLayout.LayoutParams) animationView2.getLayoutParams()).topMargin = i19;
-                    ((FrameLayout.LayoutParams) animationView2.getLayoutParams()).leftMargin = i18;
+                    ((FrameLayout.LayoutParams) animationView2.getLayoutParams()).topMargin = i20;
+                    ((FrameLayout.LayoutParams) animationView2.getLayoutParams()).leftMargin = i19;
                     if (i5 != 1) {
                         if (tLRPC$TL_availableReaction != null) {
                             animationView3.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.center_icon), "40_40_lastreactframe", null, "webp", tLRPC$TL_availableReaction, 1);
@@ -435,25 +435,25 @@ public class ReactionsEffectOverlay {
                         frameLayout.addView(animationView3);
                         animationView3.getLayoutParams().width = i4;
                         animationView3.getLayoutParams().height = i4;
-                        ((FrameLayout.LayoutParams) animationView3.getLayoutParams()).topMargin = i19;
-                        ((FrameLayout.LayoutParams) animationView3.getLayoutParams()).leftMargin = i18;
+                        ((FrameLayout.LayoutParams) animationView3.getLayoutParams()).topMargin = i20;
+                        ((FrameLayout.LayoutParams) animationView3.getLayoutParams()).leftMargin = i19;
                     }
                     this.windowView.addView(frameLayout);
-                    frameLayout.getLayoutParams().width = i14;
-                    frameLayout.getLayoutParams().height = i14;
-                    int i20 = -i19;
-                    ((FrameLayout.LayoutParams) frameLayout.getLayoutParams()).topMargin = i20;
-                    int i21 = -i18;
-                    ((FrameLayout.LayoutParams) frameLayout.getLayoutParams()).leftMargin = i21;
+                    frameLayout.getLayoutParams().width = i15;
+                    frameLayout.getLayoutParams().height = i15;
+                    int i21 = -i20;
+                    ((FrameLayout.LayoutParams) frameLayout.getLayoutParams()).topMargin = i21;
+                    int i22 = -i19;
+                    ((FrameLayout.LayoutParams) frameLayout.getLayoutParams()).leftMargin = i22;
                     this.windowView.addView(animationView);
-                    animationView.getLayoutParams().width = i14;
-                    animationView.getLayoutParams().height = i14;
-                    animationView.getLayoutParams().width = i14;
-                    animationView.getLayoutParams().height = i14;
-                    ((FrameLayout.LayoutParams) animationView.getLayoutParams()).topMargin = i20;
-                    ((FrameLayout.LayoutParams) animationView.getLayoutParams()).leftMargin = i21;
-                    frameLayout.setPivotX(i18);
-                    frameLayout.setPivotY(i19);
+                    animationView.getLayoutParams().width = i15;
+                    animationView.getLayoutParams().height = i15;
+                    animationView.getLayoutParams().width = i15;
+                    animationView.getLayoutParams().height = i15;
+                    ((FrameLayout.LayoutParams) animationView.getLayoutParams()).topMargin = i21;
+                    ((FrameLayout.LayoutParams) animationView.getLayoutParams()).leftMargin = i22;
+                    frameLayout.setPivotX(i19);
+                    frameLayout.setPivotY(i20);
                 }
                 this.dismissed = true;
                 return;
@@ -464,13 +464,13 @@ public class ReactionsEffectOverlay {
         if (i2 != 2) {
         }
         i4 = i3 >> 1;
-        int i122 = sizeForBigReaction >> 1;
+        int i132 = sizeForBigReaction >> 1;
         this.animateInProgress = 0.0f;
         this.animateOutProgress = 0.0f;
         frameLayout = new FrameLayout(context);
         this.container = frameLayout;
-        int i132 = sizeForBigReaction;
-        int i142 = i3;
+        int i142 = sizeForBigReaction;
+        int i152 = i3;
         this.windowView = new 1(context, baseFragment, chatMessageCell, chatActivity, i4, i2, z2, f5 / i4, f4, f3, visibleReaction);
         animationView = new AnimationView(context);
         this.effectImageView = animationView;
@@ -488,33 +488,33 @@ public class ReactionsEffectOverlay {
         animationView2.getImageReceiver().setAllowStartAnimation(r15);
         if (animationView2.getImageReceiver().getLottieAnimation() != null) {
         }
-        int i182 = i142 - i4;
-        int i192 = i182 >> 1;
+        int i192 = i152 - i4;
+        int i202 = i192 >> 1;
         if (i5 == 1) {
         }
         frameLayout.addView(animationView2);
         animationView2.getLayoutParams().width = i4;
         animationView2.getLayoutParams().height = i4;
-        ((FrameLayout.LayoutParams) animationView2.getLayoutParams()).topMargin = i192;
-        ((FrameLayout.LayoutParams) animationView2.getLayoutParams()).leftMargin = i182;
+        ((FrameLayout.LayoutParams) animationView2.getLayoutParams()).topMargin = i202;
+        ((FrameLayout.LayoutParams) animationView2.getLayoutParams()).leftMargin = i192;
         if (i5 != 1) {
         }
         this.windowView.addView(frameLayout);
-        frameLayout.getLayoutParams().width = i142;
-        frameLayout.getLayoutParams().height = i142;
-        int i202 = -i192;
-        ((FrameLayout.LayoutParams) frameLayout.getLayoutParams()).topMargin = i202;
-        int i212 = -i182;
-        ((FrameLayout.LayoutParams) frameLayout.getLayoutParams()).leftMargin = i212;
+        frameLayout.getLayoutParams().width = i152;
+        frameLayout.getLayoutParams().height = i152;
+        int i212 = -i202;
+        ((FrameLayout.LayoutParams) frameLayout.getLayoutParams()).topMargin = i212;
+        int i222 = -i192;
+        ((FrameLayout.LayoutParams) frameLayout.getLayoutParams()).leftMargin = i222;
         this.windowView.addView(animationView);
-        animationView.getLayoutParams().width = i142;
-        animationView.getLayoutParams().height = i142;
-        animationView.getLayoutParams().width = i142;
-        animationView.getLayoutParams().height = i142;
-        ((FrameLayout.LayoutParams) animationView.getLayoutParams()).topMargin = i202;
-        ((FrameLayout.LayoutParams) animationView.getLayoutParams()).leftMargin = i212;
-        frameLayout.setPivotX(i182);
-        frameLayout.setPivotY(i192);
+        animationView.getLayoutParams().width = i152;
+        animationView.getLayoutParams().height = i152;
+        animationView.getLayoutParams().width = i152;
+        animationView.getLayoutParams().height = i152;
+        ((FrameLayout.LayoutParams) animationView.getLayoutParams()).topMargin = i212;
+        ((FrameLayout.LayoutParams) animationView.getLayoutParams()).leftMargin = i222;
+        frameLayout.setPivotX(i192);
+        frameLayout.setPivotY(i202);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

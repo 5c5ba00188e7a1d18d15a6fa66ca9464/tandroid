@@ -170,8 +170,8 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(final Context context) {
         String str;
-        this.actionBar.setItemsBackgroundColor(Theme.getColor("avatar_actionBarSelectorBlue", this.resourcesProvider), false);
-        this.actionBar.setItemsColor(Theme.getColor("actionBarDefaultIcon", this.resourcesProvider), false);
+        this.actionBar.setItemsBackgroundColor(Theme.getColor(Theme.key_avatar_actionBarSelectorBlue, this.resourcesProvider), false);
+        this.actionBar.setItemsColor(Theme.getColor(Theme.key_actionBarDefaultIcon, this.resourcesProvider), false);
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
         if (this.addContact) {
@@ -240,7 +240,8 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         showAvatarProgress(false, false);
         TextView textView = new TextView(context);
         this.nameTextView = textView;
-        textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText", this.resourcesProvider));
+        int i = Theme.key_windowBackgroundWhiteBlackText;
+        textView.setTextColor(Theme.getColor(i, this.resourcesProvider));
         this.nameTextView.setTextSize(1, 20.0f);
         this.nameTextView.setLines(1);
         this.nameTextView.setMaxLines(1);
@@ -253,7 +254,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         frameLayout.addView(textView2, LayoutHelper.createFrame(-2, -2.0f, (z ? 5 : 3) | 48, z ? 0.0f : 80.0f, 3.0f, z ? 80.0f : 0.0f, 0.0f));
         TextView textView3 = new TextView(context);
         this.onlineTextView = textView3;
-        textView3.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText3", this.resourcesProvider));
+        textView3.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText3, this.resourcesProvider));
         this.onlineTextView.setTextSize(1, 14.0f);
         this.onlineTextView.setLines(1);
         this.onlineTextView.setMaxLines(1);
@@ -271,10 +272,18 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         };
         this.firstNameField = editTextBoldCursor;
         editTextBoldCursor.setTextSize(1, 18.0f);
-        this.firstNameField.setHintTextColor(Theme.getColor("windowBackgroundWhiteHintText", this.resourcesProvider));
-        this.firstNameField.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText", this.resourcesProvider));
+        EditTextBoldCursor editTextBoldCursor2 = this.firstNameField;
+        int i2 = Theme.key_windowBackgroundWhiteHintText;
+        editTextBoldCursor2.setHintTextColor(Theme.getColor(i2, this.resourcesProvider));
+        this.firstNameField.setTextColor(Theme.getColor(i, this.resourcesProvider));
         this.firstNameField.setBackgroundDrawable(null);
-        this.firstNameField.setLineColors(getThemedColor("windowBackgroundWhiteInputField"), getThemedColor("windowBackgroundWhiteInputFieldActivated"), getThemedColor("text_RedRegular"));
+        EditTextBoldCursor editTextBoldCursor3 = this.firstNameField;
+        int i3 = Theme.key_windowBackgroundWhiteInputField;
+        int themedColor = getThemedColor(i3);
+        int i4 = Theme.key_windowBackgroundWhiteInputFieldActivated;
+        int themedColor2 = getThemedColor(i4);
+        int i5 = Theme.key_text_RedRegular;
+        editTextBoldCursor3.setLineColors(themedColor, themedColor2, getThemedColor(i5));
         this.firstNameField.setMaxLines(1);
         this.firstNameField.setLines(1);
         this.firstNameField.setSingleLine(true);
@@ -282,15 +291,15 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         this.firstNameField.setInputType(49152);
         this.firstNameField.setImeOptions(5);
         this.firstNameField.setHint(LocaleController.getString("FirstName", R.string.FirstName));
-        this.firstNameField.setCursorColor(Theme.getColor("windowBackgroundWhiteBlackText", this.resourcesProvider));
+        this.firstNameField.setCursorColor(Theme.getColor(i, this.resourcesProvider));
         this.firstNameField.setCursorSize(AndroidUtilities.dp(20.0f));
         this.firstNameField.setCursorWidth(1.5f);
         this.linearLayout.addView(this.firstNameField, LayoutHelper.createLinear(-1, 36, 24.0f, 24.0f, 24.0f, 0.0f));
         this.firstNameField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda7
             @Override // android.widget.TextView.OnEditorActionListener
-            public final boolean onEditorAction(TextView textView5, int i, KeyEvent keyEvent) {
+            public final boolean onEditorAction(TextView textView5, int i6, KeyEvent keyEvent) {
                 boolean lambda$createView$1;
-                lambda$createView$1 = ContactAddActivity.this.lambda$createView$1(textView5, i, keyEvent);
+                lambda$createView$1 = ContactAddActivity.this.lambda$createView$1(textView5, i6, keyEvent);
                 return lambda$createView$1;
             }
         });
@@ -306,18 +315,18 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             }
         });
         this.firstNameField.setText(this.firstNameFromCard);
-        EditTextBoldCursor editTextBoldCursor2 = new EditTextBoldCursor(context) { // from class: org.telegram.ui.ContactAddActivity.5
+        EditTextBoldCursor editTextBoldCursor4 = new EditTextBoldCursor(context) { // from class: org.telegram.ui.ContactAddActivity.5
             @Override // org.telegram.ui.Components.EditTextBoldCursor
             protected Theme.ResourcesProvider getResourcesProvider() {
                 return ContactAddActivity.this.resourcesProvider;
             }
         };
-        this.lastNameField = editTextBoldCursor2;
-        editTextBoldCursor2.setTextSize(1, 18.0f);
-        this.lastNameField.setHintTextColor(Theme.getColor("windowBackgroundWhiteHintText", this.resourcesProvider));
-        this.lastNameField.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText", this.resourcesProvider));
+        this.lastNameField = editTextBoldCursor4;
+        editTextBoldCursor4.setTextSize(1, 18.0f);
+        this.lastNameField.setHintTextColor(Theme.getColor(i2, this.resourcesProvider));
+        this.lastNameField.setTextColor(Theme.getColor(i, this.resourcesProvider));
         this.lastNameField.setBackgroundDrawable(null);
-        this.lastNameField.setLineColors(getThemedColor("windowBackgroundWhiteInputField"), getThemedColor("windowBackgroundWhiteInputFieldActivated"), getThemedColor("text_RedRegular"));
+        this.lastNameField.setLineColors(getThemedColor(i3), getThemedColor(i4), getThemedColor(i5));
         this.lastNameField.setMaxLines(1);
         this.lastNameField.setLines(1);
         this.lastNameField.setSingleLine(true);
@@ -325,15 +334,15 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         this.lastNameField.setInputType(49152);
         this.lastNameField.setImeOptions(6);
         this.lastNameField.setHint(LocaleController.getString("LastName", R.string.LastName));
-        this.lastNameField.setCursorColor(Theme.getColor("windowBackgroundWhiteBlackText", this.resourcesProvider));
+        this.lastNameField.setCursorColor(Theme.getColor(i, this.resourcesProvider));
         this.lastNameField.setCursorSize(AndroidUtilities.dp(20.0f));
         this.lastNameField.setCursorWidth(1.5f);
         this.linearLayout.addView(this.lastNameField, LayoutHelper.createLinear(-1, 36, 24.0f, 16.0f, 24.0f, 0.0f));
         this.lastNameField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda8
             @Override // android.widget.TextView.OnEditorActionListener
-            public final boolean onEditorAction(TextView textView5, int i, KeyEvent keyEvent) {
+            public final boolean onEditorAction(TextView textView5, int i6, KeyEvent keyEvent) {
                 boolean lambda$createView$2;
-                lambda$createView$2 = ContactAddActivity.this.lambda$createView$2(textView5, i, keyEvent);
+                lambda$createView$2 = ContactAddActivity.this.lambda$createView$2(textView5, i6, keyEvent);
                 return lambda$createView$2;
             }
         });
@@ -344,13 +353,13 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
                 user.phone = PhoneFormat.stripExceptNumbers(str);
             }
             this.firstNameField.setText(user.first_name);
-            EditTextBoldCursor editTextBoldCursor3 = this.firstNameField;
-            editTextBoldCursor3.setSelection(editTextBoldCursor3.length());
+            EditTextBoldCursor editTextBoldCursor5 = this.firstNameField;
+            editTextBoldCursor5.setSelection(editTextBoldCursor5.length());
             this.lastNameField.setText(user.last_name);
         }
         TextView textView5 = new TextView(context);
         this.infoTextView = textView5;
-        textView5.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText4"));
+        textView5.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText4));
         this.infoTextView.setTextSize(1, 14.0f);
         this.infoTextView.setGravity(LocaleController.isRTL ? 5 : 3);
         if (this.addContact) {
@@ -374,12 +383,14 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         } else {
             final TextCell textCell = new TextCell(context, this.resourcesProvider);
             String formatString = LocaleController.formatString("SuggestUserPhoto", R.string.SuggestUserPhoto, user.first_name);
-            int i = R.drawable.msg_addphoto;
-            textCell.setTextAndIcon(formatString, i, true);
+            int i6 = R.drawable.msg_addphoto;
+            textCell.setTextAndIcon(formatString, i6, true);
             textCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-            textCell.setColors("windowBackgroundWhiteBlueIcon", "windowBackgroundWhiteBlueButton");
-            int i2 = R.raw.photo_suggest_icon;
-            final RLottieDrawable rLottieDrawable = new RLottieDrawable(i2, "" + i2, AndroidUtilities.dp(50.0f), AndroidUtilities.dp(50.0f), false, null);
+            int i7 = Theme.key_windowBackgroundWhiteBlueIcon;
+            int i8 = Theme.key_windowBackgroundWhiteBlueButton;
+            textCell.setColors(i7, i8);
+            int i9 = R.raw.photo_suggest_icon;
+            final RLottieDrawable rLottieDrawable = new RLottieDrawable(i9, "" + i9, AndroidUtilities.dp(50.0f), AndroidUtilities.dp(50.0f), false, null);
             textCell.imageView.setTranslationX((float) (-AndroidUtilities.dp(8.0f)));
             textCell.imageView.setAnimation(rLottieDrawable);
             textCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda4
@@ -390,11 +401,11 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             });
             this.linearLayout.addView(textCell, LayoutHelper.createLinear(-1, -2, 0, 0, 18, 0, 0));
             final TextCell textCell2 = new TextCell(context, this.resourcesProvider);
-            textCell2.setTextAndIcon(LocaleController.formatString("UserSetPhoto", R.string.UserSetPhoto, user.first_name), i, false);
+            textCell2.setTextAndIcon(LocaleController.formatString("UserSetPhoto", R.string.UserSetPhoto, user.first_name), i6, false);
             textCell2.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-            textCell2.setColors("windowBackgroundWhiteBlueIcon", "windowBackgroundWhiteBlueButton");
-            int i3 = R.raw.camera_outline;
-            final RLottieDrawable rLottieDrawable2 = new RLottieDrawable(i3, "" + i3, AndroidUtilities.dp(50.0f), AndroidUtilities.dp(50.0f), false, null);
+            textCell2.setColors(i7, i8);
+            int i10 = R.raw.camera_outline;
+            final RLottieDrawable rLottieDrawable2 = new RLottieDrawable(i10, "" + i10, AndroidUtilities.dp(50.0f), AndroidUtilities.dp(50.0f), false, null);
             textCell2.imageView.setTranslationX((float) (-AndroidUtilities.dp(8.0f)));
             textCell2.imageView.setAnimation(rLottieDrawable2);
             textCell2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda5
@@ -408,16 +419,16 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             this.oldPhotoCell = new TextCell(context, this.resourcesProvider) { // from class: org.telegram.ui.ContactAddActivity.6
                 /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Cells.TextCell, android.widget.FrameLayout, android.view.View
-                public void onMeasure(int i4, int i5) {
-                    super.onMeasure(i4, i5);
+                public void onMeasure(int i11, int i12) {
+                    super.onMeasure(i11, i12);
                     ContactAddActivity.this.oldAvatarView.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(30.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(30.0f), 1073741824));
                     ContactAddActivity.this.oldAvatarView.setRoundRadius(AndroidUtilities.dp(30.0f));
                 }
 
                 /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Cells.TextCell, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-                public void onLayout(boolean z3, int i4, int i5, int i6, int i7) {
-                    super.onLayout(z3, i4, i5, i6, i7);
+                public void onLayout(boolean z3, int i11, int i12, int i13, int i14) {
+                    super.onLayout(z3, i11, i12, i13, i14);
                     int dp = AndroidUtilities.dp(21.0f);
                     int measuredHeight = (getMeasuredHeight() - ContactAddActivity.this.oldAvatarView.getMeasuredHeight()) / 2;
                     ContactAddActivity.this.oldAvatarView.layout(dp, measuredHeight, ContactAddActivity.this.oldAvatarView.getMeasuredWidth() + dp, ContactAddActivity.this.oldAvatarView.getMeasuredHeight() + measuredHeight);
@@ -431,7 +442,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             this.oldPhotoCell.setText(LocaleController.getString("ResetToOriginalPhoto", R.string.ResetToOriginalPhoto), false);
             this.oldPhotoCell.getImageView().setVisibility(0);
             this.oldPhotoCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-            this.oldPhotoCell.setColors("windowBackgroundWhiteBlueIcon", "windowBackgroundWhiteBlueButton");
+            this.oldPhotoCell.setColors(i7, i8);
             this.oldPhotoCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda3
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
@@ -990,30 +1001,42 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
                 ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         };
-        arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundWhite"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "actionBarDefault"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_ITEMSCOLOR, null, null, null, null, "actionBarDefaultIcon"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_TITLECOLOR, null, null, null, null, "actionBarDefaultTitle"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_SELECTORCOLOR, null, null, null, null, "actionBarDefaultSelector"));
-        arrayList.add(new ThemeDescription(this.nameTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "windowBackgroundWhiteBlackText"));
-        arrayList.add(new ThemeDescription(this.onlineTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "windowBackgroundWhiteGrayText3"));
-        arrayList.add(new ThemeDescription(this.firstNameField, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "windowBackgroundWhiteBlackText"));
-        arrayList.add(new ThemeDescription(this.firstNameField, ThemeDescription.FLAG_HINTTEXTCOLOR, null, null, null, null, "windowBackgroundWhiteHintText"));
-        arrayList.add(new ThemeDescription(this.firstNameField, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "windowBackgroundWhiteInputField"));
-        arrayList.add(new ThemeDescription(this.firstNameField, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, "windowBackgroundWhiteInputFieldActivated"));
-        arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "windowBackgroundWhiteBlackText"));
-        arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_HINTTEXTCOLOR, null, null, null, null, "windowBackgroundWhiteHintText"));
-        arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "windowBackgroundWhiteInputField"));
-        arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, "windowBackgroundWhiteInputFieldActivated"));
-        arrayList.add(new ThemeDescription(this.infoTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "windowBackgroundWhiteGrayText4"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, Theme.avatarDrawables, themeDescriptionDelegate, "avatar_text"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundRed"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundOrange"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundViolet"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundGreen"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundCyan"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundBlue"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "avatar_backgroundPink"));
+        arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_windowBackgroundWhite));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_actionBarDefault));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_ITEMSCOLOR, null, null, null, null, Theme.key_actionBarDefaultIcon));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_TITLECOLOR, null, null, null, null, Theme.key_actionBarDefaultTitle));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_SELECTORCOLOR, null, null, null, null, Theme.key_actionBarDefaultSelector));
+        TextView textView = this.nameTextView;
+        int i = ThemeDescription.FLAG_TEXTCOLOR;
+        int i2 = Theme.key_windowBackgroundWhiteBlackText;
+        arrayList.add(new ThemeDescription(textView, i, null, null, null, null, i2));
+        arrayList.add(new ThemeDescription(this.onlineTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_windowBackgroundWhiteGrayText3));
+        arrayList.add(new ThemeDescription(this.firstNameField, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, i2));
+        EditTextBoldCursor editTextBoldCursor = this.firstNameField;
+        int i3 = ThemeDescription.FLAG_HINTTEXTCOLOR;
+        int i4 = Theme.key_windowBackgroundWhiteHintText;
+        arrayList.add(new ThemeDescription(editTextBoldCursor, i3, null, null, null, null, i4));
+        EditTextBoldCursor editTextBoldCursor2 = this.firstNameField;
+        int i5 = ThemeDescription.FLAG_BACKGROUNDFILTER;
+        int i6 = Theme.key_windowBackgroundWhiteInputField;
+        arrayList.add(new ThemeDescription(editTextBoldCursor2, i5, null, null, null, null, i6));
+        EditTextBoldCursor editTextBoldCursor3 = this.firstNameField;
+        int i7 = ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE;
+        int i8 = Theme.key_windowBackgroundWhiteInputFieldActivated;
+        arrayList.add(new ThemeDescription(editTextBoldCursor3, i7, null, null, null, null, i8));
+        arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, i2));
+        arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_HINTTEXTCOLOR, null, null, null, null, i4));
+        arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, i6));
+        arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, i8));
+        arrayList.add(new ThemeDescription(this.infoTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_windowBackgroundWhiteGrayText4));
+        arrayList.add(new ThemeDescription(null, 0, null, null, Theme.avatarDrawables, themeDescriptionDelegate, Theme.key_avatar_text));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_avatar_backgroundRed));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_avatar_backgroundOrange));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_avatar_backgroundViolet));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_avatar_backgroundGreen));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_avatar_backgroundCyan));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_avatar_backgroundBlue));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_avatar_backgroundPink));
         return arrayList;
     }
 

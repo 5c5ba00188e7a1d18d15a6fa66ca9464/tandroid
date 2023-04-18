@@ -83,7 +83,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         setWillNotDraw(false);
         setOrientation(1);
         setPadding(0, AndroidUtilities.dp(11.0f), 0, AndroidUtilities.dp(11.0f));
-        this.shadowDrawable = Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow");
+        this.shadowDrawable = Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow);
         int currentTimeMillis = ((int) (System.currentTimeMillis() / 1000)) - 3600;
         if (i == 2) {
             TLRPC$TL_message tLRPC$TL_message = new TLRPC$TL_message();

@@ -8,6 +8,6 @@ public final /* synthetic */ class LPhotoPaintView$$ExternalSyntheticLambda37 im
 
     @Override // java.lang.Runnable
     public final void run() {
-        LPhotoPaintView.lambda$shutdown$21();
+        LPhotoPaintView.lambda$shutdown$20();
     }
 }

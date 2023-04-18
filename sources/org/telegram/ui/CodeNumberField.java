@@ -96,7 +96,7 @@ public class CodeNumberField extends EditTextBoldCursor {
         this.exitAnimation = 1.0f;
         this.pressed = false;
         setBackground(null);
-        setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+        setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         setMovementMethod(null);
         addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.CodeNumberField.1
             @Override // android.text.TextWatcher

@@ -267,6 +267,8 @@ public class ContentPreviewViewer {
                 return;
             }
             ContentPreviewViewer.this.closeOnDismiss = true;
+            int i10 = 4;
+            boolean z2 = false;
             if (ContentPreviewViewer.this.currentContentType == 0) {
                 if (!MessageObject.isPremiumSticker(ContentPreviewViewer.this.currentDocument) || AccountInstance.getInstance(ContentPreviewViewer.this.currentAccount).getUserConfig().isPremium()) {
                     boolean isStickerInFavorites = MediaDataController.getInstance(ContentPreviewViewer.this.currentAccount).isStickerInFavorites(ContentPreviewViewer.this.currentDocument);
@@ -323,14 +325,14 @@ public class ContentPreviewViewer {
                         return;
                     }
                     int[] iArr = new int[arrayList3.size()];
-                    for (int i10 = 0; i10 < arrayList3.size(); i10++) {
-                        iArr[i10] = ((Integer) arrayList3.get(i10)).intValue();
+                    for (int i11 = 0; i11 < arrayList3.size(); i11++) {
+                        iArr[i11] = ((Integer) arrayList3.get(i11)).intValue();
                     }
                     1 r3 = new 1(arrayList2, isStickerInFavorites);
                     ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(ContentPreviewViewer.this.containerView.getContext(), R.drawable.popup_fixed_alert3, ContentPreviewViewer.this.resourcesProvider);
-                    for (int i11 = 0; i11 < arrayList.size(); i11++) {
-                        ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(actionBarPopupWindowLayout, ((Integer) arrayList3.get(i11)).intValue(), (CharSequence) arrayList.get(i11), false, ContentPreviewViewer.this.resourcesProvider);
-                        addItem.setTag(Integer.valueOf(i11));
+                    for (int i12 = 0; i12 < arrayList.size(); i12++) {
+                        ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(actionBarPopupWindowLayout, ((Integer) arrayList3.get(i12)).intValue(), (CharSequence) arrayList.get(i12), false, ContentPreviewViewer.this.resourcesProvider);
+                        addItem.setTag(Integer.valueOf(i12));
                         addItem.setOnClickListener(r3);
                     }
                     ContentPreviewViewer.this.popupWindow = new ActionBarPopupWindow(actionBarPopupWindowLayout, -2, -2) { // from class: org.telegram.ui.ContentPreviewViewer.1.2
@@ -419,8 +421,8 @@ public class ContentPreviewViewer {
                         return;
                     }
                     int[] iArr2 = new int[arrayList6.size()];
-                    for (int i12 = 0; i12 < arrayList6.size(); i12++) {
-                        iArr2[i12] = ((Integer) arrayList6.get(i12)).intValue();
+                    for (int i13 = 0; i13 < arrayList6.size(); i13++) {
+                        iArr2[i13] = ((Integer) arrayList6.get(i13)).intValue();
                     }
                     ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout2 = new ActionBarPopupWindow.ActionBarPopupWindowLayout(ContentPreviewViewer.this.containerView.getContext(), R.drawable.popup_fixed_alert2, ContentPreviewViewer.this.resourcesProvider);
                     View.OnClickListener onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda3
@@ -429,13 +431,16 @@ public class ContentPreviewViewer {
                             ContentPreviewViewer.1.this.lambda$run$3(arrayList5, view);
                         }
                     };
-                    for (int i13 = 0; i13 < arrayList4.size(); i13++) {
-                        ActionBarMenuSubItem addItem2 = ActionBarMenuItem.addItem(actionBarPopupWindowLayout2, ((Integer) arrayList6.get(i13)).intValue(), (CharSequence) arrayList4.get(i13), false, ContentPreviewViewer.this.resourcesProvider);
-                        addItem2.setTag(Integer.valueOf(i13));
+                    int i14 = 0;
+                    while (i14 < arrayList4.size()) {
+                        ActionBarMenuSubItem addItem2 = ActionBarMenuItem.addItem(actionBarPopupWindowLayout2, ((Integer) arrayList6.get(i14)).intValue(), (CharSequence) arrayList4.get(i14), z2, ContentPreviewViewer.this.resourcesProvider);
+                        addItem2.setTag(Integer.valueOf(i14));
                         addItem2.setOnClickListener(onClickListener);
-                        if (z && i13 == arrayList4.size() - 1) {
-                            addItem2.setColors(ContentPreviewViewer.this.getThemedColor("text_RedBold"), ContentPreviewViewer.this.getThemedColor("text_RedRegular"));
+                        if (z && i14 == arrayList4.size() - 1) {
+                            addItem2.setColors(ContentPreviewViewer.this.getThemedColor(Theme.key_text_RedBold), ContentPreviewViewer.this.getThemedColor(Theme.key_text_RedRegular));
                         }
+                        i14++;
+                        z2 = false;
                     }
                     ContentPreviewViewer.this.popupWindow = new ActionBarPopupWindow(actionBarPopupWindowLayout2, -2, -2) { // from class: org.telegram.ui.ContentPreviewViewer.1.4
                         {
@@ -472,10 +477,10 @@ public class ContentPreviewViewer {
                     }
                     int min2 = Math.min(ContentPreviewViewer.this.containerView.getWidth(), ContentPreviewViewer.this.containerView.getHeight() - i2) - AndroidUtilities.dp(40.0f);
                     float f = ContentPreviewViewer.this.moveY;
-                    int i14 = i + (min2 / 2);
+                    int i15 = i + (min2 / 2);
                     int dp = ContentPreviewViewer.this.stickerEmojiLayout != null ? AndroidUtilities.dp(40.0f) : 0;
                     ContentPreviewViewer contentPreviewViewer2 = ContentPreviewViewer.this;
-                    contentPreviewViewer2.popupWindow.showAtLocation(contentPreviewViewer2.containerView, 0, (int) ((ContentPreviewViewer.this.containerView.getMeasuredWidth() - actionBarPopupWindowLayout2.getMeasuredWidth()) / 2.0f), (int) (((int) (f + Math.max(i14 + dp, ((ContentPreviewViewer.this.containerView.getHeight() - i2) - ContentPreviewViewer.this.keyboardHeight) / 2) + i3)) + (AndroidUtilities.dp(24.0f) - ContentPreviewViewer.this.moveY)));
+                    contentPreviewViewer2.popupWindow.showAtLocation(contentPreviewViewer2.containerView, 0, (int) ((ContentPreviewViewer.this.containerView.getMeasuredWidth() - actionBarPopupWindowLayout2.getMeasuredWidth()) / 2.0f), (int) (((int) (f + Math.max(i15 + dp, ((ContentPreviewViewer.this.containerView.getHeight() - i2) - ContentPreviewViewer.this.keyboardHeight) / 2) + i3)) + (AndroidUtilities.dp(24.0f) - ContentPreviewViewer.this.moveY)));
                     ContentPreviewViewer.this.containerView.performHapticFeedback(0);
                     if (ContentPreviewViewer.this.moveY != 0.0f) {
                         if (ContentPreviewViewer.this.finalMoveY == 0.0f) {
@@ -532,8 +537,8 @@ public class ContentPreviewViewer {
                     return;
                 }
                 int[] iArr3 = new int[arrayList9.size()];
-                for (int i15 = 0; i15 < arrayList9.size(); i15++) {
-                    iArr3[i15] = ((Integer) arrayList9.get(i15)).intValue();
+                for (int i16 = 0; i16 < arrayList9.size(); i16++) {
+                    iArr3[i16] = ((Integer) arrayList9.get(i16)).intValue();
                 }
                 ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout3 = new ActionBarPopupWindow.ActionBarPopupWindowLayout(ContentPreviewViewer.this.containerView.getContext(), R.drawable.popup_fixed_alert2, ContentPreviewViewer.this.resourcesProvider);
                 View.OnClickListener onClickListener2 = new View.OnClickListener() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda2
@@ -542,16 +547,17 @@ public class ContentPreviewViewer {
                         ContentPreviewViewer.1.this.lambda$run$0(arrayList8, view);
                     }
                 };
-                int i16 = 0;
-                while (i16 < arrayList7.size()) {
-                    ActionBarMenuSubItem addItem3 = ActionBarMenuItem.addItem(i16 == 0, i16 == arrayList7.size() - 1, actionBarPopupWindowLayout3, ((Integer) arrayList9.get(i16)).intValue(), (CharSequence) arrayList7.get(i16), false, ContentPreviewViewer.this.resourcesProvider);
-                    if (((Integer) arrayList8.get(i16)).intValue() == 4) {
-                        addItem3.setIconColor(ContentPreviewViewer.this.getThemedColor("text_RedRegular"));
-                        addItem3.setTextColor(ContentPreviewViewer.this.getThemedColor("text_RedBold"));
+                int i17 = 0;
+                while (i17 < arrayList7.size()) {
+                    ActionBarMenuSubItem addItem3 = ActionBarMenuItem.addItem(i17 == 0, i17 == arrayList7.size() - 1, actionBarPopupWindowLayout3, ((Integer) arrayList9.get(i17)).intValue(), (CharSequence) arrayList7.get(i17), false, ContentPreviewViewer.this.resourcesProvider);
+                    if (((Integer) arrayList8.get(i17)).intValue() == i10) {
+                        addItem3.setIconColor(ContentPreviewViewer.this.getThemedColor(Theme.key_text_RedRegular));
+                        addItem3.setTextColor(ContentPreviewViewer.this.getThemedColor(Theme.key_text_RedBold));
                     }
-                    addItem3.setTag(Integer.valueOf(i16));
+                    addItem3.setTag(Integer.valueOf(i17));
                     addItem3.setOnClickListener(onClickListener2);
-                    i16++;
+                    i17++;
+                    i10 = 4;
                 }
                 ContentPreviewViewer.this.popupWindow = new ActionBarPopupWindow(actionBarPopupWindowLayout3, -2, -2) { // from class: org.telegram.ui.ContentPreviewViewer.1.3
                     {
@@ -588,10 +594,10 @@ public class ContentPreviewViewer {
                 }
                 int min3 = Math.min(ContentPreviewViewer.this.containerView.getWidth(), ContentPreviewViewer.this.containerView.getHeight() - i5) - AndroidUtilities.dp(40.0f);
                 float f2 = ContentPreviewViewer.this.moveY;
-                int i17 = i4 + (min3 / 2);
+                int i18 = i4 + (min3 / 2);
                 int dp2 = ContentPreviewViewer.this.stickerEmojiLayout != null ? AndroidUtilities.dp(40.0f) : 0;
                 ContentPreviewViewer contentPreviewViewer4 = ContentPreviewViewer.this;
-                contentPreviewViewer4.popupWindow.showAtLocation(contentPreviewViewer4.containerView, 0, (int) ((ContentPreviewViewer.this.containerView.getMeasuredWidth() - actionBarPopupWindowLayout3.getMeasuredWidth()) / 2.0f), (int) (((int) (f2 + Math.max(i17 + dp2, ((ContentPreviewViewer.this.containerView.getHeight() - i5) - ContentPreviewViewer.this.keyboardHeight) / 2) + i6)) + (AndroidUtilities.dp(24.0f) - ContentPreviewViewer.this.moveY)));
+                contentPreviewViewer4.popupWindow.showAtLocation(contentPreviewViewer4.containerView, 0, (int) ((ContentPreviewViewer.this.containerView.getMeasuredWidth() - actionBarPopupWindowLayout3.getMeasuredWidth()) / 2.0f), (int) (((int) (f2 + Math.max(i18 + dp2, ((ContentPreviewViewer.this.containerView.getHeight() - i5) - ContentPreviewViewer.this.keyboardHeight) / 2) + i6)) + (AndroidUtilities.dp(24.0f) - ContentPreviewViewer.this.moveY)));
                 ActionBarPopupWindow.startAnimation(actionBarPopupWindowLayout3);
                 ContentPreviewViewer.this.containerView.performHapticFeedback(0);
                 if (ContentPreviewViewer.this.moveY != 0.0f) {
@@ -1703,10 +1709,10 @@ public class ContentPreviewViewer {
         this.centerImage.setImageBitmap((Bitmap) null);
     }
 
-    public int getThemedColor(String str) {
+    public int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 
     private void prepareBlurBitmap() {
@@ -1720,7 +1726,7 @@ public class ContentPreviewViewer {
         Bitmap createBitmap = Bitmap.createBitmap(measuredWidth, measuredHeight, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(createBitmap);
         canvas.scale(0.083333336f, 0.083333336f);
-        canvas.drawColor(Theme.getColor("windowBackgroundWhite"));
+        canvas.drawColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         decorView.draw(canvas);
         Activity activity2 = this.parentActivity;
         if ((activity2 instanceof LaunchActivity) && ((LaunchActivity) activity2).getActionBarLayout().getLastFragment().getVisibleDialog() != null) {

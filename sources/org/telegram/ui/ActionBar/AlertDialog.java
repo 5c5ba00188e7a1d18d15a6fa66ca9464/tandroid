@@ -85,7 +85,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
     private View customView;
     private int customViewHeight;
     private int customViewOffset;
-    private String dialogButtonColorKey;
+    private int dialogButtonColorKey;
     private float dimAlpha;
     private Paint dimBlurPaint;
     private boolean dimCustom;
@@ -172,7 +172,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
     public void redPositive() {
         TextView textView = (TextView) getButton(-1);
         if (textView != null) {
-            textView.setTextColor(getThemedColor("text_RedBold"));
+            textView.setTextColor(getThemedColor(Theme.key_text_RedBold));
         }
     }
 
@@ -185,12 +185,12 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         public AlertDialogCell(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context);
             this.resourcesProvider = resourcesProvider;
-            setBackground(Theme.createSelectorDrawable(getThemedColor("dialogButtonSelector"), 2));
+            setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_dialogButtonSelector), 2));
             setPadding(AndroidUtilities.dp(23.0f), 0, AndroidUtilities.dp(23.0f), 0);
             ImageView imageView = new ImageView(context);
             this.imageView = imageView;
             imageView.setScaleType(ImageView.ScaleType.CENTER);
-            this.imageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogIcon"), PorterDuff.Mode.MULTIPLY));
+            this.imageView.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_dialogIcon), PorterDuff.Mode.MULTIPLY));
             addView(this.imageView, LayoutHelper.createFrame(-2, 40, (LocaleController.isRTL ? 5 : 3) | 16));
             TextView textView = new TextView(context);
             this.textView = textView;
@@ -198,7 +198,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             this.textView.setSingleLine(true);
             this.textView.setGravity(1);
             this.textView.setEllipsize(TextUtils.TruncateAt.END);
-            this.textView.setTextColor(getThemedColor("dialogTextBlack"));
+            this.textView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
             this.textView.setTextSize(1, 16.0f);
             addView(this.textView, LayoutHelper.createFrame(-2, -2, (LocaleController.isRTL ? 5 : 3) | 16));
         }
@@ -228,10 +228,10 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             this.textView.setPadding(0, 0, 0, 0);
         }
 
-        private int getThemedColor(String str) {
+        private int getThemedColor(int i) {
             Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-            Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-            return color != null ? color.intValue() : Theme.getColor(str);
+            Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+            return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
         }
     }
 
@@ -246,7 +246,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         this.shadowVisibility = new boolean[2];
         this.shadowAnimation = new AnimatorSet[2];
         this.customViewOffset = 12;
-        this.dialogButtonColorKey = "dialogButton";
+        this.dialogButtonColorKey = Theme.key_dialogButton;
         this.topHeight = 132;
         boolean z = true;
         this.messageTextViewClickable = true;
@@ -270,7 +270,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         this.blurAlpha = 0.8f;
         this.resourcesProvider = resourcesProvider;
         this.blurredNativeBackground = supportsNativeBlur() && this.progressViewStyle == 0;
-        int themedColor = getThemedColor("dialogBackground");
+        int themedColor = getThemedColor(Theme.key_dialogBackground);
         this.backgroundColor = themedColor;
         boolean z2 = AndroidUtilities.computePerceivedBrightness(themedColor) < 0.721f;
         if (!this.blurredNativeBackground && (supportsNativeBlur() || SharedConfig.getDevicePerformanceClass() < 2 || !z2)) {
@@ -415,7 +415,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             SpoilersTextView spoilersTextView = new SpoilersTextView(getContext(), false);
             this.titleTextView = spoilersTextView;
             spoilersTextView.setText(this.title);
-            this.titleTextView.setTextColor(getThemedColor("dialogTextBlack"));
+            this.titleTextView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
             this.titleTextView.setTextSize(1, 20.0f);
             this.titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.titleTextView.setGravity((this.topAnimationIsNew ? 1 : LocaleController.isRTL ? 5 : 3) | 48);
@@ -428,7 +428,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             TextView textView2 = new TextView(getContext());
             this.secondTitleTextView = textView2;
             textView2.setText(this.secondTitle);
-            this.secondTitleTextView.setTextColor(getThemedColor("dialogTextGray3"));
+            this.secondTitleTextView.setTextColor(getThemedColor(Theme.key_dialogTextGray3));
             this.secondTitleTextView.setTextSize(1, 18.0f);
             this.secondTitleTextView.setGravity((LocaleController.isRTL ? 3 : 5) | 48);
             this.titleContainer.addView(this.secondTitleTextView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 3 : 5) | 48, 0.0f, 21.0f, 0.0f, 0.0f));
@@ -437,7 +437,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             TextView textView3 = new TextView(getContext());
             this.subtitleTextView = textView3;
             textView3.setText(this.subtitle);
-            this.subtitleTextView.setTextColor(getThemedColor("dialogIcon"));
+            this.subtitleTextView.setTextColor(getThemedColor(Theme.key_dialogIcon));
             this.subtitleTextView.setTextSize(1, 14.0f);
             this.subtitleTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
             r1.addView(this.subtitleTextView, LayoutHelper.createLinear(-2, -2, (LocaleController.isRTL ? 5 : 3) | 48, 24, 0, 24, this.items != null ? 14 : 10));
@@ -466,7 +466,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             };
             this.contentScrollView = scrollView;
             scrollView.setVerticalScrollBarEnabled(false);
-            AndroidUtilities.setScrollViewEdgeEffectColor(this.contentScrollView, getThemedColor("dialogScrollGlow"));
+            AndroidUtilities.setScrollViewEdgeEffectColor(this.contentScrollView, getThemedColor(Theme.key_dialogScrollGlow));
             r1.addView(this.contentScrollView, LayoutHelper.createLinear(-1, -2, 0.0f, 0.0f, 0.0f, 0.0f));
             LinearLayout linearLayout = new LinearLayout(getContext());
             this.scrollContainer = linearLayout;
@@ -481,10 +481,10 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         };
         this.messageTextView = spoilersTextView2;
         NotificationCenter.listenEmojiLoading(spoilersTextView2);
-        this.messageTextView.setTextColor(getThemedColor(this.topAnimationIsNew ? "windowBackgroundWhiteGrayText" : "dialogTextBlack"));
+        this.messageTextView.setTextColor(getThemedColor(this.topAnimationIsNew ? Theme.key_windowBackgroundWhiteGrayText : Theme.key_dialogTextBlack));
         this.messageTextView.setTextSize(1, 16.0f);
         this.messageTextView.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
-        this.messageTextView.setLinkTextColor(getThemedColor("dialogTextLink"));
+        this.messageTextView.setLinkTextColor(getThemedColor(Theme.key_dialogTextLink));
         if (!this.messageTextViewClickable) {
             this.messageTextView.setClickable(false);
             this.messageTextView.setEnabled(false);
@@ -496,14 +496,14 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             LineProgressView lineProgressView = new LineProgressView(getContext());
             this.lineProgressView = lineProgressView;
             lineProgressView.setProgress(this.currentProgress / 100.0f, false);
-            this.lineProgressView.setProgressColor(getThemedColor("dialogLineProgress"));
-            this.lineProgressView.setBackColor(getThemedColor("dialogLineProgressBackground"));
+            this.lineProgressView.setProgressColor(getThemedColor(Theme.key_dialogLineProgress));
+            this.lineProgressView.setBackColor(getThemedColor(Theme.key_dialogLineProgressBackground));
             r1.addView(this.lineProgressView, LayoutHelper.createLinear(-1, 4, 19, 24, 0, 24, 0));
             TextView textView4 = new TextView(getContext());
             this.lineProgressViewPercent = textView4;
             textView4.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.lineProgressViewPercent.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
-            this.lineProgressViewPercent.setTextColor(getThemedColor("dialogTextGray2"));
+            this.lineProgressViewPercent.setTextColor(getThemedColor(Theme.key_dialogTextGray2));
             this.lineProgressViewPercent.setTextSize(1, 14.0f);
             r1.addView(this.lineProgressViewPercent, LayoutHelper.createLinear(-2, -2, (LocaleController.isRTL ? 5 : 3) | 48, 23, 4, 23, 24));
             updateLineProgressTextView();
@@ -511,14 +511,14 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             setCanceledOnTouchOutside(false);
             setCancelable(false);
             this.progressViewContainer = new FrameLayout(getContext());
-            this.backgroundColor = getThemedColor("dialog_inlineProgressBackground");
+            this.backgroundColor = getThemedColor(Theme.key_dialog_inlineProgressBackground);
             if (!this.blurredBackground || this.blurredNativeBackground) {
                 this.progressViewContainer.setBackgroundDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(18.0f), this.backgroundColor));
             }
             r1.addView(this.progressViewContainer, LayoutHelper.createLinear(86, 86, 17));
             RadialProgressView radialProgressView = new RadialProgressView(getContext(), this.resourcesProvider);
             radialProgressView.setSize(AndroidUtilities.dp(32.0f));
-            radialProgressView.setProgressColor(getThemedColor("dialog_inlineProgress"));
+            radialProgressView.setProgressColor(getThemedColor(Theme.key_dialog_inlineProgress));
             this.progressViewContainer.addView(radialProgressView, LayoutHelper.createFrame(86, 86, 17));
         } else {
             this.scrollContainer.addView(this.messageTextView, LayoutHelper.createLinear(-2, -2, (this.topAnimationIsNew ? 1 : LocaleController.isRTL ? 5 : 3) | 48, 24, 0, 24, (this.customView == null && this.items == null) ? 0 : this.customViewOffset));
@@ -1493,10 +1493,10 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public int getThemedColor(String str) {
+    public int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 
     public void showDelayed(long j) {
@@ -1576,8 +1576,8 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             return this;
         }
 
-        public Builder setDialogButtonColorKey(String str) {
-            this.alertDialog.dialogButtonColorKey = str;
+        public Builder setDialogButtonColorKey(int i) {
+            this.alertDialog.dialogButtonColorKey = i;
             return this;
         }
 

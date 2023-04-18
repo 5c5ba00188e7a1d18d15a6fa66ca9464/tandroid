@@ -271,7 +271,7 @@ public class FileLoader extends BaseController {
                 sb.append(i3);
                 fileLoaderPriorityQueueArr[i2] = new FileLoaderPriorityQueue(sb.toString(), 5);
                 FileLoaderPriorityQueue[] fileLoaderPriorityQueueArr2 = this.largeFilesQueue;
-                fileLoaderPriorityQueueArr2[i2] = new FileLoaderPriorityQueue("largeFilesQueue dc" + i3, 1);
+                fileLoaderPriorityQueueArr2[i2] = new FileLoaderPriorityQueue("largeFilesQueue dc" + i3, 2);
                 i2 = i3;
             } else {
                 dumpFilesQueue();

@@ -10,6 +10,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
+import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes4.dex */
 public class StickerImageView extends BackupImageView implements NotificationCenter.NotificationCenterDelegate {
     int currentAccount;
@@ -77,7 +78,7 @@ public class StickerImageView extends BackupImageView implements NotificationCen
             int i = this.stickerNum;
             if (size > i) {
                 tLRPC$Document = tLRPC$TL_messages_stickerSet.documents.get(i);
-                svgThumb = tLRPC$Document != null ? DocumentObject.getSvgThumb(tLRPC$Document.thumbs, "emptyListPlaceholder", 0.2f) : null;
+                svgThumb = tLRPC$Document != null ? DocumentObject.getSvgThumb(tLRPC$Document.thumbs, Theme.key_emptyListPlaceholder, 0.2f) : null;
                 if (svgThumb != null) {
                     svgThumb.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
                 }
@@ -91,7 +92,7 @@ public class StickerImageView extends BackupImageView implements NotificationCen
             }
         }
         tLRPC$Document = null;
-        svgThumb = tLRPC$Document != null ? DocumentObject.getSvgThumb(tLRPC$Document.thumbs, "emptyListPlaceholder", 0.2f) : null;
+        svgThumb = tLRPC$Document != null ? DocumentObject.getSvgThumb(tLRPC$Document.thumbs, Theme.key_emptyListPlaceholder, 0.2f) : null;
         if (svgThumb != null) {
         }
         if (tLRPC$Document == null) {

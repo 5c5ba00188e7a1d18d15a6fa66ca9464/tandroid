@@ -85,8 +85,10 @@ public class BrightnessControlCell extends FrameLayout {
     @Override // android.view.ViewGroup, android.view.View
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        this.leftImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon", this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
-        this.rightImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon", this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
+        ImageView imageView = this.leftImageView;
+        int i = Theme.key_windowBackgroundWhiteGrayIcon;
+        imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i, this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
+        this.rightImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i, this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
     }
 
     @Override // android.widget.FrameLayout, android.view.View

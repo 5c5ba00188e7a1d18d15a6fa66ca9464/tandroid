@@ -115,7 +115,7 @@ import org.telegram.ui.ProfileActivity;
 public class StickersAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     private GridAdapter adapter;
     private List<ThemeDescription> animatingDescriptions;
-    private String buttonTextColorKey;
+    private int buttonTextColorKey;
     private int checkReqId;
     private Runnable checkRunnable;
     private boolean clearsInputField;
@@ -167,13 +167,13 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
 
     /* loaded from: classes4.dex */
     public interface StickersAlertCustomButtonDelegate {
-        String getCustomButtonColorKey();
+        int getCustomButtonColorKey();
 
-        String getCustomButtonRippleColorKey();
+        int getCustomButtonRippleColorKey();
 
         String getCustomButtonText();
 
-        String getCustomButtonTextColorKey();
+        int getCustomButtonTextColorKey();
 
         boolean onCustomButtonPressed();
     }
@@ -1068,8 +1068,8 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             private void updateLightStatusBar(boolean z) {
                 Boolean bool = this.statusBarOpen;
                 if (bool == null || bool.booleanValue() != z) {
-                    boolean z2 = AndroidUtilities.computePerceivedBrightness(StickersAlert.this.getThemedColor("dialogBackground")) > 0.721f;
-                    boolean z3 = AndroidUtilities.computePerceivedBrightness(Theme.blendOver(StickersAlert.this.getThemedColor("actionBarDefault"), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) > 0.721f;
+                    boolean z2 = AndroidUtilities.computePerceivedBrightness(StickersAlert.this.getThemedColor(Theme.key_dialogBackground)) > 0.721f;
+                    boolean z3 = AndroidUtilities.computePerceivedBrightness(Theme.blendOver(StickersAlert.this.getThemedColor(Theme.key_actionBarDefault), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) > 0.721f;
                     Boolean valueOf = Boolean.valueOf(z);
                     this.statusBarOpen = valueOf;
                     if (!valueOf.booleanValue()) {
@@ -1079,7 +1079,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 }
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:17:0x00b1  */
+            /* JADX WARN: Removed duplicated region for block: B:17:0x00af  */
             /* JADX WARN: Removed duplicated region for block: B:20:0x016d  */
             /* JADX WARN: Removed duplicated region for block: B:23:0x0173  */
             /* JADX WARN: Removed duplicated region for block: B:25:? A[RETURN, SYNTHETIC] */
@@ -1116,19 +1116,19 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                             ((BottomSheet) StickersAlert.this).shadowDrawable.setBounds(0, dp2, getMeasuredWidth(), measuredHeight);
                             ((BottomSheet) StickersAlert.this).shadowDrawable.draw(canvas);
                             if (f != 1.0f) {
-                                Theme.dialogs_onlineCirclePaint.setColor(StickersAlert.this.getThemedColor("dialogBackground"));
+                                Theme.dialogs_onlineCirclePaint.setColor(StickersAlert.this.getThemedColor(Theme.key_dialogBackground));
                                 this.rect.set(((BottomSheet) StickersAlert.this).backgroundPaddingLeft, ((BottomSheet) StickersAlert.this).backgroundPaddingTop + dp2, getMeasuredWidth() - ((BottomSheet) StickersAlert.this).backgroundPaddingLeft, ((BottomSheet) StickersAlert.this).backgroundPaddingTop + dp2 + AndroidUtilities.dp(24.0f));
                                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(12.0f) * f, AndroidUtilities.dp(12.0f) * f, Theme.dialogs_onlineCirclePaint);
                             }
                             int i7 = AndroidUtilities.statusBarHeight;
                             int dp3 = AndroidUtilities.dp(36.0f);
                             this.rect.set((getMeasuredWidth() - dp3) / 2, dp, (getMeasuredWidth() + dp3) / 2, AndroidUtilities.dp(4.0f) + dp);
-                            Theme.dialogs_onlineCirclePaint.setColor(StickersAlert.this.getThemedColor("key_sheet_scrollUp"));
+                            Theme.dialogs_onlineCirclePaint.setColor(StickersAlert.this.getThemedColor(Theme.key_sheet_scrollUp));
                             Theme.dialogs_onlineCirclePaint.setAlpha((int) (Math.max(0.0f, Math.min(1.0f, (dp - AndroidUtilities.statusBarHeight) / AndroidUtilities.dp(16.0f))) * 255.0f));
                             canvas.drawRoundRect(this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.dialogs_onlineCirclePaint);
                             updateLightStatusBar(i > AndroidUtilities.statusBarHeight / 2);
                             if (i > 0) {
-                                Theme.dialogs_onlineCirclePaint.setColor(StickersAlert.this.getThemedColor("dialogBackground"));
+                                Theme.dialogs_onlineCirclePaint.setColor(StickersAlert.this.getThemedColor(Theme.key_dialogBackground));
                                 canvas.drawRect(((BottomSheet) StickersAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight - i, getMeasuredWidth() - ((BottomSheet) StickersAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, Theme.dialogs_onlineCirclePaint);
                                 return;
                             }
@@ -1142,7 +1142,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                         int i72 = AndroidUtilities.statusBarHeight;
                         int dp32 = AndroidUtilities.dp(36.0f);
                         this.rect.set((getMeasuredWidth() - dp32) / 2, dp, (getMeasuredWidth() + dp32) / 2, AndroidUtilities.dp(4.0f) + dp);
-                        Theme.dialogs_onlineCirclePaint.setColor(StickersAlert.this.getThemedColor("key_sheet_scrollUp"));
+                        Theme.dialogs_onlineCirclePaint.setColor(StickersAlert.this.getThemedColor(Theme.key_sheet_scrollUp));
                         Theme.dialogs_onlineCirclePaint.setAlpha((int) (Math.max(0.0f, Math.min(1.0f, (dp - AndroidUtilities.statusBarHeight) / AndroidUtilities.dp(16.0f))) * 255.0f));
                         canvas.drawRoundRect(this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.dialogs_onlineCirclePaint);
                         updateLightStatusBar(i > AndroidUtilities.statusBarHeight / 2);
@@ -1159,7 +1159,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 int i722 = AndroidUtilities.statusBarHeight;
                 int dp322 = AndroidUtilities.dp(36.0f);
                 this.rect.set((getMeasuredWidth() - dp322) / 2, dp, (getMeasuredWidth() + dp322) / 2, AndroidUtilities.dp(4.0f) + dp);
-                Theme.dialogs_onlineCirclePaint.setColor(StickersAlert.this.getThemedColor("key_sheet_scrollUp"));
+                Theme.dialogs_onlineCirclePaint.setColor(StickersAlert.this.getThemedColor(Theme.key_sheet_scrollUp));
                 Theme.dialogs_onlineCirclePaint.setAlpha((int) (Math.max(0.0f, Math.min(1.0f, (dp - AndroidUtilities.statusBarHeight) / AndroidUtilities.dp(16.0f))) * 255.0f));
                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.dialogs_onlineCirclePaint);
                 updateLightStatusBar(i > AndroidUtilities.statusBarHeight / 2);
@@ -1175,7 +1175,9 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(-1, AndroidUtilities.getShadowHeight(), 51);
         layoutParams.topMargin = AndroidUtilities.dp(48.0f);
         this.shadow[0] = new View(context);
-        this.shadow[0].setBackgroundColor(getThemedColor("dialogShadowLine"));
+        View view = this.shadow[0];
+        int i2 = Theme.key_dialogShadowLine;
+        view.setBackgroundColor(getThemedColor(i2));
         this.shadow[0].setAlpha(0.0f);
         this.shadow[0].setVisibility(4);
         this.shadow[0].setTag(1);
@@ -1208,8 +1210,8 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         recyclerListView2.setLayoutManager(gridLayoutManager);
         this.layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.Components.StickersAlert.6
             @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
-            public int getSpanSize(int i2) {
-                if ((StickersAlert.this.stickerSetCovereds == null || !(StickersAlert.this.adapter.cache.get(i2) instanceof Integer)) && i2 != StickersAlert.this.adapter.totalItems) {
+            public int getSpanSize(int i3) {
+                if ((StickersAlert.this.stickerSetCovereds == null || !(StickersAlert.this.adapter.cache.get(i3) instanceof Integer)) && i3 != StickersAlert.this.adapter.totalItems) {
                     return 1;
                 }
                 return StickersAlert.this.adapter.stickersPerRow;
@@ -1222,7 +1224,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         this.gridView.setVerticalScrollBarEnabled(false);
         this.gridView.addItemDecoration(new RecyclerView.ItemDecoration(this) { // from class: org.telegram.ui.Components.StickersAlert.7
             @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
-            public void getItemOffsets(android.graphics.Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
+            public void getItemOffsets(android.graphics.Rect rect, View view2, RecyclerView recyclerView, RecyclerView.State state) {
                 rect.left = 0;
                 rect.right = 0;
                 rect.bottom = 0;
@@ -1232,25 +1234,25 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         this.gridView.setPadding(AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(10.0f), 0);
         this.gridView.setClipToPadding(false);
         this.gridView.setEnabled(true);
-        this.gridView.setGlowColor(getThemedColor("dialogScrollGlow"));
+        this.gridView.setGlowColor(getThemedColor(Theme.key_dialogScrollGlow));
         this.gridView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda14
             @Override // android.view.View.OnTouchListener
-            public final boolean onTouch(View view, MotionEvent motionEvent) {
+            public final boolean onTouch(View view2, MotionEvent motionEvent) {
                 boolean lambda$init$7;
-                lambda$init$7 = StickersAlert.this.lambda$init$7(view, motionEvent);
+                lambda$init$7 = StickersAlert.this.lambda$init$7(view2, motionEvent);
                 return lambda$init$7;
             }
         });
         this.gridView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.StickersAlert.8
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrolled(RecyclerView recyclerView, int i2, int i3) {
+            public void onScrolled(RecyclerView recyclerView, int i3, int i4) {
                 StickersAlert.this.updateLayout();
             }
         });
         RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda36
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i2) {
-                StickersAlert.this.lambda$init$8(view, i2);
+            public final void onItemClick(View view2, int i3) {
+                StickersAlert.this.lambda$init$8(view2, i3);
             }
         };
         this.stickersOnItemClickListener = onItemClickListener;
@@ -1273,33 +1275,33 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         this.titleTextView = linksTextView;
         linksTextView.setLines(1);
         this.titleTextView.setSingleLine(true);
-        this.titleTextView.setTextColor(getThemedColor("dialogTextBlack"));
+        this.titleTextView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
         this.titleTextView.setTextSize(1, 20.0f);
-        this.titleTextView.setLinkTextColor(getThemedColor("dialogTextLink"));
+        this.titleTextView.setLinkTextColor(getThemedColor(Theme.key_dialogTextLink));
         this.titleTextView.setEllipsize(TextUtils.TruncateAt.END);
         this.titleTextView.setPadding(AndroidUtilities.dp(18.0f), AndroidUtilities.dp(6.0f), AndroidUtilities.dp(18.0f), AndroidUtilities.dp(6.0f));
         this.titleTextView.setGravity(16);
         this.titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.containerView.addView(this.titleTextView, LayoutHelper.createFrame(-1, 50.0f, 51, 0.0f, 0.0f, 40.0f, 0.0f));
-        ActionBarMenuItem actionBarMenuItem = new ActionBarMenuItem(context, (ActionBarMenu) null, 0, getThemedColor("key_sheet_other"), this.resourcesProvider);
+        ActionBarMenuItem actionBarMenuItem = new ActionBarMenuItem(context, (ActionBarMenu) null, 0, getThemedColor(Theme.key_sheet_other), this.resourcesProvider);
         this.optionsButton = actionBarMenuItem;
         actionBarMenuItem.setLongClickEnabled(false);
         this.optionsButton.setSubMenuOpenSide(2);
         this.optionsButton.setIcon(R.drawable.ic_ab_other);
-        this.optionsButton.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor("player_actionBarSelector"), 1));
+        this.optionsButton.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor(Theme.key_player_actionBarSelector), 1));
         this.containerView.addView(this.optionsButton, LayoutHelper.createFrame(40, 40.0f, 53, 0.0f, 5.0f, 5.0f, 0.0f));
         this.optionsButton.addSubItem(1, R.drawable.msg_share, LocaleController.getString("StickersShare", R.string.StickersShare));
         this.optionsButton.addSubItem(2, R.drawable.msg_link, LocaleController.getString("CopyLink", R.string.CopyLink));
         this.optionsButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                StickersAlert.this.lambda$init$10(view);
+            public final void onClick(View view2) {
+                StickersAlert.this.lambda$init$10(view2);
             }
         });
         this.optionsButton.setDelegate(new ActionBarMenuItem.ActionBarMenuItemDelegate() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda34
             @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemDelegate
-            public final void onItemClick(int i2) {
-                StickersAlert.this.onSubItemClick(i2);
+            public final void onItemClick(int i3) {
+                StickersAlert.this.onSubItemClick(i3);
             }
         });
         this.optionsButton.setContentDescription(LocaleController.getString("AccDescrMoreOptions", R.string.AccDescrMoreOptions));
@@ -1308,14 +1310,18 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         FrameLayout.LayoutParams layoutParams2 = new FrameLayout.LayoutParams(-1, AndroidUtilities.getShadowHeight(), 83);
         layoutParams2.bottomMargin = AndroidUtilities.dp(48.0f);
         this.shadow[1] = new View(context);
-        this.shadow[1].setBackgroundColor(getThemedColor("dialogShadowLine"));
+        this.shadow[1].setBackgroundColor(getThemedColor(i2));
         this.containerView.addView(this.shadow[1], layoutParams2);
         TextView textView = new TextView(context);
         this.pickerBottomLayout = textView;
-        textView.setBackground(Theme.createSelectorWithBackgroundDrawable(getThemedColor("dialogBackground"), getThemedColor("listSelectorSDK21")));
+        int i3 = Theme.key_dialogBackground;
+        int themedColor = getThemedColor(i3);
+        int i4 = Theme.key_listSelector;
+        textView.setBackground(Theme.createSelectorWithBackgroundDrawable(themedColor, getThemedColor(i4)));
         TextView textView2 = this.pickerBottomLayout;
-        this.buttonTextColorKey = "dialogTextBlue2";
-        textView2.setTextColor(getThemedColor("dialogTextBlue2"));
+        int i5 = Theme.key_dialogTextBlue2;
+        this.buttonTextColorKey = i5;
+        textView2.setTextColor(getThemedColor(i5));
         this.pickerBottomLayout.setTextSize(1, 14.0f);
         this.pickerBottomLayout.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
         this.pickerBottomLayout.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
@@ -1336,8 +1342,8 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         this.containerView.addView(this.stickerPreviewLayout, LayoutHelper.createFrame(-1, -1.0f));
         this.stickerPreviewLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda6
             @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                StickersAlert.this.lambda$init$11(view);
+            public final void onClick(View view2) {
+                StickersAlert.this.lambda$init$11(view2);
             }
         });
         BackupImageView backupImageView = new BackupImageView(context);
@@ -1353,23 +1359,23 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         TextView textView4 = new TextView(context);
         this.previewSendButton = textView4;
         textView4.setTextSize(1, 14.0f);
-        this.previewSendButton.setTextColor(getThemedColor("dialogTextBlue2"));
-        this.previewSendButton.setBackground(Theme.createSelectorWithBackgroundDrawable(getThemedColor("dialogBackground"), getThemedColor("listSelectorSDK21")));
+        this.previewSendButton.setTextColor(getThemedColor(i5));
+        this.previewSendButton.setBackground(Theme.createSelectorWithBackgroundDrawable(getThemedColor(i3), getThemedColor(i4)));
         this.previewSendButton.setGravity(17);
         this.previewSendButton.setPadding(AndroidUtilities.dp(29.0f), 0, AndroidUtilities.dp(29.0f), 0);
         this.previewSendButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.stickerPreviewLayout.addView(this.previewSendButton, LayoutHelper.createFrame(-1, 48, 83));
         this.previewSendButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                StickersAlert.this.lambda$init$12(view);
+            public final void onClick(View view2) {
+                StickersAlert.this.lambda$init$12(view2);
             }
         });
         FrameLayout.LayoutParams layoutParams3 = new FrameLayout.LayoutParams(-1, AndroidUtilities.getShadowHeight(), 83);
         layoutParams3.bottomMargin = AndroidUtilities.dp(48.0f);
-        View view = new View(context);
-        this.previewSendButtonShadow = view;
-        view.setBackgroundColor(getThemedColor("dialogShadowLine"));
+        View view2 = new View(context);
+        this.previewSendButtonShadow = view2;
+        view2.setBackgroundColor(getThemedColor(i2));
         this.stickerPreviewLayout.addView(this.previewSendButtonShadow, layoutParams3);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
         if (this.importingStickers != null) {
@@ -1503,7 +1509,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         int min = (int) ((Math.min(point.x, point.y) / 2) / AndroidUtilities.density);
         if (this.importingStickers != null) {
             this.previewSendButton.setText(LocaleController.getString("ImportStickersRemove", R.string.ImportStickersRemove));
-            this.previewSendButton.setTextColor(getThemedColor("text_RedBold"));
+            this.previewSendButton.setTextColor(getThemedColor(Theme.key_text_RedBold));
             float f = min;
             this.stickerImageView.setLayoutParams(LayoutHelper.createFrame(min, f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
             this.stickerEmojiTextView.setLayoutParams(LayoutHelper.createFrame(min, f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
@@ -1711,7 +1717,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 if (z3) {
                     this.premiumButtonView.setVisibility(0);
                     this.pickerBottomLayout.setBackground(null);
-                    setButton(null, null, null);
+                    setButton(null, null, -1);
                     this.premiumButtonView.setButton(LocaleController.getString("UnlockPremiumEmoji", R.string.UnlockPremiumEmoji), new View.OnClickListener() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda12
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
@@ -1763,7 +1769,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                     public final void onClick(View view) {
                         StickersAlert.this.lambda$updateFields$17(view);
                     }
-                }, formatPluralString2, "featuredStickers_buttonText", "featuredStickers_addButton", "featuredStickers_addButtonPressed");
+                }, formatPluralString2, Theme.key_featuredStickers_buttonText, Theme.key_featuredStickers_addButton, Theme.key_featuredStickers_addButtonPressed);
             } else {
                 TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet5 = this.stickerSet;
                 TLRPC$StickerSet tLRPC$StickerSet5 = tLRPC$TL_messages_stickerSet5.set;
@@ -1780,14 +1786,14 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                         public final void onClick(View view) {
                             StickersAlert.this.lambda$updateFields$18(view);
                         }
-                    }, formatPluralString, "text_RedBold");
+                    }, formatPluralString, Theme.key_text_RedBold);
                 } else {
                     setButton(new View.OnClickListener() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda5
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             StickersAlert.this.lambda$updateFields$19(view);
                         }
-                    }, formatPluralString, "text_RedBold");
+                    }, formatPluralString, Theme.key_text_RedBold);
                 }
             }
             this.adapter.notifyDataSetChanged();
@@ -1812,11 +1818,11 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                     arrayList6 = this.importingStickers;
                 }
                 objArr[0] = LocaleController.formatPluralString("Stickers", arrayList6.size(), new Object[0]);
-                setButton(onClickListener, LocaleController.formatString("ImportStickers", i3, objArr), "dialogTextBlue2");
+                setButton(onClickListener, LocaleController.formatString("ImportStickers", i3, objArr), Theme.key_dialogTextBlue2);
                 this.pickerBottomLayout.setEnabled(true);
                 return;
             }
-            setButton(null, LocaleController.getString("ImportStickersProcessing", R.string.ImportStickersProcessing), "dialogTextGray2");
+            setButton(null, LocaleController.getString("ImportStickersProcessing", R.string.ImportStickersProcessing), Theme.key_dialogTextGray2);
             this.pickerBottomLayout.setEnabled(false);
             return;
         }
@@ -1825,7 +1831,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             public final void onClick(View view) {
                 StickersAlert.this.lambda$updateFields$21(view);
             }
-        }, LocaleController.getString("Close", R.string.Close), "dialogTextBlue2");
+        }, LocaleController.getString("Close", R.string.Close), Theme.key_dialogTextBlue2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1945,7 +1951,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         final TextView textView = new TextView(context);
         final TextView textView2 = new TextView(context);
         textView2.setTextSize(1, 16.0f);
-        textView2.setTextColor(getThemedColor("dialogTextHint"));
+        textView2.setTextColor(getThemedColor(Theme.key_dialogTextHint));
         textView2.setMaxLines(1);
         textView2.setLines(1);
         textView2.setText("t.me/addstickers/");
@@ -1958,16 +1964,16 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         frameLayout.addView(textView2, LayoutHelper.createFrame(-2, 36, 51));
         final EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context);
         editTextBoldCursor.setBackground(null);
-        editTextBoldCursor.setLineColors(Theme.getColor("dialogInputField"), Theme.getColor("dialogInputFieldActivated"), Theme.getColor("text_RedBold"));
+        editTextBoldCursor.setLineColors(Theme.getColor(Theme.key_dialogInputField), Theme.getColor(Theme.key_dialogInputFieldActivated), Theme.getColor(Theme.key_text_RedBold));
         editTextBoldCursor.setTextSize(1, 16.0f);
-        editTextBoldCursor.setTextColor(getThemedColor("dialogTextBlack"));
+        editTextBoldCursor.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
         editTextBoldCursor.setMaxLines(1);
         editTextBoldCursor.setLines(1);
         editTextBoldCursor.setInputType(16385);
         editTextBoldCursor.setGravity(51);
         editTextBoldCursor.setSingleLine(true);
         editTextBoldCursor.setImeOptions(5);
-        editTextBoldCursor.setCursorColor(getThemedColor("windowBackgroundWhiteBlackText"));
+        editTextBoldCursor.setCursorColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
         editTextBoldCursor.setCursorSize(AndroidUtilities.dp(20.0f));
         editTextBoldCursor.setCursorWidth(1.5f);
         editTextBoldCursor.setPadding(0, AndroidUtilities.dp(4.0f), 0, 0);
@@ -2007,7 +2013,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         textView.setText(AndroidUtilities.replaceTags(LocaleController.getString("ImportStickersEnterNameInfo", R.string.ImportStickersEnterNameInfo)));
         textView.setTextSize(1, 14.0f);
         textView.setPadding(AndroidUtilities.dp(23.0f), AndroidUtilities.dp(12.0f), AndroidUtilities.dp(23.0f), AndroidUtilities.dp(6.0f));
-        textView.setTextColor(getThemedColor("dialogTextGray2"));
+        textView.setTextColor(getThemedColor(Theme.key_dialogTextGray2));
         linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2));
         AlertDialog create = builder.create();
         create.setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda2
@@ -2124,7 +2130,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
     public void checkUrlAvailable(final TextView textView, final String str, boolean z) {
         if (z) {
             textView.setText(LocaleController.getString("ImportStickersLinkAvailable", R.string.ImportStickersLinkAvailable));
-            textView.setTextColor(getThemedColor("windowBackgroundWhiteGreenText"));
+            textView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGreenText));
             this.lastNameAvailable = true;
             this.lastCheckName = str;
             return;
@@ -2140,14 +2146,14 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         }
         if (TextUtils.isEmpty(str)) {
             textView.setText(LocaleController.getString("ImportStickersEnterUrlInfo", R.string.ImportStickersEnterUrlInfo));
-            textView.setTextColor(getThemedColor("dialogTextGray2"));
+            textView.setTextColor(getThemedColor(Theme.key_dialogTextGray2));
             return;
         }
         this.lastNameAvailable = false;
         if (str != null) {
             if (str.startsWith("_") || str.endsWith("_")) {
                 textView.setText(LocaleController.getString("ImportStickersLinkInvalid", R.string.ImportStickersLinkInvalid));
-                textView.setTextColor(getThemedColor("text_RedRegular"));
+                textView.setTextColor(getThemedColor(Theme.key_text_RedRegular));
                 return;
             }
             int length = str.length();
@@ -2155,20 +2161,20 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 char charAt = str.charAt(i);
                 if ((charAt < '0' || charAt > '9') && ((charAt < 'a' || charAt > 'z') && ((charAt < 'A' || charAt > 'Z') && charAt != '_'))) {
                     textView.setText(LocaleController.getString("ImportStickersEnterUrlInfo", R.string.ImportStickersEnterUrlInfo));
-                    textView.setTextColor(getThemedColor("text_RedRegular"));
+                    textView.setTextColor(getThemedColor(Theme.key_text_RedRegular));
                     return;
                 }
             }
         }
         if (str == null || str.length() < 5) {
             textView.setText(LocaleController.getString("ImportStickersLinkInvalidShort", R.string.ImportStickersLinkInvalidShort));
-            textView.setTextColor(getThemedColor("text_RedRegular"));
+            textView.setTextColor(getThemedColor(Theme.key_text_RedRegular));
         } else if (str.length() > 32) {
             textView.setText(LocaleController.getString("ImportStickersLinkInvalidLong", R.string.ImportStickersLinkInvalidLong));
-            textView.setTextColor(getThemedColor("text_RedRegular"));
+            textView.setTextColor(getThemedColor(Theme.key_text_RedRegular));
         } else {
             textView.setText(LocaleController.getString("ImportStickersLinkChecking", R.string.ImportStickersLinkChecking));
-            textView.setTextColor(getThemedColor("windowBackgroundWhiteGrayText8"));
+            textView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText8));
             this.lastCheckName = str;
             Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda18
                 @Override // java.lang.Runnable
@@ -2212,12 +2218,12 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         }
         if (tLRPC$TL_error == null && (tLObject instanceof TLRPC$TL_boolTrue)) {
             textView.setText(LocaleController.getString("ImportStickersLinkAvailable", R.string.ImportStickersLinkAvailable));
-            textView.setTextColor(getThemedColor("windowBackgroundWhiteGreenText"));
+            textView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGreenText));
             this.lastNameAvailable = true;
             return;
         }
         textView.setText(LocaleController.getString("ImportStickersLinkTaken", R.string.ImportStickersLinkTaken));
-        textView.setTextColor(getThemedColor("text_RedRegular"));
+        textView.setTextColor(getThemedColor(Theme.key_text_RedRegular));
         this.lastNameAvailable = false;
     }
 
@@ -2473,15 +2479,15 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         }
     }
 
-    private void setButton(View.OnClickListener onClickListener, String str, String str2) {
-        setButton(onClickListener, str, str2, null, null);
+    private void setButton(View.OnClickListener onClickListener, String str, int i) {
+        setButton(onClickListener, str, i, -1, -1);
     }
 
-    private void setButton(View.OnClickListener onClickListener, String str, String str2, String str3, String str4) {
-        if (str2 != null) {
+    private void setButton(View.OnClickListener onClickListener, String str, int i, int i2, int i3) {
+        if (i >= 0) {
             TextView textView = this.pickerBottomLayout;
-            this.buttonTextColorKey = str2;
-            textView.setTextColor(getThemedColor(str2));
+            this.buttonTextColorKey = i;
+            textView.setTextColor(getThemedColor(i));
         }
         this.pickerBottomLayout.setText(str);
         this.pickerBottomLayout.setOnClickListener(onClickListener);
@@ -2489,9 +2495,9 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         ViewGroup.MarginLayoutParams marginLayoutParams2 = (ViewGroup.MarginLayoutParams) this.shadow[1].getLayoutParams();
         ViewGroup.MarginLayoutParams marginLayoutParams3 = (ViewGroup.MarginLayoutParams) this.gridView.getLayoutParams();
         ViewGroup.MarginLayoutParams marginLayoutParams4 = (ViewGroup.MarginLayoutParams) this.emptyView.getLayoutParams();
-        if (str3 != null && str4 != null) {
-            this.pickerBottomLayout.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), getThemedColor(str3), getThemedColor(str4)));
-            this.pickerBottomFrameLayout.setBackgroundColor(getThemedColor("dialogBackground"));
+        if (i2 >= 0 && i3 >= 0) {
+            this.pickerBottomLayout.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), getThemedColor(i2), getThemedColor(i3)));
+            this.pickerBottomFrameLayout.setBackgroundColor(getThemedColor(Theme.key_dialogBackground));
             int dp = AndroidUtilities.dp(8.0f);
             marginLayoutParams.bottomMargin = dp;
             marginLayoutParams.rightMargin = dp;
@@ -2502,7 +2508,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             marginLayoutParams3.bottomMargin = dp2;
             marginLayoutParams4.bottomMargin = dp2;
         } else {
-            this.pickerBottomLayout.setBackground(Theme.createSelectorWithBackgroundDrawable(getThemedColor("dialogBackground"), Theme.multAlpha(getThemedColor("text_RedBold"), 0.1f)));
+            this.pickerBottomLayout.setBackground(Theme.createSelectorWithBackgroundDrawable(getThemedColor(Theme.key_dialogBackground), Theme.multAlpha(getThemedColor(Theme.key_text_RedBold), 0.1f)));
             this.pickerBottomFrameLayout.setBackgroundColor(0);
             marginLayoutParams.bottomMargin = 0;
             marginLayoutParams.rightMargin = 0;
@@ -2526,13 +2532,13 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
 
     public void updateColors(boolean z) {
         this.adapter.updateColors();
-        this.titleTextView.setHighlightColor(getThemedColor("dialogLinkSelection"));
-        this.stickerPreviewLayout.setBackgroundColor(getThemedColor("dialogBackground") & (-536870913));
-        this.optionsButton.setIconColor(getThemedColor("key_sheet_other"));
-        this.optionsButton.setPopupItemsColor(getThemedColor("actionBarDefaultSubmenuItem"), false);
-        this.optionsButton.setPopupItemsColor(getThemedColor("actionBarDefaultSubmenuItemIcon"), true);
-        this.optionsButton.setPopupItemsSelectorColor(getThemedColor("dialogButtonSelector"));
-        this.optionsButton.redrawPopup(getThemedColor("actionBarDefaultSubmenuBackground"));
+        this.titleTextView.setHighlightColor(getThemedColor(Theme.key_dialogLinkSelection));
+        this.stickerPreviewLayout.setBackgroundColor(getThemedColor(Theme.key_dialogBackground) & (-536870913));
+        this.optionsButton.setIconColor(getThemedColor(Theme.key_sheet_other));
+        this.optionsButton.setPopupItemsColor(getThemedColor(Theme.key_actionBarDefaultSubmenuItem), false);
+        this.optionsButton.setPopupItemsColor(getThemedColor(Theme.key_actionBarDefaultSubmenuItemIcon), true);
+        this.optionsButton.setPopupItemsSelectorColor(getThemedColor(Theme.key_dialogButtonSelector));
+        this.optionsButton.redrawPopup(getThemedColor(Theme.key_actionBarDefaultSubmenuBackground));
         if (z) {
             if (Theme.isAnimatingColor() && this.animatingDescriptions == null) {
                 ArrayList<ThemeDescription> themeDescriptions = getThemeDescriptions();
@@ -2568,32 +2574,41 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         };
-        arrayList.add(new ThemeDescription(this.containerView, 0, null, null, new Drawable[]{this.shadowDrawable}, null, "dialogBackground"));
-        arrayList.add(new ThemeDescription(this.containerView, 0, null, null, null, null, "key_sheet_scrollUp"));
+        ViewGroup viewGroup = this.containerView;
+        Drawable[] drawableArr = {this.shadowDrawable};
+        int i = Theme.key_dialogBackground;
+        arrayList.add(new ThemeDescription(viewGroup, 0, null, null, drawableArr, null, i));
+        arrayList.add(new ThemeDescription(this.containerView, 0, null, null, null, null, Theme.key_sheet_scrollUp));
         this.adapter.getThemeDescriptions(arrayList, themeDescriptionDelegate);
-        arrayList.add(new ThemeDescription(this.shadow[0], ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "dialogShadowLine"));
-        arrayList.add(new ThemeDescription(this.shadow[1], ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "dialogShadowLine"));
-        arrayList.add(new ThemeDescription(this.gridView, ThemeDescription.FLAG_LISTGLOWCOLOR, null, null, null, null, "dialogScrollGlow"));
-        arrayList.add(new ThemeDescription(this.titleTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "dialogTextBlack"));
+        View view = this.shadow[0];
+        int i2 = ThemeDescription.FLAG_BACKGROUND;
+        int i3 = Theme.key_dialogShadowLine;
+        arrayList.add(new ThemeDescription(view, i2, null, null, null, null, i3));
+        arrayList.add(new ThemeDescription(this.shadow[1], ThemeDescription.FLAG_BACKGROUND, null, null, null, null, i3));
+        arrayList.add(new ThemeDescription(this.gridView, ThemeDescription.FLAG_LISTGLOWCOLOR, null, null, null, null, Theme.key_dialogScrollGlow));
+        arrayList.add(new ThemeDescription(this.titleTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_dialogTextBlack));
         if (this.descriptionTextView != null) {
-            arrayList.add(new ThemeDescription(this.descriptionTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "chat_emojiPanelTrendingDescription"));
+            arrayList.add(new ThemeDescription(this.descriptionTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_chat_emojiPanelTrendingDescription));
         }
-        arrayList.add(new ThemeDescription(this.titleTextView, ThemeDescription.FLAG_LINKCOLOR, null, null, null, null, "dialogTextLink"));
-        arrayList.add(new ThemeDescription(this.optionsButton, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, "player_actionBarSelector"));
-        arrayList.add(new ThemeDescription(this.pickerBottomLayout, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "dialogBackground"));
-        arrayList.add(new ThemeDescription(this.pickerBottomLayout, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, "listSelectorSDK21"));
+        arrayList.add(new ThemeDescription(this.titleTextView, ThemeDescription.FLAG_LINKCOLOR, null, null, null, null, Theme.key_dialogTextLink));
+        arrayList.add(new ThemeDescription(this.optionsButton, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, Theme.key_player_actionBarSelector));
+        arrayList.add(new ThemeDescription(this.pickerBottomLayout, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, i));
+        TextView textView = this.pickerBottomLayout;
+        int i4 = ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE;
+        int i5 = Theme.key_listSelector;
+        arrayList.add(new ThemeDescription(textView, i4, null, null, null, null, i5));
         arrayList.add(new ThemeDescription(this.pickerBottomLayout, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, this.buttonTextColorKey));
-        arrayList.add(new ThemeDescription(this.previewSendButton, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "dialogTextBlue2"));
-        arrayList.add(new ThemeDescription(this.previewSendButton, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "dialogBackground"));
-        arrayList.add(new ThemeDescription(this.previewSendButton, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, "listSelectorSDK21"));
-        arrayList.add(new ThemeDescription(this.previewSendButtonShadow, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "dialogShadowLine"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "dialogLinkSelection"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "dialogBackground"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "key_sheet_other"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "actionBarDefaultSubmenuItem"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "actionBarDefaultSubmenuItemIcon"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "dialogButtonSelector"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "actionBarDefaultSubmenuBackground"));
+        arrayList.add(new ThemeDescription(this.previewSendButton, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_dialogTextBlue2));
+        arrayList.add(new ThemeDescription(this.previewSendButton, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, i));
+        arrayList.add(new ThemeDescription(this.previewSendButton, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, i5));
+        arrayList.add(new ThemeDescription(this.previewSendButtonShadow, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, i3));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_dialogLinkSelection));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, i));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_sheet_other));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_actionBarDefaultSubmenuItem));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_actionBarDefaultSubmenuItemIcon));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_dialogButtonSelector));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_actionBarDefaultSubmenuBackground));
         return arrayList;
     }
 

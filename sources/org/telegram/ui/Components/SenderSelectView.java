@@ -57,9 +57,9 @@ public class SenderSelectView extends View {
     }
 
     private void updateColors() {
-        this.backgroundPaint.setColor(Theme.getColor("chat_messagePanelVoiceBackground"));
-        this.menuPaint.setColor(Theme.getColor("chat_messagePanelVoicePressed"));
-        Drawable createSimpleSelectorRoundRectDrawable = Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(16.0f), 0, Theme.getColor("windowBackgroundWhite"));
+        this.backgroundPaint.setColor(Theme.getColor(Theme.key_chat_messagePanelVoiceBackground));
+        this.menuPaint.setColor(Theme.getColor(Theme.key_chat_messagePanelVoicePressed));
+        Drawable createSimpleSelectorRoundRectDrawable = Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(16.0f), 0, Theme.getColor(Theme.key_windowBackgroundWhite));
         this.selectorDrawable = createSimpleSelectorRoundRectDrawable;
         createSimpleSelectorRoundRectDrawable.setCallback(this);
     }

@@ -87,7 +87,7 @@ public class BackButtonMenu {
         ?? actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(parentActivity, resourcesProvider);
         android.graphics.Rect rect2 = new android.graphics.Rect();
         baseFragment.getParentActivity().getResources().getDrawable(R.drawable.popup_fixed_alert).mutate().getPadding(rect2);
-        actionBarPopupWindowLayout.setBackgroundColor(Theme.getColor("actionBarDefaultSubmenuBackground", resourcesProvider));
+        actionBarPopupWindowLayout.setBackgroundColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuBackground, resourcesProvider));
         final AtomicReference atomicReference = new AtomicReference();
         int i3 = 0;
         while (i3 < stackedHistoryDialogs.size()) {
@@ -108,7 +108,7 @@ public class BackButtonMenu {
             textView.setLines(1);
             View view3 = fragmentView;
             textView.setTextSize(1, 16.0f);
-            textView.setTextColor(Theme.getColor("actionBarDefaultSubmenuItem", resourcesProvider));
+            textView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem, resourcesProvider));
             textView.setEllipsize(TextUtils.TruncateAt.END);
             frameLayout.addView(textView, LayoutHelper.createFrameRelatively(-1.0f, -2.0f, 8388627, 59.0f, 0.0f, 12.0f, 0.0f));
             AvatarDrawable avatarDrawable = new AvatarDrawable();
@@ -156,10 +156,10 @@ public class BackButtonMenu {
                     i2 = i3;
                     backupImageView.setImageDrawable(ContextCompat.getDrawable(parentActivity, R.drawable.msg_viewchats).mutate());
                     backupImageView.setSize(AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f));
-                    backupImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("actionBarDefaultSubmenuItemIcon", resourcesProvider), PorterDuff.Mode.MULTIPLY));
+                    backupImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_actionBarDefaultSubmenuItemIcon, resourcesProvider), PorterDuff.Mode.MULTIPLY));
                     textView.setText(LocaleController.getString("AllChats", R.string.AllChats));
                     z = true;
-                    frameLayout.setBackground(Theme.getSelectorDrawable(Theme.getColor("listSelectorSDK21", resourcesProvider), false));
+                    frameLayout.setBackground(Theme.getSelectorDrawable(Theme.getColor(Theme.key_listSelector, resourcesProvider), false));
                     frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.BackButtonMenu$$ExternalSyntheticLambda0
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view4) {
@@ -169,7 +169,7 @@ public class BackButtonMenu {
                     actionBarPopupWindowLayout.addView(frameLayout, LayoutHelper.createLinear(-1, 48));
                     if (!z) {
                         FrameLayout frameLayout2 = new FrameLayout(parentActivity);
-                        frameLayout2.setBackgroundColor(Theme.getColor("actionBarDefaultSubmenuSeparator", resourcesProvider));
+                        frameLayout2.setBackgroundColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuSeparator, resourcesProvider));
                         frameLayout2.setTag(R.id.fit_width_tag, 1);
                         actionBarPopupWindowLayout.addView(frameLayout2, LayoutHelper.createLinear(-1, 8));
                     }
@@ -180,7 +180,7 @@ public class BackButtonMenu {
                 }
             }
             z = false;
-            frameLayout.setBackground(Theme.getSelectorDrawable(Theme.getColor("listSelectorSDK21", resourcesProvider), false));
+            frameLayout.setBackground(Theme.getSelectorDrawable(Theme.getColor(Theme.key_listSelector, resourcesProvider), false));
             frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.BackButtonMenu$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view4) {

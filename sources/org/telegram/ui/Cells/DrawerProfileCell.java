@@ -175,9 +175,10 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         };
         this.darkThemeView = rLottieImageView;
         rLottieImageView.setFocusable(true);
-        this.darkThemeView.setBackground(Theme.createCircleSelectorDrawable(Theme.getColor("dialogButtonSelector"), 0, 0));
+        this.darkThemeView.setBackground(Theme.createCircleSelectorDrawable(Theme.getColor(Theme.key_dialogButtonSelector), 0, 0));
         sunDrawable.beginApplyLayerColors();
-        int color = Theme.getColor("chats_menuName");
+        int i2 = Theme.key_chats_menuName;
+        int color = Theme.getColor(i2);
         sunDrawable.setLayerColor("Sunny.**", color);
         sunDrawable.setLayerColor("Path 6.**", color);
         sunDrawable.setLayerColor("Path.**", color);
@@ -186,7 +187,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         this.darkThemeView.setScaleType(ImageView.ScaleType.CENTER);
         this.darkThemeView.setAnimation(sunDrawable);
         if (Build.VERSION.SDK_INT >= 21) {
-            this.darkThemeView.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21"), 1, AndroidUtilities.dp(17.0f)));
+            this.darkThemeView.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 1, AndroidUtilities.dp(17.0f)));
             Theme.setRippleDrawableForceSoftware((RippleDrawable) this.darkThemeView.getBackground());
         }
         if (!z && sunDrawable.getCustomEndFrame() != sunDrawable.getCurrentFrame()) {
@@ -210,7 +211,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         if (Theme.getEventType() == 0) {
             SnowflakesEffect snowflakesEffect = new SnowflakesEffect(0);
             this.snowflakesEffect = snowflakesEffect;
-            snowflakesEffect.setColorKey("chats_menuName");
+            snowflakesEffect.setColorKey(i2);
         }
         AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this, AndroidUtilities.dp(20.0f));
         this.status = swapAnimatedEmojiDrawable;
@@ -530,8 +531,12 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:71:0x01b7  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x021e  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00cf  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x016a  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0198  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x01a4  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x01b9  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0220  */
     /* JADX WARN: Removed duplicated region for block: B:84:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     /*
@@ -540,118 +545,158 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     protected void onDraw(Canvas canvas) {
         int serviceMessageColor;
         boolean z;
+        Integer num;
+        int color;
+        Integer num2;
+        boolean z2;
         float clamp;
         SnowflakesEffect snowflakesEffect;
         Drawable cachedWallpaper = Theme.getCachedWallpaper();
-        boolean z2 = (applyBackground(false).equals("chats_menuTopBackground") || !Theme.isCustomTheme() || Theme.isPatternWallpaper() || cachedWallpaper == null || (cachedWallpaper instanceof ColorDrawable) || (cachedWallpaper instanceof GradientDrawable)) ? false : true;
-        if (!z2 && Theme.hasThemeKey("chats_menuTopShadowCats")) {
-            serviceMessageColor = Theme.getColor("chats_menuTopShadowCats");
-            z = true;
-        } else {
-            if (Theme.hasThemeKey("chats_menuTopShadow")) {
-                serviceMessageColor = Theme.getColor("chats_menuTopShadow");
-            } else {
-                serviceMessageColor = Theme.getServiceMessageColor() | (-16777216);
-            }
-            z = false;
-        }
-        Integer num = this.currentColor;
-        if (num == null || num.intValue() != serviceMessageColor) {
-            this.currentColor = Integer.valueOf(serviceMessageColor);
-            this.shadowView.getDrawable().setColorFilter(new PorterDuffColorFilter(serviceMessageColor, PorterDuff.Mode.MULTIPLY));
-        }
-        int color = Theme.getColor("chats_menuName");
-        Integer num2 = this.currentMoonColor;
-        if (num2 == null || num2.intValue() != color) {
-            this.currentMoonColor = Integer.valueOf(color);
-            sunDrawable.beginApplyLayerColors();
-            sunDrawable.setLayerColor("Sunny.**", this.currentMoonColor.intValue());
-            sunDrawable.setLayerColor("Path 6.**", this.currentMoonColor.intValue());
-            sunDrawable.setLayerColor("Path.**", this.currentMoonColor.intValue());
-            sunDrawable.setLayerColor("Path 5.**", this.currentMoonColor.intValue());
-            sunDrawable.commitApplyLayerColors();
-        }
-        this.nameTextView.setTextColor(Theme.getColor("chats_menuName"));
-        if (z2) {
-            this.phoneTextView.setTextColor(Theme.getColor("chats_menuPhone"));
-            if (this.shadowView.getVisibility() != 0) {
-                this.shadowView.setVisibility(0);
-            }
-            if ((cachedWallpaper instanceof ColorDrawable) || (cachedWallpaper instanceof GradientDrawable)) {
-                cachedWallpaper.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                cachedWallpaper.draw(canvas);
-                Theme.getColor("listSelectorSDK21");
-            } else if (cachedWallpaper instanceof BitmapDrawable) {
-                Bitmap bitmap = ((BitmapDrawable) cachedWallpaper).getBitmap();
-                float max = Math.max(getMeasuredWidth() / bitmap.getWidth(), getMeasuredHeight() / bitmap.getHeight());
-                int measuredWidth = (int) (getMeasuredWidth() / max);
-                int measuredHeight = (int) (getMeasuredHeight() / max);
-                int width = (bitmap.getWidth() - measuredWidth) / 2;
-                int height = (bitmap.getHeight() - measuredHeight) / 2;
-                this.srcRect.set(width, height, measuredWidth + width, measuredHeight + height);
-                this.destRect.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                try {
-                    canvas.drawBitmap(bitmap, this.srcRect, this.destRect, this.paint);
-                } catch (Throwable th) {
-                    FileLog.e(th);
+        boolean z3 = (applyBackground(false).intValue() == Theme.key_chats_menuTopBackground || !Theme.isCustomTheme() || Theme.isPatternWallpaper() || cachedWallpaper == null || (cachedWallpaper instanceof ColorDrawable) || (cachedWallpaper instanceof GradientDrawable)) ? false : true;
+        if (!z3) {
+            int i = Theme.key_chats_menuTopShadowCats;
+            if (Theme.hasThemeKey(i)) {
+                serviceMessageColor = Theme.getColor(i);
+                z = true;
+                num = this.currentColor;
+                if (num != null || num.intValue() != serviceMessageColor) {
+                    this.currentColor = Integer.valueOf(serviceMessageColor);
+                    this.shadowView.getDrawable().setColorFilter(new PorterDuffColorFilter(serviceMessageColor, PorterDuff.Mode.MULTIPLY));
                 }
-                Theme.getServiceMessageColor();
-            }
-        } else {
-            int i = z ? 0 : 4;
-            if (this.shadowView.getVisibility() != i) {
-                this.shadowView.setVisibility(i);
-            }
-            this.phoneTextView.setTextColor(Theme.getColor("chats_menuPhoneCats"));
-            super.onDraw(canvas);
-            Theme.getColor("listSelectorSDK21");
-        }
-        boolean z3 = this.drawPremium;
-        if (z3) {
-            float f = this.drawPremiumProgress;
-            if (f != 1.0f) {
-                this.drawPremiumProgress = f + 0.07272727f;
+                int i2 = Theme.key_chats_menuName;
+                color = Theme.getColor(i2);
+                num2 = this.currentMoonColor;
+                if (num2 != null || num2.intValue() != color) {
+                    this.currentMoonColor = Integer.valueOf(color);
+                    sunDrawable.beginApplyLayerColors();
+                    sunDrawable.setLayerColor("Sunny.**", this.currentMoonColor.intValue());
+                    sunDrawable.setLayerColor("Path 6.**", this.currentMoonColor.intValue());
+                    sunDrawable.setLayerColor("Path.**", this.currentMoonColor.intValue());
+                    sunDrawable.setLayerColor("Path 5.**", this.currentMoonColor.intValue());
+                    sunDrawable.commitApplyLayerColors();
+                }
+                this.nameTextView.setTextColor(Theme.getColor(i2));
+                if (!z3) {
+                    this.phoneTextView.setTextColor(Theme.getColor(Theme.key_chats_menuPhone));
+                    if (this.shadowView.getVisibility() != 0) {
+                        this.shadowView.setVisibility(0);
+                    }
+                    if ((cachedWallpaper instanceof ColorDrawable) || (cachedWallpaper instanceof GradientDrawable)) {
+                        cachedWallpaper.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
+                        cachedWallpaper.draw(canvas);
+                        Theme.getColor(Theme.key_listSelector);
+                    } else if (cachedWallpaper instanceof BitmapDrawable) {
+                        Bitmap bitmap = ((BitmapDrawable) cachedWallpaper).getBitmap();
+                        float max = Math.max(getMeasuredWidth() / bitmap.getWidth(), getMeasuredHeight() / bitmap.getHeight());
+                        int measuredWidth = (int) (getMeasuredWidth() / max);
+                        int measuredHeight = (int) (getMeasuredHeight() / max);
+                        int width = (bitmap.getWidth() - measuredWidth) / 2;
+                        int height = (bitmap.getHeight() - measuredHeight) / 2;
+                        this.srcRect.set(width, height, measuredWidth + width, measuredHeight + height);
+                        this.destRect.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
+                        try {
+                            canvas.drawBitmap(bitmap, this.srcRect, this.destRect, this.paint);
+                        } catch (Throwable th) {
+                            FileLog.e(th);
+                        }
+                        Theme.getServiceMessageColor();
+                    }
+                } else {
+                    int i3 = z ? 0 : 4;
+                    if (this.shadowView.getVisibility() != i3) {
+                        this.shadowView.setVisibility(i3);
+                    }
+                    this.phoneTextView.setTextColor(Theme.getColor(Theme.key_chats_menuPhoneCats));
+                    super.onDraw(canvas);
+                    Theme.getColor(Theme.key_listSelector);
+                }
+                z2 = this.drawPremium;
+                if (z2) {
+                    float f = this.drawPremiumProgress;
+                    if (f != 1.0f) {
+                        this.drawPremiumProgress = f + 0.07272727f;
+                        clamp = Utilities.clamp(this.drawPremiumProgress, 1.0f, 0.0f);
+                        this.drawPremiumProgress = clamp;
+                        if (clamp != 0.0f) {
+                            if (this.gradientTools == null) {
+                                PremiumGradient.PremiumGradientTools premiumGradientTools = new PremiumGradient.PremiumGradientTools(Theme.key_premiumGradientBottomSheet1, Theme.key_premiumGradientBottomSheet2, Theme.key_premiumGradientBottomSheet3, -1);
+                                this.gradientTools = premiumGradientTools;
+                                premiumGradientTools.x1 = 0.0f;
+                                premiumGradientTools.y1 = 1.1f;
+                                premiumGradientTools.x2 = 1.5f;
+                                premiumGradientTools.y2 = -0.2f;
+                                premiumGradientTools.exactly = true;
+                            }
+                            this.gradientTools.gradientMatrix(0, 0, getMeasuredWidth(), getMeasuredHeight(), 0.0f, 0.0f);
+                            this.gradientTools.paint.setAlpha((int) (this.drawPremiumProgress * 255.0f));
+                            canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), this.gradientTools.paint);
+                            StarParticlesView.Drawable drawable = this.starParticlesDrawable;
+                            if (drawable != null) {
+                                drawable.onDraw(canvas, this.drawPremiumProgress);
+                            }
+                            invalidate();
+                        }
+                        snowflakesEffect = this.snowflakesEffect;
+                        if (snowflakesEffect != null) {
+                            snowflakesEffect.onDraw(this, canvas);
+                            return;
+                        }
+                        return;
+                    }
+                }
+                if (!z2) {
+                    float f2 = this.drawPremiumProgress;
+                    if (f2 != 0.0f) {
+                        this.drawPremiumProgress = f2 - 0.07272727f;
+                    }
+                }
                 clamp = Utilities.clamp(this.drawPremiumProgress, 1.0f, 0.0f);
                 this.drawPremiumProgress = clamp;
                 if (clamp != 0.0f) {
-                    if (this.gradientTools == null) {
-                        PremiumGradient.PremiumGradientTools premiumGradientTools = new PremiumGradient.PremiumGradientTools("premiumGradientBottomSheet1", "premiumGradientBottomSheet2", "premiumGradientBottomSheet3", null);
-                        this.gradientTools = premiumGradientTools;
-                        premiumGradientTools.x1 = 0.0f;
-                        premiumGradientTools.y1 = 1.1f;
-                        premiumGradientTools.x2 = 1.5f;
-                        premiumGradientTools.y2 = -0.2f;
-                        premiumGradientTools.exactly = true;
-                    }
-                    this.gradientTools.gradientMatrix(0, 0, getMeasuredWidth(), getMeasuredHeight(), 0.0f, 0.0f);
-                    this.gradientTools.paint.setAlpha((int) (this.drawPremiumProgress * 255.0f));
-                    canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), this.gradientTools.paint);
-                    StarParticlesView.Drawable drawable = this.starParticlesDrawable;
-                    if (drawable != null) {
-                        drawable.onDraw(canvas, this.drawPremiumProgress);
-                    }
-                    invalidate();
                 }
                 snowflakesEffect = this.snowflakesEffect;
-                if (snowflakesEffect == null) {
-                    snowflakesEffect.onDraw(this, canvas);
-                    return;
+                if (snowflakesEffect != null) {
                 }
-                return;
             }
         }
+        int i4 = Theme.key_chats_menuTopShadow;
+        if (Theme.hasThemeKey(i4)) {
+            serviceMessageColor = Theme.getColor(i4);
+        } else {
+            serviceMessageColor = Theme.getServiceMessageColor() | (-16777216);
+        }
+        z = false;
+        num = this.currentColor;
+        if (num != null) {
+        }
+        this.currentColor = Integer.valueOf(serviceMessageColor);
+        this.shadowView.getDrawable().setColorFilter(new PorterDuffColorFilter(serviceMessageColor, PorterDuff.Mode.MULTIPLY));
+        int i22 = Theme.key_chats_menuName;
+        color = Theme.getColor(i22);
+        num2 = this.currentMoonColor;
+        if (num2 != null) {
+        }
+        this.currentMoonColor = Integer.valueOf(color);
+        sunDrawable.beginApplyLayerColors();
+        sunDrawable.setLayerColor("Sunny.**", this.currentMoonColor.intValue());
+        sunDrawable.setLayerColor("Path 6.**", this.currentMoonColor.intValue());
+        sunDrawable.setLayerColor("Path.**", this.currentMoonColor.intValue());
+        sunDrawable.setLayerColor("Path 5.**", this.currentMoonColor.intValue());
+        sunDrawable.commitApplyLayerColors();
+        this.nameTextView.setTextColor(Theme.getColor(i22));
         if (!z3) {
-            float f2 = this.drawPremiumProgress;
-            if (f2 != 0.0f) {
-                this.drawPremiumProgress = f2 - 0.07272727f;
-            }
+        }
+        z2 = this.drawPremium;
+        if (z2) {
+        }
+        if (!z2) {
         }
         clamp = Utilities.clamp(this.drawPremiumProgress, 1.0f, 0.0f);
         this.drawPremiumProgress = clamp;
         if (clamp != 0.0f) {
         }
         snowflakesEffect = this.snowflakesEffect;
-        if (snowflakesEffect == null) {
+        if (snowflakesEffect != null) {
         }
     }
 
@@ -708,34 +753,36 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
             if (this.premiumStar == null) {
                 this.premiumStar = getResources().getDrawable(R.drawable.msg_premium_liststar).mutate();
             }
-            this.premiumStar.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chats_menuPhoneCats"), PorterDuff.Mode.MULTIPLY));
+            this.premiumStar.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_menuPhoneCats), PorterDuff.Mode.MULTIPLY));
             this.status.set(this.premiumStar, true);
         } else {
             this.animatedStatus.animateChange(null);
             this.animatedStatus.animate().alpha(0.0f).setDuration(200L).start();
             this.status.set((Drawable) null, true);
         }
-        this.animatedStatus.setColor(Theme.getColor(Theme.isCurrentThemeDark() ? "chats_verifiedBackground" : "chats_menuPhoneCats"));
-        this.status.setColor(Integer.valueOf(Theme.getColor(Theme.isCurrentThemeDark() ? "chats_verifiedBackground" : "chats_menuPhoneCats")));
+        this.animatedStatus.setColor(Theme.getColor(Theme.isCurrentThemeDark() ? Theme.key_chats_verifiedBackground : Theme.key_chats_menuPhoneCats));
+        this.status.setColor(Integer.valueOf(Theme.getColor(Theme.isCurrentThemeDark() ? Theme.key_chats_verifiedBackground : Theme.key_chats_menuPhoneCats)));
         TextView textView = this.phoneTextView;
         PhoneFormat phoneFormat = PhoneFormat.getInstance();
         textView.setText(phoneFormat.format("+" + tLRPC$User.phone));
         AvatarDrawable avatarDrawable = new AvatarDrawable(tLRPC$User);
-        avatarDrawable.setColor(Theme.getColor("avatar_backgroundInProfileBlue"));
+        avatarDrawable.setColor(Theme.getColor(Theme.key_avatar_backgroundInProfileBlue));
         this.avatarImageView.setForUserOrChat(tLRPC$User, avatarDrawable);
         applyBackground(true);
         this.updateRightDrawable = true;
     }
 
-    public String applyBackground(boolean z) {
-        String str = (String) getTag();
-        String str2 = "chats_menuTopBackground";
-        str2 = (!Theme.hasThemeKey("chats_menuTopBackground") || Theme.getColor("chats_menuTopBackground") == 0) ? "chats_menuTopBackgroundCats" : "chats_menuTopBackgroundCats";
-        if (z || !str2.equals(str)) {
-            setBackgroundColor(Theme.getColor(str2));
-            setTag(str2);
+    public Integer applyBackground(boolean z) {
+        Integer num = (Integer) getTag();
+        int i = Theme.key_chats_menuTopBackground;
+        if (!Theme.hasThemeKey(i) || Theme.getColor(i) == 0) {
+            i = Theme.key_chats_menuTopBackgroundCats;
         }
-        return str2;
+        if (z || num == null || i != num.intValue()) {
+            setBackgroundColor(Theme.getColor(i));
+            setTag(Integer.valueOf(i));
+        }
+        return Integer.valueOf(i);
     }
 
     public void updateColors() {
@@ -745,11 +792,11 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         }
         AnimatedStatusView animatedStatusView = this.animatedStatus;
         if (animatedStatusView != null) {
-            animatedStatusView.setColor(Theme.getColor(Theme.isCurrentThemeDark() ? "chats_verifiedBackground" : "chats_menuPhoneCats"));
+            animatedStatusView.setColor(Theme.getColor(Theme.isCurrentThemeDark() ? Theme.key_chats_verifiedBackground : Theme.key_chats_menuPhoneCats));
         }
         AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.status;
         if (swapAnimatedEmojiDrawable != null) {
-            swapAnimatedEmojiDrawable.setColor(Integer.valueOf(Theme.getColor(Theme.isCurrentThemeDark() ? "chats_verifiedBackground" : "chats_menuPhoneCats")));
+            swapAnimatedEmojiDrawable.setColor(Integer.valueOf(Theme.getColor(Theme.isCurrentThemeDark() ? Theme.key_chats_verifiedBackground : Theme.key_chats_menuPhoneCats)));
         }
     }
 

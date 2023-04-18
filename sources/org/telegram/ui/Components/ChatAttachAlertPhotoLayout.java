@@ -623,12 +623,14 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         this.dropDown.setLines(1);
         this.dropDown.setMaxLines(1);
         this.dropDown.setEllipsize(TextUtils.TruncateAt.END);
-        this.dropDown.setTextColor(getThemedColor("dialogTextBlack"));
+        TextView textView2 = this.dropDown;
+        int i = Theme.key_dialogTextBlack;
+        textView2.setTextColor(getThemedColor(i));
         this.dropDown.setText(LocaleController.getString("ChatGallery", R.string.ChatGallery));
         this.dropDown.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         Drawable mutate = context.getResources().getDrawable(R.drawable.ic_arrow_drop_down).mutate();
         this.dropDownDrawable = mutate;
-        mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogTextBlack"), PorterDuff.Mode.MULTIPLY));
+        mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor(i), PorterDuff.Mode.MULTIPLY));
         this.dropDown.setCompoundDrawablePadding(AndroidUtilities.dp(4.0f));
         this.dropDown.setPadding(0, 0, AndroidUtilities.dp(10.0f), 0);
         this.dropDownContainer.addView(this.dropDown, LayoutHelper.createFrame(-2, -2.0f, 16, 16.0f, 0.0f, 0.0f, 0.0f));
@@ -659,8 +661,8 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
 
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z3, int i, int i2, int i3, int i4) {
-                super.onLayout(z3, i, i2, i3, i4);
+            public void onLayout(boolean z3, int i2, int i3, int i4, int i5) {
+                super.onLayout(z3, i2, i3, i4, i5);
                 PhotoViewer.getInstance().checkCurrentImageVisibility();
             }
         };
@@ -678,18 +680,18 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         this.gridView.setItemAnimator(null);
         this.gridView.setLayoutAnimation(null);
         this.gridView.setVerticalScrollBarEnabled(false);
-        this.gridView.setGlowColor(getThemedColor("dialogScrollGlow"));
+        this.gridView.setGlowColor(getThemedColor(Theme.key_dialogScrollGlow));
         addView(this.gridView, LayoutHelper.createFrame(-1, -1.0f));
         this.gridView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout.4
             boolean parentPinnedToTop;
 
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+            public void onScrolled(RecyclerView recyclerView, int i2, int i3) {
                 if (ChatAttachAlertPhotoLayout.this.gridView.getChildCount() <= 0) {
                     return;
                 }
                 ChatAttachAlertPhotoLayout chatAttachAlertPhotoLayout = ChatAttachAlertPhotoLayout.this;
-                chatAttachAlertPhotoLayout.parentAlert.updateLayout(chatAttachAlertPhotoLayout, true, i2);
+                chatAttachAlertPhotoLayout.parentAlert.updateLayout(chatAttachAlertPhotoLayout, true, i3);
                 if (ChatAttachAlertPhotoLayout.this.adapter.getTotalItemsCount() > 30) {
                     boolean z3 = this.parentPinnedToTop;
                     ChatAttachAlertPhotoLayout chatAttachAlertPhotoLayout2 = ChatAttachAlertPhotoLayout.this;
@@ -701,15 +703,15 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 } else {
                     ChatAttachAlertPhotoLayout.this.gridView.getFastScroll().setAlpha(0.0f);
                 }
-                if (i2 != 0) {
+                if (i3 != 0) {
                     ChatAttachAlertPhotoLayout.this.checkCameraViewPosition();
                 }
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrollStateChanged(RecyclerView recyclerView, int i) {
+            public void onScrollStateChanged(RecyclerView recyclerView, int i2) {
                 RecyclerListView.Holder holder;
-                if (i == 0) {
+                if (i2 == 0) {
                     int dp2 = AndroidUtilities.dp(13.0f);
                     ActionBarMenuItem actionBarMenuItem2 = ChatAttachAlertPhotoLayout.this.parentAlert.selectedMenuItem;
                     int dp3 = dp2 + (actionBarMenuItem2 != null ? AndroidUtilities.dp(actionBarMenuItem2.getAlpha() * 26.0f) : 0);
@@ -728,75 +730,75 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             }
 
             @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
-            public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int i) {
+            public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int i2) {
                 LinearSmoothScroller linearSmoothScroller = new LinearSmoothScroller(recyclerView.getContext()) { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout.5.1
                     @Override // androidx.recyclerview.widget.LinearSmoothScroller
-                    public int calculateDyToMakeVisible(View view, int i2) {
-                        return super.calculateDyToMakeVisible(view, i2) - (ChatAttachAlertPhotoLayout.this.gridView.getPaddingTop() - AndroidUtilities.dp(7.0f));
+                    public int calculateDyToMakeVisible(View view, int i3) {
+                        return super.calculateDyToMakeVisible(view, i3) - (ChatAttachAlertPhotoLayout.this.gridView.getPaddingTop() - AndroidUtilities.dp(7.0f));
                     }
 
                     /* JADX INFO: Access modifiers changed from: protected */
                     @Override // androidx.recyclerview.widget.LinearSmoothScroller
-                    public int calculateTimeForDeceleration(int i2) {
-                        return super.calculateTimeForDeceleration(i2) * 2;
+                    public int calculateTimeForDeceleration(int i3) {
+                        return super.calculateTimeForDeceleration(i3) * 2;
                     }
                 };
-                linearSmoothScroller.setTargetPosition(i);
+                linearSmoothScroller.setTargetPosition(i2);
                 startSmoothScroll(linearSmoothScroller);
             }
         };
         this.layoutManager = gridLayoutManager;
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout.6
             @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
-            public int getSpanSize(int i) {
-                if (i == ChatAttachAlertPhotoLayout.this.adapter.itemsCount - 1) {
+            public int getSpanSize(int i2) {
+                if (i2 == ChatAttachAlertPhotoLayout.this.adapter.itemsCount - 1) {
                     return ChatAttachAlertPhotoLayout.this.layoutManager.getSpanCount();
                 }
-                return ChatAttachAlertPhotoLayout.this.itemSize + (i % ChatAttachAlertPhotoLayout.this.itemsPerRow != ChatAttachAlertPhotoLayout.this.itemsPerRow + (-1) ? AndroidUtilities.dp(5.0f) : 0);
+                return ChatAttachAlertPhotoLayout.this.itemSize + (i2 % ChatAttachAlertPhotoLayout.this.itemsPerRow != ChatAttachAlertPhotoLayout.this.itemsPerRow + (-1) ? AndroidUtilities.dp(5.0f) : 0);
             }
         });
         this.gridView.setLayoutManager(this.layoutManager);
         this.gridView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda21
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public /* synthetic */ boolean hasDoubleTap(View view, int i) {
-                return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i);
+            public /* synthetic */ boolean hasDoubleTap(View view, int i2) {
+                return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i2);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public /* synthetic */ void onDoubleTap(View view, int i, float f, float f2) {
-                RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i, f, f2);
+            public /* synthetic */ void onDoubleTap(View view, int i2, float f, float f2) {
+                RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i2, f, f2);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public final void onItemClick(View view, int i, float f, float f2) {
-                ChatAttachAlertPhotoLayout.this.lambda$new$3(z2, resourcesProvider, view, i, f, f2);
+            public final void onItemClick(View view, int i2, float f, float f2) {
+                ChatAttachAlertPhotoLayout.this.lambda$new$3(z2, resourcesProvider, view, i2, f, f2);
             }
         });
         this.gridView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda22
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
-            public final boolean onItemClick(View view, int i) {
+            public final boolean onItemClick(View view, int i2) {
                 boolean lambda$new$4;
-                lambda$new$4 = ChatAttachAlertPhotoLayout.this.lambda$new$4(view, i);
+                lambda$new$4 = ChatAttachAlertPhotoLayout.this.lambda$new$4(view, i2);
                 return lambda$new$4;
             }
         });
         RecyclerViewItemRangeSelector recyclerViewItemRangeSelector = new RecyclerViewItemRangeSelector(new RecyclerViewItemRangeSelector.RecyclerViewItemRangeSelectorDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout.7
             @Override // org.telegram.ui.Components.RecyclerViewItemRangeSelector.RecyclerViewItemRangeSelectorDelegate
-            public void setSelected(View view, int i, boolean z3) {
+            public void setSelected(View view, int i2, boolean z3) {
                 if (z3 == ChatAttachAlertPhotoLayout.this.shouldSelect && (view instanceof PhotoAttachPhotoCell)) {
                     ((PhotoAttachPhotoCell) view).callDelegate();
                 }
             }
 
             @Override // org.telegram.ui.Components.RecyclerViewItemRangeSelector.RecyclerViewItemRangeSelectorDelegate
-            public boolean isSelected(int i) {
-                MediaController.PhotoEntry photo = ChatAttachAlertPhotoLayout.this.adapter.getPhoto(i);
+            public boolean isSelected(int i2) {
+                MediaController.PhotoEntry photo = ChatAttachAlertPhotoLayout.this.adapter.getPhoto(i2);
                 return photo != null && ChatAttachAlertPhotoLayout.selectedPhotos.containsKey(Integer.valueOf(photo.imageId));
             }
 
             @Override // org.telegram.ui.Components.RecyclerViewItemRangeSelector.RecyclerViewItemRangeSelectorDelegate
-            public boolean isIndexSelectable(int i) {
-                return ChatAttachAlertPhotoLayout.this.adapter.getItemViewType(i) == 0;
+            public boolean isIndexSelectable(int i2) {
+                return ChatAttachAlertPhotoLayout.this.adapter.getItemViewType(i2) == 0;
             }
 
             @Override // org.telegram.ui.Components.RecyclerViewItemRangeSelector.RecyclerViewItemRangeSelectorDelegate
@@ -820,7 +822,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
         final Paint paint = new Paint(1);
         paint.setColor(-2468275);
-        TextView textView2 = new TextView(this, context) { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout.8
+        TextView textView3 = new TextView(this, context) { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout.8
             float alpha = 0.0f;
             boolean isIncr;
 
@@ -847,8 +849,8 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 invalidate();
             }
         };
-        this.recordTime = textView2;
-        AndroidUtilities.updateViewVisibilityAnimated(textView2, false, 1.0f, false);
+        this.recordTime = textView3;
+        AndroidUtilities.updateViewVisibilityAnimated(textView3, false, 1.0f, false);
         this.recordTime.setBackgroundResource(R.drawable.system);
         this.recordTime.getBackground().setColorFilter(new PorterDuffColorFilter(1711276032, PorterDuff.Mode.MULTIPLY));
         this.recordTime.setTextSize(1, 15.0f);
@@ -859,29 +861,29 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         container.addView(this.recordTime, LayoutHelper.createFrame(-2, -2.0f, 49, 0.0f, 16.0f, 0.0f, 0.0f));
         FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout.9
             @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            protected void onLayout(boolean z3, int i, int i2, int i3, int i4) {
+            protected void onLayout(boolean z3, int i2, int i3, int i4, int i5) {
                 int measuredWidth;
                 int measuredHeight;
                 int dp2;
                 int measuredHeight2;
                 int dp3;
-                int i5;
+                int i6;
                 if (getMeasuredWidth() == AndroidUtilities.dp(126.0f)) {
                     measuredWidth = getMeasuredWidth() / 2;
                     measuredHeight = getMeasuredHeight() / 2;
                     dp3 = getMeasuredWidth() / 2;
-                    int i6 = measuredHeight / 2;
-                    i5 = measuredHeight + i6 + AndroidUtilities.dp(17.0f);
-                    measuredHeight2 = i6 - AndroidUtilities.dp(17.0f);
+                    int i7 = measuredHeight / 2;
+                    i6 = measuredHeight + i7 + AndroidUtilities.dp(17.0f);
+                    measuredHeight2 = i7 - AndroidUtilities.dp(17.0f);
                     dp2 = dp3;
                 } else {
                     measuredWidth = getMeasuredWidth() / 2;
                     measuredHeight = (getMeasuredHeight() / 2) - AndroidUtilities.dp(13.0f);
-                    int i7 = measuredWidth / 2;
-                    dp2 = i7 - AndroidUtilities.dp(17.0f);
+                    int i8 = measuredWidth / 2;
+                    dp2 = i8 - AndroidUtilities.dp(17.0f);
                     measuredHeight2 = (getMeasuredHeight() / 2) - AndroidUtilities.dp(13.0f);
-                    dp3 = measuredWidth + i7 + AndroidUtilities.dp(17.0f);
-                    i5 = measuredHeight2;
+                    dp3 = measuredWidth + i8 + AndroidUtilities.dp(17.0f);
+                    i6 = measuredHeight2;
                 }
                 int measuredHeight3 = (getMeasuredHeight() - ChatAttachAlertPhotoLayout.this.tooltipTextView.getMeasuredHeight()) - AndroidUtilities.dp(12.0f);
                 if (getMeasuredWidth() == AndroidUtilities.dp(126.0f)) {
@@ -890,9 +892,9 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                     ChatAttachAlertPhotoLayout.this.tooltipTextView.layout(measuredWidth - (ChatAttachAlertPhotoLayout.this.tooltipTextView.getMeasuredWidth() / 2), measuredHeight3, (ChatAttachAlertPhotoLayout.this.tooltipTextView.getMeasuredWidth() / 2) + measuredWidth, ChatAttachAlertPhotoLayout.this.tooltipTextView.getMeasuredHeight() + measuredHeight3);
                 }
                 ChatAttachAlertPhotoLayout.this.shutterButton.layout(measuredWidth - (ChatAttachAlertPhotoLayout.this.shutterButton.getMeasuredWidth() / 2), measuredHeight - (ChatAttachAlertPhotoLayout.this.shutterButton.getMeasuredHeight() / 2), measuredWidth + (ChatAttachAlertPhotoLayout.this.shutterButton.getMeasuredWidth() / 2), measuredHeight + (ChatAttachAlertPhotoLayout.this.shutterButton.getMeasuredHeight() / 2));
-                ChatAttachAlertPhotoLayout.this.switchCameraButton.layout(dp3 - (ChatAttachAlertPhotoLayout.this.switchCameraButton.getMeasuredWidth() / 2), i5 - (ChatAttachAlertPhotoLayout.this.switchCameraButton.getMeasuredHeight() / 2), dp3 + (ChatAttachAlertPhotoLayout.this.switchCameraButton.getMeasuredWidth() / 2), i5 + (ChatAttachAlertPhotoLayout.this.switchCameraButton.getMeasuredHeight() / 2));
-                for (int i8 = 0; i8 < 2; i8++) {
-                    ChatAttachAlertPhotoLayout.this.flashModeButton[i8].layout(dp2 - (ChatAttachAlertPhotoLayout.this.flashModeButton[i8].getMeasuredWidth() / 2), measuredHeight2 - (ChatAttachAlertPhotoLayout.this.flashModeButton[i8].getMeasuredHeight() / 2), (ChatAttachAlertPhotoLayout.this.flashModeButton[i8].getMeasuredWidth() / 2) + dp2, (ChatAttachAlertPhotoLayout.this.flashModeButton[i8].getMeasuredHeight() / 2) + measuredHeight2);
+                ChatAttachAlertPhotoLayout.this.switchCameraButton.layout(dp3 - (ChatAttachAlertPhotoLayout.this.switchCameraButton.getMeasuredWidth() / 2), i6 - (ChatAttachAlertPhotoLayout.this.switchCameraButton.getMeasuredHeight() / 2), dp3 + (ChatAttachAlertPhotoLayout.this.switchCameraButton.getMeasuredWidth() / 2), i6 + (ChatAttachAlertPhotoLayout.this.switchCameraButton.getMeasuredHeight() / 2));
+                for (int i9 = 0; i9 < 2; i9++) {
+                    ChatAttachAlertPhotoLayout.this.flashModeButton[i9].layout(dp2 - (ChatAttachAlertPhotoLayout.this.flashModeButton[i9].getMeasuredWidth() / 2), measuredHeight2 - (ChatAttachAlertPhotoLayout.this.flashModeButton[i9].getMeasuredHeight() / 2), (ChatAttachAlertPhotoLayout.this.flashModeButton[i9].getMeasuredWidth() / 2) + dp2, (ChatAttachAlertPhotoLayout.this.flashModeButton[i9].getMeasuredHeight() / 2) + measuredHeight2);
                 }
             }
         };
@@ -900,9 +902,9 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         frameLayout.setVisibility(8);
         this.cameraPanel.setAlpha(0.0f);
         container.addView(this.cameraPanel, LayoutHelper.createFrame(-1, 126, 83));
-        TextView textView3 = new TextView(context);
-        this.counterTextView = textView3;
-        textView3.setBackgroundResource(R.drawable.photos_rounded);
+        TextView textView4 = new TextView(context);
+        this.counterTextView = textView4;
+        textView4.setBackgroundResource(R.drawable.photos_rounded);
         this.counterTextView.setVisibility(8);
         this.counterTextView.setTextColor(-1);
         this.counterTextView.setGravity(17);
@@ -947,23 +949,23 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             }
         });
         this.switchCameraButton.setContentDescription(LocaleController.getString("AccDescrSwitchCamera", R.string.AccDescrSwitchCamera));
-        for (int i = 0; i < 2; i++) {
-            this.flashModeButton[i] = new ImageView(context);
-            this.flashModeButton[i].setScaleType(ImageView.ScaleType.CENTER);
-            this.flashModeButton[i].setVisibility(4);
-            this.cameraPanel.addView(this.flashModeButton[i], LayoutHelper.createFrame(48, 48, 51));
-            this.flashModeButton[i].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda3
+        for (int i2 = 0; i2 < 2; i2++) {
+            this.flashModeButton[i2] = new ImageView(context);
+            this.flashModeButton[i2].setScaleType(ImageView.ScaleType.CENTER);
+            this.flashModeButton[i2].setVisibility(4);
+            this.cameraPanel.addView(this.flashModeButton[i2], LayoutHelper.createFrame(48, 48, 51));
+            this.flashModeButton[i2].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda3
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ChatAttachAlertPhotoLayout.this.lambda$new$8(view);
                 }
             });
-            ImageView imageView2 = this.flashModeButton[i];
-            imageView2.setContentDescription("flash mode " + i);
+            ImageView imageView2 = this.flashModeButton[i2];
+            imageView2.setContentDescription("flash mode " + i2);
         }
-        TextView textView4 = new TextView(context);
-        this.tooltipTextView = textView4;
-        textView4.setTextSize(1, 15.0f);
+        TextView textView5 = new TextView(context);
+        this.tooltipTextView = textView5;
+        textView5.setTextSize(1, 15.0f);
         this.tooltipTextView.setTextColor(-1);
         this.tooltipTextView.setText(LocaleController.getString("TapForVideo", R.string.TapForVideo));
         this.tooltipTextView.setShadowLayer(AndroidUtilities.dp(3.33333f), 0.0f, AndroidUtilities.dp(0.666f), 1275068416);
@@ -2935,7 +2937,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             AndroidUtilities.cancelRunOnUIThread(runnable);
             this.zoomControlHideRunnable = null;
         }
-        AndroidUtilities.setLightNavigationBar(this.parentAlert.getWindow(), ((double) AndroidUtilities.computePerceivedBrightness(getThemedColor("windowBackgroundGray"))) > 0.721d);
+        AndroidUtilities.setLightNavigationBar(this.parentAlert.getWindow(), ((double) AndroidUtilities.computePerceivedBrightness(getThemedColor(Theme.key_windowBackgroundGray))) > 0.721d);
         if (z) {
             this.additionCloseCameraY = this.cameraView.getTranslationY();
             this.cameraAnimationInProgress = true;
@@ -3700,22 +3702,24 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         if (frameLayout != null) {
             frameLayout.invalidate();
         }
-        String str = this.forceDarkTheme ? "voipgroup_actionBarItems" : "dialogTextBlack";
-        Theme.setDrawableColor(this.cameraDrawable, getThemedColor("dialogCameraIcon"));
-        this.progressView.setTextColor(getThemedColor("emptyListPlaceholder"));
-        this.gridView.setGlowColor(getThemedColor("dialogScrollGlow"));
+        int i = this.forceDarkTheme ? Theme.key_voipgroup_actionBarItems : Theme.key_dialogTextBlack;
+        Drawable drawable = this.cameraDrawable;
+        int i2 = Theme.key_dialogCameraIcon;
+        Theme.setDrawableColor(drawable, getThemedColor(i2));
+        this.progressView.setTextColor(getThemedColor(Theme.key_emptyListPlaceholder));
+        this.gridView.setGlowColor(getThemedColor(Theme.key_dialogScrollGlow));
         RecyclerView.ViewHolder findViewHolderForAdapterPosition = this.gridView.findViewHolderForAdapterPosition(0);
         if (findViewHolderForAdapterPosition != null) {
             View view = findViewHolderForAdapterPosition.itemView;
             if (view instanceof PhotoAttachCameraCell) {
-                ((PhotoAttachCameraCell) view).getImageView().setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogCameraIcon"), PorterDuff.Mode.MULTIPLY));
+                ((PhotoAttachCameraCell) view).getImageView().setColorFilter(new PorterDuffColorFilter(getThemedColor(i2), PorterDuff.Mode.MULTIPLY));
             }
         }
-        this.dropDown.setTextColor(getThemedColor(str));
-        this.dropDownContainer.setPopupItemsColor(getThemedColor(this.forceDarkTheme ? "voipgroup_actionBarItems" : "actionBarDefaultSubmenuItem"), false);
-        this.dropDownContainer.setPopupItemsColor(getThemedColor(this.forceDarkTheme ? "voipgroup_actionBarItems" : "actionBarDefaultSubmenuItem"), true);
-        this.dropDownContainer.redrawPopup(getThemedColor(this.forceDarkTheme ? "voipgroup_actionBarUnscrolled" : "actionBarDefaultSubmenuBackground"));
-        Theme.setDrawableColor(this.dropDownDrawable, getThemedColor(str));
+        this.dropDown.setTextColor(getThemedColor(i));
+        this.dropDownContainer.setPopupItemsColor(getThemedColor(this.forceDarkTheme ? Theme.key_voipgroup_actionBarItems : Theme.key_actionBarDefaultSubmenuItem), false);
+        this.dropDownContainer.setPopupItemsColor(getThemedColor(this.forceDarkTheme ? Theme.key_voipgroup_actionBarItems : Theme.key_actionBarDefaultSubmenuItem), true);
+        this.dropDownContainer.redrawPopup(getThemedColor(this.forceDarkTheme ? Theme.key_voipgroup_actionBarUnscrolled : Theme.key_actionBarDefaultSubmenuBackground));
+        Theme.setDrawableColor(this.dropDownDrawable, getThemedColor(i));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

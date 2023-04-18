@@ -134,7 +134,7 @@ public class LinkEditActivity extends BaseFragment {
         } else if (i2 == 1) {
             this.createTextView.setText(LocaleController.getString("SaveLinkHeader", R.string.SaveLinkHeader));
         }
-        this.createTextView.setTextColor(Theme.getColor("actionBarDefaultTitle"));
+        this.createTextView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultTitle));
         this.createTextView.setTextSize(1, 14.0f);
         this.createTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.createTextView.setPadding(AndroidUtilities.dp(18.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(18.0f), AndroidUtilities.dp(8.0f));
@@ -312,11 +312,12 @@ public class LinkEditActivity extends BaseFragment {
                 }
             };
             this.approveCell = textCheckCell;
-            textCheckCell.setBackgroundColor(Theme.getColor("windowBackgroundUnchecked"));
-            this.approveCell.setColors("windowBackgroundCheckText", "switchTrackBlue", "switchTrackBlueChecked", "switchTrackBlueThumb", "switchTrackBlueThumbChecked");
+            int i4 = Theme.key_windowBackgroundUnchecked;
+            textCheckCell.setBackgroundColor(Theme.getColor(i4));
+            this.approveCell.setColors(Theme.key_windowBackgroundCheckText, Theme.key_switchTrackBlue, Theme.key_switchTrackBlueChecked, Theme.key_switchTrackBlueThumb, Theme.key_switchTrackBlueThumbChecked);
             this.approveCell.setDrawCheckRipple(true);
             this.approveCell.setHeight(56);
-            this.approveCell.setTag("windowBackgroundUnchecked");
+            this.approveCell.setTag(Integer.valueOf(i4));
             this.approveCell.setTextAndCheck(LocaleController.getString("ApproveNewMembers", R.string.ApproveNewMembers), false, false);
             this.approveCell.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.approveCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda1
@@ -331,8 +332,9 @@ public class LinkEditActivity extends BaseFragment {
             z = false;
         }
         TextInfoPrivacyCell textInfoPrivacyCell = new TextInfoPrivacyCell(context);
-        int i4 = R.drawable.greydivider;
-        textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(context, i4, "windowBackgroundGrayShadow"));
+        int i5 = R.drawable.greydivider;
+        int i6 = Theme.key_windowBackgroundGrayShadow;
+        textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(context, i5, i6));
         if (z) {
             textInfoPrivacyCell.setText(LocaleController.getString("ApproveNewMembersDescription", R.string.ApproveNewMembersDescription));
         }
@@ -358,8 +360,8 @@ public class LinkEditActivity extends BaseFragment {
         });
         this.timeChooseView.setCallback(new SlideChooseView.Callback() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda11
             @Override // org.telegram.ui.Components.SlideChooseView.Callback
-            public final void onOptionSelected(int i5) {
-                LinkEditActivity.this.lambda$createView$3(i5);
+            public final void onOptionSelected(int i7) {
+                LinkEditActivity.this.lambda$createView$3(i7);
             }
 
             @Override // org.telegram.ui.Components.SlideChooseView.Callback
@@ -381,8 +383,8 @@ public class LinkEditActivity extends BaseFragment {
         this.usesChooseView = slideChooseView2;
         slideChooseView2.setCallback(new SlideChooseView.Callback() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda12
             @Override // org.telegram.ui.Components.SlideChooseView.Callback
-            public final void onOptionSelected(int i5) {
-                LinkEditActivity.this.lambda$createView$4(i5);
+            public final void onOptionSelected(int i7) {
+                LinkEditActivity.this.lambda$createView$4(i7);
             }
 
             @Override // org.telegram.ui.Components.SlideChooseView.Callback
@@ -410,11 +412,11 @@ public class LinkEditActivity extends BaseFragment {
         this.usesEditText.setInputType(2);
         this.usesEditText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.LinkEditActivity.6
             @Override // android.text.TextWatcher
-            public void beforeTextChanged(CharSequence charSequence, int i5, int i6, int i7) {
+            public void beforeTextChanged(CharSequence charSequence, int i7, int i8, int i9) {
             }
 
             @Override // android.text.TextWatcher
-            public void onTextChanged(CharSequence charSequence, int i5, int i6, int i7) {
+            public void onTextChanged(CharSequence charSequence, int i7, int i8, int i9) {
             }
 
             @Override // android.text.TextWatcher
@@ -456,11 +458,11 @@ public class LinkEditActivity extends BaseFragment {
         this.nameEditText = editText2;
         editText2.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.LinkEditActivity.8
             @Override // android.text.TextWatcher
-            public void beforeTextChanged(CharSequence charSequence, int i5, int i6, int i7) {
+            public void beforeTextChanged(CharSequence charSequence, int i7, int i8, int i9) {
             }
 
             @Override // android.text.TextWatcher
-            public void onTextChanged(CharSequence charSequence, int i5, int i6, int i7) {
+            public void onTextChanged(CharSequence charSequence, int i7, int i8, int i9) {
             }
 
             @Override // android.text.TextWatcher
@@ -472,25 +474,29 @@ public class LinkEditActivity extends BaseFragment {
         this.nameEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(32)});
         this.nameEditText.setGravity(16);
         this.nameEditText.setHint(LocaleController.getString("LinkNameHint", R.string.LinkNameHint));
-        this.nameEditText.setHintTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
+        EditText editText3 = this.nameEditText;
+        int i7 = Theme.key_windowBackgroundWhiteGrayText;
+        editText3.setHintTextColor(Theme.getColor(i7));
         this.nameEditText.setLines(1);
         this.nameEditText.setPadding(AndroidUtilities.dp(22.0f), 0, AndroidUtilities.dp(22.0f), 0);
         this.nameEditText.setSingleLine();
-        this.nameEditText.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+        EditText editText4 = this.nameEditText;
+        int i8 = Theme.key_windowBackgroundWhiteBlackText;
+        editText4.setTextColor(Theme.getColor(i8));
         this.nameEditText.setTextSize(1, 16.0f);
         linearLayout.addView(this.nameEditText, LayoutHelper.createLinear(-1, 50));
         TextInfoPrivacyCell textInfoPrivacyCell4 = new TextInfoPrivacyCell(context);
         this.dividerName = textInfoPrivacyCell4;
-        int i5 = R.drawable.greydivider_bottom;
-        textInfoPrivacyCell4.setBackground(Theme.getThemedDrawable(context, i5, "windowBackgroundGrayShadow"));
+        int i9 = R.drawable.greydivider_bottom;
+        textInfoPrivacyCell4.setBackground(Theme.getThemedDrawable(context, i9, i6));
         this.dividerName.setText(LocaleController.getString("LinkNameHelp", R.string.LinkNameHelp));
         linearLayout.addView(this.dividerName);
         if (this.type == 1) {
             TextSettingsCell textSettingsCell = new TextSettingsCell(context);
             this.revokeLink = textSettingsCell;
-            textSettingsCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+            textSettingsCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
             this.revokeLink.setText(LocaleController.getString("RevokeLink", R.string.RevokeLink), false);
-            this.revokeLink.setTextColor(Theme.getColor("text_RedRegular"));
+            this.revokeLink.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
             this.revokeLink.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda3
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
@@ -501,28 +507,30 @@ public class LinkEditActivity extends BaseFragment {
         }
         sizeNotifierFrameLayout.addView(this.scrollView, LayoutHelper.createFrame(-1, -1.0f));
         linearLayout.addView(this.buttonTextView, LayoutHelper.createFrame(-1, 48.0f, 80, 16.0f, 15.0f, 16.0f, 16.0f));
-        this.timeHeaderCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-        this.timeChooseView.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-        this.timeEditText.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-        this.usesHeaderCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-        this.usesChooseView.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-        this.usesEditText.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-        this.nameEditText.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-        sizeNotifierFrameLayout.setBackgroundColor(Theme.getColor("windowBackgroundGray"));
+        HeaderCell headerCell3 = this.timeHeaderCell;
+        int i10 = Theme.key_windowBackgroundWhite;
+        headerCell3.setBackgroundColor(Theme.getColor(i10));
+        this.timeChooseView.setBackgroundColor(Theme.getColor(i10));
+        this.timeEditText.setBackgroundColor(Theme.getColor(i10));
+        this.usesHeaderCell.setBackgroundColor(Theme.getColor(i10));
+        this.usesChooseView.setBackgroundColor(Theme.getColor(i10));
+        this.usesEditText.setBackgroundColor(Theme.getColor(i10));
+        this.nameEditText.setBackgroundColor(Theme.getColor(i10));
+        sizeNotifierFrameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
         this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 LinkEditActivity.this.onCreateClicked(view);
             }
         });
-        this.buttonTextView.setTextColor(Theme.getColor("featuredStickers_buttonText"));
-        this.dividerUses.setBackgroundDrawable(Theme.getThemedDrawable(context, i5, "windowBackgroundGrayShadow"));
-        this.divider.setBackgroundDrawable(Theme.getThemedDrawable(context, i4, "windowBackgroundGrayShadow"));
-        this.buttonTextView.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor("featuredStickers_addButton"), Theme.getColor("featuredStickers_addButtonPressed")));
-        this.usesEditText.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-        this.usesEditText.setHintTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
-        this.timeEditText.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-        this.timeEditText.setHintTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
+        this.buttonTextView.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
+        this.dividerUses.setBackgroundDrawable(Theme.getThemedDrawable(context, i9, i6));
+        this.divider.setBackgroundDrawable(Theme.getThemedDrawable(context, i5, i6));
+        this.buttonTextView.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor(Theme.key_featuredStickers_addButton), Theme.getColor(Theme.key_featuredStickers_addButtonPressed)));
+        this.usesEditText.setTextColor(Theme.getColor(i8));
+        this.usesEditText.setHintTextColor(Theme.getColor(i7));
+        this.timeEditText.setTextColor(Theme.getColor(i8));
+        this.timeEditText.setHintTextColor(Theme.getColor(i7));
         this.usesEditText.setCursorVisible(false);
         setInviteToEdit(this.inviteToEdit);
         sizeNotifierFrameLayout.setClipChildren(false);
@@ -535,7 +543,7 @@ public class LinkEditActivity extends BaseFragment {
     public /* synthetic */ void lambda$createView$0(View view) {
         TextCheckCell textCheckCell = (TextCheckCell) view;
         boolean z = !textCheckCell.isChecked();
-        textCheckCell.setBackgroundColorAnimated(z, Theme.getColor(z ? "windowBackgroundChecked" : "windowBackgroundUnchecked"));
+        textCheckCell.setBackgroundColorAnimated(z, Theme.getColor(z ? Theme.key_windowBackgroundChecked : Theme.key_windowBackgroundUnchecked));
         textCheckCell.setChecked(z);
         setUsesVisible(!z);
         this.firstLayout = true;
@@ -955,7 +963,7 @@ public class LinkEditActivity extends BaseFragment {
         }
         TextCheckCell textCheckCell = this.approveCell;
         if (textCheckCell != null) {
-            textCheckCell.setBackgroundColor(Theme.getColor(tLRPC$TL_chatInviteExported.request_needed ? "windowBackgroundChecked" : "windowBackgroundUnchecked"));
+            textCheckCell.setBackgroundColor(Theme.getColor(tLRPC$TL_chatInviteExported.request_needed ? Theme.key_windowBackgroundChecked : Theme.key_windowBackgroundUnchecked));
             this.approveCell.setChecked(tLRPC$TL_chatInviteExported.request_needed);
         }
         setUsesVisible(!tLRPC$TL_chatInviteExported.request_needed);
@@ -972,7 +980,7 @@ public class LinkEditActivity extends BaseFragment {
         this.usesChooseView.setVisibility(z ? 0 : 8);
         this.usesEditText.setVisibility(z ? 0 : 8);
         this.dividerUses.setVisibility(z ? 0 : 8);
-        this.divider.setBackground(Theme.getThemedDrawable(getParentActivity(), z ? R.drawable.greydivider : R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+        this.divider.setBackground(Theme.getThemedDrawable(getParentActivity(), z ? R.drawable.greydivider : R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -996,30 +1004,35 @@ public class LinkEditActivity extends BaseFragment {
             }
         };
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        arrayList.add(new ThemeDescription(this.timeHeaderCell, 0, new Class[]{HeaderCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlueHeader"));
-        arrayList.add(new ThemeDescription(this.usesHeaderCell, 0, new Class[]{HeaderCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlueHeader"));
-        arrayList.add(new ThemeDescription(this.timeHeaderCell, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundWhite"));
-        arrayList.add(new ThemeDescription(this.usesHeaderCell, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundWhite"));
-        arrayList.add(new ThemeDescription(this.timeChooseView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundWhite"));
-        arrayList.add(new ThemeDescription(this.usesChooseView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundWhite"));
-        arrayList.add(new ThemeDescription(this.timeEditText, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundWhite"));
-        arrayList.add(new ThemeDescription(this.usesEditText, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundWhite"));
-        arrayList.add(new ThemeDescription(this.revokeLink, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundWhite"));
-        arrayList.add(new ThemeDescription(this.divider, 0, new Class[]{TextInfoPrivacyCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteGrayText4"));
-        arrayList.add(new ThemeDescription(this.dividerUses, 0, new Class[]{TextInfoPrivacyCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteGrayText4"));
-        arrayList.add(new ThemeDescription(this.dividerName, 0, new Class[]{TextInfoPrivacyCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteGrayText4"));
-        arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundGray"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "actionBarDefault"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_ITEMSCOLOR, null, null, null, null, "actionBarDefaultIcon"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_TITLECOLOR, null, null, null, null, "actionBarDefaultTitle"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_SELECTORCOLOR, null, null, null, null, "actionBarDefaultSelector"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "windowBackgroundGrayShadow"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "featuredStickers_addButton"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "featuredStickers_addButtonPressed"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "windowBackgroundWhiteBlackText"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "windowBackgroundWhiteGrayText"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "featuredStickers_buttonText"));
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "text_RedRegular"));
+        int i = Theme.key_windowBackgroundWhiteBlueHeader;
+        arrayList.add(new ThemeDescription(this.timeHeaderCell, 0, new Class[]{HeaderCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i));
+        arrayList.add(new ThemeDescription(this.usesHeaderCell, 0, new Class[]{HeaderCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i));
+        HeaderCell headerCell = this.timeHeaderCell;
+        int i2 = ThemeDescription.FLAG_BACKGROUND;
+        int i3 = Theme.key_windowBackgroundWhite;
+        arrayList.add(new ThemeDescription(headerCell, i2, null, null, null, null, i3));
+        arrayList.add(new ThemeDescription(this.usesHeaderCell, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, i3));
+        arrayList.add(new ThemeDescription(this.timeChooseView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, i3));
+        arrayList.add(new ThemeDescription(this.usesChooseView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, i3));
+        arrayList.add(new ThemeDescription(this.timeEditText, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, i3));
+        arrayList.add(new ThemeDescription(this.usesEditText, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, i3));
+        arrayList.add(new ThemeDescription(this.revokeLink, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, i3));
+        int i4 = Theme.key_windowBackgroundWhiteGrayText4;
+        arrayList.add(new ThemeDescription(this.divider, 0, new Class[]{TextInfoPrivacyCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i4));
+        arrayList.add(new ThemeDescription(this.dividerUses, 0, new Class[]{TextInfoPrivacyCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i4));
+        arrayList.add(new ThemeDescription(this.dividerName, 0, new Class[]{TextInfoPrivacyCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i4));
+        arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_windowBackgroundGray));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_actionBarDefault));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_ITEMSCOLOR, null, null, null, null, Theme.key_actionBarDefaultIcon));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_TITLECOLOR, null, null, null, null, Theme.key_actionBarDefaultTitle));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_SELECTORCOLOR, null, null, null, null, Theme.key_actionBarDefaultSelector));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_windowBackgroundGrayShadow));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_featuredStickers_addButton));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_featuredStickers_addButtonPressed));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_windowBackgroundWhiteBlackText));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_windowBackgroundWhiteGrayText));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_featuredStickers_buttonText));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_text_RedRegular));
         return arrayList;
     }
 
@@ -1030,22 +1043,27 @@ public class LinkEditActivity extends BaseFragment {
             Context context = textInfoPrivacyCell.getContext();
             TextInfoPrivacyCell textInfoPrivacyCell2 = this.dividerUses;
             int i = R.drawable.greydivider_bottom;
-            textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawable(context, i, "windowBackgroundGrayShadow"));
-            this.divider.setBackgroundDrawable(Theme.getThemedDrawable(context, R.drawable.greydivider, "windowBackgroundGrayShadow"));
-            this.buttonTextView.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor("featuredStickers_addButton"), Theme.getColor("featuredStickers_addButtonPressed")));
-            this.usesEditText.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.usesEditText.setHintTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
-            this.timeEditText.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.timeEditText.setHintTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
-            this.buttonTextView.setTextColor(Theme.getColor("featuredStickers_buttonText"));
+            int i2 = Theme.key_windowBackgroundGrayShadow;
+            textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawable(context, i, i2));
+            this.divider.setBackgroundDrawable(Theme.getThemedDrawable(context, R.drawable.greydivider, i2));
+            this.buttonTextView.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor(Theme.key_featuredStickers_addButton), Theme.getColor(Theme.key_featuredStickers_addButtonPressed)));
+            EditText editText = this.usesEditText;
+            int i3 = Theme.key_windowBackgroundWhiteBlackText;
+            editText.setTextColor(Theme.getColor(i3));
+            EditText editText2 = this.usesEditText;
+            int i4 = Theme.key_windowBackgroundWhiteGrayText;
+            editText2.setHintTextColor(Theme.getColor(i4));
+            this.timeEditText.setTextColor(Theme.getColor(i3));
+            this.timeEditText.setHintTextColor(Theme.getColor(i4));
+            this.buttonTextView.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
             TextSettingsCell textSettingsCell = this.revokeLink;
             if (textSettingsCell != null) {
-                textSettingsCell.setTextColor(Theme.getColor("text_RedRegular"));
+                textSettingsCell.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
             }
-            this.createTextView.setTextColor(Theme.getColor("actionBarDefaultTitle"));
-            this.dividerName.setBackground(Theme.getThemedDrawable(context, i, "windowBackgroundGrayShadow"));
-            this.nameEditText.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.nameEditText.setHintTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
+            this.createTextView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultTitle));
+            this.dividerName.setBackground(Theme.getThemedDrawable(context, i, i2));
+            this.nameEditText.setTextColor(Theme.getColor(i3));
+            this.nameEditText.setHintTextColor(Theme.getColor(i4));
         }
     }
 }

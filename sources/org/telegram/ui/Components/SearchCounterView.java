@@ -38,7 +38,7 @@ public class SearchCounterView extends View {
     RectF rectF;
     private final Theme.ResourcesProvider resourcesProvider;
     private int textColor;
-    private String textColorKey;
+    private int textColorKey;
     TextPaint textPaint;
     float x;
 
@@ -47,7 +47,7 @@ public class SearchCounterView extends View {
         this.textPaint = new TextPaint(1);
         this.rectF = new RectF();
         this.countChangeProgress = 1.0f;
-        this.textColorKey = "chat_searchPanelText";
+        this.textColorKey = Theme.key_chat_searchPanelText;
         this.gravity = 17;
         this.dx = 0.0f;
         this.resourcesProvider = resourcesProvider;

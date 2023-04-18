@@ -5029,7 +5029,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.qualityPicker.updateSelectedCount(0, false);
         this.qualityPicker.setTranslationY(AndroidUtilities.dp(120.0f));
         this.qualityPicker.doneButton.setText(LocaleController.getString("Done", R.string.Done).toUpperCase());
-        this.qualityPicker.doneButton.setTextColor(getThemedColor("dialogFloatingButton"));
+        TextView textView = this.qualityPicker.doneButton;
+        int i6 = Theme.key_dialogFloatingButton;
+        textView.setTextColor(getThemedColor(i6));
         this.containerView.addView(this.qualityPicker, LayoutHelper.createFrame(-1, 48, 83));
         this.qualityPicker.cancelButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda37
             @Override // android.view.View.OnClickListener
@@ -5075,9 +5077,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
 
             @Override // android.widget.FrameLayout, android.view.View
-            protected void onMeasure(int i6, int i7) {
+            protected void onMeasure(int i7, int i8) {
                 ((FrameLayout.LayoutParams) PhotoViewer.this.itemsLayout.getLayoutParams()).rightMargin = PhotoViewer.this.pickerViewSendButton.getVisibility() == 0 ? AndroidUtilities.dp(70.0f) : 0;
-                super.onMeasure(i6, i7);
+                super.onMeasure(i7, i8);
             }
 
             @Override // android.view.ViewGroup, android.view.View
@@ -5118,28 +5120,28 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
 
             @Override // android.view.View
-            public void setVisibility(int i6) {
-                super.setVisibility(i6);
+            public void setVisibility(int i7) {
+                super.setVisibility(i7);
                 if (PhotoViewer.this.videoTimelineView == null || PhotoViewer.this.videoTimelineView.getVisibility() == 8) {
                     return;
                 }
-                PhotoViewer.this.videoTimelineView.setVisibility(i6 == 0 ? 0 : 4);
+                PhotoViewer.this.videoTimelineView.setVisibility(i7 == 0 ? 0 : 4);
             }
 
             @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            protected void onLayout(boolean z, int i6, int i7, int i8, int i9) {
-                super.onLayout(z, i6, i7, i8, i9);
+            protected void onLayout(boolean z, int i7, int i8, int i9, int i10) {
+                super.onLayout(z, i7, i8, i9, i10);
                 if (PhotoViewer.this.itemsLayout.getVisibility() != 8) {
-                    int dp = (((i8 - i6) - (PhotoViewer.this.pickerViewSendButton.getVisibility() == 0 ? AndroidUtilities.dp(70.0f) : 0)) - PhotoViewer.this.itemsLayout.getMeasuredWidth()) / 2;
+                    int dp = (((i9 - i7) - (PhotoViewer.this.pickerViewSendButton.getVisibility() == 0 ? AndroidUtilities.dp(70.0f) : 0)) - PhotoViewer.this.itemsLayout.getMeasuredWidth()) / 2;
                     PhotoViewer.this.itemsLayout.layout(dp, PhotoViewer.this.itemsLayout.getTop(), PhotoViewer.this.itemsLayout.getMeasuredWidth() + dp, PhotoViewer.this.itemsLayout.getTop() + PhotoViewer.this.itemsLayout.getMeasuredHeight());
                 }
             }
         };
         this.pickerView = frameLayout2;
         this.containerView.addView(frameLayout2, LayoutHelper.createFrame(-1, -2, 83));
-        TextView textView = new TextView(this.containerView.getContext());
-        this.docNameTextView = textView;
-        textView.setTextSize(1, 15.0f);
+        TextView textView2 = new TextView(this.containerView.getContext());
+        this.docNameTextView = textView2;
+        textView2.setTextSize(1, 15.0f);
         this.docNameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.docNameTextView.setSingleLine(true);
         this.docNameTextView.setMaxLines(1);
@@ -5147,19 +5149,22 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.docNameTextView.setTextColor(-1);
         this.docNameTextView.setGravity(3);
         this.pickerView.addView(this.docNameTextView, LayoutHelper.createFrame(-1, -2.0f, 51, 20.0f, 23.0f, 84.0f, 0.0f));
-        TextView textView2 = new TextView(this.containerView.getContext());
-        this.docInfoTextView = textView2;
-        textView2.setTextSize(1, 14.0f);
+        TextView textView3 = new TextView(this.containerView.getContext());
+        this.docInfoTextView = textView3;
+        textView3.setTextSize(1, 14.0f);
         this.docInfoTextView.setSingleLine(true);
         this.docInfoTextView.setMaxLines(1);
         this.docInfoTextView.setEllipsize(TextUtils.TruncateAt.END);
         this.docInfoTextView.setTextColor(-1);
         this.docInfoTextView.setGravity(3);
         this.pickerView.addView(this.docInfoTextView, LayoutHelper.createFrame(-1, -2.0f, 51, 20.0f, 46.0f, 84.0f, 0.0f));
-        TextView textView3 = new TextView(this.containerView.getContext());
-        this.doneButtonFullWidth = textView3;
-        textView3.setBackground(Theme.AdaptiveRipple.filledRect(getThemedColor("featuredStickers_addButton"), 6.0f));
-        this.doneButtonFullWidth.setTextColor(getThemedColor("featuredStickers_buttonText"));
+        TextView textView4 = new TextView(this.containerView.getContext());
+        this.doneButtonFullWidth = textView4;
+        int i7 = Theme.key_featuredStickers_addButton;
+        textView4.setBackground(Theme.AdaptiveRipple.filledRect(getThemedColor(i7), 6.0f));
+        TextView textView5 = this.doneButtonFullWidth;
+        int i8 = Theme.key_featuredStickers_buttonText;
+        textView5.setTextColor(getThemedColor(i8));
         this.doneButtonFullWidth.setEllipsize(TextUtils.TruncateAt.END);
         this.doneButtonFullWidth.setGravity(17);
         this.doneButtonFullWidth.setLines(1);
@@ -5189,9 +5194,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         showVideoTimeline(false, false);
         this.videoTimelineView.setBackgroundColor(2130706432);
         this.containerView.addView(this.videoTimelineView, LayoutHelper.createFrame(-1, 58.0f, 83, 0.0f, 8.0f, 0.0f, 0.0f));
-        TextView textView4 = new TextView(this.parentActivity);
-        this.videoAvatarTooltip = textView4;
-        textView4.setSingleLine(true);
+        TextView textView6 = new TextView(this.parentActivity);
+        this.videoAvatarTooltip = textView6;
+        textView6.setSingleLine(true);
         this.videoAvatarTooltip.setVisibility(8);
         this.videoAvatarTooltip.setText(LocaleController.getString("ChooseCover", R.string.ChooseCover));
         this.videoAvatarTooltip.setGravity(1);
@@ -5210,10 +5215,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
 
             @Override // android.widget.ImageView, android.view.View
-            public void setVisibility(int i6) {
-                super.setVisibility(i6);
+            public void setVisibility(int i9) {
+                super.setVisibility(i9);
                 if (PhotoViewer.this.captionEditText.getCaptionLimitOffset() < 0) {
-                    PhotoViewer.this.captionLimitView.setVisibility(i6);
+                    PhotoViewer.this.captionLimitView.setVisibility(i9);
                 } else {
                     PhotoViewer.this.captionLimitView.setVisibility(8);
                 }
@@ -5234,14 +5239,14 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.pickerViewSendButton = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         int dp = AndroidUtilities.dp(56.0f);
-        int themedColor = getThemedColor("dialogFloatingButton");
-        int i6 = Build.VERSION.SDK_INT;
-        Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(dp, themedColor, getThemedColor(i6 >= 21 ? "dialogFloatingButtonPressed" : "dialogFloatingButton"));
+        int themedColor = getThemedColor(i6);
+        int i9 = Build.VERSION.SDK_INT;
+        Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(dp, themedColor, getThemedColor(i9 >= 21 ? Theme.key_dialogFloatingButtonPressed : i6));
         this.pickerViewSendDrawable = createSimpleSelectorCircleDrawable;
         this.pickerViewSendButton.setBackgroundDrawable(createSimpleSelectorCircleDrawable);
         this.pickerViewSendButton.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.MULTIPLY));
         this.pickerViewSendButton.setImageResource(R.drawable.attach_send);
-        this.pickerViewSendButton.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogFloatingIcon"), PorterDuff.Mode.MULTIPLY));
+        this.pickerViewSendButton.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_dialogFloatingIcon), PorterDuff.Mode.MULTIPLY));
         this.containerView.addView(this.pickerViewSendButton, LayoutHelper.createFrame(56, 56.0f, 85, 0.0f, 0.0f, 14.0f, 14.0f));
         this.pickerViewSendButton.setContentDescription(LocaleController.getString("Send", R.string.Send));
         this.pickerViewSendButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda39
@@ -5258,38 +5263,38 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 return lambda$setParentActivity$15;
             }
         });
-        TextView textView5 = new TextView(this.parentActivity);
-        this.captionLimitView = textView5;
-        textView5.setTextSize(1, 15.0f);
+        TextView textView7 = new TextView(this.parentActivity);
+        this.captionLimitView = textView7;
+        textView7.setTextSize(1, 15.0f);
         this.captionLimitView.setTextColor(-1280137);
         this.captionLimitView.setGravity(17);
         this.captionLimitView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.containerView.addView(this.captionLimitView, LayoutHelper.createFrame(56, 20.0f, 85, 3.0f, 0.0f, 14.0f, 78.0f));
         LinearLayout linearLayout = new LinearLayout(this.parentActivity) { // from class: org.telegram.ui.PhotoViewer.24
             @Override // android.widget.LinearLayout, android.view.View
-            protected void onMeasure(int i7, int i8) {
+            protected void onMeasure(int i10, int i11) {
                 int childCount = getChildCount();
-                int i9 = 0;
-                for (int i10 = 0; i10 < childCount; i10++) {
-                    if (getChildAt(i10).getVisibility() == 0) {
-                        i9++;
+                int i12 = 0;
+                for (int i13 = 0; i13 < childCount; i13++) {
+                    if (getChildAt(i13).getVisibility() == 0) {
+                        i12++;
                     }
                 }
-                int size = View.MeasureSpec.getSize(i7);
-                int size2 = View.MeasureSpec.getSize(i8);
-                if (i9 != 0) {
-                    int min = Math.min(AndroidUtilities.dp(70.0f), size / i9);
+                int size = View.MeasureSpec.getSize(i10);
+                int size2 = View.MeasureSpec.getSize(i11);
+                if (i12 != 0) {
+                    int min = Math.min(AndroidUtilities.dp(70.0f), size / i12);
                     if (PhotoViewer.this.compressItem.getVisibility() == 0) {
                         int max = Math.max(0, (min - AndroidUtilities.dp(PhotoViewer.this.selectedCompression < 2 ? 48 : 64)) / 2);
                         PhotoViewer.this.compressItem.setPadding(max, 0, max, 0);
                     }
-                    for (int i11 = 0; i11 < childCount; i11++) {
-                        View childAt = getChildAt(i11);
+                    for (int i14 = 0; i14 < childCount; i14++) {
+                        View childAt = getChildAt(i14);
                         if (childAt.getVisibility() != 8) {
                             childAt.measure(View.MeasureSpec.makeMeasureSpec(min, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 1073741824));
                         }
                     }
-                    setMeasuredDimension(min * i9, size2);
+                    setMeasuredDimension(min * i12, size2);
                     return;
                 }
                 setMeasuredDimension(size, size2);
@@ -5441,9 +5446,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 PhotoViewer.this.lambda$setParentActivity$32(view2);
             }
         });
-        TextView textView6 = new TextView(this.activityContext);
-        this.resetButton = textView6;
-        textView6.setClickable(false);
+        TextView textView8 = new TextView(this.activityContext);
+        this.resetButton = textView8;
+        textView8.setClickable(false);
         this.resetButton.setVisibility(8);
         this.resetButton.setTextSize(1, 14.0f);
         this.resetButton.setTextColor(-1);
@@ -5498,7 +5503,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.checkImageView.setHasBorder(true);
         this.checkImageView.setSize(34);
         this.checkImageView.setCheckOffset(AndroidUtilities.dp(1.0f));
-        this.checkImageView.setColor(getThemedColor("dialogFloatingButton"), -1);
+        this.checkImageView.setColor(getThemedColor(i6), -1);
         this.checkImageView.setVisibility(8);
         this.containerView.addView(this.checkImageView, LayoutHelper.createFrame(34, 34.0f, 53, 0.0f, (rotation == 3 || rotation == 1) ? 61.0f : 71.0f, 11.0f, 0.0f));
         if (isStatusBarVisible()) {
@@ -5528,14 +5533,14 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.selectedPhotosListView.setAlpha(0.0f);
         this.selectedPhotosListView.setLayoutManager(new LinearLayoutManager(this, this.parentActivity, 0, true) { // from class: org.telegram.ui.PhotoViewer.27
             @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
-            public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int i7) {
+            public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int i10) {
                 LinearSmoothScrollerEnd linearSmoothScrollerEnd = new LinearSmoothScrollerEnd(this, recyclerView.getContext()) { // from class: org.telegram.ui.PhotoViewer.27.1
                     @Override // androidx.recyclerview.widget.LinearSmoothScrollerEnd
-                    protected int calculateTimeForDeceleration(int i8) {
-                        return Math.max(180, super.calculateTimeForDeceleration(i8));
+                    protected int calculateTimeForDeceleration(int i11) {
+                        return Math.max(180, super.calculateTimeForDeceleration(i11));
                     }
                 };
-                linearSmoothScrollerEnd.setTargetPosition(i7);
+                linearSmoothScrollerEnd.setTargetPosition(i10);
                 startSmoothScroll(linearSmoothScrollerEnd);
             }
         });
@@ -5546,8 +5551,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.containerView.addView(this.selectedPhotosListView, LayoutHelper.createFrame(-1, 103, 51));
         this.selectedPhotosListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda87
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view2, int i7) {
-                PhotoViewer.this.lambda$setParentActivity$38(view2, i7);
+            public final void onItemClick(View view2, int i10) {
+                PhotoViewer.this.lambda$setParentActivity$38(view2, i10);
             }
         });
         PhotoViewerCaptionEnterView photoViewerCaptionEnterView2 = new PhotoViewerCaptionEnterView(this, this.activityContext, this.containerView, this.windowView, resourcesProvider) { // from class: org.telegram.ui.PhotoViewer.28
@@ -5604,7 +5609,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 if (PhotoViewer.this.mentionsAdapter != null && PhotoViewer.this.captionEditText != null && PhotoViewer.this.parentChatActivity != null && charSequence != null) {
                     PhotoViewer.this.mentionsAdapter.searchUsernameOrHashtag(charSequence.toString(), PhotoViewer.this.captionEditText.getCursorPosition(), PhotoViewer.this.parentChatActivity.messages, false, false);
                 }
-                int themedColor2 = PhotoViewer.this.getThemedColor("dialogFloatingIcon");
+                int themedColor2 = PhotoViewer.this.getThemedColor(Theme.key_dialogFloatingIcon);
                 if (PhotoViewer.this.captionEditText.getCaptionLimitOffset() < 0) {
                     PhotoViewer.this.captionLimitView.setText(Integer.toString(PhotoViewer.this.captionEditText.getCaptionLimitOffset()));
                     PhotoViewer.this.captionLimitView.setVisibility(PhotoViewer.this.pickerViewSendButton.getVisibility());
@@ -5619,8 +5624,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
 
             @Override // org.telegram.ui.Components.PhotoViewerCaptionEnterView.PhotoViewerCaptionEnterViewDelegate
-            public void onWindowSizeChanged(int i7) {
-                if (i7 - (ActionBar.getCurrentActionBarHeight() * 2) < AndroidUtilities.dp((Math.min(3, PhotoViewer.this.mentionsAdapter.getItemCount()) * 36) + (PhotoViewer.this.mentionsAdapter.getItemCount() > 3 ? 18 : 0))) {
+            public void onWindowSizeChanged(int i10) {
+                if (i10 - (ActionBar.getCurrentActionBarHeight() * 2) < AndroidUtilities.dp((Math.min(3, PhotoViewer.this.mentionsAdapter.getItemCount()) * 36) + (PhotoViewer.this.mentionsAdapter.getItemCount() > 3 ? 18 : 0))) {
                     PhotoViewer.this.allowMentions = false;
                     if (PhotoViewer.this.mentionListView == null || PhotoViewer.this.mentionListView.getVisibility() != 0) {
                         return;
@@ -5639,12 +5644,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             public void onEmojiViewOpen() {
                 PhotoViewer.this.navigationBar.setVisibility(4);
                 PhotoViewer photoViewer = PhotoViewer.this;
-                photoViewer.animateNavBarColorTo(Theme.getColor("chat_emojiPanelBackground", photoViewer.captionEditText.getResourcesProvider()), false);
+                photoViewer.animateNavBarColorTo(Theme.getColor(Theme.key_chat_emojiPanelBackground, photoViewer.captionEditText.getResourcesProvider()), false);
             }
 
             @Override // org.telegram.ui.Components.PhotoViewerCaptionEnterView.PhotoViewerCaptionEnterViewDelegate
             public void onEmojiViewCloseStart() {
-                int i7;
+                int i10;
                 String str;
                 PhotoViewer.this.navigationBar.setVisibility(PhotoViewer.this.currentEditMode != 2 ? 0 : 4);
                 PhotoViewer.this.animateNavBarColorTo(-16777216);
@@ -5653,13 +5658,13 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     if (PhotoViewer.this.isCurrentVideo) {
                         PhotoViewerActionBarContainer photoViewerActionBarContainer2 = PhotoViewer.this.actionBarContainer;
                         if (PhotoViewer.this.muteVideo) {
-                            i7 = R.string.GifCaption;
+                            i10 = R.string.GifCaption;
                             str = "GifCaption";
                         } else {
-                            i7 = R.string.VideoCaption;
+                            i10 = R.string.VideoCaption;
                             str = "VideoCaption";
                         }
-                        photoViewerActionBarContainer2.setTitleAnimated(LocaleController.getString(str, i7), true, false);
+                        photoViewerActionBarContainer2.setTitleAnimated(LocaleController.getString(str, i10), true, false);
                     } else {
                         PhotoViewer.this.actionBarContainer.setTitleAnimated(LocaleController.getString("PhotoCaption", R.string.PhotoCaption), true, false);
                     }
@@ -5682,16 +5687,16 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 PhotoViewer.this.captionEditText.setVisibility(8);
             }
 
-            private void setOffset(int i7) {
-                for (int i8 = 0; i8 < PhotoViewer.this.containerView.getChildCount(); i8++) {
-                    View childAt = PhotoViewer.this.containerView.getChildAt(i8);
+            private void setOffset(int i10) {
+                for (int i11 = 0; i11 < PhotoViewer.this.containerView.getChildCount(); i11++) {
+                    View childAt = PhotoViewer.this.containerView.getChildAt(i11);
                     if (childAt == PhotoViewer.this.cameraItem || childAt == PhotoViewer.this.muteItem || childAt == PhotoViewer.this.pickerView || childAt == PhotoViewer.this.videoTimelineView || childAt == PhotoViewer.this.pickerViewSendButton || childAt == PhotoViewer.this.captionTextViewSwitcher) {
-                        childAt.setTranslationY(i7);
+                        childAt.setTranslationY(i10);
                     }
                 }
             }
         });
-        if (i6 >= 19) {
+        if (i9 >= 19) {
             this.captionEditText.setImportantForAccessibility(4);
         }
         this.captionEditText.setVisibility(8);
@@ -5718,15 +5723,15 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         recyclerListView.setAdapter(mentionsAdapter);
         this.mentionListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda88
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view2, int i7) {
-                PhotoViewer.this.lambda$setParentActivity$39(view2, i7);
+            public final void onItemClick(View view2, int i10) {
+                PhotoViewer.this.lambda$setParentActivity$39(view2, i10);
             }
         });
         this.mentionListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda89
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
-            public final boolean onItemClick(View view2, int i7) {
+            public final boolean onItemClick(View view2, int i10) {
                 boolean lambda$setParentActivity$41;
-                lambda$setParentActivity$41 = PhotoViewer.this.lambda$setParentActivity$41(resourcesProvider, view2, i7);
+                lambda$setParentActivity$41 = PhotoViewer.this.lambda$setParentActivity$41(resourcesProvider, view2, i10);
                 return lambda$setParentActivity$41;
             }
         });
@@ -5742,8 +5747,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             this.playButtonAccessibilityOverlay.setFocusable(true);
             this.containerView.addView(this.playButtonAccessibilityOverlay, LayoutHelper.createFrame(64, 64, 17));
         }
-        this.doneButtonFullWidth.setBackground(Theme.AdaptiveRipple.filledRect(getThemedColor("featuredStickers_addButton"), 6.0f));
-        this.doneButtonFullWidth.setTextColor(getThemedColor("featuredStickers_buttonText"));
+        this.doneButtonFullWidth.setBackground(Theme.AdaptiveRipple.filledRect(getThemedColor(i7), 6.0f));
+        this.doneButtonFullWidth.setTextColor(getThemedColor(i8));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -6251,21 +6256,20 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             PhotoViewer.this.closePhoto(false, false);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:166:0x0486  */
-        /* JADX WARN: Removed duplicated region for block: B:167:0x049b  */
-        /* JADX WARN: Removed duplicated region for block: B:169:0x049e  */
-        /* JADX WARN: Removed duplicated region for block: B:170:0x04a6  */
-        /* JADX WARN: Removed duplicated region for block: B:177:0x04c6  */
-        /* JADX WARN: Removed duplicated region for block: B:204:0x05af  */
-        /* JADX WARN: Removed duplicated region for block: B:226:0x066d  */
-        /* JADX WARN: Removed duplicated region for block: B:227:0x067b  */
-        /* JADX WARN: Removed duplicated region for block: B:260:0x0764  */
-        /* JADX WARN: Removed duplicated region for block: B:306:0x08de  */
-        /* JADX WARN: Removed duplicated region for block: B:457:? A[RETURN, SYNTHETIC] */
-        /* JADX WARN: Type inference failed for: r10v30 */
+        /* JADX WARN: Removed duplicated region for block: B:166:0x047c  */
+        /* JADX WARN: Removed duplicated region for block: B:168:0x0492  */
+        /* JADX WARN: Removed duplicated region for block: B:169:0x0498  */
+        /* JADX WARN: Removed duplicated region for block: B:176:0x04b6  */
+        /* JADX WARN: Removed duplicated region for block: B:203:0x05a5  */
+        /* JADX WARN: Removed duplicated region for block: B:225:0x0661  */
+        /* JADX WARN: Removed duplicated region for block: B:226:0x066f  */
+        /* JADX WARN: Removed duplicated region for block: B:259:0x0752  */
+        /* JADX WARN: Removed duplicated region for block: B:305:0x08ca  */
+        /* JADX WARN: Removed duplicated region for block: B:455:? A[RETURN, SYNTHETIC] */
         /* JADX WARN: Type inference failed for: r10v32 */
-        /* JADX WARN: Type inference failed for: r10v33, types: [boolean, int] */
-        /* JADX WARN: Type inference failed for: r10v34 */
+        /* JADX WARN: Type inference failed for: r10v33 */
+        /* JADX WARN: Type inference failed for: r10v34, types: [int, boolean] */
+        /* JADX WARN: Type inference failed for: r10v35 */
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -6281,33 +6285,44 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             boolean z2;
             final ArrayList arrayList;
             MessageObject.GroupedMessages group;
-            final 13 r7;
             boolean z3;
+            String str;
+            MessageObject.GroupedMessages groupedMessages;
             final ?? r10;
-            File file;
             boolean isVideo;
             File pathToMessage;
             boolean z4 = true;
             if (i == -1) {
                 if (PhotoViewer.this.photoPaintView != null) {
                     PhotoViewer.this.photoPaintView.onBackPressed();
+                    return;
                 } else if (PhotoViewer.this.needCaptionLayout && (PhotoViewer.this.captionEditText.isPopupShowing() || PhotoViewer.this.captionEditText.isKeyboardVisible())) {
                     PhotoViewer.this.closeCaptionEnter(false);
+                    return;
                 } else {
                     PhotoViewer.this.closePhoto(true, false);
+                    return;
                 }
-            } else if (i == 1) {
+            }
+            File file = null;
+            if (i == 1) {
                 int i2 = Build.VERSION.SDK_INT;
                 if (i2 >= 23 && ((i2 <= 28 || BuildVars.NO_SCOPED_STORAGE) && PhotoViewer.this.parentActivity.checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") != 0)) {
                     PhotoViewer.this.parentActivity.requestPermissions(new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"}, 4);
                     return;
                 }
                 final ArrayList arrayList2 = new ArrayList(1);
-                MessageObject.GroupedMessages group2 = PhotoViewer.this.parentChatActivity != null ? PhotoViewer.this.parentChatActivity.getGroup(PhotoViewer.this.currentMessageObject.getGroupId()) : null;
-                if (group2 == null) {
+                if (PhotoViewer.this.parentChatActivity != null) {
+                    str = "AllNPhotos";
+                    groupedMessages = PhotoViewer.this.parentChatActivity.getGroup(PhotoViewer.this.currentMessageObject.getGroupId());
+                } else {
+                    str = "AllNPhotos";
+                    groupedMessages = null;
+                }
+                if (groupedMessages == null) {
                     arrayList2.add(PhotoViewer.this.currentMessageObject);
                 } else {
-                    arrayList2.addAll(group2.messages);
+                    arrayList2.addAll(groupedMessages.messages);
                 }
                 if (arrayList2.size() <= 1) {
                     if (PhotoViewer.this.currentMessageObject != null) {
@@ -6338,7 +6353,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             isVideo = PhotoViewer.this.pageBlocksAdapter.isVideo(PhotoViewer.this.currentIndex);
                         } else {
                             r10 = 0;
-                            file = null;
                         }
                         if (file != null && !file.exists()) {
                             file = new File(FileLoader.getDirectory(4), file.getName());
@@ -6371,28 +6385,33 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         z5 = true;
                     }
                 }
-                AlertDialog create = new AlertDialog.Builder(PhotoViewer.this.parentActivity, this.val$resourcesProvider).setTitle(LocaleController.getString("SaveGroupMedia", R.string.SaveGroupMedia)).setMessage(LocaleController.getString("SaveGroupMediaMessage", R.string.SaveGroupMediaMessage)).setDialogButtonColorKey("voipgroup_listeningText").setNegativeButton(!z5 ? LocaleController.getString("ThisPhoto", R.string.ThisPhoto) : LocaleController.getString("ThisMedia", R.string.ThisMedia), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PhotoViewer$13$$ExternalSyntheticLambda0
+                AlertDialog.Builder negativeButton = new AlertDialog.Builder(PhotoViewer.this.parentActivity, this.val$resourcesProvider).setTitle(LocaleController.getString("SaveGroupMedia", R.string.SaveGroupMedia)).setMessage(LocaleController.getString("SaveGroupMediaMessage", R.string.SaveGroupMediaMessage)).setDialogButtonColorKey(Theme.key_voipgroup_listeningText).setNegativeButton(!z5 ? LocaleController.getString("ThisPhoto", R.string.ThisPhoto) : LocaleController.getString("ThisMedia", R.string.ThisMedia), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PhotoViewer$13$$ExternalSyntheticLambda0
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i4) {
                         PhotoViewer.13.this.lambda$onItemClick$2(dialogInterface, i4);
                     }
-                }).setPositiveButton(!z5 ? LocaleController.formatPluralString("AllNPhotos", arrayList2.size(), new Object[0]) : LocaleController.formatPluralString("AllNMedia", arrayList2.size(), new Object[0]), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PhotoViewer$13$$ExternalSyntheticLambda3
+                });
+                int size = arrayList2.size();
+                Object[] objArr = new Object[0];
+                AlertDialog create = negativeButton.setPositiveButton(!z5 ? LocaleController.formatPluralString(str, size, objArr) : LocaleController.formatPluralString("AllNMedia", size, objArr), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PhotoViewer$13$$ExternalSyntheticLambda3
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i4) {
                         PhotoViewer.13.this.lambda$onItemClick$5(z5, arrayList2, dialogInterface, i4);
                     }
                 }).setNeutralButton(LocaleController.getString("Cancel", R.string.Cancel), PhotoViewer$13$$ExternalSyntheticLambda6.INSTANCE).create();
-                create.setBackgroundColor(PhotoViewer.this.getThemedColor("voipgroup_dialogBackground"));
+                create.setBackgroundColor(PhotoViewer.this.getThemedColor(Theme.key_voipgroup_dialogBackground));
                 create.show();
                 View button = create.getButton(-3);
                 if (button instanceof TextView) {
-                    ((TextView) button).setTextColor(PhotoViewer.this.getThemedColor("text_RedBold"));
-                    button.setBackground(Theme.getRoundRectSelectorDrawable(PhotoViewer.this.getThemedColor("text_RedBold")));
+                    PhotoViewer photoViewer2 = PhotoViewer.this;
+                    int i4 = Theme.key_text_RedBold;
+                    ((TextView) button).setTextColor(photoViewer2.getThemedColor(i4));
+                    button.setBackground(Theme.getRoundRectSelectorDrawable(PhotoViewer.this.getThemedColor(i4)));
                     if ((create.getButtonsLayout() instanceof LinearLayout) && ((LinearLayout) create.getButtonsLayout()).getOrientation() == 1) {
                         button.bringToFront();
                     }
                 }
-                create.setTextColor(PhotoViewer.this.getThemedColor("voipgroup_actionBarItems"));
+                create.setTextColor(PhotoViewer.this.getThemedColor(Theme.key_voipgroup_actionBarItems));
             } else if (i == 2) {
                 if (PhotoViewer.this.currentDialogId != 0) {
                     PhotoViewer.this.disableShowCheck = true;
@@ -6446,47 +6465,47 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         z2 = ChatObject.isChannelAndNotMegaGroup(MessagesController.getInstance(PhotoViewer.this.currentAccount).getChat(Long.valueOf(-dialogId2)));
                         ((LaunchActivity) PhotoViewer.this.parentActivity).switchToAccount(PhotoViewer.this.currentMessageObject.currentAccount, true);
                         arrayList = new ArrayList(1);
-                        group = PhotoViewer.this.parentChatActivity == null ? PhotoViewer.this.parentChatActivity.getGroup(PhotoViewer.this.currentMessageObject.getGroupId()) : null;
+                        group = PhotoViewer.this.parentChatActivity != null ? PhotoViewer.this.parentChatActivity.getGroup(PhotoViewer.this.currentMessageObject.getGroupId()) : null;
                         if (group != null) {
-                            r7 = this;
                             arrayList.add(PhotoViewer.this.currentMessageObject);
                         } else {
                             arrayList.addAll(group.messages);
-                            r7 = this;
                         }
                         if (!z2 && arrayList.size() <= 1) {
                             PhotoViewer.this.showShareAlert(arrayList);
                             return;
                         } else if (arrayList.size() <= 1) {
-                            for (int i4 = 0; i4 < arrayList.size(); i4++) {
-                                if (!((MessageObject) arrayList.get(i4)).isPhoto() || ((MessageObject) arrayList.get(i4)).isVideo()) {
+                            for (int i5 = 0; i5 < arrayList.size(); i5++) {
+                                if (!((MessageObject) arrayList.get(i5)).isPhoto() || ((MessageObject) arrayList.get(i5)).isVideo()) {
                                     z3 = false;
                                     break;
                                 }
                             }
                             z3 = true;
-                            AlertDialog create2 = new AlertDialog.Builder(PhotoViewer.this.parentActivity, r7.val$resourcesProvider).setTitle(LocaleController.getString("ForwardGroupMedia", R.string.ForwardGroupMedia)).setMessage(LocaleController.getString("ForwardGroupMediaMessage", R.string.ForwardGroupMediaMessage)).setDialogButtonColorKey("voipgroup_listeningText").setNegativeButton(z3 ? LocaleController.getString("ThisPhoto", R.string.ThisPhoto) : LocaleController.getString("ThisMedia", R.string.ThisMedia), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PhotoViewer$13$$ExternalSyntheticLambda1
+                            AlertDialog create2 = new AlertDialog.Builder(PhotoViewer.this.parentActivity, this.val$resourcesProvider).setTitle(LocaleController.getString("ForwardGroupMedia", R.string.ForwardGroupMedia)).setMessage(LocaleController.getString("ForwardGroupMediaMessage", R.string.ForwardGroupMediaMessage)).setDialogButtonColorKey(Theme.key_voipgroup_listeningText).setNegativeButton(z3 ? LocaleController.getString("ThisPhoto", R.string.ThisPhoto) : LocaleController.getString("ThisMedia", R.string.ThisMedia), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PhotoViewer$13$$ExternalSyntheticLambda1
                                 @Override // android.content.DialogInterface.OnClickListener
-                                public final void onClick(DialogInterface dialogInterface, int i5) {
-                                    PhotoViewer.13.this.lambda$onItemClick$7(dialogInterface, i5);
+                                public final void onClick(DialogInterface dialogInterface, int i6) {
+                                    PhotoViewer.13.this.lambda$onItemClick$7(dialogInterface, i6);
                                 }
                             }).setPositiveButton(z3 ? LocaleController.formatPluralString("AllNPhotos", arrayList.size(), new Object[0]) : LocaleController.formatPluralString("AllNMedia", arrayList.size(), new Object[0]), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PhotoViewer$13$$ExternalSyntheticLambda2
                                 @Override // android.content.DialogInterface.OnClickListener
-                                public final void onClick(DialogInterface dialogInterface, int i5) {
-                                    PhotoViewer.13.this.lambda$onItemClick$8(arrayList, dialogInterface, i5);
+                                public final void onClick(DialogInterface dialogInterface, int i6) {
+                                    PhotoViewer.13.this.lambda$onItemClick$8(arrayList, dialogInterface, i6);
                                 }
                             }).setNeutralButton(LocaleController.getString("Cancel", R.string.Cancel), PhotoViewer$13$$ExternalSyntheticLambda5.INSTANCE).create();
-                            create2.setBackgroundColor(PhotoViewer.this.getThemedColor("voipgroup_dialogBackground"));
+                            create2.setBackgroundColor(PhotoViewer.this.getThemedColor(Theme.key_voipgroup_dialogBackground));
                             create2.show();
                             View button2 = create2.getButton(-3);
                             if (button2 instanceof TextView) {
-                                ((TextView) button2).setTextColor(PhotoViewer.this.getThemedColor("text_RedBold"));
-                                button2.setBackground(Theme.getRoundRectSelectorDrawable(PhotoViewer.this.getThemedColor("text_RedBold")));
+                                PhotoViewer photoViewer3 = PhotoViewer.this;
+                                int i6 = Theme.key_text_RedBold;
+                                ((TextView) button2).setTextColor(photoViewer3.getThemedColor(i6));
+                                button2.setBackground(Theme.getRoundRectSelectorDrawable(PhotoViewer.this.getThemedColor(i6)));
                                 if ((create2.getButtonsLayout() instanceof LinearLayout) && ((LinearLayout) create2.getButtonsLayout()).getOrientation() == 1) {
                                     button2.bringToFront();
                                 }
                             }
-                            create2.setTextColor(PhotoViewer.this.getThemedColor("voipgroup_actionBarItems"));
+                            create2.setTextColor(PhotoViewer.this.getThemedColor(Theme.key_voipgroup_actionBarItems));
                             return;
                         } else {
                             Bundle bundle3 = new Bundle();
@@ -6514,7 +6533,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 z2 = false;
                 ((LaunchActivity) PhotoViewer.this.parentActivity).switchToAccount(PhotoViewer.this.currentMessageObject.currentAccount, true);
                 arrayList = new ArrayList(1);
-                if (PhotoViewer.this.parentChatActivity == null) {
+                if (PhotoViewer.this.parentChatActivity != null) {
                 }
                 if (group != null) {
                 }
@@ -6751,10 +6770,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                 }
                                 if (tLRPC$User != null || !ChatObject.isChannel(chat)) {
                                     int currentTime = ConnectionsManager.getInstance(PhotoViewer.this.currentAccount).getCurrentTime();
-                                    int i5 = tLRPC$User != null ? MessagesController.getInstance(PhotoViewer.this.currentAccount).revokeTimePmLimit : MessagesController.getInstance(PhotoViewer.this.currentAccount).revokeTimeLimit;
+                                    int i7 = tLRPC$User != null ? MessagesController.getInstance(PhotoViewer.this.currentAccount).revokeTimePmLimit : MessagesController.getInstance(PhotoViewer.this.currentAccount).revokeTimeLimit;
                                     if ((tLRPC$User != null && tLRPC$User.id != UserConfig.getInstance(PhotoViewer.this.currentAccount).getClientUserId()) || chat != null) {
                                         boolean z7 = tLRPC$User != null && MessagesController.getInstance(PhotoViewer.this.currentAccount).canRevokePmInbox;
-                                        if ((PhotoViewer.this.currentMessageObject.messageOwner.action == null || (PhotoViewer.this.currentMessageObject.messageOwner.action instanceof TLRPC$TL_messageActionEmpty)) && ((PhotoViewer.this.currentMessageObject.isOut() || z7 || ChatObject.hasAdminRights(chat)) && currentTime - PhotoViewer.this.currentMessageObject.messageOwner.date <= i5)) {
+                                        if ((PhotoViewer.this.currentMessageObject.messageOwner.action == null || (PhotoViewer.this.currentMessageObject.messageOwner.action instanceof TLRPC$TL_messageActionEmpty)) && ((PhotoViewer.this.currentMessageObject.isOut() || z7 || ChatObject.hasAdminRights(chat)) && currentTime - PhotoViewer.this.currentMessageObject.messageOwner.date <= i7)) {
                                             FrameLayout frameLayout = new FrameLayout(PhotoViewer.this.parentActivity);
                                             CheckBoxCell checkBoxCell = new CheckBoxCell(PhotoViewer.this.parentActivity, 1, this.val$resourcesProvider);
                                             checkBoxCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
@@ -6763,7 +6782,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                             } else {
                                                 checkBoxCell.setText(LocaleController.formatString("DeleteForUser", R.string.DeleteForUser, UserObject.getFirstName(tLRPC$User)), "", false, false);
                                             }
-                                            checkBoxCell.setPadding(AndroidUtilities.dp(LocaleController.isRTL ? 16.0f : 8.0f), 0, AndroidUtilities.dp(LocaleController.isRTL ? 8.0f : 16.0f), 0);
+                                            checkBoxCell.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(8.0f), 0, LocaleController.isRTL ? AndroidUtilities.dp(8.0f) : AndroidUtilities.dp(16.0f), 0);
                                             frameLayout.addView(checkBoxCell, LayoutHelper.createFrame(-1, 48.0f, 51, 0.0f, 0.0f, 0.0f, 0.0f));
                                             checkBoxCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PhotoViewer$13$$ExternalSyntheticLambda7
                                                 @Override // android.view.View.OnClickListener
@@ -6780,8 +6799,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         }
                         builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PhotoViewer$13$$ExternalSyntheticLambda4
                             @Override // android.content.DialogInterface.OnClickListener
-                            public final void onClick(DialogInterface dialogInterface, int i6) {
-                                PhotoViewer.13.this.lambda$onItemClick$12(zArr, dialogInterface, i6);
+                            public final void onClick(DialogInterface dialogInterface, int i8) {
+                                PhotoViewer.13.this.lambda$onItemClick$12(zArr, dialogInterface, i8);
                             }
                         });
                         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -6789,7 +6808,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         PhotoViewer.this.showAlertDialog(builder);
                         textView = (TextView) create3.getButton(-1);
                         if (textView == null) {
-                            textView.setTextColor(PhotoViewer.this.getThemedColor("text_RedBold"));
+                            textView.setTextColor(PhotoViewer.this.getThemedColor(Theme.key_text_RedBold));
                             return;
                         }
                         return;
@@ -6808,8 +6827,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 }
                 builder2.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PhotoViewer$13$$ExternalSyntheticLambda4
                     @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i6) {
-                        PhotoViewer.13.this.lambda$onItemClick$12(zArr2, dialogInterface, i6);
+                    public final void onClick(DialogInterface dialogInterface, int i8) {
+                        PhotoViewer.13.this.lambda$onItemClick$12(zArr2, dialogInterface, i8);
                     }
                 });
                 builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -7534,7 +7553,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         textView3.setMinWidth(AndroidUtilities.dp(64.0f));
         textView3.setTag(-1);
         textView3.setTextSize(1, 14.0f);
-        textView3.setTextColor(getThemedColor("dialogFloatingButton"));
+        textView3.setTextColor(getThemedColor(Theme.key_dialogFloatingButton));
         textView3.setGravity(17);
         textView3.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         textView3.setText(LocaleController.getString("Done", R.string.Done).toUpperCase());
@@ -7597,7 +7616,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         } else if (obj instanceof MediaController.SearchImage) {
             ((MediaController.SearchImage) obj).ttl = value;
         }
-        this.timeItem.setColorFilter(value != 0 ? new PorterDuffColorFilter(getThemedColor("dialogFloatingButton"), PorterDuff.Mode.MULTIPLY) : null);
+        this.timeItem.setColorFilter(value != 0 ? new PorterDuffColorFilter(getThemedColor(Theme.key_dialogFloatingButton), PorterDuff.Mode.MULTIPLY) : null);
         if (this.checkImageView.isChecked()) {
             return;
         }
@@ -8090,12 +8109,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         PhotoViewer.this.lambda$sendPressed$45(z, i, z2, z3, dialogInterface, i3);
                     }
                 });
-                builder.setDialogButtonColorKey("voipgroup_listeningText");
+                builder.setDialogButtonColorKey(Theme.key_voipgroup_listeningText);
                 AlertDialog create = builder.create();
                 create.setBlurParams(0.8f, false, true);
                 create.setBackgroundColor(ColorUtils.setAlphaComponent(-15461356, 204));
                 create.show();
-                create.setTextColor(Theme.getColor("voipgroup_nameText"));
+                create.setTextColor(Theme.getColor(Theme.key_voipgroup_nameText));
                 create.setOnDismissListener(new 34());
                 if (!this.isCurrentVideo || (textureView = this.videoTextureView) == null) {
                     return;
@@ -8878,7 +8897,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     return;
                 }
                 if (PhotoViewer.this.photoCropView.mirror()) {
-                    PhotoViewer.this.mirrorItem.setColorFilter(new PorterDuffColorFilter(PhotoViewer.this.getThemedColor("dialogFloatingButton"), PorterDuff.Mode.MULTIPLY));
+                    PhotoViewer.this.mirrorItem.setColorFilter(new PorterDuffColorFilter(PhotoViewer.this.getThemedColor(Theme.key_dialogFloatingButton), PorterDuff.Mode.MULTIPLY));
                 } else {
                     PhotoViewer.this.mirrorItem.setColorFilter((ColorFilter) null);
                 }
@@ -8956,7 +8975,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     PhotoViewer.this.photoCropView.wheelView.setRotated(false);
                     if (Math.abs(f) > 0.0f) {
                         if (PhotoViewer.this.photoCropView.rotate(f)) {
-                            PhotoViewer.this.rotateItem.setColorFilter(new PorterDuffColorFilter(PhotoViewer.this.getThemedColor("dialogFloatingButton"), PorterDuff.Mode.MULTIPLY));
+                            PhotoViewer.this.rotateItem.setColorFilter(new PorterDuffColorFilter(PhotoViewer.this.getThemedColor(Theme.key_dialogFloatingButton), PorterDuff.Mode.MULTIPLY));
                         } else {
                             PhotoViewer.this.rotateItem.setColorFilter((ColorFilter) null);
                         }
@@ -9727,17 +9746,18 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     public void updateColors() {
-        int themedColor = getThemedColor("dialogFloatingButton");
+        int i = Theme.key_dialogFloatingButton;
+        int themedColor = getThemedColor(i);
         ImageView imageView = this.pickerViewSendButton;
         if (imageView != null) {
             Drawable background = imageView.getBackground();
             Theme.setSelectorDrawableColor(background, themedColor, false);
-            Theme.setSelectorDrawableColor(background, getThemedColor(Build.VERSION.SDK_INT >= 21 ? "dialogFloatingButtonPressed" : "dialogFloatingButton"), true);
-            this.pickerViewSendButton.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogFloatingIcon"), PorterDuff.Mode.MULTIPLY));
+            Theme.setSelectorDrawableColor(background, getThemedColor(Build.VERSION.SDK_INT >= 21 ? Theme.key_dialogFloatingButtonPressed : i), true);
+            this.pickerViewSendButton.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_dialogFloatingIcon), PorterDuff.Mode.MULTIPLY));
         }
         CheckBox checkBox = this.checkImageView;
         if (checkBox != null) {
-            checkBox.setColor(getThemedColor("dialogFloatingButton"), -1);
+            checkBox.setColor(getThemedColor(i), -1);
         }
         PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(themedColor, PorterDuff.Mode.MULTIPLY);
         ImageView imageView2 = this.timeItem;
@@ -9791,8 +9811,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         SelectedPhotosListView selectedPhotosListView = this.selectedPhotosListView;
         if (selectedPhotosListView != null) {
             int childCount = selectedPhotosListView.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View childAt = this.selectedPhotosListView.getChildAt(i);
+            for (int i2 = 0; i2 < childCount; i2++) {
+                View childAt = this.selectedPhotosListView.getChildAt(i2);
                 if (childAt instanceof PhotoPickerPhotoCell) {
                     ((PhotoPickerPhotoCell) childAt).updateColors();
                 }
@@ -11075,15 +11095,15 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* JADX WARN: Removed duplicated region for block: B:185:0x05c1 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:189:0x05cb  */
     /* JADX WARN: Removed duplicated region for block: B:235:0x0759  */
-    /* JADX WARN: Removed duplicated region for block: B:238:0x0766  */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x0764  */
     /* JADX WARN: Removed duplicated region for block: B:239:0x0779  */
-    /* JADX WARN: Removed duplicated region for block: B:248:0x07aa  */
-    /* JADX WARN: Removed duplicated region for block: B:254:0x07c0  */
-    /* JADX WARN: Removed duplicated region for block: B:257:0x07c8  */
-    /* JADX WARN: Removed duplicated region for block: B:258:0x0820  */
-    /* JADX WARN: Removed duplicated region for block: B:261:0x082d  */
-    /* JADX WARN: Removed duplicated region for block: B:269:0x083c  */
-    /* JADX WARN: Removed duplicated region for block: B:273:0x0844  */
+    /* JADX WARN: Removed duplicated region for block: B:248:0x07ae  */
+    /* JADX WARN: Removed duplicated region for block: B:254:0x07c4  */
+    /* JADX WARN: Removed duplicated region for block: B:257:0x07cc  */
+    /* JADX WARN: Removed duplicated region for block: B:258:0x0824  */
+    /* JADX WARN: Removed duplicated region for block: B:261:0x0831  */
+    /* JADX WARN: Removed duplicated region for block: B:269:0x0840  */
+    /* JADX WARN: Removed duplicated region for block: B:273:0x0848  */
     /* JADX WARN: Removed duplicated region for block: B:49:0x00ff A[RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:50:0x0100  */
     /* JADX WARN: Removed duplicated region for block: B:96:0x02bd  */
@@ -11243,13 +11263,13 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         i = this.currentEditMode;
                         if (i == 1) {
                             mediaEditState.isCropped = true;
-                            this.cropItem.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogFloatingButton"), PorterDuff.Mode.MULTIPLY));
+                            this.cropItem.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_dialogFloatingButton), PorterDuff.Mode.MULTIPLY));
                         } else if (i == 2) {
                             mediaEditState.isFiltered = true;
-                            this.tuneItem.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogFloatingButton"), PorterDuff.Mode.MULTIPLY));
+                            this.tuneItem.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_dialogFloatingButton), PorterDuff.Mode.MULTIPLY));
                         } else if (i == 3 && z) {
                             mediaEditState.isPainted = true;
-                            this.paintItem.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogFloatingButton"), PorterDuff.Mode.MULTIPLY));
+                            this.paintItem.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_dialogFloatingButton), PorterDuff.Mode.MULTIPLY));
                         }
                         i2 = this.sendPhotoType;
                         if ((i2 != 0 || i2 == 4) && (photoViewerProvider = this.placeProvider) != null) {
@@ -12242,7 +12262,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     this.previousCropMirrored = this.cropTransform.isMirrored();
                     this.photoCropView.onAppear();
                     this.editorDoneLayout.doneButton.setText(LocaleController.getString("Crop", R.string.Crop));
-                    this.editorDoneLayout.doneButton.setTextColor(getThemedColor("dialogFloatingButton"));
+                    this.editorDoneLayout.doneButton.setTextColor(getThemedColor(Theme.key_dialogFloatingButton));
                     this.changeModeAnimation = new AnimatorSet();
                     ArrayList arrayList2 = new ArrayList();
                     FrameLayout frameLayout = this.pickerView;
@@ -14310,7 +14330,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* JADX WARN: Type inference failed for: r1v46, types: [android.widget.ImageView] */
     /* JADX WARN: Type inference failed for: r1v48, types: [android.widget.ImageView] */
     /* JADX WARN: Type inference failed for: r3v133 */
-    /* JADX WARN: Type inference failed for: r3v134, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v134, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r3v149 */
     /* JADX WARN: Type inference failed for: r3v28 */
     /* JADX WARN: Type inference failed for: r3v29, types: [android.graphics.ColorFilter] */
@@ -14935,7 +14955,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             this.checkImageView.setChecked(this.placeProvider.isPhotoChecked(this.switchingToIndex), false);
                         }
                         updateCaptionTextForCurrentPhoto(obj6);
-                        PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(getThemedColor("dialogFloatingButton"), PorterDuff.Mode.MULTIPLY);
+                        PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(getThemedColor(Theme.key_dialogFloatingButton), PorterDuff.Mode.MULTIPLY);
                         this.timeItem.setColorFilter(i4 == 0 ? porterDuffColorFilter : obj);
                         this.paintItem.setColorFilter(!z10 ? porterDuffColorFilter : obj);
                         this.cropItem.setColorFilter(!z12 ? porterDuffColorFilter : obj);
@@ -14972,7 +14992,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                     this.checkImageView.setChecked(this.placeProvider.isPhotoChecked(this.switchingToIndex), false);
                     updateCaptionTextForCurrentPhoto(obj6);
-                    PorterDuffColorFilter porterDuffColorFilter2 = new PorterDuffColorFilter(getThemedColor("dialogFloatingButton"), PorterDuff.Mode.MULTIPLY);
+                    PorterDuffColorFilter porterDuffColorFilter2 = new PorterDuffColorFilter(getThemedColor(Theme.key_dialogFloatingButton), PorterDuff.Mode.MULTIPLY);
                     this.timeItem.setColorFilter(i4 == 0 ? porterDuffColorFilter2 : obj);
                     this.paintItem.setColorFilter(!z10 ? porterDuffColorFilter2 : obj);
                     this.cropItem.setColorFilter(!z12 ? porterDuffColorFilter2 : obj);
@@ -19439,7 +19459,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* JADX WARN: Type inference failed for: r15v28 */
     /* JADX WARN: Type inference failed for: r15v3 */
     /* JADX WARN: Type inference failed for: r15v31 */
-    /* JADX WARN: Type inference failed for: r15v4, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r15v4, types: [int, boolean] */
     @SuppressLint({"NewApi", "DrawAllocation"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -22566,9 +22586,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public int getThemedColor(String str) {
+    public int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 }

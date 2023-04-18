@@ -589,7 +589,7 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
             canvas.save();
             canvas.clipRect(f24, BaseChartView.SIGNATURE_TEXT_HEIGHT, f23, getMeasuredHeight() - this.chartBottom);
             if (z2) {
-                canvas.drawColor(Theme.getColor("statisticChartLineEmpty"));
+                canvas.drawColor(Theme.getColor(Theme.key_statisticChartLineEmpty));
             }
             for (int size = this.lines.size() - 1; size >= 0; size--) {
                 LineViewData lineViewData4 = (LineViewData) this.lines.get(size);
@@ -777,7 +777,7 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
                 i4++;
             }
             if (z2) {
-                canvas.drawColor(Theme.getColor("statisticChartLineEmpty"));
+                canvas.drawColor(Theme.getColor(Theme.key_statisticChartLineEmpty));
             }
             for (int size2 = this.lines.size() - 1; size2 >= 0; size2--) {
                 LineViewData lineViewData3 = (LineViewData) this.lines.get(size2);

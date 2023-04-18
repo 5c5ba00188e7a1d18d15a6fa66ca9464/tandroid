@@ -185,7 +185,7 @@ public class PhotoAttachPhotoCell extends FrameLayout {
         CheckBox2 checkBox2 = new CheckBox2(context, 24, resourcesProvider);
         this.checkBox = checkBox2;
         checkBox2.setDrawBackgroundAsArc(7);
-        this.checkBox.setColor("chat_attachCheckBoxBackground", "chat_attachPhotoBackground", "chat_attachCheckBoxCheck");
+        this.checkBox.setColor(Theme.key_chat_attachCheckBoxBackground, Theme.key_chat_attachPhotoBackground, Theme.key_chat_attachCheckBoxCheck);
         addView(this.checkBox, LayoutHelper.createFrame(26, 26.0f, 51, 52.0f, 4.0f, 0.0f, 0.0f));
         this.checkBox.setVisibility(0);
         setFocusable(true);
@@ -539,7 +539,7 @@ public class PhotoAttachPhotoCell extends FrameLayout {
         if (!this.checkBox.isChecked() && this.container.getScaleX() == 1.0f && this.imageView.getImageReceiver().hasNotThumb() && this.imageView.getImageReceiver().getCurrentAlpha() == 1.0f && (((photoEntry = this.photoEntry) == null || !PhotoViewer.isShowingImage(photoEntry.path)) && ((searchImage = this.searchEntry) == null || !PhotoViewer.isShowingImage(searchImage.getPathToAttach())))) {
             return;
         }
-        this.backgroundPaint.setColor(getThemedColor("chat_attachPhotoBackground"));
+        this.backgroundPaint.setColor(getThemedColor(Theme.key_chat_attachPhotoBackground));
         canvas.drawRect(0.0f, 0.0f, this.imageView.getMeasuredWidth(), this.imageView.getMeasuredHeight(), this.backgroundPaint);
     }
 
@@ -577,9 +577,9 @@ public class PhotoAttachPhotoCell extends FrameLayout {
         return super.performAccessibilityAction(i, bundle);
     }
 
-    protected int getThemedColor(String str) {
+    protected int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 }

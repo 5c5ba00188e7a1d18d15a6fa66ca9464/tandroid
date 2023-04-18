@@ -78,11 +78,11 @@ public class SessionBottomSheet extends BottomSheet {
         TextView textView = new TextView(parentActivity);
         textView.setTextSize(2, 20.0f);
         textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+        textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         textView.setGravity(17);
         linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2, 1, 21, 12, 21, 0));
         TextView textView2 = new TextView(parentActivity);
-        textView2.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
+        textView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
         textView2.setTextSize(2, 13.0f);
         textView2.setGravity(17);
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, -2, 1, 21, 4, 21, 21));
@@ -116,7 +116,8 @@ public class SessionBottomSheet extends BottomSheet {
         sb2.append(tLRPC$TL_authorization.app_version);
         itemView.valueText.setText(sb2);
         Drawable mutate = ContextCompat.getDrawable(parentActivity, R.drawable.menu_devices).mutate();
-        mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon"), PorterDuff.Mode.SRC_IN));
+        int i = Theme.key_windowBackgroundWhiteGrayIcon;
+        mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i), PorterDuff.Mode.SRC_IN));
         itemView.iconView.setImageDrawable(mutate);
         itemView.descriptionText.setText(LocaleController.getString("Application", R.string.Application));
         linearLayout.addView(itemView);
@@ -124,7 +125,7 @@ public class SessionBottomSheet extends BottomSheet {
             ItemView itemView2 = new ItemView(parentActivity, false);
             itemView2.valueText.setText(tLRPC$TL_authorization.country);
             Drawable mutate2 = ContextCompat.getDrawable(parentActivity, R.drawable.msg_location).mutate();
-            mutate2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon"), PorterDuff.Mode.SRC_IN));
+            mutate2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i), PorterDuff.Mode.SRC_IN));
             itemView2.iconView.setImageDrawable(mutate2);
             itemView2.descriptionText.setText(LocaleController.getString("Location", R.string.Location));
             itemView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.SessionBottomSheet.2
@@ -140,7 +141,7 @@ public class SessionBottomSheet extends BottomSheet {
                     return true;
                 }
             });
-            itemView2.setBackground(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21"), 2));
+            itemView2.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 2));
             linearLayout.addView(itemView2);
             itemView.needDivider = true;
             itemView = itemView2;
@@ -149,7 +150,7 @@ public class SessionBottomSheet extends BottomSheet {
             ItemView itemView3 = new ItemView(parentActivity, false);
             itemView3.valueText.setText(tLRPC$TL_authorization.ip);
             Drawable mutate3 = ContextCompat.getDrawable(parentActivity, R.drawable.msg_language).mutate();
-            mutate3.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon"), PorterDuff.Mode.SRC_IN));
+            mutate3.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i), PorterDuff.Mode.SRC_IN));
             itemView3.iconView.setImageDrawable(mutate3);
             itemView3.descriptionText.setText(LocaleController.getString("IpAddress", R.string.IpAddress));
             itemView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.SessionBottomSheet.4
@@ -165,7 +166,7 @@ public class SessionBottomSheet extends BottomSheet {
                     return true;
                 }
             });
-            itemView3.setBackground(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21"), 2));
+            itemView3.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 2));
             linearLayout.addView(itemView3);
             itemView.needDivider = true;
             itemView = itemView3;
@@ -174,10 +175,10 @@ public class SessionBottomSheet extends BottomSheet {
             final ItemView itemView4 = new ItemView(parentActivity, true);
             itemView4.valueText.setText(LocaleController.getString("AcceptSecretChats", R.string.AcceptSecretChats));
             Drawable mutate4 = ContextCompat.getDrawable(parentActivity, R.drawable.msg_secret).mutate();
-            mutate4.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon"), PorterDuff.Mode.SRC_IN));
+            mutate4.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i), PorterDuff.Mode.SRC_IN));
             itemView4.iconView.setImageDrawable(mutate4);
             itemView4.switchView.setChecked(!tLRPC$TL_authorization.encrypted_requests_disabled, false);
-            itemView4.setBackground(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21"), 7));
+            itemView4.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 7));
             itemView4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.SessionBottomSheet.6
                 @Override // android.view.View.OnClickListener
                 public void onClick(View view) {
@@ -195,10 +196,10 @@ public class SessionBottomSheet extends BottomSheet {
         final ItemView itemView5 = new ItemView(parentActivity, true);
         itemView5.valueText.setText(LocaleController.getString("AcceptCalls", R.string.AcceptCalls));
         Drawable mutate5 = ContextCompat.getDrawable(parentActivity, R.drawable.msg_calls).mutate();
-        mutate5.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon"), PorterDuff.Mode.SRC_IN));
+        mutate5.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i), PorterDuff.Mode.SRC_IN));
         itemView5.iconView.setImageDrawable(mutate5);
         itemView5.switchView.setChecked(!tLRPC$TL_authorization.call_requests_disabled, false);
-        itemView5.setBackground(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21"), 7));
+        itemView5.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 7));
         itemView5.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.SessionBottomSheet.7
             @Override // android.view.View.OnClickListener
             public void onClick(View view) {
@@ -218,8 +219,8 @@ public class SessionBottomSheet extends BottomSheet {
             textView3.setTextSize(1, 14.0f);
             textView3.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             textView3.setText(LocaleController.getString("TerminateSession", R.string.TerminateSession));
-            textView3.setTextColor(Theme.getColor("featuredStickers_buttonText"));
-            textView3.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor("chat_attachAudioBackground"), ColorUtils.setAlphaComponent(Theme.getColor("windowBackgroundWhite"), 120)));
+            textView3.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
+            textView3.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor(Theme.key_chat_attachAudioBackground), ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_windowBackgroundWhite), 120)));
             linearLayout.addView(textView3, LayoutHelper.createFrame(-1, 48.0f, 0, 16.0f, 15.0f, 16.0f, 16.0f));
             textView3.setOnClickListener(new 8(callback, tLRPC$TL_authorization, baseFragment));
         }
@@ -260,7 +261,7 @@ public class SessionBottomSheet extends BottomSheet {
             this.val$fragment.showDialog(create);
             TextView textView = (TextView) create.getButton(-1);
             if (textView != null) {
-                textView.setTextColor(Theme.getColor("text_RedBold"));
+                textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
             }
         }
 
@@ -305,26 +306,32 @@ public class SessionBottomSheet extends BottomSheet {
         BulletinFactory.of(getContainer(), null).createCopyBulletin(LocaleController.getString("TextCopied", R.string.TextCopied)).show();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:56:0x00e0  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x00f1  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0105  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0116  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void setAnimation(TLRPC$TL_authorization tLRPC$TL_authorization, RLottieImageView rLottieImageView) {
         int i;
+        int i2;
         boolean z;
         String lowerCase = tLRPC$TL_authorization.platform.toLowerCase();
         if (lowerCase.isEmpty()) {
             lowerCase = tLRPC$TL_authorization.system_version.toLowerCase();
         }
         String lowerCase2 = tLRPC$TL_authorization.device_model.toLowerCase();
-        String str = "avatar_backgroundBlue";
         if (lowerCase2.contains("safari")) {
             i = R.raw.safari_30;
+            i2 = Theme.key_avatar_backgroundPink;
+            int i3 = Theme.key_avatar_background2Pink;
         } else if (lowerCase2.contains("edge")) {
             i = R.raw.edge_30;
+            i2 = Theme.key_avatar_backgroundPink;
+            int i4 = Theme.key_avatar_background2Pink;
         } else if (lowerCase2.contains("chrome")) {
             i = R.raw.chrome_30;
+            i2 = Theme.key_avatar_backgroundPink;
+            int i5 = Theme.key_avatar_background2Pink;
         } else if (lowerCase2.contains("opera") || lowerCase2.contains("firefox") || lowerCase2.contains("vivaldi")) {
             if (lowerCase2.contains("opera")) {
                 i = R.drawable.device_web_opera;
@@ -333,45 +340,49 @@ public class SessionBottomSheet extends BottomSheet {
             } else {
                 i = R.drawable.device_web_other;
             }
-            str = "avatar_backgroundPink";
+            i2 = Theme.key_avatar_backgroundPink;
+            int i6 = Theme.key_avatar_background2Pink;
             z = false;
-            rLottieImageView.setBackground(Theme.createCircleDrawable(AndroidUtilities.dp(42.0f), Theme.getColor(str)));
-            if (z) {
-                rLottieImageView.setAnimation(i, 50, 50, new int[]{0, Theme.getColor(str)});
+            rLottieImageView.setBackground(Theme.createCircleDrawable(AndroidUtilities.dp(42.0f), Theme.getColor(i2)));
+            if (!z) {
+                rLottieImageView.setAnimation(i, 50, 50, new int[]{0, Theme.getColor(i2)});
                 return;
             } else {
                 rLottieImageView.setImageDrawable(ContextCompat.getDrawable(getContext(), i));
                 return;
             }
+        } else if (lowerCase.contains("ubuntu")) {
+            i = R.raw.ubuntu_30;
+            i2 = Theme.key_avatar_backgroundBlue;
+            int i7 = Theme.key_avatar_background2Blue;
+        } else if (lowerCase.contains("ios")) {
+            i = lowerCase2.contains("ipad") ? R.raw.ipad_30 : R.raw.iphone_30;
+            i2 = Theme.key_avatar_backgroundBlue;
+            int i8 = Theme.key_avatar_background2Blue;
+        } else if (lowerCase.contains("windows")) {
+            i = R.raw.windows_30;
+            i2 = Theme.key_avatar_backgroundCyan;
+            int i9 = Theme.key_avatar_background2Cyan;
+        } else if (lowerCase.contains("macos")) {
+            i = R.raw.mac_30;
+            i2 = Theme.key_avatar_backgroundCyan;
+            int i10 = Theme.key_avatar_background2Cyan;
+        } else if (lowerCase.contains("android")) {
+            i = R.raw.android_30;
+            i2 = Theme.key_avatar_backgroundGreen;
+            int i11 = Theme.key_avatar_background2Green;
+        } else if (tLRPC$TL_authorization.app_name.toLowerCase().contains("desktop")) {
+            i = R.raw.windows_30;
+            i2 = Theme.key_avatar_backgroundCyan;
+            int i12 = Theme.key_avatar_background2Cyan;
         } else {
-            if (lowerCase.contains("ubuntu")) {
-                i = R.raw.ubuntu_30;
-            } else if (lowerCase.contains("ios")) {
-                i = lowerCase2.contains("ipad") ? R.raw.ipad_30 : R.raw.iphone_30;
-            } else {
-                if (lowerCase.contains("windows")) {
-                    i = R.raw.windows_30;
-                } else if (lowerCase.contains("macos")) {
-                    i = R.raw.mac_30;
-                } else if (lowerCase.contains("android")) {
-                    i = R.raw.android_30;
-                    str = "avatar_backgroundGreen";
-                } else if (tLRPC$TL_authorization.app_name.toLowerCase().contains("desktop")) {
-                    i = R.raw.windows_30;
-                } else {
-                    i = R.raw.chrome_30;
-                }
-                str = "avatar_backgroundCyan";
-            }
-            z = true;
-            rLottieImageView.setBackground(Theme.createCircleDrawable(AndroidUtilities.dp(42.0f), Theme.getColor(str)));
-            if (z) {
-            }
+            i = R.raw.chrome_30;
+            i2 = Theme.key_avatar_backgroundPink;
+            int i13 = Theme.key_avatar_background2Pink;
         }
-        str = "avatar_backgroundPink";
         z = true;
-        rLottieImageView.setBackground(Theme.createCircleDrawable(AndroidUtilities.dp(42.0f), Theme.getColor(str)));
-        if (z) {
+        rLottieImageView.setBackground(Theme.createCircleDrawable(AndroidUtilities.dp(42.0f), Theme.getColor(i2)));
+        if (!z) {
         }
     }
 
@@ -397,13 +408,13 @@ public class SessionBottomSheet extends BottomSheet {
             this.valueText = textView;
             textView.setTextSize(2, 16.0f);
             this.valueText.setGravity(3);
-            this.valueText.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+            this.valueText.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             linearLayout.addView(this.valueText, LayoutHelper.createLinear(-1, -2, 0, 0, 0, z ? 64 : 0, 0));
             TextView textView2 = new TextView(context);
             this.descriptionText = textView2;
             textView2.setTextSize(2, 13.0f);
             this.descriptionText.setGravity(3);
-            this.descriptionText.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
+            this.descriptionText.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
             linearLayout.addView(this.descriptionText, LayoutHelper.createLinear(-1, -2, 0, 0, 4, z ? 64 : 0, 0));
             setPadding(0, AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f));
             if (z) {

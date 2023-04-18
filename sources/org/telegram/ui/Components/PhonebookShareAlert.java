@@ -110,7 +110,7 @@ public class PhonebookShareAlert extends BottomSheet {
             TextView textView = new TextView(context);
             textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             textView.setTextSize(1, 17.0f);
-            textView.setTextColor(phonebookShareAlert.getThemedColor("dialogTextBlack"));
+            textView.setTextColor(phonebookShareAlert.getThemedColor(Theme.key_dialogTextBlack));
             textView.setSingleLine(true);
             textView.setEllipsize(TextUtils.TruncateAt.END);
             textView.setText(ContactsController.formatName(phonebookShareAlert.currentUser.first_name, phonebookShareAlert.currentUser.last_name));
@@ -118,7 +118,7 @@ public class PhonebookShareAlert extends BottomSheet {
             if (formatUserStatus != null) {
                 TextView textView2 = new TextView(context);
                 textView2.setTextSize(1, 14.0f);
-                textView2.setTextColor(phonebookShareAlert.getThemedColor("dialogTextGray3"));
+                textView2.setTextColor(phonebookShareAlert.getThemedColor(Theme.key_dialogTextGray3));
                 textView2.setSingleLine(true);
                 textView2.setEllipsize(TextUtils.TruncateAt.END);
                 textView2.setText(formatUserStatus);
@@ -143,7 +143,7 @@ public class PhonebookShareAlert extends BottomSheet {
             float f4;
             TextView textView = new TextView(context);
             this.textView = textView;
-            textView.setTextColor(phonebookShareAlert.getThemedColor("windowBackgroundWhiteBlackText"));
+            textView.setTextColor(phonebookShareAlert.getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
             this.textView.setTextSize(1, 16.0f);
             this.textView.setSingleLine(false);
             this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
@@ -164,7 +164,7 @@ public class PhonebookShareAlert extends BottomSheet {
             addView(textView2, LayoutHelper.createFrame(-1, -1.0f, i, f, 10.0f, f2, 0.0f));
             TextView textView3 = new TextView(context);
             this.valueTextView = textView3;
-            textView3.setTextColor(phonebookShareAlert.getThemedColor("windowBackgroundWhiteGrayText2"));
+            textView3.setTextColor(phonebookShareAlert.getThemedColor(Theme.key_windowBackgroundWhiteGrayText2));
             this.valueTextView.setTextSize(1, 13.0f);
             this.valueTextView.setLines(1);
             this.valueTextView.setMaxLines(1);
@@ -187,7 +187,7 @@ public class PhonebookShareAlert extends BottomSheet {
             ImageView imageView = new ImageView(context);
             this.imageView = imageView;
             imageView.setScaleType(ImageView.ScaleType.CENTER);
-            this.imageView.setColorFilter(new PorterDuffColorFilter(phonebookShareAlert.getThemedColor("windowBackgroundWhiteGrayIcon"), PorterDuff.Mode.MULTIPLY));
+            this.imageView.setColorFilter(new PorterDuffColorFilter(phonebookShareAlert.getThemedColor(Theme.key_windowBackgroundWhiteGrayIcon), PorterDuff.Mode.MULTIPLY));
             ImageView imageView2 = this.imageView;
             boolean z3 = LocaleController.isRTL;
             addView(imageView2, LayoutHelper.createFrame(-2, -2.0f, (z3 ? 5 : 3) | 48, z3 ? 0.0f : 20.0f, 20.0f, z3 ? 20.0f : 0.0f, 0.0f));
@@ -196,7 +196,10 @@ public class PhonebookShareAlert extends BottomSheet {
             }
             Switch r1 = new Switch(context);
             this.checkBox = r1;
-            r1.setColors("switchTrack", "switchTrackChecked", "windowBackgroundWhite", "windowBackgroundWhite");
+            int i3 = Theme.key_switchTrack;
+            int i4 = Theme.key_switchTrackChecked;
+            int i5 = Theme.key_windowBackgroundWhite;
+            r1.setColors(i3, i4, i5, i5);
             addView(this.checkBox, LayoutHelper.createFrame(37, 40.0f, (LocaleController.isRTL ? 3 : 5) | 16, 22.0f, 0.0f, 22.0f, 0.0f));
         }
 
@@ -461,12 +464,12 @@ public class PhonebookShareAlert extends BottomSheet {
                         ((BottomSheet) PhonebookShareAlert.this).shadowDrawable.setBounds(0, i4, getMeasuredWidth(), measuredHeight);
                         ((BottomSheet) PhonebookShareAlert.this).shadowDrawable.draw(canvas);
                         if (min != 1.0f) {
-                            PhonebookShareAlert.this.backgroundPaint.setColor(PhonebookShareAlert.this.getThemedColor("dialogBackground"));
+                            PhonebookShareAlert.this.backgroundPaint.setColor(PhonebookShareAlert.this.getThemedColor(Theme.key_dialogBackground));
                             this.rect.set(((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop + i4, getMeasuredWidth() - ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop + i4 + AndroidUtilities.dp(24.0f));
                             float f = dp * min;
                             canvas.drawRoundRect(this.rect, f, f, PhonebookShareAlert.this.backgroundPaint);
                         }
-                        int themedColor = PhonebookShareAlert.this.getThemedColor("dialogBackground");
+                        int themedColor = PhonebookShareAlert.this.getThemedColor(Theme.key_dialogBackground);
                         PhonebookShareAlert.this.backgroundPaint.setColor(Color.argb((int) (PhonebookShareAlert.this.actionBar.getAlpha() * 255.0f), (int) (Color.red(themedColor) * 0.8f), (int) (Color.green(themedColor) * 0.8f), (int) (Color.blue(themedColor) * 0.8f)));
                         canvas.drawRect(((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, 0.0f, getMeasuredWidth() - ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, PhonebookShareAlert.this.backgroundPaint);
                     }
@@ -540,11 +543,13 @@ public class PhonebookShareAlert extends BottomSheet {
                     }
                 };
                 this.actionBar = actionBar;
-                actionBar.setBackgroundColor(getThemedColor("dialogBackground"));
+                actionBar.setBackgroundColor(getThemedColor(Theme.key_dialogBackground));
                 this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
-                this.actionBar.setItemsColor(getThemedColor("dialogTextBlack"), false);
-                this.actionBar.setItemsBackgroundColor(getThemedColor("dialogButtonSelector"), false);
-                this.actionBar.setTitleColor(getThemedColor("dialogTextBlack"));
+                ActionBar actionBar2 = this.actionBar;
+                int i4 = Theme.key_dialogTextBlack;
+                actionBar2.setItemsColor(getThemedColor(i4), false);
+                this.actionBar.setItemsBackgroundColor(getThemedColor(Theme.key_dialogButtonSelector), false);
+                this.actionBar.setTitleColor(getThemedColor(i4));
                 this.actionBar.setOccupyStatusBar(false);
                 this.actionBar.setAlpha(0.0f);
                 if (!this.isImport) {
@@ -555,8 +560,8 @@ public class PhonebookShareAlert extends BottomSheet {
                 this.containerView.addView(this.actionBar, LayoutHelper.createFrame(-1, -2.0f));
                 this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.Components.PhonebookShareAlert.4
                     @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-                    public void onItemClick(int i4) {
-                        if (i4 == -1) {
+                    public void onItemClick(int i5) {
+                        if (i5 == -1) {
                             PhonebookShareAlert.this.dismiss();
                         }
                     }
@@ -564,18 +569,20 @@ public class PhonebookShareAlert extends BottomSheet {
                 View view = new View(parentActivity);
                 this.actionBarShadow = view;
                 view.setAlpha(0.0f);
-                this.actionBarShadow.setBackgroundColor(getThemedColor("dialogShadowLine"));
+                View view2 = this.actionBarShadow;
+                int i5 = Theme.key_dialogShadowLine;
+                view2.setBackgroundColor(getThemedColor(i5));
                 this.containerView.addView(this.actionBarShadow, LayoutHelper.createFrame(-1, 1.0f));
-                View view2 = new View(parentActivity);
-                this.shadow = view2;
-                view2.setBackgroundColor(getThemedColor("dialogShadowLine"));
+                View view3 = new View(parentActivity);
+                this.shadow = view3;
+                view3.setBackgroundColor(getThemedColor(i5));
                 this.shadow.setAlpha(0.0f);
                 this.containerView.addView(this.shadow, LayoutHelper.createFrame(-1, 1.0f, 83, 0.0f, 0.0f, 0.0f, 77.0f));
                 TextView textView = new TextView(parentActivity);
                 this.buttonTextView = textView;
                 textView.setPadding(AndroidUtilities.dp(34.0f), 0, AndroidUtilities.dp(34.0f), 0);
                 this.buttonTextView.setGravity(17);
-                this.buttonTextView.setTextColor(getThemedColor("featuredStickers_buttonText"));
+                this.buttonTextView.setTextColor(getThemedColor(Theme.key_featuredStickers_buttonText));
                 this.buttonTextView.setTextSize(1, 14.0f);
                 if (!this.isImport) {
                     this.buttonTextView.setText(LocaleController.getString("AddContactPhonebookTitle", R.string.AddContactPhonebookTitle));
@@ -583,12 +590,12 @@ public class PhonebookShareAlert extends BottomSheet {
                     this.buttonTextView.setText(LocaleController.getString("ShareContactTitle", R.string.ShareContactTitle));
                 }
                 this.buttonTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-                this.buttonTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), getThemedColor("featuredStickers_addButton"), getThemedColor("featuredStickers_addButtonPressed")));
+                this.buttonTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), getThemedColor(Theme.key_featuredStickers_addButton), getThemedColor(Theme.key_featuredStickers_addButtonPressed)));
                 frameLayout.addView(this.buttonTextView, LayoutHelper.createFrame(-1, 42.0f, 83, 16.0f, 16.0f, 16.0f, 16.0f));
                 this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda2
                     @Override // android.view.View.OnClickListener
-                    public final void onClick(View view3) {
-                        PhonebookShareAlert.this.lambda$new$5(resourcesProvider, view3);
+                    public final void onClick(View view4) {
+                        PhonebookShareAlert.this.lambda$new$5(resourcesProvider, view4);
                     }
                 });
             }
@@ -622,15 +629,15 @@ public class PhonebookShareAlert extends BottomSheet {
             }
 
             @Override // android.widget.FrameLayout, android.view.View
-            protected void onMeasure(int i4, int i5) {
-                int size = View.MeasureSpec.getSize(i5);
+            protected void onMeasure(int i42, int i52) {
+                int size = View.MeasureSpec.getSize(i52);
                 if (Build.VERSION.SDK_INT >= 21) {
                     this.ignoreLayout = true;
                     setPadding(((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, 0);
                     this.ignoreLayout = false;
                 }
                 int paddingTop = size - getPaddingTop();
-                View.MeasureSpec.getSize(i4);
+                View.MeasureSpec.getSize(i42);
                 int unused = ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft;
                 ((FrameLayout.LayoutParams) PhonebookShareAlert.this.actionBarShadow.getLayoutParams()).topMargin = ActionBar.getCurrentActionBarHeight();
                 this.ignoreLayout = true;
@@ -638,7 +645,7 @@ public class PhonebookShareAlert extends BottomSheet {
                 int itemCount2 = PhonebookShareAlert.this.listAdapter.getItemCount();
                 for (int i6 = 0; i6 < itemCount2; i6++) {
                     View createView2 = PhonebookShareAlert.this.listAdapter.createView(parentActivity2, i6);
-                    createView2.measure(i4, View.MeasureSpec.makeMeasureSpec(0, 0));
+                    createView2.measure(i42, View.MeasureSpec.makeMeasureSpec(0, 0));
                     dp += createView2.getMeasuredHeight();
                 }
                 int i7 = dp < paddingTop ? paddingTop - dp : paddingTop / 5;
@@ -647,13 +654,13 @@ public class PhonebookShareAlert extends BottomSheet {
                     PhonebookShareAlert.this.scrollView.setPadding(0, i7, 0, 0);
                 }
                 this.ignoreLayout = false;
-                super.onMeasure(i4, View.MeasureSpec.makeMeasureSpec(size, 1073741824));
+                super.onMeasure(i42, View.MeasureSpec.makeMeasureSpec(size, 1073741824));
             }
 
             @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            protected void onLayout(boolean z2, int i4, int i5, int i6, int i7) {
+            protected void onLayout(boolean z2, int i42, int i52, int i6, int i7) {
                 PhonebookShareAlert.this.inLayout = true;
-                super.onLayout(z2, i4, i5, i6, i7);
+                super.onLayout(z2, i42, i52, i6, i7);
                 PhonebookShareAlert.this.inLayout = false;
                 PhonebookShareAlert.this.updateLayout(false);
             }
@@ -668,24 +675,24 @@ public class PhonebookShareAlert extends BottomSheet {
 
             @Override // android.view.View
             protected void onDraw(Canvas canvas) {
-                int i4 = PhonebookShareAlert.this.scrollOffsetY - ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop;
+                int i42 = PhonebookShareAlert.this.scrollOffsetY - ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop;
                 int measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(30.0f) + ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop;
                 float dp = AndroidUtilities.dp(12.0f);
-                float min = ((float) (((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop + i4)) < dp ? 1.0f - Math.min(1.0f, ((dp - i4) - ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop) / dp) : 1.0f;
+                float min = ((float) (((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop + i42)) < dp ? 1.0f - Math.min(1.0f, ((dp - i42) - ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop) / dp) : 1.0f;
                 if (Build.VERSION.SDK_INT >= 21) {
-                    int i5 = AndroidUtilities.statusBarHeight;
-                    i4 += i5;
-                    measuredHeight -= i5;
+                    int i52 = AndroidUtilities.statusBarHeight;
+                    i42 += i52;
+                    measuredHeight -= i52;
                 }
-                ((BottomSheet) PhonebookShareAlert.this).shadowDrawable.setBounds(0, i4, getMeasuredWidth(), measuredHeight);
+                ((BottomSheet) PhonebookShareAlert.this).shadowDrawable.setBounds(0, i42, getMeasuredWidth(), measuredHeight);
                 ((BottomSheet) PhonebookShareAlert.this).shadowDrawable.draw(canvas);
                 if (min != 1.0f) {
-                    PhonebookShareAlert.this.backgroundPaint.setColor(PhonebookShareAlert.this.getThemedColor("dialogBackground"));
-                    this.rect.set(((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop + i4, getMeasuredWidth() - ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop + i4 + AndroidUtilities.dp(24.0f));
+                    PhonebookShareAlert.this.backgroundPaint.setColor(PhonebookShareAlert.this.getThemedColor(Theme.key_dialogBackground));
+                    this.rect.set(((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop + i42, getMeasuredWidth() - ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingTop + i42 + AndroidUtilities.dp(24.0f));
                     float f = dp * min;
                     canvas.drawRoundRect(this.rect, f, f, PhonebookShareAlert.this.backgroundPaint);
                 }
-                int themedColor = PhonebookShareAlert.this.getThemedColor("dialogBackground");
+                int themedColor = PhonebookShareAlert.this.getThemedColor(Theme.key_dialogBackground);
                 PhonebookShareAlert.this.backgroundPaint.setColor(Color.argb((int) (PhonebookShareAlert.this.actionBar.getAlpha() * 255.0f), (int) (Color.red(themedColor) * 0.8f), (int) (Color.green(themedColor) * 0.8f), (int) (Color.blue(themedColor) * 0.8f)));
                 canvas.drawRect(((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, 0.0f, getMeasuredWidth() - ((BottomSheet) PhonebookShareAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, PhonebookShareAlert.this.backgroundPaint);
             }
@@ -699,9 +706,9 @@ public class PhonebookShareAlert extends BottomSheet {
             private View focusingView;
 
             @Override // androidx.core.widget.NestedScrollView, android.view.ViewGroup, android.view.ViewParent
-            public void requestChildFocus(View view3, View view22) {
+            public void requestChildFocus(View view4, View view22) {
                 this.focusingView = view22;
-                super.requestChildFocus(view3, view22);
+                super.requestChildFocus(view4, view22);
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
@@ -725,26 +732,28 @@ public class PhonebookShareAlert extends BottomSheet {
         this.scrollView.addView(this.linearLayout, LayoutHelper.createScroll(-1, -1, 51));
         this.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda4
             @Override // androidx.core.widget.NestedScrollView.OnScrollChangeListener
-            public final void onScrollChange(NestedScrollView nestedScrollView22, int i4, int i5, int i6, int i7) {
-                PhonebookShareAlert.this.lambda$new$0(nestedScrollView22, i4, i5, i6, i7);
+            public final void onScrollChange(NestedScrollView nestedScrollView22, int i42, int i52, int i6, int i7) {
+                PhonebookShareAlert.this.lambda$new$0(nestedScrollView22, i42, i52, i6, i7);
             }
         });
         itemCount = this.listAdapter.getItemCount();
         while (i < itemCount) {
         }
-        ActionBar actionBar2 = new ActionBar(parentActivity2) { // from class: org.telegram.ui.Components.PhonebookShareAlert.3
+        ActionBar actionBar3 = new ActionBar(parentActivity2) { // from class: org.telegram.ui.Components.PhonebookShareAlert.3
             @Override // android.view.View
             public void setAlpha(float f) {
                 super.setAlpha(f);
                 ((BottomSheet) PhonebookShareAlert.this).containerView.invalidate();
             }
         };
-        this.actionBar = actionBar2;
-        actionBar2.setBackgroundColor(getThemedColor("dialogBackground"));
+        this.actionBar = actionBar3;
+        actionBar3.setBackgroundColor(getThemedColor(Theme.key_dialogBackground));
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
-        this.actionBar.setItemsColor(getThemedColor("dialogTextBlack"), false);
-        this.actionBar.setItemsBackgroundColor(getThemedColor("dialogButtonSelector"), false);
-        this.actionBar.setTitleColor(getThemedColor("dialogTextBlack"));
+        ActionBar actionBar22 = this.actionBar;
+        int i42 = Theme.key_dialogTextBlack;
+        actionBar22.setItemsColor(getThemedColor(i42), false);
+        this.actionBar.setItemsBackgroundColor(getThemedColor(Theme.key_dialogButtonSelector), false);
+        this.actionBar.setTitleColor(getThemedColor(i42));
         this.actionBar.setOccupyStatusBar(false);
         this.actionBar.setAlpha(0.0f);
         if (!this.isImport) {
@@ -752,37 +761,39 @@ public class PhonebookShareAlert extends BottomSheet {
         this.containerView.addView(this.actionBar, LayoutHelper.createFrame(-1, -2.0f));
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.Components.PhonebookShareAlert.4
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i4) {
-                if (i4 == -1) {
+            public void onItemClick(int i52) {
+                if (i52 == -1) {
                     PhonebookShareAlert.this.dismiss();
                 }
             }
         });
-        View view3 = new View(parentActivity2);
-        this.actionBarShadow = view3;
-        view3.setAlpha(0.0f);
-        this.actionBarShadow.setBackgroundColor(getThemedColor("dialogShadowLine"));
+        View view4 = new View(parentActivity2);
+        this.actionBarShadow = view4;
+        view4.setAlpha(0.0f);
+        View view22 = this.actionBarShadow;
+        int i52 = Theme.key_dialogShadowLine;
+        view22.setBackgroundColor(getThemedColor(i52));
         this.containerView.addView(this.actionBarShadow, LayoutHelper.createFrame(-1, 1.0f));
-        View view22 = new View(parentActivity2);
-        this.shadow = view22;
-        view22.setBackgroundColor(getThemedColor("dialogShadowLine"));
+        View view32 = new View(parentActivity2);
+        this.shadow = view32;
+        view32.setBackgroundColor(getThemedColor(i52));
         this.shadow.setAlpha(0.0f);
         this.containerView.addView(this.shadow, LayoutHelper.createFrame(-1, 1.0f, 83, 0.0f, 0.0f, 0.0f, 77.0f));
         TextView textView2 = new TextView(parentActivity2);
         this.buttonTextView = textView2;
         textView2.setPadding(AndroidUtilities.dp(34.0f), 0, AndroidUtilities.dp(34.0f), 0);
         this.buttonTextView.setGravity(17);
-        this.buttonTextView.setTextColor(getThemedColor("featuredStickers_buttonText"));
+        this.buttonTextView.setTextColor(getThemedColor(Theme.key_featuredStickers_buttonText));
         this.buttonTextView.setTextSize(1, 14.0f);
         if (!this.isImport) {
         }
         this.buttonTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        this.buttonTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), getThemedColor("featuredStickers_addButton"), getThemedColor("featuredStickers_addButtonPressed")));
+        this.buttonTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), getThemedColor(Theme.key_featuredStickers_addButton), getThemedColor(Theme.key_featuredStickers_addButtonPressed)));
         frameLayout2.addView(this.buttonTextView, LayoutHelper.createFrame(-1, 42.0f, 83, 16.0f, 16.0f, 16.0f, 16.0f));
         this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
-            public final void onClick(View view32) {
-                PhonebookShareAlert.this.lambda$new$5(resourcesProvider, view32);
+            public final void onClick(View view42) {
+                PhonebookShareAlert.this.lambda$new$5(resourcesProvider, view42);
             }
         });
     }
@@ -853,7 +864,7 @@ public class PhonebookShareAlert extends BottomSheet {
                     i5++;
                 }
             }
-            int themedColor = getThemedColor("featuredStickers_buttonText");
+            int themedColor = getThemedColor(Theme.key_featuredStickers_buttonText);
             this.buttonTextView.setEnabled(z);
             TextView textView = this.buttonTextView;
             if (!z) {

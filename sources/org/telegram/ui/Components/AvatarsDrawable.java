@@ -366,13 +366,13 @@ public class AvatarsDrawable {
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:154:0x025f  */
-    /* JADX WARN: Removed duplicated region for block: B:223:0x04e8  */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x04fd  */
-    /* JADX WARN: Removed duplicated region for block: B:226:0x0502  */
-    /* JADX WARN: Removed duplicated region for block: B:242:0x0505 A[SYNTHETIC] */
-    /* JADX WARN: Type inference failed for: r9v2, types: [boolean, int] */
-    /* JADX WARN: Type inference failed for: r9v33 */
+    /* JADX WARN: Removed duplicated region for block: B:223:0x04ea  */
+    /* JADX WARN: Removed duplicated region for block: B:224:0x04ff  */
+    /* JADX WARN: Removed duplicated region for block: B:226:0x0504  */
+    /* JADX WARN: Removed duplicated region for block: B:242:0x0507 A[SYNTHETIC] */
+    /* JADX WARN: Type inference failed for: r9v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r9v34 */
+    /* JADX WARN: Type inference failed for: r9v35 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -414,9 +414,9 @@ public class AvatarsDrawable {
         boolean z4 = VoIPService.getSharedInstance() != null && VoIPService.getSharedInstance().isMicMute();
         int i12 = this.currentStyle;
         if (i12 == 4) {
-            this.paint.setColor(Theme.getColor("inappPlayerBackground"));
+            this.paint.setColor(Theme.getColor(Theme.key_inappPlayerBackground));
         } else if (i12 != 3) {
-            this.paint.setColor(Theme.getColor(z4 ? "returnToCallMutedBackground" : "returnToCallBackground"));
+            this.paint.setColor(Theme.getColor(z4 ? Theme.key_returnToCallMutedBackground : Theme.key_returnToCallBackground));
         }
         int i13 = 0;
         for (int i14 = 0; i14 < 3; i14++) {
@@ -495,7 +495,7 @@ public class AvatarsDrawable {
                                             }
                                         }
                                         if (this.currentStyle == 5) {
-                                            drawingStateArr[i16].wavesDrawable.setColor(ColorUtils.setAlphaComponent(Theme.getColor("voipgroup_speakingText"), (int) (f8 * 76.5f)));
+                                            drawingStateArr[i16].wavesDrawable.setColor(ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_voipgroup_speakingText), (int) (f8 * 76.5f)));
                                         }
                                         if (drawingStateArr[i16].participant == null || drawingStateArr[i16].participant.amplitude <= 0.0f) {
                                             drawingStateArr[i16].wavesDrawable.setShowWaves(false, this.parent);
@@ -518,9 +518,9 @@ public class AvatarsDrawable {
                                             drawingStateArr[i16].wavesDrawable = new GroupCallUserCell.AvatarWavesDrawable(AndroidUtilities.dp(17.0f), AndroidUtilities.dp(21.0f));
                                         }
                                         if (this.currentStyle == 10) {
-                                            drawingStateArr[i16].wavesDrawable.setColor(ColorUtils.setAlphaComponent(Theme.getColor("voipgroup_speakingText"), (int) (f8 * 76.5f)));
+                                            drawingStateArr[i16].wavesDrawable.setColor(ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_voipgroup_speakingText), (int) (f8 * 76.5f)));
                                         } else {
-                                            drawingStateArr[i16].wavesDrawable.setColor(ColorUtils.setAlphaComponent(Theme.getColor("voipgroup_listeningText"), (int) (f8 * 76.5f)));
+                                            drawingStateArr[i16].wavesDrawable.setColor(ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_voipgroup_listeningText), (int) (f8 * 76.5f)));
                                         }
                                         long currentTimeMillis = System.currentTimeMillis();
                                         if (currentTimeMillis - drawingStateArr[i16].lastUpdateTime > 100) {

@@ -72,26 +72,26 @@ public class MessageTopicButton {
         this.resourcesProvider = resourcesProvider;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:117:0x054a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:117:0x0545, code lost:
         if (r1.type == 5) goto L97;
      */
-    /* JADX WARN: Removed duplicated region for block: B:131:0x0579  */
-    /* JADX WARN: Removed duplicated region for block: B:132:0x0588  */
-    /* JADX WARN: Removed duplicated region for block: B:135:0x0599  */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x0574  */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x0583  */
+    /* JADX WARN: Removed duplicated region for block: B:135:0x0594  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public int set(ChatMessageCell chatMessageCell, MessageObject messageObject, TLRPC$TL_forumTopic tLRPC$TL_forumTopic, int i) {
         float f;
         int i2;
-        String str;
         int i3;
         int i4;
+        int i5;
         float f2;
         float f3;
         float f4;
         MessageObject messageObject2;
-        int i5;
+        int i6;
         Drawable drawable;
         int dp;
         boolean z;
@@ -105,18 +105,18 @@ public class MessageTopicButton {
         float textSize = Theme.chat_topicTextPaint.getTextSize() - AndroidUtilities.dp(8.0f);
         float dp4 = AndroidUtilities.dp(5.0f) + Theme.chat_topicTextPaint.getTextSize();
         float f5 = dp3 + dp4;
-        int i6 = (int) (i - f5);
-        String str2 = tLRPC$TL_forumTopic.title;
-        if (str2 == null) {
-            str2 = "";
+        int i7 = (int) (i - f5);
+        String str = tLRPC$TL_forumTopic.title;
+        if (str == null) {
+            str = "";
         }
         boolean z2 = tLRPC$TL_forumTopic.closed;
         this.topicClosed = z2;
         if (z2) {
-            i6 -= AndroidUtilities.dp(18.0f);
+            i7 -= AndroidUtilities.dp(18.0f);
         }
-        int i7 = i6;
-        this.topicNameLayout = StaticLayoutEx.createStaticLayout(str2, 0, str2.length(), Theme.chat_topicTextPaint, i7, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, i7, 2, false);
+        int i8 = i7;
+        this.topicNameLayout = StaticLayoutEx.createStaticLayout(str, 0, str.length(), Theme.chat_topicTextPaint, i8, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, i8, 2, false);
         int dp5 = AndroidUtilities.dp(8.5f);
         int dp6 = AndroidUtilities.dp(24.0f);
         StaticLayout staticLayout = this.topicNameLayout;
@@ -133,40 +133,42 @@ public class MessageTopicButton {
             this.topicPaint = new Paint(1);
         }
         if (tLRPC$TL_forumTopic.id == 1) {
-            i2 = getThemedColor(messageObject.isOutOwner() ? "chat_outReactionButtonText" : "chat_inReactionButtonText");
-            this.topicIconDrawable = ForumUtilities.createGeneralTopicDrawable(this.context, 0.65f, i2);
+            i3 = getThemedColor(messageObject.isOutOwner() ? Theme.key_chat_outReactionButtonText : Theme.key_chat_inReactionButtonText);
+            this.topicIconDrawable = ForumUtilities.createGeneralTopicDrawable(this.context, 0.65f, i3);
             f = textSize;
+            i2 = dp2;
         } else {
             f = textSize;
             long j = tLRPC$TL_forumTopic.icon_emoji_id;
             if (j != 0) {
                 Drawable drawable2 = this.topicIconDrawable;
                 if ((drawable2 instanceof AnimatedEmojiDrawable) && j == ((AnimatedEmojiDrawable) drawable2).getDocumentId()) {
-                    str = "chat_outReactionButtonText";
+                    i2 = dp2;
                 } else {
                     Drawable drawable3 = this.topicIconDrawable;
                     if (drawable3 instanceof AnimatedEmojiDrawable) {
                         ((AnimatedEmojiDrawable) drawable3).removeView(new MessageTopicButton$$ExternalSyntheticLambda0(chatMessageCell));
                         this.topicIconDrawable = null;
                     }
-                    str = "chat_outReactionButtonText";
+                    i2 = dp2;
                     AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(messageObject.currentAccount, 0, tLRPC$TL_forumTopic.icon_emoji_id);
                     this.topicIconDrawable = make;
                     make.addView(new MessageTopicButton$$ExternalSyntheticLambda0(chatMessageCell));
                 }
                 this.topicIconWaiting = false;
                 Drawable drawable4 = this.topicIconDrawable;
-                i2 = drawable4 instanceof AnimatedEmojiDrawable ? AnimatedEmojiDrawable.getDominantColor((AnimatedEmojiDrawable) drawable4) : 0;
-                if (i2 == 0) {
+                i3 = drawable4 instanceof AnimatedEmojiDrawable ? AnimatedEmojiDrawable.getDominantColor((AnimatedEmojiDrawable) drawable4) : 0;
+                if (i3 == 0) {
                     this.topicIconWaiting = true;
-                    i2 = getThemedColor(messageObject.isOutOwner() ? str : "chat_inReactionButtonText");
+                    i3 = getThemedColor(messageObject.isOutOwner() ? Theme.key_chat_outReactionButtonText : Theme.key_chat_inReactionButtonText);
                 }
             } else {
-                i2 = tLRPC$TL_forumTopic.icon_color;
-                this.topicIconDrawable = ForumUtilities.createSmallTopicDrawable(str2, i2);
+                i2 = dp2;
+                i3 = tLRPC$TL_forumTopic.icon_color;
+                this.topicIconDrawable = ForumUtilities.createSmallTopicDrawable(str, i3);
             }
         }
-        setupColors(i2);
+        setupColors(i3);
         if (this.topicIconWaiting) {
             if (this.topicNameColorAnimated == null) {
                 this.topicNameColorAnimated = new AnimatedColor(chatMessageCell);
@@ -199,14 +201,15 @@ public class MessageTopicButton {
             if (this.topicClosed) {
                 abs2 += AndroidUtilities.dp(4.0f) + max2;
             }
+            i4 = i2;
             float min = Math.min(this.topicNameLayout.getLineLeft(0), this.topicNameLayout.getLineLeft(1));
             this.topicNameLeft = min;
             boolean z3 = min != 0.0f;
             float max3 = Math.max(abs, abs2);
             float dp8 = (AndroidUtilities.dp(11.0f) + ((int) Theme.chat_topicTextPaint.getTextSize())) / 1.5f;
             RectF rectF = AndroidUtilities.rectTmp;
-            i3 = dp2;
             rectF.set(0.0f, 0.0f, dp7, dp7);
+            int i9 = lineCount;
             this.topicPath.arcTo(rectF, 180.0f, 90.0f);
             float f6 = dp4 - f;
             if (Math.abs(abs - abs2) <= f6 || z3) {
@@ -218,7 +221,6 @@ public class MessageTopicButton {
             }
             float f7 = dp3 + f + abs;
             rectF.set(f7 - dp8, 0.0f, f7, dp8);
-            int i8 = lineCount;
             this.topicPath.arcTo(rectF, 270.0f, 90.0f);
             float dp9 = AndroidUtilities.dp(11.0f) + Theme.chat_topicTextPaint.getTextSize();
             float min2 = Math.min(dp8, Math.abs((abs - AndroidUtilities.dp(13.0f)) - abs2));
@@ -245,19 +247,19 @@ public class MessageTopicButton {
             float f13 = max2 / 2;
             this.topicClosedDrawable.setBounds((int) ((((AndroidUtilities.dp(-4.0f) + f5) - f11) + abs2) - max2), (int) (((((this.topicHeight - AndroidUtilities.dp(11.0f)) - Theme.chat_topicTextPaint.getTextSize()) + this.topicHeight) / 2.0f) - f13), (int) (((AndroidUtilities.dp(-4.0f) + f5) - f11) + abs2), (int) (((((this.topicHeight - AndroidUtilities.dp(11.0f)) - Theme.chat_topicTextPaint.getTextSize()) + this.topicHeight) / 2.0f) + f13));
             float f14 = abs2 + f5;
-            int i9 = this.topicHeight;
-            rectF.set(f14 - dp8, i9 - dp8, f14, i9);
-            this.topicPath.arcTo(rectF, 0.0f, 90.0f);
             int i10 = this.topicHeight;
-            rectF.set(0.0f, i10 - dp7, dp7, i10);
+            rectF.set(f14 - dp8, i10 - dp8, f14, i10);
+            this.topicPath.arcTo(rectF, 0.0f, 90.0f);
+            int i11 = this.topicHeight;
+            rectF.set(0.0f, i11 - dp7, dp7, i11);
             this.topicPath.arcTo(rectF, 90.0f, 90.0f);
             this.topicPath.close();
             f2 = max3;
-            i4 = i8;
+            i5 = i9;
         } else {
-            i3 = dp2;
-            i4 = lineCount;
-            if (i4 == 1) {
+            i4 = i2;
+            i5 = lineCount;
+            if (i5 == 1) {
                 this.topicHeight = AndroidUtilities.dp(11.0f) + ((int) Theme.chat_topicTextPaint.getTextSize());
                 float abs3 = Math.abs(this.topicNameLayout.getLineRight(0) - this.topicNameLayout.getLineLeft(0));
                 if (this.topicClosed) {
@@ -274,7 +276,7 @@ public class MessageTopicButton {
                 this.topicClosedDrawable.setBounds((int) ((((AndroidUtilities.dp(-4.0f) + f5) + abs3) - f15) - max2), (int) ((this.topicHeight / 2.0f) - f17), (int) (((AndroidUtilities.dp(-4.0f) + f5) + abs3) - f15), (int) ((this.topicHeight / 2.0f) + f17));
                 this.topicPath.addRoundRect(rectF2, dp7, dp7, Path.Direction.CW);
                 f2 = abs3;
-            } else if (i4 == 0) {
+            } else if (i5 == 0) {
                 this.topicHeight = AndroidUtilities.dp(11.0f) + ((int) Theme.chat_topicTextPaint.getTextSize());
                 if (this.topicClosed) {
                     f3 = 0.0f;
@@ -306,7 +308,7 @@ public class MessageTopicButton {
             messageObject2 = messageObject;
         }
         if (messageObject2.type != 19) {
-            i5 = 0;
+            i6 = 0;
             drawable = this.topicSelectorDrawable;
             if (drawable == null) {
                 Drawable createSelectorDrawable = Theme.createSelectorDrawable(this.topicBackgroundColor, 2);
@@ -320,17 +322,17 @@ public class MessageTopicButton {
                 if (this.topicIconDrawableBounds == null) {
                     this.topicIconDrawableBounds = new Rect();
                 }
-                this.topicIconDrawableBounds.set(AndroidUtilities.dp(5.0f), AndroidUtilities.dp((i4 == 2 ? 3 : 0) + 2), AndroidUtilities.dp(5.0f) + i3, AndroidUtilities.dp((i4 == 2 ? 3 : 0) + 2) + i3);
+                this.topicIconDrawableBounds.set(AndroidUtilities.dp(5.0f), AndroidUtilities.dp((i5 == 2 ? 3 : 0) + 2), AndroidUtilities.dp(5.0f) + i4, AndroidUtilities.dp((i5 == 2 ? 3 : 0) + 2) + i4);
                 this.topicIconDrawable.setBounds(this.topicIconDrawableBounds);
             }
-            return i5;
+            return i6;
         }
-        i5 = 0 + AndroidUtilities.dp(6.0f) + this.topicHeight;
-        int i11 = messageObject2.type;
-        if (i11 == 19) {
+        i6 = 0 + AndroidUtilities.dp(6.0f) + this.topicHeight;
+        int i12 = messageObject2.type;
+        if (i12 == 19) {
             dp = AndroidUtilities.dp(16.0f);
         } else {
-            if (i11 != 0) {
+            if (i12 != 0) {
                 dp = AndroidUtilities.dp(9.0f);
             }
             drawable = this.topicSelectorDrawable;
@@ -339,16 +341,16 @@ public class MessageTopicButton {
             this.topicPaint.setColor(this.topicBackgroundColor);
             if (this.topicIconDrawable != null) {
             }
-            return i5;
+            return i6;
         }
-        i5 += dp;
+        i6 += dp;
         drawable = this.topicSelectorDrawable;
         if (drawable == null) {
         }
         this.topicPaint.setColor(this.topicBackgroundColor);
         if (this.topicIconDrawable != null) {
         }
-        return i5;
+        return i6;
     }
 
     public void onAttached(ChatMessageCell chatMessageCell) {
@@ -370,13 +372,13 @@ public class MessageTopicButton {
     private void setupColors(int i) {
         MessageObject messageObject = this.lastMessageObject;
         if (messageObject != null && messageObject.shouldDrawWithoutBackground()) {
-            this.topicNameColor = getThemedColor("chat_stickerReplyNameText");
+            this.topicNameColor = getThemedColor(Theme.key_chat_stickerReplyNameText);
             return;
         }
         MessageObject messageObject2 = this.lastMessageObject;
         if (messageObject2 != null && messageObject2.isOutOwner()) {
-            this.topicNameColor = getThemedColor("chat_outReactionButtonText");
-            this.topicBackgroundColor = ColorUtils.setAlphaComponent(getThemedColor("chat_outReactionButtonBackground"), 38);
+            this.topicNameColor = getThemedColor(Theme.key_chat_outReactionButtonText);
+            this.topicBackgroundColor = ColorUtils.setAlphaComponent(getThemedColor(Theme.key_chat_outReactionButtonBackground), 38);
             return;
         }
         if (this.topicHSV == null) {
@@ -386,11 +388,11 @@ public class MessageTopicButton {
         float[] fArr = this.topicHSV;
         float f = fArr[0];
         if (fArr[1] <= 0.02f) {
-            this.topicNameColor = getThemedColor("chat_inReactionButtonText");
-            this.topicBackgroundColor = ColorUtils.setAlphaComponent(getThemedColor("chat_inReactionButtonBackground"), 38);
+            this.topicNameColor = getThemedColor(Theme.key_chat_inReactionButtonText);
+            this.topicBackgroundColor = ColorUtils.setAlphaComponent(getThemedColor(Theme.key_chat_inReactionButtonBackground), 38);
             return;
         }
-        Color.colorToHSV(getThemedColor("chat_inReactionButtonText"), this.topicHSV);
+        Color.colorToHSV(getThemedColor(Theme.key_chat_inReactionButtonText), this.topicHSV);
         this.topicHSV[0] = f;
         float[] fArr2 = Theme.isCurrentThemeDark() ? darkHueRanges : lightHueRanges;
         float[] fArr3 = Theme.isCurrentThemeDark() ? darkSatValues : lightSatValues;
@@ -409,7 +411,7 @@ public class MessageTopicButton {
                 i2++;
             }
         }
-        this.topicNameColor = Color.HSVToColor(Color.alpha(getThemedColor("chat_inReactionButtonText")), this.topicHSV);
+        this.topicNameColor = Color.HSVToColor(Color.alpha(getThemedColor(Theme.key_chat_inReactionButtonText)), this.topicHSV);
         this.topicBackgroundColor = Color.HSVToColor(38, this.topicHSV);
     }
 
@@ -594,10 +596,10 @@ public class MessageTopicButton {
         }
     }
 
-    private int getThemedColor(String str) {
+    private int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 
     private Paint getThemedPaint(String str) {

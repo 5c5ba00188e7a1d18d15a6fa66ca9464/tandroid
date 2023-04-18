@@ -1599,7 +1599,7 @@ public class MessageObject {
         if (document == null) {
             return;
         }
-        this.pathThumb = DocumentObject.getSvgThumb(document, "chat_serviceBackground", 1.0f);
+        this.pathThumb = DocumentObject.getSvgThumb(document, Theme.key_chat_serviceBackground, 1.0f);
     }
 
     public void createStrippedThumb() {

@@ -116,7 +116,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
     private ChatActivity chatActivity;
     protected EditTextEmoji commentTextView;
     private PhotoPickerActivityDelegate delegate;
-    private final String dialogBackgroundKey;
+    private final int dialogBackgroundKey;
     private StickerEmptyView emptyView;
     private FlickerLoadingView flickerView;
     private final boolean forceDarckTheme;
@@ -154,7 +154,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
     protected View selectedCountView;
     private HashMap<Object, Object> selectedPhotos;
     private ArrayList<Object> selectedPhotosOrder;
-    private final String selectorKey;
+    private final int selectorKey;
     private ActionBarPopupWindow.ActionBarPopupWindowLayout sendPopupLayout;
     private ActionBarPopupWindow sendPopupWindow;
     private boolean sendPressed;
@@ -162,7 +162,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
     private boolean shouldSelect;
     private ActionBarMenuSubItem showAsListItem;
     private SizeNotifierFrameLayout sizeNotifierFrameLayout;
-    private final String textKey;
+    private final int textKey;
     private TextPaint textPaint;
     private int type;
     private ImageView writeButton;
@@ -445,14 +445,14 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             loadRecentSearch();
         }
         if (z2) {
-            this.dialogBackgroundKey = "voipgroup_dialogBackground";
-            this.textKey = "voipgroup_actionBarItems";
-            this.selectorKey = "voipgroup_actionBarItemsSelector";
+            this.dialogBackgroundKey = Theme.key_voipgroup_dialogBackground;
+            this.textKey = Theme.key_voipgroup_actionBarItems;
+            this.selectorKey = Theme.key_voipgroup_actionBarItemsSelector;
             return;
         }
-        this.dialogBackgroundKey = "dialogBackground";
-        this.textKey = "dialogTextBlack";
-        this.selectorKey = "dialogButtonSelector";
+        this.dialogBackgroundKey = Theme.key_dialogBackground;
+        this.textKey = Theme.key_dialogTextBlack;
+        this.selectorKey = Theme.key_dialogButtonSelector;
     }
 
     public void setDocumentsPicker(boolean z) {
@@ -557,7 +557,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             EditTextBoldCursor searchField = actionBarMenuItemSearchListener.getSearchField();
             searchField.setTextColor(Theme.getColor(this.textKey));
             searchField.setCursorColor(Theme.getColor(this.textKey));
-            searchField.setHintTextColor(Theme.getColor("chat_messagePanelHint"));
+            searchField.setHintTextColor(Theme.getColor(Theme.key_chat_messagePanelHint));
         }
         if (this.selectedAlbum == null) {
             int i3 = this.type;
@@ -675,7 +675,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         stickerEmptyView.setAnimateLayoutChange(true);
         this.emptyView.title.setTypeface(Typeface.DEFAULT);
         this.emptyView.title.setTextSize(1, 16.0f);
-        this.emptyView.title.setTextColor(getThemedColor("windowBackgroundWhiteGrayText"));
+        this.emptyView.title.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText));
         this.emptyView.addView(this.flickerView, 0);
         if (this.selectedAlbum != null) {
             this.emptyView.title.setText(LocaleController.getString("NoPhotos", R.string.NoPhotos));
@@ -773,10 +773,14 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             this.sizeNotifierFrameLayout.addView(this.writeButtonContainer, LayoutHelper.createFrame(60, 60.0f, 85, 0.0f, 0.0f, 12.0f, 10.0f));
             this.writeButton = new ImageView(context);
             int dp = AndroidUtilities.dp(56.0f);
-            int color = Theme.getColor("dialogFloatingButton");
-            int i4 = Build.VERSION.SDK_INT;
-            this.writeButtonDrawable = Theme.createSimpleSelectorCircleDrawable(dp, color, Theme.getColor(i4 >= 21 ? "dialogFloatingButtonPressed" : "dialogFloatingButton"));
-            if (i4 < 21) {
+            int i4 = Theme.key_dialogFloatingButton;
+            int color = Theme.getColor(i4);
+            int i5 = Build.VERSION.SDK_INT;
+            if (i5 >= 21) {
+                i4 = Theme.key_dialogFloatingButtonPressed;
+            }
+            this.writeButtonDrawable = Theme.createSimpleSelectorCircleDrawable(dp, color, Theme.getColor(i4));
+            if (i5 < 21) {
                 Drawable mutate = context.getResources().getDrawable(R.drawable.floating_shadow_profile).mutate();
                 mutate.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
                 CombinedDrawable combinedDrawable = new CombinedDrawable(mutate, this.writeButtonDrawable, 0, 0);
@@ -786,9 +790,9 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             this.writeButton.setBackgroundDrawable(this.writeButtonDrawable);
             this.writeButton.setImageResource(R.drawable.attach_send);
             this.writeButton.setImportantForAccessibility(2);
-            this.writeButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogFloatingIcon"), PorterDuff.Mode.MULTIPLY));
+            this.writeButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_dialogFloatingIcon), PorterDuff.Mode.MULTIPLY));
             this.writeButton.setScaleType(ImageView.ScaleType.CENTER);
-            if (i4 >= 21) {
+            if (i5 >= 21) {
                 this.writeButton.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.PhotoPickerActivity.13
                     @Override // android.view.ViewOutlineProvider
                     @SuppressLint({"NewApi"})
@@ -797,7 +801,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                     }
                 });
             }
-            this.writeButtonContainer.addView(this.writeButton, LayoutHelper.createFrame(i4 >= 21 ? 56 : 60, i4 >= 21 ? 56.0f : 60.0f, 51, i4 >= 21 ? 2.0f : 0.0f, 0.0f, 0.0f, 0.0f));
+            this.writeButtonContainer.addView(this.writeButton, LayoutHelper.createFrame(i5 >= 21 ? 56 : 60, i5 >= 21 ? 56.0f : 60.0f, 51, i5 >= 21 ? 2.0f : 0.0f, 0.0f, 0.0f, 0.0f));
             this.writeButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PhotoPickerActivity$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
@@ -822,15 +826,15 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                     int max = Math.max(AndroidUtilities.dp(16.0f) + ceil, AndroidUtilities.dp(24.0f));
                     int measuredWidth = getMeasuredWidth() / 2;
                     int measuredHeight = getMeasuredHeight() / 2;
-                    PhotoPickerActivity.this.textPaint.setColor(Theme.getColor("dialogRoundCheckBoxCheck"));
+                    PhotoPickerActivity.this.textPaint.setColor(Theme.getColor(Theme.key_dialogRoundCheckBoxCheck));
                     PhotoPickerActivity.this.paint.setColor(Theme.getColor(PhotoPickerActivity.this.dialogBackgroundKey));
-                    int i5 = max / 2;
-                    int i6 = measuredWidth - i5;
-                    int i7 = i5 + measuredWidth;
-                    PhotoPickerActivity.this.rect.set(i6, 0.0f, i7, getMeasuredHeight());
+                    int i6 = max / 2;
+                    int i7 = measuredWidth - i6;
+                    int i8 = i6 + measuredWidth;
+                    PhotoPickerActivity.this.rect.set(i7, 0.0f, i8, getMeasuredHeight());
                     canvas.drawRoundRect(PhotoPickerActivity.this.rect, AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), PhotoPickerActivity.this.paint);
-                    PhotoPickerActivity.this.paint.setColor(Theme.getColor("dialogRoundCheckBox"));
-                    PhotoPickerActivity.this.rect.set(i6 + AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), i7 - AndroidUtilities.dp(2.0f), getMeasuredHeight() - AndroidUtilities.dp(2.0f));
+                    PhotoPickerActivity.this.paint.setColor(Theme.getColor(Theme.key_dialogRoundCheckBox));
+                    PhotoPickerActivity.this.rect.set(i7 + AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), i8 - AndroidUtilities.dp(2.0f), getMeasuredHeight() - AndroidUtilities.dp(2.0f));
                     canvas.drawRoundRect(PhotoPickerActivity.this.rect, AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f), PhotoPickerActivity.this.paint);
                     canvas.drawText(format, measuredWidth - (ceil / 2), AndroidUtilities.dp(16.2f), PhotoPickerActivity.this.textPaint);
                 }
@@ -1145,7 +1149,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 showDialog(create);
                 TextView textView = (TextView) create.getButton(-1);
                 if (textView != null) {
-                    textView.setTextColor(Theme.getColor("text_RedBold"));
+                    textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
                     return;
                 }
                 return;
@@ -2012,7 +2016,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                     textCell = textCell2;
                     if (PhotoPickerActivity.this.forceDarckTheme) {
                         textCell2.textView.setTextColor(Theme.getColor(PhotoPickerActivity.this.textKey));
-                        textCell2.imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("voipgroup_mutedIcon"), PorterDuff.Mode.MULTIPLY));
+                        textCell2.imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_voipgroup_mutedIcon), PorterDuff.Mode.MULTIPLY));
                         textCell = textCell2;
                     }
                 } else {
@@ -2148,17 +2152,17 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_TITLECOLOR, null, null, null, null, this.textKey));
         arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_SELECTORCOLOR, null, null, null, null, this.selectorKey));
         arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_SEARCH, null, null, null, null, this.textKey));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_SEARCHPLACEHOLDER, null, null, null, null, "chat_messagePanelHint"));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_SEARCHPLACEHOLDER, null, null, null, null, Theme.key_chat_messagePanelHint));
         ActionBarMenuItem actionBarMenuItem = this.searchItem;
         arrayList.add(new ThemeDescription(actionBarMenuItem != null ? actionBarMenuItem.getSearchField() : null, ThemeDescription.FLAG_CURSORCOLOR, null, null, null, null, this.textKey));
         arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_LISTGLOWCOLOR, null, null, null, null, this.dialogBackgroundKey));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{View.class}, null, new Drawable[]{Theme.chat_attachEmptyDrawable}, null, "chat_attachEmptyImage"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{View.class}, null, null, null, "chat_attachPhotoBackground"));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{View.class}, null, new Drawable[]{Theme.chat_attachEmptyDrawable}, null, Theme.key_chat_attachEmptyImage));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{View.class}, null, null, null, Theme.key_chat_attachPhotoBackground));
         return arrayList;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean isLightStatusBar() {
-        return AndroidUtilities.computePerceivedBrightness(Theme.getColor("windowBackgroundGray")) > 0.721f;
+        return AndroidUtilities.computePerceivedBrightness(Theme.getColor(Theme.key_windowBackgroundGray)) > 0.721f;
     }
 }

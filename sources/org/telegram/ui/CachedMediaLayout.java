@@ -139,13 +139,13 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                 addView(createTabsView, LayoutHelper.createFrame(-1, 48.0f));
                 View view = new View(getContext());
                 this.divider = view;
-                view.setBackgroundColor(Theme.getColor("divider"));
+                view.setBackgroundColor(Theme.getColor(Theme.key_divider));
                 addView(view, LayoutHelper.createFrame(-1, 1.0f, 0, 0.0f, 48.0f, 0.0f, 0.0f));
                 view.getLayoutParams().height = 1;
                 this.viewPagerFixed.setAdapter(new 1(context, baseFragment));
                 LinearLayout linearLayout = new LinearLayout(context);
                 this.actionModeLayout = linearLayout;
-                linearLayout.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                linearLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                 linearLayout.setAlpha(0.0f);
                 linearLayout.setClickable(true);
                 addView(linearLayout, LayoutHelper.createFrame(-1, 48.0f));
@@ -156,8 +156,10 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                 BackDrawable backDrawable = new BackDrawable(true);
                 this.backDrawable = backDrawable;
                 imageView.setImageDrawable(backDrawable);
-                backDrawable.setColor(Theme.getColor("actionBarActionModeDefaultIcon"));
-                imageView.setBackground(Theme.createSelectorDrawable(Theme.getColor("actionBarActionModeDefaultSelector"), 1));
+                int i2 = Theme.key_actionBarActionModeDefaultIcon;
+                backDrawable.setColor(Theme.getColor(i2));
+                int i3 = Theme.key_actionBarActionModeDefaultSelector;
+                imageView.setBackground(Theme.createSelectorDrawable(Theme.getColor(i3), 1));
                 imageView.setContentDescription(LocaleController.getString("Close", R.string.Close));
                 linearLayout.addView(imageView, new LinearLayout.LayoutParams(AndroidUtilities.dp(54.0f), -1));
                 this.actionModeViews.add(imageView);
@@ -171,10 +173,10 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                 this.selectedMessagesCountTextView = animatedTextView;
                 animatedTextView.setTextSize(AndroidUtilities.dp(18.0f));
                 animatedTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-                animatedTextView.setTextColor(Theme.getColor("actionBarActionModeDefaultIcon"));
+                animatedTextView.setTextColor(Theme.getColor(i2));
                 linearLayout.addView(animatedTextView, LayoutHelper.createLinear(0, -1, 1.0f, 18, 0, 0, 0));
                 this.actionModeViews.add(animatedTextView);
-                ActionBarMenuItem actionBarMenuItem = new ActionBarMenuItem(context, (ActionBarMenu) null, Theme.getColor("actionBarActionModeDefaultSelector"), Theme.getColor("actionBarActionModeDefaultIcon"), false);
+                ActionBarMenuItem actionBarMenuItem = new ActionBarMenuItem(context, (ActionBarMenu) null, Theme.getColor(i3), Theme.getColor(i2), false);
                 this.clearItem = actionBarMenuItem;
                 actionBarMenuItem.setIcon(R.drawable.msg_clear);
                 actionBarMenuItem.setContentDescription(LocaleController.getString("Delete", R.string.Delete));
@@ -640,7 +642,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
             CacheControlActivity.UserCell userCell = null;
             if (i == 1) {
                 CacheControlActivity.UserCell userCell2 = new CacheControlActivity.UserCell(CachedMediaLayout.this.getContext(), null);
-                userCell2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                userCell2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                 userCell = userCell2;
             }
             return new RecyclerListView.Holder(userCell);
@@ -813,7 +815,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             if (this.thumb == null) {
-                CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor("chat_attachPhotoBackground")), Theme.chat_attachEmptyDrawable);
+                CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor(Theme.key_chat_attachPhotoBackground)), Theme.chat_attachEmptyDrawable);
                 this.thumb = combinedDrawable;
                 combinedDrawable.setFullsize(true);
             }
@@ -1204,7 +1206,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
             CheckBox2 checkBox2 = new CheckBox2(context, 21);
             this.checkBox = checkBox2;
             checkBox2.setDrawBackgroundAsArc(14);
-            this.checkBox.setColor("checkbox", "radioBackground", "checkboxCheck");
+            this.checkBox.setColor(Theme.key_checkbox, Theme.key_radioBackground, Theme.key_checkboxCheck);
             View view = new View(getContext());
             view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CachedMediaLayout$CacheCell$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnClickListener
@@ -1217,7 +1219,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
             this.sizeTextView = textView;
             textView.setTextSize(1, 16.0f);
             this.sizeTextView.setGravity(5);
-            this.sizeTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText"));
+            this.sizeTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText));
             if (LocaleController.isRTL) {
                 addView(this.checkBox, LayoutHelper.createFrame(24, 24.0f, 21, 0.0f, 0.0f, 18.0f, 0.0f));
                 addView(view, LayoutHelper.createFrame(40, 40.0f, 21, 0.0f, 0.0f, 0.0f, 0.0f));

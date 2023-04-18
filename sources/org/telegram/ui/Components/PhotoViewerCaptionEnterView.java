@@ -482,7 +482,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$afterTextChanged$0(ValueAnimator valueAnimator) {
             PhotoViewerCaptionEnterView.this.sendButtonEnabledProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-            int themedColor = PhotoViewerCaptionEnterView.this.getThemedColor("dialogFloatingIcon");
+            int themedColor = PhotoViewerCaptionEnterView.this.getThemedColor(Theme.key_dialogFloatingIcon);
             Theme.setDrawableColor(PhotoViewerCaptionEnterView.this.checkDrawable, ColorUtils.setAlphaComponent(themedColor, (int) (Color.alpha(themedColor) * ((PhotoViewerCaptionEnterView.this.sendButtonEnabledProgress * 0.42f) + 0.58f))));
             PhotoViewerCaptionEnterView.this.doneButton.invalidate();
         }
@@ -591,8 +591,8 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
     }
 
     public void updateColors() {
-        Theme.setDrawableColor(this.doneDrawable, getThemedColor("dialogFloatingButton"));
-        int themedColor = getThemedColor("dialogFloatingIcon");
+        Theme.setDrawableColor(this.doneDrawable, getThemedColor(Theme.key_dialogFloatingButton));
+        int themedColor = getThemedColor(Theme.key_dialogFloatingIcon);
         Theme.setDrawableColor(this.checkDrawable, ColorUtils.setAlphaComponent(themedColor, (int) (Color.alpha(themedColor) * ((this.sendButtonEnabledProgress * 0.42f) + 0.58f))));
         EmojiView emojiView = this.emojiView;
         if (emojiView != null) {
@@ -678,14 +678,14 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
-        public /* synthetic */ int getColorOrDefault(String str) {
-            return getColor(str);
+        public /* synthetic */ int getColorOrDefault(int i) {
+            return Theme.ResourcesProvider.-CC.$default$getColorOrDefault(this, i);
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
-        public /* synthetic */ Integer getCurrentColor(String str) {
-            Integer color;
-            color = getColor(str);
+        public /* synthetic */ int getCurrentColor(int i) {
+            int color;
+            color = getColor(i);
             return color;
         }
 
@@ -705,179 +705,60 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
-        public /* synthetic */ void setAnimatedColor(String str, int i) {
-            Theme.ResourcesProvider.-CC.$default$setAnimatedColor(this, str, i);
+        public /* synthetic */ void setAnimatedColor(int i, int i2) {
+            Theme.ResourcesProvider.-CC.$default$setAnimatedColor(this, i, i2);
         }
 
         private DarkTheme(PhotoViewerCaptionEnterView photoViewerCaptionEnterView) {
         }
 
-        /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
-        public Integer getColor(String str) {
-            char c;
-            str.hashCode();
-            switch (str.hashCode()) {
-                case -2139469579:
-                    if (str.equals("chat_emojiPanelEmptyText")) {
-                        c = 0;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case -1850167367:
-                    if (str.equals("chat_emojiPanelShadowLine")) {
-                        c = 1;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case -1849805674:
-                    if (str.equals("dialogBackground")) {
-                        c = 2;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case -1815610844:
-                    if (str.equals("chat_emojiPanelStickerPackSelectorLine")) {
-                        c = 3;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case -1633591792:
-                    if (str.equals("chat_emojiPanelStickerPackSelector")) {
-                        c = 4;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case -1345036363:
-                    if (str.equals("chat_emojiSearchBackground")) {
-                        c = 5;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case -1285599213:
-                    if (str.equals("chat_emojiBottomPanelIcon")) {
-                        c = 6;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case -343666293:
-                    if (str.equals("windowBackgroundWhite")) {
-                        c = 7;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case -249481380:
-                    if (str.equals("listSelectorSDK21")) {
-                        c = '\b';
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 339397761:
-                    if (str.equals("windowBackgroundWhiteBlackText")) {
-                        c = '\t';
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 421601145:
-                    if (str.equals("chat_emojiPanelIconSelected")) {
-                        c = '\n';
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 634019162:
-                    if (str.equals("chat_emojiPanelBackspace")) {
-                        c = 11;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 1674318617:
-                    if (str.equals("divider")) {
-                        c = '\f';
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 1929729373:
-                    if (str.equals("progressCircle")) {
-                        c = '\r';
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 1976399936:
-                    if (str.equals("chat_emojiSearchIcon")) {
-                        c = 14;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 2067556030:
-                    if (str.equals("chat_emojiPanelIcon")) {
-                        c = 15;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 2133456819:
-                    if (str.equals("chat_emojiPanelBackground")) {
-                        c = 16;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                default:
-                    c = 65535;
-                    break;
+        public int getColor(int i) {
+            if (i == Theme.key_dialogBackground) {
+                return -14803426;
             }
-            switch (c) {
-                case 0:
-                    return -8553090;
-                case 1:
-                    return -1610612736;
-                case 2:
-                    return -14803426;
-                case 3:
-                    return -10177041;
-                case 4:
-                case 5:
-                    return 181267199;
-                case 6:
-                    return -9539985;
-                case 7:
-                    return -15198183;
-                case '\b':
-                    return 771751936;
-                case '\t':
-                    return -1;
-                case '\n':
-                    return -10177041;
-                case 11:
-                    return -9539985;
-                case '\f':
-                    return -16777216;
-                case '\r':
-                    return -10177027;
-                case 14:
-                    return -9211020;
-                case 15:
-                    return -9539985;
-                case 16:
-                    return -14803425;
-                default:
-                    return null;
+            if (i == Theme.key_windowBackgroundWhite) {
+                return -15198183;
             }
+            if (i == Theme.key_windowBackgroundWhiteBlackText) {
+                return -1;
+            }
+            if (i == Theme.key_chat_emojiPanelEmptyText) {
+                return -8553090;
+            }
+            if (i == Theme.key_progressCircle) {
+                return -10177027;
+            }
+            if (i == Theme.key_chat_emojiSearchIcon) {
+                return -9211020;
+            }
+            if (i == Theme.key_chat_emojiPanelStickerPackSelector || i == Theme.key_chat_emojiSearchBackground) {
+                return 181267199;
+            }
+            if (i == Theme.key_chat_emojiPanelIcon || i == Theme.key_chat_emojiBottomPanelIcon) {
+                return -9539985;
+            }
+            if (i == Theme.key_chat_emojiPanelIconSelected || i == Theme.key_chat_emojiPanelStickerPackSelectorLine) {
+                return -10177041;
+            }
+            if (i == Theme.key_chat_emojiPanelBackground) {
+                return -14803425;
+            }
+            if (i == Theme.key_chat_emojiPanelShadowLine) {
+                return -1610612736;
+            }
+            if (i == Theme.key_chat_emojiPanelBackspace) {
+                return -9539985;
+            }
+            if (i == Theme.key_listSelector) {
+                return 771751936;
+            }
+            return i == Theme.key_divider ? -16777216 : 0;
+        }
+
+        @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
+        public boolean contains(int i) {
+            return getColor(i) != 0;
         }
     }
 
@@ -1375,10 +1256,10 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public int getThemedColor(String str) {
+    public int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 
     public Theme.ResourcesProvider getResourcesProvider() {

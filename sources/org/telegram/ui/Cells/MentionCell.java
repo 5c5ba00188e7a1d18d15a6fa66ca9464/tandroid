@@ -54,7 +54,7 @@ public class MentionCell extends LinearLayout {
         };
         this.nameTextView = textView;
         NotificationCenter.listenEmojiLoading(textView);
-        this.nameTextView.setTextColor(getThemedColor("windowBackgroundWhiteBlackText"));
+        this.nameTextView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
         this.nameTextView.setTextSize(1, 15.0f);
         this.nameTextView.setSingleLine(true);
         this.nameTextView.setGravity(3);
@@ -62,7 +62,7 @@ public class MentionCell extends LinearLayout {
         addView(this.nameTextView, LayoutHelper.createLinear(-2, -2, 16, 12, 0, 0, 0));
         TextView textView2 = new TextView(context);
         this.usernameTextView = textView2;
-        textView2.setTextColor(getThemedColor("windowBackgroundWhiteGrayText3"));
+        textView2.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText3));
         this.usernameTextView.setTextSize(1, 15.0f);
         this.usernameTextView.setSingleLine(true);
         this.usernameTextView.setGravity(3);
@@ -251,14 +251,14 @@ public class MentionCell extends LinearLayout {
             this.usernameTextView.setTextColor(-4473925);
             return;
         }
-        this.nameTextView.setTextColor(getThemedColor("windowBackgroundWhiteBlackText"));
-        this.usernameTextView.setTextColor(getThemedColor("windowBackgroundWhiteGrayText3"));
+        this.nameTextView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
+        this.usernameTextView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText3));
     }
 
-    private int getThemedColor(String str) {
+    private int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 
     @Override // android.view.ViewGroup, android.view.View

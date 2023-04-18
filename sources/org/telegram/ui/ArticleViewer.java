@@ -737,7 +737,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         @Override // android.view.View
         protected void onDraw(Canvas canvas) {
-            this.textPaint.setColor(Theme.getColor("windowBackgroundWhiteValueText"));
+            this.textPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteValueText));
             canvas.drawText("" + SharedConfig.ivFontSize, getMeasuredWidth() - AndroidUtilities.dp(39.0f), AndroidUtilities.dp(28.0f), this.textPaint);
         }
 
@@ -768,17 +768,17 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         public FontCell(Context context) {
             super(context);
-            setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21"), 2));
+            setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 2));
             RadioButton radioButton = new RadioButton(context);
             this.radioButton = radioButton;
             radioButton.setSize(AndroidUtilities.dp(20.0f));
-            this.radioButton.setColor(Theme.getColor("dialogRadioBackground"), Theme.getColor("dialogRadioBackgroundChecked"));
+            this.radioButton.setColor(Theme.getColor(Theme.key_dialogRadioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
             RadioButton radioButton2 = this.radioButton;
             boolean z = LocaleController.isRTL;
             addView(radioButton2, LayoutHelper.createFrame(22, 22.0f, (z ? 5 : 3) | 48, z ? 0 : 22, 13.0f, z ? 22 : 0, 0.0f));
             TextView textView = new TextView(context);
             this.textView = textView;
-            textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+            textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             this.textView.setTextSize(1, 16.0f);
             this.textView.setLines(1);
             this.textView.setMaxLines(1);
@@ -1348,27 +1348,31 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         } else if (!z) {
             return;
         }
-        int color = Theme.getColor("windowBackgroundWhite");
+        int color = Theme.getColor(Theme.key_windowBackgroundWhite);
         webpageSearchPaint.setColor((((((float) Color.red(color)) * 0.2126f) + (((float) Color.green(color)) * 0.7152f)) + (((float) Color.blue(color)) * 0.0722f)) / 255.0f <= 0.705f ? -3041234 : -6551);
-        webpageUrlPaint.setColor(Theme.getColor("windowBackgroundWhiteLinkSelection") & 872415231);
+        Paint paint3 = webpageUrlPaint;
+        int i = Theme.key_windowBackgroundWhiteLinkSelection;
+        paint3.setColor(Theme.getColor(i) & 872415231);
         webpageUrlPaint.setPathEffect(LinkPath.getRoundedEffect());
-        urlPaint.setColor(Theme.getColor("windowBackgroundWhiteLinkSelection") & 872415231);
+        urlPaint.setColor(Theme.getColor(i) & 872415231);
         urlPaint.setPathEffect(LinkPath.getRoundedEffect());
-        tableHalfLinePaint.setColor(Theme.getColor("windowBackgroundWhiteInputField"));
-        tableLinePaint.setColor(Theme.getColor("windowBackgroundWhiteInputField"));
+        Paint paint4 = tableHalfLinePaint;
+        int i2 = Theme.key_windowBackgroundWhiteInputField;
+        paint4.setColor(Theme.getColor(i2));
+        tableLinePaint.setColor(Theme.getColor(i2));
         photoBackgroundPaint.setColor(AndroidUtilities.LIGHT_STATUS_BAR_OVERLAY);
-        dividerPaint.setColor(Theme.getColor("divider"));
-        webpageMarkPaint.setColor(Theme.getColor("windowBackgroundWhiteLinkSelection") & 872415231);
+        dividerPaint.setColor(Theme.getColor(Theme.key_divider));
+        webpageMarkPaint.setColor(Theme.getColor(i) & 872415231);
         webpageMarkPaint.setPathEffect(LinkPath.getRoundedEffect());
-        int color2 = Theme.getColor("switchTrack");
+        int color2 = Theme.getColor(Theme.key_switchTrack);
         int red = Color.red(color2);
         int green = Color.green(color2);
         int blue = Color.blue(color2);
         tableStripPaint.setColor(Color.argb(20, red, green, blue));
         tableHeaderPaint.setColor(Color.argb(34, red, green, blue));
-        int color3 = Theme.getColor("windowBackgroundWhiteLinkSelection");
+        int color3 = Theme.getColor(i);
         preformattedBackgroundPaint.setColor(Color.argb(20, Color.red(color3), Color.green(color3), Color.blue(color3)));
-        quoteLinePaint.setColor(Theme.getColor("chat_inReplyLine"));
+        quoteLinePaint.setColor(Theme.getColor(Theme.key_chat_inReplyLine));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1481,7 +1485,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             this.popupLayout.setShownFromBottom(false);
             TextView textView = new TextView(this.parentActivity);
             this.deleteView = textView;
-            textView.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21"), 2));
+            textView.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 2));
             this.deleteView.setGravity(16);
             this.deleteView.setPadding(AndroidUtilities.dp(20.0f), 0, AndroidUtilities.dp(20.0f), 0);
             this.deleteView.setTextSize(1, 15.0f);
@@ -1510,10 +1514,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 }
             });
         }
-        this.deleteView.setTextColor(Theme.getColor("actionBarDefaultSubmenuItem"));
+        this.deleteView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem));
         ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout2 = this.popupLayout;
         if (actionBarPopupWindowLayout2 != null) {
-            actionBarPopupWindowLayout2.setBackgroundColor(Theme.getColor("actionBarDefaultSubmenuBackground"));
+            actionBarPopupWindowLayout2.setBackgroundColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuBackground));
         }
         this.popupLayout.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE));
         this.popupWindow.setFocusable(true);
@@ -2315,7 +2319,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                             i3 = dp;
                         }
                         if (view != null) {
-                            int color = Theme.getColor("windowBackgroundWhite");
+                            int color = Theme.getColor(Theme.key_windowBackgroundWhite);
                             r2.setSpan(new TextPaintImageReceiverSpan(view, documentWithId, tLRPC$WebPage, i3, i2, false, (((((float) Color.red(color)) * 0.2126f) + (((float) Color.green(color)) * 0.7152f)) + (((float) Color.blue(color)) * 0.0722f)) / 255.0f <= 0.705f), 0, r2.length(), 33);
                         }
                     }
@@ -2415,17 +2419,17 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
     /* JADX INFO: Access modifiers changed from: private */
     public int getTextColor() {
-        return Theme.getColor("windowBackgroundWhiteBlackText");
+        return Theme.getColor(Theme.key_windowBackgroundWhiteBlackText);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public int getLinkTextColor() {
-        return Theme.getColor("windowBackgroundWhiteLinkText");
+        return Theme.getColor(Theme.key_windowBackgroundWhiteLinkText);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public static int getGrayTextColor() {
-        return Theme.getColor("windowBackgroundWhiteGrayText");
+        return Theme.getColor(Theme.key_windowBackgroundWhiteGrayText);
     }
 
     private TextPaint getTextPaint(TLRPC$RichText tLRPC$RichText, TLRPC$RichText tLRPC$RichText2, TLRPC$PageBlock tLRPC$PageBlock) {
@@ -2999,7 +3003,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                                             }
                                             LinkSpanDrawable<TextPaintUrlSpan> linkSpanDrawable3 = new LinkSpanDrawable<>(textPaintUrlSpan, null, f3, y);
                                             this.pressedLink = linkSpanDrawable3;
-                                            linkSpanDrawable3.setColor(Theme.getColor("windowBackgroundWhiteLinkSelection") & 872415231);
+                                            linkSpanDrawable3.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteLinkSelection) & 872415231);
                                             this.links.addLink(this.pressedLink, this.pressedLinkOwnerLayout);
                                             try {
                                                 LinkPath obtainNewPath = this.pressedLink.obtainNewPath();
@@ -3328,14 +3332,14 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     private void updatePaintColors() {
-        this.backgroundPaint.setColor(Theme.getColor("windowBackgroundWhite"));
+        this.backgroundPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         int i = 0;
         while (true) {
             RecyclerListView[] recyclerListViewArr = this.listView;
             if (i >= recyclerListViewArr.length) {
                 break;
             }
-            recyclerListViewArr[i].setGlowColor(Theme.getColor("windowBackgroundWhite"));
+            recyclerListViewArr[i].setGlowColor(Theme.getColor(Theme.key_windowBackgroundWhite));
             i++;
         }
         TextPaint textPaint = listTextPointerPaint;
@@ -3686,7 +3690,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         this.containerView.addView(this.searchShadow, LayoutHelper.createFrame(-1, 3.0f, 51, 0.0f, 56.0f, 0.0f, 0.0f));
         FrameLayout frameLayout5 = new FrameLayout(this.parentActivity);
         this.searchContainer = frameLayout5;
-        frameLayout5.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+        frameLayout5.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         this.searchContainer.setVisibility(4);
         int i3 = Build.VERSION.SDK_INT;
         if (i3 < 21) {
@@ -3705,14 +3709,16 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         };
         this.searchField = editTextBoldCursor;
         editTextBoldCursor.setCursorWidth(1.5f);
-        this.searchField.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-        this.searchField.setCursorColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-        this.searchField.setTextSize(1, 18.0f);
-        this.searchField.setHintTextColor(Theme.getColor("windowBackgroundWhiteHintText"));
-        this.searchField.setSingleLine(true);
         EditTextBoldCursor editTextBoldCursor2 = this.searchField;
-        int i4 = R.string.Search;
-        editTextBoldCursor2.setHint(LocaleController.getString("Search", i4));
+        int i4 = Theme.key_windowBackgroundWhiteBlackText;
+        editTextBoldCursor2.setTextColor(Theme.getColor(i4));
+        this.searchField.setCursorColor(Theme.getColor(i4));
+        this.searchField.setTextSize(1, 18.0f);
+        this.searchField.setHintTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
+        this.searchField.setSingleLine(true);
+        EditTextBoldCursor editTextBoldCursor3 = this.searchField;
+        int i5 = R.string.Search;
+        editTextBoldCursor3.setHint(LocaleController.getString("Search", i5));
         this.searchField.setBackgroundResource(0);
         this.searchField.setPadding(0, 0, 0, 0);
         this.searchField.setInputType(this.searchField.getInputType() | 524288);
@@ -3740,9 +3746,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
         this.searchField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda16
             @Override // android.widget.TextView.OnEditorActionListener
-            public final boolean onEditorAction(TextView textView, int i5, KeyEvent keyEvent) {
+            public final boolean onEditorAction(TextView textView, int i6, KeyEvent keyEvent) {
                 boolean lambda$setParentActivity$15;
-                lambda$setParentActivity$15 = ArticleViewer.this.lambda$setParentActivity$15(textView, i5, keyEvent);
+                lambda$setParentActivity$15 = ArticleViewer.this.lambda$setParentActivity$15(textView, i6, keyEvent);
                 return lambda$setParentActivity$15;
             }
         });
@@ -3773,7 +3779,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         imageView.setImageDrawable(new CloseProgressDrawable2(this) { // from class: org.telegram.ui.ArticleViewer.15
             @Override // org.telegram.ui.Components.CloseProgressDrawable2
             protected int getCurrentColor() {
-                return Theme.getColor("windowBackgroundWhiteBlackText");
+                return Theme.getColor(Theme.key_windowBackgroundWhiteBlackText);
             }
         });
         this.clearButton.setScaleType(ImageView.ScaleType.CENTER);
@@ -3795,7 +3801,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         BackDrawable backDrawable = new BackDrawable(false);
         this.backDrawable = backDrawable;
         backDrawable.setAnimationTime(200.0f);
-        this.backDrawable.setColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+        this.backDrawable.setColor(Theme.getColor(i4));
         this.backDrawable.setRotatedColor(-5000269);
         this.backDrawable.setRotation(1.0f, false);
         this.backButton.setImageDrawable(this.backDrawable);
@@ -3821,7 +3827,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         this.menuButton.setDuplicateParentStateEnabled(false);
         this.menuButton.setClickable(true);
         this.menuButton.setIcon(R.drawable.ic_ab_other);
-        this.menuButton.addSubItem(1, R.drawable.msg_search, LocaleController.getString("Search", i4));
+        this.menuButton.addSubItem(1, R.drawable.msg_search, LocaleController.getString("Search", i5));
         this.menuButton.addSubItem(2, R.drawable.msg_share, LocaleController.getString("ShareFile", R.string.ShareFile));
         this.menuButton.addSubItem(3, R.drawable.msg_openin, LocaleController.getString("OpenInExternalApp", R.string.OpenInExternalApp));
         this.menuButton.addSubItem(4, R.drawable.msg_settings_old, LocaleController.getString("Settings", R.string.Settings));
@@ -3840,8 +3846,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         });
         this.menuButton.setDelegate(new ActionBarMenuItem.ActionBarMenuItemDelegate() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda38
             @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemDelegate
-            public final void onItemClick(int i5) {
-                ArticleViewer.this.lambda$setParentActivity$20(i5);
+            public final void onItemClick(int i6) {
+                ArticleViewer.this.lambda$setParentActivity$20(i6);
             }
         });
         FrameLayout frameLayout6 = new FrameLayout(this, this.parentActivity) { // from class: org.telegram.ui.ArticleViewer.17
@@ -3866,8 +3872,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         this.searchUpButton = imageView3;
         imageView3.setScaleType(ImageView.ScaleType.CENTER);
         this.searchUpButton.setImageResource(R.drawable.msg_go_up);
-        this.searchUpButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteBlackText"), PorterDuff.Mode.MULTIPLY));
-        this.searchUpButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor("actionBarActionModeDefaultSelector"), 1));
+        this.searchUpButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i4), PorterDuff.Mode.MULTIPLY));
+        ImageView imageView4 = this.searchUpButton;
+        int i6 = Theme.key_actionBarActionModeDefaultSelector;
+        imageView4.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(i6), 1));
         this.searchPanel.addView(this.searchUpButton, LayoutHelper.createFrame(48, 48.0f, 53, 0.0f, 0.0f, 48.0f, 0.0f));
         this.searchUpButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda10
             @Override // android.view.View.OnClickListener
@@ -3876,12 +3884,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
         });
         this.searchUpButton.setContentDescription(LocaleController.getString("AccDescrSearchNext", R.string.AccDescrSearchNext));
-        ImageView imageView4 = new ImageView(this.parentActivity);
-        this.searchDownButton = imageView4;
-        imageView4.setScaleType(ImageView.ScaleType.CENTER);
+        ImageView imageView5 = new ImageView(this.parentActivity);
+        this.searchDownButton = imageView5;
+        imageView5.setScaleType(ImageView.ScaleType.CENTER);
         this.searchDownButton.setImageResource(R.drawable.msg_go_down);
-        this.searchDownButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteBlackText"), PorterDuff.Mode.MULTIPLY));
-        this.searchDownButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor("actionBarActionModeDefaultSelector"), 1));
+        this.searchDownButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i4), PorterDuff.Mode.MULTIPLY));
+        this.searchDownButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(i6), 1));
         this.searchPanel.addView(this.searchDownButton, LayoutHelper.createFrame(48, 48.0f, 53, 0.0f, 0.0f, 0.0f, 0.0f));
         this.searchDownButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda12
             @Override // android.view.View.OnClickListener
@@ -3892,7 +3900,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         this.searchDownButton.setContentDescription(LocaleController.getString("AccDescrSearchPrev", R.string.AccDescrSearchPrev));
         SimpleTextView simpleTextView2 = new SimpleTextView(this.parentActivity);
         this.searchCountText = simpleTextView2;
-        simpleTextView2.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+        simpleTextView2.setTextColor(Theme.getColor(i4));
         this.searchCountText.setTextSize(15);
         this.searchCountText.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.searchCountText.setGravity(3);
@@ -3906,14 +3914,14 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         layoutParams.type = 98;
         layoutParams.softInputMode = 48;
         layoutParams.flags = 131072;
-        int i5 = 1792;
-        int color = Theme.getColor("windowBackgroundGray", null, true);
+        int i7 = 1792;
+        int color = Theme.getColor(Theme.key_windowBackgroundGray, null, true);
         if ((AndroidUtilities.computePerceivedBrightness(color) >= 0.721f) && i3 >= 26) {
-            i5 = 1808;
+            i7 = 1808;
         }
         this.navigationBarPaint.setColor(color);
         WindowManager.LayoutParams layoutParams2 = this.windowLayoutParams;
-        layoutParams2.systemUiVisibility = i5;
+        layoutParams2.systemUiVisibility = i7;
         if (i3 >= 21) {
             layoutParams2.flags |= -2147417856;
             if (i3 >= 28) {
@@ -5121,50 +5129,51 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     private void refreshThemeColors() {
         TextView textView = this.deleteView;
         if (textView != null) {
-            textView.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21"), 2));
-            this.deleteView.setTextColor(Theme.getColor("actionBarDefaultSubmenuItem"));
+            textView.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 2));
+            this.deleteView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem));
         }
         ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = this.popupLayout;
         if (actionBarPopupWindowLayout != null) {
-            actionBarPopupWindowLayout.setBackgroundColor(Theme.getColor("actionBarDefaultSubmenuBackground"));
+            actionBarPopupWindowLayout.setBackgroundColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuBackground));
         }
         FrameLayout frameLayout = this.searchContainer;
         if (frameLayout != null) {
-            frameLayout.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+            frameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         }
         EditTextBoldCursor editTextBoldCursor = this.searchField;
         if (editTextBoldCursor != null) {
-            editTextBoldCursor.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.searchField.setCursorColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.searchField.setHintTextColor(Theme.getColor("windowBackgroundWhiteHintText"));
+            int i = Theme.key_windowBackgroundWhiteBlackText;
+            editTextBoldCursor.setTextColor(Theme.getColor(i));
+            this.searchField.setCursorColor(Theme.getColor(i));
+            this.searchField.setHintTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
         }
         ImageView imageView = this.searchUpButton;
         if (imageView != null) {
-            imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteBlackText"), PorterDuff.Mode.MULTIPLY));
-            this.searchUpButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor("actionBarActionModeDefaultSelector"), 1));
+            imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText), PorterDuff.Mode.MULTIPLY));
+            this.searchUpButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), 1));
         }
         ImageView imageView2 = this.searchDownButton;
         if (imageView2 != null) {
-            imageView2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteBlackText"), PorterDuff.Mode.MULTIPLY));
-            this.searchDownButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor("actionBarActionModeDefaultSelector"), 1));
+            imageView2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText), PorterDuff.Mode.MULTIPLY));
+            this.searchDownButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), 1));
         }
         SimpleTextView simpleTextView = this.searchCountText;
         if (simpleTextView != null) {
-            simpleTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+            simpleTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         }
         ActionBarMenuItem actionBarMenuItem = this.menuButton;
         if (actionBarMenuItem != null) {
-            actionBarMenuItem.redrawPopup(Theme.getColor("actionBarDefaultSubmenuBackground"));
-            this.menuButton.setPopupItemsColor(Theme.getColor("actionBarDefaultSubmenuItem"), false);
-            this.menuButton.setPopupItemsColor(Theme.getColor("actionBarDefaultSubmenuItemIcon"), true);
+            actionBarMenuItem.redrawPopup(Theme.getColor(Theme.key_actionBarDefaultSubmenuBackground));
+            this.menuButton.setPopupItemsColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem), false);
+            this.menuButton.setPopupItemsColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItemIcon), true);
         }
         ImageView imageView3 = this.clearButton;
         if (imageView3 != null) {
-            imageView3.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteBlackText"), PorterDuff.Mode.MULTIPLY));
+            imageView3.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText), PorterDuff.Mode.MULTIPLY));
         }
         BackDrawable backDrawable = this.backDrawable;
         if (backDrawable != null) {
-            backDrawable.setColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+            backDrawable.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         }
     }
 
@@ -7244,7 +7253,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 this.currentDocument = messageObject.getDocument();
             }
             this.isFirst = z;
-            this.seekBar.setColors(Theme.getColor("chat_inAudioSeekbar"), Theme.getColor("chat_inAudioCacheSeekbar"), Theme.getColor("chat_inAudioSeekbarFill"), Theme.getColor("chat_inAudioSeekbarFill"), Theme.getColor("chat_inAudioSeekbarSelected"));
+            SeekBar seekBar = this.seekBar;
+            int color = Theme.getColor(Theme.key_chat_inAudioSeekbar);
+            int color2 = Theme.getColor(Theme.key_chat_inAudioCacheSeekbar);
+            int i = Theme.key_chat_inAudioSeekbarFill;
+            seekBar.setColors(color, color2, Theme.getColor(i), Theme.getColor(i), Theme.getColor(Theme.key_chat_inAudioSeekbarSelected));
             updateButtonState(false);
             requestLayout();
         }
@@ -7381,8 +7394,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if (this.currentBlock == null) {
                 return;
             }
-            this.radialProgress.setColors("chat_inLoader", "chat_inLoaderSelected", "chat_inMediaIcon", "chat_inMediaIconSelected");
-            this.radialProgress.setProgressColor(Theme.getColor("chat_inFileProgress"));
+            this.radialProgress.setColorKeys(Theme.key_chat_inLoader, Theme.key_chat_inLoaderSelected, Theme.key_chat_inMediaIcon, Theme.key_chat_inMediaIconSelected);
+            this.radialProgress.setProgressColor(Theme.getColor(Theme.key_chat_inFileProgress));
             this.radialProgress.draw(canvas);
             canvas.save();
             canvas.translate(this.seekBarX, this.seekBarY);
@@ -8175,7 +8188,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         public void setBlock(TLRPC$TL_pageBlockEmbed tLRPC$TL_pageBlockEmbed) {
             TLRPC$TL_pageBlockEmbed tLRPC$TL_pageBlockEmbed2 = this.currentBlock;
             this.currentBlock = tLRPC$TL_pageBlockEmbed;
-            this.webView.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+            this.webView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
             TLRPC$TL_pageBlockEmbed tLRPC$TL_pageBlockEmbed3 = this.currentBlock;
             if (tLRPC$TL_pageBlockEmbed2 != tLRPC$TL_pageBlockEmbed3) {
                 this.wasUserInteraction = false;
@@ -8531,7 +8544,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         public void setBlock(TLRPC$TL_pageBlockTable tLRPC$TL_pageBlockTable) {
             int i;
             this.currentBlock = tLRPC$TL_pageBlockTable;
-            AndroidUtilities.setScrollViewEdgeEffectColor(this.scrollView, Theme.getColor("windowBackgroundWhite"));
+            AndroidUtilities.setScrollViewEdgeEffectColor(this.scrollView, Theme.getColor(Theme.key_windowBackgroundWhite));
             this.tableLayout.removeAllChildrens();
             this.tableLayout.setDrawLines(this.currentBlock.bordered);
             this.tableLayout.setStriped(this.currentBlock.striped);
@@ -9295,7 +9308,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 this.group.calculate();
             }
             this.innerAdapter.notifyDataSetChanged();
-            this.innerListView.setGlowColor(Theme.getColor("windowBackgroundWhite"));
+            this.innerListView.setGlowColor(Theme.getColor(Theme.key_windowBackgroundWhite));
             requestLayout();
         }
 
@@ -9531,7 +9544,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             };
             this.innerAdapter = pagerAdapter;
             viewPager2.setAdapter(pagerAdapter);
-            AndroidUtilities.setViewPagerEdgeEffectColor(this.innerListView, Theme.getColor("windowBackgroundWhite"));
+            AndroidUtilities.setViewPagerEdgeEffectColor(this.innerListView, Theme.getColor(Theme.key_windowBackgroundWhite));
             addView(this.innerListView);
             View view = new View(context, ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.BlockSlideshowCell.4
                 @Override // android.view.View
@@ -10396,7 +10409,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         public BlockRelatedArticlesShadowCell(Context context) {
             super(context);
-            CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, -16777216));
+            CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundGray)), Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, -16777216));
             this.shadowDrawable = combinedDrawable;
             combinedDrawable.setFullsize(true);
             setBackgroundDrawable(this.shadowDrawable);
@@ -10405,7 +10418,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         @Override // android.view.View
         protected void onMeasure(int i, int i2) {
             setMeasuredDimension(View.MeasureSpec.getSize(i), AndroidUtilities.dp(12.0f));
-            Theme.setCombinedDrawableColor(this.shadowDrawable, Theme.getColor("windowBackgroundGray"), false);
+            Theme.setCombinedDrawableColor(this.shadowDrawable, Theme.getColor(Theme.key_windowBackgroundGray), false);
         }
     }
 
@@ -11740,7 +11753,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if (this.currentBlock == null) {
                 return;
             }
-            Theme.chat_docBackPaint.setColor(Theme.getColor("chat_inLocationBackground"));
+            Theme.chat_docBackPaint.setColor(Theme.getColor(Theme.key_chat_inLocationBackground));
             canvas.drawRect(this.imageView.getImageX(), this.imageView.getImageY(), this.imageView.getImageX2(), this.imageView.getImageY2(), Theme.chat_docBackPaint);
             int centerX = (int) (this.imageView.getCenterX() - (Theme.chat_locationDrawable[0].getIntrinsicWidth() / 2));
             int centerY = (int) (this.imageView.getCenterY() - (Theme.chat_locationDrawable[0].getIntrinsicHeight() / 2));
@@ -11866,7 +11879,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         public void setBlock(TLRPC$TL_pageBlockChannel tLRPC$TL_pageBlockChannel) {
             this.currentBlock = tLRPC$TL_pageBlockChannel;
             if (this.currentType == 0) {
-                int color = Theme.getColor("switchTrack");
+                int color = Theme.getColor(Theme.key_switchTrack);
                 int red = Color.red(color);
                 int green = Color.green(color);
                 int blue = Color.blue(color);
@@ -12671,7 +12684,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 this.textView.setGravity(21);
                 this.viewsTextView.setText(LocaleController.formatPluralStringComma("Views", i));
             }
-            int color = Theme.getColor("switchTrack");
+            int color = Theme.getColor(Theme.key_switchTrack);
             this.textView.setTextColor(ArticleViewer.getGrayTextColor());
             this.viewsTextView.setTextColor(ArticleViewer.getGrayTextColor());
             this.textView.setBackgroundColor(Color.argb(34, Color.red(color), Color.green(color), Color.blue(color)));

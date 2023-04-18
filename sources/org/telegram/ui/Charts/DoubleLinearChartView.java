@@ -282,7 +282,7 @@ public class DoubleLinearChartView extends BaseChartView<DoubleLinearChartData, 
                             this.signaturePaint.setAlpha((int) (chartHorizontalLinesData.alpha * ((LineViewData) this.lines.get(i3)).alpha * f2 * f));
                             canvas.drawText(chartHorizontalLinesData.valuesStr[i6], BaseChartView.HORIZONTAL_PADDING, measuredHeight2 - textSize, this.signaturePaint);
                         }
-                        this.signaturePaint.setColor(Theme.getColor("statisticChartSignature"));
+                        this.signaturePaint.setColor(Theme.getColor(Theme.key_statisticChartSignature));
                         this.signaturePaint.setAlpha((int) (chartHorizontalLinesData.alpha * this.signaturePaintAlpha * f2 * f));
                         canvas.drawText(chartHorizontalLinesData.valuesStr[i6], BaseChartView.HORIZONTAL_PADDING, measuredHeight2 - textSize, this.signaturePaint);
                     }

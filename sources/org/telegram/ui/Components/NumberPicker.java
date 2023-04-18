@@ -107,14 +107,14 @@ public class NumberPicker extends LinearLayout {
         return 0.9f;
     }
 
-    /* JADX WARN: Type inference failed for: r2v2, types: [boolean, byte] */
+    /* JADX WARN: Type inference failed for: r2v2, types: [byte, boolean] */
     static /* synthetic */ boolean access$280(NumberPicker numberPicker, int i) {
         ?? r2 = (byte) (i ^ (numberPicker.mIncrementVirtualButtonPressed ? 1 : 0));
         numberPicker.mIncrementVirtualButtonPressed = r2;
         return r2;
     }
 
-    /* JADX WARN: Type inference failed for: r2v2, types: [boolean, byte] */
+    /* JADX WARN: Type inference failed for: r2v2, types: [byte, boolean] */
     static /* synthetic */ boolean access$480(NumberPicker numberPicker, int i) {
         ?? r2 = (byte) (i ^ (numberPicker.mDecrementVirtualButtonPressed ? 1 : 0));
         numberPicker.mDecrementVirtualButtonPressed = r2;
@@ -139,7 +139,7 @@ public class NumberPicker extends LinearLayout {
         this.mSolidColor = 0;
         Paint paint = new Paint();
         this.mSelectionDivider = paint;
-        paint.setColor(getThemedColor("dialogButton"));
+        paint.setColor(getThemedColor(Theme.key_dialogButton));
         this.mSelectionDividerHeight = (int) TypedValue.applyDimension(1, 2.0f, getResources().getDisplayMetrics());
         TypedValue.applyDimension(1, 48.0f, getResources().getDisplayMetrics());
         this.mMinHeight = -1;
@@ -158,7 +158,7 @@ public class NumberPicker extends LinearLayout {
         this.mInputText = textView;
         textView.setGravity(17);
         this.mInputText.setSingleLine(true);
-        this.mInputText.setTextColor(getThemedColor("dialogTextBlack"));
+        this.mInputText.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
         this.mInputText.setBackgroundResource(0);
         this.mInputText.setTextSize(0, this.mTextSize);
         this.mInputText.setVisibility(4);
@@ -1158,9 +1158,9 @@ public class NumberPicker extends LinearLayout {
         invalidate();
     }
 
-    private int getThemedColor(String str) {
+    private int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 }

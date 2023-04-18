@@ -64,7 +64,7 @@ public class PinnedLineView extends View {
     }
 
     public void updateColors() {
-        int themedColor = getThemedColor("chat_topPanelLine");
+        int themedColor = getThemedColor(Theme.key_chat_topPanelLine);
         this.color = themedColor;
         this.paint.setColor(ColorUtils.setAlphaComponent(themedColor, (int) ((Color.alpha(themedColor) / 255.0f) * 112.0f)));
         this.selectedPaint.setColor(this.color);
@@ -316,9 +316,9 @@ public class PinnedLineView extends View {
         invalidate();
     }
 
-    private int getThemedColor(String str) {
+    private int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 }

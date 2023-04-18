@@ -270,7 +270,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         create.setOnHideListener(onDismissListener);
         this.parentFragment.showDialog(create);
         if (z) {
-            create.setItemColor(arrayList.size() - 1, Theme.getColor("text_RedBold"), Theme.getColor("text_RedRegular"));
+            create.setItemColor(arrayList.size() - 1, Theme.getColor(Theme.key_text_RedBold), Theme.getColor(Theme.key_text_RedRegular));
         }
     }
 

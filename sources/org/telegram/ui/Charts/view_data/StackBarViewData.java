@@ -13,7 +13,7 @@ public class StackBarViewData extends LineViewData {
     @Override // org.telegram.ui.Charts.view_data.LineViewData
     public void updateColors() {
         super.updateColors();
-        this.blendColor = ColorUtils.blendARGB(Theme.getColor("windowBackgroundWhite"), this.lineColor, 0.3f);
+        this.blendColor = ColorUtils.blendARGB(Theme.getColor(Theme.key_windowBackgroundWhite), this.lineColor, 0.3f);
     }
 
     public StackBarViewData(ChartData.Line line) {

@@ -213,7 +213,7 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
                     if (clearViewDataArr[i2].firstDraw) {
                         float f9 = ((-360.0f) * f8) + ((1.0f - this.singleProgress) * 10.0f);
                         float f10 = f9 > 0.0f ? 0.0f : f9;
-                        clearViewDataArr[i2].paint.setColor(Theme.getColor(clearViewDataArr[i2].color));
+                        clearViewDataArr[i2].paint.setColor(Theme.getColor(clearViewDataArr[i2].colorKey));
                         this.data[i2].paint.setAlpha(255);
                         double width = this.rectF.width() / 2.0f;
                         Double.isNaN(width);
@@ -259,7 +259,7 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
                     if (!clearViewDataArr2[i3].firstDraw) {
                         float f15 = (f14 * (-360.0f)) + ((1.0f - this.singleProgress) * 10.0f);
                         float f16 = f15 > 0.0f ? 0.0f : f15;
-                        clearViewDataArr2[i3].paint.setColor(Theme.getColor(clearViewDataArr2[i3].color));
+                        clearViewDataArr2[i3].paint.setColor(Theme.getColor(clearViewDataArr2[i3].colorKey));
                         this.data[i3].paint.setAlpha(i);
                         double width2 = this.rectF.width() / 2.0f;
                         Double.isNaN(width2);
@@ -308,8 +308,9 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
         }
         AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = this.text1;
         if (animatedTextDrawable != null) {
-            animatedTextDrawable.setTextColor(Theme.getColor("dialogTextBlack"));
-            this.text2.setTextColor(Theme.getColor("dialogTextBlack"));
+            int i4 = Theme.key_dialogTextBlack;
+            animatedTextDrawable.setTextColor(Theme.getColor(i4));
+            this.text2.setTextColor(Theme.getColor(i4));
             if (this.dialogId != null) {
                 float currentWidth = this.text1.getCurrentWidth() + AndroidUtilities.dp(4.0f) + this.text2.getCurrentWidth();
                 float width3 = (getWidth() - currentWidth) / 2.0f;
@@ -323,7 +324,7 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
         if (this.dialogTextLayout != null) {
             canvas.save();
             canvas.translate(AndroidUtilities.dp(30.0f), AndroidUtilities.dp(148.0f) - ((this.dialogTextLayout.getHeight() - AndroidUtilities.dp(13.0f)) / 2.0f));
-            this.dialogTextPaint.setColor(Theme.getColor("dialogTextBlack"));
+            this.dialogTextPaint.setColor(Theme.getColor(Theme.key_dialogTextBlack));
             this.dialogTextLayout.draw(canvas);
             canvas.restore();
         }
@@ -332,7 +333,7 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
     /* loaded from: classes4.dex */
     public static class ClearViewData {
         public boolean clear;
-        public String color;
+        public int colorKey;
         boolean firstDraw;
         Paint paint;
         public long size;

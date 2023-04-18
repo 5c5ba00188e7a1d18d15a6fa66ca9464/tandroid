@@ -182,6 +182,10 @@ public class FileLoadOperation {
         this.stream = fileLoadOperationStream;
         this.streamOffset = j;
         this.streamPriority = z;
+        if (fileLoadOperationStream == null || this.state == 1 || this.state == 0) {
+            return;
+        }
+        fileLoadOperationStream.newDataAvailable();
     }
 
     public int getPositionInQueue() {
@@ -960,7 +964,7 @@ public class FileLoadOperation {
     /* JADX WARN: Removed duplicated region for block: B:338:0x08bf  */
     /* JADX WARN: Removed duplicated region for block: B:359:0x0628 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r1v41 */
-    /* JADX WARN: Type inference failed for: r1v42, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r1v42, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r1v46 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2763,7 +2767,7 @@ public class FileLoadOperation {
     /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r11v0 */
-    /* JADX WARN: Type inference failed for: r11v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r11v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r11v7 */
     public void startDownloadRequest() {
         int i;

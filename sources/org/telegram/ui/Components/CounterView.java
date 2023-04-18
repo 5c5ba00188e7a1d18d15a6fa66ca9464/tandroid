@@ -41,9 +41,9 @@ public class CounterView extends View {
         this.counterDrawable.draw(canvas);
     }
 
-    public void setColors(String str, String str2) {
-        this.counterDrawable.textColorKey = str;
-        this.counterDrawable.circleColorKey = str2;
+    public void setColors(int i, int i2) {
+        this.counterDrawable.textColorKey = i;
+        this.counterDrawable.circleColorKey = i2;
     }
 
     public void setGravity(int i) {
@@ -89,8 +89,8 @@ public class CounterView extends View {
         public TextPaint textPaint = new TextPaint(1);
         public RectF rectF = new RectF();
         public float countChangeProgress = 1.0f;
-        private String textColorKey = "chat_goDownButtonCounter";
-        private String circleColorKey = "chat_goDownButtonCounterBackground";
+        private int textColorKey = Theme.key_chat_goDownButtonCounter;
+        private int circleColorKey = Theme.key_chat_goDownButtonCounterBackground;
         public int gravity = 17;
         public float radius = 11.5f;
         int type = 0;
@@ -484,10 +484,10 @@ public class CounterView extends View {
             this.parent = view;
         }
 
-        private int getThemedColor(String str) {
+        private int getThemedColor(int i) {
             Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-            Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-            return color != null ? color.intValue() : Theme.getColor(str);
+            Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+            return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
         }
 
         public int getWidth() {

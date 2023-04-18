@@ -139,7 +139,7 @@ public class StickerCategoriesListView extends RecyclerListView {
         this.layoutManager = linearLayoutManager;
         setLayoutManager(linearLayoutManager);
         this.layoutManager.setOrientation(0);
-        this.selectedPaint.setColor(getThemedColor("listSelectorSDK21"));
+        this.selectedPaint.setColor(getThemedColor(Theme.key_listSelector));
         setWillNotDraw(false);
         setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.StickerCategoriesListView$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
@@ -618,9 +618,9 @@ public class StickerCategoriesListView extends RecyclerListView {
             super(context);
             this.loaded = false;
             this.loadProgress = 1.0f;
-            setImageColor(StickerCategoriesListView.this.getThemedColor("chat_emojiPanelIcon"));
+            setImageColor(StickerCategoriesListView.this.getThemedColor(Theme.key_chat_emojiPanelIcon));
             setScaleType(ImageView.ScaleType.CENTER);
-            setBackground(Theme.createSelectorDrawable(StickerCategoriesListView.this.getThemedColor("listSelectorSDK21"), 1, AndroidUtilities.dp(15.0f)));
+            setBackground(Theme.createSelectorDrawable(StickerCategoriesListView.this.getThemedColor(Theme.key_listSelector), 1, AndroidUtilities.dp(15.0f)));
             setLayerNum(StickerCategoriesListView.this.layerNum);
         }
 
@@ -759,7 +759,7 @@ public class StickerCategoriesListView extends RecyclerListView {
         /* JADX INFO: Access modifiers changed from: private */
         public void updateSelectedT(float f) {
             this.selectedT = f;
-            setImageColor(ColorUtils.blendARGB(StickerCategoriesListView.this.getThemedColor("chat_emojiPanelIcon"), StickerCategoriesListView.this.getThemedColor("chat_emojiPanelIconSelected"), this.selectedT));
+            setImageColor(ColorUtils.blendARGB(StickerCategoriesListView.this.getThemedColor(Theme.key_chat_emojiPanelIcon), StickerCategoriesListView.this.getThemedColor(Theme.key_chat_emojiPanelIconSelected), this.selectedT));
             invalidate();
         }
 

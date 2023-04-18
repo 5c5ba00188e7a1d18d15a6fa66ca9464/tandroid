@@ -123,7 +123,7 @@ public class AdminLogFilterAlert extends BottomSheet {
         this.allAdminsRow = i8 + 1 + 1;
         Drawable mutate = context.getResources().getDrawable(R.drawable.sheet_shadow_round).mutate();
         this.shadowDrawable = mutate;
-        mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
+        mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_dialogBackground), PorterDuff.Mode.MULTIPLY));
         FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.AdminLogFilterAlert.1
             @Override // android.view.ViewGroup
             public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
@@ -214,7 +214,7 @@ public class AdminLogFilterAlert extends BottomSheet {
         this.listView.setVerticalScrollBarEnabled(false);
         this.listView.setClipToPadding(false);
         this.listView.setEnabled(true);
-        this.listView.setGlowColor(Theme.getColor("dialogScrollGlow"));
+        this.listView.setGlowColor(Theme.getColor(Theme.key_dialogScrollGlow));
         this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.AdminLogFilterAlert.3
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
             public void onScrolled(RecyclerView recyclerView, int i10, int i11) {
@@ -235,7 +235,7 @@ public class AdminLogFilterAlert extends BottomSheet {
         this.saveButton = bottomSheetCell;
         bottomSheetCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
         this.saveButton.setTextAndIcon(LocaleController.getString("Save", R.string.Save).toUpperCase(), 0);
-        this.saveButton.setTextColor(Theme.getColor("dialogTextBlue2"));
+        this.saveButton.setTextColor(Theme.getColor(Theme.key_dialogTextBlue2));
         this.saveButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AdminLogFilterAlert$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
@@ -479,7 +479,7 @@ public class AdminLogFilterAlert extends BottomSheet {
                     View shadowSectionCell = new ShadowSectionCell(this.context, 18);
                     frameLayout = new FrameLayout(this.context);
                     frameLayout.addView(shadowSectionCell, LayoutHelper.createFrame(-1, -1.0f));
-                    frameLayout.setBackgroundColor(Theme.getColor("dialogBackgroundGray"));
+                    frameLayout.setBackgroundColor(Theme.getColor(Theme.key_dialogBackgroundGray));
                 } else if (i != 2) {
                     textCell = null;
                 } else {

@@ -45,7 +45,7 @@ public class RadialProgressView extends View {
         this.noProgress = true;
         this.resourcesProvider = resourcesProvider;
         this.size = AndroidUtilities.dp(40.0f);
-        this.progressColor = getThemedColor("progressCircle");
+        this.progressColor = getThemedColor(Theme.key_progressCircle);
         this.decelerateInterpolator = new DecelerateInterpolator();
         this.accelerateInterpolator = new AccelerateInterpolator();
         Paint paint = new Paint(1);
@@ -261,9 +261,9 @@ public class RadialProgressView extends View {
         return Math.abs(this.drawingCircleLenght) >= 360.0f;
     }
 
-    private int getThemedColor(String str) {
+    private int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 }

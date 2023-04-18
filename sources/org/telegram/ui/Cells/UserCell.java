@@ -97,10 +97,10 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             TextView textView = new TextView(context);
             this.addButton = textView;
             textView.setGravity(17);
-            this.addButton.setTextColor(Theme.getColor("featuredStickers_buttonText", resourcesProvider));
+            this.addButton.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText, resourcesProvider));
             this.addButton.setTextSize(1, 14.0f);
             this.addButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-            this.addButton.setBackgroundDrawable(Theme.AdaptiveRipple.filledRect("featuredStickers_addButton", 4.0f));
+            this.addButton.setBackgroundDrawable(Theme.AdaptiveRipple.filledRectByKey(Theme.key_featuredStickers_addButton, 4.0f));
             this.addButton.setText(LocaleController.getString("Add", R.string.Add));
             this.addButton.setPadding(AndroidUtilities.dp(17.0f), 0, AndroidUtilities.dp(17.0f), 0);
             View view = this.addButton;
@@ -110,8 +110,8 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         } else {
             i3 = 0;
         }
-        this.statusColor = Theme.getColor("windowBackgroundWhiteGrayText", resourcesProvider);
-        this.statusOnlineColor = Theme.getColor("windowBackgroundWhiteBlueText", resourcesProvider);
+        this.statusColor = Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, resourcesProvider);
+        this.statusOnlineColor = Theme.getColor(Theme.key_windowBackgroundWhiteBlueText, resourcesProvider);
         this.avatarDrawable = new AvatarDrawable();
         BackupImageView backupImageView = new BackupImageView(context);
         this.avatarImageView = backupImageView;
@@ -121,7 +121,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         addView(view2, LayoutHelper.createFrame(46, 46.0f, (z4 ? 5 : 3) | 48, z4 ? 0.0f : i + 7, 6.0f, z4 ? i + 7 : 0.0f, 0.0f));
         SimpleTextView simpleTextView = new SimpleTextView(context);
         this.nameTextView = simpleTextView;
-        simpleTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText", resourcesProvider));
+        simpleTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
         this.nameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.nameTextView.setTextSize(16);
         this.nameTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
@@ -151,7 +151,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         ImageView imageView = new ImageView(context);
         this.imageView = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
-        this.imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon", resourcesProvider), PorterDuff.Mode.MULTIPLY));
+        this.imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteGrayIcon, resourcesProvider), PorterDuff.Mode.MULTIPLY));
         this.imageView.setVisibility(8);
         View view5 = this.imageView;
         boolean z7 = LocaleController.isRTL;
@@ -165,7 +165,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             CheckBox checkBox = new CheckBox(context, R.drawable.round_check2);
             this.checkBox = checkBox;
             checkBox.setVisibility(4);
-            this.checkBox.setColor(Theme.getColor("checkbox", resourcesProvider), Theme.getColor("checkboxCheck", resourcesProvider));
+            this.checkBox.setColor(Theme.getColor(Theme.key_checkbox, resourcesProvider), Theme.getColor(Theme.key_checkboxCheck, resourcesProvider));
             View view6 = this.checkBox;
             boolean z9 = LocaleController.isRTL;
             addView(view6, LayoutHelper.createFrame(22, 22.0f, (z9 ? 5 : 3) | 48, z9 ? 0.0f : i + 37, 40.0f, z9 ? i + 37 : 0.0f, 0.0f));
@@ -174,7 +174,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             TextView textView2 = new TextView(context);
             this.adminTextView = textView2;
             textView2.setTextSize(1, 14.0f);
-            this.adminTextView.setTextColor(Theme.getColor("profile_creatorIcon", resourcesProvider));
+            this.adminTextView.setTextColor(Theme.getColor(Theme.key_profile_creatorIcon, resourcesProvider));
             View view7 = this.adminTextView;
             boolean z10 = LocaleController.isRTL;
             addView(view7, LayoutHelper.createFrame(-2, -2.0f, (z10 ? 3 : 5) | 48, z10 ? 23.0f : 0.0f, 10.0f, z10 ? 0.0f : 23.0f, 0.0f));
@@ -604,13 +604,13 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             TLRPC$EmojiStatus tLRPC$EmojiStatus = tLRPC$User.emoji_status;
             if ((tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil) && ((TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus).until > ((int) (System.currentTimeMillis() / 1000))) {
                 this.emojiStatus.set(((TLRPC$TL_emojiStatusUntil) tLRPC$User.emoji_status).document_id, false);
-                this.emojiStatus.setColor(Integer.valueOf(Theme.getColor("chats_verifiedBackground", this.resourcesProvider)));
+                this.emojiStatus.setColor(Integer.valueOf(Theme.getColor(Theme.key_chats_verifiedBackground, this.resourcesProvider)));
                 this.nameTextView.setRightDrawable(this.emojiStatus);
             } else {
                 TLRPC$EmojiStatus tLRPC$EmojiStatus2 = tLRPC$User.emoji_status;
                 if (tLRPC$EmojiStatus2 instanceof TLRPC$TL_emojiStatus) {
                     this.emojiStatus.set(((TLRPC$TL_emojiStatus) tLRPC$EmojiStatus2).document_id, false);
-                    this.emojiStatus.setColor(Integer.valueOf(Theme.getColor("chats_verifiedBackground", this.resourcesProvider)));
+                    this.emojiStatus.setColor(Integer.valueOf(Theme.getColor(Theme.key_chats_verifiedBackground, this.resourcesProvider)));
                     this.nameTextView.setRightDrawable(this.emojiStatus);
                 } else {
                     if (this.premiumDrawable == null) {
@@ -625,7 +625,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                             }
                         };
                         this.premiumDrawable = wrapSizeDrawable;
-                        wrapSizeDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chats_verifiedBackground", this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
+                        wrapSizeDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_verifiedBackground, this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
                     }
                     this.nameTextView.setRightDrawable(this.premiumDrawable);
                 }
@@ -673,10 +673,10 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             this.avatarImageView.setImageDrawable(this.avatarDrawable);
         }
         this.avatarImageView.setRoundRadius((tLRPC$Chat == null || !tLRPC$Chat.forum) ? AndroidUtilities.dp(24.0f) : AndroidUtilities.dp(14.0f));
-        this.nameTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText", this.resourcesProvider));
+        this.nameTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, this.resourcesProvider));
         TextView textView2 = this.adminTextView;
         if (textView2 != null) {
-            textView2.setTextColor(Theme.getColor("profile_creatorIcon", this.resourcesProvider));
+            textView2.setTextColor(Theme.getColor(Theme.key_profile_creatorIcon, this.resourcesProvider));
         }
     }
 

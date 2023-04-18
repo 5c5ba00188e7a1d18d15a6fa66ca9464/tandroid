@@ -1267,7 +1267,8 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                         TextView textView = new TextView(getContext());
                         textView.setId(1000);
                         textView.setTextAppearance(16974344);
-                        textView.setTextColor(Theme.getColor("dialogTextBlack"));
+                        int i = Theme.key_dialogTextBlack;
+                        textView.setTextColor(Theme.getColor(i));
                         textView.setText(LocaleController.getString("FingerprintInfo", R.string.FingerprintInfo));
                         relativeLayout.addView(textView);
                         RelativeLayout.LayoutParams createRelative = LayoutHelper.createRelative(-2, -2);
@@ -1284,7 +1285,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                         textView2.setGravity(16);
                         this.fingerprintStatusTextView.setText(LocaleController.getString("FingerprintHelp", R.string.FingerprintHelp));
                         this.fingerprintStatusTextView.setTextAppearance(16974320);
-                        this.fingerprintStatusTextView.setTextColor(Theme.getColor("dialogTextBlack") & 1124073471);
+                        this.fingerprintStatusTextView.setTextColor(Theme.getColor(i) & 1124073471);
                         relativeLayout.addView(this.fingerprintStatusTextView);
                         RelativeLayout.LayoutParams createRelative2 = LayoutHelper.createRelative(-2, -2);
                         createRelative2.setMarginStart(AndroidUtilities.dp(16.0f));
@@ -1318,8 +1319,8 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                         this.selfCancelled = false;
                         from.authenticate(null, 0, cancellationSignal, new FingerprintManagerCompat.AuthenticationCallback() { // from class: org.telegram.ui.Components.PasscodeView.8
                             @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompat.AuthenticationCallback
-                            public void onAuthenticationError(int i, CharSequence charSequence) {
-                                if (i == 10) {
+                            public void onAuthenticationError(int i2, CharSequence charSequence) {
+                                if (i2 == 10) {
                                     try {
                                         if (PasscodeView.this.fingerprintDialog.isShowing()) {
                                             PasscodeView.this.fingerprintDialog.dismiss();
@@ -1328,14 +1329,14 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                                         FileLog.e(e3);
                                     }
                                     PasscodeView.this.fingerprintDialog = null;
-                                } else if (PasscodeView.this.selfCancelled || i == 5) {
+                                } else if (PasscodeView.this.selfCancelled || i2 == 5) {
                                 } else {
                                     PasscodeView.this.showFingerprintError(charSequence);
                                 }
                             }
 
                             @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompat.AuthenticationCallback
-                            public void onAuthenticationHelp(int i, CharSequence charSequence) {
+                            public void onAuthenticationHelp(int i2, CharSequence charSequence) {
                                 PasscodeView.this.showFingerprintError(charSequence);
                             }
 

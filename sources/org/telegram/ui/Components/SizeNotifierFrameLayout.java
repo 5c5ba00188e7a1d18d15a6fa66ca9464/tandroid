@@ -571,7 +571,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
 
     public void startBlur() {
         BlurBitmap blurBitmap;
-        if (this.blurIsRunning && !this.blurGeneratingTuskIsRunning && this.invalidateBlur && SharedConfig.chatBlurEnabled() && Color.alpha(Theme.getColor("chat_BlurAlpha")) != 255) {
+        if (this.blurIsRunning && !this.blurGeneratingTuskIsRunning && this.invalidateBlur && SharedConfig.chatBlurEnabled() && Color.alpha(Theme.getColor(Theme.key_chat_BlurAlpha)) != 255) {
             int measuredWidth = getMeasuredWidth();
             int currentActionBarHeight = ActionBar.getCurrentActionBarHeight() + AndroidUtilities.statusBarHeight + AndroidUtilities.dp(100.0f);
             if (measuredWidth == 0 || currentActionBarHeight == 0) {
@@ -847,7 +847,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
     }
 
     public void drawBlurRect(Canvas canvas, float f, android.graphics.Rect rect, Paint paint, boolean z) {
-        int alpha = Color.alpha(Theme.getColor("chat_BlurAlpha"));
+        int alpha = Color.alpha(Theme.getColor(Theme.key_chat_BlurAlpha));
         if (this.currentBitmap == null || !SharedConfig.chatBlurEnabled()) {
             canvas.drawRect(rect, paint);
             return;
@@ -870,7 +870,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
     }
 
     public void drawBlurCircle(Canvas canvas, float f, float f2, float f3, float f4, Paint paint, boolean z) {
-        int alpha = Color.alpha(Theme.getColor("chat_BlurAlpha"));
+        int alpha = Color.alpha(Theme.getColor(Theme.key_chat_BlurAlpha));
         if (this.currentBitmap == null || !SharedConfig.chatBlurEnabled()) {
             canvas.drawCircle(f2, f3, f4, paint);
             return;

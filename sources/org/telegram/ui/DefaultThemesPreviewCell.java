@@ -107,7 +107,7 @@ public class DefaultThemesPreviewCell extends LinearLayout {
             this.darkThemeDrawable.commitApplyLayerColors();
             TextCell textCell = new TextCell(context);
             this.dayNightCell = textCell;
-            textCell.setBackground(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21"), 2));
+            textCell.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 2));
             TextCell textCell2 = this.dayNightCell;
             textCell2.imageLeft = 21;
             addView(textCell2, LayoutHelper.createFrame(-1, -2.0f));
@@ -219,8 +219,8 @@ public class DefaultThemesPreviewCell extends LinearLayout {
             if (DrawerProfileCell.switchingTheme) {
                 return;
             }
-            final int color = Theme.getColor("windowBackgroundWhiteBlueText4");
-            final int color2 = Theme.getColor("windowBackgroundGray");
+            final int color = Theme.getColor(Theme.key_windowBackgroundWhiteBlueText4);
+            final int color2 = Theme.getColor(Theme.key_windowBackgroundGray);
             DrawerProfileCell.switchingTheme = true;
             SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0);
             String str = "Blue";
@@ -279,7 +279,7 @@ public class DefaultThemesPreviewCell extends LinearLayout {
         public /* synthetic */ void lambda$onClick$0(final int i, Context context, int i2, boolean z, BaseFragment baseFragment) {
             DefaultThemesPreviewCell.this.updateDayNightMode();
             DefaultThemesPreviewCell.this.updateSelectedPosition();
-            final int color = Theme.getColor("windowBackgroundWhiteBlueText4");
+            final int color = Theme.getColor(Theme.key_windowBackgroundWhiteBlueText4);
             DefaultThemesPreviewCell.this.darkThemeDrawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.DefaultThemesPreviewCell.1.1
@@ -297,7 +297,7 @@ public class DefaultThemesPreviewCell extends LinearLayout {
             });
             ofFloat.setDuration(350L);
             ofFloat.start();
-            final int color2 = Theme.getColor("windowBackgroundGray");
+            final int color2 = Theme.getColor(Theme.key_windowBackgroundGray);
             final Window window = context instanceof Activity ? ((Activity) context).getWindow() : null;
             if (window != null) {
                 if (DefaultThemesPreviewCell.this.navBarAnimator != null && DefaultThemesPreviewCell.this.navBarAnimator.isRunning()) {
@@ -462,11 +462,15 @@ public class DefaultThemesPreviewCell extends LinearLayout {
 
     public void updateColors() {
         if (this.currentType == 0) {
-            this.darkThemeDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteBlueText4"), PorterDuff.Mode.SRC_IN));
-            Theme.setSelectorDrawableColor(this.dayNightCell.getBackground(), Theme.getColor("listSelectorSDK21"), true);
-            this.browseThemesCell.setBackground(Theme.createSelectorWithBackgroundDrawable(Theme.getColor("windowBackgroundWhite"), Theme.getColor("listSelectorSDK21")));
-            this.dayNightCell.setColors(null, "windowBackgroundWhiteBlueText4");
-            this.browseThemesCell.setColors("windowBackgroundWhiteBlueText4", "windowBackgroundWhiteBlueText4");
+            RLottieDrawable rLottieDrawable = this.darkThemeDrawable;
+            int i = Theme.key_windowBackgroundWhiteBlueText4;
+            rLottieDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i), PorterDuff.Mode.SRC_IN));
+            Drawable background = this.dayNightCell.getBackground();
+            int i2 = Theme.key_listSelector;
+            Theme.setSelectorDrawableColor(background, Theme.getColor(i2), true);
+            this.browseThemesCell.setBackground(Theme.createSelectorWithBackgroundDrawable(Theme.getColor(Theme.key_windowBackgroundWhite), Theme.getColor(i2)));
+            this.dayNightCell.setColors(-1, i);
+            this.browseThemesCell.setColors(i, i);
         }
     }
 

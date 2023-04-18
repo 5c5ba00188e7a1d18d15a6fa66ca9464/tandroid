@@ -296,13 +296,14 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
-        CodeNumberField[] codeNumberFieldArr;
         this.actionBar.setBackgroundDrawable(null);
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(false);
-        this.actionBar.setTitleColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-        this.actionBar.setItemsColor(Theme.getColor("windowBackgroundWhiteBlackText"), false);
-        this.actionBar.setItemsBackgroundColor(Theme.getColor("actionBarWhiteSelector"), false);
+        ActionBar actionBar = this.actionBar;
+        int i = Theme.key_windowBackgroundWhiteBlackText;
+        actionBar.setTitleColor(Theme.getColor(i));
+        this.actionBar.setItemsColor(Theme.getColor(i), false);
+        this.actionBar.setItemsBackgroundColor(Theme.getColor(Theme.key_actionBarWhiteSelector), false);
         this.actionBar.setCastShadows(false);
         this.actionBar.setAddToContainer(false);
         this.actionBar.setActionBarMenuOnItemClick(new 1());
@@ -310,8 +311,8 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             this.actionBar.createMenu().addItem(0, R.drawable.ic_ab_other).addSubItem(1, LocaleController.getString("AbortPasswordMenu", R.string.AbortPasswordMenu));
         }
         this.floatingButtonContainer = new FrameLayout(context);
-        int i = Build.VERSION.SDK_INT;
-        if (i >= 21) {
+        int i2 = Build.VERSION.SDK_INT;
+        if (i2 >= 21) {
             StateListAnimator stateListAnimator = new StateListAnimator();
             stateListAnimator.addState(new int[]{16842919}, ObjectAnimator.ofFloat(this.floatingButtonIcon, "translationZ", AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f)).setDuration(200L));
             stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(this.floatingButtonIcon, "translationZ", AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f)).setDuration(200L));
@@ -335,10 +336,10 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         this.floatingButtonIcon = transformableLoginButtonView;
         transformableLoginButtonView.setTransformType(1);
         this.floatingButtonIcon.setProgress(0.0f);
-        this.floatingButtonIcon.setColor(Theme.getColor("chats_actionIcon"));
+        this.floatingButtonIcon.setColor(Theme.getColor(Theme.key_chats_actionIcon));
         this.floatingButtonIcon.setDrawBackground(false);
         this.floatingButtonContainer.setContentDescription(LocaleController.getString(R.string.Next));
-        this.floatingButtonContainer.addView(this.floatingButtonIcon, LayoutHelper.createFrame(i >= 21 ? 56 : 60, i >= 21 ? 56.0f : 60.0f));
+        this.floatingButtonContainer.addView(this.floatingButtonIcon, LayoutHelper.createFrame(i2 >= 21 ? 56 : 60, i2 >= 21 ? 56.0f : 60.0f));
         RadialProgressView radialProgressView = new RadialProgressView(context);
         this.floatingProgressView = radialProgressView;
         radialProgressView.setSize(AndroidUtilities.dp(22.0f));
@@ -346,8 +347,8 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         this.floatingProgressView.setScaleX(0.1f);
         this.floatingProgressView.setScaleY(0.1f);
         this.floatingButtonContainer.addView(this.floatingProgressView, LayoutHelper.createFrame(-1, -1.0f));
-        Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor("chats_actionBackground"), Theme.getColor("chats_actionPressedBackground"));
-        if (i < 21) {
+        Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor(Theme.key_chats_actionBackground), Theme.getColor(Theme.key_chats_actionPressedBackground));
+        if (i2 < 21) {
             Drawable mutate = context.getResources().getDrawable(R.drawable.floating_shadow).mutate();
             mutate.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
             CombinedDrawable combinedDrawable = new CombinedDrawable(mutate, createSimpleSelectorCircleDrawable, 0, 0);
@@ -357,7 +358,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         this.floatingButtonContainer.setBackground(createSimpleSelectorCircleDrawable);
         TextView textView = new TextView(context);
         this.bottomSkipButton = textView;
-        textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText2"));
+        textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText2));
         this.bottomSkipButton.setTextSize(1, 14.0f);
         this.bottomSkipButton.setGravity(19);
         this.bottomSkipButton.setVisibility(8);
@@ -379,13 +380,14 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         }
         TextView textView2 = new TextView(context);
         this.titleTextView = textView2;
-        textView2.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+        textView2.setTextColor(Theme.getColor(i));
         this.titleTextView.setGravity(1);
         this.titleTextView.setPadding(AndroidUtilities.dp(32.0f), 0, AndroidUtilities.dp(32.0f), 0);
         this.titleTextView.setTextSize(1, 24.0f);
         SpoilersTextView spoilersTextView = new SpoilersTextView(context);
         this.descriptionText = spoilersTextView;
-        spoilersTextView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
+        int i3 = Theme.key_windowBackgroundWhiteGrayText6;
+        spoilersTextView.setTextColor(Theme.getColor(i3));
         this.descriptionText.setGravity(1);
         this.descriptionText.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
         this.descriptionText.setTextSize(1, 15.0f);
@@ -393,7 +395,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         this.descriptionText.setPadding(AndroidUtilities.dp(32.0f), 0, AndroidUtilities.dp(32.0f), 0);
         TextView textView3 = new TextView(context);
         this.descriptionText2 = textView3;
-        textView3.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
+        textView3.setTextColor(Theme.getColor(i3));
         this.descriptionText2.setGravity(1);
         this.descriptionText2.setTextSize(1, 14.0f);
         this.descriptionText2.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
@@ -410,18 +412,18 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         textView4.setMinWidth(AndroidUtilities.dp(220.0f));
         this.buttonTextView.setPadding(AndroidUtilities.dp(34.0f), 0, AndroidUtilities.dp(34.0f), 0);
         this.buttonTextView.setGravity(17);
-        this.buttonTextView.setTextColor(Theme.getColor("featuredStickers_buttonText"));
+        this.buttonTextView.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
         this.buttonTextView.setTextSize(1, 15.0f);
         this.buttonTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        this.buttonTextView.setBackground(Theme.AdaptiveRipple.filledRect("featuredStickers_addButton", 6.0f));
+        this.buttonTextView.setBackground(Theme.AdaptiveRipple.filledRectByKey(Theme.key_featuredStickers_addButton, 6.0f));
         this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda7
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 TwoStepVerificationSetupActivity.this.lambda$createView$9(view);
             }
         });
-        int i2 = this.currentType;
-        if (i2 == 6 || i2 == 7 || i2 == 9) {
+        int i4 = this.currentType;
+        if (i4 == 6 || i4 == 7 || i4 == 9) {
             this.titleTextView.setTypeface(Typeface.DEFAULT);
             this.titleTextView.setTextSize(1, 24.0f);
         } else {
@@ -438,15 +440,15 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             case 8:
                 final FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.4
                     @Override // android.widget.FrameLayout, android.view.View
-                    protected void onMeasure(int i3, int i4) {
-                        super.onMeasure(i3, i4);
+                    protected void onMeasure(int i5, int i6) {
+                        super.onMeasure(i5, i6);
                         ((ViewGroup.MarginLayoutParams) TwoStepVerificationSetupActivity.this.radialProgressView.getLayoutParams()).topMargin = AndroidUtilities.statusBarHeight + AndroidUtilities.dp(16.0f);
                     }
                 };
                 final SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.5
                     /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-                    public void onLayout(boolean z, int i3, int i4, int i5, int i6) {
+                    public void onLayout(boolean z, int i5, int i6, int i7, int i8) {
                         int measuredHeight;
                         if (TwoStepVerificationSetupActivity.this.keyboardView.getVisibility() == 8 || measureKeyboardHeight() < AndroidUtilities.dp(20.0f)) {
                             if (TwoStepVerificationSetupActivity.this.keyboardView.getVisibility() != 8) {
@@ -475,9 +477,9 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                     }
 
                     @Override // android.widget.FrameLayout, android.view.View
-                    protected void onMeasure(int i3, int i4) {
-                        int size = View.MeasureSpec.getSize(i3);
-                        int size2 = View.MeasureSpec.getSize(i4);
+                    protected void onMeasure(int i5, int i6) {
+                        int size = View.MeasureSpec.getSize(i5);
+                        int size2 = View.MeasureSpec.getSize(i6);
                         setMeasuredDimension(size, size2);
                         if (TwoStepVerificationSetupActivity.this.keyboardView.getVisibility() != 8 && measureKeyboardHeight() < AndroidUtilities.dp(20.0f)) {
                             size2 -= AndroidUtilities.dp(230.0f);
@@ -489,17 +491,17 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 sizeNotifierFrameLayout.addView(frameLayout);
                 ViewGroup viewGroup = new ViewGroup(context) { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.6
                     @Override // android.view.View
-                    protected void onMeasure(int i3, int i4) {
-                        int size = View.MeasureSpec.getSize(i3);
-                        int size2 = View.MeasureSpec.getSize(i4);
-                        ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), i4);
+                    protected void onMeasure(int i5, int i6) {
+                        int size = View.MeasureSpec.getSize(i5);
+                        int size2 = View.MeasureSpec.getSize(i6);
+                        ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), i6);
                         TwoStepVerificationSetupActivity.this.actionBarBackground.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.getMeasuredHeight() + AndroidUtilities.dp(3.0f), 1073741824));
-                        sizeNotifierFrameLayout.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), i4);
+                        sizeNotifierFrameLayout.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), i6);
                         setMeasuredDimension(size, size2);
                     }
 
                     @Override // android.view.ViewGroup, android.view.View
-                    protected void onLayout(boolean z, int i3, int i4, int i5, int i6) {
+                    protected void onLayout(boolean z, int i5, int i6, int i7, int i8) {
                         ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.layout(0, 0, ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.getMeasuredWidth(), ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.getMeasuredHeight());
                         TwoStepVerificationSetupActivity.this.actionBarBackground.layout(0, 0, TwoStepVerificationSetupActivity.this.actionBarBackground.getMeasuredWidth(), TwoStepVerificationSetupActivity.this.actionBarBackground.getMeasuredHeight());
                         SizeNotifierFrameLayout sizeNotifierFrameLayout2 = sizeNotifierFrameLayout;
@@ -513,8 +515,8 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                     private boolean isLayoutDirty = true;
 
                     @Override // android.view.View
-                    protected void onScrollChanged(int i3, int i4, int i5, int i6) {
-                        super.onScrollChanged(i3, i4, i5, i6);
+                    protected void onScrollChanged(int i5, int i6, int i7, int i8) {
+                        super.onScrollChanged(i5, i6, i7, i8);
                         if (TwoStepVerificationSetupActivity.this.titleTextView == null) {
                             return;
                         }
@@ -584,10 +586,10 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                         if (Build.VERSION.SDK_INT < 23) {
                             int dp = rect.bottom + AndroidUtilities.dp(120.0f);
                             rect.bottom = dp;
-                            int i3 = this.scrollingUp;
-                            if (i3 != 0) {
-                                rect.top -= i3;
-                                rect.bottom = dp - i3;
+                            int i5 = this.scrollingUp;
+                            if (i5 != 0) {
+                                rect.top -= i5;
+                                rect.bottom = dp - i5;
                                 this.scrollingUp = 0;
                             }
                         }
@@ -601,28 +603,28 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                     }
 
                     @Override // android.widget.ScrollView, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-                    protected void onLayout(boolean z, int i3, int i4, int i5, int i6) {
+                    protected void onLayout(boolean z, int i5, int i6, int i7, int i8) {
                         this.isLayoutDirty = false;
-                        super.onLayout(z, i3, i4, i5, i6);
+                        super.onLayout(z, i5, i6, i7, i8);
                     }
                 };
                 this.scrollView = scrollView;
                 scrollView.setVerticalScrollBarEnabled(false);
                 frameLayout.addView(this.scrollView, LayoutHelper.createFrame(-1, -1.0f));
-                frameLayout.addView(this.bottomSkipButton, LayoutHelper.createFrame(-1, i >= 21 ? 56.0f : 60.0f, 80, 0.0f, 0.0f, 0.0f, 16.0f));
-                frameLayout.addView(this.floatingButtonContainer, LayoutHelper.createFrame(i >= 21 ? 56 : 60, i >= 21 ? 56.0f : 60.0f, 85, 0.0f, 0.0f, 24.0f, 16.0f));
+                frameLayout.addView(this.bottomSkipButton, LayoutHelper.createFrame(-1, i2 >= 21 ? 56.0f : 60.0f, 80, 0.0f, 0.0f, 0.0f, 16.0f));
+                frameLayout.addView(this.floatingButtonContainer, LayoutHelper.createFrame(i2 >= 21 ? 56 : 60, i2 >= 21 ? 56.0f : 60.0f, 85, 0.0f, 0.0f, 24.0f, 16.0f));
                 viewGroup.addView(sizeNotifierFrameLayout, LayoutHelper.createFrame(-1, -1.0f));
                 LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.8
                     @Override // android.widget.LinearLayout, android.view.View
-                    protected void onMeasure(int i3, int i4) {
-                        super.onMeasure(i3, i4);
+                    protected void onMeasure(int i5, int i6) {
+                        super.onMeasure(i5, i6);
                         ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) TwoStepVerificationSetupActivity.this.titleTextView.getLayoutParams();
-                        int i5 = 0;
+                        int i7 = 0;
                         int dp = ((TwoStepVerificationSetupActivity.this.imageView.getVisibility() != 8 || Build.VERSION.SDK_INT < 21) ? 0 : AndroidUtilities.statusBarHeight) + AndroidUtilities.dp(8.0f);
                         if (TwoStepVerificationSetupActivity.this.currentType == 2 && AndroidUtilities.isSmallScreen() && !TwoStepVerificationSetupActivity.this.isLandscape()) {
-                            i5 = AndroidUtilities.dp(32.0f);
+                            i7 = AndroidUtilities.dp(32.0f);
                         }
-                        marginLayoutParams.topMargin = dp + i5;
+                        marginLayoutParams.topMargin = dp + i7;
                     }
                 };
                 linearLayout.setOrientation(1);
@@ -638,8 +640,10 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 editTextBoldCursor.setTextSize(1, 18.0f);
                 int dp = AndroidUtilities.dp(16.0f);
                 this.editTextFirstRow.setPadding(dp, dp, dp, dp);
-                this.editTextFirstRow.setCursorColor(Theme.getColor("windowBackgroundWhiteInputFieldActivated"));
-                this.editTextFirstRow.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+                EditTextBoldCursor editTextBoldCursor2 = this.editTextFirstRow;
+                int i5 = Theme.key_windowBackgroundWhiteInputFieldActivated;
+                editTextBoldCursor2.setCursorColor(Theme.getColor(i5));
+                this.editTextFirstRow.setTextColor(Theme.getColor(i));
                 this.editTextFirstRow.setBackground(null);
                 this.editTextFirstRow.setMaxLines(1);
                 this.editTextFirstRow.setLines(1);
@@ -649,9 +653,9 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 this.editTextFirstRow.setCursorWidth(1.5f);
                 this.editTextFirstRow.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda17
                     @Override // android.widget.TextView.OnEditorActionListener
-                    public final boolean onEditorAction(TextView textView5, int i3, KeyEvent keyEvent) {
+                    public final boolean onEditorAction(TextView textView5, int i6, KeyEvent keyEvent) {
                         boolean lambda$createView$11;
-                        lambda$createView$11 = TwoStepVerificationSetupActivity.this.lambda$createView$11(textView5, i3, keyEvent);
+                        lambda$createView$11 = TwoStepVerificationSetupActivity.this.lambda$createView$11(textView5, i6, keyEvent);
                         return lambda$createView$11;
                     }
                 });
@@ -677,10 +681,10 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 imageView.setImageResource(R.drawable.msg_message);
                 this.showPasswordButton.setScaleType(ImageView.ScaleType.CENTER);
                 this.showPasswordButton.setContentDescription(LocaleController.getString(R.string.TwoStepVerificationShowPassword));
-                if (i >= 21) {
-                    this.showPasswordButton.setBackground(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21")));
+                if (i2 >= 21) {
+                    this.showPasswordButton.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector)));
                 }
-                this.showPasswordButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chat_messagePanelIcons"), PorterDuff.Mode.MULTIPLY));
+                this.showPasswordButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chat_messagePanelIcons), PorterDuff.Mode.MULTIPLY));
                 AndroidUtilities.updateViewVisibilityAnimated(this.showPasswordButton, false, 0.1f, false);
                 this.showPasswordButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda9
                     @Override // android.view.View.OnClickListener
@@ -691,11 +695,11 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 linearLayout2.addView(this.showPasswordButton, LayoutHelper.createLinear(24, 24, 16, 0, 0, 16, 0));
                 this.editTextFirstRow.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.10
                     @Override // android.text.TextWatcher
-                    public void beforeTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
+                    public void beforeTextChanged(CharSequence charSequence, int i6, int i7, int i8) {
                     }
 
                     @Override // android.text.TextWatcher
-                    public void onTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
+                    public void onTextChanged(CharSequence charSequence, int i6, int i7, int i8) {
                     }
 
                     @Override // android.text.TextWatcher
@@ -715,13 +719,13 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 this.outlineTextFirstRow.addView(linearLayout2, LayoutHelper.createFrame(-1, -2.0f));
                 linearLayout.addView(this.outlineTextFirstRow, LayoutHelper.createFrame(-1, -2.0f, 49, 24.0f, 32.0f, 24.0f, 32.0f));
                 this.outlineTextSecondRow = new OutlineTextContainerView(context);
-                EditTextBoldCursor editTextBoldCursor2 = new EditTextBoldCursor(context);
-                this.editTextSecondRow = editTextBoldCursor2;
-                editTextBoldCursor2.setTextSize(1, 18.0f);
+                EditTextBoldCursor editTextBoldCursor3 = new EditTextBoldCursor(context);
+                this.editTextSecondRow = editTextBoldCursor3;
+                editTextBoldCursor3.setTextSize(1, 18.0f);
                 int dp2 = AndroidUtilities.dp(16.0f);
                 this.editTextSecondRow.setPadding(dp2, dp2, dp2, dp2);
-                this.editTextSecondRow.setCursorColor(Theme.getColor("windowBackgroundWhiteInputFieldActivated"));
-                this.editTextSecondRow.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+                this.editTextSecondRow.setCursorColor(Theme.getColor(i5));
+                this.editTextSecondRow.setTextColor(Theme.getColor(i));
                 this.editTextSecondRow.setBackground(null);
                 this.editTextSecondRow.setMaxLines(1);
                 this.editTextSecondRow.setLines(1);
@@ -731,9 +735,9 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 this.editTextSecondRow.setCursorWidth(1.5f);
                 this.editTextSecondRow.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda18
                     @Override // android.widget.TextView.OnEditorActionListener
-                    public final boolean onEditorAction(TextView textView5, int i3, KeyEvent keyEvent) {
+                    public final boolean onEditorAction(TextView textView5, int i6, KeyEvent keyEvent) {
                         boolean lambda$createView$14;
-                        lambda$createView$14 = TwoStepVerificationSetupActivity.this.lambda$createView$14(textView5, i3, keyEvent);
+                        lambda$createView$14 = TwoStepVerificationSetupActivity.this.lambda$createView$14(textView5, i6, keyEvent);
                         return lambda$createView$14;
                     }
                 });
@@ -758,16 +762,21 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                     }
                 };
                 this.codeFieldContainer = codeFieldContainer;
+                boolean z = true;
                 codeFieldContainer.setNumbersCount(6, 1);
-                for (CodeNumberField codeNumberField : this.codeFieldContainer.codeField) {
-                    codeNumberField.setShowSoftInputOnFocusCompat(!isCustomKeyboardVisible());
+                CodeNumberField[] codeNumberFieldArr = this.codeFieldContainer.codeField;
+                int length = codeNumberFieldArr.length;
+                int i6 = 0;
+                while (i6 < length) {
+                    CodeNumberField codeNumberField = codeNumberFieldArr[i6];
+                    codeNumberField.setShowSoftInputOnFocusCompat(isCustomKeyboardVisible() ^ z);
                     codeNumberField.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.12
                         @Override // android.text.TextWatcher
-                        public void beforeTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
+                        public void beforeTextChanged(CharSequence charSequence, int i7, int i8, int i9) {
                         }
 
                         @Override // android.text.TextWatcher
-                        public void onTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
+                        public void onTextChanged(CharSequence charSequence, int i7, int i8, int i9) {
                         }
 
                         @Override // android.text.TextWatcher
@@ -780,10 +789,12 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                     });
                     codeNumberField.setOnFocusChangeListener(new View.OnFocusChangeListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda15
                         @Override // android.view.View.OnFocusChangeListener
-                        public final void onFocusChange(View view, boolean z) {
-                            TwoStepVerificationSetupActivity.this.lambda$createView$16(view, z);
+                        public final void onFocusChange(View view, boolean z2) {
+                            TwoStepVerificationSetupActivity.this.lambda$createView$16(view, z2);
                         }
                     });
+                    i6++;
+                    z = true;
                 }
                 this.codeFieldContainer.setVisibility(8);
                 linearLayout.addView(this.codeFieldContainer, LayoutHelper.createLinear(-2, -2, 1, 0, 32, 0, 0));
@@ -793,7 +804,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 if (this.currentType == 4) {
                     TextView textView5 = new TextView(context);
                     this.descriptionText3 = textView5;
-                    textView5.setTextColor(Theme.getColor("windowBackgroundWhiteLinkText"));
+                    textView5.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteLinkText));
                     this.descriptionText3.setGravity(1);
                     this.descriptionText3.setTextSize(1, 14.0f);
                     this.descriptionText3.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
@@ -813,7 +824,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
 
                     @Override // android.view.View
                     protected void onDraw(Canvas canvas) {
-                        this.paint.setColor(Theme.getColor("windowBackgroundWhite"));
+                        this.paint.setColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                         int measuredHeight = getMeasuredHeight() - AndroidUtilities.dp(3.0f);
                         canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), measuredHeight, this.paint);
                         ((BaseFragment) TwoStepVerificationSetupActivity.this).parentLayout.drawHeaderShadow(canvas, measuredHeight);
@@ -829,7 +840,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 this.radialProgressView.setAlpha(0.0f);
                 this.radialProgressView.setScaleX(0.1f);
                 this.radialProgressView.setScaleY(0.1f);
-                this.radialProgressView.setProgressColor(Theme.getColor("windowBackgroundWhiteInputFieldActivated"));
+                this.radialProgressView.setProgressColor(Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated));
                 frameLayout.addView(this.radialProgressView, LayoutHelper.createFrame(32, 32.0f, 53, 0.0f, 16.0f, 16.0f, 0.0f));
                 break;
             case 6:
@@ -837,18 +848,18 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             case 9:
                 ViewGroup viewGroup2 = new ViewGroup(context) { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.3
                     @Override // android.view.View
-                    protected void onMeasure(int i3, int i4) {
-                        int size = View.MeasureSpec.getSize(i3);
-                        int size2 = View.MeasureSpec.getSize(i4);
-                        ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), i4);
+                    protected void onMeasure(int i7, int i8) {
+                        int size = View.MeasureSpec.getSize(i7);
+                        int size2 = View.MeasureSpec.getSize(i8);
+                        ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), i8);
                         if (size > size2) {
                             float f = size;
                             TwoStepVerificationSetupActivity.this.imageView.measure(View.MeasureSpec.makeMeasureSpec((int) (0.45f * f), 1073741824), View.MeasureSpec.makeMeasureSpec((int) (size2 * 0.68f), 1073741824));
-                            int i5 = (int) (f * 0.6f);
-                            TwoStepVerificationSetupActivity.this.titleTextView.measure(View.MeasureSpec.makeMeasureSpec(i5, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
-                            TwoStepVerificationSetupActivity.this.descriptionText.measure(View.MeasureSpec.makeMeasureSpec(i5, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
-                            TwoStepVerificationSetupActivity.this.descriptionText2.measure(View.MeasureSpec.makeMeasureSpec(i5, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
-                            TwoStepVerificationSetupActivity.this.buttonTextView.measure(View.MeasureSpec.makeMeasureSpec(i5, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(42.0f), 1073741824));
+                            int i9 = (int) (f * 0.6f);
+                            TwoStepVerificationSetupActivity.this.titleTextView.measure(View.MeasureSpec.makeMeasureSpec(i9, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
+                            TwoStepVerificationSetupActivity.this.descriptionText.measure(View.MeasureSpec.makeMeasureSpec(i9, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
+                            TwoStepVerificationSetupActivity.this.descriptionText2.measure(View.MeasureSpec.makeMeasureSpec(i9, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
+                            TwoStepVerificationSetupActivity.this.buttonTextView.measure(View.MeasureSpec.makeMeasureSpec(i9, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(42.0f), 1073741824));
                         } else {
                             float f2 = TwoStepVerificationSetupActivity.this.currentType == 7 ? 160 : 140;
                             TwoStepVerificationSetupActivity.this.imageView.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(f2), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(f2), 1073741824));
@@ -861,35 +872,35 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                     }
 
                     @Override // android.view.ViewGroup, android.view.View
-                    protected void onLayout(boolean z, int i3, int i4, int i5, int i6) {
-                        ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.layout(0, 0, i5, ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.getMeasuredHeight());
-                        int i7 = i5 - i3;
-                        int i8 = i6 - i4;
-                        if (i5 > i6) {
-                            int measuredHeight = (i8 - TwoStepVerificationSetupActivity.this.imageView.getMeasuredHeight()) / 2;
+                    protected void onLayout(boolean z2, int i7, int i8, int i9, int i10) {
+                        ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.layout(0, 0, i9, ((BaseFragment) TwoStepVerificationSetupActivity.this).actionBar.getMeasuredHeight());
+                        int i11 = i9 - i7;
+                        int i12 = i10 - i8;
+                        if (i9 > i10) {
+                            int measuredHeight = (i12 - TwoStepVerificationSetupActivity.this.imageView.getMeasuredHeight()) / 2;
                             TwoStepVerificationSetupActivity.this.imageView.layout(0, measuredHeight, TwoStepVerificationSetupActivity.this.imageView.getMeasuredWidth(), TwoStepVerificationSetupActivity.this.imageView.getMeasuredHeight() + measuredHeight);
-                            float f = i7;
+                            float f = i11;
                             float f2 = 0.4f * f;
-                            int i9 = (int) f2;
-                            float f3 = i8;
-                            int i10 = (int) (0.22f * f3);
-                            TwoStepVerificationSetupActivity.this.titleTextView.layout(i9, i10, TwoStepVerificationSetupActivity.this.titleTextView.getMeasuredWidth() + i9, TwoStepVerificationSetupActivity.this.titleTextView.getMeasuredHeight() + i10);
-                            int i11 = (int) (0.39f * f3);
-                            TwoStepVerificationSetupActivity.this.descriptionText.layout(i9, i11, TwoStepVerificationSetupActivity.this.descriptionText.getMeasuredWidth() + i9, TwoStepVerificationSetupActivity.this.descriptionText.getMeasuredHeight() + i11);
+                            int i13 = (int) f2;
+                            float f3 = i12;
+                            int i14 = (int) (0.22f * f3);
+                            TwoStepVerificationSetupActivity.this.titleTextView.layout(i13, i14, TwoStepVerificationSetupActivity.this.titleTextView.getMeasuredWidth() + i13, TwoStepVerificationSetupActivity.this.titleTextView.getMeasuredHeight() + i14);
+                            int i15 = (int) (0.39f * f3);
+                            TwoStepVerificationSetupActivity.this.descriptionText.layout(i13, i15, TwoStepVerificationSetupActivity.this.descriptionText.getMeasuredWidth() + i13, TwoStepVerificationSetupActivity.this.descriptionText.getMeasuredHeight() + i15);
                             int measuredWidth = (int) (f2 + (((f * 0.6f) - TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredWidth()) / 2.0f));
-                            int i12 = (int) (f3 * 0.64f);
-                            TwoStepVerificationSetupActivity.this.buttonTextView.layout(measuredWidth, i12, TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredWidth() + measuredWidth, TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredHeight() + i12);
+                            int i16 = (int) (f3 * 0.64f);
+                            TwoStepVerificationSetupActivity.this.buttonTextView.layout(measuredWidth, i16, TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredWidth() + measuredWidth, TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredHeight() + i16);
                             return;
                         }
-                        int i13 = (int) (i8 * 0.3f);
-                        int measuredWidth2 = (i7 - TwoStepVerificationSetupActivity.this.imageView.getMeasuredWidth()) / 2;
-                        TwoStepVerificationSetupActivity.this.imageView.layout(measuredWidth2, i13, TwoStepVerificationSetupActivity.this.imageView.getMeasuredWidth() + measuredWidth2, TwoStepVerificationSetupActivity.this.imageView.getMeasuredHeight() + i13);
-                        int measuredHeight2 = i13 + TwoStepVerificationSetupActivity.this.imageView.getMeasuredHeight() + AndroidUtilities.dp(16.0f);
+                        int i17 = (int) (i12 * 0.3f);
+                        int measuredWidth2 = (i11 - TwoStepVerificationSetupActivity.this.imageView.getMeasuredWidth()) / 2;
+                        TwoStepVerificationSetupActivity.this.imageView.layout(measuredWidth2, i17, TwoStepVerificationSetupActivity.this.imageView.getMeasuredWidth() + measuredWidth2, TwoStepVerificationSetupActivity.this.imageView.getMeasuredHeight() + i17);
+                        int measuredHeight2 = i17 + TwoStepVerificationSetupActivity.this.imageView.getMeasuredHeight() + AndroidUtilities.dp(16.0f);
                         TwoStepVerificationSetupActivity.this.titleTextView.layout(0, measuredHeight2, TwoStepVerificationSetupActivity.this.titleTextView.getMeasuredWidth(), TwoStepVerificationSetupActivity.this.titleTextView.getMeasuredHeight() + measuredHeight2);
                         int measuredHeight3 = measuredHeight2 + TwoStepVerificationSetupActivity.this.titleTextView.getMeasuredHeight() + AndroidUtilities.dp(12.0f);
                         TwoStepVerificationSetupActivity.this.descriptionText.layout(0, measuredHeight3, TwoStepVerificationSetupActivity.this.descriptionText.getMeasuredWidth(), TwoStepVerificationSetupActivity.this.descriptionText.getMeasuredHeight() + measuredHeight3);
-                        int measuredWidth3 = (i7 - TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredWidth()) / 2;
-                        int measuredHeight4 = (i8 - TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredHeight()) - AndroidUtilities.dp(48.0f);
+                        int measuredWidth3 = (i11 - TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredWidth()) / 2;
+                        int measuredHeight4 = (i12 - TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredHeight()) - AndroidUtilities.dp(48.0f);
                         TwoStepVerificationSetupActivity.this.buttonTextView.layout(measuredWidth3, measuredHeight4, TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredWidth() + measuredWidth3, TwoStepVerificationSetupActivity.this.buttonTextView.getMeasuredHeight() + measuredHeight4);
                     }
                 };
@@ -902,18 +913,18 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 this.fragmentView = viewGroup2;
                 break;
         }
-        this.fragmentView.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-        int i3 = this.currentType;
-        switch (i3) {
+        this.fragmentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+        int i7 = this.currentType;
+        switch (i7) {
             case 0:
             case 1:
                 if (this.currentPassword.has_password) {
-                    ActionBar actionBar = this.actionBar;
-                    int i4 = R.string.PleaseEnterNewFirstPassword;
-                    actionBar.setTitle(LocaleController.getString("PleaseEnterNewFirstPassword", i4));
-                    this.titleTextView.setText(LocaleController.getString("PleaseEnterNewFirstPassword", i4));
+                    ActionBar actionBar2 = this.actionBar;
+                    int i8 = R.string.PleaseEnterNewFirstPassword;
+                    actionBar2.setTitle(LocaleController.getString("PleaseEnterNewFirstPassword", i8));
+                    this.titleTextView.setText(LocaleController.getString("PleaseEnterNewFirstPassword", i8));
                 } else {
-                    String string = LocaleController.getString(i3 == 0 ? R.string.CreatePassword : R.string.ReEnterPassword);
+                    String string = LocaleController.getString(i7 == 0 ? R.string.CreatePassword : R.string.ReEnterPassword);
                     this.actionBar.setTitle(string);
                     this.titleTextView.setText(string);
                 }
@@ -932,26 +943,26 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 AndroidUtilities.updateViewVisibilityAnimated(this.showPasswordButton, false, 0.1f, false);
                 RLottieDrawable[] rLottieDrawableArr = new RLottieDrawable[7];
                 this.animationDrawables = rLottieDrawableArr;
-                int i5 = R.raw.tsv_setup_monkey_idle1;
-                rLottieDrawableArr[0] = new RLottieDrawable(i5, "" + i5, AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
+                int i9 = R.raw.tsv_setup_monkey_idle1;
+                rLottieDrawableArr[0] = new RLottieDrawable(i9, "" + i9, AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
                 RLottieDrawable[] rLottieDrawableArr2 = this.animationDrawables;
-                int i6 = R.raw.tsv_setup_monkey_idle2;
-                rLottieDrawableArr2[1] = new RLottieDrawable(i6, "" + i6, AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
+                int i10 = R.raw.tsv_setup_monkey_idle2;
+                rLottieDrawableArr2[1] = new RLottieDrawable(i10, "" + i10, AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
                 RLottieDrawable[] rLottieDrawableArr3 = this.animationDrawables;
-                int i7 = R.raw.tsv_monkey_close;
-                rLottieDrawableArr3[2] = new RLottieDrawable(i7, "" + i7, AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
+                int i11 = R.raw.tsv_monkey_close;
+                rLottieDrawableArr3[2] = new RLottieDrawable(i11, "" + i11, AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
                 RLottieDrawable[] rLottieDrawableArr4 = this.animationDrawables;
-                int i8 = R.raw.tsv_setup_monkey_peek;
-                rLottieDrawableArr4[3] = new RLottieDrawable(i8, "" + i8, AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
+                int i12 = R.raw.tsv_setup_monkey_peek;
+                rLottieDrawableArr4[3] = new RLottieDrawable(i12, "" + i12, AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
                 RLottieDrawable[] rLottieDrawableArr5 = this.animationDrawables;
-                int i9 = R.raw.tsv_setup_monkey_close_and_peek_to_idle;
-                rLottieDrawableArr5[4] = new RLottieDrawable(i9, "" + i9, AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
+                int i13 = R.raw.tsv_setup_monkey_close_and_peek_to_idle;
+                rLottieDrawableArr5[4] = new RLottieDrawable(i13, "" + i13, AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
                 RLottieDrawable[] rLottieDrawableArr6 = this.animationDrawables;
-                int i10 = R.raw.tsv_setup_monkey_close_and_peek;
-                rLottieDrawableArr6[5] = new RLottieDrawable(i10, "" + i10, AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
+                int i14 = R.raw.tsv_setup_monkey_close_and_peek;
+                rLottieDrawableArr6[5] = new RLottieDrawable(i14, "" + i14, AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
                 RLottieDrawable[] rLottieDrawableArr7 = this.animationDrawables;
-                int i11 = R.raw.tsv_setup_monkey_tracking;
-                rLottieDrawableArr7[6] = new RLottieDrawable(i11, "" + i11, AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
+                int i15 = R.raw.tsv_setup_monkey_tracking;
+                rLottieDrawableArr7[6] = new RLottieDrawable(i15, "" + i15, AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), true, null);
                 this.animationDrawables[6].setPlayInDirectionOfCustomEndFrame(true);
                 this.animationDrawables[6].setCustomEndFrame(19);
                 this.animationDrawables[2].setOnFinishCallback(this.finishCallback, 97);
@@ -959,38 +970,38 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 switchMonkeyAnimation(this.currentType == 1);
                 break;
             case 2:
-                ActionBar actionBar2 = this.actionBar;
-                int i12 = R.string.PasswordHint;
-                actionBar2.setTitle(LocaleController.getString("PasswordHint", i12));
+                ActionBar actionBar3 = this.actionBar;
+                int i16 = R.string.PasswordHint;
+                actionBar3.setTitle(LocaleController.getString("PasswordHint", i16));
                 this.actionBar.getTitleTextView().setAlpha(0.0f);
                 this.bottomSkipButton.setVisibility(0);
                 this.bottomSkipButton.setText(LocaleController.getString("YourEmailSkip", R.string.YourEmailSkip));
-                this.titleTextView.setText(LocaleController.getString("PasswordHint", i12));
+                this.titleTextView.setText(LocaleController.getString("PasswordHint", i16));
                 this.descriptionText.setText(LocaleController.getString(R.string.PasswordHintDescription));
                 this.descriptionText.setVisibility(0);
                 OutlineTextContainerView outlineTextContainerView2 = this.outlineTextFirstRow;
-                int i13 = R.string.PasswordHintPlaceholder;
-                outlineTextContainerView2.setText(LocaleController.getString(i13));
-                this.editTextFirstRow.setContentDescription(LocaleController.getString(i13));
+                int i17 = R.string.PasswordHintPlaceholder;
+                outlineTextContainerView2.setText(LocaleController.getString(i17));
+                this.editTextFirstRow.setContentDescription(LocaleController.getString(i17));
                 this.editTextFirstRow.setImeOptions(268435461);
                 this.outlineTextSecondRow.setVisibility(8);
                 this.imageView.setAnimation(R.raw.tsv_setup_hint, 120, 120);
                 this.imageView.playAnimation();
                 break;
             case 3:
-                ActionBar actionBar3 = this.actionBar;
-                int i14 = R.string.RecoveryEmailTitle;
-                actionBar3.setTitle(LocaleController.getString("RecoveryEmailTitle", i14));
+                ActionBar actionBar4 = this.actionBar;
+                int i18 = R.string.RecoveryEmailTitle;
+                actionBar4.setTitle(LocaleController.getString("RecoveryEmailTitle", i18));
                 this.actionBar.getTitleTextView().setAlpha(0.0f);
                 if (!this.emailOnly) {
                     this.bottomSkipButton.setVisibility(0);
                     this.bottomSkipButton.setText(LocaleController.getString("YourEmailSkip", R.string.YourEmailSkip));
                 }
-                this.titleTextView.setText(LocaleController.getString("RecoveryEmailTitle", i14));
+                this.titleTextView.setText(LocaleController.getString("RecoveryEmailTitle", i18));
                 OutlineTextContainerView outlineTextContainerView3 = this.outlineTextFirstRow;
-                int i15 = R.string.PaymentShippingEmailPlaceholder;
-                outlineTextContainerView3.setText(LocaleController.getString(i15));
-                this.editTextFirstRow.setContentDescription(LocaleController.getString(i15));
+                int i19 = R.string.PaymentShippingEmailPlaceholder;
+                outlineTextContainerView3.setText(LocaleController.getString(i19));
+                this.editTextFirstRow.setContentDescription(LocaleController.getString(i19));
                 this.editTextFirstRow.setImeOptions(268435461);
                 this.editTextFirstRow.setInputType(33);
                 this.outlineTextSecondRow.setVisibility(8);
@@ -998,11 +1009,11 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 this.imageView.playAnimation();
                 break;
             case 4:
-                ActionBar actionBar4 = this.actionBar;
-                int i16 = R.string.PasswordRecovery;
-                actionBar4.setTitle(LocaleController.getString("PasswordRecovery", i16));
+                ActionBar actionBar5 = this.actionBar;
+                int i20 = R.string.PasswordRecovery;
+                actionBar5.setTitle(LocaleController.getString("PasswordRecovery", i20));
                 this.actionBar.getTitleTextView().setAlpha(0.0f);
-                this.titleTextView.setText(LocaleController.getString("PasswordRecovery", i16));
+                this.titleTextView.setText(LocaleController.getString("PasswordRecovery", i20));
                 this.keyboardView.setVisibility(0);
                 this.outlineTextFirstRow.setVisibility(8);
                 String str = this.currentPassword.email_unconfirmed_pattern;
@@ -1014,9 +1025,9 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                     TextStyleSpan.TextStyleRun textStyleRun = new TextStyleSpan.TextStyleRun();
                     textStyleRun.flags |= LiteMode.FLAG_CHAT_BLUR;
                     textStyleRun.start = indexOf;
-                    int i17 = lastIndexOf + 1;
-                    textStyleRun.end = i17;
-                    valueOf.setSpan(new TextStyleSpan(textStyleRun), indexOf, i17, 0);
+                    int i21 = lastIndexOf + 1;
+                    textStyleRun.end = i21;
+                    valueOf.setSpan(new TextStyleSpan(textStyleRun), indexOf, i21, 0);
                 }
                 this.descriptionText.setText(AndroidUtilities.formatSpannable(LocaleController.getString(R.string.RestoreEmailSent), valueOf));
                 this.descriptionText.setVisibility(0);
@@ -1026,19 +1037,19 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 this.imageView.playAnimation();
                 break;
             case 5:
-                ActionBar actionBar5 = this.actionBar;
-                int i18 = R.string.VerificationCode;
-                actionBar5.setTitle(LocaleController.getString("VerificationCode", i18));
+                ActionBar actionBar6 = this.actionBar;
+                int i22 = R.string.VerificationCode;
+                actionBar6.setTitle(LocaleController.getString("VerificationCode", i22));
                 this.actionBar.getTitleTextView().setAlpha(0.0f);
-                this.titleTextView.setText(LocaleController.getString("VerificationCode", i18));
+                this.titleTextView.setText(LocaleController.getString("VerificationCode", i22));
                 this.outlineTextFirstRow.setVisibility(8);
                 this.keyboardView.setVisibility(0);
                 TextView textView6 = this.descriptionText;
-                int i19 = R.string.EmailPasswordConfirmText2;
+                int i23 = R.string.EmailPasswordConfirmText2;
                 Object[] objArr = new Object[1];
                 String str3 = this.currentPassword.email_unconfirmed_pattern;
                 objArr[0] = str3 != null ? str3 : "";
-                textView6.setText(LocaleController.formatString("EmailPasswordConfirmText2", i19, objArr));
+                textView6.setText(LocaleController.formatString("EmailPasswordConfirmText2", i23, objArr));
                 this.descriptionText.setVisibility(0);
                 this.floatingButtonContainer.setVisibility(8);
                 this.bottomSkipButton.setVisibility(0);
@@ -1078,19 +1089,19 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 this.imageView.playAnimation();
                 break;
             case 8:
-                ActionBar actionBar6 = this.actionBar;
-                int i20 = R.string.PleaseEnterCurrentPassword;
-                actionBar6.setTitle(LocaleController.getString("PleaseEnterCurrentPassword", i20));
-                this.titleTextView.setText(LocaleController.getString("PleaseEnterCurrentPassword", i20));
+                ActionBar actionBar7 = this.actionBar;
+                int i24 = R.string.PleaseEnterCurrentPassword;
+                actionBar7.setTitle(LocaleController.getString("PleaseEnterCurrentPassword", i24));
+                this.titleTextView.setText(LocaleController.getString("PleaseEnterCurrentPassword", i24));
                 this.descriptionText.setText(LocaleController.getString("CheckPasswordInfo", R.string.CheckPasswordInfo));
                 this.descriptionText.setVisibility(0);
                 this.actionBar.getTitleTextView().setAlpha(0.0f);
                 this.descriptionText2.setText(LocaleController.getString("ForgotPassword", R.string.ForgotPassword));
-                this.descriptionText2.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText2"));
+                this.descriptionText2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText2));
                 OutlineTextContainerView outlineTextContainerView4 = this.outlineTextFirstRow;
-                int i21 = R.string.LoginPassword;
-                outlineTextContainerView4.setText(LocaleController.getString(i21));
-                this.editTextFirstRow.setContentDescription(LocaleController.getString(i21));
+                int i25 = R.string.LoginPassword;
+                outlineTextContainerView4.setText(LocaleController.getString(i25));
+                this.editTextFirstRow.setContentDescription(LocaleController.getString(i25));
                 this.editTextFirstRow.setImeOptions(268435462);
                 this.editTextFirstRow.setInputType(129);
                 this.editTextFirstRow.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -1107,15 +1118,15 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 this.imageView.playAnimation();
                 break;
         }
-        EditTextBoldCursor editTextBoldCursor3 = this.editTextFirstRow;
-        if (editTextBoldCursor3 != null) {
-            editTextBoldCursor3.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.14
+        EditTextBoldCursor editTextBoldCursor4 = this.editTextFirstRow;
+        if (editTextBoldCursor4 != null) {
+            editTextBoldCursor4.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.14
                 @Override // android.text.TextWatcher
-                public void beforeTextChanged(CharSequence charSequence, int i22, int i23, int i24) {
+                public void beforeTextChanged(CharSequence charSequence, int i26, int i27, int i28) {
                 }
 
                 @Override // android.text.TextWatcher
-                public void onTextChanged(CharSequence charSequence, int i22, int i23, int i24) {
+                public void onTextChanged(CharSequence charSequence, int i26, int i27, int i28) {
                 }
 
                 @Override // android.text.TextWatcher
@@ -1209,7 +1220,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 TwoStepVerificationSetupActivity.this.showDialog(create);
                 TextView textView = (TextView) create.getButton(-1);
                 if (textView != null) {
-                    textView.setTextColor(Theme.getColor("text_RedBold"));
+                    textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
                 }
             }
         }
@@ -1257,7 +1268,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             showDialog(create);
             TextView textView = (TextView) create.getButton(-1);
             if (textView != null) {
-                textView.setTextColor(Theme.getColor("text_RedBold"));
+                textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
             }
         }
     }
@@ -1360,7 +1371,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         this.ignoreTextChange = true;
         if (this.editTextFirstRow.getTransformationMethod() == null) {
             this.editTextFirstRow.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            this.showPasswordButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chat_messagePanelIcons"), PorterDuff.Mode.MULTIPLY));
+            this.showPasswordButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chat_messagePanelIcons), PorterDuff.Mode.MULTIPLY));
             if (this.currentType == 0 && this.editTextFirstRow.length() > 0 && this.editTextFirstRow.hasFocus() && this.monkeyEndCallback == null) {
                 this.animationDrawables[3].setCustomEndFrame(-1);
                 RLottieDrawable animatedDrawable = this.imageView.getAnimatedDrawable();
@@ -1373,7 +1384,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             }
         } else {
             this.editTextFirstRow.setTransformationMethod(null);
-            this.showPasswordButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chat_messagePanelSend"), PorterDuff.Mode.MULTIPLY));
+            this.showPasswordButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chat_messagePanelSend), PorterDuff.Mode.MULTIPLY));
             if (this.currentType == 0 && this.editTextFirstRow.length() > 0 && this.editTextFirstRow.hasFocus() && this.monkeyEndCallback == null) {
                 this.animationDrawables[3].setCustomEndFrame(18);
                 RLottieDrawable animatedDrawable2 = this.imageView.getAnimatedDrawable();
@@ -1758,7 +1769,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         needHideProgress();
         if ("PASSWORD_HASH_INVALID".equals(tLRPC$TL_error.text)) {
             this.descriptionText.setText(LocaleController.getString("CheckPasswordWrong", R.string.CheckPasswordWrong));
-            this.descriptionText.setTextColor(Theme.getColor("text_RedRegular"));
+            this.descriptionText.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
             onFieldError(this.outlineTextFirstRow, this.editTextFirstRow, true);
             showDoneButton(false);
         } else if (tLRPC$TL_error.text.startsWith("FLOOD_WAIT")) {
@@ -2632,17 +2643,17 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_CHECKTAG | ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundWhite"));
-        arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_BACKGROUND | ThemeDescription.FLAG_CHECKTAG, null, null, null, null, "windowBackgroundGray"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "actionBarDefault"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_ITEMSCOLOR, null, null, null, null, "actionBarDefaultIcon"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_TITLECOLOR, null, null, null, null, "actionBarDefaultTitle"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_SELECTORCOLOR, null, null, null, null, "actionBarDefaultSelector"));
-        arrayList.add(new ThemeDescription(this.titleTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "windowBackgroundWhiteGrayText6"));
-        arrayList.add(new ThemeDescription(this.editTextFirstRow, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "windowBackgroundWhiteBlackText"));
-        arrayList.add(new ThemeDescription(this.editTextFirstRow, ThemeDescription.FLAG_HINTTEXTCOLOR, null, null, null, null, "windowBackgroundWhiteHintText"));
-        arrayList.add(new ThemeDescription(this.editTextFirstRow, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "windowBackgroundWhiteInputField"));
-        arrayList.add(new ThemeDescription(this.editTextFirstRow, ThemeDescription.FLAG_DRAWABLESELECTEDSTATE | ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "windowBackgroundWhiteInputFieldActivated"));
+        arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_CHECKTAG | ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_windowBackgroundWhite));
+        arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_BACKGROUND | ThemeDescription.FLAG_CHECKTAG, null, null, null, null, Theme.key_windowBackgroundGray));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_actionBarDefault));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_ITEMSCOLOR, null, null, null, null, Theme.key_actionBarDefaultIcon));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_TITLECOLOR, null, null, null, null, Theme.key_actionBarDefaultTitle));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_SELECTORCOLOR, null, null, null, null, Theme.key_actionBarDefaultSelector));
+        arrayList.add(new ThemeDescription(this.titleTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_windowBackgroundWhiteGrayText6));
+        arrayList.add(new ThemeDescription(this.editTextFirstRow, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
+        arrayList.add(new ThemeDescription(this.editTextFirstRow, ThemeDescription.FLAG_HINTTEXTCOLOR, null, null, null, null, Theme.key_windowBackgroundWhiteHintText));
+        arrayList.add(new ThemeDescription(this.editTextFirstRow, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, Theme.key_windowBackgroundWhiteInputField));
+        arrayList.add(new ThemeDescription(this.editTextFirstRow, ThemeDescription.FLAG_DRAWABLESELECTEDSTATE | ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, Theme.key_windowBackgroundWhiteInputFieldActivated));
         return arrayList;
     }
 
@@ -2686,7 +2697,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 TwoStepVerificationSetupActivity.this.lambda$showSetForcePasswordAlert$51(dialogInterface, i);
             }
         });
-        ((TextView) builder.show().getButton(-2)).setTextColor(Theme.getColor("text_RedBold"));
+        ((TextView) builder.show().getButton(-2)).setTextColor(Theme.getColor(Theme.key_text_RedBold));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2711,6 +2722,6 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean isLightStatusBar() {
-        return ColorUtils.calculateLuminance(Theme.getColor("windowBackgroundWhite", null, true)) > 0.699999988079071d;
+        return ColorUtils.calculateLuminance(Theme.getColor(Theme.key_windowBackgroundWhite, null, true)) > 0.699999988079071d;
     }
 }

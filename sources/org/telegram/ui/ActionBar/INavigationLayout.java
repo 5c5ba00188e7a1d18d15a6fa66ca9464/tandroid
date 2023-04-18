@@ -6,13 +6,13 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.util.SparseIntArray;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
 import androidx.core.util.Supplier;
-import java.util.HashMap;
 import java.util.List;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.Theme;
@@ -371,8 +371,8 @@ public interface INavigationLayout {
 
     /* loaded from: classes3.dex */
     public static class StartColorsProvider implements Theme.ResourcesProvider {
-        HashMap<String, Integer> colors = new HashMap<>();
-        String[] keysToSave = {"chat_outBubble", "chat_outBubbleGradient", "chat_outBubbleGradient2", "chat_outBubbleGradient3", "chat_outBubbleGradientAnimated", "chat_outBubbleShadow"};
+        SparseIntArray colors = new SparseIntArray();
+        int[] keysToSave = {Theme.key_chat_outBubble, Theme.key_chat_outBubbleGradient1, Theme.key_chat_outBubbleGradient2, Theme.key_chat_outBubbleGradient3, Theme.key_chat_outBubbleGradientAnimated, Theme.key_chat_outBubbleShadow};
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
         public /* synthetic */ void applyServiceShaderMatrix(int i, int i2, float f, float f2) {
@@ -380,8 +380,8 @@ public interface INavigationLayout {
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
-        public /* synthetic */ int getColorOrDefault(String str) {
-            return getColor(str);
+        public /* synthetic */ int getColorOrDefault(int i) {
+            return Theme.ResourcesProvider.-CC.$default$getColorOrDefault(this, i);
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
@@ -400,25 +400,30 @@ public interface INavigationLayout {
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
-        public /* synthetic */ void setAnimatedColor(String str, int i) {
-            Theme.ResourcesProvider.-CC.$default$setAnimatedColor(this, str, i);
+        public /* synthetic */ void setAnimatedColor(int i, int i2) {
+            Theme.ResourcesProvider.-CC.$default$setAnimatedColor(this, i, i2);
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
-        public Integer getColor(String str) {
-            return this.colors.get(str);
+        public int getColor(int i) {
+            return this.colors.get(i);
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
-        public Integer getCurrentColor(String str) {
-            return this.colors.get(str);
+        public boolean contains(int i) {
+            return this.colors.indexOfKey(i) >= 0;
+        }
+
+        @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
+        public int getCurrentColor(int i) {
+            return this.colors.get(i);
         }
 
         public void saveColors(Theme.ResourcesProvider resourcesProvider) {
-            String[] strArr;
+            int[] iArr;
             this.colors.clear();
-            for (String str : this.keysToSave) {
-                this.colors.put(str, resourcesProvider.getCurrentColor(str));
+            for (int i : this.keysToSave) {
+                this.colors.put(i, resourcesProvider.getCurrentColor(i));
             }
         }
     }

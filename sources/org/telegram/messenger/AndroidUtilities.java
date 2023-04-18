@@ -461,7 +461,7 @@ public class AndroidUtilities {
         int indexOf = lowerCase.indexOf(str);
         while (indexOf >= 0) {
             try {
-                valueOf.setSpan(new ForegroundColorSpanThemable("windowBackgroundWhiteBlueText4", resourcesProvider), indexOf, Math.min(str.length() + indexOf, charSequence.length()), 0);
+                valueOf.setSpan(new ForegroundColorSpanThemable(Theme.key_windowBackgroundWhiteBlueText4, resourcesProvider), indexOf, Math.min(str.length() + indexOf, charSequence.length()), 0);
             } catch (Exception e) {
                 FileLog.e(e);
             }
@@ -481,32 +481,32 @@ public class AndroidUtilities {
     }
 
     public static CharSequence replaceSingleTag(String str, Runnable runnable) {
-        return replaceSingleTag(str, null, 0, runnable);
+        return replaceSingleTag(str, -1, 0, runnable);
     }
 
-    public static CharSequence replaceSingleTag(String str, final String str2, int i, final Runnable runnable) {
-        int i2;
+    public static CharSequence replaceSingleTag(String str, final int i, int i2, final Runnable runnable) {
         int i3;
+        int i4;
         int indexOf = str.indexOf("**");
         int indexOf2 = str.indexOf("**", indexOf + 1);
         String replace = str.replace("**", "");
-        if (indexOf < 0 || indexOf2 < 0 || (i3 = indexOf2 - indexOf) <= 2) {
+        if (indexOf < 0 || indexOf2 < 0 || (i4 = indexOf2 - indexOf) <= 2) {
             indexOf = -1;
-            i2 = 0;
+            i3 = 0;
         } else {
-            i2 = i3 - 2;
+            i3 = i4 - 2;
         }
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(replace);
         if (indexOf >= 0) {
-            if (i == 0) {
+            if (i2 == 0) {
                 spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.1
                     @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
                     public void updateDrawState(TextPaint textPaint) {
                         super.updateDrawState(textPaint);
                         textPaint.setUnderlineText(false);
-                        String str3 = str2;
-                        if (str3 != null) {
-                            textPaint.setColor(Theme.getColor(str3));
+                        int i5 = i;
+                        if (i5 >= 0) {
+                            textPaint.setColor(Theme.getColor(i5));
                         }
                     }
 
@@ -517,17 +517,17 @@ public class AndroidUtilities {
                             runnable2.run();
                         }
                     }
-                }, indexOf, i2 + indexOf, 0);
+                }, indexOf, i3 + indexOf, 0);
             } else {
                 spannableStringBuilder.setSpan(new CharacterStyle() { // from class: org.telegram.messenger.AndroidUtilities.2
                     @Override // android.text.style.CharacterStyle
                     public void updateDrawState(TextPaint textPaint) {
                         textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                         int alpha = textPaint.getAlpha();
-                        textPaint.setColor(Theme.getColor("windowBackgroundWhiteBlueText"));
+                        textPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText));
                         textPaint.setAlpha(alpha);
                     }
-                }, indexOf, i2 + indexOf, 0);
+                }, indexOf, i3 + indexOf, 0);
             }
         }
         return spannableStringBuilder;
@@ -659,6 +659,61 @@ public class AndroidUtilities {
             ApplicationLoader.appCenterLog(new RuntimeException("can't create logs directory"));
             return null;
         }
+    }
+
+    public static String formatVideoDurationFast(int i, int i2) {
+        StringBuilder sb = new StringBuilder();
+        if (i >= 60) {
+            normalizeTimePart(sb, i / 60);
+            sb.append(":");
+            normalizeTimePart(sb, i % 60);
+            sb.append(":");
+            normalizeTimePart(sb, i2);
+        } else {
+            normalizeTimePart(sb, i);
+            sb.append(":");
+            normalizeTimePart(sb, i2);
+        }
+        return sb.toString();
+    }
+
+    public static String formatTimerDurationFast(long j, int i) {
+        StringBuilder sb = new StringBuilder();
+        long j2 = j / 60;
+        if (j2 >= 60) {
+            sb.append(j2 / 60);
+            sb.append(":");
+            normalizeTimePart(sb, j2 % 60);
+            sb.append(":");
+            normalizeTimePart(sb, j % 60);
+            sb.append(",");
+            sb.append(i / 10);
+        } else {
+            sb.append(j2);
+            sb.append(":");
+            normalizeTimePart(sb, j % 60);
+            sb.append(",");
+            sb.append(i / 10);
+        }
+        return sb.toString();
+    }
+
+    public static void normalizeTimePart(StringBuilder sb, int i) {
+        if (i < 10) {
+            sb.append("0");
+            sb.append(i);
+            return;
+        }
+        sb.append(i);
+    }
+
+    public static void normalizeTimePart(StringBuilder sb, long j) {
+        if (j < 10) {
+            sb.append("0");
+            sb.append(j);
+            return;
+        }
+        sb.append(j);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2979,7 +3034,7 @@ public class AndroidUtilities {
             String trim2 = substring.trim();
             int length2 = spannableStringBuilder.length();
             spannableStringBuilder.append((CharSequence) trim2);
-            spannableStringBuilder.setSpan(new ForegroundColorSpanThemable("windowBackgroundWhiteBlueText4"), length2, trim2.length() + length2, 33);
+            spannableStringBuilder.setSpan(new ForegroundColorSpanThemable(Theme.key_windowBackgroundWhiteBlueText4), length2, trim2.length() + length2, 33);
             i = length;
         }
         if (i != -1 && i < trim.length()) {
@@ -3267,9 +3322,10 @@ public class AndroidUtilities {
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             HashMap hashMap = new HashMap();
-            hashMap.put("info1.**", Integer.valueOf(baseFragment.getThemedColor("dialogTopBackground")));
-            hashMap.put("info2.**", Integer.valueOf(baseFragment.getThemedColor("dialogTopBackground")));
-            builder.setTopAnimation(R.raw.not_available, 52, false, baseFragment.getThemedColor("dialogTopBackground"), hashMap);
+            int i = Theme.key_dialogTopBackground;
+            hashMap.put("info1.**", Integer.valueOf(baseFragment.getThemedColor(i)));
+            hashMap.put("info2.**", Integer.valueOf(baseFragment.getThemedColor(i)));
+            builder.setTopAnimation(R.raw.not_available, 52, false, baseFragment.getThemedColor(i), hashMap);
             builder.setTopAnimationIsNew(true);
             builder.setMessage(LocaleController.getString("IncorrectTheme", R.string.IncorrectTheme));
             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
@@ -3310,9 +3366,10 @@ public class AndroidUtilities {
             }
             AlertDialog.Builder builder2 = new AlertDialog.Builder(activity);
             HashMap hashMap2 = new HashMap();
-            hashMap2.put("info1.**", Integer.valueOf(baseFragment.getThemedColor("dialogTopBackground")));
-            hashMap2.put("info2.**", Integer.valueOf(baseFragment.getThemedColor("dialogTopBackground")));
-            builder2.setTopAnimation(R.raw.not_available, 52, false, baseFragment.getThemedColor("dialogTopBackground"), hashMap2);
+            int i2 = Theme.key_dialogTopBackground;
+            hashMap2.put("info1.**", Integer.valueOf(baseFragment.getThemedColor(i2)));
+            hashMap2.put("info2.**", Integer.valueOf(baseFragment.getThemedColor(i2)));
+            builder2.setTopAnimation(R.raw.not_available, 52, false, baseFragment.getThemedColor(i2), hashMap2);
             builder2.setTopAnimationIsNew(true);
             builder2.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
             builder2.setMessage(LocaleController.formatString("NoHandleAppInstalled", R.string.NoHandleAppInstalled, messageObject.getDocument().mime_type));
@@ -3738,12 +3795,12 @@ public class AndroidUtilities {
         if (!TextUtils.isEmpty(str5)) {
             TextView textView = new TextView(activity);
             textView.setText(LocaleController.getString("UseProxyTelegramInfo2", R.string.UseProxyTelegramInfo2));
-            textView.setTextColor(Theme.getColor("dialogTextGray4"));
+            textView.setTextColor(Theme.getColor(Theme.key_dialogTextGray4));
             textView.setTextSize(1, 14.0f);
             textView.setGravity(49);
             linearLayout.addView(textView, LayoutHelper.createLinear(-2, -2, (LocaleController.isRTL ? 5 : 3) | 48, 17, 8, 17, 8));
             View view = new View(activity);
-            view.setBackgroundColor(Theme.getColor("divider"));
+            view.setBackgroundColor(Theme.getColor(Theme.key_divider));
             linearLayout.addView(view, new LinearLayout.LayoutParams(-1, 1));
         }
         int i3 = 0;
@@ -3801,8 +3858,8 @@ public class AndroidUtilities {
                 } else {
                     textDetailSettingsCell.setTextAndValue(charSequence2, charSequence, true);
                 }
-                textDetailSettingsCell.getTextView().setTextColor(Theme.getColor("dialogTextBlack"));
-                textDetailSettingsCell.getValueTextView().setTextColor(Theme.getColor("dialogTextGray3"));
+                textDetailSettingsCell.getTextView().setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+                textDetailSettingsCell.getValueTextView().setTextColor(Theme.getColor(Theme.key_dialogTextGray3));
                 linearLayout.addView(textDetailSettingsCell, LayoutHelper.createLinear(-1, -2));
                 if (i3 == 5) {
                     try {
@@ -3814,7 +3871,7 @@ public class AndroidUtilities {
                         });
                     } catch (NumberFormatException unused) {
                         textDetailSettingsCell.getTextView().setText(LocaleController.getString(R.string.Unavailable));
-                        textDetailSettingsCell.getTextView().setTextColor(Theme.getColor("text_RedRegular"));
+                        textDetailSettingsCell.getTextView().setTextColor(Theme.getColor(Theme.key_text_RedRegular));
                     }
                 }
             }
@@ -3823,10 +3880,12 @@ public class AndroidUtilities {
             i2 = 5;
         }
         PickerBottomLayout pickerBottomLayout = new PickerBottomLayout(activity, false);
-        pickerBottomLayout.setBackgroundColor(Theme.getColor("dialogBackground"));
+        pickerBottomLayout.setBackgroundColor(Theme.getColor(Theme.key_dialogBackground));
         linearLayout.addView(pickerBottomLayout, LayoutHelper.createFrame(-1, 48, 83));
         pickerBottomLayout.cancelButton.setPadding(dp(18.0f), 0, dp(18.0f), 0);
-        pickerBottomLayout.cancelButton.setTextColor(Theme.getColor("dialogTextBlue2"));
+        TextView textView2 = pickerBottomLayout.cancelButton;
+        int i4 = Theme.key_dialogTextBlue2;
+        textView2.setTextColor(Theme.getColor(i4));
         pickerBottomLayout.cancelButton.setText(LocaleController.getString("Cancel", R.string.Cancel).toUpperCase());
         pickerBottomLayout.cancelButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda5
             @Override // android.view.View.OnClickListener
@@ -3834,7 +3893,7 @@ public class AndroidUtilities {
                 dismissRunnable.run();
             }
         });
-        pickerBottomLayout.doneButtonTextView.setTextColor(Theme.getColor("dialogTextBlue2"));
+        pickerBottomLayout.doneButtonTextView.setTextColor(Theme.getColor(i4));
         pickerBottomLayout.doneButton.setPadding(dp(18.0f), 0, dp(18.0f), 0);
         pickerBottomLayout.doneButtonBadgeTextView.setVisibility(8);
         pickerBottomLayout.doneButtonTextView.setText(LocaleController.getString("ConnectingConnectProxy", R.string.ConnectingConnectProxy).toUpperCase());
@@ -3861,12 +3920,12 @@ public class AndroidUtilities {
     public static /* synthetic */ void lambda$showProxyAlert$11(long j, TextDetailSettingsCell textDetailSettingsCell) {
         if (j == -1) {
             textDetailSettingsCell.getTextView().setText(LocaleController.getString(R.string.Unavailable));
-            textDetailSettingsCell.getTextView().setTextColor(Theme.getColor("text_RedRegular"));
+            textDetailSettingsCell.getTextView().setTextColor(Theme.getColor(Theme.key_text_RedRegular));
             return;
         }
         TextView textView = textDetailSettingsCell.getTextView();
         textView.setText(LocaleController.getString(R.string.Available) + ", " + LocaleController.formatString(R.string.Ping, Long.valueOf(j)));
-        textDetailSettingsCell.getTextView().setTextColor(Theme.getColor("windowBackgroundWhiteGreenText"));
+        textDetailSettingsCell.getTextView().setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGreenText));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -4724,7 +4783,7 @@ public class AndroidUtilities {
         File file = new File(cacheDir, str);
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(file);
-            bitmap.compress(compressFormat, 100, fileOutputStream);
+            bitmap.compress(compressFormat, 87, fileOutputStream);
             fileOutputStream.close();
             Context context = ApplicationLoader.applicationContext;
             Uri uriForFile = FileProvider.getUriForFile(context, ApplicationLoader.getApplicationId() + ".provider", file);
@@ -4818,7 +4877,7 @@ public class AndroidUtilities {
         Canvas canvas = new Canvas(createBitmap);
         float f2 = 1.0f / f;
         canvas.scale(f2, f2);
-        canvas.drawColor(Theme.getColor("windowBackgroundWhite"));
+        canvas.drawColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         view.draw(canvas);
         Utilities.stackBlurBitmap(createBitmap, Math.max(i, Math.max(width, height) / 180));
         return createBitmap;
@@ -4891,7 +4950,7 @@ public class AndroidUtilities {
             Canvas canvas = new Canvas(createBitmap);
             float f2 = 1.0f / f;
             canvas.scale(f2, f2);
-            canvas.drawColor(Theme.getColor("windowBackgroundWhite"));
+            canvas.drawColor(Theme.getColor(Theme.key_windowBackgroundWhite));
             int[] iArr = new int[2];
             for (int i5 = 0; i5 < list.size(); i5++) {
                 View view = list.get(i5);

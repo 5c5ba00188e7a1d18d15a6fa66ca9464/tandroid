@@ -75,7 +75,7 @@ public class ClearHistoryAlert extends BottomSheet {
             this.resourcesProvider = resourcesProvider;
             View view = new View(context);
             this.background = view;
-            view.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), getThemedColor("featuredStickers_addButton"), getThemedColor("featuredStickers_addButtonPressed")));
+            view.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), getThemedColor(Theme.key_featuredStickers_addButton), getThemedColor(Theme.key_featuredStickers_addButtonPressed)));
             addView(this.background, LayoutHelper.createFrame(-1, -1.0f, 0, 16.0f, 16.0f, 16.0f, 16.0f));
             TextView textView = new TextView(context);
             this.textView = textView;
@@ -84,7 +84,7 @@ public class ClearHistoryAlert extends BottomSheet {
             this.textView.setGravity(1);
             this.textView.setEllipsize(TextUtils.TruncateAt.END);
             this.textView.setGravity(17);
-            this.textView.setTextColor(getThemedColor("featuredStickers_buttonText"));
+            this.textView.setTextColor(getThemedColor(Theme.key_featuredStickers_buttonText));
             this.textView.setTextSize(1, 14.0f);
             this.textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             addView(this.textView, LayoutHelper.createFrame(-2, -2, 17));
@@ -99,19 +99,19 @@ public class ClearHistoryAlert extends BottomSheet {
             this.textView.setText(charSequence);
         }
 
-        private int getThemedColor(String str) {
+        private int getThemedColor(int i) {
             Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-            Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-            return color != null ? color.intValue() : Theme.getColor(str);
+            Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+            return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
         }
     }
 
     /* JADX WARN: Removed duplicated region for block: B:132:0x00d8  */
     /* JADX WARN: Removed duplicated region for block: B:133:0x00e1  */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x0107  */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x02f1  */
-    /* JADX WARN: Removed duplicated region for block: B:190:0x045d  */
-    /* JADX WARN: Removed duplicated region for block: B:191:0x046b  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x0101  */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x02ea  */
+    /* JADX WARN: Removed duplicated region for block: B:190:0x045b  */
+    /* JADX WARN: Removed duplicated region for block: B:191:0x0469  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -152,7 +152,8 @@ public class ClearHistoryAlert extends BottomSheet {
         }
         Drawable mutate = context.getResources().getDrawable(R.drawable.sheet_shadow_round).mutate();
         this.shadowDrawable = mutate;
-        mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
+        int i3 = Theme.key_dialogBackground;
+        mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor(i3), PorterDuff.Mode.MULTIPLY));
         NestedScrollView nestedScrollView2 = new NestedScrollView(context) { // from class: org.telegram.ui.Components.ClearHistoryAlert.1
             private boolean ignoreLayout;
 
@@ -181,26 +182,26 @@ public class ClearHistoryAlert extends BottomSheet {
             }
 
             @Override // androidx.core.widget.NestedScrollView, android.widget.FrameLayout, android.view.View
-            public void onMeasure(int i3, int i4) {
-                int size = View.MeasureSpec.getSize(i4);
-                measureChildWithMargins(ClearHistoryAlert.this.linearLayout, i3, 0, i4, 0);
+            public void onMeasure(int i4, int i5) {
+                int size = View.MeasureSpec.getSize(i5);
+                measureChildWithMargins(ClearHistoryAlert.this.linearLayout, i4, 0, i5, 0);
                 int measuredHeight = ClearHistoryAlert.this.linearLayout.getMeasuredHeight();
-                int i5 = (size / 5) * 3;
-                int i6 = size - i5;
-                if (ClearHistoryAlert.this.autoDeleteOnly || measuredHeight - i6 < AndroidUtilities.dp(90.0f) || measuredHeight < (size / 2) + AndroidUtilities.dp(90.0f) || i6 < (measuredHeight = (measuredHeight / 2) + AndroidUtilities.dp(108.0f))) {
-                    i5 = size - measuredHeight;
+                int i6 = (size / 5) * 3;
+                int i7 = size - i6;
+                if (ClearHistoryAlert.this.autoDeleteOnly || measuredHeight - i7 < AndroidUtilities.dp(90.0f) || measuredHeight < (size / 2) + AndroidUtilities.dp(90.0f) || i7 < (measuredHeight = (measuredHeight / 2) + AndroidUtilities.dp(108.0f))) {
+                    i6 = size - measuredHeight;
                 }
-                if (getPaddingTop() != i5) {
+                if (getPaddingTop() != i6) {
                     this.ignoreLayout = true;
-                    setPadding(0, i5, 0, 0);
+                    setPadding(0, i6, 0, 0);
                     this.ignoreLayout = false;
                 }
-                super.onMeasure(i3, View.MeasureSpec.makeMeasureSpec(size, 1073741824));
+                super.onMeasure(i4, View.MeasureSpec.makeMeasureSpec(size, 1073741824));
             }
 
             @Override // androidx.core.widget.NestedScrollView, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z3, int i3, int i4, int i5, int i6) {
-                super.onLayout(z3, i3, i4, i5, i6);
+            public void onLayout(boolean z3, int i4, int i5, int i6, int i7) {
+                super.onLayout(z3, i4, i5, i6, i7);
                 ClearHistoryAlert.this.updateLayout();
             }
 
@@ -220,16 +221,16 @@ public class ClearHistoryAlert extends BottomSheet {
             }
 
             @Override // androidx.core.widget.NestedScrollView, android.view.View
-            public void onScrollChanged(int i3, int i4, int i5, int i6) {
-                super.onScrollChanged(i3, i4, i5, i6);
+            public void onScrollChanged(int i4, int i5, int i6, int i7) {
+                super.onScrollChanged(i4, i5, i6, i7);
                 ClearHistoryAlert.this.updateLayout();
             }
         };
         nestedScrollView2.setFillViewport(true);
         nestedScrollView2.setWillNotDraw(false);
         nestedScrollView2.setClipToPadding(false);
-        int i3 = this.backgroundPaddingLeft;
-        nestedScrollView2.setPadding(i3, 0, i3, 0);
+        int i4 = this.backgroundPaddingLeft;
+        nestedScrollView2.setPadding(i4, 0, i4, 0);
         this.containerView = nestedScrollView2;
         LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.Components.ClearHistoryAlert.2
             {
@@ -237,8 +238,8 @@ public class ClearHistoryAlert extends BottomSheet {
             }
 
             @Override // android.widget.LinearLayout, android.view.ViewGroup, android.view.View
-            protected void onLayout(boolean z3, int i4, int i5, int i6, int i7) {
-                super.onLayout(z3, i4, i5, i6, i7);
+            protected void onLayout(boolean z3, int i5, int i6, int i7, int i8) {
+                super.onLayout(z3, i5, i6, i7, i8);
                 ClearHistoryAlert.this.updateLayout();
             }
         };
@@ -264,16 +265,17 @@ public class ClearHistoryAlert extends BottomSheet {
                     TextView textView = new TextView(context);
                     textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                     textView.setTextSize(1, 20.0f);
-                    textView.setTextColor(getThemedColor("dialogTextBlack"));
+                    int i5 = Theme.key_dialogTextBlack;
+                    textView.setTextColor(getThemedColor(i5));
                     textView.setText(LocaleController.getString("ClearHistory", R.string.ClearHistory));
                     textView.setSingleLine(true);
                     textView.setEllipsize(TextUtils.TruncateAt.END);
                     this.linearLayout.addView(textView, LayoutHelper.createLinear(-2, -2, 51, 23, 20, 23, 0));
                     TextView textView2 = new TextView(getContext());
-                    textView2.setTextColor(getThemedColor("dialogTextBlack"));
+                    textView2.setTextColor(getThemedColor(i5));
                     textView2.setTextSize(1, 16.0f);
                     textView2.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
-                    textView2.setLinkTextColor(getThemedColor("dialogTextLink"));
+                    textView2.setLinkTextColor(getThemedColor(Theme.key_dialogTextLink));
                     textView2.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
                     this.linearLayout.addView(textView2, LayoutHelper.createLinear(-2, -2, 51, 23, 16, 23, 5));
                     if (tLRPC$User != null) {
@@ -310,7 +312,7 @@ public class ClearHistoryAlert extends BottomSheet {
                     });
                     this.linearLayout.addView(bottomSheetCell, LayoutHelper.createLinear(-1, 50, 51, 0, 0, 0, 0));
                     View shadowSectionCell = new ShadowSectionCell(context);
-                    CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(getThemedColor("windowBackgroundGray")), Theme.getThemedDrawable(context, R.drawable.greydivider, "windowBackgroundGrayShadow"));
+                    CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(getThemedColor(Theme.key_windowBackgroundGray)), Theme.getThemedDrawable(context, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
                     combinedDrawable.setFullsize(true);
                     shadowSectionCell.setBackgroundDrawable(combinedDrawable);
                     this.linearLayout.addView(shadowSectionCell, LayoutHelper.createLinear(-1, -2));
@@ -327,12 +329,12 @@ public class ClearHistoryAlert extends BottomSheet {
                     TextView textView3 = new TextView(context);
                     textView3.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                     textView3.setTextSize(1, 24.0f);
-                    textView3.setTextColor(getThemedColor("dialogTextBlack"));
+                    textView3.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
                     textView3.setText(LocaleController.getString("AutoDeleteAlertTitle", R.string.AutoDeleteAlertTitle));
                     this.linearLayout.addView(textView3, LayoutHelper.createLinear(-2, -2, 49, 17, 18, 17, 0));
                     TextView textView4 = new TextView(context);
                     textView4.setTextSize(1, 14.0f);
-                    textView4.setTextColor(getThemedColor("dialogTextGray3"));
+                    textView4.setTextColor(getThemedColor(Theme.key_dialogTextGray3));
                     textView4.setGravity(1);
                     if (tLRPC$User != null) {
                         textView4.setText(LocaleController.formatString("AutoDeleteAlertUserInfo", R.string.AutoDeleteAlertUserInfo, UserObject.getFirstName(tLRPC$User)));
@@ -351,8 +353,8 @@ public class ClearHistoryAlert extends BottomSheet {
                     }
 
                     @Override // org.telegram.ui.Components.SlideChooseView.Callback
-                    public void onOptionSelected(int i4) {
-                        ClearHistoryAlert.this.newTimer = i4;
+                    public void onOptionSelected(int i6) {
+                        ClearHistoryAlert.this.newTimer = i6;
                         ClearHistoryAlert.this.updateTimerButton(true);
                     }
 
@@ -364,7 +366,7 @@ public class ClearHistoryAlert extends BottomSheet {
                 slideChooseView.setOptions(this.currentTimer, LocaleController.getString("AutoDeleteNever", R.string.AutoDeleteNever), LocaleController.getString("AutoDelete24Hours", R.string.AutoDelete24Hours), LocaleController.getString("AutoDelete7Days", R.string.AutoDelete7Days), LocaleController.getString("AutoDelete1Month", R.string.AutoDelete1Month));
                 this.linearLayout.addView(slideChooseView, LayoutHelper.createLinear(-1, -2, 0.0f, 8.0f, 0.0f, 0.0f));
                 FrameLayout frameLayout = new FrameLayout(context);
-                CombinedDrawable combinedDrawable2 = new CombinedDrawable(new ColorDrawable(getThemedColor("windowBackgroundGray")), Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                CombinedDrawable combinedDrawable2 = new CombinedDrawable(new ColorDrawable(getThemedColor(Theme.key_windowBackgroundGray)), Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                 combinedDrawable2.setFullsize(true);
                 frameLayout.setBackgroundDrawable(combinedDrawable2);
                 this.linearLayout.addView(frameLayout, LayoutHelper.createLinear(-1, -2));
@@ -373,7 +375,7 @@ public class ClearHistoryAlert extends BottomSheet {
                 frameLayout.addView(textInfoPrivacyCell);
                 BottomSheetCell bottomSheetCell2 = new BottomSheetCell(context, resourcesProvider);
                 this.setTimerButton = bottomSheetCell2;
-                bottomSheetCell2.setBackgroundColor(getThemedColor("dialogBackground"));
+                bottomSheetCell2.setBackgroundColor(getThemedColor(i3));
                 if (!this.autoDeleteOnly) {
                     this.setTimerButton.setText(LocaleController.getString("AutoDeleteSet", R.string.AutoDeleteSet));
                 } else if (z && this.currentTimer == 0) {
@@ -407,8 +409,8 @@ public class ClearHistoryAlert extends BottomSheet {
             }
 
             @Override // org.telegram.ui.Components.SlideChooseView.Callback
-            public void onOptionSelected(int i4) {
-                ClearHistoryAlert.this.newTimer = i4;
+            public void onOptionSelected(int i6) {
+                ClearHistoryAlert.this.newTimer = i6;
                 ClearHistoryAlert.this.updateTimerButton(true);
             }
 
@@ -420,7 +422,7 @@ public class ClearHistoryAlert extends BottomSheet {
         slideChooseView2.setOptions(this.currentTimer, LocaleController.getString("AutoDeleteNever", R.string.AutoDeleteNever), LocaleController.getString("AutoDelete24Hours", R.string.AutoDelete24Hours), LocaleController.getString("AutoDelete7Days", R.string.AutoDelete7Days), LocaleController.getString("AutoDelete1Month", R.string.AutoDelete1Month));
         this.linearLayout.addView(slideChooseView2, LayoutHelper.createLinear(-1, -2, 0.0f, 8.0f, 0.0f, 0.0f));
         FrameLayout frameLayout2 = new FrameLayout(context);
-        CombinedDrawable combinedDrawable22 = new CombinedDrawable(new ColorDrawable(getThemedColor("windowBackgroundGray")), Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+        CombinedDrawable combinedDrawable22 = new CombinedDrawable(new ColorDrawable(getThemedColor(Theme.key_windowBackgroundGray)), Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
         combinedDrawable22.setFullsize(true);
         frameLayout2.setBackgroundDrawable(combinedDrawable22);
         this.linearLayout.addView(frameLayout2, LayoutHelper.createLinear(-1, -2));
@@ -429,7 +431,7 @@ public class ClearHistoryAlert extends BottomSheet {
         frameLayout2.addView(textInfoPrivacyCell2);
         BottomSheetCell bottomSheetCell22 = new BottomSheetCell(context, resourcesProvider);
         this.setTimerButton = bottomSheetCell22;
-        bottomSheetCell22.setBackgroundColor(getThemedColor("dialogBackground"));
+        bottomSheetCell22.setBackgroundColor(getThemedColor(i3));
         if (!this.autoDeleteOnly) {
         }
         this.setTimerButton.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ClearHistoryAlert$$ExternalSyntheticLambda0

@@ -52,12 +52,15 @@ public class BotKeyboardView extends LinearLayout {
     }
 
     public void updateColors() {
-        AndroidUtilities.setScrollViewEdgeEffectColor(this.scrollView, getThemedColor("chat_emojiPanelBackground"));
-        setBackgroundColor(getThemedColor("chat_emojiPanelBackground"));
-        for (int i = 0; i < this.buttonViews.size(); i++) {
-            this.buttonViews.get(i).setTextColor(getThemedColor("chat_botKeyboardButtonText"));
-            this.buttonViews.get(i).setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), getThemedColor("chat_botKeyboardButtonBackground"), getThemedColor("chat_botKeyboardButtonBackgroundPressed")));
-            this.buttonIcons.get(i).setColorFilter(getThemedColor("chat_botKeyboardButtonText"));
+        ScrollView scrollView = this.scrollView;
+        int i = Theme.key_chat_emojiPanelBackground;
+        AndroidUtilities.setScrollViewEdgeEffectColor(scrollView, getThemedColor(i));
+        setBackgroundColor(getThemedColor(i));
+        for (int i2 = 0; i2 < this.buttonViews.size(); i2++) {
+            int i3 = Theme.key_chat_botKeyboardButtonText;
+            this.buttonViews.get(i2).setTextColor(getThemedColor(i3));
+            this.buttonViews.get(i2).setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), getThemedColor(Theme.key_chat_botKeyboardButtonBackground), getThemedColor(Theme.key_chat_botKeyboardButtonBackgroundPressed)));
+            this.buttonIcons.get(i2).setColorFilter(getThemedColor(i3));
         }
         invalidate();
     }
@@ -132,7 +135,7 @@ public class BotKeyboardView extends LinearLayout {
                 });
                 this.buttonViews.add(button);
                 ImageView imageView = new ImageView(getContext());
-                imageView.setColorFilter(getThemedColor("chat_botKeyboardButtonText"));
+                imageView.setColorFilter(getThemedColor(Theme.key_chat_botKeyboardButtonText));
                 if ((tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButtonWebView) || (tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButtonSimpleWebView)) {
                     imageView.setImageResource(R.drawable.bot_webview);
                     imageView.setVisibility(0);
@@ -160,8 +163,8 @@ public class BotKeyboardView extends LinearLayout {
         public Button(BotKeyboardView botKeyboardView, Context context, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
             super(context);
             setTag(tLRPC$KeyboardButton);
-            setTextColor(botKeyboardView.getThemedColor("chat_botKeyboardButtonText"));
-            setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), botKeyboardView.getThemedColor("chat_botKeyboardButtonBackground"), botKeyboardView.getThemedColor("chat_botKeyboardButtonBackgroundPressed")));
+            setTextColor(botKeyboardView.getThemedColor(Theme.key_chat_botKeyboardButtonText));
+            setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), botKeyboardView.getThemedColor(Theme.key_chat_botKeyboardButtonBackground), botKeyboardView.getThemedColor(Theme.key_chat_botKeyboardButtonBackgroundPressed)));
             setTextSize(1, 16.0f);
             setGravity(17);
             setPadding(AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f), 0);
@@ -178,9 +181,9 @@ public class BotKeyboardView extends LinearLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public int getThemedColor(String str) {
+    public int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 }

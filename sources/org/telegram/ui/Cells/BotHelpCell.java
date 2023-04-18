@@ -79,7 +79,7 @@ public class BotHelpCell extends View {
         imageReceiver.setInvalidateAll(true);
         this.imageReceiver.setCrossfadeWithOldImage(true);
         this.imageReceiver.setCrossfadeDuration(300);
-        int color = Theme.getColor("listSelectorSDK21", resourcesProvider);
+        int color = Theme.getColor(Theme.key_listSelector, resourcesProvider);
         int i = SharedConfig.bubbleRadius;
         this.selectorDrawableRadius = i;
         Drawable createRadSelectorDrawable = Theme.createRadSelectorDrawable(color, i, i);
@@ -368,8 +368,8 @@ public class BotHelpCell extends View {
         }
         this.imageReceiver.setImageCoords(width + i, this.imagePadding, this.width - (i * 2), this.photoHeight - i);
         this.imageReceiver.draw(canvas);
-        Theme.chat_msgTextPaint.setColor(getThemedColor("chat_messageTextIn"));
-        Theme.chat_msgTextPaint.linkColor = getThemedColor("chat_messageLinkIn");
+        Theme.chat_msgTextPaint.setColor(getThemedColor(Theme.key_chat_messageTextIn));
+        Theme.chat_msgTextPaint.linkColor = getThemedColor(Theme.key_chat_messageLinkIn);
         canvas.save();
         int dp2 = AndroidUtilities.dp(this.isPhotoVisible ? 14.0f : 11.0f) + width;
         this.textX = dp2;
@@ -416,10 +416,10 @@ public class BotHelpCell extends View {
         this.animating = z;
     }
 
-    private int getThemedColor(String str) {
+    private int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 
     private Drawable getThemedDrawable(String str) {

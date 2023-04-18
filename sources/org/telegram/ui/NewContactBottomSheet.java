@@ -113,10 +113,10 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         setTitle(LocaleController.getString("NewContactTitle", R.string.NewContactTitle), true);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:57:0x03ec  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x040c  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x041b  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x0409 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x03ea  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x040a  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0419  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x0407 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -198,7 +198,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
                 NewContactBottomSheet.this.lambda$createView$3(view);
             }
         });
-        frameLayout2.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), 0, Theme.getColor("listSelectorSDK21")));
+        frameLayout2.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), 0, Theme.getColor(Theme.key_listSelector)));
         frameLayout2.addView(this.countryFlag, LayoutHelper.createFrame(-1, -2, 16));
         linearLayout2.addView(frameLayout2, LayoutHelper.createLinear(42, -1));
         TextView textView = new TextView(context);
@@ -216,7 +216,8 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
             }
         };
         this.codeField = animatedPhoneNumberEditText;
-        animatedPhoneNumberEditText.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+        int i3 = Theme.key_windowBackgroundWhiteBlackText;
+        animatedPhoneNumberEditText.setTextColor(Theme.getColor(i3));
         this.codeField.setInputType(3);
         this.codeField.setCursorSize(AndroidUtilities.dp(20.0f));
         this.codeField.setCursorWidth(1.5f);
@@ -230,11 +231,11 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         linearLayout2.addView(this.codeField, LayoutHelper.createLinear(55, 36, -9.0f, 0.0f, 0.0f, 0.0f));
         this.codeField.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.NewContactBottomSheet.4
             @Override // android.text.TextWatcher
-            public void beforeTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
+            public void beforeTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
             }
 
             @Override // android.text.TextWatcher
-            public void onTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
+            public void onTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
             }
 
             @Override // android.text.TextWatcher
@@ -254,15 +255,15 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
                     NewContactBottomSheet.this.phoneField.setHintText((String) null);
                     NewContactBottomSheet.this.countryState = 1;
                 } else {
-                    int i3 = 4;
+                    int i4 = 4;
                     if (stripExceptNumbers.length() > 4) {
                         while (true) {
-                            if (i3 < 1) {
+                            if (i4 < 1) {
                                 str5 = null;
                                 z = false;
                                 break;
                             }
-                            String substring = stripExceptNumbers.substring(0, i3);
+                            String substring = stripExceptNumbers.substring(0, i4);
                             List list = (List) NewContactBottomSheet.this.codesMap.get(substring);
                             if (list == null) {
                                 country3 = null;
@@ -286,14 +287,14 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
                                 country3 = (CountrySelectActivity.Country) list.get(0);
                             }
                             if (country3 != null) {
-                                String str6 = stripExceptNumbers.substring(i3) + NewContactBottomSheet.this.phoneField.getText().toString();
+                                String str6 = stripExceptNumbers.substring(i4) + NewContactBottomSheet.this.phoneField.getText().toString();
                                 NewContactBottomSheet.this.codeField.setText(substring);
                                 z = true;
                                 str5 = str6;
                                 stripExceptNumbers = substring;
                                 break;
                             }
-                            i3--;
+                            i4--;
                         }
                         if (!z) {
                             str5 = stripExceptNumbers.substring(1) + NewContactBottomSheet.this.phoneField.getText().toString();
@@ -307,17 +308,17 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
                     }
                     Iterator it2 = NewContactBottomSheet.this.countriesArray.iterator();
                     CountrySelectActivity.Country country5 = null;
-                    int i4 = 0;
+                    int i5 = 0;
                     while (it2.hasNext()) {
                         CountrySelectActivity.Country country6 = (CountrySelectActivity.Country) it2.next();
                         if (country6.code.startsWith(stripExceptNumbers)) {
-                            i4++;
+                            i5++;
                             if (country6.code.equals(stripExceptNumbers)) {
                                 country5 = country6;
                             }
                         }
                     }
-                    if (i4 == 1 && country5 != null && str5 == null) {
+                    if (i5 == 1 && country5 != null && str5 == null) {
                         str5 = stripExceptNumbers.substring(country5.code.length()) + NewContactBottomSheet.this.phoneField.getText().toString();
                         AnimatedPhoneNumberEditText animatedPhoneNumberEditText3 = NewContactBottomSheet.this.codeField;
                         String str7 = country5.code;
@@ -370,9 +371,9 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         });
         this.codeField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda6
             @Override // android.widget.TextView.OnEditorActionListener
-            public final boolean onEditorAction(TextView textView2, int i3, KeyEvent keyEvent) {
+            public final boolean onEditorAction(TextView textView2, int i4, KeyEvent keyEvent) {
                 boolean lambda$createView$4;
-                lambda$createView$4 = NewContactBottomSheet.this.lambda$createView$4(textView2, i3, keyEvent);
+                lambda$createView$4 = NewContactBottomSheet.this.lambda$createView$4(textView2, i4, keyEvent);
                 return lambda$createView$4;
             }
         });
@@ -382,24 +383,24 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         linearLayout2.addView(this.codeDividerView, createLinear);
         AnimatedPhoneNumberEditText animatedPhoneNumberEditText2 = new AnimatedPhoneNumberEditText(context) { // from class: org.telegram.ui.NewContactBottomSheet.5
             @Override // android.widget.TextView, android.view.View, android.view.KeyEvent.Callback
-            public boolean onKeyDown(int i3, KeyEvent keyEvent) {
-                if (i3 == 67 && NewContactBottomSheet.this.phoneField.length() == 0) {
+            public boolean onKeyDown(int i4, KeyEvent keyEvent) {
+                if (i4 == 67 && NewContactBottomSheet.this.phoneField.length() == 0) {
                     NewContactBottomSheet.this.codeField.requestFocus();
                     NewContactBottomSheet.this.codeField.setSelection(NewContactBottomSheet.this.codeField.length());
                     NewContactBottomSheet.this.codeField.dispatchKeyEvent(keyEvent);
                 }
-                return super.onKeyDown(i3, keyEvent);
+                return super.onKeyDown(i4, keyEvent);
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-            public void onFocusChanged(boolean z, int i3, Rect rect) {
-                super.onFocusChanged(z, i3, rect);
+            public void onFocusChanged(boolean z, int i4, Rect rect) {
+                super.onFocusChanged(z, i4, rect);
                 NewContactBottomSheet.this.phoneOutlineView.animateSelection((z || NewContactBottomSheet.this.codeField.isFocused()) ? 1.0f : 0.0f);
             }
         };
         this.phoneField = animatedPhoneNumberEditText2;
-        animatedPhoneNumberEditText2.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+        animatedPhoneNumberEditText2.setTextColor(Theme.getColor(i3));
         this.phoneField.setInputType(3);
         this.phoneField.setPadding(0, 0, 0, 0);
         this.phoneField.setCursorSize(AndroidUtilities.dp(20.0f));
@@ -416,17 +417,17 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
             private int characterAction = -1;
 
             @Override // android.text.TextWatcher
-            public void onTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
+            public void onTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
             }
 
             @Override // android.text.TextWatcher
-            public void beforeTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
-                if (i4 == 0 && i5 == 1) {
+            public void beforeTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
+                if (i5 == 0 && i6 == 1) {
                     this.characterAction = 1;
-                } else if (i4 == 1 && i5 == 0) {
-                    if (charSequence.charAt(i3) == ' ' && i3 > 0) {
+                } else if (i5 == 1 && i6 == 0) {
+                    if (charSequence.charAt(i4) == ' ' && i4 > 0) {
                         this.characterAction = 3;
-                        this.actionPosition = i3 - 1;
+                        this.actionPosition = i4 - 1;
                         return;
                     }
                     this.characterAction = 2;
@@ -437,8 +438,8 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
 
             @Override // android.text.TextWatcher
             public void afterTextChanged(Editable editable) {
-                int i3;
                 int i4;
+                int i5;
                 if (NewContactBottomSheet.this.ignoreOnPhoneChange) {
                     return;
                 }
@@ -449,34 +450,34 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
                     selectionStart--;
                 }
                 StringBuilder sb = new StringBuilder(obj.length());
-                int i5 = 0;
-                while (i5 < obj.length()) {
-                    int i6 = i5 + 1;
-                    String substring = obj.substring(i5, i6);
+                int i6 = 0;
+                while (i6 < obj.length()) {
+                    int i7 = i6 + 1;
+                    String substring = obj.substring(i6, i7);
                     if ("0123456789".contains(substring)) {
                         sb.append(substring);
                     }
-                    i5 = i6;
+                    i6 = i7;
                 }
                 NewContactBottomSheet.this.ignoreOnPhoneChange = true;
                 String hintText = NewContactBottomSheet.this.phoneField.getHintText();
                 if (hintText != null) {
-                    int i7 = 0;
+                    int i8 = 0;
                     while (true) {
-                        if (i7 >= sb.length()) {
+                        if (i8 >= sb.length()) {
                             break;
-                        } else if (i7 < hintText.length()) {
-                            if (hintText.charAt(i7) == ' ') {
-                                sb.insert(i7, ' ');
-                                i7++;
-                                if (selectionStart == i7 && (i4 = this.characterAction) != 2 && i4 != 3) {
+                        } else if (i8 < hintText.length()) {
+                            if (hintText.charAt(i8) == ' ') {
+                                sb.insert(i8, ' ');
+                                i8++;
+                                if (selectionStart == i8 && (i5 = this.characterAction) != 2 && i5 != 3) {
                                     selectionStart++;
                                 }
                             }
-                            i7++;
+                            i8++;
                         } else {
-                            sb.insert(i7, ' ');
-                            if (selectionStart == i7 + 1 && (i3 = this.characterAction) != 2 && i3 != 3) {
+                            sb.insert(i8, ' ');
+                            if (selectionStart == i8 + 1 && (i4 = this.characterAction) != 2 && i4 != 3) {
                                 selectionStart++;
                             }
                         }
@@ -492,9 +493,9 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         });
         this.phoneField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda5
             @Override // android.widget.TextView.OnEditorActionListener
-            public final boolean onEditorAction(TextView textView2, int i3, KeyEvent keyEvent) {
+            public final boolean onEditorAction(TextView textView2, int i4, KeyEvent keyEvent) {
                 boolean lambda$createView$5;
-                lambda$createView$5 = NewContactBottomSheet.this.lambda$createView$5(textView2, i3, keyEvent);
+                lambda$createView$5 = NewContactBottomSheet.this.lambda$createView$5(textView2, i4, keyEvent);
                 return lambda$createView$5;
             }
         });
@@ -539,17 +540,17 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
                 this.codeField.setText(this.initialPhoneNumber);
             } else {
                 String str6 = currentUser.phone;
-                int i3 = 4;
+                int i4 = 4;
                 while (true) {
-                    if (i3 < 1) {
+                    if (i4 < 1) {
                         break;
                     }
-                    String substring = str6.substring(0, i3);
+                    String substring = str6.substring(0, i4);
                     if (this.codesMap.get(substring) != null) {
                         this.codeField.setText(substring);
                         break;
                     }
-                    i3--;
+                    i4--;
                 }
                 this.phoneField.setText(this.initialPhoneNumber);
             }
@@ -605,27 +606,30 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         this.doneButton.setLines(1);
         this.doneButton.setSingleLine(true);
         this.doneButton.setText(LocaleController.getString("CreateContact", R.string.CreateContact));
-        this.doneButton.setTextColor(this.parentFragment.getThemedColor("featuredStickers_buttonText"));
+        TextView textView3 = this.doneButton;
+        BaseFragment baseFragment = this.parentFragment;
+        int i5 = Theme.key_featuredStickers_buttonText;
+        textView3.setTextColor(baseFragment.getThemedColor(i5));
         this.doneButton.setTextSize(1, 15.0f);
         this.doneButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         RadialProgressView radialProgressView = new RadialProgressView(context);
         this.progressView = radialProgressView;
         radialProgressView.setSize(AndroidUtilities.dp(20.0f));
-        this.progressView.setProgressColor(this.parentFragment.getThemedColor("featuredStickers_buttonText"));
+        this.progressView.setProgressColor(this.parentFragment.getThemedColor(i5));
         this.doneButtonContainer.addView(this.doneButton, LayoutHelper.createFrame(-1, -1.0f));
         this.doneButtonContainer.addView(this.progressView, LayoutHelper.createFrame(40, 40, 17));
         this.contentLayout.addView(this.doneButtonContainer, LayoutHelper.createLinear(-1, 48, 0, 0, 16, 0, 16));
         AndroidUtilities.updateViewVisibilityAnimated(this.doneButton, true, 1.0f, false);
         AndroidUtilities.updateViewVisibilityAnimated(this.progressView, false, 1.0f, false);
-        this.doneButtonContainer.setBackground(Theme.AdaptiveRipple.filledRect(this.parentFragment.getThemedColor("featuredStickers_addButton"), 6.0f));
+        this.doneButtonContainer.setBackground(Theme.AdaptiveRipple.filledRect(this.parentFragment.getThemedColor(Theme.key_featuredStickers_addButton), 6.0f));
         this.doneButtonContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 NewContactBottomSheet.this.lambda$createView$7(view);
             }
         });
-        this.plusTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-        this.codeDividerView.setBackgroundColor(Theme.getColor("windowBackgroundWhiteInputField"));
+        this.plusTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+        this.codeDividerView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhiteInputField));
         return scrollView;
     }
 
@@ -1005,23 +1009,33 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
     @Override // org.telegram.ui.ActionBar.BottomSheet
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        arrayList.add(new ThemeDescription(this.firstNameField, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "windowBackgroundWhiteBlackText"));
-        arrayList.add(new ThemeDescription(this.firstNameField, ThemeDescription.FLAG_HINTTEXTCOLOR, null, null, null, null, "windowBackgroundWhiteHintText"));
-        arrayList.add(new ThemeDescription(this.firstNameField, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "windowBackgroundWhiteInputField"));
-        arrayList.add(new ThemeDescription(this.firstNameField, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, "windowBackgroundWhiteInputFieldActivated"));
-        arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "windowBackgroundWhiteBlackText"));
-        arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_HINTTEXTCOLOR, null, null, null, null, "windowBackgroundWhiteHintText"));
-        arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "windowBackgroundWhiteInputField"));
-        arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, "windowBackgroundWhiteInputFieldActivated"));
-        arrayList.add(new ThemeDescription(this.codeField, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "windowBackgroundWhiteBlackText"));
-        arrayList.add(new ThemeDescription(this.codeField, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "windowBackgroundWhiteInputField"));
-        arrayList.add(new ThemeDescription(this.codeField, ThemeDescription.FLAG_DRAWABLESELECTEDSTATE | ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "windowBackgroundWhiteInputFieldActivated"));
-        arrayList.add(new ThemeDescription(this.phoneField, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "windowBackgroundWhiteBlackText"));
-        arrayList.add(new ThemeDescription(this.phoneField, ThemeDescription.FLAG_HINTTEXTCOLOR, null, null, null, null, "windowBackgroundWhiteHintText"));
-        arrayList.add(new ThemeDescription(this.phoneField, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "windowBackgroundWhiteInputField"));
-        arrayList.add(new ThemeDescription(this.phoneField, ThemeDescription.FLAG_DRAWABLESELECTEDSTATE | ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "windowBackgroundWhiteInputFieldActivated"));
-        arrayList.add(new ThemeDescription(this.editDoneItemProgress, 0, null, null, null, null, "contextProgressInner2"));
-        arrayList.add(new ThemeDescription(this.editDoneItemProgress, 0, null, null, null, null, "contextProgressOuter2"));
+        OutlineEditText outlineEditText = this.firstNameField;
+        int i = ThemeDescription.FLAG_TEXTCOLOR;
+        int i2 = Theme.key_windowBackgroundWhiteBlackText;
+        arrayList.add(new ThemeDescription(outlineEditText, i, null, null, null, null, i2));
+        OutlineEditText outlineEditText2 = this.firstNameField;
+        int i3 = ThemeDescription.FLAG_HINTTEXTCOLOR;
+        int i4 = Theme.key_windowBackgroundWhiteHintText;
+        arrayList.add(new ThemeDescription(outlineEditText2, i3, null, null, null, null, i4));
+        OutlineEditText outlineEditText3 = this.firstNameField;
+        int i5 = ThemeDescription.FLAG_BACKGROUNDFILTER;
+        int i6 = Theme.key_windowBackgroundWhiteInputField;
+        arrayList.add(new ThemeDescription(outlineEditText3, i5, null, null, null, null, i6));
+        int i7 = Theme.key_windowBackgroundWhiteInputFieldActivated;
+        arrayList.add(new ThemeDescription(this.firstNameField, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, i7));
+        arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, i2));
+        arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_HINTTEXTCOLOR, null, null, null, null, i4));
+        arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, i6));
+        arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_DRAWABLESELECTEDSTATE | ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, i7));
+        arrayList.add(new ThemeDescription(this.codeField, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, i2));
+        arrayList.add(new ThemeDescription(this.codeField, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, i6));
+        arrayList.add(new ThemeDescription(this.codeField, ThemeDescription.FLAG_DRAWABLESELECTEDSTATE | ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, i7));
+        arrayList.add(new ThemeDescription(this.phoneField, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, i2));
+        arrayList.add(new ThemeDescription(this.phoneField, ThemeDescription.FLAG_HINTTEXTCOLOR, null, null, null, null, i4));
+        arrayList.add(new ThemeDescription(this.phoneField, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, i6));
+        arrayList.add(new ThemeDescription(this.phoneField, ThemeDescription.FLAG_DRAWABLESELECTEDSTATE | ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, i7));
+        arrayList.add(new ThemeDescription(this.editDoneItemProgress, 0, null, null, null, null, Theme.key_contextProgressInner2));
+        arrayList.add(new ThemeDescription(this.editDoneItemProgress, 0, null, null, null, null, Theme.key_contextProgressOuter2));
         return arrayList;
     }
 

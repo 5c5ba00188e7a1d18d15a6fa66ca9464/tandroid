@@ -132,7 +132,7 @@ public class PopupSwipeBackLayout extends FrameLayout {
         if (indexOfChild != 0) {
             int i = this.foregroundColor;
             if (i == 0) {
-                this.foregroundPaint.setColor(Theme.getColor("actionBarDefaultSubmenuBackground", this.resourcesProvider));
+                this.foregroundPaint.setColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuBackground, this.resourcesProvider));
             } else {
                 this.foregroundPaint.setColor(i);
             }

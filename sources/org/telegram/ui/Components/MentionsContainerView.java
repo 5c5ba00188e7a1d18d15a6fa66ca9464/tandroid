@@ -387,7 +387,7 @@ public class MentionsContainerView extends BlurredFrameLayout {
         }
         Paint paint2 = this.paint;
         Integer num = this.color;
-        paint2.setColor(num != null ? num.intValue() : getThemedColor("chat_messagePanelBackground"));
+        paint2.setColor(num != null ? num.intValue() : getThemedColor(Theme.key_chat_messagePanelBackground));
         if (SharedConfig.chatBlurEnabled() && this.sizeNotifierFrameLayout != null) {
             if (f > 0.0f) {
                 canvas.save();
@@ -729,9 +729,9 @@ public class MentionsContainerView extends BlurredFrameLayout {
         }
     }
 
-    private int getThemedColor(String str) {
+    private int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 }

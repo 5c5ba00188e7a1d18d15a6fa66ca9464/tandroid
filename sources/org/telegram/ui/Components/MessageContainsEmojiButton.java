@@ -63,11 +63,17 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         public void updateDrawState(TextPaint textPaint) {
             textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             int alpha = textPaint.getAlpha();
-            textPaint.setColor(Theme.getColor("windowBackgroundWhiteBlueText", MessageContainsEmojiButton.this.resourcesProvider));
+            textPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText, MessageContainsEmojiButton.this.resourcesProvider));
             textPaint.setAlpha(alpha);
         }
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x0107, code lost:
+        r4 = null;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public MessageContainsEmojiButton(int i, Context context, Theme.ResourcesProvider resourcesProvider, ArrayList<TLRPC$InputStickerSet> arrayList, int i2) {
         super(context);
         String string;
@@ -83,11 +89,11 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         this.checkWidth = true;
         this.loadT = 0.0f;
         this.currentAccount = i;
-        setBackground(Theme.createRadSelectorDrawable(Theme.getColor("listSelectorSDK21", resourcesProvider), 0, 6));
+        setBackground(Theme.createRadSelectorDrawable(Theme.getColor(Theme.key_listSelector, resourcesProvider), 0, 6));
         TextPaint textPaint = new TextPaint(1);
         this.textPaint = textPaint;
         textPaint.setTextSize(AndroidUtilities.dp(13.0f));
-        this.textPaint.setColor(Theme.getColor("actionBarDefaultSubmenuItem", resourcesProvider));
+        this.textPaint.setColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem, resourcesProvider));
         if (arrayList.size() > 1) {
             if (i2 == 0) {
                 formatPluralString = LocaleController.formatPluralString("MessageContainsEmojiPacks", arrayList.size(), new Object[0]);
@@ -134,7 +140,6 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
                         i4++;
                     }
                 }
-                tLRPC$Document = null;
                 if (tLRPC$Document == null && (arrayList2 = stickerSet.documents) != null && arrayList2.size() > 0) {
                     tLRPC$Document = stickerSet.documents.get(0);
                 }
@@ -164,8 +169,8 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
             this.endText = split[1];
             LoadingDrawable loadingDrawable = new LoadingDrawable(resourcesProvider);
             this.loadingDrawable = loadingDrawable;
-            loadingDrawable.colorKey1 = "actionBarDefaultSubmenuBackground";
-            loadingDrawable.colorKey2 = "listSelectorSDK21";
+            loadingDrawable.colorKey1 = Theme.key_actionBarDefaultSubmenuBackground;
+            loadingDrawable.colorKey2 = Theme.key_listSelector;
             loadingDrawable.setRadiiDp(4.0f);
         }
     }

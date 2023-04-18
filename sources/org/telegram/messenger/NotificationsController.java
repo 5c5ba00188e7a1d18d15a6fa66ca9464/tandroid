@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import org.telegram.messenger.support.LongSparseIntArray;
@@ -348,11 +349,7 @@ public class NotificationsController extends BaseController {
     }
 
     public static String getSharedPrefKey(long j, int i) {
-        String l = Long.toString(j);
-        if (i != 0) {
-            return l + "_" + i;
-        }
-        return l;
+        return i != 0 ? String.format(Locale.US, "%d_%d", Long.valueOf(j), Integer.valueOf(i)) : String.valueOf(j);
     }
 
     public void muteUntil(long j, int i, int i2) {

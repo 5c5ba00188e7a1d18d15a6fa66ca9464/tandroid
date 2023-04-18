@@ -344,18 +344,19 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 EmojiPacksAlert.this.listView.getAdapter().notifyDataSetChanged();
             }
         };
-        this.progressDrawable = new CircularProgressDrawable(AndroidUtilities.dp(32.0f), AndroidUtilities.dp(3.5f), getThemedColor("featuredStickers_addButton"));
-        new PorterDuffColorFilter(ColorUtils.setAlphaComponent(getThemedColor("windowBackgroundWhiteLinkText"), 178), PorterDuff.Mode.MULTIPLY);
+        int i = Theme.key_featuredStickers_addButton;
+        this.progressDrawable = new CircularProgressDrawable(AndroidUtilities.dp(32.0f), AndroidUtilities.dp(3.5f), getThemedColor(i));
+        new PorterDuffColorFilter(ColorUtils.setAlphaComponent(getThemedColor(Theme.key_windowBackgroundWhiteLinkText), 178), PorterDuff.Mode.MULTIPLY);
         ContentView contentView = new ContentView(context);
         this.contentView = contentView;
         this.containerView = contentView;
         this.paddingView = new View(this, context) { // from class: org.telegram.ui.Components.EmojiPacksAlert.3
             @Override // android.view.View
-            protected void onMeasure(int i, int i2) {
+            protected void onMeasure(int i2, int i3) {
                 android.graphics.Point point = AndroidUtilities.displaySize;
-                int i3 = point.x;
-                int i4 = point.y;
-                super.onMeasure(i, View.MeasureSpec.makeMeasureSpec((int) (i4 * (i3 < i4 ? 0.56f : 0.3f)), 1073741824));
+                int i4 = point.x;
+                int i5 = point.y;
+                super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec((int) (i5 * (i4 < i5 ? 0.56f : 0.3f)), 1073741824));
             }
         };
         RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.Components.EmojiPacksAlert.4
@@ -373,22 +374,22 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
 
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-            public void onMeasure(int i, int i2) {
-                EmojiPacksAlert.this.gridLayoutManager.setSpanCount(Math.max(1, View.MeasureSpec.getSize(i) / AndroidUtilities.dp(AndroidUtilities.isTablet() ? 60.0f : 45.0f)));
-                super.onMeasure(i, i2);
+            public void onMeasure(int i2, int i3) {
+                EmojiPacksAlert.this.gridLayoutManager.setSpanCount(Math.max(1, View.MeasureSpec.getSize(i2) / AndroidUtilities.dp(AndroidUtilities.isTablet() ? 60.0f : 45.0f)));
+                super.onMeasure(i2, i3);
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView
-            public void onScrolled(int i, int i2) {
-                super.onScrolled(i, i2);
+            public void onScrolled(int i2, int i3) {
+                super.onScrolled(i2, i3);
                 EmojiPacksAlert.this.contentView.updateEmojiDrawables();
                 ((BottomSheet) EmojiPacksAlert.this).containerView.invalidate();
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z, int i, int i2, int i3, int i4) {
-                super.onLayout(z, i, i2, i3, i4);
+            public void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+                super.onLayout(z, i2, i3, i4, i5);
                 EmojiPacksAlert.this.contentView.updateEmojiDrawables();
             }
 
@@ -407,22 +408,22 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                     if (emojiPacksAlert.highlightStartPosition >= 0 && emojiPacksAlert.highlightEndPosition >= 0 && emojiPacksAlert.adapter != null && isAttachedToWindow()) {
                         float f = EmojiPacksAlert.this.highlightAlpha.set(0.0f);
                         if (f > 0.0f) {
-                            int i = ConnectionsManager.DEFAULT_DATACENTER_ID;
-                            int i2 = Integer.MIN_VALUE;
-                            for (int i3 = 0; i3 < getChildCount(); i3++) {
-                                View childAt = getChildAt(i3);
+                            int i2 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+                            int i3 = Integer.MIN_VALUE;
+                            for (int i4 = 0; i4 < getChildCount(); i4++) {
+                                View childAt = getChildAt(i4);
                                 int childAdapterPosition = getChildAdapterPosition(childAt);
                                 if (childAdapterPosition != -1) {
                                     EmojiPacksAlert emojiPacksAlert2 = EmojiPacksAlert.this;
                                     if (childAdapterPosition >= emojiPacksAlert2.highlightStartPosition && childAdapterPosition <= emojiPacksAlert2.highlightEndPosition) {
-                                        i = Math.min(i, childAt.getTop() + ((int) childAt.getTranslationY()));
-                                        i2 = Math.max(i2, childAt.getBottom() + ((int) childAt.getTranslationY()));
+                                        i2 = Math.min(i2, childAt.getTop() + ((int) childAt.getTranslationY()));
+                                        i3 = Math.max(i3, childAt.getBottom() + ((int) childAt.getTranslationY()));
                                     }
                                 }
                             }
-                            if (i < i2) {
-                                this.highlightPaint.setColor(Theme.multAlpha(getThemedColor("chat_linkSelectBackground"), f));
-                                canvas.drawRect(0.0f, i, getMeasuredWidth(), i2, this.highlightPaint);
+                            if (i2 < i3) {
+                                this.highlightPaint.setColor(Theme.multAlpha(getThemedColor(Theme.key_chat_linkSelectBackground), f));
+                                canvas.drawRect(0.0f, i2, getMeasuredWidth(), i3, this.highlightPaint);
                             }
                             invalidate();
                         }
@@ -434,14 +435,14 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         this.listView = recyclerListView;
         this.highlightAlpha = new AnimatedFloat(0.0f, recyclerListView, 0L, 1250L, CubicBezierInterpolator.EASE_IN);
         ViewGroup viewGroup = this.containerView;
-        int i = this.backgroundPaddingLeft;
-        viewGroup.setPadding(i, AndroidUtilities.statusBarHeight, i, 0);
+        int i2 = this.backgroundPaddingLeft;
+        viewGroup.setPadding(i2, AndroidUtilities.statusBarHeight, i2, 0);
         this.containerView.setClipChildren(false);
         this.containerView.setClipToPadding(false);
         this.containerView.setWillNotDraw(false);
         this.listView.setWillNotDraw(false);
         this.listView.setSelectorRadius(AndroidUtilities.dp(6.0f));
-        this.listView.setSelectorDrawableColor(Theme.getColor("listSelectorSDK21", resourceProvider));
+        this.listView.setSelectorDrawableColor(Theme.getColor(Theme.key_listSelector, resourceProvider));
         this.listView.setPadding(AndroidUtilities.dp(8.0f), 0, AndroidUtilities.dp(8.0f), AndroidUtilities.dp(68.0f));
         RecyclerListView recyclerListView2 = this.listView;
         GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 8);
@@ -461,16 +462,16 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         RecyclerListView recyclerListView3 = this.listView;
         final RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.EmojiPacksAlert$$ExternalSyntheticLambda10
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i2) {
-                EmojiPacksAlert.this.lambda$new$0(arrayList, baseFragment, resourceProvider, view, i2);
+            public final void onItemClick(View view, int i3) {
+                EmojiPacksAlert.this.lambda$new$0(arrayList, baseFragment, resourceProvider, view, i3);
             }
         };
         recyclerListView3.setOnItemClickListener(onItemClickListener);
         this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Components.EmojiPacksAlert$$ExternalSyntheticLambda11
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
-            public final boolean onItemClick(View view, int i2) {
+            public final boolean onItemClick(View view, int i3) {
                 boolean lambda$new$2;
-                lambda$new$2 = EmojiPacksAlert.this.lambda$new$2(context, view, i2);
+                lambda$new$2 = EmojiPacksAlert.this.lambda$new$2(context, view, i3);
                 return lambda$new$2;
             }
         });
@@ -485,8 +486,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         this.gridLayoutManager.setReverseLayout(false);
         this.gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.Components.EmojiPacksAlert.7
             @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
-            public int getSpanSize(int i2) {
-                if (EmojiPacksAlert.this.listView.getAdapter() == null || EmojiPacksAlert.this.listView.getAdapter().getItemViewType(i2) == 1) {
+            public int getSpanSize(int i3) {
+                if (EmojiPacksAlert.this.listView.getAdapter() == null || EmojiPacksAlert.this.listView.getAdapter().getItemViewType(i3) == 1) {
                     return 1;
                 }
                 return EmojiPacksAlert.this.gridLayoutManager.getSpanCount();
@@ -496,26 +497,28 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         this.containerView.addView(this.listView, LayoutHelper.createFrame(-1, -1, 51));
         View view = new View(context);
         this.shadowView = view;
-        view.setBackgroundColor(Theme.getColor("dialogShadowLine"));
+        view.setBackgroundColor(Theme.getColor(Theme.key_dialogShadowLine));
         this.containerView.addView(this.shadowView, LayoutHelper.createFrame(-1.0f, 1.0f / AndroidUtilities.density, 80));
         this.shadowView.setTranslationY(-AndroidUtilities.dp(68.0f));
         FrameLayout frameLayout = new FrameLayout(context);
         this.buttonsView = frameLayout;
-        frameLayout.setBackgroundColor(getThemedColor("dialogBackground"));
+        frameLayout.setBackgroundColor(getThemedColor(Theme.key_dialogBackground));
         this.containerView.addView(this.buttonsView, LayoutHelper.createFrame(-1, 68, 87));
         TextView textView = new TextView(context);
         this.addButtonView = textView;
         textView.setVisibility(8);
-        this.addButtonView.setBackground(Theme.AdaptiveRipple.filledRect(getThemedColor("featuredStickers_addButton"), 6.0f));
-        this.addButtonView.setTextColor(getThemedColor("featuredStickers_buttonText"));
+        this.addButtonView.setBackground(Theme.AdaptiveRipple.filledRect(getThemedColor(i), 6.0f));
+        this.addButtonView.setTextColor(getThemedColor(Theme.key_featuredStickers_buttonText));
         this.addButtonView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.addButtonView.setGravity(17);
         this.buttonsView.addView(this.addButtonView, LayoutHelper.createFrame(-1, 48.0f, 80, 12.0f, 10.0f, 12.0f, 10.0f));
         TextView textView2 = new TextView(context);
         this.removeButtonView = textView2;
         textView2.setVisibility(8);
-        this.removeButtonView.setBackground(Theme.createRadSelectorDrawable(268435455 & getThemedColor("text_RedBold"), 0, 0));
-        this.removeButtonView.setTextColor(getThemedColor("text_RedBold"));
+        TextView textView3 = this.removeButtonView;
+        int i3 = Theme.key_text_RedBold;
+        textView3.setBackground(Theme.createRadSelectorDrawable(268435455 & getThemedColor(i3), 0, 0));
+        this.removeButtonView.setTextColor(getThemedColor(i3));
         this.removeButtonView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.removeButtonView.setGravity(17);
         this.removeButtonView.setClickable(true);
@@ -621,7 +624,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         });
         LinearLayout linearLayout = new LinearLayout(context);
         Drawable mutate = ContextCompat.getDrawable(getContext(), R.drawable.popup_fixed_alert).mutate();
-        mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor("actionBarDefaultSubmenuBackground"), PorterDuff.Mode.MULTIPLY));
+        mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_actionBarDefaultSubmenuBackground), PorterDuff.Mode.MULTIPLY));
         linearLayout.setBackground(mutate);
         linearLayout.addView(actionBarMenuSubItem);
         ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(linearLayout, -2, -2);
@@ -730,7 +733,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             float f;
             AnimatedEmojiSpan animatedEmojiSpan;
             if (this.attached) {
-                this.paint.setColor(EmojiPacksAlert.this.getThemedColor("dialogBackground"));
+                this.paint.setColor(EmojiPacksAlert.this.getThemedColor(Theme.key_dialogBackground));
                 Theme.applyDefaultShadow(this.paint);
                 this.path.reset();
                 float f2 = EmojiPacksAlert.this.lastY = emojiPacksAlert.getListTop();
@@ -756,7 +759,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                     this.lastOpen = valueOf;
                     emojiPacksAlert2.updateLightStatusBar(valueOf.booleanValue());
                 }
-                Theme.dialogs_onlineCirclePaint.setColor(EmojiPacksAlert.this.getThemedColor("key_sheet_scrollUp"));
+                Theme.dialogs_onlineCirclePaint.setColor(EmojiPacksAlert.this.getThemedColor(Theme.key_sheet_scrollUp));
                 Theme.dialogs_onlineCirclePaint.setAlpha((int) (MathUtils.clamp(paddingTop / AndroidUtilities.dp(20.0f), 0.0f, 1.0f) * Theme.dialogs_onlineCirclePaint.getAlpha()));
                 int dp2 = AndroidUtilities.dp(36.0f);
                 float dp3 = paddingTop + AndroidUtilities.dp(10.0f);
@@ -1054,8 +1057,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
 
     /* JADX INFO: Access modifiers changed from: private */
     public void updateLightStatusBar(boolean z) {
-        boolean z2 = AndroidUtilities.computePerceivedBrightness(getThemedColor("dialogBackground")) > 0.721f;
-        boolean z3 = AndroidUtilities.computePerceivedBrightness(Theme.blendOver(getThemedColor("actionBarDefault"), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) > 0.721f;
+        boolean z2 = AndroidUtilities.computePerceivedBrightness(getThemedColor(Theme.key_dialogBackground)) > 0.721f;
+        boolean z3 = AndroidUtilities.computePerceivedBrightness(Theme.blendOver(getThemedColor(Theme.key_actionBarDefault), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) > 0.721f;
         if (!z) {
             z2 = z3;
         }
@@ -1420,7 +1423,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
     class SeparatorView extends View {
         public SeparatorView(EmojiPacksAlert emojiPacksAlert, Context context) {
             super(context);
-            setBackgroundColor(emojiPacksAlert.getThemedColor("chat_emojiPanelShadowLine"));
+            setBackgroundColor(emojiPacksAlert.getThemedColor(Theme.key_chat_emojiPanelShadowLine));
             RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(-1, AndroidUtilities.getShadowHeight());
             ((ViewGroup.MarginLayoutParams) layoutParams).topMargin = AndroidUtilities.dp(14.0f);
             setLayoutParams(layoutParams);
@@ -1557,7 +1560,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 }
                 TextView textView = (TextView) viewHolder.itemView;
                 textView.setTextSize(1, 13.0f);
-                textView.setTextColor(EmojiPacksAlert.this.getThemedColor("chat_emojiPanelTrendingDescription"));
+                textView.setTextColor(EmojiPacksAlert.this.getThemedColor(Theme.key_chat_emojiPanelTrendingDescription));
                 textView.setText(AndroidUtilities.replaceTags(LocaleController.getString("PremiumPreviewEmojiPack", R.string.PremiumPreviewEmojiPack)));
                 textView.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(30.0f), AndroidUtilities.dp(14.0f));
             }
@@ -1864,8 +1867,10 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 TextView textView = new TextView(context);
                 this.addButtonView = textView;
                 textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-                this.addButtonView.setTextColor(EmojiPacksAlert.this.getThemedColor("featuredStickers_buttonText"));
-                this.addButtonView.setBackground(Theme.AdaptiveRipple.filledRect(EmojiPacksAlert.this.getThemedColor("featuredStickers_addButton"), 4.0f));
+                this.addButtonView.setTextColor(EmojiPacksAlert.this.getThemedColor(Theme.key_featuredStickers_buttonText));
+                TextView textView2 = this.addButtonView;
+                int i = Theme.key_featuredStickers_addButton;
+                textView2.setBackground(Theme.AdaptiveRipple.filledRect(EmojiPacksAlert.this.getThemedColor(i), 4.0f));
                 this.addButtonView.setText(LocaleController.getString("Add", R.string.Add));
                 this.addButtonView.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
                 this.addButtonView.setGravity(17);
@@ -1878,11 +1883,11 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 addView(this.addButtonView, LayoutHelper.createFrameRelatively(-2.0f, 28.0f, 8388661, 0.0f, 15.66f, 5.66f, 0.0f));
                 this.addButtonView.measure(View.MeasureSpec.makeMeasureSpec(99999, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(28.0f), 1073741824));
                 float max = Math.max(f2, (this.addButtonView.getMeasuredWidth() + AndroidUtilities.dp(16.0f)) / AndroidUtilities.density);
-                TextView textView2 = new TextView(context);
-                this.removeButtonView = textView2;
-                textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-                this.removeButtonView.setTextColor(EmojiPacksAlert.this.getThemedColor("featuredStickers_addButton"));
-                this.removeButtonView.setBackground(Theme.createRadSelectorDrawable(268435455 & EmojiPacksAlert.this.getThemedColor("featuredStickers_addButton"), 4, 4));
+                TextView textView3 = new TextView(context);
+                this.removeButtonView = textView3;
+                textView3.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.removeButtonView.setTextColor(EmojiPacksAlert.this.getThemedColor(i));
+                this.removeButtonView.setBackground(Theme.createRadSelectorDrawable(268435455 & EmojiPacksAlert.this.getThemedColor(i), 4, 4));
                 this.removeButtonView.setText(LocaleController.getString("StickersRemove", R.string.StickersRemove));
                 this.removeButtonView.setPadding(AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f), 0);
                 this.removeButtonView.setGravity(17);
@@ -1907,8 +1912,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             this.titleView.setEllipsize(TextUtils.TruncateAt.END);
             this.titleView.setSingleLine(true);
             this.titleView.setLines(1);
-            this.titleView.setLinkTextColor(Theme.getColor("windowBackgroundWhiteLinkText", ((BottomSheet) EmojiPacksAlert.this).resourcesProvider));
-            this.titleView.setTextColor(EmojiPacksAlert.this.getThemedColor("dialogTextBlack"));
+            this.titleView.setLinkTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteLinkText, ((BottomSheet) EmojiPacksAlert.this).resourcesProvider));
+            this.titleView.setTextColor(EmojiPacksAlert.this.getThemedColor(Theme.key_dialogTextBlack));
             if (z) {
                 this.titleView.setTextSize(1, 20.0f);
                 addView(this.titleView, LayoutHelper.createFrameRelatively(-1.0f, -2.0f, 8388659, 12.0f, 11.0f, f, 0.0f));
@@ -1917,22 +1922,22 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 addView(this.titleView, LayoutHelper.createFrameRelatively(-1.0f, -2.0f, 8388659, 6.0f, 10.0f, f, 0.0f));
             }
             if (!z) {
-                TextView textView3 = new TextView(context);
-                this.subtitleView = textView3;
-                textView3.setTextSize(1, 13.0f);
-                this.subtitleView.setTextColor(EmojiPacksAlert.this.getThemedColor("dialogTextGray2"));
+                TextView textView4 = new TextView(context);
+                this.subtitleView = textView4;
+                textView4.setTextSize(1, 13.0f);
+                this.subtitleView.setTextColor(EmojiPacksAlert.this.getThemedColor(Theme.key_dialogTextGray2));
                 this.subtitleView.setEllipsize(TextUtils.TruncateAt.END);
                 this.subtitleView.setSingleLine(true);
                 this.subtitleView.setLines(1);
                 addView(this.subtitleView, LayoutHelper.createFrameRelatively(-1.0f, -2.0f, 8388659, 8.0f, 31.66f, f, 0.0f));
             }
             if (z) {
-                ActionBarMenuItem actionBarMenuItem = new ActionBarMenuItem(context, (ActionBarMenu) null, 0, EmojiPacksAlert.this.getThemedColor("key_sheet_other"), ((BottomSheet) EmojiPacksAlert.this).resourcesProvider);
+                ActionBarMenuItem actionBarMenuItem = new ActionBarMenuItem(context, (ActionBarMenu) null, 0, EmojiPacksAlert.this.getThemedColor(Theme.key_sheet_other), ((BottomSheet) EmojiPacksAlert.this).resourcesProvider);
                 this.optionsButton = actionBarMenuItem;
                 actionBarMenuItem.setLongClickEnabled(false);
                 this.optionsButton.setSubMenuOpenSide(2);
                 this.optionsButton.setIcon(R.drawable.ic_ab_other);
-                this.optionsButton.setBackgroundDrawable(Theme.createSelectorDrawable(EmojiPacksAlert.this.getThemedColor("player_actionBarSelector"), 1));
+                this.optionsButton.setBackgroundDrawable(Theme.createSelectorDrawable(EmojiPacksAlert.this.getThemedColor(Theme.key_player_actionBarSelector), 1));
                 addView(this.optionsButton, LayoutHelper.createFrame(40, 40.0f, 53, 0.0f, 5.0f, 5.0f - (((BottomSheet) EmojiPacksAlert.this).backgroundPaddingLeft / AndroidUtilities.density), 0.0f));
                 this.optionsButton.addSubItem(1, R.drawable.msg_share, LocaleController.getString("StickersShare", R.string.StickersShare));
                 this.optionsButton.addSubItem(2, R.drawable.msg_link, LocaleController.getString("CopyLink", R.string.CopyLink));
@@ -1944,8 +1949,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 });
                 this.optionsButton.setDelegate(new ActionBarMenuItem.ActionBarMenuItemDelegate() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPackHeader$$ExternalSyntheticLambda6
                     @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemDelegate
-                    public final void onItemClick(int i) {
-                        EmojiPacksAlert.access$6600(EmojiPacksAlert.this, i);
+                    public final void onItemClick(int i2) {
+                        EmojiPacksAlert.access$6600(EmojiPacksAlert.this, i2);
                     }
                 });
                 this.optionsButton.setContentDescription(LocaleController.getString("AccDescrMoreOptions", R.string.AccDescrMoreOptions));

@@ -153,7 +153,7 @@ public class ActionBarPopupWindow extends PopupWindow {
             Drawable drawable = this.backgroundDrawable;
             if (drawable != null) {
                 drawable.getPadding(this.bgPaddings);
-                setBackgroundColor(getThemedColor("actionBarDefaultSubmenuBackground"));
+                setBackgroundColor(getThemedColor(Theme.key_actionBarDefaultSubmenuBackground));
             }
             setWillNotDraw(false);
             if ((i2 & 2) > 0) {
@@ -657,10 +657,10 @@ public class ActionBarPopupWindow extends PopupWindow {
             }
         }
 
-        private int getThemedColor(String str) {
+        private int getThemedColor(int i) {
             Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-            Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-            return color != null ? color.intValue() : Theme.getColor(str);
+            Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+            return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
         }
 
         public void setOnSizeChangedListener(onSizeChangedListener onsizechangedlistener) {
@@ -1102,7 +1102,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         Drawable shadowDrawable;
 
         public GapView(Context context, Theme.ResourcesProvider resourcesProvider) {
-            this(context, resourcesProvider, "actionBarDefaultSubmenuSeparator");
+            this(context, resourcesProvider, Theme.key_actionBarDefaultSubmenuSeparator);
         }
 
         public GapView(Context context, int i, int i2) {
@@ -1111,8 +1111,8 @@ public class ActionBarPopupWindow extends PopupWindow {
             setBackgroundColor(i);
         }
 
-        public GapView(Context context, Theme.ResourcesProvider resourcesProvider, String str) {
-            this(context, Theme.getColor(str, resourcesProvider), Theme.getColor("windowBackgroundGrayShadow", resourcesProvider));
+        public GapView(Context context, Theme.ResourcesProvider resourcesProvider, int i) {
+            this(context, Theme.getColor(i, resourcesProvider), Theme.getColor(Theme.key_windowBackgroundGrayShadow, resourcesProvider));
         }
 
         public void setColor(int i) {

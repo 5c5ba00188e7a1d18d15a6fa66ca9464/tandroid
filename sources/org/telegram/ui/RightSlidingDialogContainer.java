@@ -555,7 +555,7 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
         if (this.actionModePaint == null) {
             this.actionModePaint = new Paint();
         }
-        this.actionModePaint.setColor(Theme.getColor("actionBarActionModeDefault"));
+        this.actionModePaint.setColor(Theme.getColor(Theme.key_actionBarActionModeDefault));
         if (max == 1.0f) {
             canvas.save();
         } else {

@@ -150,16 +150,16 @@ public class TimerDrawable extends Drawable {
             this.timePaint.setColor(-1);
         } else if (!this.isStaticIcon) {
             if (!this.overrideColor) {
-                this.paint.setColor(Theme.getColor("actionBarDefault", this.resourcesProvider));
+                this.paint.setColor(Theme.getColor(Theme.key_actionBarDefault, this.resourcesProvider));
             }
-            this.timePaint.setColor(Theme.getColor("actionBarDefaultTitle", this.resourcesProvider));
+            this.timePaint.setColor(Theme.getColor(Theme.key_actionBarDefaultTitle, this.resourcesProvider));
         } else {
-            this.timePaint.setColor(Theme.getColor("actionBarDefaultSubmenuItemIcon", this.resourcesProvider));
+            this.timePaint.setColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItemIcon, this.resourcesProvider));
         }
         if (this.currentTtlIcon != null) {
             if (!this.isStaticIcon && !this.isDialog) {
                 canvas.drawCircle(getBounds().centerX(), getBounds().centerY(), getBounds().width() / 2.0f, this.paint);
-                int color = Theme.getColor("actionBarDefaultTitle", this.resourcesProvider);
+                int color = Theme.getColor(Theme.key_actionBarDefaultTitle, this.resourcesProvider);
                 if (this.iconColor != color) {
                     this.iconColor = color;
                     this.currentTtlIcon.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
@@ -183,10 +183,9 @@ public class TimerDrawable extends Drawable {
             double width = getBounds().width() / 2;
             double ceil = Math.ceil(this.timeWidth / 2.0f);
             Double.isNaN(width);
-            double d2 = width - ceil;
-            double d3 = i;
-            Double.isNaN(d3);
-            canvas.translate((float) (d2 + d3), (getBounds().height() - this.timeHeight) / 2.0f);
+            double d2 = i;
+            Double.isNaN(d2);
+            canvas.translate((float) ((width - ceil) + d2), (getBounds().height() - this.timeHeight) / 2.0f);
             this.timeLayout.draw(canvas);
             return;
         }

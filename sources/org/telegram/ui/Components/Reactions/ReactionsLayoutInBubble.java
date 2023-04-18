@@ -99,8 +99,8 @@ public class ReactionsLayoutInBubble {
 
     public ReactionsLayoutInBubble(ChatMessageCell chatMessageCell) {
         this.parentView = chatMessageCell;
-        paint.setColor(Theme.getColor("chat_inLoader", this.resourcesProvider));
-        textPaint.setColor(Theme.getColor("featuredStickers_buttonText", this.resourcesProvider));
+        paint.setColor(Theme.getColor(Theme.key_chat_inLoader, this.resourcesProvider));
+        textPaint.setColor(Theme.getColor(Theme.key_featuredStickers_buttonText, this.resourcesProvider));
         textPaint.setTextSize(AndroidUtilities.dp(12.0f));
         textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.touchSlop = ViewConfiguration.get(ApplicationLoader.applicationContext).getScaledTouchSlop();
@@ -562,7 +562,7 @@ public class ReactionsLayoutInBubble {
                 if (visibleReaction.emojicon != null) {
                     TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(ReactionsLayoutInBubble.this.currentAccount).getReactionsMap().get(this.visibleReaction.emojicon);
                     if (tLRPC$TL_availableReaction != null) {
-                        this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.center_icon), "40_40_lastreactframe", DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.static_icon, "windowBackgroundGray", 1.0f), "webp", tLRPC$TL_availableReaction, 1);
+                        this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.center_icon), "40_40_lastreactframe", DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.static_icon, Theme.key_windowBackgroundGray, 1.0f), "webp", tLRPC$TL_availableReaction, 1);
                     }
                 } else if (visibleReaction.documentId != 0) {
                     this.animatedEmojiDrawable = new AnimatedEmojiDrawable(3, ReactionsLayoutInBubble.this.currentAccount, this.visibleReaction.documentId);
@@ -590,16 +590,16 @@ public class ReactionsLayoutInBubble {
                 return;
             }
             if (this.choosen) {
-                this.backgroundColor = Theme.getColor(ReactionsLayoutInBubble.this.messageObject.isOutOwner() ? "chat_outReactionButtonBackground" : "chat_inReactionButtonBackground", ReactionsLayoutInBubble.this.resourcesProvider);
-                this.textColor = Theme.getColor(ReactionsLayoutInBubble.this.messageObject.isOutOwner() ? "chat_outReactionButtonTextSelected" : "chat_inReactionButtonTextSelected", ReactionsLayoutInBubble.this.resourcesProvider);
-                this.serviceTextColor = Theme.getColor(ReactionsLayoutInBubble.this.messageObject.isOutOwner() ? "chat_outReactionButtonBackground" : "chat_inReactionButtonBackground", ReactionsLayoutInBubble.this.resourcesProvider);
-                this.serviceBackgroundColor = Theme.getColor(ReactionsLayoutInBubble.this.messageObject.isOutOwner() ? "chat_outBubble" : "chat_inBubble");
+                this.backgroundColor = Theme.getColor(ReactionsLayoutInBubble.this.messageObject.isOutOwner() ? Theme.key_chat_outReactionButtonBackground : Theme.key_chat_inReactionButtonBackground, ReactionsLayoutInBubble.this.resourcesProvider);
+                this.textColor = Theme.getColor(ReactionsLayoutInBubble.this.messageObject.isOutOwner() ? Theme.key_chat_outReactionButtonTextSelected : Theme.key_chat_inReactionButtonTextSelected, ReactionsLayoutInBubble.this.resourcesProvider);
+                this.serviceTextColor = Theme.getColor(ReactionsLayoutInBubble.this.messageObject.isOutOwner() ? Theme.key_chat_outReactionButtonBackground : Theme.key_chat_inReactionButtonBackground, ReactionsLayoutInBubble.this.resourcesProvider);
+                this.serviceBackgroundColor = Theme.getColor(ReactionsLayoutInBubble.this.messageObject.isOutOwner() ? Theme.key_chat_outBubble : Theme.key_chat_inBubble);
             } else {
-                this.textColor = Theme.getColor(ReactionsLayoutInBubble.this.messageObject.isOutOwner() ? "chat_outReactionButtonText" : "chat_inReactionButtonText", ReactionsLayoutInBubble.this.resourcesProvider);
-                int color = Theme.getColor(ReactionsLayoutInBubble.this.messageObject.isOutOwner() ? "chat_outReactionButtonBackground" : "chat_inReactionButtonBackground", ReactionsLayoutInBubble.this.resourcesProvider);
+                this.textColor = Theme.getColor(ReactionsLayoutInBubble.this.messageObject.isOutOwner() ? Theme.key_chat_outReactionButtonText : Theme.key_chat_inReactionButtonText, ReactionsLayoutInBubble.this.resourcesProvider);
+                int color = Theme.getColor(ReactionsLayoutInBubble.this.messageObject.isOutOwner() ? Theme.key_chat_outReactionButtonBackground : Theme.key_chat_inReactionButtonBackground, ReactionsLayoutInBubble.this.resourcesProvider);
                 this.backgroundColor = color;
                 this.backgroundColor = ColorUtils.setAlphaComponent(color, (int) (Color.alpha(color) * 0.156f));
-                this.serviceTextColor = Theme.getColor("chat_serviceText", ReactionsLayoutInBubble.this.resourcesProvider);
+                this.serviceTextColor = Theme.getColor(Theme.key_chat_serviceText, ReactionsLayoutInBubble.this.resourcesProvider);
                 this.serviceBackgroundColor = 0;
             }
             updateColors(f);

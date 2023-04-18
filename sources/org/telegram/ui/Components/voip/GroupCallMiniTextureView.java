@@ -191,7 +191,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         this.rect = new Rect();
         this.call = call;
         this.currentAccount = groupCallActivity.getCurrentAccount();
-        CrossOutDrawable crossOutDrawable = new CrossOutDrawable(groupCallRenderersContainer.getContext(), R.drawable.calls_video, null);
+        CrossOutDrawable crossOutDrawable = new CrossOutDrawable(groupCallRenderersContainer.getContext(), R.drawable.calls_video, -1);
         this.pausedVideoDrawable = crossOutDrawable;
         crossOutDrawable.setCrossOut(true, false);
         this.pausedVideoDrawable.setOffsets(-AndroidUtilities.dp(4.0f), AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f));
@@ -578,7 +578,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         addView(this.infoContainer, LayoutHelper.createFrame(-1, 32.0f));
         this.speakingPaint.setStyle(Paint.Style.STROKE);
         this.speakingPaint.setStrokeWidth(AndroidUtilities.dp(2.0f));
-        this.speakingPaint.setColor(Theme.getColor("voipgroup_speakingText"));
+        this.speakingPaint.setColor(Theme.getColor(Theme.key_voipgroup_speakingText));
         this.infoContainer.setClipChildren(false);
         RLottieImageView rLottieImageView = new RLottieImageView(groupCallRenderersContainer.getContext());
         this.micIconView = rLottieImageView;
@@ -618,7 +618,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         this.noRtmpStreamTextView = textView2;
         textView2.setTextSize(1, 15.0f);
         this.noRtmpStreamTextView.setPadding(AndroidUtilities.dp(21.0f), 0, AndroidUtilities.dp(21.0f), 0);
-        this.noRtmpStreamTextView.setTextColor(Theme.getColor("voipgroup_lastSeenText"));
+        this.noRtmpStreamTextView.setTextColor(Theme.getColor(Theme.key_voipgroup_lastSeenText));
         this.noRtmpStreamTextView.setBackground(createSimpleSelectorRoundRectDrawable);
         this.noRtmpStreamTextView.setGravity(17);
         this.noRtmpStreamTextView.setAlpha(0.0f);
@@ -1408,7 +1408,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                                             ImageLocation imageLocation = forChat;
                                             TLRPC$Chat tLRPC$Chat = tLRPC$User;
                                             this.noVideoStubLayout.avatarImageReceiver.setImage(imageLocation, null, (forChat2 != null || (imageFromMemory = ImageLoader.getInstance().getImageFromMemory(forChat2.location, null, "50_50")) == null) ? this.noVideoStubLayout.avatarDrawable : imageFromMemory, null, tLRPC$Chat, 0);
-                                            this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation, "50_50_b", new ColorDrawable(Theme.getColor("voipgroup_listViewBackground")), null, tLRPC$Chat, 0);
+                                            this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation, "50_50_b", new ColorDrawable(Theme.getColor(Theme.key_voipgroup_listViewBackground)), null, tLRPC$Chat, 0);
                                             z5 = false;
                                             if (z2) {
                                             }
@@ -1499,7 +1499,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                                         ImageLocation imageLocation2 = forChat;
                                         TLRPC$Chat tLRPC$Chat2 = tLRPC$User;
                                         this.noVideoStubLayout.avatarImageReceiver.setImage(imageLocation2, null, (forChat2 != null || (imageFromMemory = ImageLoader.getInstance().getImageFromMemory(forChat2.location, null, "50_50")) == null) ? this.noVideoStubLayout.avatarDrawable : imageFromMemory, null, tLRPC$Chat2, 0);
-                                        this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation2, "50_50_b", new ColorDrawable(Theme.getColor("voipgroup_listViewBackground")), null, tLRPC$Chat2, 0);
+                                        this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation2, "50_50_b", new ColorDrawable(Theme.getColor(Theme.key_voipgroup_listViewBackground)), null, tLRPC$Chat2, 0);
                                         z5 = false;
                                         if (z2) {
                                         }
@@ -1542,7 +1542,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                                 ImageLocation imageLocation22 = forChat;
                                 TLRPC$Chat tLRPC$Chat22 = tLRPC$User;
                                 this.noVideoStubLayout.avatarImageReceiver.setImage(imageLocation22, null, (forChat2 != null || (imageFromMemory = ImageLoader.getInstance().getImageFromMemory(forChat2.location, null, "50_50")) == null) ? this.noVideoStubLayout.avatarDrawable : imageFromMemory, null, tLRPC$Chat22, 0);
-                                this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation22, "50_50_b", new ColorDrawable(Theme.getColor("voipgroup_listViewBackground")), null, tLRPC$Chat22, 0);
+                                this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation22, "50_50_b", new ColorDrawable(Theme.getColor(Theme.key_voipgroup_listViewBackground)), null, tLRPC$Chat22, 0);
                                 z5 = false;
                                 if (z2) {
                                 }
@@ -1584,7 +1584,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                         ImageLocation imageLocation222 = forChat;
                         TLRPC$Chat tLRPC$Chat222 = tLRPC$User;
                         this.noVideoStubLayout.avatarImageReceiver.setImage(imageLocation222, null, (forChat2 != null || (imageFromMemory = ImageLoader.getInstance().getImageFromMemory(forChat2.location, null, "50_50")) == null) ? this.noVideoStubLayout.avatarDrawable : imageFromMemory, null, tLRPC$Chat222, 0);
-                        this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation222, "50_50_b", new ColorDrawable(Theme.getColor("voipgroup_listViewBackground")), null, tLRPC$Chat222, 0);
+                        this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation222, "50_50_b", new ColorDrawable(Theme.getColor(Theme.key_voipgroup_listViewBackground)), null, tLRPC$Chat222, 0);
                         z5 = false;
                         if (z2) {
                         }
@@ -1625,7 +1625,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                     ImageLocation imageLocation2222 = forChat;
                     TLRPC$Chat tLRPC$Chat2222 = tLRPC$User;
                     this.noVideoStubLayout.avatarImageReceiver.setImage(imageLocation2222, null, (forChat2 != null || (imageFromMemory = ImageLoader.getInstance().getImageFromMemory(forChat2.location, null, "50_50")) == null) ? this.noVideoStubLayout.avatarDrawable : imageFromMemory, null, tLRPC$Chat2222, 0);
-                    this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation2222, "50_50_b", new ColorDrawable(Theme.getColor("voipgroup_listViewBackground")), null, tLRPC$Chat2222, 0);
+                    this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation2222, "50_50_b", new ColorDrawable(Theme.getColor(Theme.key_voipgroup_listViewBackground)), null, tLRPC$Chat2222, 0);
                     z5 = false;
                     if (z2) {
                     }
@@ -2008,8 +2008,8 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x002d A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x002e  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x002f A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0030  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2021,11 +2021,11 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
             return;
         }
         if (groupCallStatusIcon.isMutedByMe()) {
-            i = Theme.getColor("voipgroup_mutedByAdminIcon");
+            i = Theme.getColor(Theme.key_voipgroup_mutedByAdminIcon);
         } else if (this.statusIcon.isSpeaking()) {
-            i = Theme.getColor("voipgroup_speakingText");
+            i = Theme.getColor(Theme.key_voipgroup_speakingText);
         } else {
-            color = Theme.getColor("voipgroup_speakingText");
+            color = Theme.getColor(Theme.key_voipgroup_speakingText);
             i = -1;
             if (this.animateToColor != i) {
                 return;
@@ -2151,7 +2151,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
             this.bigWaveDrawable.minRadius = AndroidUtilities.dp(80.0f);
             this.bigWaveDrawable.maxRadius = AndroidUtilities.dp(95.0f);
             this.bigWaveDrawable.generateBlob();
-            this.paint.setColor(ColorUtils.blendARGB(Theme.getColor("voipgroup_listeningText"), Theme.getColor("voipgroup_speakingText"), this.speakingProgress));
+            this.paint.setColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_voipgroup_listeningText), Theme.getColor(Theme.key_voipgroup_speakingText), this.speakingProgress));
             this.paint.setAlpha(102);
             this.backgroundPaint.setColor(ColorUtils.setAlphaComponent(-16777216, 127));
         }
@@ -2261,11 +2261,11 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                 weavingStateArr[i] = new GroupCallActivity.WeavingState(i);
                 int i2 = this.muteButtonState;
                 if (i2 == 2) {
-                    this.states[i2].shader = new LinearGradient(0.0f, 400.0f, 400.0f, 0.0f, new int[]{Theme.getColor("voipgroup_mutedByAdminGradient"), Theme.getColor("voipgroup_mutedByAdminGradient3"), Theme.getColor("voipgroup_mutedByAdminGradient2")}, (float[]) null, Shader.TileMode.CLAMP);
+                    this.states[i2].shader = new LinearGradient(0.0f, 400.0f, 400.0f, 0.0f, new int[]{Theme.getColor(Theme.key_voipgroup_mutedByAdminGradient), Theme.getColor(Theme.key_voipgroup_mutedByAdminGradient3), Theme.getColor(Theme.key_voipgroup_mutedByAdminGradient2)}, (float[]) null, Shader.TileMode.CLAMP);
                 } else if (i2 == 1) {
-                    this.states[i2].shader = new RadialGradient(200.0f, 200.0f, 200.0f, new int[]{Theme.getColor("voipgroup_muteButton"), Theme.getColor("voipgroup_muteButton3")}, (float[]) null, Shader.TileMode.CLAMP);
+                    this.states[i2].shader = new RadialGradient(200.0f, 200.0f, 200.0f, new int[]{Theme.getColor(Theme.key_voipgroup_muteButton), Theme.getColor(Theme.key_voipgroup_muteButton3)}, (float[]) null, Shader.TileMode.CLAMP);
                 } else {
-                    this.states[i2].shader = new RadialGradient(200.0f, 200.0f, 200.0f, new int[]{Theme.getColor("voipgroup_unmuteButton2"), Theme.getColor("voipgroup_unmuteButton")}, (float[]) null, Shader.TileMode.CLAMP);
+                    this.states[i2].shader = new RadialGradient(200.0f, 200.0f, 200.0f, new int[]{Theme.getColor(Theme.key_voipgroup_unmuteButton2), Theme.getColor(Theme.key_voipgroup_unmuteButton)}, (float[]) null, Shader.TileMode.CLAMP);
                 }
             }
             GroupCallActivity.WeavingState[] weavingStateArr2 = this.states;

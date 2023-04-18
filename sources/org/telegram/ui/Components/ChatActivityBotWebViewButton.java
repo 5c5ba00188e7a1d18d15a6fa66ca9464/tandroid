@@ -29,7 +29,7 @@ public class ChatActivityBotWebViewButton extends FrameLayout {
     public ChatActivityBotWebViewButton(Context context) {
         super(context);
         this.path = new Path();
-        this.buttonColor = Theme.getColor("featuredStickers_addButton");
+        this.buttonColor = Theme.getColor(Theme.key_featuredStickers_addButton);
         TextView textView = new TextView(context);
         this.textView = textView;
         textView.setTextSize(1, 14.0f);
@@ -47,7 +47,7 @@ public class ChatActivityBotWebViewButton extends FrameLayout {
         addView(this.progressView, LayoutHelper.createFrame(28, 28.0f, 21, 0.0f, 0.0f, 12.0f, 0.0f));
         View view = new View(context);
         this.rippleView = view;
-        view.setBackground(Theme.createSelectorDrawable(Theme.getColor("featuredStickers_addButtonPressed"), 2));
+        view.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_featuredStickers_addButtonPressed), 2));
         addView(this.rippleView, LayoutHelper.createFrame(-1, -1.0f, 3, 0.0f, 0.0f, 0.0f, 0.0f));
         setWillNotDraw(false);
     }
@@ -88,7 +88,7 @@ public class ChatActivityBotWebViewButton extends FrameLayout {
 
     public void setProgress(float f) {
         this.progress = f;
-        this.backgroundColor = ColorUtils.blendARGB(Theme.getColor("chat_messagePanelVoiceBackground"), this.buttonColor, f);
+        this.backgroundColor = ColorUtils.blendARGB(Theme.getColor(Theme.key_chat_messagePanelVoiceBackground), this.buttonColor, f);
         for (int i = 0; i < getChildCount(); i++) {
             getChildAt(i).setAlpha(f);
         }

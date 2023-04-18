@@ -21,11 +21,11 @@ class DoubledLimitsBottomSheet$LimitCell extends LinearLayout {
         this.title = textView;
         textView.setTextSize(1, 15.0f);
         this.title.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        this.title.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+        this.title.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         addView(this.title, LayoutHelper.createLinear(-1, -2, 0.0f, 0, 16, 0, 16, 0));
         TextView textView2 = new TextView(context);
         this.subtitle = textView2;
-        textView2.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
+        textView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
         this.subtitle.setTextSize(1, 14.0f);
         addView(this.subtitle, LayoutHelper.createLinear(-1, -2, 0.0f, 0, 16, 1, 16, 0));
         LimitPreviewView limitPreviewView = new LimitPreviewView(context, 0, 10, 20);

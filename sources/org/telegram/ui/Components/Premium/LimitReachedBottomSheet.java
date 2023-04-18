@@ -180,7 +180,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
                 }
             };
             this.divider = view;
-            view.setBackgroundColor(Theme.getColor("dialogBackground"));
+            view.setBackgroundColor(Theme.getColor(Theme.key_dialogBackground));
             frameLayout.addView(this.divider, LayoutHelper.createFrame(-1, 72.0f, 80, 0.0f, 0.0f, 0.0f, 0.0f));
         }
         frameLayout.addView(this.premiumButtonView, LayoutHelper.createFrame(-1, 48.0f, 80, 16.0f, 0.0f, 16.0f, 12.0f));
@@ -385,7 +385,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
         create.show();
         TextView textView = (TextView) create.getButton(-1);
         if (textView != null) {
-            textView.setTextColor(Theme.getColor("text_RedBold"));
+            textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
         }
     }
 
@@ -463,7 +463,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
                         view = flickerLoadingView;
                         break;
                     case 2:
-                        flickerLoadingView = new ShadowSectionCell(context, 12, Theme.getColor("windowBackgroundGray"));
+                        flickerLoadingView = new ShadowSectionCell(context, 12, Theme.getColor(Theme.key_windowBackgroundGray));
                         view = flickerLoadingView;
                         break;
                     case 3:
@@ -754,13 +754,14 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
                 textView.setText(LocaleController.getString("LimitReached", R.string.LimitReached));
             }
             textView.setTextSize(1, 20.0f);
-            textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+            int i11 = Theme.key_windowBackgroundWhiteBlackText;
+            textView.setTextColor(Theme.getColor(i11));
             addView(textView, LayoutHelper.createLinear(-2, -2, 1, 0, z ? 8 : 22, 0, 10));
             TextView textView2 = new TextView(context);
             textView2.setText(AndroidUtilities.replaceTags(str2));
             textView2.setTextSize(1, 14.0f);
             textView2.setGravity(1);
-            textView2.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+            textView2.setTextColor(Theme.getColor(i11));
             addView(textView2, LayoutHelper.createLinear(-2, -2, 0, 24, 0, 24, 24));
             limitReachedBottomSheet.updatePremiumButtonText();
         }
@@ -974,7 +975,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
         create.show();
         TextView textView = (TextView) create.getButton(-1);
         if (textView != null) {
-            textView.setTextColor(Theme.getColor("text_RedBold"));
+            textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
         }
     }
 

@@ -157,7 +157,8 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         this.resourcesProvider = resourcesProvider;
         ImageReceiver imageReceiver = new ImageReceiver(this);
         this.linkImageView = imageReceiver;
-        imageReceiver.setLayerNum(1);
+        imageReceiver.setAllowLoadingOnAttachedOnly(true);
+        this.linkImageView.setLayerNum(1);
         this.linkImageView.setUseSharedAnimationQueue(true);
         this.letterDrawable = new LetterDrawable(resourcesProvider, 0);
         this.radialProgress = new RadialProgress2(this);
@@ -166,11 +167,12 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         if (z) {
             Paint paint = new Paint();
             this.backgroundPaint = paint;
-            paint.setColor(Theme.getColor("sharedMedia_photoPlaceholder", resourcesProvider));
+            int i = Theme.key_sharedMedia_photoPlaceholder;
+            paint.setColor(Theme.getColor(i, resourcesProvider));
             CheckBox2 checkBox2 = new CheckBox2(context, 21, resourcesProvider);
             this.checkBox = checkBox2;
             checkBox2.setVisibility(4);
-            this.checkBox.setColor(null, "sharedMedia_photoPlaceholder", "checkboxCheck");
+            this.checkBox.setColor(-1, i, Theme.key_checkboxCheck);
             this.checkBox.setDrawUnchecked(false);
             this.checkBox.setDrawBackgroundAsArc(1);
             addView(this.checkBox, LayoutHelper.createFrame(24, 24.0f, 53, 0.0f, 1.0f, 1.0f, 0.0f));
@@ -210,7 +212,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
     /* JADX WARN: Removed duplicated region for block: B:59:0x0180  */
     /* JADX WARN: Removed duplicated region for block: B:75:0x01ca  */
     /* JADX WARN: Removed duplicated region for block: B:85:0x01ec  */
-    /* JADX WARN: Type inference failed for: r3v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r3v30 */
     /* JADX WARN: Type inference failed for: r3v31 */
     /* JADX WARN: Type inference failed for: r3v32 */
@@ -547,7 +549,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                                             this.linkImageView.setImage(ImageLocation.getForPath(str2), "100_100", ImageLocation.getForPhoto(this.currentPhotoObject, this.photoAttach), str4, -1L, str, this.parentObject, 1);
                                         }
                                     } else if (this.currentPhotoObject != null) {
-                                        SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(this.documentAttach, "windowBackgroundGray", f);
+                                        SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(this.documentAttach, Theme.key_windowBackgroundGray, f);
                                         if (!MessageObject.canAutoplayAnimatedSticker(this.documentAttach)) {
                                             TLRPC$Document tLRPC$Document3 = this.documentAttach;
                                             if (tLRPC$Document3 == null) {
@@ -1098,14 +1100,14 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
             canvas.restore();
         }
         if (this.descriptionLayout != null) {
-            Theme.chat_contextResult_descriptionTextPaint.setColor(Theme.getColor("windowBackgroundWhiteGrayText2", this.resourcesProvider));
+            Theme.chat_contextResult_descriptionTextPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2, this.resourcesProvider));
             canvas.save();
             canvas.translate(AndroidUtilities.dp(LocaleController.isRTL ? 8.0f : AndroidUtilities.leftBaseline), this.descriptionY);
             this.descriptionLayout.draw(canvas);
             canvas.restore();
         }
         if (this.linkLayout != null) {
-            Theme.chat_contextResult_descriptionTextPaint.setColor(Theme.getColor("windowBackgroundWhiteLinkText", this.resourcesProvider));
+            Theme.chat_contextResult_descriptionTextPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteLinkText, this.resourcesProvider));
             canvas.save();
             canvas.translate(AndroidUtilities.dp(LocaleController.isRTL ? 8.0f : AndroidUtilities.leftBaseline), this.linkY);
             this.linkLayout.draw(canvas);
@@ -1119,7 +1121,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
             }
             int i2 = this.documentAttachType;
             if (i2 == 3 || i2 == 5) {
-                this.radialProgress.setProgressColor(Theme.getColor(this.buttonPressed ? "chat_inAudioSelectedProgress" : "chat_inAudioProgress", this.resourcesProvider));
+                this.radialProgress.setProgressColor(Theme.getColor(this.buttonPressed ? Theme.key_chat_inAudioSelectedProgress : Theme.key_chat_inAudioProgress, this.resourcesProvider));
                 this.radialProgress.draw(canvas);
             } else {
                 TLRPC$BotInlineResult tLRPC$BotInlineResult = this.inlineResult;
@@ -1226,7 +1228,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
     private int getIconForCurrentState() {
         int i = this.documentAttachType;
         if (i == 3 || i == 5) {
-            this.radialProgress.setColors("chat_inLoader", "chat_inLoaderSelected", "chat_inMediaIcon", "chat_inMediaIconSelected");
+            this.radialProgress.setColorKeys(Theme.key_chat_inLoader, Theme.key_chat_inLoaderSelected, Theme.key_chat_inMediaIcon, Theme.key_chat_inMediaIconSelected);
             int i2 = this.buttonState;
             if (i2 == 1) {
                 return 1;
@@ -1236,7 +1238,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
             }
             return i2 == 4 ? 3 : 0;
         }
-        this.radialProgress.setColors("chat_mediaLoaderPhoto", "chat_mediaLoaderPhotoSelected", "chat_mediaLoaderPhotoIcon", "chat_mediaLoaderPhotoIconSelected");
+        this.radialProgress.setColorKeys(Theme.key_chat_mediaLoaderPhoto, Theme.key_chat_mediaLoaderPhotoSelected, Theme.key_chat_mediaLoaderPhotoIcon, Theme.key_chat_mediaLoaderPhotoIconSelected);
         return this.buttonState == 1 ? 10 : 4;
     }
 

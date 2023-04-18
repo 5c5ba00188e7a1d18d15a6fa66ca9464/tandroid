@@ -525,14 +525,14 @@ public class AnimatedEmojiDrawable extends Drawable {
     /* JADX WARN: Type inference failed for: r1v18, types: [org.telegram.messenger.ImageReceiver] */
     /* JADX WARN: Type inference failed for: r1v19, types: [org.telegram.messenger.ImageReceiver] */
     /* JADX WARN: Type inference failed for: r1v21, types: [org.telegram.messenger.ImageReceiver] */
-    /* JADX WARN: Type inference failed for: r1v23, types: [org.telegram.messenger.ImageReceiver] */
+    /* JADX WARN: Type inference failed for: r1v22, types: [org.telegram.messenger.ImageReceiver] */
     /* JADX WARN: Type inference failed for: r22v0, types: [android.graphics.drawable.Drawable] */
     /* JADX WARN: Type inference failed for: r22v1, types: [android.graphics.drawable.Drawable] */
     /* JADX WARN: Type inference failed for: r24v0, types: [android.graphics.drawable.Drawable] */
     /* JADX WARN: Type inference failed for: r24v1, types: [android.graphics.drawable.Drawable] */
     /* JADX WARN: Type inference failed for: r24v2, types: [android.graphics.drawable.Drawable] */
-    /* JADX WARN: Type inference failed for: r3v2, types: [org.telegram.messenger.SvgHelper$SvgDrawable] */
-    /* JADX WARN: Type inference failed for: r3v3, types: [org.telegram.messenger.SvgHelper$SvgDrawable] */
+    /* JADX WARN: Type inference failed for: r3v11, types: [org.telegram.messenger.SvgHelper$SvgDrawable] */
+    /* JADX WARN: Type inference failed for: r4v2, types: [org.telegram.messenger.SvgHelper$SvgDrawable] */
     private void initDocument(boolean z) {
         int i;
         String str;
@@ -596,7 +596,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                 if ("video/webm".equals(this.document.mime_type)) {
                     obj2 = ImageLocation.getForDocument(this.document);
                     str2 = str2 + "_" + ImageLoader.AUTOPLAY_FILTER;
-                    obj = DocumentObject.getSvgThumb(this.document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
+                    obj = DocumentObject.getSvgThumb(this.document.thumbs, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f);
                 } else if ("application/x-tgsticker".equals(this.document.mime_type)) {
                     StringBuilder sb = new StringBuilder();
                     if (this.cacheType != 0) {
@@ -610,17 +610,16 @@ public class AnimatedEmojiDrawable extends Drawable {
                     sb.append(str2);
                     String sb2 = sb.toString();
                     if (SharedConfig.getDevicePerformanceClass() != 0 || this.cacheType == 2 || !ImageLoader.getInstance().hasLottieMemCache(sb2)) {
-                        ?? svgThumb = DocumentObject.getSvgThumb(this.document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
+                        ?? svgThumb = DocumentObject.getSvgThumb(this.document.thumbs, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f);
                         if (svgThumb != 0 && MessageObject.isAnimatedStickerDocument(this.document, true)) {
                             svgThumb.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
                         }
                         obj2 = svgThumb;
                     }
-                    Object obj3 = obj2;
+                    obj = obj2;
                     obj2 = ImageLocation.getForDocument(this.document);
-                    obj = obj3;
                 } else {
-                    ?? svgThumb2 = DocumentObject.getSvgThumb(this.document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
+                    ?? svgThumb2 = DocumentObject.getSvgThumb(this.document.thumbs, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f);
                     obj = svgThumb2;
                     if (svgThumb2 != 0) {
                         obj = svgThumb2;

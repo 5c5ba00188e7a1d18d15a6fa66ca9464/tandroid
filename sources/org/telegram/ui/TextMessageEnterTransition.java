@@ -236,28 +236,31 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         MessageObject.TextLayoutBlock textLayoutBlock = chatMessageCell.getMessageObject().textLayoutBlocks.get(0);
         this.textLayoutBlock = textLayoutBlock;
         StaticLayout staticLayout = textLayoutBlock.textLayout;
-        if (Math.abs(ColorUtils.calculateLuminance(getThemedColor("chat_messageTextOut")) - ColorUtils.calculateLuminance(getThemedColor("chat_messagePanelText"))) > 0.20000000298023224d) {
+        int i5 = Theme.key_chat_messageTextOut;
+        double calculateLuminance = ColorUtils.calculateLuminance(getThemedColor(i5));
+        int i6 = Theme.key_chat_messagePanelText;
+        if (Math.abs(calculateLuminance - ColorUtils.calculateLuminance(getThemedColor(i6))) > 0.20000000298023224d) {
             this.crossfade = true;
             this.changeColor = true;
         }
-        this.fromColor = getThemedColor("chat_messagePanelText");
-        this.toColor = getThemedColor("chat_messageTextOut");
+        this.fromColor = getThemedColor(i6);
+        this.toColor = getThemedColor(i5);
         if (staticLayout.getLineCount() == this.layout.getLineCount()) {
             lineCount = staticLayout.getLineCount();
-            int i5 = 0;
+            int i7 = 0;
             i2 = 0;
             i3 = 0;
             while (true) {
-                if (i5 < lineCount) {
-                    if (isRtlLine(this.layout, i5)) {
+                if (i7 < lineCount) {
+                    if (isRtlLine(this.layout, i7)) {
                         i3++;
                     } else {
                         i2++;
                     }
-                    if (staticLayout.getLineEnd(i5) != this.layout.getLineEnd(i5)) {
+                    if (staticLayout.getLineEnd(i7) != this.layout.getLineEnd(i7)) {
                         this.crossfade = true;
                     } else {
-                        i5++;
+                        i7++;
                     }
                 }
             }
@@ -270,13 +273,13 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
             SpannableString spannableString = new SpannableString(charSequence);
             SpannableString spannableString2 = new SpannableString(charSequence);
             float f2 = Float.MAX_VALUE;
-            for (int i6 = 0; i6 < lineCount; i6++) {
-                if (isRtlLine(this.layout, i6)) {
-                    spannableString.setSpan(new EmptyStubSpan(), this.layout.getLineStart(i6), this.layout.getLineEnd(i6), 0);
-                    float lineLeft2 = this.layout.getLineLeft(i6);
+            for (int i8 = 0; i8 < lineCount; i8++) {
+                if (isRtlLine(this.layout, i8)) {
+                    spannableString.setSpan(new EmptyStubSpan(), this.layout.getLineStart(i8), this.layout.getLineEnd(i8), 0);
+                    float lineLeft2 = this.layout.getLineLeft(i8);
                     f2 = lineLeft2 < f2 ? lineLeft2 : f2;
                 } else {
-                    spannableString2.setSpan(new EmptyStubSpan(), this.layout.getLineStart(i6), this.layout.getLineEnd(i6), 0);
+                    spannableString2.setSpan(new EmptyStubSpan(), this.layout.getLineStart(i8), this.layout.getLineEnd(i8), 0);
                 }
             }
             if (Build.VERSION.SDK_INT >= 24) {
@@ -372,7 +375,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         if (SharedConfig.getDevicePerformanceClass() != 2 || (currentBackgroundDrawable = chatMessageCell.getCurrentBackgroundDrawable(true)) == null) {
             return;
         }
-        this.fromMessageDrawable = currentBackgroundDrawable.getTransitionDrawable(getThemedColor("chat_messagePanelBackground"));
+        this.fromMessageDrawable = currentBackgroundDrawable.getTransitionDrawable(getThemedColor(Theme.key_chat_messagePanelBackground));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -552,13 +555,13 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                 if (messageObject.type == 0 || !TextUtils.isEmpty(messageObject.caption)) {
                     TLRPC$MessageMedia tLRPC$MessageMedia = this.currentMessageObject.replyMessageObject.messageOwner.media;
                     if (!(tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaGame) && !(tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaInvoice)) {
-                        themedColor = getThemedColor("chat_outReplyMessageText");
+                        themedColor = getThemedColor(Theme.key_chat_outReplyMessageText);
                         if (!this.currentMessageObject.isOutOwner()) {
-                            themedColor2 = getThemedColor("chat_outReplyNameText");
-                            themedColor3 = getThemedColor("chat_outReplyLine");
+                            themedColor2 = getThemedColor(Theme.key_chat_outReplyNameText);
+                            themedColor3 = getThemedColor(Theme.key_chat_outReplyLine);
                         } else {
-                            themedColor2 = getThemedColor("chat_inReplyNameText");
-                            themedColor3 = getThemedColor("chat_inReplyLine");
+                            themedColor2 = getThemedColor(Theme.key_chat_inReplyNameText);
+                            themedColor3 = getThemedColor(Theme.key_chat_inReplyLine);
                         }
                         int i3 = themedColor2;
                         int i4 = themedColor3;
@@ -646,7 +649,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                     }
                 }
             }
-            themedColor = getThemedColor("chat_outReplyMediaMessageText");
+            themedColor = getThemedColor(Theme.key_chat_outReplyMediaMessageText);
             if (!this.currentMessageObject.isOutOwner()) {
             }
             int i32 = themedColor2;
@@ -816,9 +819,9 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         canvas.restore();
     }
 
-    private int getThemedColor(String str) {
+    private int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 }

@@ -334,13 +334,13 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                                 objArr[c3] = str3;
                                 SpannableStringBuilder valueOf2 = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", objArr));
                                 try {
-                                    valueOf2.setSpan(new ForegroundColorSpanThemable("chats_attachMessage"), str3.length() + 2, valueOf2.length(), 33);
+                                    valueOf2.setSpan(new ForegroundColorSpanThemable(Theme.key_chats_attachMessage), str3.length() + 2, valueOf2.length(), 33);
                                 } catch (Exception e) {
                                     FileLog.e(e);
                                 }
                                 color = color2;
                                 spannableStringBuilder = valueOf2;
-                                spannableStringBuilder.setSpan(new ForegroundColorSpanThemable("chats_nameMessage"), 0, str3.length() + 1, 33);
+                                spannableStringBuilder.setSpan(new ForegroundColorSpanThemable(Theme.key_chats_nameMessage), 0, str3.length() + 1, 33);
                                 charSequence3 = spannableStringBuilder;
                             } else {
                                 String str4 = messageObject.messageOwner.message;
@@ -359,7 +359,7 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                                     valueOf = SpannableStringBuilder.valueOf("");
                                 }
                             }
-                            spannableStringBuilder.setSpan(new ForegroundColorSpanThemable("chats_nameMessage"), 0, str3.length() + 1, 33);
+                            spannableStringBuilder.setSpan(new ForegroundColorSpanThemable(Theme.key_chats_nameMessage), 0, str3.length() + 1, 33);
                             charSequence3 = spannableStringBuilder;
                         } catch (Exception e2) {
                             FileLog.e(e2);

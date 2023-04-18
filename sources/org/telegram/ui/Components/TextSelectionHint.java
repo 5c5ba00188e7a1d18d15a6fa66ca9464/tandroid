@@ -61,7 +61,7 @@ public class TextSelectionHint extends View {
         };
         this.path = new Path();
         this.resourcesProvider = resourcesProvider;
-        int themedColor = getThemedColor("undo_infoColor");
+        int themedColor = getThemedColor(Theme.key_undo_infoColor);
         int alpha = Color.alpha(themedColor);
         this.textPaint.setTextSize(AndroidUtilities.dp(15.0f));
         this.textPaint.setColor(themedColor);
@@ -70,7 +70,7 @@ public class TextSelectionHint extends View {
         double d = alpha;
         Double.isNaN(d);
         paint.setAlpha((int) (d * 0.14d));
-        setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(6.0f), getThemedColor("undo_background")));
+        setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(6.0f), getThemedColor(Theme.key_undo_background)));
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -401,9 +401,9 @@ public class TextSelectionHint extends View {
         return this.prepareProgress;
     }
 
-    private int getThemedColor(String str) {
+    private int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 }

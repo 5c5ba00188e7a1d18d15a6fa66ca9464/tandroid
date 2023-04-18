@@ -502,7 +502,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             public void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 if (TopicsFragment.this.isInPreviewMode()) {
-                    this.actionBarPaint.setColor(TopicsFragment.this.getThemedColor("windowBackgroundWhite"));
+                    this.actionBarPaint.setColor(TopicsFragment.this.getThemedColor(Theme.key_windowBackgroundWhite));
                     this.actionBarPaint.setAlpha((int) (TopicsFragment.this.searchAnimationProgress * 255.0f));
                     canvas.drawRect(0.0f, 0.0f, getWidth(), AndroidUtilities.statusBarHeight, this.actionBarPaint);
                 }
@@ -565,9 +565,9 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             actionBarMenuItemSearchListener.setSearchPaddingStart(56);
             this.searchItem.setSearchFieldHint(LocaleController.getString("Search", R.string.Search));
             EditTextBoldCursor searchField = this.searchItem.getSearchField();
-            searchField.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            searchField.setHintTextColor(Theme.getColor("player_time"));
-            searchField.setCursorColor(Theme.getColor("chat_messagePanelCursor"));
+            searchField.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            searchField.setHintTextColor(Theme.getColor(Theme.key_player_time));
+            searchField.setCursorColor(Theme.getColor(Theme.key_chat_messagePanelCursor));
         }
         ActionBarMenuItem addItem2 = createMenu.addItem(0, R.drawable.ic_ab_other, this.themeDelegate);
         this.other = addItem2;
@@ -730,7 +730,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                 TopicsFragment.this.lambda$createView$4(view);
             }
         });
-        Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor("chats_actionBackground"), Theme.getColor("chats_actionPressedBackground"));
+        Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor(Theme.key_chats_actionBackground), Theme.getColor(Theme.key_chats_actionPressedBackground));
         if (i5 < 21) {
             Drawable mutate = ContextCompat.getDrawable(getParentActivity(), R.drawable.floating_shadow).mutate();
             mutate.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
@@ -812,9 +812,9 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         this.closeReportSpam.setContentDescription(LocaleController.getString("Close", R.string.Close));
         int i7 = Build.VERSION.SDK_INT;
         if (i7 >= 21) {
-            this.closeReportSpam.setBackground(Theme.AdaptiveRipple.circle(getThemedColor("chat_topPanelClose")));
+            this.closeReportSpam.setBackground(Theme.AdaptiveRipple.circle(getThemedColor(Theme.key_chat_topPanelClose)));
         }
-        this.closeReportSpam.setColorFilter(new PorterDuffColorFilter(getThemedColor("chat_topPanelClose"), PorterDuff.Mode.MULTIPLY));
+        this.closeReportSpam.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_chat_topPanelClose), PorterDuff.Mode.MULTIPLY));
         this.closeReportSpam.setScaleType(ImageView.ScaleType.CENTER);
         this.bottomOverlayContainer.addView(this.closeReportSpam, LayoutHelper.createFrame(36, 36.0f, 53, 0.0f, 6.0f, 2.0f, 0.0f));
         this.closeReportSpam.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TopicsFragment$$ExternalSyntheticLambda4
@@ -842,7 +842,9 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         this.searchContainer = messagesSearchContainer;
         messagesSearchContainer.setVisibility(8);
         this.fullscreenView.addView(this.searchContainer, LayoutHelper.createFrame(-1, -1.0f, 119, 0.0f, 44.0f, 0.0f, 0.0f));
-        this.searchContainer.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+        MessagesSearchContainer messagesSearchContainer2 = this.searchContainer;
+        int i8 = Theme.key_windowBackgroundWhite;
+        messagesSearchContainer2.setBackgroundColor(Theme.getColor(i8));
         this.actionBar.setDrawBlurBackground(this.contentView);
         getMessagesStorage().loadChatInfo(this.chatId, true, null, true, false, 0);
         FrameLayout frameLayout5 = new FrameLayout(context);
@@ -893,7 +895,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         };
         this.blurredView = view;
         if (i7 >= 23) {
-            view.setForeground(new ColorDrawable(ColorUtils.setAlphaComponent(getThemedColor("windowBackgroundWhite"), 100)));
+            view.setForeground(new ColorDrawable(ColorUtils.setAlphaComponent(getThemedColor(i8), 100)));
         }
         this.blurredView.setFocusable(false);
         this.blurredView.setImportantForAccessibility(2);
@@ -1594,14 +1596,16 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         if (radialProgressView == null) {
             return;
         }
-        radialProgressView.setProgressColor(getThemedColor("chat_fieldOverlayText"));
-        this.floatingButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chats_actionIcon"), PorterDuff.Mode.MULTIPLY));
-        this.bottomOverlayContainer.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-        this.actionBar.setActionModeColor(Theme.getColor("windowBackgroundWhite"));
+        radialProgressView.setProgressColor(getThemedColor(Theme.key_chat_fieldOverlayText));
+        this.floatingButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_actionIcon), PorterDuff.Mode.MULTIPLY));
+        FrameLayout frameLayout = this.bottomOverlayContainer;
+        int i = Theme.key_windowBackgroundWhite;
+        frameLayout.setBackgroundColor(Theme.getColor(i));
+        this.actionBar.setActionModeColor(Theme.getColor(i));
         if (!this.inPreviewMode) {
-            this.actionBar.setBackgroundColor(Theme.getColor("actionBarDefault"));
+            this.actionBar.setBackgroundColor(Theme.getColor(Theme.key_actionBarDefault));
         }
-        this.searchContainer.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+        this.searchContainer.setBackgroundColor(Theme.getColor(i));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1749,7 +1753,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             }
             super.dispatchDraw(canvas);
             if (drawMovingViewsOverlayed()) {
-                this.paint.setColor(Theme.getColor("windowBackgroundWhite"));
+                this.paint.setColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                 for (int i = 0; i < getChildCount(); i++) {
                     View childAt = getChildAt(i);
                     if (((childAt instanceof DialogCell) && ((DialogCell) childAt).isMoving()) || ((childAt instanceof DialogsAdapter.LastEmptyView) && ((DialogsAdapter.LastEmptyView) childAt).moving)) {
@@ -1990,7 +1994,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         create.show();
         TextView textView = (TextView) create.getButton(-1);
         if (textView != null) {
-            textView.setTextColor(Theme.getColor("text_RedBold"));
+            textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
         }
     }
 
@@ -2104,8 +2108,8 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         if (ChatObject.canDeleteTopic(this.currentAccount, getCurrentChat(), tLRPC$TL_forumTopic)) {
             ActionBarMenuSubItem actionBarMenuSubItem4 = new ActionBarMenuSubItem(getParentActivity(), false, true);
             actionBarMenuSubItem4.setTextAndIcon(LocaleController.getPluralString("DeleteTopics", 1), R.drawable.msg_delete);
-            actionBarMenuSubItem4.setIconColor(getThemedColor("text_RedRegular"));
-            actionBarMenuSubItem4.setTextColor(getThemedColor("text_RedBold"));
+            actionBarMenuSubItem4.setIconColor(getThemedColor(Theme.key_text_RedRegular));
+            actionBarMenuSubItem4.setTextColor(getThemedColor(Theme.key_text_RedBold));
             actionBarMenuSubItem4.setMinimumWidth(160);
             actionBarMenuSubItem4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TopicsFragment$$ExternalSyntheticLambda7
                 @Override // android.view.View.OnClickListener
@@ -2280,7 +2284,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             ViewPagerFixed.TabsView createTabsView = this.searchContainer.createTabsView(false, 8);
             this.searchTabsView = createTabsView;
             if (this.parentDialogsActivity != null) {
-                createTabsView.setBackgroundColor(getThemedColor("windowBackgroundWhite"));
+                createTabsView.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
             }
             this.fullscreenView.addView(this.searchTabsView, LayoutHelper.createFrame(-1, 44.0f));
         }
@@ -2346,11 +2350,14 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     /* JADX INFO: Access modifiers changed from: private */
     public void updateSearchProgress(float f) {
         this.searchAnimationProgress = f;
-        this.actionBar.setItemsColor(ColorUtils.blendARGB(Theme.getColor("actionBarDefaultIcon"), Theme.getColor("actionBarActionModeDefaultIcon"), this.searchAnimationProgress), false);
-        this.actionBar.setItemsColor(ColorUtils.blendARGB(Theme.getColor("actionBarActionModeDefaultIcon"), Theme.getColor("actionBarActionModeDefaultIcon"), this.searchAnimationProgress), true);
-        this.actionBar.setItemsBackgroundColor(ColorUtils.blendARGB(Theme.getColor("actionBarDefaultSelector"), Theme.getColor("actionBarActionModeDefaultSelector"), this.searchAnimationProgress), false);
+        int color = Theme.getColor(Theme.key_actionBarDefaultIcon);
+        ActionBar actionBar = this.actionBar;
+        int i = Theme.key_actionBarActionModeDefaultIcon;
+        actionBar.setItemsColor(ColorUtils.blendARGB(color, Theme.getColor(i), this.searchAnimationProgress), false);
+        this.actionBar.setItemsColor(ColorUtils.blendARGB(Theme.getColor(i), Theme.getColor(i), this.searchAnimationProgress), true);
+        this.actionBar.setItemsBackgroundColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_actionBarDefaultSelector), Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), this.searchAnimationProgress), false);
         if (!this.inPreviewMode) {
-            this.actionBar.setBackgroundColor(ColorUtils.blendARGB(Theme.getColor("actionBarDefault"), Theme.getColor("windowBackgroundWhite"), this.searchAnimationProgress));
+            this.actionBar.setBackgroundColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_actionBarDefault), Theme.getColor(Theme.key_windowBackgroundWhite), this.searchAnimationProgress));
         }
         float f2 = 1.0f - f;
         this.avatarContainer.getTitleTextView().setAlpha(f2);
@@ -2577,7 +2584,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         this.selectedDialogsCountTextView = numberTextView;
         numberTextView.setTextSize(18);
         this.selectedDialogsCountTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        this.selectedDialogsCountTextView.setTextColor(Theme.getColor("actionBarActionModeDefaultIcon"));
+        this.selectedDialogsCountTextView.setTextColor(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon));
         createActionMode.addView(this.selectedDialogsCountTextView, LayoutHelper.createLinear(0, -1, 1.0f, 72, 0, 0, 0));
         this.selectedDialogsCountTextView.setOnTouchListener(TopicsFragment$$ExternalSyntheticLambda11.INSTANCE);
         this.pinItem = createActionMode.addItemWithWidth(4, R.drawable.msg_pin, AndroidUtilities.dp(54.0f));
@@ -2806,7 +2813,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     private void setButtonType(int i) {
         if (this.bottomButtonType != i) {
             this.bottomButtonType = i;
-            this.bottomOverlayChatText.setTextColorKey(i == 0 ? "chat_fieldOverlayText" : "text_RedBold");
+            this.bottomOverlayChatText.setTextColorKey(i == 0 ? Theme.key_chat_fieldOverlayText : Theme.key_text_RedBold);
             this.closeReportSpam.setVisibility(i == 1 ? 0 : 8);
             updateChatInfo();
         }
@@ -3240,7 +3247,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             int i = -AndroidUtilities.dp(4.0f);
             this.translateY = i;
             canvas.translate(f, i);
-            canvas.drawColor(TopicsFragment.this.getThemedColor("windowBackgroundWhite"));
+            canvas.drawColor(TopicsFragment.this.getThemedColor(Theme.key_windowBackgroundWhite));
             super.onDraw(canvas);
             canvas.restore();
             canvas.save();
@@ -3338,15 +3345,15 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             if (tLRPC$TL_forumTopic != null && this != TopicsFragment.this.generalTopicViewMoving) {
                 if (tLRPC$TL_forumTopic.hidden) {
                     this.overrideSwipeAction = true;
-                    this.overrideSwipeActionBackgroundColorKey = "chats_archivePinBackground";
-                    this.overrideSwipeActionRevealBackgroundColorKey = "chats_archiveBackground";
+                    this.overrideSwipeActionBackgroundColorKey = Theme.key_chats_archivePinBackground;
+                    this.overrideSwipeActionRevealBackgroundColorKey = Theme.key_chats_archiveBackground;
                     this.overrideSwipeActionStringKey = "Unhide";
                     this.overrideSwipeActionStringId = R.string.Unhide;
                     this.overrideSwipeActionDrawable = Theme.dialogs_unpinArchiveDrawable;
                 } else {
                     this.overrideSwipeAction = true;
-                    this.overrideSwipeActionBackgroundColorKey = "chats_archiveBackground";
-                    this.overrideSwipeActionRevealBackgroundColorKey = "chats_archivePinBackground";
+                    this.overrideSwipeActionBackgroundColorKey = Theme.key_chats_archiveBackground;
+                    this.overrideSwipeActionRevealBackgroundColorKey = Theme.key_chats_archivePinBackground;
                     this.overrideSwipeActionStringKey = "Hide";
                     this.overrideSwipeActionStringId = R.string.Hide;
                     this.overrideSwipeActionDrawable = Theme.dialogs_pinArchiveDrawable;
@@ -3358,7 +3365,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             }
             if (tLRPC$TL_forumTopic != null && tLRPC$TL_forumTopic.id == 1) {
                 setAnimatedEmojiDrawable(null);
-                setForumIcon(ForumUtilities.createGeneralTopicDrawable(getContext(), 1.0f, TopicsFragment.this.getThemedColor("chat_inMenu")));
+                setForumIcon(ForumUtilities.createGeneralTopicDrawable(getContext(), 1.0f, TopicsFragment.this.getThemedColor(Theme.key_chat_inMenu)));
             } else if (tLRPC$TL_forumTopic != null && tLRPC$TL_forumTopic.icon_emoji_id != 0) {
                 setForumIcon(null);
                 AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
@@ -3415,11 +3422,11 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         private void setHiddenT() {
             Drawable drawable = this.forumIcon;
             if (drawable instanceof ForumUtilities.GeneralTopicDrawable) {
-                ((ForumUtilities.GeneralTopicDrawable) drawable).setColor(ColorUtils.blendARGB(TopicsFragment.this.getThemedColor("chats_archivePullDownBackground"), TopicsFragment.this.getThemedColor("avatar_background2Saved"), this.hiddenT));
+                ((ForumUtilities.GeneralTopicDrawable) drawable).setColor(ColorUtils.blendARGB(TopicsFragment.this.getThemedColor(Theme.key_chats_archivePullDownBackground), TopicsFragment.this.getThemedColor(Theme.key_avatar_background2Saved), this.hiddenT));
             }
             Drawable[] drawableArr = this.topicIconInName;
             if (drawableArr != null && (drawableArr[0] instanceof ForumUtilities.GeneralTopicDrawable)) {
-                ((ForumUtilities.GeneralTopicDrawable) drawableArr[0]).setColor(ColorUtils.blendARGB(TopicsFragment.this.getThemedColor("chats_archivePullDownBackground"), TopicsFragment.this.getThemedColor("avatar_background2Saved"), this.hiddenT));
+                ((ForumUtilities.GeneralTopicDrawable) drawableArr[0]).setColor(ColorUtils.blendARGB(TopicsFragment.this.getThemedColor(Theme.key_chats_archivePullDownBackground), TopicsFragment.this.getThemedColor(Theme.key_avatar_background2Saved), this.hiddenT));
             }
             invalidate();
         }
@@ -3501,7 +3508,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             this.textView.setText(spannableStringBuilder);
             this.textView.setTextSize(1, 14.0f);
             this.textView.setLayerType(2, null);
-            this.textView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText", topicsFragment.getResourceProvider()));
+            this.textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, topicsFragment.getResourceProvider()));
             TextView textView = this.textView;
             boolean z = LocaleController.isRTL;
             addView(textView, LayoutHelper.createFrame(-2, -2.0f, 81, z ? 72.0f : 32.0f, 0.0f, z ? 32.0f : 72.0f, 32.0f));
@@ -3532,9 +3539,9 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean isLightStatusBar() {
-        int color = Theme.getColor(this.searching ? "windowBackgroundWhite" : "actionBarDefault");
+        int color = Theme.getColor(this.searching ? Theme.key_windowBackgroundWhite : Theme.key_actionBarDefault);
         if (this.actionBar.isActionModeShowed()) {
-            color = Theme.getColor("actionBarActionModeDefault");
+            color = Theme.getColor(Theme.key_actionBarActionModeDefault);
         }
         return ColorUtils.calculateLuminance(color) > 0.699999988079071d;
     }
@@ -4349,11 +4356,11 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             }
         };
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "windowBackgroundWhite"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "actionBarDefault"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_ITEMSCOLOR, null, null, null, null, "actionBarDefaultIcon"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_TITLECOLOR, null, null, null, null, "actionBarDefaultTitle"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_SELECTORCOLOR, null, null, null, null, "actionBarDefaultSelector"));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_windowBackgroundWhite));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_actionBarDefault));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_ITEMSCOLOR, null, null, null, null, Theme.key_actionBarDefaultIcon));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_TITLECOLOR, null, null, null, null, Theme.key_actionBarDefaultTitle));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_SELECTORCOLOR, null, null, null, null, Theme.key_actionBarDefaultSelector));
         MessagesSearchContainer messagesSearchContainer = this.searchContainer;
         if (messagesSearchContainer != null && (recyclerListView = messagesSearchContainer.recyclerView) != null) {
             GraySectionCell.createThemeDescriptions(arrayList, recyclerListView);
@@ -4389,14 +4396,14 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         }
         ActionBar actionBar = this.actionBar;
         if (actionBar != null) {
-            actionBar.setPopupBackgroundColor(Theme.getColor("actionBarDefaultSubmenuBackground"), true);
-            this.actionBar.setPopupItemsColor(Theme.getColor("actionBarDefaultSubmenuItem"), false, true);
-            this.actionBar.setPopupItemsColor(Theme.getColor("actionBarDefaultSubmenuItemIcon"), true, true);
-            this.actionBar.setPopupItemsSelectorColor(Theme.getColor("dialogButtonSelector"), true);
+            actionBar.setPopupBackgroundColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuBackground), true);
+            this.actionBar.setPopupItemsColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem), false, true);
+            this.actionBar.setPopupItemsColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItemIcon), true, true);
+            this.actionBar.setPopupItemsSelectorColor(Theme.getColor(Theme.key_dialogButtonSelector), true);
         }
         View view = this.blurredView;
         if (view != null && Build.VERSION.SDK_INT >= 23) {
-            view.setForeground(new ColorDrawable(ColorUtils.setAlphaComponent(getThemedColor("windowBackgroundWhite"), 100)));
+            view.setForeground(new ColorDrawable(ColorUtils.setAlphaComponent(getThemedColor(Theme.key_windowBackgroundWhite), 100)));
         }
         updateColors();
     }

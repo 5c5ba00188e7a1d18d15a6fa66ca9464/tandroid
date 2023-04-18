@@ -173,7 +173,7 @@ public class ForwardingPreviewView extends FrameLayout {
         }
         ActionBar actionBar = new ActionBar(context, resourcesDelegate);
         this.actionBar = actionBar;
-        actionBar.setBackgroundColor(getThemedColor("actionBarDefault"));
+        actionBar.setBackgroundColor(getThemedColor(Theme.key_actionBarDefault));
         this.actionBar.setOccupyStatusBar(false);
         RecyclerListView recyclerListView = new RecyclerListView(context, resourcesDelegate) { // from class: org.telegram.ui.Components.ForwardingPreviewView.4
             @Override // androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
@@ -222,7 +222,7 @@ public class ForwardingPreviewView extends FrameLayout {
             }
 
             /* JADX WARN: Type inference failed for: r3v0 */
-            /* JADX WARN: Type inference failed for: r3v1, types: [boolean, int] */
+            /* JADX WARN: Type inference failed for: r3v1, types: [int, boolean] */
             /* JADX WARN: Type inference failed for: r3v9 */
             private void drawChatBackgroundElements(Canvas canvas) {
                 boolean z;
@@ -474,7 +474,8 @@ public class ForwardingPreviewView extends FrameLayout {
         Resources resources = getContext().getResources();
         int i4 = R.drawable.popup_fixed_alert;
         Drawable mutate = resources.getDrawable(i4).mutate();
-        mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
+        int i5 = Theme.key_dialogBackground;
+        mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor(i5), PorterDuff.Mode.MULTIPLY));
         this.buttonsLayout.setBackground(mutate);
         this.menuContainer.addView(this.buttonsLayout, LayoutHelper.createFrame(-1, -2.0f));
         ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(context, true, true, false, (Theme.ResourcesProvider) resourcesDelegate);
@@ -506,11 +507,11 @@ public class ForwardingPreviewView extends FrameLayout {
         if (this.forwardingMessagesParams.hasCaption) {
             View view = new View(this, context) { // from class: org.telegram.ui.Components.ForwardingPreviewView.11
                 @Override // android.view.View
-                protected void onMeasure(int i5, int i6) {
-                    super.onMeasure(i5, View.MeasureSpec.makeMeasureSpec(2, 1073741824));
+                protected void onMeasure(int i6, int i7) {
+                    super.onMeasure(i6, View.MeasureSpec.makeMeasureSpec(2, 1073741824));
                 }
             };
-            view.setBackgroundColor(getThemedColor("divider"));
+            view.setBackgroundColor(getThemedColor(Theme.key_divider));
             this.buttonsLayout.addView(view, LayoutHelper.createFrame(-1, -2.0f));
             ActionBarMenuSubItem actionBarMenuSubItem5 = new ActionBarMenuSubItem(context, true, false, false, (Theme.ResourcesProvider) resourcesDelegate);
             this.showCaptionView = actionBarMenuSubItem5;
@@ -527,7 +528,7 @@ public class ForwardingPreviewView extends FrameLayout {
         this.buttonsLayout2 = linearLayout3;
         linearLayout3.setOrientation(1);
         Drawable mutate2 = getContext().getResources().getDrawable(i4).mutate();
-        mutate2.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
+        mutate2.setColorFilter(new PorterDuffColorFilter(getThemedColor(i5), PorterDuff.Mode.MULTIPLY));
         this.buttonsLayout2.setBackground(mutate2);
         this.menuContainer.addView(this.buttonsLayout2, LayoutHelper.createFrame(-1, -2.0f, 0, 0.0f, this.forwardingMessagesParams.hasSenders ? -8.0f : 0.0f, 0.0f, 0.0f));
         ActionBarMenuSubItem actionBarMenuSubItem7 = new ActionBarMenuSubItem(context, true, false, (Theme.ResourcesProvider) resourcesDelegate);
@@ -1443,9 +1444,9 @@ public class ForwardingPreviewView extends FrameLayout {
         return null;
     }
 
-    private int getThemedColor(String str) {
+    private int getThemedColor(int i) {
         ResourcesDelegate resourcesDelegate = this.resourcesProvider;
-        Integer color = resourcesDelegate != null ? resourcesDelegate.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesDelegate != null ? Integer.valueOf(resourcesDelegate.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 }

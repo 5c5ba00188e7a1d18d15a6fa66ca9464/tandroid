@@ -128,7 +128,7 @@ public class SharedPhotoVideoCell2 extends View {
         if (i == 1) {
             CheckBoxBase checkBoxBase = new CheckBoxBase(this, 21, null);
             this.checkBoxBase = checkBoxBase;
-            checkBoxBase.setColor(null, "sharedMedia_photoPlaceholder", "checkboxCheck");
+            checkBoxBase.setColor(-1, Theme.key_sharedMedia_photoPlaceholder, Theme.key_checkboxCheck);
             this.checkBoxBase.setDrawUnchecked(true);
             this.checkBoxBase.setBackgroundType(0);
             this.checkBoxBase.setBounds(0, 0, AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f));
@@ -293,16 +293,16 @@ public class SharedPhotoVideoCell2 extends View {
         this.drawVideoIcon = z;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:120:0x0346  */
-    /* JADX WARN: Removed duplicated region for block: B:126:0x035c  */
-    /* JADX WARN: Removed duplicated region for block: B:127:0x0375  */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x038e  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x0106  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0117  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0143  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x015f  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x0189  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x023c  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x034b  */
+    /* JADX WARN: Removed duplicated region for block: B:128:0x0361  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x037a  */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x0393  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x010b  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x011c  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0148  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0164  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x018e  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x0241  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -316,13 +316,13 @@ public class SharedPhotoVideoCell2 extends View {
         float f3;
         float f4;
         float f5;
-        FlickerLoadingView flickerLoadingView;
         float f6;
         CheckBoxBase checkBoxBase;
         CheckBoxBase checkBoxBase2;
         float dp;
         int dp2;
         String str;
+        FlickerLoadingView flickerLoadingView;
         float dp3;
         float dpf22;
         float f7;
@@ -351,11 +351,11 @@ public class SharedPhotoVideoCell2 extends View {
                 }
                 f2 = measuredWidth;
                 f3 = measuredHeight;
-                if (this.currentMessageObject == null && this.imageReceiver.hasBitmapImage() && this.imageReceiver.getCurrentAlpha() == 1.0f && this.imageAlpha == 1.0f) {
+                if ((this.currentMessageObject == null || this.style == 1) && this.imageReceiver.hasBitmapImage() && this.imageReceiver.getCurrentAlpha() == 1.0f && this.imageAlpha == 1.0f) {
                     f4 = f3;
                     f5 = f2;
                 } else {
-                    if (getParent() != null || (flickerLoadingView = this.globalGradientView) == null) {
+                    if (getParent() == null || (flickerLoadingView = this.globalGradientView) == null) {
                         f4 = f3;
                         f5 = f2;
                     } else {
@@ -481,11 +481,8 @@ public class SharedPhotoVideoCell2 extends View {
         f3 = measuredHeight;
         if (this.currentMessageObject == null) {
         }
-        if (getParent() != null) {
-        }
         f4 = f3;
         f5 = f2;
-        invalidate();
         f6 = this.imageAlpha;
         if (f6 == 1.0f) {
         }
@@ -653,7 +650,7 @@ public class SharedPhotoVideoCell2 extends View {
         if (this.checkBoxBase == null) {
             CheckBoxBase checkBoxBase2 = new CheckBoxBase(this, 21, null);
             this.checkBoxBase = checkBoxBase2;
-            checkBoxBase2.setColor(null, "sharedMedia_photoPlaceholder", "checkboxCheck");
+            checkBoxBase2.setColor(-1, Theme.key_sharedMedia_photoPlaceholder, Theme.key_checkboxCheck);
             this.checkBoxBase.setDrawUnchecked(false);
             this.checkBoxBase.setBackgroundType(1);
             this.checkBoxBase.setBounds(0, 0, AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f));
@@ -722,7 +719,7 @@ public class SharedPhotoVideoCell2 extends View {
             Drawable drawable = ContextCompat.getDrawable(context, R.drawable.play_mini_video);
             this.playDrawable = drawable;
             drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), this.playDrawable.getIntrinsicHeight());
-            this.backgroundPaint.setColor(Theme.getColor("sharedMedia_photoPlaceholder", resourcesProvider));
+            this.backgroundPaint.setColor(Theme.getColor(Theme.key_sharedMedia_photoPlaceholder, resourcesProvider));
         }
 
         public String getFilterString(int i) {

@@ -300,7 +300,8 @@ public class LinkActionView extends LinearLayout {
         if (!this.hideRevokeOption) {
             ActionBarMenuSubItem actionBarMenuSubItem3 = new ActionBarMenuSubItem(context, false, true);
             actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString("RevokeLink", R.string.RevokeLink), R.drawable.msg_delete);
-            actionBarMenuSubItem3.setColors(Theme.getColor("text_RedRegular"), Theme.getColor("text_RedRegular"));
+            int i = Theme.key_text_RedRegular;
+            actionBarMenuSubItem3.setColors(Theme.getColor(i), Theme.getColor(i));
             actionBarMenuSubItem3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda2
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
@@ -492,17 +493,26 @@ public class LinkActionView extends LinearLayout {
     }
 
     public void updateColors() {
-        this.copyView.setTextColor(Theme.getColor("featuredStickers_buttonText"));
-        this.shareView.setTextColor(Theme.getColor("featuredStickers_buttonText"));
-        this.removeView.setTextColor(Theme.getColor("featuredStickers_buttonText"));
-        this.copyView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor("featuredStickers_addButton"), Theme.getColor("featuredStickers_addButtonPressed")));
-        this.shareView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor("featuredStickers_addButton"), Theme.getColor("featuredStickers_addButtonPressed")));
-        this.removeView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor("chat_attachAudioBackground"), ColorUtils.setAlphaComponent(Theme.getColor("windowBackgroundWhite"), 120)));
-        this.frameLayout.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor("graySection"), ColorUtils.setAlphaComponent(Theme.getColor("listSelectorSDK21"), 76)));
-        this.linkView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-        this.optionsView.setColorFilter(Theme.getColor("dialogTextGray3"));
-        this.avatarsContainer.countTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText"));
-        this.avatarsContainer.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), 0, ColorUtils.setAlphaComponent(Theme.getColor("windowBackgroundWhiteBlueText"), 76)));
+        TextView textView = this.copyView;
+        int i = Theme.key_featuredStickers_buttonText;
+        textView.setTextColor(Theme.getColor(i));
+        this.shareView.setTextColor(Theme.getColor(i));
+        this.removeView.setTextColor(Theme.getColor(i));
+        TextView textView2 = this.copyView;
+        int dp = AndroidUtilities.dp(6.0f);
+        int i2 = Theme.key_featuredStickers_addButton;
+        int color = Theme.getColor(i2);
+        int i3 = Theme.key_featuredStickers_addButtonPressed;
+        textView2.setBackground(Theme.createSimpleSelectorRoundRectDrawable(dp, color, Theme.getColor(i3)));
+        this.shareView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor(i2), Theme.getColor(i3)));
+        this.removeView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor(Theme.key_chat_attachAudioBackground), ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_windowBackgroundWhite), 120)));
+        this.frameLayout.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor(Theme.key_graySection), ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_listSelector), 76)));
+        this.linkView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+        this.optionsView.setColorFilter(Theme.getColor(Theme.key_dialogTextGray3));
+        TextView textView3 = this.avatarsContainer.countTextView;
+        int i4 = Theme.key_windowBackgroundWhiteBlueText;
+        textView3.setTextColor(Theme.getColor(i4));
+        this.avatarsContainer.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), 0, ColorUtils.setAlphaComponent(Theme.getColor(i4), 76)));
         QRCodeBottomSheet qRCodeBottomSheet = this.qrCodeBottomSheet;
         if (qRCodeBottomSheet != null) {
             qRCodeBottomSheet.updateColors();
@@ -593,7 +603,7 @@ public class LinkActionView extends LinearLayout {
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
         TextView textView = (TextView) builder.create().getButton(-1);
         if (textView != null) {
-            textView.setTextColor(Theme.getColor("text_RedBold"));
+            textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
         }
         builder.show();
     }

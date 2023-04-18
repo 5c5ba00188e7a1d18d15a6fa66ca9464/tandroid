@@ -25,8 +25,8 @@ public class LoadingDrawable extends Drawable {
     public Paint backgroundPaint;
     public Integer color1;
     public Integer color2;
-    public String colorKey1;
-    public String colorKey2;
+    public int colorKey1;
+    public int colorKey2;
     private LinearGradient disappearGradient;
     private int disappearGradientWidth;
     private Matrix disappearMatrix;
@@ -71,8 +71,8 @@ public class LoadingDrawable extends Drawable {
         this.disappearStart = -1L;
         this.matrix = new Matrix();
         this.strokeMatrix = new Matrix();
-        this.colorKey1 = "dialogBackground";
-        this.colorKey2 = "dialogBackgroundGray";
+        this.colorKey1 = Theme.key_dialogBackground;
+        this.colorKey2 = Theme.key_dialogBackgroundGray;
         this.gradientWidthScale = 1.0f;
         this.speed = 1.0f;
         this.paint = new Paint(1);

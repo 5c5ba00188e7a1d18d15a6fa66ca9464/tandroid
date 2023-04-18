@@ -106,7 +106,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         this.avatarDrawable = new AvatarDrawable();
         CheckBox2 checkBox2 = new CheckBox2(context, 21, resourcesProvider);
         this.checkBox = checkBox2;
-        checkBox2.setColor(null, "windowBackgroundWhite", "checkboxCheck");
+        checkBox2.setColor(-1, Theme.key_windowBackgroundWhite, Theme.key_checkboxCheck);
         this.checkBox.setDrawUnchecked(false);
         this.checkBox.setDrawBackgroundAsArc(3);
         addView(this.checkBox);
@@ -519,7 +519,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
             TLRPC$EmojiStatus tLRPC$EmojiStatus = tLRPC$User.emoji_status;
             if ((tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil) && ((TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus).until > ((int) (System.currentTimeMillis() / 1000))) {
                 this.statusDrawable.set(((TLRPC$TL_emojiStatusUntil) tLRPC$User.emoji_status).document_id, z2);
-                this.statusDrawable.setColor(Integer.valueOf(Theme.getColor("chats_verifiedBackground", this.resourcesProvider)));
+                this.statusDrawable.setColor(Integer.valueOf(Theme.getColor(Theme.key_chats_verifiedBackground, this.resourcesProvider)));
                 return;
             }
         }
@@ -527,17 +527,17 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
             TLRPC$EmojiStatus tLRPC$EmojiStatus2 = tLRPC$User.emoji_status;
             if (tLRPC$EmojiStatus2 instanceof TLRPC$TL_emojiStatus) {
                 this.statusDrawable.set(((TLRPC$TL_emojiStatus) tLRPC$EmojiStatus2).document_id, z2);
-                this.statusDrawable.setColor(Integer.valueOf(Theme.getColor("chats_verifiedBackground", this.resourcesProvider)));
+                this.statusDrawable.setColor(Integer.valueOf(Theme.getColor(Theme.key_chats_verifiedBackground, this.resourcesProvider)));
                 return;
             }
         }
         if (tLRPC$User != null && !this.savedMessages && MessagesController.getInstance(this.currentAccount).isPremiumUser(tLRPC$User)) {
             this.statusDrawable.set(PremiumGradient.getInstance().premiumStarDrawableMini, z2);
-            this.statusDrawable.setColor(Integer.valueOf(Theme.getColor("chats_verifiedBackground", this.resourcesProvider)));
+            this.statusDrawable.setColor(Integer.valueOf(Theme.getColor(Theme.key_chats_verifiedBackground, this.resourcesProvider)));
             return;
         }
         this.statusDrawable.set((Drawable) null, z2);
-        this.statusDrawable.setColor(Integer.valueOf(Theme.getColor("chats_verifiedBackground", this.resourcesProvider)));
+        this.statusDrawable.setColor(Integer.valueOf(Theme.getColor(Theme.key_chats_verifiedBackground, this.resourcesProvider)));
     }
 
     public void update(int i) {
@@ -719,7 +719,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
             canvas.restore();
         }
         if (this.actionLayout != null) {
-            this.actionButton.setColor(Theme.getColor("chats_unreadCounter"), Theme.getColor("chats_unreadCounterText"));
+            this.actionButton.setColor(Theme.getColor(Theme.key_chats_unreadCounter), Theme.getColor(Theme.key_chats_unreadCounterText));
             RectF rectF2 = AndroidUtilities.rectTmp;
             rectF2.set(this.actionLeft, this.countTop, i + this.actionLayout.getWidth(), this.countTop + AndroidUtilities.dp(23.0f));
             rectF2.inset(-AndroidUtilities.dp(16.0f), -AndroidUtilities.dp(4.0f));

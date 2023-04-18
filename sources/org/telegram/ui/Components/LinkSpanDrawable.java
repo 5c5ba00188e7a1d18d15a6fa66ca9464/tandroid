@@ -65,7 +65,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
         this.isLite = !LiteMode.isEnabled(LiteMode.FLAGS_CHAT);
         this.mSpan = s;
         this.mResourcesProvider = resourcesProvider;
-        setColor(Theme.getColor("chat_linkSelectBackground", resourcesProvider));
+        setColor(Theme.getColor(Theme.key_chat_linkSelectBackground, resourcesProvider));
         this.mTouchX = f;
         this.mTouchY = f2;
         this.mLongPressDuration = ViewConfiguration.getLongPressTimeout();

@@ -21,9 +21,9 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.NumberPicker;
 /* loaded from: classes4.dex */
 public class SwipeGestureSettingsView extends FrameLayout {
-    String[] backgroundKeys;
+    int[] backgroundKeys;
     float colorProgress;
-    String currentColorKey;
+    int currentColorKey;
     int currentIconIndex;
     int currentIconValue;
     Paint filledPaint;
@@ -49,7 +49,7 @@ public class SwipeGestureSettingsView extends FrameLayout {
         this.rect = new RectF();
         String[] strArr = new String[6];
         this.strings = strArr;
-        this.backgroundKeys = new String[6];
+        this.backgroundKeys = new int[6];
         this.icons = new RLottieDrawable[6];
         this.iconViews = new RLottieImageView[2];
         this.colorProgress = 1.0f;
@@ -59,13 +59,14 @@ public class SwipeGestureSettingsView extends FrameLayout {
         this.strings[3] = LocaleController.getString("SwipeSettingsMute", R.string.SwipeSettingsMute);
         this.strings[4] = LocaleController.getString("SwipeSettingsDelete", R.string.SwipeSettingsDelete);
         this.strings[5] = LocaleController.getString("SwipeSettingsFolders", R.string.SwipeSettingsFolders);
-        String[] strArr2 = this.backgroundKeys;
-        strArr2[0] = "chats_archiveBackground";
-        strArr2[1] = "chats_archiveBackground";
-        strArr2[2] = "chats_archiveBackground";
-        strArr2[3] = "chats_archiveBackground";
-        strArr2[4] = "dialogSwipeRemove";
-        strArr2[5] = "chats_archivePinBackground";
+        int[] iArr = this.backgroundKeys;
+        int i2 = Theme.key_chats_archiveBackground;
+        iArr[0] = i2;
+        iArr[1] = i2;
+        iArr[2] = i2;
+        iArr[3] = i2;
+        iArr[4] = Theme.key_dialogSwipeRemove;
+        iArr[5] = Theme.key_chats_archivePinBackground;
         this.outlinePaint.setStyle(Paint.Style.STROKE);
         this.outlinePaint.setStrokeWidth(AndroidUtilities.dp(1.0f));
         this.linePaint.setStyle(Paint.Style.STROKE);
@@ -80,7 +81,7 @@ public class SwipeGestureSettingsView extends FrameLayout {
             public void onDraw(Canvas canvas) {
                 super.onDraw(canvas);
                 float dp = AndroidUtilities.dp(31.0f);
-                SwipeGestureSettingsView.this.pickerDividersPaint.setColor(Theme.getColor("radioBackgroundChecked"));
+                SwipeGestureSettingsView.this.pickerDividersPaint.setColor(Theme.getColor(Theme.key_radioBackgroundChecked));
                 canvas.drawLine(AndroidUtilities.dp(2.0f), dp, getMeasuredWidth() - AndroidUtilities.dp(2.0f), dp, SwipeGestureSettingsView.this.pickerDividersPaint);
                 float measuredHeight = getMeasuredHeight() - AndroidUtilities.dp(31.0f);
                 canvas.drawLine(AndroidUtilities.dp(2.0f), measuredHeight, getMeasuredWidth() - AndroidUtilities.dp(2.0f), measuredHeight, SwipeGestureSettingsView.this.pickerDividersPaint);
@@ -96,16 +97,16 @@ public class SwipeGestureSettingsView extends FrameLayout {
         this.picker.setWrapSelectorWheel(true);
         this.picker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.SwipeGestureSettingsView$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
-            public final String format(int i2) {
+            public final String format(int i3) {
                 String lambda$new$0;
-                lambda$new$0 = SwipeGestureSettingsView.this.lambda$new$0(i2);
+                lambda$new$0 = SwipeGestureSettingsView.this.lambda$new$0(i3);
                 return lambda$new$0;
             }
         });
         this.picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.SwipeGestureSettingsView$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.NumberPicker.OnValueChangeListener
-            public final void onValueChange(NumberPicker numberPicker2, int i2, int i3) {
-                SwipeGestureSettingsView.this.lambda$new$1(numberPicker2, i2, i3);
+            public final void onValueChange(NumberPicker numberPicker2, int i3, int i4) {
+                SwipeGestureSettingsView.this.lambda$new$1(numberPicker2, i3, i4);
             }
         });
         this.picker.setImportantForAccessibility(2);
@@ -113,9 +114,9 @@ public class SwipeGestureSettingsView extends FrameLayout {
         addView(this.picker, LayoutHelper.createFrame(132, -1.0f, 5, 21.0f, 0.0f, 21.0f, 0.0f));
         setWillNotDraw(false);
         this.currentIconIndex = 0;
-        for (int i2 = 0; i2 < 2; i2++) {
-            this.iconViews[i2] = new RLottieImageView(context);
-            addView(this.iconViews[i2], LayoutHelper.createFrame(28, 28.0f, 21, 0.0f, 0.0f, 184.0f, 0.0f));
+        for (int i3 = 0; i3 < 2; i3++) {
+            this.iconViews[i3] = new RLottieImageView(context);
+            addView(this.iconViews[i3], LayoutHelper.createFrame(28, 28.0f, 21, 0.0f, 0.0f, 184.0f, 0.0f));
         }
         RLottieDrawable icon = getIcon(this.picker.getValue());
         if (icon != null) {
@@ -181,9 +182,9 @@ public class SwipeGestureSettingsView extends FrameLayout {
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(102.0f), 1073741824));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:23:0x00b6  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x00b4  */
     /* JADX WARN: Removed duplicated region for block: B:24:0x00d5  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0113  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0111  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -205,19 +206,21 @@ public class SwipeGestureSettingsView extends FrameLayout {
                     this.iconViews[1].invalidate();
                     invalidate();
                 }
-                this.outlinePaint.setColor(Theme.getColor("switchTrack"));
-                this.linePaint.setColor(Theme.getColor("switchTrack"));
+                Paint paint = this.outlinePaint;
+                int i = Theme.key_switchTrack;
+                paint.setColor(Theme.getColor(i));
+                this.linePaint.setColor(Theme.getColor(i));
                 int measuredWidth = getMeasuredWidth() - ((AndroidUtilities.dp(132.0f) + AndroidUtilities.dp(21.0f)) + AndroidUtilities.dp(16.0f));
                 int dp = AndroidUtilities.dp(21.0f);
                 float f4 = dp;
                 float measuredHeight2 = (getMeasuredHeight() - AndroidUtilities.dp(48.0f)) / 2;
                 this.rect.set(f4, measuredHeight2, measuredWidth, getMeasuredHeight() - measuredHeight);
-                if (this.currentColorKey != null) {
+                if (this.currentColorKey >= 0) {
                     this.currentColorKey = this.backgroundKeys[this.picker.getValue()];
                     this.colorProgress = 1.0f;
-                    this.fromColor = ColorUtils.blendARGB(Theme.getColor("windowBackgroundWhite"), Theme.getColor(this.currentColorKey), 0.9f);
-                } else if (!this.backgroundKeys[this.picker.getValue()].equals(this.currentColorKey)) {
-                    this.fromColor = ColorUtils.blendARGB(this.fromColor, ColorUtils.blendARGB(Theme.getColor("windowBackgroundWhite"), Theme.getColor(this.currentColorKey), 0.9f), this.colorProgress);
+                    this.fromColor = ColorUtils.blendARGB(Theme.getColor(Theme.key_windowBackgroundWhite), Theme.getColor(this.currentColorKey), 0.9f);
+                } else if (this.backgroundKeys[this.picker.getValue()] != this.currentColorKey) {
+                    this.fromColor = ColorUtils.blendARGB(this.fromColor, ColorUtils.blendARGB(Theme.getColor(Theme.key_windowBackgroundWhite), Theme.getColor(this.currentColorKey), 0.9f), this.colorProgress);
                     this.colorProgress = 0.0f;
                     this.currentColorKey = this.backgroundKeys[this.picker.getValue()];
                 }
@@ -231,9 +234,11 @@ public class SwipeGestureSettingsView extends FrameLayout {
                         invalidate();
                     }
                 }
-                this.filledPaint.setColor(ColorUtils.blendARGB(this.fromColor, ColorUtils.blendARGB(Theme.getColor("windowBackgroundWhite"), Theme.getColor(this.currentColorKey), 0.9f), this.colorProgress));
+                int i2 = this.fromColor;
+                int i3 = Theme.key_windowBackgroundWhite;
+                this.filledPaint.setColor(ColorUtils.blendARGB(i2, ColorUtils.blendARGB(Theme.getColor(i3), Theme.getColor(this.currentColorKey), 0.9f), this.colorProgress));
                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);
-                this.filledPaint.setColor(Theme.getColor("windowBackgroundWhite"));
+                this.filledPaint.setColor(Theme.getColor(i3));
                 this.filledPaint.setAlpha(255);
                 this.rect.set(f4, measuredHeight2, measuredWidth - AndroidUtilities.dp(58.0f), getMeasuredHeight() - measuredHeight);
                 this.rect.inset(-AndroidUtilities.dp(1.0f), -AndroidUtilities.dp(1.0f));
@@ -242,7 +247,7 @@ public class SwipeGestureSettingsView extends FrameLayout {
                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.outlinePaint);
                 canvas.save();
                 canvas.clipRect(this.rect);
-                this.filledPaint.setColor(Theme.getColor("switchTrack"));
+                this.filledPaint.setColor(Theme.getColor(i));
                 this.filledPaint.setAlpha(60);
                 RectF rectF = this.rect;
                 canvas.drawCircle(rectF.left + 0.0f, rectF.centerY(), AndroidUtilities.dp(15.0f), this.filledPaint);
@@ -268,21 +273,25 @@ public class SwipeGestureSettingsView extends FrameLayout {
                 }
             }
         }
-        this.outlinePaint.setColor(Theme.getColor("switchTrack"));
-        this.linePaint.setColor(Theme.getColor("switchTrack"));
+        Paint paint2 = this.outlinePaint;
+        int i4 = Theme.key_switchTrack;
+        paint2.setColor(Theme.getColor(i4));
+        this.linePaint.setColor(Theme.getColor(i4));
         int measuredWidth2 = getMeasuredWidth() - ((AndroidUtilities.dp(132.0f) + AndroidUtilities.dp(21.0f)) + AndroidUtilities.dp(16.0f));
         int dp2 = AndroidUtilities.dp(21.0f);
         float f42 = dp2;
         float measuredHeight22 = (getMeasuredHeight() - AndroidUtilities.dp(48.0f)) / 2;
         this.rect.set(f42, measuredHeight22, measuredWidth2, getMeasuredHeight() - measuredHeight);
-        if (this.currentColorKey != null) {
+        if (this.currentColorKey >= 0) {
         }
         f = this.colorProgress;
         if (f != 1.0f) {
         }
-        this.filledPaint.setColor(ColorUtils.blendARGB(this.fromColor, ColorUtils.blendARGB(Theme.getColor("windowBackgroundWhite"), Theme.getColor(this.currentColorKey), 0.9f), this.colorProgress));
+        int i22 = this.fromColor;
+        int i32 = Theme.key_windowBackgroundWhite;
+        this.filledPaint.setColor(ColorUtils.blendARGB(i22, ColorUtils.blendARGB(Theme.getColor(i32), Theme.getColor(this.currentColorKey), 0.9f), this.colorProgress));
         canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);
-        this.filledPaint.setColor(Theme.getColor("windowBackgroundWhite"));
+        this.filledPaint.setColor(Theme.getColor(i32));
         this.filledPaint.setAlpha(255);
         this.rect.set(f42, measuredHeight22, measuredWidth2 - AndroidUtilities.dp(58.0f), getMeasuredHeight() - measuredHeight);
         this.rect.inset(-AndroidUtilities.dp(1.0f), -AndroidUtilities.dp(1.0f));
@@ -291,7 +300,7 @@ public class SwipeGestureSettingsView extends FrameLayout {
         canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.outlinePaint);
         canvas.save();
         canvas.clipRect(this.rect);
-        this.filledPaint.setColor(Theme.getColor("switchTrack"));
+        this.filledPaint.setColor(Theme.getColor(i4));
         this.filledPaint.setAlpha(60);
         RectF rectF2 = this.rect;
         canvas.drawCircle(rectF2.left + 0.0f, rectF2.centerY(), AndroidUtilities.dp(15.0f), this.filledPaint);
@@ -329,8 +338,8 @@ public class SwipeGestureSettingsView extends FrameLayout {
 
     public void updateIconColor(int i) {
         if (this.icons[i] != null) {
-            int blendARGB = ColorUtils.blendARGB(Theme.getColor("windowBackgroundWhite"), Theme.getColor("chats_archiveBackground"), 0.9f);
-            int color = Theme.getColor("chats_archiveIcon");
+            int blendARGB = ColorUtils.blendARGB(Theme.getColor(Theme.key_windowBackgroundWhite), Theme.getColor(Theme.key_chats_archiveBackground), 0.9f);
+            int color = Theme.getColor(Theme.key_chats_archiveIcon);
             if (i == 2) {
                 this.icons[i].setLayerColor("Arrow.**", blendARGB);
                 this.icons[i].setLayerColor("Box2.**", color);
@@ -351,7 +360,7 @@ public class SwipeGestureSettingsView extends FrameLayout {
     public void setBackgroundColor(int i) {
         super.setBackgroundColor(i);
         updateColors();
-        this.picker.setTextColor(Theme.getColor("dialogTextBlack"));
+        this.picker.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         this.picker.invalidate();
     }
 

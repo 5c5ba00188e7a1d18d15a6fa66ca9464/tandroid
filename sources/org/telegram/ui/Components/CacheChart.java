@@ -30,7 +30,7 @@ import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.Premium.StarParticlesView;
 /* loaded from: classes4.dex */
 public class CacheChart extends View {
-    private static final String[] DEFAULT_COLORS = {"statisticChartLine_lightblue", "statisticChartLine_blue", "statisticChartLine_green", "statisticChartLine_red", "statisticChartLine_lightgreen", "statisticChartLine_orange", "statisticChartLine_cyan", "statisticChartLine_purple", "statisticChartLine_golden"};
+    private static final int[] DEFAULT_COLORS = {Theme.key_statisticChartLine_lightblue, Theme.key_statisticChartLine_blue, Theme.key_statisticChartLine_green, Theme.key_statisticChartLine_red, Theme.key_statisticChartLine_lightgreen, Theme.key_statisticChartLine_orange, Theme.key_statisticChartLine_cyan, Theme.key_statisticChartLine_purple, Theme.key_statisticChartLine_golden};
     private static final int[] DEFAULT_PARTICLES;
     private static Long loadedStart;
     private static long particlesStart;
@@ -388,7 +388,7 @@ public class CacheChart extends View {
         this(context, 9, DEFAULT_COLORS, 0, DEFAULT_PARTICLES);
     }
 
-    public CacheChart(Context context, int i, String[] strArr, int i2, int[] iArr) {
+    public CacheChart(Context context, int i, int[] iArr, int i2, int[] iArr2) {
         super(context);
         this.chartMeasureBounds = new RectF();
         this.chartBounds = new RectF();
@@ -412,12 +412,12 @@ public class CacheChart extends View {
         this.selectedIndex = -1;
         setLayerType(2, null);
         this.sectionsCount = i;
-        this.particles = iArr;
+        this.particles = iArr2;
         this.type = i2;
         this.svgParticles = i2 == 0;
         this.sectors = new Sector[i];
         this.loadingBackgroundPaint.setStyle(Paint.Style.STROKE);
-        this.loadingBackgroundPaint.setColor(Theme.getColor("listSelectorSDK21"));
+        this.loadingBackgroundPaint.setColor(Theme.getColor(Theme.key_listSelector));
         this.completePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         this.completeGradient = new LinearGradient(0.0f, 0.0f, 0.0f, AndroidUtilities.dp(200.0f), new int[]{7263574, -9513642, -12469647, 4307569}, new float[]{0.0f, 0.07f, 0.93f, 1.0f}, Shader.TileMode.CLAMP);
         this.completeTextGradient = new LinearGradient(0.0f, 0.0f, 0.0f, AndroidUtilities.dp(200.0f), new int[]{7263574, -9513642, -12469647, 4307569}, new float[]{0.0f, 0.07f, 0.93f, 1.0f}, Shader.TileMode.CLAMP);
@@ -429,12 +429,12 @@ public class CacheChart extends View {
         this.completePaintStroke.setStrokeCap(Paint.Cap.ROUND);
         this.completePaintStroke.setStrokeJoin(Paint.Join.ROUND);
         this.topText.setAnimationProperties(0.2f, 0L, 450L, cubicBezierInterpolator);
-        this.topText.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+        this.topText.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         this.topText.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.topText.setTextSize(AndroidUtilities.dp(32.0f));
         this.topText.setGravity(17);
         this.bottomText.setAnimationProperties(0.6f, 0L, 450L, cubicBezierInterpolator);
-        this.bottomText.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
+        this.bottomText.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
         this.bottomText.setTextSize(AndroidUtilities.dp(12.0f));
         this.bottomText.setGravity(17);
         this.topCompleteText.setAnimationProperties(0.2f, 0L, 450L, cubicBezierInterpolator);
@@ -455,8 +455,8 @@ public class CacheChart extends View {
             }
             Sector sector = new Sector();
             sectorArr[i3] = sector;
-            int blendOver = Theme.blendOver(Theme.getColor(strArr[i3]), ConnectionsManager.FileTypeAudio);
-            int blendOver2 = Theme.blendOver(Theme.getColor(strArr[i3]), 822083583);
+            int blendOver = Theme.blendOver(Theme.getColor(iArr[i3]), ConnectionsManager.FileTypeAudio);
+            int blendOver2 = Theme.blendOver(Theme.getColor(iArr[i3]), 822083583);
             AndroidUtilities.dp(50.0f);
             RadialGradient radialGradient = new RadialGradient(0.0f, 0.0f, AndroidUtilities.dp(86.0f), new int[]{blendOver2, blendOver}, new float[]{0.3f, 1.0f}, Shader.TileMode.CLAMP);
             sector.gradient = radialGradient;

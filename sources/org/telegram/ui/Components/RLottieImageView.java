@@ -17,6 +17,7 @@ import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$PhotoSize;
+import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes4.dex */
 public class RLottieImageView extends ImageView {
     private boolean attachedToWindow;
@@ -147,7 +148,7 @@ public class RLottieImageView extends ImageView {
                 sb.append(ImageLoader.AUTOPLAY_FILTER);
                 imageReceiver3.setImage(forDocument2, sb.toString(), ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), null, null, tLRPC$Document.size, null, tLRPC$Document, 1);
             } else {
-                SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
+                SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document.thumbs, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f);
                 if (svgThumb != null) {
                     svgThumb.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
                 }

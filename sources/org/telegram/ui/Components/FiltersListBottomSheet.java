@@ -122,9 +122,9 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                 super.requestLayout();
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:17:0x009c  */
+            /* JADX WARN: Removed duplicated region for block: B:17:0x009a  */
             /* JADX WARN: Removed duplicated region for block: B:19:0x00ed  */
-            /* JADX WARN: Removed duplicated region for block: B:22:0x011c  */
+            /* JADX WARN: Removed duplicated region for block: B:22:0x011e  */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -156,12 +156,12 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                             ((BottomSheet) FiltersListBottomSheet.this).shadowDrawable.setBounds(0, dp, getMeasuredWidth(), measuredHeight);
                             ((BottomSheet) FiltersListBottomSheet.this).shadowDrawable.draw(canvas);
                             if (f != 1.0f) {
-                                Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor("dialogBackground"));
+                                Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(Theme.key_dialogBackground));
                                 this.rect.set(((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingLeft, ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingTop + dp, getMeasuredWidth() - ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingLeft, ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingTop + dp + AndroidUtilities.dp(24.0f));
                                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(12.0f) * f, AndroidUtilities.dp(12.0f) * f, Theme.dialogs_onlineCirclePaint);
                             }
                             if (i > 0) {
-                                Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor("dialogBackground"));
+                                Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(Theme.key_dialogBackground));
                                 canvas.drawRect(((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight - i, getMeasuredWidth() - ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, Theme.dialogs_onlineCirclePaint);
                             }
                             updateLightStatusBar(i > AndroidUtilities.statusBarHeight / 2);
@@ -190,8 +190,8 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
             private void updateLightStatusBar(boolean z) {
                 Boolean bool = this.statusBarOpen;
                 if (bool == null || bool.booleanValue() != z) {
-                    boolean z2 = AndroidUtilities.computePerceivedBrightness(FiltersListBottomSheet.this.getThemedColor("dialogBackground")) > 0.721f;
-                    boolean z3 = AndroidUtilities.computePerceivedBrightness(Theme.blendOver(FiltersListBottomSheet.this.getThemedColor("actionBarDefault"), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) > 0.721f;
+                    boolean z2 = AndroidUtilities.computePerceivedBrightness(FiltersListBottomSheet.this.getThemedColor(Theme.key_dialogBackground)) > 0.721f;
+                    boolean z3 = AndroidUtilities.computePerceivedBrightness(Theme.blendOver(FiltersListBottomSheet.this.getThemedColor(Theme.key_actionBarDefault), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) > 0.721f;
                     Boolean valueOf = Boolean.valueOf(z);
                     this.statusBarOpen = valueOf;
                     if (!valueOf.booleanValue()) {
@@ -210,7 +210,7 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
         layoutParams.topMargin = AndroidUtilities.dp(48.0f);
         View view = new View(parentActivity);
         this.shadow = view;
-        view.setBackgroundColor(Theme.getColor("dialogShadowLine"));
+        view.setBackgroundColor(Theme.getColor(Theme.key_dialogShadowLine));
         this.shadow.setAlpha(0.0f);
         this.shadow.setVisibility(4);
         this.shadow.setTag(1);
@@ -234,7 +234,7 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
         this.listView.setVerticalScrollBarEnabled(false);
         this.listView.setPadding(AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(10.0f), 0);
         this.listView.setClipToPadding(false);
-        this.listView.setGlowColor(Theme.getColor("dialogScrollGlow"));
+        this.listView.setGlowColor(Theme.getColor(Theme.key_dialogScrollGlow));
         this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.FiltersListBottomSheet.3
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
             public void onScrolled(RecyclerView recyclerView, int i2, int i3) {
@@ -252,10 +252,10 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
         this.titleTextView = textView;
         textView.setLines(1);
         this.titleTextView.setSingleLine(true);
-        this.titleTextView.setTextColor(Theme.getColor("dialogTextBlack"));
+        this.titleTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         this.titleTextView.setTextSize(1, 20.0f);
-        this.titleTextView.setLinkTextColor(Theme.getColor("dialogTextLink"));
-        this.titleTextView.setHighlightColor(Theme.getColor("dialogLinkSelection"));
+        this.titleTextView.setLinkTextColor(Theme.getColor(Theme.key_dialogTextLink));
+        this.titleTextView.setHighlightColor(Theme.getColor(Theme.key_dialogLinkSelection));
         this.titleTextView.setEllipsize(TextUtils.TruncateAt.END);
         this.titleTextView.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
         this.titleTextView.setGravity(16);
@@ -454,9 +454,9 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
             int i2;
             BottomSheet.BottomSheetCell bottomSheetCell = (BottomSheet.BottomSheetCell) viewHolder.itemView;
             if (i < FiltersListBottomSheet.this.dialogFilters.size()) {
-                bottomSheetCell.getImageView().setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogIcon"), PorterDuff.Mode.MULTIPLY));
+                bottomSheetCell.getImageView().setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_dialogIcon), PorterDuff.Mode.MULTIPLY));
                 MessagesController.DialogFilter dialogFilter = (MessagesController.DialogFilter) FiltersListBottomSheet.this.dialogFilters.get(i);
-                bottomSheetCell.setTextColor(Theme.getColor("dialogTextBlack"));
+                bottomSheetCell.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
                 int i3 = dialogFilter.flags;
                 if ((MessagesController.DIALOG_FILTER_FLAG_ALL_CHATS & i3) == (MessagesController.DIALOG_FILTER_FLAG_CONTACTS | MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS)) {
                     i2 = R.drawable.msg_openprofile;
@@ -485,10 +485,10 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
             bottomSheetCell.getImageView().setColorFilter((ColorFilter) null);
             Drawable drawable = this.context.getResources().getDrawable(R.drawable.poll_add_circle);
             Drawable drawable2 = this.context.getResources().getDrawable(R.drawable.poll_add_plus);
-            drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("switchTrackChecked"), PorterDuff.Mode.MULTIPLY));
-            drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("checkboxCheck"), PorterDuff.Mode.MULTIPLY));
+            drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_switchTrackChecked), PorterDuff.Mode.MULTIPLY));
+            drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_checkboxCheck), PorterDuff.Mode.MULTIPLY));
             CombinedDrawable combinedDrawable = new CombinedDrawable(drawable, drawable2);
-            bottomSheetCell.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText4"));
+            bottomSheetCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText4));
             bottomSheetCell.setTextAndIcon(LocaleController.getString("CreateNewFilter", R.string.CreateNewFilter), combinedDrawable);
         }
     }

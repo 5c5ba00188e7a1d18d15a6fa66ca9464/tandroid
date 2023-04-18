@@ -7,16 +7,18 @@ import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes4.dex */
 public class TypefaceSpan extends MetricAffectingSpan {
     private int color;
-    private String colorKey;
+    private int colorKey;
     Theme.ResourcesProvider resourcesProvider;
     private int textSize;
     private Typeface typeface;
 
     public TypefaceSpan(Typeface typeface) {
+        this.colorKey = -1;
         this.typeface = typeface;
     }
 
     public TypefaceSpan(Typeface typeface, int i, int i2) {
+        this.colorKey = -1;
         this.typeface = typeface;
         if (i > 0) {
             this.textSize = i;
@@ -24,14 +26,15 @@ public class TypefaceSpan extends MetricAffectingSpan {
         this.color = i2;
     }
 
-    public TypefaceSpan(Typeface typeface, int i, String str, Theme.ResourcesProvider resourcesProvider) {
+    public TypefaceSpan(Typeface typeface, int i, int i2, Theme.ResourcesProvider resourcesProvider) {
+        this.colorKey = -1;
         this.typeface = typeface;
         if (i > 0) {
             this.textSize = i;
         }
         this.resourcesProvider = resourcesProvider;
-        this.colorKey = str;
-        this.color = Theme.getColor(str, resourcesProvider);
+        this.colorKey = i2;
+        this.color = Theme.getColor(i2, resourcesProvider);
     }
 
     public void setColor(int i) {
@@ -53,21 +56,21 @@ public class TypefaceSpan extends MetricAffectingSpan {
 
     @Override // android.text.style.CharacterStyle
     public void updateDrawState(TextPaint textPaint) {
-        String str = this.colorKey;
-        if (str != null) {
-            this.color = Theme.getColor(str, this.resourcesProvider);
+        int i = this.colorKey;
+        if (i >= 0) {
+            this.color = Theme.getColor(i, this.resourcesProvider);
         }
         Typeface typeface = this.typeface;
         if (typeface != null) {
             textPaint.setTypeface(typeface);
         }
-        int i = this.textSize;
-        if (i != 0) {
-            textPaint.setTextSize(i);
-        }
-        int i2 = this.color;
+        int i2 = this.textSize;
         if (i2 != 0) {
-            textPaint.setColor(i2);
+            textPaint.setTextSize(i2);
+        }
+        int i3 = this.color;
+        if (i3 != 0) {
+            textPaint.setColor(i3);
         }
         textPaint.setFlags(textPaint.getFlags() | 128);
     }

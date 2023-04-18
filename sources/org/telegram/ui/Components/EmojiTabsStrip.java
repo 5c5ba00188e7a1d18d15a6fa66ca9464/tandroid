@@ -775,7 +775,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
 
     /* JADX INFO: Access modifiers changed from: private */
     public int selectorColor() {
-        return Theme.getColor("chat_emojiPanelIcon", this.resourcesProvider) & 788529151;
+        return Theme.getColor(Theme.key_chat_emojiPanelIcon, this.resourcesProvider) & 788529151;
     }
 
     public void setAnimatedEmojiCacheType(int i) {
@@ -824,7 +824,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                 imageView.setImageDrawable(context.getResources().getDrawable(i).mutate());
                 addView(this.imageView);
             }
-            setColor(Theme.getColor("chat_emojiPanelIcon", EmojiTabsStrip.this.resourcesProvider));
+            setColor(Theme.getColor(Theme.key_chat_emojiPanelIcon, EmojiTabsStrip.this.resourcesProvider));
         }
 
         public EmojiTabButton(Context context, int i, boolean z, boolean z2) {
@@ -839,7 +839,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
             ImageView imageView = new ImageView(context);
             this.imageView = imageView;
             imageView.setImageDrawable(context.getResources().getDrawable(i).mutate());
-            setColor(Theme.getColor("chat_emojiPanelIcon", EmojiTabsStrip.this.resourcesProvider));
+            setColor(Theme.getColor(Theme.key_chat_emojiPanelIcon, EmojiTabsStrip.this.resourcesProvider));
             addView(this.imageView);
         }
 
@@ -893,7 +893,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
             this.lockView.setScaleY(0.0f);
             updateLockImageReceiver();
             addView(this.lockView);
-            setColor(Theme.getColor("chat_emojiPanelIcon", EmojiTabsStrip.this.resourcesProvider));
+            setColor(Theme.getColor(Theme.key_chat_emojiPanelIcon, EmojiTabsStrip.this.resourcesProvider));
         }
 
         @Override // android.view.ViewGroup, android.view.View
@@ -1206,12 +1206,12 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$updateSelect$1(ValueAnimator valueAnimator) {
             this.selectT = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-            setColor(ColorUtils.blendARGB(Theme.getColor("chat_emojiPanelIcon", EmojiTabsStrip.this.resourcesProvider), Theme.getColor("chat_emojiPanelIconSelected", EmojiTabsStrip.this.resourcesProvider), this.selectT));
+            setColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_chat_emojiPanelIcon, EmojiTabsStrip.this.resourcesProvider), Theme.getColor(Theme.key_chat_emojiPanelIconSelected, EmojiTabsStrip.this.resourcesProvider), this.selectT));
         }
 
         public void updateColor() {
             Theme.setSelectorDrawableColor(getBackground(), EmojiTabsStrip.this.selectorColor(), false);
-            setColor(ColorUtils.blendARGB(Theme.getColor("chat_emojiPanelIcon", EmojiTabsStrip.this.resourcesProvider), Theme.getColor("chat_emojiPanelIconSelected", EmojiTabsStrip.this.resourcesProvider), this.selectT));
+            setColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_chat_emojiPanelIcon, EmojiTabsStrip.this.resourcesProvider), Theme.getColor(Theme.key_chat_emojiPanelIconSelected, EmojiTabsStrip.this.resourcesProvider), this.selectT));
         }
 
         private void setColor(int i) {

@@ -69,7 +69,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
     private boolean[] isOnline;
     private int largerWidth;
     private CharSequence lastSubtitle;
-    private String lastSubtitleColorKey;
+    private int lastSubtitleColorKey;
     private int lastWidth;
     private int leftPadding;
     private boolean occupyStatusBar;
@@ -143,6 +143,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         this.isOnline = new boolean[1];
         this.statusMadeShorter = new boolean[1];
         this.onlineCount = -1;
+        this.lastSubtitleColorKey = -1;
         this.allowShorterStatus = false;
         this.rightDrawableIsScamOrVerified = false;
         this.rightDrawableContentDescription = null;
@@ -189,7 +190,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         SimpleTextConnectedView simpleTextConnectedView = new SimpleTextConnectedView(this, context, this.titleTextLargerCopyView);
         this.titleTextView = simpleTextConnectedView;
         simpleTextConnectedView.setEllipsizeByGradient(true);
-        this.titleTextView.setTextColor(getThemedColor("actionBarDefaultTitle"));
+        this.titleTextView.setTextColor(getThemedColor(Theme.key_actionBarDefaultTitle));
         this.titleTextView.setTextSize(18);
         this.titleTextView.setGravity(3);
         this.titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
@@ -201,8 +202,10 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         SimpleTextConnectedView simpleTextConnectedView2 = new SimpleTextConnectedView(this, context, this.subtitleTextLargerCopyView);
         this.subtitleTextView = simpleTextConnectedView2;
         simpleTextConnectedView2.setEllipsizeByGradient(true);
-        this.subtitleTextView.setTextColor(getThemedColor("actionBarDefaultSubtitle"));
-        this.subtitleTextView.setTag("actionBarDefaultSubtitle");
+        SimpleTextView simpleTextView = this.subtitleTextView;
+        int i = Theme.key_actionBarDefaultSubtitle;
+        simpleTextView.setTextColor(getThemedColor(i));
+        this.subtitleTextView.setTag(Integer.valueOf(i));
         this.subtitleTextView.setTextSize(14);
         this.subtitleTextView.setGravity(3);
         this.subtitleTextView.setPadding(0, 0, AndroidUtilities.dp(10.0f), 0);
@@ -251,14 +254,14 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             this.statusDrawables[3] = new PlayingGameDrawable(false, resourcesProvider);
             this.statusDrawables[4] = new RoundStatusDrawable(true);
             this.statusDrawables[5] = new ChoosingStickerStatusDrawable(true);
-            int i = 0;
+            int i2 = 0;
             while (true) {
                 StatusDrawable[] statusDrawableArr = this.statusDrawables;
-                if (i >= statusDrawableArr.length) {
+                if (i2 >= statusDrawableArr.length) {
                     break;
                 }
-                statusDrawableArr[i].setIsChat(currentChat != null);
-                i++;
+                statusDrawableArr[i2].setIsChat(currentChat != null);
+                i2++;
             }
         }
         this.emojiStatusDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this.titleTextView, AndroidUtilities.dp(24.0f));
@@ -435,7 +438,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         if (this.timeItem != null) {
             bundle2.putLong("dialog_id", this.parentFragment.getDialogId());
         }
-        bundle2.putInt("actionBarColor", getThemedColor("actionBarDefault"));
+        bundle2.putInt("actionBarColor", getThemedColor(Theme.key_actionBarDefault));
         ProfileActivity profileActivity2 = new ProfileActivity(bundle2, this.sharedMediaPreloader);
         profileActivity2.setUserInfo(this.parentFragment.getCurrentUserInfo());
         if (z2) {
@@ -485,7 +488,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         }
         SimpleTextView simpleTextView = new SimpleTextView(getContext());
         this.titleTextLargerCopyView.set(simpleTextView);
-        simpleTextView.setTextColor(getThemedColor("actionBarDefaultTitle"));
+        simpleTextView.setTextColor(getThemedColor(Theme.key_actionBarDefaultTitle));
         simpleTextView.setTextSize(18);
         simpleTextView.setGravity(3);
         simpleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
@@ -509,8 +512,9 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         }
         SimpleTextView simpleTextView2 = new SimpleTextView(getContext());
         this.subtitleTextLargerCopyView.set(simpleTextView2);
-        simpleTextView2.setTextColor(getThemedColor("actionBarDefaultSubtitle"));
-        simpleTextView2.setTag("actionBarDefaultSubtitle");
+        int i2 = Theme.key_actionBarDefaultSubtitle;
+        simpleTextView2.setTextColor(getThemedColor(i2));
+        simpleTextView2.setTag(Integer.valueOf(i2));
         simpleTextView2.setTextSize(14);
         simpleTextView2.setGravity(3);
         simpleTextView2.setText(this.subtitleTextView.getText());
@@ -654,15 +658,15 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                 return;
             }
             ScamDrawable scamDrawable = new ScamDrawable(11, !z ? 1 : 0);
-            scamDrawable.setColor(getThemedColor("actionBarDefaultSubtitle"));
+            scamDrawable.setColor(getThemedColor(Theme.key_actionBarDefaultSubtitle));
             this.titleTextView.setRightDrawable(scamDrawable);
             this.rightDrawableContentDescription = LocaleController.getString("ScamMessage", R.string.ScamMessage);
             this.rightDrawableIsScamOrVerified = true;
         } else if (z3) {
             Drawable mutate = getResources().getDrawable(R.drawable.verified_area).mutate();
-            mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor("profile_verifiedBackground"), PorterDuff.Mode.MULTIPLY));
+            mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_profile_verifiedBackground), PorterDuff.Mode.MULTIPLY));
             Drawable mutate2 = getResources().getDrawable(R.drawable.verified_check).mutate();
-            mutate2.setColorFilter(new PorterDuffColorFilter(getThemedColor("profile_verifiedCheck"), PorterDuff.Mode.MULTIPLY));
+            mutate2.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_profile_verifiedCheck), PorterDuff.Mode.MULTIPLY));
             this.titleTextView.setRightDrawable(new CombinedDrawable(mutate, mutate2));
             this.rightDrawableIsScamOrVerified = true;
             this.rightDrawableContentDescription = LocaleController.getString("AccDescrVerified", R.string.AccDescrVerified);
@@ -685,10 +689,10 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                     }
                 }
                 Drawable mutate3 = ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_premium_liststar).mutate();
-                mutate3.setColorFilter(new PorterDuffColorFilter(getThemedColor("profile_verifiedBackground"), PorterDuff.Mode.MULTIPLY));
+                mutate3.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_profile_verifiedBackground), PorterDuff.Mode.MULTIPLY));
                 this.emojiStatusDrawable.set(mutate3, z5);
             }
-            this.emojiStatusDrawable.setColor(Integer.valueOf(getThemedColor("profile_verifiedBackground")));
+            this.emojiStatusDrawable.setColor(Integer.valueOf(getThemedColor(Theme.key_profile_verifiedBackground)));
             this.titleTextView.setRightDrawable(this.emojiStatusDrawable);
             this.rightDrawableIsScamOrVerified = true;
             this.rightDrawableContentDescription = LocaleController.getString("AccDescrPremium", R.string.AccDescrPremium);
@@ -733,11 +737,11 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                 int intValue = MessagesController.getInstance(this.currentAccount).getPrintingStringType(this.parentFragment.getDialogId(), this.parentFragment.getThreadId()).intValue();
                 if (intValue == 5) {
                     this.subtitleTextView.replaceTextWithDrawable(this.statusDrawables[intValue], "**oo**");
-                    this.statusDrawables[intValue].setColor(getThemedColor("chat_status"));
+                    this.statusDrawables[intValue].setColor(getThemedColor(Theme.key_chat_status));
                     this.subtitleTextView.setLeftDrawable((Drawable) null);
                 } else {
                     this.subtitleTextView.replaceTextWithDrawable(null, null);
-                    this.statusDrawables[intValue].setColor(getThemedColor("chat_status"));
+                    this.statusDrawables[intValue].setColor(getThemedColor(Theme.key_chat_status));
                     this.subtitleTextView.setLeftDrawable(this.statusDrawables[intValue]);
                 }
                 this.currentTypingDrawable = this.statusDrawables[intValue];
@@ -947,13 +951,13 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             setTypingAnimation(true);
             z2 = true;
         }
-        this.lastSubtitleColorKey = z2 ? "chat_status" : "actionBarDefaultSubtitle";
+        this.lastSubtitleColorKey = z2 ? Theme.key_chat_status : Theme.key_actionBarDefaultSubtitle;
         if (this.lastSubtitle == null) {
             this.subtitleTextView.setText(str);
             Integer num = this.overrideSubtitleColor;
             if (num == null) {
                 this.subtitleTextView.setTextColor(getThemedColor(this.lastSubtitleColorKey));
-                this.subtitleTextView.setTag(this.lastSubtitleColorKey);
+                this.subtitleTextView.setTag(Integer.valueOf(this.lastSubtitleColorKey));
                 return;
             }
             this.subtitleTextView.setTextColor(num.intValue());
@@ -962,7 +966,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         this.lastSubtitle = str;
     }
 
-    public String getLastSubtitleColorKey() {
+    public int getLastSubtitleColorKey() {
         return this.lastSubtitleColorKey;
     }
 
@@ -1145,10 +1149,10 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                     this.subtitleTextView.setTextColor(num.intValue());
                     return;
                 }
-                String str = this.lastSubtitleColorKey;
-                if (str != null) {
-                    this.subtitleTextView.setTextColor(getThemedColor(str));
-                    this.subtitleTextView.setTag(this.lastSubtitleColorKey);
+                int i2 = this.lastSubtitleColorKey;
+                if (i2 >= 0) {
+                    this.subtitleTextView.setTextColor(getThemedColor(i2));
+                    this.subtitleTextView.setTag(Integer.valueOf(this.lastSubtitleColorKey));
                     return;
                 }
                 return;
@@ -1164,8 +1168,10 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             this.subtitleTextView.setTextColor(num2.intValue());
             return;
         }
-        this.subtitleTextView.setTextColor(getThemedColor("actionBarDefaultSubtitle"));
-        this.subtitleTextView.setTag("actionBarDefaultSubtitle");
+        SimpleTextView simpleTextView = this.subtitleTextView;
+        int i3 = Theme.key_actionBarDefaultSubtitle;
+        simpleTextView.setTextColor(getThemedColor(i3));
+        this.subtitleTextView.setTag(Integer.valueOf(i3));
     }
 
     @Override // android.view.View
@@ -1194,16 +1200,16 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         return this.avatarImageView;
     }
 
-    private int getThemedColor(String str) {
+    private int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 
     public void updateColors() {
         StatusDrawable statusDrawable = this.currentTypingDrawable;
         if (statusDrawable != null) {
-            statusDrawable.setColor(getThemedColor("chat_status"));
+            statusDrawable.setColor(getThemedColor(Theme.key_chat_status));
         }
     }
 }

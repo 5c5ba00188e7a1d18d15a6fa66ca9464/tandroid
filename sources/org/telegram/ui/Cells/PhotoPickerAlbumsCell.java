@@ -82,7 +82,7 @@ public class PhotoPickerAlbumsCell extends FrameLayout {
             if (this.imageView.getImageReceiver().hasNotThumb() && this.imageView.getImageReceiver().getCurrentAlpha() == 1.0f) {
                 return;
             }
-            PhotoPickerAlbumsCell.this.backgroundPaint.setColor(Theme.getColor("chat_attachPhotoBackground"));
+            PhotoPickerAlbumsCell.this.backgroundPaint.setColor(Theme.getColor(Theme.key_chat_attachPhotoBackground));
             canvas.drawRect(0.0f, 0.0f, this.imageView.getMeasuredWidth(), this.imageView.getMeasuredHeight(), PhotoPickerAlbumsCell.this.backgroundPaint);
         }
     }

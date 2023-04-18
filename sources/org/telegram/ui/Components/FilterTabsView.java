@@ -54,11 +54,11 @@ import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes4.dex */
 public class FilterTabsView extends FrameLayout {
     private final Property<FilterTabsView, Float> COLORS;
-    private String aActiveTextColorKey;
-    private String aBackgroundColorKey;
-    private String aTabLineColorKey;
-    private String aUnactiveTextColorKey;
-    private String activeTextColorKey;
+    private int aActiveTextColorKey;
+    private int aBackgroundColorKey;
+    private int aTabLineColorKey;
+    private int aUnactiveTextColorKey;
+    private int activeTextColorKey;
     private ListAdapter adapter;
     private int additionalTabWidth;
     private int allTabsWidth;
@@ -67,7 +67,7 @@ public class FilterTabsView extends FrameLayout {
     private Runnable animationRunnable;
     private float animationTime;
     private float animationValue;
-    private String backgroundColorKey;
+    private int backgroundColorKey;
     private AnimatorSet colorChangeAnimator;
     private Paint counterPaint;
     private int currentPosition;
@@ -100,13 +100,13 @@ public class FilterTabsView extends FrameLayout {
     private int previousPosition;
     private int scrollingToChild;
     private int selectedTabId;
-    private String selectorColorKey;
+    private int selectorColorKey;
     private GradientDrawable selectorDrawable;
-    private String tabLineColorKey;
+    private int tabLineColorKey;
     private ArrayList<Tab> tabs;
     private TextPaint textCounterPaint;
     private TextPaint textPaint;
-    private String unactiveTextColorKey;
+    private int unactiveTextColorKey;
 
     /* loaded from: classes4.dex */
     public interface FilterTabsViewDelegate {
@@ -289,19 +289,19 @@ public class FilterTabsView extends FrameLayout {
             setMeasuredDimension(this.currentTab.getWidth(false) + AndroidUtilities.dp(32.0f) + FilterTabsView.this.additionalTabWidth, View.MeasureSpec.getSize(i2));
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:182:0x055e  */
-        /* JADX WARN: Removed duplicated region for block: B:189:0x0589  */
-        /* JADX WARN: Removed duplicated region for block: B:193:0x05b1  */
-        /* JADX WARN: Removed duplicated region for block: B:204:0x0601  */
-        /* JADX WARN: Removed duplicated region for block: B:205:0x060c  */
-        /* JADX WARN: Removed duplicated region for block: B:208:0x0612  */
-        /* JADX WARN: Removed duplicated region for block: B:211:0x0652  */
-        /* JADX WARN: Removed duplicated region for block: B:214:0x0693  */
-        /* JADX WARN: Removed duplicated region for block: B:216:0x06c5  */
-        /* JADX WARN: Removed duplicated region for block: B:248:0x0828  */
-        /* JADX WARN: Removed duplicated region for block: B:251:0x0844  */
-        /* JADX WARN: Removed duplicated region for block: B:254:0x08a2  */
-        /* JADX WARN: Removed duplicated region for block: B:255:0x08d5  */
+        /* JADX WARN: Removed duplicated region for block: B:182:0x055d  */
+        /* JADX WARN: Removed duplicated region for block: B:189:0x0588  */
+        /* JADX WARN: Removed duplicated region for block: B:193:0x05b0  */
+        /* JADX WARN: Removed duplicated region for block: B:204:0x0600  */
+        /* JADX WARN: Removed duplicated region for block: B:205:0x060b  */
+        /* JADX WARN: Removed duplicated region for block: B:208:0x0611  */
+        /* JADX WARN: Removed duplicated region for block: B:211:0x0651  */
+        /* JADX WARN: Removed duplicated region for block: B:214:0x0692  */
+        /* JADX WARN: Removed duplicated region for block: B:216:0x06c4  */
+        /* JADX WARN: Removed duplicated region for block: B:248:0x0827  */
+        /* JADX WARN: Removed duplicated region for block: B:251:0x0843  */
+        /* JADX WARN: Removed duplicated region for block: B:254:0x08a1  */
+        /* JADX WARN: Removed duplicated region for block: B:255:0x08d4  */
         @Override // android.view.View
         @SuppressLint({"DrawAllocation"})
         /*
@@ -310,33 +310,35 @@ public class FilterTabsView extends FrameLayout {
         protected void onDraw(Canvas canvas) {
             int i;
             int i2;
-            String str;
-            String str2;
-            String str3;
-            String str4;
             int i3;
+            int i4;
+            int i5;
+            int i6;
+            int i7;
+            int i8;
+            int i9;
             String format;
             float ceil;
             int max;
-            int i4;
+            int i10;
             float f;
             boolean z;
-            int i5;
+            int i11;
             float f2;
             float dp;
-            int i6;
+            int i12;
             float f3;
             int dp2;
             int lineBottom;
             int lineTop;
-            int i7;
+            int i13;
             int color;
-            int i8;
-            int i9;
+            int i14;
+            int i15;
             boolean z2 = !this.currentTab.isDefault;
             if (FilterTabsView.this.editingAnimationProgress != 0.0f) {
                 canvas.save();
-                double d = (FilterTabsView.this.editingAnimationProgress * (this.currentPosition % 2 == 0 ? 1.0f : -1.0f)) + (i9 % 2);
+                double d = (FilterTabsView.this.editingAnimationProgress * (this.currentPosition % 2 == 0 ? 1.0f : -1.0f)) + (i15 % 2);
                 Double.isNaN(d);
                 float sin = (float) Math.sin(d * 3.141592653589793d * 2.5d);
                 double elapsedRealtime = ((float) SystemClock.elapsedRealtime()) / 400.0f;
@@ -364,43 +366,43 @@ public class FilterTabsView extends FrameLayout {
                 i = FilterTabsView.this.selectedTabId;
                 i2 = FilterTabsView.this.previousId;
             }
-            String str5 = "chats_tabUnreadActiveBackground";
-            String str6 = "chats_tabUnreadUnactiveBackground";
             if (this.currentTab.id == i) {
-                str = FilterTabsView.this.activeTextColorKey;
-                str2 = FilterTabsView.this.aActiveTextColorKey;
-                str3 = FilterTabsView.this.unactiveTextColorKey;
-                str4 = FilterTabsView.this.aUnactiveTextColorKey;
+                i3 = FilterTabsView.this.activeTextColorKey;
+                i4 = FilterTabsView.this.aActiveTextColorKey;
+                i5 = FilterTabsView.this.unactiveTextColorKey;
+                i6 = FilterTabsView.this.aUnactiveTextColorKey;
+                i7 = Theme.key_chats_tabUnreadActiveBackground;
+                i8 = Theme.key_chats_tabUnreadUnactiveBackground;
             } else {
-                str = FilterTabsView.this.unactiveTextColorKey;
-                str2 = FilterTabsView.this.aUnactiveTextColorKey;
-                str3 = FilterTabsView.this.activeTextColorKey;
-                str4 = FilterTabsView.this.aUnactiveTextColorKey;
-                str6 = "chats_tabUnreadActiveBackground";
-                str5 = "chats_tabUnreadUnactiveBackground";
+                i3 = FilterTabsView.this.unactiveTextColorKey;
+                i4 = FilterTabsView.this.aUnactiveTextColorKey;
+                i5 = FilterTabsView.this.activeTextColorKey;
+                i6 = FilterTabsView.this.aUnactiveTextColorKey;
+                i7 = Theme.key_chats_tabUnreadUnactiveBackground;
+                i8 = Theme.key_chats_tabUnreadActiveBackground;
             }
-            if (str2 == null) {
-                if ((FilterTabsView.this.animatingIndicator || FilterTabsView.this.manualScrollingToId != -1) && ((i8 = this.currentTab.id) == i || i8 == i2)) {
-                    FilterTabsView.this.textPaint.setColor(ColorUtils.blendARGB(Theme.getColor(str3), Theme.getColor(str), FilterTabsView.this.animatingIndicatorProgress));
+            if (i4 < 0) {
+                if ((FilterTabsView.this.animatingIndicator || FilterTabsView.this.manualScrollingToId != -1) && ((i14 = this.currentTab.id) == i || i14 == i2)) {
+                    FilterTabsView.this.textPaint.setColor(ColorUtils.blendARGB(Theme.getColor(i5), Theme.getColor(i3), FilterTabsView.this.animatingIndicatorProgress));
                 } else {
-                    FilterTabsView.this.textPaint.setColor(Theme.getColor(str));
+                    FilterTabsView.this.textPaint.setColor(Theme.getColor(i3));
                 }
             } else {
-                int color2 = Theme.getColor(str);
-                int color3 = Theme.getColor(str2);
-                if ((FilterTabsView.this.animatingIndicator || FilterTabsView.this.manualScrollingToPosition != -1) && ((i3 = this.currentTab.id) == i || i3 == i2)) {
-                    FilterTabsView.this.textPaint.setColor(ColorUtils.blendARGB(ColorUtils.blendARGB(Theme.getColor(str3), Theme.getColor(str4), FilterTabsView.this.animationValue), ColorUtils.blendARGB(color2, color3, FilterTabsView.this.animationValue), FilterTabsView.this.animatingIndicatorProgress));
+                int color2 = Theme.getColor(i3);
+                int color3 = Theme.getColor(i4);
+                if ((FilterTabsView.this.animatingIndicator || FilterTabsView.this.manualScrollingToPosition != -1) && ((i9 = this.currentTab.id) == i || i9 == i2)) {
+                    FilterTabsView.this.textPaint.setColor(ColorUtils.blendARGB(ColorUtils.blendARGB(Theme.getColor(i5), Theme.getColor(i6), FilterTabsView.this.animationValue), ColorUtils.blendARGB(color2, color3, FilterTabsView.this.animationValue), FilterTabsView.this.animatingIndicatorProgress));
                 } else {
                     FilterTabsView.this.textPaint.setColor(ColorUtils.blendARGB(color2, color3, FilterTabsView.this.animationValue));
                 }
             }
-            int i10 = this.animateFromTabCount;
-            boolean z3 = i10 == 0 && this.animateTabCounter;
-            boolean z4 = i10 > 0 && this.currentTab.counter == 0 && this.animateTabCounter;
-            boolean z5 = i10 > 0 && this.currentTab.counter > 0 && this.animateTabCounter;
-            int i11 = this.currentTab.counter;
-            if (i11 > 0 || z4) {
-                format = z4 ? String.format("%d", Integer.valueOf(i10)) : String.format("%d", Integer.valueOf(i11));
+            int i16 = this.animateFromTabCount;
+            boolean z3 = i16 == 0 && this.animateTabCounter;
+            boolean z4 = i16 > 0 && this.currentTab.counter == 0 && this.animateTabCounter;
+            boolean z5 = i16 > 0 && this.currentTab.counter > 0 && this.animateTabCounter;
+            int i17 = this.currentTab.counter;
+            if (i17 > 0 || z4) {
+                format = z4 ? String.format("%d", Integer.valueOf(i16)) : String.format("%d", Integer.valueOf(i17));
                 ceil = (int) Math.ceil(FilterTabsView.this.textCounterPaint.measureText(format));
                 max = (int) (Math.max(AndroidUtilities.dp(10.0f), ceil) + AndroidUtilities.dp(10.0f));
             } else {
@@ -411,13 +413,13 @@ public class FilterTabsView extends FrameLayout {
             if (z2 && (FilterTabsView.this.isEditing || FilterTabsView.this.editingStartAnimationProgress != 0.0f)) {
                 max = (int) (max + ((AndroidUtilities.dp(20.0f) - max) * FilterTabsView.this.editingStartAnimationProgress));
             }
-            int i12 = this.currentTab.titleWidth;
+            int i18 = this.currentTab.titleWidth;
             if (max == 0 || z4) {
-                i4 = 0;
+                i10 = 0;
             } else {
-                i4 = AndroidUtilities.dp((format != null ? 1.0f : FilterTabsView.this.editingStartAnimationProgress) * 6.0f) + max;
+                i10 = AndroidUtilities.dp((format != null ? 1.0f : FilterTabsView.this.editingStartAnimationProgress) * 6.0f) + max;
             }
-            this.tabWidth = i12 + i4;
+            this.tabWidth = i18 + i10;
             float measuredWidth = (getMeasuredWidth() - this.tabWidth) / 2.0f;
             if (this.animateTextX) {
                 float f4 = this.changeProgress;
@@ -428,11 +430,11 @@ public class FilterTabsView extends FrameLayout {
                 f = ceil;
                 z = z4;
             } else {
-                String str7 = this.currentTab.title;
-                this.currentText = str7;
+                String str = this.currentTab.title;
+                this.currentText = str;
                 z = z4;
                 f = ceil;
-                StaticLayout staticLayout = new StaticLayout(Emoji.replaceEmoji(str7, FilterTabsView.this.textPaint.getFontMetricsInt(), AndroidUtilities.dp(15.0f), false), FilterTabsView.this.textPaint, AndroidUtilities.dp(400.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                StaticLayout staticLayout = new StaticLayout(Emoji.replaceEmoji(str, FilterTabsView.this.textPaint.getFontMetricsInt(), AndroidUtilities.dp(15.0f), false), FilterTabsView.this.textPaint, AndroidUtilities.dp(400.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                 this.textLayout = staticLayout;
                 this.textHeight = staticLayout.getHeight();
                 this.textOffsetX = (int) (-this.textLayout.getLineLeft(0));
@@ -448,14 +450,14 @@ public class FilterTabsView extends FrameLayout {
                 if (this.titleAnimateInLayout != null) {
                     canvas.save();
                     int alpha = FilterTabsView.this.textPaint.getAlpha();
-                    i5 = max;
+                    i11 = max;
                     FilterTabsView.this.textPaint.setAlpha((int) (alpha * (this.animateTextChangeOut ? 1.0f - this.changeProgress : this.changeProgress)));
                     canvas.translate(this.textOffsetX + f5 + f2, ((getMeasuredHeight() - this.textHeight) / 2.0f) + 1.0f);
                     this.titleAnimateInLayout.draw(canvas);
                     canvas.restore();
                     FilterTabsView.this.textPaint.setAlpha(alpha);
                 } else {
-                    i5 = max;
+                    i11 = max;
                 }
                 if (this.titleAnimateOutLayout != null) {
                     canvas.save();
@@ -467,7 +469,7 @@ public class FilterTabsView extends FrameLayout {
                     FilterTabsView.this.textPaint.setAlpha(alpha2);
                 }
             } else {
-                i5 = max;
+                i11 = max;
                 if (this.textLayout != null) {
                     canvas.save();
                     canvas.translate(this.textOffsetX + f5, ((getMeasuredHeight() - this.textHeight) / 2.0f) + 1.0f);
@@ -477,27 +479,27 @@ public class FilterTabsView extends FrameLayout {
                 f2 = 0.0f;
             }
             if (z3 || format != null || (z2 && (FilterTabsView.this.isEditing || FilterTabsView.this.editingStartAnimationProgress != 0.0f))) {
-                if (FilterTabsView.this.aBackgroundColorKey == null) {
+                if (FilterTabsView.this.aBackgroundColorKey < 0) {
                     FilterTabsView.this.textCounterPaint.setColor(Theme.getColor(FilterTabsView.this.backgroundColorKey));
                 } else {
                     FilterTabsView.this.textCounterPaint.setColor(ColorUtils.blendARGB(Theme.getColor(FilterTabsView.this.backgroundColorKey), Theme.getColor(FilterTabsView.this.aBackgroundColorKey), FilterTabsView.this.animationValue));
                 }
-                if (!Theme.hasThemeKey(str5) || !Theme.hasThemeKey(str6)) {
+                if (!Theme.hasThemeKey(i7) || !Theme.hasThemeKey(i8)) {
                     FilterTabsView.this.counterPaint.setColor(FilterTabsView.this.textPaint.getColor());
                 } else {
-                    int color4 = Theme.getColor(str5);
-                    if ((FilterTabsView.this.animatingIndicator || FilterTabsView.this.manualScrollingToPosition != -1) && ((i7 = this.currentTab.id) == i || i7 == i2)) {
-                        FilterTabsView.this.counterPaint.setColor(ColorUtils.blendARGB(Theme.getColor(str6), color4, FilterTabsView.this.animatingIndicatorProgress));
+                    int color4 = Theme.getColor(i7);
+                    if ((FilterTabsView.this.animatingIndicator || FilterTabsView.this.manualScrollingToPosition != -1) && ((i13 = this.currentTab.id) == i || i13 == i2)) {
+                        FilterTabsView.this.counterPaint.setColor(ColorUtils.blendARGB(Theme.getColor(i8), color4, FilterTabsView.this.animatingIndicatorProgress));
                     } else {
                         FilterTabsView.this.counterPaint.setColor(color4);
                     }
                 }
-                int i13 = this.currentTab.titleWidth;
-                float f6 = i13;
+                int i19 = this.currentTab.titleWidth;
+                float f6 = i19;
                 boolean z6 = this.animateTextChange;
                 if (z6) {
                     float f7 = this.changeProgress;
-                    f6 = (this.animateFromTitleWidth * (1.0f - f7)) + (i13 * f7);
+                    f6 = (this.animateFromTitleWidth * (1.0f - f7)) + (i19 * f7);
                 }
                 if (z6 && this.titleAnimateOutLayout == null) {
                     dp = (f5 - this.titleXOffset) + f2 + f6 + AndroidUtilities.dp(6.0f);
@@ -512,8 +514,8 @@ public class FilterTabsView extends FrameLayout {
                 }
                 if (z5) {
                     float f8 = this.animateFromCountWidth;
-                    i6 = i5;
-                    float f9 = i6;
+                    i12 = i11;
+                    float f9 = i12;
                     if (f8 != f9) {
                         float f10 = this.changeProgress;
                         f3 = (f8 * (1.0f - f10)) + (f9 * f10);
@@ -606,9 +608,9 @@ public class FilterTabsView extends FrameLayout {
                         }
                     }
                 } else {
-                    i6 = i5;
+                    i12 = i11;
                 }
-                f3 = i6;
+                f3 = i12;
                 if (z5) {
                 }
                 float f132 = measuredHeight;
@@ -636,7 +638,7 @@ public class FilterTabsView extends FrameLayout {
                     canvas.drawLine(this.rect.centerX() - dp42, this.rect.centerY() + dp42, this.rect.centerX() + dp42, this.rect.centerY() - dp42, FilterTabsView.this.deletePaint);
                 }
             } else {
-                i6 = i5;
+                i12 = i11;
             }
             float f17 = f;
             if (FilterTabsView.this.editingAnimationProgress != 0.0f) {
@@ -647,7 +649,7 @@ public class FilterTabsView extends FrameLayout {
             this.lastTabCount = tab.counter;
             this.lastTitle = this.currentText;
             this.lastTitleWidth = tab.titleWidth;
-            this.lastCountWidth = i6;
+            this.lastCountWidth = i12;
             this.lastCounterWidth = f17;
             this.lastTabWidth = this.tabWidth;
             this.lastWidth = getMeasuredWidth();
@@ -664,7 +666,7 @@ public class FilterTabsView extends FrameLayout {
                     this.progressToLocked = f18 + 0.10666667f;
                     this.progressToLocked = Utilities.clamp(this.progressToLocked, 1.0f, 0.0f);
                     color = Theme.getColor(FilterTabsView.this.unactiveTextColorKey);
-                    if (FilterTabsView.this.aUnactiveTextColorKey != null) {
+                    if (FilterTabsView.this.aUnactiveTextColorKey >= 0) {
                         color = ColorUtils.blendARGB(color, Theme.getColor(FilterTabsView.this.aUnactiveTextColorKey), FilterTabsView.this.animationValue);
                     }
                     if (FilterTabsView.this.lockDrawableColor != color) {
@@ -691,7 +693,7 @@ public class FilterTabsView extends FrameLayout {
             }
             this.progressToLocked = Utilities.clamp(this.progressToLocked, 1.0f, 0.0f);
             color = Theme.getColor(FilterTabsView.this.unactiveTextColorKey);
-            if (FilterTabsView.this.aUnactiveTextColorKey != null) {
+            if (FilterTabsView.this.aUnactiveTextColorKey >= 0) {
             }
             if (FilterTabsView.this.lockDrawableColor != color) {
             }
@@ -889,11 +891,15 @@ public class FilterTabsView extends FrameLayout {
         this.manualScrollingToPosition = -1;
         this.manualScrollingToId = -1;
         this.scrollingToChild = -1;
-        this.tabLineColorKey = "actionBarTabLine";
-        this.activeTextColorKey = "actionBarTabActiveText";
-        this.unactiveTextColorKey = "actionBarTabUnactiveText";
-        this.selectorColorKey = "actionBarTabSelector";
-        this.backgroundColorKey = "actionBarDefault";
+        this.tabLineColorKey = Theme.key_actionBarTabLine;
+        this.activeTextColorKey = Theme.key_actionBarTabActiveText;
+        this.unactiveTextColorKey = Theme.key_actionBarTabUnactiveText;
+        this.selectorColorKey = Theme.key_actionBarTabSelector;
+        this.backgroundColorKey = Theme.key_actionBarDefault;
+        this.aTabLineColorKey = -1;
+        this.aActiveTextColorKey = -1;
+        this.aUnactiveTextColorKey = -1;
+        this.aBackgroundColorKey = -1;
         this.interpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
         this.positionToId = new SparseIntArray(5);
         this.positionToStableId = new SparseIntArray(5);
@@ -1358,17 +1364,17 @@ public class FilterTabsView extends FrameLayout {
         this.adapter.notifyDataSetChanged();
     }
 
-    public void animateColorsTo(String str, String str2, String str3, String str4, String str5) {
+    public void animateColorsTo(int i, int i2, int i3, int i4, int i5) {
         AnimatorSet animatorSet = this.colorChangeAnimator;
         if (animatorSet != null) {
             animatorSet.cancel();
         }
-        this.aTabLineColorKey = str;
-        this.aActiveTextColorKey = str2;
-        this.aUnactiveTextColorKey = str3;
-        this.aBackgroundColorKey = str5;
-        this.selectorColorKey = str4;
-        this.listView.setSelectorDrawableColor(Theme.getColor(str4));
+        this.aTabLineColorKey = i;
+        this.aActiveTextColorKey = i2;
+        this.aUnactiveTextColorKey = i3;
+        this.aBackgroundColorKey = i5;
+        this.selectorColorKey = i4;
+        this.listView.setSelectorDrawableColor(Theme.getColor(i4));
         AnimatorSet animatorSet2 = new AnimatorSet();
         this.colorChangeAnimator = animatorSet2;
         animatorSet2.playTogether(ObjectAnimator.ofFloat(this, this.COLORS, 0.0f, 1.0f));
@@ -1384,10 +1390,10 @@ public class FilterTabsView extends FrameLayout {
                 filterTabsView3.activeTextColorKey = filterTabsView3.aActiveTextColorKey;
                 FilterTabsView filterTabsView4 = FilterTabsView.this;
                 filterTabsView4.unactiveTextColorKey = filterTabsView4.aUnactiveTextColorKey;
-                FilterTabsView.this.aTabLineColorKey = null;
-                FilterTabsView.this.aActiveTextColorKey = null;
-                FilterTabsView.this.aUnactiveTextColorKey = null;
-                FilterTabsView.this.aBackgroundColorKey = null;
+                FilterTabsView.this.aTabLineColorKey = -1;
+                FilterTabsView.this.aActiveTextColorKey = -1;
+                FilterTabsView.this.aUnactiveTextColorKey = -1;
+                FilterTabsView.this.aBackgroundColorKey = -1;
             }
         });
         this.colorChangeAnimator.start();
@@ -1401,7 +1407,7 @@ public class FilterTabsView extends FrameLayout {
         return this.positionToId.get(0, 0);
     }
 
-    public String getSelectorColorKey() {
+    public int getSelectorColorKey() {
         return this.selectorColorKey;
     }
 

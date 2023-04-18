@@ -163,8 +163,8 @@ public class TopicCreateFragment extends BaseFragment {
         EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context);
         this.editTextBoldCursor = editTextBoldCursor;
         editTextBoldCursor.setHintText(LocaleController.getString("EnterTopicName", R.string.EnterTopicName));
-        this.editTextBoldCursor.setHintColor(getThemedColor("chat_messagePanelHint"));
-        this.editTextBoldCursor.setTextColor(getThemedColor("chat_messagePanelText"));
+        this.editTextBoldCursor.setHintColor(getThemedColor(Theme.key_chat_messagePanelHint));
+        this.editTextBoldCursor.setTextColor(getThemedColor(Theme.key_chat_messagePanelText));
         this.editTextBoldCursor.setPadding(AndroidUtilities.dp(0.0f), this.editTextBoldCursor.getPaddingTop(), AndroidUtilities.dp(0.0f), this.editTextBoldCursor.getPaddingBottom());
         this.editTextBoldCursor.setBackgroundDrawable(null);
         this.editTextBoldCursor.setSingleLine(true);
@@ -215,7 +215,9 @@ public class TopicCreateFragment extends BaseFragment {
         linearLayout.addView(headerCell);
         linearLayout.addView(frameLayout);
         FrameLayout frameLayout2 = new FrameLayout(context);
-        CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(context, R.drawable.greydivider_top, Theme.getColor("windowBackgroundGrayShadow")), 0, 0);
+        int i2 = R.drawable.greydivider_top;
+        int i3 = Theme.key_windowBackgroundGrayShadow;
+        CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundGray)), Theme.getThemedDrawable(context, i2, Theme.getColor(i3)), 0, 0);
         combinedDrawable.setFullsize(true);
         frameLayout2.setBackgroundDrawable(combinedDrawable);
         frameLayout2.setClipChildren(false);
@@ -225,8 +227,8 @@ public class TopicCreateFragment extends BaseFragment {
                 private boolean firstLayout = true;
 
                 @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-                protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
-                    super.onLayout(z, i2, i3, i4, i5);
+                protected void onLayout(boolean z, int i4, int i5, int i6, int i7) {
+                    super.onLayout(z, i4, i5, i6, i7);
                     if (this.firstLayout) {
                         this.firstLayout = false;
                         TopicCreateFragment.this.selectAnimatedEmojiDialog.onShow(null);
@@ -266,14 +268,14 @@ public class TopicCreateFragment extends BaseFragment {
         } else {
             ImageView imageView = new ImageView(context);
             imageView.setImageResource(R.drawable.msg_filled_general);
-            imageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("chat_inMenu"), PorterDuff.Mode.MULTIPLY));
+            imageView.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_chat_inMenu), PorterDuff.Mode.MULTIPLY));
             r3.addView(imageView, LayoutHelper.createFrame(22, 22, 17));
             frameLayout2.addView(new ActionBarPopupWindow.GapView(context, getResourceProvider()), LayoutHelper.createFrame(-1, 8.0f));
             TextCheckCell2 textCheckCell2 = new TextCheckCell2(context);
             this.checkBoxCell = textCheckCell2;
             textCheckCell2.getCheckBox().setDrawIconType(0);
             this.checkBoxCell.setTextAndCheck(LocaleController.getString("EditTopicHide", R.string.EditTopicHide), !this.topicForEdit.hidden, false);
-            this.checkBoxCell.setBackground(Theme.createSelectorWithBackgroundDrawable(getThemedColor("windowBackgroundWhite"), getThemedColor("listSelectorSDK21")));
+            this.checkBoxCell.setBackground(Theme.createSelectorWithBackgroundDrawable(getThemedColor(Theme.key_windowBackgroundWhite), getThemedColor(Theme.key_listSelector)));
             this.checkBoxCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TopicCreateFragment$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
@@ -283,7 +285,7 @@ public class TopicCreateFragment extends BaseFragment {
             frameLayout2.addView(this.checkBoxCell, LayoutHelper.createFrame(-1, 50.0f, 48, 0.0f, 8.0f, 0.0f, 0.0f));
             TextInfoPrivacyCell textInfoPrivacyCell = new TextInfoPrivacyCell(context);
             textInfoPrivacyCell.setText(LocaleController.getString("EditTopicHideInfo", R.string.EditTopicHideInfo));
-            textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(getContext(), R.drawable.greydivider_bottom, "windowBackgroundGrayShadow", getResourceProvider()));
+            textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(getContext(), R.drawable.greydivider_bottom, i3, getResourceProvider()));
             frameLayout2.addView(textInfoPrivacyCell, LayoutHelper.createFrame(-1, -2.0f, 48, 0.0f, 58.0f, 0.0f, 0.0f));
         }
         linearLayout.addView(frameLayout2, LayoutHelper.createFrame(-1, -1.0f));

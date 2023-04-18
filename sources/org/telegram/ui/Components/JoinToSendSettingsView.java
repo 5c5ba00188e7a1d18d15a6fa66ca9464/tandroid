@@ -50,7 +50,7 @@ public class JoinToSendSettingsView extends LinearLayout {
         HeaderCell headerCell = new HeaderCell(context, 23);
         this.joinHeaderCell = headerCell;
         headerCell.setText(LocaleController.getString("ChannelSettingsJoinTitle", R.string.ChannelSettingsJoinTitle));
-        this.joinHeaderCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+        this.joinHeaderCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         addView(this.joinHeaderCell);
         TextCheckCell textCheckCell = new TextCheckCell(this, context) { // from class: org.telegram.ui.Components.JoinToSendSettingsView.1
         };

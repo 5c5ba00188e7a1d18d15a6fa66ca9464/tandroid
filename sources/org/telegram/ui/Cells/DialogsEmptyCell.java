@@ -64,7 +64,7 @@ public class DialogsEmptyCell extends LinearLayout {
         });
         TextView textView = new TextView(context);
         this.titleView = textView;
-        textView.setTextColor(Theme.getColor("chats_nameMessage_threeLines"));
+        textView.setTextColor(Theme.getColor(Theme.key_chats_nameMessage_threeLines));
         this.titleView.setTextSize(1, 20.0f);
         this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.titleView.setGravity(17);
@@ -96,7 +96,7 @@ public class DialogsEmptyCell extends LinearLayout {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ View lambda$new$2(Context context) {
         TextView textView = new TextView(context);
-        textView.setTextColor(Theme.getColor("chats_message"));
+        textView.setTextColor(Theme.getColor(Theme.key_chats_message));
         textView.setTextSize(1, 14.0f);
         textView.setGravity(17);
         textView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);

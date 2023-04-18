@@ -264,10 +264,10 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
                         this.invalidateGradient = true;
                         invalidate();
                         if (this.invalidateGradient) {
-                            int blendARGB = ColorUtils.blendARGB(Theme.getColor("voipgroup_overlayAlertGradientMuted"), Theme.getColor("voipgroup_overlayAlertGradientUnmuted"), 1.0f - this.muteProgress);
-                            int blendARGB2 = ColorUtils.blendARGB(Theme.getColor("voipgroup_overlayAlertGradientMuted2"), Theme.getColor("voipgroup_overlayAlertGradientUnmuted2"), 1.0f - this.muteProgress);
-                            int blendARGB3 = ColorUtils.blendARGB(blendARGB, Theme.getColor("voipgroup_overlayAlertMutedByAdmin"), this.mutedByAdminProgress);
-                            int blendARGB4 = ColorUtils.blendARGB(blendARGB2, Theme.getColor("kvoipgroup_overlayAlertMutedByAdmin2"), this.mutedByAdminProgress);
+                            int blendARGB = ColorUtils.blendARGB(Theme.getColor(Theme.key_voipgroup_overlayAlertGradientMuted), Theme.getColor(Theme.key_voipgroup_overlayAlertGradientUnmuted), 1.0f - this.muteProgress);
+                            int blendARGB2 = ColorUtils.blendARGB(Theme.getColor(Theme.key_voipgroup_overlayAlertGradientMuted2), Theme.getColor(Theme.key_voipgroup_overlayAlertGradientUnmuted2), 1.0f - this.muteProgress);
+                            int blendARGB3 = ColorUtils.blendARGB(blendARGB, Theme.getColor(Theme.key_voipgroup_overlayAlertMutedByAdmin), this.mutedByAdminProgress);
+                            int blendARGB4 = ColorUtils.blendARGB(blendARGB2, Theme.getColor(Theme.key_voipgroup_overlayAlertMutedByAdmin2), this.mutedByAdminProgress);
                             this.invalidateGradient = false;
                             int i3 = this.position;
                             if (i3 == 0) {

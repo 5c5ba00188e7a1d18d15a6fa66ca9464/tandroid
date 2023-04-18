@@ -466,14 +466,16 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
                 this.emptyImageView = imageView;
                 imageView.setScaleType(ImageView.ScaleType.CENTER);
                 this.emptyImageView.setImageResource(R.drawable.stickers_empty);
-                this.emptyImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("chat_emojiPanelEmptyText"), PorterDuff.Mode.MULTIPLY));
+                ImageView imageView2 = this.emptyImageView;
+                int i2 = Theme.key_chat_emojiPanelEmptyText;
+                imageView2.setColorFilter(new PorterDuffColorFilter(getThemedColor(i2), PorterDuff.Mode.MULTIPLY));
                 linearLayout2.addView(this.emptyImageView, LayoutHelper.createLinear(-2, -2));
                 linearLayout2.addView(new Space(this.context), LayoutHelper.createLinear(-1, 15));
                 TextView textView = new TextView(this.context);
                 this.emptyTextView = textView;
                 textView.setText(LocaleController.getString("NoStickersFound", R.string.NoStickersFound));
                 this.emptyTextView.setTextSize(1, 16.0f);
-                this.emptyTextView.setTextColor(getThemedColor("chat_emojiPanelEmptyText"));
+                this.emptyTextView.setTextColor(getThemedColor(i2));
                 linearLayout2.addView(this.emptyTextView, LayoutHelper.createLinear(-2, -2));
                 linearLayout2.setMinimumHeight(AndroidUtilities.dp(112.0f));
                 linearLayout2.setLayoutParams(LayoutHelper.createFrame(-1, -1.0f));
@@ -828,13 +830,16 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
     public void getThemeDescriptions(List<ThemeDescription> list, RecyclerListView recyclerListView, ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate) {
         FeaturedStickerSetInfoCell.createThemeDescriptions(list, recyclerListView, themeDescriptionDelegate);
         StickerSetNameCell.createThemeDescriptions(list, recyclerListView, themeDescriptionDelegate);
-        list.add(new ThemeDescription(this.emptyImageView, ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, "chat_emojiPanelEmptyText"));
-        list.add(new ThemeDescription(this.emptyTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "chat_emojiPanelEmptyText"));
+        ImageView imageView = this.emptyImageView;
+        int i = ThemeDescription.FLAG_IMAGECOLOR;
+        int i2 = Theme.key_chat_emojiPanelEmptyText;
+        list.add(new ThemeDescription(imageView, i, null, null, null, null, i2));
+        list.add(new ThemeDescription(this.emptyTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, i2));
     }
 
-    private int getThemedColor(String str) {
+    private int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 }

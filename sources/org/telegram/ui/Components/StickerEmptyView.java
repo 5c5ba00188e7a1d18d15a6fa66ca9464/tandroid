@@ -23,7 +23,7 @@ import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes4.dex */
 public class StickerEmptyView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private boolean animateLayoutChange;
-    String colorKey1;
+    int colorKey1;
     int currentAccount;
     int keyboardSize;
     private int lastH;
@@ -63,7 +63,7 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
                 StickerEmptyView.this.progressView.animate().alpha(1.0f).setDuration(150L).start();
             }
         };
-        this.colorKey1 = "emptyListPlaceholder";
+        this.colorKey1 = Theme.key_emptyListPlaceholder;
         this.resourcesProvider = resourcesProvider;
         this.progressView = view;
         this.stickerType = i;
@@ -94,14 +94,16 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
         TextView textView = new TextView(context);
         this.title = textView;
         textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        textView.setTag("windowBackgroundWhiteBlackText");
-        textView.setTextColor(getThemedColor("windowBackgroundWhiteBlackText"));
+        int i2 = Theme.key_windowBackgroundWhiteBlackText;
+        textView.setTag(Integer.valueOf(i2));
+        textView.setTextColor(getThemedColor(i2));
         textView.setTextSize(1, 20.0f);
         textView.setGravity(17);
         TextView textView2 = new TextView(context);
         this.subtitle = textView2;
-        textView2.setTag("windowBackgroundWhiteGrayText");
-        textView2.setTextColor(getThemedColor("windowBackgroundWhiteGrayText"));
+        int i3 = Theme.key_windowBackgroundWhiteGrayText;
+        textView2.setTag(Integer.valueOf(i3));
+        textView2.setTextColor(getThemedColor(i3));
         textView2.setTextSize(1, 14.0f);
         textView2.setGravity(17);
         this.linearLayout.addView(this.stickerView, LayoutHelper.createLinear((int) MessagesStorage.LAST_DB_VERSION, (int) MessagesStorage.LAST_DB_VERSION, 1));
@@ -145,12 +147,12 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
         this.lastH = getMeasuredHeight();
     }
 
-    public void setColors(String str, String str2, String str3, String str4) {
-        this.title.setTag(str);
-        this.title.setTextColor(getThemedColor(str));
-        this.subtitle.setTag(str2);
-        this.subtitle.setTextColor(getThemedColor(str2));
-        this.colorKey1 = str3;
+    public void setColors(int i, int i2, int i3, int i4) {
+        this.title.setTag(Integer.valueOf(i));
+        this.title.setTextColor(getThemedColor(i));
+        this.subtitle.setTag(Integer.valueOf(i2));
+        this.subtitle.setTextColor(getThemedColor(i2));
+        this.colorKey1 = i3;
     }
 
     @Override // android.view.View
@@ -379,10 +381,10 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
         }
     }
 
-    private int getThemedColor(String str) {
+    private int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 
     public void setStickerType(int i) {

@@ -43,7 +43,7 @@ public class SearchField extends FrameLayout {
         this.resourcesProvider = resourcesProvider;
         View view = new View(context);
         this.searchBackground = view;
-        view.setBackgroundDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(18.0f), getThemedColor("dialogSearchBackground")));
+        view.setBackgroundDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(18.0f), getThemedColor(Theme.key_dialogSearchBackground)));
         if (z) {
             createFrame = LayoutHelper.createFrameRelatively(-1.0f, 36.0f, 8388659, 14.0f, 11.0f, 14.0f, 0.0f);
         } else {
@@ -54,7 +54,7 @@ public class SearchField extends FrameLayout {
         this.searchIconImageView = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         this.searchIconImageView.setImageResource(R.drawable.smiles_inputsearch);
-        this.searchIconImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogSearchIcon"), PorterDuff.Mode.MULTIPLY));
+        this.searchIconImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_dialogSearchIcon), PorterDuff.Mode.MULTIPLY));
         if (z) {
             createFrame2 = LayoutHelper.createFrameRelatively(36.0f, 36.0f, 8388659, 16.0f, 11.0f, 0.0f, 0.0f);
         } else {
@@ -68,7 +68,7 @@ public class SearchField extends FrameLayout {
         CloseProgressDrawable2 closeProgressDrawable2 = new CloseProgressDrawable2() { // from class: org.telegram.ui.Components.SearchField.1
             @Override // org.telegram.ui.Components.CloseProgressDrawable2
             protected int getCurrentColor() {
-                return SearchField.this.getThemedColor("dialogSearchIcon");
+                return SearchField.this.getThemedColor(Theme.key_dialogSearchIcon);
             }
         };
         this.progressDrawable = closeProgressDrawable2;
@@ -109,8 +109,8 @@ public class SearchField extends FrameLayout {
         };
         this.searchEditText = editTextBoldCursor;
         editTextBoldCursor.setTextSize(1, 16.0f);
-        this.searchEditText.setHintTextColor(getThemedColor("dialogSearchHint"));
-        this.searchEditText.setTextColor(getThemedColor("dialogSearchText"));
+        this.searchEditText.setHintTextColor(getThemedColor(Theme.key_dialogSearchHint));
+        this.searchEditText.setTextColor(getThemedColor(Theme.key_dialogSearchText));
         this.searchEditText.setBackgroundDrawable(null);
         this.searchEditText.setPadding(0, 0, 0, 0);
         this.searchEditText.setMaxLines(1);
@@ -118,7 +118,7 @@ public class SearchField extends FrameLayout {
         this.searchEditText.setSingleLine(true);
         this.searchEditText.setGravity((z ? LayoutHelper.getAbsoluteGravityStart() : 3) | 16);
         this.searchEditText.setImeOptions(268435459);
-        this.searchEditText.setCursorColor(getThemedColor("featuredStickers_addedIcon"));
+        this.searchEditText.setCursorColor(getThemedColor(Theme.key_featuredStickers_addedIcon));
         this.searchEditText.setCursorSize(AndroidUtilities.dp(20.0f));
         this.searchEditText.setCursorWidth(1.5f);
         if (z) {
@@ -197,18 +197,21 @@ public class SearchField extends FrameLayout {
     }
 
     public void getThemeDescriptions(List<ThemeDescription> list) {
-        list.add(new ThemeDescription(this.searchBackground, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "dialogSearchBackground"));
-        list.add(new ThemeDescription(this.searchIconImageView, ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, "dialogSearchIcon"));
-        list.add(new ThemeDescription(this.clearSearchImageView, ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, "dialogSearchIcon"));
-        list.add(new ThemeDescription(this.searchEditText, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "dialogSearchText"));
-        list.add(new ThemeDescription(this.searchEditText, ThemeDescription.FLAG_HINTTEXTCOLOR, null, null, null, null, "dialogSearchHint"));
-        list.add(new ThemeDescription(this.searchEditText, ThemeDescription.FLAG_CURSORCOLOR, null, null, null, null, "featuredStickers_addedIcon"));
+        list.add(new ThemeDescription(this.searchBackground, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, Theme.key_dialogSearchBackground));
+        ImageView imageView = this.searchIconImageView;
+        int i = ThemeDescription.FLAG_IMAGECOLOR;
+        int i2 = Theme.key_dialogSearchIcon;
+        list.add(new ThemeDescription(imageView, i, null, null, null, null, i2));
+        list.add(new ThemeDescription(this.clearSearchImageView, ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, i2));
+        list.add(new ThemeDescription(this.searchEditText, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_dialogSearchText));
+        list.add(new ThemeDescription(this.searchEditText, ThemeDescription.FLAG_HINTTEXTCOLOR, null, null, null, null, Theme.key_dialogSearchHint));
+        list.add(new ThemeDescription(this.searchEditText, ThemeDescription.FLAG_CURSORCOLOR, null, null, null, null, Theme.key_featuredStickers_addedIcon));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public int getThemedColor(String str) {
+    public int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 }

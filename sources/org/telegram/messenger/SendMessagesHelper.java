@@ -2278,7 +2278,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:396:0x092e  */
     /* JADX WARN: Removed duplicated region for block: B:399:0x0980  */
     /* JADX WARN: Type inference failed for: r2v19 */
-    /* JADX WARN: Type inference failed for: r2v22, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r2v22, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r2v26 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -4721,12 +4721,12 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     tLRPC$TL_payments_getPaymentForm.invoice = tLRPC$TL_inputInvoiceMessage;
                     try {
                         JSONObject jSONObject = new JSONObject();
-                        jSONObject.put("bg_color", Theme.getColor("windowBackgroundWhite"));
-                        jSONObject.put("text_color", Theme.getColor("windowBackgroundWhiteBlackText"));
-                        jSONObject.put("hint_color", Theme.getColor("windowBackgroundWhiteHintText"));
-                        jSONObject.put("link_color", Theme.getColor("windowBackgroundWhiteLinkText"));
-                        jSONObject.put("button_color", Theme.getColor("featuredStickers_addButton"));
-                        jSONObject.put("button_text_color", Theme.getColor("featuredStickers_buttonText"));
+                        jSONObject.put("bg_color", Theme.getColor(Theme.key_windowBackgroundWhite));
+                        jSONObject.put("text_color", Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+                        jSONObject.put("hint_color", Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
+                        jSONObject.put("link_color", Theme.getColor(Theme.key_windowBackgroundWhiteLinkText));
+                        jSONObject.put("button_color", Theme.getColor(Theme.key_featuredStickers_addButton));
+                        jSONObject.put("button_text_color", Theme.getColor(Theme.key_featuredStickers_buttonText));
                         TLRPC$TL_dataJSON tLRPC$TL_dataJSON = new TLRPC$TL_dataJSON();
                         tLRPC$TL_payments_getPaymentForm.theme_params = tLRPC$TL_dataJSON;
                         tLRPC$TL_dataJSON.data = jSONObject.toString();
@@ -4914,7 +4914,8 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 linearLayout.setOrientation(1);
                 builder3.setView(linearLayout);
                 TextView textView = new TextView(chatActivity.getParentActivity());
-                textView.setTextColor(Theme.getColor("dialogTextBlack"));
+                int i = Theme.key_dialogTextBlack;
+                textView.setTextColor(Theme.getColor(i));
                 textView.setTextSize(1, 16.0f);
                 textView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
                 textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("BotOwnershipTransferAlertText", R.string.BotOwnershipTransferAlertText, new Object[0])));
@@ -4923,12 +4924,12 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 linearLayout2.setOrientation(0);
                 linearLayout.addView(linearLayout2, LayoutHelper.createLinear(-1, -2, 0.0f, 11.0f, 0.0f, 0.0f));
                 ImageView imageView = new ImageView(chatActivity.getParentActivity());
-                int i = R.drawable.list_circle;
-                imageView.setImageResource(i);
+                int i2 = R.drawable.list_circle;
+                imageView.setImageResource(i2);
                 imageView.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(11.0f) : 0, AndroidUtilities.dp(9.0f), LocaleController.isRTL ? 0 : AndroidUtilities.dp(11.0f), 0);
-                imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogTextBlack"), PorterDuff.Mode.MULTIPLY));
+                imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i), PorterDuff.Mode.MULTIPLY));
                 TextView textView2 = new TextView(chatActivity.getParentActivity());
-                textView2.setTextColor(Theme.getColor("dialogTextBlack"));
+                textView2.setTextColor(Theme.getColor(i));
                 textView2.setTextSize(1, 16.0f);
                 textView2.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
                 textView2.setText(AndroidUtilities.replaceTags(LocaleController.getString("EditAdminTransferAlertText1", R.string.EditAdminTransferAlertText1)));
@@ -4943,11 +4944,11 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 linearLayout3.setOrientation(0);
                 linearLayout.addView(linearLayout3, LayoutHelper.createLinear(-1, -2, 0.0f, 11.0f, 0.0f, 0.0f));
                 ImageView imageView2 = new ImageView(chatActivity.getParentActivity());
-                imageView2.setImageResource(i);
+                imageView2.setImageResource(i2);
                 imageView2.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(11.0f) : 0, AndroidUtilities.dp(9.0f), LocaleController.isRTL ? 0 : AndroidUtilities.dp(11.0f), 0);
-                imageView2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogTextBlack"), PorterDuff.Mode.MULTIPLY));
+                imageView2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i), PorterDuff.Mode.MULTIPLY));
                 TextView textView3 = new TextView(chatActivity.getParentActivity());
-                textView3.setTextColor(Theme.getColor("dialogTextBlack"));
+                textView3.setTextColor(Theme.getColor(i));
                 textView3.setTextSize(1, 16.0f);
                 textView3.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
                 textView3.setText(AndroidUtilities.replaceTags(LocaleController.getString("EditAdminTransferAlertText2", R.string.EditAdminTransferAlertText2)));
@@ -4961,14 +4962,14 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 if ("PASSWORD_MISSING".equals(tLRPC$TL_error.text)) {
                     builder3.setPositiveButton(LocaleController.getString("EditAdminTransferSetPassword", R.string.EditAdminTransferSetPassword), new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda1
                         @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i2) {
-                            SendMessagesHelper.lambda$sendCallback$26(ChatActivity.this, dialogInterface, i2);
+                        public final void onClick(DialogInterface dialogInterface, int i3) {
+                            SendMessagesHelper.lambda$sendCallback$26(ChatActivity.this, dialogInterface, i3);
                         }
                     });
                     builder3.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                 } else {
                     TextView textView4 = new TextView(chatActivity.getParentActivity());
-                    textView4.setTextColor(Theme.getColor("dialogTextBlack"));
+                    textView4.setTextColor(Theme.getColor(i));
                     textView4.setTextSize(1, 16.0f);
                     textView4.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
                     textView4.setText(LocaleController.getString("EditAdminTransferAlertText3", R.string.EditAdminTransferAlertText3));

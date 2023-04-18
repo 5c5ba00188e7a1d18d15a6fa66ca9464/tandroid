@@ -67,7 +67,7 @@ public class EmptyTextProgressView extends FrameLayout {
         TextView textView = new TextView(context);
         this.textView = textView;
         textView.setTextSize(1, 20.0f);
-        this.textView.setTextColor(getThemedColor("emptyListPlaceholder"));
+        this.textView.setTextColor(getThemedColor(Theme.key_emptyListPlaceholder));
         this.textView.setGravity(1);
         this.textView.setText(LocaleController.getString("NoResult", R.string.NoResult));
         this.textViewLayout.addView(this.textView, LayoutHelper.createLinear(-2, -2, 17));
@@ -121,7 +121,7 @@ public class EmptyTextProgressView extends FrameLayout {
         }
         Drawable mutate = getContext().getResources().getDrawable(i).mutate();
         if (mutate != null) {
-            mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor("emptyListPlaceholder"), PorterDuff.Mode.MULTIPLY));
+            mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_emptyListPlaceholder), PorterDuff.Mode.MULTIPLY));
         }
         this.textView.setCompoundDrawablesWithIntrinsicBounds((Drawable) null, mutate, (Drawable) null, (Drawable) null);
         this.textView.setCompoundDrawablePadding(AndroidUtilities.dp(1.0f));
@@ -183,9 +183,9 @@ public class EmptyTextProgressView extends FrameLayout {
         super.requestLayout();
     }
 
-    private int getThemedColor(String str) {
+    private int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 }

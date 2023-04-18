@@ -2544,8 +2544,8 @@ public class MessagesController extends BaseController implements NotificationCe
      */
     /* JADX WARN: Removed duplicated region for block: B:199:0x00dd  */
     /* JADX WARN: Removed duplicated region for block: B:200:0x00e7  */
-    /* JADX WARN: Removed duplicated region for block: B:257:0x01d3  */
-    /* JADX WARN: Removed duplicated region for block: B:260:0x01fd  */
+    /* JADX WARN: Removed duplicated region for block: B:257:0x01cc  */
+    /* JADX WARN: Removed duplicated region for block: B:260:0x01f6  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2584,7 +2584,7 @@ public class MessagesController extends BaseController implements NotificationCe
         } else {
             sparseArray = null;
         }
-        ArrayList<MessageObject> arrayList6 = new ArrayList<>();
+        ArrayList arrayList6 = new ArrayList();
         int i7 = 0;
         while (true) {
             j = 0;
@@ -2629,7 +2629,6 @@ public class MessagesController extends BaseController implements NotificationCe
             }
             i7 = i3 + 1;
         }
-        getFileLoader().checkMediaExistance(arrayList6);
         int i8 = 0;
         while (i8 < tLRPC$messages_Dialogs3.dialogs.size()) {
             TLRPC$Dialog tLRPC$Dialog = tLRPC$messages_Dialogs3.dialogs.get(i8);
@@ -9821,7 +9820,7 @@ public class MessagesController extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:411:0x03e0  */
     /* JADX WARN: Removed duplicated region for block: B:421:0x0419  */
     /* JADX WARN: Type inference failed for: r2v11 */
-    /* JADX WARN: Type inference failed for: r2v12, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r2v12, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r2v59 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -13694,17 +13693,17 @@ public class MessagesController extends BaseController implements NotificationCe
     /* JADX WARN: Code restructure failed: missing block: B:317:0x0142, code lost:
         if (r5.migrated_to != null) goto L57;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:418:0x037a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:418:0x0373, code lost:
         if (r6 == r0.id) goto L145;
      */
     /* JADX WARN: Removed duplicated region for block: B:321:0x0169  */
     /* JADX WARN: Removed duplicated region for block: B:322:0x0170  */
-    /* JADX WARN: Removed duplicated region for block: B:434:0x03ba  */
-    /* JADX WARN: Removed duplicated region for block: B:443:0x03d2  */
-    /* JADX WARN: Removed duplicated region for block: B:446:0x03e6  */
-    /* JADX WARN: Removed duplicated region for block: B:449:0x0413  */
+    /* JADX WARN: Removed duplicated region for block: B:434:0x03b3  */
+    /* JADX WARN: Removed duplicated region for block: B:443:0x03cb  */
+    /* JADX WARN: Removed duplicated region for block: B:446:0x03df  */
+    /* JADX WARN: Removed duplicated region for block: B:449:0x040c  */
     /* JADX WARN: Type inference failed for: r13v1 */
-    /* JADX WARN: Type inference failed for: r13v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r13v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r13v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -13792,7 +13791,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (i2 == this.DIALOGS_LOAD_TYPE_CACHE) {
             this.nextDialogsCacheOffset.put(i, i4 + i3);
         }
-        ArrayList<MessageObject> arrayList4 = new ArrayList<>();
+        ArrayList arrayList4 = new ArrayList();
         int i14 = 0;
         TLRPC$Message tLRPC$Message4 = null;
         while (i14 < tLRPC$messages_Dialogs.messages.size()) {
@@ -13846,7 +13845,6 @@ public class MessagesController extends BaseController implements NotificationCe
             tLRPC$Message4 = tLRPC$Message3;
         }
         SparseArray sparseArray5 = sparseArray;
-        getFileLoader().checkMediaExistance(arrayList4);
         if (z2 || z3 || jArr[0] == -1 || i2 != 0) {
             longSparseArray = longSparseArray13;
             tLRPC$Message = tLRPC$Message4;
@@ -18827,7 +18825,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 TLRPC$Chat tLRPC$Chat3 = tLRPC$TL_messages_peerDialogs.chats.get(i5);
                 longSparseArray3.put(tLRPC$Chat3.id, tLRPC$Chat3);
             }
-            ArrayList<MessageObject> arrayList4 = new ArrayList<>();
+            ArrayList arrayList4 = new ArrayList();
             int i6 = 0;
             while (i6 < tLRPC$TL_messages_peerDialogs.messages.size()) {
                 TLRPC$Message tLRPC$Message2 = tLRPC$TL_messages_peerDialogs.messages.get(i6);
@@ -18866,7 +18864,6 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
                 i6 = i3 + 1;
             }
-            getFileLoader().checkMediaExistance(arrayList4);
             final boolean z = !arrayList3.isEmpty() && (arrayList3.get(0) instanceof TLRPC$TL_dialogFolder);
             int size = arrayList3.size();
             for (int i7 = 0; i7 < size; i7++) {
@@ -25352,9 +25349,10 @@ public class MessagesController extends BaseController implements NotificationCe
         AlertDialog.Builder builder = new AlertDialog.Builder(baseFragment.getParentActivity(), baseFragment.getResourceProvider());
         builder.setTitle(LocaleController.getString(R.string.DialogNotAvailable));
         HashMap hashMap = new HashMap();
-        hashMap.put("info1.**", Integer.valueOf(baseFragment.getThemedColor("dialogTopBackground")));
-        hashMap.put("info2.**", Integer.valueOf(baseFragment.getThemedColor("dialogTopBackground")));
-        builder.setTopAnimation(R.raw.not_available, 52, false, baseFragment.getThemedColor("dialogTopBackground"), hashMap);
+        int i = Theme.key_dialogTopBackground;
+        hashMap.put("info1.**", Integer.valueOf(baseFragment.getThemedColor(i)));
+        hashMap.put("info2.**", Integer.valueOf(baseFragment.getThemedColor(i)));
+        builder.setTopAnimation(R.raw.not_available, 52, false, baseFragment.getThemedColor(i), hashMap);
         builder.setTopAnimationIsNew(true);
         builder.setPositiveButton(LocaleController.getString(R.string.Close), null);
         builder.setMessage(str);

@@ -1991,7 +1991,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
             TextView textView = new TextView(this.mContext);
             textView.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f));
             textView.setTextSize(1, 14.0f);
-            textView.setTextColor(getThemedColor("windowBackgroundWhiteGrayText2"));
+            textView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText2));
             contextLinkCell = textView;
         } else {
             contextLinkCell = new StickerCell(this.mContext);
@@ -2092,9 +2092,9 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
         }
     }
 
-    private int getThemedColor(String str) {
+    private int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 }

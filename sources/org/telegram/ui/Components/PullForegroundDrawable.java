@@ -68,9 +68,9 @@ public class PullForegroundDrawable {
     private float touchSlop;
     boolean wasSendCallback;
     private boolean willDraw;
-    private String backgroundColorKey = "chats_archivePullDownBackground";
-    private String backgroundActiveColorKey = "chats_archivePullDownBackgroundActive";
-    private String avatarBackgroundColorKey = "avatar_backgroundArchivedHidden";
+    private int backgroundColorKey = Theme.key_chats_archivePullDownBackground;
+    private int backgroundActiveColorKey = Theme.key_chats_archivePullDownBackgroundActive;
+    private int avatarBackgroundColorKey = Theme.key_avatar_backgroundArchivedHidden;
     private boolean changeAvatarColor = true;
     private final Paint paintSecondary = new Paint(1);
     private final Paint paintWhite = new Paint(1);

@@ -2651,8 +2651,8 @@ public class LoginActivity extends BaseFragment {
             TextView textView = new TextView(context);
             textView.setPadding(AndroidUtilities.dp(16.0f), AndroidUtilities.dp(12.0f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(12.0f));
             textView.setTextSize(1, 16.0f);
-            textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            textView.setHintTextColor(Theme.getColor("windowBackgroundWhiteHintText"));
+            textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            textView.setHintTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
             textView.setMaxLines(1);
             textView.setSingleLine(true);
             textView.setEllipsize(TextUtils.TruncateAt.END);
@@ -2889,30 +2889,36 @@ public class LoginActivity extends BaseFragment {
 
         @Override // org.telegram.ui.Components.SlideView
         public void updateColors() {
-            this.titleView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.subtitleView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
+            this.titleView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            this.subtitleView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
             for (int i = 0; i < this.countryButton.getChildCount(); i++) {
                 TextView textView = (TextView) this.countryButton.getChildAt(i);
-                textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-                textView.setHintTextColor(Theme.getColor("windowBackgroundWhiteHintText"));
+                textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+                textView.setHintTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
             }
-            this.chevronRight.setColorFilter(Theme.getColor("windowBackgroundWhiteHintText"));
-            this.chevronRight.setBackground(Theme.createSelectorDrawable(LoginActivity.this.getThemedColor("listSelectorSDK21"), 1));
-            this.plusTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.codeField.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.codeField.setCursorColor(Theme.getColor("windowBackgroundWhiteInputFieldActivated"));
-            this.codeDividerView.setBackgroundColor(Theme.getColor("windowBackgroundWhiteInputField"));
-            this.phoneField.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.phoneField.setHintTextColor(Theme.getColor("windowBackgroundWhiteHintText"));
-            this.phoneField.setCursorColor(Theme.getColor("windowBackgroundWhiteInputFieldActivated"));
+            ImageView imageView = this.chevronRight;
+            int i2 = Theme.key_windowBackgroundWhiteHintText;
+            imageView.setColorFilter(Theme.getColor(i2));
+            this.chevronRight.setBackground(Theme.createSelectorDrawable(LoginActivity.this.getThemedColor(Theme.key_listSelector), 1));
+            TextView textView2 = this.plusTextView;
+            int i3 = Theme.key_windowBackgroundWhiteBlackText;
+            textView2.setTextColor(Theme.getColor(i3));
+            this.codeField.setTextColor(Theme.getColor(i3));
+            AnimatedPhoneNumberEditText animatedPhoneNumberEditText = this.codeField;
+            int i4 = Theme.key_windowBackgroundWhiteInputFieldActivated;
+            animatedPhoneNumberEditText.setCursorColor(Theme.getColor(i4));
+            this.codeDividerView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhiteInputField));
+            this.phoneField.setTextColor(Theme.getColor(i3));
+            this.phoneField.setHintTextColor(Theme.getColor(i2));
+            this.phoneField.setCursorColor(Theme.getColor(i4));
             CheckBoxCell checkBoxCell = this.syncContactsBox;
             if (checkBoxCell != null) {
-                checkBoxCell.setSquareCheckBoxColor("checkboxSquareUnchecked", "checkboxSquareBackground", "checkboxSquareCheck");
+                checkBoxCell.setSquareCheckBoxColor(Theme.key_checkboxSquareUnchecked, Theme.key_checkboxSquareBackground, Theme.key_checkboxSquareCheck);
                 this.syncContactsBox.updateTextColor();
             }
             CheckBoxCell checkBoxCell2 = this.testBackendCheckBox;
             if (checkBoxCell2 != null) {
-                checkBoxCell2.setSquareCheckBoxColor("checkboxSquareUnchecked", "checkboxSquareBackground", "checkboxSquareCheck");
+                checkBoxCell2.setSquareCheckBoxColor(Theme.key_checkboxSquareUnchecked, Theme.key_checkboxSquareBackground, Theme.key_checkboxSquareCheck);
                 this.testBackendCheckBox.updateTextColor();
             }
             this.phoneOutlineView.updateColor();
@@ -3173,7 +3179,7 @@ public class LoginActivity extends BaseFragment {
                             builder.setMessage(LocaleController.getString("AllowReadCall", R.string.AllowReadCall));
                             i2 = R.raw.incoming_calls;
                         }
-                        builder.setTopAnimation(i2, 46, false, Theme.getColor("dialogTopBackground"));
+                        builder.setTopAnimation(i2, 46, false, Theme.getColor(Theme.key_dialogTopBackground));
                         LoginActivity loginActivity = LoginActivity.this;
                         loginActivity.permissionsDialog = loginActivity.showDialog(builder.create());
                         this.confirmedNumber = true;
@@ -3453,7 +3459,7 @@ public class LoginActivity extends BaseFragment {
                                 builder.setMessage(LocaleController.getString("AllowReadCall", R.string.AllowReadCall));
                                 i = R.raw.incoming_calls;
                             }
-                            builder.setTopAnimation(i, 46, false, Theme.getColor("dialogTopBackground"));
+                            builder.setTopAnimation(i, 46, false, Theme.getColor(Theme.key_dialogTopBackground));
                             LoginActivity loginActivity = LoginActivity.this;
                             loginActivity.permissionsDialog = loginActivity.showDialog(builder.create());
                             PhoneView.this.confirmedNumber = true;
@@ -3736,7 +3742,7 @@ public class LoginActivity extends BaseFragment {
             if (globalMainSettings.getBoolean("firstloginshow", true) || LoginActivity.this.getParentActivity().shouldShowRequestPermissionRationale("android.permission.READ_PHONE_STATE")) {
                 globalMainSettings.edit().putBoolean("firstloginshow", false).commit();
                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this.getParentActivity());
-                builder.setTopAnimation(R.raw.incoming_calls, 46, false, Theme.getColor("dialogTopBackground"));
+                builder.setTopAnimation(R.raw.incoming_calls, 46, false, Theme.getColor(Theme.key_dialogTopBackground));
                 builder.setPositiveButton(LocaleController.getString("Continue", R.string.Continue), null);
                 builder.setMessage(LocaleController.getString("AllowFillNumber", R.string.AllowFillNumber));
                 LoginActivity loginActivity = LoginActivity.this;
@@ -4068,7 +4074,7 @@ public class LoginActivity extends BaseFragment {
                             layout.getSelectionPath(0, length, linkPath);
                             this.loadingDrawable.usePath(linkPath);
                             this.loadingDrawable.setRadiiDp(4.0f);
-                            int themedColor = LoginActivity.this.getThemedColor("chat_linkSelectBackground");
+                            int themedColor = LoginActivity.this.getThemedColor(Theme.key_chat_linkSelectBackground);
                             this.loadingDrawable.setColors(Theme.multAlpha(themedColor, 0.85f), Theme.multAlpha(themedColor, 2.0f), Theme.multAlpha(themedColor, 3.5f), Theme.multAlpha(themedColor, 6.0f));
                             this.loadingDrawable.updateBounds();
                         }
@@ -4144,7 +4150,7 @@ public class LoginActivity extends BaseFragment {
                                 layout.getSelectionPath(0, length, linkPath);
                                 this.loadingDrawable.usePath(linkPath);
                                 this.loadingDrawable.setRadiiDp(4.0f);
-                                int themedColor = LoginActivity.this.getThemedColor("chat_linkSelectBackground");
+                                int themedColor = LoginActivity.this.getThemedColor(Theme.key_chat_linkSelectBackground);
                                 this.loadingDrawable.setColors(Theme.multAlpha(themedColor, 0.85f), Theme.multAlpha(themedColor, 2.0f), Theme.multAlpha(themedColor, 3.5f), Theme.multAlpha(themedColor, 6.0f));
                                 this.loadingDrawable.updateBounds();
                             }
@@ -4181,7 +4187,7 @@ public class LoginActivity extends BaseFragment {
                         linearLayout3.setOrientation(0);
                         this.openFragmentButton.setGravity(17);
                         this.openFragmentButton.setPadding(AndroidUtilities.dp(34.0f), 0, AndroidUtilities.dp(34.0f), 0);
-                        this.openFragmentButton.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor("changephoneinfo_image2"), Theme.getColor("chats_actionPressedBackground")));
+                        this.openFragmentButton.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor(Theme.key_changephoneinfo_image2), Theme.getColor(Theme.key_chats_actionPressedBackground)));
                         this.openFragmentButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda5
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view) {
@@ -4305,7 +4311,7 @@ public class LoginActivity extends BaseFragment {
                     layout.getSelectionPath(0, length, linkPath);
                     this.loadingDrawable.usePath(linkPath);
                     this.loadingDrawable.setRadiiDp(4.0f);
-                    int themedColor = LoginActivity.this.getThemedColor("chat_linkSelectBackground");
+                    int themedColor = LoginActivity.this.getThemedColor(Theme.key_chat_linkSelectBackground);
                     this.loadingDrawable.setColors(Theme.multAlpha(themedColor, 0.85f), Theme.multAlpha(themedColor, 2.0f), Theme.multAlpha(themedColor, 3.5f), Theme.multAlpha(themedColor, 6.0f));
                     this.loadingDrawable.updateBounds();
                 }
@@ -4362,7 +4368,7 @@ public class LoginActivity extends BaseFragment {
             if (this.time <= 0 || this.timeTimer == null) {
                 this.isResendingCode = true;
                 this.timeText.invalidate();
-                this.timeText.setTextColor(Theme.getColor("windowBackgroundWhiteValueText"));
+                this.timeText.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteValueText));
                 int i = this.nextType;
                 if (i != 4 && i != 2 && i != 11 && i != 15) {
                     if (i == 3) {
@@ -4375,7 +4381,7 @@ public class LoginActivity extends BaseFragment {
                     }
                     return;
                 }
-                this.timeText.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
+                this.timeText.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
                 int i2 = this.nextType;
                 if (i2 == 4 || i2 == 11) {
                     this.timeText.setText(LocaleController.getString("Calling", R.string.Calling));
@@ -4486,14 +4492,16 @@ public class LoginActivity extends BaseFragment {
 
         @Override // org.telegram.ui.Components.SlideView
         public void updateColors() {
-            this.confirmTextView.setTextColor(Theme.getColor(LoginActivity.this.isInCancelAccountDeletionMode() ? "windowBackgroundWhiteBlackText" : "windowBackgroundWhiteGrayText6"));
-            this.confirmTextView.setLinkTextColor(Theme.getColor("chats_actionBackground"));
-            this.titleTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+            this.confirmTextView.setTextColor(Theme.getColor(LoginActivity.this.isInCancelAccountDeletionMode() ? Theme.key_windowBackgroundWhiteBlackText : Theme.key_windowBackgroundWhiteGrayText6));
+            this.confirmTextView.setLinkTextColor(Theme.getColor(Theme.key_chats_actionBackground));
+            TextView textView = this.titleTextView;
+            int i = Theme.key_windowBackgroundWhiteBlackText;
+            textView.setTextColor(Theme.getColor(i));
             if (this.currentType == 11) {
-                this.missedCallDescriptionSubtitle.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
-                this.missedCallArrowIcon.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteInputFieldActivated"), PorterDuff.Mode.SRC_IN));
-                this.missedCallPhoneIcon.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteBlackText"), PorterDuff.Mode.SRC_IN));
-                this.prefixTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+                this.missedCallDescriptionSubtitle.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
+                this.missedCallArrowIcon.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated), PorterDuff.Mode.SRC_IN));
+                this.missedCallPhoneIcon.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i), PorterDuff.Mode.SRC_IN));
+                this.prefixTextView.setTextColor(Theme.getColor(i));
             }
             applyLottieColors(this.hintDrawable);
             applyLottieColors(this.starsToDotsDrawable);
@@ -4503,19 +4511,23 @@ public class LoginActivity extends BaseFragment {
             if (codeFieldContainer != null) {
                 codeFieldContainer.invalidate();
             }
-            String str = (String) this.timeText.getTag();
-            this.timeText.setTextColor(Theme.getColor(str != null ? str : "windowBackgroundWhiteGrayText6"));
-            if (this.currentType != 15) {
-                this.problemText.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText4"));
+            Integer num = (Integer) this.timeText.getTag();
+            if (num == null) {
+                num = Integer.valueOf(Theme.key_windowBackgroundWhiteGrayText6);
             }
-            this.wrongCode.setTextColor(Theme.getColor("text_RedBold"));
+            this.timeText.setTextColor(Theme.getColor(num.intValue()));
+            if (this.currentType != 15) {
+                this.problemText.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText4));
+            }
+            this.wrongCode.setTextColor(Theme.getColor(Theme.key_text_RedBold));
         }
 
         private void applyLottieColors(RLottieDrawable rLottieDrawable) {
             if (rLottieDrawable != null) {
-                rLottieDrawable.setLayerColor("Bubble.**", Theme.getColor("chats_actionBackground"));
-                rLottieDrawable.setLayerColor("Phone.**", Theme.getColor("windowBackgroundWhiteBlackText"));
-                rLottieDrawable.setLayerColor("Note.**", Theme.getColor("windowBackgroundWhiteBlackText"));
+                rLottieDrawable.setLayerColor("Bubble.**", Theme.getColor(Theme.key_chats_actionBackground));
+                int i = Theme.key_windowBackgroundWhiteBlackText;
+                rLottieDrawable.setLayerColor("Phone.**", Theme.getColor(i));
+                rLottieDrawable.setLayerColor("Note.**", Theme.getColor(i));
             }
         }
 
@@ -5032,8 +5044,10 @@ public class LoginActivity extends BaseFragment {
             if (this.timeTimer != null) {
                 return;
             }
-            this.timeText.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
-            this.timeText.setTag(R.id.color_key_tag, "windowBackgroundWhiteGrayText6");
+            TextView textView = this.timeText;
+            int i = Theme.key_windowBackgroundWhiteGrayText6;
+            textView.setTextColor(Theme.getColor(i));
+            this.timeText.setTag(R.id.color_key_tag, Integer.valueOf(i));
             Timer timer = new Timer();
             this.timeTimer = timer;
             timer.schedule(new 8(), 0L, 1000L);
@@ -5085,16 +5099,20 @@ public class LoginActivity extends BaseFragment {
                     } else {
                         LoginActivitySmsView.this.timeText.setText(LocaleController.getString("RequestSmsButton", R.string.RequestSmsButton));
                     }
-                    LoginActivitySmsView.this.timeText.setTextColor(Theme.getColor("chats_actionBackground"));
-                    LoginActivitySmsView.this.timeText.setTag(R.id.color_key_tag, "chats_actionBackground");
+                    TextView textView = LoginActivitySmsView.this.timeText;
+                    int i3 = Theme.key_chats_actionBackground;
+                    textView.setTextColor(Theme.getColor(i3));
+                    LoginActivitySmsView.this.timeText.setTag(R.id.color_key_tag, Integer.valueOf(i3));
                 }
             }
         }
 
         /* JADX INFO: Access modifiers changed from: private */
         public void destroyTimer() {
-            this.timeText.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
-            this.timeText.setTag(R.id.color_key_tag, "windowBackgroundWhiteGrayText6");
+            TextView textView = this.timeText;
+            int i = Theme.key_windowBackgroundWhiteGrayText6;
+            textView.setTextColor(Theme.getColor(i));
+            this.timeText.setTag(R.id.color_key_tag, Integer.valueOf(i));
             try {
                 synchronized (this.timerSync) {
                     Timer timer = this.timeTimer;
@@ -6171,12 +6189,14 @@ public class LoginActivity extends BaseFragment {
 
         @Override // org.telegram.ui.Components.SlideView
         public void updateColors() {
-            this.titleView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.confirmTextView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
-            this.codeField.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.codeField.setCursorColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.codeField.setHintTextColor(Theme.getColor("windowBackgroundWhiteHintText"));
-            this.cancelButton.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText4"));
+            TextView textView = this.titleView;
+            int i = Theme.key_windowBackgroundWhiteBlackText;
+            textView.setTextColor(Theme.getColor(i));
+            this.confirmTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
+            this.codeField.setTextColor(Theme.getColor(i));
+            this.codeField.setCursorColor(Theme.getColor(i));
+            this.codeField.setHintTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
+            this.cancelButton.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText4));
             this.outlineCodeField.updateColor();
         }
 
@@ -6549,11 +6569,13 @@ public class LoginActivity extends BaseFragment {
 
         @Override // org.telegram.ui.Components.SlideView
         public void updateColors() {
-            this.titleView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.confirmTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.resetAccountText.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.resetAccountTime.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.resetAccountButton.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor("changephoneinfo_image2"), Theme.getColor("chats_actionPressedBackground")));
+            TextView textView = this.titleView;
+            int i = Theme.key_windowBackgroundWhiteBlackText;
+            textView.setTextColor(Theme.getColor(i));
+            this.confirmTextView.setTextColor(Theme.getColor(i));
+            this.resetAccountText.setTextColor(Theme.getColor(i));
+            this.resetAccountTime.setTextColor(Theme.getColor(i));
+            this.resetAccountButton.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor(Theme.key_changephoneinfo_image2), Theme.getColor(Theme.key_chats_actionPressedBackground)));
         }
 
         @Override // org.telegram.ui.Components.SlideView
@@ -6914,10 +6936,12 @@ public class LoginActivity extends BaseFragment {
 
         @Override // org.telegram.ui.Components.SlideView
         public void updateColors() {
-            this.titleView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.subtitleView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
-            this.emailField.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.signInWithGoogleView.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText4"));
+            TextView textView = this.titleView;
+            int i = Theme.key_windowBackgroundWhiteBlackText;
+            textView.setTextColor(Theme.getColor(i));
+            this.subtitleView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
+            this.emailField.setTextColor(Theme.getColor(i));
+            this.signInWithGoogleView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText4));
             this.loginOrView.updateColors();
             this.emailOutlineView.invalidate();
         }
@@ -7765,14 +7789,18 @@ public class LoginActivity extends BaseFragment {
 
         @Override // org.telegram.ui.Components.SlideView
         public void updateColors() {
-            this.titleView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.confirmTextView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
-            this.signInWithGoogleView.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText4"));
+            this.titleView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            TextView textView = this.confirmTextView;
+            int i = Theme.key_windowBackgroundWhiteGrayText6;
+            textView.setTextColor(Theme.getColor(i));
+            TextView textView2 = this.signInWithGoogleView;
+            int i2 = Theme.key_windowBackgroundWhiteBlueText4;
+            textView2.setTextColor(Theme.getColor(i2));
             this.loginOrView.updateColors();
-            this.resendCodeView.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText4"));
-            this.cantAccessEmailView.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText4"));
-            this.emailResetInView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
-            this.wrongCodeView.setTextColor(Theme.getColor("text_RedBold"));
+            this.resendCodeView.setTextColor(Theme.getColor(i2));
+            this.cantAccessEmailView.setTextColor(Theme.getColor(i2));
+            this.emailResetInView.setTextColor(Theme.getColor(i));
+            this.wrongCodeView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
             this.codeFieldContainer.invalidate();
         }
 
@@ -7956,7 +7984,7 @@ public class LoginActivity extends BaseFragment {
             if (indexOf != lastIndexOf && indexOf != -1 && lastIndexOf != -1) {
                 valueOf.replace(lastIndexOf, lastIndexOf + 1, (CharSequence) "");
                 valueOf.replace(indexOf, indexOf + 1, (CharSequence) "");
-                valueOf.setSpan(new ForegroundColorSpan(LoginActivity.this.getThemedColor("windowBackgroundWhiteBlueText4")), indexOf, lastIndexOf - 1, 33);
+                valueOf.setSpan(new ForegroundColorSpan(LoginActivity.this.getThemedColor(Theme.key_windowBackgroundWhiteBlueText4)), indexOf, lastIndexOf - 1, 33);
             }
             this.emailResetInView.setText(valueOf);
             AndroidUtilities.runOnUIThread(this.updateResetPendingDateCallback, 1000L);
@@ -8629,9 +8657,9 @@ public class LoginActivity extends BaseFragment {
 
         @Override // org.telegram.ui.Components.SlideView
         public void updateColors() {
-            this.titleView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.confirmTextView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
-            this.troubleButton.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText4"));
+            this.titleView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            this.confirmTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
+            this.troubleButton.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText4));
             this.codeFieldContainer.invalidate();
         }
 
@@ -9038,7 +9066,7 @@ public class LoginActivity extends BaseFragment {
                 i++;
             }
             this.passwordButton.setTag(Boolean.valueOf(this.isPasswordVisible));
-            this.passwordButton.setColorFilter(Theme.getColor(this.isPasswordVisible ? "windowBackgroundWhiteInputFieldActivated" : "windowBackgroundWhiteHintText"));
+            this.passwordButton.setColorFilter(Theme.getColor(this.isPasswordVisible ? Theme.key_windowBackgroundWhiteInputFieldActivated : Theme.key_windowBackgroundWhiteHintText));
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -9068,28 +9096,21 @@ public class LoginActivity extends BaseFragment {
 
         @Override // org.telegram.ui.Components.SlideView
         public void updateColors() {
-            this.titleTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.confirmTextView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
-            EditTextBoldCursor[] editTextBoldCursorArr = this.codeField;
-            int length = editTextBoldCursorArr.length;
-            int i = 0;
-            while (true) {
-                if (i >= length) {
-                    break;
-                }
-                EditTextBoldCursor editTextBoldCursor = editTextBoldCursorArr[i];
-                editTextBoldCursor.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-                editTextBoldCursor.setCursorColor(Theme.getColor("windowBackgroundWhiteInputFieldActivated"));
-                i++;
+            EditTextBoldCursor[] editTextBoldCursorArr;
+            this.titleTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            this.confirmTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
+            for (EditTextBoldCursor editTextBoldCursor : this.codeField) {
+                editTextBoldCursor.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+                editTextBoldCursor.setCursorColor(Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated));
             }
             for (OutlineTextContainerView outlineTextContainerView : this.outlineFields) {
                 outlineTextContainerView.updateColor();
             }
-            this.cancelButton.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText4"));
+            this.cancelButton.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText4));
             ImageView imageView = this.passwordButton;
             if (imageView != null) {
-                imageView.setColorFilter(Theme.getColor(this.isPasswordVisible ? "windowBackgroundWhiteInputFieldActivated" : "windowBackgroundWhiteHintText"));
-                this.passwordButton.setBackground(Theme.createSelectorDrawable(LoginActivity.this.getThemedColor("listSelectorSDK21"), 1));
+                imageView.setColorFilter(Theme.getColor(this.isPasswordVisible ? Theme.key_windowBackgroundWhiteInputFieldActivated : Theme.key_windowBackgroundWhiteHintText));
+                this.passwordButton.setBackground(Theme.createSelectorDrawable(LoginActivity.this.getThemedColor(Theme.key_listSelector), 1));
             }
         }
 
@@ -9862,15 +9883,21 @@ public class LoginActivity extends BaseFragment {
         @Override // org.telegram.ui.Components.SlideView
         public void updateColors() {
             this.avatarDrawable.invalidateSelf();
-            this.titleTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.descriptionTextView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
-            this.firstNameField.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.firstNameField.setCursorColor(Theme.getColor("windowBackgroundWhiteInputFieldActivated"));
-            this.lastNameField.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.lastNameField.setCursorColor(Theme.getColor("windowBackgroundWhiteInputFieldActivated"));
-            this.wrongNumber.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText4"));
-            this.privacyView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
-            this.privacyView.setLinkTextColor(Theme.getColor("windowBackgroundWhiteLinkText"));
+            TextView textView = this.titleTextView;
+            int i = Theme.key_windowBackgroundWhiteBlackText;
+            textView.setTextColor(Theme.getColor(i));
+            TextView textView2 = this.descriptionTextView;
+            int i2 = Theme.key_windowBackgroundWhiteGrayText6;
+            textView2.setTextColor(Theme.getColor(i2));
+            this.firstNameField.setTextColor(Theme.getColor(i));
+            EditTextBoldCursor editTextBoldCursor = this.firstNameField;
+            int i3 = Theme.key_windowBackgroundWhiteInputFieldActivated;
+            editTextBoldCursor.setCursorColor(Theme.getColor(i3));
+            this.lastNameField.setTextColor(Theme.getColor(i));
+            this.lastNameField.setCursorColor(Theme.getColor(i3));
+            this.wrongNumber.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText4));
+            this.privacyView.setTextColor(Theme.getColor(i2));
+            this.privacyView.setLinkTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteLinkText));
             this.firstNameOutlineView.updateColor();
             this.lastNameOutlineView.updateColor();
         }
@@ -10268,7 +10295,7 @@ public class LoginActivity extends BaseFragment {
             public void onAnimationEnd(Animator animator) {
                 LoginActivity.this.keyboardLinearLayout.setAlpha(1.0f);
                 LoginActivity.this.startMessagingButton.setVisibility(0);
-                ((BaseFragment) LoginActivity.this).fragmentView.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                ((BaseFragment) LoginActivity.this).fragmentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                 LoginActivity.this.floatingButtonContainer.setVisibility(0);
                 ((FrameLayout) ((BaseFragment) LoginActivity.this).fragmentView).removeView(transformableLoginButtonView);
                 if (LoginActivity.this.animationFinishCallback != null) {
@@ -10279,7 +10306,7 @@ public class LoginActivity extends BaseFragment {
                 runnable.run();
             }
         });
-        final int color = Theme.getColor("windowBackgroundWhite");
+        final int color = Theme.getColor(Theme.key_windowBackgroundWhite);
         final int alpha = Color.alpha(color);
         ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda4
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -10321,9 +10348,11 @@ public class LoginActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void updateColors() {
-        this.fragmentView.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+        this.fragmentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         Activity parentActivity = getParentActivity();
-        Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor("chats_actionBackground"), Theme.getColor("chats_actionPressedBackground"));
+        int dp = AndroidUtilities.dp(56.0f);
+        int i = Theme.key_chats_actionBackground;
+        Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(dp, Theme.getColor(i), Theme.getColor(Theme.key_chats_actionPressedBackground));
         if (Build.VERSION.SDK_INT < 21) {
             Drawable mutate = parentActivity.getResources().getDrawable(R.drawable.floating_shadow).mutate();
             mutate.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
@@ -10332,12 +10361,14 @@ public class LoginActivity extends BaseFragment {
             createSimpleSelectorCircleDrawable = combinedDrawable;
         }
         this.floatingButtonContainer.setBackground(createSimpleSelectorCircleDrawable);
-        this.backButtonView.setColorFilter(Theme.getColor("windowBackgroundWhiteBlackText"));
-        this.backButtonView.setBackground(Theme.createSelectorDrawable(Theme.getColor("listSelectorSDK21")));
-        this.radialProgressView.setProgressColor(Theme.getColor("chats_actionBackground"));
-        this.floatingButtonIcon.setColor(Theme.getColor("chats_actionIcon"));
-        this.floatingButtonIcon.setBackgroundColor(Theme.getColor("chats_actionBackground"));
-        this.floatingProgressView.setProgressColor(Theme.getColor("chats_actionIcon"));
+        this.backButtonView.setColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+        this.backButtonView.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector)));
+        this.radialProgressView.setProgressColor(Theme.getColor(i));
+        TransformableLoginButtonView transformableLoginButtonView = this.floatingButtonIcon;
+        int i2 = Theme.key_chats_actionIcon;
+        transformableLoginButtonView.setColor(Theme.getColor(i2));
+        this.floatingButtonIcon.setBackgroundColor(Theme.getColor(i));
+        this.floatingProgressView.setProgressColor(Theme.getColor(i2));
         for (SlideView slideView : this.views) {
             slideView.updateColors();
         }
@@ -10360,7 +10391,7 @@ public class LoginActivity extends BaseFragment {
             public /* synthetic */ void onAnimationProgress(float f) {
                 ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
-        }, "windowBackgroundWhiteBlackText", "windowBackgroundWhiteGrayText6", "windowBackgroundWhiteHintText", "listSelectorSDK21", "chats_actionBackground", "chats_actionIcon", "windowBackgroundWhiteInputField", "windowBackgroundWhiteInputFieldActivated", "windowBackgroundWhiteValueText", "text_RedBold", "windowBackgroundWhiteGrayText", "checkbox", "windowBackgroundWhiteBlueText4", "changephoneinfo_image2", "chats_actionPressedBackground", "text_RedRegular", "windowBackgroundWhiteLinkText", "checkboxSquareUnchecked", "checkboxSquareBackground", "checkboxSquareCheck", "dialogBackground", "dialogTextGray2", "dialogTextBlack");
+        }, Theme.key_windowBackgroundWhiteBlackText, Theme.key_windowBackgroundWhiteGrayText6, Theme.key_windowBackgroundWhiteHintText, Theme.key_listSelector, Theme.key_chats_actionBackground, Theme.key_chats_actionIcon, Theme.key_windowBackgroundWhiteInputField, Theme.key_windowBackgroundWhiteInputFieldActivated, Theme.key_windowBackgroundWhiteValueText, Theme.key_text_RedBold, Theme.key_windowBackgroundWhiteGrayText, Theme.key_checkbox, Theme.key_windowBackgroundWhiteBlueText4, Theme.key_changephoneinfo_image2, Theme.key_chats_actionPressedBackground, Theme.key_text_RedRegular, Theme.key_windowBackgroundWhiteLinkText, Theme.key_checkboxSquareUnchecked, Theme.key_checkboxSquareBackground, Theme.key_checkboxSquareCheck, Theme.key_dialogBackground, Theme.key_dialogTextGray2, Theme.key_dialogTextBlack);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -10527,7 +10558,10 @@ public class LoginActivity extends BaseFragment {
             textView3.setText(LocaleController.getString(R.string.Edit));
             this.editTextView.setSingleLine();
             this.editTextView.setTextSize(1, 16.0f);
-            this.editTextView.setBackground(Theme.getRoundRectSelectorDrawable(AndroidUtilities.dp(6.0f), Theme.getColor("changephoneinfo_image2")));
+            TextView textView4 = this.editTextView;
+            int dp2 = AndroidUtilities.dp(6.0f);
+            int i2 = Theme.key_changephoneinfo_image2;
+            textView4.setBackground(Theme.getRoundRectSelectorDrawable(dp2, Theme.getColor(i2)));
             this.editTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LoginActivity$PhoneNumberConfirmView$$ExternalSyntheticLambda4
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view5) {
@@ -10535,16 +10569,16 @@ public class LoginActivity extends BaseFragment {
                 }
             });
             this.editTextView.setTypeface(Typeface.DEFAULT_BOLD);
-            int i2 = dp / 2;
-            this.editTextView.setPadding(dp, i2, dp, i2);
+            int i3 = dp / 2;
+            this.editTextView.setPadding(dp, i3, dp, i3);
             float f = 8;
             this.popupLayout.addView(this.editTextView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 5 : 3) | 80, f, f, f, f));
-            TextView textView4 = new TextView(context);
-            this.confirmTextView = textView4;
-            textView4.setText(LocaleController.getString(R.string.CheckPhoneNumberYes));
+            TextView textView5 = new TextView(context);
+            this.confirmTextView = textView5;
+            textView5.setText(LocaleController.getString(R.string.CheckPhoneNumberYes));
             this.confirmTextView.setSingleLine();
             this.confirmTextView.setTextSize(1, 16.0f);
-            this.confirmTextView.setBackground(Theme.getRoundRectSelectorDrawable(AndroidUtilities.dp(6.0f), Theme.getColor("changephoneinfo_image2")));
+            this.confirmTextView.setBackground(Theme.getRoundRectSelectorDrawable(AndroidUtilities.dp(6.0f), Theme.getColor(i2)));
             this.confirmTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LoginActivity$PhoneNumberConfirmView$$ExternalSyntheticLambda5
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view5) {
@@ -10552,7 +10586,7 @@ public class LoginActivity extends BaseFragment {
                 }
             });
             this.confirmTextView.setTypeface(Typeface.DEFAULT_BOLD);
-            this.confirmTextView.setPadding(dp, i2, dp, i2);
+            this.confirmTextView.setPadding(dp, i3, dp, i3);
             this.popupLayout.addView(this.confirmTextView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 3 : 5) | 80, f, f, f, f));
             updateFabPosition();
             updateColors();
@@ -10592,15 +10626,21 @@ public class LoginActivity extends BaseFragment {
 
         /* JADX INFO: Access modifiers changed from: private */
         public void updateColors() {
-            this.fabTransform.setColor(Theme.getColor("chats_actionIcon"));
-            this.fabTransform.setBackgroundColor(Theme.getColor("chats_actionBackground"));
-            this.popupLayout.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(12.0f), Theme.getColor("dialogBackground")));
-            this.confirmMessageView.setTextColor(Theme.getColor("dialogTextGray2"));
-            this.numberView.setTextColor(Theme.getColor("dialogTextBlack"));
-            this.editTextView.setTextColor(Theme.getColor("changephoneinfo_image2"));
-            this.confirmTextView.setTextColor(Theme.getColor("changephoneinfo_image2"));
-            this.popupFabContainer.setBackground(Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor("chats_actionBackground"), Theme.getColor("chats_actionPressedBackground")));
-            this.floatingProgressView.setProgressColor(Theme.getColor("chats_actionIcon"));
+            TransformableLoginButtonView transformableLoginButtonView = this.fabTransform;
+            int i = Theme.key_chats_actionIcon;
+            transformableLoginButtonView.setColor(Theme.getColor(i));
+            TransformableLoginButtonView transformableLoginButtonView2 = this.fabTransform;
+            int i2 = Theme.key_chats_actionBackground;
+            transformableLoginButtonView2.setBackgroundColor(Theme.getColor(i2));
+            this.popupLayout.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(12.0f), Theme.getColor(Theme.key_dialogBackground)));
+            this.confirmMessageView.setTextColor(Theme.getColor(Theme.key_dialogTextGray2));
+            this.numberView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+            TextView textView = this.editTextView;
+            int i3 = Theme.key_changephoneinfo_image2;
+            textView.setTextColor(Theme.getColor(i3));
+            this.confirmTextView.setTextColor(Theme.getColor(i3));
+            this.popupFabContainer.setBackground(Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor(i2), Theme.getColor(Theme.key_chats_actionPressedBackground)));
+            this.floatingProgressView.setProgressColor(Theme.getColor(i));
         }
 
         @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
@@ -10628,7 +10668,7 @@ public class LoginActivity extends BaseFragment {
                     Bitmap createBitmap = Bitmap.createBitmap(measuredWidth, measuredHeight, Bitmap.Config.ARGB_8888);
                     Canvas canvas = new Canvas(createBitmap);
                     canvas.scale(0.1f, 0.1f);
-                    canvas.drawColor(Theme.getColor("windowBackgroundWhite"));
+                    canvas.drawColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     PhoneNumberConfirmView.this.fragmentView.draw(canvas);
                     Utilities.stackBlurBitmap(createBitmap, Math.max(8, Math.max(measuredWidth, measuredHeight) / ImageReceiver.DEFAULT_CROSSFADE_DURATION));
                     PhoneNumberConfirmView.this.blurredView.setBackground(new BitmapDrawable(PhoneNumberConfirmView.this.getContext().getResources(), createBitmap));
@@ -10755,6 +10795,6 @@ public class LoginActivity extends BaseFragment {
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean isLightStatusBar() {
-        return ColorUtils.calculateLuminance(Theme.getColor("windowBackgroundWhite", null, true)) > 0.699999988079071d;
+        return ColorUtils.calculateLuminance(Theme.getColor(Theme.key_windowBackgroundWhite, null, true)) > 0.699999988079071d;
     }
 }

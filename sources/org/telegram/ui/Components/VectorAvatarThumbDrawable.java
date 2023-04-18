@@ -17,6 +17,7 @@ import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 import org.telegram.tgnet.TLRPC$TL_videoSizeEmojiMarkup;
 import org.telegram.tgnet.TLRPC$TL_videoSizeStickerMarkup;
 import org.telegram.tgnet.TLRPC$VideoSize;
+import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 /* loaded from: classes4.dex */
 public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmojiSpan.InvalidateHolder, AttachableDrawable, NotificationCenter.NotificationCenterDelegate {
@@ -97,7 +98,7 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
                         str2 = "50_50";
                     } else if (this.type != 2) {
                         str = null;
-                        this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, ImageLocation.getForDocument(tLRPC$Document2), str, null, null, DocumentObject.getSvgThumb(tLRPC$Document, "windowBackgroundWhiteGrayIcon", 0.2f), 0L, "tgs", tLRPC$Document, 0);
+                        this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, ImageLocation.getForDocument(tLRPC$Document2), str, null, null, DocumentObject.getSvgThumb(tLRPC$Document, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f), 0L, "tgs", tLRPC$Document, 0);
                         if (this.type != 3) {
                             this.stickerPreloadImageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), "100_100", null, null, null, 0L, "tgs", tLRPC$Document, 0);
                             return;
@@ -109,7 +110,7 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
                     tLRPC$Document2 = tLRPC$Document;
                     str = "50_50_firstframe";
                     str3 = str2;
-                    this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, ImageLocation.getForDocument(tLRPC$Document2), str, null, null, DocumentObject.getSvgThumb(tLRPC$Document, "windowBackgroundWhiteGrayIcon", 0.2f), 0L, "tgs", tLRPC$Document, 0);
+                    this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, ImageLocation.getForDocument(tLRPC$Document2), str, null, null, DocumentObject.getSvgThumb(tLRPC$Document, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f), 0L, "tgs", tLRPC$Document, 0);
                     if (this.type != 3) {
                     }
                 }

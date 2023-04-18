@@ -420,7 +420,7 @@ public class Browser {
                             PendingIntent broadcast = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, new Intent(ApplicationLoader.applicationContext, CustomTabsCopyReceiver.class), 167772160);
                             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(getSession());
                             builder.addMenuItem(LocaleController.getString("CopyLink", R.string.CopyLink), broadcast);
-                            builder.setToolbarColor(Theme.getColor("actionBarBrowser"));
+                            builder.setToolbarColor(Theme.getColor(Theme.key_actionBarBrowser));
                             builder.setShowTitle(true);
                             builder.setActionButton(BitmapFactory.decodeResource(context.getResources(), R.drawable.msg_filled_shareout), LocaleController.getString("ShareFile", R.string.ShareFile), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent3, ConnectionsManager.FileTypeVideo), true);
                             CustomTabsIntent build = builder.build();

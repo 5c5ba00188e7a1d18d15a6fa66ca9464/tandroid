@@ -561,13 +561,15 @@ public class RecyclerListView extends RecyclerView {
                 this.isRtl = false;
                 this.letterPaint.setTextSize(AndroidUtilities.dp(13.0f));
                 this.letterPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-                this.paint2.setColor(Theme.getColor("windowBackgroundWhite"));
+                Paint paint = this.paint2;
+                int i2 = Theme.key_windowBackgroundWhite;
+                paint.setColor(Theme.getColor(i2));
                 Drawable mutate = ContextCompat.getDrawable(context, R.drawable.calendar_date).mutate();
                 this.fastScrollBackgroundDrawable = mutate;
-                mutate.setColorFilter(new PorterDuffColorFilter(ColorUtils.blendARGB(Theme.getColor("windowBackgroundWhite"), -1, 0.1f), PorterDuff.Mode.MULTIPLY));
+                mutate.setColorFilter(new PorterDuffColorFilter(ColorUtils.blendARGB(Theme.getColor(i2), -1, 0.1f), PorterDuff.Mode.MULTIPLY));
             }
-            for (int i2 = 0; i2 < 8; i2++) {
-                this.radii[i2] = AndroidUtilities.dp(44.0f);
+            for (int i3 = 0; i3 < 8; i3++) {
+                this.radii[i3] = AndroidUtilities.dp(44.0f);
             }
             this.scrollX = AndroidUtilities.dp(this.isRtl ? 10.0f : (i == 0 ? 132 : 240) - 15);
             updateColors();
@@ -578,13 +580,13 @@ public class RecyclerListView extends RecyclerView {
 
         /* JADX INFO: Access modifiers changed from: private */
         public void updateColors() {
-            this.inactiveColor = this.type == 0 ? Theme.getColor("fastScrollInactive") : ColorUtils.setAlphaComponent(-16777216, 102);
-            this.activeColor = Theme.getColor("fastScrollActive");
+            this.inactiveColor = this.type == 0 ? Theme.getColor(Theme.key_fastScrollInactive) : ColorUtils.setAlphaComponent(-16777216, 102);
+            this.activeColor = Theme.getColor(Theme.key_fastScrollActive);
             this.paint.setColor(this.inactiveColor);
             if (this.type == 0) {
-                this.letterPaint.setColor(Theme.getColor("fastScrollText"));
+                this.letterPaint.setColor(Theme.getColor(Theme.key_fastScrollText));
             } else {
-                this.letterPaint.setColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+                this.letterPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             }
             invalidate();
         }
@@ -795,12 +797,12 @@ public class RecyclerListView extends RecyclerView {
                 this.paint.setColor(ColorUtils.blendARGB(this.inactiveColor, this.activeColor, this.bubbleProgress));
                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), this.paint);
             } else {
-                this.paint.setColor(ColorUtils.blendARGB(Theme.getColor("windowBackgroundWhite"), -1, 0.1f));
+                this.paint.setColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_windowBackgroundWhite), -1, 0.1f));
                 float dp3 = AndroidUtilities.dp(27.0f) + paddingTop2;
                 this.fastScrollShadowDrawable.setBounds(getMeasuredWidth() - this.fastScrollShadowDrawable.getIntrinsicWidth(), (int) (dp3 - (this.fastScrollShadowDrawable.getIntrinsicHeight() / 2)), getMeasuredWidth(), (int) (dp3 + (this.fastScrollShadowDrawable.getIntrinsicHeight() / 2)));
                 this.fastScrollShadowDrawable.draw(canvas);
                 canvas.drawCircle(this.scrollX + AndroidUtilities.dp(8.0f), AndroidUtilities.dp(27.0f) + paddingTop2, AndroidUtilities.dp(24.0f), this.paint);
-                this.paint.setColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+                this.paint.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                 canvas.save();
                 canvas.translate(this.scrollX + AndroidUtilities.dp(4.0f), AndroidUtilities.dp(34.0f) + paddingTop2 + (AndroidUtilities.dp(2.0f) * this.bubbleProgress));
                 canvas.drawPath(this.arrowPath, this.paint);
@@ -1494,8 +1496,8 @@ public class RecyclerListView extends RecyclerView {
             }
         };
         this.resourcesProvider = resourcesProvider;
-        setGlowColor(getThemedColor("actionBarDefault"));
-        Drawable selectorDrawable = Theme.getSelectorDrawable(getThemedColor("listSelectorSDK21"), false);
+        setGlowColor(getThemedColor(Theme.key_actionBarDefault));
+        Drawable selectorDrawable = Theme.getSelectorDrawable(getThemedColor(Theme.key_listSelector), false);
         this.selectorDrawable = selectorDrawable;
         selectorDrawable.setCallback(this);
         try {
@@ -1939,7 +1941,7 @@ public class RecyclerListView extends RecyclerView {
     }
 
     public void setListSelectorColor(Integer num) {
-        Theme.setSelectorDrawableColor(this.selectorDrawable, num == null ? getThemedColor("listSelectorSDK21") : num.intValue(), true);
+        Theme.setSelectorDrawableColor(this.selectorDrawable, num == null ? getThemedColor(Theme.key_listSelector) : num.intValue(), true);
     }
 
     public Integer getSelectorColor(int i) {
@@ -2921,10 +2923,10 @@ public class RecyclerListView extends RecyclerView {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public int getThemedColor(String str) {
+    public int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

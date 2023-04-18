@@ -24,7 +24,7 @@ public class ChatLoadingCell extends FrameLayout {
         RadialProgressView radialProgressView = new RadialProgressView(context, resourcesProvider);
         this.progressBar = radialProgressView;
         radialProgressView.setSize(AndroidUtilities.dp(28.0f));
-        this.progressBar.setProgressColor(getThemedColor("chat_serviceText"));
+        this.progressBar.setProgressColor(getThemedColor(Theme.key_chat_serviceText));
         this.frameLayout.addView(this.progressBar, LayoutHelper.createFrame(32, 32, 17));
     }
 
@@ -37,10 +37,10 @@ public class ChatLoadingCell extends FrameLayout {
         this.frameLayout.setVisibility(z ? 0 : 4);
     }
 
-    private int getThemedColor(String str) {
+    private int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
+        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
     }
 
     private Paint getThemedPaint(String str) {

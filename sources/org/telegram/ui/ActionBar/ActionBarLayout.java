@@ -445,9 +445,10 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         @Override // android.view.View
         protected void onDraw(Canvas canvas) {
             if (this.fragmentPanTranslationOffset != 0) {
-                if (this.backgroundColor != Theme.getColor("windowBackgroundWhite")) {
+                int i = Theme.key_windowBackgroundWhite;
+                if (this.backgroundColor != Theme.getColor(i)) {
                     Paint paint = this.backgroundPaint;
-                    int color = Theme.getColor("windowBackgroundWhite");
+                    int color = Theme.getColor(i);
                     this.backgroundColor = color;
                     paint.setColor(color);
                 }
@@ -928,7 +929,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             baseFragment.actionBar.setTitleOverlayText(this.titleOverlayText, this.titleOverlayTextId, this.overlayAction);
         }
         if (!baseFragment.hasOwnBackground && view.getBackground() == null) {
-            view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+            view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         }
         baseFragment.onResume();
         if (this.themeAnimatorSet != null) {
@@ -1423,7 +1424,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         baseFragment2.onResume();
         this.currentActionBar = baseFragment2.actionBar;
         if (!baseFragment2.hasOwnBackground && view.getBackground() == null) {
-            view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+            view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         }
         LayoutContainer layoutContainer = this.containerView;
         LayoutContainer layoutContainer2 = this.containerViewBack;
@@ -1729,7 +1730,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             }
         }
         if (!baseFragment.hasOwnBackground && view.getBackground() == null) {
-            view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+            view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         }
         this.containerView.addView(view, LayoutHelper.createFrame(-1, -1.0f));
         ActionBar actionBar = baseFragment.actionBar;
@@ -1864,7 +1865,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 baseFragment = null;
             }
             if (baseFragment != null) {
-                AndroidUtilities.setLightStatusBar(this.parentActivity.getWindow(), Theme.getColor("actionBarDefault") == -1 || (baseFragment.hasForceLightStatusBar() && !Theme.getCurrentTheme().isDark()), baseFragment.hasForceLightStatusBar());
+                AndroidUtilities.setLightStatusBar(this.parentActivity.getWindow(), Theme.getColor(Theme.key_actionBarDefault) == -1 || (baseFragment.hasForceLightStatusBar() && !Theme.getCurrentTheme().isDark()), baseFragment.hasForceLightStatusBar());
                 LayoutContainer layoutContainer = this.containerView;
                 this.containerView = this.containerViewBack;
                 this.containerViewBack = layoutContainer;
@@ -1916,7 +1917,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 }
                 this.currentActionBar = baseFragment.actionBar;
                 if (!baseFragment.hasOwnBackground && view.getBackground() == null) {
-                    view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                 }
                 if (z3) {
                     this.transitionAnimationStartTime = System.currentTimeMillis();
@@ -2102,7 +2103,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             if (baseFragment2.hasOwnBackground || view2.getBackground() != null) {
                 return;
             }
-            view2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+            view2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         }
     }
 
@@ -2378,6 +2379,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 this.animateEndColors.clear();
                 this.themeAnimatorDelegate.clear();
                 this.presentingFragmentDescriptions = null;
+                this.animationProgressListener = null;
                 Runnable runnable3 = themeAnimationSettings.afterAnimationRunnable;
                 if (runnable3 != null) {
                     runnable3.run();
@@ -2414,7 +2416,9 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                         ActionBarLayout.this.themeAnimatorDelegate.clear();
                         Theme.setAnimatingColor(false);
                         ActionBarLayout.this.presentingFragmentDescriptions = null;
-                        ActionBarLayout.this.themeAnimatorSet = null;
+                        ActionBarLayout actionBarLayout = ActionBarLayout.this;
+                        actionBarLayout.animationProgressListener = null;
+                        actionBarLayout.themeAnimatorSet = null;
                         Runnable runnable5 = themeAnimationSettings.afterAnimationRunnable;
                         if (runnable5 != null) {
                             runnable5.run();
@@ -2431,7 +2435,9 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                         ActionBarLayout.this.themeAnimatorDelegate.clear();
                         Theme.setAnimatingColor(false);
                         ActionBarLayout.this.presentingFragmentDescriptions = null;
-                        ActionBarLayout.this.themeAnimatorSet = null;
+                        ActionBarLayout actionBarLayout = ActionBarLayout.this;
+                        actionBarLayout.animationProgressListener = null;
+                        actionBarLayout.themeAnimatorSet = null;
                         Runnable runnable5 = themeAnimationSettings.afterAnimationRunnable;
                         if (runnable5 != null) {
                             runnable5.run();

@@ -200,29 +200,29 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         AndroidUtilities.removeAdjustResize(getParentActivity(), this.classGuid);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0217  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0219  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0236  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0238  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0265  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0267  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x02c5  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x02c8  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x032b  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x032e  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0359  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0404  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0407  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x040b  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x040e  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x042d  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0463  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0468  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x046e  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0471  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x053a  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0556  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0575  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0219  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x021b  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0238  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x023a  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0267  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0269  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x02c7  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x02ca  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x032d  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x0330  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x035b  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0401  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0404  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0408  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x040b  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x042a  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x0460  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0465  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x046b  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x046e  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0538  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0554  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0573  */
     /* JADX WARN: Removed duplicated region for block: B:67:0x0588  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -234,16 +234,18 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(false);
         if (!this.passwordEntered || this.delegate != null) {
-            this.actionBar.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-            this.actionBar.setTitleColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.actionBar.setItemsColor(Theme.getColor("windowBackgroundWhiteBlackText"), false);
-            this.actionBar.setItemsBackgroundColor(Theme.getColor("actionBarWhiteSelector"), false);
+            this.actionBar.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+            ActionBar actionBar = this.actionBar;
+            int i3 = Theme.key_windowBackgroundWhiteBlackText;
+            actionBar.setTitleColor(Theme.getColor(i3));
+            this.actionBar.setItemsColor(Theme.getColor(i3), false);
+            this.actionBar.setItemsBackgroundColor(Theme.getColor(Theme.key_actionBarWhiteSelector), false);
             this.actionBar.setCastShadows(false);
         }
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.TwoStepVerificationActivity.1
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i3) {
-                if (i3 == -1) {
+            public void onItemClick(int i4) {
+                if (i4 == -1) {
                     TwoStepVerificationActivity twoStepVerificationActivity = TwoStepVerificationActivity.this;
                     if (twoStepVerificationActivity.otherwiseReloginDays >= 0) {
                         twoStepVerificationActivity.showSetForcePasswordAlert();
@@ -256,7 +258,8 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
         FrameLayout frameLayout2 = frameLayout;
-        frameLayout2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+        int i4 = Theme.key_windowBackgroundWhite;
+        frameLayout2.setBackgroundColor(Theme.getColor(i4));
         ScrollView scrollView = new ScrollView(context);
         this.scrollView = scrollView;
         scrollView.setFillViewport(true);
@@ -278,37 +281,41 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 linearLayout.addView(this.lockImageView, LayoutHelper.createLinear(120, 120, 1));
                 TextView textView = new TextView(context);
                 this.titleTextView = textView;
-                textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+                int i5 = Theme.key_windowBackgroundWhiteBlackText;
+                textView.setTextColor(Theme.getColor(i5));
                 this.titleTextView.setTextSize(1, 18.0f);
                 this.titleTextView.setGravity(1);
                 this.titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                 linearLayout.addView(this.titleTextView, LayoutHelper.createLinear(-2, -2, 1, 24, 8, 24, 0));
                 TextView textView2 = new TextView(context);
                 this.subtitleTextView = textView2;
-                textView2.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
+                int i6 = Theme.key_windowBackgroundWhiteGrayText6;
+                textView2.setTextColor(Theme.getColor(i6));
                 this.subtitleTextView.setTextSize(1, 15.0f);
                 this.subtitleTextView.setGravity(1);
                 this.subtitleTextView.setVisibility(8);
                 linearLayout.addView(this.subtitleTextView, LayoutHelper.createLinear(-2, -2, 1, 24, 8, 24, 0));
                 OutlineTextContainerView outlineTextContainerView = new OutlineTextContainerView(context);
                 this.passwordOutlineView = outlineTextContainerView;
-                int i3 = R.string.EnterPassword;
-                outlineTextContainerView.setText(LocaleController.getString(i3));
+                int i7 = R.string.EnterPassword;
+                outlineTextContainerView.setText(LocaleController.getString(i7));
                 this.passwordOutlineView.animateSelection(1.0f, false);
                 linearLayout.addView(this.passwordOutlineView, LayoutHelper.createLinear(-1, -2, 1, 24, 24, 24, 0));
                 EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context);
                 this.passwordEditText = editTextBoldCursor;
                 editTextBoldCursor.setTextSize(1, 18.0f);
-                this.passwordEditText.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-                this.passwordEditText.setHintTextColor(Theme.getColor("windowBackgroundWhiteHintText"));
+                this.passwordEditText.setTextColor(Theme.getColor(i5));
+                this.passwordEditText.setHintTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
                 this.passwordEditText.setBackground(null);
                 this.passwordEditText.setSingleLine(true);
                 this.passwordEditText.setInputType(129);
                 this.passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 this.passwordEditText.setTypeface(Typeface.DEFAULT);
-                this.passwordEditText.setCursorColor(Theme.getColor("windowBackgroundWhiteInputFieldActivated"));
+                EditTextBoldCursor editTextBoldCursor2 = this.passwordEditText;
+                int i8 = Theme.key_windowBackgroundWhiteInputFieldActivated;
+                editTextBoldCursor2.setCursorColor(Theme.getColor(i8));
                 this.passwordEditText.setCursorWidth(1.5f);
-                this.passwordEditText.setContentDescription(LocaleController.getString(i3));
+                this.passwordEditText.setContentDescription(LocaleController.getString(i7));
                 int dp = AndroidUtilities.dp(16.0f);
                 this.passwordEditText.setPadding(dp, dp, dp, dp);
                 this.passwordOutlineView.addView(this.passwordEditText, LayoutHelper.createFrame(-1, -2.0f));
@@ -321,19 +328,19 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 });
                 this.passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda10
                     @Override // android.widget.TextView.OnEditorActionListener
-                    public final boolean onEditorAction(TextView textView3, int i4, KeyEvent keyEvent) {
+                    public final boolean onEditorAction(TextView textView3, int i9, KeyEvent keyEvent) {
                         boolean lambda$createView$2;
-                        lambda$createView$2 = TwoStepVerificationActivity.this.lambda$createView$2(textView3, i4, keyEvent);
+                        lambda$createView$2 = TwoStepVerificationActivity.this.lambda$createView$2(textView3, i9, keyEvent);
                         return lambda$createView$2;
                     }
                 });
                 this.passwordEditText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.TwoStepVerificationActivity.2
                     @Override // android.text.TextWatcher
-                    public void beforeTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
+                    public void beforeTextChanged(CharSequence charSequence, int i9, int i10, int i11) {
                     }
 
                     @Override // android.text.TextWatcher
-                    public void onTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
+                    public void onTextChanged(CharSequence charSequence, int i9, int i10, int i11) {
                     }
 
                     @Override // android.text.TextWatcher
@@ -346,14 +353,14 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 });
                 TextView textView3 = new TextView(context);
                 this.bottomTextView = textView3;
-                textView3.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
+                textView3.setTextColor(Theme.getColor(i6));
                 this.bottomTextView.setTextSize(1, 14.0f);
                 this.bottomTextView.setGravity((!LocaleController.isRTL ? 5 : 3) | 48);
                 this.bottomTextView.setText(LocaleController.getString("YourEmailInfo", R.string.YourEmailInfo));
                 linearLayout.addView(this.bottomTextView, LayoutHelper.createLinear(-2, -2, (!LocaleController.isRTL ? 5 : 3) | 48, 40, 30, 40, 0));
                 TextView textView4 = new TextView(context);
                 this.resetWaitView = textView4;
-                textView4.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
+                textView4.setTextColor(Theme.getColor(i6));
                 this.resetWaitView.setTextSize(1, 12.0f);
                 this.resetWaitView.setGravity((!LocaleController.isRTL ? 5 : 3) | 48);
                 linearLayout.addView(this.resetWaitView, LayoutHelper.createLinear(-1, -2, 40.0f, 8.0f, 40.0f, 0.0f));
@@ -383,7 +390,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 this.cancelResetButton.setGravity(19);
                 this.cancelResetButton.setPadding(AndroidUtilities.dp(32.0f), 0, AndroidUtilities.dp(32.0f), 0);
                 this.cancelResetButton.setText(LocaleController.getString("CancelReset", R.string.CancelReset));
-                this.cancelResetButton.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText4"));
+                this.cancelResetButton.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText4));
                 this.cancelResetButton.setVisibility(8);
                 frameLayout2.addView(this.cancelResetButton, LayoutHelper.createFrame(-1, i2 < 21 ? 56.0f : 60.0f, 80, 0.0f, 0.0f, 0.0f, 16.0f));
                 this.cancelResetButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda7
@@ -418,11 +425,11 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 this.floatingButtonIcon = transformableLoginButtonView;
                 transformableLoginButtonView.setTransformType(1);
                 this.floatingButtonIcon.setProgress(0.0f);
-                this.floatingButtonIcon.setColor(Theme.getColor("chats_actionIcon"));
+                this.floatingButtonIcon.setColor(Theme.getColor(Theme.key_chats_actionIcon));
                 this.floatingButtonIcon.setDrawBackground(false);
                 this.floatingButtonContainer.setContentDescription(LocaleController.getString(R.string.Next));
                 this.floatingButtonContainer.addView(this.floatingButtonIcon, LayoutHelper.createFrame(i2 < 21 ? 56 : 60, i2 < 21 ? 56.0f : 60.0f));
-                Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor("chats_actionBackground"), Theme.getColor("chats_actionPressedBackground"));
+                Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor(Theme.key_chats_actionBackground), Theme.getColor(Theme.key_chats_actionPressedBackground));
                 if (i2 < 21) {
                     Drawable mutate = context.getResources().getDrawable(R.drawable.floating_shadow).mutate();
                     mutate.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
@@ -448,14 +455,14 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 recyclerListView2.setAdapter(listAdapter);
                 this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda38
                     @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-                    public final void onItemClick(View view, int i4) {
-                        TwoStepVerificationActivity.this.lambda$createView$7(view, i4);
+                    public final void onItemClick(View view, int i9) {
+                        TwoStepVerificationActivity.this.lambda$createView$7(view, i9);
                     }
                 });
                 RadialProgressView radialProgressView = new RadialProgressView(this, context) { // from class: org.telegram.ui.TwoStepVerificationActivity.4
                     @Override // android.view.View
-                    protected void onMeasure(int i4, int i5) {
-                        super.onMeasure(i4, i5);
+                    protected void onMeasure(int i9, int i10) {
+                        super.onMeasure(i9, i10);
                         ((ViewGroup.MarginLayoutParams) getLayoutParams()).topMargin = AndroidUtilities.statusBarHeight / 2;
                     }
                 };
@@ -464,7 +471,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 this.radialProgressView.setAlpha(0.0f);
                 this.radialProgressView.setScaleX(0.1f);
                 this.radialProgressView.setScaleY(0.1f);
-                this.radialProgressView.setProgressColor(Theme.getColor("windowBackgroundWhiteInputFieldActivated"));
+                this.radialProgressView.setProgressColor(Theme.getColor(i8));
                 this.actionBar.addView(this.radialProgressView, LayoutHelper.createFrame(32, 32.0f, 21, 0.0f, 0.0f, 12.0f, 0.0f));
                 updateRows();
                 if (!this.passwordEntered && this.delegate == null) {
@@ -482,11 +489,13 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                     this.subtitleTextView.setText(LocaleController.getString(R.string.LoginPasswordTextShort));
                 }
                 if (!this.passwordEntered) {
-                    this.fragmentView.setBackgroundColor(Theme.getColor("windowBackgroundGray"));
-                    this.fragmentView.setTag("windowBackgroundGray");
+                    View view = this.fragmentView;
+                    int i9 = Theme.key_windowBackgroundGray;
+                    view.setBackgroundColor(Theme.getColor(i9));
+                    this.fragmentView.setTag(Integer.valueOf(i9));
                 } else {
-                    this.fragmentView.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                    this.fragmentView.setTag("windowBackgroundWhite");
+                    this.fragmentView.setBackgroundColor(Theme.getColor(i4));
+                    this.fragmentView.setTag(Integer.valueOf(i4));
                 }
                 return this.fragmentView;
             }
@@ -496,62 +505,66 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         linearLayout.addView(this.lockImageView, LayoutHelper.createLinear(120, 120, 1));
         TextView textView6 = new TextView(context);
         this.titleTextView = textView6;
-        textView6.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+        int i52 = Theme.key_windowBackgroundWhiteBlackText;
+        textView6.setTextColor(Theme.getColor(i52));
         this.titleTextView.setTextSize(1, 18.0f);
         this.titleTextView.setGravity(1);
         this.titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         linearLayout.addView(this.titleTextView, LayoutHelper.createLinear(-2, -2, 1, 24, 8, 24, 0));
         TextView textView22 = new TextView(context);
         this.subtitleTextView = textView22;
-        textView22.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
+        int i62 = Theme.key_windowBackgroundWhiteGrayText6;
+        textView22.setTextColor(Theme.getColor(i62));
         this.subtitleTextView.setTextSize(1, 15.0f);
         this.subtitleTextView.setGravity(1);
         this.subtitleTextView.setVisibility(8);
         linearLayout.addView(this.subtitleTextView, LayoutHelper.createLinear(-2, -2, 1, 24, 8, 24, 0));
         OutlineTextContainerView outlineTextContainerView2 = new OutlineTextContainerView(context);
         this.passwordOutlineView = outlineTextContainerView2;
-        int i32 = R.string.EnterPassword;
-        outlineTextContainerView2.setText(LocaleController.getString(i32));
+        int i72 = R.string.EnterPassword;
+        outlineTextContainerView2.setText(LocaleController.getString(i72));
         this.passwordOutlineView.animateSelection(1.0f, false);
         linearLayout.addView(this.passwordOutlineView, LayoutHelper.createLinear(-1, -2, 1, 24, 24, 24, 0));
-        EditTextBoldCursor editTextBoldCursor2 = new EditTextBoldCursor(context);
-        this.passwordEditText = editTextBoldCursor2;
-        editTextBoldCursor2.setTextSize(1, 18.0f);
-        this.passwordEditText.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-        this.passwordEditText.setHintTextColor(Theme.getColor("windowBackgroundWhiteHintText"));
+        EditTextBoldCursor editTextBoldCursor3 = new EditTextBoldCursor(context);
+        this.passwordEditText = editTextBoldCursor3;
+        editTextBoldCursor3.setTextSize(1, 18.0f);
+        this.passwordEditText.setTextColor(Theme.getColor(i52));
+        this.passwordEditText.setHintTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
         this.passwordEditText.setBackground(null);
         this.passwordEditText.setSingleLine(true);
         this.passwordEditText.setInputType(129);
         this.passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
         this.passwordEditText.setTypeface(Typeface.DEFAULT);
-        this.passwordEditText.setCursorColor(Theme.getColor("windowBackgroundWhiteInputFieldActivated"));
+        EditTextBoldCursor editTextBoldCursor22 = this.passwordEditText;
+        int i82 = Theme.key_windowBackgroundWhiteInputFieldActivated;
+        editTextBoldCursor22.setCursorColor(Theme.getColor(i82));
         this.passwordEditText.setCursorWidth(1.5f);
-        this.passwordEditText.setContentDescription(LocaleController.getString(i32));
+        this.passwordEditText.setContentDescription(LocaleController.getString(i72));
         int dp2 = AndroidUtilities.dp(16.0f);
         this.passwordEditText.setPadding(dp2, dp2, dp2, dp2);
         this.passwordOutlineView.addView(this.passwordEditText, LayoutHelper.createFrame(-1, -2.0f));
         this.passwordOutlineView.attachEditText(this.passwordEditText);
         this.passwordEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda9
             @Override // android.view.View.OnFocusChangeListener
-            public final void onFocusChange(View view, boolean z) {
-                TwoStepVerificationActivity.this.lambda$createView$1(view, z);
+            public final void onFocusChange(View view2, boolean z) {
+                TwoStepVerificationActivity.this.lambda$createView$1(view2, z);
             }
         });
         this.passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda10
             @Override // android.widget.TextView.OnEditorActionListener
-            public final boolean onEditorAction(TextView textView32, int i4, KeyEvent keyEvent) {
+            public final boolean onEditorAction(TextView textView32, int i92, KeyEvent keyEvent) {
                 boolean lambda$createView$2;
-                lambda$createView$2 = TwoStepVerificationActivity.this.lambda$createView$2(textView32, i4, keyEvent);
+                lambda$createView$2 = TwoStepVerificationActivity.this.lambda$createView$2(textView32, i92, keyEvent);
                 return lambda$createView$2;
             }
         });
         this.passwordEditText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.TwoStepVerificationActivity.2
             @Override // android.text.TextWatcher
-            public void beforeTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
+            public void beforeTextChanged(CharSequence charSequence, int i92, int i10, int i11) {
             }
 
             @Override // android.text.TextWatcher
-            public void onTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
+            public void onTextChanged(CharSequence charSequence, int i92, int i10, int i11) {
             }
 
             @Override // android.text.TextWatcher
@@ -564,14 +577,14 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         });
         TextView textView32 = new TextView(context);
         this.bottomTextView = textView32;
-        textView32.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
+        textView32.setTextColor(Theme.getColor(i62));
         this.bottomTextView.setTextSize(1, 14.0f);
         this.bottomTextView.setGravity((!LocaleController.isRTL ? 5 : 3) | 48);
         this.bottomTextView.setText(LocaleController.getString("YourEmailInfo", R.string.YourEmailInfo));
         linearLayout.addView(this.bottomTextView, LayoutHelper.createLinear(-2, -2, (!LocaleController.isRTL ? 5 : 3) | 48, 40, 30, 40, 0));
         TextView textView42 = new TextView(context);
         this.resetWaitView = textView42;
-        textView42.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
+        textView42.setTextColor(Theme.getColor(i62));
         this.resetWaitView.setTextSize(1, 12.0f);
         this.resetWaitView.setGravity((!LocaleController.isRTL ? 5 : 3) | 48);
         linearLayout.addView(this.resetWaitView, LayoutHelper.createLinear(-1, -2, 40.0f, 8.0f, 40.0f, 0.0f));
@@ -590,8 +603,8 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         frameLayout2.addView(simpleTextView22, LayoutHelper.createFrame(-1, i2 < 21 ? 56.0f : 60.0f, 80, 0.0f, 0.0f, 0.0f, 16.0f));
         this.bottomButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda8
             @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                TwoStepVerificationActivity.this.lambda$createView$3(view);
+            public final void onClick(View view2) {
+                TwoStepVerificationActivity.this.lambda$createView$3(view2);
             }
         });
         VerticalPositionAutoAnimator.attach(this.bottomButton);
@@ -601,13 +614,13 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         this.cancelResetButton.setGravity(19);
         this.cancelResetButton.setPadding(AndroidUtilities.dp(32.0f), 0, AndroidUtilities.dp(32.0f), 0);
         this.cancelResetButton.setText(LocaleController.getString("CancelReset", R.string.CancelReset));
-        this.cancelResetButton.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText4"));
+        this.cancelResetButton.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText4));
         this.cancelResetButton.setVisibility(8);
         frameLayout2.addView(this.cancelResetButton, LayoutHelper.createFrame(-1, i2 < 21 ? 56.0f : 60.0f, 80, 0.0f, 0.0f, 0.0f, 16.0f));
         this.cancelResetButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda7
             @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                TwoStepVerificationActivity.this.lambda$createView$4(view);
+            public final void onClick(View view2) {
+                TwoStepVerificationActivity.this.lambda$createView$4(view2);
             }
         });
         VerticalPositionAutoAnimator.attach(this.cancelResetButton);
@@ -617,19 +630,19 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         VerticalPositionAutoAnimator.attach(this.floatingButtonContainer);
         this.floatingButtonContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda6
             @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                TwoStepVerificationActivity.this.lambda$createView$5(view);
+            public final void onClick(View view2) {
+                TwoStepVerificationActivity.this.lambda$createView$5(view2);
             }
         });
         TransformableLoginButtonView transformableLoginButtonView2 = new TransformableLoginButtonView(context);
         this.floatingButtonIcon = transformableLoginButtonView2;
         transformableLoginButtonView2.setTransformType(1);
         this.floatingButtonIcon.setProgress(0.0f);
-        this.floatingButtonIcon.setColor(Theme.getColor("chats_actionIcon"));
+        this.floatingButtonIcon.setColor(Theme.getColor(Theme.key_chats_actionIcon));
         this.floatingButtonIcon.setDrawBackground(false);
         this.floatingButtonContainer.setContentDescription(LocaleController.getString(R.string.Next));
         this.floatingButtonContainer.addView(this.floatingButtonIcon, LayoutHelper.createFrame(i2 < 21 ? 56 : 60, i2 < 21 ? 56.0f : 60.0f));
-        Drawable createSimpleSelectorCircleDrawable2 = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor("chats_actionBackground"), Theme.getColor("chats_actionPressedBackground"));
+        Drawable createSimpleSelectorCircleDrawable2 = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor(Theme.key_chats_actionBackground), Theme.getColor(Theme.key_chats_actionPressedBackground));
         if (i2 < 21) {
         }
         this.floatingButtonContainer.setBackground(createSimpleSelectorCircleDrawable2);
@@ -650,14 +663,14 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         recyclerListView22.setAdapter(listAdapter2);
         this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda38
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i4) {
-                TwoStepVerificationActivity.this.lambda$createView$7(view, i4);
+            public final void onItemClick(View view2, int i92) {
+                TwoStepVerificationActivity.this.lambda$createView$7(view2, i92);
             }
         });
         RadialProgressView radialProgressView2 = new RadialProgressView(this, context) { // from class: org.telegram.ui.TwoStepVerificationActivity.4
             @Override // android.view.View
-            protected void onMeasure(int i4, int i5) {
-                super.onMeasure(i4, i5);
+            protected void onMeasure(int i92, int i10) {
+                super.onMeasure(i92, i10);
                 ((ViewGroup.MarginLayoutParams) getLayoutParams()).topMargin = AndroidUtilities.statusBarHeight / 2;
             }
         };
@@ -666,7 +679,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         this.radialProgressView.setAlpha(0.0f);
         this.radialProgressView.setScaleX(0.1f);
         this.radialProgressView.setScaleY(0.1f);
-        this.radialProgressView.setProgressColor(Theme.getColor("windowBackgroundWhiteInputFieldActivated"));
+        this.radialProgressView.setProgressColor(Theme.getColor(i82));
         this.actionBar.addView(this.radialProgressView, LayoutHelper.createFrame(32, 32.0f, 21, 0.0f, 0.0f, 12.0f, 0.0f));
         updateRows();
         if (!this.passwordEntered) {
@@ -741,7 +754,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
             showDialog(create);
             TextView textView = (TextView) create.getButton(-1);
             if (textView != null) {
-                textView.setTextColor(Theme.getColor("text_RedBold"));
+                textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
             }
         }
     }
@@ -924,7 +937,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                     format = String.format(Locale.US, "%02d:%02d", Integer.valueOf(max / 60), Integer.valueOf(max % 60));
                 }
                 this.resetWaitView.setText(LocaleController.formatString("RestorePasswordResetIn", R.string.RestorePasswordResetIn, format));
-                this.resetWaitView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
+                this.resetWaitView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
                 if (this.bottomButton.getVisibility() != 8) {
                     this.bottomButton.setVisibility(8);
                 }
@@ -958,7 +971,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
             this.cancelResetButton.setVisibility(0);
             this.bottomButton.setVisibility(0);
         }
-        this.bottomButton.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText4"));
+        this.bottomButton.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText4));
         AndroidUtilities.cancelRunOnUIThread(this.updateTimeRunnable);
         if (this.currentPassword == null) {
         }
@@ -996,7 +1009,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                     showDialog(create);
                     TextView textView = (TextView) create.getButton(-1);
                     if (textView != null) {
-                        textView.setTextColor(Theme.getColor("text_RedBold"));
+                        textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
                         return;
                     }
                     return;
@@ -1258,8 +1271,10 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                     this.bottomButton.setVisibility(4);
                     updateBottomButton();
                 }
-                this.fragmentView.setBackgroundColor(Theme.getColor("windowBackgroundGray"));
-                this.fragmentView.setTag("windowBackgroundGray");
+                View view = this.fragmentView;
+                int i5 = Theme.key_windowBackgroundGray;
+                view.setBackgroundColor(Theme.getColor(i5));
+                this.fragmentView.setTag(Integer.valueOf(i5));
                 return;
             }
             RecyclerListView recyclerListView2 = this.listView;
@@ -1272,8 +1287,10 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
             if (this.passwordEditText != null) {
                 this.floatingButtonContainer.setVisibility(0);
                 this.passwordEditText.setVisibility(0);
-                this.fragmentView.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                this.fragmentView.setTag("windowBackgroundWhite");
+                View view2 = this.fragmentView;
+                int i6 = Theme.key_windowBackgroundWhite;
+                view2.setBackgroundColor(Theme.getColor(i6));
+                this.fragmentView.setTag(Integer.valueOf(i6));
                 this.titleTextView.setVisibility(0);
                 this.bottomButton.setVisibility(0);
                 updateBottomButton();
@@ -1760,7 +1777,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
             View textSettingsCell;
             if (i == 0) {
                 textSettingsCell = new TextSettingsCell(this.mContext);
-                textSettingsCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                textSettingsCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
             } else {
                 textSettingsCell = new TextInfoPrivacyCell(this.mContext);
             }
@@ -1778,18 +1795,19 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 if (i != TwoStepVerificationActivity.this.setPasswordDetailRow) {
                     if (i == TwoStepVerificationActivity.this.passwordEnabledDetailRow) {
                         textInfoPrivacyCell.setText(LocaleController.getString("EnabledPasswordText", R.string.EnabledPasswordText));
-                        textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                        textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                         return;
                     }
                     return;
                 }
                 textInfoPrivacyCell.setText(LocaleController.getString("SetAdditionalPasswordInfo", R.string.SetAdditionalPasswordInfo));
-                textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                 return;
             }
             TextSettingsCell textSettingsCell = (TextSettingsCell) viewHolder.itemView;
-            textSettingsCell.setTag("windowBackgroundWhiteBlackText");
-            textSettingsCell.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+            int i2 = Theme.key_windowBackgroundWhiteBlackText;
+            textSettingsCell.setTag(Integer.valueOf(i2));
+            textSettingsCell.setTextColor(Theme.getColor(i2));
             if (i != TwoStepVerificationActivity.this.changePasswordRow) {
                 if (i != TwoStepVerificationActivity.this.setPasswordRow) {
                     if (i != TwoStepVerificationActivity.this.turnPasswordOffRow) {
@@ -1821,30 +1839,39 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CELLBACKGROUNDCOLOR, new Class[]{TextSettingsCell.class, EditTextSettingsCell.class}, null, null, null, "windowBackgroundWhite"));
-        arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_BACKGROUND | ThemeDescription.FLAG_CHECKTAG, null, null, null, null, "windowBackgroundWhite"));
-        arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_CHECKTAG | ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundGray"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "actionBarDefault"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_LISTGLOWCOLOR, null, null, null, null, "actionBarDefault"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_ITEMSCOLOR, null, null, null, null, "actionBarDefaultIcon"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_TITLECOLOR, null, null, null, null, "actionBarDefaultTitle"));
-        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_SELECTORCOLOR, null, null, null, null, "actionBarDefaultSelector"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_SELECTOR, null, null, null, null, "listSelectorSDK21"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{View.class}, Theme.dividerPaint, null, null, "divider"));
-        arrayList.add(new ThemeDescription(this.emptyView, ThemeDescription.FLAG_PROGRESSBAR, null, null, null, null, "progressCircle"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextSettingsCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlackText"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextSettingsCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "text_RedRegular"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{EditTextSettingsCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlackText"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_HINTTEXTCOLOR, new Class[]{EditTextSettingsCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteHintText"));
-        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_BACKGROUNDFILTER, new Class[]{TextInfoPrivacyCell.class}, null, null, null, "windowBackgroundGrayShadow"));
-        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{TextInfoPrivacyCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteGrayText4"));
-        arrayList.add(new ThemeDescription(this.titleTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "windowBackgroundWhiteGrayText6"));
-        arrayList.add(new ThemeDescription(this.bottomTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "windowBackgroundWhiteGrayText6"));
-        arrayList.add(new ThemeDescription(this.bottomButton, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "windowBackgroundWhiteBlueText4"));
-        arrayList.add(new ThemeDescription(this.passwordEditText, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "windowBackgroundWhiteBlackText"));
-        arrayList.add(new ThemeDescription(this.passwordEditText, ThemeDescription.FLAG_HINTTEXTCOLOR, null, null, null, null, "windowBackgroundWhiteHintText"));
-        arrayList.add(new ThemeDescription(this.passwordEditText, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "windowBackgroundWhiteInputField"));
-        arrayList.add(new ThemeDescription(this.passwordEditText, ThemeDescription.FLAG_DRAWABLESELECTEDSTATE | ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "windowBackgroundWhiteInputFieldActivated"));
+        int i = Theme.key_windowBackgroundWhite;
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CELLBACKGROUNDCOLOR, new Class[]{TextSettingsCell.class, EditTextSettingsCell.class}, null, null, null, i));
+        arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_BACKGROUND | ThemeDescription.FLAG_CHECKTAG, null, null, null, null, i));
+        arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_CHECKTAG | ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_windowBackgroundGray));
+        ActionBar actionBar = this.actionBar;
+        int i2 = ThemeDescription.FLAG_BACKGROUND;
+        int i3 = Theme.key_actionBarDefault;
+        arrayList.add(new ThemeDescription(actionBar, i2, null, null, null, null, i3));
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_LISTGLOWCOLOR, null, null, null, null, i3));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_ITEMSCOLOR, null, null, null, null, Theme.key_actionBarDefaultIcon));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_TITLECOLOR, null, null, null, null, Theme.key_actionBarDefaultTitle));
+        arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_SELECTORCOLOR, null, null, null, null, Theme.key_actionBarDefaultSelector));
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_SELECTOR, null, null, null, null, Theme.key_listSelector));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{View.class}, Theme.dividerPaint, null, null, Theme.key_divider));
+        arrayList.add(new ThemeDescription(this.emptyView, ThemeDescription.FLAG_PROGRESSBAR, null, null, null, null, Theme.key_progressCircle));
+        int i4 = Theme.key_windowBackgroundWhiteBlackText;
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextSettingsCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i4));
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextSettingsCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_text_RedRegular));
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{EditTextSettingsCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i4));
+        int i5 = Theme.key_windowBackgroundWhiteHintText;
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_HINTTEXTCOLOR, new Class[]{EditTextSettingsCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i5));
+        arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_BACKGROUNDFILTER, new Class[]{TextInfoPrivacyCell.class}, null, null, null, Theme.key_windowBackgroundGrayShadow));
+        arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{TextInfoPrivacyCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_windowBackgroundWhiteGrayText4));
+        TextView textView = this.titleTextView;
+        int i6 = ThemeDescription.FLAG_TEXTCOLOR;
+        int i7 = Theme.key_windowBackgroundWhiteGrayText6;
+        arrayList.add(new ThemeDescription(textView, i6, null, null, null, null, i7));
+        arrayList.add(new ThemeDescription(this.bottomTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, i7));
+        arrayList.add(new ThemeDescription(this.bottomButton, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_windowBackgroundWhiteBlueText4));
+        arrayList.add(new ThemeDescription(this.passwordEditText, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, i4));
+        arrayList.add(new ThemeDescription(this.passwordEditText, ThemeDescription.FLAG_HINTTEXTCOLOR, null, null, null, null, i5));
+        arrayList.add(new ThemeDescription(this.passwordEditText, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, Theme.key_windowBackgroundWhiteInputField));
+        arrayList.add(new ThemeDescription(this.passwordEditText, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, Theme.key_windowBackgroundWhiteInputFieldActivated));
         return arrayList;
     }
 
@@ -1869,7 +1896,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 TwoStepVerificationActivity.this.lambda$showSetForcePasswordAlert$37(dialogInterface, i);
             }
         });
-        ((TextView) builder.show().getButton(-2)).setTextColor(Theme.getColor("text_RedBold"));
+        ((TextView) builder.show().getButton(-2)).setTextColor(Theme.getColor(Theme.key_text_RedBold));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1894,6 +1921,6 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean isLightStatusBar() {
-        return ColorUtils.calculateLuminance(Theme.getColor("windowBackgroundWhite", null, true)) > 0.699999988079071d;
+        return ColorUtils.calculateLuminance(Theme.getColor(Theme.key_windowBackgroundWhite, null, true)) > 0.699999988079071d;
     }
 }
