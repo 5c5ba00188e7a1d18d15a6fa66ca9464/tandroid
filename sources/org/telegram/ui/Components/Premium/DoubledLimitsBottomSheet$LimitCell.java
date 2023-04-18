@@ -37,7 +37,7 @@ class DoubledLimitsBottomSheet$LimitCell extends LinearLayout {
     public void setData(DoubledLimitsBottomSheet$Limit doubledLimitsBottomSheet$Limit) {
         this.title.setText(doubledLimitsBottomSheet$Limit.title);
         this.subtitle.setText(doubledLimitsBottomSheet$Limit.subtitle);
-        this.previewView.premiumCount.setText(Integer.toString(doubledLimitsBottomSheet$Limit.premiumLimit));
-        this.previewView.defaultCount.setText(Integer.toString(doubledLimitsBottomSheet$Limit.defaultLimit));
+        this.previewView.premiumCount.setText(String.format("%d", Integer.valueOf(doubledLimitsBottomSheet$Limit.premiumLimit)));
+        this.previewView.defaultCount.setText(String.format("%d", Integer.valueOf(doubledLimitsBottomSheet$Limit.defaultLimit)));
     }
 }

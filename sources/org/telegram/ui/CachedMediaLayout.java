@@ -1205,7 +1205,6 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
             this.checkBox = checkBox2;
             checkBox2.setDrawBackgroundAsArc(14);
             this.checkBox.setColor("checkbox", "radioBackground", "checkboxCheck");
-            addView(this.checkBox, LayoutHelper.createFrame(24, 24.0f, 19, 18.0f, 0.0f, 0.0f, 0.0f));
             View view = new View(getContext());
             view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CachedMediaLayout$CacheCell$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnClickListener
@@ -1213,15 +1212,22 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                     CachedMediaLayout.CacheCell.this.lambda$new$0(view2);
                 }
             });
-            addView(view, LayoutHelper.createFrame(40, 40.0f, 19, 0.0f, 0.0f, 0.0f, 0.0f));
-            FrameLayout frameLayout = new FrameLayout(context);
-            this.container = frameLayout;
-            addView(frameLayout, LayoutHelper.createFrame(-1, -2.0f, 0, 48.0f, 0.0f, 90.0f, 0.0f));
+            this.container = new FrameLayout(context);
             TextView textView = new TextView(context);
             this.sizeTextView = textView;
             textView.setTextSize(1, 16.0f);
             this.sizeTextView.setGravity(5);
             this.sizeTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText"));
+            if (LocaleController.isRTL) {
+                addView(this.checkBox, LayoutHelper.createFrame(24, 24.0f, 21, 0.0f, 0.0f, 18.0f, 0.0f));
+                addView(view, LayoutHelper.createFrame(40, 40.0f, 21, 0.0f, 0.0f, 0.0f, 0.0f));
+                addView(this.container, LayoutHelper.createFrame(-1, -2.0f, 0, 90.0f, 0.0f, 40.0f, 0.0f));
+                addView(this.sizeTextView, LayoutHelper.createFrame(69, -2.0f, 19, 0.0f, 0.0f, 0.0f, 0.0f));
+                return;
+            }
+            addView(this.checkBox, LayoutHelper.createFrame(24, 24.0f, 19, 18.0f, 0.0f, 0.0f, 0.0f));
+            addView(view, LayoutHelper.createFrame(40, 40.0f, 19, 0.0f, 0.0f, 0.0f, 0.0f));
+            addView(this.container, LayoutHelper.createFrame(-1, -2.0f, 0, 48.0f, 0.0f, 90.0f, 0.0f));
             addView(this.sizeTextView, LayoutHelper.createFrame(69, -2.0f, 21, 0.0f, 0.0f, 21.0f, 0.0f));
         }
 
@@ -1233,7 +1239,11 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         protected void dispatchDraw(Canvas canvas) {
             super.dispatchDraw(canvas);
             if (this.drawDivider) {
-                canvas.drawLine(getMeasuredWidth() - AndroidUtilities.dp(90.0f), getMeasuredHeight() - 1, getMeasuredWidth(), getMeasuredHeight() - 1, Theme.dividerPaint);
+                if (LocaleController.isRTL) {
+                    canvas.drawLine(0.0f, getMeasuredHeight() - 1, getMeasuredWidth() - AndroidUtilities.dp(48.0f), getMeasuredHeight() - 1, Theme.dividerPaint);
+                } else {
+                    canvas.drawLine(getMeasuredWidth() - AndroidUtilities.dp(90.0f), getMeasuredHeight() - 1, getMeasuredWidth(), getMeasuredHeight() - 1, Theme.dividerPaint);
+                }
             }
         }
     }

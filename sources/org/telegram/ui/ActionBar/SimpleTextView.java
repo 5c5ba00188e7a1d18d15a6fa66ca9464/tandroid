@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Stack;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
-import org.telegram.messenger.LocaleController;
 import org.telegram.ui.Cells.DialogCell;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
@@ -211,7 +210,6 @@ public class SimpleTextView extends View {
     }
 
     private void updateFadePaints() {
-        boolean z;
         if ((this.fadePaint == null || this.fadePaintBack == null) && this.scrollNonFitText) {
             Paint paint = new Paint();
             this.fadePaint = paint;
@@ -223,17 +221,13 @@ public class SimpleTextView extends View {
             this.fadePaintBack.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
         }
         Boolean bool = this.forceEllipsizeByGradientLeft;
-        if (bool != null) {
-            z = bool.booleanValue();
-        } else {
-            z = (getAlignment() == Layout.Alignment.ALIGN_NORMAL && LocaleController.isRTL) || (getAlignment() == Layout.Alignment.ALIGN_OPPOSITE && !LocaleController.isRTL);
-        }
-        if (!(this.fadeEllpsizePaint != null && this.fadeEllpsizePaintWidth == AndroidUtilities.dp(this.ellipsizeByGradientWidthDp) && this.ellipsizeByGradientLeft == z) && this.ellipsizeByGradient) {
+        boolean booleanValue = bool != null ? bool.booleanValue() : false;
+        if (!(this.fadeEllpsizePaint != null && this.fadeEllpsizePaintWidth == AndroidUtilities.dp(this.ellipsizeByGradientWidthDp) && this.ellipsizeByGradientLeft == booleanValue) && this.ellipsizeByGradient) {
             if (this.fadeEllpsizePaint == null) {
                 this.fadeEllpsizePaint = new Paint();
             }
-            this.ellipsizeByGradientLeft = z;
-            if (z) {
+            this.ellipsizeByGradientLeft = booleanValue;
+            if (booleanValue) {
                 Paint paint3 = this.fadeEllpsizePaint;
                 int dp = AndroidUtilities.dp(this.ellipsizeByGradientWidthDp);
                 this.fadeEllpsizePaintWidth = dp;

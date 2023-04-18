@@ -4905,7 +4905,7 @@ public class MessageObject {
                 } else {
                     this.type = 15;
                 }
-            } else if (isMediaEmpty() && !isDice() && this.emojiOnlyCount >= 1 && !this.hasUnwrappedEmoji) {
+            } else if (isMediaEmpty(false) && !isDice() && this.emojiOnlyCount >= 1 && !this.hasUnwrappedEmoji) {
                 this.type = 19;
             } else if (isMediaEmpty()) {
                 this.type = 0;
@@ -8651,12 +8651,20 @@ public class MessageObject {
         return isMediaEmpty(this.messageOwner);
     }
 
+    public boolean isMediaEmpty(boolean z) {
+        return isMediaEmpty(this.messageOwner, z);
+    }
+
     public boolean isMediaEmptyWebpage() {
         return isMediaEmptyWebpage(this.messageOwner);
     }
 
     public static boolean isMediaEmpty(TLRPC$Message tLRPC$Message) {
-        return tLRPC$Message == null || getMedia(tLRPC$Message) == null || (getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaEmpty) || (getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaWebPage);
+        return isMediaEmpty(tLRPC$Message, true);
+    }
+
+    public static boolean isMediaEmpty(TLRPC$Message tLRPC$Message, boolean z) {
+        return tLRPC$Message == null || getMedia(tLRPC$Message) == null || (getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaEmpty) || (z && (getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaWebPage));
     }
 
     public static boolean isMediaEmptyWebpage(TLRPC$Message tLRPC$Message) {

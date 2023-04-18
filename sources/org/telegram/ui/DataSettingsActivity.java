@@ -71,7 +71,6 @@ public class DataSettingsActivity extends BaseFragment {
     private int proxyRow;
     private int proxySection2Row;
     private int proxySectionRow;
-    private int quickRepliesRow;
     private int roamingRow;
     private int rowCount;
     private int saveToGalleryChannelsRow;
@@ -96,6 +95,7 @@ public class DataSettingsActivity extends BaseFragment {
     private int autoplayGifsRow = -1;
     private int autoplayVideoRow = -1;
     private int autoplaySectionRow = -1;
+    private int quickRepliesRow = -1;
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onFragmentCreate() {
@@ -214,24 +214,21 @@ public class DataSettingsActivity extends BaseFragment {
         this.useLessDataForCallsRow = i23;
         int i25 = i24 + 1;
         this.rowCount = i25;
-        this.quickRepliesRow = i24;
+        this.callsSection2Row = i24;
         int i26 = i25 + 1;
         this.rowCount = i26;
-        this.callsSection2Row = i25;
+        this.proxySectionRow = i25;
         int i27 = i26 + 1;
         this.rowCount = i27;
-        this.proxySectionRow = i26;
+        this.proxyRow = i26;
         int i28 = i27 + 1;
         this.rowCount = i28;
-        this.proxyRow = i27;
+        this.proxySection2Row = i27;
         int i29 = i28 + 1;
         this.rowCount = i29;
-        this.proxySection2Row = i28;
-        int i30 = i29 + 1;
-        this.rowCount = i30;
-        this.clearDraftsRow = i29;
-        this.rowCount = i30 + 1;
-        this.clearDraftsSectionRow = i30;
+        this.clearDraftsRow = i28;
+        this.rowCount = i29 + 1;
+        this.clearDraftsSectionRow = i29;
         ListAdapter listAdapter2 = this.listAdapter;
         if (listAdapter2 == null || !z) {
             return;

@@ -1428,7 +1428,7 @@ public class LocaleController {
             try {
                 if (str.length() != 0 && getInstance().currentPluralRules != null) {
                     String str2 = str + "_" + getInstance().stringForQuantity(getInstance().currentPluralRules.quantityForNumber(i));
-                    StringBuilder sb = new StringBuilder(String.format(Locale.US, "%d", Integer.valueOf(i)));
+                    StringBuilder sb = new StringBuilder(String.format("%d", Integer.valueOf(i)));
                     for (int length = sb.length() - 3; length > 0; length -= 3) {
                         sb.insert(length, c);
                     }

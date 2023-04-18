@@ -2920,6 +2920,7 @@
     <string name="InviteLinkCount_other">%1$d invite links</string>
     <string name="InviteLinkCount_two">%1$d invite links</string>
     <string name="InviteLinkCount_zero">%1$d invite links</string>
+    <string name="InviteLinkPrivate">Invite Link only works for group members</string>
     <string name="InviteLinkSentSingle">Invitation link sent to **%s**</string>
     <string name="InviteLinkSent_few">Invitation link sent to %d users</string>
     <string name="InviteLinkSent_many">Invitation link sent to %d users</string>

@@ -1018,11 +1018,11 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:250:0x0407  */
-    /* JADX WARN: Removed duplicated region for block: B:252:0x040d  */
-    /* JADX WARN: Removed duplicated region for block: B:345:0x05ad  */
-    /* JADX WARN: Type inference failed for: r11v39 */
-    /* JADX WARN: Type inference failed for: r11v40 */
+    /* JADX WARN: Removed duplicated region for block: B:250:0x0403  */
+    /* JADX WARN: Removed duplicated region for block: B:252:0x040e  */
+    /* JADX WARN: Removed duplicated region for block: B:346:0x05b3  */
+    /* JADX WARN: Type inference failed for: r10v48 */
+    /* JADX WARN: Type inference failed for: r10v49 */
     /* JADX WARN: Type inference failed for: r20v0, types: [org.telegram.ui.Adapters.MentionsAdapter] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1035,7 +1035,6 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
         String str3;
         boolean z3;
         char c2;
-        char c3;
         int i3;
         int i4;
         String str4;
@@ -1053,7 +1052,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
         ChatActivity chatActivity;
         int i7;
         String str8;
-        char c4;
+        char c3;
         int i8;
         CharSequence concat;
         boolean z4 = z;
@@ -1096,12 +1095,12 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                 int i11 = length - 1;
                 if (i10 < i11) {
                     str8 = str9;
-                    c4 = str10.charAt(i10 + 1);
+                    c3 = str10.charAt(i10 + 1);
                 } else {
                     str8 = str9;
-                    c4 = 0;
+                    c3 = 0;
                 }
-                if (i10 >= i11 || charAt != 55356 || c4 < 57339 || c4 > 57343) {
+                if (i10 >= i11 || charAt != 55356 || c3 < 57339 || c3 > 57343) {
                     concat = str10;
                     if (charAt == 65039) {
                         i8 = 1;
@@ -1297,8 +1296,8 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                             }
                             this.resultStartPosition = i9;
                             this.resultLength = sb.length() + 1;
-                            c3 = 65535;
-                            c2 = 0;
+                            c = 0;
+                            c2 = 65535;
                             z3 = false;
                             break;
                         }
@@ -1307,8 +1306,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                             this.resultStartPosition = i9;
                             this.resultLength = sb.length() + 1;
                             sb.insert(0, charAt3);
-                            c3 = 65535;
-                            c2 = 1;
+                            c = 1;
                         } else {
                             this.lastText = charSequence2;
                             this.lastPosition = i;
@@ -1318,8 +1316,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                     } else if (i9 == 0 && this.botInfo != null && charAt3 == '/') {
                         this.resultStartPosition = i9;
                         this.resultLength = sb.length() + 1;
-                        c3 = 65535;
-                        c2 = 2;
+                        c = 2;
                     } else if (charAt3 == ':' && sb.length() > 0) {
                         if (" !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~\n".indexOf(sb.charAt(0)) >= 0) {
                             i3 = 1;
@@ -1330,8 +1327,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                         }
                         this.resultStartPosition = i9;
                         this.resultLength = sb.length() + i3;
-                        c3 = 65535;
-                        c2 = 3;
+                        c = 3;
                     }
                     i4 = 0;
                     sb.insert(i4, charAt3);
@@ -1339,14 +1335,15 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                 i9--;
             }
             z3 = false;
-            c2 = c;
-            c3 = 65535;
+            c2 = 65535;
             i9 = -1;
-            if (c2 != c3) {
+            if (c != c2) {
+                this.contextMedia = z3;
+                this.searchResultBotContext = null;
                 this.delegate.needChangePanelVisibility(z3);
                 return;
-            } else if (c2 != 0) {
-                if (c2 == 1) {
+            } else if (c != 0) {
+                if (c == 1) {
                     ArrayList<String> arrayList5 = new ArrayList<>();
                     String lowerCase = sb.toString().toLowerCase();
                     ArrayList<SearchAdapterHelper.HashtagObject> hashtags = this.searchAdapterHelper.getHashtags();
@@ -1364,11 +1361,13 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                     this.searchResultCommandsHelp = null;
                     this.searchResultCommandsUsers = null;
                     this.searchResultSuggestions = null;
+                    this.contextMedia = false;
+                    this.searchResultBotContext = null;
                     notifyDataSetChanged();
                     this.delegate.needChangePanelVisibility(!this.searchResultHashtags.isEmpty());
                     return;
-                } else if (c2 != 2) {
-                    if (c2 == 3) {
+                } else if (c != 2) {
+                    if (c == 3) {
                         String[] currentKeyboardLanguage = AndroidUtilities.getCurrentKeyboardLanguage();
                         if (!Arrays.equals(currentKeyboardLanguage, this.lastSearchKeyboardLanguage)) {
                             MediaDataController.getInstance(this.currentAccount).fetchNewEmojiKeywords(currentKeyboardLanguage);
@@ -1381,7 +1380,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                             }
                         }, true);
                         return;
-                    } else if (c2 == 4) {
+                    } else if (c == 4) {
                         this.searchResultHashtags = null;
                         this.searchResultUsernames = null;
                         this.searchResultUsernamesMap = null;
@@ -1417,11 +1416,15 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                     this.searchResultCommands = arrayList6;
                     this.searchResultCommandsHelp = arrayList7;
                     this.searchResultCommandsUsers = arrayList8;
+                    this.contextMedia = false;
+                    this.searchResultBotContext = null;
                     notifyDataSetChanged();
                     this.delegate.needChangePanelVisibility(!arrayList6.isEmpty());
                     return;
                 }
             } else {
+                this.contextMedia = z3;
+                this.searchResultBotContext = null;
                 final ArrayList arrayList9 = new ArrayList();
                 for (int i22 = 0; i22 < Math.min(100, arrayList.size()); i22++) {
                     long fromChatId = arrayList.get(i22).getFromChatId();
@@ -1612,11 +1615,11 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
         sb.append(charSequence2.substring(1));
         this.resultStartPosition = 0;
         this.resultLength = sb.length();
-        c3 = 65535;
-        c2 = 0;
+        c = 0;
+        c2 = 65535;
         i9 = -1;
         z3 = false;
-        if (c2 != c3) {
+        if (c != c2) {
         }
     }
 

@@ -1903,67 +1903,68 @@ public class ActionBar extends FrameLayout {
     }
 
     public void beginDelayedTransition() {
-        if (Build.VERSION.SDK_INT >= 19) {
-            TransitionSet transitionSet = new TransitionSet();
-            transitionSet.setOrdering(0);
-            transitionSet.addTransition(new Fade());
-            transitionSet.addTransition(new ChangeBounds(this) { // from class: org.telegram.ui.ActionBar.ActionBar.8
-                @Override // android.transition.ChangeBounds, android.transition.Transition
-                public void captureStartValues(TransitionValues transitionValues) {
-                    super.captureStartValues(transitionValues);
-                    View view = transitionValues.view;
-                    if (view instanceof SimpleTextView) {
-                        transitionValues.values.put("text_size", Float.valueOf(((SimpleTextView) view).getTextPaint().getTextSize()));
-                    }
-                }
-
-                @Override // android.transition.ChangeBounds, android.transition.Transition
-                public void captureEndValues(TransitionValues transitionValues) {
-                    super.captureEndValues(transitionValues);
-                    View view = transitionValues.view;
-                    if (view instanceof SimpleTextView) {
-                        transitionValues.values.put("text_size", Float.valueOf(((SimpleTextView) view).getTextPaint().getTextSize()));
-                    }
-                }
-
-                @Override // android.transition.ChangeBounds, android.transition.Transition
-                public Animator createAnimator(ViewGroup viewGroup, final TransitionValues transitionValues, TransitionValues transitionValues2) {
-                    if (transitionValues != null && (transitionValues.view instanceof SimpleTextView)) {
-                        AnimatorSet animatorSet = new AnimatorSet();
-                        if (transitionValues2 != null) {
-                            Animator createAnimator = super.createAnimator(viewGroup, transitionValues, transitionValues2);
-                            float floatValue = ((Float) transitionValues.values.get("text_size")).floatValue() / ((Float) transitionValues2.values.get("text_size")).floatValue();
-                            transitionValues.view.setScaleX(floatValue);
-                            transitionValues.view.setScaleY(floatValue);
-                            if (createAnimator != null) {
-                                animatorSet.playTogether(createAnimator);
-                            }
-                        }
-                        animatorSet.playTogether(ObjectAnimator.ofFloat(transitionValues.view, View.SCALE_X, 1.0f));
-                        animatorSet.playTogether(ObjectAnimator.ofFloat(transitionValues.view, View.SCALE_Y, 1.0f));
-                        animatorSet.addListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.ActionBar.ActionBar.8.1
-                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                            public void onAnimationStart(Animator animator) {
-                                super.onAnimationStart(animator);
-                                transitionValues.view.setLayerType(2, null);
-                            }
-
-                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                            public void onAnimationEnd(Animator animator) {
-                                super.onAnimationEnd(animator);
-                                transitionValues.view.setLayerType(0, null);
-                            }
-                        });
-                        return animatorSet;
-                    }
-                    return super.createAnimator(viewGroup, transitionValues, transitionValues2);
-                }
-            });
-            this.centerScale = false;
-            transitionSet.setDuration(220L);
-            transitionSet.setInterpolator((TimeInterpolator) CubicBezierInterpolator.DEFAULT);
-            TransitionManager.beginDelayedTransition(this, transitionSet);
+        if (Build.VERSION.SDK_INT < 19 || LocaleController.isRTL) {
+            return;
         }
+        TransitionSet transitionSet = new TransitionSet();
+        transitionSet.setOrdering(0);
+        transitionSet.addTransition(new Fade());
+        transitionSet.addTransition(new ChangeBounds(this) { // from class: org.telegram.ui.ActionBar.ActionBar.8
+            @Override // android.transition.ChangeBounds, android.transition.Transition
+            public void captureStartValues(TransitionValues transitionValues) {
+                super.captureStartValues(transitionValues);
+                View view = transitionValues.view;
+                if (view instanceof SimpleTextView) {
+                    transitionValues.values.put("text_size", Float.valueOf(((SimpleTextView) view).getTextPaint().getTextSize()));
+                }
+            }
+
+            @Override // android.transition.ChangeBounds, android.transition.Transition
+            public void captureEndValues(TransitionValues transitionValues) {
+                super.captureEndValues(transitionValues);
+                View view = transitionValues.view;
+                if (view instanceof SimpleTextView) {
+                    transitionValues.values.put("text_size", Float.valueOf(((SimpleTextView) view).getTextPaint().getTextSize()));
+                }
+            }
+
+            @Override // android.transition.ChangeBounds, android.transition.Transition
+            public Animator createAnimator(ViewGroup viewGroup, final TransitionValues transitionValues, TransitionValues transitionValues2) {
+                if (transitionValues != null && (transitionValues.view instanceof SimpleTextView)) {
+                    AnimatorSet animatorSet = new AnimatorSet();
+                    if (transitionValues2 != null) {
+                        Animator createAnimator = super.createAnimator(viewGroup, transitionValues, transitionValues2);
+                        float floatValue = ((Float) transitionValues.values.get("text_size")).floatValue() / ((Float) transitionValues2.values.get("text_size")).floatValue();
+                        transitionValues.view.setScaleX(floatValue);
+                        transitionValues.view.setScaleY(floatValue);
+                        if (createAnimator != null) {
+                            animatorSet.playTogether(createAnimator);
+                        }
+                    }
+                    animatorSet.playTogether(ObjectAnimator.ofFloat(transitionValues.view, View.SCALE_X, 1.0f));
+                    animatorSet.playTogether(ObjectAnimator.ofFloat(transitionValues.view, View.SCALE_Y, 1.0f));
+                    animatorSet.addListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.ActionBar.ActionBar.8.1
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationStart(Animator animator) {
+                            super.onAnimationStart(animator);
+                            transitionValues.view.setLayerType(2, null);
+                        }
+
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            super.onAnimationEnd(animator);
+                            transitionValues.view.setLayerType(0, null);
+                        }
+                    });
+                    return animatorSet;
+                }
+                return super.createAnimator(viewGroup, transitionValues, transitionValues2);
+            }
+        });
+        this.centerScale = false;
+        transitionSet.setDuration(220L);
+        transitionSet.setInterpolator((TimeInterpolator) CubicBezierInterpolator.DEFAULT);
+        TransitionManager.beginDelayedTransition(this, transitionSet);
     }
 
     private int getThemedColor(String str) {

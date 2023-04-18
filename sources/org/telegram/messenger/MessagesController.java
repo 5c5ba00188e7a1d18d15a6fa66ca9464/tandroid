@@ -651,7 +651,7 @@ public class MessagesController extends BaseController implements NotificationCe
     public LongSparseIntArray deletedHistory;
     private LongSparseArray<TLRPC$Dialog> deletingDialogs;
     private Comparator<TLRPC$Dialog> dialogComparator;
-    private Comparator<TLRPC$Dialog> dialogDateComparator;
+    private final Comparator<TLRPC$Dialog> dialogDateComparator;
     public ArrayList<DialogFilter> dialogFilters;
     public SparseArray<DialogFilter> dialogFiltersById;
     public int dialogFiltersChatsLimitDefault;
@@ -1801,8 +1801,10 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ int lambda$new$10(TLRPC$Dialog tLRPC$Dialog, TLRPC$Dialog tLRPC$Dialog2) {
-        int i = this.sortingDialogFilter.pinnedDialogs.get(tLRPC$Dialog.id, Integer.MIN_VALUE);
-        int i2 = this.sortingDialogFilter.pinnedDialogs.get(tLRPC$Dialog2.id, Integer.MIN_VALUE);
+        DialogFilter dialogFilter = this.sortingDialogFilter;
+        int i = dialogFilter == null ? Integer.MIN_VALUE : dialogFilter.pinnedDialogs.get(tLRPC$Dialog.id, Integer.MIN_VALUE);
+        DialogFilter dialogFilter2 = this.sortingDialogFilter;
+        int i2 = dialogFilter2 == null ? Integer.MIN_VALUE : dialogFilter2.pinnedDialogs.get(tLRPC$Dialog2.id, Integer.MIN_VALUE);
         boolean z = tLRPC$Dialog instanceof TLRPC$TL_dialogFolder;
         if (!z || (tLRPC$Dialog2 instanceof TLRPC$TL_dialogFolder)) {
             if (z || !(tLRPC$Dialog2 instanceof TLRPC$TL_dialogFolder)) {
@@ -1829,6 +1831,13 @@ public class MessagesController extends BaseController implements NotificationCe
             return 1;
         }
         return -1;
+    }
+
+    public void sortDialogsList(ArrayList<TLRPC$Dialog> arrayList) {
+        if (arrayList == null) {
+            return;
+        }
+        Collections.sort(arrayList, this.dialogComparator);
     }
 
     public /* synthetic */ int lambda$new$11(TLRPC$Dialog tLRPC$Dialog, TLRPC$Dialog tLRPC$Dialog2) {
@@ -9812,7 +9821,7 @@ public class MessagesController extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:411:0x03e0  */
     /* JADX WARN: Removed duplicated region for block: B:421:0x0419  */
     /* JADX WARN: Type inference failed for: r2v11 */
-    /* JADX WARN: Type inference failed for: r2v12, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v12, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v59 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -13695,7 +13704,7 @@ public class MessagesController extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:446:0x03e6  */
     /* JADX WARN: Removed duplicated region for block: B:449:0x0413  */
     /* JADX WARN: Type inference failed for: r13v1 */
-    /* JADX WARN: Type inference failed for: r13v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -25063,30 +25072,15 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x002d, code lost:
-        if (org.telegram.messenger.ChatObject.hasAdminRights(r1) == false) goto L18;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:49:0x003f, code lost:
-        if (org.telegram.messenger.ChatObject.canPost(r1) != false) goto L20;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    private boolean canAddToForward(TLRPC$Dialog tLRPC$Dialog) {
+    public boolean canAddToForward(TLRPC$Dialog tLRPC$Dialog) {
         boolean z = false;
         if (tLRPC$Dialog == null) {
             return false;
         }
         if (!DialogObject.isEncryptedDialog(tLRPC$Dialog.id) && DialogObject.isChannel(tLRPC$Dialog)) {
             TLRPC$Chat chat = getChat(Long.valueOf(-tLRPC$Dialog.id));
-            if (chat != null && chat.megagroup) {
-                if (chat.gigagroup) {
-                }
+            if (chat == null || !chat.megagroup ? !(!ChatObject.hasAdminRights(chat) || !ChatObject.canPost(chat)) : !(chat.gigagroup && !ChatObject.hasAdminRights(chat))) {
                 z = true;
-            } else {
-                this.dialogsChannelsOnly.add(tLRPC$Dialog);
-                if (ChatObject.hasAdminRights(chat)) {
-                }
             }
             return z;
         }

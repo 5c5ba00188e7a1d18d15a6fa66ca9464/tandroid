@@ -638,7 +638,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
 
     private boolean resentSearchAvailable() {
         int i = this.dialogsType;
-        return (i == 2 || i == 4 || i == 5 || i == 6 || i == 11 || i == 15) ? false : true;
+        return (i == 2 || i == 4 || i == 5 || i == 6 || i == 1 || i == 11 || i == 15) ? false : true;
     }
 
     public boolean isSearchWas() {

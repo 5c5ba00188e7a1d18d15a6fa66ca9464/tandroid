@@ -205,6 +205,18 @@ public final class BulletinFactory {
     public Bulletin createSimpleBulletin(int i, CharSequence charSequence, int i2) {
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getContext(), this.resourcesProvider);
         lottieLayout.setAnimation(i, 36, 36, new String[0]);
+        if (charSequence != null) {
+            String charSequence2 = charSequence.toString();
+            SpannableStringBuilder spannableStringBuilder = charSequence instanceof SpannableStringBuilder ? (SpannableStringBuilder) charSequence : new SpannableStringBuilder(charSequence);
+            int i3 = 0;
+            for (int indexOf = charSequence2.indexOf(10); indexOf >= 0 && indexOf < charSequence.length(); indexOf = charSequence2.indexOf(10, indexOf + 1)) {
+                if (i3 >= i2) {
+                    spannableStringBuilder.replace(indexOf, indexOf + 1, (CharSequence) " ");
+                }
+                i3++;
+            }
+            charSequence = spannableStringBuilder;
+        }
         lottieLayout.textView.setText(charSequence);
         lottieLayout.textView.setSingleLine(false);
         lottieLayout.textView.setMaxLines(i2);

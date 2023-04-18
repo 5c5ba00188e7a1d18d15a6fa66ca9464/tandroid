@@ -4227,21 +4227,29 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     /* JADX INFO: Access modifiers changed from: private */
     public void updateBottomTabContainerPosition() {
         int measuredHeight;
+        int dp;
+        BaseFragment baseFragment;
         View view = (View) getParent();
         if (view != null) {
-            float y = getY() - view.getHeight();
+            float y = getY();
             if (getLayoutParams().height > 0) {
                 measuredHeight = getLayoutParams().height;
             } else {
                 measuredHeight = getMeasuredHeight();
             }
             float f = y + measuredHeight;
-            if (this.bottomTabContainer.getTop() - f < 0.0f) {
-                f = 0.0f;
+            if (!AndroidUtilities.isInMultiwindow && ((baseFragment = this.fragment) == null || !baseFragment.isInBubbleMode())) {
+                dp = view.getHeight();
+            } else {
+                dp = AndroidUtilities.dp(1.0f);
             }
-            float f2 = -f;
-            this.bottomTabMainTranslation = f2;
-            this.bottomTabContainer.setTranslationY(f2 + this.bottomTabAdditionalTranslation);
+            float f2 = f - dp;
+            if (this.bottomTabContainer.getTop() - f2 < 0.0f) {
+                f2 = 0.0f;
+            }
+            float f3 = -f2;
+            this.bottomTabMainTranslation = f3;
+            this.bottomTabContainer.setTranslationY(f3 + this.bottomTabAdditionalTranslation);
             if (this.needEmojiSearch) {
                 this.bulletinContainer.setTranslationY(this.bottomTabMainTranslation + this.bottomTabAdditionalTranslation);
             }

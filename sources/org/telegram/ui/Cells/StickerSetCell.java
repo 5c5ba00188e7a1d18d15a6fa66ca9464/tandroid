@@ -31,6 +31,7 @@ import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLocation;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
@@ -337,19 +338,24 @@ public class StickerSetCell extends FrameLayout {
                 forSticker = ImageLocation.getForSticker((TLRPC$PhotoSize) closestPhotoSizeWithSize, tLRPC$Document3, tLRPC$TL_messages_stickerSet.set.thumb_version);
             }
             ImageLocation imageLocation = forSticker;
+            boolean isEnabled = LiteMode.isEnabled(this.emojis ? LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD : 1);
+            StringBuilder sb = new StringBuilder();
+            sb.append("50_50");
+            sb.append(!isEnabled ? "_firstframe" : "");
+            String sb2 = sb.toString();
             if ((z4 && MessageObject.isAnimatedStickerDocument(tLRPC$Document3, true)) || MessageObject.isVideoSticker(tLRPC$Document3)) {
                 if (svgThumb != null) {
-                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document3), "50_50", svgThumb, 0, tLRPC$TL_messages_stickerSet);
+                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document3), sb2, svgThumb, 0, tLRPC$TL_messages_stickerSet);
                 } else {
-                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document3), "50_50", imageLocation, (String) null, 0, tLRPC$TL_messages_stickerSet);
+                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document3), sb2, imageLocation, (String) null, 0, tLRPC$TL_messages_stickerSet);
                 }
                 if (MessageObject.isTextColorEmoji(tLRPC$Document3)) {
                     this.imageView.setColorFilter(Theme.chat_animatedEmojiTextColorFilter);
                 }
             } else if (imageLocation != null && imageLocation.imageType == 1) {
-                this.imageView.setImage(imageLocation, "50_50", "tgs", svgThumb, tLRPC$TL_messages_stickerSet);
+                this.imageView.setImage(imageLocation, sb2, "tgs", svgThumb, tLRPC$TL_messages_stickerSet);
             } else {
-                this.imageView.setImage(imageLocation, "50_50", "webp", svgThumb, tLRPC$TL_messages_stickerSet);
+                this.imageView.setImage(imageLocation, sb2, "webp", svgThumb, tLRPC$TL_messages_stickerSet);
             }
         } else {
             this.valueTextView.setText(LocaleController.formatPluralString(tLRPC$TL_messages_stickerSet.set.emojis ? "EmojiCount" : "Stickers", 0, new Object[0]));
@@ -357,10 +363,10 @@ public class StickerSetCell extends FrameLayout {
         }
         if (z2) {
             TextView textView = this.valueTextView;
-            StringBuilder sb = new StringBuilder();
-            sb.append(tLRPC$TL_messages_stickerSet.set.emojis ? "t.me/addemoji/" : "t.me/addstickers/");
-            sb.append(tLRPC$TL_messages_stickerSet.set.short_name);
-            textView.setText(sb.toString());
+            StringBuilder sb3 = new StringBuilder();
+            sb3.append(tLRPC$TL_messages_stickerSet.set.emojis ? "t.me/addemoji/" : "t.me/addstickers/");
+            sb3.append(tLRPC$TL_messages_stickerSet.set.short_name);
+            textView.setText(sb3.toString());
         }
     }
 

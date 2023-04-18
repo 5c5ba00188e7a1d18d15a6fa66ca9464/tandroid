@@ -9447,6 +9447,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     bundle.putInt("dialogsType", 1);
                     if ((2 & tLRPC$KeyboardButton.flags) != 0) {
                         bundle.putBoolean("allowGroups", false);
+                        bundle.putBoolean("allowMegagroups", false);
+                        bundle.putBoolean("allowLegacyGroups", false);
                         bundle.putBoolean("allowUsers", false);
                         bundle.putBoolean("allowChannels", false);
                         bundle.putBoolean("allowBots", false);
@@ -9459,8 +9461,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                                 bundle.putBoolean("allowBots", true);
                             } else if (next instanceof TLRPC$TL_inlineQueryPeerTypeBroadcast) {
                                 bundle.putBoolean("allowChannels", true);
-                            } else if ((next instanceof TLRPC$TL_inlineQueryPeerTypeChat) || (next instanceof TLRPC$TL_inlineQueryPeerTypeMegagroup)) {
-                                bundle.putBoolean("allowGroups", true);
+                            } else if (next instanceof TLRPC$TL_inlineQueryPeerTypeChat) {
+                                bundle.putBoolean("allowLegacyGroups", true);
+                            } else if (next instanceof TLRPC$TL_inlineQueryPeerTypeMegagroup) {
+                                bundle.putBoolean("allowMegagroups", true);
                             }
                         }
                     }
@@ -9590,6 +9594,14 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
     public boolean isPopupView(View view) {
         return view == this.botKeyboardView || view == this.emojiView;
+    }
+
+    public int getPopupViewHeight(View view) {
+        BotKeyboardView botKeyboardView = this.botKeyboardView;
+        if (view != botKeyboardView || botKeyboardView == null) {
+            return -1;
+        }
+        return botKeyboardView.getKeyboardHeight();
     }
 
     public boolean isRecordCircle(View view) {

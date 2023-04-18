@@ -79,6 +79,7 @@ public class Bulletin {
     private final Layout layout;
     private Layout.Transition layoutTransition;
     private boolean loaded;
+    private Runnable onHideListener;
     private final ParentLayout parentLayout;
     private boolean showing;
     public int tag;
@@ -412,6 +413,11 @@ public class Bulletin {
         }
     }
 
+    public Bulletin setOnHideListener(Runnable runnable) {
+        this.onHideListener = runnable;
+        return this;
+    }
+
     public void ensureLayoutTransitionCreated() {
         Layout layout = this.layout;
         if (layout == null || this.layoutTransition != null) {
@@ -489,6 +495,10 @@ public class Bulletin {
                 });
             }
             this.layout.onDetach();
+            Runnable runnable = this.onHideListener;
+            if (runnable != null) {
+                runnable.run();
+            }
         }
     }
 
@@ -504,6 +514,10 @@ public class Bulletin {
         this.containerLayout.removeView(this.parentLayout);
         this.containerLayout.removeOnLayoutChangeListener(this.containerLayoutListener);
         this.layout.onDetach();
+        Runnable runnable = this.onHideListener;
+        if (runnable != null) {
+            runnable.run();
+        }
     }
 
     public /* synthetic */ void lambda$hide$4(Float f) {

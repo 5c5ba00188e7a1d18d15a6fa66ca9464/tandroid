@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.Set;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.Theme;
@@ -23,6 +24,7 @@ public class DrawerActionCell extends FrameLayout {
     private ImageView imageView;
     private RectF rect;
     private TextView textView;
+    private boolean wasRTL;
 
     public DrawerActionCell(Context context) {
         super(context);
@@ -30,15 +32,29 @@ public class DrawerActionCell extends FrameLayout {
         ImageView imageView = new ImageView(context);
         this.imageView = imageView;
         imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chats_menuItemIcon"), PorterDuff.Mode.SRC_IN));
-        addView(this.imageView, LayoutHelper.createFrame(24, 24.0f, 51, 19.0f, 12.0f, 0.0f, 0.0f));
         TextView textView = new TextView(context);
         this.textView = textView;
         textView.setTextColor(Theme.getColor("chats_menuItemText"));
         this.textView.setTextSize(1, 15.0f);
         this.textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.textView.setGravity(16);
-        addView(this.textView, LayoutHelper.createFrame(-1, -1.0f, 51, 72.0f, 0.0f, 16.0f, 0.0f));
+        toggleRTL(true);
         setWillNotDraw(false);
+    }
+
+    public void toggleRTL(boolean z) {
+        boolean z2 = this.wasRTL;
+        boolean z3 = LocaleController.isRTL;
+        if (z2 != z3 || z) {
+            this.wasRTL = z3;
+            removeAllViews();
+            ImageView imageView = this.imageView;
+            boolean z4 = LocaleController.isRTL;
+            addView(imageView, LayoutHelper.createFrame(24, 24.0f, (z4 ? 5 : 3) | 48, z4 ? 0.0f : 19.0f, 12.0f, z4 ? 19.0f : 0.0f, 0.0f));
+            TextView textView = this.textView;
+            boolean z5 = LocaleController.isRTL;
+            addView(textView, LayoutHelper.createFrame(-1, -1.0f, (z5 ? 5 : 3) | 48, z5 ? 16.0f : 72.0f, 0.0f, z5 ? 72.0f : 16.0f, 0.0f));
+        }
     }
 
     @Override // android.view.View
@@ -75,6 +91,7 @@ public class DrawerActionCell extends FrameLayout {
     }
 
     public void setTextAndIcon(int i, String str, int i2) {
+        toggleRTL(false);
         this.currentId = i;
         try {
             this.textView.setText(str);

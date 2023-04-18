@@ -249,6 +249,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private boolean allowChannels;
     private boolean allowGlobalSearch;
     private boolean allowGroups;
+    private boolean allowLegacyGroups;
+    private boolean allowMegagroups;
     private boolean allowMoving;
     private boolean allowSwipeDuringCurrentTouch;
     private boolean allowSwitchAccount;
@@ -265,6 +267,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private BackDrawable backDrawable;
     private ActionBarMenuSubItem blockItem;
     private View blurredView;
+    private ArrayList<TLRPC$Dialog> botShareDialogs;
     private Long cacheSize;
     private int canClearCacheCount;
     private boolean canDeletePsaSelected;
@@ -2408,6 +2411,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             this.showSetPasswordConfirm = this.arguments.getBoolean("showSetPasswordConfirm", this.showSetPasswordConfirm);
             this.arguments.getInt("otherwiseRelogin");
             this.allowGroups = this.arguments.getBoolean("allowGroups", true);
+            this.allowMegagroups = this.arguments.getBoolean("allowMegagroups", true);
+            this.allowLegacyGroups = this.arguments.getBoolean("allowLegacyGroups", true);
             this.allowChannels = this.arguments.getBoolean("allowChannels", true);
             this.allowUsers = this.arguments.getBoolean("allowUsers", true);
             this.allowBots = this.arguments.getBoolean("allowBots", true);
@@ -2725,10 +2730,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Removed duplicated region for block: B:286:0x0d0e  */
     /* JADX WARN: Removed duplicated region for block: B:294:0x0d38  */
     /* JADX WARN: Type inference failed for: r13v0 */
-    /* JADX WARN: Type inference failed for: r13v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v5 */
     /* JADX WARN: Type inference failed for: r7v0 */
-    /* JADX WARN: Type inference failed for: r7v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r7v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v5 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -10938,6 +10943,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     public ArrayList<TLRPC$Dialog> getDialogsArray(int i, int i2, int i3, boolean z) {
+        boolean z2;
         ArrayList<TLRPC$Dialog> arrayList;
         if (!z || (arrayList = this.frozenDialogsList) == null) {
             MessagesController messagesController = AccountInstance.getInstance(i).getMessagesController();
@@ -10947,7 +10953,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (i2 == 10 || i2 == 13) {
                 return messagesController.dialogsServerOnly;
             }
-            boolean z2 = true;
+            boolean z3 = true;
             if (i2 == 2) {
                 ArrayList<TLRPC$Dialog> arrayList2 = new ArrayList<>(messagesController.dialogsCanAddUsers.size() + messagesController.dialogsMyChannels.size() + messagesController.dialogsMyGroups.size() + 2);
                 if (messagesController.dialogsMyChannels.size() > 0 && this.allowChannels) {
@@ -10963,9 +10969,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     for (int i4 = 0; i4 < size; i4++) {
                         TLRPC$Dialog tLRPC$Dialog = messagesController.dialogsCanAddUsers.get(i4);
                         if ((this.allowChannels && ChatObject.isChannelAndNotMegaGroup(-tLRPC$Dialog.id, i)) || (this.allowGroups && (ChatObject.isMegagroup(i, -tLRPC$Dialog.id) || !ChatObject.isChannel(-tLRPC$Dialog.id, i)))) {
-                            if (z2) {
+                            if (z3) {
                                 arrayList2.add(new DialogsHeader(this, 2));
-                                z2 = false;
+                                z3 = false;
                             }
                             arrayList2.add(tLRPC$Dialog);
                         }
@@ -10997,7 +11003,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     return messagesController.dialogsForBlock;
                 } else {
                     if (i2 == 1 || i2 == 14) {
-                        ArrayList<TLRPC$Dialog> arrayList3 = new ArrayList<>();
+                        ArrayList<TLRPC$Dialog> arrayList3 = this.botShareDialogs;
+                        if (arrayList3 != null) {
+                            return arrayList3;
+                        }
+                        this.botShareDialogs = new ArrayList<>();
                         if (this.allowUsers || this.allowBots) {
                             Iterator<TLRPC$Dialog> it = messagesController.dialogsUsersOnly.iterator();
                             while (it.hasNext()) {
@@ -11006,32 +11016,55 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                 if (user != null && !UserObject.isUserSelf(user)) {
                                     if (user.bot) {
                                         if (this.allowBots) {
-                                            arrayList3.add(next);
+                                            this.botShareDialogs.add(next);
                                         }
                                     } else if (this.allowUsers) {
-                                        arrayList3.add(next);
+                                        this.botShareDialogs.add(next);
                                     }
                                 }
                             }
                         }
-                        if (this.allowGroups) {
-                            arrayList3.addAll(messagesController.dialogsGroupsOnly);
+                        if (this.allowGroups || ((z2 = this.allowLegacyGroups) && this.allowMegagroups)) {
+                            Iterator<TLRPC$Dialog> it2 = messagesController.dialogsGroupsOnly.iterator();
+                            while (it2.hasNext()) {
+                                TLRPC$Dialog next2 = it2.next();
+                                TLRPC$Chat chat = messagesController.getChat(Long.valueOf(-next2.id));
+                                if (chat != null && !ChatObject.isChannelAndNotMegaGroup(chat) && messagesController.canAddToForward(next2)) {
+                                    this.botShareDialogs.add(next2);
+                                }
+                            }
+                        } else if (z2 || this.allowMegagroups) {
+                            Iterator<TLRPC$Dialog> it3 = messagesController.dialogsGroupsOnly.iterator();
+                            while (it3.hasNext()) {
+                                TLRPC$Dialog next3 = it3.next();
+                                TLRPC$Chat chat2 = messagesController.getChat(Long.valueOf(-next3.id));
+                                if (chat2 != null && !ChatObject.isChannelAndNotMegaGroup(chat2) && messagesController.canAddToForward(next3) && ((this.allowLegacyGroups && !ChatObject.isMegagroup(chat2)) || (this.allowMegagroups && ChatObject.isMegagroup(chat2)))) {
+                                    this.botShareDialogs.add(next3);
+                                }
+                            }
                         }
                         if (this.allowChannels) {
-                            arrayList3.addAll(messagesController.dialogsChannelsOnly);
+                            Iterator<TLRPC$Dialog> it4 = messagesController.dialogsChannelsOnly.iterator();
+                            while (it4.hasNext()) {
+                                TLRPC$Dialog next4 = it4.next();
+                                if (messagesController.canAddToForward(next4)) {
+                                    this.botShareDialogs.add(next4);
+                                }
+                            }
                         }
-                        return arrayList3;
+                        getMessagesController().sortDialogsList(this.botShareDialogs);
+                        return this.botShareDialogs;
                     } else if (i2 == 15) {
                         ArrayList<TLRPC$Dialog> arrayList4 = new ArrayList<>();
                         TLRPC$User user2 = messagesController.getUser(Long.valueOf(this.requestPeerBotId));
                         TLRPC$RequestPeerType tLRPC$RequestPeerType = this.requestPeerType;
                         if (tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeUser) {
                             ConcurrentHashMap<Long, TLRPC$User> users = messagesController.getUsers();
-                            Iterator<TLRPC$Dialog> it2 = messagesController.dialogsUsersOnly.iterator();
-                            while (it2.hasNext()) {
-                                TLRPC$Dialog next2 = it2.next();
-                                if (meetRequestPeerRequirements(getMessagesController().getUser(Long.valueOf(next2.id)))) {
-                                    arrayList4.add(next2);
+                            Iterator<TLRPC$Dialog> it5 = messagesController.dialogsUsersOnly.iterator();
+                            while (it5.hasNext()) {
+                                TLRPC$Dialog next5 = it5.next();
+                                if (meetRequestPeerRequirements(getMessagesController().getUser(Long.valueOf(next5.id)))) {
+                                    arrayList4.add(next5);
                                 }
                             }
                             for (TLRPC$User tLRPC$User : users.values()) {
@@ -11047,11 +11080,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                             }
                         } else if ((tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeChat) || (tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeBroadcast)) {
                             ConcurrentHashMap<Long, TLRPC$Chat> chats = messagesController.getChats();
-                            Iterator<TLRPC$Dialog> it3 = (this.requestPeerType instanceof TLRPC$TL_requestPeerTypeChat ? messagesController.dialogsGroupsOnly : messagesController.dialogsChannelsOnly).iterator();
-                            while (it3.hasNext()) {
-                                TLRPC$Dialog next3 = it3.next();
-                                if (meetRequestPeerRequirements(user2, getMessagesController().getChat(Long.valueOf(-next3.id)))) {
-                                    arrayList4.add(next3);
+                            Iterator<TLRPC$Dialog> it6 = (this.requestPeerType instanceof TLRPC$TL_requestPeerTypeChat ? messagesController.dialogsGroupsOnly : messagesController.dialogsChannelsOnly).iterator();
+                            while (it6.hasNext()) {
+                                TLRPC$Dialog next6 = it6.next();
+                                if (meetRequestPeerRequirements(user2, getMessagesController().getChat(Long.valueOf(-next6.id)))) {
+                                    arrayList4.add(next6);
                                 }
                             }
                             for (TLRPC$Chat tLRPC$Chat : chats.values()) {

@@ -1145,7 +1145,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void access$43300(ChatActivity chatActivity) {
+    public static /* synthetic */ void access$43600(ChatActivity chatActivity) {
         chatActivity.resetProgressDialogLoading();
     }
 
@@ -17862,8 +17862,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         /* JADX WARN: Removed duplicated region for block: B:123:0x031b  */
         /* JADX WARN: Removed duplicated region for block: B:126:0x0338  */
         /* JADX WARN: Removed duplicated region for block: B:130:0x0349  */
-        /* JADX WARN: Removed duplicated region for block: B:271:0x0712  */
-        /* JADX WARN: Removed duplicated region for block: B:274:0x075e  */
+        /* JADX WARN: Removed duplicated region for block: B:274:0x0718  */
+        /* JADX WARN: Removed duplicated region for block: B:277:0x0764  */
         @Override // android.widget.FrameLayout, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -18009,14 +18009,19 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                                 if (childAt2 == ChatActivity.this.messagesSearchListView) {
                                                                     childAt2.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec((size2 - measuredHeight) - AndroidUtilities.dp(48.0f), 1073741824));
                                                                 } else if (ChatActivity.this.chatActivityEnterView.isPopupView(childAt2)) {
+                                                                    int popupViewHeight = ChatActivity.this.chatActivityEnterView.getPopupViewHeight(childAt2);
                                                                     if (((BaseFragment) ChatActivity.this).inBubbleMode) {
-                                                                        childAt2.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec((paddingTop - this.inputFieldHeight) + measuredHeight + getPaddingTop(), 1073741824));
-                                                                    } else if (AndroidUtilities.isInMultiwindow) {
-                                                                        if (AndroidUtilities.isTablet()) {
-                                                                            childAt2.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(Math.min(AndroidUtilities.dp(320.0f), (((paddingTop - this.inputFieldHeight) + measuredHeight) - AndroidUtilities.statusBarHeight) + getPaddingTop()), 1073741824));
-                                                                        } else {
-                                                                            childAt2.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec((((paddingTop - this.inputFieldHeight) + measuredHeight) - AndroidUtilities.statusBarHeight) + getPaddingTop(), 1073741824));
+                                                                        int paddingTop2 = (paddingTop - this.inputFieldHeight) + measuredHeight + getPaddingTop();
+                                                                        if (popupViewHeight < 0) {
+                                                                            popupViewHeight = Math.max(Math.min(paddingTop2, AndroidUtilities.dp(350.0f)), paddingTop2 / 2);
                                                                         }
+                                                                        childAt2.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(popupViewHeight, 1073741824));
+                                                                    } else if (AndroidUtilities.isInMultiwindow) {
+                                                                        int paddingTop3 = (((paddingTop - this.inputFieldHeight) + measuredHeight) - AndroidUtilities.statusBarHeight) + getPaddingTop();
+                                                                        if (popupViewHeight < 0) {
+                                                                            popupViewHeight = Math.max(Math.min(paddingTop3, AndroidUtilities.dp(350.0f)), paddingTop3 / 2);
+                                                                        }
+                                                                        childAt2.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(popupViewHeight, 1073741824));
                                                                     } else {
                                                                         childAt2.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(childAt2.getLayoutParams().height, 1073741824));
                                                                     }
@@ -20820,7 +20825,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r4v29 */
     /* JADX WARN: Type inference failed for: r4v31 */
     /* JADX WARN: Type inference failed for: r7v14 */
-    /* JADX WARN: Type inference failed for: r7v15, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r7v15, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v18 */
     /* JADX WARN: Type inference failed for: r7v19 */
     /*
@@ -21904,7 +21909,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:90:0x0175  */
     /* JADX WARN: Removed duplicated region for block: B:93:0x0181  */
     /* JADX WARN: Type inference failed for: r14v4 */
-    /* JADX WARN: Type inference failed for: r14v5, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r14v5, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r14v9 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -22596,17 +22601,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     public void showInfoHint(MessageObject messageObject, CharSequence charSequence, final int i) {
-        checkTopUndoView();
-        if (this.topUndoView == null) {
-            return;
-        }
-        Runnable runnable = new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda179
+        BulletinFactory.of(this).createSimpleBulletin(R.raw.chats_infotip, charSequence, 3).setDuration(Math.max(4000, Math.min(((charSequence == null ? 0 : charSequence.length()) / 50) * 1600, 10000))).setOnHideListener(new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda179
             @Override // java.lang.Runnable
             public final void run() {
                 ChatActivity.this.lambda$showInfoHint$143(i);
             }
-        };
-        this.topUndoView.showWithAction(0L, 18, charSequence, runnable, runnable);
+        }).show(true);
         this.hintMessageObject = messageObject;
         this.hintMessageType = i;
     }
@@ -26033,11 +26033,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate
-            public /* synthetic */ int getTopOffset(int i) {
-                return Bulletin.Delegate.-CC.$default$getTopOffset(this, i);
-            }
-
-            @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ void onBottomOffsetChange(float f) {
                 Bulletin.Delegate.-CC.$default$onBottomOffsetChange(this, f);
             }
@@ -26072,6 +26067,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     dp = (int) (dp + (ChatActivity.this.bottomPanelTranslationY - ChatActivity.this.chatActivityEnterView.getEmojiPadding()));
                 }
                 return ((int) (dp + ChatActivity.this.contentPanTranslation)) - AndroidUtilities.dp(1.5f);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public int getTopOffset(int i) {
+                return (((BaseFragment) ChatActivity.this).actionBar != null ? ((BaseFragment) ChatActivity.this).actionBar.getMeasuredHeight() + ((int) ((BaseFragment) ChatActivity.this).actionBar.getTranslationY()) : 0) + Math.max(0, ((int) ChatActivity.this.chatListViewPaddingTop) - AndroidUtilities.dp(4.0f));
             }
         };
         this.bulletinDelegate = delegate;
@@ -26937,7 +26937,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r10v7, types: [org.telegram.ui.Components.AnimatedEmojiSpan] */
     /* JADX WARN: Type inference failed for: r10v9 */
     /* JADX WARN: Type inference failed for: r13v22 */
-    /* JADX WARN: Type inference failed for: r13v23, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v23, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v60 */
     /* JADX WARN: Type inference failed for: r19v5 */
     /* JADX WARN: Type inference failed for: r19v6, types: [java.lang.String] */
@@ -36059,7 +36059,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$ChatMessageCellDelegate$5$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatActivity.access$43300(ChatActivity.this);
+                        ChatActivity.access$43600(ChatActivity.this);
                     }
                 }, 250L);
             }

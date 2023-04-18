@@ -386,17 +386,15 @@ public class MessageSeenView extends FrameLayout {
             BackupImageView backupImageView = new BackupImageView(context);
             this.avatarImageView = backupImageView;
             backupImageView.setRoundRadius(AndroidUtilities.dp(18.0f));
-            addView(this.avatarImageView, LayoutHelper.createFrame(34, 34.0f, 16, 10.0f, 0.0f, 0.0f, 0.0f));
             SimpleTextView simpleTextView = new SimpleTextView(context);
             this.nameView = simpleTextView;
             simpleTextView.setTextSize(16);
-            this.nameView.setEllipsizeByGradient(true);
+            this.nameView.setEllipsizeByGradient(!LocaleController.isRTL);
             this.nameView.setImportantForAccessibility(2);
             this.nameView.setTextColor(Theme.getColor("actionBarDefaultSubmenuItem"));
-            addView(this.nameView, LayoutHelper.createFrame(-2, -2.0f, 51, 55.0f, 6.33f, 8.0f, 0.0f));
+            this.nameView.setGravity(LocaleController.isRTL ? 5 : 3);
             this.rightDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this, AndroidUtilities.dp(18.0f));
             this.nameView.setDrawablePadding(AndroidUtilities.dp(3.0f));
-            this.nameView.setRightDrawable(this.rightDrawable);
             TextView textView = new TextView(context);
             this.readView = textView;
             textView.setTextSize(1, 13.0f);
@@ -404,6 +402,15 @@ public class MessageSeenView extends FrameLayout {
             this.readView.setEllipsize(TextUtils.TruncateAt.END);
             this.readView.setImportantForAccessibility(2);
             this.readView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
+            this.readView.setGravity(LocaleController.isRTL ? 5 : 3);
+            if (LocaleController.isRTL) {
+                addView(this.avatarImageView, LayoutHelper.createFrame(34, 34.0f, 21, 0.0f, 0.0f, 10.0f, 0.0f));
+                addView(this.nameView, LayoutHelper.createFrame(-2, -2.0f, 53, 8.0f, 6.33f, 55.0f, 0.0f));
+                addView(this.readView, LayoutHelper.createFrame(-2, -2.0f, 53, 13.0f, 20.0f, 55.0f, 0.0f));
+                return;
+            }
+            addView(this.avatarImageView, LayoutHelper.createFrame(34, 34.0f, 19, 10.0f, 0.0f, 0.0f, 0.0f));
+            addView(this.nameView, LayoutHelper.createFrame(-2, -2.0f, 51, 55.0f, 6.33f, 8.0f, 0.0f));
             addView(this.readView, LayoutHelper.createFrame(-2, -2.0f, 51, 55.0f, 20.0f, 13.0f, 0.0f));
         }
 
@@ -456,10 +463,12 @@ public class MessageSeenView extends FrameLayout {
         private void updateStatus(boolean z) {
             Long emojiStatusDocumentId = UserObject.getEmojiStatusDocumentId(this.user);
             if (emojiStatusDocumentId == null) {
+                this.nameView.setRightDrawable((Drawable) null);
                 this.rightDrawable.set((Drawable) null, z);
-            } else {
-                this.rightDrawable.set(emojiStatusDocumentId.longValue(), z);
+                return;
             }
+            this.nameView.setRightDrawable(this.rightDrawable);
+            this.rightDrawable.set(emojiStatusDocumentId.longValue(), z);
         }
 
         @Override // android.view.ViewGroup, android.view.View

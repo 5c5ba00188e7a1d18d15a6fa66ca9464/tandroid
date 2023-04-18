@@ -123,12 +123,17 @@ public class LimitPreviewView extends LinearLayout {
         TextView textView2 = new TextView(context);
         this.defaultCount = textView2;
         textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        this.defaultCount.setText(Integer.toString(i3));
+        this.defaultCount.setText(String.format("%d", Integer.valueOf(i3)));
         this.defaultCount.setGravity(16);
         this.defaultCount.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         if (clamp > 0.3f) {
-            frameLayout.addView(textView, LayoutHelper.createFrame(-1, 30.0f, 3, 0.0f, 0.0f, 36.0f, 0.0f));
-            frameLayout.addView(this.defaultCount, LayoutHelper.createFrame(-2, 30.0f, 5, 0.0f, 0.0f, 12.0f, 0.0f));
+            if (LocaleController.isRTL) {
+                frameLayout.addView(textView, LayoutHelper.createFrame(-1, 30.0f, 5, 36.0f, 0.0f, 12.0f, 0.0f));
+                frameLayout.addView(this.defaultCount, LayoutHelper.createFrame(-2, 30.0f, 3, 12.0f, 0.0f, 0.0f, 0.0f));
+            } else {
+                frameLayout.addView(textView, LayoutHelper.createFrame(-1, 30.0f, 3, 0.0f, 0.0f, 36.0f, 0.0f));
+                frameLayout.addView(this.defaultCount, LayoutHelper.createFrame(-2, 30.0f, 5, 0.0f, 0.0f, 12.0f, 0.0f));
+            }
         }
         this.limitsContainer.addView(frameLayout, LayoutHelper.createLinear(-1, 30, (1.0f - clamp) * 2.0f));
         FrameLayout frameLayout2 = new FrameLayout(context);
@@ -141,12 +146,17 @@ public class LimitPreviewView extends LinearLayout {
         TextView textView4 = new TextView(context);
         this.premiumCount = textView4;
         textView4.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        this.premiumCount.setText(Integer.toString(i3));
+        this.premiumCount.setText(String.format("%d", Integer.valueOf(i3)));
         this.premiumCount.setGravity(16);
         this.premiumCount.setTextColor(-1);
         if (clamp < 0.7f) {
-            frameLayout2.addView(textView3, LayoutHelper.createFrame(-1, 30.0f, 3, 0.0f, 0.0f, 36.0f, 0.0f));
-            frameLayout2.addView(this.premiumCount, LayoutHelper.createFrame(-2, 30.0f, 5, 0.0f, 0.0f, 12.0f, 0.0f));
+            if (LocaleController.isRTL) {
+                frameLayout2.addView(textView3, LayoutHelper.createFrame(-1, 30.0f, 5, 36.0f, 0.0f, 12.0f, 0.0f));
+                frameLayout2.addView(this.premiumCount, LayoutHelper.createFrame(-2, 30.0f, 3, 12.0f, 0.0f, 0.0f, 0.0f));
+            } else {
+                frameLayout2.addView(textView3, LayoutHelper.createFrame(-1, 30.0f, 3, 0.0f, 0.0f, 36.0f, 0.0f));
+                frameLayout2.addView(this.premiumCount, LayoutHelper.createFrame(-2, 30.0f, 5, 0.0f, 0.0f, 12.0f, 0.0f));
+            }
         }
         this.limitsContainer.addView(frameLayout2, LayoutHelper.createLinear(-1, 30, clamp * 2.0f));
         addView(this.limitsContainer, LayoutHelper.createLinear(-1, -2, 0.0f, 0, 14, i == 0 ? 0 : 12, 14, 0));
