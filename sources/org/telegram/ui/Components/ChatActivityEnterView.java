@@ -185,6 +185,7 @@ import org.telegram.tgnet.TLRPC$TL_stickerSetFullCovered;
 import org.telegram.tgnet.TLRPC$TL_stickerSetNoCovered;
 import org.telegram.tgnet.TLRPC$TL_userStatusEmpty;
 import org.telegram.tgnet.TLRPC$TL_userStatusOnline;
+import org.telegram.tgnet.TLRPC$TL_userStatusRecently;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserFull;
 import org.telegram.tgnet.TLRPC$UserStatus;
@@ -3990,7 +3991,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         canvas.drawRect(0.0f, i, getWidth(), getHeight(), getThemedPaint("paintChatComposeBackground"));
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(13:5|(1:69)(1:9)|10|(8:12|(1:40)(1:16)|(1:39)(1:22)|23|(4:25|(1:27)(1:33)|28|(1:32))|(1:35)|36|(1:38))|41|(3:43|(2:45|(1:49))|50)|51|(4:53|(1:67)(1:57)|58|(5:60|61|62|63|64))|68|61|62|63|64) */
+    /* JADX WARN: Can't wrap try/catch for region: R(13:5|(1:71)(1:9)|10|(8:12|(1:40)(1:16)|(1:39)(1:22)|23|(4:25|(1:27)(1:33)|28|(1:32))|(1:35)|36|(1:38))|41|(3:43|(2:45|(1:51))|52)|53|(4:55|(1:69)(1:59)|60|(5:62|63|64|65|66))|70|63|64|65|66) */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4106,7 +4107,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             TLRPC$User currentUser = this.parentFragment.getCurrentUser();
             if (currentUser != null) {
                 TLRPC$UserStatus tLRPC$UserStatus = currentUser.status;
-                if (!(tLRPC$UserStatus instanceof TLRPC$TL_userStatusEmpty) && !(tLRPC$UserStatus instanceof TLRPC$TL_userStatusOnline)) {
+                if (!(tLRPC$UserStatus instanceof TLRPC$TL_userStatusEmpty) && !(tLRPC$UserStatus instanceof TLRPC$TL_userStatusOnline) && !(tLRPC$UserStatus instanceof TLRPC$TL_userStatusRecently)) {
                     this.sendWhenOnlineButton.setVisibility(0);
                 }
             }

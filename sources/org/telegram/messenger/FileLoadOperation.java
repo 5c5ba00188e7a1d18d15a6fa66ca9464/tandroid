@@ -2669,31 +2669,37 @@ public class FileLoadOperation {
     public void onFail(boolean z, final int i) {
         cleanup();
         this.state = i == 1 ? 4 : 2;
-        if (this.delegate != null) {
-            if (BuildVars.LOGS_ENABLED) {
-                long currentTimeMillis = this.startTime != 0 ? System.currentTimeMillis() - this.startTime : 0L;
-                if (i == 1) {
-                    FileLog.d("cancel downloading file to " + this.cacheFileFinal + " time = " + currentTimeMillis + " dc = " + this.datacenterId + " size = " + AndroidUtilities.formatFileSize(this.totalBytesCount));
-                } else {
-                    FileLog.d("failed downloading file to " + this.cacheFileFinal + " reason = " + i + " time = " + currentTimeMillis + " dc = " + this.datacenterId + " size = " + AndroidUtilities.formatFileSize(this.totalBytesCount));
-                }
-            }
-            if (z) {
-                Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda2
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        FileLoadOperation.this.lambda$onFail$15(i);
-                    }
-                });
+        if (this.delegate != null && BuildVars.LOGS_ENABLED) {
+            long currentTimeMillis = this.startTime != 0 ? System.currentTimeMillis() - this.startTime : 0L;
+            if (i == 1) {
+                FileLog.d("cancel downloading file to " + this.cacheFileFinal + " time = " + currentTimeMillis + " dc = " + this.datacenterId + " size = " + AndroidUtilities.formatFileSize(this.totalBytesCount));
             } else {
-                this.delegate.didFailedLoadingFile(this, i);
+                FileLog.d("failed downloading file to " + this.cacheFileFinal + " reason = " + i + " time = " + currentTimeMillis + " dc = " + this.datacenterId + " size = " + AndroidUtilities.formatFileSize(this.totalBytesCount));
             }
         }
+        if (z) {
+            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda2
+                @Override // java.lang.Runnable
+                public final void run() {
+                    FileLoadOperation.this.lambda$onFail$15(i);
+                }
+            });
+            return;
+        }
+        FileLoadOperationDelegate fileLoadOperationDelegate = this.delegate;
+        if (fileLoadOperationDelegate != null) {
+            fileLoadOperationDelegate.didFailedLoadingFile(this, i);
+        }
+        notifyStreamListeners();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onFail$15(int i) {
-        this.delegate.didFailedLoadingFile(this, i);
+        FileLoadOperationDelegate fileLoadOperationDelegate = this.delegate;
+        if (fileLoadOperationDelegate != null) {
+            fileLoadOperationDelegate.didFailedLoadingFile(this, i);
+        }
+        notifyStreamListeners();
     }
 
     private void clearOperaion(RequestInfo requestInfo, boolean z) {

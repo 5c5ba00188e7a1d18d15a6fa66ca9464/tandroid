@@ -3999,11 +3999,11 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:275:0x078b  */
     /* JADX WARN: Removed duplicated region for block: B:291:0x07d7  */
     /* JADX WARN: Removed duplicated region for block: B:292:0x07e3  */
-    /* JADX WARN: Removed duplicated region for block: B:359:0x097a  */
-    /* JADX WARN: Removed duplicated region for block: B:367:0x09de  */
-    /* JADX WARN: Removed duplicated region for block: B:633:0x1178  */
-    /* JADX WARN: Removed duplicated region for block: B:737:0x1402  */
-    /* JADX WARN: Removed duplicated region for block: B:757:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:352:0x0969  */
+    /* JADX WARN: Removed duplicated region for block: B:360:0x09cd  */
+    /* JADX WARN: Removed duplicated region for block: B:636:0x1182  */
+    /* JADX WARN: Removed duplicated region for block: B:740:0x140c  */
+    /* JADX WARN: Removed duplicated region for block: B:760:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r8v1, types: [org.telegram.tgnet.TLObject] */
     /* JADX WARN: Type inference failed for: r8v15 */
     /* JADX WARN: Type inference failed for: r8v3, types: [org.telegram.tgnet.TLObject] */
@@ -4380,9 +4380,6 @@ public class MessageObject {
                                 } else {
                                     this.messageText = LocaleController.formatString("MessageLifetimeRemoved", R.string.MessageLifetimeRemoved, UserObject.getFirstName(tLRPC$User));
                                 }
-                            } else if ((tLRPC$MessageAction instanceof TLRPC$TL_messageActionAttachMenuBotAllowed) || ((tLRPC$MessageAction instanceof TLRPC$TL_messageActionBotAllowed) && ((TLRPC$TL_messageActionBotAllowed) tLRPC$MessageAction).attach_menu)) {
-                                str = str2;
-                                this.messageText = LocaleController.getString(R.string.ActionAttachMenuBotAllowed);
                             } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionRequestedPeer) {
                                 TLRPC$Peer tLRPC$Peer6 = ((TLRPC$TL_messageActionRequestedPeer) tLRPC$MessageAction).peer;
                                 boolean z = tLRPC$Peer6 instanceof TLRPC$TL_peerUser;
@@ -4667,13 +4664,19 @@ public class MessageObject {
                                     generatePaymentSentMessageText(getUser(abstractMap, longSparseArray, getDialogId()));
                                 } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionBotAllowed) {
                                     String str4 = ((TLRPC$TL_messageActionBotAllowed) tLRPC$MessageAction).domain;
-                                    String string2 = LocaleController.getString("ActionBotAllowed", R.string.ActionBotAllowed);
-                                    int indexOf3 = string2.indexOf("%1$s");
-                                    SpannableString spannableString2 = new SpannableString(String.format(string2, str4));
-                                    if (indexOf3 >= 0) {
-                                        spannableString2.setSpan(new URLSpanNoUnderlineBold("http://" + str4), indexOf3, str4.length() + indexOf3, 33);
+                                    if (str4 == null) {
+                                        this.messageText = LocaleController.getString(R.string.ActionBotAllowedNoDomain);
+                                    } else {
+                                        String string2 = LocaleController.getString("ActionBotAllowed", R.string.ActionBotAllowed);
+                                        int indexOf3 = string2.indexOf("%1$s");
+                                        SpannableString spannableString2 = new SpannableString(String.format(string2, str4));
+                                        if (indexOf3 >= 0) {
+                                            spannableString2.setSpan(new URLSpanNoUnderlineBold("http://" + str4), indexOf3, str4.length() + indexOf3, 33);
+                                        }
+                                        this.messageText = spannableString2;
                                     }
-                                    this.messageText = spannableString2;
+                                } else if ((tLRPC$MessageAction instanceof TLRPC$TL_messageActionAttachMenuBotAllowed) || ((tLRPC$MessageAction instanceof TLRPC$TL_messageActionBotAllowed) && ((TLRPC$TL_messageActionBotAllowed) tLRPC$MessageAction).attach_menu)) {
+                                    this.messageText = LocaleController.getString(R.string.ActionAttachMenuBotAllowed);
                                 } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionSecureValuesSent) {
                                     TLRPC$TL_messageActionSecureValuesSent tLRPC$TL_messageActionSecureValuesSent = (TLRPC$TL_messageActionSecureValuesSent) tLRPC$MessageAction;
                                     StringBuilder sb4 = new StringBuilder();

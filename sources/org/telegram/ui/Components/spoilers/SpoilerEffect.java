@@ -533,7 +533,7 @@ public class SpoilerEffect extends Drawable {
     public static void addSpoilerRangeInternal(View view, Layout layout, float f, float f2, float f3, float f4, Stack<SpoilerEffect> stack, List<SpoilerEffect> list, int i, int i2) {
         SpoilerEffect spoilerEffect = (stack == null || stack.isEmpty()) ? new SpoilerEffect() : stack.remove(0);
         spoilerEffect.setRippleProgress(-1.0f);
-        spoilerEffect.setBounds((int) Math.max(f, i), (int) f2, (int) Math.min(f3, i2 < 0 ? 2.14748365E9f : i2), (int) f4);
+        spoilerEffect.setBounds((int) Math.max(f, i), (int) f2, (int) Math.min(f3, i2 <= 0 ? 2.14748365E9f : i2), (int) f4);
         spoilerEffect.setColor(layout.getPaint().getColor());
         spoilerEffect.setRippleInterpolator(Easings.easeInQuad);
         spoilerEffect.updateMaxParticles();
