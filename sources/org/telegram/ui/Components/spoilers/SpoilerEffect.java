@@ -41,6 +41,7 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
+import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.Easings;
 import org.telegram.ui.Components.TextStyleSpan;
@@ -462,7 +463,8 @@ public class SpoilerEffect extends Drawable {
     }
 
     public static void addSpoilers(TextView textView, Stack<SpoilerEffect> stack, List<SpoilerEffect> list) {
-        addSpoilers(textView, textView.getLayout(), (Spanned) textView.getText(), stack, list);
+        int measuredWidth = textView.getMeasuredWidth();
+        addSpoilers(textView, textView.getLayout(), 0, measuredWidth > 0 ? measuredWidth : -2, (Spanned) textView.getText(), stack, list);
     }
 
     public static void addSpoilers(View view, Layout layout, Stack<SpoilerEffect> stack, List<SpoilerEffect> list) {
@@ -471,14 +473,45 @@ public class SpoilerEffect extends Drawable {
         }
     }
 
+    public static void addSpoilers(View view, Layout layout, int i, int i2, Stack<SpoilerEffect> stack, List<SpoilerEffect> list) {
+        if (layout.getText() instanceof Spanned) {
+            addSpoilers(view, layout, i, i2, (Spanned) layout.getText(), stack, list);
+        }
+    }
+
     public static void addSpoilers(View view, Layout layout, Spanned spanned, Stack<SpoilerEffect> stack, List<SpoilerEffect> list) {
         if (layout == null) {
             return;
         }
+        addSpoilers(view, layout, -1, -1, spanned, stack, list);
+    }
+
+    public static void addSpoilers(View view, Layout layout, int i, int i2, Spanned spanned, Stack<SpoilerEffect> stack, List<SpoilerEffect> list) {
+        int i3;
+        int i4;
+        if (layout == null) {
+            return;
+        }
         Object[] objArr = (TextStyleSpan[]) spanned.getSpans(0, layout.getText().length(), TextStyleSpan.class);
-        for (int i = 0; i < objArr.length; i++) {
-            if (objArr[i].isSpoiler()) {
-                addSpoilerRangesInternal(view, layout, spanned.getSpanStart(objArr[i]), spanned.getSpanEnd(objArr[i]), stack, list);
+        for (int i5 = 0; i5 < objArr.length; i5++) {
+            if (objArr[i5].isSpoiler()) {
+                int spanStart = spanned.getSpanStart(objArr[i5]);
+                int spanEnd = spanned.getSpanEnd(objArr[i5]);
+                if (i == -1 && i2 == -1) {
+                    int i6 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+                    int i7 = Integer.MIN_VALUE;
+                    int lineForOffset = layout.getLineForOffset(spanEnd);
+                    for (int lineForOffset2 = layout.getLineForOffset(spanStart); lineForOffset2 <= lineForOffset; lineForOffset2++) {
+                        i6 = Math.min(i6, (int) layout.getLineLeft(lineForOffset2));
+                        i7 = Math.max(i7, (int) layout.getLineRight(lineForOffset2));
+                    }
+                    i3 = i6;
+                    i4 = i7;
+                } else {
+                    i3 = i;
+                    i4 = i2;
+                }
+                addSpoilerRangesInternal(view, layout, i3, i4, spanStart, spanEnd, stack, list);
             }
         }
         if (!(view instanceof TextView) || stack == null) {
@@ -487,20 +520,20 @@ public class SpoilerEffect extends Drawable {
         stack.clear();
     }
 
-    private static void addSpoilerRangesInternal(final View view, final Layout layout, int i, int i2, final Stack<SpoilerEffect> stack, final List<SpoilerEffect> list) {
-        layout.getSelectionPath(i, i2, new Path() { // from class: org.telegram.ui.Components.spoilers.SpoilerEffect.2
+    private static void addSpoilerRangesInternal(final View view, final Layout layout, final int i, final int i2, int i3, int i4, final Stack<SpoilerEffect> stack, final List<SpoilerEffect> list) {
+        layout.getSelectionPath(i3, i4, new Path() { // from class: org.telegram.ui.Components.spoilers.SpoilerEffect.2
             @Override // android.graphics.Path
             public void addRect(float f, float f2, float f3, float f4, Path.Direction direction) {
-                SpoilerEffect.addSpoilerRangeInternal(view, layout, f, f2, f3, f4, stack, list);
+                SpoilerEffect.addSpoilerRangeInternal(view, layout, f, f2, f3, f4, stack, list, i, i2);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static void addSpoilerRangeInternal(View view, Layout layout, float f, float f2, float f3, float f4, Stack<SpoilerEffect> stack, List<SpoilerEffect> list) {
+    public static void addSpoilerRangeInternal(View view, Layout layout, float f, float f2, float f3, float f4, Stack<SpoilerEffect> stack, List<SpoilerEffect> list, int i, int i2) {
         SpoilerEffect spoilerEffect = (stack == null || stack.isEmpty()) ? new SpoilerEffect() : stack.remove(0);
         spoilerEffect.setRippleProgress(-1.0f);
-        spoilerEffect.setBounds((int) f, (int) f2, (int) f3, (int) f4);
+        spoilerEffect.setBounds((int) Math.max(f, i), (int) f2, (int) Math.min(f3, i2 < 0 ? 2.14748365E9f : i2), (int) f4);
         spoilerEffect.setColor(layout.getPaint().getColor());
         spoilerEffect.setRippleInterpolator(Easings.easeInQuad);
         spoilerEffect.updateMaxParticles();

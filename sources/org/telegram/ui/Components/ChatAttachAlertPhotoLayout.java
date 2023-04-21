@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.util.Property;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -34,7 +35,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.Keep;
 import androidx.core.util.Consumer;
-import androidx.exifinterface.media.ExifInterface;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
@@ -51,6 +51,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatObject;
@@ -110,7 +111,6 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     float animationClipLeft;
     float animationClipRight;
     float animationClipTop;
-    private int animationIndex;
     private boolean cameraAnimationInProgress;
     private PhotoAttachAdapter cameraAttachAdapter;
     protected PhotoAttachCameraCell cameraCell;
@@ -168,6 +168,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     private final boolean needCamera;
     private boolean noCameraPermissions;
     private boolean noGalleryPermissions;
+    private AnimationNotificationsLocker notificationsLocker;
     private boolean photoEnabled;
     private PhotoViewer.PhotoViewerProvider photoViewerProvider;
     private float pinchStartDistance;
@@ -419,7 +420,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 if (photoEntryAtPosition.thumbPath != null) {
                     cellForIndex.getImageView().setImage(photoEntryAtPosition.thumbPath, null, Theme.chat_attachEmptyDrawable);
                 } else if (photoEntryAtPosition.path != null) {
-                    cellForIndex.getImageView().setOrientation(photoEntryAtPosition.orientation, true);
+                    cellForIndex.getImageView().setOrientation(photoEntryAtPosition.orientation, photoEntryAtPosition.invert, true);
                     if (photoEntryAtPosition.isVideo) {
                         BackupImageView imageView = cellForIndex.getImageView();
                         imageView.setImage("vthumb://" + photoEntryAtPosition.imageId + ":" + photoEntryAtPosition.path, null, Theme.chat_attachEmptyDrawable);
@@ -590,7 +591,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         this.lastItemSize = dp;
         this.itemsPerRow = 3;
         this.loading = true;
-        this.animationIndex = -1;
+        this.notificationsLocker = new AnimationNotificationsLocker();
         this.photoViewerProvider = new 1();
         this.forceDarkTheme = z;
         this.needCamera = z2;
@@ -1360,41 +1361,33 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             int i;
             int i2;
             int i3;
-            int i4;
-            BitmapFactory.Options options;
             ChatAttachAlertPhotoLayout.this.takingPhoto = false;
             if (file == null || ChatAttachAlertPhotoLayout.this.parentAlert.baseFragment == null) {
                 return;
             }
-            try {
-                int attributeInt = new ExifInterface(file.getAbsolutePath()).getAttributeInt("Orientation", 1);
-                i = attributeInt != 3 ? attributeInt != 6 ? attributeInt != 8 ? 0 : 270 : 90 : 180;
-            } catch (Exception e) {
-                FileLog.e(e);
-                i = 0;
-            }
+            Pair<Integer, Integer> imageOrientation = AndroidUtilities.getImageOrientation(file);
             boolean unused = ChatAttachAlertPhotoLayout.mediaFromExternalCamera = false;
             try {
-                options = new BitmapFactory.Options();
+                BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inJustDecodeBounds = true;
                 BitmapFactory.decodeFile(new File(file.getAbsolutePath()).getAbsolutePath(), options);
-                i2 = options.outWidth;
-            } catch (Exception unused2) {
-                i2 = 0;
-            }
-            try {
-                i4 = options.outHeight;
-                i3 = i2;
+                i = options.outWidth;
+                try {
+                    i3 = options.outHeight;
+                    i2 = i;
+                } catch (Exception unused2) {
+                    i2 = i;
+                    i3 = 0;
+                    MediaController.PhotoEntry orientation = new MediaController.PhotoEntry(0, ChatAttachAlertPhotoLayout.access$3510(), 0L, file.getAbsolutePath(), ((Integer) imageOrientation.first).intValue(), false, i2, i3, 0L).setOrientation(imageOrientation);
+                    orientation.canDeleteAfter = true;
+                    ChatAttachAlertPhotoLayout.this.openPhotoViewer(orientation, z, false);
+                }
             } catch (Exception unused3) {
-                i3 = i2;
-                i4 = 0;
-                MediaController.PhotoEntry photoEntry = new MediaController.PhotoEntry(0, ChatAttachAlertPhotoLayout.access$3510(), 0L, file.getAbsolutePath(), i, false, i3, i4, 0L);
-                photoEntry.canDeleteAfter = true;
-                ChatAttachAlertPhotoLayout.this.openPhotoViewer(photoEntry, z, false);
+                i = 0;
             }
-            MediaController.PhotoEntry photoEntry2 = new MediaController.PhotoEntry(0, ChatAttachAlertPhotoLayout.access$3510(), 0L, file.getAbsolutePath(), i, false, i3, i4, 0L);
-            photoEntry2.canDeleteAfter = true;
-            ChatAttachAlertPhotoLayout.this.openPhotoViewer(photoEntry2, z, false);
+            MediaController.PhotoEntry orientation2 = new MediaController.PhotoEntry(0, ChatAttachAlertPhotoLayout.access$3510(), 0L, file.getAbsolutePath(), ((Integer) imageOrientation.first).intValue(), false, i2, i3, 0L).setOrientation(imageOrientation);
+            orientation2.canDeleteAfter = true;
+            ChatAttachAlertPhotoLayout.this.openPhotoViewer(orientation2, z, false);
         }
 
         @Override // org.telegram.ui.Components.ShutterButton.ShutterButtonDelegate
@@ -2352,7 +2345,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         if (z) {
             setCameraOpenProgress(0.0f);
             this.cameraAnimationInProgress = true;
-            this.animationIndex = NotificationCenter.getInstance(this.parentAlert.currentAccount).setAnimationInProgress(this.animationIndex, null);
+            this.notificationsLocker.lock();
             ArrayList arrayList = new ArrayList();
             arrayList.add(ObjectAnimator.ofFloat(this, "cameraOpenProgress", 0.0f, 1.0f));
             arrayList.add(ObjectAnimator.ofFloat(this.cameraPanel, View.ALPHA, 1.0f));
@@ -2377,7 +2370,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     CameraView cameraView3;
-                    NotificationCenter.getInstance(ChatAttachAlertPhotoLayout.this.parentAlert.currentAccount).onAnimationFinish(ChatAttachAlertPhotoLayout.this.animationIndex);
+                    ChatAttachAlertPhotoLayout.this.notificationsLocker.unlock();
                     ChatAttachAlertPhotoLayout.this.cameraAnimationInProgress = false;
                     CameraView cameraView4 = ChatAttachAlertPhotoLayout.this.cameraView;
                     if (cameraView4 != null) {
@@ -2762,18 +2755,17 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(15:39|(1:41)|42|(1:115)(1:47)|(6:49|(5:51|(1:53)|54|(1:56)|(1:58))|113|60|(1:112)|64)(1:114)|(1:111)|69|(3:70|71|72)|(4:74|75|(2:77|78)|80)|81|82|84|85|86|87) */
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x0115, code lost:
-        if (new java.io.File(r0).exists() != false) goto L60;
+    /* JADX WARN: Can't wrap try/catch for region: R(17:23|(1:25)|26|(1:99)(1:31)|(6:33|(5:35|(1:37)|38|(1:40)|(1:42))|97|44|(1:96)|48)(1:98)|(1:95)|53|54|55|56|(4:58|59|(2:61|62)|64)|65|66|67|68|69|70) */
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x00fd, code lost:
+        if (new java.io.File(r0).exists() != false) goto L44;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:91:0x01b3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:77:0x019b, code lost:
         r0 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:92:0x01b4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:78:0x019c, code lost:
         org.telegram.messenger.FileLog.e(r0);
      */
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:77:0x0165 -> B:115:0x017e). Please submit an issue!!! */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:63:0x014d -> B:90:0x0166). Please submit an issue!!! */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2781,12 +2773,10 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         String str2;
         Throwable th;
         MediaMetadataRetriever mediaMetadataRetriever;
-        MediaMetadataRetriever mediaMetadataRetriever2;
         String extractMetadata;
         int i2;
         int i3;
         int i4;
-        int i5;
         String str3 = str;
         BaseFragment baseFragment = this.parentAlert.baseFragment;
         if (baseFragment == null || baseFragment.getParentActivity() == null) {
@@ -2798,45 +2788,37 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             PhotoViewer photoViewer = PhotoViewer.getInstance();
             ChatAttachAlert chatAttachAlert = this.parentAlert;
             photoViewer.setMaxSelectedPhotos(chatAttachAlert.maxSelectedPhotos, chatAttachAlert.allowOrder);
-            new ArrayList();
-            try {
-                int attributeInt = new ExifInterface(str3).getAttributeInt("Orientation", 1);
-                i2 = attributeInt != 3 ? attributeInt != 6 ? attributeInt != 8 ? 0 : 270 : 90 : 180;
-            } catch (Exception e) {
-                FileLog.e(e);
-                i2 = 0;
-            }
+            Pair<Integer, Integer> imageOrientation = AndroidUtilities.getImageOrientation(str);
             try {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inJustDecodeBounds = true;
                 BitmapFactory.decodeFile(new File(str3).getAbsolutePath(), options);
-                i3 = options.outWidth;
+                i2 = options.outWidth;
                 try {
-                    i5 = options.outHeight;
-                    i4 = i3;
+                    i4 = options.outHeight;
+                    i3 = i2;
                 } catch (Exception unused) {
-                    i4 = i3;
-                    i5 = 0;
-                    int i6 = lastImageId;
-                    lastImageId = i6 - 1;
-                    MediaController.PhotoEntry photoEntry = new MediaController.PhotoEntry(0, i6, 0L, str, i2, false, i4, i5, 0L);
-                    photoEntry.canDeleteAfter = true;
-                    openPhotoViewer(photoEntry, false, true);
+                    i3 = i2;
+                    i4 = 0;
+                    int i5 = lastImageId;
+                    lastImageId = i5 - 1;
+                    MediaController.PhotoEntry orientation = new MediaController.PhotoEntry(0, i5, 0L, str, ((Integer) imageOrientation.first).intValue(), false, i3, i4, 0L).setOrientation(imageOrientation);
+                    orientation.canDeleteAfter = true;
+                    openPhotoViewer(orientation, false, true);
                 }
             } catch (Exception unused2) {
-                i3 = 0;
+                i2 = 0;
             }
-            int i62 = lastImageId;
-            lastImageId = i62 - 1;
-            MediaController.PhotoEntry photoEntry2 = new MediaController.PhotoEntry(0, i62, 0L, str, i2, false, i4, i5, 0L);
-            photoEntry2.canDeleteAfter = true;
-            openPhotoViewer(photoEntry2, false, true);
+            int i52 = lastImageId;
+            lastImageId = i52 - 1;
+            MediaController.PhotoEntry orientation2 = new MediaController.PhotoEntry(0, i52, 0L, str, ((Integer) imageOrientation.first).intValue(), false, i3, i4, 0L).setOrientation(imageOrientation);
+            orientation2.canDeleteAfter = true;
+            openPhotoViewer(orientation2, false, true);
         } else if (i == 2) {
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.d("pic path " + str3);
             }
-            Bitmap bitmap = null;
-            MediaMetadataRetriever mediaMetadataRetriever3 = null;
+            MediaMetadataRetriever mediaMetadataRetriever2 = null;
             Intent intent2 = (intent == null || str3 == null || !new File(str3).exists()) ? intent : null;
             if (intent2 != null) {
                 Uri data = intent2.getData();
@@ -2866,60 +2848,59 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             try {
                 try {
                     try {
-                        mediaMetadataRetriever2 = new MediaMetadataRetriever();
-                    } catch (Throwable th2) {
-                        th = th2;
-                        mediaMetadataRetriever = bitmap;
+                        mediaMetadataRetriever = new MediaMetadataRetriever();
+                    } catch (Exception e) {
+                        e = e;
                     }
-                } catch (Exception e2) {
-                    e = e2;
+                } catch (Throwable th2) {
+                    th = th2;
                 }
-            } catch (Exception e3) {
-                FileLog.e(e3);
+            } catch (Exception e2) {
+                FileLog.e(e2);
             }
             try {
-                mediaMetadataRetriever2.setDataSource(str3);
-                r3 = mediaMetadataRetriever2.extractMetadata(9) != null ? (int) Math.ceil(((float) Long.parseLong(extractMetadata)) / 1000.0f) : 0L;
-                mediaMetadataRetriever2.release();
-            } catch (Exception e4) {
-                e = e4;
-                mediaMetadataRetriever3 = mediaMetadataRetriever2;
+                mediaMetadataRetriever.setDataSource(str3);
+                r3 = mediaMetadataRetriever.extractMetadata(9) != null ? (int) Math.ceil(((float) Long.parseLong(extractMetadata)) / 1000.0f) : 0L;
+                mediaMetadataRetriever.release();
+            } catch (Exception e3) {
+                e = e3;
+                mediaMetadataRetriever2 = mediaMetadataRetriever;
                 FileLog.e(e);
-                if (mediaMetadataRetriever3 != null) {
-                    mediaMetadataRetriever3.release();
+                if (mediaMetadataRetriever2 != null) {
+                    mediaMetadataRetriever2.release();
                 }
-                bitmap = SendMessagesHelper.createVideoThumbnail(str3, 1);
+                Bitmap createVideoThumbnail = SendMessagesHelper.createVideoThumbnail(str3, 1);
                 File file = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 55, new FileOutputStream(file));
+                createVideoThumbnail.compress(Bitmap.CompressFormat.JPEG, 55, new FileOutputStream(file));
                 SharedConfig.saveConfig();
-                int i7 = lastImageId;
-                lastImageId = i7 - 1;
-                MediaController.PhotoEntry photoEntry3 = new MediaController.PhotoEntry(0, i7, 0L, str3, 0, true, bitmap.getWidth(), bitmap.getHeight(), 0L);
-                photoEntry3.duration = (int) r3;
-                photoEntry3.thumbPath = file.getAbsolutePath();
-                openPhotoViewer(photoEntry3, false, true);
+                int i6 = lastImageId;
+                lastImageId = i6 - 1;
+                MediaController.PhotoEntry photoEntry = new MediaController.PhotoEntry(0, i6, 0L, str3, 0, true, createVideoThumbnail.getWidth(), createVideoThumbnail.getHeight(), 0L);
+                photoEntry.duration = (int) r3;
+                photoEntry.thumbPath = file.getAbsolutePath();
+                openPhotoViewer(photoEntry, false, true);
             } catch (Throwable th3) {
                 th = th3;
-                mediaMetadataRetriever = mediaMetadataRetriever2;
-                if (mediaMetadataRetriever != 0) {
+                mediaMetadataRetriever2 = mediaMetadataRetriever;
+                if (mediaMetadataRetriever2 != null) {
                     try {
-                        mediaMetadataRetriever.release();
-                    } catch (Exception e5) {
-                        FileLog.e(e5);
+                        mediaMetadataRetriever2.release();
+                    } catch (Exception e4) {
+                        FileLog.e(e4);
                     }
                 }
                 throw th;
             }
-            bitmap = SendMessagesHelper.createVideoThumbnail(str3, 1);
+            Bitmap createVideoThumbnail2 = SendMessagesHelper.createVideoThumbnail(str3, 1);
             File file2 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 55, new FileOutputStream(file2));
+            createVideoThumbnail2.compress(Bitmap.CompressFormat.JPEG, 55, new FileOutputStream(file2));
             SharedConfig.saveConfig();
-            int i72 = lastImageId;
-            lastImageId = i72 - 1;
-            MediaController.PhotoEntry photoEntry32 = new MediaController.PhotoEntry(0, i72, 0L, str3, 0, true, bitmap.getWidth(), bitmap.getHeight(), 0L);
-            photoEntry32.duration = (int) r3;
-            photoEntry32.thumbPath = file2.getAbsolutePath();
-            openPhotoViewer(photoEntry32, false, true);
+            int i62 = lastImageId;
+            lastImageId = i62 - 1;
+            MediaController.PhotoEntry photoEntry2 = new MediaController.PhotoEntry(0, i62, 0L, str3, 0, true, createVideoThumbnail2.getWidth(), createVideoThumbnail2.getHeight(), 0L);
+            photoEntry2.duration = (int) r3;
+            photoEntry2.thumbPath = file2.getAbsolutePath();
+            openPhotoViewer(photoEntry2, false, true);
         }
     }
 
@@ -2958,7 +2939,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                     i2++;
                 }
             }
-            this.animationIndex = NotificationCenter.getInstance(this.parentAlert.currentAccount).setAnimationInProgress(this.animationIndex, null);
+            this.notificationsLocker.lock();
             AnimatorSet animatorSet = new AnimatorSet();
             animatorSet.playTogether(arrayList);
             animatorSet.setDuration(220L);
@@ -2966,7 +2947,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout.22
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
-                    NotificationCenter.getInstance(ChatAttachAlertPhotoLayout.this.parentAlert.currentAccount).onAnimationFinish(ChatAttachAlertPhotoLayout.this.animationIndex);
+                    ChatAttachAlertPhotoLayout.this.notificationsLocker.unlock();
                     ChatAttachAlertPhotoLayout chatAttachAlertPhotoLayout = ChatAttachAlertPhotoLayout.this;
                     chatAttachAlertPhotoLayout.cameraExpanded = false;
                     chatAttachAlertPhotoLayout.parentAlert.getWindow().clearFlags(128);

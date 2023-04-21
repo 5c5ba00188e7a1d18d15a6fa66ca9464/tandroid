@@ -55,6 +55,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DialogObject;
@@ -162,7 +163,6 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     private float additionalFloatingTranslation;
     private int animateToColumnsCount;
     private boolean animatingForward;
-    int animationIndex;
     private SharedPhotoVideoAdapter animationSupportingPhotoVideoAdapter;
     private ArrayList<SharedPhotoVideoCell2> animationSupportingSortedCells;
     private SharedDocumentsAdapter audioAdapter;
@@ -213,6 +213,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     private MediaPage[] mediaPages;
     private long mergeDialogId;
     SparseArray<Float> messageAlphaEnter;
+    AnimationNotificationsLocker notificationsLocker;
     ActionBarPopupWindow optionsWindow;
     private SharedPhotoVideoAdapter photoVideoAdapter;
     private boolean photoVideoChangeColumnsAnimation;
@@ -1101,15 +1102,15 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         public ArrayList<MessageObject> frozenMessages = new ArrayList<>();
         RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
 
-        static /* synthetic */ int access$710(SharedMediaData sharedMediaData) {
-            int i = sharedMediaData.startOffset;
-            sharedMediaData.startOffset = i - 1;
+        static /* synthetic */ int access$7010(SharedMediaData sharedMediaData) {
+            int i = sharedMediaData.endLoadingStubs;
+            sharedMediaData.endLoadingStubs = i - 1;
             return i;
         }
 
-        static /* synthetic */ int access$7110(SharedMediaData sharedMediaData) {
-            int i = sharedMediaData.endLoadingStubs;
-            sharedMediaData.endLoadingStubs = i - 1;
+        static /* synthetic */ int access$710(SharedMediaData sharedMediaData) {
+            int i = sharedMediaData.startOffset;
+            sharedMediaData.startOffset = i - 1;
             return i;
         }
 
@@ -1404,6 +1405,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             }
         };
         this.sharedMediaData = new SharedMediaData[6];
+        this.notificationsLocker = new AnimationNotificationsLocker();
         this.messageAlphaEnter = new SparseArray<>();
         this.sharedLinkCellDelegate = new 30();
         this.viewType = i2;
@@ -3131,7 +3133,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             this.photoVideoChangeColumnsProgress = 0.0f;
             saveScrollPosition();
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-            this.animationIndex = NotificationCenter.getInstance(this.profileActivity.getCurrentAccount()).setAnimationInProgress(this.animationIndex, null);
+            this.notificationsLocker.lock();
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.SharedMediaLayout.20
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -3142,7 +3144,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.SharedMediaLayout.21
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
-                    NotificationCenter.getInstance(SharedMediaLayout.this.profileActivity.getCurrentAccount()).onAnimationFinish(SharedMediaLayout.this.animationIndex);
+                    SharedMediaLayout.this.notificationsLocker.unlock();
                     int itemCount = SharedMediaLayout.this.photoVideoAdapter.getItemCount();
                     SharedMediaLayout.this.photoVideoChangeColumnsAnimation = false;
                     SharedMediaLayout.this.sharedMediaData[0].setListFrozen(false);
@@ -4335,7 +4337,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                             MessageObject messageObject2 = (MessageObject) arrayList.get(i8);
                             if (this.sharedMediaData[intValue3].addMessage(messageObject2, i7, false, isEncryptedDialog)) {
                                 sparseBooleanArray.put(messageObject2.getId(), true);
-                                SharedMediaData.access$7110(this.sharedMediaData[intValue3]);
+                                SharedMediaData.access$7010(this.sharedMediaData[intValue3]);
                                 if (this.sharedMediaData[intValue3].endLoadingStubs < 0) {
                                     this.sharedMediaData[intValue3].endLoadingStubs = 0;
                                 }
@@ -7516,7 +7518,9 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     /* JADX INFO: Access modifiers changed from: private */
     public int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
-        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
+        if (resourcesProvider != null) {
+            return resourcesProvider.getColor(i);
+        }
+        return Theme.getColor(i);
     }
 }

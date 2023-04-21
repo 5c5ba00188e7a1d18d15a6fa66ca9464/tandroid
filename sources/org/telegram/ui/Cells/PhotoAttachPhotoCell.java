@@ -305,7 +305,7 @@ public class PhotoAttachPhotoCell extends FrameLayout {
                 BackupImageView backupImageView = this.imageView;
                 backupImageView.setImage("vthumb://" + this.photoEntry.imageId + ":" + this.photoEntry.path, null, Theme.chat_attachEmptyDrawable);
             } else {
-                this.imageView.setOrientation(photoEntry2.orientation, true);
+                this.imageView.setOrientation(photoEntry2.orientation, photoEntry2.invert, true);
                 BackupImageView backupImageView2 = this.imageView;
                 backupImageView2.setImage("thumb://" + this.photoEntry.imageId + ":" + this.photoEntry.path, null, Theme.chat_attachEmptyDrawable);
             }
@@ -578,8 +578,6 @@ public class PhotoAttachPhotoCell extends FrameLayout {
     }
 
     protected int getThemedColor(int i) {
-        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
-        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
+        return Theme.getColor(i, this.resourcesProvider);
     }
 }

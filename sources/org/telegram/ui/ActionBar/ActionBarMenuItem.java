@@ -45,8 +45,8 @@ import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
@@ -88,7 +88,7 @@ public class ActionBarMenuItem extends FrameLayout {
     protected ActionBarMenuItemSearchListener listener;
     private int[] location;
     private boolean longClickEnabled;
-    private int notificationIndex;
+    private final AnimationNotificationsLocker notificationsLocker;
     private View.OnClickListener onClickListener;
     protected boolean overrideMenuClick;
     private ActionBarMenu parentMenu;
@@ -210,7 +210,7 @@ public class ActionBarMenuItem extends FrameLayout {
         this.showSubmenuByMove = true;
         this.currentSearchFilters = new ArrayList<>();
         this.selectedFilterIndex = -1;
-        this.notificationIndex = -1;
+        this.notificationsLocker = new AnimationNotificationsLocker();
         this.resourcesProvider = resourcesProvider;
         if (i != 0) {
             setBackgroundDrawable(Theme.createSelectorDrawable(i, z ? 5 : 1));
@@ -1119,7 +1119,6 @@ public class ActionBarMenuItem extends FrameLayout {
             }.setDuration(150L)).addTransition(changeBounds);
             transitionSet.setOrdering(0);
             transitionSet.setInterpolator((TimeInterpolator) CubicBezierInterpolator.EASE_OUT);
-            final int i = UserConfig.selectedAccount;
             transitionSet.addListener(new Transition.TransitionListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.5
                 @Override // android.transition.Transition.TransitionListener
                 public void onTransitionPause(Transition transition) {
@@ -1131,32 +1130,32 @@ public class ActionBarMenuItem extends FrameLayout {
 
                 @Override // android.transition.Transition.TransitionListener
                 public void onTransitionStart(Transition transition) {
-                    ActionBarMenuItem.this.notificationIndex = NotificationCenter.getInstance(i).setAnimationInProgress(ActionBarMenuItem.this.notificationIndex, null);
+                    ActionBarMenuItem.this.notificationsLocker.lock();
                 }
 
                 @Override // android.transition.Transition.TransitionListener
                 public void onTransitionEnd(Transition transition) {
-                    NotificationCenter.getInstance(i).onAnimationFinish(ActionBarMenuItem.this.notificationIndex);
+                    ActionBarMenuItem.this.notificationsLocker.unlock();
                 }
 
                 @Override // android.transition.Transition.TransitionListener
                 public void onTransitionCancel(Transition transition) {
-                    NotificationCenter.getInstance(i).onAnimationFinish(ActionBarMenuItem.this.notificationIndex);
+                    ActionBarMenuItem.this.notificationsLocker.unlock();
                 }
             });
             TransitionManager.beginDelayedTransition(this.searchFilterLayout, transitionSet);
         }
-        int i2 = 0;
-        while (i2 < this.searchFilterLayout.getChildCount()) {
-            if (!arrayList.remove(((SearchFilterView) this.searchFilterLayout.getChildAt(i2)).getFilter())) {
-                this.searchFilterLayout.removeViewAt(i2);
-                i2--;
+        int i = 0;
+        while (i < this.searchFilterLayout.getChildCount()) {
+            if (!arrayList.remove(((SearchFilterView) this.searchFilterLayout.getChildAt(i)).getFilter())) {
+                this.searchFilterLayout.removeViewAt(i);
+                i--;
             }
-            i2++;
+            i++;
         }
-        for (int i3 = 0; i3 < arrayList.size(); i3++) {
+        for (int i2 = 0; i2 < arrayList.size(); i2++) {
             final SearchFilterView searchFilterView = new SearchFilterView(getContext(), this.resourcesProvider);
-            searchFilterView.setData((FiltersView.MediaFilterData) arrayList.get(i3));
+            searchFilterView.setData((FiltersView.MediaFilterData) arrayList.get(i2));
             searchFilterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda5
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
@@ -1165,10 +1164,10 @@ public class ActionBarMenuItem extends FrameLayout {
             });
             this.searchFilterLayout.addView(searchFilterView, LayoutHelper.createLinear(-2, -1, 0, 0, 0, 6, 0));
         }
-        int i4 = 0;
-        while (i4 < this.searchFilterLayout.getChildCount()) {
-            ((SearchFilterView) this.searchFilterLayout.getChildAt(i4)).setExpanded(i4 == this.selectedFilterIndex);
-            i4++;
+        int i3 = 0;
+        while (i3 < this.searchFilterLayout.getChildCount()) {
+            ((SearchFilterView) this.searchFilterLayout.getChildAt(i3)).setExpanded(i3 == this.selectedFilterIndex);
+            i3++;
         }
         this.searchFilterLayout.setTag(z ? 1 : null);
         final float x = this.searchField.getX();
@@ -2122,9 +2121,7 @@ public class ActionBarMenuItem extends FrameLayout {
     }
 
     private int getThemedColor(int i) {
-        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
-        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
+        return Theme.getColor(i, this.resourcesProvider);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2199,7 +2196,7 @@ public class ActionBarMenuItem extends FrameLayout {
 
         public void setData(FiltersView.MediaFilterData mediaFilterData) {
             this.data = mediaFilterData;
-            this.titleView.setText(mediaFilterData.title);
+            this.titleView.setText(mediaFilterData.getTitle());
             CombinedDrawable createCircleDrawableWithIcon = Theme.createCircleDrawableWithIcon(AndroidUtilities.dp(32.0f), mediaFilterData.iconResFilled);
             this.thumbDrawable = createCircleDrawableWithIcon;
             Theme.setCombinedDrawableColor(createCircleDrawableWithIcon, getThemedColor(Theme.key_avatar_backgroundBlue), false);
@@ -2292,10 +2289,8 @@ public class ActionBarMenuItem extends FrameLayout {
             return this.data;
         }
 
-        private int getThemedColor(int i) {
-            Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-            Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
-            return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
+        protected int getThemedColor(int i) {
+            return Theme.getColor(i, this.resourcesProvider);
         }
     }
 

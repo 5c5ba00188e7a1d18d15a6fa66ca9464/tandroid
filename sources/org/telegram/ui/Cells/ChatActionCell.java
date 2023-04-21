@@ -978,11 +978,6 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         TextPaint textPaint2 = textPaint;
         textPaint2.linkColor = textPaint2.getColor();
         this.textLayout = new StaticLayout(charSequence, textPaint2, dp, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
-        this.spoilersPool.addAll(this.spoilers);
-        this.spoilers.clear();
-        if (charSequence instanceof Spannable) {
-            SpoilerEffect.addSpoilers(this, this.textLayout, (Spannable) charSequence, this.spoilersPool, this.spoilers);
-        }
         this.animatedEmojiStack = AnimatedEmojiSpan.update(0, this, (!this.canDrawInParent || (chatActionCellDelegate = this.delegate) == null || chatActionCellDelegate.canDrawOutboundsContent()) ? false : true, this.animatedEmojiStack, this.textLayout);
         this.textHeight = 0;
         this.textWidth = 0;
@@ -1008,6 +1003,13 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         this.textX = (i - this.textWidth) / 2;
         this.textY = AndroidUtilities.dp(7.0f);
         this.textXLeft = (i - this.textLayout.getWidth()) / 2;
+        this.spoilersPool.addAll(this.spoilers);
+        this.spoilers.clear();
+        if (charSequence instanceof Spannable) {
+            StaticLayout staticLayout = this.textLayout;
+            int i3 = this.textX;
+            SpoilerEffect.addSpoilers(this, staticLayout, i3, i3 + this.textWidth, (Spannable) charSequence, this.spoilersPool, this.spoilers);
+        }
     }
 
     /* JADX WARN: Removed duplicated region for block: B:112:0x00b4  */
@@ -1848,9 +1850,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     }
 
     private int getThemedColor(int i) {
-        ThemeDelegate themeDelegate = this.themeDelegate;
-        Integer valueOf = themeDelegate != null ? Integer.valueOf(themeDelegate.getColor(i)) : null;
-        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
+        return Theme.getColor(i, this.themeDelegate);
     }
 
     private Paint getThemedPaint(String str) {

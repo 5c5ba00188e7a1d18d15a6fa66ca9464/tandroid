@@ -21,6 +21,7 @@ public class ManageChatTextCell extends FrameLayout {
 
     public ManageChatTextCell(Context context) {
         super(context);
+        this.dividerColor = 0;
         SimpleTextView simpleTextView = new SimpleTextView(context);
         this.textView = simpleTextView;
         simpleTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
@@ -113,10 +114,10 @@ public class ManageChatTextCell extends FrameLayout {
     protected void onDraw(Canvas canvas) {
         if (this.divider) {
             int i = this.dividerColor;
-            if (i >= 0) {
+            if (i != 0) {
                 Theme.dividerExtraPaint.setColor(Theme.getColor(i));
             }
-            canvas.drawLine(AndroidUtilities.dp(71.0f), getMeasuredHeight() - 1, getMeasuredWidth(), getMeasuredHeight() - 1, this.dividerColor >= 0 ? Theme.dividerExtraPaint : Theme.dividerPaint);
+            canvas.drawLine(AndroidUtilities.dp(71.0f), getMeasuredHeight() - 1, getMeasuredWidth(), getMeasuredHeight() - 1, this.dividerColor != 0 ? Theme.dividerExtraPaint : Theme.dividerPaint);
         }
     }
 }

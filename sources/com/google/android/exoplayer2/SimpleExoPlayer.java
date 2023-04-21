@@ -69,6 +69,12 @@ public class SimpleExoPlayer extends BasePlayer implements ExoPlayer {
         this.player.addAnalyticsListener(analyticsListener);
     }
 
+    @Override // com.google.android.exoplayer2.ExoPlayer
+    public Format getVideoFormat() {
+        blockUntilConstructorFinished();
+        return this.player.getVideoFormat();
+    }
+
     @Override // com.google.android.exoplayer2.Player
     public void addListener(Player.Listener listener) {
         blockUntilConstructorFinished();

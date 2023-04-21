@@ -40,6 +40,7 @@ import androidx.core.view.NestedScrollingParent;
 import androidx.core.view.NestedScrollingParentHelper;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
@@ -59,7 +60,6 @@ public class BottomSheet extends Dialog {
     private boolean allowCustomAnimation;
     private boolean allowDrawContent;
     protected boolean allowNestedScroll;
-    private int animationIndex;
     private boolean applyBottomPadding;
     private boolean applyTopPadding;
     protected ColorDrawable backDrawable;
@@ -107,6 +107,7 @@ public class BottomSheet extends Dialog {
     protected float navigationBarAlpha;
     protected ValueAnimator navigationBarAnimation;
     protected View nestedScrollChild;
+    private AnimationNotificationsLocker notificationsLocker;
     private DialogInterface.OnClickListener onClickListener;
     private DialogInterface.OnDismissListener onHideListener;
     protected Interpolator openInterpolator;
@@ -1178,10 +1179,8 @@ public class BottomSheet extends Dialog {
             return this.imageView;
         }
 
-        private int getThemedColor(int i) {
-            Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-            Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
-            return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
+        protected int getThemedColor(int i) {
+            return Theme.getColor(i, this.resourcesProvider);
         }
 
         @Override // android.view.View
@@ -1234,6 +1233,7 @@ public class BottomSheet extends Dialog {
         this.navigationBarAlpha = 0.0f;
         this.navBarColorKey = Theme.key_windowBackgroundGray;
         this.pauseAllHeavyOperations = true;
+        this.notificationsLocker = new AnimationNotificationsLocker();
         this.useBackgroundTopPadding = true;
         this.customViewGravity = 51;
         this.resourcesProvider = resourcesProvider;
@@ -1689,8 +1689,7 @@ public class BottomSheet extends Dialog {
         }
         this.currentSheetAnimation.setStartDelay(this.waitingKeyboard ? 0L : 20L);
         this.currentSheetAnimation.setInterpolator(this.openInterpolator);
-        final int i = this.currentAccount;
-        this.animationIndex = NotificationCenter.getInstance(i).setAnimationInProgress(this.animationIndex, null);
+        this.notificationsLocker.lock();
         this.currentSheetAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.BottomSheet.6
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
@@ -1718,7 +1717,7 @@ public class BottomSheet extends Dialog {
                 if (BottomSheet.this.pauseAllHeavyOperations) {
                     NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
                 }
-                NotificationCenter.getInstance(i).onAnimationFinish(BottomSheet.this.animationIndex);
+                BottomSheet.this.notificationsLocker.unlock();
             }
 
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -2189,9 +2188,7 @@ public class BottomSheet extends Dialog {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public int getThemedColor(int i) {
-        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
-        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
+        return Theme.getColor(i, this.resourcesProvider);
     }
 
     public void setOpenNoDelay(boolean z) {

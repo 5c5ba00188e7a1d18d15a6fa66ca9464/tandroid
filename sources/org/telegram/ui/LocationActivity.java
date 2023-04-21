@@ -196,6 +196,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     private boolean firstFocus = true;
     private ArrayList<LiveLocation> markers = new ArrayList<>();
     private LongSparseArray<LiveLocation> markersMap = new LongSparseArray<>();
+    private long selectedMarkerId = -1;
     private ArrayList<VenueLocation> placeMarkers = new ArrayList<>();
     private boolean checkPermission = true;
     private boolean checkBackgroundPermission = true;
@@ -240,7 +241,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         return false;
     }
 
-    static /* synthetic */ float access$3116(LocationActivity locationActivity, float f) {
+    static /* synthetic */ float access$3216(LocationActivity locationActivity, float f) {
         float f2 = locationActivity.yOffset + f;
         locationActivity.yOffset = f2;
         return f2;
@@ -930,6 +931,8 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         RecyclerListView recyclerListView = new RecyclerListView(context);
         this.listView = recyclerListView;
         LocationActivityAdapter locationActivityAdapter2 = new LocationActivityAdapter(context, this.locationType, this.dialogId, false, null) { // from class: org.telegram.ui.LocationActivity.9
+            private boolean firstSet = true;
+
             @Override // org.telegram.ui.Adapters.LocationActivityAdapter
             protected void onDirectionClick() {
                 LocationActivity.this.openDirections(null);
@@ -950,6 +953,10 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                     } else {
                         i13 = 0;
                     }
+                    if (this.firstSet && i13 == 1) {
+                        LocationActivity.this.selectedMarkerId = arrayList.get(0).id;
+                    }
+                    this.firstSet = false;
                     LocationActivity.this.otherItem.setVisibility(i13 != 1 ? 8 : 0);
                 }
                 super.setLiveLocations(arrayList);
@@ -984,7 +991,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             public void onScrolled(RecyclerView recyclerView, int i13, int i14) {
                 LocationActivity.this.updateClipView(false);
                 if (LocationActivity.this.forceUpdate != null) {
-                    LocationActivity.access$3116(LocationActivity.this, i14);
+                    LocationActivity.access$3216(LocationActivity.this, i14);
                 }
             }
         });
@@ -1326,6 +1333,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     public /* synthetic */ void lambda$createView$16(View view, int i) {
         MessageObject messageObject;
         final TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue;
+        this.selectedMarkerId = -1L;
         int i2 = this.locationType;
         if (i2 == 4) {
             if (i != 1 || (tLRPC$TL_messageMediaVenue = (TLRPC$TL_messageMediaVenue) this.adapter.getItem(i)) == null) {
@@ -1421,7 +1429,9 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                 this.delegate.didSelectLocation((TLRPC$TL_messageMediaVenue) item, this.locationType, true, 0);
                 finishFragment();
             } else if (item instanceof LiveLocation) {
-                this.map.animateCamera(ApplicationLoader.getMapsProvider().newCameraUpdateLatLngZoom(((LiveLocation) item).marker.getPosition(), this.map.getMaxZoomLevel() - 4.0f));
+                LiveLocation liveLocation = (LiveLocation) item;
+                this.selectedMarkerId = liveLocation.id;
+                this.map.animateCamera(ApplicationLoader.getMapsProvider().newCameraUpdateLatLngZoom(liveLocation.marker.getPosition(), this.map.getMaxZoomLevel() - 4.0f));
             }
         }
     }
@@ -2078,6 +2088,9 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         } else {
             liveLocation.object = tLRPC$Message;
             liveLocation.marker.setPosition(latLng);
+            if (this.selectedMarkerId == liveLocation.id) {
+                this.map.animateCamera(ApplicationLoader.getMapsProvider().newCameraUpdateLatLng(liveLocation.marker.getPosition()));
+            }
         }
         ProximitySheet proximitySheet = this.proximitySheet;
         if (proximitySheet != null) {
@@ -2217,6 +2230,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         if (i == 1) {
             showSearchPlacesButton(true);
             removeInfoView();
+            this.selectedMarkerId = -1L;
             if (this.scrolling) {
                 return;
             }
@@ -2250,6 +2264,20 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                 imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i), PorterDuff.Mode.MULTIPLY));
                 this.locationButton.setTag(Integer.valueOf(i));
                 this.userLocationMoved = true;
+            }
+            int i2 = 0;
+            while (true) {
+                if (i2 < this.markers.size()) {
+                    LiveLocation liveLocation = this.markers.get(i2);
+                    if (liveLocation != null && liveLocation.marker == iMarker) {
+                        this.selectedMarkerId = liveLocation.id;
+                        this.map.animateCamera(ApplicationLoader.getMapsProvider().newCameraUpdateLatLngZoom(liveLocation.marker.getPosition(), this.map.getMaxZoomLevel() - 4.0f));
+                        break;
+                    }
+                    i2++;
+                } else {
+                    break;
+                }
             }
             this.overlayView.addInfoView(iMarker);
             return true;
@@ -2603,6 +2631,9 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             if (iMarker != null) {
                 iMarker.setPosition(latLng);
             }
+            if (this.selectedMarkerId == liveLocation.id) {
+                this.map.animateCamera(ApplicationLoader.getMapsProvider().newCameraUpdateLatLng(liveLocation.marker.getPosition()));
+            }
         }
         if (this.messageObject == null && this.chatLocation == null && this.map != null) {
             IMapsProvider.LatLng latLng2 = new IMapsProvider.LatLng(location.getLatitude(), location.getLongitude());
@@ -2927,6 +2958,9 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                         TLRPC$GeoPoint tLRPC$GeoPoint = tLRPC$Message.media.geo;
                         IMapsProvider.LatLng latLng = new IMapsProvider.LatLng(tLRPC$GeoPoint.lat, tLRPC$GeoPoint._long);
                         liveLocation.marker.setPosition(latLng);
+                        if (this.selectedMarkerId == liveLocation.id) {
+                            this.map.animateCamera(ApplicationLoader.getMapsProvider().newCameraUpdateLatLng(liveLocation.marker.getPosition()));
+                        }
                         IMapsProvider.IMarker iMarker = liveLocation.directionMarker;
                         if (iMarker != null) {
                             iMarker.getPosition();

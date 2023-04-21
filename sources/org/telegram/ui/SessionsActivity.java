@@ -634,29 +634,41 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public class 5 implements SessionBottomSheet.Callback {
-        /* JADX INFO: Access modifiers changed from: private */
-        public static /* synthetic */ void lambda$onSessionTerminated$0() {
-        }
-
         5() {
         }
 
         @Override // org.telegram.ui.SessionBottomSheet.Callback
-        public void onSessionTerminated(TLRPC$TL_authorization tLRPC$TL_authorization) {
-            SessionsActivity.this.sessions.remove(tLRPC$TL_authorization);
-            SessionsActivity.this.passwordSessions.remove(tLRPC$TL_authorization);
-            SessionsActivity.this.updateRows();
-            if (SessionsActivity.this.listAdapter != null) {
-                SessionsActivity.this.listAdapter.notifyDataSetChanged();
-            }
+        public void onSessionTerminated(final TLRPC$TL_authorization tLRPC$TL_authorization) {
             TLRPC$TL_account_resetAuthorization tLRPC$TL_account_resetAuthorization = new TLRPC$TL_account_resetAuthorization();
             tLRPC$TL_account_resetAuthorization.hash = tLRPC$TL_authorization.hash;
-            ConnectionsManager.getInstance(((BaseFragment) SessionsActivity.this).currentAccount).sendRequest(tLRPC$TL_account_resetAuthorization, SessionsActivity$5$$ExternalSyntheticLambda1.INSTANCE);
+            ConnectionsManager.getInstance(((BaseFragment) SessionsActivity.this).currentAccount).sendRequest(tLRPC$TL_account_resetAuthorization, new RequestDelegate() { // from class: org.telegram.ui.SessionsActivity$5$$ExternalSyntheticLambda1
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    SessionsActivity.5.this.lambda$onSessionTerminated$1(tLRPC$TL_authorization, tLObject, tLRPC$TL_error);
+                }
+            });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public static /* synthetic */ void lambda$onSessionTerminated$1(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(SessionsActivity$5$$ExternalSyntheticLambda0.INSTANCE);
+        public /* synthetic */ void lambda$onSessionTerminated$1(final TLRPC$TL_authorization tLRPC$TL_authorization, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SessionsActivity$5$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    SessionsActivity.5.this.lambda$onSessionTerminated$0(tLRPC$TL_error, tLRPC$TL_authorization);
+                }
+            });
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onSessionTerminated$0(TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_authorization tLRPC$TL_authorization) {
+            if (tLRPC$TL_error == null) {
+                SessionsActivity.this.sessions.remove(tLRPC$TL_authorization);
+                SessionsActivity.this.passwordSessions.remove(tLRPC$TL_authorization);
+                SessionsActivity.this.updateRows();
+                if (SessionsActivity.this.listAdapter != null) {
+                    SessionsActivity.this.listAdapter.notifyDataSetChanged();
+                }
+            }
         }
     }
 

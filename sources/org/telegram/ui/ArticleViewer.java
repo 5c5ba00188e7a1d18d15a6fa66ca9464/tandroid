@@ -90,6 +90,7 @@ import java.util.Locale;
 import java.util.Map;
 import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DownloadController;
@@ -277,7 +278,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     private static Paint webpageSearchPaint;
     private static Paint webpageUrlPaint;
     private WebpageAdapter[] adapter;
-    private int allowAnimationIndex;
     private int anchorsOffsetMeasuredWidth;
     private Runnable animationEndRunnable;
     private int animationInProgress;
@@ -320,6 +320,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     private boolean loadingChannel;
     private ActionBarMenuItem menuButton;
     private FrameLayout menuContainer;
+    private final AnimationNotificationsLocker notificationsLocker;
     private int openUrlReqId;
     private AnimatorSet pageSwitchAnimation;
     private Activity parentActivity;
@@ -415,7 +416,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
     public ArticleViewer() {
         new LinkPath();
-        this.allowAnimationIndex = -1;
+        this.notificationsLocker = new AnimationNotificationsLocker(new int[]{NotificationCenter.dialogsNeedReload, NotificationCenter.closeChats});
         this.selectedFont = 0;
         this.fontCells = new FontCell[2];
         this.searchResults = new ArrayList<>();
@@ -5046,7 +5047,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onAnimationEnd$0() {
-            NotificationCenter.getInstance(ArticleViewer.this.currentAccount).onAnimationFinish(ArticleViewer.this.allowAnimationIndex);
+            ArticleViewer.this.notificationsLocker.unlock();
             if (ArticleViewer.this.animationEndRunnable != null) {
                 ArticleViewer.this.animationEndRunnable.run();
                 ArticleViewer.this.animationEndRunnable = null;
@@ -5056,7 +5057,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$open$33(AnimatorSet animatorSet) {
-        this.allowAnimationIndex = NotificationCenter.getInstance(this.currentAccount).setAnimationInProgress(this.allowAnimationIndex, new int[]{NotificationCenter.dialogsNeedReload, NotificationCenter.closeChats});
+        this.notificationsLocker.lock();
         animatorSet.start();
     }
 
@@ -12130,7 +12131,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 if (createLayoutForText != null) {
                     int dp = AndroidUtilities.dp(16.0f) + this.textLayout.getHeight() + 0;
                     if (this.parentAdapter.isRtl) {
-                        this.textX = (int) Math.floor((size - this.textLayout.getLineWidth(0)) - AndroidUtilities.dp(16.0f));
+                        this.textX = (int) Math.floor(((size - this.textLayout.getLineLeft(0)) - this.textLayout.getLineWidth(0)) - AndroidUtilities.dp(16.0f));
                     } else {
                         this.textX = AndroidUtilities.dp(18.0f);
                     }

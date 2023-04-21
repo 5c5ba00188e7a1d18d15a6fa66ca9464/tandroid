@@ -13,6 +13,7 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.EOFException;
+import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -636,6 +637,15 @@ public class ExifInterface {
             }
             return (i3 == 12 || i2 == 12) && i == 11;
         }
+    }
+
+    public ExifInterface(File file) throws IOException {
+        ExifTag[][] exifTagArr = EXIF_TAGS;
+        this.mAttributes = new HashMap[exifTagArr.length];
+        this.mAttributesOffsets = new HashSet(exifTagArr.length);
+        this.mExifByteOrder = ByteOrder.BIG_ENDIAN;
+        Objects.requireNonNull(file, "file cannot be null");
+        initForFilename(file.getAbsolutePath());
     }
 
     public ExifInterface(String str) throws IOException {

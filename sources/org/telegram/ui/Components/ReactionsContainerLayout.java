@@ -37,6 +37,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DocumentObject;
@@ -123,6 +124,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     private MessageObject messageObject;
     private boolean mirrorX;
     public ReactionHolderView nextRecentReaction;
+    final AnimationNotificationsLocker notificationsLocker;
     private float otherViewsScale;
     ChatScrimPopupContainerLayout parentLayout;
     FrameLayout premiumLockContainer;
@@ -180,6 +182,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         new ArrayList();
         this.lastVisibleViews = new HashSet<>();
         this.lastVisibleViewsTmp = new HashSet<>();
+        this.notificationsLocker = new AnimationNotificationsLocker();
         this.durationScale = Settings.Global.getFloat(context.getContentResolver(), "animator_duration_scale", 1.0f);
         Paint paint = new Paint(1);
         this.selectedPaint = paint;
@@ -1218,18 +1221,26 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     }
 
     public void startEnterAnimation(boolean z) {
+        ObjectAnimator duration;
         this.animatePopup = z;
         setTransitionProgress(0.0f);
         setAlpha(1.0f);
+        this.notificationsLocker.lock();
         if (allowSmoothEnterTransition()) {
-            ObjectAnimator duration = ObjectAnimator.ofFloat(this, TRANSITION_PROGRESS_VALUE, 0.0f, 1.0f).setDuration(250L);
+            duration = ObjectAnimator.ofFloat(this, TRANSITION_PROGRESS_VALUE, 0.0f, 1.0f).setDuration(250L);
             duration.setInterpolator(new OvershootInterpolator(0.5f));
-            duration.start();
-            return;
+        } else {
+            duration = ObjectAnimator.ofFloat(this, TRANSITION_PROGRESS_VALUE, 0.0f, 1.0f).setDuration(250L);
+            duration.setInterpolator(new OvershootInterpolator(0.5f));
         }
-        ObjectAnimator duration2 = ObjectAnimator.ofFloat(this, TRANSITION_PROGRESS_VALUE, 0.0f, 1.0f).setDuration(250L);
-        duration2.setInterpolator(new OvershootInterpolator(0.5f));
-        duration2.start();
+        duration.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ReactionsContainerLayout.8
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                super.onAnimationEnd(animator);
+                ReactionsContainerLayout.this.notificationsLocker.unlock();
+            }
+        });
+        duration.start();
     }
 
     public int getTotalWidth() {
@@ -1779,7 +1790,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             final float f = this.pressedProgress;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             this.cancelPressedAnimation = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ReactionsContainerLayout.8
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ReactionsContainerLayout.9
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public void onAnimationUpdate(ValueAnimator valueAnimator) {
                     ReactionsContainerLayout.this.cancelPressedProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
@@ -1788,7 +1799,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                     ReactionsContainerLayout.this.invalidate();
                 }
             });
-            this.cancelPressedAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ReactionsContainerLayout.9
+            this.cancelPressedAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ReactionsContainerLayout.10
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     super.onAnimationEnd(animator);

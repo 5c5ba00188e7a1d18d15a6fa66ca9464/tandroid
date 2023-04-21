@@ -704,6 +704,12 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
         this.analyticsCollector.addListener((AnalyticsListener) Assertions.checkNotNull(analyticsListener));
     }
 
+    @Override // com.google.android.exoplayer2.ExoPlayer
+    public Format getVideoFormat() {
+        verifyApplicationThread();
+        return this.videoFormat;
+    }
+
     @Override // com.google.android.exoplayer2.Player
     public void addListener(Player.Listener listener) {
         this.listeners.add((Player.Listener) Assertions.checkNotNull(listener));

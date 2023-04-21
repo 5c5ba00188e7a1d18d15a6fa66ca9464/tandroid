@@ -3102,8 +3102,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
         invalidate();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int getThemedColor(int i) {
+    protected int getThemedColor(int i) {
         return Theme.getColor(i);
     }
 }

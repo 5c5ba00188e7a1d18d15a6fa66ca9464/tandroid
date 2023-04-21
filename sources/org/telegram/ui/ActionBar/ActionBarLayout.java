@@ -39,13 +39,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
-import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.ActionBarLayout;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.INavigationLayout;
@@ -71,7 +70,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     private ArrayList<int[]> animateStartColors;
     private boolean animateThemeAfterAnimation;
     protected boolean animationInProgress;
-    int animationIndex;
     private float animationProgress;
     public INavigationLayout.ThemeAnimationSettings.onAnimationProgress animationProgressListener;
     private Runnable animationRunnable;
@@ -101,6 +99,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     public Theme.MessageDrawable messageDrawableOutMediaStart;
     public Theme.MessageDrawable messageDrawableOutStart;
     private BaseFragment newFragment;
+    AnimationNotificationsLocker notificationsLocker;
     private BaseFragment oldFragment;
     private Runnable onCloseAnimationEndRunnable;
     private Runnable onFragmentStackChangedListener;
@@ -544,7 +543,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         this.startColorsProvider = new INavigationLayout.StartColorsProvider();
         this.themeAnimatorDescriptions = new ArrayList<>();
         this.themeAnimatorDelegate = new ArrayList<>();
-        this.animationIndex = -1;
+        this.notificationsLocker = new AnimationNotificationsLocker();
         new Rect();
         this.overrideWidthOffset = -1;
         this.measureSpec = new int[2];
@@ -2401,14 +2400,13 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             if (onanimationprogress != null) {
                 onanimationprogress.setProgress(0.0f);
             }
-            final int i4 = UserConfig.selectedAccount;
-            this.animationIndex = NotificationCenter.getInstance(i4).setAnimationInProgress(this.animationIndex, null);
+            this.notificationsLocker.lock();
             AnimatorSet animatorSet = new AnimatorSet();
             this.themeAnimatorSet = animatorSet;
             animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarLayout.11
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
-                    NotificationCenter.getInstance(i4).onAnimationFinish(ActionBarLayout.this.animationIndex);
+                    ActionBarLayout.this.notificationsLocker.unlock();
                     if (animator.equals(ActionBarLayout.this.themeAnimatorSet)) {
                         ActionBarLayout.this.themeAnimatorDescriptions.clear();
                         ActionBarLayout.this.animateStartColors.clear();

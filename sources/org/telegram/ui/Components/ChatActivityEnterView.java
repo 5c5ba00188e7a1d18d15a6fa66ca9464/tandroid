@@ -90,6 +90,7 @@ import java.util.Locale;
 import java.util.Objects;
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatObject;
@@ -338,7 +339,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     private Drawable micOutline;
     private Runnable moveToSendStateRunnable;
     private boolean needShowTopView;
-    private int notificationsIndex;
+    private AnimationNotificationsLocker notificationsLocker;
     private ImageView notifyButton;
     private CrossOutDrawable notifySilentDrawable;
     private Runnable onEmojiSearchClosed;
@@ -2189,6 +2190,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 }
             }
         };
+        this.notificationsLocker = new AnimationNotificationsLocker();
         this.paint = new Paint(1);
         this.pauseRect = new RectF();
         this.sendRect = new android.graphics.Rect();
@@ -5308,7 +5310,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                         if (valueAnimator2 != null && valueAnimator2.equals(animator)) {
                             ChatActivityEnterView.this.currentTopViewAnimation = null;
                         }
-                        NotificationCenter.getInstance(ChatActivityEnterView.this.currentAccount).onAnimationFinish(ChatActivityEnterView.this.notificationsIndex);
+                        ChatActivityEnterView.this.notificationsLocker.unlock();
                         if (ChatActivityEnterView.this.parentFragment == null || ChatActivityEnterView.this.parentFragment.mentionContainer == null) {
                             return;
                         }
@@ -5318,7 +5320,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 this.currentTopViewAnimation.setDuration(270L);
                 this.currentTopViewAnimation.setInterpolator(ChatListItemAnimator.DEFAULT_INTERPOLATOR);
                 this.currentTopViewAnimation.start();
-                this.notificationsIndex = NotificationCenter.getInstance(this.currentAccount).setAnimationInProgress(this.notificationsIndex, null);
+                this.notificationsLocker.lock();
             } else {
                 this.topViewEnterProgress = 1.0f;
                 this.topView.setTranslationY(0.0f);
@@ -5755,47 +5757,47 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
     public void setDialogId(long j, int i) {
         this.dialog_id = j;
-        int i2 = this.currentAccount;
-        if (i2 != i) {
-            NotificationCenter.getInstance(i2).onAnimationFinish(this.notificationsIndex);
+        if (this.currentAccount != i) {
+            this.notificationsLocker.unlock();
             NotificationCenter notificationCenter = NotificationCenter.getInstance(this.currentAccount);
-            int i3 = NotificationCenter.recordStarted;
-            notificationCenter.removeObserver(this, i3);
+            int i2 = NotificationCenter.recordStarted;
+            notificationCenter.removeObserver(this, i2);
             NotificationCenter notificationCenter2 = NotificationCenter.getInstance(this.currentAccount);
-            int i4 = NotificationCenter.recordStartError;
-            notificationCenter2.removeObserver(this, i4);
+            int i3 = NotificationCenter.recordStartError;
+            notificationCenter2.removeObserver(this, i3);
             NotificationCenter notificationCenter3 = NotificationCenter.getInstance(this.currentAccount);
-            int i5 = NotificationCenter.recordStopped;
-            notificationCenter3.removeObserver(this, i5);
+            int i4 = NotificationCenter.recordStopped;
+            notificationCenter3.removeObserver(this, i4);
             NotificationCenter notificationCenter4 = NotificationCenter.getInstance(this.currentAccount);
-            int i6 = NotificationCenter.recordProgressChanged;
-            notificationCenter4.removeObserver(this, i6);
+            int i5 = NotificationCenter.recordProgressChanged;
+            notificationCenter4.removeObserver(this, i5);
             NotificationCenter notificationCenter5 = NotificationCenter.getInstance(this.currentAccount);
-            int i7 = NotificationCenter.closeChats;
-            notificationCenter5.removeObserver(this, i7);
+            int i6 = NotificationCenter.closeChats;
+            notificationCenter5.removeObserver(this, i6);
             NotificationCenter notificationCenter6 = NotificationCenter.getInstance(this.currentAccount);
-            int i8 = NotificationCenter.audioDidSent;
-            notificationCenter6.removeObserver(this, i8);
+            int i7 = NotificationCenter.audioDidSent;
+            notificationCenter6.removeObserver(this, i7);
             NotificationCenter notificationCenter7 = NotificationCenter.getInstance(this.currentAccount);
-            int i9 = NotificationCenter.audioRouteChanged;
-            notificationCenter7.removeObserver(this, i9);
+            int i8 = NotificationCenter.audioRouteChanged;
+            notificationCenter7.removeObserver(this, i8);
             NotificationCenter notificationCenter8 = NotificationCenter.getInstance(this.currentAccount);
-            int i10 = NotificationCenter.messagePlayingDidReset;
-            notificationCenter8.removeObserver(this, i10);
+            int i9 = NotificationCenter.messagePlayingDidReset;
+            notificationCenter8.removeObserver(this, i9);
             NotificationCenter notificationCenter9 = NotificationCenter.getInstance(this.currentAccount);
-            int i11 = NotificationCenter.messagePlayingProgressDidChanged;
-            notificationCenter9.removeObserver(this, i11);
+            int i10 = NotificationCenter.messagePlayingProgressDidChanged;
+            notificationCenter9.removeObserver(this, i10);
             NotificationCenter notificationCenter10 = NotificationCenter.getInstance(this.currentAccount);
-            int i12 = NotificationCenter.featuredStickersDidLoad;
-            notificationCenter10.removeObserver(this, i12);
+            int i11 = NotificationCenter.featuredStickersDidLoad;
+            notificationCenter10.removeObserver(this, i11);
             NotificationCenter notificationCenter11 = NotificationCenter.getInstance(this.currentAccount);
-            int i13 = NotificationCenter.messageReceivedByServer;
-            notificationCenter11.removeObserver(this, i13);
+            int i12 = NotificationCenter.messageReceivedByServer;
+            notificationCenter11.removeObserver(this, i12);
             NotificationCenter notificationCenter12 = NotificationCenter.getInstance(this.currentAccount);
-            int i14 = NotificationCenter.sendingMessagesChanged;
-            notificationCenter12.removeObserver(this, i14);
+            int i13 = NotificationCenter.sendingMessagesChanged;
+            notificationCenter12.removeObserver(this, i13);
             this.currentAccount = i;
             this.accountInstance = AccountInstance.getInstance(i);
+            NotificationCenter.getInstance(this.currentAccount).addObserver(this, i2);
             NotificationCenter.getInstance(this.currentAccount).addObserver(this, i3);
             NotificationCenter.getInstance(this.currentAccount).addObserver(this, i4);
             NotificationCenter.getInstance(this.currentAccount).addObserver(this, i5);
@@ -5807,7 +5809,6 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             NotificationCenter.getInstance(this.currentAccount).addObserver(this, i11);
             NotificationCenter.getInstance(this.currentAccount).addObserver(this, i12);
             NotificationCenter.getInstance(this.currentAccount).addObserver(this, i13);
-            NotificationCenter.getInstance(this.currentAccount).addObserver(this, i14);
         }
         boolean z = true;
         this.sendPlainEnabled = true;
@@ -10162,12 +10163,12 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         BotKeyboardView botKeyboardView;
         EmojiView emojiView;
         int i3;
-        View view;
         int i4;
         SizeNotifierFrameLayout sizeNotifierFrameLayout;
         if (i == 2) {
             return;
         }
+        View view = null;
         if (i == 1) {
             if (i2 == 0) {
                 if (this.parentActivity == null && this.emojiView == null) {
@@ -10218,7 +10219,6 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 view = view2;
             } else {
                 i3 = 0;
-                view = null;
             }
             this.currentPopupContentType = i2;
             if (this.keyboardHeight <= 0) {
@@ -10269,12 +10269,12 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                             if (ChatActivityEnterView.this.delegate != null) {
                                 ChatActivityEnterView.this.delegate.bottomPanelTranslationYChanged(0.0f);
                             }
-                            NotificationCenter.getInstance(ChatActivityEnterView.this.currentAccount).onAnimationFinish(ChatActivityEnterView.this.notificationsIndex);
+                            ChatActivityEnterView.this.notificationsLocker.unlock();
                             ChatActivityEnterView.this.requestLayout();
                         }
                     });
                     AndroidUtilities.runOnUIThread(this.runEmojiPanelAnimation, 50L);
-                    this.notificationsIndex = NotificationCenter.getInstance(this.currentAccount).setAnimationInProgress(this.notificationsIndex, null);
+                    this.notificationsLocker.lock();
                     requestLayout();
                 }
             }
@@ -10318,11 +10318,11 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                                 if (ChatActivityEnterView.this.delegate != null) {
                                     ChatActivityEnterView.this.delegate.bottomPanelTranslationYChanged(0.0f);
                                 }
-                                NotificationCenter.getInstance(ChatActivityEnterView.this.currentAccount).onAnimationFinish(ChatActivityEnterView.this.notificationsIndex);
+                                ChatActivityEnterView.this.notificationsLocker.unlock();
                                 ChatActivityEnterView.this.requestLayout();
                             }
                         });
-                        this.notificationsIndex = NotificationCenter.getInstance(this.currentAccount).setAnimationInProgress(this.notificationsIndex, null);
+                        this.notificationsLocker.lock();
                         AndroidUtilities.runOnUIThread(this.runEmojiPanelAnimation, 50L);
                         requestLayout();
                     } else {
@@ -10371,14 +10371,14 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                                 ChatActivityEnterView.this.panelAnimation = null;
                                 ChatActivityEnterView.this.botKeyboardView.setTranslationY(0.0f);
                                 ChatActivityEnterView.this.botKeyboardView.setVisibility(8);
-                                NotificationCenter.getInstance(ChatActivityEnterView.this.currentAccount).onAnimationFinish(ChatActivityEnterView.this.notificationsIndex);
+                                ChatActivityEnterView.this.notificationsLocker.unlock();
                                 if (ChatActivityEnterView.this.delegate != null) {
                                     ChatActivityEnterView.this.delegate.bottomPanelTranslationYChanged(0.0f);
                                 }
                                 ChatActivityEnterView.this.requestLayout();
                             }
                         });
-                        this.notificationsIndex = NotificationCenter.getInstance(this.currentAccount).setAnimationInProgress(this.notificationsIndex, null);
+                        this.notificationsLocker.lock();
                         AndroidUtilities.runOnUIThread(this.runEmojiPanelAnimation, 50L);
                         requestLayout();
                     } else if (!this.waitingForKeyboardOpen) {
@@ -10665,7 +10665,6 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         EditTextCaption editTextCaption;
         TLRPC$TL_replyKeyboardMarkup tLRPC$TL_replyKeyboardMarkup;
         boolean z2;
-        View view;
         if (this.searchingType != 0) {
             this.lastSizeChangeValue1 = i;
             this.lastSizeChangeValue2 = z;
@@ -10690,11 +10689,12 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             if (this.currentPopupContentType == 1 && !this.botKeyboardView.isFullSize()) {
                 i2 = Math.min(this.botKeyboardView.getKeyboardHeight(), i2);
             }
+            View view = null;
             int i3 = this.currentPopupContentType;
             if (i3 == 0) {
                 view = this.emojiView;
-            } else {
-                view = i3 == 1 ? this.botKeyboardView : null;
+            } else if (i3 == 1) {
+                view = this.botKeyboardView;
             }
             BotKeyboardView botKeyboardView = this.botKeyboardView;
             if (botKeyboardView != null) {
@@ -10733,11 +10733,11 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                                             ChatActivityEnterView.this.delegate.bottomPanelTranslationYChanged(0.0f);
                                         }
                                         ChatActivityEnterView.this.requestLayout();
-                                        NotificationCenter.getInstance(ChatActivityEnterView.this.currentAccount).onAnimationFinish(ChatActivityEnterView.this.notificationsIndex);
+                                        ChatActivityEnterView.this.notificationsLocker.unlock();
                                     }
                                 });
                                 AndroidUtilities.runOnUIThread(this.runEmojiPanelAnimation, 50L);
-                                this.notificationsIndex = NotificationCenter.getInstance(this.currentAccount).setAnimationInProgress(this.notificationsIndex, null);
+                                this.notificationsLocker.lock();
                                 requestLayout();
                             }
                         }
@@ -11240,12 +11240,12 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                         public void onAnimationEnd(Animator animator2) {
                             ChatActivityEnterView.this.stickersExpansionAnim = null;
                             ChatActivityEnterView.this.emojiView.setLayerType(0, null);
-                            NotificationCenter.getInstance(ChatActivityEnterView.this.currentAccount).onAnimationFinish(ChatActivityEnterView.this.notificationsIndex);
+                            ChatActivityEnterView.this.notificationsLocker.unlock();
                         }
                     });
                     this.stickersExpansionAnim = animatorSet;
                     this.emojiView.setLayerType(2, null);
-                    this.notificationsIndex = NotificationCenter.getInstance(this.currentAccount).setAnimationInProgress(this.notificationsIndex, null);
+                    this.notificationsLocker.lock();
                     this.stickersExpansionProgress = 0.0f;
                     this.sizeNotifierLayout.invalidate();
                     animatorSet.start();
@@ -11297,14 +11297,14 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                                 ChatActivityEnterView.this.onEmojiSearchClosed.run();
                                 ChatActivityEnterView.this.onEmojiSearchClosed = null;
                             }
-                            NotificationCenter.getInstance(ChatActivityEnterView.this.currentAccount).onAnimationFinish(ChatActivityEnterView.this.notificationsIndex);
+                            ChatActivityEnterView.this.notificationsLocker.unlock();
                         }
                     });
                     this.stickersExpansionProgress = 1.0f;
                     this.sizeNotifierLayout.invalidate();
                     this.stickersExpansionAnim = animatorSet2;
                     this.emojiView.setLayerType(2, null);
-                    this.notificationsIndex = NotificationCenter.getInstance(this.currentAccount).setAnimationInProgress(this.notificationsIndex, null);
+                    this.notificationsLocker.lock();
                     animatorSet2.start();
                 } else {
                     this.stickersExpansionProgress = 0.0f;
@@ -12047,8 +12047,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
     public int getThemedColor(int i) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
-        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
+        if (resourcesProvider != null) {
+            return resourcesProvider.getColor(i);
+        }
+        return Theme.getColor(i);
     }
 
     private Paint getThemedPaint(String str) {

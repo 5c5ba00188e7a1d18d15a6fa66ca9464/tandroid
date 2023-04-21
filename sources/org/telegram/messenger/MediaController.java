@@ -37,6 +37,7 @@ import android.provider.MediaStore;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.util.SparseArray;
 import android.view.TextureView;
 import android.view.View;
@@ -565,6 +566,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         public boolean hasSpoiler;
         public int height;
         public int imageId;
+        public int invert;
         public boolean isAttachSpoilerRevealed;
         public boolean isChatPreviewSpoilerRevealed;
         public boolean isMuted;
@@ -588,6 +590,18 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 this.orientation = i3;
             }
             this.isVideo = z;
+        }
+
+        public PhotoEntry setOrientation(Pair<Integer, Integer> pair) {
+            this.orientation = ((Integer) pair.first).intValue();
+            this.invert = ((Integer) pair.second).intValue();
+            return this;
+        }
+
+        public PhotoEntry setOrientation(int i, int i2) {
+            this.orientation = i;
+            this.invert = i2;
+            return this;
         }
 
         @Override // org.telegram.messenger.MediaController.MediaEditState
@@ -2155,13 +2169,15 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         this.sensorManager.registerListener(this, this.proximitySensor, 3);
     }
 
-    public void stopRaiseToEarSensors(ChatActivity chatActivity, boolean z) {
+    public void stopRaiseToEarSensors(ChatActivity chatActivity, boolean z, boolean z2) {
         PowerManager.WakeLock wakeLock;
         if (this.ignoreOnPause) {
             this.ignoreOnPause = false;
             return;
         }
-        stopRecording(z ? 2 : 0, false, 0);
+        if (z2) {
+            stopRecording(z ? 2 : 0, false, 0);
+        }
         if (!this.sensorsStarted || this.ignoreOnPause) {
             return;
         }
@@ -2286,7 +2302,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         this.isPaused = false;
         if (!this.useFrontSpeaker && !SharedConfig.enabledRaiseTo(true)) {
             ChatActivity chatActivity = this.raiseChat;
-            stopRaiseToEarSensors(chatActivity, false);
+            stopRaiseToEarSensors(chatActivity, false, false);
             this.raiseChat = chatActivity;
         }
         PowerManager.WakeLock wakeLock = this.proximityWakeLock;

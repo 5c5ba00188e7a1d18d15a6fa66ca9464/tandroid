@@ -1256,9 +1256,7 @@ public final class FloatingToolbar {
 
     /* JADX INFO: Access modifiers changed from: private */
     public int getThemedColor(int i) {
-        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
-        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
+        return Theme.getColor(i, this.resourcesProvider);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

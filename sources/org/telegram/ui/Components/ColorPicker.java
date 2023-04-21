@@ -678,11 +678,7 @@ public class ColorPicker extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public int getThemedColor(int i) {
-        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        if (resourcesProvider != null) {
-            return resourcesProvider.getColor(i);
-        }
-        return Theme.getColor(i);
+        return Theme.getColor(i, this.resourcesProvider);
     }
 
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View

@@ -29,9 +29,9 @@ import android.view.animation.LinearInterpolator;
 import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.ChatListItemAnimator;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.MessageObject;
-import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC$MessageMedia;
@@ -50,7 +50,6 @@ import org.telegram.ui.MessageEnterTransitionContainer;
 /* loaded from: classes3.dex */
 public class TextMessageEnterTransition implements MessageEnterTransitionContainer.Transition {
     private AnimatedEmojiSpan.EmojiGroupedSpans animatedEmojiStack;
-    private int animationIndex;
     private ValueAnimator animator;
     boolean changeColor;
     private ChatActivity chatActivity;
@@ -98,7 +97,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
     float toXOffsetRtl;
     Paint bitmapPaint = new Paint(1);
     boolean initBitmaps = false;
-    private final int currentAccount = UserConfig.selectedAccount;
+    private AnimationNotificationsLocker notificationsLocker = new AnimationNotificationsLocker();
 
     @SuppressLint({"WrongConstant"})
     public TextMessageEnterTransition(final ChatMessageCell chatMessageCell, final ChatActivity chatActivity, RecyclerListView recyclerListView, final MessageEnterTransitionContainer messageEnterTransitionContainer, Theme.ResourcesProvider resourcesProvider) {
@@ -108,8 +107,8 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         Theme.MessageDrawable currentBackgroundDrawable;
         Object[] spans;
         this.drawBitmaps = false;
-        this.animationIndex = -1;
         this.resourcesProvider = resourcesProvider;
+        int i4 = UserConfig.selectedAccount;
         if (chatMessageCell.getMessageObject().textLayoutBlocks == null || chatMessageCell.getMessageObject().textLayoutBlocks.size() > 1 || chatMessageCell.getMessageObject().textLayoutBlocks.isEmpty() || chatMessageCell.getMessageObject().textLayoutBlocks.get(0).textLayout.getLineCount() > 10) {
             return;
         }
@@ -218,8 +217,8 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         this.fromStartY = ((AndroidUtilities.dp(10.0f) + y) - chatActivityEnterView.getEditField().getScrollY()) + i;
         this.toXOffset = 0.0f;
         float f = Float.MAX_VALUE;
-        for (int i4 = 0; i4 < this.layout.getLineCount(); i4++) {
-            float lineLeft = this.layout.getLineLeft(i4);
+        for (int i5 = 0; i5 < this.layout.getLineCount(); i5++) {
+            float lineLeft = this.layout.getLineLeft(i5);
             if (lineLeft < f) {
                 f = lineLeft;
             }
@@ -236,31 +235,31 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         MessageObject.TextLayoutBlock textLayoutBlock = chatMessageCell.getMessageObject().textLayoutBlocks.get(0);
         this.textLayoutBlock = textLayoutBlock;
         StaticLayout staticLayout = textLayoutBlock.textLayout;
-        int i5 = Theme.key_chat_messageTextOut;
-        double calculateLuminance = ColorUtils.calculateLuminance(getThemedColor(i5));
-        int i6 = Theme.key_chat_messagePanelText;
-        if (Math.abs(calculateLuminance - ColorUtils.calculateLuminance(getThemedColor(i6))) > 0.20000000298023224d) {
+        int i6 = Theme.key_chat_messageTextOut;
+        double calculateLuminance = ColorUtils.calculateLuminance(getThemedColor(i6));
+        int i7 = Theme.key_chat_messagePanelText;
+        if (Math.abs(calculateLuminance - ColorUtils.calculateLuminance(getThemedColor(i7))) > 0.20000000298023224d) {
             this.crossfade = true;
             this.changeColor = true;
         }
-        this.fromColor = getThemedColor(i6);
-        this.toColor = getThemedColor(i5);
+        this.fromColor = getThemedColor(i7);
+        this.toColor = getThemedColor(i6);
         if (staticLayout.getLineCount() == this.layout.getLineCount()) {
             lineCount = staticLayout.getLineCount();
-            int i7 = 0;
+            int i8 = 0;
             i2 = 0;
             i3 = 0;
             while (true) {
-                if (i7 < lineCount) {
-                    if (isRtlLine(this.layout, i7)) {
+                if (i8 < lineCount) {
+                    if (isRtlLine(this.layout, i8)) {
                         i3++;
                     } else {
                         i2++;
                     }
-                    if (staticLayout.getLineEnd(i7) != this.layout.getLineEnd(i7)) {
+                    if (staticLayout.getLineEnd(i8) != this.layout.getLineEnd(i8)) {
                         this.crossfade = true;
                     } else {
-                        i7++;
+                        i8++;
                     }
                 }
             }
@@ -273,13 +272,13 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
             SpannableString spannableString = new SpannableString(charSequence);
             SpannableString spannableString2 = new SpannableString(charSequence);
             float f2 = Float.MAX_VALUE;
-            for (int i8 = 0; i8 < lineCount; i8++) {
-                if (isRtlLine(this.layout, i8)) {
-                    spannableString.setSpan(new EmptyStubSpan(), this.layout.getLineStart(i8), this.layout.getLineEnd(i8), 0);
-                    float lineLeft2 = this.layout.getLineLeft(i8);
+            for (int i9 = 0; i9 < lineCount; i9++) {
+                if (isRtlLine(this.layout, i9)) {
+                    spannableString.setSpan(new EmptyStubSpan(), this.layout.getLineStart(i9), this.layout.getLineEnd(i9), 0);
+                    float lineLeft2 = this.layout.getLineLeft(i9);
                     f2 = lineLeft2 < f2 ? lineLeft2 : f2;
                 } else {
-                    spannableString2.setSpan(new EmptyStubSpan(), this.layout.getLineStart(i8), this.layout.getLineEnd(i8), 0);
+                    spannableString2.setSpan(new EmptyStubSpan(), this.layout.getLineStart(i9), this.layout.getLineEnd(i9), 0);
                 }
             }
             if (Build.VERSION.SDK_INT >= 24) {
@@ -357,11 +356,11 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         this.animator.setInterpolator(new LinearInterpolator());
         this.animator.setDuration(250L);
         messageEnterTransitionContainer.addTransition(this);
-        this.animationIndex = NotificationCenter.getInstance(this.currentAccount).setAnimationInProgress(this.animationIndex, null);
+        this.notificationsLocker.lock();
         this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.TextMessageEnterTransition.1
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
-                NotificationCenter.getInstance(TextMessageEnterTransition.this.currentAccount).onAnimationFinish(TextMessageEnterTransition.this.animationIndex);
+                TextMessageEnterTransition.this.notificationsLocker.unlock();
                 messageEnterTransitionContainer.removeTransition(TextMessageEnterTransition.this);
                 chatMessageCell.setEnterTransitionInProgress(false);
                 chatMessageCell.getTransitionParams().lastDrawingBackgroundRect.set(chatMessageCell.getBackgroundDrawableLeft(), chatMessageCell.getBackgroundDrawableTop(), chatMessageCell.getBackgroundDrawableRight(), chatMessageCell.getBackgroundDrawableBottom());
@@ -820,8 +819,6 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
     }
 
     private int getThemedColor(int i) {
-        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
-        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
+        return Theme.getColor(i, this.resourcesProvider);
     }
 }

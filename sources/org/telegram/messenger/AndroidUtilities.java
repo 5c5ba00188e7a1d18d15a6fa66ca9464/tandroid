@@ -62,6 +62,7 @@ import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
 import android.util.DisplayMetrics;
+import android.util.Pair;
 import android.util.StateSet;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -96,10 +97,12 @@ import androidx.core.math.MathUtils;
 import androidx.dynamicanimation.animation.DynamicAnimation;
 import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
+import androidx.exifinterface.media.ExifInterface;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import com.android.internal.telephony.ITelephony;
+import com.google.android.exoplayer2.util.Consumer;
 import com.google.android.gms.auth.api.phone.SmsRetriever;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -3607,7 +3610,7 @@ public class AndroidUtilities {
         return tLRPC$TL_chatBannedRights == null || Math.abs(((long) tLRPC$TL_chatBannedRights.until_date) - (System.currentTimeMillis() / 1000)) > 157680000;
     }
 
-    public static void setRectToRect(Matrix matrix, RectF rectF, RectF rectF2, int i, boolean z) {
+    public static void setRectToRect(Matrix matrix, RectF rectF, RectF rectF2, int i, int i2, boolean z) {
         float height;
         float width;
         float height2;
@@ -3637,12 +3640,27 @@ public class AndroidUtilities {
         }
         if (i == 90) {
             matrix.preRotate(90.0f);
+            if (i2 == 1) {
+                matrix.preScale(-1.0f, 1.0f);
+            } else if (i2 == 2) {
+                matrix.preScale(1.0f, -1.0f);
+            }
             matrix.preTranslate(0.0f, -rectF2.width());
         } else if (i == 180) {
             matrix.preRotate(180.0f);
+            if (i2 == 1) {
+                matrix.preScale(-1.0f, 1.0f);
+            } else if (i2 == 2) {
+                matrix.preScale(1.0f, -1.0f);
+            }
             matrix.preTranslate(-rectF2.width(), -rectF2.height());
         } else if (i == 270) {
             matrix.preRotate(270.0f);
+            if (i2 == 1) {
+                matrix.preScale(-1.0f, 1.0f);
+            } else if (i2 == 2) {
+                matrix.preScale(1.0f, -1.0f);
+            }
             matrix.preTranslate(-rectF2.height(), 0.0f);
         }
         if (z) {
@@ -5131,5 +5149,87 @@ public class AndroidUtilities {
             return (activity.isDestroyed() || activity.isFinishing()) ? false : true;
         }
         return !activity.isFinishing();
+    }
+
+    public static Pair<Integer, Integer> getImageOrientation(InputStream inputStream) {
+        try {
+            return getImageOrientation(new ExifInterface(inputStream));
+        } catch (Exception e) {
+            FileLog.e(e);
+            return new Pair<>(0, 0);
+        }
+    }
+
+    public static Pair<Integer, Integer> getImageOrientation(File file) {
+        try {
+            return getImageOrientation(new ExifInterface(file));
+        } catch (Exception e) {
+            FileLog.e(e);
+            return new Pair<>(0, 0);
+        }
+    }
+
+    public static Pair<Integer, Integer> getImageOrientation(String str) {
+        try {
+            return getImageOrientation(new ExifInterface(str));
+        } catch (Exception unused) {
+            return new Pair<>(0, 0);
+        }
+    }
+
+    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
+    public static Pair<Integer, Integer> getImageOrientation(ExifInterface exifInterface) {
+        try {
+            int i = 1;
+            int i2 = 270;
+            switch (exifInterface.getAttributeInt("Orientation", 1)) {
+                case 2:
+                    i2 = 0;
+                    break;
+                case 3:
+                    i2 = 180;
+                    i = 0;
+                    break;
+                case 4:
+                    i = 2;
+                    i2 = 0;
+                    break;
+                case 5:
+                    i = 2;
+                    break;
+                case 6:
+                    i2 = 90;
+                    i = 0;
+                    break;
+                case 7:
+                    break;
+                case 8:
+                    i = 0;
+                    break;
+                default:
+                    i = 0;
+                    i2 = 0;
+                    break;
+            }
+            return new Pair<>(Integer.valueOf(i2), Integer.valueOf(i));
+        } catch (Exception e) {
+            FileLog.e(e);
+            return new Pair<>(0, 0);
+        }
+    }
+
+    public static void forEachViews(RecyclerView recyclerView, Consumer<View> consumer) {
+        for (int i = 0; i < recyclerView.getChildCount(); i++) {
+            consumer.accept(recyclerView.getChildAt(i));
+        }
+        for (int i2 = 0; i2 < recyclerView.getCachedChildCount(); i2++) {
+            consumer.accept(recyclerView.getCachedChildAt(i2));
+        }
+        for (int i3 = 0; i3 < recyclerView.getHiddenChildCount(); i3++) {
+            consumer.accept(recyclerView.getHiddenChildAt(i3));
+        }
+        for (int i4 = 0; i4 < recyclerView.getAttachedScrapChildCount(); i4++) {
+            consumer.accept(recyclerView.getAttachedScrapChildAt(i4));
+        }
     }
 }

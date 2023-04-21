@@ -144,7 +144,6 @@ public class PollEditTextCell extends FrameLayout {
         this.textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         this.textView.setHintTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
         this.textView.setTextSize(1, 16.0f);
-        this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         this.textView.setBackgroundDrawable(null);
         EditTextBoldCursor editTextBoldCursor = this.textView;
         editTextBoldCursor.setImeOptions(editTextBoldCursor.getImeOptions() | 268435456);

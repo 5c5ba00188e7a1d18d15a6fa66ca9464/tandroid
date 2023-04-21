@@ -555,8 +555,11 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         super.dismiss();
         this.chatActivity.forceDisallowApplyWallpeper = false;
         if (!this.isApplyClicked) {
-            ChatActivity.ThemeDelegate themeDelegate = this.themeDelegate;
-            themeDelegate.setCurrentTheme(this.originalTheme, themeDelegate.getCurrentWallpaper(), true, Boolean.valueOf(this.originalIsDark));
+            TLRPC$WallPaper currentWallpaper = this.themeDelegate.getCurrentWallpaper();
+            if (currentWallpaper == null) {
+                currentWallpaper = this.currentWallpaper;
+            }
+            this.themeDelegate.setCurrentTheme(this.originalTheme, currentWallpaper, true, Boolean.valueOf(this.originalIsDark));
         }
         if (this.forceDark != this.originalIsDark) {
             if (Theme.getActiveTheme().isDark() == this.originalIsDark) {
@@ -1042,7 +1045,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         }
 
         /* JADX WARN: Type inference failed for: r4v23 */
-        /* JADX WARN: Type inference failed for: r4v5, types: [int, boolean] */
+        /* JADX WARN: Type inference failed for: r4v5, types: [boolean, int] */
         /* JADX WARN: Type inference failed for: r4v8 */
         private boolean parseTheme(final Theme.ThemeInfo themeInfo) {
             int stringKeyToInt;

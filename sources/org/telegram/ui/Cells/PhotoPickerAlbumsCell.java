@@ -141,13 +141,15 @@ public class PhotoPickerAlbumsCell extends FrameLayout {
             if (photoEntry == null || photoEntry.path == null) {
                 albumView.imageView.setImageDrawable(Theme.chat_attachEmptyDrawable);
             } else {
-                albumView.imageView.setOrientation(albumEntry.coverPhoto.orientation, true);
+                BackupImageView backupImageView = albumView.imageView;
+                MediaController.PhotoEntry photoEntry2 = albumEntry.coverPhoto;
+                backupImageView.setOrientation(photoEntry2.orientation, photoEntry2.invert, true);
                 if (albumEntry.coverPhoto.isVideo) {
-                    BackupImageView backupImageView = albumView.imageView;
-                    backupImageView.setImage("vthumb://" + albumEntry.coverPhoto.imageId + ":" + albumEntry.coverPhoto.path, null, Theme.chat_attachEmptyDrawable);
-                } else {
                     BackupImageView backupImageView2 = albumView.imageView;
-                    backupImageView2.setImage("thumb://" + albumEntry.coverPhoto.imageId + ":" + albumEntry.coverPhoto.path, null, Theme.chat_attachEmptyDrawable);
+                    backupImageView2.setImage("vthumb://" + albumEntry.coverPhoto.imageId + ":" + albumEntry.coverPhoto.path, null, Theme.chat_attachEmptyDrawable);
+                } else {
+                    BackupImageView backupImageView3 = albumView.imageView;
+                    backupImageView3.setImage("thumb://" + albumEntry.coverPhoto.imageId + ":" + albumEntry.coverPhoto.path, null, Theme.chat_attachEmptyDrawable);
                 }
             }
             albumView.nameTextView.setText(albumEntry.bucketName);

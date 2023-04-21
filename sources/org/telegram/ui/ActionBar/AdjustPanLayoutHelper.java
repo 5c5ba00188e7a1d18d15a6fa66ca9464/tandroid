@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.UserConfig;
 /* loaded from: classes3.dex */
 public class AdjustPanLayoutHelper {
@@ -40,7 +40,7 @@ public class AdjustPanLayoutHelper {
     boolean isKeyboardVisible;
     protected float keyboardSize;
     private boolean needDelay;
-    int notificationsIndex;
+    AnimationNotificationsLocker notificationsLocker;
     ViewTreeObserver.OnPreDrawListener onPreDrawListener;
     private final View parent;
     View parentForListener;
@@ -99,7 +99,7 @@ public class AdjustPanLayoutHelper {
             });
             this.animator.setDuration(250L);
             this.animator.setInterpolator(keyboardInterpolator);
-            this.notificationsIndex = NotificationCenter.getInstance(i3).setAnimationInProgress(this.notificationsIndex, null);
+            this.notificationsLocker.lock();
             if (this.needDelay) {
                 this.needDelay = false;
                 this.startAfter = SystemClock.elapsedRealtime() + 100;
@@ -190,7 +190,7 @@ public class AdjustPanLayoutHelper {
         }
         this.animationInProgress = false;
         this.usingInsetAnimator = false;
-        NotificationCenter.getInstance(UserConfig.selectedAccount).onAnimationFinish(this.notificationsIndex);
+        this.notificationsLocker.unlock();
         this.animator = null;
         setViewHeight(-1);
         this.viewsToHeightSet.clear();
@@ -238,6 +238,7 @@ public class AdjustPanLayoutHelper {
         this.previousHeight = -1;
         this.previousContentHeight = -1;
         this.previousStartOffset = -1;
+        this.notificationsLocker = new AnimationNotificationsLocker();
         this.viewsToHeightSet = new ArrayList<>();
         this.onPreDrawListener = new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.ActionBar.AdjustPanLayoutHelper.2
             @Override // android.view.ViewTreeObserver.OnPreDrawListener

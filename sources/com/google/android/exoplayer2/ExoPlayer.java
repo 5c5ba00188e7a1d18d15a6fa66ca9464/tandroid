@@ -39,6 +39,8 @@ public interface ExoPlayer extends Player {
 
     void addAnalyticsListener(AnalyticsListener analyticsListener);
 
+    Format getVideoFormat();
+
     void setAudioAttributes(AudioAttributes audioAttributes, boolean z);
 
     void setMediaSource(MediaSource mediaSource, boolean z);

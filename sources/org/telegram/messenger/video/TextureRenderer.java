@@ -16,8 +16,8 @@ import android.opengl.GLUtils;
 import android.opengl.Matrix;
 import android.os.Build;
 import android.text.SpannableString;
+import android.util.Pair;
 import android.view.View;
-import androidx.exifinterface.media.ExifInterface;
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.nio.Buffer;
@@ -470,11 +470,15 @@ public class TextureRenderer {
         editTextOutline.setBreakStrategy(0);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:124:0x0429, code lost:
-        if (org.telegram.messenger.LocaleController.isRTL != false) goto L83;
+    /* JADX WARN: Code restructure failed: missing block: B:121:0x0430, code lost:
+        if (org.telegram.messenger.LocaleController.isRTL != false) goto L82;
      */
-    /* JADX WARN: Removed duplicated region for block: B:170:0x0209 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x016a  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x04d6 A[Catch: all -> 0x04ed, TRY_LEAVE, TryCatch #0 {all -> 0x04ed, blocks: (B:73:0x0226, B:75:0x025d, B:77:0x026f, B:79:0x0275, B:80:0x029f, B:82:0x02a3, B:83:0x02d6, B:85:0x02da, B:87:0x0327, B:89:0x032b, B:91:0x033e, B:94:0x0355, B:86:0x02e3, B:96:0x0368, B:98:0x038c, B:100:0x0392, B:101:0x0395, B:102:0x03aa, B:104:0x03b0, B:106:0x03ba, B:108:0x03d9, B:107:0x03ca, B:109:0x03f2, B:115:0x041f, B:117:0x0428, B:120:0x042e, B:128:0x043c, B:124:0x0436, B:129:0x043f, B:131:0x0458, B:132:0x045b, B:134:0x0461, B:140:0x04a3, B:142:0x04d6, B:136:0x0476, B:138:0x047a, B:139:0x048c), top: B:149:0x0226 }] */
+    /* JADX WARN: Removed duplicated region for block: B:158:0x04e9 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x01c1  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x01c4  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x01c9  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x01cc  */
     @SuppressLint({"WrongConstant"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -482,26 +486,25 @@ public class TextureRenderer {
     public void surfaceCreated() {
         String str;
         int i;
-        Bitmap decodeFile;
-        float max;
         int i2;
+        float max;
+        int i3;
         AnimatedEmojiSpan animatedEmojiSpan;
         Typeface typeface;
         Bitmap bitmap;
-        int i3 = 0;
+        int i4 = 0;
         while (true) {
             int[] iArr = this.mProgram;
-            if (i3 >= iArr.length) {
+            if (i4 >= iArr.length) {
                 break;
             }
-            iArr[i3] = createProgram(VERTEX_SHADER, i3 == 0 ? FRAGMENT_EXTERNAL_SHADER : FRAGMENT_SHADER);
-            this.maPositionHandle[i3] = GLES20.glGetAttribLocation(this.mProgram[i3], "aPosition");
-            this.maTextureHandle[i3] = GLES20.glGetAttribLocation(this.mProgram[i3], "aTextureCoord");
-            this.muMVPMatrixHandle[i3] = GLES20.glGetUniformLocation(this.mProgram[i3], "uMVPMatrix");
-            this.muSTMatrixHandle[i3] = GLES20.glGetUniformLocation(this.mProgram[i3], "uSTMatrix");
-            i3++;
+            iArr[i4] = createProgram(VERTEX_SHADER, i4 == 0 ? FRAGMENT_EXTERNAL_SHADER : FRAGMENT_SHADER);
+            this.maPositionHandle[i4] = GLES20.glGetAttribLocation(this.mProgram[i4], "aPosition");
+            this.maTextureHandle[i4] = GLES20.glGetAttribLocation(this.mProgram[i4], "aTextureCoord");
+            this.muMVPMatrixHandle[i4] = GLES20.glGetUniformLocation(this.mProgram[i4], "uMVPMatrix");
+            this.muSTMatrixHandle[i4] = GLES20.glGetUniformLocation(this.mProgram[i4], "uSTMatrix");
+            i4++;
         }
-        int i4 = 1;
         int[] iArr2 = new int[1];
         GLES20.glGenTextures(1, iArr2, 0);
         int i5 = iArr2[0];
@@ -541,75 +544,56 @@ public class TextureRenderer {
         }
         String str2 = this.imagePath;
         int i6 = -16777216;
-        int i7 = 3;
         if (str2 != null || this.paintPath != null) {
             int[] iArr4 = new int[(str2 != null ? 1 : 0) + (this.paintPath != null ? 1 : 0)];
             this.paintTexture = iArr4;
             GLES20.glGenTextures(iArr4.length, iArr4, 0);
-            int i8 = 0;
-            while (i8 < this.paintTexture.length) {
+            int i7 = 0;
+            while (i7 < this.paintTexture.length) {
                 try {
-                    if (i8 == 0 && (str = this.imagePath) != null) {
-                        try {
-                            int attributeInt = new ExifInterface(str).getAttributeInt("Orientation", i4);
-                            if (attributeInt == i7) {
-                                i = 180;
-                            } else if (attributeInt == 6) {
-                                i = 90;
-                            } else if (attributeInt == 8) {
-                                i = 270;
-                            }
-                        } catch (Throwable unused) {
-                        }
-                        decodeFile = BitmapFactory.decodeFile(str);
-                        if (decodeFile != null) {
-                            if (i8 == 0 && this.imagePath != null) {
-                                Bitmap createBitmap = Bitmap.createBitmap(this.transformedWidth, this.transformedHeight, Bitmap.Config.ARGB_8888);
-                                createBitmap.eraseColor(i6);
-                                Canvas canvas = new Canvas(createBitmap);
-                                if (i != 90 && i != 270) {
-                                    max = Math.max(decodeFile.getWidth() / this.transformedWidth, decodeFile.getHeight() / this.transformedHeight);
-                                    android.graphics.Matrix matrix = new android.graphics.Matrix();
-                                    matrix.postTranslate((-decodeFile.getWidth()) / 2, (-decodeFile.getHeight()) / 2);
-                                    float f = 1.0f / max;
-                                    matrix.postScale(f, f);
-                                    matrix.postRotate(i);
-                                    matrix.postTranslate(createBitmap.getWidth() / 2, createBitmap.getHeight() / 2);
-                                    canvas.drawBitmap(decodeFile, matrix, new Paint(2));
-                                    decodeFile = createBitmap;
-                                }
-                                max = Math.max(decodeFile.getHeight() / this.transformedWidth, decodeFile.getWidth() / this.transformedHeight);
-                                android.graphics.Matrix matrix2 = new android.graphics.Matrix();
-                                matrix2.postTranslate((-decodeFile.getWidth()) / 2, (-decodeFile.getHeight()) / 2);
-                                float f2 = 1.0f / max;
-                                matrix2.postScale(f2, f2);
-                                matrix2.postRotate(i);
-                                matrix2.postTranslate(createBitmap.getWidth() / 2, createBitmap.getHeight() / 2);
-                                canvas.drawBitmap(decodeFile, matrix2, new Paint(2));
-                                decodeFile = createBitmap;
-                            }
-                            GLES20.glBindTexture(3553, this.paintTexture[i8]);
-                            GLES20.glTexParameteri(3553, 10241, 9729);
-                            GLES20.glTexParameteri(3553, 10240, 9729);
-                            GLES20.glTexParameteri(3553, 10242, 33071);
-                            GLES20.glTexParameteri(3553, 10243, 33071);
-                            GLUtils.texImage2D(3553, 0, decodeFile, 0);
-                        }
-                        i8++;
-                        i4 = 1;
-                        i6 = -16777216;
-                        i7 = 3;
+                    if (i7 == 0 && (str = this.imagePath) != null) {
+                        Pair<Integer, Integer> imageOrientation = AndroidUtilities.getImageOrientation(str);
+                        i = ((Integer) imageOrientation.first).intValue();
+                        i2 = ((Integer) imageOrientation.second).intValue();
                     } else {
                         str = this.paintPath;
+                        i = 0;
+                        i2 = 0;
                     }
-                    i = 0;
-                    decodeFile = BitmapFactory.decodeFile(str);
+                    Bitmap decodeFile = BitmapFactory.decodeFile(str);
                     if (decodeFile != null) {
+                        if (i7 == 0 && this.imagePath != null) {
+                            Bitmap createBitmap = Bitmap.createBitmap(this.transformedWidth, this.transformedHeight, Bitmap.Config.ARGB_8888);
+                            createBitmap.eraseColor(i6);
+                            Canvas canvas = new Canvas(createBitmap);
+                            if (i != 90 && i != 270) {
+                                max = Math.max(decodeFile.getWidth() / this.transformedWidth, decodeFile.getHeight() / this.transformedHeight);
+                                android.graphics.Matrix matrix = new android.graphics.Matrix();
+                                matrix.postTranslate((-decodeFile.getWidth()) / 2, (-decodeFile.getHeight()) / 2);
+                                matrix.postScale((i2 != 1 ? -1.0f : 1.0f) / max, (i2 != 2 ? -1.0f : 1.0f) / max);
+                                matrix.postRotate(i);
+                                matrix.postTranslate(createBitmap.getWidth() / 2, createBitmap.getHeight() / 2);
+                                canvas.drawBitmap(decodeFile, matrix, new Paint(2));
+                                decodeFile = createBitmap;
+                            }
+                            max = Math.max(decodeFile.getHeight() / this.transformedWidth, decodeFile.getWidth() / this.transformedHeight);
+                            android.graphics.Matrix matrix2 = new android.graphics.Matrix();
+                            matrix2.postTranslate((-decodeFile.getWidth()) / 2, (-decodeFile.getHeight()) / 2);
+                            matrix2.postScale((i2 != 1 ? -1.0f : 1.0f) / max, (i2 != 2 ? -1.0f : 1.0f) / max);
+                            matrix2.postRotate(i);
+                            matrix2.postTranslate(createBitmap.getWidth() / 2, createBitmap.getHeight() / 2);
+                            canvas.drawBitmap(decodeFile, matrix2, new Paint(2));
+                            decodeFile = createBitmap;
+                        }
+                        GLES20.glBindTexture(3553, this.paintTexture[i7]);
+                        GLES20.glTexParameteri(3553, 10241, 9729);
+                        GLES20.glTexParameteri(3553, 10240, 9729);
+                        GLES20.glTexParameteri(3553, 10242, 33071);
+                        GLES20.glTexParameteri(3553, 10243, 33071);
+                        GLUtils.texImage2D(3553, 0, decodeFile, 0);
                     }
-                    i8++;
-                    i4 = 1;
+                    i7++;
                     i6 = -16777216;
-                    i7 = 3;
                 } catch (Throwable th) {
                     FileLog.e(th);
                 }
@@ -627,8 +611,8 @@ public class TextureRenderer {
                 GLES20.glTexParameteri(3553, 10242, 33071);
                 GLES20.glTexParameteri(3553, 10243, 33071);
                 int size = this.mediaEntities.size();
-                for (int i9 = 0; i9 < size; i9++) {
-                    VideoEditedInfo.MediaEntity mediaEntity = this.mediaEntities.get(i9);
+                for (int i8 = 0; i8 < size; i8++) {
+                    VideoEditedInfo.MediaEntity mediaEntity = this.mediaEntities.get(i8);
                     byte b = mediaEntity.type;
                     if (b == 0) {
                         byte b2 = mediaEntity.subType;
@@ -659,15 +643,15 @@ public class TextureRenderer {
                             if (mediaEntity.bitmap != null) {
                                 float width = bitmap.getWidth() / mediaEntity.bitmap.getHeight();
                                 if (width > 1.0f) {
-                                    float f3 = mediaEntity.height;
-                                    float f4 = f3 / width;
-                                    mediaEntity.y += (f3 - f4) / 2.0f;
-                                    mediaEntity.height = f4;
+                                    float f = mediaEntity.height;
+                                    float f2 = f / width;
+                                    mediaEntity.y += (f - f2) / 2.0f;
+                                    mediaEntity.height = f2;
                                 } else if (width < 1.0f) {
-                                    float f5 = mediaEntity.width;
-                                    float f6 = width * f5;
-                                    mediaEntity.x += (f5 - f6) / 2.0f;
-                                    mediaEntity.width = f6;
+                                    float f3 = mediaEntity.width;
+                                    float f4 = width * f3;
+                                    mediaEntity.x += (f3 - f4) / 2.0f;
+                                    mediaEntity.width = f4;
                                 }
                             }
                         }
@@ -698,32 +682,32 @@ public class TextureRenderer {
                             }
                             animatedEmojiSpan.cacheType = 12;
                             animatedEmojiSpan.documentAbsolutePath = next.documentAbsolutePath;
-                            int i10 = next.offset;
-                            spannableString.setSpan(animatedEmojiSpan, i10, next.length + i10, 33);
+                            int i9 = next.offset;
+                            spannableString.setSpan(animatedEmojiSpan, i9, next.length + i9, 33);
                             z = true;
                         }
                         editTextOutline.setText(Emoji.replaceEmoji(spannableString, editTextOutline.getPaint().getFontMetricsInt(), (int) (editTextOutline.getTextSize() * 0.8f), false));
                         editTextOutline.setTextColor(mediaEntity.color);
-                        int i11 = mediaEntity.textAlign;
-                        editTextOutline.setGravity(i11 != 1 ? i11 != 2 ? 19 : 21 : 17);
-                        int i12 = Build.VERSION.SDK_INT;
-                        if (i12 >= 17) {
-                            int i13 = mediaEntity.textAlign;
-                            if (i13 == 1) {
-                                i2 = 4;
-                            } else if (i13 == 2) {
+                        int i10 = mediaEntity.textAlign;
+                        editTextOutline.setGravity(i10 != 1 ? i10 != 2 ? 19 : 21 : 17);
+                        int i11 = Build.VERSION.SDK_INT;
+                        if (i11 >= 17) {
+                            int i12 = mediaEntity.textAlign;
+                            if (i12 == 1) {
+                                i3 = 4;
+                            } else if (i12 == 2) {
                                 if (LocaleController.isRTL) {
-                                    i2 = 2;
+                                    i3 = 2;
                                 }
-                                i2 = 3;
+                                i3 = 3;
                             }
-                            editTextOutline.setTextAlignment(i2);
+                            editTextOutline.setTextAlignment(i3);
                         }
                         editTextOutline.setHorizontallyScrolling(false);
                         editTextOutline.setImeOptions(268435456);
                         editTextOutline.setFocusableInTouchMode(true);
                         editTextOutline.setInputType(editTextOutline.getInputType() | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
-                        if (i12 >= 23) {
+                        if (i11 >= 23) {
                             setBreakStrategy(editTextOutline);
                         }
                         byte b3 = mediaEntity.subType;
@@ -742,17 +726,24 @@ public class TextureRenderer {
                             editTextOutline.setStrokeColor(0);
                             editTextOutline.setFrameColor(0);
                             editTextOutline.setShadowLayer(5.0f, 0.0f, 1.0f, 1711276032);
+                            editTextOutline.measure(View.MeasureSpec.makeMeasureSpec(mediaEntity.viewWidth, 1073741824), View.MeasureSpec.makeMeasureSpec(mediaEntity.viewHeight, 1073741824));
+                            editTextOutline.layout(0, 0, mediaEntity.viewWidth, mediaEntity.viewHeight);
+                            mediaEntity.bitmap = Bitmap.createBitmap(mediaEntity.viewWidth, mediaEntity.viewHeight, Bitmap.Config.ARGB_8888);
+                            Canvas canvas2 = new Canvas(mediaEntity.bitmap);
+                            editTextOutline.draw(canvas2);
+                            if (!z) {
+                                mediaEntity.view = editTextOutline;
+                                mediaEntity.canvas = canvas2;
+                                mediaEntity.framesPerDraw = this.videoFps / 30.0f;
+                                mediaEntity.currentFrame = 0.0f;
+                            }
                         }
                         editTextOutline.measure(View.MeasureSpec.makeMeasureSpec(mediaEntity.viewWidth, 1073741824), View.MeasureSpec.makeMeasureSpec(mediaEntity.viewHeight, 1073741824));
                         editTextOutline.layout(0, 0, mediaEntity.viewWidth, mediaEntity.viewHeight);
                         mediaEntity.bitmap = Bitmap.createBitmap(mediaEntity.viewWidth, mediaEntity.viewHeight, Bitmap.Config.ARGB_8888);
-                        Canvas canvas2 = new Canvas(mediaEntity.bitmap);
-                        editTextOutline.draw(canvas2);
-                        if (z) {
-                            mediaEntity.view = editTextOutline;
-                            mediaEntity.canvas = canvas2;
-                            mediaEntity.framesPerDraw = this.videoFps / 30.0f;
-                            mediaEntity.currentFrame = 0.0f;
+                        Canvas canvas22 = new Canvas(mediaEntity.bitmap);
+                        editTextOutline.draw(canvas22);
+                        if (!z) {
                         }
                     }
                 }

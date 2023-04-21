@@ -1037,7 +1037,9 @@ public class FileLoader extends BaseController {
             fileLoadOperation2.setDelegate(new 2(str7, obj, tLRPC$Document, i5));
             this.loadOperationPaths.put(str7, fileLoadOperation2);
             fileLoadOperation2.setPriority(priorityValue);
-            fileLoadOperation2.setStream(fileLoadOperationStream, z, j2);
+            if (fileLoadOperationStream != null) {
+                fileLoadOperation2.setStream(fileLoadOperationStream, z, j2);
+            }
             fileLoaderPriorityQueue2.add(fileLoadOperation2);
             fileLoaderPriorityQueue2.checkLoadingOperations();
             if (BuildVars.LOGS_ENABLED) {

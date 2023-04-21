@@ -1117,9 +1117,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
     }
 
     private int getThemedColor(int i) {
-        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
-        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
+        return Theme.getColor(i, this.resourcesProvider);
     }
 
     /* loaded from: classes4.dex */

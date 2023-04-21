@@ -11658,6 +11658,18 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                     str5 = (user3 == null || TextUtils.isEmpty(user3.username)) ? null : user3.username;
                     arrayList = user3 == null ? new ArrayList<>() : new ArrayList<>(user3.usernames);
+                    if (TextUtils.isEmpty(str5)) {
+                        while (true) {
+                            if (i4 < arrayList.size()) {
+                                TLRPC$TL_username tLRPC$TL_username2 = arrayList.get(i4);
+                                if (tLRPC$TL_username2 == null || !tLRPC$TL_username2.active || TextUtils.isEmpty(tLRPC$TL_username2.username)) {
+                                    i4++;
+                                } else {
+                                    str5 = tLRPC$TL_username2.username;
+                                }
+                            }
+                        }
+                    }
                     str3 = LocaleController.getString("Username", R.string.Username);
                     if (str5 != null) {
                         str4 = "@" + str5;
@@ -11702,18 +11714,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     i3 = 0;
                     arrayList = new ArrayList<>();
                     str5 = null;
-                }
-                if (TextUtils.isEmpty(str5)) {
-                    while (true) {
-                        if (i4 < arrayList.size()) {
-                            TLRPC$TL_username tLRPC$TL_username2 = arrayList.get(i4);
-                            if (tLRPC$TL_username2 == null || !tLRPC$TL_username2.active || TextUtils.isEmpty(tLRPC$TL_username2.username)) {
-                                i4++;
-                            } else {
-                                str5 = tLRPC$TL_username2.username;
-                            }
-                        }
-                    }
                 }
                 textDetailCell.setTextAndValue(str4, alsoUsernamesString(str5, arrayList, str3), ProfileActivity.this.isTopic);
                 i4 = i3;

@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.BotWebViewVibrationEffect;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DispatchQueue;
@@ -917,13 +918,13 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         this.layoutManager = linearLayoutManager;
         recyclerListView.setLayoutManager(linearLayoutManager);
         DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator() { // from class: org.telegram.ui.ChatUsersActivity.6
-            int animationIndex = -1;
+            AnimationNotificationsLocker notificationsLocker = new AnimationNotificationsLocker();
 
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
             public void onAllAnimationsDone() {
                 super.onAllAnimationsDone();
-                ChatUsersActivity.this.getNotificationCenter().onAnimationFinish(this.animationIndex);
+                this.notificationsLocker.unlock();
             }
 
             @Override // androidx.recyclerview.widget.DefaultItemAnimator, androidx.recyclerview.widget.RecyclerView.ItemAnimator
@@ -933,7 +934,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 boolean z3 = !this.mPendingChanges.isEmpty();
                 boolean z4 = !this.mPendingAdditions.isEmpty();
                 if (z || z2 || z4 || z3) {
-                    this.animationIndex = ChatUsersActivity.this.getNotificationCenter().setAnimationInProgress(this.animationIndex, null);
+                    this.notificationsLocker.lock();
                 }
                 super.runPendingAnimations();
             }

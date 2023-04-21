@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.Emoji;
@@ -93,7 +94,6 @@ import org.telegram.ui.PhotoViewer;
 public class FilteredSearchView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private static SpannableStringBuilder arrowSpan;
     RecyclerView.Adapter adapter;
-    private int animationIndex;
     private SearchViewPager.ChatPreviewDelegate chatPreviewDelegate;
     Runnable clearCurrentResultsRunnable;
     private int columnsCount;
@@ -125,6 +125,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
     public ArrayList<MessageObject> messages;
     public SparseArray<MessageObject> messagesById;
     private int nextSearchRate;
+    private AnimationNotificationsLocker notificationsLocker;
     Activity parentActivity;
     BaseFragment parentFragment;
     private int photoViewerClassGuid;
@@ -283,7 +284,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                 return null;
             }
         };
-        this.animationIndex = -1;
+        this.notificationsLocker = new AnimationNotificationsLocker();
         this.hideFloatingDateRunnable = new Runnable() { // from class: org.telegram.ui.FilteredSearchView$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
@@ -710,7 +711,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$search$2(int i, TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, final int i2, boolean z, String str, ArrayList arrayList, FiltersView.MediaFilterData mediaFilterData, long j, long j2, ArrayList arrayList2, ArrayList arrayList3) {
+    public /* synthetic */ void lambda$search$2(int i, TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, int i2, boolean z, String str, ArrayList arrayList, FiltersView.MediaFilterData mediaFilterData, long j, long j2, ArrayList arrayList2, ArrayList arrayList3) {
         boolean z2;
         String string;
         if (i != this.requestIndex) {
@@ -876,10 +877,10 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                     animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.FilteredSearchView.7.1
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
-                            NotificationCenter.getInstance(i2).onAnimationFinish(FilteredSearchView.this.animationIndex);
+                            FilteredSearchView.this.notificationsLocker.unlock();
                         }
                     });
-                    FilteredSearchView.this.animationIndex = NotificationCenter.getInstance(i2).setAnimationInProgress(FilteredSearchView.this.animationIndex, null);
+                    FilteredSearchView.this.notificationsLocker.lock();
                     animatorSet.start();
                     View view2 = view;
                     if (view2 != null && view2.getParent() == null) {

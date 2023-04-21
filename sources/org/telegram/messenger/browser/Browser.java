@@ -680,4 +680,35 @@ public class Browser {
             return false;
         }
     }
+
+    public static String replaceHostname(Uri uri, String str) {
+        String scheme = uri.getScheme();
+        String userInfo = uri.getUserInfo();
+        int port = uri.getPort();
+        String path = uri.getPath();
+        String query = uri.getQuery();
+        String fragment = uri.getFragment();
+        StringBuilder sb = new StringBuilder();
+        sb.append(scheme);
+        sb.append("://");
+        if (userInfo != null) {
+            sb.append(userInfo);
+            sb.append("@");
+        }
+        sb.append(str);
+        if (port != -1) {
+            sb.append(":");
+            sb.append(port);
+        }
+        sb.append(path);
+        if (query != null) {
+            sb.append("?");
+            sb.append(query);
+        }
+        if (fragment != null) {
+            sb.append("#");
+            sb.append(fragment);
+        }
+        return sb.toString();
+    }
 }

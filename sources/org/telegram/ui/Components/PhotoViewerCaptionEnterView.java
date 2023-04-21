@@ -753,7 +753,10 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
             if (i == Theme.key_listSelector) {
                 return 771751936;
             }
-            return i == Theme.key_divider ? -16777216 : 0;
+            if (i == Theme.key_divider) {
+                return -16777216;
+            }
+            return i == Theme.key_dialogFloatingButton ? -10177041 : 0;
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
@@ -1257,9 +1260,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
 
     /* JADX INFO: Access modifiers changed from: private */
     public int getThemedColor(int i) {
-        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
-        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
+        return Theme.getColor(i, this.resourcesProvider);
     }
 
     public Theme.ResourcesProvider getResourcesProvider() {

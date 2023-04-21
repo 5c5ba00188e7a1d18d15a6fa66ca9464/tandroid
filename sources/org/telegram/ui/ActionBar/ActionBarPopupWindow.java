@@ -29,9 +29,9 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageReceiver;
-import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
@@ -46,14 +46,13 @@ public class ActionBarPopupWindow extends PopupWindow {
     private static Method layoutInScreenMethod;
     private static final Field superListenerField;
     private boolean animationEnabled;
-    private int currentAccount;
     private int dismissAnimationDuration;
     private boolean isClosingAnimated;
     private ViewTreeObserver.OnScrollChangedListener mSuperScrollListener;
     private ViewTreeObserver mViewTreeObserver;
+    private AnimationNotificationsLocker notificationsLocker;
     private long outEmptyTime;
     private boolean pauseNotifications;
-    private int popupAnimationIndex;
     private boolean scaleOut;
     private AnimatorSet windowAnimatorSet;
 
@@ -657,10 +656,8 @@ public class ActionBarPopupWindow extends PopupWindow {
             }
         }
 
-        private int getThemedColor(int i) {
-            Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-            Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
-            return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
+        protected int getThemedColor(int i) {
+            return Theme.getColor(i, this.resourcesProvider);
         }
 
         public void setOnSizeChangedListener(onSizeChangedListener onsizechangedlistener) {
@@ -702,9 +699,9 @@ public class ActionBarPopupWindow extends PopupWindow {
     public ActionBarPopupWindow() {
         this.animationEnabled = allowAnimation;
         this.dismissAnimationDuration = ImageReceiver.DEFAULT_CROSSFADE_DURATION;
-        this.currentAccount = UserConfig.selectedAccount;
+        int i = UserConfig.selectedAccount;
         this.outEmptyTime = -1L;
-        this.popupAnimationIndex = -1;
+        this.notificationsLocker = new AnimationNotificationsLocker();
         init();
     }
 
@@ -712,9 +709,9 @@ public class ActionBarPopupWindow extends PopupWindow {
         super(context);
         this.animationEnabled = allowAnimation;
         this.dismissAnimationDuration = ImageReceiver.DEFAULT_CROSSFADE_DURATION;
-        this.currentAccount = UserConfig.selectedAccount;
+        int i = UserConfig.selectedAccount;
         this.outEmptyTime = -1L;
-        this.popupAnimationIndex = -1;
+        this.notificationsLocker = new AnimationNotificationsLocker();
         init();
     }
 
@@ -722,9 +719,9 @@ public class ActionBarPopupWindow extends PopupWindow {
         super(view, i, i2);
         this.animationEnabled = allowAnimation;
         this.dismissAnimationDuration = ImageReceiver.DEFAULT_CROSSFADE_DURATION;
-        this.currentAccount = UserConfig.selectedAccount;
+        int i3 = UserConfig.selectedAccount;
         this.outEmptyTime = -1L;
-        this.popupAnimationIndex = -1;
+        this.notificationsLocker = new AnimationNotificationsLocker();
         init();
     }
 
@@ -1024,6 +1021,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         setFocusable(false);
         dismissDim();
         AnimatorSet animatorSet = this.windowAnimatorSet;
+        ActionBarPopupWindowLayout actionBarPopupWindowLayout = null;
         if (animatorSet != null) {
             if (z && this.isClosingAnimated) {
                 return;
@@ -1035,7 +1033,6 @@ public class ActionBarPopupWindow extends PopupWindow {
         if (this.animationEnabled && z) {
             this.isClosingAnimated = true;
             ViewGroup viewGroup = (ViewGroup) getContentView();
-            ActionBarPopupWindowLayout actionBarPopupWindowLayout = null;
             for (int i = 0; i < viewGroup.getChildCount(); i++) {
                 if (viewGroup.getChildAt(i) instanceof ActionBarPopupWindowLayout) {
                     actionBarPopupWindowLayout = (ActionBarPopupWindowLayout) viewGroup.getChildAt(i);
@@ -1080,12 +1077,12 @@ public class ActionBarPopupWindow extends PopupWindow {
                     }
                     ActionBarPopupWindow.this.unregisterListener();
                     if (ActionBarPopupWindow.this.pauseNotifications) {
-                        NotificationCenter.getInstance(ActionBarPopupWindow.this.currentAccount).onAnimationFinish(ActionBarPopupWindow.this.popupAnimationIndex);
+                        ActionBarPopupWindow.this.notificationsLocker.unlock();
                     }
                 }
             });
             if (this.pauseNotifications) {
-                this.popupAnimationIndex = NotificationCenter.getInstance(this.currentAccount).setAnimationInProgress(this.popupAnimationIndex, null);
+                this.notificationsLocker.lock();
             }
             this.windowAnimatorSet.start();
             return;

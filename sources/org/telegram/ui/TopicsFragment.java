@@ -52,6 +52,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DialogObject;
@@ -203,6 +204,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     private boolean loadingTopics;
     private boolean mute;
     private ActionBarMenuItem muteItem;
+    private final AnimationNotificationsLocker notificationsLocker;
     OnTopicSelectedListener onTopicSelectedListener;
     private boolean openedForForward;
     private boolean opnendForSelect;
@@ -238,8 +240,6 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     private FrameLayout topView;
     private final TopicsController topicsController;
     StickerEmptyView topicsEmptyView;
-    private int transitionAnimationGlobalIndex;
-    private int transitionAnimationIndex;
     float transitionPadding;
     private ActionBarMenuItem unpinItem;
     private boolean updateAnimated;
@@ -318,6 +318,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         this.searchAnimationProgress = 0.0f;
         this.selectedTopics = new HashSet<>();
         this.mute = false;
+        this.notificationsLocker = new AnimationNotificationsLocker(new int[]{NotificationCenter.topicsDidLoaded});
         this.slideFragmentProgress = 1.0f;
         new ArrayList();
         long j = this.arguments.getLong("chat_id", 0L);
@@ -2890,8 +2891,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onFragmentDestroy() {
-        getNotificationCenter().onAnimationFinish(this.transitionAnimationIndex);
-        NotificationCenter.getGlobalInstance().onAnimationFinish(this.transitionAnimationGlobalIndex);
+        this.notificationsLocker.unlock();
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.chatInfoDidLoad);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.topicsDidLoaded);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.updateInterfaces);
@@ -3754,7 +3754,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                     if (this.items.get(i).type == 1) {
                         return LocaleController.getString("DownloadsTabs", R.string.DownloadsTabs);
                     }
-                    return FiltersView.filters[this.items.get(i).filterIndex].title;
+                    return FiltersView.filters[this.items.get(i).filterIndex].getTitle();
                 }
                 return LocaleController.getString("SearchMessages", R.string.SearchMessages);
             }
@@ -4219,8 +4219,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onTransitionAnimationStart(boolean z, boolean z2) {
         super.onTransitionAnimationStart(z, z2);
-        this.transitionAnimationIndex = getNotificationCenter().setAnimationInProgress(this.transitionAnimationIndex, new int[]{NotificationCenter.topicsDidLoaded});
-        this.transitionAnimationGlobalIndex = NotificationCenter.getGlobalInstance().setAnimationInProgress(this.transitionAnimationGlobalIndex, new int[0]);
+        this.notificationsLocker.lock();
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -4233,8 +4232,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             }
             this.blurredView.setBackground(null);
         }
-        getNotificationCenter().onAnimationFinish(this.transitionAnimationIndex);
-        NotificationCenter.getGlobalInstance().onAnimationFinish(this.transitionAnimationGlobalIndex);
+        this.notificationsLocker.unlock();
         if (!z && this.opnendForSelect && this.removeFragmentOnTransitionEnd) {
             removeSelfFromStack();
             DialogsActivity dialogsActivity = this.dialogsActivity;

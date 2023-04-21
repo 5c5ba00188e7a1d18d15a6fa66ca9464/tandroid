@@ -6413,43 +6413,19 @@ public class MessageObject {
         return i;
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(11:204|205|206|(9:(3:250|251|(24:253|254|255|256|257|258|259|260|261|262|263|265|266|(4:268|269|270|(2:278|279))(1:280)|272|273|215|216|217|(3:230|231|(1:233))|219|220|(3:222|223|224)(1:229)|225))|215|216|217|(0)|219|220|(0)(0)|225)|208|209|210|211|212|213|214) */
-    /* JADX WARN: Can't wrap try/catch for region: R(21:(1:92)(1:303)|93|(3:95|(1:(1:(2:99|(1:101))(1:102))(1:103))|104)(5:199|(1:201)(19:204|205|206|(3:250|251|(24:253|254|255|256|257|258|259|260|261|262|263|265|266|(4:268|269|270|(2:278|279))(1:280)|272|273|215|216|217|(3:230|231|(1:233))|219|220|(3:222|223|224)(1:229)|225))|208|209|210|211|212|213|214|215|216|217|(0)|219|220|(0)(0)|225)|202|203|176)|105|(1:107)|108|109|110|111|(2:115|116)|122|123|124|(1:126)|127|(1:129)|130|(6:132|(15:134|135|136|137|138|139|140|(1:142)(1:162)|143|(1:145)(1:161)|(4:149|150|151|(4:153|154|155|156))|160|154|155|156)|167|168|(2:170|(1:172))(3:177|(1:179)|180)|173)(3:181|(5:183|(1:185)|186|(1:188)(1:191)|189)(1:192)|190)|174|175|176) */
-    /* JADX WARN: Code restructure failed: missing block: B:193:0x0418, code lost:
+    /* JADX WARN: Can't wrap try/catch for region: R(19:(1:92)(1:303)|93|(3:95|(1:(1:(2:99|(1:101))(1:102))(1:103))|104)(5:199|(1:201)(19:204|205|206|(3:250|251|(24:253|254|255|256|257|258|259|260|261|262|263|265|266|(4:268|269|270|(2:278|279))(1:280)|272|273|215|216|217|(3:230|231|(1:233))|219|220|(3:222|223|224)(1:229)|225))|208|209|210|211|212|213|214|215|216|217|(0)|219|220|(0)(0)|225)|202|203|175)|105|106|107|108|(2:112|113)|119|120|121|(1:123)|124|(1:126)|127|(6:129|(15:131|132|133|134|135|136|137|(1:139)(1:159)|140|(1:142)(1:158)|(4:146|147|148|(4:150|151|152|153))|157|151|152|153)|164|165|(2:167|(1:169))(3:177|(1:179)|180)|170)(3:181|(5:183|(1:185)|186|(1:188)(1:191)|189)(1:192)|190)|171|(2:173|174)(1:176)|175) */
+    /* JADX WARN: Code restructure failed: missing block: B:190:0x0407, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:194:0x0419, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:191:0x0408, code lost:
         r7 = 0.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:200:0x042b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:197:0x041a, code lost:
         r0 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:201:0x042c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:198:0x041b, code lost:
         org.telegram.messenger.FileLog.e(r0);
         r0 = 0.0f;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:265:0x0569, code lost:
-        r0 = e;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:266:0x056a, code lost:
-        r34 = r2;
-        r26 = r3;
-        r27 = r4;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:269:0x0577, code lost:
-        r0 = e;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:270:0x0578, code lost:
-        r27 = r34;
-        r34 = r2;
-        r26 = r3;
-        r2 = r8;
-        r20 = r10;
-        r21 = r11;
-        r18 = r13;
-        r22 = r14;
-        r32 = r25;
-        r4 = 1;
      */
     /* JADX WARN: Code restructure failed: missing block: B:47:0x008e, code lost:
         if ((getMedia(r0) instanceof org.telegram.tgnet.TLRPC$TL_messageMediaUnsupported) == false) goto L317;
@@ -6457,18 +6433,20 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:102:0x01b4  */
     /* JADX WARN: Removed duplicated region for block: B:173:0x03c8  */
     /* JADX WARN: Removed duplicated region for block: B:178:0x03eb  */
-    /* JADX WARN: Removed duplicated region for block: B:204:0x043a  */
-    /* JADX WARN: Removed duplicated region for block: B:207:0x043f  */
-    /* JADX WARN: Removed duplicated region for block: B:210:0x0452  */
-    /* JADX WARN: Removed duplicated region for block: B:248:0x050e  */
-    /* JADX WARN: Removed duplicated region for block: B:305:0x03a3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:201:0x0429  */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x042e  */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x0441  */
+    /* JADX WARN: Removed duplicated region for block: B:245:0x04ff  */
+    /* JADX WARN: Removed duplicated region for block: B:259:0x054e  */
+    /* JADX WARN: Removed duplicated region for block: B:319:0x03a3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:323:0x05bc A[SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:51:0x0095  */
     /* JADX WARN: Removed duplicated region for block: B:72:0x0113  */
     /* JADX WARN: Removed duplicated region for block: B:73:0x0116  */
     /* JADX WARN: Removed duplicated region for block: B:76:0x011f  */
     /* JADX WARN: Removed duplicated region for block: B:77:0x0124  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x0131 A[Catch: Exception -> 0x05c5, TryCatch #16 {Exception -> 0x05c5, blocks: (B:79:0x0127, B:81:0x0131, B:83:0x014f, B:85:0x0154, B:86:0x0157, B:87:0x0163), top: B:315:0x0127 }] */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x0163 A[Catch: Exception -> 0x05c5, TRY_LEAVE, TryCatch #16 {Exception -> 0x05c5, blocks: (B:79:0x0127, B:81:0x0131, B:83:0x014f, B:85:0x0154, B:86:0x0157, B:87:0x0163), top: B:315:0x0127 }] */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x0131 A[Catch: Exception -> 0x05d2, TryCatch #6 {Exception -> 0x05d2, blocks: (B:79:0x0127, B:81:0x0131, B:83:0x014f, B:85:0x0154, B:86:0x0157, B:87:0x0163), top: B:294:0x0127 }] */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x0163 A[Catch: Exception -> 0x05d2, TRY_LEAVE, TryCatch #6 {Exception -> 0x05d2, blocks: (B:79:0x0127, B:81:0x0131, B:83:0x014f, B:85:0x0154, B:86:0x0157, B:87:0x0163), top: B:294:0x0127 }] */
     /* JADX WARN: Removed duplicated region for block: B:91:0x0190  */
     /* JADX WARN: Removed duplicated region for block: B:92:0x0193  */
     /* JADX WARN: Removed duplicated region for block: B:98:0x01a2  */
@@ -6506,27 +6484,32 @@ public class MessageObject {
         StaticLayout staticLayout4;
         int i11;
         int i12;
-        int ceil2;
         int i13;
-        int i14;
-        int i15;
         StaticLayout staticLayout5;
         float f3;
-        float f4;
-        float f5;
+        int length;
+        int ceil2;
+        int i14;
+        int i15;
         int i16;
         int i17;
+        StaticLayout staticLayout6;
+        float f4;
+        float f5;
+        float f6;
+        int i18;
+        int i19;
         boolean z3;
         MessageObject messageObject;
         TLRPC$TL_textWithEntities tLRPC$TL_textWithEntities;
-        int i18 = this.type;
-        if ((i18 != 0 && i18 != 19) || this.messageOwner.peer_id == null || TextUtils.isEmpty(this.messageText)) {
+        int i20 = this.type;
+        if ((i20 != 0 && i20 != 19) || this.messageOwner.peer_id == null || TextUtils.isEmpty(this.messageText)) {
             return;
         }
         generateLinkDescription();
         this.textLayoutBlocks = new ArrayList<>();
         this.textWidth = 0;
-        int i19 = 1;
+        int i21 = 1;
         try {
             if (!(this.messageOwner.send_state != 0 ? false : !((!this.translated || (tLRPC$TL_textWithEntities = this.messageOwner.translatedText) == null) ? this.messageOwner.entities : tLRPC$TL_textWithEntities.entities).isEmpty())) {
                 if (this.eventId == 0) {
@@ -6561,13 +6544,13 @@ public class MessageObject {
                     textPaint = Theme.chat_msgTextPaint;
                 }
                 TextPaint textPaint3 = textPaint;
-                float f6 = 0.0f;
-                float f7 = this.totalAnimatedEmojiCount < 4 ? -1.0f : 0.0f;
+                float f7 = 0.0f;
+                float f8 = this.totalAnimatedEmojiCount < 4 ? -1.0f : 0.0f;
                 Layout.Alignment alignment5 = Layout.Alignment.ALIGN_NORMAL;
                 i = Build.VERSION.SDK_INT;
                 if (i < 24) {
                     CharSequence charSequence = this.messageText;
-                    StaticLayout.Builder alignment6 = StaticLayout.Builder.obtain(charSequence, 0, charSequence.length(), textPaint3, maxMessageTextWidth).setLineSpacing(f7, 1.0f).setBreakStrategy(1).setHyphenationFrequency(0).setAlignment(alignment5);
+                    StaticLayout.Builder alignment6 = StaticLayout.Builder.obtain(charSequence, 0, charSequence.length(), textPaint3, maxMessageTextWidth).setLineSpacing(f8, 1.0f).setBreakStrategy(1).setHyphenationFrequency(0).setAlignment(alignment5);
                     if (this.emojiOnlyCount > 0) {
                         alignment6.setIncludePad(false);
                         if (i >= 28) {
@@ -6575,49 +6558,49 @@ public class MessageObject {
                         }
                     }
                     alignment = alignment5;
-                    f = f7;
+                    f = f8;
                     i2 = 24;
                     staticLayout = alignment6.build();
                 } else {
                     i2 = 24;
                     alignment = alignment5;
-                    f = f7;
-                    staticLayout = new StaticLayout(this.messageText, textPaint3, maxMessageTextWidth, alignment5, 1.0f, f7, false);
+                    f = f8;
+                    staticLayout = new StaticLayout(this.messageText, textPaint3, maxMessageTextWidth, alignment5, 1.0f, f8, false);
                 }
                 this.textHeight = staticLayout.getHeight();
                 int lineCount = staticLayout.getLineCount();
-                int i20 = this.totalAnimatedEmojiCount;
-                int i21 = i20 < 50 ? 5 : 10;
-                boolean z4 = i < i2 && i20 < 50;
-                ceil = !z4 ? 1 : (int) Math.ceil(lineCount / i21);
-                int i22 = 0;
+                int i22 = this.totalAnimatedEmojiCount;
+                int i23 = i22 < 50 ? 5 : 10;
+                boolean z4 = i < i2 && i22 < 50;
+                ceil = !z4 ? 1 : (int) Math.ceil(lineCount / i23);
+                int i24 = 0;
                 i3 = 0;
-                float f8 = 0.0f;
+                float f9 = 0.0f;
                 while (i3 < ceil) {
-                    int min = z4 ? lineCount : Math.min(i21, lineCount - i22);
+                    int min = z4 ? lineCount : Math.min(i23, lineCount - i24);
                     TextLayoutBlock textLayoutBlock2 = new TextLayoutBlock();
-                    if (ceil == i19) {
+                    if (ceil == i21) {
                         textLayoutBlock2.textLayout = staticLayout;
-                        textLayoutBlock2.textYOffset = f6;
+                        textLayoutBlock2.textYOffset = f7;
                         textLayoutBlock2.charactersOffset = 0;
                         textLayoutBlock2.charactersEnd = staticLayout.getText().length();
-                        int i23 = this.emojiOnlyCount;
-                        if (i23 != 0) {
-                            if (i23 == i19) {
+                        int i25 = this.emojiOnlyCount;
+                        if (i25 != 0) {
+                            if (i25 == i21) {
                                 this.textHeight -= AndroidUtilities.dp(5.3f);
                                 textLayoutBlock2.textYOffset -= AndroidUtilities.dp(5.3f);
-                            } else if (i23 == 2) {
+                            } else if (i25 == 2) {
                                 this.textHeight -= AndroidUtilities.dp(4.5f);
                                 textLayoutBlock2.textYOffset -= AndroidUtilities.dp(4.5f);
-                            } else if (i23 == 3) {
+                            } else if (i25 == 3) {
                                 this.textHeight -= AndroidUtilities.dp(4.2f);
                                 textLayoutBlock2.textYOffset -= AndroidUtilities.dp(4.2f);
                             }
                         }
                         textLayoutBlock2.height = this.textHeight;
                         textLayoutBlock = textLayoutBlock2;
-                        i11 = i22;
-                        i6 = i21;
+                        i11 = i24;
+                        i6 = i23;
                         staticLayout4 = staticLayout;
                         alignment4 = alignment;
                         f2 = f;
@@ -6625,13 +6608,13 @@ public class MessageObject {
                         i7 = lineCount;
                         textPaint2 = textPaint3;
                     } else {
-                        int lineStart = staticLayout.getLineStart(i22);
-                        int lineEnd = staticLayout.getLineEnd((i22 + min) - i19);
+                        int lineStart = staticLayout.getLineStart(i24);
+                        int lineEnd = staticLayout.getLineEnd((i24 + min) - i21);
                         if (lineEnd < lineStart) {
                             z2 = addEntitiesToText;
-                            i4 = i22;
+                            i4 = i24;
                             i5 = i3;
-                            i6 = i21;
+                            i6 = i23;
                             staticLayout2 = staticLayout;
                             alignment2 = alignment;
                             f2 = f;
@@ -6645,297 +6628,341 @@ public class MessageObject {
                             } catch (Exception e) {
                                 e = e;
                                 z2 = addEntitiesToText;
-                                i4 = i22;
+                                i4 = i24;
                                 i5 = i3;
-                                i6 = i21;
+                                i6 = i23;
                                 staticLayout2 = staticLayout;
                                 alignment2 = alignment;
                                 f2 = f;
                             }
                             try {
-                                if (addEntitiesToText) {
+                                try {
                                     try {
-                                        int i24 = Build.VERSION.SDK_INT;
-                                        if (i24 >= i2) {
+                                        if (addEntitiesToText) {
                                             try {
-                                                staticLayout3 = staticLayout;
-                                            } catch (Exception e2) {
-                                                e = e2;
-                                                staticLayout3 = staticLayout;
-                                            }
-                                            try {
-                                                float f9 = f;
-                                                try {
-                                                    StaticLayout.Builder hyphenationFrequency = StaticLayout.Builder.obtain(valueOf, 0, valueOf.length(), textPaint3, maxMessageTextWidth + AndroidUtilities.dp(2.0f)).setLineSpacing(f9, 1.0f).setBreakStrategy(1).setHyphenationFrequency(0);
-                                                    Layout.Alignment alignment7 = alignment;
+                                                int i26 = Build.VERSION.SDK_INT;
+                                                if (i26 >= i2) {
                                                     try {
-                                                        alignment3 = hyphenationFrequency.setAlignment(alignment7);
-                                                    } catch (Exception e3) {
-                                                        e = e3;
+                                                        staticLayout3 = staticLayout;
+                                                    } catch (Exception e2) {
+                                                        e = e2;
+                                                        staticLayout3 = staticLayout;
                                                     }
                                                     try {
-                                                        if (this.emojiOnlyCount > 0) {
-                                                            alignment3.setIncludePad(false);
-                                                            i8 = i22;
-                                                            if (i24 >= 28) {
-                                                                try {
-                                                                    alignment3.setUseLineSpacingFromFallbacks(false);
-                                                                } catch (Exception e4) {
-                                                                    e = e4;
-                                                                    i4 = i8;
-                                                                    z2 = addEntitiesToText;
-                                                                    alignment2 = alignment7;
-                                                                    i5 = i3;
-                                                                    i6 = i21;
-                                                                    i7 = lineCount;
-                                                                    f2 = f9;
-                                                                    textPaint2 = textPaint3;
-                                                                    staticLayout2 = staticLayout3;
-                                                                    i19 = 1;
-                                                                    FileLog.e(e);
-                                                                    i22 = i4;
-                                                                    i3 = i5 + 1;
-                                                                    i21 = i6;
-                                                                    lineCount = i7;
-                                                                    textPaint3 = textPaint2;
-                                                                    addEntitiesToText = z2;
-                                                                    staticLayout = staticLayout2;
-                                                                    i2 = 24;
-                                                                    f6 = 0.0f;
-                                                                    alignment = alignment2;
-                                                                    f = f2;
-                                                                }
-                                                            }
-                                                        } else {
-                                                            i8 = i22;
-                                                        }
-                                                        textLayoutBlock2.textLayout = alignment3.build();
-                                                        alignment4 = alignment7;
-                                                        textLayoutBlock = textLayoutBlock2;
-                                                        i9 = i3;
-                                                        i10 = ceil;
-                                                        i6 = i21;
-                                                        i7 = lineCount;
-                                                        f2 = f9;
-                                                        textPaint2 = textPaint3;
-                                                        staticLayout4 = staticLayout3;
-                                                        i11 = i8;
-                                                        float lineTop = staticLayout4.getLineTop(i11);
-                                                        textLayoutBlock.textYOffset = lineTop;
-                                                        i3 = i9;
-                                                        if (i3 != 0) {
+                                                        float f10 = f;
+                                                        try {
+                                                            StaticLayout.Builder hyphenationFrequency = StaticLayout.Builder.obtain(valueOf, 0, valueOf.length(), textPaint3, maxMessageTextWidth + AndroidUtilities.dp(2.0f)).setLineSpacing(f10, 1.0f).setBreakStrategy(1).setHyphenationFrequency(0);
+                                                            Layout.Alignment alignment7 = alignment;
                                                             try {
-                                                                if (this.emojiOnlyCount <= 0) {
-                                                                    textLayoutBlock.height = (int) (lineTop - f8);
+                                                                alignment3 = hyphenationFrequency.setAlignment(alignment7);
+                                                            } catch (Exception e3) {
+                                                                e = e3;
+                                                            }
+                                                            try {
+                                                                if (this.emojiOnlyCount > 0) {
+                                                                    alignment3.setIncludePad(false);
+                                                                    i8 = i24;
+                                                                    if (i26 >= 28) {
+                                                                        try {
+                                                                            alignment3.setUseLineSpacingFromFallbacks(false);
+                                                                        } catch (Exception e4) {
+                                                                            e = e4;
+                                                                            i4 = i8;
+                                                                            z2 = addEntitiesToText;
+                                                                            alignment2 = alignment7;
+                                                                            i5 = i3;
+                                                                            i6 = i23;
+                                                                            i7 = lineCount;
+                                                                            f2 = f10;
+                                                                            textPaint2 = textPaint3;
+                                                                            staticLayout2 = staticLayout3;
+                                                                            i21 = 1;
+                                                                            FileLog.e(e);
+                                                                            i24 = i4;
+                                                                            i3 = i5 + 1;
+                                                                            i23 = i6;
+                                                                            lineCount = i7;
+                                                                            textPaint3 = textPaint2;
+                                                                            addEntitiesToText = z2;
+                                                                            staticLayout = staticLayout2;
+                                                                            i2 = 24;
+                                                                            f7 = 0.0f;
+                                                                            alignment = alignment2;
+                                                                            f = f2;
+                                                                        }
+                                                                    }
+                                                                } else {
+                                                                    i8 = i24;
                                                                 }
-                                                            } catch (Exception e5) {
-                                                                e = e5;
-                                                                alignment2 = alignment4;
-                                                                z2 = addEntitiesToText;
-                                                                i4 = i11;
-                                                                staticLayout2 = staticLayout4;
-                                                                i5 = i3;
+                                                                textLayoutBlock2.textLayout = alignment3.build();
+                                                                alignment4 = alignment7;
+                                                                textLayoutBlock = textLayoutBlock2;
+                                                                i9 = i3;
+                                                                i10 = ceil;
+                                                                i6 = i23;
+                                                                i7 = lineCount;
+                                                                f2 = f10;
+                                                                textPaint2 = textPaint3;
+                                                                staticLayout4 = staticLayout3;
+                                                                i11 = i8;
+                                                                float lineTop = staticLayout4.getLineTop(i11);
+                                                                textLayoutBlock.textYOffset = lineTop;
+                                                                i3 = i9;
+                                                                if (i3 != 0) {
+                                                                    try {
+                                                                        if (this.emojiOnlyCount <= 0) {
+                                                                            textLayoutBlock.height = (int) (lineTop - f9);
+                                                                        }
+                                                                    } catch (Exception e5) {
+                                                                        e = e5;
+                                                                        alignment2 = alignment4;
+                                                                        z2 = addEntitiesToText;
+                                                                        i4 = i11;
+                                                                        staticLayout2 = staticLayout4;
+                                                                        i5 = i3;
+                                                                        ceil = i10;
+                                                                        i21 = 1;
+                                                                        FileLog.e(e);
+                                                                        i24 = i4;
+                                                                        i3 = i5 + 1;
+                                                                        i23 = i6;
+                                                                        lineCount = i7;
+                                                                        textPaint3 = textPaint2;
+                                                                        addEntitiesToText = z2;
+                                                                        staticLayout = staticLayout2;
+                                                                        i2 = 24;
+                                                                        f7 = 0.0f;
+                                                                        alignment = alignment2;
+                                                                        f = f2;
+                                                                    }
+                                                                }
+                                                                int i27 = textLayoutBlock.height;
+                                                                StaticLayout staticLayout7 = textLayoutBlock.textLayout;
+                                                                textLayoutBlock.height = Math.max(i27, staticLayout7.getLineBottom(staticLayout7.getLineCount() - 1));
+                                                                float f11 = textLayoutBlock.textYOffset;
                                                                 ceil = i10;
-                                                                i19 = 1;
+                                                                if (i3 != ceil - 1) {
+                                                                    i12 = Math.max(min, textLayoutBlock.textLayout.getLineCount());
+                                                                    try {
+                                                                        this.textHeight = Math.max(this.textHeight, (int) (textLayoutBlock.textYOffset + textLayoutBlock.textLayout.getHeight()));
+                                                                    } catch (Exception e6) {
+                                                                        FileLog.e(e6);
+                                                                    }
+                                                                } else {
+                                                                    i12 = min;
+                                                                }
+                                                                f9 = f11;
+                                                            } catch (Exception e7) {
+                                                                e = e7;
+                                                                z2 = addEntitiesToText;
+                                                                alignment2 = alignment7;
+                                                                i4 = i24;
+                                                                i5 = i3;
+                                                                i6 = i23;
+                                                                i7 = lineCount;
+                                                                f2 = f10;
+                                                                textPaint2 = textPaint3;
+                                                                staticLayout2 = staticLayout3;
+                                                                i21 = 1;
                                                                 FileLog.e(e);
-                                                                i22 = i4;
+                                                                i24 = i4;
                                                                 i3 = i5 + 1;
-                                                                i21 = i6;
+                                                                i23 = i6;
                                                                 lineCount = i7;
                                                                 textPaint3 = textPaint2;
                                                                 addEntitiesToText = z2;
                                                                 staticLayout = staticLayout2;
                                                                 i2 = 24;
-                                                                f6 = 0.0f;
+                                                                f7 = 0.0f;
                                                                 alignment = alignment2;
                                                                 f = f2;
                                                             }
+                                                        } catch (Exception e8) {
+                                                            e = e8;
+                                                            z2 = addEntitiesToText;
+                                                            i4 = i24;
+                                                            i5 = i3;
+                                                            i6 = i23;
+                                                            f2 = f10;
+                                                            textPaint2 = textPaint3;
+                                                            alignment2 = alignment;
+                                                            staticLayout2 = staticLayout3;
+                                                            i21 = 1;
+                                                            i7 = lineCount;
+                                                            FileLog.e(e);
+                                                            i24 = i4;
+                                                            i3 = i5 + 1;
+                                                            i23 = i6;
+                                                            lineCount = i7;
+                                                            textPaint3 = textPaint2;
+                                                            addEntitiesToText = z2;
+                                                            staticLayout = staticLayout2;
+                                                            i2 = 24;
+                                                            f7 = 0.0f;
+                                                            alignment = alignment2;
+                                                            f = f2;
                                                         }
-                                                        int i25 = textLayoutBlock.height;
-                                                        StaticLayout staticLayout6 = textLayoutBlock.textLayout;
-                                                        textLayoutBlock.height = Math.max(i25, staticLayout6.getLineBottom(staticLayout6.getLineCount() - 1));
-                                                        float f10 = textLayoutBlock.textYOffset;
-                                                        ceil = i10;
-                                                        if (i3 != ceil - 1) {
-                                                            i12 = Math.max(min, textLayoutBlock.textLayout.getLineCount());
-                                                            try {
-                                                                this.textHeight = Math.max(this.textHeight, (int) (textLayoutBlock.textYOffset + textLayoutBlock.textLayout.getHeight()));
-                                                            } catch (Exception e6) {
-                                                                FileLog.e(e6);
-                                                            }
-                                                        } else {
-                                                            i12 = min;
-                                                        }
-                                                        f8 = f10;
-                                                    } catch (Exception e7) {
-                                                        e = e7;
+                                                    } catch (Exception e9) {
+                                                        e = e9;
                                                         z2 = addEntitiesToText;
-                                                        alignment2 = alignment7;
-                                                        i4 = i22;
+                                                        i4 = i24;
                                                         i5 = i3;
-                                                        i6 = i21;
-                                                        i7 = lineCount;
-                                                        f2 = f9;
-                                                        textPaint2 = textPaint3;
+                                                        i6 = i23;
+                                                        alignment2 = alignment;
+                                                        f2 = f;
                                                         staticLayout2 = staticLayout3;
-                                                        i19 = 1;
+                                                        i21 = 1;
+                                                        i7 = lineCount;
+                                                        textPaint2 = textPaint3;
                                                         FileLog.e(e);
-                                                        i22 = i4;
+                                                        i24 = i4;
                                                         i3 = i5 + 1;
-                                                        i21 = i6;
+                                                        i23 = i6;
                                                         lineCount = i7;
                                                         textPaint3 = textPaint2;
                                                         addEntitiesToText = z2;
                                                         staticLayout = staticLayout2;
                                                         i2 = 24;
-                                                        f6 = 0.0f;
+                                                        f7 = 0.0f;
                                                         alignment = alignment2;
                                                         f = f2;
                                                     }
-                                                } catch (Exception e8) {
-                                                    e = e8;
-                                                    z2 = addEntitiesToText;
-                                                    i4 = i22;
-                                                    i5 = i3;
-                                                    i6 = i21;
-                                                    f2 = f9;
-                                                    textPaint2 = textPaint3;
-                                                    alignment2 = alignment;
-                                                    staticLayout2 = staticLayout3;
-                                                    i19 = 1;
-                                                    i7 = lineCount;
-                                                    FileLog.e(e);
-                                                    i22 = i4;
-                                                    i3 = i5 + 1;
-                                                    i21 = i6;
-                                                    lineCount = i7;
-                                                    textPaint3 = textPaint2;
-                                                    addEntitiesToText = z2;
-                                                    staticLayout = staticLayout2;
-                                                    i2 = 24;
-                                                    f6 = 0.0f;
-                                                    alignment = alignment2;
-                                                    f = f2;
                                                 }
-                                            } catch (Exception e9) {
-                                                e = e9;
+                                            } catch (Exception e10) {
+                                                e = e10;
                                                 z2 = addEntitiesToText;
-                                                i4 = i22;
+                                                i4 = i24;
                                                 i5 = i3;
-                                                i6 = i21;
+                                                i6 = i23;
                                                 alignment2 = alignment;
                                                 f2 = f;
-                                                staticLayout2 = staticLayout3;
-                                                i19 = 1;
+                                                staticLayout2 = staticLayout;
+                                                i21 = 1;
                                                 i7 = lineCount;
                                                 textPaint2 = textPaint3;
                                                 FileLog.e(e);
-                                                i22 = i4;
+                                                i24 = i4;
                                                 i3 = i5 + 1;
-                                                i21 = i6;
+                                                i23 = i6;
                                                 lineCount = i7;
                                                 textPaint3 = textPaint2;
                                                 addEntitiesToText = z2;
                                                 staticLayout = staticLayout2;
                                                 i2 = 24;
-                                                f6 = 0.0f;
+                                                f7 = 0.0f;
                                                 alignment = alignment2;
                                                 f = f2;
                                             }
                                         }
-                                    } catch (Exception e10) {
-                                        e = e10;
+                                        float lineTop2 = staticLayout4.getLineTop(i11);
+                                        textLayoutBlock.textYOffset = lineTop2;
+                                        i3 = i9;
+                                        if (i3 != 0) {
+                                        }
+                                        int i272 = textLayoutBlock.height;
+                                        StaticLayout staticLayout72 = textLayoutBlock.textLayout;
+                                        textLayoutBlock.height = Math.max(i272, staticLayout72.getLineBottom(staticLayout72.getLineCount() - 1));
+                                        float f112 = textLayoutBlock.textYOffset;
+                                        ceil = i10;
+                                        if (i3 != ceil - 1) {
+                                        }
+                                        f9 = f112;
+                                    } catch (Exception e11) {
+                                        e = e11;
+                                        alignment2 = alignment4;
                                         z2 = addEntitiesToText;
-                                        i4 = i22;
-                                        i5 = i3;
-                                        i6 = i21;
-                                        alignment2 = alignment;
-                                        f2 = f;
-                                        staticLayout2 = staticLayout;
-                                        i19 = 1;
-                                        i7 = lineCount;
-                                        textPaint2 = textPaint3;
+                                        i4 = i11;
+                                        staticLayout2 = staticLayout4;
+                                        i5 = i9;
+                                        ceil = i10;
+                                        i21 = 1;
                                         FileLog.e(e);
-                                        i22 = i4;
+                                        i24 = i4;
                                         i3 = i5 + 1;
-                                        i21 = i6;
+                                        i23 = i6;
                                         lineCount = i7;
                                         textPaint3 = textPaint2;
                                         addEntitiesToText = z2;
                                         staticLayout = staticLayout2;
                                         i2 = 24;
-                                        f6 = 0.0f;
+                                        f7 = 0.0f;
                                         alignment = alignment2;
                                         f = f2;
                                     }
+                                    textLayoutBlock = textLayoutBlock2;
+                                    textLayoutBlock.textLayout = new StaticLayout(valueOf, 0, length, textPaint3, maxMessageTextWidth, alignment4, 1.0f, f3, false);
+                                    staticLayout4 = staticLayout2;
+                                } catch (Exception e12) {
+                                    e = e12;
+                                    alignment2 = alignment4;
+                                    z2 = addEntitiesToText;
+                                    i4 = i11;
+                                    i5 = i9;
+                                    ceil = i10;
+                                    i21 = 1;
+                                    FileLog.e(e);
+                                    i24 = i4;
+                                    i3 = i5 + 1;
+                                    i23 = i6;
+                                    lineCount = i7;
+                                    textPaint3 = textPaint2;
+                                    addEntitiesToText = z2;
+                                    staticLayout = staticLayout2;
+                                    i2 = 24;
+                                    f7 = 0.0f;
+                                    alignment = alignment2;
+                                    f = f2;
                                 }
-                                float lineTop2 = staticLayout4.getLineTop(i11);
-                                textLayoutBlock.textYOffset = lineTop2;
-                                i3 = i9;
-                                if (i3 != 0) {
-                                }
-                                int i252 = textLayoutBlock.height;
-                                StaticLayout staticLayout62 = textLayoutBlock.textLayout;
-                                textLayoutBlock.height = Math.max(i252, staticLayout62.getLineBottom(staticLayout62.getLineCount() - 1));
-                                float f102 = textLayoutBlock.textYOffset;
-                                ceil = i10;
-                                if (i3 != ceil - 1) {
-                                }
-                                f8 = f102;
-                            } catch (Exception e11) {
-                                e = e11;
+                                length = valueOf.length();
+                                i11 = i13;
+                                i9 = i3;
+                                i10 = ceil;
+                                i6 = i23;
+                                i7 = lineCount;
+                                staticLayout2 = staticLayout5;
+                                f2 = f3;
+                                textPaint2 = textPaint3;
+                            } catch (Exception e13) {
+                                e = e13;
+                                i4 = i13;
                                 alignment2 = alignment4;
                                 z2 = addEntitiesToText;
-                                i4 = i11;
-                                staticLayout2 = staticLayout4;
-                                i5 = i9;
-                                ceil = i10;
-                                i19 = 1;
+                                i5 = i3;
+                                i6 = i23;
+                                i7 = lineCount;
+                                f2 = f3;
+                                textPaint2 = textPaint3;
+                                staticLayout2 = staticLayout5;
+                                i21 = 1;
                                 FileLog.e(e);
-                                i22 = i4;
+                                i24 = i4;
                                 i3 = i5 + 1;
-                                i21 = i6;
+                                i23 = i6;
                                 lineCount = i7;
                                 textPaint3 = textPaint2;
                                 addEntitiesToText = z2;
                                 staticLayout = staticLayout2;
                                 i2 = 24;
-                                f6 = 0.0f;
+                                f7 = 0.0f;
                                 alignment = alignment2;
                                 f = f2;
                             }
-                            int i26 = i22;
-                            StaticLayout staticLayout7 = staticLayout;
+                            i13 = i24;
+                            staticLayout5 = staticLayout;
                             alignment4 = alignment;
-                            float f11 = f;
-                            int length = valueOf.length();
-                            i11 = i26;
-                            i9 = i3;
-                            i10 = ceil;
-                            i6 = i21;
-                            i7 = lineCount;
-                            staticLayout2 = staticLayout7;
-                            f2 = f11;
-                            textPaint2 = textPaint3;
-                            textLayoutBlock = textLayoutBlock2;
-                            textLayoutBlock.textLayout = new StaticLayout(valueOf, 0, length, textPaint3, maxMessageTextWidth, alignment4, 1.0f, f11, false);
-                            staticLayout4 = staticLayout2;
+                            f3 = f;
                         }
-                        i22 = i4;
+                        i24 = i4;
                         i3 = i5 + 1;
-                        i21 = i6;
+                        i23 = i6;
                         lineCount = i7;
                         textPaint3 = textPaint2;
                         addEntitiesToText = z2;
                         staticLayout = staticLayout2;
                         i2 = 24;
-                        f6 = 0.0f;
+                        f7 = 0.0f;
                         alignment = alignment2;
                         f = f2;
-                    }
-                    textLayoutBlock.spoilers.clear();
-                    if (!this.isSpoilersRevealed) {
-                        SpoilerEffect.addSpoilers(null, textLayoutBlock.textLayout, null, textLayoutBlock.spoilers);
                     }
                     this.textLayoutBlocks.add(textLayoutBlock);
                     float f12 = textLayoutBlock.textLayout.getLineLeft(i12 - 1);
@@ -6943,8 +6970,8 @@ public class MessageObject {
                     if (i3 == 0 && f12 >= 0.0f) {
                         try {
                             this.textXOffset = f12;
-                        } catch (Exception e12) {
-                            e = e12;
+                        } catch (Exception e14) {
+                            e = e14;
                             if (i3 == 0) {
                                 this.textXOffset = f13;
                             }
@@ -6954,23 +6981,26 @@ public class MessageObject {
                             ceil2 = (int) Math.ceil(f14);
                             if (ceil2 > maxMessageTextWidth + 80) {
                             }
-                            i13 = ceil - 1;
-                            if (i3 == i13) {
+                            i14 = ceil - 1;
+                            if (i3 == i14) {
                             }
                             float f15 = ceil2;
-                            int i27 = i3;
+                            int i28 = i3;
                             int ceil3 = (int) Math.ceil(Math.max(f13, f12) + f15);
                             if (i12 <= 1) {
                             }
-                            i22 = i14 + i15;
+                            i24 = i15 + i16;
+                            textLayoutBlock.spoilers.clear();
+                            if (this.isSpoilersRevealed) {
+                            }
                             i3 = i5 + 1;
-                            i21 = i6;
+                            i23 = i6;
                             lineCount = i7;
                             textPaint3 = textPaint2;
                             addEntitiesToText = z2;
                             staticLayout = staticLayout2;
                             i2 = 24;
-                            f6 = 0.0f;
+                            f7 = 0.0f;
                             alignment = alignment2;
                             f = f2;
                         }
@@ -6980,134 +7010,140 @@ public class MessageObject {
                     if (ceil2 > maxMessageTextWidth + 80) {
                         ceil2 = maxMessageTextWidth;
                     }
-                    i13 = ceil - 1;
-                    if (i3 == i13) {
+                    i14 = ceil - 1;
+                    if (i3 == i14) {
                         this.lastLineWidth = ceil2;
                     }
                     float f152 = ceil2;
-                    int i272 = i3;
+                    int i282 = i3;
                     int ceil32 = (int) Math.ceil(Math.max(f13, f12) + f152);
                     if (i12 <= 1) {
                         alignment2 = alignment4;
-                        int i28 = ceil32;
+                        int i29 = ceil32;
                         boolean z5 = false;
                         float f16 = 0.0f;
-                        int i29 = 0;
+                        int i30 = 0;
                         float f17 = 0.0f;
-                        while (i29 < i12) {
+                        while (i30 < i12) {
                             boolean z6 = addEntitiesToText;
                             try {
-                                f3 = textLayoutBlock.textLayout.getLineWidth(i29);
-                                staticLayout5 = staticLayout4;
+                                f4 = textLayoutBlock.textLayout.getLineWidth(i30);
+                                staticLayout6 = staticLayout4;
                             } catch (Exception unused) {
-                                staticLayout5 = staticLayout4;
-                                f3 = 0.0f;
-                            }
-                            try {
-                                f4 = textLayoutBlock.textLayout.getLineLeft(i29);
-                            } catch (Exception unused2) {
+                                staticLayout6 = staticLayout4;
                                 f4 = 0.0f;
                             }
-                            float f18 = f4;
-                            if (f3 > maxMessageTextWidth + 20) {
-                                f3 = maxMessageTextWidth;
+                            try {
+                                f5 = textLayoutBlock.textLayout.getLineLeft(i30);
+                            } catch (Exception unused2) {
                                 f5 = 0.0f;
-                            } else {
-                                f5 = f18;
                             }
-                            if (f5 > 0.0f) {
-                                i16 = i11;
-                                this.textXOffset = Math.min(this.textXOffset, f5);
-                                i17 = i12;
+                            float f18 = f5;
+                            if (f4 > maxMessageTextWidth + 20) {
+                                f4 = maxMessageTextWidth;
+                                f6 = 0.0f;
+                            } else {
+                                f6 = f18;
+                            }
+                            if (f6 > 0.0f) {
+                                i18 = i11;
+                                this.textXOffset = Math.min(this.textXOffset, f6);
+                                i19 = i12;
                                 textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 1);
                                 this.hasRtl = true;
                             } else {
-                                i16 = i11;
-                                i17 = i12;
+                                i18 = i11;
+                                i19 = i12;
                                 textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 2);
                             }
-                            if (!z5 && f5 == 0.0f) {
+                            if (!z5 && f6 == 0.0f) {
                                 try {
                                 } catch (Exception unused3) {
                                     z5 = true;
                                 }
-                                if (textLayoutBlock.textLayout.getParagraphDirection(i29) == 1) {
+                                if (textLayoutBlock.textLayout.getParagraphDirection(i30) == 1) {
                                     z3 = true;
                                     z5 = z3;
-                                    f17 = Math.max(f17, f3);
-                                    float f19 = f5 + f3;
+                                    f17 = Math.max(f17, f4);
+                                    float f19 = f6 + f4;
                                     f16 = Math.max(f16, f19);
-                                    ceil2 = Math.max(ceil2, (int) Math.ceil(f3));
-                                    i28 = Math.max(i28, (int) Math.ceil(f19));
-                                    i29++;
+                                    ceil2 = Math.max(ceil2, (int) Math.ceil(f4));
+                                    i29 = Math.max(i29, (int) Math.ceil(f19));
+                                    i30++;
                                     addEntitiesToText = z6;
-                                    i11 = i16;
-                                    i12 = i17;
-                                    staticLayout4 = staticLayout5;
+                                    i11 = i18;
+                                    i12 = i19;
+                                    staticLayout4 = staticLayout6;
                                 }
                             }
                             z3 = z5;
                             z5 = z3;
-                            f17 = Math.max(f17, f3);
-                            float f192 = f5 + f3;
+                            f17 = Math.max(f17, f4);
+                            float f192 = f6 + f4;
                             f16 = Math.max(f16, f192);
-                            ceil2 = Math.max(ceil2, (int) Math.ceil(f3));
-                            i28 = Math.max(i28, (int) Math.ceil(f192));
-                            i29++;
+                            ceil2 = Math.max(ceil2, (int) Math.ceil(f4));
+                            i29 = Math.max(i29, (int) Math.ceil(f192));
+                            i30++;
                             addEntitiesToText = z6;
-                            i11 = i16;
-                            i12 = i17;
-                            staticLayout4 = staticLayout5;
+                            i11 = i18;
+                            i12 = i19;
+                            staticLayout4 = staticLayout6;
                         }
                         z2 = addEntitiesToText;
-                        i14 = i11;
+                        i15 = i11;
                         staticLayout2 = staticLayout4;
-                        i15 = i12;
+                        i16 = i12;
                         if (z5) {
-                            i5 = i272;
-                            if (i5 == i13) {
+                            i5 = i282;
+                            if (i5 == i14) {
                                 this.lastLineWidth = ceil32;
                             }
                         } else {
-                            i5 = i272;
-                            if (i5 == i13) {
+                            i5 = i282;
+                            if (i5 == i14) {
                                 this.lastLineWidth = ceil2;
                             }
                             f16 = f17;
                         }
                         this.textWidth = Math.max(this.textWidth, (int) Math.ceil(f16));
-                        i19 = 1;
+                        i17 = i29;
+                        i21 = 1;
                     } else {
                         alignment2 = alignment4;
                         z2 = addEntitiesToText;
-                        i14 = i11;
+                        i15 = i11;
                         staticLayout2 = staticLayout4;
-                        i15 = i12;
-                        i5 = i272;
+                        i16 = i12;
+                        i5 = i282;
                         if (f12 > 0.0f) {
                             float min2 = Math.min(this.textXOffset, f12);
                             this.textXOffset = min2;
                             if (min2 == 0.0f) {
                                 ceil2 = (int) (f152 + f12);
                             }
-                            i19 = 1;
+                            i21 = 1;
                             this.hasRtl = ceil != 1;
                             textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 1);
                         } else {
-                            i19 = 1;
+                            i21 = 1;
                             textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 2);
                         }
                         this.textWidth = Math.max(this.textWidth, Math.min(maxMessageTextWidth, ceil2));
+                        i17 = ceil32;
                     }
-                    i22 = i14 + i15;
+                    i24 = i15 + i16;
+                    textLayoutBlock.spoilers.clear();
+                    if (this.isSpoilersRevealed) {
+                        SpoilerEffect.addSpoilers(null, textLayoutBlock.textLayout, -1, i17, null, textLayoutBlock.spoilers);
+                    }
                     i3 = i5 + 1;
-                    i21 = i6;
+                    i23 = i6;
                     lineCount = i7;
                     textPaint3 = textPaint2;
                     addEntitiesToText = z2;
                     staticLayout = staticLayout2;
                     i2 = 24;
-                    f6 = 0.0f;
+                    f7 = 0.0f;
                     alignment = alignment2;
                     f = f2;
                 }
@@ -7118,21 +7154,21 @@ public class MessageObject {
             }
             this.textHeight = staticLayout.getHeight();
             int lineCount2 = staticLayout.getLineCount();
-            int i202 = this.totalAnimatedEmojiCount;
-            if (i202 < 50) {
+            int i222 = this.totalAnimatedEmojiCount;
+            if (i222 < 50) {
             }
             if (i < i2) {
             }
             if (!z4) {
             }
-            int i222 = 0;
+            int i242 = 0;
             i3 = 0;
-            float f82 = 0.0f;
+            float f92 = 0.0f;
             while (i3 < ceil) {
             }
             return;
-        } catch (Exception e13) {
-            FileLog.e(e13);
+        } catch (Exception e15) {
+            FileLog.e(e15);
             return;
         }
         z = false;
@@ -7146,7 +7182,7 @@ public class MessageObject {
         if (!(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaGame)) {
         }
         TextPaint textPaint32 = textPaint;
-        float f62 = 0.0f;
+        float f72 = 0.0f;
         if (this.totalAnimatedEmojiCount < 4) {
         }
         Layout.Alignment alignment52 = Layout.Alignment.ALIGN_NORMAL;

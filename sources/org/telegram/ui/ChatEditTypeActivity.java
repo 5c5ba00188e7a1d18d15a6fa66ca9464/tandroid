@@ -503,7 +503,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
                 ChatEditTypeActivity.this.inviteLinkBottomSheet.show();
             }
         });
-        this.permanentLinkView.setUsers(0, null);
+        this.permanentLinkView.setUsers(0, null, false);
         this.privateContainer.addView(this.permanentLinkView);
         6 r0 = new 6(context);
         this.checkTextView = r0;

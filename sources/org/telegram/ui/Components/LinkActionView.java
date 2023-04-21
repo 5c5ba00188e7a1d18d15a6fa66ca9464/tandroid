@@ -60,6 +60,7 @@ public class LinkActionView extends LinearLayout {
     private boolean isChannel;
     String link;
     TextView linkView;
+    private String loadedInviteLink;
     boolean loadingImporters;
     ImageView optionsView;
     private boolean permanent;
@@ -170,6 +171,7 @@ public class LinkActionView extends LinearLayout {
         addView(linearLayout, LayoutHelper.createLinear(-1, -2, 0.0f, 20.0f, 0.0f, 0.0f));
         AvatarsContainer avatarsContainer = new AvatarsContainer(context);
         this.avatarsContainer = avatarsContainer;
+        avatarsContainer.avatarsImageView.setAvatarsTextSize(AndroidUtilities.dp(18.0f));
         addView(avatarsContainer, LayoutHelper.createLinear(-1, 44, 0.0f, 12.0f, 0.0f, 0.0f));
         textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda9
             @Override // android.view.View.OnClickListener
@@ -620,6 +622,10 @@ public class LinkActionView extends LinearLayout {
     }
 
     public void setUsers(int i, ArrayList<TLRPC$User> arrayList) {
+        setUsers(i, arrayList, false);
+    }
+
+    public void setUsers(int i, ArrayList<TLRPC$User> arrayList, boolean z) {
         this.usersCount = i;
         if (i == 0) {
             this.avatarsContainer.setVisibility(8);
@@ -631,52 +637,60 @@ public class LinkActionView extends LinearLayout {
             this.avatarsContainer.requestLayout();
         }
         if (arrayList != null) {
-            for (int i2 = 0; i2 < 3; i2++) {
-                if (i2 < arrayList.size()) {
-                    MessagesController.getInstance(UserConfig.selectedAccount).putUser(arrayList.get(i2), false);
-                    this.avatarsContainer.avatarsImageView.setObject(i2, UserConfig.selectedAccount, arrayList.get(i2));
-                } else {
-                    this.avatarsContainer.avatarsImageView.setObject(i2, UserConfig.selectedAccount, null);
-                }
+            for (int i2 = 0; i2 < arrayList.size(); i2++) {
+                MessagesController.getInstance(UserConfig.selectedAccount).putUser(arrayList.get(i2), false);
             }
-            this.avatarsContainer.avatarsImageView.commitTransition(false);
+            int min = Math.min(3, Math.min(i, arrayList.size()));
+            this.avatarsContainer.avatarsImageView.setCount(min);
+            for (int i3 = 0; i3 < min; i3++) {
+                this.avatarsContainer.avatarsImageView.setObject(i3, UserConfig.selectedAccount, arrayList.get(i3));
+            }
+        } else {
+            this.avatarsContainer.avatarsImageView.setCount(0);
         }
+        this.avatarsContainer.avatarsImageView.commitTransition(z);
     }
 
     public void loadUsers(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, long j) {
         if (tLRPC$TL_chatInviteExported == null) {
-            setUsers(0, null);
-            return;
-        }
-        setUsers(tLRPC$TL_chatInviteExported.usage, tLRPC$TL_chatInviteExported.importers);
-        if (tLRPC$TL_chatInviteExported.usage <= 0 || tLRPC$TL_chatInviteExported.importers != null || this.loadingImporters) {
-            return;
-        }
-        TLRPC$TL_messages_getChatInviteImporters tLRPC$TL_messages_getChatInviteImporters = new TLRPC$TL_messages_getChatInviteImporters();
-        tLRPC$TL_messages_getChatInviteImporters.link = tLRPC$TL_chatInviteExported.link;
-        tLRPC$TL_messages_getChatInviteImporters.peer = MessagesController.getInstance(UserConfig.selectedAccount).getInputPeer(-j);
-        tLRPC$TL_messages_getChatInviteImporters.offset_user = new TLRPC$TL_inputUserEmpty();
-        tLRPC$TL_messages_getChatInviteImporters.limit = Math.min(tLRPC$TL_chatInviteExported.usage, 3);
-        this.loadingImporters = true;
-        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_getChatInviteImporters, new RequestDelegate() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda11
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                LinkActionView.this.lambda$loadUsers$12(tLRPC$TL_chatInviteExported, tLObject, tLRPC$TL_error);
+            setUsers(0, null, false);
+        } else if (TextUtils.equals(this.loadedInviteLink, tLRPC$TL_chatInviteExported.link)) {
+        } else {
+            setUsers(tLRPC$TL_chatInviteExported.usage, tLRPC$TL_chatInviteExported.importers, false);
+            if (tLRPC$TL_chatInviteExported.usage <= 0 || tLRPC$TL_chatInviteExported.importers != null || this.loadingImporters) {
+                return;
             }
-        });
+            TLRPC$TL_messages_getChatInviteImporters tLRPC$TL_messages_getChatInviteImporters = new TLRPC$TL_messages_getChatInviteImporters();
+            String str = tLRPC$TL_chatInviteExported.link;
+            if (str != null) {
+                tLRPC$TL_messages_getChatInviteImporters.flags |= 2;
+                tLRPC$TL_messages_getChatInviteImporters.link = str;
+            }
+            tLRPC$TL_messages_getChatInviteImporters.peer = MessagesController.getInstance(UserConfig.selectedAccount).getInputPeer(-j);
+            tLRPC$TL_messages_getChatInviteImporters.offset_user = new TLRPC$TL_inputUserEmpty();
+            tLRPC$TL_messages_getChatInviteImporters.limit = Math.min(tLRPC$TL_chatInviteExported.usage, 3);
+            this.loadingImporters = true;
+            ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_getChatInviteImporters, new RequestDelegate() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda11
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    LinkActionView.this.lambda$loadUsers$12(tLRPC$TL_chatInviteExported, tLObject, tLRPC$TL_error);
+                }
+            });
+        }
     }
 
     public /* synthetic */ void lambda$loadUsers$12(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
-                LinkActionView.this.lambda$loadUsers$11(tLRPC$TL_error, tLObject, tLRPC$TL_chatInviteExported);
+                LinkActionView.this.lambda$loadUsers$11(tLRPC$TL_chatInviteExported, tLRPC$TL_error, tLObject);
             }
         });
     }
 
-    public /* synthetic */ void lambda$loadUsers$11(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
+    public /* synthetic */ void lambda$loadUsers$11(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         this.loadingImporters = false;
+        this.loadedInviteLink = tLRPC$TL_chatInviteExported.link;
         if (tLRPC$TL_error == null) {
             TLRPC$TL_messages_chatInviteImporters tLRPC$TL_messages_chatInviteImporters = (TLRPC$TL_messages_chatInviteImporters) tLObject;
             if (tLRPC$TL_chatInviteExported.importers == null) {
@@ -686,7 +700,7 @@ public class LinkActionView extends LinearLayout {
             for (int i = 0; i < tLRPC$TL_messages_chatInviteImporters.users.size(); i++) {
                 tLRPC$TL_chatInviteExported.importers.addAll(tLRPC$TL_messages_chatInviteImporters.users);
             }
-            setUsers(tLRPC$TL_chatInviteExported.usage, tLRPC$TL_chatInviteExported.importers);
+            setUsers(tLRPC$TL_chatInviteExported.usage, tLRPC$TL_chatInviteExported.importers, true);
         }
     }
 

@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
@@ -68,7 +69,6 @@ import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.TopicCreateFragment;
 /* loaded from: classes3.dex */
 public class TopicCreateFragment extends BaseFragment {
-    int animationIndex;
     BackupImageView[] backupImageView;
     long chatId;
     TextCheckCell2 checkBoxCell;
@@ -78,6 +78,7 @@ public class TopicCreateFragment extends BaseFragment {
     String firstSymbol;
     ForumBubbleDrawable forumBubbleDrawable;
     int iconColor;
+    AnimationNotificationsLocker notificationsLocker;
     ReplaceableIconDrawable replaceableIconDrawable;
     SelectAnimatedEmojiDialog selectAnimatedEmojiDialog;
     long selectedEmojiDocumentId;
@@ -95,7 +96,7 @@ public class TopicCreateFragment extends BaseFragment {
         super(bundle);
         this.backupImageView = new BackupImageView[2];
         this.firstSymbol = "";
-        this.animationIndex = 0;
+        this.notificationsLocker = new AnimationNotificationsLocker();
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -621,7 +622,7 @@ public class TopicCreateFragment extends BaseFragment {
     public void onTransitionAnimationStart(boolean z, boolean z2) {
         super.onTransitionAnimationStart(z, z2);
         if (z) {
-            this.animationIndex = getNotificationCenter().setAnimationInProgress(this.animationIndex, null);
+            this.notificationsLocker.lock();
         }
     }
 
@@ -631,7 +632,7 @@ public class TopicCreateFragment extends BaseFragment {
         if (!z && this.created) {
             removeSelfFromStack();
         }
-        getNotificationCenter().onAnimationFinish(this.animationIndex);
+        this.notificationsLocker.unlock();
         SelectAnimatedEmojiDialog selectAnimatedEmojiDialog = this.selectAnimatedEmojiDialog;
         if (selectAnimatedEmojiDialog != null) {
             selectAnimatedEmojiDialog.setAnimationsEnabled(this.fragmentBeginToShow);

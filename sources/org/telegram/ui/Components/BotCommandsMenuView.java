@@ -19,7 +19,9 @@ import androidx.collection.LongSparseArray;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC$BotInfo;
 import org.telegram.tgnet.TLRPC$TL_botCommand;
@@ -351,9 +353,15 @@ public class BotCommandsMenuView extends View {
             super(context);
             setOrientation(0);
             setPadding(AndroidUtilities.dp(16.0f), 0, AndroidUtilities.dp(16.0f), 0);
-            TextView textView = new TextView(context);
+            TextView textView = new TextView(this, context) { // from class: org.telegram.ui.Components.BotCommandsMenuView.BotCommandView.1
+                @Override // android.widget.TextView
+                public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
+                    super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false), bufferType);
+                }
+            };
             this.description = textView;
-            textView.setTextSize(1, 16.0f);
+            NotificationCenter.listenEmojiLoading(textView);
+            this.description.setTextSize(1, 16.0f);
             TextView textView2 = this.description;
             int i = Theme.key_windowBackgroundWhiteBlackText;
             textView2.setTextColor(Theme.getColor(i));

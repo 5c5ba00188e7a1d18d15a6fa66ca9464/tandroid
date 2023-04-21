@@ -43,7 +43,6 @@ import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
 import java.util.Map;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
@@ -53,6 +52,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedFloat;
+import org.telegram.ui.Components.EffectsTextView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LineProgressView;
 import org.telegram.ui.Components.RLottieDrawable;
@@ -228,10 +228,8 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             this.textView.setPadding(0, 0, 0, 0);
         }
 
-        private int getThemedColor(int i) {
-            Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-            Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
-            return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
+        protected int getThemedColor(int i) {
+            return Theme.getColor(i, this.resourcesProvider);
         }
     }
 
@@ -473,14 +471,9 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             linearLayout.setOrientation(1);
             this.contentScrollView.addView(this.scrollContainer, new FrameLayout.LayoutParams(-1, -2));
         }
-        SpoilersTextView spoilersTextView2 = new SpoilersTextView(this, getContext(), false) { // from class: org.telegram.ui.ActionBar.AlertDialog.4
-            @Override // org.telegram.ui.Components.spoilers.SpoilersTextView, android.widget.TextView
-            public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
-                super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false), bufferType);
-            }
-        };
-        this.messageTextView = spoilersTextView2;
-        NotificationCenter.listenEmojiLoading(spoilersTextView2);
+        EffectsTextView effectsTextView = new EffectsTextView(getContext());
+        this.messageTextView = effectsTextView;
+        NotificationCenter.listenEmojiLoading(effectsTextView);
         this.messageTextView.setTextColor(getThemedColor(this.topAnimationIsNew ? Theme.key_windowBackgroundWhiteGrayText : Theme.key_dialogTextBlack));
         this.messageTextView.setTextSize(1, 16.0f);
         this.messageTextView.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
@@ -584,7 +577,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                 linearLayout2.setOrientation(1);
                 this.buttonsLayout = linearLayout2;
             } else {
-                this.buttonsLayout = new FrameLayout(this, getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.5
+                this.buttonsLayout = new FrameLayout(this, getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.4
                     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
                     protected void onLayout(boolean z3, int i6, int i7, int i8, int i9) {
                         int i10;
@@ -672,7 +665,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                 this.buttonsLayout.setTranslationY(-AndroidUtilities.dp(8.0f));
             }
             if (this.positiveButtonText != null) {
-                TextView textView5 = new TextView(this, getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.6
+                TextView textView5 = new TextView(this, getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.5
                     @Override // android.widget.TextView, android.view.View
                     public void setEnabled(boolean z3) {
                         super.setEnabled(z3);
@@ -707,7 +700,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                 });
             }
             if (this.negativeButtonText != null) {
-                TextView textView6 = new TextView(this, getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.7
+                TextView textView6 = new TextView(this, getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.6
                     @Override // android.widget.TextView, android.view.View
                     public void setEnabled(boolean z3) {
                         super.setEnabled(z3);
@@ -744,7 +737,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                 });
             }
             if (this.neutralButtonText != null) {
-                TextView textView7 = new TextView(this, getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.8
+                TextView textView7 = new TextView(this, getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.7
                     @Override // android.widget.TextView, android.view.View
                     public void setEnabled(boolean z3) {
                         super.setEnabled(z3);
@@ -1314,7 +1307,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             animatorSet.playTogether(animatorArr);
         }
         this.shadowAnimation[i].setDuration(150L);
-        this.shadowAnimation[i].addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.AlertDialog.9
+        this.shadowAnimation[i].addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.AlertDialog.8
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 if (AlertDialog.this.shadowAnimation[i] == null || !AlertDialog.this.shadowAnimation[i].equals(animator)) {
@@ -1494,9 +1487,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
 
     /* JADX INFO: Access modifiers changed from: protected */
     public int getThemedColor(int i) {
-        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
-        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
+        return Theme.getColor(i, this.resourcesProvider);
     }
 
     public void showDelayed(long j) {

@@ -378,11 +378,11 @@ public class UndoView extends FrameLayout {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:602:0x17b8  */
-    /* JADX WARN: Removed duplicated region for block: B:605:0x17d8  */
-    /* JADX WARN: Removed duplicated region for block: B:608:0x17ff  */
-    /* JADX WARN: Removed duplicated region for block: B:612:0x1844  */
-    /* JADX WARN: Removed duplicated region for block: B:643:0x18f6  */
+    /* JADX WARN: Removed duplicated region for block: B:602:0x17ba  */
+    /* JADX WARN: Removed duplicated region for block: B:605:0x17da  */
+    /* JADX WARN: Removed duplicated region for block: B:608:0x1801  */
+    /* JADX WARN: Removed duplicated region for block: B:612:0x1846  */
+    /* JADX WARN: Removed duplicated region for block: B:643:0x18f8  */
     /* JADX WARN: Removed duplicated region for block: B:669:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r2v421, types: [java.lang.CharSequence] */
     /*
@@ -1318,7 +1318,7 @@ public class UndoView extends FrameLayout {
                 if (str12 != null) {
                     this.avatarImageView.setImage(str12, null, Theme.chat_attachEmptyDrawable);
                 } else if (photoEntry.path != null) {
-                    this.avatarImageView.setOrientation(photoEntry.orientation, true);
+                    this.avatarImageView.setOrientation(photoEntry.orientation, photoEntry.invert, true);
                     if (photoEntry.isVideo) {
                         this.avatarImageView.setImage("vthumb://" + photoEntry.imageId + ":" + photoEntry.path, null, Theme.chat_attachEmptyDrawable);
                     } else {
@@ -1584,8 +1584,6 @@ public class UndoView extends FrameLayout {
     }
 
     private int getThemedColor(int i) {
-        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
-        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
+        return Theme.getColor(i, this.resourcesProvider);
     }
 }

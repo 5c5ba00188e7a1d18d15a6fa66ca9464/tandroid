@@ -222,7 +222,7 @@ public class ForwardingPreviewView extends FrameLayout {
             }
 
             /* JADX WARN: Type inference failed for: r3v0 */
-            /* JADX WARN: Type inference failed for: r3v1, types: [int, boolean] */
+            /* JADX WARN: Type inference failed for: r3v1, types: [boolean, int] */
             /* JADX WARN: Type inference failed for: r3v9 */
             private void drawChatBackgroundElements(Canvas canvas) {
                 boolean z;
@@ -1445,8 +1445,6 @@ public class ForwardingPreviewView extends FrameLayout {
     }
 
     private int getThemedColor(int i) {
-        ResourcesDelegate resourcesDelegate = this.resourcesProvider;
-        Integer valueOf = resourcesDelegate != null ? Integer.valueOf(resourcesDelegate.getColor(i)) : null;
-        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
+        return Theme.getColor(i, this.resourcesProvider);
     }
 }

@@ -1,6 +1,5 @@
 package org.telegram.ui.ActionBar;
 
-import android.util.Log;
 import android.util.SparseArray;
 import androidx.core.graphics.ColorUtils;
 import java.util.HashMap;
@@ -1444,7 +1443,6 @@ public class ThemeColors {
             colorKeysStringMap = createColorKeysStringMap();
         }
         if (colorKeysStringMap.get(str) == null) {
-            Log.d("kek", "can't theme find key " + str);
             return -1;
         }
         return colorKeysStringMap.get(str).intValue();

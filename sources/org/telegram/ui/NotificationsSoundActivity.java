@@ -577,6 +577,22 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         updateRows();
     }
 
+    public static String findRingtonePathByName(String str) {
+        if (str == null) {
+            return null;
+        }
+        RingtoneManager ringtoneManager = new RingtoneManager(ApplicationLoader.applicationContext);
+        ringtoneManager.setType(2);
+        Cursor cursor = ringtoneManager.getCursor();
+        while (cursor.moveToNext()) {
+            String str2 = cursor.getString(2) + "/" + cursor.getString(0);
+            if (str.equalsIgnoreCase(cursor.getString(1))) {
+                return str2;
+            }
+        }
+        return null;
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public void updateRows() {
         this.serverTonesHeaderRow = -1;

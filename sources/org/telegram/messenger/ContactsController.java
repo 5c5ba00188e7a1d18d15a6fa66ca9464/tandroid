@@ -34,6 +34,7 @@ import org.telegram.messenger.ContactsController;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
+import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$InputUser;
 import org.telegram.tgnet.TLRPC$PrivacyRule;
 import org.telegram.tgnet.TLRPC$TL_accountDaysTTL;
@@ -3722,6 +3723,13 @@ public class ContactsController extends BaseController {
                 FileLog.e(e);
             }
         }
+    }
+
+    public static String formatName(TLObject tLObject) {
+        if (tLObject instanceof TLRPC$User) {
+            return formatName((TLRPC$User) tLObject);
+        }
+        return tLObject instanceof TLRPC$Chat ? ((TLRPC$Chat) tLObject).title : "DELETED";
     }
 
     public static String formatName(TLRPC$User tLRPC$User) {

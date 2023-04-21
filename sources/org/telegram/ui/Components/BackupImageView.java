@@ -103,6 +103,10 @@ public class BackupImageView extends View {
         this.imageReceiver.setOrientation(i, z);
     }
 
+    public void setOrientation(int i, int i2, boolean z) {
+        this.imageReceiver.setOrientation(i, i2, z);
+    }
+
     public void setImage(SecureDocument secureDocument, String str) {
         setImage(ImageLocation.getForSecureDocument(secureDocument), str, null, null, null, null, null, 0, null);
     }

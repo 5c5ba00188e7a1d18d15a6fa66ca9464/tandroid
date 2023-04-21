@@ -11,8 +11,8 @@ public final /* synthetic */ class AlertsCreator$$ExternalSyntheticLambda88 impl
 
     @Override // android.view.View.OnTouchListener
     public final boolean onTouch(View view, MotionEvent motionEvent) {
-        boolean lambda$createDatePickerDialog$66;
-        lambda$createDatePickerDialog$66 = AlertsCreator.lambda$createDatePickerDialog$66(view, motionEvent);
-        return lambda$createDatePickerDialog$66;
+        boolean lambda$createCalendarPickerDialog$93;
+        lambda$createCalendarPickerDialog$93 = AlertsCreator.lambda$createCalendarPickerDialog$93(view, motionEvent);
+        return lambda$createCalendarPickerDialog$93;
     }
 }

@@ -339,7 +339,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
                 BackupImageView backupImageView = this.thumbImageView;
                 backupImageView.setImage("vthumb://" + photoEntry.imageId + ":" + photoEntry.path, null, Theme.chat_attachEmptyDrawable);
             } else {
-                this.thumbImageView.setOrientation(photoEntry.orientation, true);
+                this.thumbImageView.setOrientation(photoEntry.orientation, photoEntry.invert, true);
                 BackupImageView backupImageView2 = this.thumbImageView;
                 backupImageView2.setImage("thumb://" + photoEntry.imageId + ":" + photoEntry.path, null, Theme.chat_attachEmptyDrawable);
             }
@@ -706,9 +706,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
     }
 
     private int getThemedColor(int i) {
-        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        Integer valueOf = resourcesProvider != null ? Integer.valueOf(resourcesProvider.getColor(i)) : null;
-        return valueOf != null ? valueOf.intValue() : Theme.getColor(i);
+        return Theme.getColor(i, this.resourcesProvider);
     }
 
     public void setGlobalGradientView(FlickerLoadingView flickerLoadingView) {
