@@ -2761,13 +2761,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Type inference failed for: r10v1, types: [boolean] */
     /* JADX WARN: Type inference failed for: r10v10 */
     /* JADX WARN: Type inference failed for: r10v13 */
-    /* JADX WARN: Type inference failed for: r10v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r10v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r10v9 */
     /* JADX WARN: Type inference failed for: r13v0 */
-    /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r13v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r13v4 */
     /* JADX WARN: Type inference failed for: r9v2 */
-    /* JADX WARN: Type inference failed for: r9v3, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r9v3, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r9v4 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*

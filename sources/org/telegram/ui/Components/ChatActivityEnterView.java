@@ -3991,7 +3991,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         canvas.drawRect(0.0f, i, getWidth(), getHeight(), getThemedPaint("paintChatComposeBackground"));
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(13:5|(1:71)(1:9)|10|(8:12|(1:40)(1:16)|(1:39)(1:22)|23|(4:25|(1:27)(1:33)|28|(1:32))|(1:35)|36|(1:38))|41|(3:43|(2:45|(1:51))|52)|53|(4:55|(1:69)(1:59)|60|(5:62|63|64|65|66))|70|63|64|65|66) */
+    /* JADX WARN: Can't wrap try/catch for region: R(13:5|(1:73)(1:9)|10|(8:12|(1:40)(1:16)|(1:39)(1:22)|23|(4:25|(1:27)(1:33)|28|(1:32))|(1:35)|36|(1:38))|41|(3:43|(2:47|(1:53))|54)|55|(4:57|(1:71)(1:61)|62|(5:64|65|66|67|68))|72|65|66|67|68) */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4105,7 +4105,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
         if (this.sendWhenOnlineButton != null) {
             TLRPC$User currentUser = this.parentFragment.getCurrentUser();
-            if (currentUser != null) {
+            if (currentUser != null && !currentUser.bot) {
                 TLRPC$UserStatus tLRPC$UserStatus = currentUser.status;
                 if (!(tLRPC$UserStatus instanceof TLRPC$TL_userStatusEmpty) && !(tLRPC$UserStatus instanceof TLRPC$TL_userStatusOnline) && !(tLRPC$UserStatus instanceof TLRPC$TL_userStatusRecently)) {
                     this.sendWhenOnlineButton.setVisibility(0);

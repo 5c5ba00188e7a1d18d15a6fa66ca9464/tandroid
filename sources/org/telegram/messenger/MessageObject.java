@@ -43,6 +43,7 @@ import org.telegram.messenger.ringtone.RingtoneDataStore;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLObject;
+import org.telegram.tgnet.TLRPC$BotApp;
 import org.telegram.tgnet.TLRPC$BotInlineResult;
 import org.telegram.tgnet.TLRPC$ChannelAdminLogEventAction;
 import org.telegram.tgnet.TLRPC$ChannelLocation;
@@ -4001,13 +4002,13 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:292:0x07e3  */
     /* JADX WARN: Removed duplicated region for block: B:352:0x0969  */
     /* JADX WARN: Removed duplicated region for block: B:360:0x09cd  */
-    /* JADX WARN: Removed duplicated region for block: B:636:0x1182  */
-    /* JADX WARN: Removed duplicated region for block: B:740:0x140c  */
-    /* JADX WARN: Removed duplicated region for block: B:760:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:646:0x11f3  */
+    /* JADX WARN: Removed duplicated region for block: B:750:0x147d  */
+    /* JADX WARN: Removed duplicated region for block: B:770:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r8v1, types: [org.telegram.tgnet.TLObject] */
-    /* JADX WARN: Type inference failed for: r8v15 */
-    /* JADX WARN: Type inference failed for: r8v3, types: [org.telegram.tgnet.TLObject] */
+    /* JADX WARN: Type inference failed for: r8v17 */
     /* JADX WARN: Type inference failed for: r8v5, types: [org.telegram.tgnet.TLObject] */
+    /* JADX WARN: Type inference failed for: r8v7, types: [org.telegram.tgnet.TLObject] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4020,6 +4021,7 @@ public class MessageObject {
         String string;
         String formatString;
         String formatString2;
+        String publicUsername;
         String str3;
         TLRPC$Chat tLRPC$Chat;
         String sb;
@@ -4664,16 +4666,28 @@ public class MessageObject {
                                     generatePaymentSentMessageText(getUser(abstractMap, longSparseArray, getDialogId()));
                                 } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionBotAllowed) {
                                     String str4 = ((TLRPC$TL_messageActionBotAllowed) tLRPC$MessageAction).domain;
-                                    if (str4 == null) {
-                                        this.messageText = LocaleController.getString(R.string.ActionBotAllowedNoDomain);
-                                    } else {
-                                        String string2 = LocaleController.getString("ActionBotAllowed", R.string.ActionBotAllowed);
+                                    TLRPC$BotApp tLRPC$BotApp = ((TLRPC$TL_messageActionBotAllowed) tLRPC$MessageAction).app;
+                                    if (tLRPC$BotApp != null) {
+                                        String str5 = tLRPC$BotApp.title;
+                                        String string2 = LocaleController.getString("ActionBotAllowedApp", R.string.ActionBotAllowedApp);
                                         int indexOf3 = string2.indexOf("%1$s");
-                                        SpannableString spannableString2 = new SpannableString(String.format(string2, str4));
-                                        if (indexOf3 >= 0) {
-                                            spannableString2.setSpan(new URLSpanNoUnderlineBold("http://" + str4), indexOf3, str4.length() + indexOf3, 33);
+                                        SpannableString spannableString2 = new SpannableString(String.format(string2, str5));
+                                        TLRPC$User user7 = getUser(abstractMap, longSparseArray, getDialogId());
+                                        if (indexOf3 >= 0 && user7 != null && (publicUsername = UserObject.getPublicUsername(user7)) != null) {
+                                            spannableString2.setSpan(new URLSpanNoUnderlineBold("https://" + MessagesController.getInstance(this.currentAccount).linkPrefix + "/" + publicUsername + "/" + tLRPC$BotApp.short_name), indexOf3, str5.length() + indexOf3, 33);
                                         }
                                         this.messageText = spannableString2;
+                                    } else {
+                                        if (str4 == null) {
+                                            str4 = str;
+                                        }
+                                        String string3 = LocaleController.getString("ActionBotAllowed", R.string.ActionBotAllowed);
+                                        int indexOf4 = string3.indexOf("%1$s");
+                                        SpannableString spannableString3 = new SpannableString(String.format(string3, str4));
+                                        if (indexOf4 >= 0 && !TextUtils.isEmpty(str4)) {
+                                            spannableString3.setSpan(new URLSpanNoUnderlineBold("http://" + str4), indexOf4, str4.length() + indexOf4, 33);
+                                        }
+                                        this.messageText = spannableString3;
                                     }
                                 } else if ((tLRPC$MessageAction instanceof TLRPC$TL_messageActionAttachMenuBotAllowed) || ((tLRPC$MessageAction instanceof TLRPC$TL_messageActionBotAllowed) && ((TLRPC$TL_messageActionBotAllowed) tLRPC$MessageAction).attach_menu)) {
                                     this.messageText = LocaleController.getString(R.string.ActionAttachMenuBotAllowed);
@@ -4719,21 +4733,21 @@ public class MessageObject {
                                 } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionWebViewDataSent) {
                                     this.messageText = LocaleController.formatString("ActionBotWebViewData", R.string.ActionBotWebViewData, ((TLRPC$TL_messageActionWebViewDataSent) tLRPC$MessageAction).text);
                                 } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionSetChatTheme) {
-                                    String str5 = ((TLRPC$TL_messageActionSetChatTheme) tLRPC$MessageAction).emoticon;
+                                    String str6 = ((TLRPC$TL_messageActionSetChatTheme) tLRPC$MessageAction).emoticon;
                                     String firstName2 = UserObject.getFirstName(tLRPC$User);
                                     boolean isUserSelf = UserObject.isUserSelf(tLRPC$User);
-                                    if (TextUtils.isEmpty(str5)) {
+                                    if (TextUtils.isEmpty(str6)) {
                                         if (isUserSelf) {
                                             formatString2 = LocaleController.formatString("ChatThemeDisabledYou", R.string.ChatThemeDisabledYou, new Object[0]);
                                         } else {
-                                            formatString2 = LocaleController.formatString("ChatThemeDisabled", R.string.ChatThemeDisabled, firstName2, str5);
+                                            formatString2 = LocaleController.formatString("ChatThemeDisabled", R.string.ChatThemeDisabled, firstName2, str6);
                                         }
                                         this.messageText = formatString2;
                                     } else {
                                         if (isUserSelf) {
-                                            formatString = LocaleController.formatString("ChatThemeChangedYou", R.string.ChatThemeChangedYou, str5);
+                                            formatString = LocaleController.formatString("ChatThemeChangedYou", R.string.ChatThemeChangedYou, str6);
                                         } else {
-                                            formatString = LocaleController.formatString("ChatThemeChangedTo", R.string.ChatThemeChangedTo, firstName2, str5);
+                                            formatString = LocaleController.formatString("ChatThemeChangedTo", R.string.ChatThemeChangedTo, firstName2, str6);
                                         }
                                         this.messageText = formatString;
                                     }
@@ -4826,10 +4840,10 @@ public class MessageObject {
                         }
                     }
                 } else {
-                    String str6 = this.messageOwner.message;
-                    if (str6 != null) {
+                    String str7 = this.messageOwner.message;
+                    if (str7 != null) {
                         try {
-                            if (str6.length() > 200) {
+                            if (str7.length() > 200) {
                                 this.messageText = AndroidUtilities.BAD_CHARS_MESSAGE_LONG_PATTERN.matcher(this.messageOwner.message).replaceAll("\u200c");
                             } else {
                                 this.messageText = AndroidUtilities.BAD_CHARS_MESSAGE_PATTERN.matcher(this.messageOwner.message).replaceAll("\u200c");
@@ -4838,7 +4852,7 @@ public class MessageObject {
                             this.messageText = this.messageOwner.message;
                         }
                     } else {
-                        this.messageText = str6;
+                        this.messageText = str7;
                     }
                 }
             }

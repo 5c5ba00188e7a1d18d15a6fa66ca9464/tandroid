@@ -2232,7 +2232,7 @@ public final class R {
         public static final int ActionAddUserYou = 0x7f0e00da;
         public static final int ActionAttachMenuBotAllowed = 0x7f0e00db;
         public static final int ActionBotAllowed = 0x7f0e00dc;
-        public static final int ActionBotAllowedNoDomain = 0x7f0e00dd;
+        public static final int ActionBotAllowedApp = 0x7f0e00dd;
         public static final int ActionBotDocumentAddress = 0x7f0e00de;
         public static final int ActionBotDocumentBankStatement = 0x7f0e00df;
         public static final int ActionBotDocumentDriverLicence = 0x7f0e00e0;

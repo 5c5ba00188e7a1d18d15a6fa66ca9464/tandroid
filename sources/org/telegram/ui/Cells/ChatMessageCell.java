@@ -5451,13 +5451,13 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r2v1016 */
     /* JADX WARN: Type inference failed for: r2v1017 */
     /* JADX WARN: Type inference failed for: r2v26 */
-    /* JADX WARN: Type inference failed for: r2v27, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r2v27, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r2v35 */
-    /* JADX WARN: Type inference failed for: r2v48, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r2v48, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r4v248 */
     /* JADX WARN: Type inference failed for: r4v249 */
     /* JADX WARN: Type inference failed for: r4v388 */
-    /* JADX WARN: Type inference failed for: r5v226, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r5v226, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r5v249 */
     /* JADX WARN: Type inference failed for: r5v536 */
     /* JADX WARN: Type inference failed for: r63v1 */
@@ -23521,7 +23521,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Removed duplicated region for block: B:764:0x0bb9  */
     /* JADX WARN: Removed duplicated region for block: B:767:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r15v1 */
-    /* JADX WARN: Type inference failed for: r15v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r15v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r15v22 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -26312,7 +26312,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r5v2 */
     /* JADX WARN: Type inference failed for: r5v3, types: [org.telegram.tgnet.TLRPC$Chat, org.telegram.tgnet.TLRPC$User, java.lang.String] */
     /* JADX WARN: Type inference failed for: r6v1 */
-    /* JADX WARN: Type inference failed for: r6v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r6v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r6v56 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

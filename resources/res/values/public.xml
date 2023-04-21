@@ -2066,7 +2066,7 @@
     <public type="string" name="ActionAddUserYou" id="0x7f0e00da" />
     <public type="string" name="ActionAttachMenuBotAllowed" id="0x7f0e00db" />
     <public type="string" name="ActionBotAllowed" id="0x7f0e00dc" />
-    <public type="string" name="ActionBotAllowedNoDomain" id="0x7f0e00dd" />
+    <public type="string" name="ActionBotAllowedApp" id="0x7f0e00dd" />
     <public type="string" name="ActionBotDocumentAddress" id="0x7f0e00de" />
     <public type="string" name="ActionBotDocumentBankStatement" id="0x7f0e00df" />
     <public type="string" name="ActionBotDocumentDriverLicence" id="0x7f0e00e0" />

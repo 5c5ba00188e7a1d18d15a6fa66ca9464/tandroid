@@ -20866,7 +20866,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r4v29 */
     /* JADX WARN: Type inference failed for: r4v31 */
     /* JADX WARN: Type inference failed for: r7v14 */
-    /* JADX WARN: Type inference failed for: r7v15, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r7v15, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v18 */
     /* JADX WARN: Type inference failed for: r7v19 */
     /*
@@ -21954,7 +21954,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:90:0x0175  */
     /* JADX WARN: Removed duplicated region for block: B:93:0x0181  */
     /* JADX WARN: Type inference failed for: r14v4 */
-    /* JADX WARN: Type inference failed for: r14v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r14v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r14v9 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -23301,7 +23301,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         } else {
             showBottomOverlayProgress(false, true);
             if (this.userBlocked) {
-                this.bottomOverlayStartButton.setVisibility(8);
+                TextView textView = this.bottomOverlayStartButton;
+                if (textView != null) {
+                    textView.setVisibility(8);
+                }
                 if (this.currentUser.bot) {
                     this.bottomOverlayChatText.setText(LocaleController.getString("BotUnblock", R.string.BotUnblock));
                 } else {
@@ -23326,14 +23329,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
                 showBottomOverlayProgress(false, true);
             } else if (this.botUser != null && this.currentUser.bot) {
-                this.bottomOverlayStartButton.setVisibility(0);
+                TextView textView2 = this.bottomOverlayStartButton;
+                if (textView2 != null) {
+                    textView2.setVisibility(0);
+                }
                 this.bottomOverlayChatText.setVisibility(8);
                 this.chatActivityEnterView.hidePopup(false);
                 if (getParentActivity() != null) {
                     AndroidUtilities.hideKeyboard(getParentActivity().getCurrentFocus());
                 }
-                long j2 = this.dialog_id;
-                if (j2 == j2 && !this.messages.isEmpty() && this.currentUser != null && this.botUser.length() != 0 && !this.sentBotStart) {
+                if (!this.messages.isEmpty() && this.currentUser != null && this.botUser.length() != 0) {
                     this.sentBotStart = true;
                 }
             } else {
@@ -26990,7 +26995,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r10v9 */
     /* JADX WARN: Type inference failed for: r12v37 */
     /* JADX WARN: Type inference failed for: r12v5 */
-    /* JADX WARN: Type inference failed for: r12v6, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r12v6, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r1v16 */
     /* JADX WARN: Type inference failed for: r1v17 */
     /* JADX WARN: Type inference failed for: r1v18 */
