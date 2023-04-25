@@ -20048,7 +20048,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /*  JADX ERROR: JadxRuntimeException in pass: BlockProcessor
-        jadx.core.utils.exceptions.JadxRuntimeException: CFG modification limit reached, blocks count: 3336
+        jadx.core.utils.exceptions.JadxRuntimeException: CFG modification limit reached, blocks count: 3337
         	at jadx.core.dex.visitors.blocks.BlockProcessor.processBlocksTree(BlockProcessor.java:59)
         	at jadx.core.dex.visitors.blocks.BlockProcessor.visit(BlockProcessor.java:39)
         */
@@ -37833,23 +37833,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             if (sparseIntArray != null && (indexOfKey2 = sparseIntArray.indexOfKey(i)) >= 0) {
                 return this.animatingColors.valueAt(indexOfKey2);
             }
-            if (this.chatTheme == null && this.backgroundDrawable == null) {
+            if (this.chatTheme == null) {
                 return Theme.getColor(i);
             }
             int indexOfKey3 = this.currentColors.indexOfKey(i);
             if (indexOfKey3 >= 0) {
                 return this.currentColors.valueAt(indexOfKey3);
-            }
-            if (Theme.key_chat_outBubbleGradient1 == i || Theme.key_chat_outBubbleGradient2 == i || Theme.key_chat_outBubbleGradient3 == i) {
-                int indexOfKey4 = this.currentColors.indexOfKey(Theme.key_chat_outBubble);
-                if (indexOfKey4 < 0) {
-                    int color = Theme.getColor(i);
-                    if (color != 0) {
-                        return color;
-                    }
-                } else {
-                    return this.currentColors.valueAt(indexOfKey4);
-                }
             }
             int fallbackKey = Theme.getFallbackKey(i);
             if (fallbackKey >= 0 && (indexOfKey = this.currentColors.indexOfKey(fallbackKey)) >= 0) {

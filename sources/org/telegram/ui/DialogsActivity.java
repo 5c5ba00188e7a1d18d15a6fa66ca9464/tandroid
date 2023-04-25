@@ -9773,12 +9773,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (ChatObject.isNotInChat(tLRPC$Chat)) {
                 getMessagesController().deleteDialog(j, 0, z2);
             } else {
-                getMessagesController().deleteParticipantFromChat((int) (-j), getMessagesController().getUser(Long.valueOf(getUserConfig().getClientUserId())), null, z2, false);
+                getMessagesController().deleteParticipantFromChat(-j, getMessagesController().getUser(Long.valueOf(getUserConfig().getClientUserId())), null, z2, false);
             }
         } else {
             getMessagesController().deleteDialog(j, 0, z2);
             if (z && z2) {
-                getMessagesController().blockPeer((int) j);
+                getMessagesController().blockPeer(j);
             }
         }
         if (AndroidUtilities.isTablet()) {

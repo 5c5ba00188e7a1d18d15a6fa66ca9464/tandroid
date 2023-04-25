@@ -986,7 +986,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         }
         if (this.locationCell != null || this.signCell != null || this.historyCell != null || this.typeCell != null || this.linkedCell != null || this.forumsCell != null) {
             this.settingsSectionCell = new TextInfoPrivacyCell(context);
-            CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(getThemedColor(i2)), Theme.getThemedDrawable(context, R.drawable.greydivider, Theme.getColor(Theme.key_windowBackgroundGrayShadow, getResourceProvider())), 0, 0);
+            CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(getThemedColor(i2)), Theme.getThemedDrawableByKey(context, R.drawable.greydivider, Theme.getColor(Theme.key_windowBackgroundGrayShadow, getResourceProvider())), 0, 0);
             combinedDrawable.setFullsize(true);
             this.settingsSectionCell.setBackground(combinedDrawable);
             linearLayout.addView(this.settingsSectionCell, LayoutHelper.createLinear(-1, -2));
@@ -1289,7 +1289,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                     }
                 }, indexOf, indexOf + 10, 33);
             }
-            this.botInfoCell.setBackground(Theme.getThemedDrawable(getContext(), R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+            this.botInfoCell.setBackground(Theme.getThemedDrawableByKey(getContext(), R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
             this.botInfoCell.setText(valueOf);
             linearLayout.addView(this.botInfoCell, LayoutHelper.createLinear(-1, -2));
         }
@@ -1318,15 +1318,15 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             });
             ShadowSectionCell shadowSectionCell3 = new ShadowSectionCell(context);
             this.deleteInfoCell = shadowSectionCell3;
-            shadowSectionCell3.setBackground(Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+            shadowSectionCell3.setBackground(Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
             linearLayout.addView(this.deleteInfoCell, LayoutHelper.createLinear(-1, -2));
         }
         TextInfoPrivacyCell textInfoPrivacyCell2 = this.stickersInfoCell;
         if (textInfoPrivacyCell2 != null) {
             if (this.deleteInfoCell == null) {
-                textInfoPrivacyCell2.setBackground(Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                textInfoPrivacyCell2.setBackground(Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
             } else {
-                textInfoPrivacyCell2.setBackground(Theme.getThemedDrawable(context, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
+                textInfoPrivacyCell2.setBackground(Theme.getThemedDrawableByKey(context, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
             }
         }
         UndoView undoView = new UndoView(context);

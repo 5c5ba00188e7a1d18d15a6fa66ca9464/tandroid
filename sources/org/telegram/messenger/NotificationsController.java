@@ -3164,11 +3164,12 @@ public class NotificationsController extends BaseController {
     }
 
     private String replaceSpoilers(MessageObject messageObject) {
-        TLRPC$Message tLRPC$Message = messageObject.messageOwner;
-        String str = tLRPC$Message.message;
-        if (str == null || tLRPC$Message == null || tLRPC$Message.entities == null) {
+        TLRPC$Message tLRPC$Message;
+        String str;
+        if (messageObject == null || (tLRPC$Message = messageObject.messageOwner) == null || (str = tLRPC$Message.message) == null || tLRPC$Message.entities == null) {
             return null;
         }
+        messageObject.spoilLoginCode();
         StringBuilder sb = new StringBuilder(str);
         for (int i = 0; i < messageObject.messageOwner.entities.size(); i++) {
             if (messageObject.messageOwner.entities.get(i) instanceof TLRPC$TL_messageEntitySpoiler) {

@@ -999,7 +999,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
                 suggestedFilterCell = headerCell;
             } else if (i == 1) {
                 View hintInnerCell = new HintInnerCell(this.mContext, R.raw.filters, AndroidUtilities.replaceTags(LocaleController.formatString("CreateNewFilterInfo", R.string.CreateNewFilterInfo, new Object[0])));
-                hintInnerCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_top, Theme.key_windowBackgroundGrayShadow));
+                hintInnerCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_top, Theme.key_windowBackgroundGrayShadow));
                 suggestedFilterCell = hintInnerCell;
             } else if (i == 2) {
                 final FilterCell filterCell = new FilterCell(this.mContext);
@@ -1122,7 +1122,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             } else if (itemViewType == 2) {
                 ((FilterCell) viewHolder.itemView).setFilter(itemInner.filter, z);
             } else if (itemViewType == 3) {
-                viewHolder.itemView.setBackground(Theme.getThemedDrawable(this.mContext, z ? R.drawable.greydivider : R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                viewHolder.itemView.setBackground(Theme.getThemedDrawableByKey(this.mContext, z ? R.drawable.greydivider : R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
             } else if (itemViewType != 4) {
                 if (itemViewType != 5) {
                     return;

@@ -925,7 +925,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             this.typeInfoCell = textInfoPrivacyCell;
             int i12 = R.drawable.greydivider_bottom;
             int i13 = Theme.key_windowBackgroundGrayShadow;
-            textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(context, i12, i13));
+            textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i12, i13));
             this.linearLayout.addView(this.typeInfoCell, LayoutHelper.createLinear(-1, -2));
             LoadingCell loadingCell = new LoadingCell(context);
             this.loadingAdminedCell = loadingCell;
@@ -937,7 +937,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             this.linearLayout.addView(this.adminnedChannelsLayout, LayoutHelper.createLinear(-1, -2));
             TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(context);
             this.adminedInfoCell = textInfoPrivacyCell2;
-            textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawable(context, i12, i13));
+            textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i12, i13));
             this.linearLayout.addView(this.adminedInfoCell, LayoutHelper.createLinear(-1, -2));
             updatePrivatePublic();
         }
@@ -1199,11 +1199,11 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                 this.loadingAdminedCell.setVisibility(0);
                 this.adminnedChannelsLayout.setVisibility(8);
                 TextInfoPrivacyCell textInfoPrivacyCell2 = this.typeInfoCell;
-                textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawable(textInfoPrivacyCell2.getContext(), R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawableByKey(textInfoPrivacyCell2.getContext(), R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                 this.adminedInfoCell.setVisibility(8);
             } else {
                 TextInfoPrivacyCell textInfoPrivacyCell3 = this.typeInfoCell;
-                textInfoPrivacyCell3.setBackgroundDrawable(Theme.getThemedDrawable(textInfoPrivacyCell3.getContext(), R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
+                textInfoPrivacyCell3.setBackgroundDrawable(Theme.getThemedDrawableByKey(textInfoPrivacyCell3.getContext(), R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
                 this.loadingAdminedCell.setVisibility(8);
                 this.adminnedChannelsLayout.setVisibility(0);
                 this.adminedInfoCell.setVisibility(0);
@@ -1217,7 +1217,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             this.adminedInfoCell.setVisibility(8);
             this.adminnedChannelsLayout.setVisibility(8);
             TextInfoPrivacyCell textInfoPrivacyCell5 = this.typeInfoCell;
-            textInfoPrivacyCell5.setBackgroundDrawable(Theme.getThemedDrawable(textInfoPrivacyCell5.getContext(), R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+            textInfoPrivacyCell5.setBackgroundDrawable(Theme.getThemedDrawableByKey(textInfoPrivacyCell5.getContext(), R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
             this.linkContainer.setVisibility(0);
             this.loadingAdminedCell.setVisibility(8);
             if (this.isGroup) {

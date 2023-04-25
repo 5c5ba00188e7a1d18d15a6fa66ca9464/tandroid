@@ -1153,7 +1153,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
                 callCell = flickerLoadingView;
             } else if (i == 2) {
                 callCell = new TextInfoPrivacyCell(this.mContext);
-                callCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                callCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
             } else if (i == 3) {
                 callCell = new HeaderCell(this.mContext, Theme.key_windowBackgroundWhiteBlueHeader, 21, 15, 2, false, CallLogActivity.this.getResourceProvider());
                 callCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));

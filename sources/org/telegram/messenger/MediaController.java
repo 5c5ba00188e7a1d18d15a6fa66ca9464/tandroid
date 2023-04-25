@@ -2111,7 +2111,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             if ((this.accelerometerSensor == null && (this.gravitySensor == null || this.linearAcceleration == null)) || this.proximitySensor == null) {
                 return;
             }
-            if (!SharedConfig.enabledRaiseTo(true)) {
+            if (!SharedConfig.enabledRaiseTo(false)) {
                 MessageObject messageObject = this.playingMessageObject;
                 if (messageObject == null) {
                     return;

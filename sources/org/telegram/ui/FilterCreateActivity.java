@@ -1628,14 +1628,14 @@ public class FilterCreateActivity extends BaseFragment {
                 }
             } else if (itemViewType != 1) {
                 if (itemViewType == 3) {
-                    viewHolder.itemView.setBackground(Theme.getThemedDrawable(this.mContext, z ? R.drawable.greydivider : R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                    viewHolder.itemView.setBackground(Theme.getThemedDrawableByKey(this.mContext, z ? R.drawable.greydivider : R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                 } else if (itemViewType == 4) {
                     ButtonCell buttonCell = (ButtonCell) viewHolder.itemView;
                     buttonCell.setRed(itemInner.isRed);
                     buttonCell.set(itemInner.iconResId, itemInner.text, z);
                 } else if (itemViewType == 6) {
                     ((TextInfoPrivacyCell) viewHolder.itemView).setText(itemInner.text);
-                    viewHolder.itemView.setBackground(Theme.getThemedDrawable(this.mContext, z ? R.drawable.greydivider : R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                    viewHolder.itemView.setBackground(Theme.getThemedDrawableByKey(this.mContext, z ? R.drawable.greydivider : R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                 } else if (itemViewType == 7) {
                     ((LinkCell) viewHolder.itemView).setInvite(itemInner.link, z);
                 } else if (itemViewType != 8) {
@@ -2565,7 +2565,7 @@ public class FilterCreateActivity extends BaseFragment {
                             textInfoPrivacyCell.setFixedSize(12);
                             textInfoPrivacyCell.setText("");
                         }
-                        textInfoPrivacyCell.setForeground(Theme.getThemedDrawable(FilterInvitesBottomSheet.this.getContext(), z ? R.drawable.greydivider : R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                        textInfoPrivacyCell.setForeground(Theme.getThemedDrawableByKey(FilterInvitesBottomSheet.this.getContext(), z ? R.drawable.greydivider : R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     }
                 }
 

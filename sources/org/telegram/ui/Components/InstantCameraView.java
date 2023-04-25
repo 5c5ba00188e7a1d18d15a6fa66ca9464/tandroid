@@ -2015,7 +2015,27 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Removed duplicated region for block: B:105:0x00fb A[EDGE_INSN: B:105:0x00fb->B:41:0x00fb ?: BREAK  , SYNTHETIC] */
+        /* JADX WARN: Code restructure failed: missing block: B:70:0x0177, code lost:
+            if (org.telegram.messenger.BuildVars.LOGS_ENABLED == false) goto L82;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:72:0x017b, code lost:
+            if (r14 < 60000000) goto L81;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:73:0x017d, code lost:
+            org.telegram.messenger.FileLog.d("stop audio encoding because recorded time more than 60s");
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:74:0x0183, code lost:
+            org.telegram.messenger.FileLog.d("stop audio encoding because of stoped video recording at " + r2.offset[r9] + " last video " + r18.videoLast);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:75:0x01a5, code lost:
+            r18.audioStopedByTime = true;
+            r18.buffersToWrite.clear();
+            r0 = true;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:79:0x01bb, code lost:
+            r2 = null;
+         */
+        /* JADX WARN: Removed duplicated region for block: B:111:0x00fb A[EDGE_INSN: B:111:0x00fb->B:41:0x00fb ?: BREAK  , SYNTHETIC] */
         /* JADX WARN: Removed duplicated region for block: B:34:0x00c8  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -2109,19 +2129,12 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                                 break;
                             }
                             if (i2 < i3) {
-                                if (!this.running && audioBufferInfo2.offset[i2] >= this.videoLast - this.desyncTime) {
-                                    if (BuildVars.LOGS_ENABLED) {
-                                        FileLog.d("stop audio encoding because of stoped video recording at " + audioBufferInfo2.offset[i2] + " last video " + this.videoLast);
+                                long j3 = audioBufferInfo2.offset[i2] - this.audioStartTime;
+                                if (this.running || (audioBufferInfo2.offset[i2] < this.videoLast - this.desyncTime && j3 < 60000000)) {
+                                    if (byteBuffer.remaining() < audioBufferInfo2.read[i2]) {
+                                        audioBufferInfo2.lastWroteBuffer = i2;
+                                        break;
                                     }
-                                    this.audioStopedByTime = true;
-                                    this.buffersToWrite.clear();
-                                    audioBufferInfo2 = null;
-                                    z2 = true;
-                                } else if (byteBuffer.remaining() < audioBufferInfo2.read[i2]) {
-                                    audioBufferInfo2.lastWroteBuffer = i2;
-                                    audioBufferInfo2 = null;
-                                    break;
-                                } else {
                                     byteBuffer.put(audioBufferInfo2.buffer[i2]);
                                 }
                             }
@@ -2150,8 +2163,8 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Removed duplicated region for block: B:19:0x004e  */
-        /* JADX WARN: Removed duplicated region for block: B:25:0x0068  */
+        /* JADX WARN: Removed duplicated region for block: B:22:0x005a  */
+        /* JADX WARN: Removed duplicated region for block: B:28:0x0074  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -2165,6 +2178,9 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 FileLog.e(e);
             }
             if (!this.lastCameraId.equals(num)) {
+                if (j - this.lastTimestamp > 10000) {
+                    this.lastTimestamp = -1L;
+                }
                 this.lastCameraId = num;
             }
             long j3 = this.lastTimestamp;
@@ -2894,7 +2910,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public String createFragmentShader(org.telegram.messenger.camera.Size size) {
-        return (!allowBigSizeCamera() || ((float) Math.max(size.getHeight(), size.getWidth())) * 0.7f < ((float) MessagesController.getInstance(this.currentAccount).roundVideoSize)) ? "#extension GL_OES_EGL_image_external : require\nprecision highp float;\nvarying vec2 vTextureCoord;\nuniform float alpha;\nuniform vec2 preview;\nuniform vec2 resolution;\nuniform samplerExternalOES sTexture;\nvoid main() {\n   vec4 textColor = texture2D(sTexture, vTextureCoord);\n   vec2 coord = resolution * 0.5;\n   float radius = 0.51 * resolution.x;\n   float d = length(coord - gl_FragCoord.xy) - radius;\n   float t = clamp(d, 0.0, 1.0);\n   vec3 color = mix(textColor.rgb, vec3(1, 1, 1), t);\n   gl_FragColor = vec4(color * alpha, alpha);\n}\n" : "#extension GL_OES_EGL_image_external : require\nprecision highp float;\nvarying vec2 vTextureCoord;\nuniform vec2 resolution;\nuniform vec2 preview;\nuniform float alpha;\nuniform samplerExternalOES sTexture;\nvoid main() {\n   vec2 coord = resolution * 0.5;\n   float radius = 0.51 * resolution.x;\n   float d = length(coord - gl_FragCoord.xy) - radius;\n   float t = clamp(d, 0.0, 1.0);\n   if (t == 0.0) {\n       float pixelSizeX = 1.0 / preview.x;\n       float pixelSizeY = 1.0 / preview.y;\n       vec3 accumulation = vec3(0);\n       for (float x = 0.0; x < 2.0; x++){\n           for (float y = 0.0; y < 2.0; y++){\n               accumulation += texture2D(sTexture, vTextureCoord + vec2(x * pixelSizeX, y * pixelSizeY)).xyz;\n           }\n       }\n       vec4 textColor = vec4(accumulation / vec3(4, 4, 4), 1);\n       gl_FragColor = textColor * alpha;\n   } else {\n       gl_FragColor = vec4(1, 1, 1, alpha);\n   }\n}\n";
+        return (SharedConfig.deviceIsHigh() && allowBigSizeCamera() && ((float) Math.max(size.getHeight(), size.getWidth())) * 0.7f >= ((float) MessagesController.getInstance(this.currentAccount).roundVideoSize)) ? "#extension GL_OES_EGL_image_external : require\nprecision highp float;\nvarying vec2 vTextureCoord;\nuniform vec2 resolution;\nuniform vec2 preview;\nuniform float alpha;\nuniform samplerExternalOES sTexture;\nvoid main() {\n   vec2 coord = resolution * 0.5;\n   float radius = 0.51 * resolution.x;\n   float d = length(coord - gl_FragCoord.xy) - radius;\n   float t = clamp(d, 0.0, 1.0);\n   if (t == 0.0) {\n       float pixelSizeX = 1.0 / preview.x;\n       float pixelSizeY = 1.0 / preview.y;\n       vec3 accumulation = vec3(0);\n       for (float x = 0.0; x < 2.0; x++){\n           for (float y = 0.0; y < 2.0; y++){\n               accumulation += texture2D(sTexture, vTextureCoord + vec2(x * pixelSizeX, y * pixelSizeY)).xyz;\n           }\n       }\n       vec4 textColor = vec4(accumulation / vec3(4, 4, 4), 1);\n       gl_FragColor = textColor * alpha;\n   } else {\n       gl_FragColor = vec4(1, 1, 1, alpha);\n   }\n}\n" : "#extension GL_OES_EGL_image_external : require\nprecision highp float;\nvarying vec2 vTextureCoord;\nuniform float alpha;\nuniform vec2 preview;\nuniform vec2 resolution;\nuniform samplerExternalOES sTexture;\nvoid main() {\n   vec4 textColor = texture2D(sTexture, vTextureCoord);\n   vec2 coord = resolution * 0.5;\n   float radius = 0.51 * resolution.x;\n   float d = length(coord - gl_FragCoord.xy) - radius;\n   float t = clamp(d, 0.0, 1.0);\n   vec3 color = mix(textColor.rgb, vec3(1, 1, 1), t);\n   gl_FragColor = vec4(color * alpha, alpha);\n}\n";
     }
 
     /* loaded from: classes4.dex */

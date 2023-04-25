@@ -12215,9 +12215,9 @@ public class MessagesController extends BaseController implements NotificationCe
                                 messageObject.scheduled = i11 == 1;
                                 arrayList.add(messageObject);
                                 if (z) {
-                                    if (tLRPC$Message3.legacy && tLRPC$Message3.layer < 158) {
+                                    if (tLRPC$Message3.legacy && tLRPC$Message3.layer < 159) {
                                         arrayList2.add(Integer.valueOf(tLRPC$Message3.id));
-                                    } else if ((MessageObject.getMedia(tLRPC$Message3) instanceof TLRPC$TL_messageMediaUnsupported) && MessageObject.getMedia(tLRPC$Message3).bytes != null && (MessageObject.getMedia(tLRPC$Message3).bytes.length == 0 || ((MessageObject.getMedia(tLRPC$Message3).bytes.length == 1 && MessageObject.getMedia(tLRPC$Message3).bytes[0] < 158) || (MessageObject.getMedia(tLRPC$Message3).bytes.length == 4 && Utilities.bytesToInt(MessageObject.getMedia(tLRPC$Message3).bytes) < 158)))) {
+                                    } else if ((MessageObject.getMedia(tLRPC$Message3) instanceof TLRPC$TL_messageMediaUnsupported) && MessageObject.getMedia(tLRPC$Message3).bytes != null && (MessageObject.getMedia(tLRPC$Message3).bytes.length == 0 || ((MessageObject.getMedia(tLRPC$Message3).bytes.length == 1 && MessageObject.getMedia(tLRPC$Message3).bytes[0] < 159) || (MessageObject.getMedia(tLRPC$Message3).bytes.length == 4 && Utilities.bytesToInt(MessageObject.getMedia(tLRPC$Message3).bytes) < 159)))) {
                                         arrayList2.add(Integer.valueOf(tLRPC$Message3.id));
                                     }
                                     if (MessageObject.getMedia(tLRPC$Message3) instanceof TLRPC$TL_messageMediaWebPage) {

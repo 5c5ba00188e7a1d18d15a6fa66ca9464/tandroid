@@ -356,7 +356,7 @@ public class ProxySettingsActivity extends BaseFragment {
         }
         for (int i5 = 0; i5 < 2; i5++) {
             this.bottomCells[i5] = new TextInfoPrivacyCell(context);
-            this.bottomCells[i5].setBackground(Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+            this.bottomCells[i5].setBackground(Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
             if (i5 == 0) {
                 this.bottomCells[i5].setText(LocaleController.getString("UseProxyInfo", R.string.UseProxyInfo));
             } else {
@@ -386,7 +386,7 @@ public class ProxySettingsActivity extends BaseFragment {
         Context context2 = this.fragmentView.getContext();
         int i7 = R.drawable.greydivider_bottom;
         int i8 = Theme.key_windowBackgroundGrayShadow;
-        shadowSectionCell.setBackground(Theme.getThemedDrawable(context2, i7, i8));
+        shadowSectionCell.setBackground(Theme.getThemedDrawableByKey(context2, i7, i8));
         this.linearLayout2.addView(this.sectionCell[2], 1, LayoutHelper.createLinear(-1, -2));
         this.sectionCell[2].setVisibility(8);
         TextSettingsCell textSettingsCell3 = new TextSettingsCell(context);
@@ -402,7 +402,7 @@ public class ProxySettingsActivity extends BaseFragment {
             }
         });
         this.sectionCell[1] = new ShadowSectionCell(context);
-        this.sectionCell[1].setBackgroundDrawable(Theme.getThemedDrawable(context, i7, i8));
+        this.sectionCell[1].setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i7, i8));
         this.linearLayout2.addView(this.sectionCell[1], LayoutHelper.createLinear(-1, -2));
         this.clipboardManager = (ClipboardManager) context.getSystemService("clipboard");
         this.shareDoneEnabled = true;

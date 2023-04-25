@@ -456,7 +456,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
                 if (itemViewType != 1) {
                     return;
                 }
-                ((ShadowSectionCell) viewHolder.itemView).setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
+                ((ShadowSectionCell) viewHolder.itemView).setBackgroundDrawable(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
                 return;
             }
             TextCheckbox2Cell textCheckbox2Cell = (TextCheckbox2Cell) viewHolder.itemView;

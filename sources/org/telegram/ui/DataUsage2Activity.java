@@ -604,7 +604,7 @@ public class DataUsage2Activity extends BaseFragment {
                         z = true;
                     }
                     if (z) {
-                        subtitleCell.setBackground(Theme.getThemedDrawable(ListView.this.getContext(), R.drawable.greydivider_top, Theme.key_windowBackgroundGrayShadow));
+                        subtitleCell.setBackground(Theme.getThemedDrawableByKey(ListView.this.getContext(), R.drawable.greydivider_top, Theme.key_windowBackgroundGrayShadow));
                     } else {
                         subtitleCell.setBackground(null);
                     }
@@ -632,11 +632,11 @@ public class DataUsage2Activity extends BaseFragment {
                         z = true;
                     }
                     if (z2 && z) {
-                        textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(ListView.this.getContext(), R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
+                        textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(ListView.this.getContext(), R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
                     } else if (z2) {
-                        textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(ListView.this.getContext(), R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                        textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(ListView.this.getContext(), R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     } else if (z) {
-                        textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(ListView.this.getContext(), R.drawable.greydivider_top, Theme.key_windowBackgroundGrayShadow));
+                        textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(ListView.this.getContext(), R.drawable.greydivider_top, Theme.key_windowBackgroundGrayShadow));
                     } else {
                         textInfoPrivacyCell.setBackground(null);
                     }

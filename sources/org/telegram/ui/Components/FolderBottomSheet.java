@@ -1243,7 +1243,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
                         return;
                     } else {
                         TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
-                        textInfoPrivacyCell.setForeground(Theme.getThemedDrawable(FolderBottomSheet.this.getContext(), R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
+                        textInfoPrivacyCell.setForeground(Theme.getThemedDrawableByKey(FolderBottomSheet.this.getContext(), R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
                         if (i == FolderBottomSheet.this.alreadySectionRow || i == FolderBottomSheet.this.sectionRow || FolderBottomSheet.this.peers == null || FolderBottomSheet.this.peers.isEmpty()) {
                             textInfoPrivacyCell.setFixedSize(12);
                             textInfoPrivacyCell.setText("");

@@ -615,7 +615,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
                 stickerSetCell = stickerSetCell2;
             } else {
                 HeaderCell headerCell = new HeaderCell(this.mContext, Theme.key_windowBackgroundWhiteGrayText4, 21, 0, 0, false, GroupStickersActivity.this.getResourceProvider());
-                headerCell.setBackground(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                headerCell.setBackground(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                 headerCell.setText(LocaleController.getString(R.string.ChooseStickerMyStickerSets));
                 stickerSetCell = headerCell;
             }
@@ -723,7 +723,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
                 stickerSetCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
             } else if (i == 1) {
                 stickerSetCell = new TextInfoPrivacyCell(this.mContext);
-                stickerSetCell.setBackground(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                stickerSetCell.setBackground(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
             } else {
                 stickerSetCell = new HeaderCell(this.mContext);
                 stickerSetCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
