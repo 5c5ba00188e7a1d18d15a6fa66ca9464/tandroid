@@ -1307,7 +1307,7 @@ public class SharedConfig {
                 return proxyInfo2;
             }
         }
-        proxyList.add(proxyInfo);
+        proxyList.add(0, proxyInfo);
         saveProxyList();
         return proxyInfo;
     }

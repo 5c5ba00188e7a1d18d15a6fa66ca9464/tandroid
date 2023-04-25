@@ -986,7 +986,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         }
         if (this.locationCell != null || this.signCell != null || this.historyCell != null || this.typeCell != null || this.linkedCell != null || this.forumsCell != null) {
             this.settingsSectionCell = new TextInfoPrivacyCell(context);
-            CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(getThemedColor(i2)), Theme.getThemedDrawableByKey(context, R.drawable.greydivider, Theme.getColor(Theme.key_windowBackgroundGrayShadow, getResourceProvider())), 0, 0);
+            CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(getThemedColor(i2)), Theme.getThemedDrawable(context, R.drawable.greydivider, Theme.getColor(Theme.key_windowBackgroundGrayShadow, getResourceProvider())), 0, 0);
             combinedDrawable.setFullsize(true);
             this.settingsSectionCell.setBackground(combinedDrawable);
             linearLayout.addView(this.settingsSectionCell, LayoutHelper.createLinear(-1, -2));
