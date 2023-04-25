@@ -5769,10 +5769,10 @@ public class MessageObject {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:83:0x01bb A[Catch: Exception -> 0x0215, TryCatch #0 {Exception -> 0x0215, blocks: (B:10:0x0011, B:12:0x0015, B:13:0x001d, B:22:0x0049, B:23:0x004c, B:25:0x0052, B:29:0x0061, B:33:0x0071, B:34:0x0073, B:46:0x008c, B:93:0x01fb, B:95:0x0205, B:97:0x0208, B:98:0x020e, B:47:0x00ae, B:50:0x00d4, B:51:0x00f5, B:52:0x0116, B:55:0x011e, B:59:0x012d, B:61:0x0136, B:43:0x0086, B:63:0x0147, B:66:0x0186, B:71:0x0199, B:76:0x01a8, B:78:0x01b2, B:81:0x01b6, B:83:0x01bb, B:88:0x01c7, B:90:0x01f5, B:89:0x01df, B:14:0x0024, B:16:0x0028, B:17:0x0030, B:18:0x0037, B:20:0x003b, B:21:0x0043), top: B:103:0x000a }] */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x01c4  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x01c5  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x01f9  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x01c0 A[Catch: Exception -> 0x021a, TryCatch #0 {Exception -> 0x021a, blocks: (B:10:0x0011, B:12:0x0015, B:13:0x001d, B:22:0x0049, B:25:0x004e, B:26:0x0051, B:28:0x0057, B:32:0x0066, B:36:0x0076, B:37:0x0078, B:49:0x0091, B:96:0x0200, B:98:0x020a, B:100:0x020d, B:101:0x0213, B:50:0x00b3, B:53:0x00d9, B:54:0x00fa, B:55:0x011b, B:58:0x0123, B:62:0x0132, B:64:0x013b, B:46:0x008b, B:66:0x014c, B:69:0x018b, B:74:0x019e, B:79:0x01ad, B:81:0x01b7, B:84:0x01bb, B:86:0x01c0, B:91:0x01cc, B:93:0x01fa, B:92:0x01e4, B:14:0x0024, B:16:0x0028, B:17:0x0030, B:18:0x0037, B:20:0x003b, B:21:0x0043), top: B:106:0x000a }] */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x01c9  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x01ca  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x01fe  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5804,99 +5804,101 @@ public class MessageObject {
                 }
                 matcher = urlPattern.matcher(charSequence);
             }
-            Spannable spannable = (Spannable) charSequence;
-            while (matcher.find()) {
-                int start = matcher.start();
-                int end = matcher.end();
-                if (i != 3 && i != 4) {
-                    char charAt = charSequence.charAt(start);
-                    if (i != 0) {
-                        if (charAt != '@' && charAt != '#') {
+            if (charSequence instanceof Spannable) {
+                Spannable spannable = (Spannable) charSequence;
+                while (matcher.find()) {
+                    int start = matcher.start();
+                    int end = matcher.end();
+                    if (i != 3 && i != 4) {
+                        char charAt = charSequence.charAt(start);
+                        if (i != 0) {
+                            if (charAt != '@' && charAt != '#') {
+                                start++;
+                            }
+                            charAt = charSequence.charAt(start);
+                            if (charAt != '@' && charAt != '#') {
+                            }
+                        } else if (charAt != '@' && charAt != '#' && charAt != '/' && charAt != '$') {
                             start++;
                         }
-                        charAt = charSequence.charAt(start);
-                        if (charAt != '@' && charAt != '#') {
-                        }
-                    } else if (charAt != '@' && charAt != '#' && charAt != '/' && charAt != '$') {
-                        start++;
-                    }
-                    if (i == i4) {
-                        if (charAt == '@') {
-                            uRLSpanNoUnderline = new URLSpanNoUnderline("https://instagram.com/" + charSequence.subSequence(start + 1, end).toString());
-                        } else {
-                            uRLSpanNoUnderline = new URLSpanNoUnderline("https://www.instagram.com/explore/tags/" + charSequence.subSequence(start + 1, end).toString());
-                        }
-                    } else if (i == 2) {
-                        if (charAt == '@') {
-                            uRLSpanNoUnderline = new URLSpanNoUnderline("https://twitter.com/" + charSequence.subSequence(start + 1, end).toString());
-                        } else {
-                            uRLSpanNoUnderline = new URLSpanNoUnderline("https://twitter.com/hashtag/" + charSequence.subSequence(start + 1, end).toString());
-                        }
-                    } else if (charSequence.charAt(start) != '/') {
-                        uRLSpanNoUnderline = new URLSpanNoUnderline(charSequence.subSequence(start, end).toString());
-                    } else if (z2) {
-                        uRLSpanNoUnderline = new URLSpanBotCommand(charSequence.subSequence(start, end).toString(), z ? 1 : 0);
-                    } else {
-                        uRLSpanNoUnderline = null;
-                        if (uRLSpanNoUnderline != null) {
-                            if (z3 && (clickableSpanArr = (ClickableSpan[]) spannable.getSpans(start, end, ClickableSpan.class)) != null && clickableSpanArr.length > 0) {
-                                spannable.removeSpan(clickableSpanArr[0]);
+                        if (i == i4) {
+                            if (charAt == '@') {
+                                uRLSpanNoUnderline = new URLSpanNoUnderline("https://instagram.com/" + charSequence.subSequence(start + 1, end).toString());
+                            } else {
+                                uRLSpanNoUnderline = new URLSpanNoUnderline("https://www.instagram.com/explore/tags/" + charSequence.subSequence(start + 1, end).toString());
                             }
-                            spannable.setSpan(uRLSpanNoUnderline, start, end, 0);
+                        } else if (i == 2) {
+                            if (charAt == '@') {
+                                uRLSpanNoUnderline = new URLSpanNoUnderline("https://twitter.com/" + charSequence.subSequence(start + 1, end).toString());
+                            } else {
+                                uRLSpanNoUnderline = new URLSpanNoUnderline("https://twitter.com/hashtag/" + charSequence.subSequence(start + 1, end).toString());
+                            }
+                        } else if (charSequence.charAt(start) != '/') {
+                            uRLSpanNoUnderline = new URLSpanNoUnderline(charSequence.subSequence(start, end).toString());
+                        } else if (z2) {
+                            uRLSpanNoUnderline = new URLSpanBotCommand(charSequence.subSequence(start, end).toString(), z ? 1 : 0);
+                        } else {
+                            uRLSpanNoUnderline = null;
+                            if (uRLSpanNoUnderline != null) {
+                                if (z3 && (clickableSpanArr = (ClickableSpan[]) spannable.getSpans(start, end, ClickableSpan.class)) != null && clickableSpanArr.length > 0) {
+                                    spannable.removeSpan(clickableSpanArr[0]);
+                                }
+                                spannable.setSpan(uRLSpanNoUnderline, start, end, 0);
+                            }
+                            i4 = 1;
+                        }
+                        if (uRLSpanNoUnderline != null) {
                         }
                         i4 = 1;
                     }
-                    if (uRLSpanNoUnderline != null) {
+                    matcher.groupCount();
+                    int start2 = matcher.start(i4);
+                    int end2 = matcher.end(i4);
+                    int start3 = matcher.start(2);
+                    int end3 = matcher.end(2);
+                    int start4 = matcher.start(3);
+                    int end4 = matcher.end(3);
+                    int start5 = matcher.start(4);
+                    int end5 = matcher.end(4);
+                    int intValue = Utilities.parseInt(charSequence.subSequence(start3, end3)).intValue();
+                    int intValue2 = Utilities.parseInt(charSequence.subSequence(start4, end4)).intValue();
+                    int intValue3 = (start2 < 0 || end2 < 0) ? -1 : Utilities.parseInt(charSequence.subSequence(start2, end2)).intValue();
+                    if (start5 >= 0 && end5 >= 0) {
+                        str = charSequence.subSequence(start5, end5).toString();
+                        if (start5 < 0 || end5 >= 0) {
+                            end = end4;
+                        }
+                        uRLSpanArr = (URLSpan[]) spannable.getSpans(start, end, URLSpan.class);
+                        if (uRLSpanArr != null || uRLSpanArr.length <= 0) {
+                            i3 = intValue2 + (intValue * 60);
+                            if (intValue3 > 0) {
+                                i3 += intValue3 * 60 * 60;
+                            }
+                            if (i3 <= i2) {
+                                if (i == 3) {
+                                    uRLSpanNoUnderline = new URLSpanNoUnderline("video?" + i3);
+                                } else {
+                                    uRLSpanNoUnderline = new URLSpanNoUnderline("audio?" + i3);
+                                }
+                                uRLSpanNoUnderline.label = str;
+                                if (uRLSpanNoUnderline != null) {
+                                }
+                            }
+                        }
+                        i4 = 1;
                     }
-                    i4 = 1;
-                }
-                matcher.groupCount();
-                int start2 = matcher.start(i4);
-                int end2 = matcher.end(i4);
-                int start3 = matcher.start(2);
-                int end3 = matcher.end(2);
-                int start4 = matcher.start(3);
-                int end4 = matcher.end(3);
-                int start5 = matcher.start(4);
-                int end5 = matcher.end(4);
-                int intValue = Utilities.parseInt(charSequence.subSequence(start3, end3)).intValue();
-                int intValue2 = Utilities.parseInt(charSequence.subSequence(start4, end4)).intValue();
-                int intValue3 = (start2 < 0 || end2 < 0) ? -1 : Utilities.parseInt(charSequence.subSequence(start2, end2)).intValue();
-                if (start5 >= 0 && end5 >= 0) {
-                    str = charSequence.subSequence(start5, end5).toString();
-                    if (start5 < 0 || end5 >= 0) {
-                        end = end4;
+                    str = null;
+                    if (start5 < 0) {
                     }
+                    end = end4;
                     uRLSpanArr = (URLSpan[]) spannable.getSpans(start, end, URLSpan.class);
-                    if (uRLSpanArr != null || uRLSpanArr.length <= 0) {
-                        i3 = intValue2 + (intValue * 60);
-                        if (intValue3 > 0) {
-                            i3 += intValue3 * 60 * 60;
-                        }
-                        if (i3 <= i2) {
-                            if (i == 3) {
-                                uRLSpanNoUnderline = new URLSpanNoUnderline("video?" + i3);
-                            } else {
-                                uRLSpanNoUnderline = new URLSpanNoUnderline("audio?" + i3);
-                            }
-                            uRLSpanNoUnderline.label = str;
-                            if (uRLSpanNoUnderline != null) {
-                            }
-                        }
+                    if (uRLSpanArr != null) {
                     }
-                    i4 = 1;
-                }
-                str = null;
-                if (start5 < 0) {
-                }
-                end = end4;
-                uRLSpanArr = (URLSpan[]) spannable.getSpans(start, end, URLSpan.class);
-                if (uRLSpanArr != null) {
-                }
-                i3 = intValue2 + (intValue * 60);
-                if (intValue3 > 0) {
-                }
-                if (i3 <= i2) {
+                    i3 = intValue2 + (intValue * 60);
+                    if (intValue3 > 0) {
+                    }
+                    if (i3 <= i2) {
+                    }
                 }
             }
         } catch (Exception e) {

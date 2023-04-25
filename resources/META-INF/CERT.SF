@@ -1,10 +1,10 @@
 Signature-Version: 1.0
 Created-By: Android Gradle 7.0.3
-SHA-256-Digest-Manifest: Cuaj0A1Iq7e3jCQ9ETXF5EWhmTouDZ7GWF+K69d6hls=
+SHA-256-Digest-Manifest: Wt0gdBSUGMcRardQrjUpWjhIvunCJVXOeq62hsKY18Y=
 X-Android-APK-Signed: 2
 
 Name: AndroidManifest.xml
-SHA-256-Digest: xb5veRxeU7E429kHG3QbR4Yqtze7kJZvvvuafGZaWfg=
+SHA-256-Digest: vEMn9dHaIf8Im9UZat+Cm3QikplEvKboM/OFpesNNk8=
 
 Name: META-INF/androidx.annotation_annotation-experimental.version
 SHA-256-Digest: EzM0+E5iHHuwy1qvYlX203WLBvPdKME6UghaYpvIwfw=
@@ -10948,13 +10948,13 @@ Name: builddef.lst
 SHA-256-Digest: nV5pCcT+/FvcW5d37qA0E7yBBIkqNsX7vFJzDLqlDuY=
 
 Name: classes.dex
-SHA-256-Digest: UwTs+6Ud9P9+r3Pii4pBeQlEiCU29yu9R3QA6xjFt4Y=
+SHA-256-Digest: hpiI5lSNG4amBBPtWBWsv3fuYkAJQTvwMLjOhcrJByo=
 
 Name: classes2.dex
 SHA-256-Digest: CEaMvE3P4mkzG8ieyCqxfFb7wbRBghZVOAbyIEAVipw=
 
 Name: classes3.dex
-SHA-256-Digest: O/NrCArudDy6U9xyRlzupuGlyjdTHu6ccy0LpMf8Ioo=
+SHA-256-Digest: 92ws2vzwbj3ci4SnOXw8G8HdNhJDr7odOCosQGQMJ8s=
 
 Name: classes4.dex
 SHA-256-Digest: hUVTiU2+WT+gzqBebAOLz4BhSPCNPxG5aoBSU5+RZCk=
