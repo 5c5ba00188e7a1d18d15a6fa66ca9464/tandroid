@@ -41,7 +41,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
@@ -51,15 +50,13 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$ChatPhoto;
 import org.telegram.tgnet.TLRPC$FileLocation;
 import org.telegram.tgnet.TLRPC$InputPeer;
-import org.telegram.tgnet.TLRPC$MessagePeerVote;
+import org.telegram.tgnet.TLRPC$MessageUserVote;
 import org.telegram.tgnet.TLRPC$Poll;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_messageMediaPoll;
-import org.telegram.tgnet.TLRPC$TL_messagePeerVoteInputOption;
+import org.telegram.tgnet.TLRPC$TL_messageUserVoteInputOption;
 import org.telegram.tgnet.TLRPC$TL_messages_getPollVotes;
 import org.telegram.tgnet.TLRPC$TL_messages_votesList;
 import org.telegram.tgnet.TLRPC$TL_pollAnswer;
@@ -141,7 +138,7 @@ public class PollVotesAlert extends BottomSheet {
         public String next_offset;
         public byte[] option;
         public ArrayList<TLRPC$User> users;
-        public ArrayList<TLRPC$MessagePeerVote> votes;
+        public ArrayList<TLRPC$MessageUserVote> votes;
 
         public VotesList(TLRPC$TL_messages_votesList tLRPC$TL_messages_votesList, byte[] bArr) {
             this.count = tLRPC$TL_messages_votesList.count;
@@ -289,7 +286,6 @@ public class PollVotesAlert extends BottomSheet {
         private ArrayList<Animator> animators;
         private AvatarDrawable avatarDrawable;
         private BackupImageView avatarImageView;
-        private TLRPC$Chat currentChat;
         private TLRPC$User currentUser;
         private boolean drawPlaceholder;
         private TLRPC$FileLocation lastAvatar;
@@ -328,21 +324,12 @@ public class PollVotesAlert extends BottomSheet {
             addView(simpleTextView2, LayoutHelper.createFrame(-1, 20.0f, (z2 ? 5 : 3) | 48, z2 ? 28.0f : 65.0f, 14.0f, z2 ? 65.0f : 28.0f, 0.0f));
         }
 
-        public void setData(TLObject tLObject, int i, boolean z) {
-            if (tLObject instanceof TLRPC$User) {
-                this.currentUser = (TLRPC$User) tLObject;
-                this.currentChat = null;
-            } else if (tLObject instanceof TLRPC$Chat) {
-                this.currentChat = (TLRPC$Chat) tLObject;
-                this.currentUser = null;
-            } else {
-                this.currentUser = null;
-                this.currentChat = null;
-            }
+        public void setData(TLRPC$User tLRPC$User, int i, boolean z) {
+            this.currentUser = tLRPC$User;
             this.needDivider = z;
-            this.drawPlaceholder = tLObject == null;
+            this.drawPlaceholder = tLRPC$User == null;
             this.placeholderNum = i;
-            if (tLObject == null) {
+            if (tLRPC$User == null) {
                 this.nameTextView.setText("");
                 this.avatarImageView.setImageDrawable(null);
             } else {
@@ -375,7 +362,7 @@ public class PollVotesAlert extends BottomSheet {
             super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(48.0f) + (this.needDivider ? 1 : 0), 1073741824));
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:52:0x0074, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:44:0x0062, code lost:
             if (r1.equals(r11.lastName) == false) goto L34;
          */
         /*
@@ -383,20 +370,12 @@ public class PollVotesAlert extends BottomSheet {
         */
         public void update(int i) {
             TLRPC$FileLocation tLRPC$FileLocation;
-            TLRPC$ChatPhoto tLRPC$ChatPhoto;
-            TLRPC$FileLocation tLRPC$FileLocation2;
             TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto;
             TLRPC$User tLRPC$User = this.currentUser;
-            String str = null;
-            if (tLRPC$User != null && (tLRPC$UserProfilePhoto = tLRPC$User.photo) != null) {
-                tLRPC$FileLocation = tLRPC$UserProfilePhoto.photo_small;
-            } else {
-                TLRPC$Chat tLRPC$Chat = this.currentChat;
-                tLRPC$FileLocation = (tLRPC$Chat == null || (tLRPC$ChatPhoto = tLRPC$Chat.photo) == null) ? null : tLRPC$ChatPhoto.photo_small;
-            }
+            TLRPC$FileLocation tLRPC$FileLocation2 = (tLRPC$User == null || (tLRPC$UserProfilePhoto = tLRPC$User.photo) == null) ? null : tLRPC$UserProfilePhoto.photo_small;
             if (i != 0) {
                 boolean z = true;
-                boolean z2 = (MessagesController.UPDATE_MASK_AVATAR & i) != 0 && (((tLRPC$FileLocation2 = this.lastAvatar) != null && tLRPC$FileLocation == null) || ((tLRPC$FileLocation2 == null && tLRPC$FileLocation != null) || !(tLRPC$FileLocation2 == null || tLRPC$FileLocation == null || (tLRPC$FileLocation2.volume_id == tLRPC$FileLocation.volume_id && tLRPC$FileLocation2.local_id == tLRPC$FileLocation.local_id))));
+                boolean z2 = (MessagesController.UPDATE_MASK_AVATAR & i) != 0 && (((tLRPC$FileLocation = this.lastAvatar) != null && tLRPC$FileLocation2 == null) || ((tLRPC$FileLocation == null && tLRPC$FileLocation2 != null) || !(tLRPC$FileLocation == null || tLRPC$FileLocation2 == null || (tLRPC$FileLocation.volume_id == tLRPC$FileLocation2.volume_id && tLRPC$FileLocation.local_id == tLRPC$FileLocation2.local_id))));
                 if (tLRPC$User != null && !z2 && (MessagesController.UPDATE_MASK_STATUS & i) != 0) {
                     TLRPC$UserStatus tLRPC$UserStatus = tLRPC$User.status;
                     if ((tLRPC$UserStatus != null ? tLRPC$UserStatus.expires : 0) != this.lastStatus) {
@@ -404,59 +383,34 @@ public class PollVotesAlert extends BottomSheet {
                     }
                 }
                 if (!z2 && this.lastName != null && (i & MessagesController.UPDATE_MASK_NAME) != 0) {
-                    if (tLRPC$User != null) {
-                        str = UserObject.getUserName(tLRPC$User);
-                    } else {
-                        TLRPC$Chat tLRPC$Chat2 = this.currentChat;
-                        if (tLRPC$Chat2 != null) {
-                            str = tLRPC$Chat2.title;
-                        }
-                    }
+                    r1 = tLRPC$User != null ? UserObject.getUserName(tLRPC$User) : null;
                 }
                 z = z2;
                 if (!z) {
                     return;
                 }
             }
+            this.avatarDrawable.setInfo(this.currentUser);
             TLRPC$User tLRPC$User2 = this.currentUser;
-            if (tLRPC$User2 != null) {
-                this.avatarDrawable.setInfo(tLRPC$User2);
-            } else {
-                TLRPC$Chat tLRPC$Chat3 = this.currentChat;
-                if (tLRPC$Chat3 != null) {
-                    this.avatarDrawable.setInfo(tLRPC$Chat3);
-                }
-            }
-            TLRPC$User tLRPC$User3 = this.currentUser;
-            TLRPC$UserStatus tLRPC$UserStatus2 = tLRPC$User3.status;
+            TLRPC$UserStatus tLRPC$UserStatus2 = tLRPC$User2.status;
             if (tLRPC$UserStatus2 != null) {
                 this.lastStatus = tLRPC$UserStatus2.expires;
             } else {
                 this.lastStatus = 0;
             }
-            if (tLRPC$User3 != null) {
-                if (str == null) {
-                    str = UserObject.getUserName(tLRPC$User3);
+            if (tLRPC$User2 != null) {
+                if (r1 == null) {
+                    r1 = UserObject.getUserName(tLRPC$User2);
                 }
-                this.lastName = str;
+                this.lastName = r1;
             } else {
-                TLRPC$Chat tLRPC$Chat4 = this.currentChat;
-                if (tLRPC$Chat4 != null) {
-                    this.lastName = tLRPC$Chat4.title;
-                } else {
-                    this.lastName = "";
-                }
+                this.lastName = "";
             }
             this.nameTextView.setText(this.lastName);
-            this.lastAvatar = tLRPC$FileLocation;
-            TLRPC$Chat tLRPC$Chat5 = this.currentChat;
-            if (tLRPC$Chat5 != null) {
-                this.avatarImageView.setForUserOrChat(tLRPC$Chat5, this.avatarDrawable);
-                return;
-            }
-            TLRPC$User tLRPC$User4 = this.currentUser;
-            if (tLRPC$User4 != null) {
-                this.avatarImageView.setForUserOrChat(tLRPC$User4, this.avatarDrawable);
+            this.lastAvatar = tLRPC$FileLocation2;
+            TLRPC$User tLRPC$User3 = this.currentUser;
+            if (tLRPC$User3 != null) {
+                this.avatarImageView.setForUserOrChat(tLRPC$User3, this.avatarDrawable);
             } else {
                 this.avatarImageView.setImageDrawable(this.avatarDrawable);
             }
@@ -568,7 +522,7 @@ public class PollVotesAlert extends BottomSheet {
                 int i5 = tLRPC$TL_pollAnswerVoters.voters;
                 i5 = i5 > 15 ? 10 : i5;
                 for (int i6 = 0; i6 < i5; i6++) {
-                    tLRPC$TL_messages_votesList.votes.add(new TLRPC$TL_messagePeerVoteInputOption());
+                    tLRPC$TL_messages_votesList.votes.add(new TLRPC$TL_messageUserVoteInputOption());
                 }
                 int i7 = tLRPC$TL_pollAnswerVoters.voters;
                 tLRPC$TL_messages_votesList.next_offset = i5 < i7 ? "empty" : null;
@@ -999,30 +953,18 @@ public class PollVotesAlert extends BottomSheet {
                 });
             } else if (view instanceof UserCell) {
                 UserCell userCell = (UserCell) view;
-                if (userCell.currentUser == null && userCell.currentChat == null) {
+                if (userCell.currentUser == null) {
                     return;
                 }
+                TLRPC$User currentUser = chatActivity.getCurrentUser();
                 Bundle bundle = new Bundle();
-                if (userCell.currentUser != null) {
-                    bundle.putLong("user_id", userCell.currentUser.id);
-                } else {
-                    bundle.putLong("chat_id", userCell.currentChat.id);
-                }
+                bundle.putLong("user_id", userCell.currentUser.id);
                 dismiss();
                 ProfileActivity profileActivity = new ProfileActivity(bundle);
-                if (userCell.currentUser != null) {
-                    TLRPC$User currentUser = chatActivity.getCurrentUser();
-                    if (currentUser != null && currentUser.id == userCell.currentUser.id) {
-                        i2 = 1;
-                    }
-                    profileActivity.setPlayProfileAnimation(i2);
-                } else {
-                    TLRPC$Chat currentChat = chatActivity.getCurrentChat();
-                    if (currentChat != null && currentChat.id == userCell.currentChat.id) {
-                        i2 = 1;
-                    }
-                    profileActivity.setPlayProfileAnimation(i2);
+                if (currentUser != null && currentUser.id == userCell.currentUser.id) {
+                    i2 = 1;
                 }
+                profileActivity.setPlayProfileAnimation(i2);
                 chatActivity.presentFragment(profileActivity);
             }
         }
@@ -1227,7 +1169,7 @@ public class PollVotesAlert extends BottomSheet {
                 if (i4 < 0 || i4 >= PollVotesAlert.this.voters.size() || (i3 = i2 - 1) >= ((VotesList) PollVotesAlert.this.voters.get(i4)).getCount()) {
                     return -182734;
                 }
-                return Integer.valueOf(Objects.hash(Long.valueOf(DialogObject.getPeerDialogId(((VotesList) PollVotesAlert.this.voters.get(i4)).votes.get(i3).peer))));
+                return Integer.valueOf(Objects.hash(Long.valueOf(((VotesList) PollVotesAlert.this.voters.get(i4)).votes.get(i3).user_id)));
             }
             return -928312;
         }
@@ -1366,12 +1308,13 @@ public class PollVotesAlert extends BottomSheet {
                 int positionInSectionForPosition = getPositionInSectionForPosition(adapterPosition) - 1;
                 UserCell userCell = (UserCell) viewHolder.itemView;
                 VotesList votesList = (VotesList) PollVotesAlert.this.voters.get(sectionForPosition - 1);
-                TLObject userOrChat = PollVotesAlert.this.chatActivity.getMessagesController().getUserOrChat(DialogObject.getPeerDialogId(votesList.votes.get(positionInSectionForPosition).peer));
+                TLRPC$MessageUserVote tLRPC$MessageUserVote = votesList.votes.get(positionInSectionForPosition);
+                TLRPC$User user = tLRPC$MessageUserVote.user_id != 0 ? PollVotesAlert.this.chatActivity.getMessagesController().getUser(Long.valueOf(tLRPC$MessageUserVote.user_id)) : null;
                 boolean z = true;
                 if (positionInSectionForPosition == votesList.getCount() - 1 && TextUtils.isEmpty(votesList.next_offset) && !votesList.collapsed) {
                     z = false;
                 }
-                userCell.setData(userOrChat, positionInSectionForPosition, z);
+                userCell.setData(user, positionInSectionForPosition, z);
             }
         }
 

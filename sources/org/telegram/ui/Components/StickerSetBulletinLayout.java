@@ -39,8 +39,8 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
         this(context, tLObject, 1, i, tLRPC$Document, resourcesProvider);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:104:0x034f  */
-    /* JADX WARN: Removed duplicated region for block: B:135:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x0375  */
+    /* JADX WARN: Removed duplicated region for block: B:139:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:29:0x0075 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:35:0x008c  */
     /* JADX WARN: Removed duplicated region for block: B:66:0x0114  */
@@ -133,10 +133,15 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
                                 this.titleTextView.setText(LocaleController.getString("MasksArchived", R.string.MasksArchived));
                                 this.subtitleTextView.setText(LocaleController.formatString("MasksArchivedInfo", R.string.MasksArchivedInfo, tLRPC$StickerSet2.title));
                                 return;
+                            } else if (tLRPC$StickerSet2.emojis) {
+                                this.titleTextView.setText(LocaleController.getString("EmojiArchived", R.string.EmojiArchived));
+                                this.subtitleTextView.setText(LocaleController.formatString("EmojiArchivedInfo", R.string.EmojiArchivedInfo, tLRPC$StickerSet2.title));
+                                return;
+                            } else {
+                                this.titleTextView.setText(LocaleController.getString("StickersArchived", R.string.StickersArchived));
+                                this.subtitleTextView.setText(LocaleController.formatString("StickersArchivedInfo", R.string.StickersArchivedInfo, tLRPC$StickerSet2.title));
+                                return;
                             }
-                            this.titleTextView.setText(LocaleController.getString("StickersArchived", R.string.StickersArchived));
-                            this.subtitleTextView.setText(LocaleController.formatString("StickersArchivedInfo", R.string.StickersArchivedInfo, tLRPC$StickerSet2.title));
-                            return;
                         }
                         return;
                     case 2:
