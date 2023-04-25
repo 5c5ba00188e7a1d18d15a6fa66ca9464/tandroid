@@ -8516,21 +8516,21 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:101:0x02c7, code lost:
-        if ((r9 instanceof org.telegram.tgnet.TLRPC$TL_chatParticipantCreator) == false) goto L225;
+    /* JADX WARN: Code restructure failed: missing block: B:106:0x02d1, code lost:
+        if ((r9 instanceof org.telegram.tgnet.TLRPC$TL_chatParticipantCreator) == false) goto L229;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:106:0x02e1, code lost:
-        if (r3 == (-r28.currentChat.id)) goto L227;
+    /* JADX WARN: Code restructure failed: missing block: B:111:0x02eb, code lost:
+        if (r3 == (-r28.currentChat.id)) goto L231;
      */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x02ef  */
-    /* JADX WARN: Removed duplicated region for block: B:140:0x03b4  */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x0517  */
-    /* JADX WARN: Removed duplicated region for block: B:194:0x05b6  */
-    /* JADX WARN: Removed duplicated region for block: B:197:0x05c3  */
-    /* JADX WARN: Removed duplicated region for block: B:200:0x05f1  */
-    /* JADX WARN: Removed duplicated region for block: B:211:0x061f  */
-    /* JADX WARN: Removed duplicated region for block: B:225:0x067a  */
-    /* JADX WARN: Removed duplicated region for block: B:232:0x06c2  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x02f9  */
+    /* JADX WARN: Removed duplicated region for block: B:145:0x03be  */
+    /* JADX WARN: Removed duplicated region for block: B:184:0x0521  */
+    /* JADX WARN: Removed duplicated region for block: B:199:0x05c0  */
+    /* JADX WARN: Removed duplicated region for block: B:202:0x05cd  */
+    /* JADX WARN: Removed duplicated region for block: B:205:0x05fb  */
+    /* JADX WARN: Removed duplicated region for block: B:216:0x0629  */
+    /* JADX WARN: Removed duplicated region for block: B:230:0x0684  */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x06cc  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8565,7 +8565,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         int i6;
         String str4;
         TLRPC$ChatParticipants tLRPC$ChatParticipants;
-        if (this.itemAnimator.isRunning()) {
+        if (this.itemAnimator.isRunning() || getContext() == null) {
             return false;
         }
         if (this.avatarPriviewTransitionInProgress || this.avatarsPreviewShowed) {
@@ -8625,6 +8625,9 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
         boolean z3 = (isLandscapeMode || isTabletMode || AndroidUtilities.isInMultiwindow) ? false : true;
         final TLRPC$TL_groupCallParticipant participant = groupCallUserCell3.getParticipant();
+        if (participant == null) {
+            return false;
+        }
         final Rect rect = new Rect();
         ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout2 = new ActionBarPopupWindow.ActionBarPopupWindowLayout(getContext());
         actionBarPopupWindowLayout2.setBackgroundDrawable(null);

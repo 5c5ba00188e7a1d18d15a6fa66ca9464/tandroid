@@ -16591,7 +16591,7 @@ public class MessagesController extends BaseController implements NotificationCe
 
     public /* synthetic */ void lambda$addUsersToChat$253(TLRPC$Chat tLRPC$Chat, ArrayList arrayList) {
         BaseFragment lastFragment = LaunchActivity.getLastFragment();
-        if (lastFragment == null || lastFragment.getParentActivity() == null) {
+        if (lastFragment == null || lastFragment.getParentActivity() == null || lastFragment.getParentActivity().isFinishing()) {
             return;
         }
         LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(lastFragment, lastFragment.getParentActivity(), 11, this.currentAccount);

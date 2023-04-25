@@ -5869,7 +5869,12 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             }
         }
         if (i6 >= 31) {
-            contentIntent.setStyle(Notification.CallStyle.forIncomingCall(new Person.Builder().setName(ContactsController.formatName(tLObject)).setIcon(Icon.createWithAdaptiveBitmap(getRoundAvatarBitmap(tLObject))).build(), broadcast, broadcast2));
+            Bitmap roundAvatarBitmap = getRoundAvatarBitmap(tLObject);
+            String formatName = ContactsController.formatName(tLObject);
+            if (TextUtils.isEmpty(formatName)) {
+                formatName = "___";
+            }
+            contentIntent.setStyle(Notification.CallStyle.forIncomingCall(new Person.Builder().setName(formatName).setIcon(Icon.createWithAdaptiveBitmap(roundAvatarBitmap)).build(), broadcast, broadcast2));
             notification = contentIntent.build();
         } else if (i6 >= 21) {
             contentIntent.addAction(R.drawable.ic_call_end_white_24dp, string, broadcast);
@@ -5892,13 +5897,13 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                 }
                 remoteViews.setTextViewText(i10, LocaleController.getString(str4, i5));
             }
-            Bitmap roundAvatarBitmap = getRoundAvatarBitmap(tLObject);
+            Bitmap roundAvatarBitmap2 = getRoundAvatarBitmap(tLObject);
             remoteViews.setTextViewText(R.id.answer_text, LocaleController.getString("VoipAnswerCall", i9));
             remoteViews.setTextViewText(R.id.decline_text, LocaleController.getString("VoipDeclineCall", i3));
-            remoteViews.setImageViewBitmap(R.id.photo, roundAvatarBitmap);
+            remoteViews.setImageViewBitmap(R.id.photo, roundAvatarBitmap2);
             remoteViews.setOnClickPendingIntent(R.id.answer_btn, broadcast2);
             remoteViews.setOnClickPendingIntent(R.id.decline_btn, broadcast);
-            contentIntent.setLargeIcon(roundAvatarBitmap);
+            contentIntent.setLargeIcon(roundAvatarBitmap2);
             notification = contentIntent.getNotification();
             notification.bigContentView = remoteViews;
             notification.headsUpContentView = remoteViews;
