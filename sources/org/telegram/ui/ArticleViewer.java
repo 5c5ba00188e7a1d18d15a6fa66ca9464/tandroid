@@ -10410,7 +10410,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         public BlockRelatedArticlesShadowCell(Context context) {
             super(context);
-            CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundGray)), Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, -16777216));
+            CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundGray)), Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, -16777216));
             this.shadowDrawable = combinedDrawable;
             combinedDrawable.setFullsize(true);
             setBackgroundDrawable(this.shadowDrawable);

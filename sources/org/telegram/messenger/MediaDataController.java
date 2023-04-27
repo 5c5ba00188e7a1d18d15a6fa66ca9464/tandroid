@@ -9860,8 +9860,8 @@ public class MediaDataController extends BaseController {
         this.ringtoneDataStore.onRingtoneUploaded(str, tLRPC$Document, z);
     }
 
-    public void checkRingtones() {
-        this.ringtoneDataStore.lambda$new$0();
+    public void checkRingtones(boolean z) {
+        this.ringtoneDataStore.loadUserRingtones(z);
     }
 
     public boolean saveToRingtones(final TLRPC$Document tLRPC$Document) {

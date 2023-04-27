@@ -22876,14 +22876,14 @@ public class MessagesController extends BaseController implements NotificationCe
     /* JADX WARN: Code restructure failed: missing block: B:1296:0x0983, code lost:
         if (r7.getCallState() == 0) goto L471;
      */
-    /* JADX WARN: Removed duplicated region for block: B:1564:0x101f  */
-    /* JADX WARN: Removed duplicated region for block: B:1569:0x103b  */
-    /* JADX WARN: Removed duplicated region for block: B:1615:0x114d  */
-    /* JADX WARN: Removed duplicated region for block: B:1617:0x115b  */
-    /* JADX WARN: Removed duplicated region for block: B:1619:0x1161  */
-    /* JADX WARN: Removed duplicated region for block: B:1622:0x116d  */
-    /* JADX WARN: Removed duplicated region for block: B:1632:0x11a9  */
-    /* JADX WARN: Removed duplicated region for block: B:1635:0x11bf  */
+    /* JADX WARN: Removed duplicated region for block: B:1564:0x1020  */
+    /* JADX WARN: Removed duplicated region for block: B:1569:0x103c  */
+    /* JADX WARN: Removed duplicated region for block: B:1615:0x114e  */
+    /* JADX WARN: Removed duplicated region for block: B:1617:0x115c  */
+    /* JADX WARN: Removed duplicated region for block: B:1619:0x1162  */
+    /* JADX WARN: Removed duplicated region for block: B:1622:0x116e  */
+    /* JADX WARN: Removed duplicated region for block: B:1632:0x11aa  */
+    /* JADX WARN: Removed duplicated region for block: B:1635:0x11c0  */
     /* JADX WARN: Removed duplicated region for block: B:1715:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -23668,7 +23668,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                         } else if (tLRPC$Update instanceof TLRPC$TL_updatePendingJoinRequests) {
                                                             getMemberRequestsController().onPendingRequestsUpdated((TLRPC$TL_updatePendingJoinRequests) tLRPC$Update);
                                                         } else if (tLRPC$Update instanceof TLRPC$TL_updateSavedRingtones) {
-                                                            getMediaDataController().ringtoneDataStore.lambda$new$0();
+                                                            getMediaDataController().ringtoneDataStore.loadUserRingtones(true);
                                                         } else if (tLRPC$Update instanceof TLRPC$TL_updateTranscribeAudio) {
                                                             FileLog.e("Received legacy TL_updateTranscribeAudio update");
                                                         } else if (tLRPC$Update instanceof TLRPC$TL_updateTranscribedAudio) {

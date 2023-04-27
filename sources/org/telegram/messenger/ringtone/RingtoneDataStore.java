@@ -55,12 +55,16 @@ public class RingtoneDataStore {
         });
     }
 
-    /* renamed from: loadUserRingtones */
-    public void lambda$new$0() {
-        boolean z = System.currentTimeMillis() - lastReloadTimeMs > 86400000;
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$0() {
+        loadUserRingtones(false);
+    }
+
+    public void loadUserRingtones(boolean z) {
+        boolean z2 = z || System.currentTimeMillis() - lastReloadTimeMs > 86400000;
         TLRPC$TL_account_getSavedRingtones tLRPC$TL_account_getSavedRingtones = new TLRPC$TL_account_getSavedRingtones();
         tLRPC$TL_account_getSavedRingtones.hash = queryHash;
-        if (z) {
+        if (z2) {
             ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_getSavedRingtones, new RequestDelegate() { // from class: org.telegram.messenger.ringtone.RingtoneDataStore$$ExternalSyntheticLambda5
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
