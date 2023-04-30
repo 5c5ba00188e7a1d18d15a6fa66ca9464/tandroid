@@ -1411,25 +1411,27 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 size4 = 4;
             }
             int size5 = this.searchContacts.size();
-            if (i < 0 || i >= size5) {
-                int i3 = i - (size5 + 1);
-                if (i3 < 0 || i3 >= size) {
-                    int i4 = i3 - size;
-                    if (i4 < 0 || i4 >= size2) {
-                        int i5 = i4 - size2;
-                        if (i5 <= 0 || i5 >= size3) {
-                            int i6 = i5 - size3;
-                            if (i6 <= 0 || i6 >= size4) {
-                                int i7 = i6 - size4;
-                                int size6 = this.searchForumResultMessages.isEmpty() ? 0 : this.searchForumResultMessages.size() + 1;
-                                if ((i7 <= 0 || i7 >= size6) && !this.searchResultMessages.isEmpty()) {
-                                    this.searchResultMessages.size();
-                                }
-                                return false;
+            if (size5 > 0) {
+                if (i >= 0 && i < size5) {
+                    return false;
+                }
+                i -= size5 + 1;
+            }
+            if (i < 0 || i >= size) {
+                int i3 = i - size;
+                if (i3 < 0 || i3 >= size2) {
+                    int i4 = i3 - size2;
+                    if (i4 <= 0 || i4 >= size3) {
+                        int i5 = i4 - size3;
+                        if (i5 <= 0 || i5 >= size4) {
+                            int i6 = i5 - size4;
+                            int size6 = this.searchForumResultMessages.isEmpty() ? 0 : this.searchForumResultMessages.size() + 1;
+                            if ((i6 <= 0 || i6 >= size6) && !this.searchResultMessages.isEmpty()) {
+                                this.searchResultMessages.size();
                             }
-                            return true;
+                            return false;
                         }
-                        return false;
+                        return true;
                     }
                     return false;
                 }

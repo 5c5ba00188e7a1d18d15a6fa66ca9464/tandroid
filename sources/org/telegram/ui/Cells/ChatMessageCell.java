@@ -25783,8 +25783,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:76:0x005e  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x007d  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x005d  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x007c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -25799,7 +25799,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             this.loadingProgressLayout = null;
             return;
         }
-        long j4 = j << ((int) (16 + j3));
+        long j4 = (j << 16) + j3;
         if (this.loadingProgressLayout == null || this.loadingProgressLayoutHash != j4) {
             this.loadingProgressLayoutHash = j4;
             long j5 = this.lastLoadingSizeTotal;
