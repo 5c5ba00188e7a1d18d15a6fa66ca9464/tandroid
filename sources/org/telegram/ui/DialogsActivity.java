@@ -10680,7 +10680,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             arrayList.add("android.permission.POST_NOTIFICATIONS");
         }
-        if ((i <= 28 || BuildVars.NO_SCOPED_STORAGE) && parentActivity.checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") != 0) {
+        if (i >= 33) {
+            arrayList.add("android.permission.READ_MEDIA_IMAGES");
+            arrayList.add("android.permission.READ_MEDIA_VIDEO");
+            arrayList.add("android.permission.READ_MEDIA_AUDIO");
+            arrayList.add("android.permission.WRITE_EXTERNAL_STORAGE");
+        } else if ((i <= 28 || BuildVars.NO_SCOPED_STORAGE) && parentActivity.checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") != 0) {
             arrayList.add("android.permission.READ_EXTERNAL_STORAGE");
             arrayList.add("android.permission.WRITE_EXTERNAL_STORAGE");
         }

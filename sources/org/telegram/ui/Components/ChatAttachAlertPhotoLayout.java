@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -3306,13 +3307,20 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
     }
 
+    private boolean isNoGalleryPermissions() {
+        Activity parentActivity = this.parentAlert.baseFragment.getParentActivity();
+        int i = Build.VERSION.SDK_INT;
+        return i >= 23 && (parentActivity == null || ((i >= 33 && !(parentActivity.checkSelfPermission("android.permission.READ_MEDIA_IMAGES") == 0 && parentActivity.checkSelfPermission("android.permission.READ_MEDIA_VIDEO") == 0)) || (i < 33 && parentActivity.checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != 0)));
+    }
+
     public void checkStorage() {
         if (!this.noGalleryPermissions || Build.VERSION.SDK_INT < 23) {
             return;
         }
-        boolean z = this.parentAlert.baseFragment.getParentActivity().checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != 0;
-        this.noGalleryPermissions = z;
-        if (!z) {
+        this.parentAlert.baseFragment.getParentActivity();
+        boolean isNoGalleryPermissions = isNoGalleryPermissions();
+        this.noGalleryPermissions = isNoGalleryPermissions;
+        if (!isNoGalleryPermissions) {
             loadGalleryPhotos();
         }
         this.adapter.notifyDataSetChanged();
@@ -3744,7 +3752,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             this.galleryAlbumEntry = MediaController.allPhotosAlbumEntry;
         }
         if (Build.VERSION.SDK_INT >= 23) {
-            this.noGalleryPermissions = this.parentAlert.baseFragment.getParentActivity().checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != 0;
+            this.noGalleryPermissions = isNoGalleryPermissions();
         }
         if (this.galleryAlbumEntry != null) {
             for (int i = 0; i < Math.min(100, this.galleryAlbumEntry.photos.size()); i++) {
