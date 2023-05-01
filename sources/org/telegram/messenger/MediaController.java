@@ -332,6 +332,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
     public static native byte[] getWaveform(String str);
 
+    public static boolean ignoreAccelerometerGestures() {
+        return false;
+    }
+
     public static native int isOpusFile(String str);
 
     private static boolean isRecognizedFormat(int i) {
@@ -4191,10 +4195,6 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$playMessage$22(MessageObject messageObject, File file) {
         NotificationCenter.getInstance(messageObject.currentAccount).postNotificationName(NotificationCenter.fileLoaded, FileLoader.getAttachFileName(messageObject.getDocument()), file);
-    }
-
-    public static boolean ignoreAccelerometerGestures() {
-        return Build.MANUFACTURER.equalsIgnoreCase("samsung");
     }
 
     public void updateSilent(boolean z) {
