@@ -2854,8 +2854,7 @@ public class AndroidUtilities {
     }
 
     private static File getAlbumDir(boolean z) {
-        int i;
-        if (z || !BuildVars.NO_SCOPED_STORAGE || (((i = Build.VERSION.SDK_INT) >= 33 && ApplicationLoader.applicationContext.checkSelfPermission("android.permission.READ_MEDIA_IMAGES") != 0) || (i >= 23 && i <= 33 && ApplicationLoader.applicationContext.checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != 0))) {
+        if (z || !BuildVars.NO_SCOPED_STORAGE || (Build.VERSION.SDK_INT >= 23 && ApplicationLoader.applicationContext.checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != 0)) {
             return FileLoader.getDirectory(0);
         }
         if ("mounted".equals(Environment.getExternalStorageState())) {

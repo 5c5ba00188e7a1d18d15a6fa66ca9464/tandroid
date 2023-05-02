@@ -363,14 +363,12 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x017d A[Catch: Exception -> 0x019f, all -> 0x03f7, TryCatch #1 {Exception -> 0x019f, blocks: (B:22:0x012e, B:24:0x0136, B:26:0x0146, B:27:0x015a, B:38:0x017d, B:40:0x0181, B:41:0x0183, B:43:0x0187, B:45:0x018d, B:47:0x0193, B:49:0x0197, B:36:0x0177), top: B:89:0x012e, outer: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0181 A[Catch: Exception -> 0x019f, all -> 0x03f7, TryCatch #1 {Exception -> 0x019f, blocks: (B:22:0x012e, B:24:0x0136, B:26:0x0146, B:27:0x015a, B:38:0x017d, B:40:0x0181, B:41:0x0183, B:43:0x0187, B:45:0x018d, B:47:0x0193, B:49:0x0197, B:36:0x0177), top: B:89:0x012e, outer: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x01be  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x01c0  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0229  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x022c  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x023c  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x023e  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x017d A[Catch: Exception -> 0x019f, all -> 0x03ee, TryCatch #0 {Exception -> 0x019f, blocks: (B:22:0x012e, B:24:0x0136, B:26:0x0146, B:27:0x015a, B:38:0x017d, B:40:0x0181, B:41:0x0183, B:43:0x0187, B:45:0x018d, B:47:0x0193, B:49:0x0197, B:36:0x0177), top: B:83:0x012e, outer: #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0181 A[Catch: Exception -> 0x019f, all -> 0x03ee, TryCatch #0 {Exception -> 0x019f, blocks: (B:22:0x012e, B:24:0x0136, B:26:0x0146, B:27:0x015a, B:38:0x017d, B:40:0x0181, B:41:0x0183, B:43:0x0187, B:45:0x018d, B:47:0x0193, B:49:0x0197, B:36:0x0177), top: B:83:0x012e, outer: #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0220  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0223  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0233  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0235  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -454,7 +452,7 @@ public class SharedConfig {
                             SharedPreferences sharedPreferences2 = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
                             SaveToGallerySettingsHelper.load(sharedPreferences2);
                             mapPreviewType = sharedPreferences2.getInt("mapPreviewType", 2);
-                            raiseToListen = sharedPreferences2.getBoolean("raise_to_listen", MediaController.ignoreAccelerometerGestures());
+                            raiseToListen = sharedPreferences2.getBoolean("raise_to_listen", true);
                             raiseToSpeak = sharedPreferences2.getBoolean("raise_to_speak", false);
                             nextMediaTap = sharedPreferences2.getBoolean("next_media_on_tap", true);
                             recordViaSco = sharedPreferences2.getBoolean("record_via_sco", false);
@@ -539,7 +537,7 @@ public class SharedConfig {
                 SharedPreferences sharedPreferences22 = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
                 SaveToGallerySettingsHelper.load(sharedPreferences22);
                 mapPreviewType = sharedPreferences22.getInt("mapPreviewType", 2);
-                raiseToListen = sharedPreferences22.getBoolean("raise_to_listen", MediaController.ignoreAccelerometerGestures());
+                raiseToListen = sharedPreferences22.getBoolean("raise_to_listen", true);
                 raiseToSpeak = sharedPreferences22.getBoolean("raise_to_speak", false);
                 nextMediaTap = sharedPreferences22.getBoolean("next_media_on_tap", true);
                 recordViaSco = sharedPreferences22.getBoolean("record_via_sco", false);

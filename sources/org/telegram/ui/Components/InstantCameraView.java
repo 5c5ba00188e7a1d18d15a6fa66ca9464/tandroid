@@ -574,7 +574,13 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         this.iv = null;
         this.needDrawFlickerStub = true;
         if (initCamera()) {
-            MediaController.getInstance().lambda$startAudioAgain$7(MediaController.getInstance().getPlayingMessageObject());
+            if (MediaController.getInstance().getPlayingMessageObject() != null) {
+                if (MediaController.getInstance().getPlayingMessageObject().isVideo() || MediaController.getInstance().getPlayingMessageObject().isRoundVideo()) {
+                    MediaController.getInstance().cleanupPlayer(true, true);
+                } else {
+                    MediaController.getInstance().lambda$startAudioAgain$7(MediaController.getInstance().getPlayingMessageObject());
+                }
+            }
             File directory = FileLoader.getDirectory(3);
             this.cameraFile = new File(this, directory, System.currentTimeMillis() + "_" + SharedConfig.getLastLocalId() + ".mp4") { // from class: org.telegram.ui.Components.InstantCameraView.8
                 @Override // java.io.File
@@ -2163,13 +2169,19 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Removed duplicated region for block: B:22:0x005a  */
-        /* JADX WARN: Removed duplicated region for block: B:28:0x0074  */
+        /* JADX WARN: Code restructure failed: missing block: B:25:0x005b, code lost:
+            if (r11 < 0) goto L69;
+         */
+        /* JADX WARN: Removed duplicated region for block: B:30:0x006c  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x0088  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void handleVideoFrameAvailable(long j, Integer num) {
+            boolean z;
             long j2;
+            long j3;
+            long j4;
             FloatBuffer floatBuffer;
             FloatBuffer floatBuffer2;
             try {
@@ -2177,24 +2189,23 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             } catch (Exception e) {
                 FileLog.e(e);
             }
-            if (!this.lastCameraId.equals(num)) {
-                if (j - this.lastTimestamp > 10000) {
-                    this.lastTimestamp = -1L;
-                }
+            if (this.lastCameraId.equals(num)) {
+                z = false;
+            } else {
                 this.lastCameraId = num;
+                z = true;
             }
-            long j3 = this.lastTimestamp;
-            long j4 = 0;
-            if (j3 == -1) {
-                this.lastTimestamp = j;
-                if (this.currentTimestamp != 0) {
-                    j2 = 0;
-                    j4 = (System.currentTimeMillis() - this.lastCommitedFrameTime) * 1000000;
+            if (!z) {
+                long j5 = this.lastTimestamp;
+                if (j5 != -1) {
+                    j4 = j - j5;
+                    this.lastTimestamp = j;
+                    j3 = j4;
                     this.lastCommitedFrameTime = System.currentTimeMillis();
                     if (!this.skippedFirst) {
-                        long j5 = this.skippedTime + j4;
-                        this.skippedTime = j5;
-                        if (j5 < 200000000) {
+                        long j6 = this.skippedTime + j4;
+                        this.skippedTime = j6;
+                        if (j6 < 200000000) {
                             return;
                         }
                         this.skippedFirst = true;
@@ -2263,7 +2274,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                         });
                         return;
                     }
-                    InstantCameraView.access$2516(InstantCameraView.this, ((float) j2) / 2.0E8f);
+                    InstantCameraView.access$2516(InstantCameraView.this, ((float) j3) / 2.0E8f);
                     if (InstantCameraView.this.cameraTextureAlpha > 1.0f) {
                         GLES20.glDisable(3042);
                         this.blendEnabled = false;
@@ -2284,11 +2295,18 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                     }
                     return;
                 }
-            } else {
-                j4 = j - j3;
-                this.lastTimestamp = j;
             }
-            j2 = j4;
+            if (this.currentTimestamp != 0) {
+                j2 = j - this.lastTimestamp;
+                long currentTimeMillis = (System.currentTimeMillis() - this.lastCommitedFrameTime) * 1000000;
+                if (j2 < 0 || Math.abs(currentTimeMillis - j2) > 100000000) {
+                    j2 = currentTimeMillis;
+                }
+            }
+            j2 = 0;
+            this.lastTimestamp = j;
+            j3 = 0;
+            j4 = j2;
             this.lastCommitedFrameTime = System.currentTimeMillis();
             if (!this.skippedFirst) {
             }

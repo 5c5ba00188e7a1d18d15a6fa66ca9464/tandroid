@@ -6,7 +6,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
@@ -2649,7 +2648,6 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             return;
         }
         if (view instanceof AttachButton) {
-            Activity parentActivity = this.baseFragment.getParentActivity();
             int intValue = ((Integer) view.getTag()).intValue();
             if (intValue == 1) {
                 if (!this.photosEnabled && !this.videosEnabled) {
@@ -2659,26 +2657,14 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 }
                 showLayout(this.photoLayout);
             } else if (intValue == 3) {
-                int i2 = Build.VERSION.SDK_INT;
-                if (i2 >= 33) {
-                    if (parentActivity.checkSelfPermission("android.permission.READ_MEDIA_AUDIO") != 0) {
-                        parentActivity.requestPermissions(new String[]{"android.permission.READ_MEDIA_AUDIO"}, 4);
-                        return;
-                    }
-                } else if (i2 >= 23 && parentActivity.checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != 0) {
-                    parentActivity.requestPermissions(new String[]{"android.permission.READ_EXTERNAL_STORAGE"}, 4);
+                if (Build.VERSION.SDK_INT >= 23 && this.baseFragment.getParentActivity().checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != 0) {
+                    this.baseFragment.getParentActivity().requestPermissions(new String[]{"android.permission.READ_EXTERNAL_STORAGE"}, 4);
                     return;
                 }
                 openAudioLayout(true);
             } else if (intValue == 4) {
-                int i3 = Build.VERSION.SDK_INT;
-                if (i3 >= 33) {
-                    if (parentActivity.checkSelfPermission("android.permission.READ_MEDIA_IMAGES") != 0 || parentActivity.checkSelfPermission("android.permission.READ_MEDIA_VIDEO") != 0) {
-                        parentActivity.requestPermissions(new String[]{"android.permission.READ_MEDIA_IMAGES", "android.permission.READ_MEDIA_VIDEO"}, 4);
-                        return;
-                    }
-                } else if (i3 >= 23 && parentActivity.checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != 0) {
-                    parentActivity.requestPermissions(new String[]{"android.permission.READ_EXTERNAL_STORAGE"}, 4);
+                if (Build.VERSION.SDK_INT >= 23 && this.baseFragment.getParentActivity().checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != 0) {
+                    this.baseFragment.getParentActivity().requestPermissions(new String[]{"android.permission.READ_EXTERNAL_STORAGE"}, 4);
                     return;
                 }
                 openDocumentsLayout(true);
@@ -2704,8 +2690,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                         attachAlertLayoutArr[5] = chatAttachAlertLocationLayout;
                         chatAttachAlertLocationLayout.setDelegate(new ChatAttachAlertLocationLayout.LocationActivityDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlert$$ExternalSyntheticLambda35
                             @Override // org.telegram.ui.Components.ChatAttachAlertLocationLayout.LocationActivityDelegate
-                            public final void didSelectLocation(TLRPC$MessageMedia tLRPC$MessageMedia, int i4, boolean z, int i5) {
-                                ChatAttachAlert.this.lambda$new$5(tLRPC$MessageMedia, i4, z, i5);
+                            public final void didSelectLocation(TLRPC$MessageMedia tLRPC$MessageMedia, int i2, boolean z, int i3) {
+                                ChatAttachAlert.this.lambda$new$5(tLRPC$MessageMedia, i2, z, i3);
                             }
                         });
                     }
@@ -2724,8 +2710,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                         attachAlertLayoutArr2[1] = chatAttachAlertPollLayout;
                         chatAttachAlertPollLayout.setDelegate(new ChatAttachAlertPollLayout.PollCreateActivityDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlert$$ExternalSyntheticLambda36
                             @Override // org.telegram.ui.Components.ChatAttachAlertPollLayout.PollCreateActivityDelegate
-                            public final void sendPoll(TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll, HashMap hashMap, boolean z, int i4) {
-                                ChatAttachAlert.this.lambda$new$6(tLRPC$TL_messageMediaPoll, hashMap, z, i4);
+                            public final void sendPoll(TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll, HashMap hashMap, boolean z, int i2) {
+                                ChatAttachAlert.this.lambda$new$6(tLRPC$TL_messageMediaPoll, hashMap, z, i2);
                             }
                         });
                     }
@@ -2737,14 +2723,14 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             int left = view.getLeft();
             int right = view.getRight();
             int dp = AndroidUtilities.dp(10.0f);
-            int i4 = left - dp;
-            if (i4 < 0) {
-                this.buttonsRecyclerView.smoothScrollBy(i4, 0);
+            int i2 = left - dp;
+            if (i2 < 0) {
+                this.buttonsRecyclerView.smoothScrollBy(i2, 0);
             } else {
-                int i5 = right + dp;
-                if (i5 > this.buttonsRecyclerView.getMeasuredWidth()) {
+                int i3 = right + dp;
+                if (i3 > this.buttonsRecyclerView.getMeasuredWidth()) {
                     RecyclerListView recyclerListView = this.buttonsRecyclerView;
-                    recyclerListView.smoothScrollBy(i5 - recyclerListView.getMeasuredWidth(), 0);
+                    recyclerListView.smoothScrollBy(i3 - recyclerListView.getMeasuredWidth(), 0);
                 }
             }
         } else if (view instanceof AttachBotButton) {
@@ -5334,7 +5320,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public void onDismissWithTouchOutside() {
+    protected void onDismissWithTouchOutside() {
         if (this.currentAttachLayout.onDismissWithTouchOutside()) {
             dismiss();
         }

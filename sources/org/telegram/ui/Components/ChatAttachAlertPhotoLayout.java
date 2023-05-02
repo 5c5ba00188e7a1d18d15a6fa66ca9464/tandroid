@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -1021,8 +1020,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         if (!this.mediaEnabled || (baseFragment = this.parentAlert.baseFragment) == null || baseFragment.getParentActivity() == null) {
             return;
         }
-        int i3 = Build.VERSION.SDK_INT;
-        if (i3 >= 23) {
+        if (Build.VERSION.SDK_INT >= 23) {
             if (this.adapter.needCamera && this.selectedAlbumEntry == this.galleryAlbumEntry && i == 0 && this.noCameraPermissions) {
                 try {
                     this.parentAlert.baseFragment.getParentActivity().requestPermissions(new String[]{"android.permission.CAMERA"}, 18);
@@ -1032,11 +1030,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 }
             } else if (this.noGalleryPermissions) {
                 try {
-                    if (i3 >= 33) {
-                        this.parentAlert.baseFragment.getParentActivity().requestPermissions(new String[]{"android.permission.READ_MEDIA_VIDEO", "android.permission.READ_MEDIA_IMAGES"}, 4);
-                    } else {
-                        this.parentAlert.baseFragment.getParentActivity().requestPermissions(new String[]{"android.permission.READ_EXTERNAL_STORAGE"}, 4);
-                    }
+                    this.parentAlert.baseFragment.getParentActivity().requestPermissions(new String[]{"android.permission.READ_EXTERNAL_STORAGE"}, 4);
                     return;
                 } catch (Exception unused2) {
                     return;
@@ -1058,9 +1052,9 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 }
                 i--;
             }
-            final int i4 = i;
+            final int i3 = i;
             final ArrayList<Object> allPhotosArray = getAllPhotosArray();
-            if (i4 < 0 || i4 >= allPhotosArray.size()) {
+            if (i3 < 0 || i3 >= allPhotosArray.size()) {
                 return;
             }
             PhotoViewer.getInstance().setParentActivity(this.parentAlert.baseFragment, resourcesProvider);
@@ -1096,20 +1090,20 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 }
             }
             if (this.parentAlert.getAvatarFor() != null) {
-                this.parentAlert.getAvatarFor().isVideo = allPhotosArray.get(i4) instanceof MediaController.PhotoEntry ? ((MediaController.PhotoEntry) allPhotosArray.get(i4)).isVideo : false;
+                this.parentAlert.getAvatarFor().isVideo = allPhotosArray.get(i3) instanceof MediaController.PhotoEntry ? ((MediaController.PhotoEntry) allPhotosArray.get(i3)).isVideo : false;
             }
-            z2 = ((allPhotosArray.get(i4) instanceof MediaController.PhotoEntry) && ((MediaController.PhotoEntry) allPhotosArray.get(i4)).hasSpoiler) ? false : false;
-            Object obj2 = allPhotosArray.get(i4);
+            z2 = ((allPhotosArray.get(i3) instanceof MediaController.PhotoEntry) && ((MediaController.PhotoEntry) allPhotosArray.get(i3)).hasSpoiler) ? false : false;
+            Object obj2 = allPhotosArray.get(i3);
             if ((obj2 instanceof MediaController.PhotoEntry) && checkSendMediaEnabled((MediaController.PhotoEntry) obj2)) {
                 return;
             }
             if (z2) {
-                setCurrentSpoilerVisible(i4, false);
+                setCurrentSpoilerVisible(i3, false);
             }
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda11
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChatAttachAlertPhotoLayout.this.lambda$new$2(i2, allPhotosArray, i4, chatActivity);
+                    ChatAttachAlertPhotoLayout.this.lambda$new$2(i2, allPhotosArray, i3, chatActivity);
                 }
             }, z2 ? 250L : 0L);
         } else if (SharedConfig.inappCamera) {
@@ -3312,20 +3306,13 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
     }
 
-    private boolean isNoGalleryPermissions() {
-        Activity parentActivity = this.parentAlert.baseFragment.getParentActivity();
-        int i = Build.VERSION.SDK_INT;
-        return i >= 23 && (parentActivity == null || ((i >= 33 && !(parentActivity.checkSelfPermission("android.permission.READ_MEDIA_IMAGES") == 0 && parentActivity.checkSelfPermission("android.permission.READ_MEDIA_VIDEO") == 0)) || (i < 33 && parentActivity.checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != 0)));
-    }
-
     public void checkStorage() {
         if (!this.noGalleryPermissions || Build.VERSION.SDK_INT < 23) {
             return;
         }
-        this.parentAlert.baseFragment.getParentActivity();
-        boolean isNoGalleryPermissions = isNoGalleryPermissions();
-        this.noGalleryPermissions = isNoGalleryPermissions;
-        if (!isNoGalleryPermissions) {
+        boolean z = this.parentAlert.baseFragment.getParentActivity().checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != 0;
+        this.noGalleryPermissions = z;
+        if (!z) {
             loadGalleryPhotos();
         }
         this.adapter.notifyDataSetChanged();
@@ -3757,7 +3744,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             this.galleryAlbumEntry = MediaController.allPhotosAlbumEntry;
         }
         if (Build.VERSION.SDK_INT >= 23) {
-            this.noGalleryPermissions = isNoGalleryPermissions();
+            this.noGalleryPermissions = this.parentAlert.baseFragment.getParentActivity().checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != 0;
         }
         if (this.galleryAlbumEntry != null) {
             for (int i = 0; i < Math.min(100, this.galleryAlbumEntry.photos.size()); i++) {
