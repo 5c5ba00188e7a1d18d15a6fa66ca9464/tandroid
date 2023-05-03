@@ -2278,7 +2278,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:396:0x092e  */
     /* JADX WARN: Removed duplicated region for block: B:399:0x0980  */
     /* JADX WARN: Type inference failed for: r2v19 */
-    /* JADX WARN: Type inference failed for: r2v22, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v22, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v26 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
