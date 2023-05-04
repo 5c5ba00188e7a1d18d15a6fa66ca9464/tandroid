@@ -1970,18 +1970,27 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             }
             boolean z2 = !this.manualRecording && this.playingMessageObject == null && SharedConfig.enabledRaiseTo(true) && ApplicationLoader.isScreenOn && !this.inputFieldHasText && this.allowStartRecord && this.raiseChat != null && !this.callInProgress;
             boolean z3 = SharedConfig.enabledRaiseTo(false) && (messageObject = this.playingMessageObject) != null && (messageObject.isVoice() || this.playingMessageObject.isRoundVideo());
-            boolean z4 = ((this.proximityTouched && (this.raisedToBack == 6 || this.accelerometerVertical || System.currentTimeMillis() - this.lastAccelerometerDetected < 60)) || this.useFrontSpeaker || this.raiseToEarRecord) && !forbidRaiseToListen() && !VoIPService.isAnyKindOfCallActive() && (z2 || z3) && !PhotoViewer.getInstance().isVisible();
+            boolean z4 = this.proximityTouched;
+            boolean z5 = this.raisedToBack == 6 || this.accelerometerVertical || System.currentTimeMillis() - this.lastAccelerometerDetected < 60;
+            boolean z6 = this.useFrontSpeaker || this.raiseToEarRecord;
+            boolean z7 = (z5 || z6) && !forbidRaiseToListen() && !VoIPService.isAnyKindOfCallActive() && (z2 || z3) && !PhotoViewer.getInstance().isVisible();
             PowerManager.WakeLock wakeLock = this.proximityWakeLock;
             if (wakeLock != null) {
                 boolean isHeld = wakeLock.isHeld();
-                if (isHeld && !z4) {
+                if (isHeld && !z7) {
+                    if (BuildVars.LOGS_ENABLED) {
+                        FileLog.d("wake lock releasing (proximityDetected=" + z4 + ", accelerometerDetected=" + z5 + ", alreadyPlaying=" + z6 + ")");
+                    }
                     this.proximityWakeLock.release();
-                } else if (!isHeld && z4) {
+                } else if (!isHeld && z7) {
+                    if (BuildVars.LOGS_ENABLED) {
+                        FileLog.d("wake lock acquiring (proximityDetected=" + z4 + ", accelerometerDetected=" + z5 + ", alreadyPlaying=" + z6 + ")");
+                    }
                     this.proximityWakeLock.acquire();
                 }
             }
-            boolean z5 = this.proximityTouched;
-            if (z5 && z4) {
+            boolean z8 = this.proximityTouched;
+            if (z8 && z7) {
                 if (z2 && this.recordStartRunnable == null && this.recordingAudio == null) {
                     if (!this.raiseToEarRecord) {
                         if (BuildVars.LOGS_ENABLED) {
@@ -2008,7 +2017,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 this.raisedToTop = 0;
                 this.raisedToTopSign = 0;
                 this.countLess = 0;
-            } else if (z5 && ((this.accelerometerSensor == null || this.linearSensor == null) && this.gravitySensor == null && !VoIPService.isAnyKindOfCallActive())) {
+            } else if (z8 && ((this.accelerometerSensor == null || this.linearSensor == null) && this.gravitySensor == null && !VoIPService.isAnyKindOfCallActive())) {
                 if (this.playingMessageObject != null && !ApplicationLoader.mainInterfacePaused && z3 && !this.useFrontSpeaker && !this.manualRecording && !forbidRaiseToListen()) {
                     if (BuildVars.LOGS_ENABLED) {
                         FileLog.d("start listen by proximity only");
