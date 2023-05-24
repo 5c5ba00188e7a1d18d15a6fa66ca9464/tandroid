@@ -67,6 +67,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
     private boolean forceClose;
     private ArrayList<MediaDataController.KeywordResult> keywordResults;
     private String[] lastLang;
+    private long lastLangChangedTime;
     private String lastQuery;
     private int lastQueryId;
     private int lastQueryType;
@@ -272,6 +273,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
 
     public SuggestEmojiView(Context context, final int i, ChatActivityEnterView chatActivityEnterView, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.lastLangChangedTime = 0L;
         this.currentAccount = i;
         this.enterView = chatActivityEnterView;
         this.resourcesProvider = resourcesProvider;
@@ -545,6 +547,16 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
         }
     }
 
+    private String[] detectKeyboardLangThrottleFirstWithDelay() {
+        long currentTimeMillis = System.currentTimeMillis();
+        if (this.lastLang == null || Math.abs(currentTimeMillis - this.lastLangChangedTime) > 360) {
+            this.lastLangChangedTime = currentTimeMillis;
+            return AndroidUtilities.getCurrentKeyboardLanguage();
+        }
+        this.lastLangChangedTime = currentTimeMillis;
+        return this.lastLang;
+    }
+
     private void searchKeywords(final String str) {
         ArrayList<MediaDataController.KeywordResult> arrayList;
         if (str == null) {
@@ -561,12 +573,12 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
         }
         final int i = this.lastQueryId + 1;
         this.lastQueryId = i;
-        final String[] currentKeyboardLanguage = AndroidUtilities.getCurrentKeyboardLanguage();
+        final String[] detectKeyboardLangThrottleFirstWithDelay = detectKeyboardLangThrottleFirstWithDelay();
         String[] strArr = this.lastLang;
-        if (strArr == null || !Arrays.equals(currentKeyboardLanguage, strArr)) {
-            MediaDataController.getInstance(this.currentAccount).fetchNewEmojiKeywords(currentKeyboardLanguage);
+        if (strArr == null || !Arrays.equals(detectKeyboardLangThrottleFirstWithDelay, strArr)) {
+            MediaDataController.getInstance(this.currentAccount).fetchNewEmojiKeywords(detectKeyboardLangThrottleFirstWithDelay);
         }
-        this.lastLang = currentKeyboardLanguage;
+        this.lastLang = detectKeyboardLangThrottleFirstWithDelay;
         Runnable runnable = this.searchRunnable;
         if (runnable != null) {
             AndroidUtilities.cancelRunOnUIThread(runnable);
@@ -575,7 +587,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
         this.searchRunnable = new Runnable() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
-                SuggestEmojiView.this.lambda$searchKeywords$4(currentKeyboardLanguage, str, i);
+                SuggestEmojiView.this.lambda$searchKeywords$4(detectKeyboardLangThrottleFirstWithDelay, str, i);
             }
         };
         ArrayList<MediaDataController.KeywordResult> arrayList2 = this.keywordResults;
@@ -624,6 +636,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
                 }
                 return;
             }
+            this.keywordResults = null;
             this.clear = true;
             forceClose();
         }

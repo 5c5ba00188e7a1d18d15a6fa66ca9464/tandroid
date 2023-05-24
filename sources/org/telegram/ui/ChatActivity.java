@@ -3479,16 +3479,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:341:0x0f3b  */
     /* JADX WARN: Removed duplicated region for block: B:349:0x0fff  */
     /* JADX WARN: Removed duplicated region for block: B:353:0x112f  */
-    /* JADX WARN: Removed duplicated region for block: B:372:0x139c  */
-    /* JADX WARN: Removed duplicated region for block: B:373:0x13b9  */
-    /* JADX WARN: Removed duplicated region for block: B:376:0x13fe  */
-    /* JADX WARN: Removed duplicated region for block: B:389:0x14a8  */
-    /* JADX WARN: Removed duplicated region for block: B:392:0x14c2  */
-    /* JADX WARN: Removed duplicated region for block: B:398:0x14f8  */
-    /* JADX WARN: Removed duplicated region for block: B:400:0x14ff  */
-    /* JADX WARN: Removed duplicated region for block: B:401:0x150e  */
-    /* JADX WARN: Removed duplicated region for block: B:404:0x154c  */
-    /* JADX WARN: Removed duplicated region for block: B:405:0x1557  */
+    /* JADX WARN: Removed duplicated region for block: B:374:0x13a1  */
+    /* JADX WARN: Removed duplicated region for block: B:375:0x13be  */
+    /* JADX WARN: Removed duplicated region for block: B:378:0x1403  */
+    /* JADX WARN: Removed duplicated region for block: B:391:0x14ad  */
+    /* JADX WARN: Removed duplicated region for block: B:394:0x14c7  */
+    /* JADX WARN: Removed duplicated region for block: B:400:0x14fd  */
+    /* JADX WARN: Removed duplicated region for block: B:402:0x1504  */
+    /* JADX WARN: Removed duplicated region for block: B:403:0x1513  */
+    /* JADX WARN: Removed duplicated region for block: B:406:0x1551  */
+    /* JADX WARN: Removed duplicated region for block: B:407:0x155c  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5052,7 +5052,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 });
                 this.bottomOverlayChat.addView(this.bottomOverlayStartButton, LayoutHelper.createFrame(-1, -1.0f, 17, 8.0f, 8.0f, 8.0f, 8.0f));
                 tLRPC$User = this.currentUser;
-                if (tLRPC$User != null && tLRPC$User.bot && !UserObject.isReplyUser(tLRPC$User) && !isInScheduleMode()) {
+                if (tLRPC$User != null && tLRPC$User.bot && !UserObject.isReplyUser(tLRPC$User) && !isInScheduleMode() && this.chatMode != 2) {
                     this.bottomOverlayStartButton.setVisibility(0);
                     this.bottomOverlayChat.setVisibility(0);
                 }
@@ -7888,33 +7888,34 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         int alpha3 = ChatActivity.this.skeletonServicePaint.getAlpha();
                         int alpha4 = ChatActivity.this.skeletonOutlinePaint.getAlpha();
                         ChatActivity.this.skeletonServicePaint.setAlpha((int) (currentTimeMillis * 255.0f));
-                        ChatActivity.this.skeletonPaint.setAlpha((int) (currentTimeMillis * alpha2));
-                        ChatActivity.this.skeletonOutlinePaint.setAlpha(alpha4 * alpha2);
-                        int i6 = 0;
+                        int i6 = (int) (currentTimeMillis * alpha2);
+                        ChatActivity.this.skeletonPaint.setAlpha(i6);
+                        ChatActivity.this.skeletonOutlinePaint.setAlpha(i6);
+                        int i7 = 0;
                         while (true) {
                             chatActivity = ChatActivity.this;
                             if (height <= chatActivity.blurredViewTopOffset) {
                                 break;
                             }
                             int dp = height - AndroidUtilities.dp(3.0f);
-                            if (i6 >= ChatActivity.this.messageSkeletons.size()) {
+                            if (i7 >= ChatActivity.this.messageSkeletons.size()) {
                                 messageSkeleton = ChatActivity.this.getNewSkeleton(z2);
                                 ChatActivity.this.messageSkeletons.add(messageSkeleton);
                             } else {
-                                messageSkeleton = (MessageSkeleton) ChatActivity.this.messageSkeletons.get(i6);
+                                messageSkeleton = (MessageSkeleton) ChatActivity.this.messageSkeletons.get(i7);
                             }
                             messageSkeleton.lastBottom = ChatActivity.this.startMessageAppearTransitionMs != j ? ChatActivity.this.messages.size() <= 2 ? Math.min(messageSkeleton.lastBottom, dp) : messageSkeleton.lastBottom : dp;
                             height = dp - messageSkeleton.height;
-                            i6++;
+                            i7++;
                             j = 0;
                         }
                         int height2 = chatActivity.messageSkeletons.isEmpty() ? getHeight() - ChatActivity.this.blurredViewBottomOffset : ((MessageSkeleton) ChatActivity.this.messageSkeletons.get(0)).lastBottom + AndroidUtilities.dp(3.0f);
                         while (i < ChatActivity.this.messageSkeletons.size() && height2 > ChatActivity.this.blurredViewTopOffset) {
                             int dp2 = height2 - AndroidUtilities.dp(3.0f);
                             MessageSkeleton messageSkeleton2 = (MessageSkeleton) ChatActivity.this.messageSkeletons.get(i);
-                            int i7 = messageSkeleton2.lastBottom;
-                            int i8 = alpha;
-                            ChatActivity.this.skeletonBackgroundDrawable.setBounds(z2 ? AndroidUtilities.dp(3.0f) : AndroidUtilities.dp(51.0f), i7 - messageSkeleton2.height, messageSkeleton2.width, i7);
+                            int i8 = messageSkeleton2.lastBottom;
+                            int i9 = alpha;
+                            ChatActivity.this.skeletonBackgroundDrawable.setBounds(z2 ? AndroidUtilities.dp(3.0f) : AndroidUtilities.dp(51.0f), i8 - messageSkeleton2.height, messageSkeleton2.width, i8);
                             if (z3) {
                                 ChatActivity.this.skeletonBackgroundDrawable.drawCached(canvas, ChatActivity.this.skeletonBackgroundCacheParams, ChatActivity.this.skeletonServicePaint);
                             }
@@ -7926,20 +7927,20 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             if (!z2) {
                                 float f = 27.0f;
                                 if (z3) {
-                                    canvas.drawCircle(AndroidUtilities.dp(27.0f), i7 - AndroidUtilities.dp(21.0f), AndroidUtilities.dp(21.0f), ChatActivity.this.skeletonServicePaint);
+                                    canvas.drawCircle(AndroidUtilities.dp(27.0f), i8 - AndroidUtilities.dp(21.0f), AndroidUtilities.dp(21.0f), ChatActivity.this.skeletonServicePaint);
                                     f = 27.0f;
                                 }
-                                canvas.drawCircle(AndroidUtilities.dp(f), i7 - AndroidUtilities.dp(21.0f), AndroidUtilities.dp(21.0f), ChatActivity.this.skeletonPaint);
+                                canvas.drawCircle(AndroidUtilities.dp(f), i8 - AndroidUtilities.dp(21.0f), AndroidUtilities.dp(21.0f), ChatActivity.this.skeletonPaint);
                                 float f2 = 27.0f;
                                 if (z4) {
-                                    canvas.drawCircle(AndroidUtilities.dp(27.0f), i7 - AndroidUtilities.dp(21.0f), AndroidUtilities.dp(21.0f), Theme.chat_actionBackgroundGradientDarkenPaint);
+                                    canvas.drawCircle(AndroidUtilities.dp(27.0f), i8 - AndroidUtilities.dp(21.0f), AndroidUtilities.dp(21.0f), Theme.chat_actionBackgroundGradientDarkenPaint);
                                     f2 = 27.0f;
                                 }
-                                canvas.drawCircle(AndroidUtilities.dp(f2), i7 - AndroidUtilities.dp(21.0f), AndroidUtilities.dp(21.0f), ChatActivity.this.skeletonOutlinePaint);
+                                canvas.drawCircle(AndroidUtilities.dp(f2), i8 - AndroidUtilities.dp(21.0f), AndroidUtilities.dp(21.0f), ChatActivity.this.skeletonOutlinePaint);
                             }
                             height2 = dp2 - messageSkeleton2.height;
                             i++;
-                            alpha = i8;
+                            alpha = i9;
                         }
                         ChatActivity.this.skeletonServicePaint.setAlpha(alpha3);
                         ChatActivity.this.skeletonPaint.setAlpha(alpha2);
@@ -20866,7 +20867,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r4v29 */
     /* JADX WARN: Type inference failed for: r4v31 */
     /* JADX WARN: Type inference failed for: r7v14 */
-    /* JADX WARN: Type inference failed for: r7v15, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r7v15, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v18 */
     /* JADX WARN: Type inference failed for: r7v19 */
     /*
@@ -21954,7 +21955,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:90:0x0175  */
     /* JADX WARN: Removed duplicated region for block: B:93:0x0181  */
     /* JADX WARN: Type inference failed for: r14v4 */
-    /* JADX WARN: Type inference failed for: r14v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r14v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r14v9 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -22646,7 +22647,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     public void showInfoHint(MessageObject messageObject, CharSequence charSequence, final int i) {
-        BulletinFactory.of(this).createSimpleBulletin(R.raw.chats_infotip, charSequence, 3).setDuration(Math.max(4000, Math.min(((charSequence == null ? 0 : charSequence.length()) / 50) * 1600, 10000))).setOnHideListener(new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda179
+        BulletinFactory.of(this).createSimpleBulletin(R.raw.chats_infotip, charSequence, 9999).setDuration(Math.max(4000, Math.min(((charSequence == null ? 0 : charSequence.length()) / 50) * 1600, 10000))).setOnHideListener(new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda179
             @Override // java.lang.Runnable
             public final void run() {
                 ChatActivity.this.lambda$showInfoHint$143(i);
@@ -26127,7 +26128,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public int getTopOffset(int i) {
-                return (((BaseFragment) ChatActivity.this).actionBar != null ? ((BaseFragment) ChatActivity.this).actionBar.getMeasuredHeight() + ((int) ((BaseFragment) ChatActivity.this).actionBar.getTranslationY()) : 0) + Math.max(0, ((int) ChatActivity.this.chatListViewPaddingTop) - AndroidUtilities.dp(4.0f));
+                return (((BaseFragment) ChatActivity.this).actionBar != null ? ((BaseFragment) ChatActivity.this).actionBar.getMeasuredHeight() + ((int) ((BaseFragment) ChatActivity.this).actionBar.getTranslationY()) : 0) + Math.max(0, ChatActivity.this.contentPaddingTop);
             }
         };
         this.bulletinDelegate = delegate;
@@ -26995,7 +26996,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r10v9 */
     /* JADX WARN: Type inference failed for: r12v37 */
     /* JADX WARN: Type inference failed for: r12v5 */
-    /* JADX WARN: Type inference failed for: r12v6, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r12v6, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r1v16 */
     /* JADX WARN: Type inference failed for: r1v17 */
     /* JADX WARN: Type inference failed for: r1v18 */

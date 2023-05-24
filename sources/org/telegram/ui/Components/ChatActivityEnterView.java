@@ -32,6 +32,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.SpannableString;
@@ -397,6 +398,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     private int searchingType;
     private SeekBarWaveform seekBarWaveform;
     private View sendButton;
+    private int sendButtonBackgroundColor;
     private FrameLayout sendButtonContainer;
     private Drawable sendButtonDrawable;
     private Drawable sendButtonInverseDrawable;
@@ -4657,6 +4659,11 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
     }
 
+    private boolean isKeyboardSupportIncognitoMode() {
+        String string = Settings.Secure.getString(getContext().getContentResolver(), "default_input_method");
+        return string == null || !string.startsWith("com.samsung");
+    }
+
     private void createMessageEditText() {
         if (this.messageEditText != null) {
             return;
@@ -4676,7 +4683,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         ChatActivity chatActivity = this.parentFragment;
         TLRPC$EncryptedChat currentEncryptedChat = chatActivity != null ? chatActivity.getCurrentEncryptedChat() : null;
         this.messageEditText.setAllowTextEntitiesIntersection(supportsSendingNewEntities());
-        int i = currentEncryptedChat != null ? 285212672 : 268435456;
+        int i = 268435456;
+        if (isKeyboardSupportIncognitoMode() && currentEncryptedChat != null) {
+            i = 285212672;
+        }
         this.messageEditText.setIncludeFontPadding(false);
         this.messageEditText.setImeOptions(i);
         EditTextCaption editTextCaption = this.messageEditText;
@@ -6790,7 +6800,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             } else {
                 themedColor = getThemedColor(Theme.key_chat_messagePanelSend);
             }
-            Theme.setSelectorDrawableColor(this.sendButton.getBackground(), Color.argb(24, Color.red(themedColor), Color.green(themedColor), Color.blue(themedColor)), true);
+            if (themedColor != this.sendButtonBackgroundColor) {
+                this.sendButtonBackgroundColor = themedColor;
+                Theme.setSelectorDrawableColor(this.sendButton.getBackground(), Color.argb(24, Color.red(themedColor), Color.green(themedColor), Color.blue(themedColor)), true);
+            }
             if (this.audioVideoButtonContainer.getVisibility() == 0 || this.slowModeButton.getVisibility() == 0 || z5 || z6) {
                 if (z2) {
                     int i4 = this.runningAnimationType;

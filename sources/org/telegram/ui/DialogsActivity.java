@@ -2741,33 +2741,33 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Removed duplicated region for block: B:190:0x078c  */
     /* JADX WARN: Removed duplicated region for block: B:193:0x07a4  */
     /* JADX WARN: Removed duplicated region for block: B:194:0x07d1  */
-    /* JADX WARN: Removed duplicated region for block: B:202:0x089f  */
-    /* JADX WARN: Removed duplicated region for block: B:243:0x0ab3  */
-    /* JADX WARN: Removed duplicated region for block: B:246:0x0ac1  */
-    /* JADX WARN: Removed duplicated region for block: B:250:0x0ad1  */
-    /* JADX WARN: Removed duplicated region for block: B:256:0x0ae2  */
-    /* JADX WARN: Removed duplicated region for block: B:259:0x0afa  */
-    /* JADX WARN: Removed duplicated region for block: B:263:0x0b1e  */
-    /* JADX WARN: Removed duplicated region for block: B:267:0x0bcc  */
-    /* JADX WARN: Removed duplicated region for block: B:270:0x0c19  */
-    /* JADX WARN: Removed duplicated region for block: B:274:0x0c2a  */
-    /* JADX WARN: Removed duplicated region for block: B:278:0x0c71  */
-    /* JADX WARN: Removed duplicated region for block: B:279:0x0c74  */
-    /* JADX WARN: Removed duplicated region for block: B:282:0x0c81  */
-    /* JADX WARN: Removed duplicated region for block: B:290:0x0d06  */
-    /* JADX WARN: Removed duplicated region for block: B:291:0x0d11  */
-    /* JADX WARN: Removed duplicated region for block: B:299:0x0d3b  */
+    /* JADX WARN: Removed duplicated region for block: B:202:0x0898  */
+    /* JADX WARN: Removed duplicated region for block: B:243:0x0aac  */
+    /* JADX WARN: Removed duplicated region for block: B:246:0x0aba  */
+    /* JADX WARN: Removed duplicated region for block: B:250:0x0aca  */
+    /* JADX WARN: Removed duplicated region for block: B:256:0x0adb  */
+    /* JADX WARN: Removed duplicated region for block: B:259:0x0af3  */
+    /* JADX WARN: Removed duplicated region for block: B:263:0x0b17  */
+    /* JADX WARN: Removed duplicated region for block: B:267:0x0bc5  */
+    /* JADX WARN: Removed duplicated region for block: B:270:0x0c12  */
+    /* JADX WARN: Removed duplicated region for block: B:274:0x0c23  */
+    /* JADX WARN: Removed duplicated region for block: B:278:0x0c6a  */
+    /* JADX WARN: Removed duplicated region for block: B:279:0x0c6d  */
+    /* JADX WARN: Removed duplicated region for block: B:282:0x0c7a  */
+    /* JADX WARN: Removed duplicated region for block: B:290:0x0cff  */
+    /* JADX WARN: Removed duplicated region for block: B:291:0x0d0a  */
+    /* JADX WARN: Removed duplicated region for block: B:299:0x0d34  */
     /* JADX WARN: Type inference failed for: r10v0 */
     /* JADX WARN: Type inference failed for: r10v1, types: [boolean] */
     /* JADX WARN: Type inference failed for: r10v10 */
     /* JADX WARN: Type inference failed for: r10v13 */
-    /* JADX WARN: Type inference failed for: r10v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r10v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r10v9 */
     /* JADX WARN: Type inference failed for: r13v0 */
-    /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r13v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r13v4 */
     /* JADX WARN: Type inference failed for: r9v2 */
-    /* JADX WARN: Type inference failed for: r9v3, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r9v3, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r9v4 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -3414,9 +3414,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         contentView3.addView(this.fragmentContextView);
                         this.fragmentContextView.setAdditionalContextView(this.fragmentLocationContextView);
                         this.fragmentLocationContextView.setAdditionalContextView(this.fragmentContextView);
-                        DialogsHintCell dialogsHintCell = new DialogsHintCell(context);
-                        this.dialogsHintCell = dialogsHintCell;
-                        dialogsHintCell.setBackground(Theme.AdaptiveRipple.filledRect());
+                        this.dialogsHintCell = new DialogsHintCell(context);
                         updateDialogsHint();
                         CacheControlActivity.calculateTotalSize(new Utilities.Callback() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda78
                             @Override // org.telegram.messenger.Utilities.Callback

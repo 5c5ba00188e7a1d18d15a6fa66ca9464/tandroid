@@ -70,6 +70,7 @@ public class FileUploadOperation {
     private int uploadChunkSize = CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT;
     private SparseIntArray requestTokens = new SparseIntArray();
     private SparseArray<UploadCachedResult> cachedResults = new SparseArray<>();
+    private boolean[] recalculatedEstimatedSize = {false, false};
 
     /* loaded from: classes.dex */
     public interface FileUploadOperationDelegate {
@@ -234,17 +235,44 @@ public class FileUploadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public void checkNewDataAvailable(final long j, final long j2) {
+    public void checkNewDataAvailable(final long j, final long j2, final Float f) {
         Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
-                FileUploadOperation.this.lambda$checkNewDataAvailable$3(j2, j);
+                FileUploadOperation.this.lambda$checkNewDataAvailable$3(f, j2, j);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkNewDataAvailable$3(long j, long j2) {
+    /* JADX WARN: Removed duplicated region for block: B:20:0x003a  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public /* synthetic */ void lambda$checkNewDataAvailable$3(Float f, long j, long j2) {
+        if (f != null && this.estimatedSize != 0 && j == 0) {
+            boolean z = false;
+            boolean z2 = true;
+            if (f.floatValue() > 0.75f) {
+                boolean[] zArr = this.recalculatedEstimatedSize;
+                if (!zArr[0]) {
+                    zArr[0] = true;
+                    z = true;
+                }
+            }
+            if (f.floatValue() > 0.95f) {
+                boolean[] zArr2 = this.recalculatedEstimatedSize;
+                if (!zArr2[1]) {
+                    zArr2[1] = true;
+                    if (z2) {
+                        this.estimatedSize = ((float) j2) / f.floatValue();
+                    }
+                }
+            }
+            z2 = z;
+            if (z2) {
+            }
+        }
         if (this.estimatedSize != 0 && j != 0) {
             this.estimatedSize = 0L;
             this.totalFileSize = j;

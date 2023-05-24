@@ -881,7 +881,6 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         paintTextOptionsView.setPadding(AndroidUtilities.dp(16.0f), 0, AndroidUtilities.dp(16.0f), 0);
         this.textOptionsView.setVisibility(8);
         this.textOptionsView.setDelegate(this);
-        this.textOptionsView.lambda$setTypeface$5(PersistColorPalette.getInstance(i).getCurrentTypeface());
         this.textOptionsView.setAlignment(PersistColorPalette.getInstance(i).getCurrentAlignment());
         this.bottomLayout.addView(this.textOptionsView, LayoutHelper.createFrame(-1, 48.0f));
         FrameLayout frameLayout4 = new FrameLayout(context) { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView.10
@@ -1778,6 +1777,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
 
     @Override // org.telegram.ui.Components.IPhotoPaintView
     public void init() {
+        this.textOptionsView.lambda$setTypeface$5(PersistColorPalette.getInstance(this.currentAccount).getCurrentTypeface());
         this.entitiesView.setVisibility(0);
         this.renderView.setVisibility(0);
         this.renderInputView.setVisibility(0);
@@ -1874,14 +1874,24 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     @Override // org.telegram.ui.Components.IPhotoPaintView
+    public void onAnimationStateChanged(boolean z) {
+        if (this.tabsSelectedIndex == 0) {
+            this.weightChooserView.setLayerType(z ? 2 : 0, null);
+        }
+    }
+
+    @Override // org.telegram.ui.Components.IPhotoPaintView
+    public void setOffsetTranslationX(float f) {
+        if (this.tabsSelectedIndex == 0) {
+            this.weightChooserView.setTranslationX(f);
+        }
+    }
+
+    @Override // org.telegram.ui.Components.IPhotoPaintView
     public void setOffsetTranslationY(float f, float f2, int i, boolean z) {
         this.offsetTranslationY = f;
         if (!z) {
-            float f3 = -f;
-            this.topLayout.setTranslationY(f3);
-            if (this.tabsSelectedIndex == 0) {
-                this.weightChooserView.setTranslationX(f3);
-            }
+            this.topLayout.setTranslationY(-f);
             this.bottomLayout.setTranslationY(f);
             return;
         }

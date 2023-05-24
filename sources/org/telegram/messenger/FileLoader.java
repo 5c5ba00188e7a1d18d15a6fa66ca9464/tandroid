@@ -430,25 +430,30 @@ public class FileLoader extends BaseController {
         }
     }
 
-    public void checkUploadNewDataAvailable(final String str, final boolean z, final long j, final long j2) {
+    public void checkUploadNewDataAvailable(String str, boolean z, long j, long j2) {
+        checkUploadNewDataAvailable(str, z, j, j2, null);
+    }
+
+    public void checkUploadNewDataAvailable(final String str, final boolean z, final long j, final long j2, final Float f) {
         fileLoaderQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoader$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
-                FileLoader.this.lambda$checkUploadNewDataAvailable$3(z, str, j, j2);
+                FileLoader.this.lambda$checkUploadNewDataAvailable$3(z, str, j, j2, f);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkUploadNewDataAvailable$3(boolean z, String str, long j, long j2) {
+    public /* synthetic */ void lambda$checkUploadNewDataAvailable$3(boolean z, String str, long j, long j2, Float f) {
         FileUploadOperation fileUploadOperation;
         if (z) {
             fileUploadOperation = this.uploadOperationPathsEnc.get(str);
         } else {
             fileUploadOperation = this.uploadOperationPaths.get(str);
         }
-        if (fileUploadOperation != null) {
-            fileUploadOperation.checkNewDataAvailable(j, j2);
+        FileUploadOperation fileUploadOperation2 = fileUploadOperation;
+        if (fileUploadOperation2 != null) {
+            fileUploadOperation2.checkNewDataAvailable(j, j2, f);
         } else if (j2 != 0) {
             this.uploadSizes.put(str, Long.valueOf(j2));
         }

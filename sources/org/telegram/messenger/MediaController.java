@@ -25,9 +25,12 @@ import android.hardware.SensorManager;
 import android.media.AudioDeviceInfo;
 import android.media.AudioManager;
 import android.media.AudioRecord;
+import android.media.MediaCodec;
 import android.media.MediaCodecInfo;
 import android.media.MediaCodecList;
+import android.media.MediaCrypto;
 import android.media.MediaExtractor;
+import android.media.MediaFormat;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
@@ -40,12 +43,14 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Pair;
 import android.util.SparseArray;
+import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.FrameLayout;
 import com.google.android.exoplayer2.analytics.AnalyticsListener;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
+import j$.util.concurrent.ConcurrentHashMap;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
@@ -127,6 +132,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     public static AlbumEntry allPhotosAlbumEntry;
     public static AlbumEntry allVideosAlbumEntry;
     private static Runnable broadcastPhotosRunnable;
+    private static final ConcurrentHashMap<String, Integer> cachedEncoderBitrates;
     private static final String[] projectionPhotos;
     private static final String[] projectionVideo;
     private static Runnable refreshGalleryRunnable;
@@ -419,6 +425,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         strArr2[7] = "height";
         strArr2[8] = "_size";
         projectionVideo = strArr2;
+        cachedEncoderBitrates = new ConcurrentHashMap<>();
         allMediaAlbums = new ArrayList<>();
         allPhotoAlbums = new ArrayList<>();
     }
@@ -1823,7 +1830,12 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         double d;
         boolean z;
         int i;
+        PowerManager.WakeLock wakeLock;
+        PowerManager.WakeLock wakeLock2;
+        PowerManager.WakeLock wakeLock3;
         MessageObject messageObject;
+        PowerManager.WakeLock wakeLock4;
+        PowerManager.WakeLock wakeLock5;
         if (this.sensorsStarted && VoIPService.getSharedInstance() == null) {
             if (sensorEvent.sensor.getType() == 8) {
                 if (BuildVars.LOGS_ENABLED) {
@@ -1968,30 +1980,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             if (this.raisedToBack == 6 || this.accelerometerVertical) {
                 this.lastAccelerometerDetected = System.currentTimeMillis();
             }
-            boolean z2 = !this.manualRecording && this.playingMessageObject == null && SharedConfig.enabledRaiseTo(true) && ApplicationLoader.isScreenOn && !this.inputFieldHasText && this.allowStartRecord && this.raiseChat != null && !this.callInProgress;
-            boolean z3 = SharedConfig.enabledRaiseTo(false) && (messageObject = this.playingMessageObject) != null && (messageObject.isVoice() || this.playingMessageObject.isRoundVideo());
-            boolean z4 = this.proximityTouched;
-            boolean z5 = this.raisedToBack == 6 || this.accelerometerVertical || System.currentTimeMillis() - this.lastAccelerometerDetected < 60;
-            boolean z6 = this.useFrontSpeaker || this.raiseToEarRecord;
-            boolean z7 = (z5 || z6) && !forbidRaiseToListen() && !VoIPService.isAnyKindOfCallActive() && (z2 || z3) && !PhotoViewer.getInstance().isVisible();
-            PowerManager.WakeLock wakeLock = this.proximityWakeLock;
-            if (wakeLock != null) {
-                boolean isHeld = wakeLock.isHeld();
-                if (isHeld && !z7) {
-                    if (BuildVars.LOGS_ENABLED) {
-                        FileLog.d("wake lock releasing (proximityDetected=" + z4 + ", accelerometerDetected=" + z5 + ", alreadyPlaying=" + z6 + ")");
-                    }
-                    this.proximityWakeLock.release();
-                } else if (!isHeld && z7) {
-                    if (BuildVars.LOGS_ENABLED) {
-                        FileLog.d("wake lock acquiring (proximityDetected=" + z4 + ", accelerometerDetected=" + z5 + ", alreadyPlaying=" + z6 + ")");
-                    }
-                    this.proximityWakeLock.acquire();
-                }
-            }
-            boolean z8 = this.proximityTouched;
-            if (z8 && z7) {
-                if (z2 && this.recordStartRunnable == null && this.recordingAudio == null) {
+            if (this.proximityTouched && ((this.raisedToBack == 6 || this.accelerometerVertical || System.currentTimeMillis() - this.lastAccelerometerDetected < 60) && !VoIPService.isAnyKindOfCallActive() && !this.manualRecording && !forbidRaiseToListen())) {
+                if (SharedConfig.enabledRaiseTo(true) && this.playingMessageObject == null && this.recordStartRunnable == null && this.recordingAudio == null && !PhotoViewer.getInstance().isVisible() && ApplicationLoader.isScreenOn && !this.inputFieldHasText && this.allowStartRecord && this.raiseChat != null && !this.callInProgress) {
                     if (!this.raiseToEarRecord) {
                         if (BuildVars.LOGS_ENABLED) {
                             FileLog.d("start record");
@@ -2005,25 +1995,37 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         if (this.useFrontSpeaker) {
                             setUseFrontSpeaker(true);
                         }
+                        this.ignoreOnPause = true;
+                        if (this.proximityHasDifferentValues && (wakeLock5 = this.proximityWakeLock) != null && !wakeLock5.isHeld()) {
+                            this.proximityWakeLock.acquire();
+                        }
                     }
-                } else if (z3 && !this.useFrontSpeaker) {
+                } else if (SharedConfig.enabledRaiseTo(false) && (messageObject = this.playingMessageObject) != null && ((messageObject.isVoice() || this.playingMessageObject.isRoundVideo()) && !this.useFrontSpeaker)) {
                     if (BuildVars.LOGS_ENABLED) {
                         FileLog.d("start listen");
                     }
+                    if (this.proximityHasDifferentValues && (wakeLock4 = this.proximityWakeLock) != null && !wakeLock4.isHeld()) {
+                        this.proximityWakeLock.acquire();
+                    }
                     setUseFrontSpeaker(true);
                     startAudioAgain(false);
+                    this.ignoreOnPause = true;
                 }
                 this.raisedToBack = 0;
                 this.raisedToTop = 0;
                 this.raisedToTopSign = 0;
                 this.countLess = 0;
-            } else if (z8 && ((this.accelerometerSensor == null || this.linearSensor == null) && this.gravitySensor == null && !VoIPService.isAnyKindOfCallActive())) {
-                if (this.playingMessageObject != null && !ApplicationLoader.mainInterfacePaused && z3 && !this.useFrontSpeaker && !this.manualRecording && !forbidRaiseToListen()) {
+            } else if (this.proximityTouched && ((((this.accelerometerSensor == null || this.linearSensor == null) && this.gravitySensor == null) || ignoreAccelerometerGestures()) && !VoIPService.isAnyKindOfCallActive())) {
+                if (this.playingMessageObject != null && !ApplicationLoader.mainInterfacePaused && ((this.playingMessageObject.isVoice() || this.playingMessageObject.isRoundVideo()) && SharedConfig.enabledRaiseTo(false) && !this.useFrontSpeaker && !this.manualRecording && !forbidRaiseToListen())) {
                     if (BuildVars.LOGS_ENABLED) {
                         FileLog.d("start listen by proximity only");
                     }
+                    if (this.proximityHasDifferentValues && (wakeLock3 = this.proximityWakeLock) != null && !wakeLock3.isHeld()) {
+                        this.proximityWakeLock.acquire();
+                    }
                     setUseFrontSpeaker(true);
                     startAudioAgain(false);
+                    this.ignoreOnPause = true;
                 }
             } else if (!this.proximityTouched && !this.manualRecording) {
                 if (this.raiseToEarRecord) {
@@ -2033,6 +2035,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     stopRecording(2, false, 0);
                     this.raiseToEarRecord = false;
                     this.ignoreOnPause = false;
+                    if (this.proximityHasDifferentValues && (wakeLock2 = this.proximityWakeLock) != null && wakeLock2.isHeld()) {
+                        this.proximityWakeLock.release();
+                    }
                 } else if (this.useFrontSpeaker) {
                     if (BuildVars.LOGS_ENABLED) {
                         FileLog.d("stop listen");
@@ -2040,6 +2045,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     this.useFrontSpeaker = false;
                     startAudioAgain(true);
                     this.ignoreOnPause = false;
+                    if (this.proximityHasDifferentValues && (wakeLock = this.proximityWakeLock) != null && wakeLock.isHeld()) {
+                        this.proximityWakeLock.release();
+                    }
                 }
             }
             if (this.timeSinceRaise == 0 || this.raisedToBack != 6 || Math.abs(System.currentTimeMillis() - this.timeSinceRaise) <= 1000) {
@@ -2189,6 +2197,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     public void stopRaiseToEarSensors(ChatActivity chatActivity, boolean z, boolean z2) {
+        PowerManager.WakeLock wakeLock;
         if (this.ignoreOnPause) {
             this.ignoreOnPause = false;
             return;
@@ -2214,11 +2223,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 MediaController.this.lambda$stopRaiseToEarSensors$9();
             }
         });
-        PowerManager.WakeLock wakeLock = this.proximityWakeLock;
-        if (wakeLock == null || !wakeLock.isHeld()) {
-            return;
+        if (this.proximityHasDifferentValues && (wakeLock = this.proximityWakeLock) != null && wakeLock.isHeld()) {
+            this.proximityWakeLock.release();
         }
-        this.proximityWakeLock.release();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2242,12 +2249,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         cleanupPlayer(z, z2, false, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:81:0x01da  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public void cleanupPlayer(boolean z, boolean z2, boolean z3, boolean z4) {
-        boolean z5;
         PipRoundVideoView pipRoundVideoView;
         MessageObject messageObject;
         if (this.audioPlayer != null) {
@@ -2325,6 +2327,15 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         stopProgressTimer();
         this.lastProgress = 0L;
         this.isPaused = false;
+        if (!this.useFrontSpeaker && !SharedConfig.enabledRaiseTo(true)) {
+            ChatActivity chatActivity = this.raiseChat;
+            stopRaiseToEarSensors(chatActivity, false, false);
+            this.raiseChat = chatActivity;
+        }
+        PowerManager.WakeLock wakeLock = this.proximityWakeLock;
+        if (wakeLock != null && wakeLock.isHeld() && !this.proximityTouched) {
+            this.proximityWakeLock.release();
+        }
         MessageObject messageObject5 = this.playingMessageObject;
         if (messageObject5 != null) {
             if (this.downloadingCurrentMessage) {
@@ -2363,10 +2374,6 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         pipRoundVideoView.close(true);
                         this.pipRoundVideoView = null;
                     }
-                    z5 = true;
-                    if (z2) {
-                        ApplicationLoader.applicationContext.stopService(new Intent(ApplicationLoader.applicationContext, MusicPlayerService.class));
-                    }
                 } else {
                     if ((messageObject6.isVoice() || messageObject6.isRoundVideo()) && messageObject6.getId() != 0) {
                         startRecordingIfFromSpeaker();
@@ -2380,18 +2387,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     }
                 }
             }
-            z5 = false;
             if (z2) {
+                ApplicationLoader.applicationContext.stopService(new Intent(ApplicationLoader.applicationContext, MusicPlayerService.class));
             }
-        } else {
-            z5 = false;
         }
-        if (z5 || !z3 || SharedConfig.enabledRaiseTo(true)) {
-            return;
-        }
-        ChatActivity chatActivity = this.raiseChat;
-        stopRaiseToEarSensors(chatActivity, false, false);
-        this.raiseChat = chatActivity;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -3563,8 +3562,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     /* JADX WARN: Removed duplicated region for block: B:184:0x0487  */
     /* JADX WARN: Removed duplicated region for block: B:199:0x054e  */
     /* JADX WARN: Removed duplicated region for block: B:209:0x0587  */
-    /* JADX WARN: Removed duplicated region for block: B:269:0x0463 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:272:0x04a0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:274:0x0463 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:277:0x04a0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3573,7 +3572,6 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         boolean z2;
         boolean z3;
         PipRoundVideoView pipRoundVideoView;
-        char c;
         PowerManager.WakeLock wakeLock;
         if (messageObject == null) {
             return false;
@@ -3982,19 +3980,11 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         if (!SharedConfig.enabledRaiseTo(true)) {
             startRaiseToEarSensors(this.raiseChat);
         }
-        if (ApplicationLoader.mainInterfacePaused || (wakeLock = this.proximityWakeLock) == null || wakeLock.isHeld() || !(this.playingMessageObject.isVoice() || this.playingMessageObject.isRoundVideo())) {
-            c = 0;
-        } else {
-            c = 0;
-            SharedConfig.enabledRaiseTo(false);
+        if (!ApplicationLoader.mainInterfacePaused && (wakeLock = this.proximityWakeLock) != null && !wakeLock.isHeld() && ((this.playingMessageObject.isVoice() || this.playingMessageObject.isRoundVideo()) && SharedConfig.enabledRaiseTo(false) && ignoreAccelerometerGestures())) {
+            this.proximityWakeLock.acquire();
         }
         startProgressTimer(this.playingMessageObject);
-        NotificationCenter notificationCenter2 = NotificationCenter.getInstance(messageObject.currentAccount);
-        int i5 = NotificationCenter.messagePlayingDidStart;
-        Object[] objArr2 = new Object[2];
-        objArr2[c] = messageObject;
-        objArr2[1] = messageObject2;
-        notificationCenter2.postNotificationName(i5, objArr2);
+        NotificationCenter.getInstance(messageObject.currentAccount).postNotificationName(NotificationCenter.messagePlayingDidStart, messageObject, messageObject2);
         VideoPlayer videoPlayer5 = this.videoPlayer;
         if (videoPlayer5 != null) {
             try {
@@ -4004,13 +3994,13 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         duration = this.playingMessageObject.getDuration() * 1000;
                     }
                     MessageObject messageObject4 = this.playingMessageObject;
-                    int i6 = (int) (((float) duration) * messageObject4.audioProgress);
-                    int i7 = messageObject4.audioProgressMs;
-                    if (i7 != 0) {
+                    int i5 = (int) (((float) duration) * messageObject4.audioProgress);
+                    int i6 = messageObject4.audioProgressMs;
+                    if (i6 != 0) {
                         messageObject4.audioProgressMs = 0;
-                        i6 = i7;
+                        i5 = i6;
                     }
-                    this.videoPlayer.seekTo(i6);
+                    this.videoPlayer.seekTo(i5);
                 }
             } catch (Exception e4) {
                 MessageObject messageObject5 = this.playingMessageObject;
@@ -4193,6 +4183,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$playMessage$22(MessageObject messageObject, File file) {
         NotificationCenter.getInstance(messageObject.currentAccount).postNotificationName(NotificationCenter.fileLoaded, FileLoader.getAttachFileName(messageObject.getDocument()), file);
+    }
+
+    public static boolean ignoreAccelerometerGestures() {
+        return Build.MANUFACTURER.equalsIgnoreCase("samsung");
     }
 
     public void updateSilent(boolean z) {
@@ -7008,6 +7002,26 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         return -5;
     }
 
+    public static boolean isH264Video(String str) {
+        MediaExtractor mediaExtractor = new MediaExtractor();
+        boolean z = false;
+        try {
+            mediaExtractor.setDataSource(str);
+            int findTrack = findTrack(mediaExtractor, false);
+            if (findTrack >= 0) {
+                if (mediaExtractor.getTrackFormat(findTrack).getString("mime").equals(VIDEO_MIME_TYPE)) {
+                    z = true;
+                }
+            }
+            return z;
+        } catch (Exception e) {
+            FileLog.e(e);
+            return false;
+        } finally {
+            mediaExtractor.release();
+        }
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public void didWriteData(final VideoConvertMessage videoConvertMessage, final File file, final boolean z, final long j, final long j2, final boolean z2, final float f) {
         VideoEditedInfo videoEditedInfo = videoConvertMessage.videoEditedInfo;
@@ -7407,6 +7421,31 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         int min22 = (int) (((int) (i3 / Math.min(i / i4, i2 / i5))) * f2);
         int videoBitrateWithFactor2 = (int) (getVideoBitrateWithFactor(f) / (921600.0f / (i5 * i4)));
         if (i3 >= videoBitrateWithFactor2) {
+        }
+    }
+
+    public static int extractRealEncoderBitrate(int i, int i2, int i3) {
+        String str = i + "" + i2 + "" + i3;
+        ConcurrentHashMap<String, Integer> concurrentHashMap = cachedEncoderBitrates;
+        Integer num = concurrentHashMap.get(str);
+        if (num != null) {
+            return num.intValue();
+        }
+        try {
+            MediaCodec createEncoderByType = MediaCodec.createEncoderByType(VIDEO_MIME_TYPE);
+            MediaFormat createVideoFormat = MediaFormat.createVideoFormat(VIDEO_MIME_TYPE, i, i2);
+            createVideoFormat.setInteger("color-format", 2130708361);
+            createVideoFormat.setInteger("max-bitrate", i3);
+            createVideoFormat.setInteger("bitrate", i3);
+            createVideoFormat.setInteger("frame-rate", 30);
+            createVideoFormat.setInteger("i-frame-interval", 1);
+            createEncoderByType.configure(createVideoFormat, (Surface) null, (MediaCrypto) null, 1);
+            int integer = createEncoderByType.getOutputFormat().getInteger("bitrate");
+            concurrentHashMap.put(str, Integer.valueOf(integer));
+            createEncoderByType.release();
+            return integer;
+        } catch (Exception unused) {
+            return i3;
         }
     }
 
