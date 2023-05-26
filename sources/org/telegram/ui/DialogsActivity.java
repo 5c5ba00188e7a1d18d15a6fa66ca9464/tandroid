@@ -2761,13 +2761,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Type inference failed for: r10v1, types: [boolean] */
     /* JADX WARN: Type inference failed for: r10v10 */
     /* JADX WARN: Type inference failed for: r10v13 */
-    /* JADX WARN: Type inference failed for: r10v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r10v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r10v9 */
     /* JADX WARN: Type inference failed for: r13v0 */
-    /* JADX WARN: Type inference failed for: r13v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v4 */
     /* JADX WARN: Type inference failed for: r9v2 */
-    /* JADX WARN: Type inference failed for: r9v3, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r9v3, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r9v4 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -5892,13 +5892,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateDialogsHint$20(View view) {
-        presentFragment(new PremiumPreviewFragment("dialogs_hint").setSelectAnnualByDefault());
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda48
-            @Override // java.lang.Runnable
-            public final void run() {
-                DialogsActivity.this.lambda$updateDialogsHint$19();
-            }
-        }, 250L);
+        RightSlidingDialogContainer rightSlidingDialogContainer = this.rightSlidingDialogContainer;
+        if (rightSlidingDialogContainer == null || !rightSlidingDialogContainer.hasFragment()) {
+            presentFragment(new PremiumPreviewFragment("dialogs_hint").setSelectAnnualByDefault());
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda48
+                @Override // java.lang.Runnable
+                public final void run() {
+                    DialogsActivity.this.lambda$updateDialogsHint$19();
+                }
+            }, 250L);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -5909,13 +5912,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateDialogsHint$22(View view) {
-        presentFragment(new PremiumPreviewFragment("dialogs_hint").setSelectAnnualByDefault());
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda44
-            @Override // java.lang.Runnable
-            public final void run() {
-                DialogsActivity.this.lambda$updateDialogsHint$21();
-            }
-        }, 250L);
+        RightSlidingDialogContainer rightSlidingDialogContainer = this.rightSlidingDialogContainer;
+        if (rightSlidingDialogContainer == null || !rightSlidingDialogContainer.hasFragment()) {
+            presentFragment(new PremiumPreviewFragment("dialogs_hint").setSelectAnnualByDefault());
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda44
+                @Override // java.lang.Runnable
+                public final void run() {
+                    DialogsActivity.this.lambda$updateDialogsHint$21();
+                }
+            }, 250L);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -5926,13 +5932,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateDialogsHint$24(View view) {
-        presentFragment(new CacheControlActivity());
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda55
-            @Override // java.lang.Runnable
-            public final void run() {
-                DialogsActivity.this.lambda$updateDialogsHint$23();
-            }
-        }, 250L);
+        RightSlidingDialogContainer rightSlidingDialogContainer = this.rightSlidingDialogContainer;
+        if (rightSlidingDialogContainer == null || !rightSlidingDialogContainer.hasFragment()) {
+            presentFragment(new CacheControlActivity());
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda55
+                @Override // java.lang.Runnable
+                public final void run() {
+                    DialogsActivity.this.lambda$updateDialogsHint$23();
+                }
+            }, 250L);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -8966,6 +8975,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     public void setScrollY(float f) {
+        FilterTabsView filterTabsView;
         if (this.fragmentView == null) {
             return;
         }
@@ -8974,13 +8984,17 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (bulletin != null) {
             bulletin.updatePosition();
         }
-        FilterTabsView filterTabsView = this.filterTabsView;
-        if (filterTabsView != null) {
-            filterTabsView.setTranslationY(f);
+        FilterTabsView filterTabsView2 = this.filterTabsView;
+        if (filterTabsView2 != null) {
+            filterTabsView2.setTranslationY(f);
         }
-        DialogsHintCell dialogsHintCell = this.dialogsHintCell;
-        if (dialogsHintCell != null) {
-            dialogsHintCell.setTranslationY(f);
+        if (this.dialogsHintCell != null) {
+            RightSlidingDialogContainer rightSlidingDialogContainer = this.rightSlidingDialogContainer;
+            if (rightSlidingDialogContainer != null && rightSlidingDialogContainer.hasFragment() && (filterTabsView = this.filterTabsView) != null && filterTabsView.getVisibility() == 0) {
+                this.dialogsHintCell.setTranslationY(f - ((1.0f - this.filterTabsProgress) * this.filterTabsView.getMeasuredHeight()));
+            } else {
+                this.dialogsHintCell.setTranslationY(f);
+            }
         }
         DrawerProfileCell.AnimatedStatusView animatedStatusView = this.animatedStatusView;
         if (animatedStatusView != null) {
