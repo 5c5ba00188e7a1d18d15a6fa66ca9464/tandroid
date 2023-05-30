@@ -568,17 +568,17 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Removed duplicated region for block: B:595:0x19a9  */
     /* JADX WARN: Removed duplicated region for block: B:599:0x19c1  */
     /* JADX WARN: Removed duplicated region for block: B:605:0x19fd  */
-    /* JADX WARN: Removed duplicated region for block: B:618:0x1a3b  */
-    /* JADX WARN: Removed duplicated region for block: B:621:0x1a43  */
-    /* JADX WARN: Removed duplicated region for block: B:622:0x1a45  */
-    /* JADX WARN: Removed duplicated region for block: B:632:0x1a5c  */
-    /* JADX WARN: Removed duplicated region for block: B:633:0x1a5f  */
-    /* JADX WARN: Removed duplicated region for block: B:636:0x1a85  */
-    /* JADX WARN: Removed duplicated region for block: B:642:0x1ade  */
-    /* JADX WARN: Removed duplicated region for block: B:648:0x1b37  */
-    /* JADX WARN: Removed duplicated region for block: B:654:0x1b8e  */
-    /* JADX WARN: Removed duplicated region for block: B:660:0x1bc9  */
-    /* JADX WARN: Removed duplicated region for block: B:664:0x1c06  */
+    /* JADX WARN: Removed duplicated region for block: B:620:0x1a3d  */
+    /* JADX WARN: Removed duplicated region for block: B:623:0x1a45  */
+    /* JADX WARN: Removed duplicated region for block: B:624:0x1a47  */
+    /* JADX WARN: Removed duplicated region for block: B:634:0x1a5e  */
+    /* JADX WARN: Removed duplicated region for block: B:635:0x1a61  */
+    /* JADX WARN: Removed duplicated region for block: B:638:0x1a87  */
+    /* JADX WARN: Removed duplicated region for block: B:644:0x1ae0  */
+    /* JADX WARN: Removed duplicated region for block: B:650:0x1b39  */
+    /* JADX WARN: Removed duplicated region for block: B:656:0x1b90  */
+    /* JADX WARN: Removed duplicated region for block: B:662:0x1bcb  */
+    /* JADX WARN: Removed duplicated region for block: B:666:0x1c08  */
     /* JADX WARN: Type inference failed for: r0v90, types: [org.telegram.ui.Cells.RecurrentPaymentsAcceptCell] */
     /* JADX WARN: Type inference failed for: r10v123, types: [org.telegram.ui.Components.EditTextBoldCursor[]] */
     /* JADX WARN: Type inference failed for: r10v124, types: [android.widget.EditText] */
@@ -635,11 +635,12 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         int i3;
         TLRPC$TL_payments_paymentForm tLRPC$TL_payments_paymentForm2;
         TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo2;
+        TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo3;
         String str3;
         final long longValue;
         boolean z;
         int i4;
-        TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo3;
+        TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo4;
         String str4;
         String str5;
         TelephonyManager telephonyManager;
@@ -885,40 +886,40 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         switch (i8) {
                             case 0:
                                 this.inputFields[i8].setHint(LocaleController.getString("PaymentShippingAddress1Placeholder", R.string.PaymentShippingAddress1Placeholder));
-                                TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo4 = this.paymentForm.saved_info;
-                                if (tLRPC$TL_paymentRequestedInfo4 != null && (tLRPC$TL_postAddress = tLRPC$TL_paymentRequestedInfo4.shipping_address) != null) {
+                                TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo5 = this.paymentForm.saved_info;
+                                if (tLRPC$TL_paymentRequestedInfo5 != null && (tLRPC$TL_postAddress = tLRPC$TL_paymentRequestedInfo5.shipping_address) != null) {
                                     this.inputFields[i8].setText(tLRPC$TL_postAddress.street_line1);
                                     break;
                                 }
                                 break;
                             case 1:
                                 this.inputFields[i8].setHint(LocaleController.getString("PaymentShippingAddress2Placeholder", R.string.PaymentShippingAddress2Placeholder));
-                                TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo5 = this.paymentForm.saved_info;
-                                if (tLRPC$TL_paymentRequestedInfo5 != null && (tLRPC$TL_postAddress2 = tLRPC$TL_paymentRequestedInfo5.shipping_address) != null) {
+                                TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo6 = this.paymentForm.saved_info;
+                                if (tLRPC$TL_paymentRequestedInfo6 != null && (tLRPC$TL_postAddress2 = tLRPC$TL_paymentRequestedInfo6.shipping_address) != null) {
                                     this.inputFields[i8].setText(tLRPC$TL_postAddress2.street_line2);
                                     break;
                                 }
                                 break;
                             case 2:
                                 this.inputFields[i8].setHint(LocaleController.getString("PaymentShippingCityPlaceholder", R.string.PaymentShippingCityPlaceholder));
-                                TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo6 = this.paymentForm.saved_info;
-                                if (tLRPC$TL_paymentRequestedInfo6 != null && (tLRPC$TL_postAddress3 = tLRPC$TL_paymentRequestedInfo6.shipping_address) != null) {
+                                TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo7 = this.paymentForm.saved_info;
+                                if (tLRPC$TL_paymentRequestedInfo7 != null && (tLRPC$TL_postAddress3 = tLRPC$TL_paymentRequestedInfo7.shipping_address) != null) {
                                     this.inputFields[i8].setText(tLRPC$TL_postAddress3.city);
                                     break;
                                 }
                                 break;
                             case 3:
                                 this.inputFields[i8].setHint(LocaleController.getString("PaymentShippingStatePlaceholder", R.string.PaymentShippingStatePlaceholder));
-                                TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo7 = this.paymentForm.saved_info;
-                                if (tLRPC$TL_paymentRequestedInfo7 != null && (tLRPC$TL_postAddress4 = tLRPC$TL_paymentRequestedInfo7.shipping_address) != null) {
+                                TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo8 = this.paymentForm.saved_info;
+                                if (tLRPC$TL_paymentRequestedInfo8 != null && (tLRPC$TL_postAddress4 = tLRPC$TL_paymentRequestedInfo8.shipping_address) != null) {
                                     this.inputFields[i8].setText(tLRPC$TL_postAddress4.state);
                                     break;
                                 }
                                 break;
                             case 4:
                                 this.inputFields[i8].setHint(LocaleController.getString("PaymentShippingCountry", R.string.PaymentShippingCountry));
-                                TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo8 = this.paymentForm.saved_info;
-                                if (tLRPC$TL_paymentRequestedInfo8 != null && (tLRPC$TL_postAddress5 = tLRPC$TL_paymentRequestedInfo8.shipping_address) != null) {
+                                TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo9 = this.paymentForm.saved_info;
+                                if (tLRPC$TL_paymentRequestedInfo9 != null && (tLRPC$TL_postAddress5 = tLRPC$TL_paymentRequestedInfo9.shipping_address) != null) {
                                     String str8 = (String) hashMap3.get(tLRPC$TL_postAddress5.country_iso2);
                                     String str9 = this.paymentForm.saved_info.shipping_address.country_iso2;
                                     this.countryName = str9;
@@ -932,24 +933,24 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                 break;
                             case 5:
                                 this.inputFields[i8].setHint(LocaleController.getString("PaymentShippingZipPlaceholder", R.string.PaymentShippingZipPlaceholder));
-                                TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo9 = this.paymentForm.saved_info;
-                                if (tLRPC$TL_paymentRequestedInfo9 != null && (tLRPC$TL_postAddress6 = tLRPC$TL_paymentRequestedInfo9.shipping_address) != null) {
+                                TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo10 = this.paymentForm.saved_info;
+                                if (tLRPC$TL_paymentRequestedInfo10 != null && (tLRPC$TL_postAddress6 = tLRPC$TL_paymentRequestedInfo10.shipping_address) != null) {
                                     this.inputFields[i8].setText(tLRPC$TL_postAddress6.post_code);
                                     break;
                                 }
                                 break;
                             case 6:
                                 this.inputFields[i8].setHint(LocaleController.getString("PaymentShippingName", R.string.PaymentShippingName));
-                                TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo10 = this.paymentForm.saved_info;
-                                if (tLRPC$TL_paymentRequestedInfo10 != null && (str6 = tLRPC$TL_paymentRequestedInfo10.name) != null) {
+                                TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo11 = this.paymentForm.saved_info;
+                                if (tLRPC$TL_paymentRequestedInfo11 != null && (str6 = tLRPC$TL_paymentRequestedInfo11.name) != null) {
                                     this.inputFields[i8].setText(str6);
                                     break;
                                 }
                                 break;
                             case 7:
                                 this.inputFields[i8].setHint(LocaleController.getString("PaymentShippingEmailPlaceholder", R.string.PaymentShippingEmailPlaceholder));
-                                TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo11 = this.paymentForm.saved_info;
-                                if (tLRPC$TL_paymentRequestedInfo11 != null && (str7 = tLRPC$TL_paymentRequestedInfo11.email) != null) {
+                                TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo12 = this.paymentForm.saved_info;
+                                if (tLRPC$TL_paymentRequestedInfo12 != null && (str7 = tLRPC$TL_paymentRequestedInfo12.email) != null) {
                                     this.inputFields[i8].setText(str7);
                                     break;
                                 }
@@ -1250,15 +1251,15 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         ((ViewGroup) this.inputFields[4].getParent()).setVisibility(8);
                         ((ViewGroup) this.inputFields[5].getParent()).setVisibility(8);
                     }
-                    TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo12 = this.paymentForm.saved_info;
-                    if (tLRPC$TL_paymentRequestedInfo12 != null && !TextUtils.isEmpty(tLRPC$TL_paymentRequestedInfo12.phone)) {
+                    TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo13 = this.paymentForm.saved_info;
+                    if (tLRPC$TL_paymentRequestedInfo13 != null && !TextUtils.isEmpty(tLRPC$TL_paymentRequestedInfo13.phone)) {
                         fillNumber(this.paymentForm.saved_info.phone);
                     } else {
                         fillNumber(null);
                     }
                     if (this.inputFields[8].length() == 0) {
                         TLRPC$TL_payments_paymentForm tLRPC$TL_payments_paymentForm3 = this.paymentForm;
-                        if (tLRPC$TL_payments_paymentForm3.invoice.phone_requested && ((tLRPC$TL_paymentRequestedInfo3 = tLRPC$TL_payments_paymentForm3.saved_info) == null || TextUtils.isEmpty(tLRPC$TL_paymentRequestedInfo3.phone))) {
+                        if (tLRPC$TL_payments_paymentForm3.invoice.phone_requested && ((tLRPC$TL_paymentRequestedInfo4 = tLRPC$TL_payments_paymentForm3.saved_info) == null || TextUtils.isEmpty(tLRPC$TL_paymentRequestedInfo4.phone))) {
                             try {
                                 telephonyManager = (TelephonyManager) ApplicationLoader.applicationContext.getSystemService("phone");
                             } catch (Exception e2) {
@@ -2334,7 +2335,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         String string = LocaleController.getString("PaymentCheckoutProvider", R.string.PaymentCheckoutProvider);
                         int i30 = R.drawable.msg_payment_provider;
                         TLRPC$TL_payments_validateRequestedInfo tLRPC$TL_payments_validateRequestedInfo2 = this.validateRequest;
-                        textDetailSettingsCell3.setTextAndValueAndIcon(str2, string, i30, ((tLRPC$TL_payments_validateRequestedInfo2 == null || (tLRPC$TL_payments_validateRequestedInfo2.info.shipping_address == null && this.shippingOption == null)) && ((tLRPC$TL_paymentRequestedInfo2 = this.paymentForm.saved_info) == null || tLRPC$TL_paymentRequestedInfo2.shipping_address == null)) ? false : true);
+                        textDetailSettingsCell3.setTextAndValueAndIcon(str2, string, i30, ((tLRPC$TL_payments_validateRequestedInfo2 == null || (((tLRPC$TL_paymentRequestedInfo3 = tLRPC$TL_payments_validateRequestedInfo2.info) == null || tLRPC$TL_paymentRequestedInfo3.shipping_address == null) && this.shippingOption == null)) && ((tLRPC$TL_paymentRequestedInfo2 = this.paymentForm.saved_info) == null || tLRPC$TL_paymentRequestedInfo2.shipping_address == null)) ? false : true);
                         this.linearLayout2.addView(this.detailSettingsCell[1]);
                     } else {
                         str2 = str;
@@ -3108,7 +3109,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         }
         boolean z = (tLRPC$TL_invoice.shipping_address_requested && ((tLRPC$TL_paymentRequestedInfo4 = tLRPC$TL_payments_paymentForm.saved_info) == null || tLRPC$TL_paymentRequestedInfo4.shipping_address == null)) || (tLRPC$TL_invoice.email_requested && ((tLRPC$TL_paymentRequestedInfo3 = tLRPC$TL_payments_paymentForm.saved_info) == null || tLRPC$TL_paymentRequestedInfo3.email == null)) || ((tLRPC$TL_invoice.name_requested && ((tLRPC$TL_paymentRequestedInfo2 = tLRPC$TL_payments_paymentForm.saved_info) == null || tLRPC$TL_paymentRequestedInfo2.name == null)) || (tLRPC$TL_invoice.phone_requested && ((tLRPC$TL_paymentRequestedInfo = tLRPC$TL_payments_paymentForm.saved_info) == null || tLRPC$TL_paymentRequestedInfo.phone == null)));
         boolean z2 = this.isCheckoutPreview;
-        if (z2 && !z && this.validateRequest == null) {
+        if (z2 && tLRPC$TL_payments_paymentForm.saved_info != null && !z && this.validateRequest == null) {
             setDonePressed(true);
             sendSavedForm(new Runnable() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda37
                 @Override // java.lang.Runnable
